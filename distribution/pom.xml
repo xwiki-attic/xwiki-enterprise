@@ -1,0 +1,79 @@
+<!--
+ *
+ * Copyright 2007, XpertNet SARL, and individual contributors as indicated
+ * by the contributors.txt.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki</groupId>
+    <artifactId>xwiki-root</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-application</artifactId>
+  <name>XWiki Standalone Application</name>
+  <packaging>pom</packaging>
+  <description>The Standalone XWiki Application</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.xpn.xwiki</groupId>
+      <artifactId>xwiki-web-standard</artifactId>
+      <version>${version}</version>
+      <type>war</type>
+      <classifier>${xwiki.db}</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki</groupId>
+      <artifactId>xwiki-database</artifactId>
+      <version>${version}</version>
+      <classifier>${xwiki.db}</classifier>
+      <type>zip</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <!-- Seems there's an issue with version 2.2-beta-1 for the application/ module. It does
+             not properly expand a dependency set. Thus we're forcing the usage of 2.1. We have
+             to use that version for all other modules too as Maven seems to have an issue when
+             using several versions of a plugin in the same build execution. To be removed once
+             the assembly plugin is fixed and released. -->
+        <version>2.1</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assemble/application.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

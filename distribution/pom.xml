@@ -25,25 +25,25 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.xpn.xwiki</groupId>
-    <artifactId>xwiki-root</artifactId>
+    <groupId>com.xpn.xwiki.applications</groupId>
+    <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-application</artifactId>
-  <name>XWiki Standalone Application</name>
+  <artifactId>xwiki-enterprise</artifactId>
+  <name>XWiki Enterprise Application Distribution</name>
   <packaging>pom</packaging>
-  <description>The Standalone XWiki Application</description>
+  <description>The XWiki Enterprise Application Distribution</description>
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki</groupId>
       <artifactId>xwiki-web-standard</artifactId>
-      <version>${version}</version>
+      <version>1.1-SNAPSHOT</version>
       <type>war</type>
       <classifier>${xwiki.db}</classifier>
     </dependency>
     <dependency>
-      <groupId>com.xpn.xwiki</groupId>
-      <artifactId>xwiki-database</artifactId>
+      <groupId>com.xpn.xwiki.applications</groupId>
+      <artifactId>xwiki-enterprise-database</artifactId>
       <version>${version}</version>
       <classifier>${xwiki.db}</classifier>
       <type>zip</type>

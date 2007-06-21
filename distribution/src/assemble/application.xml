@@ -36,7 +36,7 @@
     </dependencySet>
     <dependencySet>
       <includes>
-        <include>com.xpn.xwiki:xwiki-database</include>
+        <include>com.xpn.xwiki.applications:xwiki-enterprise-database</include>
       </includes>
       <outputDirectory>/database</outputDirectory>
       <unpack>true</unpack>

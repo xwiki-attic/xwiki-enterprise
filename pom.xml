@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * Copyright 2006-2007, XpertNet SARL, and individual contributors as indicated
+ * by the contributors.txt.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki</groupId>
+    <artifactId>xwiki</artifactId>
+    <version>1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.xpn.xwiki.applications</groupId>
+  <artifactId>xwiki-enterprise-parent</artifactId>
+  <packaging>pom</packaging>
+  <name>XWiki Enterprise Application POM</name>
+  <version>1.1-SNAPSHOT</version>
+  <description>XWiki Enterprise Application POM</description>
+  <scm>
+    <connection>scm:svn:svn://svn.forge.objectweb.org/svnroot/xwiki/xwiki-applications/xwiki-enterprise/trunk</connection>
+    <developerConnection>scm:svn:svn+ssh://svn.forge.objectweb.org/svnroot/xwiki/xwiki-applications/xwiki-enterprise/trunk</developerConnection>
+    <url>http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/xwiki/xwiki-applications/xwiki-enterprise/trunk</url>
+  </scm>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>com.xpn.xwiki</groupId>
+        <artifactId>xwiki-build-xar-handlers</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </extension>
+    </extensions>
+  </build>
+  <modules>
+    <module>wiki</module>
+    <module>database</module>
+    <module>distribution</module>
+    <module>distribution-test</module>
+  </modules>
+  <!-- Note: Even though this repository is defined in the com.xpn.xwiki:xwiki module we still need
+       to define it here because if com.xpn.xwiki:xwiki is not in the local repository we want to
+       fetch it from the remote repo to provide a seamless build experience -->
+  <repositories>
+    <repository>
+      <id>xwiki</id>
+      <name>XWiki Maven2 Remote Repository</name>
+      <url>http://maven.xwiki.org</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+</project>

@@ -25,14 +25,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.xpn.xwiki</groupId>
-    <artifactId>xwiki-root</artifactId>
+    <groupId>com.xpn.xwiki.applications</groupId>
+    <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-application-test</artifactId>
-  <name>XWiki Standalone Application Functional Tests</name>
+  <artifactId>xwiki-enterprise-test</artifactId>
+  <name>XWiki Enterprise Application Functional Tests</name>
   <packaging>pom</packaging>
-  <description>The Standalone XWiki Application Functional Tests</description>
+  <description>The XWiki Enterprise Application Functional Tests</description>
   <dependencies>
     <dependency>  
       <groupId>junit</groupId>
@@ -76,8 +76,8 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>com.xpn.xwiki</groupId>
-                  <artifactId>xwiki-application</artifactId>
+                  <groupId>com.xpn.xwiki.applications</groupId>
+                  <artifactId>xwiki-enterprise</artifactId>
                   <version>${version}</version>
                   <type>zip</type>
                   <classifier>${xwiki.db}</classifier>
@@ -138,7 +138,7 @@
             </property>
             <property>
               <name>xwikiExecutionDirectory</name>
-              <value>${basedir}/target/xwiki-application-${version}</value>
+              <value>${basedir}/target/xwiki-enterprise-${version}</value>
             </property>
             <!-- TODO: Move in a profile for the different OSes -->
             <property>

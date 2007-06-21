@@ -25,19 +25,19 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.xpn.xwiki</groupId>
-    <artifactId>xwiki-root</artifactId>
+    <groupId>com.xpn.xwiki.applications</groupId>
+    <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-database</artifactId>
-  <name>XWiki Standalone Database</name>
+  <artifactId>xwiki-enterprise-database</artifactId>
+  <name>XWiki Enterprise Database</name>
   <packaging>pom</packaging>
-  <description>The Standalone XWiki Database</description>
+  <description>The XWiki Enterprise Database</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki</groupId>
-      <artifactId>xwiki-application-wiki-default</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>com.xpn.xwiki.applications</groupId>
+      <artifactId>xwiki-enterprise-wiki</artifactId>
+      <version>${version}</version>
       <type>xar</type>
     </dependency>
   </dependencies>
@@ -67,8 +67,8 @@
         <groupId>com.xpn.xwiki</groupId>
         <artifactId>xwiki-build-xar-handlers</artifactId>
         <configuration>
-          <groupId>com.xpn.xwiki</groupId>
-          <artifactId>xwiki-application-wiki-default</artifactId>
+          <groupId>com.xpn.xwiki.applications</groupId>
+          <artifactId>xwiki-enterprise-wiki</artifactId>
           <outputDirectory>${project.build.directory}/xar</outputDirectory>
         </configuration>
         <executions>

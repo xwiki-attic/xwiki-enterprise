@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * Copyright 2006-2007, XpertNet SARL, and individual contributors as indicated
+ * by the contributors.txt.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki</groupId>
+    <artifactId>xwiki-application-wikis</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-application-wiki-default</artifactId>
+  <name>XWiki Applications - Wikis - Default</name>
+  <packaging>xar</packaging>
+  <description>XWiki Applications - Wikis - Default</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.xpn.xwiki</groupId>
+      <artifactId>xwiki-applications-xarlet-panels</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>xar</type>
+    </dependency>
+  </dependencies>
+  <profiles>
+    <profile>
+      <!-- This profiles contains configuration for HSQLDB. You can run the following:
+           - mvn -Phsqldb install: This will create a HSQL Database in target/database and load it
+             with the content located in src/main/resources
+           - mvn -Phsqldb exec:exec: This will execute HSQLDB GUI Admin tool to easily browse and
+             query the content of the generated database
+      -->
+      <id>hsqldb</id>
+      <!-- Required for the exec:exec plugin execution.
+           Note/TODO: I have tried to remove the same dependencies added to the configuration of
+                      the xwiki-packager plugin but it didn't work. We need to find out why.
+      -->
+      <dependencies>
+        <dependency>
+          <groupId>hsqldb</groupId>
+          <artifactId>hsqldb</artifactId>
+          <version>1.8.0.1</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.xpn.xwiki</groupId>
+            <artifactId>xwiki-packager</artifactId>
+            <configuration>
+              <sourceDirectory>${project.build.directory}/classes</sourceDirectory>
+              <hibernateConfig>${basedir}/src/main/packager/hibernate.cfg.hsqldb.xml</hibernateConfig>
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>1.8.0.1</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>import</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <configuration>
+              <executable>java</executable>
+              <arguments>
+                <argument>-classpath</argument>
+                <!-- automatically creates the classpath using all project dependencies,
+                     also adding the project build directory -->
+                <classpath/>
+                <argument>org.hsqldb.util.DatabaseManager</argument>
+                <argument>-driver</argument>
+                <argument>org.hsqldb.jdbcDriver</argument>
+                <argument>-url</argument>
+                <argument>jdbc:hsqldb:target/database/xwiki_db</argument>
+                <argument>-user</argument>
+                <argument>sa</argument>
+              </arguments>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+        

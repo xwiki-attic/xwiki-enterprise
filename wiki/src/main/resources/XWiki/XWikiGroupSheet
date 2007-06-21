@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xwikidoc>
+<web>XWiki</web>
+<name>XWikiGroupSheet</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>XWiki.XWikiGroups</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1107116063000</creationDate>
+<date>1166177443000</date>
+<contentUpdateDate>1169801142000</contentUpdateDate>
+<version>1.9</version>
+<title></title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<content>1 $doc.name
+
+#set($allObjects = $doc.getObjects("XWiki.XWikiGroups"))
+#set($itemsPerPage = 50)
+#if($request.ipp)
+#set($itemsPerPage = $xwiki.parseInt($request.ipp))
+#end
+#set($pageNumber = 0)
+#if($request.page)
+#set($pageNumber = $xwiki.parseInt($request.page))
+#end
+#set($startAt = $itemsPerPage * $pageNumber)
+#if($startAt &lt; 0)
+#set($startAt = 0)
+#end
+#set($endAt = $itemsPerPage * ($pageNumber + 1))
+#if($endAt &gt; $allObjects.size())
+#set($endAt = $allObjects.size())
+#end
+#if($startAt &gt; $endAt)
+#set($startAt = $endAt)
+#end
+#set($totalPages = ($allObjects.size() - 1) / $itemsPerPage)
+#set($crtPageNumber = $startAt / $itemsPerPage)
+#set($objects = $allObjects.subList($startAt, $endAt))
+#if($context.action == "inline")
+#warning($msg.get("userdeletioncannotbecanceled"))
+#set($redirect = $xwiki.getRequestURL())
+{table}
+&lt;span class="floatleft"&gt;Members&lt;/span&gt; &lt;a id="adduser" href="$doc.getURL("objectadd","classname=XWiki.XWikiGroups&amp;amp;xredirect=$redirect")" title="$msg.get("addusertogroup")"&gt;&lt;span class="hidden"&gt;($msg.get("add"))&lt;/span&gt;&lt;/a&gt; | 
+#foreach($obj in $objects)
+$doc.display("member", $obj) | &lt;a class="deletelink" href="$doc.getURL("objectremove", "classname=XWiki.XWikiGroups&amp;amp;classid=${obj.number}&amp;amp;xredirect=${doc.getURL('inline')}")" title="$msg.get("removethisuserfromgroup")"&gt;$msg.get("delete")&lt;/a&gt;
+#end ##foreach
+{table}
+#else ## inline
+{table}
+&lt;span class="floatleft"&gt;Members&lt;/span&gt; #if($hasedit)&lt;a id="modifygroup" href="$doc.getURL("inline")"&gt;&lt;span class="hidden"&gt;($msg.get("edit"))&lt;/span&gt;&lt;/a&gt;
+#else
+#end
+#foreach($obj in $objects)
+$xwiki.getUserName($obj.getProperty("member").value)
+#end ## foreach
+{table}
+#end ## inline
+#pagedViewLinks($itemsPerPage $totalPages $crtPageNumber)</content>
+</xwikidoc>

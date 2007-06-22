@@ -64,10 +64,10 @@
       </plugin>
       <!-- Step 2: Expand the XAR file -->
       <plugin>
-        <groupId>com.xpn.xwiki</groupId>
+        <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-build-xar-handlers</artifactId>
         <configuration>
-          <groupId>com.xpn.xwiki.applications</groupId>
+          <groupId>com.xpn.xwiki.products</groupId>
           <artifactId>xwiki-enterprise-wiki</artifactId>
           <outputDirectory>${project.build.directory}/xar</outputDirectory>
         </configuration>
@@ -95,7 +95,7 @@
         <plugins>
           <!-- Step 3: Import the XAR content in the HSQL Database -->
           <plugin>
-            <groupId>com.xpn.xwiki</groupId>
+            <groupId>com.xpn.xwiki.platform</groupId>
             <artifactId>xwiki-packager</artifactId>
             <configuration>
               <sourceDirectory>${project.build.directory}/xar</sourceDirectory>

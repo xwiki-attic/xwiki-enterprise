@@ -35,7 +35,7 @@
   <description>XWiki Products - Enterprise - Distribution</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki</groupId>
+      <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-web-standard</artifactId>
       <version>1.1-SNAPSHOT</version>
       <type>war</type>

@@ -36,7 +36,7 @@
   <description>XWiki Products - Enterprise - Wiki</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki.applications</groupId>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-panels</artifactId>
       <version>1.1-SNAPSHOT</version>
       <type>xar</type>
@@ -65,7 +65,7 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>com.xpn.xwiki</groupId>
+            <groupId>com.xpn.xwiki.platform</groupId>
             <artifactId>xwiki-packager</artifactId>
             <configuration>
               <sourceDirectory>${project.build.directory}/classes</sourceDirectory>

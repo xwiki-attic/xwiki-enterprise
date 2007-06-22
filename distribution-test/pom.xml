@@ -25,14 +25,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.xpn.xwiki.applications</groupId>
+    <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test</artifactId>
-  <name>XWiki Enterprise Application Functional Tests</name>
+  <name>XWiki Products - Enterprise - Functional Tests</name>
   <packaging>pom</packaging>
-  <description>The XWiki Enterprise Application Functional Tests</description>
+  <description>XWiki Products - Enterprise - Functional Tests</description>
   <dependencies>
     <dependency>  
       <groupId>junit</groupId>
@@ -76,7 +76,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>com.xpn.xwiki.applications</groupId>
+                  <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise</artifactId>
                   <version>${version}</version>
                   <type>zip</type>

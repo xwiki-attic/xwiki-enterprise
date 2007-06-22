@@ -30,16 +30,16 @@
     <artifactId>xwiki</artifactId>
     <version>1-SNAPSHOT</version>
   </parent>
-  <groupId>com.xpn.xwiki.applications</groupId>
+  <groupId>com.xpn.xwiki.products</groupId>
   <artifactId>xwiki-enterprise-parent</artifactId>
   <packaging>pom</packaging>
-  <name>XWiki Enterprise Application POM</name>
+  <name>XWiki Products - Enterprise - Parent POM</name>
   <version>1.1-SNAPSHOT</version>
-  <description>XWiki Enterprise Application POM</description>
+  <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:svn://svn.forge.objectweb.org/svnroot/xwiki/xwiki-applications/xwiki-enterprise/trunk</connection>
-    <developerConnection>scm:svn:svn+ssh://svn.forge.objectweb.org/svnroot/xwiki/xwiki-applications/xwiki-enterprise/trunk</developerConnection>
-    <url>http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/xwiki/xwiki-applications/xwiki-enterprise/trunk</url>
+    <connection>scm:svn:svn://svn.forge.objectweb.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</connection>
+    <developerConnection>scm:svn:svn+ssh://svn.forge.objectweb.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</developerConnection>
+    <url>http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/xwiki/xwiki-products/xwiki-enterprise/trunk</url>
   </scm>
   <build>
     <extensions>

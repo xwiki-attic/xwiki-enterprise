@@ -137,13 +137,17 @@
               <value>${browser}</value>
             </property>
             <property>
+              <name>xwikiPort</name>
+              <value>${port}</value>
+            </property>
+            <property>
               <name>xwikiExecutionDirectory</name>
               <value>${basedir}/target/xwiki-enterprise-${version}</value>
             </property>
             <!-- TODO: Move in a profile for the different OSes -->
             <property>
               <name>xwikiExecutionStartCommand</name>
-              <value>sh -f start_xwiki.sh</value>
+              <value>sh -f start_xwiki.sh ${port}</value>
             </property>
             <property>
               <name>xwikiExecutionStopCommand</name>
@@ -160,6 +164,7 @@
              mvn install -DPattern=DeletePageTest
     -->    
     <pattern>.*</pattern>
+    <port>8080</port>
   </properties>
   <profiles>
     <profile>

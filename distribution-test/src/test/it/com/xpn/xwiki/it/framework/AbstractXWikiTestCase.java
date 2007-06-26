@@ -34,7 +34,8 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 {
     private SkinExecutor skinExecutor;
 
-    private static final String BASE_URL = "http://localhost:8080";
+    private static final String PORT = System.getProperty("xwikiPort", "8080");
+    private static final String BASE_URL = "http://localhost:" + PORT;
 
     private Selenium selenium;
 

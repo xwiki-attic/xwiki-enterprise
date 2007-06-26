@@ -49,6 +49,7 @@ public class XWikiTestSetup extends TestSetup
     private static final String EXECUTION_DIRECTORY = System.getProperty("xwikiExecutionDirectory");
     private static final String START_COMMAND = System.getProperty("xwikiExecutionStartCommand");
     private static final String STOP_COMMAND = System.getProperty("xwikiExecutionStopCommand"); 
+    private static final String PORT = System.getProperty("xwikiPort", "8080"); 
 
     public XWikiTestSetup(Test test)
     {
@@ -61,7 +62,7 @@ public class XWikiTestSetup extends TestSetup
         Runtime.getRuntime().exec(START_COMMAND, null, new File(EXECUTION_DIRECTORY));
 
         // Wait till the main page becomes available which means the server is started fine
-        URL url = new URL("http://localhost:8080/xwiki/bin/view/Main/");
+        URL url = new URL("http://localhost:" + PORT + "/xwiki/bin/view/Main/");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         boolean connected = false;
         while (!connected) {

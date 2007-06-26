@@ -23,9 +23,12 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
-import java.net.URL;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * JUnit TestSetup extension that starts/stops XWiki using a script passed using System Properties.
@@ -50,6 +53,8 @@ public class XWikiTestSetup extends TestSetup
     private static final String START_COMMAND = System.getProperty("xwikiExecutionStartCommand");
     private static final String STOP_COMMAND = System.getProperty("xwikiExecutionStopCommand"); 
     private static final String PORT = System.getProperty("xwikiPort", "8080"); 
+    private static final String DEBUG = System.getProperty("debug"); 
+    private static final int TIMEOUT_SECONDS = 15;
 
     public XWikiTestSetup(Test test)
     {
@@ -58,21 +63,61 @@ public class XWikiTestSetup extends TestSetup
 
     protected void setUp() throws Exception
     {
-        // Start XWiki
-        Runtime.getRuntime().exec(START_COMMAND, null, new File(EXECUTION_DIRECTORY));
+        startXWiki();
+        waitForXWikiToLoad();
+    }
 
+    private void startXWiki() throws Exception
+    {
+        // Start XWiki
+        if (DEBUG != null) {
+            System.out.println("Startig XWiki with command [" + START_COMMAND
+                + "] in directory [" + EXECUTION_DIRECTORY + "]");
+        }
+        Process process =
+            Runtime.getRuntime().exec(START_COMMAND, null, new File(EXECUTION_DIRECTORY));
+        if (process.waitFor() != 0) {
+            throw new RuntimeException("Failed to start XWiki with command [" + START_COMMAND
+                + "] in directory [" + EXECUTION_DIRECTORY + "]");
+        }
+
+        // Read the output of the process we used to start XWiki
+        BufferedInputStream in = new BufferedInputStream(process.getInputStream());
+        final BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        String buffer;
+        while ((buffer = br.readLine()) != null) {
+            System.out.println("[XWiki Execution] " + buffer);
+        }
+    }
+
+    private void waitForXWikiToLoad() throws Exception
+    {
         // Wait till the main page becomes available which means the server is started fine
+        System.out.println("Checking that XWiki is up and running...");
         URL url = new URL("http://localhost:" + PORT + "/xwiki/bin/view/Main/");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         boolean connected = false;
-        while (!connected) {
+        boolean timedOut = false;
+        long startTime = System.currentTimeMillis();
+        while (!connected && !timedOut) {
             try {
                 connection.connect();
-                connected = (connection.getResponseCode() < 500);
+                if (DEBUG != null) {
+                    System.out.println("Result of pinging [" + url + "] = ["
+                        + connection.getResponseCode() + "], Message = ["
+                        + connection.getResponseMessage() + "]");
+                }
+                connected = (connection.getResponseCode() == 200);
             } catch (IOException e) {
                 // Do nothing as it simply means the server is not ready yet...
             }
             Thread.sleep(100L);
+            timedOut = (System.currentTimeMillis() - startTime > TIMEOUT_SECONDS * 1000L);
+        }
+        if (timedOut) {
+            String message = "Failed to start XWiki in [" + TIMEOUT_SECONDS + "] seconds";
+            System.out.println(message);
+            throw new RuntimeException(message);
         }
     }
 

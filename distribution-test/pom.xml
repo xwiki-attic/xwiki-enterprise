@@ -105,6 +105,7 @@
         <configuration>
           <background>true</background>
           <multiWindow>true</multiWindow>
+          <port>4444</port>
         </configuration>
       </plugin>
       <!-- Step 4: Start XWiki, Execute the tests and Stop XWiki

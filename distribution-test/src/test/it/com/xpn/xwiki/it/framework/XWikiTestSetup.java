@@ -77,6 +77,7 @@ public class XWikiTestSetup extends TestSetup
         Process process =
             Runtime.getRuntime().exec(START_COMMAND, null, new File(EXECUTION_DIRECTORY));
         if (process.waitFor() != 0) {
+            tearDown();
             throw new RuntimeException("Failed to start XWiki with command [" + START_COMMAND
                 + "] in directory [" + EXECUTION_DIRECTORY + "]");
         }
@@ -117,6 +118,7 @@ public class XWikiTestSetup extends TestSetup
         if (timedOut) {
             String message = "Failed to start XWiki in [" + TIMEOUT_SECONDS + "] seconds";
             System.out.println(message);
+            tearDown();
             throw new RuntimeException(message);
         }
     }

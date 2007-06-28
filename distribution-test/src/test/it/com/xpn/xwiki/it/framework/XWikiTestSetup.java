@@ -54,7 +54,7 @@ public class XWikiTestSetup extends TestSetup
     private static final String STOP_COMMAND = System.getProperty("xwikiExecutionStopCommand"); 
     private static final String PORT = System.getProperty("xwikiPort", "8080"); 
     private static final String DEBUG = System.getProperty("debug"); 
-    private static final int TIMEOUT_SECONDS = 15;
+    private static final int TIMEOUT_SECONDS = 30;
 
     public XWikiTestSetup(Test test)
     {

@@ -71,7 +71,7 @@ public class XWikiTestSetup extends TestSetup
     {
         // Start XWiki
         if (DEBUG.equalsIgnoreCase("true")) {
-            System.out.println("Startig XWiki with command [" + START_COMMAND
+            System.out.println("Starting XWiki with command [" + START_COMMAND
                 + "] in directory [" + EXECUTION_DIRECTORY + "]");
         }
         Process process =
@@ -103,12 +103,13 @@ public class XWikiTestSetup extends TestSetup
         while (!connected && !timedOut) {
             try {
                 connection.connect();
+                int responseCode = connection.getResponseCode();
                 if (DEBUG.equalsIgnoreCase("true")) {
                     System.out.println("Result of pinging [" + url + "] = ["
-                        + connection.getResponseCode() + "], Message = ["
+                        + responseCode + "], Message = ["
                         + connection.getResponseMessage() + "]");
                 }
-                connected = (connection.getResponseCode() == 200);
+                connected = (responseCode == 200);
             } catch (IOException e) {
                 // Do nothing as it simply means the server is not ready yet...
             }

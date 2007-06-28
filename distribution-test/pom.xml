@@ -154,6 +154,10 @@
               <name>xwikiExecutionStopCommand</name>
               <value>sh -f stop_xwiki.sh</value>
             </property>
+            <property>
+              <name>debug</name>
+              <value>${debug}</value>
+            </property>
           </systemProperties>
         </configuration>
       </plugin>

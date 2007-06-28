@@ -70,7 +70,7 @@ public class XWikiTestSetup extends TestSetup
     private void startXWiki() throws Exception
     {
         // Start XWiki
-        if (DEBUG != null) {
+        if (DEBUG.equalsIgnoreCase("true")) {
             System.out.println("Startig XWiki with command [" + START_COMMAND
                 + "] in directory [" + EXECUTION_DIRECTORY + "]");
         }
@@ -103,7 +103,7 @@ public class XWikiTestSetup extends TestSetup
         while (!connected && !timedOut) {
             try {
                 connection.connect();
-                if (DEBUG != null) {
+                if (DEBUG.equalsIgnoreCase("true")) {
                     System.out.println("Result of pinging [" + url + "] = ["
                         + connection.getResponseCode() + "], Message = ["
                         + connection.getResponseMessage() + "]");

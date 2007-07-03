@@ -80,6 +80,54 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Step 3: Import the XAR content into the Database -->
+      <plugin>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-packager</artifactId>
+        <configuration>
+          <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
+          <hibernateConfig>${project.build.directory}/classes/hibernate.cfg.xml</hibernateConfig>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>${xwiki.db.jdbc.groupId}</groupId>
+            <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
+            <version>${xwiki.db.jdbc.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>import</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Step 4: Zip the generated database -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <!-- Seems there's an issue with version 2.2-beta-1 for the application/ module. It does
+             not properly expand a dependency set. Thus we're forcing the usage of 2.1. We have
+             to use that version for all other modules too as Maven seems to have an issue when
+             using several versions of a plugin in the same build execution. To be removed once
+             the assembly plugin is fixed and released. -->
+        <version>2.1</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assemble/database.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -91,58 +139,18 @@
       <properties>
         <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>         
       </properties>
-      <build>
-        <plugins>
-          <!-- Step 3: Import the XAR content in the HSQL Database -->
-          <plugin>
-            <groupId>com.xpn.xwiki.platform</groupId>
-            <artifactId>xwiki-packager</artifactId>
-            <configuration>
-              <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
-              <hibernateConfig>${project.build.directory}/classes/hibernate.cfg.xml</hibernateConfig>
-            </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>hsqldb</groupId>
-                <artifactId>hsqldb</artifactId>
-                <version>1.8.0.1</version>
-              </dependency>
-            </dependencies>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals>
-                  <goal>import</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- Step 4: Zip the generated database -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <!-- Seems there's an issue with version 2.2-beta-1 for the application/ module. It does
-                 not properly expand a dependency set. Thus we're forcing the usage of 2.1. We have
-                 to use that version for all other modules too as Maven seems to have an issue when
-                 using several versions of a plugin in the same build execution. To be removed once
-                 the assembly plugin is fixed and released. -->
-            <version>2.1</version>
-            <configuration>
-              <descriptors>
-                <descriptor>src/assemble/database.xml</descriptor>
-              </descriptors>
-            </configuration>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals>
-                  <goal>single</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+    </profile>
+    <profile>
+      <id>derby</id>
+      <properties>
+        <xwiki.db.connection.url>jdbc:derby:${project.build.directory}/database;create=true</xwiki.db.connection.url>
+      </properties>
+    </profile>
+    <profile>
+      <id>pgsql</id>
+    </profile>
+    <profile>
+      <id>mysql</id>
     </profile>
   </profiles>
 </project>

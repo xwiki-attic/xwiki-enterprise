@@ -64,8 +64,8 @@
 
 &lt;div class="floatcontainer"&gt;
 &lt;ul class="xwikitabbar"&gt;
-&lt;li id="xwikiindex"#if($view == "index") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=index&amp;amp;$param")"&gt;Index&lt;/a&gt;&lt;/li&gt;
-&lt;li id="xwikitreeview"#if($view == "tree") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=tree&amp;amp;$param")"&gt;Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li id="xwikiindex"#if($view == "index") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=index&amp;amp;$!param")"&gt;Index&lt;/a&gt;&lt;/li&gt;
+&lt;li id="xwikitreeview"#if($view == "tree") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=tree&amp;amp;$!param")"&gt;Tree&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div id="xwikieditcontent" class="clear"&gt;

@@ -28,7 +28,7 @@
   <parent>
     <groupId>com.xpn.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1</version>
   </parent>
   <groupId>com.xpn.xwiki.products</groupId>
   <artifactId>xwiki-enterprise-parent</artifactId>
@@ -46,7 +46,7 @@
       <extension>
         <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-build-xar-handlers</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
       </extension>
     </extensions>
   </build>

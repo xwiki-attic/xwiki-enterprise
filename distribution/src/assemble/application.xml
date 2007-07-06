@@ -47,9 +47,5 @@
       <directory>${basedir}/src/main/resources/jetty</directory>
       <outputDirectory>/</outputDirectory>
     </fileSet>
-    <fileSet>
-      <directory>${basedir}/src/main/resources</directory>
-      <outputDirectory>webapps/xwiki/WEB-INF</outputDirectory>
-    </fileSet>
   </fileSets>
 </assembly>

@@ -54,6 +54,13 @@
     <module>wiki</module>
     <module>database</module>
     <module>distribution</module>
-    <module>distribution-test</module>
   </modules>
+  <profiles>
+    <profile>
+      <id>ci</id>
+      <modules>
+        <module>distribution-test</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

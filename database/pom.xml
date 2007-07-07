@@ -65,7 +65,8 @@
       <!-- Step 2: Expand the XAR file -->
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
-        <artifactId>xwiki-build-xar-handlers</artifactId>
+        <artifactId>xwiki-build-xar-plugin</artifactId>
+        <version>1.1-SNAPSHOT</version>
         <configuration>
           <groupId>com.xpn.xwiki.products</groupId>
           <artifactId>xwiki-enterprise-wiki</artifactId>

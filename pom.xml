@@ -41,15 +41,6 @@
     <developerConnection>scm:svn:svn+ssh://svn.forge.objectweb.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</developerConnection>
     <url>http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/xwiki/xwiki-products/xwiki-enterprise/trunk</url>
   </scm>
-  <build>
-    <extensions>
-      <extension>
-        <groupId>com.xpn.xwiki.platform</groupId>
-        <artifactId>xwiki-build-xar-handlers</artifactId>
-        <version>1.0</version>
-      </extension>
-    </extensions>
-  </build>
   <modules>
     <module>wiki</module>
     <module>database</module>

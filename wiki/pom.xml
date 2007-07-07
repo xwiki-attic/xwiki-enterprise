@@ -42,74 +42,13 @@
       <type>xar</type>
     </dependency>
   </dependencies>
-  <profiles>
-    <profile>
-      <!-- This profiles contains configuration for HSQLDB. You can run the following:
-           - mvn -Phsqldb install: This will create a HSQL Database in target/database and load it
-             with the content located in src/main/resources
-           - mvn -Phsqldb exec:exec: This will execute HSQLDB GUI Admin tool to easily browse and
-             query the content of the generated database
-      -->
-      <id>hsqldb</id>
-      <!-- Required for the exec:exec plugin execution.
-           Note/TODO: I have tried to remove the same dependencies added to the configuration of
-                      the xwiki-packager plugin but it didn't work. We need to find out why.
-      -->
-      <dependencies>
-        <dependency>
-          <groupId>hsqldb</groupId>
-          <artifactId>hsqldb</artifactId>
-          <version>1.8.0.1</version>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.xpn.xwiki.platform</groupId>
-            <artifactId>xwiki-packager</artifactId>
-            <configuration>
-              <sourceDirectory>${project.build.directory}/classes</sourceDirectory>
-              <hibernateConfig>${basedir}/src/main/packager/hibernate.cfg.hsqldb.xml</hibernateConfig>
-            </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>hsqldb</groupId>
-                <artifactId>hsqldb</artifactId>
-                <version>1.8.0.1</version>
-              </dependency>
-            </dependencies>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals>
-                  <goal>import</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <configuration>
-              <executable>java</executable>
-              <arguments>
-                <argument>-classpath</argument>
-                <!-- automatically creates the classpath using all project dependencies,
-                     also adding the project build directory -->
-                <classpath/>
-                <argument>org.hsqldb.util.DatabaseManager</argument>
-                <argument>-driver</argument>
-                <argument>org.hsqldb.jdbcDriver</argument>
-                <argument>-url</argument>
-                <argument>jdbc:hsqldb:target/database/xwiki_db</argument>
-                <argument>-user</argument>
-                <argument>sa</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-build-xar-handlers</artifactId>
+        <version>1.1-SNAPSHOT</version>
+      </extension>
+    </extensions>
+  </build>
 </project>
-        

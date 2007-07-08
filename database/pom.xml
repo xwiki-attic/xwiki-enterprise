@@ -42,25 +42,24 @@
     </dependency>
   </dependencies>
   <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
     <plugins>
       <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
            plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
         <executions>
           <execution>
             <goals>
-              <goal>resources</goal>
+              <goal>process</goal>
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <resourceBundles>
+            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.1-SNAPSHOT</resourceBundle>
+          </resourceBundles>
+        </configuration>
       </plugin>
       <!-- Step 2: Expand the XAR file -->
       <plugin>
@@ -87,7 +86,7 @@
         <artifactId>xwiki-packager</artifactId>
         <configuration>
           <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
-          <hibernateConfig>${project.build.directory}/classes/hibernate.cfg.xml</hibernateConfig>
+          <hibernateConfig>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</hibernateConfig>
         </configuration>
         <dependencies>
           <dependency>
@@ -137,9 +136,6 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      <properties>
-        <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>         
-      </properties>
       <!-- Required for the exec:exec plugin execution.
            Note/TODO: I have tried to remove the same dependencies added to the configuration of
                       the xwiki-packager plugin but it didn't work. We need to find out why.
@@ -153,6 +149,15 @@
       </dependencies>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-remote-resources-plugin</artifactId>
+            <configuration>
+              <properties>
+                <xwikiDbConnectionUrl>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwikiDbConnectionUrl>
+              </properties>
+            </configuration>
+          </plugin>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -178,9 +183,19 @@
     </profile>
     <profile>
       <id>derby</id>
-      <properties>
-        <xwiki.db.connection.url>jdbc:derby:${project.build.directory}/database;create=true</xwiki.db.connection.url>
-      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-remote-resources-plugin</artifactId>
+            <configuration>
+              <properties>
+                <xwikiDbConnectionUrl>jdbc:derby:${project.build.directory}/database;create=true</xwikiDbConnectionUrl>
+              </properties>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>pgsql</id>

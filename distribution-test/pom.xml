@@ -43,7 +43,7 @@
     <dependency>
       <groupId>org.openqa.selenium.client-drivers</groupId>
       <artifactId>selenium-java-client-driver</artifactId>
-      <version>0.9.2-SNAPSHOT</version>
+      <version>0.9.2-20070707.164746-82-dev</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -92,7 +92,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>selenium-maven-plugin</artifactId>
-        <version>1.0-beta-2-SNAPSHOT</version>
+        <version>1.0-beta-2-20070702.000657-13-dev</version>
         <executions>
           <execution>
             <id>start-selenium</id>

@@ -54,4 +54,20 @@
       </modules>
     </profile>
   </profiles>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-build-xar-handlers</artifactId>
+        <version>1.1-SNAPSHOT</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <plugin>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-build-xar-plugin</artifactId>
+        <version>1.1-SNAPSHOT</version>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -84,6 +84,7 @@
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-packager</artifactId>
+        <version>1.1-SNAPSHOT</version>
         <configuration>
           <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
           <hibernateConfig>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</hibernateConfig>

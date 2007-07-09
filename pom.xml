@@ -49,6 +49,11 @@
   <profiles>
     <profile>
       <id>ci</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+        </property>
+      </activation>
       <modules>
         <module>distribution-test</module>
       </modules>

@@ -17,13 +17,6 @@
       <type>war</type>
       <classifier>${xwiki.db}</classifier>
     </dependency>
-    <dependency>
-      <groupId>com.xpn.xwiki.products</groupId>
-      <artifactId>xwiki-enterprise-database</artifactId>
-      <version>${version}</version>
-      <classifier>${xwiki.db}</classifier>
-      <type>zip</type>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -32,7 +25,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-            <descriptor>src/assemble/application.xml</descriptor>
+            <descriptor>src/assemble/application-no-database.xml</descriptor>
           </descriptors>
         </configuration>
         <executions>
@@ -46,4 +39,65 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>hsqldb</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>com.xpn.xwiki.products</groupId>
+          <artifactId>xwiki-enterprise-database</artifactId>
+          <version>${version}</version>
+          <classifier>${xwiki.db}</classifier>
+          <type>zip</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+              <descriptors>
+                <descriptor>src/assemble/application.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>derby</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.xpn.xwiki.products</groupId>
+          <artifactId>xwiki-enterprise-database</artifactId>
+          <version>${version}</version>
+          <classifier>${xwiki.db}</classifier>
+          <type>zip</type>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+              <descriptors>
+                <descriptor>src/assemble/application.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>pgsql</id>
+    </profile>
+    <profile>
+      <id>mysql</id>
+    </profile>
+  </profiles>
 </project>

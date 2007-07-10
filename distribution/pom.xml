@@ -17,6 +17,11 @@
       <type>war</type>
       <classifier>${xwiki.db}</classifier>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform</groupId>
+      <artifactId>xwiki-jetty-resources</artifactId>
+      <version>1.2-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

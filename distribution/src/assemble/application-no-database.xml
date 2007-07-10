@@ -39,10 +39,15 @@
       <unpack>true</unpack>
     </dependencySet>
   </dependencySets>
-  <fileSets>
-    <fileSet>
-      <directory>${basedir}/src/main/resources/jetty</directory>
-      <outputDirectory>/</outputDirectory>
-    </fileSet>
-  </fileSets>
+  <dependencySet>
+    <!-- This shouldn't be required but there's a bug in version 2.2-beta-1 of the Assembly
+         plugin where the artifact name will be used instead of / if outputFileNameMapping is
+         not specified -->
+    <outputFileNameMapping></outputFileNameMapping>
+    <includes>
+      <include>com.xpn.xwiki.platform:xwiki-jetty-resources</include>
+    </includes>
+    <outputDirectory>/</outputDirectory>
+    <unpack>true</unpack>
+  </dependencySet>
 </assembly>

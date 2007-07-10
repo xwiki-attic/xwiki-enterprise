@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<installation version="1.0">
+  <info>
+    <appname>XWiki Enterprise</appname>
+    <appversion>${project.version}</appversion>
+    <url>http://xwiki.org/</url>
+    <javaversion>1.5</javaversion>
+  </info>
+  <guiprefs width="800" height="600" resizable="yes">
+  </guiprefs>
+  <locale>
+    <langpack iso3="eng"/>
+    <langpack iso3="fra"/>
+  </locale>
+  <!--
+      The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
+  -->
+  <resources>
+    <res id="LicencePanel.licence" src="${xwiki.license}"/>
+    <res id="HTMLInfoPanel.info" src="${xwiki.readme}"/>
+    <res id="installer.langsel.img" src="${xwiki.png}" />
+    <res id="Installer.image.0" src="${xwiki.border1.png}" />
+    <res id="Installer.image.1" src="${xwiki.border2.png}" />
+    <res id="Installer.image.2" src="${xwiki.border3.png}" />
+    <res id="Installer.image.3" src="${xwiki.border4.png}" />
+    <res id="Installer.image.4" src="${xwiki.border5.png}" />
+    <res id="Installer.image.5" src="${xwiki.border6.png}" />
+    <res id="Installer.image.6" src="${xwiki.border7.png}" />
+    <res id="Installer.image.7" src="${xwiki.border8.png}" />
+    <res id="ImgPacksPanel.img.0" src="${xwiki.core.png}" />
+    <res id="ImgPacksPanel.img.1" src="${xwiki.core.png}" />
+  </resources>
+  <panels>
+    <panel classname="CheckedHelloPanel" id="hellopanel"/>
+    <panel classname="HTMLInfoPanel" id="htmlinfopanel"/>
+    <panel classname="LicencePanel" id="licensepanel"/>
+    <panel classname="TargetPanel" id="targetpanel"/>
+    <panel classname="ImgPacksPanel" id="packspanel"/>
+    <panel classname="InstallPanel" id="installpanel"/>
+    <panel classname="FinishPanel" id="finishpanel"/>
+  </panels>
+  <packs>
+    <pack name="Core" required="yes">
+      <description>The core files</description>
+      <file src="${xwiki.readme}" targetdir="$INSTALL_PATH"/>
+      <file src="${xwiki.license}" targetdir="$INSTALL_PATH"/>
+      <fileset dir="${xwiki.container}" targetdir="$INSTALL_PATH" override="true"/>
+    </pack>
+    <pack name="Default Wiki" required="no">
+      <description>A set of default Wiki pages. If you don't install this you'll get an empty Wiki. To be used when upgrading an existing XWiki installation so that your current pages are kept and not overwritten.</description>
+      <file src="${xwiki.database}" targetdir="$INSTALL_PATH"/>
+    </pack>
+  </packs>
+</installation>

@@ -54,6 +54,7 @@
         </property>
       </activation>
       <modules>
+        <module>installer</module>
         <module>distribution-test</module>
       </modules>
     </profile>

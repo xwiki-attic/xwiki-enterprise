@@ -12,9 +12,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1165750865000</creationDate>
-<date>1179996640000</date>
-<contentUpdateDate>1179996640000</contentUpdateDate>
-<version>1.20</version>
+<date>1184254546000</date>
+<contentUpdateDate>1184254546000</contentUpdateDate>
+<version>1.33</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -54,16 +54,25 @@
 </property>
 </object>
 <content>#if(!$request.tag)
-1 Tags
 
 #set($sql = "select distinct elements(prop.list) from BaseObject as obj, DBStringListProperty as prop where obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags'")
+#set ($tags = $xwiki.search($sql))
 
-#foreach($tag in $xwiki.search($sql))
-* [$tag&gt;$doc.fullName?tag=$tag] &lt;a href="$xwiki.getURL("Main.TagRss", "view", "xpage=rdf")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")"&gt;&lt;/a&gt;
+1 All Tags #if ($tags.size() &gt; 0)&lt;a href="$xwiki.getURL("Main.TagsRss", "view", "xpage=rdf")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")"/&gt;&lt;/a&gt;#end
+
+#if ($tags.size() == 0)
+No documents have been tagged yet. To tag a document, edit it and enter the tags you wish to use in the Tag field visible on that page. For more information on tagging please refer to the [XWiki User Guide&gt;http://www.xwiki.org/xwiki/bin/view/UserGuide/].
+#else
+The following tags are available on this wiki:
+#foreach($tag in $tags)
+* [$tag&gt;$doc.fullName?tag=$tag] &lt;a href="$xwiki.getURL("Main.TagsRss", "view", "tag=$tag&amp;xpage=rdf")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")"&gt;&lt;/a&gt;
+#end
 #end
 
 #else
-1 Pages tagged with '$request.tag'
+1 Documents tagged with '$request.tag' &lt;a href="$xwiki.getURL("Main.TagsRss", "view", "tag=$request.tag&amp;xpage=rdf")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" border="0px" /&gt;&lt;/a&gt;
+
+[View all tags&gt;$doc.fullName]
 
 #set($sql = ", BaseObject as obj, DBStringListProperty as prop where obj.name=doc.fullName and obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags' and '$request.tag' in elements(prop.list) order by doc.name asc")
 #set ($list = $xwiki.searchDocuments($sql))

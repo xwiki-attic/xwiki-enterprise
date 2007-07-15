@@ -12,9 +12,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1107744420000</creationDate>
-<date>1179760072000</date>
-<contentUpdateDate>1179760072000</contentUpdateDate>
-<version>1.28</version>
+<date>1184488764000</date>
+<contentUpdateDate>1184488764000</contentUpdateDate>
+<version>1.31</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -108,74 +108,6 @@
   {/pre}
 &lt;/form&gt;
 
-#if($text == "")
-  ## No search
-#else
-  #set($text = $text.replaceAll("'", "''").replaceAll("%", "\\%"))
-  #set($datedlist = $xwiki.arrayList)
-  
-  #set($nbitems = 50)
-  
-  ## -----------------------------------------------------------
-  ## Non-admins should not see results from XWiki, Main, Admin 
-  ## and Panels spaces. Also exclude the WebPreferences doc.
-  ## -----------------------------------------------------------
-  #if ($xwiki.hasAdminRights())
-    #set ($excludedWebs = "")
-  #else
-    #set ($excludedWebs = "doc.web&lt;&gt;'XWiki' and doc.web&lt;&gt;'Admin' and doc.web&lt;&gt;'Panels' and doc.name&lt;&gt;'WebPreferences' and")
-  #end
-
-  ## -----------------------------------------------------------
-  ## Display only a given space if $request.space is defined
-  ## -----------------------------------------------------------
-  #if($space == "All")
-    #set ($webClause = "$excludedWebs")
-  #else
-    #set ($webClause = "doc.web='$space' and $excludedWebs")
-  #end
-
-  #macro(addelement $item $list)
-    #if($xwiki.hasAccessLevel("view", $context.user, "${context.database}:${item}"))
-      #set($itemdoc = $xwiki.getDocument($item))
-      #set($sdate = $xwiki.formatDate($itemdoc.date, "yyyyMMddHHmmss"))
-      #set($sitem = "${sdate}${item}")
-      #if(!$list.contains($sitem))
-        #set($discard = $list.add($sitem))
-      #end
-    #end
-  #end
-
-  ## -----------------------------------------------------------
-  ## Search in page content
-  ## -----------------------------------------------------------
-  #set ($sql = "where $webClause upper(doc.content) like upper('%$!text%') order by doc.date desc")
-  #foreach ($item in $xwiki.searchDocuments($sql , $nbitems, 0))
-    #addelement($item $datedlist)
-  #end
-
-  ## -----------------------------------------------------------
-  ## Search in text fields (simple String properties)
-  ## -----------------------------------------------------------
-  #set($sql= ", BaseObject as obj, StringProperty as prop where $webClause obj.name=doc.fullName and prop.id.id = obj.id and upper(prop.value) like upper('%$!text%')")
-  #foreach ($item in $xwiki.searchDocuments($sql , $nbitems, 0))
-    #addelement($item $datedlist)
-  #end
-
-  ## -----------------------------------------------------------
-  ## Search in big text fields (textarea properties)
-  ## -----------------------------------------------------------
-  #set($sql= ", BaseObject as obj, LargeStringProperty as prop where $webClause obj.name=doc.fullName and prop.id.id = obj.id and upper(prop.value) like upper('%$!text%')")
-  #foreach ($item in $xwiki.searchDocuments($sql , 50, 0))
-    #addelement($item $datedlist)
-  #end
-
-  #set($list = $xwiki.arrayList)
-  #foreach($item in $xwiki.sort($datedlist))
-    #set($ok = $list.add(0, $item.substring(14)))
-  #end
-  
-  #includeInContext("XWiki.Results")
-  
-#end
+#includeInContext("XWiki.WebSearchCode")
+#includeInContext("XWiki.Results")
 </content></xwikidoc>

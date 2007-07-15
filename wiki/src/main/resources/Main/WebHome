@@ -12,13 +12,14 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1166007764000</creationDate>
-<date>1166177448000</date>
-<contentUpdateDate>1169801141000</contentUpdateDate>
-<version>1.6</version>
+<date>1184495832000</date>
+<contentUpdateDate>1184495832000</contentUpdateDate>
+<version>1.14</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
+<comment></comment>
 <object>
 <class>
 <name>XWiki.TagClass</name>
@@ -38,6 +39,7 @@
 <multiSelect>1</multiSelect>
 <size>30</size>
 <separator> </separator>
+<cache>0</cache>
 <separators> ,|</separators>
 <values></values>
 <number>1</number>
@@ -54,34 +56,33 @@
 <content>1 Welcome to your wiki
 
 
-Welcome to your [second generation wiki&gt;http://www.xwiki.org/xwiki/bin/view/Main/SecondGenerationWiki]! 
+Welcome to your [second generation wiki&gt;http://www.xwiki.org/]! 
 It is an online, shared workspace that will allow you to collaborate effectively with others. You can use it for many purposes:
 
 * Project Management
 * Collaborative Writing
 * Efficient Document Sharing
+* Knowledge Management
 
 ... the only limit is your imagination!
 
 1.1 How to start
 
-Maybe you are used to work with a wiki... and maybe not. If you would like to get used to the basics of wiki edition, just go to the [sandbox&gt;http://sandbox.xwiki.org]. This space is meant to let you learn by yourself ;-)
+Maybe you are used to work with a wiki... and maybe not. If you would like to get used to the basics of wiki edition, we have created a [Sandbox space&gt;Sandbox.WebHome] on this wiki. This space is meant to let you learn by yourself ;-)
 
 There are other steps that you may want to go through, such as :
 
-1. Configuring your wiki by clicking on the 'Administration' link at the top right.
-1. Changing the layout and menu contents by using the [Panel Wizard&gt;Panels.PanelWizard?forceLeftPanels=1&amp;forceRightPanels=1]
-1. Modifying this page, for example stating what your wiki is all about. Place a couple of carefully phrased sentences on this page. (You just have to click on the Edit button at the top left of the page).
-1. Inviting your friends, family or co-workers to enjoy collaboration made easy.
-1. Writing your documentation, sharing ideas, creating different spaces and organizing them the way you want.
-1. And then write some blog posts in order to summarize your work.
+* Configuring your wiki by clicking on the 'Administration' link at the top right.
+* Changing the layout and menu contents by using the [Panel Wizard&gt;Panels.PanelWizard?forceLeftPanels=1&amp;forceRightPanels=1]
+* Modifying this page, for example stating what your wiki is all about (You just have to click on the Edit button at the top left of this page).
+* Inviting your friends, family or co-workers to enjoy collaboration made easy.
+* Writing your documentation, sharing ideas, creating different spaces and organizing them the way you want.
+* And then [write some blog posts&gt;Blog.WebHome] in order to summarize your work.
 
 For more information you can visit [the documentation on xwiki.org&gt;http://www.xwiki.org/xwiki/bin/view/Main/Documentation].
 
-Let's go! This XWiki is yours, we hope you'll enjoy it ...
+This XWiki is yours, we hope you'll enjoy it ...
 
-Congratulations,
+Congratulations,\\
 The XWiki Team
-
-#includeInContext("Main.Dashboard")</content>
-</xwikidoc>
+</content></xwikidoc>

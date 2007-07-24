@@ -143,10 +143,19 @@ public interface SkinExecutor
 
     /**
      * Verify that the WYSIWYG editor has generated HTML content matching the passed XPath
-     * expression.
+     * expression, without having to save the edited document.
      *
      * @param xpath the XPath expression to check
      * @throws Exception in case of a XPath parsing exception
      */
     void assertHTMLGeneratedByWysiwyg(String xpath) throws Exception;
+
+    /**
+     * Verify that the XWiki editor (be it Wiki or WYSIWYG) has generated HTML matching the passed
+     * XPath expression when the document has been saved.
+     *
+     * @param xpath the XPath expression to check
+     * @throws Exception in case of a XPath parsing exception
+     */
+    void assertGeneratedHTML(String xpath) throws Exception;
 }

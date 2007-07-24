@@ -308,4 +308,9 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     {
         getSkinExecutor().assertHTMLGeneratedByWysiwyg(xpath);
     }
+
+    public void assertGeneratedHTML(String xpath) throws Exception
+    {
+        getSkinExecutor().assertGeneratedHTML(xpath);
+    }
 }

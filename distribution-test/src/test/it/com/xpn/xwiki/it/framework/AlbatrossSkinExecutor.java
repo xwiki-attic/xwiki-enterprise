@@ -175,7 +175,13 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     public void assertHTMLGeneratedByWysiwyg(String xpath) throws Exception
     {
         getTest().getSelenium().selectFrame("mce_editor_0");
-        getTest().assertTrue(getTest().getSelenium().isElementPresent("xpath=/html/body/"+xpath));
+        getTest().assertTrue(getTest().getSelenium().isElementPresent("xpath=/html/body/" + xpath));
         getTest().getSelenium().selectFrame("relative=top");
+    }
+
+    public void assertGeneratedHTML(String xpath) throws Exception
+    {
+        getTest().assertTrue(getTest().getSelenium().isElementPresent(
+            "xpath=//div[@id='xwikicontent']/" + xpath));
     }
 }

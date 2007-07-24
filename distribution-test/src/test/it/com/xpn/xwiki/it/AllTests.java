@@ -53,6 +53,7 @@ public class AllTests extends TestCase
         addTestCase(suite, WikiEditorTest.class);
         addTestCase(suite, WysiwygEditorFromWikiTest.class);
         addTestCase(suite, WysiwygEditorTest.class);
+        addTestCase(suite, VelocityMacrosTest.class);
 
         return new XWikiTestSetup(suite);
     }

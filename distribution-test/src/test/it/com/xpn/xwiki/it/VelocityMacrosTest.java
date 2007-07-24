@@ -50,6 +50,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/VelocityMacrosTest?editor=wiki");
         setFieldValue("content", "#mimetypeimg(\"image/jpeg\" \"photo.jpeg\")");
         clickEditSaveAndView();
-        assertGeneratedHTML("img[@src='/xwiki/skins/albatross/mimetypes/jpg.png']");
+        assertGeneratedHTML("img[@src='/xwiki/skins/albatross/mimetypes/jpg.png' "
+            + "and @alt='Image' and @title='Image']");
     }
 }

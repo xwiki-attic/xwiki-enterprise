@@ -109,6 +109,18 @@ public class DeletePageTest extends AbstractXWikiTestCase
         }
     }
 
+    /*
+     * This tests for regression of XWIKI-1388
+     */
+    public void testUserStaysLoggedInWhileDeleting()
+    {
+        logInAndCreatePageToBeDeleted("DeleteTest");
+        clickDeletePage();
+
+        assertTrue("The interface should not show the user as logged out while deleting",
+                isAuthenticated());
+    }
+
     private void logInAndCreatePageToBeDeleted(String pageName)
     {
         loginAsAdmin();

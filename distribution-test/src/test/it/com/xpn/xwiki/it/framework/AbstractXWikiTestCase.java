@@ -126,6 +126,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     public void waitPage()
     {
+        // TODO move magic number to property file?
         waitPage(180000);
     }
 
@@ -252,6 +253,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     public void clickLogin()
     {
         getSkinExecutor().clickLogin();
+    }
+
+    public void clickRegister()
+    {
+        getSkinExecutor().clickRegister();
     }
 
     public void editInWysiwyg(String space, String page)

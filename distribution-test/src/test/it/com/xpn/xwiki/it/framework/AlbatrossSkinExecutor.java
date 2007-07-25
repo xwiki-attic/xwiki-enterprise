@@ -37,7 +37,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     private AbstractXWikiTestCase getTest()
     {
-        return this.test;        
+        return this.test;
     }
 
     public void clickDeletePage()
@@ -47,7 +47,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void clickEditPreview()
     {
-       getTest().submit("formactionpreview");
+        getTest().submit("formactionpreview");
     }
 
     public void clickEditSaveAndContinue()
@@ -75,7 +75,8 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         getTest().assertTrue("User wasn't authenticated.", isAuthenticated());
         getTest().clickLinkWithLocator("headerlogout");
-        getTest().assertFalse("The user is always authenticated after a logout.", isAuthenticated());
+        getTest().assertFalse("The user is still authenticated after a logout.",
+            isAuthenticated());
     }
 
     public void login(String username, String password, boolean rememberme)
@@ -114,7 +115,25 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().assertElementPresent("loginForm");
         getTest().assertElementPresent("j_username");
         getTest().assertElementPresent("j_password");
-        getTest().assertFalse(getTest().isChecked("rememberme"));
+        getTest().assertElementPresent("rememberme");
+    }
+
+    public void clickRegister()
+    {
+        getTest().clickLinkWithLocator("headerregister");
+        assertIsRegisterPage();
+    }
+
+    private void assertIsRegisterPage()
+    {
+        // tests that the register form exists
+        getTest().assertElementPresent("register");
+        getTest().assertElementPresent("register_first_name");
+        getTest().assertElementPresent("register_last_name");
+        getTest().assertElementPresent("xwikiname");
+        getTest().assertElementPresent("register_password");
+        getTest().assertElementPresent("register2_password");
+        getTest().assertElementPresent("register_email");
     }
 
     // For WYSIWYG editor

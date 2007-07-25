@@ -20,8 +20,8 @@
 package com.xpn.xwiki.it.framework;
 
 /**
- * Skin-related actions to be implemented by the different Skin Executors. A Skin Executor is
- * simply a class extending this interface and implementing the listed UI actions.
+ * Skin-related actions to be implemented by the different Skin Executors. A Skin Executor is simply
+ * a class extending this interface and implementing the listed UI actions.
  *
  * @version $Id: $
  */
@@ -77,9 +77,14 @@ public interface SkinExecutor
     void loginAsAdmin();
 
     /**
-     * Click on the Login button leading to the log in page.
+     * Click on the Login button leading to the login page.
      */
     void clickLogin();
+
+    /**
+     * Click on the Register button
+     */
+    void clickRegister();
 
     // For WYSIWYG editor
 
@@ -134,8 +139,8 @@ public interface SkinExecutor
     void clickWysiwygOutdentButton();
 
     /**
-     * Verify that the WYSIWYG editor has generated the passed text when the page is viewed in
-     * the Wiki editor.
+     * Verify that the WYSIWYG editor has generated the passed text when the page is viewed in the
+     * Wiki editor.
      *
      * @param text the text to verify
      */

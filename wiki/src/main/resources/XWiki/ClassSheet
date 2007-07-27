@@ -72,14 +72,16 @@ The first thing to do is to &lt;a href="$doc.getURL("edit", "xpage=editclass")"&
 To create a new document, you should first choose a name for you document
 
 &lt;form action="" id="newdoc"&gt;
-&lt;input type="hidden" name="parent" value="${defaultparent}"&gt;
-&lt;input type="hidden" name="template" value="${doc.web}.${class}ClassTemplate"&gt;
-&lt;input type="hidden" name="sheet" value="1"&gt;
-Web: &lt;input type="text" name="webname" value="${defaultweb}" size="8"&gt;
-Document: &lt;input type="text" name="name" value="Name of your document" /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;input type="button" value="Create this document" onclick='if (updateName(this.form.name)) {this.form.action="../../inline/" + this.form.webname.value + "/" + this.form.name.value; this.form.submit(); }'&gt;
+&lt;div&gt;
+&lt;input type="hidden" name="parent" value="${defaultparent}"/&gt;
+&lt;input type="hidden" name="template" value="${doc.web}.${class}ClassTemplate"/&gt;
+&lt;input type="hidden" name="sheet" value="1"/&gt;
+Web: &lt;input type="text" name="webname" value="${defaultweb}" size="8"/&gt;
+Document: &lt;input type="text" name="name" value="Name of your document"/&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;input type="button" value="Create this document" onclick='if (updateName(this.form.name)) {this.form.action="../../inline/" + this.form.webname.value + "/" + this.form.name.value; this.form.submit(); }'/&gt;
+&lt;/div&gt;
 &lt;/form&gt;
 
 1.1 Sheet and Template
@@ -88,7 +90,9 @@ Document: &lt;input type="text" name="name" value="Name of your document" /&gt;
 #set($hasobj = $templatedoc.getObject("${doc.web}.${class}Class"))
 #if(!$hasobj)
 #set($xredirect = $request.getRequestURL())
-&lt;font color="red"&gt;The template does not have an object of class ${class}Class. &lt;a href="$templatedoc.getURL("objectadd", "classname=${doc.web}.${class}Class&amp;xredirect=${xredirect}")"&gt;Click here to add it&lt;/a&gt;.&lt;/font&gt; 
+#set($createUrl = $templatedoc.getURL("objectadd", "classname=${doc.web}.${class}Class&amp;amp;xredirect=${xredirect}"))
+#set($m = "The template does not have an object of class ${class}Class. &lt;a href='$createUrl'&gt;Click here to add it&lt;/a&gt;.")
+#warning($m)
 #end
 
 * Sheet: [${doc.web}.${class}ClassSheet]

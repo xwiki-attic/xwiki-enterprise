@@ -61,14 +61,14 @@
 ## in other browsers like IE. This is because empty lines add &lt;p class="paragraph"&gt;&lt;/p&gt; elements
 ## when rendered.
 
-&lt;table id="searchTableUnique" class="grid sortable filterable doOddEven" cellSpacing=0 cellpadding="0" border="1"&gt;
+&lt;table id="searchTableUnique" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
     &lt;th&gt;Page&lt;/th&gt;
-    &lt;th width="150" class="selectFilter"&gt;Space&lt;/th&gt;
-    &lt;th width="150"&gt;Date&lt;/th&gt;
-    &lt;th width="150"&gt;Last Author&lt;/th&gt;
+    &lt;th style="width:150px" class="selectFilter"&gt;Space&lt;/th&gt;
+    &lt;th style="width:150px"&gt;Date&lt;/th&gt;
+    &lt;th style="width:150px"&gt;Last Author&lt;/th&gt;
     #if($xwiki.hasAdminRights())
-      &lt;th width="210" class="unsortable noFilter"&gt;Actions&lt;/th&gt;
+      &lt;th style="width:210px" class="unsortable noFilter"&gt;Actions&lt;/th&gt;
     #end
   &lt;/tr&gt;
   #foreach ($item in $list)
@@ -84,7 +84,7 @@
         #end
         #set($createur = $xwiki.getUserName($bentrydoc.author))
         #set($ptitle = $bentrydoc.getDisplayTitle())
-        &lt;tr&gt;&lt;td align=left&gt;
+        &lt;tr&gt;&lt;td style="text-align:left"&gt;
           #if($comments.size()&gt;0)  
             #set($i = 0)  
             #set($cobj = $comments.get($i))  
@@ -107,10 +107,10 @@
             #set($comment = "")  
             [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name.replaceAll("@","%40")] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
           #end   
-        &lt;/td&gt;&lt;td align=left&gt;
+        &lt;/td&gt;&lt;td style="text-align:left"&gt;
           [$bentrydoc.web&gt;${bentrydoc.web}.WebHome]
-        &lt;/td&gt;&lt;td align=left&gt;
-          $xwiki.formatDate($bentrydoc.date,"yyyy MMM dd") at $xwiki.formatDate($bentrydoc.date,"HH:mm")&lt;/td&gt;&lt;td align=middle&gt;
+        &lt;/td&gt;&lt;td style="text-align:left"&gt;
+          $xwiki.formatDate($bentrydoc.date,"yyyy MMM dd") at $xwiki.formatDate($bentrydoc.date,"HH:mm")&lt;/td&gt;&lt;td style="text-align:center"&gt;
           #if($troubi =="oui")
             #set($createur = $xwiki.getUserName($cobj.author)   )
           #end
@@ -122,7 +122,7 @@
         &lt;/td&gt;
         #if($xwiki.hasAdminRights())
           &lt;td&gt;
-            &lt;a href="$xwiki.getURL("Admin.CopyDocument", "view", "sourcedoc=${bentrydoc.fullName}")"&gt;Copy&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;Delete&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;step=1")"&gt;Rename&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;Rights&lt;/a&gt;
+            &lt;a href="$xwiki.getURL("Admin.CopyDocument", "view", "sourcedoc=${bentrydoc.fullName}")"&gt;Copy&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;Delete&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1")"&gt;Rename&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;Rights&lt;/a&gt;
           &lt;/td&gt;
         #end
       &lt;/tr&gt;

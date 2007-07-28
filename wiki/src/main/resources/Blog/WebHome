@@ -60,7 +60,8 @@
 
 1.1 Add an Article
 
-&lt;form action="" id="newdoc"&gt;
+&lt;form action="" id="newdoc" method="post"&gt;
+&lt;div&gt;
 &lt;input type="hidden" name="parent" value="Main.WebHome" /&gt;
 &lt;input type="hidden" name="template" value="XWiki.ArticleClassTemplate" /&gt;
 &lt;input type="hidden" name="sheet" value="1" /&gt;
@@ -68,5 +69,6 @@
 &lt;input type="hidden" name="name" value=""/&gt;
 &lt;input type="text" name="title" value="page name" size="18"/&gt;
 &lt;input type="button" value="Add" onclick='if (updateName(this.form.title,this.form.name)) { action="../../inline/" + this.form.webname.value + "/" + this.form.name.value; this.form.submit(); }' /&gt;
+&lt;/div&gt;
 &lt;/form&gt;</content>
 </xwikidoc>

@@ -59,7 +59,7 @@
 &lt;div id="footer"&gt;
 $!doc.display("footer", "rendered", $presobj)
 &lt;a href="$doc.getURL("inline")"&gt;
-&lt;img src="$xwiki.getSkinFile("editPage.gif")" border="0" alt="Edit Presentation" /&gt;
+&lt;img src="$xwiki.getSkinFile("editPage.gif")" style="border:0px" alt="Edit Presentation" /&gt;
 &lt;/a&gt;
 &lt;div id="controls"&gt;&lt;/div&gt;
 &lt;/div&gt;

@@ -71,7 +71,7 @@ The first thing to do is to &lt;a href="$doc.getURL("edit", "xpage=editclass")"&
 
 To create a new document, you should first choose a name for you document
 
-&lt;form action="" id="newdoc"&gt;
+&lt;form action="" id="newdoc" method="post"&gt;
 &lt;div&gt;
 &lt;input type="hidden" name="parent" value="${defaultparent}"/&gt;
 &lt;input type="hidden" name="template" value="${doc.web}.${class}ClassTemplate"/&gt;
@@ -111,11 +111,13 @@ Document: &lt;input type="text" name="name" value="Name of your document"/&gt;
 Before using this class you must first create the sheet and template for it. Follow the instructions below to do this.
 
 #if ($doc1new)
-&lt;form action=""&gt;
-&lt;input type="hidden" name="parent" value="${doc.web}.${class}Class"&gt;
-&lt;input type="hidden" name="template" value="XWiki.ClassItemSheet"&gt;
-&lt;input type="hidden" name="sheet" value="1"&gt;
-&lt;input type="submit" value="Create the document sheet" onclick='this.form.action="../../edit/${doc.web}/${class}ClassSheet"; this.form.submit();'&gt;
+&lt;form action="$xwiki.getURL("${doc.web}.${class}ClassSheet","edit")" method="post"&gt;
+&lt;div&gt;
+&lt;input type="hidden" name="parent" value="${doc.web}.${class}Class"/&gt;
+&lt;input type="hidden" name="template" value="XWiki.ClassItemSheet"/&gt;
+&lt;input type="hidden" name="sheet" value="1"/&gt;
+&lt;input type="submit" value="Create the document sheet"/&gt;
+&lt;/div&gt;
 &lt;/form&gt;
 #else
 The Sheet allows to control the presentation of documents using the class you define. You can use the default presentation which looks for all available fields and presents them in a table, or you can decide to write your own presentation showing only part of the fields. You can also decide to have a different presentation for the viewing and for the editing modes.
@@ -123,11 +125,13 @@ The Sheet allows to control the presentation of documents using the class you de
 #end
 
 #if ($doc2new)
-&lt;form action=""&gt;
-&lt;input type="hidden" name="parent" value="${doc.web}.${class}Class"&gt;
-&lt;input type="hidden" name="template" value="XWiki.ClassItemTemplate"&gt;
-&lt;input type="hidden" name="sheet" value="1"&gt;
-&lt;input type="submit" value="Create the document template" onclick='this.form.action="../../edit/${doc.web}/${class}ClassTemplate"; this.form.submit();'&gt;
+&lt;form action="$xwiki.getURL("${doc.web}.${class}ClassTemplate","edit")" method="post"&gt;
+&lt;div&gt;
+&lt;input type="hidden" name="parent" value="${doc.web}.${class}Class"/&gt;
+&lt;input type="hidden" name="template" value="XWiki.ClassItemTemplate"/&gt;
+&lt;input type="hidden" name="sheet" value="1"/&gt;
+&lt;input type="submit" value="Create the document template"/&gt;
+&lt;/div&gt;
 &lt;/form&gt;
 #else
 The template is the document that will be "copied" into the new document that you create. It will automatically contain a reference to the Sheet defined previously and an instance of the object of your Class.

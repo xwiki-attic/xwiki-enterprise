@@ -70,7 +70,7 @@ Photo|Title|Description|Comments
 #set($bentryobj = $bentrydoc.getObject("XWiki.PhotoAlbumClass",0))
 #if($bentrydoc.attachmentList.size()&gt;0)
 #set($attach = $bentrydoc.attachmentList.get(0))
-&lt;img src="$bentrydoc.getAttachmentURL($attach.filename,"download")"  height="50"/&gt;|[$!{bentrydoc.display("title","view",$bentryobj)}&gt;$item] | $!bentrydoc.display("description", "view", $bentryobj) | $!comment
+&lt;img src="$bentrydoc.getAttachmentURL($attach.filename,"download")"  height="50" alt="$!{bentrydoc.display("title","view",$bentryobj)}" /&gt;|[$!{bentrydoc.display("title","view",$bentryobj)}&gt;$item] | $!bentrydoc.display("description", "view", $bentryobj) | $!comment
 #else
 [No photo&gt;$item]|[$!{bentrydoc.display("title","view",$bentryobj)}&gt;$item] | $!bentrydoc.display("description","view",$bentryobj) | $!comment
 #end
@@ -80,10 +80,13 @@ Photo|Title|Description|Comments
 1.1 Add an Album
 
 &lt;form action="" id="newdoc"&gt;
-&lt;input type="hidden" name="parent" value="Photos.WebHome"&gt;
-&lt;input type="hidden" name="template" value="XWiki.PhotoAlbumClassTemplate"&gt;
-&lt;input type="hidden" name="sheet" value="1"&gt;
-&lt;input type="hidden" name="webname" value="Photos"&gt;
-Wiki name of the album: &lt;input type="text" name="name" value="short name no special chars" size="40"&gt;&lt;input type="button" value="Add this Album" onclick='updateName(this.form.name); action="../../inline/" + this.form.webname.value + "/" + this.form.name.value; this.form.submit();'&gt;
+&lt;div&gt;
+&lt;input type="hidden" name="parent" value="Photos.WebHome" /&gt;
+&lt;input type="hidden" name="template" value="XWiki.PhotoAlbumClassTemplate" /&gt;
+&lt;input type="hidden" name="sheet" value="1" /&gt;
+&lt;input type="hidden" name="webname" value="Photos" /&gt;
+Wiki name of the album: &lt;input type="text" name="name" value="short name no special chars" size="40" /&gt;
+&lt;input type="button" value="Add this Album" onclick='updateName(this.form.name); action="../../inline/" + this.form.webname.value + "/" + this.form.name.value; this.form.submit();' /&gt;
+&lt;/div&gt;
 &lt;/form&gt;
 </content></xwikidoc>

@@ -51,7 +51,16 @@
 <tags/>
 </property>
 </object>
-<content>1 Welcome to the Class Editor
+<content>
+#if($request.webname &amp;&amp; $request.name)
+#if($request.name.endsWith("Class"))
+#set($docname="${request.webname}.${request.name}")
+#else
+#set($docname="${request.webname}.${request.name}Class")
+#end
+$response.sendRedirect($xwiki.getURL($context.util.noaccents($docname), "edit", "editor=class"))
+#end
+1 Welcome to the Class Editor
 
 This tools allows to work on the classes on your wiki. Before working on the classes, you should read the [developer's guide&gt;http://www.xwiki.org/xwiki/bin/view/DevGuide/WebHome]
 
@@ -69,21 +78,27 @@ Here are the templates and sheets for creating new classes.
 
 1.1 Create a new Class
 
-To create a new class you must first choose the name of your class and click on the button "Create this Class". This will automatically create a document for you class and redirect you to this document where you will be able to follow the instructions to make your class usable.
+To create a new class you must first choose the name of your class and click on the button
+"Create this Class". This will automatically create a document for you class and redirect
+you to this document where you will be able to follow the instructions to make your class usable.
 
 Choose a simple name like 'Film', 'Book', 'Article'. XWiki will append 'Class' at the end automatically.
 
-&lt;form action=""&gt;
-&lt;input type="hidden" name="parent" value="XWiki.XWikiClasses"&gt;
-&lt;input type="hidden" name="template" value="XWiki.ClassTemplate"&gt;
-&lt;input type="hidden" name="sheet" value="1"&gt;
-Web: &lt;input type="text" name="webname" value="XWiki"&gt;
-Class: &lt;input type="text" name="name" value="Name of the Class" onchange="updateName(this)"&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;input type="button" value="Create this Class" onclick='action="../../edit/" + this.form.webname.value + "/" + this.form.name.value + "Class"; this.form.submit();'&gt;
+&lt;form action="$doc.getURL("view", "xpage=plain")" method="post"&gt;
+&lt;div&gt;
+&lt;input type="hidden" name="parent" value="XWiki.XWikiClasses"/&gt;
+&lt;input type="hidden" name="template" value="XWiki.ClassTemplate"/&gt;
+&lt;input type="hidden" name="sheet" value="1"/&gt;
+Web: &lt;input type="text" name="webname" value="XWiki"/&gt;
+Class: &lt;input type="text" name="name" value="Name of the Class"
+onchange="updateName(this)"
+onfocus='if(this.value=="Name of the class") this.value=""; else this.select();'
+onblur='if(this.value=="") this.value="Name of the class";'/&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;input type="submit" value="Create this Class" /&gt;
+&lt;/div&gt;
 &lt;/form&gt;
-
 
 1.1 Existing Classes
 

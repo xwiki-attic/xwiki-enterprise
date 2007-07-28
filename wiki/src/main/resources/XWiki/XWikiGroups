@@ -69,19 +69,18 @@
 <tags/>
 </property>
 </object>
-<content>1 Create a new group:
+<content>
+#if($request.create)
+$response.sendRedirect($xwiki.getURL("XWiki.${request.getParameter('name')}", "inline", "parent=XWiki.XWikiGroups&amp;template=XWiki.XWikiGroupTemplate"))
+#else
+1 Create a new group:
 
-&lt;form&gt;
-&lt;input type="text" name="name" value=""&gt;
-&lt;input type="button" value="Create Group" onClick="go(this.form.name.value)"&gt;
+&lt;form action="$doc.getURL("view", "create=1&amp;amp;xpage=plain")" method="post"&gt;
+&lt;div&gt;
+&lt;input type="text" name="name" value="" /&gt;
+&lt;input type="submit" value="Create Group" /&gt;
+&lt;/div&gt;
 &lt;/form&gt;
-
-&lt;script&gt;
-function go(value) {
-location = "/xwiki/bin/edit/XWiki/" + value + "?parent=XWiki.XWikiGroups&amp;template=XWiki.XWikiGroupTemplate";
-} 
-&lt;/script&gt;
-
 1 Current XWiki Groups
 
 #set ($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='XWiki.XWikiGroups'")
@@ -92,5 +91,6 @@ location = "/xwiki/bin/edit/XWiki/" + value + "?parent=XWiki.XWikiGroups&amp;tem
 1 Admin
 
    * [XWikiGroupTemplate]
-   * [XWikiGroupSheet]</content>
+   * [XWikiGroupSheet]
+#end</content>
 </xwikidoc>

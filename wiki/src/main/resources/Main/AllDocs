@@ -66,7 +66,7 @@
 &lt;ul class="xwikitabbar"&gt;
 &lt;li id="xwikiindex"#if($view == "index") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=index&amp;amp;$!param")"&gt;Index&lt;/a&gt;&lt;/li&gt;
 &lt;li id="xwikitreeview"#if($view == "tree") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=tree&amp;amp;$!param")"&gt;Tree&lt;/a&gt;&lt;/li&gt;
-&lt;li id="xwikitreeview"#if($view == "orphans") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=orphans&amp;amp;$!param")"&gt;Orphaned Pages&lt;/a&gt;&lt;/li&gt;
+&lt;li id="xwikiorphansview"#if($view == "orphans") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=orphans&amp;amp;$!param")"&gt;Orphaned Pages&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div id="xwikieditcontent" class="clear"&gt;
@@ -76,10 +76,10 @@
 ## ==============================================
 #if ($view == "index")
 
-&lt;div align="center"&gt;
-[0-9&gt;$doc.fullName?view=index&amp;letter=09] -
+&lt;div style="text-align:center"&gt;
+[0-9&gt;$doc.fullName?view=index&amp;amp;letter=09] -
 #foreach($letter in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])
-  [$letter&gt;$doc.fullName?view=index&amp;letter=${letter}] -
+  [$letter&gt;$doc.fullName?view=index&amp;amp;letter=${letter}] -
 #end 
 [#&gt;$doc.fullName]
 &lt;/div&gt;

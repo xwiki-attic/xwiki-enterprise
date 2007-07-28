@@ -63,7 +63,7 @@
 <footer></footer>
 </property>
 <property>
-<header>Presentation - &lt;a href="$doc.getURL("inline")"&gt;&lt;img src="$xwiki.getSkinFile("editPage.gif")" border="0" alt="Edit Presentation" /&gt;&lt;/a&gt;
+<header>Presentation - &lt;a href="$doc.getURL("inline")"&gt;&lt;img src="$xwiki.getSkinFile("editPage.gif")" style="border:0px" alt="Edit Presentation" /&gt;&lt;/a&gt;
 &lt;br /&gt;Location - Date</header>
 </property>
 <property>

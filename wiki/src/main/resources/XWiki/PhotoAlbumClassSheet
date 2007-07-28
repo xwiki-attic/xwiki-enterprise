@@ -72,7 +72,7 @@ $doc.display("description", $obj)
       #foreach ($attach in $doc.attachmentList)
         #set($current = $current + 1)
         &lt;a href="$doc.getURL("view","diapo=$current")" &gt;
-          &lt;img src="$doc.getAttachmentURL($attach.filename,"download")"  height="${height}" /&gt;
+          &lt;img src="$doc.getAttachmentURL($attach.filename,"download")"  height="${height}" alt="photo ${current}" /&gt;
         &lt;/a&gt;
       #end
     #end

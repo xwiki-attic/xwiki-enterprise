@@ -75,13 +75,13 @@
   #set($i = $context.user.indexOf(":")+1)
   #if(($doc.fullName == $context.user.substring($i)) &amp;&amp; ($context.action == "view"))
     &lt;div class="specialmenu"&gt;
-      * &lt;img src="$xwiki.getSkinFile("icons/keys.png")"/&gt; &lt;a href="$doc.getURL("view", "xpage=passwd")"&gt;$msg.get("userChangepassword")&lt;/a&gt;
-      * &lt;img src="$xwiki.getSkinFile("icons/contact.png")"/&gt; &lt;a href="$doc.getURL("inline")"&gt;$msg.get("userModifyprofile")&lt;/a&gt;
-      * &lt;img src="$xwiki.getSkinFile("icons/changeavatar.png")"/&gt; &lt;a href="$doc.getURL("edit", "xpage=changemyavatar")"&gt;$msg.get("userChangephoto")&lt;/a&gt;
+      * &lt;img alt="" src="$xwiki.getSkinFile("icons/keys.png")"/&gt; &lt;a href="$doc.getURL("view", "xpage=passwd")"&gt;$msg.get("userChangepassword")&lt;/a&gt;
+      * &lt;img alt="" src="$xwiki.getSkinFile("icons/contact.png")"/&gt; &lt;a href="$doc.getURL("inline")"&gt;$msg.get("userModifyprofile")&lt;/a&gt;
+      * &lt;img alt="" src="$xwiki.getSkinFile("icons/changeavatar.png")"/&gt; &lt;a href="$doc.getURL("edit", "xpage=changemyavatar")"&gt;$msg.get("userChangephoto")&lt;/a&gt;
       #if($isAdvancedUser)
-        * &lt;img src="$xwiki.getSkinFile("icons/simpleuser.png")"/&gt; &lt;a href="$doc.getURL("save", "XWiki.XWikiUsers_${obj.number}_usertype=Simple")"&gt;$msg.get("userSwitchSimple")&lt;/a&gt;
+        * &lt;img alt="" src="$xwiki.getSkinFile("icons/simpleuser.png")"/&gt; &lt;a href="$doc.getURL("save", "XWiki.XWikiUsers_${obj.number}_usertype=Simple")"&gt;$msg.get("userSwitchSimple")&lt;/a&gt;
       #else
-        * &lt;img src="$xwiki.getSkinFile("icons/advanceduser.png")"/&gt; &lt;a href="$doc.getURL("save", "XWiki.XWikiUsers_${obj.number}_usertype=Advanced")"&gt;$msg.get("userSwitchAdvanced")&lt;/a&gt;
+        * &lt;img alt="" src="$xwiki.getSkinFile("icons/advanceduser.png")"/&gt; &lt;a href="$doc.getURL("save", "XWiki.XWikiUsers_${obj.number}_usertype=Advanced")"&gt;$msg.get("userSwitchAdvanced")&lt;/a&gt;
       #end
     &lt;/div&gt;
   #end
@@ -101,46 +101,37 @@
       #end
     #end
   #end
- 
+  ## Please do not insert extra empty lines here (as it the validity of the rendered xhtml)
   &lt;dl id="xwikiuserprofile"&gt;
- 
     &lt;dt class="label"&gt;&lt;label&gt;$msg.get("userFirstname"):&lt;/label&gt;&lt;/dt&gt;
     &lt;dd#if($context.action=="view") class="given-name"#end&gt;$doc.display("first_name", $obj)&lt;/dd&gt;
- 
     &lt;dt class="label"&gt;&lt;label&gt;$msg.get("userLastname"):&lt;/label&gt;&lt;/dt&gt;
     &lt;dd#if($context.action=="view") class="family-name"#end&gt;$doc.display("last_name", $obj)&lt;/dd&gt;
- 
     #if(($obj.getProperty("blog") &amp;&amp; $obj.getProperty("blog").getValue() != "") || $context.action == "inline")
       &lt;dt class="label"&gt;&lt;label&gt;$msg.get("userBlog"):&lt;/label&gt;&lt;/dt&gt;
       &lt;dd&gt;$doc.display("blog", $obj)&lt;/dd&gt;
     #end
- 
     #if(($obj.getProperty("blogfeed") &amp;&amp; $obj.getProperty("blogfeed").getValue() != "") || $context.action == "inline")
       &lt;dt class="label"&gt;&lt;label&gt;$msg.get("userBlogFeed"):&lt;/label&gt;&lt;/dt&gt;
       &lt;dd&gt;$doc.display("blogfeed", $obj)&lt;/dd&gt;
     #end
-  
     ## For security reasons do not display emails by default
     ## #if(($obj.getProperty("email") &amp;&amp; $obj.getProperty("email").getValue() != "") || $context.action == "inline")
     ## &lt;dt class="label"&gt;&lt;label&gt;$msg.get("usereMail"):&lt;/label&gt;&lt;/dt&gt;
     ## &lt;dd#if($context.action=="view") class="email"#end&gt;#if($action == "inline")$doc.display("email", $obj)#else #set($discard = $doc.display("email", $obj))#obfuscate($discard)#end&lt;/dd&gt;
     ## #end
- 
     #if(($obj.getProperty("company") &amp;&amp; $obj.getProperty("company").getValue() != "") || $context.action == "inline")
       &lt;dt class="label"&gt;&lt;label&gt;$msg.get("userCompany"):&lt;/label&gt;&lt;/dt&gt;
       &lt;dd#if($context.action=="view") class="org"#end&gt;$doc.display("company", $obj)&lt;/dd&gt;
     #end
- 
     #if(($obj.getProperty("city") &amp;&amp; $obj.getProperty("city").getValue() != "") || $context.action == "inline")
       &lt;dt class="label"&gt;&lt;label&gt;$msg.get("userCity"):&lt;/label&gt;&lt;/dt&gt;
       &lt;dd#if($context.action=="view") class="locality"#end&gt;$doc.display("city", $obj)&lt;/dd&gt;
     #end
- 
     #if(($obj.getProperty("country") &amp;&amp; $obj.getProperty("country").getValue() != "") || $context.action == "inline")
      &lt;dt class="label"&gt;&lt;label&gt;$msg.get("userCountry"):&lt;/label&gt;&lt;/dt&gt;
      &lt;dd#if($context.action=="view") class="country-name"#end&gt;$doc.display("country", $obj)&lt;/dd&gt;
     #end
- 
   &lt;/dl&gt;
  
   #if(($obj.getProperty("comment") &amp;&amp; $obj.getProperty("comment").getValue().trim() != "") || $context.action == "inline")

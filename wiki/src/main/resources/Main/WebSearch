@@ -69,7 +69,7 @@
 #end
 
 #macro(spaceoption $space $selectspace $spacesText)
-  &lt;option value="$spacesText.get($space)" #if($selectspace == $spacesText.get($space))selected#end&gt;$space&lt;/option&gt;
+  &lt;option value="$spacesText.get($space)" #if($selectspace == $spacesText.get($space))selected="selected"#end&gt;$space&lt;/option&gt;
 #end
 
 #macro(spaceselect $selectspace $spaces $spacesText)
@@ -89,13 +89,13 @@
 
 #set($utext = $xwiki.getURLEncoded($text))
 #if($space == "All")
-  #set($url = $xwiki.getURL("Main.WebSearchRss", "view", "xpage=rdf&amp;text=${utext}" ))
+  #set($url = $xwiki.getURL("Main.WebSearchRss", "view", "xpage=rdf&amp;amp;text=${utext}" ))
 #else
   #set($url = $xwiki.getURL("Main.WebSearchRss", "view", "xpage=rdf&amp;space=$space&amp;text=${utext}"))
 #end
 
 &lt;div style="float: right;"&gt;
-  &lt;a href="$url"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" border="0px" /&gt;&lt;/a&gt;
+  &lt;a href="$url"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" style="border:0px" alt="rss icon" /&gt;&lt;/a&gt;
 &lt;/div&gt;
 
 &lt;form action=""&gt;

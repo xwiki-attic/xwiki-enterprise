@@ -56,9 +56,6 @@
 <content>## Note: This implementation doesn't scale for large wikis. In order to support
 ## large wikis we need to dynamically load node data when nodes are expanded
 ## instead of loading all nodes at once.
-&lt;style type="text/css"&gt;
-@import "${request.contextPath}/yui/treeview/assets/tree.css";
-&lt;/style&gt;
 &lt;script type='text/javascript' src='${request.contextPath}/yui/yahoo/yahoo-min.js' &gt;&lt;/script&gt;
 &lt;script type='text/javascript' src='${request.contextPath}/yui/treeview/treeview-min.js' &gt;&lt;/script&gt;
 &lt;script type='text/javascript' src='${request.contextPath}/yui/treeview/checknode.js' &gt;&lt;/script&gt;

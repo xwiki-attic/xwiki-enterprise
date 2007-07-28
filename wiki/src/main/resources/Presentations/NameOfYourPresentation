@@ -60,7 +60,7 @@
 <number>0</number>
 <className>XWiki.PresentationClass</className>
 <property>
-<footer>Presentation - http://www.xwiki.com &lt;a href="$doc.getURL("inline")"&gt;&lt;img src="$xwiki.getSkinFile("editPage.gif")" border="0" alt="Edit Presentation" /&gt;&lt;/a&gt;
+<footer>Presentation - http://www.xwiki.com &lt;a href="$doc.getURL("inline")"&gt;&lt;img src="$xwiki.getSkinFile("editPage.gif")" style="border:0px" alt="Edit Presentation" /&gt;&lt;/a&gt;
 &lt;br /&gt;Location - Date
 
 </footer></property><property><header>&lt;br /&gt;

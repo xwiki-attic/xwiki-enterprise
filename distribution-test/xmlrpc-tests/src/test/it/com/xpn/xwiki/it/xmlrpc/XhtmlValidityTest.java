@@ -18,17 +18,13 @@
  */
 package com.xpn.xwiki.it.xmlrpc;
 
-import java.net.URL;
 import java.util.Map;
+
+import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
 
 import junit.framework.AssertionFailedError;
 
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.apache.xmlrpc.client.util.ClientFactory;
-import org.custommonkey.xmlunit.XMLTestCase;
 
-import com.xpn.xwiki.xmlrpc.ConfluenceRpcInterface;
 
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents using the Confluence XMLRPC
@@ -36,42 +32,15 @@ import com.xpn.xwiki.xmlrpc.ConfluenceRpcInterface;
  * 
  * @version $Id: $
  */
-public class XhtmlValidityTest extends XMLTestCase
+public class XhtmlValidityTest extends AbstractXmlRpcTestCase
 {
-    private XmlRpcClient rpcClient;
-
-    private ConfluenceRpcInterface xwikiRpc;
-
-    private String token;
-
-    public void setUp() throws Exception
-    {
-        super.setUp();
-
-        rpcClient = new XmlRpcClient();
-        XmlRpcClientConfigImpl clientConfig = new XmlRpcClientConfigImpl();
-        clientConfig.setServerURL(new URL("http://127.0.0.1:8080/xwiki/xmlrpc"));
-        rpcClient.setConfig(clientConfig);
-
-        ClientFactory factory = new ClientFactory(rpcClient);
-        xwikiRpc = (ConfluenceRpcInterface) factory.newInstance(ConfluenceRpcInterface.class);
-        token = (String) xwikiRpc.login("Admin", "admin");
-    }
-
-    public void tearDown() throws Exception
-    {
-        xwikiRpc.logout(token);
-
-        super.tearDown();
-    }
-
     /*
      * TODO We should have a test for each document, so that individual documents fail individual tests,
      * instead of just one test.
      */
     public void testValidityOfAllDocumentsInDefaultWiki() throws Exception
     {
-        Object[] spaceObjs = xwikiRpc.getSpaces(token);
+        Object[] spaceObjs = getXWikiRpc().getSpaces(getToken());
         int k = 0;
         for (int i = 0; i < spaceObjs.length; i++) {
             Map spaceSummary = (Map) spaceObjs[i];
@@ -79,12 +48,12 @@ public class XhtmlValidityTest extends XMLTestCase
             assertNotNull(key);
             System.out.println("Checking space " + (i + 1) + " out of " + spaceObjs.length + ": "
                 + key);
-            Object[] pages = xwikiRpc.getPages(token, key);
+            Object[] pages = getXWikiRpc().getPages(getToken(), key);
             for (int j = 0; j < pages.length; j++) {
                 Map pageSummary = (Map) pages[j];
                 String id = (String) pageSummary.get("id");
                 assertNotNull(id);
-                Map page = xwikiRpc.getPage(token, id);
+                Map page = getXWikiRpc().getPage(getToken(), id);
                 String content = (String) page.get("content");
                 assertNotNull(content);
                 String title = (String) page.get("title");
@@ -93,7 +62,7 @@ public class XhtmlValidityTest extends XMLTestCase
                 assertNotNull(url);
                 System.out.println(" Validating document " + (j + 1) + " out of " + pages.length
                     + ": " + id);
-                String renderedContent = xwikiRpc.renderContent(token, key, id, content);
+                String renderedContent = getXWikiRpc().renderContent(getToken(), key, id, content);
                 if (renderedContent.indexOf("<rdf:RDF") != -1) {
                     // Ignored for the moment, until we can validate using
                     // XMLSchema
@@ -101,10 +70,10 @@ public class XhtmlValidityTest extends XMLTestCase
                     try {
                         assertXMLValid(completeXhtml(title, renderedContent));
                     } catch (AssertionFailedError afe) {
-                        System.out.println("Page: " + title);
-                        System.out.println("URL:" + url);
-                        System.out.println("Error " + (++k) + ": " + afe.getMessage());
-                        System.out.println("");
+                        System.err.println("Page: " + title);
+                        System.err.println("URL:" + url);
+                        System.err.println("Error " + (++k) + ": " + afe.getMessage());
+                        System.err.println("");
                         throw afe;
                     }
                 }

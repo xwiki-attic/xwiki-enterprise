@@ -16,7 +16,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it;
+package com.xpn.xwiki.it.xmlrpc;
 
 import java.net.URL;
 import java.util.Map;
@@ -66,7 +66,7 @@ public class XhtmlValidityTest extends XMLTestCase
     }
 
     /*
-     * @todo We should have a test for each document, so that individual documents fail individual tests,
+     * TODO We should have a test for each document, so that individual documents fail individual tests,
      * instead of just one test.
      */
     public void testValidityOfAllDocumentsInDefaultWiki() throws Exception
@@ -77,6 +77,8 @@ public class XhtmlValidityTest extends XMLTestCase
             Map spaceSummary = (Map) spaceObjs[i];
             String key = (String) spaceSummary.get("key");
             assertNotNull(key);
+            System.out.println("Checking space " + (i + 1) + " out of " + spaceObjs.length + ": "
+                + key);
             Object[] pages = xwikiRpc.getPages(token, key);
             for (int j = 0; j < pages.length; j++) {
                 Map pageSummary = (Map) pages[j];
@@ -89,8 +91,8 @@ public class XhtmlValidityTest extends XMLTestCase
                 assertNotNull(title);
                 String url = (String) page.get("url");
                 assertNotNull(url);
-                System.out.println("Test [" + i + ", " + j + "] of [" + (spaceObjs.length - 1)
-                    + ", " + (pages.length - 1) + "] : " + id);
+                System.out.println(" Validating document " + (j + 1) + " out of " + pages.length
+                    + ": " + id);
                 String renderedContent = xwikiRpc.renderContent(token, key, id, content);
                 if (renderedContent.indexOf("<rdf:RDF") != -1) {
                     // Ignored for the moment, until we can validate using

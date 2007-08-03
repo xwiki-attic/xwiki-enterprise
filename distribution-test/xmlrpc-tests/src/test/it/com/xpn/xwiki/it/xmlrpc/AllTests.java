@@ -17,15 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it;
+package com.xpn.xwiki.it.xmlrpc;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-import java.lang.reflect.Method;
-
-import com.xpn.xwiki.it.framework.XWikiTestSetup;
+import com.xpn.xwiki.it.xmlrpc.framework.XWikiTestSetup;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than

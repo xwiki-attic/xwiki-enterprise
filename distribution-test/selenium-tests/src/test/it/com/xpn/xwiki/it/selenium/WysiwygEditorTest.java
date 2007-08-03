@@ -17,11 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it;
+package com.xpn.xwiki.it.selenium;
 
-import com.xpn.xwiki.it.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.framework.XWikiTestSuite;
-import com.xpn.xwiki.it.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
+import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
+
 import junit.framework.Test;
 
 /**

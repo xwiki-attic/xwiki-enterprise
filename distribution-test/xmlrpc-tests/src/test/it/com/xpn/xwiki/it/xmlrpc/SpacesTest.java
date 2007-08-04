@@ -6,15 +6,16 @@ import java.util.Map;
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
 import com.xpn.xwiki.xmlrpc.Page;
 import com.xpn.xwiki.xmlrpc.PageSummary;
+import com.xpn.xwiki.xmlrpc.SpaceSummary;
 
 public class SpacesTest extends AbstractXmlRpcTestCase
 {
     public void testAddNewSpace() throws Exception
     {
         Map spaceProperties = new HashMap();
+        spaceProperties.put("key", "TestSpace");
         // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
         spaceProperties.put("name", "Test Space");
-        spaceProperties.put("key", "TestSpace");
         // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
         spaceProperties.put("description", "A test space");
         getXWikiRpc().addSpace(getToken(), spaceProperties);
@@ -63,9 +64,33 @@ public class SpacesTest extends AbstractXmlRpcTestCase
                 found = true;
                 assertEquals(spaceKey, summary.getSpace());
             }
-            
-            System.out.println(summary.getTitle());
         }
-        assertTrue("Adding page failed. There should be a page entitled \""+ title + "\" in this space", found); 
+        assertTrue("Adding page failed. There should be a page entitled \""+ title + "\" in this space", found);
     }
+    
+    public void testRemoveSpace() throws Exception {
+    	String spaceKey = "ContainerSpace";
+    	
+        Map spaceProperties = new HashMap();
+        spaceProperties.put("key", spaceKey);
+        // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
+        spaceProperties.put("name", "Stupid");
+        // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
+        spaceProperties.put("description", "Stupid");
+        getXWikiRpc().addSpace(getToken(), spaceProperties);
+        
+        assertNotNull(getXWikiRpc().getSpace(getToken(), spaceKey)); 
+        
+        getXWikiRpc().removeSpace(getToken(), spaceKey);
+        
+        Object[] spaceObjs = getXWikiRpc().getSpaces(getToken());
+        boolean found = false;
+        for (int i = 0; i < spaceObjs.length && !found; i++) {
+        	SpaceSummary summary = new SpaceSummary((Map)spaceObjs[i]);
+            if (summary.getKey().equals(spaceKey)) {
+                found = true;
+            }            
+        }
+        assertFalse("Remove space failed (" + spaceKey + " still present)", found);         
+	}
 }

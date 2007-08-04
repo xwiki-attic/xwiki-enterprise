@@ -21,6 +21,8 @@ package com.xpn.xwiki.it.xmlrpc;
 import java.util.Map;
 
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
+import com.xpn.xwiki.xmlrpc.PageSummary;
+import com.xpn.xwiki.xmlrpc.SpaceSummary;
 
 import junit.framework.AssertionFailedError;
 
@@ -43,15 +45,15 @@ public class XhtmlValidityTest extends AbstractXmlRpcTestCase
         Object[] spaceObjs = getXWikiRpc().getSpaces(getToken());
         int k = 0;
         for (int i = 0; i < spaceObjs.length; i++) {
-            Map spaceSummary = (Map) spaceObjs[i];
-            String key = (String) spaceSummary.get("key");
+        	SpaceSummary spaceSummary = new SpaceSummary((Map)spaceObjs[i]);
+            String key = spaceSummary.getKey();
             assertNotNull(key);
             System.out.println("Checking space " + (i + 1) + " out of " + spaceObjs.length + ": "
                 + key);
             Object[] pages = getXWikiRpc().getPages(getToken(), key);
             for (int j = 0; j < pages.length; j++) {
-                Map pageSummary = (Map) pages[j];
-                String id = (String) pageSummary.get("id");
+                PageSummary pageSummary = new PageSummary((Map)pages[j]);
+                String id = pageSummary.getId();
                 assertNotNull(id);
                 Map page = getXWikiRpc().getPage(getToken(), id);
                 String content = (String) page.get("content");

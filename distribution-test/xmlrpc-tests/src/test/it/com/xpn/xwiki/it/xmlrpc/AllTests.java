@@ -45,7 +45,8 @@ public class AllTests extends TestCase
         // think the tests are all running fine. I haven't found a simple solution to this yet
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
-        
+
+        addTestCase(suite, AnonymousAccessTest.class);
         addTestCase(suite, SpacesTest.class);
         addTestCase(suite, PagesTest.class);
         addTestCase(suite, XhtmlValidityTest.class);

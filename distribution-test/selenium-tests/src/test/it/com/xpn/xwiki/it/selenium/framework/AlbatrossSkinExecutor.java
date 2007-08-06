@@ -21,12 +21,14 @@ package com.xpn.xwiki.it.selenium.framework;
 
 /**
  * Implementation of skin-related actions for the Albatross skin.
- *
+ * 
  * @version $Id: $
  */
 public class AlbatrossSkinExecutor implements SkinExecutor
 {
     private static final String WYSIWYG_LOCATOR_FOR_KEY_EVENTS = "mceSpanFonts";
+
+    private static final String WIKI_LOCATOR_FOR_KEY_EVENTS = "content";
 
     private AbstractXWikiTestCase test;
 
@@ -67,8 +69,8 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public boolean isAuthenticated()
     {
-        return !(getTest().isElementPresent("headerlogin")
-            && getTest().isElementPresent("headerregister"));
+        return !(getTest().isElementPresent("headerlogin") && getTest().isElementPresent(
+            "headerregister"));
     }
 
     public void logout()
@@ -154,6 +156,11 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, text);
     }
 
+    public void typeInWiki(String text)
+    {
+        getTest().getSelenium().type(WIKI_LOCATOR_FOR_KEY_EVENTS, text);
+    }
+
     public void typeEnterInWysiwyg()
     {
         getTest().getSelenium().keyPress(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, "\\13");
@@ -185,6 +192,41 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().clickLinkWithLocator("//img[@title='Outdent']", false);
     }
 
+    public void clickWikiBoldButton()
+    {
+        getTest().clickLinkWithXPath("//img[@title='Bold']", false);
+    }
+
+    public void clickWikiItalicsButton()
+    {
+        getTest().clickLinkWithXPath("//img[@title='Italics']", false);
+    }
+
+    public void clickWikiUnderlineButton()
+    {
+        getTest().clickLinkWithXPath("//img[@title='Underline']", false);
+    }
+
+    public void clickWikiLinkButton()
+    {
+        getTest().clickLinkWithXPath("//img[@title='Internal Link']", false);
+    }
+
+    public void clickWikiHRButton()
+    {
+        getTest().clickLinkWithXPath("//img[@title='Horizontal ruler']", false);
+    }
+
+    public void clickWikiImageButton()
+    {
+        getTest().clickLinkWithXPath("//img[@title='Attached Image']", false);
+    }
+
+    public void clickWikiSignatureButton()
+    {
+        getTest().clickLinkWithXPath("//img[@title='sig']", false);
+    }
+
     public void assertWikiTextGeneratedByWysiwyg(String text)
     {
         getTest().clickLinkWithText("Wiki");
@@ -194,13 +236,14 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     public void assertHTMLGeneratedByWysiwyg(String xpath) throws Exception
     {
         getTest().getSelenium().selectFrame("mce_editor_0");
-        getTest().assertTrue(getTest().getSelenium().isElementPresent("xpath=/html/body/" + xpath));
+        getTest().assertTrue(
+            getTest().getSelenium().isElementPresent("xpath=/html/body/" + xpath));
         getTest().getSelenium().selectFrame("relative=top");
     }
 
     public void assertGeneratedHTML(String xpath) throws Exception
     {
-        getTest().assertTrue(getTest().getSelenium().isElementPresent(
-            "xpath=//div[@id='xwikicontent']/" + xpath));
+        getTest().assertTrue(
+            getTest().getSelenium().isElementPresent("xpath=//div[@id='xwikicontent']/" + xpath));
     }
 }

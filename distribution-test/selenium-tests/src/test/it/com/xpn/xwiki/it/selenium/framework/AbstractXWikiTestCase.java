@@ -21,13 +21,14 @@ package com.xpn.xwiki.it.selenium.framework;
 
 import junit.framework.TestCase;
 
+import org.openqa.selenium.server.SeleniumServer;
+
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.Selenium;
-import org.openqa.selenium.server.SeleniumServer;
 
 /**
  * All XWiki Selenium tests must extend this class.
- *
+ * 
  * @version $Id: $
  */
 public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
@@ -35,6 +36,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     private SkinExecutor skinExecutor;
 
     private static final String PORT = System.getProperty("xwikiPort", "8080");
+
     private static final String BASE_URL = "http://localhost:" + PORT;
 
     private Selenium selenium;
@@ -48,7 +50,9 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     {
         if (this.skinExecutor == null) {
             throw new RuntimeException("Skin executor hasn't been initialized. Make sure to wrap "
-                + "your test in a " + XWikiTestSuite.class.getName() + " class and call "
+                + "your test in a "
+                + XWikiTestSuite.class.getName()
+                + " class and call "
                 + " addTestSuite(Class testClass, SkinExecutor skinExecutor).");
         }
         return this.skinExecutor;
@@ -275,6 +279,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         getSkinExecutor().typeInWysiwyg(text);
     }
 
+    public void typeInWiki(String text)
+    {
+        getSkinExecutor().typeInWiki(text);
+    }
+
     public void typeEnterInWysiwyg()
     {
         getSkinExecutor().typeEnterInWysiwyg();
@@ -303,6 +312,41 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     public void clickWysiwygOutdentButton()
     {
         getSkinExecutor().clickWysiwygOutdentButton();
+    }
+
+    public void clickWikiBoldButton()
+    {
+        getSkinExecutor().clickWikiBoldButton();
+    }
+
+    public void clickWikiItalicsButton()
+    {
+        getSkinExecutor().clickWikiItalicsButton();
+    }
+
+    public void clickWikiUnderlineButton()
+    {
+        getSkinExecutor().clickWikiUnderlineButton();
+    }
+
+    public void clickWikiLinkButton()
+    {
+        getSkinExecutor().clickWikiLinkButton();
+    }
+
+    public void clickWikiHRButton()
+    {
+        getSkinExecutor().clickWikiHRButton();
+    }
+
+    public void clickWikiImageButton()
+    {
+        getSkinExecutor().clickWikiImageButton();
+    }
+
+    public void clickWikiSignatureButton()
+    {
+        getSkinExecutor().clickWikiSignatureButton();
     }
 
     public void assertWikiTextGeneratedByWysiwyg(String text)

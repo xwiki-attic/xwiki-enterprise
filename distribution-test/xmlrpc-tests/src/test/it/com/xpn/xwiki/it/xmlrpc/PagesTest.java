@@ -78,7 +78,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         pageProperties.put("space", spaceKey);
         pageProperties.put("title", title);
         pageProperties.put("content", newContent);
-        pageProperties.put("version", newVersion);
+        pageProperties.put("version", new Integer(newVersion));
         Page modifiedPage = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
         
         // check that the page was modified

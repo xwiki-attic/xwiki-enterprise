@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
-import com.xpn.xwiki.xmlrpc.Page;
-import com.xpn.xwiki.xmlrpc.PageSummary;
 import com.xpn.xwiki.xmlrpc.SpaceSummary;
 
 public class SpacesTest extends AbstractXmlRpcTestCase

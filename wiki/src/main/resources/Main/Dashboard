@@ -66,7 +66,11 @@
   &lt;div id="webhomeNewsdisplay" style="float:left; width: 50%;"&gt;
     &lt;div style="padding-left: 20px;"&gt;
       &lt;h2 class="heading-1-1-1"&gt;Recent changes &lt;a href="$xwiki.getURL("Main.WebRss", "view", "xpage=rdf")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" alt="rss icon"/&gt;&lt;/a&gt;&lt;/h2&gt;
-      #set ($sql = "where 1=1 order by doc.date desc")
+      #if($request.getParameter("showminor"))
+        #set ($sql = "where 1=1 order by doc.date desc")
+      #else
+        #set ($sql = ", XWikiRCSNodeInfo as ni where doc.id=ni.id.docId and ni.id.version2=1 group by doc.web, doc.name order by max(ni.date) desc")
+      #end
       #set($showdata = 1)
       #if(!$nb)
         #set($nb = 30)
@@ -122,6 +126,11 @@
           #end
         #end
       &lt;/ul&gt;
+      #if($request.getParameter("showminor"))
+        &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "")"&gt;hide minor edits&lt;/a&gt;
+      #else
+        &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "showminor")"&gt;show minor edits&lt;/a&gt;
+      #end
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div style="clear:both; margin-bottom: 40px;"&gt;&lt;!-- --&gt;&lt;/div&gt;

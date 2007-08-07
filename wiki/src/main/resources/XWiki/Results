@@ -122,7 +122,7 @@
         &lt;/td&gt;
         #if($xwiki.hasAdminRights())
           &lt;td&gt;
-            &lt;a href="$xwiki.getURL("Admin.CopyDocument", "view", "sourcedoc=${bentrydoc.fullName}")"&gt;Copy&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;Delete&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1")"&gt;Rename&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;Rights&lt;/a&gt;
+            &lt;a href="$xwiki.getURL("XWiki.CopyDocument", "view", "sourcedoc=${bentrydoc.fullName}")"&gt;Copy&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;Delete&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1")"&gt;Rename&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;Rights&lt;/a&gt;
           &lt;/td&gt;
         #end
       &lt;/tr&gt;

@@ -3,6 +3,8 @@ package com.xpn.xwiki.it.xmlrpc;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.suigeneris.jrcs.rcs.Version;
+
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
 import com.xpn.xwiki.xmlrpc.Page;
 import com.xpn.xwiki.xmlrpc.PageHistorySummary;
@@ -72,7 +74,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         
         // modify the page
         String newContent = "Some Other Content";
-        int newVersion = resultPage.getVersion() + 1;
+        int newVersion = Page.constructVersion(new Version(2,1));
         pageProperties = new HashMap();
         pageProperties.put("id", id);
         pageProperties.put("space", spaceKey);
@@ -101,7 +103,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(2, historyObjs.length);
     	PageHistorySummary phs0 = new PageHistorySummary((Map)historyObjs[0]);
     	assertEquals(id, phs0.getId());
-    	assertEquals(newVersion-1, phs0.getVersion());
+    	assertEquals(page.getVersion(), phs0.getVersion());
     	assertNotNull(phs0.getModified());
     	assertEquals("XWiki.Admin", phs0.getModifier());
     	PageHistorySummary phs1 = new PageHistorySummary((Map)historyObjs[1]);

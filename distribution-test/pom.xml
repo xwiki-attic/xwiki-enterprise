@@ -9,16 +9,8 @@
   <name>XWiki Products - Enterprise - Functional Tests</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional Tests</description>
-  <profiles>
-    <profile>
-      <id>default</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>xmlrpc-tests</module>
-        <module>selenium-tests</module>
-      </modules>
-    </profile>
-  </profiles>
+  <modules>
+    <module>xmlrpc-tests</module>
+    <module>selenium-tests</module>
+  </modules>
 </project>

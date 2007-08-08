@@ -10,14 +10,11 @@
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional XMLRPC Tests</description>
   <dependencies>
-<!-- ConfluenceRpcInterface needed -->
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
       <version>1.1-SNAPSHOT</version>
-<!--        We don't want all the Core libs to be put in WEB-INF/lib as this GWT WAR will be
-           overlayed with the Standard WAR which already contains all the required libs --> 
-      <scope>provided</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>  
       <groupId>junit</groupId>
@@ -35,12 +32,13 @@
       <groupId>xmlrpc</groupId>
       <artifactId>xmlrpc-client</artifactId>
       <version>3.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
     <testSourceDirectory>src/test/it</testSourceDirectory>
     <plugins>
-      <!-- Step 1: Compile the JUnit Selenium Tests -->
+      <!-- Step 1: Compile the JUnit tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

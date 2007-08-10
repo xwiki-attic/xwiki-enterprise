@@ -3,8 +3,6 @@ package com.xpn.xwiki.it.xmlrpc;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.suigeneris.jrcs.rcs.Version;
-
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
 import com.xpn.xwiki.xmlrpc.Page;
 import com.xpn.xwiki.xmlrpc.PageHistorySummary;
@@ -21,10 +19,6 @@ public class PagesTest extends AbstractXmlRpcTestCase
         spaceKey = "ContainerSpace";
 		Map spaceProperties = new HashMap();
         spaceProperties.put("key", spaceKey);
-        // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
-        spaceProperties.put("name", "Stupid");
-        // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
-        spaceProperties.put("description", "Stupid");        
         getXWikiRpc().addSpace(getToken(), spaceProperties);
 	}
 	
@@ -46,7 +40,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         pageProperties.put("content", content);
         // no id in pageProperties means storePage will add
         Page resultPage = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
-        String id = resultPage.getId();
+        String id = resultPage.getId(); // XWiki specific!
         
         assertEquals(title, resultPage.getTitle());
         assertEquals(spaceKey, resultPage.getSpace());
@@ -74,7 +68,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         
         // modify the page
         String newContent = "Some Other Content";
-        int newVersion = Page.constructVersion(new Version(2,1));
+        int newVersion = resultPage.getVersion() + 1;
         pageProperties = new HashMap();
         pageProperties.put("id", id);
         pageProperties.put("space", spaceKey);
@@ -103,14 +97,14 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(2, historyObjs.length);
     	PageHistorySummary phs0 = new PageHistorySummary((Map)historyObjs[0]);
     	assertEquals(id, phs0.getId());
-    	assertEquals(page.getVersion(), phs0.getVersion());
+    	assertEquals(newVersion-1, phs0.getVersion());
     	assertNotNull(phs0.getModified());
-    	assertEquals("XWiki.Admin", phs0.getModifier());
+    	assertEquals("XWiki.Admin", phs0.getModifier()); // XWiki and setup specific
     	PageHistorySummary phs1 = new PageHistorySummary((Map)historyObjs[1]);
     	assertEquals(id, phs1.getId());
     	assertEquals(newVersion, phs1.getVersion());
     	assertNotNull(phs1.getModified());
-    	assertEquals("XWiki.Admin", phs1.getModifier());
+    	assertEquals("XWiki.Admin", phs1.getModifier()); // XWiki and setup specific
     	
     	// search for the page
     	Object[] searchResults = getXWikiRpc().search(getToken(), title, 1);

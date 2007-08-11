@@ -80,6 +80,7 @@ Web: &lt;input type="text" name="webname" value="${defaultweb}" size="8"/&gt;
 Document: &lt;input type="text" name="name" value="Name of your document"/&gt;
 &lt;br/&gt;
 &lt;br/&gt;
+## TODO: remove this onclick
 &lt;input type="button" value="Create this document" onclick='if (updateName(this.form.name)) {this.form.action="../../inline/" + this.form.webname.value + "/" + this.form.name.value; this.form.submit(); }'/&gt;
 &lt;/div&gt;
 &lt;/form&gt;

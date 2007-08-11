@@ -58,7 +58,7 @@
 #else
 #set($docname="${request.webname}.${request.name}Class")
 #end
-$response.sendRedirect($xwiki.getURL($context.util.noaccents($docname), "edit", "editor=wiki&template=$!{request.template}&sheet=$!{request.sheet}&parent=$!{request.parent}"))
+$response.sendRedirect($xwiki.getURL($context.util.noaccents($docname), "edit", "editor=wiki&amp;template=$!{request.template}&amp;sheet=$!{request.sheet}&amp;parent=$!{request.parent}"))
 #end
 1 Welcome to the Class Editor
 

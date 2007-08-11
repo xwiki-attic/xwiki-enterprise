@@ -27,13 +27,16 @@
 
 ## Change class name to your class name 
 #set($class = $doc.getObject("XWiki.MyClass").xWikiClass)
-
-#if($class.properties.size &gt; 0)
-&lt;dl&gt;
+#set($hasProps = false)
 #foreach($prop in $class.properties)
+#if($velocityCount == 1)
+#set($hasProps = true)
+&lt;dl&gt;
+#end
 &lt;dt&gt; ${prop.prettyName} &lt;/dt&gt;
 &lt;dd&gt;$doc.display($prop.getName())&lt;/dd&gt;
 #end
+#if($hasProps)
 &lt;/dl&gt;
 #end
 </content></xwikidoc>

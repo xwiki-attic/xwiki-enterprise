@@ -90,7 +90,7 @@ Choose a simple name like 'Film', 'Book', 'Article'. XWiki will append 'Class' a
 &lt;input type="hidden" name="template" value="XWiki.ClassTemplate"/&gt;
 &lt;input type="hidden" name="sheet" value="1"/&gt;
 Web: &lt;input type="text" name="webname" value="XWiki"/&gt;
-Class: &lt;input type="text" name="name" value="Name of the Class"
+Class: &lt;input type="text" name="name" value="Name of the class"
 onchange="updateName(this)"
 onfocus='if(this.value=="Name of the class") this.value=""; else this.select();'
 onblur='if(this.value=="") this.value="Name of the class";'/&gt;

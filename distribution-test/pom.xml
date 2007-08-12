@@ -9,6 +9,159 @@
   <name>XWiki Products - Enterprise - Functional Tests</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional Tests</description>
+  <dependencies>
+    <dependency>  
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <testSourceDirectory>src/test/it</testSourceDirectory>
+    <pluginManagement>
+      <plugins>
+        <!--  Force compilation of tests as the packaging being pom tests won't be compiled
+              with the default pom lifecycle -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <executions>
+            <execution>
+              <goals>
+                <goal>testCompile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Unpack the XWiki application -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>dependency-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>unzip-application</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>unpack</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>com.xpn.xwiki.products</groupId>
+                    <artifactId>xwiki-enterprise</artifactId>
+                    <version>${version}</version>
+                    <type>zip</type>
+                    <classifier>${xwiki.db}</classifier>
+                  </artifactItem>
+                </artifactItems>
+                <outputDirectory>${project.build.directory}</outputDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Start XWiki, Execute the tests and Stop XWiki.
+             Note: To execute a single test case run mvn install -Dpattern=<test name>
+             For example: mvn install -Dpattern=DeletePageTest
+             For example: mvn install -Dpattern=.*Wysiwyg.*
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <executions>
+            <execution>
+              <phase>integration-test</phase>
+              <goals>
+                <goal>test</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <includes>
+              <include>**/AllTests.java</include>
+            </includes>
+            <systemProperties>
+              <property>
+                <name>pattern</name>
+                <value>${pattern}</value>
+              </property>
+              <property>
+                <name>xwikiPort</name>
+                <value>${port}</value>
+              </property>
+              <property>
+                <name>xwikiExecutionDirectory</name>
+                <value>${basedir}/target/xwiki-enterprise-${version}</value>
+              </property>
+              <property>
+                <name>xwikiExecutionStartCommand</name>
+                <value>${xwikiExecutionStartCommand}</value>
+              </property>
+              <property>
+                <name>xwikiExecutionStopCommand</name>
+                <value>${xwikiExecutionStopCommand}</value>
+              </property>
+              <property>
+                <name>debug</name>
+                <value>${debug}</value>
+              </property>
+              <!-- TODO: Find way to have maven merge properties and move this to the selenium-tests module -->
+              <property>
+                <name>browser</name>
+                <value>${browser}</value>
+              </property>
+            </systemProperties>
+          </configuration>
+        </plugin>
+      </plugins>  
+    </pluginManagement>
+  </build>
+  <properties>
+    <!-- This is to allow users to override this property on the command line to choose what
+         test to run. For example to run only the DeletePageTest you would type:
+             mvn install -DPattern=DeletePageTest
+    -->    
+    <pattern>.*</pattern>
+    <port>8080</port>
+  </properties>
+  <profiles>
+    <profile>
+      <id>unix</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>        
+      </activation>
+      <properties>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh</xwikiExecutionStopCommand>
+      </properties>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>        
+      </activation>
+      <properties>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh</xwikiExecutionStopCommand>
+      </properties>
+    </profile>
+    <profile>
+      <id>windows</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>        
+      </activation>
+      <properties>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat</xwikiExecutionStopCommand>
+      </properties>
+    </profile>
+  </profiles>
   <modules>
     <module>xmlrpc-tests</module>
     <module>selenium-tests</module>

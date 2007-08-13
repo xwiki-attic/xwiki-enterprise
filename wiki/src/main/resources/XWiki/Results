@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
 <xwikidoc>
 <web>XWiki</web>
 <name>Results</name>
@@ -12,9 +11,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1158300067000</creationDate>
-<date>1186942158000</date>
-<contentUpdateDate>1186942158000</contentUpdateDate>
-<version>1.5</version>
+<date>1186993868000</date>
+<contentUpdateDate>1186993868000</contentUpdateDate>
+<version>1.6</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -93,6 +92,13 @@
         #set($createur = $xwiki.getUserName($bentrydoc.author))
         #set($ptitle = $bentrydoc.getDisplayTitle())
         &lt;tr&gt;&lt;td style="text-align:left"&gt;          
+          ## LUCENE : entries are typed
+          #if ($bentrydoc.type)
+            #if ($bentrydoc.type == "attachment")
+            &lt;a href="${bentrydoc.url}" target="_blank"&gt;&lt;img src="${xwiki.getSkinFile("disk.png")}" ALT="download" /&gt; ${bentrydoc.filename}&lt;/a&gt;\\
+	    Attachment of 
+            #end
+          #end
           #if($comments.size()&gt;0)  
             #set($i = 0)  
             #set($cobj = $comments.get($i))  
@@ -111,10 +117,6 @@
             #else
               [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
             #end
-          ## LUCENE : entries are typed
-          #elseif ($bentrydoc.type == "attachment")
-              &lt;a href="${bentrydoc.url}" target="_blank"&gt;&lt;img src="${xwiki.getSkinFile("disk.png")}" ALT="download"&gt; ${bentrydoc.filename}&lt;/a&gt;\\
-	      Attachment of [${bentrydoc.web}.${bentrydoc.name}]
           #else  
             #set($comment = "")  
             [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name.replaceAll("@","%40")] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
@@ -136,7 +138,7 @@
         &lt;td style="text-align:left"&gt;
           #set($resval=$bentrydoc.score*100)
           #set($starurl=$xwiki.getSkinFile("star.png"))
-          #set($star = "&lt;img src='$starurl' alt='$resval'&gt;")
+          #set($star = "&lt;img src='$starurl' alt='$resval' /&gt;")
           &lt;span class="hidden"&gt;$bentrydoc.score&lt;/span&gt;
           #if($resval&gt;10) $star #end
           #if($resval&gt;20) $star #end
@@ -144,8 +146,9 @@
           #if($resval&gt;60) $star #end
           #if($resval&gt;90) $star #end
           #set ($perc = $resval.toString())          
-          ${perc.substring(0, $perc.indexOf("."))}%
+          ${perc.substring(0, $perc.indexOf("."))}%        
         &lt;/td&gt;
+          #set ($bentrydoc = $xwiki.getDocument("${bentrydoc.web}.${bentrydoc.name}"))
         #end
         #if($xwiki.hasAdminRights())
           &lt;td&gt;
@@ -156,4 +159,15 @@
     #end
   #end
 &lt;/table&gt;
-</content></xwikidoc>
+</content><renderedcontent>&lt;p class="paragraph"/&gt;
+&lt;table id="searchTableUnique" class="grid sortable filterable doOddEven"&gt;
+  &lt;tr class="sortHeader"&gt;
+    &lt;th&gt;Page&lt;/th&gt;
+    &lt;th style="width:150px" class="selectFilter"&gt;Space&lt;/th&gt;
+    &lt;th style="width:150px"&gt;Date&lt;/th&gt;
+    &lt;th style="width:150px"&gt;Last Author&lt;/th&gt;
+              &lt;th style="width:210px" class="unsortable noFilter"&gt;Actions&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/table&gt;
+</content>
+</xwikidoc>

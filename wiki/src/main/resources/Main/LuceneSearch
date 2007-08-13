@@ -153,10 +153,11 @@
 	#end
 #end
 
+#set($lucene = $xwiki.getPlugin("lucene"))
+#if($lucene)
 #set($doRebuild = $request.getParameter("rebuild"))
-#if($doRebuild=="yes")
-	#set($lucene = $xwiki.getPlugin("lucene"))
-	#if($lucene)
+#if($doRebuild)
+  #if($doRebuild=="yes")
 		#set($documentCount = $lucene.rebuildIndex($xwiki,$context))
 		#if(${documentCount}&gt;=0)
 			#info("Started index rebuild with $documentCount documents.\\
@@ -164,13 +165,14 @@
 		#else
 			#error("Error: Index rebuild failed.")
 		#end
-	#end
+  #end
 #else
 	#if($xwiki.hasAdminRights())
 		#info ("[Rebuild the lucene index&gt;${doc.web}.${doc.name}?rebuild=yes]")
 	#end
 #end
+#end
 
-#warning("This is the new lucene search engine.\\
+#info("This is the new lucene search engine.\\
           You can still use the XWiki [default search engine&gt;WebSearch?text=$query]..")</content>
 </xwikidoc>

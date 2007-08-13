@@ -67,7 +67,7 @@
     var root = tree.getRoot();
     var nodeObject;
     #set ($hiddenSpaces = ["XWiki", "Admin", "Panels"])
-    #set ($hiddenPages = ["Main.WebRss", "Main.WebSearch", "Main.BlogRss", "Blog.Macros", "Main.TagsRss", "Main.RegisterNewUserAction", "Main.SpaceIndex", "Blog.Category"])
+    #set ($hiddenPages = ["Main.WebRss", "Main.WebSearch", "Main.LuceneSearch", "Main.BlogRss", "Blog.Macros", "Main.TagsRss", "Main.RegisterNewUserAction", "Main.SpaceIndex", "Blog.Category"])
     #set ($blackListedPages = ["WebPreferences"])
     #macro(addNodeChildren $space $parent $nodeName)
       #set($ppp = $parent.replaceAll("'", "''"))

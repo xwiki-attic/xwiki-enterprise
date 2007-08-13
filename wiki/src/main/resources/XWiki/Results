@@ -159,15 +159,5 @@
     #end
   #end
 &lt;/table&gt;
-</content><renderedcontent>&lt;p class="paragraph"/&gt;
-&lt;table id="searchTableUnique" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Page&lt;/th&gt;
-    &lt;th style="width:150px" class="selectFilter"&gt;Space&lt;/th&gt;
-    &lt;th style="width:150px"&gt;Date&lt;/th&gt;
-    &lt;th style="width:150px"&gt;Last Author&lt;/th&gt;
-              &lt;th style="width:210px" class="unsortable noFilter"&gt;Actions&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/table&gt;
 </content>
 </xwikidoc>

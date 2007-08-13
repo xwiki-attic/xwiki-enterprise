@@ -95,7 +95,7 @@
           ## LUCENE : entries are typed
           #if ($bentrydoc.type)
             #if ($bentrydoc.type == "attachment")
-            &lt;a href="${bentrydoc.url}" target="_blank"&gt;&lt;img src="${xwiki.getSkinFile("disk.png")}" ALT="download" /&gt; ${bentrydoc.filename}&lt;/a&gt;\\
+            &lt;a href="${bentrydoc.url}" target="_blank"&gt;&lt;img src="${xwiki.getSkinFile("icons/search/disk.png")}" ALT="download" /&gt; ${bentrydoc.filename}&lt;/a&gt;\\
 	    Attachment of 
             #end
           #end
@@ -137,7 +137,7 @@
         #if ($isScored)
         &lt;td style="text-align:left"&gt;
           #set($resval=$bentrydoc.score*100)
-          #set($starurl=$xwiki.getSkinFile("star.png"))
+          #set($starurl=$xwiki.getSkinFile("icons/search/star.png"))
           #set($star = "&lt;img src='$starurl' alt='$resval' /&gt;")
           &lt;span class="hidden"&gt;$bentrydoc.score&lt;/span&gt;
           #if($resval&gt;10) $star #end

@@ -89,8 +89,10 @@
 
 {pre}
 &lt;form action="$doc.name" method="post"&gt;
+&lt;div&gt;
 &lt;input type="text" name="text" value="$query" /&gt;
 &lt;input type="submit" value="Search"/&gt;
+&lt;/div&gt;
 &lt;/form&gt;
 {/pre}
 

@@ -110,4 +110,6 @@
 
 #includeInContext("XWiki.WebSearchCode")
 #includeInContext("XWiki.Results")
+
+#info("You can also try the new experimental [Lucene Search&gt;Main.LuceneSearch?text=$text]. It adds scoring, searching into attachments and search paging. Please let us know what you think about it.")
 </content></xwikidoc>

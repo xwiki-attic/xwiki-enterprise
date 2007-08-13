@@ -149,7 +149,7 @@
                         #includeInContext("XWiki.Results")
                 #end
 	#else
-		Error: Lucene plugin not found.
+		#error("Lucene plugin not found. Make sure it's defined in your xwiki.cfg file.")
 	#end
 #end
 
@@ -163,16 +163,16 @@
 			#info("Started index rebuild with $documentCount documents.\\
                                Will take some time depending on the number of pages/attachments.")
 		#else
-			#error("Error: Index rebuild failed.")
+			#error("Index rebuild failed.")
 		#end
   #end
 #else
 	#if($xwiki.hasAdminRights())
-		#info ("[Rebuild the lucene index&gt;${doc.web}.${doc.name}?rebuild=yes]")
+		#info("[Rebuild the Lucene index&gt;${doc.web}.${doc.name}?rebuild=yes]")
 	#end
 #end
 #end
 
-#info("This is the new lucene search engine.\\
-          You can still use the XWiki [default search engine&gt;WebSearch?text=$query]..")</content>
+#info("This is the new experimental Lucene search engine.\\
+          You can still use the XWiki [default search engine&gt;WebSearch?text=$query].")</content>
 </xwikidoc>

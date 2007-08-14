@@ -33,7 +33,7 @@
         </executions>
         <configuration>
           <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.2-SNAPSHOT</resourceBundle>
+            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.2</resourceBundle>
           </resourceBundles>
         </configuration>
       </plugin>
@@ -60,7 +60,7 @@
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-packager</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.2</version>
         <configuration>
           <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
           <hibernateConfig>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</hibernateConfig>

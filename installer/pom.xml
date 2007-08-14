@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer</artifactId>
   <name>XWiki Products - Enterprise - Installer</name>
@@ -66,7 +66,7 @@
             <artifactItem>
               <groupId>com.xpn.xwiki.platform</groupId>
               <artifactId>xwiki-web-standard</artifactId>
-              <version>1.1-SNAPSHOT</version>
+              <version>1.2-SNAPSHOT</version>
               <type>war</type>
               <classifier>hsqldb</classifier>
               <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>

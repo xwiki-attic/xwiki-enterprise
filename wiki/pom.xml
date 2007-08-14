@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-wiki</artifactId>
   <name>XWiki Products - Enterprise - Wiki</name>
@@ -13,7 +13,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-panels</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.2-SNAPSHOT</version>
       <type>xar</type>
     </dependency>
   </dependencies>

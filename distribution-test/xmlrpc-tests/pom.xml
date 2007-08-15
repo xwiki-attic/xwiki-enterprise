@@ -28,6 +28,13 @@
       <version>3.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.swizzle</groupId>
+      <artifactId>swizzle-confluence</artifactId>
+      <version>1.1-20070809</version>
+      <classifier>xwiki</classifier>
+      <scope>test</scope>
+    </dependency> 
   </dependencies>
   <build>
     <plugins>
@@ -45,6 +52,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
+        <configuration> 
+          <!-- Display report on screen when all tests are completed -->  
+          <useFile>false</useFile>
+          <reportFormat>plain</reportFormat>
+        </configuration>
       </plugin>
     </plugins>
   </build>

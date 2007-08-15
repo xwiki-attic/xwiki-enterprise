@@ -110,6 +110,11 @@
                 <name>browser</name>
                 <value>${browser}</value>
               </property>
+              <!-- Used only in xml-rpc tests -->
+              <property>
+                <name>pathToXWikiXar</name>
+                <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${version}/xwiki-enterprise-wiki-${version}.xar</value>
+              </property>
             </systemProperties>
           </configuration>
         </plugin>

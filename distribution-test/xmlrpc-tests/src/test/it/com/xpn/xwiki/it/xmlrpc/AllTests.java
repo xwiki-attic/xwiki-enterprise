@@ -50,7 +50,7 @@ public class AllTests extends TestCase
         addTestCase(suite, SpacesTest.class);
         addTestCase(suite, PagesTest.class);
         addTestCase(suite, CommentsTest.class);
-        addTestCase(suite, XhtmlValidityTest.class);
+        addTest(suite, XhtmlValidityTest.suite());
 
         return new XWikiTestSetup(suite);
     }
@@ -59,6 +59,13 @@ public class AllTests extends TestCase
     {
         if (testClass.getName().matches(PATTERN)) {
             suite.addTest(new TestSuite(testClass));
+        }
+    }
+    
+    private static void addTest(TestSuite suite, Test test) throws Exception
+    {
+        if (XhtmlValidityTest.class.getName().matches(PATTERN)) {
+            suite.addTest(test);
         }
     }
 }

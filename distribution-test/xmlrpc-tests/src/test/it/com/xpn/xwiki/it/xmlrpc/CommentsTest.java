@@ -21,10 +21,6 @@ public class CommentsTest extends AbstractXmlRpcTestCase
         spaceKey = "SomeContainerSpace";
 		Map spaceProperties = new HashMap();
         spaceProperties.put("key", spaceKey);
-        // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
-        spaceProperties.put("name", "Stupid");
-        // Stupid: property needs to be set even if IGNORED (otherwise null pointer exception)
-        spaceProperties.put("description", "Stupid");        
         getXWikiRpc().addSpace(getToken(), spaceProperties);
         
         pageTitle = "SomeContainerPage";
@@ -35,6 +31,13 @@ public class CommentsTest extends AbstractXmlRpcTestCase
         // no id in pageProperties means storePage will add
         Page resultPage = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
         pageId = resultPage.getId();
+        
+        // add and remove one comment (makes test more realistic)
+        Map map = new HashMap();
+        map.put("pageId", pageId);
+        map.put("content", "Dummy Comment");
+        Comment comment = new Comment(getXWikiRpc().addComment(getToken(), map));
+        getXWikiRpc().removeComment(getToken(), comment.getId());
 	}
 	
 	public void tearDown() throws Exception {
@@ -68,21 +71,20 @@ public class CommentsTest extends AbstractXmlRpcTestCase
     	// check that the page has the comments
     	assertEquals(2, getXWikiRpc().getComments(getToken(), pageId).length);
     	Map map1 = getXWikiRpc().getComment(getToken(), c1.getId());
-    	assertEquals(c1.getParameters(), map1);
+    	assertEquals(c1.toMap(), map1);
     	Map map2 = getXWikiRpc().getComment(getToken(), c2.getId());
-    	assertEquals(c2.getParameters(), map2);
+    	assertEquals(c2.toMap(), map2);
     	
-    	// Note: doing this in the other order won't work since ids are not really ids
-    	// delete 2nd comment
-    	assertTrue(getXWikiRpc().removeComment(getToken(), c2.getId()));
+        // delete 1st comment
+        assertTrue(getXWikiRpc().removeComment(getToken(), c1.getId()));
     	// check that 1st comment is still there
     	assertEquals(1, getXWikiRpc().getComments(getToken(), pageId).length);
-    	assertNotNull(c1.getId());
-    	assertEquals(pageId, c1.getPageId());
-    	assertEquals("Comment1", c1.getContent());
-    	assertNotNull(c1.getUrl());
-    	// delete 1st comment
-    	assertTrue(getXWikiRpc().removeComment(getToken(), c1.getId()));
+    	assertNotNull(c2.getId());
+    	assertEquals(pageId, c2.getPageId());
+    	assertEquals("Comment2", c2.getContent());
+    	assertNotNull(c2.getUrl());
+        // delete 2nd comment
+        assertTrue(getXWikiRpc().removeComment(getToken(), c2.getId()));
     	assertEquals(0, getXWikiRpc().getComments(getToken(), pageId).length);
     }
 }

@@ -12,9 +12,9 @@ import com.xpn.xwiki.xmlrpc.ConfluenceRpcInterface;
 public abstract class AbstractXmlRpcTestCase extends XMLTestCase
 {
 
-    private XmlRpcClient rpcClient;
-    private ConfluenceRpcInterface xwikiRpc;
-    private String token;
+    private ConfluenceRpcInterface xwikiRpc; // dynamic proxy
+    
+    private String token; // authentication token
 
     public AbstractXmlRpcTestCase()
     {
@@ -30,14 +30,20 @@ public abstract class AbstractXmlRpcTestCase extends XMLTestCase
     {
         super.setUp();
     
-        rpcClient = new XmlRpcClient();
         XmlRpcClientConfigImpl clientConfig = new XmlRpcClientConfigImpl();
         clientConfig.setServerURL(new URL("http://127.0.0.1:8080/xwiki/xmlrpc"));
+        XmlRpcClient rpcClient = new XmlRpcClient();
         rpcClient.setConfig(clientConfig);
-    
+
+        // Note:
+        // We use a dynamic proxy (http://ws.apache.org/xmlrpc/advanced.html),
+        // which means the server needs to implement ConfluenceRpcInterface.
+        // In other words this only works with XWiki servers. If you need to
+        // connect to a generic server then you should use calls like this:
+        // token = (String)rpcClient.execute("confluence1.login", new Object[] {});
         ClientFactory factory = new ClientFactory(rpcClient);
         xwikiRpc = (ConfluenceRpcInterface) factory.newInstance(ConfluenceRpcInterface.class);
-        token = (String) xwikiRpc.login("Admin", "admin");
+        token = (String) xwikiRpc.login("Admin", "admin");        
     }
 
     public void tearDown() throws Exception
@@ -47,24 +53,20 @@ public abstract class AbstractXmlRpcTestCase extends XMLTestCase
         super.tearDown();
     }
 
+    /**
+     * @return A dynamic proxy implementing the ConfluenceRpcInterface
+     * and making XML-RPC invocations to the server
+     */
     public ConfluenceRpcInterface getXWikiRpc()
     {
         return xwikiRpc;
     }
 
-    public void setXWikiRpc(ConfluenceRpcInterface xwikiRpc)
-    {
-        this.xwikiRpc = xwikiRpc;
-    }
-
+    /**
+     * @return The authentication token (for the admin user)
+     */
     public String getToken()
     {
         return token;
     }
-
-    public void setToken(String token)
-    {
-        this.token = token;
-    }
-
 }

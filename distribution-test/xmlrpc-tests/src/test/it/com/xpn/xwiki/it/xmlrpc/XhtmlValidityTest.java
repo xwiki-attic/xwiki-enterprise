@@ -18,15 +18,24 @@
  */
 package com.xpn.xwiki.it.xmlrpc;
 
-import java.util.Map;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
-import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
-import com.xpn.xwiki.xmlrpc.PageSummary;
-import com.xpn.xwiki.xmlrpc.SpaceSummary;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
-import junit.framework.AssertionFailedError;
+import org.codehaus.swizzle.confluence.Confluence;
+import org.codehaus.swizzle.confluence.Page;
+import org.custommonkey.xmlunit.XMLTestCase;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
-
+import com.xpn.xwiki.plugin.packaging.Package;
 
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents using the Confluence XMLRPC
@@ -34,53 +43,102 @@ import junit.framework.AssertionFailedError;
  * 
  * @version $Id: $
  */
-public class XhtmlValidityTest extends AbstractXmlRpcTestCase
+public class XhtmlValidityTest extends XMLTestCase
 {
-    /*
-     * TODO We should have a test for each document, so that individual documents fail individual tests,
-     * instead of just one test.
-     */
-    public void testValidityOfAllDocumentsInDefaultWiki() throws Exception
+    private String fullPageName;
+
+    private Confluence rpc;
+
+    public XhtmlValidityTest(String fullPageName)
     {
-        Object[] spaceObjs = getXWikiRpc().getSpaces(getToken());
-        int k = 0;
-        for (int i = 0; i < spaceObjs.length; i++) {
-        	SpaceSummary spaceSummary = new SpaceSummary((Map)spaceObjs[i]);
-            String key = spaceSummary.getKey();
-            assertNotNull(key);
-            System.out.println("Checking space " + (i + 1) + " out of " + spaceObjs.length + ": "
-                + key);
-            Object[] pages = getXWikiRpc().getPages(getToken(), key);
-            for (int j = 0; j < pages.length; j++) {
-                PageSummary pageSummary = new PageSummary((Map)pages[j]);
-                String id = pageSummary.getId();
-                assertNotNull(id);
-                Map page = getXWikiRpc().getPage(getToken(), id);
-                String content = (String) page.get("content");
-                assertNotNull(content);
-                String title = (String) page.get("title");
-                assertNotNull(title);
-                String url = (String) page.get("url");
-                assertNotNull(url);
-                System.out.println(" Validating document " + (j + 1) + " out of " + pages.length
-                    + ": " + id);
-                String renderedContent = getXWikiRpc().renderContent(getToken(), key, id, content);
-                if (renderedContent.indexOf("<rdf:RDF") != -1) {
-                    // Ignored for the moment, until we can validate using
-                    // XMLSchema
-                } else {
-                    try {
-                        assertXMLValid(completeXhtml(title, renderedContent));
-                    } catch (AssertionFailedError afe) {
-                        System.err.println("Page: " + title);
-                        System.err.println("URL:" + url);
-                        System.err.println("Error " + (++k) + ": " + afe.getMessage());
-                        System.err.println("");
-                        throw afe;
-                    }
-                }
+        super("testValidityOfDocument");
+
+        this.fullPageName = fullPageName;
+    }
+
+    public static Test suite() throws Exception
+    {
+        TestSuite suite = new TestSuite();
+
+        String path = // "/Users/hritcu/.m2/repository/com/xpn/xwiki/products/xwiki-enterprise-wiki/1.1-SNAPSHOT/xwiki-enterprise-wiki-1.1-SNAPSHOT.xar";
+            System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
+
+        List pageNames = readXarContents(path);
+        Iterator it = pageNames.iterator();
+        while (it.hasNext()) {
+            suite.addTest(new XhtmlValidityTest((String) it.next()));
+        }
+        return suite;
+    }
+
+    public String getName()
+    {
+        return "Validating " + fullPageName;
+    }
+
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+
+        rpc = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
+        rpc.login("Admin", "admin");
+    }
+
+    protected void tearDown() throws Exception
+    {
+        rpc.logout();
+
+        super.tearDown();
+    }
+
+    public void testValidityOfDocument() throws Exception
+    {
+        // TODO Until we find a way to incrementally display the result of tests this stays
+        System.out.print(getName());
+        
+        
+        Page page = rpc.getPage(fullPageName);        
+        String renderedContent = rpc.renderContent(page);
+        assertNotNull(renderedContent);
+        
+        if (renderedContent.length() > 0) {        
+            if (renderedContent.indexOf("<rdf:RDF") != -1) {
+                // Ignored for the moment, until we can validate using XMLSchema
+            } else {
+                assertXMLValid(completeXhtml(fullPageName, renderedContent));
+            }
+            System.out.println();
+        } else {
+            System.out.println(" - Empty");
+        }
+    }
+
+    private static List readXarContents(String fileName) throws Exception
+    {
+        FileInputStream fileIS = new FileInputStream(fileName);
+        ZipInputStream zipIS = new ZipInputStream(fileIS);
+
+        ZipEntry entry;
+        Document tocDoc = null;
+        while ((entry = zipIS.getNextEntry()) != null) {
+            if (entry.getName().compareTo(Package.DefaultPackageFileName) == 0) {
+                SAXReader reader = new SAXReader();
+                tocDoc = reader.read(zipIS);
+                break;
             }
         }
+
+        List result = new ArrayList();
+
+        Element filesElement = tocDoc.getRootElement().element("files");
+        List fileElementList = filesElement.elements("file");
+        Iterator it = fileElementList.iterator();
+        while (it.hasNext()) {
+            Element el = (Element) it.next();
+            result.add(el.getStringValue());
+        }
+
+        return result;
     }
 
     public static String completeXhtml(String title, String content)

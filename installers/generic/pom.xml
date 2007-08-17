@@ -5,10 +5,10 @@
     <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer</artifactId>
-  <name>XWiki Products - Enterprise - Installer</name>
+  <artifactId>xwiki-enterprise-installer-generic</artifactId>
+  <name>XWiki Products - Enterprise - Installers - Generic</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Installer</description>
+  <description>XWiki Products - Enterprise - Installers - Generic</description>
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>

@@ -11,5 +11,6 @@
   <description>XWiki Products - Enterprise - Installers - Parent POM</description>
   <modules>
     <module>generic</module>
+    <module>windows</module>
   </modules>
 </project>

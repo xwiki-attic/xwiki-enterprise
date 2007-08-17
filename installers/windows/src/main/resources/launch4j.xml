@@ -4,10 +4,12 @@
   <outfile>${project.build.directory}/${pom.artifactId}-${pom.version}.exe</outfile>
   <errTitle>XWiki Windows Installer</errTitle>
   <customProcName>true</customProcName>
-  <!--icon>SimpleApp.ico</icon-->
+  <!-- Waiting for an icon from Laurent Lunati -->
+  <!-- icon>icon.ico</icon-->
   <jre>
     <minVersion>1.4.0</minVersion>
   </jre>
+  <!-- Waiting for an image from Laurent Lunati -->
   <!--splash>
     <file>splash.bmp</file>
     <waitForWindow>true</waitForWindow>

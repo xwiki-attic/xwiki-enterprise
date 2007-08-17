@@ -10,6 +10,6 @@
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Installers - Parent POM</description>
   <modules>
-    <module>installer</module>
+    <module>generic</module>
   </modules>
 </project>

@@ -69,13 +69,12 @@ public class PagesTest extends AbstractXmlRpcTestCase
         
         // modify the page
         String newContent = "Some Other Content";
-        int newVersion = resultPage.getVersion() + 1;
         pageProperties = new HashMap(); 
         pageProperties.put("id", id);
         pageProperties.put("space", spaceKey);
         pageProperties.put("title", title);
         pageProperties.put("content", newContent);
-        pageProperties.put("version", Convert.int2str(newVersion));
+        pageProperties.put("version", Convert.int2str(resultPage.getVersion()));
         Page modifiedPage = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
         
         // check that the page was modified
@@ -83,7 +82,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(title, modifiedPage.getTitle());
         assertEquals(spaceKey, modifiedPage.getSpace());
         assertEquals(newContent, modifiedPage.getContent());
-        assertEquals(newVersion, modifiedPage.getVersion());
+        assertTrue(resultPage.getVersion() < modifiedPage.getVersion());
         
         // check again in a different way
         modifiedPage = new Page(getXWikiRpc().getPage(getToken(), id));
@@ -91,7 +90,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(title, modifiedPage.getTitle());
         assertEquals(spaceKey, modifiedPage.getSpace());
         assertEquals(newContent, modifiedPage.getContent());
-        assertEquals(newVersion, modifiedPage.getVersion());
+        assertTrue(resultPage.getVersion() < modifiedPage.getVersion());
         
         // check page history
         Object[] historyObjs = getXWikiRpc().getPageHistory(getToken(), id);

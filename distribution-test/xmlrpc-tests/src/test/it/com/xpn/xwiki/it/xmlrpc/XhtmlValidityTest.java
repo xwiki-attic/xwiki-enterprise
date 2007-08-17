@@ -19,6 +19,9 @@
 package com.xpn.xwiki.it.xmlrpc;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +37,12 @@ import org.custommonkey.xmlunit.XMLTestCase;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.w3c.css.css.DocumentParser;
+import org.w3c.css.css.StyleReport;
+import org.w3c.css.css.StyleReportFactory;
+import org.w3c.css.css.StyleSheet;
+import org.w3c.css.util.ApplContext;
+import org.w3c.css.util.HTTPURL;
 
 import com.xpn.xwiki.plugin.packaging.Package;
 
@@ -94,22 +103,17 @@ public class XhtmlValidityTest extends XMLTestCase
     public void testValidityOfDocument() throws Exception
     {
         // TODO Until we find a way to incrementally display the result of tests this stays
-        System.out.print(getName());
-        
-        
-        Page page = rpc.getPage(fullPageName);        
+        System.out.println(getName());
+
+        Page page = rpc.getPage(fullPageName);
         String renderedContent = rpc.renderContent(page);
         assertNotNull(renderedContent);
-        
-        if (renderedContent.length() > 0) {        
-            if (renderedContent.indexOf("<rdf:RDF") != -1) {
-                // Ignored for the moment, until we can validate using XMLSchema
-            } else {
-                assertXMLValid(completeXhtml(fullPageName, renderedContent));
-            }
-            System.out.println();
+
+        if (renderedContent.indexOf("<rdf:RDF") != -1) {
+            // Ignored for the moment, until we can validate using XMLSchema
         } else {
-            System.out.println(" - Empty");
+            assertXMLValid(completeXhtml(fullPageName, renderedContent));
+            assertCssValid(page.getUrl());
         }
     }
 
@@ -141,7 +145,7 @@ public class XhtmlValidityTest extends XMLTestCase
         return result;
     }
 
-    public static String completeXhtml(String title, String content)
+    private static String completeXhtml(String title, String content)
     {
         return "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
             + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n"
@@ -149,5 +153,39 @@ public class XhtmlValidityTest extends XMLTestCase
             + "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n"
             + "<head>\n" + "<title>" + title + "</title>\n" + "</head>\n" + "<body>\n<div>\n"
             + content + "\n</div>\n</body>\n</html>";
+    }
+
+    private static void assertCssValid(String url) throws Exception
+    {
+        ApplContext ac = new ApplContext("en");
+        ac.setProfile("css21");
+        ac.setCssVersion("css21");
+        ac.setMedium("all");
+        String output = "text";
+        int warningLevel = 2;
+
+        String encoding = ac.getMsg().getString("output-encoding-name");
+        PrintWriter out;
+        if (encoding != null) {
+            out = new PrintWriter(new OutputStreamWriter(System.out, encoding));
+        } else {
+            out = new PrintWriter(new OutputStreamWriter(System.out));
+        }
+        String uri = HTTPURL.getURL(url).toString();
+        DocumentParser URLparser = new DocumentParser(ac, uri);
+
+        StyleSheet styleSheet = URLparser.getStyleSheet();
+        if (styleSheet == null) {
+            throw new IOException(ac.getMsg().getServletString("process") + " " + uri);
+        }
+
+        styleSheet.findConflicts(ac); // this is bogus ?
+
+        StyleReport style =
+            StyleReportFactory.getStyleReport(ac, uri, styleSheet, output, warningLevel);
+
+        // style.desactivateError();
+
+        style.print(out);
     }
 }

@@ -34,7 +34,13 @@
       <version>1.1-20070809</version>
       <classifier>xwiki</classifier>
       <scope>test</scope>
-    </dependency> 
+    </dependency>
+    <dependency>
+      <groupId>org.w3c.css</groupId>
+      <artifactId>css-validator</artifactId>
+      <version>2.1-20070528</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

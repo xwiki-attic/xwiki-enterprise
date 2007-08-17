@@ -10,11 +10,23 @@
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Installer</description>
   <dependencies>
-    <groupId>com.xpn.xwiki.products</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
-    <version>${version}</version>
-    <type>zip</type>
-    <classifier>${xwiki.db}</classifier>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise</artifactId>
+      <version>${version}</version>
+      <type>zip</type>
+      <classifier>${xwiki.db}</classifier>
+    </dependency>
+    <dependency>
+      <groupId>launch4j</groupId>
+      <artifactId>launch4j</artifactId>
+      <version>3.0.0-pre2</version>
+    </dependency>
+    <dependency>
+      <groupId>xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.2</version>
+    </dependency>
   </dependencies>
   <build>
     <resources>
@@ -105,6 +117,26 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="classpath.compile" refid="maven.compile.classpath"/>
+                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${classpath.compile}" />
+                <launch4j configFile="${project.build.directory}/classes/launch4j.xml"
+                  bindir="${basedir}/src/main/bin" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>      
       <!-- Use the Maven build-helper plugin to attach the generated installer JAR to this
            project's main artifact -->
       <plugin>

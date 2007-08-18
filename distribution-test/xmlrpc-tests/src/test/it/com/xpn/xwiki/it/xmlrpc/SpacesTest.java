@@ -1,31 +1,33 @@
 package com.xpn.xwiki.it.xmlrpc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Random;
 
+import org.codehaus.swizzle.confluence.Space;
+import org.codehaus.swizzle.confluence.SpaceSummary;
+
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
-import com.xpn.xwiki.xmlrpc.SpaceSummary;
 
 public class SpacesTest extends AbstractXmlRpcTestCase
 {
     public void testAddRemoveSpace() throws Exception
     {
     	String spaceKey = "TestSpace" + (new Random()).nextInt();
-        Map spaceProperties = new HashMap();
-        spaceProperties.put("key", spaceKey);
-        getXWikiRpc().addSpace(getToken(), spaceProperties);
+        Space space = new Space();
+        space.setKey(spaceKey);
+        space.setName("Some Name");
+        rpc.addSpace(space);
         
-        Map spaceSummary = getXWikiRpc().getSpace(getToken(), spaceKey);
+        Space spaceSummary = rpc.getSpace(spaceKey);
         
-        assertEquals(spaceProperties.get("key"), spaceSummary.get("key"));
+        assertEquals(spaceKey, spaceSummary.getKey());
         
-        getXWikiRpc().removeSpace(getToken(), spaceKey);
+        rpc.removeSpace(spaceKey);
         
-        Object[] spaceObjs = getXWikiRpc().getSpaces(getToken());
+        List spaces = rpc.getSpaces();
         boolean found = false;
-        for (int i = 0; i < spaceObjs.length && !found; i++) {
-        	SpaceSummary summary = new SpaceSummary((Map)spaceObjs[i]);
+        for (int i = 0; i < spaces.size() && !found; i++) {
+        	SpaceSummary summary = (SpaceSummary)spaces.get(i);
             if (summary.getKey().equals(spaceKey)) {
                 found = true;
             }            

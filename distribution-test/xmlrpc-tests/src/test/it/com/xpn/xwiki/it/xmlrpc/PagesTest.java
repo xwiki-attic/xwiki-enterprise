@@ -1,14 +1,15 @@
 package com.xpn.xwiki.it.xmlrpc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
+import org.codehaus.swizzle.confluence.Page;
+import org.codehaus.swizzle.confluence.PageHistorySummary;
+import org.codehaus.swizzle.confluence.PageSummary;
+import org.codehaus.swizzle.confluence.SearchResult;
+import org.codehaus.swizzle.confluence.Space;
 
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
-import com.xpn.xwiki.xmlrpc.Convert;
-import com.xpn.xwiki.xmlrpc.Page;
-import com.xpn.xwiki.xmlrpc.PageHistorySummary;
-import com.xpn.xwiki.xmlrpc.PageSummary;
-import com.xpn.xwiki.xmlrpc.SearchResult;
+
 
 public class PagesTest extends AbstractXmlRpcTestCase
 {
@@ -18,13 +19,14 @@ public class PagesTest extends AbstractXmlRpcTestCase
 		super.setUp();
 		
         spaceKey = "ContainerSpace";
-		Map spaceProperties = new HashMap();
-        spaceProperties.put("key", spaceKey);
-        getXWikiRpc().addSpace(getToken(), spaceProperties);
+        Space space = new Space();
+        space.setKey(spaceKey);
+        space.setName("Some Name");
+        rpc.addSpace(space);
 	}
 	
 	public void tearDown() throws Exception {
-		getXWikiRpc().removeSpace(getToken(), spaceKey);
+		rpc.removeSpace(spaceKey);
 		
 		super.tearDown();
 	}
@@ -35,24 +37,25 @@ public class PagesTest extends AbstractXmlRpcTestCase
         String content = "Some Content";
         
         // add the page
-        Map pageProperties = new HashMap();
-        pageProperties.put("space", spaceKey);
-        pageProperties.put("title", title);
-        pageProperties.put("content", content);
-        // no id in pageProperties means storePage will add
-        Page resultPage = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
-        String id = resultPage.getId(); // XWiki specific!
+        Page p = new Page();
+        p.setSpace(spaceKey);
+        p.setTitle(title);
+        p.setContent(content);
+        // no id in p means storePage will add
+        Page resultPage = rpc.storePage(p);
+        
+        String id = resultPage.getId();
         
         assertEquals(title, resultPage.getTitle());
         assertEquals(spaceKey, resultPage.getSpace());
         assertEquals(content, resultPage.getContent());
-        assertEquals(spaceKey+"."+title, id);
+        assertNotNull(id);
         
         // check that the page was added using getPages
-        Object[] pageObjs = getXWikiRpc().getPages(getToken(), spaceKey);
+        List pages = rpc.getPages(spaceKey);
         boolean found = false;
-        for (int i = 0; i < pageObjs.length && !found; i++) {
-            PageSummary summary = new PageSummary((Map)pageObjs[i]);
+        for (int i = 0; i < pages.size() && !found; i++) {
+            PageSummary summary = (PageSummary)pages.get(i);
             if (summary.getTitle().equals(title)) {
                 found = true;
                 assertEquals(spaceKey, summary.getSpace());
@@ -61,7 +64,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertTrue("Adding page failed. There should be a page entitled \""+ title + "\" in this space", found);
         
         // also check that the page was added using getPage
-        Page page = new Page(getXWikiRpc().getPage(getToken(), id));        
+        Page page = rpc.getPage(id);        
         assertEquals(id, page.getId());
         assertEquals(title, page.getTitle());
         assertEquals(spaceKey, page.getSpace());
@@ -69,13 +72,8 @@ public class PagesTest extends AbstractXmlRpcTestCase
         
         // modify the page
         String newContent = "Some Other Content";
-        pageProperties = new HashMap(); 
-        pageProperties.put("id", id);
-        pageProperties.put("space", spaceKey);
-        pageProperties.put("title", title);
-        pageProperties.put("content", newContent);
-        pageProperties.put("version", Convert.int2str(resultPage.getVersion()));
-        Page modifiedPage = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
+        resultPage.setContent(newContent);
+        Page modifiedPage = rpc.storePage(resultPage);
         
         // check that the page was modified
         assertEquals(id, modifiedPage.getId());
@@ -85,7 +83,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertTrue(resultPage.getVersion() < modifiedPage.getVersion());
         
         // check again in a different way
-        modifiedPage = new Page(getXWikiRpc().getPage(getToken(), id));
+        modifiedPage = rpc.getPage(id);
         assertEquals(id, modifiedPage.getId());
         assertEquals(title, modifiedPage.getTitle());
         assertEquals(spaceKey, modifiedPage.getSpace());
@@ -93,22 +91,21 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertTrue(resultPage.getVersion() < modifiedPage.getVersion());
         
         // check page history
-        Object[] historyObjs = getXWikiRpc().getPageHistory(getToken(), id);
-        assertEquals(1, historyObjs.length);
+        List oldVersions = rpc.getPageHistory(id);
+        assertEquals(1, oldVersions.size());
         
-    	PageHistorySummary phs0 = new PageHistorySummary((Map)historyObjs[0]);
+    	PageHistorySummary phs0 = (PageHistorySummary)oldVersions.get(0);
     	assertEquals(resultPage.getVersion(), phs0.getVersion());
     	assertNotNull(phs0.getModified());
-    	assertEquals("XWiki.Admin", phs0.getModifier()); // XWiki and setup specific
     	assertNotNull(phs0.getId());
-    	Page page0 = new Page(getXWikiRpc().getPage(getToken(), phs0.getId()));
+    	Page page0 = rpc.getPage(phs0.getId());
     	assertEquals(page.getContent(), page0.getContent());
         assertEquals(page.getVersion(), page0.getVersion());
     	
     	// search for the page
-    	Object[] searchResults = getXWikiRpc().search(getToken(), title, 1);
-        assertEquals(1, searchResults.length);
-        SearchResult searchResult = new SearchResult((Map)searchResults[0]);
+    	List searchResults = rpc.search(title, 1);
+        assertEquals(1, searchResults.size());
+        SearchResult searchResult = (SearchResult)searchResults.get(0);
         assertEquals(id, searchResult.getId());
         assertNotNull(searchResult.getExcerpt());
         assertEquals(title, searchResult.getTitle());
@@ -116,13 +113,13 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertNotNull(searchResult.getUrl());
         
         // remove the page
-        getXWikiRpc().removePage(getToken(), id);
+        rpc.removePage(id);
         
         // check that the page was really removed
-        pageObjs = getXWikiRpc().getPages(getToken(), spaceKey);
+        pages = rpc.getPages(spaceKey);
         found = false;
-        for (int i = 0; i < pageObjs.length && !found; i++) {
-            PageSummary summary = new PageSummary((Map)pageObjs[i]);
+        for (int i = 0; i < pages.size() && !found; i++) {
+            PageSummary summary = (PageSummary)pages.get(i);
             assertFalse("Remove page failed. Page still present.", summary.getId().equals(id));
         }
     }
@@ -133,30 +130,32 @@ public class PagesTest extends AbstractXmlRpcTestCase
         String content1 = "Content v1";
         
         // add the page
-        Map pageProperties = new HashMap();
-        pageProperties.put("space", spaceKey);
-        pageProperties.put("title", title);
-        pageProperties.put("content", content1);
-        Page page1 = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
+        Page p = new Page();
+        p.setSpace(spaceKey);
+        p.setTitle(title);
+        p.setContent(content1);
+        Page page1 = rpc.storePage(p);
         
         // modify the page
         String content2 = "Content v2";
-        pageProperties.put("content", content2);
-        pageProperties.put("id", page1.getId());
-        Page page2 = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
+        p.setContent(content2);
+        p.setId(page1.getId());
+        p.setVersion(page1.getVersion());
+        Page page2 = rpc.storePage(p);
         
         // modify the page again
         String content3 = "Content v3";
-        pageProperties.put("content", content3);
-        pageProperties.put("id", page2.getId());
-        Page page3 = new Page(getXWikiRpc().storePage(getToken(), pageProperties));
+        p.setContent(content3);
+        p.setId(page2.getId());
+        p.setVersion(page2.getVersion());
+        Page page3 = rpc.storePage(p);
         
         // get page history
-        Object[] historyObjs = getXWikiRpc().getPageHistory(getToken(), page3.getId());
-        assertEquals(2, historyObjs.length);
-        PageHistorySummary phs1 = new PageHistorySummary((Map)historyObjs[0]);
+        List historyObjs = rpc.getPageHistory(page3.getId());
+        assertEquals(2, historyObjs.size());
+        PageHistorySummary phs1 = (PageHistorySummary)historyObjs.get(0);
         assertEquals(page1.getVersion(), phs1.getVersion());
-        Page p1 = new Page(getXWikiRpc().getPage(getToken(),phs1.getId()));
+        Page p1 = rpc.getPage(phs1.getId());
         assertEquals(page1.getVersion(), p1.getVersion());
         assertEquals(page1.getContent(), p1.getContent());
         assertEquals(page1.getCreated(), p1.getCreated());
@@ -168,9 +167,9 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(page1.getTitle(), p1.getTitle());
         assertFalse(page1.getUrl().equals(p1.getUrl()));
 
-        PageHistorySummary phs2 = new PageHistorySummary((Map)historyObjs[1]);
+        PageHistorySummary phs2 = (PageHistorySummary)historyObjs.get(1);
         assertEquals(page2.getVersion(), phs2.getVersion());
-        Page p2 = new Page(getXWikiRpc().getPage(getToken(),phs2.getId()));
+        Page p2 = rpc.getPage(phs2.getId());
         assertEquals(page2.getVersion(), p2.getVersion());
         assertEquals(page2.getContent(), p2.getContent());
         assertEquals(page2.getCreated(), p2.getCreated());
@@ -183,11 +182,11 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertFalse(page2.getUrl().equals(p2.getUrl()));
         
         // get history of page from history
-        historyObjs = getXWikiRpc().getPageHistory(getToken(), p2.getId());
-        assertEquals(1, historyObjs.length);
-        phs1 = new PageHistorySummary((Map)historyObjs[0]);
+        historyObjs = rpc.getPageHistory(p2.getId());
+        assertEquals(1, historyObjs.size());
+        phs1 = (PageHistorySummary)historyObjs.get(0);
         assertEquals(page1.getVersion(), phs1.getVersion());
-        p1 = new Page(getXWikiRpc().getPage(getToken(),phs1.getId()));
+        p1 = rpc.getPage(phs1.getId());
         assertEquals(page1.getVersion(), p1.getVersion());
         assertEquals(page1.getContent(), p1.getContent());
         assertEquals(page1.getCreated(), p1.getCreated());
@@ -197,18 +196,5 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(page1.getParentId(), p1.getParentId());
         assertEquals(page1.getSpace(), p1.getSpace());
         assertEquals(page1.getTitle(), p1.getTitle());
-
     }
-    
-//    // not a real test
-//    public void testExceptions() throws Exception
-//    {
-//        try {
-//            getXWikiRpc().getPage("", "InexistantSpace.InexistantPage");
-//            fail();
-//        } catch (UndeclaredThrowableException e) {
-//            assertTrue(e.getCause() instanceof XmlRpcException);
-//            System.out.println(e.getCause().getMessage());
-//        }
-//    }
 }

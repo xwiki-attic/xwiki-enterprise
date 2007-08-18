@@ -11,7 +11,6 @@ import com.xpn.xwiki.xmlrpc.ConfluenceRpcInterface;
 
 public abstract class AbstractXmlRpcTestCase extends XMLTestCase
 {
-
     private ConfluenceRpcInterface xwikiRpc; // dynamic proxy
     
     private String token; // authentication token
@@ -29,7 +28,7 @@ public abstract class AbstractXmlRpcTestCase extends XMLTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-    
+
         XmlRpcClientConfigImpl clientConfig = new XmlRpcClientConfigImpl();
         clientConfig.setServerURL(new URL("http://127.0.0.1:8080/xwiki/xmlrpc"));
         XmlRpcClient rpcClient = new XmlRpcClient();
@@ -43,7 +42,7 @@ public abstract class AbstractXmlRpcTestCase extends XMLTestCase
         // token = (String)rpcClient.execute("confluence1.login", new Object[] {});
         ClientFactory factory = new ClientFactory(rpcClient);
         xwikiRpc = (ConfluenceRpcInterface) factory.newInstance(ConfluenceRpcInterface.class);
-        token = (String) xwikiRpc.login("Admin", "admin");        
+        token = xwikiRpc.login("Admin", "admin");
     }
 
     public void tearDown() throws Exception

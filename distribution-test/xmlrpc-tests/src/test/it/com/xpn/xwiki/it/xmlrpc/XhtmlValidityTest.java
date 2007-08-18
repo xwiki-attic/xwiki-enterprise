@@ -18,22 +18,31 @@
  */
 package com.xpn.xwiki.it.xmlrpc;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.codehaus.swizzle.confluence.Confluence;
 import org.codehaus.swizzle.confluence.Page;
-import org.custommonkey.xmlunit.XMLTestCase;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -43,6 +52,10 @@ import org.w3c.css.css.StyleReportFactory;
 import org.w3c.css.css.StyleSheet;
 import org.w3c.css.util.ApplContext;
 import org.w3c.css.util.HTTPURL;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import com.xpn.xwiki.plugin.packaging.Package;
 
@@ -52,11 +65,17 @@ import com.xpn.xwiki.plugin.packaging.Package;
  * 
  * @version $Id: $
  */
-public class XhtmlValidityTest extends XMLTestCase
+public class XhtmlValidityTest extends TestCase implements ErrorHandler
 {
     private String fullPageName;
 
+    private static Validator xv;
+
+    // private static Validator rv;
+
     private Confluence rpc;
+
+    private int errors = 0;
 
     public XhtmlValidityTest(String fullPageName)
     {
@@ -69,7 +88,7 @@ public class XhtmlValidityTest extends XMLTestCase
     {
         TestSuite suite = new TestSuite();
 
-        String path = // "/Users/hritcu/.m2/repository/com/xpn/xwiki/products/xwiki-enterprise-wiki/1.1-SNAPSHOT/xwiki-enterprise-wiki-1.1-SNAPSHOT.xar";
+        String path =
             System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
 
         List pageNames = readXarContents(path);
@@ -77,6 +96,19 @@ public class XhtmlValidityTest extends XMLTestCase
         while (it.hasNext()) {
             suite.addTest(new XhtmlValidityTest((String) it.next()));
         }
+
+        // Prepare validators only once, as this is a costly process
+        System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema",
+            "org.apache.xerces.jaxp.validation.XMLSchemaFactory");
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema xhtmlSchema = sf.newSchema(new File("xhtml1-strict.xsd"));
+        // Schema rssSchema = sf.newSchema(new File("rdf.xsd"));
+        xv = xhtmlSchema.newValidator();
+        // rv = rssSchema.newValidator();
+        // rv.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
+        // "http://purl.org/dc/elements/1.1/ dc.xsd http://www.w3.org/1999/xhtml xhtml1-strict.xsd
+        // http://purl.org/rss/1.0/ rss.rdf");
+
         return suite;
     }
 
@@ -111,10 +143,22 @@ public class XhtmlValidityTest extends XMLTestCase
 
         if (renderedContent.indexOf("<rdf:RDF") != -1) {
             // Ignored for the moment, until we can validate using XMLSchema
+            // rv.setErrorHanndler(this);
         } else {
-            assertXMLValid(completeXhtml(fullPageName, renderedContent));
-            assertCssValid(page.getUrl());
+            xv.setErrorHandler(this);
+
+            InputSource src =
+                new InputSource(new StringReader(completeXhtml(page.getTitle(), renderedContent)));
+            Source s = new SAXSource(src);
+            try {
+                xv.validate(s);
+            } catch (SAXParseException ex) {
+                System.err.println(ex.getMessage());
+                errors++;
+            }
+            errors += assertCssValid(page.getUrl());
         }
+        assertTrue(errors == 0);
     }
 
     private static List readXarContents(String fileName) throws Exception
@@ -130,6 +174,10 @@ public class XhtmlValidityTest extends XMLTestCase
                 tocDoc = reader.read(zipIS);
                 break;
             }
+        }
+
+        if (tocDoc == null) {
+            return new ArrayList();
         }
 
         List result = new ArrayList();
@@ -148,14 +196,12 @@ public class XhtmlValidityTest extends XMLTestCase
     private static String completeXhtml(String title, String content)
     {
         return "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
-            + "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n"
-            + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
             + "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n"
             + "<head>\n" + "<title>" + title + "</title>\n" + "</head>\n" + "<body>\n<div>\n"
-            + content + "\n</div>\n</body>\n</html>";
+            + content.replaceAll("&nbsp;", "&#160;") + "\n</div>\n</body>\n</html>";
     }
 
-    private static void assertCssValid(String url) throws Exception
+    private static int assertCssValid(String url) throws Exception
     {
         ApplContext ac = new ApplContext("en");
         ac.setProfile("css21");
@@ -184,8 +230,28 @@ public class XhtmlValidityTest extends XMLTestCase
         StyleReport style =
             StyleReportFactory.getStyleReport(ac, uri, styleSheet, output, warningLevel);
 
-        // style.desactivateError();
+        int errors = styleSheet.getErrors().getErrorCount();
+        if (errors > 0) {
+            style.print(out);
+        }
+        return errors;
+    }
 
-        style.print(out);
+    public void error(SAXParseException exception) throws SAXException
+    {
+        this.errors++;
+        System.out.println(exception.getMessage());
+    }
+
+    public void fatalError(SAXParseException exception) throws SAXException
+    {
+        this.errors++;
+        System.out.println(exception.getMessage());
+        exception.printStackTrace();
+    }
+
+    public void warning(SAXParseException exception) throws SAXException
+    {
+        System.out.println(exception.getMessage());
     }
 }

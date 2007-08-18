@@ -128,9 +128,9 @@
       &lt;/ul&gt;
       #if($xwiki.hasMinorEdit())
         #if($request.getParameter("showminor"))
-          &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "")"&gt;hide minor edits&lt;/a&gt;
+          &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "")"&gt;Hide minor edits&lt;/a&gt;
         #else
-          &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "showminor")"&gt;show minor edits&lt;/a&gt;
+          &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "showminor")"&gt;Show minor edits&lt;/a&gt;
         #end
       #end
     &lt;/div&gt;

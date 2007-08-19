@@ -153,7 +153,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         // get page history
         List historyObjs = rpc.getPageHistory(page3.getId());
         assertEquals(2, historyObjs.size());
-        PageHistorySummary phs1 = (PageHistorySummary)historyObjs.get(0);
+        PageHistorySummary phs1 = (PageHistorySummary)historyObjs.get(1);
         assertEquals(page1.getVersion(), phs1.getVersion());
         Page p1 = rpc.getPage(phs1.getId());
         assertEquals(page1.getVersion(), p1.getVersion());
@@ -167,7 +167,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(page1.getTitle(), p1.getTitle());
         assertFalse(page1.getUrl().equals(p1.getUrl()));
 
-        PageHistorySummary phs2 = (PageHistorySummary)historyObjs.get(1);
+        PageHistorySummary phs2 = (PageHistorySummary)historyObjs.get(0);
         assertEquals(page2.getVersion(), phs2.getVersion());
         Page p2 = rpc.getPage(phs2.getId());
         assertEquals(page2.getVersion(), p2.getVersion());

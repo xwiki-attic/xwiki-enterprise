@@ -2,6 +2,7 @@ package com.xpn.xwiki.it.xmlrpc;
 
 import java.util.List;
 
+import org.codehaus.swizzle.confluence.ConfluenceException;
 import org.codehaus.swizzle.confluence.Page;
 import org.codehaus.swizzle.confluence.PageHistorySummary;
 import org.codehaus.swizzle.confluence.PageSummary;
@@ -182,6 +183,8 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertFalse(page2.getUrl().equals(p2.getUrl()));
         
         // get history of page from history
+        // confluence does not allow this
+        //    ("This is not the most recent version of this page")
         historyObjs = rpc.getPageHistory(p2.getId());
         assertEquals(1, historyObjs.size());
         phs1 = (PageHistorySummary)historyObjs.get(0);
@@ -196,5 +199,24 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(page1.getParentId(), p1.getParentId());
         assertEquals(page1.getSpace(), p1.getSpace());
         assertEquals(page1.getTitle(), p1.getTitle());
+        
+        p2.setContent("New content");
+        try {
+            Page ppp = rpc.storePage(p2);
+            fail("You should only be able to edit the latest version of a page");
+        } catch (ConfluenceException ce) {
+            // ok, continue
+        }
+        try {
+            rpc.removePage(p2.getId());
+            fail("You should not be able to remove an old version of a page");
+        } catch (ConfluenceException ce) {
+            // ok, continue
+        }
     }
+    
+//    public void testExceptions() throws Exception
+//    {
+//        rpc.getPage("NotExistingId");
+//    }
 }

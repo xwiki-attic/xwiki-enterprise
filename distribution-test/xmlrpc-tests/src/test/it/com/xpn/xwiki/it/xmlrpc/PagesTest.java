@@ -6,7 +6,6 @@ import org.codehaus.swizzle.confluence.ConfluenceException;
 import org.codehaus.swizzle.confluence.Page;
 import org.codehaus.swizzle.confluence.PageHistorySummary;
 import org.codehaus.swizzle.confluence.PageSummary;
-import org.codehaus.swizzle.confluence.SearchResult;
 import org.codehaus.swizzle.confluence.Space;
 
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
@@ -18,11 +17,12 @@ public class PagesTest extends AbstractXmlRpcTestCase
 
 	public void setUp() throws Exception {
 		super.setUp();
-		
+	      
         spaceKey = "ContainerSpace";
         Space space = new Space();
         space.setKey(spaceKey);
         space.setName("Some Name");
+        
         rpc.addSpace(space);
 	}
 	
@@ -104,14 +104,14 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(page.getVersion(), page0.getVersion());
     	
     	// search for the page
-    	List searchResults = rpc.search(title, 1);
-        assertEquals(1, searchResults.size());
-        SearchResult searchResult = (SearchResult)searchResults.get(0);
-        assertEquals(id, searchResult.getId());
-        assertNotNull(searchResult.getExcerpt());
-        assertEquals(title, searchResult.getTitle());
-        assertEquals("page", searchResult.getType());
-        assertNotNull(searchResult.getUrl());
+//    	List searchResults = rpc.search(title, 1);
+//        assertEquals(1, searchResults.size());
+//        SearchResult searchResult = (SearchResult)searchResults.get(0);
+//        assertEquals(id, searchResult.getId());
+//        assertNotNull(searchResult.getExcerpt());
+//        assertEquals(title, searchResult.getTitle());
+//        assertEquals("page", searchResult.getType());
+//        assertNotNull(searchResult.getUrl());
         
         // remove the page
         rpc.removePage(id);
@@ -202,7 +202,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         
         p2.setContent("New content");
         try {
-            Page ppp = rpc.storePage(p2);
+            rpc.storePage(p2);
             fail("You should only be able to edit the latest version of a page");
         } catch (ConfluenceException ce) {
             // ok, continue

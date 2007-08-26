@@ -16,7 +16,7 @@ public class AnonymousAccessTest extends TestCase
     {
         super.setUp();
     
-        rpc = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
+        rpc  = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
             // = new Confluence("http://127.0.0.1:9090/rpc/xmlrpc");
         // no login  = anonymous access 
     }

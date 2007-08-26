@@ -12,7 +12,7 @@ public class SpacesTest extends AbstractXmlRpcTestCase
 {
     public void testAddRemoveSpace() throws Exception
     {
-    	String spaceKey = "TestSpace" + (new Random()).nextInt();
+    	String spaceKey = "TestSpace" + (new Random()).nextInt(10000);
         Space space = new Space();
         space.setKey(spaceKey);
         space.setName("Some Name");

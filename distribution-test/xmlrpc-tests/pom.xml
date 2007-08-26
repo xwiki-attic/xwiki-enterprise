@@ -35,13 +35,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.swizzle</groupId>
-      <artifactId>swizzle-confluence</artifactId>
-      <version>1.1-20070818</version>
-      <classifier>xwiki</classifier>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.w3c.css</groupId>
       <artifactId>css-validator</artifactId>
       <version>2.1-20070528</version>

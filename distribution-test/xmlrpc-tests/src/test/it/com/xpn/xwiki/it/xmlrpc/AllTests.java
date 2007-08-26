@@ -50,6 +50,7 @@ public class AllTests extends TestCase
         addTestCase(suite, SpacesTest.class);
         addTestCase(suite, PagesTest.class);
         addTestCase(suite, CommentsTest.class);
+        addTestCase(suite, AttachmentsTest.class);
         addTest(suite, XhtmlValidityTest.suite());
 
         return new XWikiTestSetup(suite);

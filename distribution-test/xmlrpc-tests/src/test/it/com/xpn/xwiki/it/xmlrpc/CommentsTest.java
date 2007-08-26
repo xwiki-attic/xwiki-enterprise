@@ -22,7 +22,7 @@ public class CommentsTest extends AbstractXmlRpcTestCase
         Space space = new Space();
         space.setKey(spaceKey);
         space.setName("Some Name");
-            
+        
         rpc.addSpace(space);
         
         pageTitle = "SomeContainerPage";

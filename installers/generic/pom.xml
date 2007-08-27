@@ -5,16 +5,18 @@
     <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer</artifactId>
-  <name>XWiki Products - Enterprise - Installer</name>
+  <artifactId>xwiki-enterprise-installer-generic</artifactId>
+  <name>XWiki Products - Enterprise - Installers - Generic</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Installer</description>
+  <description>XWiki Products - Enterprise - Installers - Generic</description>
   <dependencies>
-    <groupId>com.xpn.xwiki.products</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
-    <version>${version}</version>
-    <type>zip</type>
-    <classifier>${xwiki.db}</classifier>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise</artifactId>
+      <version>${version}</version>
+      <type>zip</type>
+      <classifier>${xwiki.db}</classifier>
+    </dependency>
   </dependencies>
   <build>
     <resources>

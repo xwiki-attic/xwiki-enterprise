@@ -1,0 +1,170 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise-parent</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-enterprise-installer-windows</artifactId>
+  <name>XWiki Products - Enterprise - Installers - Windows</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Installers - Windows</description>
+  <dependencies>
+    <!-- Even though this dependency is defined in Launch4J's pom.xml we still need it to
+         construct the correct maven.compile.classpath for executing the Launch4J Ant task below -->
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.2</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>launch4j</groupId>
+                  <artifactId>launch4j</artifactId>
+                  <version>3.0.0-pre2</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.products</groupId>
+                  <artifactId>xwiki-enterprise-installer-generic</artifactId>
+                  <version>${version}</version>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>launch4j</groupId>
+                  <artifactId>launch4j</artifactId>
+                  <version>3.0.0-pre2</version>
+                  <classifier>${launch4jOs}</classifier>
+                  <type>zip</type>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <!-- Dependency plugin discards file permissions so we need to set them back manually -->
+                <chmod file="${project.build.directory}/dependency/bin/windres" perm="ugo+rx"/>
+                <chmod file="${project.build.directory}/dependency/bin/ld" perm="ugo+rx"/>
+                
+                <property name="classpath.compile" refid="maven.compile.classpath"/>
+                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" 
+                  classpath="${classpath.compile}:${project.build.directory}/dependency/launch4j-3.0.0-pre2.jar" />
+                <launch4j configFile="${project.build.directory}/classes/launch4j.xml"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>      
+      <!-- Use the Maven build-helper plugin to attach the generated installer EXE to this
+           project's main artifact -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/${pom.artifactId}-${pom.version}.exe</file>
+                  <type>exe</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>unix</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>        
+      </activation>
+      <properties>
+        <launch4jOs>linux</launch4jOs>
+      </properties>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>        
+      </activation>
+      <properties>
+        <launch4jOs>macosx</launch4jOs>
+      </properties>
+    </profile>
+    <profile>
+      <id>windows</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>        
+      </activation>
+      <properties>
+        <launch4jOs>win32</launch4jOs>
+      </properties>
+    </profile>
+  </profiles>
+</project>

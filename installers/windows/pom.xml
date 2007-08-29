@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-rc-1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-windows</artifactId>
   <name>XWiki Products - Enterprise - Installers - Windows</name>
@@ -95,13 +95,12 @@
             <configuration>
               <tasks>
                 <!-- Dependency plugin discards file permissions so we need to set them back manually -->
-                <chmod file="${project.build.directory}/dependency/bin/windres" perm="ugo+rx"/>
-                <chmod file="${project.build.directory}/dependency/bin/ld" perm="ugo+rx"/>
+                <chmod file="${project.build.directory}/dependency/bin/windres" perm="ugo+rx" />
+                <chmod file="${project.build.directory}/dependency/bin/ld" perm="ugo+rx" />
                 
-                <property name="classpath.compile" refid="maven.compile.classpath"/>
-                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" 
-                  classpath="${classpath.compile}:${project.build.directory}/dependency/launch4j-3.0.0-pre2.jar" />
-                <launch4j configFile="${project.build.directory}/classes/launch4j.xml"/>
+                <property name="classpath.compile" refid="maven.compile.classpath" />
+                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${classpath.compile}:${project.build.directory}/dependency/launch4j-3.0.0-pre2.jar" />
+                <launch4j configFile="${project.build.directory}/classes/launch4j.xml" />
               </tasks>
             </configuration>
           </execution>

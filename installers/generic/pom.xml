@@ -50,7 +50,7 @@
         </executions>
         <configuration>
           <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.3-SNAPSHOT</resourceBundle>
+            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.4-SNAPSHOT</resourceBundle>
           </resourceBundles>
         </configuration>
       </plugin>
@@ -62,7 +62,7 @@
             <artifactItem>
               <groupId>com.xpn.xwiki.platform</groupId>
               <artifactId>xwiki-jetty-resources</artifactId>
-              <version>1.3-SNAPSHOT</version>
+              <version>1.4-SNAPSHOT</version>
               <outputDirectory>${project.build.directory}/container</outputDirectory>
             </artifactItem>
             <artifactItem>

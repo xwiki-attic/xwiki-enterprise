@@ -13,7 +13,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-panels</artifactId>
-      <version>1.1-rc-1</version>
+      <version>1.1-SNAPSHOT</version>
       <type>xar</type>
     </dependency>
   </dependencies>

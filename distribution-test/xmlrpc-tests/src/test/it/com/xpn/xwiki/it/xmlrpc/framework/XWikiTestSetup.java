@@ -69,6 +69,8 @@ public class XWikiTestSetup extends TestSetup
 
     private void startXWiki() throws Exception
     {
+        // Stop any running instance of jetty, in case there was a problem with the previous build
+        tearDown();
         // Start XWiki
         if (DEBUG.equalsIgnoreCase("true")) {
             System.out.println("Starting XWiki with command [" + START_COMMAND
@@ -127,6 +129,6 @@ public class XWikiTestSetup extends TestSetup
     protected void tearDown() throws Exception
     {
         // Stop XWiki
-        Runtime.getRuntime().exec(STOP_COMMAND, null, new File(EXECUTION_DIRECTORY));
+        Runtime.getRuntime().exec(STOP_COMMAND, null, new File(EXECUTION_DIRECTORY)).waitFor();
     }
 }

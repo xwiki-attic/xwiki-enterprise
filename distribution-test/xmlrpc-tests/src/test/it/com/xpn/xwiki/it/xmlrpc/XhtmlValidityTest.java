@@ -76,6 +76,8 @@ public class XhtmlValidityTest extends AbstractXmlRpcTestCase
                         System.err.println("URL:" + url);
                         System.err.println("Error " + (++k) + ": " + afe.getMessage());
                         System.err.println("");
+                        System.err.println(renderedContent);
+                        System.err.println("");
                         throw afe;
                     }
                 }

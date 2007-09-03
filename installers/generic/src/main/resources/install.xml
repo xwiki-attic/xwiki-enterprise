@@ -13,12 +13,16 @@
     <langpack iso3="eng"/>
     <langpack iso3="fra"/>
   </locale>
+  <variables>
+    <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+  </variables>
   <!--
       The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
   -->
   <resources>
     <res id="LicencePanel.licence" src="${xwiki.license}"/>
     <res id="HTMLInfoPanel.info" src="${xwiki.readme}"/>
+    <res id="shortcutSpec.xml" src="${xwiki.shortcutSpec.windows}"/>
     <res id="installer.langsel.img" src="${xwiki.png}" />
     <res id="Installer.image.0" src="${xwiki.border1.png}" />
     <res id="Installer.image.1" src="${xwiki.border2.png}" />
@@ -38,6 +42,7 @@
     <panel classname="TargetPanel" id="targetpanel"/>
     <panel classname="ImgPacksPanel" id="packspanel"/>
     <panel classname="InstallPanel" id="installpanel"/>
+    <panel classname="ShortcutPanel" id="shortcutpanel"/>
     <panel classname="FinishPanel" id="finishpanel"/>
   </panels>
   <packs>
@@ -52,4 +57,6 @@
       <file src="${xwiki.database}" targetdir="$INSTALL_PATH"/>
     </pack>
   </packs>
+  <!-- The native libraries to add. This is required for creating shortcuts on Windows -->
+  <native type="izpack" name="ShellLink.dll"/>
 </installation>

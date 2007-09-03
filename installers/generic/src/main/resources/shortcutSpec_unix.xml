@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<shortcuts>
+   <skipIfNotSupported/>
+   <programGroup defaultName="XWiki Enterprise" location="applications"/>
+   <shortcut
+     name="Start XWiki Enterprise"
+     programGroup="yes"
+     desktop="yes"
+     applications="no"
+     startMenu="yes"
+     startup="no"
+     target="$INSTALL_PATH/start_xwiki.sh"
+     workingDirectory="$INSTALL_PATH"
+     description="Starts XWiki Enterprise"
+     type="Application"
+     encoding="UTF-8"
+     terminal="true"
+     KdeSubstUID="false"
+     initialState="normal"
+     categories=""
+     createForAll="true"/>
+  <shortcut
+    name="Stop XWiki Enterprise"
+    programGroup="yes"
+    desktop="yes"
+    applications="no"
+    startMenu="yes"
+    startup="no"
+    target="$INSTALL_PATH/stop_xwiki.sh"
+    workingDirectory="$INSTALL_PATH"
+    description="Stops XWiki Enterprise"
+    type="Application"
+    encoding="UTF-8"
+    terminal="true"
+    KdeSubstUID="false"
+    initialState="normal"
+    categories=""
+    createForAll="true"/>
+</shortcuts>

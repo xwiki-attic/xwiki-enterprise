@@ -23,6 +23,7 @@
     <res id="LicencePanel.licence" src="${xwiki.license}"/>
     <res id="HTMLInfoPanel.info" src="${xwiki.readme}"/>
     <res id="shortcutSpec.xml" src="${xwiki.shortcutSpec.windows}"/>
+    <res id="Unix_shortcutSpec.xml" src="${xwiki.shortcutSpec.unix}"/>
     <res id="installer.langsel.img" src="${xwiki.png}" />
     <res id="Installer.image.0" src="${xwiki.border1.png}" />
     <res id="Installer.image.1" src="${xwiki.border2.png}" />

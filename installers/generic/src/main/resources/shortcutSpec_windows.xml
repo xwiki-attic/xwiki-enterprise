@@ -4,6 +4,8 @@
    <programGroup defaultName="XWiki Enterprise" location="applications"/>
    <shortcut name="Start XWiki Enterprise"
        target="$INSTALL_PATH\start_xwiki.bat"
+       iconFile="$INSTALL_PATH\xe.ico"
+       iconIndex="0"
        workingDirectory="$INSTALL_PATH"
        description="Start XWiki"
        initialState="normal"
@@ -12,6 +14,8 @@
        startMenu="no"/>
   <shortcut name="Stop XWiki Enterprise"
       target="$INSTALL_PATH\stop_xwiki.bat"
+      iconFile="$INSTALL_PATH\xe.ico"
+      iconIndex="0"
       workingDirectory="$INSTALL_PATH"
       description="Stop XWiki"
       initialState="normal"
@@ -20,6 +24,8 @@
       startMenu="no"/>
   <shortcut name="My Wiki"
       target="http://localhost:8080/xwiki/bin/view/Main/"
+      iconFile="$INSTALL_PATH\xe.ico"
+      iconIndex="0"
       workingDirectory=""
       description="Go to the local XWiki installation home page"
       initialState="normal"
@@ -28,6 +34,8 @@
       startMenu="no"/>
   <shortcut name="Documentation"
       target="http://xwiki.org"
+      iconFile="$INSTALL_PATH\xe.ico"
+      iconIndex="0"
       workingDirectory=""
       description="XWiki Documentation"
       initialState="normal"
@@ -36,6 +44,8 @@
       startMenu="no"/>
   <shortcut name="Uninstall"
       target="javaw"
+      iconFile="$INSTALL_PATH\xe.ico"
+      iconIndex="0"
       commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
       description="Uninstall XWiki"
       initialState="normal"

@@ -52,6 +52,10 @@
       <file src="${xwiki.readme}" targetdir="$INSTALL_PATH"/>
       <file src="${xwiki.license}" targetdir="$INSTALL_PATH"/>
       <fileset dir="${xwiki.container}" targetdir="$INSTALL_PATH" override="true"/>
+      <!-- Set execute permissions for .sh files -->
+      <executable targetfile="$INSTALL_PATH/start_xwiki.sh" stage="never"/>
+      <executable targetfile="$INSTALL_PATH/stop_xwiki.sh" stage="never"/>
+      <executable targetfile="$INSTALL_PATH/start_xwiki_debug.sh" stage="never"/>
     </pack>
     <pack name="Default Wiki" required="no">
       <description>A set of default Wiki pages. If you don't install this you'll get an empty Wiki. To be used when upgrading an existing XWiki installation so that your current pages are kept and not overwritten.</description>

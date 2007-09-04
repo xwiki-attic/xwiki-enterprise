@@ -94,7 +94,8 @@
             </goals>
             <configuration>
               <tasks>
-                <!-- Dependency plugin discards file permissions so we need to set them back manually -->
+                <!-- Dependency plugin discards file permissions so we need to set them back
+                     manually. See http://jira.codehaus.org/browse/MDEP-109 -->
                 <chmod file="${project.build.directory}/dependency/bin/windres" perm="ugo+rx" />
                 <chmod file="${project.build.directory}/dependency/bin/ld" perm="ugo+rx" />
                 

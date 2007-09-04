@@ -148,5 +148,6 @@
     <xwiki.border8.png>${project.build.directory}/classes/images/border8.png</xwiki.border8.png>
     <xwiki.core.png>${project.build.directory}/classes/images/core.png</xwiki.core.png>
     <xwiki.shortcutSpec.windows>${project.build.directory}/classes/shortcutSpec_windows.xml</xwiki.shortcutSpec.windows>
+    <xwiki.shortcutSpec.unix>${project.build.directory}/classes/shortcutSpec_unix.xml</xwiki.shortcutSpec.unix>
   </properties>
 </project>

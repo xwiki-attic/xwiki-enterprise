@@ -149,5 +149,7 @@
     <xwiki.core.png>${project.build.directory}/classes/images/core.png</xwiki.core.png>
     <xwiki.shortcutSpec.windows>${project.build.directory}/classes/shortcutSpec_windows.xml</xwiki.shortcutSpec.windows>
     <xwiki.shortcutSpec.unix>${project.build.directory}/classes/shortcutSpec_unix.xml</xwiki.shortcutSpec.unix>
+    <xwiki.shortcut.icon.unix>${project.build.directory}/classes/images/xe.png</xwiki.shortcut.icon.unix>
+    <xwiki.shortcut.icon.windows>${project.build.directory}/classes/images/xe.ico</xwiki.shortcut.icon.windows>
   </properties>
 </project>

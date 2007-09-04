@@ -4,8 +4,7 @@
   <outfile>${project.build.directory}/${pom.artifactId}-${pom.version}.exe</outfile>
   <errTitle>XWiki Windows Installer</errTitle>
   <customProcName>true</customProcName>
-  <!-- Waiting for an icon from Laurent Lunati -->
-  <!-- icon>icon.ico</icon-->
+  <icon>${project.build.directory}/classes/xe.ico</icon>
   <jre>
     <minVersion>1.5.0</minVersion>
   </jre>

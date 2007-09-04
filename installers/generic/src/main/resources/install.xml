@@ -56,6 +56,9 @@
       <executable targetfile="$INSTALL_PATH/start_xwiki.sh" stage="never"/>
       <executable targetfile="$INSTALL_PATH/stop_xwiki.sh" stage="never"/>
       <executable targetfile="$INSTALL_PATH/start_xwiki_debug.sh" stage="never"/>
+      <!-- Image used as a shortcut icon on unix and windows -->
+      <file src="${xwiki.shortcut.icon.unix}" targetdir="$INSTALL_PATH" os="unix"/>
+      <file src="${xwiki.shortcut.icon.windows}" targetdir="$INSTALL_PATH" os="windows"/>
     </pack>
     <pack name="Default Wiki" required="no">
       <description>A set of default Wiki pages. If you don't install this you'll get an empty Wiki. To be used when upgrading an existing XWiki installation so that your current pages are kept and not overwritten.</description>

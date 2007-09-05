@@ -101,5 +101,6 @@
       type="Application"
       encoding="UTF-8"
       description="Uninstall XWiki"
+      categories=""
       createForAll="true"/>
 </shortcuts>

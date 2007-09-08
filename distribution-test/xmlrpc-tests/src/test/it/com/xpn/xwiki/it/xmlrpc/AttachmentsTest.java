@@ -2,33 +2,36 @@ package com.xpn.xwiki.it.xmlrpc;
 
 import java.util.List;
 
-import org.codehaus.swizzle.confluence.Attachment;
-import org.codehaus.swizzle.confluence.Page;
-import org.codehaus.swizzle.confluence.Space;
-
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
+import com.xpn.xwiki.xmlrpc.model.Attachment;
+import com.xpn.xwiki.xmlrpc.model.Page;
+import com.xpn.xwiki.xmlrpc.model.Space;
+import com.xpn.xwiki.xmlrpc.model.swizzle.AttachmentImpl;
+import com.xpn.xwiki.xmlrpc.model.swizzle.PageImpl;
+import com.xpn.xwiki.xmlrpc.model.swizzle.SpaceImpl;
 
 public class AttachmentsTest extends AbstractXmlRpcTestCase
 {
     private String pageId;
+    
     private String spaceKey;
 
     public void setUp() throws Exception
     {
         super.setUp();
         
-        spaceKey = "SomeSpace";
-        Space space = new Space();
+        spaceKey = "SomeSpaceReally";
+        Space space = new SpaceImpl();
         space.setKey(spaceKey);
         space.setName("Some Name");
         
         rpc.addSpace(space);
         
         String pageTitle = "SomePage";
-        Page p = new Page();
+        Page p = new PageImpl();
         p.setSpace(spaceKey);
         p.setTitle(pageTitle);
-        p.setContent("");
+        p.setContent("Dummy Comment");
         Page resultPage = rpc.storePage(p);
         pageId = resultPage.getId();
     }
@@ -44,7 +47,7 @@ public class AttachmentsTest extends AbstractXmlRpcTestCase
     public void testAttachments() throws Exception
     {
         // Add attachment
-        Attachment attach0 = new Attachment();
+        Attachment attach0 = new AttachmentImpl();
         String fileName = "test.txt";
         String contentType = "text/plain";
         attach0.setFileName(fileName);
@@ -90,7 +93,7 @@ public class AttachmentsTest extends AbstractXmlRpcTestCase
         assertTrue(list.isEmpty());
         
         // Add two attachments
-        Attachment attach1 = new Attachment();
+        Attachment attach1 = new AttachmentImpl();
         String fileName1 = "file1";
         attach1.setFileName(fileName1);
         attach1.setPageId(pageId);
@@ -98,7 +101,7 @@ public class AttachmentsTest extends AbstractXmlRpcTestCase
         byte[] data1 = new byte[0];
         rpc.addAttachment(pageId, attach1, data1);
         
-        Attachment attach2 = new Attachment();
+        Attachment attach2 = new AttachmentImpl();
         String fileName2 = "file2";
         attach2.setFileName(fileName2);
         attach2.setPageId(pageId);
@@ -124,7 +127,7 @@ public class AttachmentsTest extends AbstractXmlRpcTestCase
     public void testAttachmentsHistory() throws Exception
     {
         // Add attachment
-        Attachment attach = new Attachment();
+        Attachment attach = new AttachmentImpl();
         String fileName = "test.txt";
         String contentType = "text/plain";
         attach.setFileName(fileName);

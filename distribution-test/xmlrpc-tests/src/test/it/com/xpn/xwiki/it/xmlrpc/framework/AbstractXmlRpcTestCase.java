@@ -1,12 +1,13 @@
 package com.xpn.xwiki.it.xmlrpc.framework;
 
-import org.codehaus.swizzle.confluence.Confluence;
-import org.codehaus.swizzle.confluence.SwizzleXWiki;
 import org.custommonkey.xmlunit.XMLTestCase;
+
+import com.xpn.xwiki.xmlrpc.client.SwizzleXWikiClient;
+import com.xpn.xwiki.xmlrpc.client.XWikiClient;
 
 public abstract class AbstractXmlRpcTestCase extends XMLTestCase
 {
-    protected SwizzleXWiki rpc; // xml-rpc proxy
+    protected XWikiClient rpc; // xml-rpc proxy
     
     public AbstractXmlRpcTestCase()
     {
@@ -22,8 +23,8 @@ public abstract class AbstractXmlRpcTestCase extends XMLTestCase
     {
         super.setUp();
         
-        rpc  = new SwizzleXWiki("http://127.0.0.1:8080/xwiki/xmlrpc");
-            // = new Confluence("http://127.0.0.1:9090/rpc/xmlrpc");
+        rpc  = new SwizzleXWikiClient("http://127.0.0.1:8080/xwiki/xmlrpc");
+             //= new SwizzleXWikiClient("http://127.0.0.1:9090/rpc/xmlrpc");
         rpc.login("Admin", "admin");
            // rpc.login("admin", "admin");
     }

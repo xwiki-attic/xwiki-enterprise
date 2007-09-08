@@ -1,10 +1,12 @@
 package com.xpn.xwiki.it.xmlrpc;
 
-import org.codehaus.swizzle.confluence.Comment;
-import org.codehaus.swizzle.confluence.Page;
-import org.codehaus.swizzle.confluence.Space;
-
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
+import com.xpn.xwiki.xmlrpc.model.Comment;
+import com.xpn.xwiki.xmlrpc.model.Page;
+import com.xpn.xwiki.xmlrpc.model.Space;
+import com.xpn.xwiki.xmlrpc.model.swizzle.CommentImpl;
+import com.xpn.xwiki.xmlrpc.model.swizzle.PageImpl;
+import com.xpn.xwiki.xmlrpc.model.swizzle.SpaceImpl;
 
 
 public class CommentsTest extends AbstractXmlRpcTestCase
@@ -19,14 +21,14 @@ public class CommentsTest extends AbstractXmlRpcTestCase
 		super.setUp();
 		
         spaceKey = "SomeContainerSpace";
-        Space space = new Space();
+        Space space = new SpaceImpl();
         space.setKey(spaceKey);
         space.setName("Some Name");
         
         rpc.addSpace(space);
         
         pageTitle = "SomeContainerPage";
-        Page p = new Page();
+        Page p = new PageImpl();
         p.setSpace(spaceKey);
         p.setTitle(pageTitle);
         p.setContent("");
@@ -35,7 +37,7 @@ public class CommentsTest extends AbstractXmlRpcTestCase
         pageId = resultPage.getId();
         
         // add and remove one comment (makes test more realistic)
-        Comment comment = new Comment();
+        Comment comment = new CommentImpl();
         comment.setPageId(pageId);
         comment.setContent("Dummy Comment");
         Comment commentResult = rpc.addComment(comment);
@@ -55,7 +57,7 @@ public class CommentsTest extends AbstractXmlRpcTestCase
     	assertEquals(0, rpc.getComments(pageId).size());
     	
     	// then add some comments
-        Comment comment = new Comment();
+        Comment comment = new CommentImpl();
         comment.setPageId(pageId);
         comment.setContent("Comment1");
     	Comment c1 = rpc.addComment(comment);

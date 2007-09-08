@@ -2,13 +2,14 @@ package com.xpn.xwiki.it.xmlrpc;
 
 import java.util.List;
 
-import org.codehaus.swizzle.confluence.ConfluenceException;
-import org.codehaus.swizzle.confluence.Page;
-import org.codehaus.swizzle.confluence.PageHistorySummary;
-import org.codehaus.swizzle.confluence.PageSummary;
-import org.codehaus.swizzle.confluence.Space;
-
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
+import com.xpn.xwiki.xmlrpc.client.XWikiClientException;
+import com.xpn.xwiki.xmlrpc.model.Page;
+import com.xpn.xwiki.xmlrpc.model.PageHistorySummary;
+import com.xpn.xwiki.xmlrpc.model.PageSummary;
+import com.xpn.xwiki.xmlrpc.model.Space;
+import com.xpn.xwiki.xmlrpc.model.swizzle.PageImpl;
+import com.xpn.xwiki.xmlrpc.model.swizzle.SpaceImpl;
 
 
 public class PagesTest extends AbstractXmlRpcTestCase
@@ -19,7 +20,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
 		super.setUp();
 	      
         spaceKey = "ContainerSpace";
-        Space space = new Space();
+        Space space = new SpaceImpl();
         space.setKey(spaceKey);
         space.setName("Some Name");
         
@@ -38,7 +39,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         String content = "Some Content";
         
         // add the page
-        Page p = new Page();
+        Page p = new PageImpl();
         p.setSpace(spaceKey);
         p.setTitle(title);
         p.setContent(content);
@@ -131,7 +132,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         String content1 = "Content v1";
         
         // add the page
-        Page p = new Page();
+        Page p = new PageImpl();
         p.setSpace(spaceKey);
         p.setTitle(title);
         p.setContent(content1);
@@ -204,13 +205,13 @@ public class PagesTest extends AbstractXmlRpcTestCase
         try {
             rpc.storePage(p2);
             fail("You should only be able to edit the latest version of a page");
-        } catch (ConfluenceException ce) {
+        } catch (XWikiClientException ce) {
             // ok, continue
         }
         try {
             rpc.removePage(p2.getId());
             fail("You should not be able to remove an old version of a page");
-        } catch (ConfluenceException ce) {
+        } catch (XWikiClientException ce) {
             // ok, continue
         }
     }

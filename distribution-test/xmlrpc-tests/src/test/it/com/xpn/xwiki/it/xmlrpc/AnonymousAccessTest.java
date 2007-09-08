@@ -2,23 +2,23 @@ package com.xpn.xwiki.it.xmlrpc;
 
 import java.util.List;
 
-import org.codehaus.swizzle.confluence.Confluence;
-import org.codehaus.swizzle.confluence.PageSummary;
-import org.codehaus.swizzle.confluence.SpaceSummary;
+import com.xpn.xwiki.xmlrpc.client.XWikiClient;
+import com.xpn.xwiki.xmlrpc.client.SwizzleXWikiClient;
+import com.xpn.xwiki.xmlrpc.model.PageSummary;
+import com.xpn.xwiki.xmlrpc.model.SpaceSummary;
 
 import junit.framework.TestCase;
 
 public class AnonymousAccessTest extends TestCase
 {
-	private Confluence rpc; // xml-rpc proxy
+	private XWikiClient rpc; // xml-rpc proxy
 
 	public void setUp() throws Exception
     {
         super.setUp();
     
-        rpc  = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
-            // = new Confluence("http://127.0.0.1:9090/rpc/xmlrpc");
         // no login  = anonymous access 
+        rpc = new SwizzleXWikiClient("http://127.0.0.1:8080/xwiki/xmlrpc");
     }
 
     public void testReadAllPages() throws Exception

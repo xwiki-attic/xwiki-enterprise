@@ -13,7 +13,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
-      <version>1.1-rc-2</version>
+      <version>1.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>  

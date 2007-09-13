@@ -1,0 +1,597 @@
+<userInput>
+
+   <!-- Standard/Advanced configuration panel -->
+   <panel order="0">
+      <field type="title" align="right"
+         txt="Standard/Advanced Options" bold="true" size="2"
+         id="installConfigName"
+         icon="/images/search.png"
+         />
+      <field type="radio" variable="installConfig">
+         <description align="left" txt="Select Standard or Advanced configurations"
+            id="installConfig.text"/>
+         <spec>
+           <choice txt="Standard" id="installConfig.radio.standard" value="standard" set="true"/>
+           <choice txt="Advanced" id="installConfig.radio.advanced" value="advanced" />
+         </spec>
+      </field>
+      <field type="divider" align="center"/>
+      <field type="staticText" align="left" id="installConfig.note"
+         txt="Note: Selecting the Advancedd configuration allows you to change the server port"/>
+   </panel>
+
+   <!-- Port configuration panel -->
+   <panel order="1">
+      <createForField name="installConfig" value="advanced"/>
+      <field type="title" align="right"
+         txt="Port configuration" bold="true" size="2"
+         id="portConfig"
+         icon="/images/search.png"
+         />
+      <field type="text" variable="SERVER_CONFIG">
+         <description align="left" txt="The jboss server/xxx configuration name, e.g., default, all"
+            id="serverConfigName.text"/>
+         <spec txt="Name:" id="text.namelabel" size="32" set="default"/>
+      </field>
+   </panel>
+
+   <!-- DataSource Configuration Panel. Default or Configure-->
+   <panel order="2">
+      <createForPack name="jboss-ds" />
+      <createForPack name="portal" />
+      <createForField name="installConfig" value="advanced"/>
+      <field type="title" align="right"
+         txt=" DataSource Configuration" bold="true" size="2"
+         id="dsConfig"
+         icon="/images/search.png"
+         />
+      <field type="radio" variable="dsConfig">
+         <description align="left" txt="Configure DataSource or use Default"
+            id="dsConfig.option"/>
+         <spec>
+           <choice txt="Default" id="dsConfig.radio.default" value="default"  set="true"/>
+           <choice txt="Configure" id="dsConfig.radio.configure" value="config" />
+         </spec>
+      </field>
+      <field type="space"/>
+      <field type="staticText" align="left" id="datasource.instruct"
+         txt="By default HSQLDB database is used. If you select Default above, the Database selection below is ignored" />
+      <field type="space"/>
+      <field type="combo" variable="database">
+         <description align="left" txt="Select Databse"
+            id="database.text"/>
+         <spec>
+           <choice txt="DB2-400" id="combo.db2-400" value="db2-400"/>
+           <choice txt="DB2" id="combo.db2-ds" value="db2"/>
+           <choice txt="Derby" id="combo.derby" value="derby"/>
+           <choice txt="HSQLDB" id="combo.hsqldb" value="hsqldb" set="true"/>
+           <choice txt="HSQLDB Encrypted" id="combo.hsqldb-encrypted" value="hsqldb-encrypted" />
+           <choice txt="Informix" id="combo.informix" value="informix" />
+           <choice txt="Jdatastore" id="combo.jdatastore" value="jdatastore" />
+           <choice txt="Jsql" id="combo.jsql" value="jsql" />
+           <choice txt="Mimer" id="combo.mimer" value="mimer" />
+           <choice txt="Msaccess" id="combo.msaccess" value="msaccess" />
+           <choice txt="Mssql" id="combo.mssql" value="mssql" />
+           <choice txt="Mysql" id="combo.mysql" value="mysql" />
+           <choice txt="Oracle" id="combo.oracle" value="oracle" />
+           <choice txt="Pointbase" id="combo.pointbase" value="pointbase" />
+           <choice txt="Postgress" id="combo.postgress" value="postgress" />
+           <choice txt="Progress" id="combo.progress" value="progress" />
+           <choice txt="Sapdb" id="combo.sapdb" value="sapdb" />
+           <choice txt="Solid" id="combo.solid" value="solid" />
+           <choice txt="Sybase" id="combo.sybase" value="sybase" />
+           <choice txt="Other" id="combo.other" value="other" />
+         </spec>
+      </field>
+      <field type="divider" align="bottom"/>
+      <field type="staticText" align="left" id="datasource.note"
+         txt="Note: You need to copy the driver libraries to jboss-4.x\server\default\lib. HSQLDB drivers hsqldb-plugin.jar and hsqldb.jar are included by default." />
+      <field type="space"/>
+      <field type="staticText" align="left" id="datasource.note2"
+         txt="You may want to edit jboss-4.x\server\default\deploy\jboss-ds.xml depending on DataBase you choose. Pre-configured *-ds.xml file are available in jboss-4.x\docs\examples\jca. You also need to copy the driver libraries to jboss-4.x\server\default\lib. HSQLDB drivers hsqldb-plugin.jar and hsqldb.jar are included by default." />
+
+      <!-- <field type="text" variable="dsJndiName">
+         <spec txt="JNDI Name:" id="text.label" size="10" set="DefaultDS"/>
+      </field>  -->
+   </panel>
+
+
+   <!-- DataSource Configuration Panel -->
+   <panel order="3">
+      <createForPack name="jboss-ds" />
+      <createForPack name="portal" />
+      <createForField name="dsConfig" value="config"/>
+
+      <field type="title" align="right"
+         txt=" DataSource Configuration" bold="true" size="2"
+         id="dsConfig"
+         icon="/images/search.png"
+         />
+      <field type="text" variable="datasourceName">
+         <spec txt="Datasource Name:" id="dsConfig.datasourceName" size="12" set="DefaultDS"/>
+      </field>
+      <field type="space"/>
+      <field type="text" variable="userName">
+         <spec txt="User Name:" id="dsConfig.userName" size="10" set="sa"/>
+      </field>
+      <field type="space"/>
+      <field type="password" variable="password">
+        <spec>
+          <pwd txt="Password" id="password.label" size="10" />
+        </spec>
+        <!-- <validator class="com.izforge.sample.PWDValidator" txt="Both versions of the password must match" id="key for the error text"/>
+        <processor class="com.izforge.sample.PWDEncryptor"/> -->
+      </field>
+      <field type="space"/>
+      <field type="text" variable="minPoolSize">
+         <spec txt="Min Pool Size:" id="dsConfig.minPoolSize" size="5" set="5"/>
+      </field>
+      <field type="space"/>
+      <field type="text" variable="maxPoolSize">
+         <spec txt="Max Pool Size:" id="dsConfig.maxPoolSize" size="5" set="20"/>
+      </field>
+
+      <field type="space">
+         <createForField name="database" value="db2-400"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="db2"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="derby"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="hsqldb"/>
+         <createForField name="database" value="hsqldb-encrypted"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="informix"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="jdatastore"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="jsql"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="mimer"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="msaccess"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="mssql"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="mysql"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="oracle"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="pointbase"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="postgress"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="progress"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="sapdb"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="solid"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="sybase"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="other"/>
+      </field>
+
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="db2-400"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:as400://[systemname]/[schema];extended dynamic=true;package=jbpkg;package cache=true;package library=jboss;errors=full"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="db2"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:db2:yourdatabase"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="derby"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:derby:${jboss.server.data.dir}${/}derby${/}localDB;create=true"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="hsqldb"/>
+         <createForField name="database" value="hsqldb-encrypted"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:hsqldb:${jboss.server.data.dir}${/}hypersonic${/}localDB"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="informix"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:informix-sqli://myhost.mydomain.com:1557/mydb:INFORMIXSERVER=myserver"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="jdatastore"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:borland:dslocal:/home/brent/JBuilder6/samples/JDataStore/datastores/employee.jds"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="jsql"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:JSQLConnect://localhost:1433/databaseName=testdb"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="mimer"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:mimer:multi1"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="msaccess"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:odbc:INsightDSN"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="mssql"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=MyDatabase"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="mysql"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:mysql://mysql-hostname:3306/jbossdb"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="oracle"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:oracle:oci:@youroracle-tns-name"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="pointbase"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:pointbase:server://@pointbase.server@:@pointbase.port/pointbase.dbName@,new"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="postgress"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:postgresql://[servername]:[port]/[database name]"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="progress"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:JdbcProgress:T:dbserver:3305:liveappl"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="sapdb"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:sapdb://127.0.0.1/DB_NAME"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="solid"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:solid://yourdbhost:1964/yourdbusername/yourdbpassword"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="sybase"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set="jdbc:sybase:Tds:host.at.some.domain:5000/db_name?JCONNECT_VERSION=6"/>
+      </field>
+      <field type="text" variable="connectionUrl">
+         <createForField name="database" value="other"/>
+         <spec txt="Connection URL:" id="dsConfig.connectionUrl" size="30" set=" "/>
+      </field>
+
+      <field type="space">
+         <createForField name="database" value="db2-400"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="db2"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="derby"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="hsqldb"/>
+         <createForField name="database" value="hsqldb-encrypted"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="informix"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="jdatastore"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="jsql"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="mimer"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="msaccess"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="mssql"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="mysql"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="oracle"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="pointbase"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="postgress"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="progress"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="sapdb"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="solid"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="sybase"/>
+      </field>
+      <field type="space">
+         <createForField name="database" value="other"/>
+      </field>
+
+
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="db2-400"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set ="com.ibm.as400.access.AS400JDBCDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="db2"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="COM.ibm.db2.jdbc.app.DB2Driver"/>
+      </field>
+      <field type="staticText" align="left" id="dsConfig.forXA"
+         txt="For XA Datasource: COM.ibm.db2.jdbc.DB2XADataSource" >
+         <createForField name="database" value="db2"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="derby"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="org.apache.derby.jdbc.EmbeddedDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="hsqldb"/>
+         <createForField name="database" value="hsqldb-encrypted"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="org.hsqldb.jdbcDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="informix"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.informix.jdbc.IfxDriver"/>
+      </field>
+      <field type="staticText" align="left"
+         txt="For XA Datasource: com.informix.jdbcx.IfxXADataSource" >
+         <createForField name="database" value="informix"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="jdatastore"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.borland.datastore.jdbc.DataStoreDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="jsql"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.jnetdirect.jsql.JSQLDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="mimer"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.mimer.jdbc.Driver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="msaccess"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="sun.jdbc.odbc.JdbcOdbcDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="mssql"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.microsoft.jdbc.sqlserver.SQLServerDriver"/>
+      </field>
+      <field type="staticText" align="left"
+         txt="For XA Datasource: com.microsoft.jdbcx.sqlserver.SQLServerDataSource" >
+         <createForField name="database" value="mssql"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="mysql"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.mysql.jdbc.Driver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="oracle"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="oracle.jdbc.driver.OracleDriver"/>
+      </field>
+      <field type="staticText" align="left"
+         txt="For XA Datasource: oracle.jdbc.xa.client.OracleXADataSource" >
+         <createForField name="database" value="oracle"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="pointbase"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.pointbase.jdbc.jdbcUniversalDriver"/>
+      </field>
+      <field type="staticText" align="left"
+         txt="For XA Datasource: com.pointbase.xa.xaDataSource" >
+         <createForField name="database" value="pointbase"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="postgress"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="org.postgresql.Driver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="progress"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.progress.sql.jdbc.JdbcProgressDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="sapdb"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.sap.dbtech.jdbc.DriverSapDB"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="solid"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="solid.jdbc.SolidDriver"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="sybase"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="com.sybase.jdbc2.jdbc.SybDataSource"/>
+      </field>
+      <field type="text" variable="driverClass">
+         <createForField name="database" value="other"/>
+         <spec txt="Driver Class:" id="dsConfig.driverClass" size="30" set="sun.jdbc.odbc.JdbcOdbcDriver"/>
+      </field>
+
+      <field type="space">
+         <createForField name="database" value="db2-400"/>
+         <createForField name="database" value="db2"/>
+         <createForField name="database" value="informix"/>
+         <createForField name="database" value="mssql"/>
+         <createForField name="database" value="mysql"/>
+         <createForField name="database" value="oracle"/>
+         <createForField name="database" value="pointbase"/>
+         <createForField name="database" value="postgress"/>
+         <createForField name="database" value="progress"/>
+         <createForField name="database" value="sybase"/>
+         <createForField name="database" value="other"/>
+      </field>
+
+      <field type="radio" variable="dsType">
+         <createForField name="database" value="db2-400"/>
+         <createForField name="database" value="db2"/>
+         <createForField name="database" value="informix"/>
+         <createForField name="database" value="mssql"/>
+         <createForField name="database" value="mysql"/>
+         <createForField name="database" value="oracle"/>
+         <createForField name="database" value="pointbase"/>
+         <createForField name="database" value="postgress"/>
+         <createForField name="database" value="sybase"/>
+         <createForField name="database" value="other"/>
+         <description align="left" txt="Local or XA Database"
+            id="dsType.option"/>
+         <spec>
+           <choice txt="Local" id="dsConfig.radio.local" value="dsLocal" set="true"/>
+           <choice txt="XA" id="dsConfig.radio.xa" value="dsXa"  />
+         </spec>
+      </field>
+      <!--<field type="text" variable="typeMapping">
+         <spec txt="Type Mapping:" id="dsConfig.typeMapping" size="15" set="Hypersonic SQL"/>
+      </field> -->
+   </panel>
+
+   <!-- Isolation/call by value flag for deployers/jndi -->
+   <panel order="4">
+      <!-- Only show this if the ejb or ear deployer are selected -->
+      <createForPack name="ejb-deployer" />
+      <createForPack name="ear-deployer" />
+      <createForField name="installConfig" value="advanced"/>
+      <field type="title" align="right"
+         txt="Isolation and Call by Value Semantics" bold="true" size="1"
+         id="isolation"
+         icon="/images/tool.png"
+         />
+      <field type="staticText" align="left"
+         txt="Enable deployment isolation/call by value as the default deployment mode. See http://wiki.jboss.org/wiki/Wiki.jsp?page=ClassLoadingConfiguration and http://wiki.jboss.org/wiki/Wiki.jsp?page=JBossClassLoadingUseCases for a discussion of related class loading issues."
+         id="enableIsolationText"/>
+      <field type="check" variable="enableIsolation">
+         <spec txt="Enable deployment isolation/call by value"
+            id="enableIsolation" true="true" false="false"
+            set="false"/>
+      </field>
+   </panel>
+
+   <!-- JMX Security Panel -->
+   <panel order="5">
+      <createForField name="installConfig" value="advanced"/>
+      <field type="title" align="right"
+         txt=" JMX Security" bold="true" size="2"
+         id="jmxSecurity"
+         icon="/images/lock.png"
+         />
+
+      <!-- JMX interface security -->
+      <field type="staticText" align="left"
+         txt="This section allows you to control whether the JMX interfaces are secured. See http://wiki.jboss.org/wiki/Wiki.jsp?page=SecureJBoss for additional security configuration."
+         id="jmxSecurityText"/>
+      <field type="check" variable="secureJmxConsole">
+         <!--
+         <description align="left" txt="Should the jmx-console.war be secured?"
+            id="secureJmxConsole"/>
+         -->
+         <spec txt="Secure jmx-console.war" id="secureJmxConsole" true="true" false="false"
+            set="true"/>
+      </field>
+      <field type="check" variable="secureWebConsole">
+         <spec txt="Secure web-console.war" id="secureWebConsole" true="true" false="false"
+            set="true"/>
+      </field>
+      <field type="check" variable="secureJmxConnector">
+         <spec txt="Secure jmx-invoker-service" id="secureJmxConnector" true="true" false="false"
+            set="true"/>
+      </field>
+      <field type="check" variable="secureRmiHttpConnector">
+         <spec txt="Secure http invoker" id="secureRmiHttpConnector" true="true" false="false"
+            set="true"/>
+      </field>
+
+      <!-- The JAAS security domain names (without the java:/jaas prefix) -->
+      <field type="divider" align="center"/>
+      <field type="text" variable="jmxConsoleDomain">
+         <description align="left" txt="The JAAS security domain name for the jmx access points"
+            id="jmxConsoleDomain.text"/>
+         <spec txt="Enter security-domain:" id="text.securitydomain" size="32" set="jmx-console"/>
+      </field>
+      <!--
+      <field type="text" variable="webConsoleDomain">
+         <description align="left" txt="The JAAS security domain name for the web-console.war"
+            id="webConsoleDomain.text"/>
+         <spec txt="Enter security-domain:" id="text.securitydomain" size="32" set="web-console"/>
+      </field>
+      -->
+
+      <!-- The default admin username/password -->
+      <field type="divider" align="center"/>
+      <field type="text" variable="adminUser">
+         <!--
+         <description align="left" txt="The default admin user name"
+            id="adminUser.text"/>
+         -->
+         <spec txt="Enter admin username:" id="text.userLabel" size="32" set="admin" >
+         </spec>
+      </field>
+      <field type="space"/>
+      <field type="password" variable="adminPassword">
+         <!--
+         <description align="left" txt="The default admin user password"
+            id="adminPassword.text"/>
+            -->
+         <spec>
+           <pwd txt="Enter admin password:" id="text.passwordLabel" size="30" />
+         </spec>
+         <validator class="com.izforge.izpack.util.NotEmptyValidator" id="admin.passerror"	txt="please enter password"></validator>
+      </field>
+   </panel>
+
+   <!-- Keystore password -->
+   <panel order="6">
+      <createForField name="installConfig" value="advanced"/>
+      <field type="staticText" align="left" id="keystore.mainlabel"
+             txt="If you've specified any SSL services, we will need the location of your keystore. If you do not have a keystore, we can create the keystore for you. If you do not let us generate it, you will need to copy it into the JBOSS_HOME/server/CONFIG/conf directory"/>
+      <field type="divider" align="center"/>
+      <field type="text" variable="KEYSTORE_PATH">
+         <spec txt="name of keystore in server/CONFIG/conf" id="keystore.name.of.server" size="32" set="jbmail.store"/>
+      </field>
+      <field type="text" variable="KEYSTORE_PASS">
+         <spec txt="Keystore password (must be at least 6 letters)" id="keystore.password.instruct" size="32" set="jbmsrulez123"/>
+      </field>
+      <field type="divider" align="center"/>
+      <field type="check" variable="GENERATE_STORE">
+         <spec txt="Generate Keystore" id="text.genkeystore" size="32" set="true" true="true" false="false"/>
+      </field>
+      <field type="divider" align="center"/>
+      <field type="staticText" align="left" id="keystore.instructions"
+             txt="Answer the following only if we are generating a keystore for you."/>
+      <field type="text" variable="KEYSTORE_CN">
+         <spec txt="Hostname" id="keystore.hostname" size="32" set="localhost.localdomain"/>
+      </field>
+      <field type="text" variable="KEYSTORE_OU">
+         <spec txt="Company/Organization Unit" id="keystore.company.org" size="32" set="BigCo, Inc."/>
+      </field>
+      <field type="text" variable="KEYSTORE_O">
+         <spec txt="Division/Organization" id="keystore.division.organization" size="32" set="IT Group"/>
+      </field>
+      <field type="text" variable="KEYSTORE_L">
+         <spec txt="City/Locality" id="keystore.city.locality" size="32" set="Durham"/>
+      </field>
+      <field type="text" variable="KEYSTORE_ST">
+         <spec txt="State/Province" id="keystore.state.province" size="32" set="North Carolina"/>
+      </field>
+      <field type="text" variable="KEYSTORE_C">
+         <spec txt="Country (2 letter)" id="keystore.country" size="2" set="US"/>
+      </field>
+   </panel>
+</userInput>

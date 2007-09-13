@@ -68,7 +68,7 @@
             <artifactItem>
               <groupId>com.xpn.xwiki.platform</groupId>
               <artifactId>xwiki-web-standard</artifactId>
-              <version>1.1-SNAPSHOT</version>
+              <version>1.1</version>
               <type>war</type>
               <classifier>hsqldb</classifier>
               <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>

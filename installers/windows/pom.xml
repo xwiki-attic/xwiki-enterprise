@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.1-rc-2</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-windows</artifactId>
   <name>XWiki Products - Enterprise - Installers - Windows</name>

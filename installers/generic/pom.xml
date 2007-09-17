@@ -9,15 +9,6 @@
   <name>XWiki Products - Enterprise - Installers - Generic</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Installers - Generic</description>
-  <dependencies>
-    <dependency>
-      <groupId>com.xpn.xwiki.products</groupId>
-      <artifactId>xwiki-enterprise</artifactId>
-      <version>${version}</version>
-      <type>zip</type>
-      <classifier>${xwiki.db}</classifier>
-    </dependency>
-  </dependencies>
   <build>
     <resources>
       <resource>
@@ -50,45 +41,61 @@
         </executions>
         <configuration>
           <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.4-SNAPSHOT</resourceBundle>
+            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.5-SNAPSHOT</resourceBundle>
           </resourceBundles>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <artifactItems>
-            <artifactItem>
-              <groupId>com.xpn.xwiki.platform</groupId>
-              <artifactId>xwiki-jetty-resources</artifactId>
-              <version>1.4-SNAPSHOT</version>
-              <outputDirectory>${project.build.directory}/container</outputDirectory>
-            </artifactItem>
-            <artifactItem>
-              <groupId>com.xpn.xwiki.platform</groupId>
-              <artifactId>xwiki-web-standard</artifactId>
-              <version>1.2-SNAPSHOT</version>
-              <type>war</type>
-              <classifier>hsqldb</classifier>
-              <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
-            </artifactItem>
-            <artifactItem>
-              <groupId>com.xpn.xwiki.products</groupId>
-              <artifactId>xwiki-enterprise-database</artifactId>
-              <version>${version}</version>
-              <classifier>hsqldb</classifier>
-              <type>zip</type>
-              <outputDirectory>${project.build.directory}/database</outputDirectory>
-            </artifactItem>
-          </artifactItems>
-        </configuration>
         <executions>
           <execution>
+            <id>unpack</id>
             <phase>prepare-package</phase>
             <goals>
               <goal>unpack</goal>
             </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.platform</groupId>
+                  <artifactId>xwiki-jetty-resources</artifactId>
+                  <version>1.5-SNAPSHOT</version>
+                  <outputDirectory>${project.build.directory}/container</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.platform</groupId>
+                  <artifactId>xwiki-web-standard</artifactId>
+                  <version>1.2-SNAPSHOT</version>
+                  <type>war</type>
+                  <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.products</groupId>
+                  <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
+                  <version>${version}</version>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/database</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${xwiki.db.jdbc.groupId}</groupId>
+                  <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
+                  <version>${xwiki.db.jdbc.version}</version>
+                  <outputDirectory>${project.build.directory}/container/webapps/xwiki/WEB-INF/lib</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -133,6 +140,7 @@
     </plugins>
   </build>
   <properties>
+    <xwiki.hibernate>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</xwiki.hibernate>
     <xwiki.license>${project.build.directory}/maven-shared-archive-resources/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container</xwiki.container>

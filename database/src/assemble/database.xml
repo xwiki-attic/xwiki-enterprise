@@ -21,7 +21,6 @@
 -->
 
 <assembly>
-  <id>${xwiki.db}</id>
   <formats>
     <format>zip</format>
   </formats>

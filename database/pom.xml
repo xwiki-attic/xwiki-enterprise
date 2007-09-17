@@ -5,7 +5,7 @@
     <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-database</artifactId>
+  <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
   <name>XWiki Products - Enterprise - Database</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Database</description>

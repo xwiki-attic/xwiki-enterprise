@@ -35,14 +35,12 @@
         <artifactId>selenium-maven-plugin</artifactId>
         <version>1.0-beta-2-20070702.000657-13-dev</version>
         <executions>
-<!--          <execution>            <id>xvfb</id>            <phase>pre-integration-test</phase>            <goals>              <goal>xvfb</goal>            </goals>          </execution>-->
           <execution>
             <id>start-selenium</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>start-server</goal>
             </goals>
-            <configuration><!--              <background>false</background>-->            </configuration>
           </execution>
         </executions>
         <configuration>

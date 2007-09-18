@@ -33,14 +33,6 @@
   <name>XWiki Products - Enterprise - Distribution - MySQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - MySQL</description>
-  <dependencies>
-    <dependency>
-      <groupId>com.xpn.xwiki.products</groupId>
-      <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-      <version>${version}</version>
-      <type>zip</type>
-    </dependency>
-  </dependencies>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->

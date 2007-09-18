@@ -22,22 +22,19 @@
  *
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
     <version>1.2-SNAPSHOT</version>
   </parent>
-  <!-- Note: We could be tempted to use an assembly id equals to ${xwiki.db} to produce classifiers
-       attached to the main POM artifact. However this fails when deploying the different built
-       artifacts since Maven doesn't have support for classifiers in Remote Repository metadata
-       files and thus the timestamp value are overwritten whenever a classifier artifact is
-       deployed thus leading to maven build not finding the other classifier artifacts... -->
-  <artifactId>xwiki-enterprise-${xwiki.db}</artifactId>
-  <name>XWiki Products - Enterprise - Distribution</name>
+  <artifactId>xwiki-enterprise</artifactId>
+  <name>XWiki Products - Enterprise - Distribution - Parent POM</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution</description>
+  <description>XWiki Products - Enterprise - Distribution - Parent POM</description>
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
@@ -60,42 +57,40 @@
     </dependency>
   </dependencies>
   <build>
-    <plugins>
-      <!-- Inject Hibernate's configuration for the specified database -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-remote-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>process</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.5-SNAPSHOT</resourceBundle>
-          </resourceBundles>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>src/assemble/application-no-database.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <!-- Inject Hibernate's configuration for the specified database -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-remote-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <goals>
+                <goal>process</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <resourceBundles>
+              <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.5-SNAPSHOT
+              </resourceBundle>
+            </resourceBundles>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
   <profiles>
     <profile>
@@ -103,57 +98,27 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      <dependencies>
-        <dependency>
-          <groupId>com.xpn.xwiki.products</groupId>
-          <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-          <version>${version}</version>
-          <type>zip</type>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-              <descriptors>
-                <descriptor>src/assemble/application.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <modules>
+        <module>hsqldb</module>
+      </modules>
     </profile>
     <profile>
       <id>derby</id>
-      <dependencies>
-        <dependency>
-          <groupId>com.xpn.xwiki.products</groupId>
-          <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-          <version>${version}</version>
-          <type>zip</type>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-              <descriptors>
-                <descriptor>src/assemble/application.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <modules>
+        <module>derby</module>
+      </modules>
     </profile>
     <profile>
       <id>pgsql</id>
+      <modules>
+        <module>pgsql</module>
+      </modules>
     </profile>
     <profile>
       <id>mysql</id>
+      <modules>
+        <module>mysql</module>
+      </modules>
     </profile>
   </profiles>
 </project>

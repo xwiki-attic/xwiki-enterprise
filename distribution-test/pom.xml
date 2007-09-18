@@ -10,10 +10,10 @@
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional Tests</description>
   <dependencies>
-    <dependency>  
+    <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-shared-test</artifactId>
-      <version>1.4</version>
+      <version>1.5-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -49,10 +49,9 @@
                 <artifactItems>
                   <artifactItem>
                     <groupId>com.xpn.xwiki.products</groupId>
-                    <artifactId>xwiki-enterprise</artifactId>
+                    <artifactId>xwiki-enterprise-${xwiki.db}</artifactId>
                     <version>${version}</version>
                     <type>zip</type>
-                    <classifier>${xwiki.db}</classifier>
                   </artifactItem>
                 </artifactItems>
                 <outputDirectory>${project.build.directory}</outputDirectory>
@@ -91,7 +90,7 @@
               </property>
               <property>
                 <name>xwikiExecutionDirectory</name>
-                <value>${basedir}/target/xwiki-enterprise-${version}</value>
+                <value>${basedir}/target/xwiki-enterprise-${xwiki.db}-${version}</value>
               </property>
               <property>
                 <name>xwikiExecutionStartCommand</name>

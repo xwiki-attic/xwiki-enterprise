@@ -52,6 +52,7 @@
       <file src="${xwiki.readme}" targetdir="$INSTALL_PATH"/>
       <file src="${xwiki.license}" targetdir="$INSTALL_PATH"/>
       <fileset dir="${xwiki.container}" targetdir="$INSTALL_PATH" override="true"/>
+      <file src="${xwiki.hibernate}" targetdir="$INSTALL_PATH/webapps/xwiki/WEB-INF"/>
       <!-- Set execute permissions for .sh files -->
       <executable targetfile="$INSTALL_PATH/start_xwiki.sh" stage="never"/>
       <executable targetfile="$INSTALL_PATH/stop_xwiki.sh" stage="never"/>

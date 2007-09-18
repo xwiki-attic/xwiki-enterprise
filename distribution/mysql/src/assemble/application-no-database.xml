@@ -1,7 +1,7 @@
 <!--
  *
- * Copyright 2007, XpertNet SARL, and individual contributors as indicated
- * by the contributors.txt.
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,7 +21,6 @@
 -->
 
 <assembly>
-  <id>${xwiki.db}</id>
   <formats>
     <format>zip</format>
   </formats>
@@ -37,6 +36,11 @@
       </includes>
       <outputDirectory>webapps/xwiki</outputDirectory>
       <unpack>true</unpack>
+      <unpackOptions>
+        <excludes>
+          <exclude>**/hibernate.cfg.xml</exclude>
+        </excludes>
+      </unpackOptions>
     </dependencySet>
     <!-- Copy sh files so that we can set their permissions. This is required since the
          Assembly plugin looses file permissions.
@@ -75,5 +79,18 @@
         </excludes>
       </unpackOptions>
     </dependencySet>
+    <dependencySet>
+      <includes>
+        <include>${xwiki.db.jdbc.groupId}:${xwiki.db.jdbc.artifactId}</include>
+      </includes>
+      <outputDirectory>webapps/xwiki/WEB-INF/lib</outputDirectory>
+      <unpack>false</unpack>
+    </dependencySet>
   </dependencySets>
+  <files>
+  	<file>
+    	<source>${basedir}/target/maven-shared-archive-resources/hibernate.cfg.xml</source>
+      <outputDirectory>webapps/xwiki/WEB-INF/</outputDirectory>
+    </file>
+  </files>
 </assembly>

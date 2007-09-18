@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise-database</artifactId>
+    <version>1.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-enterprise-database-derby</artifactId>
+  <name>XWiki Products - Enterprise - Database - Derby</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Database - Derby</description>
+  <build>
+    <plugins>
+      <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
+           plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <configuration>
+          <properties>
+            <xwikiDbConnectionUrl>jdbc:derby:${project.build.directory}/database;create=true</xwikiDbConnectionUrl>
+          </properties>
+        </configuration>
+      </plugin>
+      <!-- Step 2: Expand the XAR file -->
+      <plugin>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-build-xar-plugin</artifactId>
+      </plugin>
+      <!-- Step 3: Import the XAR content into the Database -->
+      <plugin>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-packager</artifactId>
+      </plugin>
+      <!-- Step 4: Zip the generated database -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise-database</artifactId>
+    <version>1.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
+  <name>XWiki Products - Enterprise - Database - HSQLDB</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Database - HSQLDB</description>
+  <!-- Required for the exec:exec plugin execution below. Doesn't seem to work as an exec plugin
+       dependency -->
+  <dependencies>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>1.8.0.7</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
+           plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <configuration>
+          <properties>
+            <xwikiDbConnectionUrl>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwikiDbConnectionUrl>
+          </properties>
+        </configuration>
+      </plugin>
+      <!-- Step 2: Expand the XAR file -->
+      <plugin>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-build-xar-plugin</artifactId>
+      </plugin>
+      <!-- Step 3: Import the XAR content into the Database -->
+      <plugin>
+        <groupId>com.xpn.xwiki.platform</groupId>
+        <artifactId>xwiki-packager</artifactId>
+      </plugin>
+      <!-- Step 4: Zip the generated database -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
+      <!-- Useful for debugging. Starts a GUI admin application to browse the HSQL DB -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <executable>java</executable>
+          <arguments>
+            <argument>-classpath</argument>
+            <!-- automatically creates the classpath using all project dependencies,
+                 also adding the project build directory -->
+            <classpath/>
+            <argument>org.hsqldb.util.DatabaseManager</argument>
+            <argument>-driver</argument>
+            <argument>org.hsqldb.jdbcDriver</argument>
+            <argument>-url</argument>
+            <argument>jdbc:hsqldb:target/database/xwiki_db</argument>
+            <argument>-user</argument>
+            <argument>sa</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

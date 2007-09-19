@@ -46,6 +46,10 @@
     <module>database</module>
     <module>distribution</module>
   </modules>
+  <properties>
+    <!-- Version of the Tools Platform used in XE -->
+    <platform.tools.version>1.6-SNAPSHOT</platform.tools.version>
+  </properties>
   <profiles>
     <profile>
       <id>ci</id>
@@ -67,14 +71,14 @@
       <extension>
         <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-build-xar-handlers</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>${platform.tools.version}</version>
       </extension>
     </extensions>
     <plugins>
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
         <artifactId>xwiki-build-xar-plugin</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>${platform.tools.version}</version>
       </plugin>
     </plugins>
   </build>

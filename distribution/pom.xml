@@ -72,8 +72,7 @@
           </executions>
           <configuration>
             <resourceBundles>
-              <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.5-SNAPSHOT
-              </resourceBundle>
+              <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.5</resourceBundle>
             </resourceBundles>
           </configuration>
         </plugin>

@@ -13,7 +13,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-shared-test</artifactId>
-      <version>1.5-SNAPSHOT</version>
+      <version>1.5</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

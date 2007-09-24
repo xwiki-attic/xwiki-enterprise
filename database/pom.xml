@@ -36,7 +36,7 @@
           </executions>
           <configuration>
             <resourceBundles>
-              <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.5-SNAPSHOT
+              <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.5
               </resourceBundle>
             </resourceBundles>
           </configuration>
@@ -45,7 +45,7 @@
         <plugin>
           <groupId>com.xpn.xwiki.platform</groupId>
           <artifactId>xwiki-build-xar-plugin</artifactId>
-          <version>1.5-SNAPSHOT</version>
+          <version>1.5</version>
           <configuration>
             <groupId>com.xpn.xwiki.products</groupId>
             <artifactId>xwiki-enterprise-wiki</artifactId>
@@ -64,7 +64,7 @@
         <plugin>
           <groupId>com.xpn.xwiki.platform</groupId>
           <artifactId>xwiki-packager</artifactId>
-          <version>1.5-SNAPSHOT</version>
+          <version>1.5</version>
           <configuration>
             <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
             <hibernateConfig>

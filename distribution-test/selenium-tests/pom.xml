@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
   <artifactId>xwiki-enterprise-test-selenium</artifactId>
   <name>XWiki Products - Enterprise - Functional Selenium Tests</name>

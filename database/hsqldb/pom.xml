@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
   <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
   <name>XWiki Products - Enterprise - Database - HSQLDB</name>
@@ -58,7 +56,7 @@
             <argument>-classpath</argument>
             <!-- automatically creates the classpath using all project dependencies,
                  also adding the project build directory -->
-            <classpath/>
+            <classpath />
             <argument>org.hsqldb.util.DatabaseManager</argument>
             <argument>-driver</argument>
             <argument>org.hsqldb.jdbcDriver</argument>

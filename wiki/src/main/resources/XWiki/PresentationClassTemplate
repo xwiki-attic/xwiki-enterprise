@@ -132,7 +132,7 @@
 <number></number>
 </property>
 </object>
-<content>#if($request.xpage=="s5b")
+<content>#if($request.xpage and $request.xpage=="s5b")
 #includeForm("XWiki.PresentationClassS5Sheet")
 #else
 #if($context.action=="inline")

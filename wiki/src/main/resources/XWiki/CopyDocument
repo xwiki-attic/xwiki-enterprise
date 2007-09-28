@@ -56,7 +56,7 @@
 #set($targetdoc = $request.targetdoc)
 #set($language = $request.language)
 
-#if ($targetdoc=="")
+#if (!$targetdoc or $targetdoc=="")
 #set($targetdoc = $sourcedoc)
 #end
 

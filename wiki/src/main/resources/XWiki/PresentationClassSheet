@@ -59,6 +59,11 @@
 * &lt;a href="$doc.getURL("edit","xpage=editobject")"&gt;Edit/Remove slides&lt;/a&gt;.
 
 #set($presobj = $doc.getObject("XWiki.PresentationClass"))
+#if(!$presobj)
+## String type is more specific than Object type. We should avoid ambiguous method call
+## see http://java.sun.com/docs/books/jls/clarifications-2-2nd-ed.html (JLS 15.12.2.2)
+#set($presobj = "")
+#end
 
 1.1 Presentation Template
 
@@ -73,6 +78,11 @@ Footer:
 $doc.display("footer", "rendered",$presobj)
 
 #macro(slide $slideobj)
+#if(!$slideobj)
+## String type is more specific than Object type. We should avoid ambiguous method call
+## see http://java.sun.com/docs/books/jls/clarifications-2-2nd-ed.html (JLS 15.12.2.2)
+#set($slideobj = "")
+#end
 1.1 Slide $doc.display("number", $slideobj)
 
 Title: $doc.display("title", $slideobj)

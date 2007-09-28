@@ -62,7 +62,7 @@
 ## the generated RSS feed
 ## ==================================================
 #set($datedlist = $xwiki.arrayList)
-#if($text == "")
+#if(!$text or $text == "")
   ## No search
 #else
   #set($text = $text.replaceAll("'", "''").replaceAll("%", "\\%"))
@@ -79,7 +79,7 @@
   ## -----------------------------------------------------------
   ## Display only a given space if $request.space is defined
   ## -----------------------------------------------------------
-  #if($space == "All")
+  #if($space and $space == "All")
     #set ($webClause = "$excludedWebs")
   #else
     #set ($webClause = "doc.web='$space' and $excludedWebs")

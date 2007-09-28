@@ -52,6 +52,11 @@
 </property>
 </object>
 <content>#set($obj = $doc.getObject("XWiki.PhotoAlbumClass", 0))
+#if(!$obj)
+## String type is more specific than Object type. We should avoid ambiguous method call
+## see http://java.sun.com/docs/books/jls/clarifications-2-2nd-ed.html (JLS 15.12.2.2)
+#set($obj = "")
+#end
 
 &lt;br /&gt;
 1 $doc.display("title", $obj)

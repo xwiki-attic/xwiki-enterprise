@@ -39,7 +39,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-web-standard</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>${platform.web.version}</version>
       <type>war</type>
     </dependency>
     <dependency>

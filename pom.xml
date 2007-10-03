@@ -48,10 +48,10 @@
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
-    <platform.tools.version>1.7-SNAPSHOT</platform.tools.version>
-    <platform.core.version>1.2-SNAPSHOT</platform.core.version>
-    <platform.web.version>1.2-SNAPSHOT</platform.web.version>
-    <platform.panels.version>1.2-SNAPSHOT</platform.panels.version>
+    <platform.tools.version>1.6</platform.tools.version>
+    <platform.core.version>1.2-milestone-1</platform.core.version>
+    <platform.web.version>1.2-milestone-1</platform.web.version>
+    <platform.panels.version>1.2-milestone-1</platform.panels.version>
   </properties>
   <profiles>
     <profile>

@@ -78,6 +78,9 @@
                   <outputDirectory>${project.build.directory}/database</outputDirectory>
                 </artifactItem>
               </artifactItems>
+              <!-- Exclude default Hibernate config file since we're instead using one with the
+                   selected database configuration defined -->
+              <excludes>**/hibernate.cfg.xml</excludes>
             </configuration>
           </execution>
           <execution>

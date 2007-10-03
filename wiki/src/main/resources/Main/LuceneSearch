@@ -12,9 +12,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1186588178000</creationDate>
-<date>1186942604000</date>
-<contentUpdateDate>1186942604000</contentUpdateDate>
-<version>1.2</version>
+<date>1191330909000</date>
+<contentUpdateDate>1191330909000</contentUpdateDate>
+<version>45.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -25,8 +25,8 @@
 <filename>next.png</filename>
 <filesize>395</filesize>
 <author>XWiki.Admin</author>
-<date>1186927318000</date>
-<version>1.1</version>
+<date>1191242195000</date>
+<version>1.2</version>
 <comment></comment>
 <content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEdSURBVDjLY/j//z8DJZiB6gY0rH7xpW7li3YKDHj1v2bli38lix61k2VA5fJn/9eeeP+/fcOL/wlT7/aRbEDegkf/Vxx/93/xobf/S5c8/u/ecm0eSQYkTX/4f+HBN/8nbX/xf+bul/8Tp9/9r1N0dgnRBgT33QZqfPW/YdXj/42rH//v2vjkv3fHtf9SScceEWWAc8u1/xO2Pv9fsvjB//IlD4CGPPrvXH/5v2Tksc1EGWBaful/+/on/4sW3gfGxsP/9lUX/ksEH1gj6rqdhSgDlPPO/q9b8fB/5bIH/23LL/wXD9i7kqRAlEo6+b908f3/NiXn/4t57V1EcjRKRB75b1145r+o684FZCUkMb8D/0Uct88euMxEKgYA7Ojrv4CgE7EAAAAASUVORK5CYII=</content>
 </attachment>
@@ -34,8 +34,8 @@
 <filename>previous.png</filename>
 <filesize>389</filesize>
 <author>XWiki.Admin</author>
-<date>1186927329000</date>
-<version>1.1</version>
+<date>1191242195000</date>
+<version>1.2</version>
 <comment></comment>
 <content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEXSURBVDjLY/j//z8DJZiBLgZkz37Ynjrz4ReyDEideb89afrDf5ET7v4n2YCEqXf7qpY9/T9r76v/Xu03STMgasLteaVLHv+fufvl/6k7X/y3qrlCvAHBvTeXFC54ANbctv7p/95Nz/5rFZ0nzoCAzpuPsuc++D91x4v/jasf/y9aeP9/89rH/6VTTxJngGPDtc3xU+/879789H/5kgf/02fd+V+17OF/yZhjxBmgVXCaRT3v7BqP1mv/a1Y+/J824/b/woX3/osHHSAtECVjjqy0Lb/wP2/+3f+Zs+/8F3XfS3o0inntXWSeffJ/0tRb/0Ucdv4nKyEJW25ZYBh/5L+w5fb/ZCdlQYMNs4WMt/wfuMyEDwMA0Irn/pDRT58AAAAASUVORK5CYII=</content>
 </attachment>
@@ -78,24 +78,83 @@
 ## Inputs : $request.text
 ## Outputs : $list, $isScored
 ## ===================
-
+{pre}
+#set ($displayUI = true)
+#if ($request.xpage &amp;&amp; $request.xpage == "rdf")
+  #set ($displayUI = false)
+#end
+## ---------------
+## Title
+## ---------------
+#if ($displayUI)
+{/pre}
 1 Search
-
-#set($query = $request.getParameter("text"))
+{pre}
+#end
+## ---------------
+## Space filtering
+## ---------------
+#if($request.space &amp;&amp; $request.space != "")
+  #set($space = $request.space)
+  #set($reqspace = "AND web:${space}")
+#else
+  #set($space = "")
+#end
+#set($spacesText = {})
+#set($spaces = $xwiki.spaces)
+#set($ok = $spacesText.put("All",""))
+#foreach($space in $spaces)
+  #set($ok = $spacesText.put($space,$space))
+#end
+## ---------------
+## Space macros
+## ---------------
+#macro(spaceoption $space $selectspace $spacesText)
+  &lt;option value="$spacesText.get($space)" #if($selectspace == $spacesText.get($space))selected="selected"#end&gt;$space&lt;/option&gt;
+#end
+#macro(spaceselect $selectspace $spaces $spacesText)
+  &lt;select name="space"&gt;
+    #spaceoption("All" $selectspace $spacesText)
+    #foreach($space in $spaces)
+      #spaceoption($space $selectspace $spacesText)
+    #end
+  &lt;/select&gt;
+#end
+## ---------------
+## Query preparation
+## ---------------
+#set($text = $request.getParameter("text"))
+#set($query = $text)
 #if(!$query)
 	#set($query = "")
 #end
 #set($itemsPerPage = "30")
-
-{pre}
-&lt;form action="$doc.name" method="post"&gt;
-&lt;div&gt;
-&lt;input type="text" name="text" value="$query" /&gt;
-&lt;input type="submit" value="Search"/&gt;
+## ---------------
+## RSS link
+## ---------------
+#set($utext = $xwiki.getURLEncoded($query))
+#if($space == "")
+  #set($url = $xwiki.getURL($doc.fullName, "view", "xpage=rdf&amp;amp;text=${utext}" ))
+#else
+  #set($url = $xwiki.getURL($doc.fullName, "view", "xpage=rdf&amp;space=$space&amp;text=${utext}"))
+#end
+#if ($displayUI)
+&lt;div style="float: right;"&gt;
+  &lt;a href="$url"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" style="border:0px" alt="rss icon" /&gt;&lt;/a&gt;
+&lt;/div&gt;
+## ---------------
+## Query form
+## ---------------
+&lt;form action="$doc.name" method="get"&gt;
+&lt;div class="centered"&gt;
+Query &lt;input type="text" name="text" value="$query" /&gt; in space #spaceselect($space $spaces $spacesText) &lt;input type="submit" value="Search"/&gt;
 &lt;/div&gt;
 &lt;/form&gt;
+#end
 {/pre}
-
+## ---------------
+## Results processing
+## ---------------
 #if($query != "")
 	#set($lucene = $xwiki.getPlugin("lucene"))
 	#if($lucene)
@@ -108,22 +167,24 @@
 		#if(!$firstIndex)
 			#set($firstIndex = "1")
 		#end
-		#set($searchresults = $lucene.getSearchResults($query, $wikinames, $languages, $xwiki))
+		#set($searchresults = $lucene.getSearchResults("${query}$!{reqspace}", $wikinames, $languages, $xwiki))
 		#set($results = $searchresults.getResults($firstIndex,$itemsPerPage))
 		#if($searchresults.getHitcount()&gt;0)
                         ## -----------------
                         ## Results numbers
                         ## -----------------
-			#set($lastIndex=$searchresults.getEndIndex($firstIndex, $itemsPerPage))
+                        #set($lastIndex=$searchresults.getEndIndex($firstIndex, $itemsPerPage))
+                        #if ($displayUI)
 			#if($searchresults.getHitcount()==1)
 				One result:
 			#else
 				Results $firstIndex - $lastIndex of ${searchresults.getHitcount()}:
 			#end
+                        #end
                         ## ---------------
                         ## Previous page
                         ## ---------------
-			#if($searchresults.hasPrevious($firstIndex))
+			#if($searchresults.hasPrevious($firstIndex) &amp;&amp; $displayUI)
 				#set($linkfirstIndex = $searchresults.getPreviousIndex($firstIndex,$itemsPerPage))
 				#set($link = "${doc.name}?text=${query}&amp;firstIndex=${linkfirstIndex}")
                                 {pre}
@@ -133,26 +194,42 @@
                         ## -------------
                         ## Next page
                         ## -------------
-			#if($searchresults.hasNext($firstIndex,$itemsPerPage))
+			#if($searchresults.hasNext($firstIndex,$itemsPerPage) &amp;&amp; $displayUI)
 				#set($linkfirstIndex = $searchresults.getNextIndex($firstIndex,$itemsPerPage))
 				#set($link = "${doc.name}?text=${query}&amp;firstIndex=${linkfirstIndex}")
                                 {pre}
 				&lt;a href="$link"&gt;&lt;img src="${doc.getAttachmentURL("next.png")}" alt="next" /&gt;next page&lt;/a&gt;
                                 {/pre}
 			#end
-
                         ## -----------------
                         ## Display results
                         ## -----------------
-                        #set ($list = $results)
-                        #set ($isScored = true)
-                        #includeInContext("XWiki.Results")
+                        #if ($request.xpage &amp;&amp; $request.xpage == "rdf")
+                          #set ($baseurl = "http://${request.serverName}")
+                          #set ($description = "RSS feed for search on '$text'")                          
+                          #set ($list = $xwiki.arrayList)
+                          #foreach ($item in $results)
+                            #if ($item.type != "attachment")
+                              #set ($ok = $list.add(0, "${item.web}.${item.name}"))
+                            #end
+                          #end
+                          #set ($ok = $response.setContentType("text/xml"))
+                          #includeInContext("XWiki.WebRssCode")
+                        #else
+                          #set ($list = $results)
+                          #set ($isScored = true)
+                          #includeInContext("XWiki.Results")
+                        #end
                 #end
 	#else
 		#error("Lucene plugin not found. Make sure it's defined in your xwiki.cfg file.")
 	#end
 #end
-
+{pre}
+#if ($displayUI)
+## ---------------
+## Rebuild processing
+## ---------------
 #set($lucene = $xwiki.getPlugin("lucene"))
 #if($lucene)
 #set($doRebuild = $request.getParameter("rebuild"))
@@ -160,19 +237,37 @@
   #if($doRebuild=="yes")
 		#set($documentCount = $lucene.rebuildIndex($xwiki,$context))
 		#if(${documentCount}&gt;=0)
-			#info("Started index rebuild with $documentCount documents.\\
-                               Will take some time depending on the number of pages/attachments.")
+			{/pre}#info("Started index rebuild with $documentCount documents.\\
+                               Will take some time depending on the number of pages/attachments."){pre}
 		#else
 			#error("Index rebuild failed.")
 		#end
   #end
 #else
-	#if($xwiki.hasAdminRights())
-		#info("[Rebuild the Lucene index&gt;${doc.web}.${doc.name}?rebuild=yes]")
+## ---------------
+## Queue &amp; rebuild option
+## ---------------
+        #set ($queuesize = $xwiki.lucene.getQueueSize())
+        #if ($queuesize &gt; 2)
+            #set($info1 = "Lucene is currently building its index, ${queuesize} documents in queue.")
+        #else
+            #set($info1 = "")
+        #end
+        #if($xwiki.hasAdminRights())
+            #set($info2 = " [Rebuild the Lucene index&gt;${doc.web}.${doc.name}?rebuild=yes].")
+        #else
+            #set($info2 = "")
 	#end
+        {/pre}#info("${info1}${info2}"){pre}
 #end
 #end
-
-#info("This is the new experimental Lucene search engine.\\
-          You can still use the XWiki [default search engine&gt;WebSearch?text=$query].")</content>
+## ---------------
+## Comment
+## ---------------
+{/pre}
+#info("This is the new experimental Lucene search engine. \\
+        You can still use the XWiki [default search engine&gt;WebSearch?text=$query].")
+{pre}
+#end
+{/pre}</content>
 </xwikidoc>

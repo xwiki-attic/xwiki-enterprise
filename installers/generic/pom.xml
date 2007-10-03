@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2-milestone-1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-generic</artifactId>
   <name>XWiki Products - Enterprise - Installers - Generic</name>
@@ -66,7 +66,7 @@
                 <artifactItem>
                   <groupId>com.xpn.xwiki.platform</groupId>
                   <artifactId>xwiki-web-standard</artifactId>
-                  <version>1.2-SNAPSHOT</version>
+                  <version>${platform.web.version}</version>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
                 </artifactItem>
@@ -78,6 +78,9 @@
                   <outputDirectory>${project.build.directory}/database</outputDirectory>
                 </artifactItem>
               </artifactItems>
+              <!-- Exclude default Hibernate config file since we're instead using one with the
+                   selected database configuration defined -->
+              <excludes>**/hibernate.cfg.xml</excludes>
             </configuration>
           </execution>
           <execution>

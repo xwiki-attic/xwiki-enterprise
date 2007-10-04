@@ -68,8 +68,6 @@
 #set($inbitems = $xwiki.parseInt($nbitems))
 #set($inbstart = $xwiki.parseInt($nbstart))
 #foreach ($item in $xwiki.searchDocuments($sql, $inbitems, $inbstart))
-## The default foreach counter, $velocityCount, cannot be used outside of the foreach body!
-#set($velocityCountOutsideForeachBody = $velocityCount)
 #set($bentrydoc = $xwiki.getDocument($item))
 #if($bentrydoc.fullName == $item)
 #set($bentryobj = $bentrydoc.getObject("XWiki.ArticleClass"))
@@ -103,15 +101,19 @@ Posted by &lt;address class="author vcard"&gt;#userfn($bentrydoc.creator)&lt;/ad
 #end
 ##
 ## prev/next links
-#if(($inbstart != 0) || ($velocityCountOutsideForeachBody==$inbitems))
+#if (!$velocityCount)
+## if $velocityCount has not been initialized (e.g. $xwiki.searchDocuments has returned an empty list)
+#set($velocityCount = -1)
+#end
+#if(($inbstart != 0) || ($velocityCount==$inbitems))
 &lt;div class="pagingLinks"&gt;
 #if ($inbstart!=0)
 #set($iprev = $inbstart - $inbitems)
-&lt;span class="prevPage"&gt;[Previous&gt;$doc.name?nbstart=${iprev}]&lt;/span&gt;
+&lt;span class="prevPage"&gt;[Previous&gt;$doc.name?category=$!category&amp;nbstart=${iprev}]&lt;/span&gt;
 #end
-#if($velocityCountOutsideForeachBody==$inbitems)
+#if($velocityCount==$inbitems)
 #set($inext = $inbstart + $inbitems)
-&lt;span class="nextPage"&gt;[Next&gt;$doc.name?nbstart=${inext}]&lt;/span&gt;
+&lt;span class="nextPage"&gt;[Next&gt;$doc.name?category=$!category&amp;nbstart=${inext}]&lt;/span&gt;
 #end
 &lt;span class="clear"&gt;&lt;/span&gt;
 &lt;/div&gt; ## pagingLinks

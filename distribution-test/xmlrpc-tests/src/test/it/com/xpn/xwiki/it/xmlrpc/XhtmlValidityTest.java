@@ -223,7 +223,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         return output.indexOf("WARNING") >= 0 || output.indexOf("WARN") >= 0;
     }
 
-    private static List readXarContents(String fileName) throws Exception
+    public static List readXarContents(String fileName) throws Exception
     {
         FileInputStream fileIS = new FileInputStream(fileName);
         ZipInputStream zipIS = new ZipInputStream(fileIS);

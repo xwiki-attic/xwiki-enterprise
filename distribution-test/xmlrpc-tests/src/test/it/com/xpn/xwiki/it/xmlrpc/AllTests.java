@@ -27,10 +27,10 @@ import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than
- * letting the JUnit Runner discover the different TestCases classes by itself) because we want
- * to start/stop XWiki before and after the tests start (but only once).
- *
- * @version $Id: $ 
+ * letting the JUnit Runner discover the different TestCases classes by itself) because we want to
+ * start/stop XWiki before and after the tests start (but only once).
+ * 
+ * @version $Id: $
  */
 public class AllTests extends TestCase
 {
@@ -51,7 +51,8 @@ public class AllTests extends TestCase
         addTestCase(suite, PagesTest.class);
         addTestCase(suite, CommentsTest.class);
         addTestCase(suite, AttachmentsTest.class);
-        addTest(suite, XhtmlValidityTest.suite());
+        addTest(suite, XhtmlValidityTest.suite(), XhtmlValidityTest.class);
+        addTest(suite, OrphanedPageTest.suite(), OrphanedPageTest.class);
 
         return new XWikiTestSetup(suite);
     }
@@ -62,10 +63,10 @@ public class AllTests extends TestCase
             suite.addTest(new TestSuite(testClass));
         }
     }
-    
-    private static void addTest(TestSuite suite, Test test) throws Exception
+
+    private static void addTest(TestSuite suite, Test test, Class testClass) throws Exception
     {
-        if (XhtmlValidityTest.class.getName().matches(PATTERN)) {
+        if (testClass.getName().matches(PATTERN)) {
             suite.addTest(test);
         }
     }

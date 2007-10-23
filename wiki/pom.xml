@@ -16,5 +16,11 @@
       <version>${platform.panels.version}</version>
       <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-scheduler</artifactId>
+      <version>${platform.scheduler.version}</version>
+      <type>xar</type>
+    </dependency>
   </dependencies>
 </project>

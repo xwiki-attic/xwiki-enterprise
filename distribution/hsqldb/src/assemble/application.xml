@@ -32,7 +32,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.platform:xwiki-web-standard</include>
+        <include>com.xpn.xwiki.products:xwiki-enterprise-web</include>
       </includes>
       <outputDirectory>webapps/xwiki</outputDirectory>
       <unpack>true</unpack>

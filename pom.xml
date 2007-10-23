@@ -41,10 +41,11 @@
     <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</developerConnection>
     <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</url>
   </scm>
-  <modules>
+  <modules>        
     <module>wiki</module>
     <module>database</module>
-    <module>distribution</module>
+    <module>web</module>
+    <module>distribution</module>    
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
@@ -52,6 +53,9 @@
     <platform.core.version>1.2-SNAPSHOT</platform.core.version>
     <platform.web.version>1.2-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.2-SNAPSHOT</platform.panels.version>
+    <platform.scheduler.version>1.0-SNAPSHOT</platform.scheduler.version>
+    <platform.mailsender.version>1.0-SNAPSHOT</platform.mailsender.version>
+    <platform.watchlist.version>1.0-SNAPSHOT</platform.watchlist.version>
   </properties>
   <profiles>
     <profile>

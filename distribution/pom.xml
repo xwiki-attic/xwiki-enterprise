@@ -11,9 +11,9 @@
   <description>XWiki Products - Enterprise - Distribution - Parent POM</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-web-standard</artifactId>
-      <version>${platform.web.version}</version>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${version}</version>
       <type>war</type>
     </dependency>
     <dependency>

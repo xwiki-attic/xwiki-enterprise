@@ -33,7 +33,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>selenium-maven-plugin</artifactId>
-        <version>1.0-beta-2-20070702.000657-13-dev</version>
+        <version>1.0-beta-2</version>
         <executions>
           <execution>
             <id>start-selenium</id>

@@ -53,7 +53,7 @@
     <platform.core.version>1.2-SNAPSHOT</platform.core.version>
     <platform.web.version>1.2-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.2-SNAPSHOT</platform.panels.version>
-    <platform.scheduler.version>1.0-SNAPSHOT</platform.scheduler.version>
+    <platform.scheduler.version>1.1-SNAPSHOT</platform.scheduler.version>
     <platform.mailsender.version>1.0-SNAPSHOT</platform.mailsender.version>
     <platform.watchlist.version>1.0-SNAPSHOT</platform.watchlist.version>
   </properties>

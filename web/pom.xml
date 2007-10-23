@@ -42,11 +42,6 @@
     </dependency>    
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-scheduler</artifactId>
-      <version>${platform.scheduler.version}</version>
-    </dependency>    
-    <dependency>
-      <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-mailsender</artifactId>
       <version>${platform.mailsender.version}</version>
     </dependency>    

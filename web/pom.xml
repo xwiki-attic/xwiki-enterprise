@@ -109,7 +109,10 @@
                 com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
                 com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
                 com.xpn.xwiki.plugin.watchlist.WatchListPlugin
-            </xwikiCfgPlugins>            
+            </xwikiCfgPlugins>
+            <xwikiCfgAdditionalProperties>                
+                xwiki.work.dir=work
+            </xwikiCfgAdditionalProperties>
           </properties>
         </configuration>
       </plugin>

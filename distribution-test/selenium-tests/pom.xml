@@ -13,7 +13,7 @@
     <dependency>
       <groupId>org.openqa.selenium.client-drivers</groupId>
       <artifactId>selenium-java-client-driver</artifactId>
-      <version>0.9.2-20070707.164746-82-dev</version>
+      <version>0.9.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -251,7 +251,7 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
         #if ($queuesize &gt; 2)
             #set($info1 = "Lucene is currently building its index, ${queuesize} documents in queue.")
         #else
-            #set($info1 = "")
+            #set($info1 = "Lucene index is up to date.")
         #end
         #if($xwiki.hasAdminRights())
             #set($info2 = " [Rebuild the Lucene index&gt;${doc.web}.${doc.name}?rebuild=yes].")

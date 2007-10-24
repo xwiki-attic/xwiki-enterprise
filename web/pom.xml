@@ -45,6 +45,11 @@
       <artifactId>xwiki-plugin-watchlist</artifactId>
       <version>${platform.watchlist.version}</version>
     </dependency>   
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.plugins</groupId>
+      <artifactId>xwiki-plugin-jodatime</artifactId>
+      <version>${platform.jodatime.version}</version>
+    </dependency>   
   </dependencies>
   <build>
     <plugins>
@@ -96,6 +101,7 @@
                 com.xpn.xwiki.plugin.autotag.AutoTagPlugin,\
                 com.xpn.xwiki.plugin.lucene.LucenePlugin,\
                 com.xpn.xwiki.plugin.diff.DiffPlugin,\
+                com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
                 com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
                 com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
                 com.xpn.xwiki.plugin.watchlist.WatchListPlugin

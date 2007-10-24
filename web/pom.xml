@@ -39,12 +39,7 @@
       <artifactId>xwiki-web-standard</artifactId>
       <version>${platform.web.version}</version>
       <type>war</type>
-    </dependency>    
-    <dependency>
-      <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-mailsender</artifactId>
-      <version>${platform.mailsender.version}</version>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-watchlist</artifactId>

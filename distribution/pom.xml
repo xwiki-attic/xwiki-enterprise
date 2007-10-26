@@ -13,7 +13,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-web-standard</artifactId>
-      <version>1.1.1</version>
+      <version>1.1-SNAPSHOT</version>
       <type>war</type>
     </dependency>
     <dependency>

@@ -34,6 +34,20 @@
             </execution>
           </executions>
         </plugin>
+        <!--  Force copy of test resources file as the packaging being pom resource files won't
+              be copied with the default pom lifecycle -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <!--phase>process-test-resources</phase-->
+              <goals>
+                <goal>testResources</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
         <!-- Unpack the XWiki application -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>

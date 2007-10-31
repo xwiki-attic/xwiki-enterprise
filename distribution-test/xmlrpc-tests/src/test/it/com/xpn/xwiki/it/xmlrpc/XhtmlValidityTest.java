@@ -20,7 +20,6 @@
 package com.xpn.xwiki.it.xmlrpc;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -121,12 +120,13 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         while (it.hasNext()) {
             suite.addTest(new XhtmlValidityTest((String) it.next()));
         }
-
+        
         // Prepare validators only once, as this is a costly process
         System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema",
             "org.apache.xerces.jaxp.validation.XMLSchemaFactory");
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema xhtmlSchema = sf.newSchema(new File("xhtml1-strict.xsd"));
+        Schema xhtmlSchema = sf.newSchema(
+            XhtmlValidityTest.class.getClassLoader().getResource("xhtml1-strict.xsd"));
         // Schema rssSchema = sf.newSchema(new File("rdf.xsd"));
         xv = xhtmlSchema.newValidator();
         // rv = rssSchema.newValidator();

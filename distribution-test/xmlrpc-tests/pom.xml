@@ -43,10 +43,14 @@
   </dependencies>
   <build>
     <plugins>
-      <!-- Step 1: Compile the JUnit tests -->
+      <!-- Step 1: Compile the JUnit Selenium Tests and copy test resources files -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
       </plugin>
       <!-- Step 2: Unpack the application -->
       <plugin>

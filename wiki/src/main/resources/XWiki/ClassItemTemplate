@@ -51,7 +51,7 @@
 <tags/>
 </property>
 </object>
-<content>## replace MyName with the real class name
-## save this template using the save button at the top left
+<content>## Replace MyName with the real class name.
+## Save this template using the save button.
 #includeForm("XWiki.MyNameClassSheet")</content>
 </xwikidoc>

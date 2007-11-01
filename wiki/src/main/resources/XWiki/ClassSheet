@@ -76,7 +76,7 @@ To create a new document, you should first choose a name for you document
 &lt;input type="hidden" name="parent" value="${defaultparent}"/&gt;
 &lt;input type="hidden" name="template" value="${doc.web}.${class}ClassTemplate"/&gt;
 &lt;input type="hidden" name="sheet" value="1"/&gt;
-Web: &lt;input type="text" name="webname" value="${defaultweb}" size="8"/&gt;
+Space: &lt;input type="text" name="webname" value="${defaultweb}" size="8"/&gt;
 Document: &lt;input type="text" name="name" value="Name of your document"/&gt;
 &lt;br/&gt;
 &lt;br/&gt;

@@ -19,30 +19,11 @@
  */
 package com.xpn.xwiki.it.xmlrpc;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-
+import com.xpn.xwiki.plugin.packaging.Package;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.swizzle.confluence.Confluence;
 import org.codehaus.swizzle.confluence.Page;
 import org.dom4j.Document;
@@ -59,7 +40,24 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import com.xpn.xwiki.plugin.packaging.Package;
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents using the Confluence XMLRPC
@@ -269,6 +267,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         ac.setProfile("css21");
         ac.setCssVersion("css21");
         ac.setMedium("all");
+        ac.setCredential("Basic " + new String(Base64.encodeBase64("Admin:admin".getBytes())));
         String output = "text";
         int warningLevel = 2;
 

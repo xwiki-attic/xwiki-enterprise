@@ -41,7 +41,7 @@
         </executions>
         <configuration>
           <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:1.6</resourceBundle>
+            <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:${platform.tools.version}</resourceBundle>
           </resourceBundles>
         </configuration>
       </plugin>
@@ -60,13 +60,13 @@
                 <artifactItem>
                   <groupId>com.xpn.xwiki.platform</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
-                  <version>1.6</version>
+                  <version>${platform.tools.version}</version>
                   <outputDirectory>${project.build.directory}/container</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.platform</groupId>
                   <artifactId>xwiki-web-standard</artifactId>
-                  <version>1.1-SNAPSHOT</version>
+                  <version>${platform.web.version}</version>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
                 </artifactItem>

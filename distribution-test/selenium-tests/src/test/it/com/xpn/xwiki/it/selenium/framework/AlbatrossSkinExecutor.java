@@ -44,7 +44,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void clickDeletePage()
     {
-        getTest().clickLinkWithLocator("//div[@id='tmDelete']/a");
+        getTest().clickLinkWithLocator("//a[string() = 'Delete']");
     }
 
     public void clickEditPreview()

@@ -19,9 +19,9 @@
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<content>## you can modify this page to customize the presentation of your object
-## at first you should keep the default presentation
-## save this template using the save button at the top left
+<content>## You can modify this page to customize the presentation of your object
+## at first you should keep the default presentation.
+## Save this template using the save button.
 
 1 Document $doc.name
 

@@ -69,7 +69,7 @@
     &lt;th style="width:150px"&gt;Date&lt;/th&gt;
     &lt;th style="width:150px"&gt;Last Author&lt;/th&gt;
     #if($isScored)
-    &lt;th style="width:150px" class="noFilter"&gt;&gt;Score&lt;/th&gt;
+    &lt;th style="width:150px" class="noFilter"&gt;Score&lt;/th&gt;
     #end
     #if($xwiki.hasAdminRights())
       &lt;th style="width:210px" class="unsortable noFilter"&gt;Actions&lt;/th&gt;

@@ -985,7 +985,7 @@
 <number>0</number>
 <className>XWiki.XWikiGlobalRights</className>
 <property>
-<groups>XWiki.AdminGroup,</groups>
+<groups>XWiki.XWikiAdminGroup,</groups>
 </property>
 <property>
 <users></users>

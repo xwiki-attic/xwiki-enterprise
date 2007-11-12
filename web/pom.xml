@@ -101,6 +101,7 @@
                 com.xpn.xwiki.plugin.autotag.AutoTagPlugin,\
                 com.xpn.xwiki.plugin.lucene.LucenePlugin,\
                 com.xpn.xwiki.plugin.diff.DiffPlugin,\
+                com.xpn.xwiki.plugin.rightsmanager.RightsManagerPlugin,\
                 com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
                 com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
                 com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\

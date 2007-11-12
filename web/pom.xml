@@ -108,7 +108,12 @@
                 com.xpn.xwiki.plugin.watchlist.WatchListPlugin
             </xwikiCfgPlugins>
             <xwikiCfgAdditionalProperties>                
-                xwiki.work.dir=work
+xwiki.work.dir=work
+
+# Decide what UI interface to use for Rights Management.
+# Possible values are: "new", "stable".
+# Uncomment to use the new old UI.
+# xwiki.rights.defaultui=new
             </xwikiCfgAdditionalProperties>
           </properties>
         </configuration>

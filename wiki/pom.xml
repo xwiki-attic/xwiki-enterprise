@@ -22,5 +22,11 @@
       <version>${platform.scheduler.version}</version>
       <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-statistics</artifactId>
+      <version>${platform.statistics.version}</version>
+      <type>xar</type>
+    </dependency>
   </dependencies>
 </project>

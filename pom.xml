@@ -56,6 +56,7 @@
     <platform.scheduler.version>1.2-SNAPSHOT</platform.scheduler.version>
     <platform.watchlist.version>1.1-SNAPSHOT</platform.watchlist.version>
     <platform.jodatime.version>1.1-SNAPSHOT</platform.jodatime.version>
+    <platform.statistics.version>1.0-SNAPSHOT</platform.statistics.version>
   </properties>
   <profiles>
     <profile>

@@ -1,15 +1,16 @@
 package com.xpn.xwiki.it.xmlrpc;
 
-import java.util.List;
-
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
 import com.xpn.xwiki.xmlrpc.client.XWikiClientException;
+import com.xpn.xwiki.xmlrpc.client.XWikiClientRemoteException;
 import com.xpn.xwiki.xmlrpc.model.Page;
 import com.xpn.xwiki.xmlrpc.model.PageHistorySummary;
 import com.xpn.xwiki.xmlrpc.model.PageSummary;
 import com.xpn.xwiki.xmlrpc.model.Space;
 import com.xpn.xwiki.xmlrpc.model.swizzle.PageImpl;
 import com.xpn.xwiki.xmlrpc.model.swizzle.SpaceImpl;
+
+import java.util.List;
 
 
 public class PagesTest extends AbstractXmlRpcTestCase
@@ -215,9 +216,18 @@ public class PagesTest extends AbstractXmlRpcTestCase
             // ok, continue
         }
     }
-    
-//    public void testExceptions() throws Exception
-//    {
-//        rpc.getPage("NotExistingId");
-//    }
+
+    /**
+     * Verify that pageId must be of the form Space.Page when the xmlrpc server is XWiki.
+     */
+    public void testRenderContentWithInvalidPageId()
+    {
+        try {
+            rpc.renderContent("unused", "InvalidPageId", "Dummy content");
+            fail("Should have received an exception here since the page id format is invalid");
+        } catch (Exception expected) {
+            assertTrue(expected.getMessage().contains("The page format for [InvalidPageId] is invalid. A page id "
+                + "must be of the form Space.Page"));
+        }
+    }
 }

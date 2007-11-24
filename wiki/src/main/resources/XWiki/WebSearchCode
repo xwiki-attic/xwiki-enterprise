@@ -68,8 +68,8 @@
   #set($text = $text.replaceAll("'", "''").replaceAll("%", "\\%"))
   #set($nbitems = 50)
   ## -----------------------------------------------------------
-  ## Non-admins should not see results from XWiki, Main, Admin 
-  ## and Panels spaces. Also exclude the WebPreferences doc.
+  ## Non-admins should not see results from XWiki, Admin and
+  ## Panels spaces. Also exclude the WebPreferences doc.
   ## -----------------------------------------------------------
   #if ($xwiki.hasAdminRights())
     #set ($excludedWebs = "")

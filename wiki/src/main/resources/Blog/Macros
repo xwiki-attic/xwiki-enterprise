@@ -58,7 +58,7 @@
 #end
 
 &lt;div class="hfeed"&gt;
-#if(!$category || $category=="")
+#if("$!category"=="")
 #set ($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='XWiki.ArticleClass' and obj.name&lt;&gt;'XWiki.ArticleClassTemplate' order by doc.creationDate desc")
 #else
 #set ($sql = ", BaseObject as obj, DBStringListProperty as prop join prop.list list where obj.name=doc.fullName and obj.className='XWiki.ArticleClass' and obj.name&lt;&gt;'XWiki.ArticleClassTemplate' and obj.id=prop.id.id and prop.id.name='category'  and list='${category}' order by doc.creationDate desc")

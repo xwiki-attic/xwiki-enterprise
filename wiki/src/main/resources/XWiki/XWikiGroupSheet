@@ -122,6 +122,7 @@
 
 {pre}
 &lt;script type="text/javascript"&gt; 
+//&lt;![CDATA[
   window.tabl = new ASSTable("$url", 15, "display1", "scrollbar1", "memberstable", displayMembers, true);
    
   //create new ajax suggest
@@ -176,7 +177,7 @@ window.changeWiki = function(obj)
         // clear errors messages
         $('errMsg').innerHTML = "";
 }
-
+//]]&gt;>
 &lt;/script&gt;
 {/pre}
 #else ## stable interface

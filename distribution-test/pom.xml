@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
@@ -10,7 +12,7 @@
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional Tests</description>
   <dependencies>
-    <dependency>  
+    <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-shared-test</artifactId>
       <version>${platform.tools.version}</version>
@@ -22,7 +24,7 @@
     <pluginManagement>
       <plugins>
         <!--  Force compilation of tests as the packaging being pom tests won't be compiled
-              with the default pom lifecycle -->
+          with the default pom lifecycle -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -35,7 +37,7 @@
           </executions>
         </plugin>
         <!--  Force copy of test resources file as the packaging being pom resource files won't
-              be copied with the default pom lifecycle -->
+          be copied with the default pom lifecycle -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
@@ -44,6 +46,18 @@
               <!--phase>process-test-resources</phase-->
               <goals>
                 <goal>testResources</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Create jar containing integration tests which will be installed -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <executions>
+            <execution>
+              <goals>
+                <goal>test-jar</goal>
               </goals>
             </execution>
           </executions>
@@ -64,7 +78,7 @@
                   <artifactItem>
                     <groupId>com.xpn.xwiki.products</groupId>
                     <artifactId>xwiki-enterprise-${xwiki.db}</artifactId>
-                    <version>${version}</version>
+                    <version>${pom.version}</version>
                     <type>zip</type>
                   </artifactItem>
                 </artifactItems>
@@ -74,9 +88,9 @@
           </executions>
         </plugin>
         <!-- Start XWiki, Execute the tests and Stop XWiki.
-             Note: To execute a single test case run mvn install -Dpattern=<test name>
-             For example: mvn install -Dpattern=DeletePageTest
-             For example: mvn install -Dpattern=.*Wysiwyg.*
+          Note: To execute a single test case run mvn install -Dpattern=<test name>
+          For example: mvn install -Dpattern=DeletePageTest
+          For example: mvn install -Dpattern=.*Wysiwyg.*
         -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -104,7 +118,7 @@
               </property>
               <property>
                 <name>xwikiExecutionDirectory</name>
-                <value>${basedir}/target/xwiki-enterprise-${xwiki.db}-${version}</value>
+                <value>${basedir}/target/xwiki-enterprise-${xwiki.db}-${pom.version}</value>
               </property>
               <property>
                 <name>xwikiExecutionStartCommand</name>
@@ -126,19 +140,19 @@
               <!-- Used only in xml-rpc tests -->
               <property>
                 <name>pathToXWikiXar</name>
-                <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${version}/xwiki-enterprise-wiki-${version}.xar</value>
+                <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${pom.version}/xwiki-enterprise-wiki-${pom.version}.xar</value>
               </property>
             </systemProperties>
           </configuration>
         </plugin>
-      </plugins>  
+      </plugins>
     </pluginManagement>
   </build>
   <properties>
     <!-- This is to allow users to override this property on the command line to choose what
-         test to run. For example to run only the DeletePageTest you would type:
-             mvn install -DPattern=DeletePageTest
-    -->    
+      test to run. For example to run only the DeletePageTest you would type:
+      mvn install -DPattern=DeletePageTest
+    -->
     <pattern>.*</pattern>
     <port>8080</port>
   </properties>
@@ -148,7 +162,7 @@
       <activation>
         <os>
           <family>unix</family>
-        </os>        
+        </os>
       </activation>
       <properties>
         <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port}</xwikiExecutionStartCommand>
@@ -160,7 +174,7 @@
       <activation>
         <os>
           <family>mac</family>
-        </os>        
+        </os>
       </activation>
       <properties>
         <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port}</xwikiExecutionStartCommand>
@@ -172,7 +186,7 @@
       <activation>
         <os>
           <family>windows</family>
-        </os>        
+        </os>
       </activation>
       <properties>
         <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port}</xwikiExecutionStartCommand>

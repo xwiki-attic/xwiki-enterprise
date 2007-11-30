@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
@@ -24,12 +26,24 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-      <!-- Step 2: Unpack the application -->
+      <!-- Step 2: Create jar containing integration tests which will be installed -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Step 3: Unpack the application -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dependency-maven-plugin</artifactId>
       </plugin>
-      <!-- Step 3: Start Selenium -->
+      <!-- Step 4: Start Selenium -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>selenium-maven-plugin</artifactId>
@@ -49,7 +63,7 @@
           <port>4444</port>
         </configuration>
       </plugin>
-      <!-- Step 4: Start XWiki, Execute the tests and Stop XWiki -->
+      <!-- Step 5: Start XWiki, Execute the tests and Stop XWiki -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>

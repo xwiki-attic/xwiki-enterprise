@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
@@ -16,13 +18,13 @@
       <version>${platform.core.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>  
+    <dependency>
       <groupId>xmlunit</groupId>
       <artifactId>xmlunit</artifactId>
       <version>1.1</version>
       <scope>test</scope>
     </dependency>
-    <dependency>  
+    <dependency>
       <groupId>xerces</groupId>
       <artifactId>xercesImpl</artifactId>
       <version>2.8.1</version>
@@ -43,7 +45,7 @@
   </dependencies>
   <build>
     <plugins>
-      <!-- Step 1: Compile the JUnit Selenium Tests and copy test resources files -->
+      <!-- Step 1: Compile the JUnit XMLRPC Tests and copy test resources files -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -52,12 +54,17 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
-      <!-- Step 2: Unpack the application -->
+      <!-- Step 2: Create jar containing integration tests which will be installed -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <!-- Step 3: Unpack the application -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dependency-maven-plugin</artifactId>
       </plugin>
-      <!-- Step 3: Start XWiki, Execute the tests and Stop XWiki -->
+      <!-- Step 4: Start XWiki, Execute the tests and Stop XWiki -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>

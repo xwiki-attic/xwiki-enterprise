@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
-    <version>7</version>
+    <version>8-SNAPSHOT</version>
     <relativePath>../xwiki-platform-pom</relativePath>
   </parent>
   <groupId>com.xpn.xwiki.products</groupId>
@@ -50,13 +50,13 @@
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
     <platform.tools.version>1.7</platform.tools.version>
-    <platform.core.version>1.2-rc-1</platform.core.version>
-    <platform.web.version>1.2-rc-1</platform.web.version>
-    <platform.panels.version>1.2-rc-1</platform.panels.version>
-    <platform.scheduler.version>1.1.1</platform.scheduler.version>
-    <platform.watchlist.version>1.0.1</platform.watchlist.version>
-    <platform.jodatime.version>1.0.1</platform.jodatime.version>
-    <platform.statistics.version>1.0.1</platform.statistics.version>
+    <platform.core.version>1.2-SNAPSHOT</platform.core.version>
+    <platform.web.version>1.2-SNAPSHOT</platform.web.version>
+    <platform.panels.version>1.2-SNAPSHOT</platform.panels.version>
+    <platform.scheduler.version>1.2-SNAPSHOT</platform.scheduler.version>
+    <platform.watchlist.version>1.1-SNAPSHOT</platform.watchlist.version>
+    <platform.jodatime.version>1.1-SNAPSHOT</platform.jodatime.version>
+    <platform.statistics.version>1.1-SNAPSHOT</platform.statistics.version>
   </properties>
   <profiles>
     <profile>

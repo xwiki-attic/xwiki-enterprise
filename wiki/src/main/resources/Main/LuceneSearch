@@ -12,9 +12,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1186588178000</creationDate>
-<date>1197025994000</date>
-<contentUpdateDate>1197025994000</contentUpdateDate>
-<version>22.1</version>
+<date>1197046413000</date>
+<contentUpdateDate>1197046413000</contentUpdateDate>
+<version>24.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -132,6 +132,9 @@
 #set($wikinamelist = [])
 #if(!$wikinames)
   #set($wikinametable = $request.getParameterValues("wikinames"))
+  #if(!$wikinametable || $request.wikinames == "")
+    #set($wikinametable = $allwikinamelist)
+  #end
   #set($wikinames = "")
   #foreach($wikiname in $wikinametable)
     #set($ok = $wikinamelist.add($wikiname))
@@ -266,7 +269,7 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
                         ## -----------------
                         #if ($request.xpage &amp;&amp; $request.xpage == "rdf")
                           #set ($baseurl = "http://${request.serverName}")
-                          #set ($description = "RSS feed for search on '$text'")                          
+                          #set ($description = "RSS feed for search on '$text'")
                           #set ($list = $xwiki.arrayList)
                           #foreach ($item in $results)
                             #if ($item.type != "attachment")

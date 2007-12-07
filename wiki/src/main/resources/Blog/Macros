@@ -77,7 +77,7 @@
 #set ($cdate = $creationDate)
 #end
 &lt;div class="hentry"&gt;
-&lt;h4 class="heading-1-1-1 entry-title"&gt;$bentrydoc.display("title","view", $bentryobj)&lt;/h4&gt;
+&lt;a href="$bentrydoc.getURL()"&gt;&lt;h4 class="heading-1-1-1 entry-title"&gt;$bentrydoc.display("title","view", $bentryobj)&lt;/h4&gt;&lt;/a&gt;
 &lt;div class="article_content entry-summary"&gt;
 #set($content = $bentrydoc.display("extract", "view", $bentryobj))
 #if($content=="")

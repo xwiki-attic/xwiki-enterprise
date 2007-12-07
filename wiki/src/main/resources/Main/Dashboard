@@ -53,13 +53,17 @@
 <tags/>
 </property>
 </object>
-<content>&lt;div&gt;
+<content>1 News
+
+Find below all the recent news from the site blog and from the list of pages that have been changed recently.
+
+&lt;div&gt;
   &lt;div id="webhomeblogdisplay" style="float:left; width: 50%;"&gt;
     &lt;div style="padding-right:20px;"&gt;
       &lt;h2 class="heading-1-1-1"&gt;Blog &lt;a href="$xwiki.getURL("Main.BlogRss", "view", "xpage=rdf")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" alt="rss icon"/&gt;&lt;/a&gt;&lt;/h2&gt;
       #set($nbstart = $request.nbstart)
       #set($category = "")
-      #set($nbitems = "5")
+      #set($nbitems = "3")
       #includeMacros("Blog.Macros")
     &lt;/div&gt;
   &lt;/div&gt;

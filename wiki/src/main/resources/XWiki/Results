@@ -12,14 +12,15 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1158300067000</creationDate>
-<date>1195829499000</date>
-<contentUpdateDate>1195829499000</contentUpdateDate>
-<version>1.4</version>
+<date>1197466653000</date>
+<contentUpdateDate>1197466653000</contentUpdateDate>
+<version>8.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
+<minorEdit>false</minorEdit>
 <object>
 <class>
 <name>XWiki.TagClass</name>
@@ -79,72 +80,78 @@
   &lt;/tr&gt;
   #foreach ($item in $list)
     #set($troubi = "non")
-      #if ($xwiki.hasAccessLevel("view", $context.user, "${context.database}:${item}"))
-        #if ($item.class == "class java.lang.String")
-          #set($bentrydoc = $xwiki.getDocument($item))
-        #elseif ($item.class == "class com.xpn.xwiki.plugin.lucene.SearchResult")
-          #set($bentrydoc = $item)
-        #end
-        #set($cclass = $xwiki.getDocument("XWiki.XWikiComments").getxWikiClass())
-        #set($comment = $cclass.newObject())
-        #if($xwiki.getWebPreferenceAsInt("commentsorder",1)==0)
-          #set($comments = $bentrydoc.getComments())
-        #else
-          #set($comments = $bentrydoc.getComments(false))
-        #end
-        #set($createur = $xwiki.getUserName($bentrydoc.author))
-        #set($ptitle = $bentrydoc.getDisplayTitle())
-        &lt;tr&gt;&lt;td style="text-align:left"&gt;
-          ## LUCENE : entries are typed
-          #if ($bentrydoc.type)
-            #set ($ptitle = $xwiki.getDocument("${bentrydoc.web}.${bentrydoc.name}").getDisplayTitle())
-            #if ($bentrydoc.type == "attachment")
-            &lt;a href="${bentrydoc.url}" target="_blank"&gt;&lt;img src="${xwiki.getSkinFile("icons/search/disk.png")}" ALT="download" /&gt; ${bentrydoc.filename}&lt;/a&gt;\\
+    #if($item.class == "class com.xpn.xwiki.plugin.lucene.SearchResult")
+      #set($itemfullname = "${item.wiki}:${item.web}.${item.name}")
+    #else
+      #set($itemfullname = "${context.database}:${item}")
+    #end
+    #if ($xwiki.hasAccessLevel("view", $context.user, $itemfullname))
+      #if ($item.class == "class java.lang.String")
+        #set($bentrydoc = $xwiki.getDocument($item))
+      #elseif ($item.class == "class com.xpn.xwiki.plugin.lucene.SearchResult")
+        #set($bentrydoc = $item)
+      #end
+      #set($cclass = $xwiki.getDocument("XWiki.XWikiComments").getxWikiClass())
+      #set($comment = $cclass.newObject())
+      #if($xwiki.getWebPreferenceAsInt("commentsorder",1)==0)
+        #set($comments = $bentrydoc.getComments())
+      #else
+        #set($comments = $bentrydoc.getComments(false))
+      #end
+      #set($createur = $xwiki.getUserName($bentrydoc.author))
+      #set($ptitle = $bentrydoc.getDisplayTitle())
+      &lt;tr&gt;&lt;td style="text-align:left"&gt;
+        ## LUCENE : entries are typed
+        #if ($bentrydoc.type)
+          #set ($ptitle = $xwiki.getDocument($itemfullname).getDisplayTitle())
+          #if ($bentrydoc.type == "attachment")
+          &lt;a href="${bentrydoc.url}" target="_blank"&gt;&lt;img src="${xwiki.getSkinFile("icons/search/disk.png")}" ALT="download" /&gt; ${bentrydoc.filename}&lt;/a&gt;\\
 	    Attachment of
-            #end
           #end
-          #if($comments &amp;&amp; $comments.size()&gt;0)
-            #set($i = 0)
-            #set($cobj = $comments.get($i))
-            #set($comment = $bentrydoc.display("comment", "view", $cobj))
-            #set($date = $cobj.getXWikiObject().get("date").value)
-            #if($date)
-              #set($date2 = $!xwiki.formatDate($date,"yyyy MM dd HH:mm:ss")  )
-            #end
-            #if($bentrydoc)
-              #set($date1 = $!xwiki.formatDate($!bentrydoc.date,"yyyy MM dd HH:mm:ss") )
-            #end
-            #if($date1.equals($date2) )
-              [$ptitle&gt;${bentrydoc.web}.$bentrydoc.name] &lt;em&gt;- 1 new comment&lt;/em&gt;
-              #set($troubi ="oui")
-              #set($desc = $cobj.getXWikiObject().get("comment").value)
-            #else
-              [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
-            #end
-          #else
-            #set($comment = "")
-            [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name.replaceAll("@","%40")] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
-          #end
-        &lt;/td&gt;&lt;td style="text-align:left"&gt;
-          [$bentrydoc.web&gt;${bentrydoc.web}.WebHome]
-        &lt;/td&gt;
-        #if($xwiki.isVirtual())
-          &lt;td style="text-align:left"&gt;
-            [$bentrydoc.wiki&gt;${bentrydoc.wiki}:Main.WebHome]
-          &lt;/td&gt;
         #end
-        &lt;td style="text-align:left"&gt;
-          $xwiki.formatDate($bentrydoc.date,"yyyy MMM dd") at $xwiki.formatDate($bentrydoc.date,"HH:mm")&lt;/td&gt;&lt;td style="text-align:center"&gt;
-          #if($troubi =="oui")
-            #set($createur = $xwiki.getUserName($cobj.author)   )
+        #if($comments &amp;&amp; $comments.size()&gt;0)
+          #set($i = 0)
+          #set($cobj = $comments.get($i))
+          #set($comment = $bentrydoc.display("comment", "view", $cobj))
+          #set($date = $cobj.getXWikiObject().get("date").value)
+          #if($date)
+            #set($date2 = $!xwiki.formatDate($date,"yyyy MM dd HH:mm:ss")  )
           #end
-          #if ($createur == "XWikiGuest")
-            Guest
+          #if($bentrydoc)
+            #set($date1 = $!xwiki.formatDate($!bentrydoc.date,"yyyy MM dd HH:mm:ss") )
+          #end
+          #if($date1.equals($date2) )
+            [$ptitle&gt;$itemfullname] &lt;em&gt;- 1 new comment&lt;/em&gt;
+            #set($troubi ="oui")
+            #set($desc = $cobj.getXWikiObject().get("comment").value)
           #else
-            $createur
+            [$bentrydoc.name&gt;$itemfullname] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
           #end
+        #else
+          #set($comment = "")
+          [$bentrydoc.name&gt;$itemfullname] #if ($ptitle != $bentrydoc.name) &lt;em&gt;- $ptitle&lt;/em&gt;#end
+        #end
+      &lt;/td&gt;
+      &lt;td style="text-align:left"&gt;
+        [$bentrydoc.web&gt;${bentrydoc.wiki}:${bentrydoc.web}.WebHome]
+      &lt;/td&gt;
+      #if($xwiki.isVirtual())
+        &lt;td style="text-align:left"&gt;
+          [$bentrydoc.wiki&gt;${bentrydoc.wiki}:Main.WebHome]
         &lt;/td&gt;
-        #if ($isScored)
+      #end
+      &lt;td style="text-align:left"&gt;
+        $xwiki.formatDate($bentrydoc.date,"yyyy MMM dd") at $xwiki.formatDate($bentrydoc.date,"HH:mm")&lt;/td&gt;&lt;td style="text-align:center"&gt;
+        #if($troubi =="oui")
+          #set($createur = $xwiki.getUserName($cobj.author)   )
+        #end
+        #if ($createur == "XWikiGuest")
+          Guest
+        #else
+          $createur
+        #end
+      &lt;/td&gt;
+      #if ($isScored)
         &lt;td style="text-align:left"&gt;
           #set($resval=$bentrydoc.score*100)
           #set($starurl=$xwiki.getSkinFile("icons/search/star.png"))
@@ -158,13 +165,13 @@
           #set ($perc = $resval.toString())
           ${perc.substring(0, $perc.indexOf("."))}%
         &lt;/td&gt;
-          #set ($bentrydoc = $xwiki.getDocument("${bentrydoc.web}.${bentrydoc.name}"))
-        #end
-        #if($xwiki.hasAdminRights())
-          &lt;td&gt;
-            &lt;a href="$xwiki.getURL("XWiki.CopyDocument", "view", "sourcedoc=${bentrydoc.fullName}")"&gt;Copy&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;Delete&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1")"&gt;Rename&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;Rights&lt;/a&gt;
-          &lt;/td&gt;
-        #end
+        #set ($bentrydoc = $xwiki.getDocument($itemfullname))
+      #end
+      #if($xwiki.hasAdminRights())
+        &lt;td&gt;
+          &lt;a href="$xwiki.getURL("XWiki.CopyDocument", "view", "sourcedoc=${xwiki.getURLEncoded($itemfullname)}")"&gt;Copy&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;Delete&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1")"&gt;Rename&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;Rights&lt;/a&gt;
+        &lt;/td&gt;
+      #end
       &lt;/tr&gt;
     #end
   #end

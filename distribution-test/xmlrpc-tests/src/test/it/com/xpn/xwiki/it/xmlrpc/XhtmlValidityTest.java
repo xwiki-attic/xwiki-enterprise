@@ -113,7 +113,9 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         String path =
             System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
 
-        List pageNames = readXarContents(path);
+        String patternFilter = System.getProperty("documentsToTest");
+        
+        List pageNames = readXarContents(path, patternFilter);
         Iterator it = pageNames.iterator();
         while (it.hasNext()) {
             suite.addTest(new XhtmlValidityTest((String) it.next()));
@@ -221,7 +223,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         return output.indexOf("WARNING") >= 0 || output.indexOf("WARN") >= 0;
     }
 
-    public static List readXarContents(String fileName) throws Exception
+    public static List readXarContents(String fileName, String patternFilter) throws Exception
     {
         FileInputStream fileIS = new FileInputStream(fileName);
         ZipInputStream zipIS = new ZipInputStream(fileIS);
@@ -247,7 +249,11 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         Iterator it = fileElementList.iterator();
         while (it.hasNext()) {
             Element el = (Element) it.next();
-            result.add(el.getStringValue());
+            String docFullName = el.getStringValue();
+            
+            if (patternFilter == null || docFullName.matches(patternFilter)) {
+                result.add(docFullName);
+            }
         }
 
         return result;

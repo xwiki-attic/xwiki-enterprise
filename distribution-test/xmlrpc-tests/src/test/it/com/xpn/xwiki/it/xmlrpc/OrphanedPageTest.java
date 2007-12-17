@@ -54,7 +54,9 @@ public class OrphanedPageTest extends TestCase
         String path =
             System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
 
-        List pageNames = XhtmlValidityTest.readXarContents(path);
+        String patternFilter = System.getProperty("documentsToTest");
+        
+        List pageNames = XhtmlValidityTest.readXarContents(path, patternFilter);
         Iterator it = pageNames.iterator();
         while (it.hasNext()) {
             suite.addTest(new OrphanedPageTest((String) it.next()));

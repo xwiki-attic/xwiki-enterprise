@@ -70,7 +70,7 @@ Photo|Title|Description|Comments
 #set($bentryobj = $bentrydoc.getObject("XWiki.PhotoAlbumClass",0))
 #if($bentrydoc.attachmentList.size()&gt;0)
 #set($attach = $bentrydoc.attachmentList.get(0))
-&lt;img src="$bentrydoc.getAttachmentURL($attach.filename,"download")"  height="50" alt="$!{bentrydoc.display("title","view",$bentryobj)}" /&gt;|[$!{bentrydoc.display("title","view",$bentryobj)}&gt;$item] | $!bentrydoc.display("description", "view", $bentryobj) | $!comment
+&lt;img src="$bentrydoc.getAttachmentURL($attach.filename,"download", "height=50")"  height="50" alt="$!{bentrydoc.display("title","view",$bentryobj)}" /&gt;|[$!{bentrydoc.display("title","view",$bentryobj)}&gt;$item] | $!bentrydoc.display("description", "view", $bentryobj) | $!comment
 #else
 [No photo&gt;$item]|[$!{bentrydoc.display("title","view",$bentryobj)}&gt;$item] | $!bentrydoc.display("description","view",$bentryobj) | $!comment
 #end

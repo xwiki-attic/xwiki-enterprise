@@ -37,7 +37,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>
       <artifactId>xwiki-enterprise-wiki</artifactId>
-      <version>${version}</version>
+      <version>${pom.version}</version>
       <type>xar</type>
     </dependency>
   </dependencies>

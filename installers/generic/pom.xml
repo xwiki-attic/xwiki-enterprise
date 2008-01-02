@@ -90,18 +90,21 @@
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise-web</artifactId>
-                  <version>${version}</version>
+                  <version>${pom.version}</version>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-                  <version>${version}</version>
+                  <version>${pom.version}</version>
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/database</outputDirectory>
                 </artifactItem>
               </artifactItems>
+              <!-- Exclude default Hibernate config file since we're instead using one with the
+                   selected database configuration defined. -->
+              <excludes>**/hibernate.cfg.xml</excludes>
             </configuration>
           </execution>
           <execution>

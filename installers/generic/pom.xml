@@ -93,6 +93,12 @@
                   <version>${pom.version}</version>
                   <type>war</type>
                   <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
+                  <!-- Exclude default Hibernate config file since we're instead using one with the
+                       selected database configuration defined.
+                       NOTE: This is only supported by version 2.0-alpha-5 and above of the Dependency plugin which is
+                       why we are using the AntRun plugin below to remove the Hibernate config file. Uncomment when
+                       the 2.0-alpha-5 release is out. -->
+                  <!--excludes>**/hibernate.cfg.xml</excludes-->
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
@@ -102,9 +108,6 @@
                   <outputDirectory>${project.build.directory}/database</outputDirectory>
                 </artifactItem>
               </artifactItems>
-              <!-- Exclude default Hibernate config file since we're instead using one with the
-                   selected database configuration defined. -->
-              <excludes>**/hibernate.cfg.xml</excludes>
             </configuration>
           </execution>
           <execution>
@@ -122,6 +125,27 @@
                   <outputDirectory>${project.build.directory}/container/webapps/xwiki/WEB-INF/lib</outputDirectory>
                 </artifactItem>
               </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- The Dependency plugin only supports excluding files in version 2.0-alpha-5 and above and at this time the
+             latest released version is 2.0-alpha-4. Thus we need to perform this hack to remove the Hibernate
+             config file. We want to remove it since we want to use one we provide that has the HSQLDB database set
+             up by default. Remove this when version 2.0-alpha-5 is released. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <delete file="${project.build.directory}/container/webapps/xwiki/WEB-INF/hibernate.cfg.xml" />
+              </tasks>
             </configuration>
           </execution>
         </executions>

@@ -51,7 +51,6 @@
 ## display the new interface
 #if($interface == "new") 
 &lt;div id="ajax-loader"&gt;$msg.get("ui.ajaxTable.loading")&lt;br /&gt;
-
   &lt;img src="$xwiki.getSkinFile('icons/ajax-loader.gif')" alt="Loading..." title="Loading..." /&gt;
 &lt;/div&gt;
 &lt;div id="showLimits"&gt;&lt;/div&gt;
@@ -59,18 +58,15 @@
 &lt;tr&gt;&lt;td&gt;
        &lt;table class="display"&gt;
        &lt;thead class="theader"&gt;
-
         &lt;tr&gt;
         &lt;td&gt;$msg.get("rightsmanager.members")&lt;/td&gt;
         #if($context.action == "inline")&lt;td class="hmanage"&gt;$msg.get("rightsmanager.manage")&lt;/td&gt;#end
         &lt;/tr&gt;
        &lt;/thead&gt;
-
        &lt;tbody id="display1"&gt;&lt;tr&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
       &lt;/table&gt;
     &lt;/td&gt;
     &lt;td valign="top"&gt;
-
       &lt;div id="scrollbar1" class="scrollbar"&gt;&lt;div class="inscrollbar"&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;
     &lt;/td&gt;
 &lt;/tr&gt;
@@ -79,29 +75,24 @@
 #if($context.database == "xwiki") #set($mainwk = true) #end
 #if($context.action == "inline")
  &lt;div id="addNewMember"&gt;
-
      &lt;table&gt;
      &lt;tr&gt;&lt;td class="addlabel"&gt;$msg.get("rightsmanager.addnewuser") #if(!$mainwk)&lt;/td&gt;
          &lt;td&gt;&lt;select name="wiki" onchange="changeWiki(this);"&gt;
                &lt;option value="local" selected="selected"&gt;$msg.get("rightsmanager.local")&lt;/option&gt;
-
                &lt;option value="global"&gt;$msg.get("rightsmanager.global")&lt;/option&gt;
              &lt;/select&gt;&lt;/td&gt;
          #else &lt;input type="hidden" name="wiki" value="local" /&gt;&lt;/td&gt; #end
        &lt;td&gt;
-
           &lt;input id="userSuggest" type="text" size="30" name="newMember" autocomplete="off" onfocus="createSuggest(this, 'user');"/&gt;
        &lt;/td&gt;
        &lt;td&gt;
           &lt;input type="button" id="addNewUser" class="button" value="$msg.get('add')" onclick="addNewMember('user', $('userSuggest').value);"/&gt;
        &lt;/td&gt;
     &lt;/tr&gt;
-
     &lt;tr&gt;
        &lt;td class="addlabel"&gt;$msg.get("rightsmanager.addnewgroup") #if(!$mainwk)&lt;/td&gt;
          &lt;td&gt;&lt;select name="wiki" onchange="changeWiki(this);"&gt;
               &lt;option value="local" selected="selected"&gt;$msg.get("rightsmanager.local")&lt;/option&gt;
-
               &lt;option value="global"&gt;$msg.get("rightsmanager.global")&lt;/option&gt;
              &lt;/select&gt;&lt;/td&gt;
          #else &lt;input type="hidden" name="wiki" value="local" /&gt;&lt;/td&gt; #end
@@ -116,10 +107,8 @@
 &lt;/table&gt;
 &lt;/div&gt;
 #end
-
 #set($url = $doc.getURL("view", "xpage=getgroupmembers"))
 #set($du = $msg.get("rightsmanager.duplicateuser"))
-
 {pre}
 &lt;script type="text/javascript"&gt; 
 //&lt;![CDATA[
@@ -141,7 +130,7 @@
         $('errMsg').innerHTML = "";
      return new ajaxSuggest(input, { script: suggesturl, varname:'input' } );
 }
-  
+
 window.addNewMember = function(uorg, name)
 {
      //url = adduorg

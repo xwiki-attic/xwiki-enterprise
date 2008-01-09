@@ -34,12 +34,12 @@
   <artifactId>xwiki-enterprise-parent</artifactId>
   <packaging>pom</packaging>
   <name>XWiki Products - Enterprise - Parent POM</name>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2-rc-3</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/branches/xwiki-enterprise-1.2</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/branches/xwiki-enterprise-1.2</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/branches/xwiki-enterprise-1.2</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/tags/xwiki-enterprise-1.2-rc-3</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/tags/xwiki-enterprise-1.2-rc-3</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/tags/xwiki-enterprise-1.2-rc-3</url>
   </scm>
   <modules>        
     <module>wiki</module>
@@ -50,9 +50,9 @@
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
     <platform.tools.version>1.7</platform.tools.version>
-    <platform.core.version>1.2-rc-2</platform.core.version>
-    <platform.web.version>1.2-rc-2</platform.web.version>
-    <platform.panels.version>1.2-rc-2</platform.panels.version>
+    <platform.core.version>1.2-rc-3</platform.core.version>
+    <platform.web.version>1.2-rc-3</platform.web.version>
+    <platform.panels.version>1.2-rc-3</platform.panels.version>
     <platform.scheduler.version>1.1.2</platform.scheduler.version>
     <platform.watchlist.version>1.0.2</platform.watchlist.version>
     <platform.jodatime.version>1.0.2</platform.jodatime.version>

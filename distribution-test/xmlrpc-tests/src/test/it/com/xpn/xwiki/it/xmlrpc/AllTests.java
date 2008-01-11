@@ -26,7 +26,7 @@ import junit.framework.TestSuite;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
- * A class listing all the Selenium Functional tests to execute. We need such a class (rather than
+ * A class listing all the XMLRPC Functional tests to execute. We need such a class (rather than
  * letting the JUnit Runner discover the different TestCases classes by itself) because we want to
  * start/stop XWiki before and after the tests start (but only once).
  * 

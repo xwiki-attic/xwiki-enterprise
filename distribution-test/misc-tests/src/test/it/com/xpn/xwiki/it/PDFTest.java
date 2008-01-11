@@ -1,4 +1,4 @@
-package com.xpn.xwiki.it.xmlrpc;
+package com.xpn.xwiki.it;
 
 import junit.framework.TestCase;
 

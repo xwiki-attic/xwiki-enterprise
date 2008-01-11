@@ -193,6 +193,7 @@
     </profile>
   </profiles>
   <modules>
+    <module>misc-tests</module>
     <module>xmlrpc-tests</module>
     <module>selenium-tests</module>
   </modules>

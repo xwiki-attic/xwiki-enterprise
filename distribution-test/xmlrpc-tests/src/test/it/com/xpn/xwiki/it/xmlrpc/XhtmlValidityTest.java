@@ -174,12 +174,12 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         System.err.print(errput);
 
         // Detect server-side error/warning messages from the stdout
-        assertFalse(hasErrors(output));
-        assertFalse(hasWarnings(output));
+        assertFalse("Errors found in the stdout output", hasErrors(output));
+        assertFalse("Warnings found in the stdout output", hasWarnings(output));
 
         // Detect server-side error/warning messages from the stderr
-        assertFalse(hasErrors(errput));
-        assertFalse(hasWarnings(errput));
+        assertFalse("Errors found in the stderr output", hasErrors(errput));
+        assertFalse("Warnings found in the stderr output", hasWarnings(errput));
 
         rpc.logout();
 

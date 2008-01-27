@@ -44,6 +44,12 @@
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-watchlist</artifactId>
       <version>${platform.watchlist.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>   
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>

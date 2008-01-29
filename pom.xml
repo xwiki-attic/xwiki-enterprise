@@ -55,8 +55,8 @@
     <platform.panels.version>1.2</platform.panels.version>
     <platform.scheduler.version>1.2.1</platform.scheduler.version>
     <platform.watchlist.version>1.1</platform.watchlist.version>
-    <platform.jodatime.version>1.0</platform.jodatime.version>
-    <platform.statistics.version>1.0</platform.statistics.version>
+    <platform.jodatime.version>1.0.2</platform.jodatime.version>
+    <platform.statistics.version>1.0.2</platform.statistics.version>
   </properties>
   <profiles>
     <profile>

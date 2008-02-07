@@ -84,7 +84,7 @@
         <!-- Step 3: Import the XAR content into the Database -->
         <plugin>
           <groupId>com.xpn.xwiki.platform</groupId>
-          <artifactId>xwiki-packager</artifactId>
+          <artifactId>xwiki-packager-plugin</artifactId>
           <version>${platform.tools.version}</version>
           <configuration>
             <sourceDirectory>${project.build.directory}/xar</sourceDirectory>

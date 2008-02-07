@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-shared-test</artifactId>
+      <artifactId>xwiki-shared-tests</artifactId>
       <version>${platform.tools.version}</version>
       <scope>test</scope>
     </dependency>

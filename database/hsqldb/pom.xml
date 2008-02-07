@@ -58,7 +58,7 @@
       <!-- Step 2: Expand the XAR file -->
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
-        <artifactId>xwiki-build-xar-plugin</artifactId>
+        <artifactId>xwiki-xar-plugin</artifactId>
       </plugin>
       <!-- Step 3: Import the XAR content into the Database -->
       <plugin>

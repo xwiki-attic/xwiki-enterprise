@@ -78,14 +78,14 @@
     <extensions>
       <extension>
         <groupId>com.xpn.xwiki.platform</groupId>
-        <artifactId>xwiki-build-xar-handlers</artifactId>
+        <artifactId>xwiki-xar-handlers</artifactId>
         <version>${platform.tools.version}</version>
       </extension>
     </extensions>
     <plugins>
       <plugin>
         <groupId>com.xpn.xwiki.platform</groupId>
-        <artifactId>xwiki-build-xar-plugin</artifactId>
+        <artifactId>xwiki-xar-plugin</artifactId>
         <version>${platform.tools.version}</version>
       </plugin>
     </plugins>

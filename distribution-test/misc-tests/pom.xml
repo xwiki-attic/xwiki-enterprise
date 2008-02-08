@@ -59,8 +59,8 @@
       </plugin>
       <!-- Step 3: Unpack the application -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>dependency-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
       <!-- Step 4: Start XWiki, Execute the tests and Stop XWiki -->
       <plugin>

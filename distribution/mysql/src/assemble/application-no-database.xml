@@ -51,7 +51,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.platform:xwiki-jetty-resources</include>
+        <include>com.xpn.xwiki.platform.tools:xwiki-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>
@@ -69,7 +69,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.platform:xwiki-jetty-resources</include>
+        <include>com.xpn.xwiki.platform.tools:xwiki-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>

@@ -58,15 +58,15 @@
           </executions>
           <configuration>
             <resourceBundles>
-              <resourceBundle>com.xpn.xwiki.platform:xwiki-configuration-resources:${platform.tools.version}</resourceBundle>
+              <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
             </resourceBundles>
           </configuration>
         </plugin>
         <!-- Step 2: Expand the XAR file -->
         <plugin>
-          <groupId>com.xpn.xwiki.platform</groupId>
+          <groupId>com.xpn.xwiki.platform.tools</groupId>
           <artifactId>xwiki-xar-plugin</artifactId>
-          <version>${platform.tools.version}</version>
+          <version>${platform.tool.xar-plugin.version}</version>
           <configuration>
             <groupId>com.xpn.xwiki.products</groupId>
             <artifactId>xwiki-enterprise-wiki</artifactId>
@@ -83,9 +83,9 @@
         </plugin>
         <!-- Step 3: Import the XAR content into the Database -->
         <plugin>
-          <groupId>com.xpn.xwiki.platform</groupId>
+          <groupId>com.xpn.xwiki.platform.tools</groupId>
           <artifactId>xwiki-packager-plugin</artifactId>
-          <version>${platform.tools.version}</version>
+          <version>${platform.tool.packager.version}</version>
           <configuration>
             <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
             <hibernateConfig>

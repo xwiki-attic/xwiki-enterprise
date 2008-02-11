@@ -55,6 +55,7 @@ public class AllTests extends TestCase
         addTestCase(suite, WysiwygEditorTest.class);
         addTestCase(suite, VelocityMacrosTest.class);
         addTestCase(suite, BacklinksTest.class);
+        addTestCase(suite, CacheTest.class);
 
         return new XWikiTestSetup(suite);
     }

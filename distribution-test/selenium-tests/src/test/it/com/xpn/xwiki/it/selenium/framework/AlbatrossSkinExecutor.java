@@ -71,8 +71,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public boolean isAuthenticated()
     {
-        return !(getTest().isElementPresent("headerlogin") && getTest().isElementPresent(
-            "headerregister"));
+        return !(getTest().isElementPresent("headerlogin"));
     }
 
     public void logout()

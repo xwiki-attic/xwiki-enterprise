@@ -363,4 +363,19 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     {
         getSkinExecutor().assertGeneratedHTML(xpath);
     }
+
+    public String getUrl(String space, String doc)
+    {
+        return getUrl(space, doc, "view");
+    }
+
+    public String getUrl(String space, String doc, String action)
+    {
+        return "/xwiki/bin/"+action+"/"+space+"/"+doc;
+    }
+
+    public String getUrl(String space, String doc, String action, String param)
+    {
+        return getUrl(space, doc, action)+"?"+param;
+    }
 }

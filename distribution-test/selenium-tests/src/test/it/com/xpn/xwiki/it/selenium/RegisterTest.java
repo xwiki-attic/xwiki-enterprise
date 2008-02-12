@@ -163,21 +163,4 @@ public class RegisterTest extends AbstractXWikiTestCase {
 
         return exists;
     }
-
-
-    // TODO decide whether we really want this
-    private String getUrl(String space, String doc)
-    {
-        return getUrl(space, doc, "view");
-    }
-
-    private String getUrl(String space, String doc, String action)
-    {
-        return "/xwiki/bin/"+action+"/"+space+"/"+doc;
-    }
-
-    private String getUrl(String space, String doc, String action, String param)
-    {
-        return getUrl(space, doc, action)+"?"+param;
-    }
 }

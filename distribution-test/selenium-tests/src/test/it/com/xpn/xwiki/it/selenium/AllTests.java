@@ -56,6 +56,7 @@ public class AllTests extends TestCase
         addTestCase(suite, VelocityMacrosTest.class);
         addTestCase(suite, BacklinksTest.class);
         addTestCase(suite, CacheTest.class);
+        addTestCase(suite, UsersGroupsRightsManagementTest.class);
 
         return new XWikiTestSetup(suite);
     }

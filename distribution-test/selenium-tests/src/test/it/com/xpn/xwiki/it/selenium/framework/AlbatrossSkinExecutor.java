@@ -19,6 +19,8 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
+import junit.framework.Assert;
+
 /**
  * Implementation of skin-related actions for the Albatross skin.
  * 
@@ -75,9 +77,9 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void logout()
     {
-        getTest().assertTrue("User wasn't authenticated.", isAuthenticated());
+        Assert.assertTrue("User wasn't authenticated.", isAuthenticated());
         getTest().clickLinkWithLocator("headerlogout");
-        getTest().assertFalse("The user is still authenticated after a logout.",
+        Assert.assertFalse("The user is still authenticated after a logout.",
             isAuthenticated());
     }
 
@@ -98,7 +100,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         }
         getTest().submit();
 
-        getTest().assertTrue("User has not been authenticated", isAuthenticated());
+        Assert.assertTrue("User has not been authenticated", isAuthenticated());
     }
 
     public void loginAsAdmin()
@@ -230,20 +232,20 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     public void assertWikiTextGeneratedByWysiwyg(String text)
     {
         getTest().clickLinkWithText("Wiki");
-        getTest().assertEquals(text, getTest().getSelenium().getValue("content"));
+        Assert.assertEquals(text, getTest().getSelenium().getValue("content"));
     }
 
     public void assertHTMLGeneratedByWysiwyg(String xpath) throws Exception
     {
         getTest().getSelenium().selectFrame("mce_editor_0");
-        getTest().assertTrue(
+        Assert.assertTrue(
             getTest().getSelenium().isElementPresent("xpath=/html/body/" + xpath));
         getTest().getSelenium().selectFrame("relative=top");
     }
 
     public void assertGeneratedHTML(String xpath) throws Exception
     {
-        getTest().assertTrue(
+        Assert.assertTrue(
             getTest().getSelenium().isElementPresent("xpath=//div[@id='xwikicontent']/" + xpath));
     }
 }

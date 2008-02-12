@@ -26,7 +26,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 import junit.framework.Test;
 
 /**
- * Verify the login and logout features of XWiki.
+ * Verify the Users, Groups and Rights Management features of XWiki.
  * 
  * @version $Id: $
  */

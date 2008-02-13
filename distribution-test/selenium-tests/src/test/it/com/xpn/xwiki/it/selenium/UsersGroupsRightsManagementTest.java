@@ -54,6 +54,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         setFieldValue("newgroupi", "NewGroup");
         getSelenium().setSpeed("1000");
         getSelenium().click("//input[@value='Create group']");
+        getSelenium().waitForPageToLoad("10000");
         assertTextPresent("NewGroup");
     }
 

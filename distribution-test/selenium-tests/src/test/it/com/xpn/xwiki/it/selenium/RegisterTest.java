@@ -28,8 +28,6 @@ import junit.framework.Test;
 /**
  * Tries to register a new xwiki user
  *
- * @author hritcu
- *
  * @version $Id: $
  */
 public class RegisterTest extends AbstractXWikiTestCase {

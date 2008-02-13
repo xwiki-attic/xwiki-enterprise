@@ -71,7 +71,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         this.selenium.start();
     }
 
-    public void tearDown() throws Exception
+    protected void tearDown() throws Exception
     {
         getSelenium().stop();
     }

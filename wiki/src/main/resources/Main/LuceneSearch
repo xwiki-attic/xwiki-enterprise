@@ -95,6 +95,7 @@
 #if ($displayUI)
 {/pre}
 1 Search
+
 {pre}
 #end
 ## ---------------

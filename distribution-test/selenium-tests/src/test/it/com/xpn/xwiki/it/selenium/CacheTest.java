@@ -19,15 +19,15 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
-
 /**
  * Verify the caching features of XWiki.
- *
+ * 
  * @version $Id: $
  */
 public class CacheTest extends AbstractXWikiTestCase
@@ -47,12 +47,14 @@ public class CacheTest extends AbstractXWikiTestCase
 
     /**
      * Tests that the document dates are always of the type java.util.Date, as hibernate returns
-     * java.sql.Timestamp, which is not entirely compatible with java.util.Date. 
+     * java.sql.Timestamp, which is not entirely compatible with java.util.Date. When the cache
+     * storage is enabled, this problem isn't detected until the document is removed from the cache.
      */
     public void testDateClass()
     {
         open("/xwiki/bin/edit/Main/TestDateClass?editor=wiki");
-        setFieldValue("content", "$xwiki.flushCache()\n$xwiki.getDocument(\"Main.WebHome\").date.class");
+        setFieldValue("content",
+            "$xwiki.flushCache()\n$xwiki.getDocument(\"Main.WebHome\").date.class");
         clickEditSaveAndView();
         assertTextPresent("java.util.Date");
     }

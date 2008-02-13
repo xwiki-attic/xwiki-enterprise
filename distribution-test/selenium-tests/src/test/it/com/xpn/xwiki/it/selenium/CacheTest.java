@@ -45,6 +45,10 @@ public class CacheTest extends AbstractXWikiTestCase
         loginAsAdmin();
     }
 
+    /**
+     * Tests that the document dates are always of the type java.util.Date, as hibernate returns
+     * java.sql.Timestamp, which is not entirely compatible with java.util.Date. 
+     */
     public void testDateClass()
     {
         open("/xwiki/bin/edit/Main/TestDateClass?editor=wiki");

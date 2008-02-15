@@ -20,7 +20,6 @@
 package com.xpn.xwiki.it;
 
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
-import com.xpn.xwiki.test.XWikiTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -35,8 +34,15 @@ import junit.framework.TestSuite;
  */
 public class AllTests extends TestCase
 {   
+    /**
+     * The pattern to filter the tests to launch.
+     */
     private static final String PATTERN = ".*" + System.getProperty("pattern", "");
 
+    /**
+     * @return the test suite.
+     * @throws Exception error when creation the tests suite.
+     */
     public static Test suite() throws Exception
     {
         TestSuite suite = new TestSuite();

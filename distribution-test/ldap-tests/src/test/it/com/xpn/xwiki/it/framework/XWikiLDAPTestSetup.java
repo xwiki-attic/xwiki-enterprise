@@ -18,7 +18,6 @@ import org.apache.directory.server.unit.AbstractServerTest;
 
 import junit.framework.Test;
 
-import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
@@ -37,25 +36,86 @@ import com.xpn.xwiki.test.XWikiTestSetup;
  */
 public class XWikiLDAPTestSetup extends XWikiTestSetup
 {
+    /**
+     * The name of the LDAP property containing user unique id.
+     */
     public static final String LDAP_USERUID_FIELD = "uid";
 
-    public static final String PROPNAME_LDAPPORT = "ldap_port";
+    /**
+     * The name of the system property containing the LDAP embedded server port.
+     */
+    public static final String SYSPROPNAME_LDAPPORT = "ldap_port";
 
+    /**
+     * The directory where is the instance of XWiki Enterprise used for theses tests.
+     */
     public static final String EXECUTION_DIRECTORY =
         System.getProperty("xwikiExecutionDirectory");
 
+    /**
+     * The xwiki.cfg file used by the instance of XWiki Enterprise used for theses tests. 
+     */
     public static final String XWIKI_CFG_FILE =
         EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/xwiki.cfg";
 
+    // Somes datas examples
+
+    /**
+     * The LDAP DN of user Horatio Hornblower.
+     */
+    public static final String HORATIOHORNBLOWER_DN =
+        "cn=Horatio Hornblower,ou=people,o=sevenSeas";
+
+    /**
+     * The LDAP password of user Horatio Hornblower.
+     */
+    public static final String HORATIOHORNBLOWER_PWD = "pass";
+
+    /**
+     * The LDAP unique id of user Horatio Hornblower.
+     */
+    public static final String HORATIOHORNBLOWER_UID = "hhornblo";
+
+    /**
+     * The LDAP DN of group HMS Lydia.
+     */
+    public static final String HMSLYDIA_DN = "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas";
+
+    /**
+     * The LDAP members of group HMS Lydia.
+     */
+    public static final Set HMSLYDIA_MEMBERS = new HashSet();
+
+    static {
+        HMSLYDIA_MEMBERS.add(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN);
+        HMSLYDIA_MEMBERS.add("cn=William Bush,ou=people,o=sevenSeas");
+        HMSLYDIA_MEMBERS.add("cn=Thomas Quist,ou=people,o=sevenSeas");
+        HMSLYDIA_MEMBERS.add("cn=Moultrie Crystal,ou=people,o=sevenSeas");
+    }
+
+    // ///
+
+    /**
+     * Tool to start and stop embedded LDAP server.
+     */
     private LDAPRunner ldap = new LDAPRunner();
 
+    /**
+     * The default xwiki.cfg properties.
+     */
     private Properties initialXWikiConf;
 
+    /**
+     * The xwiki.cfg properties modified for the test.
+     */
     private Properties currentXWikiConf;
 
+    /**
+     * @return return the port of the current instance of LDAP server.
+     */
     public static int getLDAPPort()
     {
-        return Integer.parseInt(System.getProperty(PROPNAME_LDAPPORT));
+        return Integer.parseInt(System.getProperty(SYSPROPNAME_LDAPPORT));
     }
 
     public XWikiLDAPTestSetup(Test test) throws IOException
@@ -107,7 +167,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     {
         this.ldap.start();
 
-        System.setProperty(PROPNAME_LDAPPORT, "" + ldap.getPort());
+        System.setProperty(SYSPROPNAME_LDAPPORT, "" + ldap.getPort());
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.port", "" + ldap.getPort());
 
         FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
@@ -134,6 +194,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     }
 }
 
+/**
+ * Tool to start and stop embedded LDAP server.
+ * 
+ * @version $Id: $
+ */
 class LDAPRunner extends AbstractServerTest
 {
     /**
@@ -186,11 +251,6 @@ class LDAPRunner extends AbstractServerTest
 
         // Load a demo ldif file
         importLdif(this.getClass().getResourceAsStream("init.ldif"));
-
-        XWikiLDAPConnection connection = new XWikiLDAPConnection();
-
-        connection.open("localhost", this.port, "cn=Horatio Hornblower,ou=people,o=sevenSeas",
-            "pass", null, false);
     }
 
     /**

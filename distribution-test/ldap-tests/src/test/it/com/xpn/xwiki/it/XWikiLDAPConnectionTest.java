@@ -6,34 +6,42 @@ import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 
 /**
- * Tests {@link XWikiLDAPConnectionTest};
+ * Tests {@link XWikiLDAPConnectionTest}.
  * 
  * @version $Id: $
  */
 public class XWikiLDAPConnectionTest extends TestCase
 {
     /**
-     * Initialize the server.
+     * {@inheritDoc}
+     *
+     * @see junit.framework.TestCase#setUp()
      */
     public void setUp() throws Exception
     {
-        
+
     }
 
+    /**
+     * Test open and close of the LDAP connection.
+     */
     public void testOpenClose()
     {
         int port = XWikiLDAPTestSetup.getLDAPPort();
-        
+
         XWikiLDAPConnection connection = new XWikiLDAPConnection();
-       
+
         assertTrue("LDAP connection failed", connection.open("localhost", port,
-            "cn=Horatio Hornblower,ou=people,o=sevenSeas", "pass", null, false));
+            XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            null, false));
 
         connection.close();
     }
 
     /**
-     * Shutdown the server.
+     * {@inheritDoc}
+     *
+     * @see junit.framework.TestCase#tearDown()
      */
     public void tearDown() throws Exception
     {

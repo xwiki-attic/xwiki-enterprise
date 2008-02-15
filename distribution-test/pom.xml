@@ -220,5 +220,6 @@
     <module>misc-tests</module>
     <module>xmlrpc-tests</module>
     <module>selenium-tests</module>
+    <module>ldap-tests</module>
   </modules>
 </project>

@@ -93,7 +93,8 @@ public class XWikiLDAPUtilsTest extends TestCase
     }
 
     /**
-     * check that the cache is not created each time it's getted and correctly handle refresh time.
+     * check that the cache is not created each time it's retrieved and correctly handle refresh
+     * time.
      * 
      * @throws XWikiException error when getting the cache.
      * @throws XWikiCacheNeedsRefreshException
@@ -105,24 +106,25 @@ public class XWikiLDAPUtilsTest extends TestCase
         XWikiCache tmpCache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
         XWikiCache cache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
 
-        assertTrue("Cache is recreated", tmpCache == cache);
+        assertSame("Cache is recreated", tmpCache, cache);
 
         cache.putInCache("key", "value");
 
         String value = (String) cache.getFromCache("key");
 
-        assertEquals("Value getted from cache is wrong", "value", value);
+        assertEquals("Value retrieved from cache is wrong", "value", value);
 
+        // Wait at least 1 second because the refresh time is provided in seconds in {@link
+        // XWikiCache#getFromCache(String, int)}.
         Thread.sleep(1000);
 
-        value = null;
         try {
             value = (String) cache.getFromCache("key", 1);
-        } catch (XWikiCacheNeedsRefreshException e) {
-
+            fail("Should have thrown " + XWikiCacheNeedsRefreshException.class
+                + " exception because object has been added to the cache more than 1 second ago.");
+        } catch (XWikiCacheNeedsRefreshException expected) {
+            // OK : means the retrieved value is "older" than 1 second.
         }
-
-        assertNull("Object in cache is not cleaned", value);
     }
 
     /**

@@ -141,6 +141,11 @@ public class XWikiLDAPUtilsTest extends TestCase
 
         assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members
             .keySet()));
+
+        Map wrongGroupMembers = this.ldapUtils.getGroupMembers("wronggroupdn", this.context);
+
+        assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]",
+            wrongGroupMembers);
     }
 
     /**
@@ -156,6 +161,12 @@ public class XWikiLDAPUtilsTest extends TestCase
 
         assertNotNull("Users not found", userDN);
         assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
+
+        String wrongUserDN =
+            this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN,
+                this.context);
+
+        assertNull("Should return null if user is not in the group", wrongUserDN);
     }
 
     /**

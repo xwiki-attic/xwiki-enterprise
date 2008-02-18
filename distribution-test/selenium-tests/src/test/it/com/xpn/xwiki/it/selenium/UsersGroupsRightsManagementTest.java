@@ -50,10 +50,9 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
-        clickLinkWithText("Add new group", false);
-        getSelenium().waitForCondition("document.getElementById('newgroupi') != undefined", "10000");
-        setFieldValue("newgroupi", "NewGroup");
         getSelenium().setSpeed("1000");
+        clickLinkWithText("Add new group", false);
+        setFieldValue("newgroupi", "NewGroup");
         getSelenium().click("//input[@value='Create group']");
         getSelenium().waitForPageToLoad("10000");
         assertTextPresent("NewGroup");
@@ -63,10 +62,9 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
-        clickLinkWithText("Add new group", false);
-        getSelenium().waitForCondition("document.getElementById('newgroupi') != undefined", "10000");
-        setFieldValue("newgroupi", "Admin");
         getSelenium().setSpeed("1000");
+        clickLinkWithText("Add new group", false);
+        setFieldValue("newgroupi", "Admin");
         getSelenium().click("//input[@value='Create group']");
         assertEquals("Admin cannot be used for the group name, as another document with this name already exists.", this.getSelenium().getAlert());
     }

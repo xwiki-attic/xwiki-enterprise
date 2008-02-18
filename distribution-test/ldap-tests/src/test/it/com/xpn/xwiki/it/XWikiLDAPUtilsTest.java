@@ -8,6 +8,8 @@ import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
+import com.xpn.xwiki.cache.api.XWikiCache;
+import com.xpn.xwiki.cache.api.XWikiCacheNeedsRefreshException;
 import com.xpn.xwiki.cache.api.XWikiCacheService;
 import com.xpn.xwiki.cache.impl.OSCacheService;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
@@ -25,7 +27,7 @@ public class XWikiLDAPUtilsTest extends TestCase
     /**
      * The name of the group cache.
      */
-    public static final String GROUPCACHE8NAME = "groups";
+    public static final String GROUPCACHE_NAME = "groups";
 
     /**
      * The LDAP connection tool.
@@ -91,15 +93,36 @@ public class XWikiLDAPUtilsTest extends TestCase
     }
 
     /**
-     * Verify that the cache is not created each time it's getted.
+     * check that the cache is not created each time it's getted and correctly handle refresh time.
      * 
      * @throws XWikiException error when getting the cache.
+     * @throws XWikiCacheNeedsRefreshException
+     * @throws InterruptedException
      */
-    public void testGetCache() throws XWikiException
+    public void testCache() throws XWikiException, XWikiCacheNeedsRefreshException,
+        InterruptedException
     {
-        assertTrue("Cache is recreated",
-            this.ldapUtils.getCache(GROUPCACHE8NAME, this.context) == this.ldapUtils.getCache(
-                GROUPCACHE8NAME, this.context));
+        XWikiCache tmpCache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
+        XWikiCache cache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
+
+        assertTrue("Cache is recreated", tmpCache == cache);
+
+        cache.putInCache("key", "value");
+
+        String value = (String) cache.getFromCache("key");
+
+        assertEquals("Value getted from cache is wrong", "value", value);
+
+        Thread.sleep(1000);
+
+        value = null;
+        try {
+            value = (String) cache.getFromCache("key", 1);
+        } catch (XWikiCacheNeedsRefreshException e) {
+
+        }
+
+        assertNull("Object in cache is not cleaned", value);
     }
 
     /**
@@ -135,7 +158,7 @@ public class XWikiLDAPUtilsTest extends TestCase
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see junit.framework.TestCase#tearDown()
      */
     public void tearDown() throws Exception

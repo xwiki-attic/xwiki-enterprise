@@ -113,6 +113,8 @@
                 com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
                 com.xpn.xwiki.plugin.watchlist.WatchListPlugin
             </xwikiCfgPlugins>
+            <xwikiCfgDefaultSkin>toucan</xwikiCfgDefaultSkin>
+            <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>
             <xwikiCfgAdditionalProperties>                
 xwiki.work.dir=work
             </xwikiCfgAdditionalProperties>

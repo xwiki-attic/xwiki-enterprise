@@ -51,6 +51,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
         clickLinkWithText("Add new group", false);
+        getSelenium().waitForCondition("document.getElementById('newgroupi') != undefined", "10000");
         setFieldValue("newgroupi", "NewGroup");
         getSelenium().setSpeed("1000");
         getSelenium().click("//input[@value='Create group']");
@@ -63,6 +64,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
         clickLinkWithText("Add new group", false);
+        getSelenium().waitForCondition("document.getElementById('newgroupi') != undefined", "10000");
         setFieldValue("newgroupi", "Admin");
         getSelenium().setSpeed("1000");
         getSelenium().click("//input[@value='Create group']");

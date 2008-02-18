@@ -58,6 +58,7 @@ public class AllTests extends TestCase
         addTestCase(suite, CacheTest.class);
         addTestCase(suite, UsersGroupsRightsManagementTest.class);
         addTestCase(suite, SkinCustomizationsTest.class);
+        addTestCase(suite, XObjectsTest.class);
 
         return new XWikiTestSetup(suite);
     }

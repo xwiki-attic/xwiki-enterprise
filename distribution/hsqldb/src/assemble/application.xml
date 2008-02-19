@@ -42,9 +42,10 @@
         </excludes>
       </unpackOptions>
     </dependencySet>
-    <!-- Copy sh files so that we can set their permissions. This is required since the
-         Assembly plugin looses file permissions.
-         See http://jira.codehaus.org/browse/MASSEMBLY-238 -->
+    <!-- Copy sh+bat files so that 1) we put all non shell files into a jetty/ dir to have all
+         Jetty resources in one place and 2) in order to set the execute permissions for the sh
+         files (This is also required since the Assembly plugin looses file permissions.
+         See http://jira.codehaus.org/browse/MASSEMBLY-238). -->
     <dependencySet>
       <!-- This shouldn't be required but there's a bug in version 2.2-beta-1 of the Assembly
            plugin where the artifact name will be used instead of / if outputFileNameMapping is
@@ -58,11 +59,12 @@
       <unpackOptions>
         <includes>
           <include>**/*.sh</include>
+          <include>**/*.bat</include>
         </includes>
       </unpackOptions>
       <fileMode>755</fileMode>
     </dependencySet>
-    <!-- Copy all other files (excluding sh files). See above for details. -->
+    <!-- Copy all other files (excluding sh/bat files). See above for details. -->
     <dependencySet>
       <!-- This shouldn't be required but there's a bug in version 2.2-beta-1 of the Assembly
            plugin where the artifact name will be used instead of / if outputFileNameMapping is
@@ -71,11 +73,12 @@
       <includes>
         <include>com.xpn.xwiki.platform.tools:xwiki-jetty-resources</include>
       </includes>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>jetty</outputDirectory>
       <unpack>true</unpack>
       <unpackOptions>
         <excludes>
           <exclude>**/*.sh</exclude>
+          <exclude>**/*.bat</exclude>
         </excludes>
       </unpackOptions>
     </dependencySet>
@@ -104,4 +107,11 @@
       <outputDirectory>webapps/xwiki/WEB-INF</outputDirectory>
     </file>
   </files>
+  <fileSets>
+    <!-- Add License/Notice files -->
+    <fileSet>
+      <directory>${basedir}/target/maven-shared-archive-resources/META-INF</directory>
+      <outputDirectory>META-INF</outputDirectory>
+    </fileSet>
+  </fileSets>
 </assembly>

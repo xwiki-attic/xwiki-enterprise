@@ -30,5 +30,10 @@
       <directory>${basedir}/target/database</directory>
       <outputDirectory>/</outputDirectory>
     </fileSet>
+    <!-- Add License/Notice files -->
+    <fileSet>
+      <directory>${basedir}/target/maven-shared-archive-resources/META-INF</directory>
+      <outputDirectory>META-INF</outputDirectory>
+    </fileSet>
   </fileSets>
 </assembly>

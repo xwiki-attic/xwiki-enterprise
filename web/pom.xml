@@ -65,6 +65,7 @@
         <artifactId>maven-remote-resources-plugin</artifactId>
         <executions>
           <execution>
+            <id>xwiki-configuration-resources</id>
             <!-- The remote resources plugin adds its output directory as a resource directory
                  so that the Maven resources plugin copies these resources to target/classes.
                  However copying them to target/classes will make them appear in WEB-INF/classes
@@ -79,53 +80,58 @@
             <goals>
               <goal>process</goal>
             </goals>
+            <configuration>
+              <resourceBundles>
+                <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
+              </resourceBundles>
+              <properties>
+                <xwikiCfgPlugins>\
+                    com.xpn.xwiki.monitor.api.MonitorPlugin,\
+                    com.xpn.xwiki.plugin.calendar.CalendarPlugin,\
+                    com.xpn.xwiki.plugin.feed.FeedPlugin,\
+                    com.xpn.xwiki.plugin.ldap.LDAPPlugin,\
+                    com.xpn.xwiki.plugin.google.GooglePlugin,\
+                    com.xpn.xwiki.plugin.flickr.FlickrPlugin,\
+                    com.xpn.xwiki.plugin.mail.MailPlugin,\
+                    com.xpn.xwiki.plugin.packaging.PackagePlugin,\
+                    com.xpn.xwiki.plugin.query.QueryPlugin,\
+                    com.xpn.xwiki.plugin.svg.SVGPlugin,\
+                    com.xpn.xwiki.plugin.charts.ChartingPlugin,\
+                    com.xpn.xwiki.plugin.fileupload.FileUploadPlugin,\
+                    com.xpn.xwiki.plugin.image.ImagePlugin,\
+                    com.xpn.xwiki.plugin.captcha.CaptchaPlugin,\
+                    com.xpn.xwiki.plugin.userdirectory.UserDirectoryPlugin,\
+                    com.xpn.xwiki.plugin.usertools.XWikiUserManagementToolsImpl,\
+                    com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
+                    com.xpn.xwiki.plugin.autotag.AutoTagPlugin,\
+                    com.xpn.xwiki.plugin.lucene.LucenePlugin,\
+                    com.xpn.xwiki.plugin.diff.DiffPlugin,\
+                    com.xpn.xwiki.plugin.rightsmanager.RightsManagerPlugin,\
+                    com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
+                    com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
+                    com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
+                    com.xpn.xwiki.plugin.watchlist.WatchListPlugin
+                </xwikiCfgPlugins>
+                <xwikiCfgDefaultSkin>toucan</xwikiCfgDefaultSkin>
+                <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>
+                <xwikiCfgAdditionalProperties>
+xwiki.work.dir=work
+                </xwikiCfgAdditionalProperties>
+              </properties>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
-          </resourceBundles>
-          <properties>
-            <xwikiCfgPlugins>\
-                com.xpn.xwiki.monitor.api.MonitorPlugin,\
-                com.xpn.xwiki.plugin.calendar.CalendarPlugin,\
-                com.xpn.xwiki.plugin.feed.FeedPlugin,\
-                com.xpn.xwiki.plugin.ldap.LDAPPlugin,\
-                com.xpn.xwiki.plugin.google.GooglePlugin,\
-                com.xpn.xwiki.plugin.flickr.FlickrPlugin,\
-                com.xpn.xwiki.plugin.mail.MailPlugin,\
-                com.xpn.xwiki.plugin.packaging.PackagePlugin,\
-                com.xpn.xwiki.plugin.query.QueryPlugin,\
-                com.xpn.xwiki.plugin.svg.SVGPlugin,\
-                com.xpn.xwiki.plugin.charts.ChartingPlugin,\
-                com.xpn.xwiki.plugin.fileupload.FileUploadPlugin,\
-                com.xpn.xwiki.plugin.image.ImagePlugin,\
-                com.xpn.xwiki.plugin.captcha.CaptchaPlugin,\
-                com.xpn.xwiki.plugin.userdirectory.UserDirectoryPlugin,\
-                com.xpn.xwiki.plugin.usertools.XWikiUserManagementToolsImpl,\
-                com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
-                com.xpn.xwiki.plugin.autotag.AutoTagPlugin,\
-                com.xpn.xwiki.plugin.lucene.LucenePlugin,\
-                com.xpn.xwiki.plugin.diff.DiffPlugin,\
-                com.xpn.xwiki.plugin.rightsmanager.RightsManagerPlugin,\
-                com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
-                com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
-                com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
-                com.xpn.xwiki.plugin.watchlist.WatchListPlugin
-            </xwikiCfgPlugins>
-            <xwikiCfgDefaultSkin>toucan</xwikiCfgDefaultSkin>
-            <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>
-            <xwikiCfgAdditionalProperties>                
-xwiki.work.dir=work
-            </xwikiCfgAdditionalProperties>
-          </properties>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
           <webResources>
+            <!-- Include License resources -->
+            <resource>
+              <directory>${project.build.directory}/maven-shared-archive-resources/META-INF</directory>
+              <targetPath>META-INF</targetPath>
+            </resource>
             <resource>
               <directory>${project.build.directory}/maven-shared-archive-resources</directory>
               <targetPath>WEB-INF</targetPath>

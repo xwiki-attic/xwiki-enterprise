@@ -58,16 +58,17 @@
         <artifactId>maven-remote-resources-plugin</artifactId>
         <executions>
           <execution>
+            <id>xwiki-configuration-resources</id>
             <goals>
               <goal>process</goal>
             </goals>
+            <configuration>
+              <resourceBundles>
+                <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
+              </resourceBundles>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <resourceBundles>
-            <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
-          </resourceBundles>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -85,7 +86,10 @@
                   <groupId>com.xpn.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
-                  <outputDirectory>${project.build.directory}/container</outputDirectory>
+                  <outputDirectory>${project.build.directory}/container/jetty</outputDirectory>
+                  <!-- Note: This the Dependency plugin doesn't support includes/excludes we
+                       copy all the jetty resources in the jetty/ dir and then using the AntRun
+                       plugin below we move all shell scripts file into the root. -->
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
@@ -130,10 +134,11 @@
         </executions>
       </plugin>
       <plugin>
-        <!-- The Dependency plugin only supports excluding files in version 2.0-alpha-5 and above and at this time the
-             latest released version is 2.0-alpha-4. Thus we need to perform this hack to remove the Hibernate
-             config file. We want to remove it since we want to use one we provide that has the HSQLDB database set
-             up by default. Remove this when version 2.0-alpha-5 is released. -->
+        <!-- The Dependency plugin only supports excluding files in version 2.0-alpha-5 and above
+             and at this time the latest released version is 2.0-alpha-4. Thus we need to perform
+             this hack to remove the Hibernate config file and to move the jetty shell script files.
+             We want to remove it since we want to use one we provide that has the HSQLDB database
+             set up by default. Remove this when version 2.0-alpha-5 is released. -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
@@ -145,6 +150,12 @@
             <configuration>
               <tasks>
                 <delete file="${project.build.directory}/container/webapps/xwiki/WEB-INF/hibernate.cfg.xml" />
+                <move todir="${project.build.directory}/container">
+                  <fileset dir="${project.build.directory}/container/jetty">
+                    <include name="**/*.sh"/>
+                    <include name="**/*.bat"/>
+                  </fileset>
+                </move>
               </tasks>
             </configuration>
           </execution>
@@ -192,7 +203,7 @@
   </build>
   <properties>
     <xwiki.hibernate>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</xwiki.hibernate>
-    <xwiki.license>${project.build.directory}/maven-shared-archive-resources/LICENCE.txt</xwiki.license>
+    <xwiki.license>${project.build.directory}/classes/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container</xwiki.container>
     <xwiki.database>${project.build.directory}/database</xwiki.database>

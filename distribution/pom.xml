@@ -63,16 +63,17 @@
           <artifactId>maven-remote-resources-plugin</artifactId>
           <executions>
             <execution>
+              <id>xwiki-configuration-resources</id>
               <goals>
                 <goal>process</goal>
               </goals>
+              <configuration>
+                <resourceBundles>
+                  <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
+                </resourceBundles>
+              </configuration>
             </execution>
           </executions>
-          <configuration>
-            <resourceBundles>
-              <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
-            </resourceBundles>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

@@ -196,7 +196,7 @@
 ## ---------------
 ## RSS link
 ## ---------------
-#set($utext = $xwiki.getURLEncoded($query))
+#set($utext = $util.encodeURI($query))
 #if($space == "")
   #set($url = $xwiki.getURL($doc.fullName, "view", "xpage=rdf&amp;amp;text=${utext}" ))
 #else

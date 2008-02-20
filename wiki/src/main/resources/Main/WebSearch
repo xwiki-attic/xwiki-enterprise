@@ -87,7 +87,7 @@
   #set($text = "")
 #end
 
-#set($utext = $xwiki.getURLEncoded($text))
+#set($utext = $util.encodeURI($text))
 #if($space == "All")
   #set($url = $xwiki.getURL("Main.WebSearchRss", "view", "xpage=rdf&amp;amp;text=${utext}" ))
 #else

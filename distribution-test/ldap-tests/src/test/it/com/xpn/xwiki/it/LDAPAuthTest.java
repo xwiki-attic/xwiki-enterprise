@@ -38,7 +38,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         clickLogin();
     }
-    
+
     /**
      * Validate that it tries to log as "common" XWiki login if user is not found in LDAP.
      */
@@ -50,5 +50,20 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         submit();
 
         assertTrue("Admin user has not been authenticated", isAuthenticated());
+    }
+
+    /**
+     * Validate that it success to authenticate with LDAP user.
+     * Also the user id contains space character.
+     */
+    public void testLogAsLDAPUser()
+    {
+        setFieldValue("j_username", XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID);
+        setFieldValue("j_password", XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD);
+        checkField("rememberme");
+        submit();
+
+        assertTrue(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " user has not been authenticated",
+            isAuthenticated());
     }
 }

@@ -22,7 +22,6 @@ package com.xpn.xwiki.it;
 import java.lang.reflect.Method;
 
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
-import com.xpn.xwiki.test.XWikiTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -63,7 +62,6 @@ public class AllTests extends TestCase
         addTestCaseSuite(suite, LDAPAuthTest.class);
 
         return new XWikiLDAPTestSetup(suite);
-        //return new XWikiTestSetup(suite);
     }
 
     private static void addTestCase(TestSuite suite, Class testClass) throws Exception

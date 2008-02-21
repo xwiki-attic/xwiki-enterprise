@@ -53,7 +53,7 @@ public class XWikiLDAPUtilsTest extends TestCase
     {
         this.context = new XWikiContext();
 
-        new XWiki(new XWikiConfig(), this.context)
+        new XWiki(XWikiLDAPTestSetup.CURRENTXWIKICONF, this.context)
         {
             private XWikiCacheService cacheService;
 

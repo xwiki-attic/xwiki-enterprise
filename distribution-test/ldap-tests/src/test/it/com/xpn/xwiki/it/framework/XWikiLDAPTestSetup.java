@@ -53,7 +53,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         System.getProperty("xwikiExecutionDirectory");
 
     /**
-     * The xwiki.cfg file used by the instance of XWiki Enterprise used for theses tests. 
+     * The xwiki.cfg file used by the instance of XWiki Enterprise used for theses tests.
      */
     public static final String XWIKI_CFG_FILE =
         EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/xwiki.cfg";
@@ -122,40 +122,43 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     {
         super(test);
 
-        FileInputStream fis = new FileInputStream(XWIKI_CFG_FILE);
+        FileInputStream fis;
 
-        // Read properties file.
+        fis = new FileInputStream(XWIKI_CFG_FILE);
         this.initialXWikiConf = new Properties();
         this.initialXWikiConf.load(fis);
+        fis.close();
 
-        // Read properties file.
+        fis = new FileInputStream(XWIKI_CFG_FILE);
         this.currentXWikiConf = new Properties();
         this.currentXWikiConf.load(fis);
-
         fis.close();
 
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap", "1");
-        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.authclass",
-            "com.xpn.xwiki.user.impl.LDAP.LDAPAuthServiceImpl");
+        this.currentXWikiConf.setProperty("xwiki.authentication.authclass",
+            "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.server", "localhost");
-        // currentXWikiConf.setProperty("xwiki.authentication.ldap.check_level", "1");
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.base_DN", "o=sevenSeas");
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.bind_DN",
             "cn={0},ou=people,o=sevenSeas");
-        // currentXWikiConf.setProperty("xwiki.authentication.ldap.bind_pass", "{1}");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.bind_pass", "{1}");
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.UID_attr",
             LDAP_USERUID_FIELD);
         this.currentXWikiConf
             .setProperty("xwiki.authentication.ldap.fields_mapping",
                 "name=uid,last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
-        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.group_mapping_1",
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.group_mapping",
             "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
-        // ldap_groupcache_expiration
-        // ldap_user_group
-        // ldap_validate_password
-        // ldap_update_user
-        // ldap_trylocal
-        // ldap_mode_group_sync (create,always)
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.groupcache_expiration",
+            "21800");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.user_group",
+            "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.validate_password", "0");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.update_user", "1");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.trylocal", "1");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.mode_group_sync", "always");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.ssl", "0");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
     }
 
     /**

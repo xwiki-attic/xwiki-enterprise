@@ -19,21 +19,24 @@
  */
 package com.xpn.xwiki.it;
 
+import java.lang.reflect.Method;
+
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
+import com.xpn.xwiki.test.XWikiTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * A class listing all the Functional tests to execute. We need such a class (rather than
- * letting the JUnit Runner discover the different TestCases classes by itself) because we want to
+ * A class listing all the Functional tests to execute. We need such a class (rather than letting
+ * the JUnit Runner discover the different TestCases classes by itself) because we want to
  * start/stop XWiki before and after the tests start (but only once).
  * 
  * @version $Id: $
  */
 public class AllTests extends TestCase
-{   
+{
     /**
      * The pattern to filter the tests to launch.
      */
@@ -53,17 +56,28 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
-        addTestCase(suite, LDAPAuthTest.class);
         addTestCase(suite, XWikiLDAPUtilsTest.class);
         addTestCase(suite, XWikiLDAPConnectionTest.class);
 
+        // Selenium
+        addTestCaseSuite(suite, LDAPAuthTest.class);
+
         return new XWikiLDAPTestSetup(suite);
+        //return new XWikiTestSetup(suite);
     }
 
     private static void addTestCase(TestSuite suite, Class testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
             suite.addTest(new TestSuite(testClass));
+        }
+    }
+
+    private static void addTestCaseSuite(TestSuite suite, Class testClass) throws Exception
+    {
+        if (testClass.getName().matches(PATTERN)) {
+            Method method = testClass.getMethod("suite", null);
+            suite.addTest((Test) method.invoke(null, null));
         }
     }
 

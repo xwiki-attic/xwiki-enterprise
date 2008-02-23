@@ -358,10 +358,10 @@ Here is some text with a quote
       &lt;tt&gt;text in monospace font&lt;/tt&gt;&lt;p class="paragraph"/&gt;
       Text in a &lt;sup&gt;superscript&lt;/sup&gt; format&lt;p class="paragraph"/&gt;
       Text in a &lt;sub&gt;subscript&lt;/sub&gt; format&lt;p class="paragraph"/&gt;
-      &lt;blockquote class="quote"&gt;
+      &lt;blockquote class="quote"&gt;&lt;p&gt;
         Here is some text with a quote
         &lt;a href="http://www.xwiki.org"&gt;Source&lt;/a&gt;
-      &lt;/blockquote&gt;&lt;p class="paragraph"/&gt;
+      &lt;/p&gt;&lt;/blockquote&gt;&lt;p class="paragraph"/&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
@@ -397,7 +397,7 @@ The full format of a link is {code}(alias[|&gt;])(link)(@interWikiAlias)([|&gt;]
 ** &lt;tt&gt;virtualWikiAlias&lt;/tt&gt;: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: "mywiki".
 ** &lt;tt&gt;space&lt;/tt&gt;: An optional Wiki Space name. If not space is specified the current space is used. Example: "Main".
 ** &lt;tt&gt;reference&lt;/tt&gt;: The link reference. This can be either a URI in the form &lt;tt&gt;protocol:path&lt;/tt&gt; (example: "http://xwiki.org", "mailto:john@smith.com") or a wiki page name (example: "WebHome").
-** &lt;tt&gt;queryString&lt;/tt&gt;: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;mydata2=Hello".
+** &lt;tt&gt;queryString&lt;/tt&gt;: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;amp;mydata2=Hello".
 ** &lt;tt&gt;anchor&lt;/tt&gt;: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for titles. Example: "TableOfContentAnchor".
 * &lt;tt&gt;interWikiAlias&lt;/tt&gt;: An optional [Inter Wiki&gt;http://en.wikipedia.org/wiki/InterWiki] alias as defined in the InterWiki Map (see the [Admin Guide&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]). Example: "wikipedia"
 * &lt;tt&gt;target&lt;/tt&gt;: An optional string corresponding to the HTML &lt;tt&gt;target&lt;/tt&gt; attribute for a HTML &lt;tt&gt;a&lt;/tt&gt; link element. This element is used when rendering the link. It defaults to opening the link in the current page. Examples: "_self", "_blank"

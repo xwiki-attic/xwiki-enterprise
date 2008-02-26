@@ -60,6 +60,7 @@ public class AllTests extends TestCase
         addTestCase(suite, SkinCustomizationsTest.class);
         addTestCase(suite, XObjectsTest.class);
         addTestCase(suite, VersionTest.class);
+        addTestCase(suite, WatchListTest.class);
 
         return new XWikiTestSetup(suite);
     }

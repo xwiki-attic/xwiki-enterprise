@@ -425,7 +425,7 @@ The full format of a link is {code}(alias[|&gt;])(link)(@interWikiAlias)([|&gt;]
       &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/UserGuide/"&gt;home&lt;/a&gt;&lt;/span&gt; (uses current space)&lt;br/&gt;
       &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;Web Home&lt;/a&gt;&lt;/span&gt;&lt;br/&gt;
       &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;home&lt;/a&gt;&lt;/span&gt;&lt;br/&gt;
-      &lt;span class="wikilink"&gt;&lt;a target="_blank" href="/xwiki/bin/view/Main/"&gt;home&lt;/a&gt;&lt;/span&gt;
+      &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/" rel="__blank"&gt;home&lt;/a&gt;&lt;/span&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;

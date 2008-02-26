@@ -675,10 +675,11 @@ This is some content...
       &lt;div class="errormessage"&gt;&lt;span class="messagetype"&gt;Error: &lt;/span&gt;This is an error panel&lt;/div&gt;
       &lt;br /&gt;&lt;br /&gt;
       &lt;fieldset class="floatinginfobox"&gt;
+        &lt;legend/&gt;
         Some content in a floating box
       &lt;/fieldset&gt;
       This is a floating box displayed on the right.&lt;p class="paragraph"/&gt;
-      &lt;fieldset class="floatinginfobox"&gt;Some content in a floating box&lt;/fieldset&gt;
+      &lt;fieldset class="floatinginfobox"&gt;&lt;legend/&gt;Some content in a floating box&lt;/fieldset&gt;
       This is also a floating box displayed on the right.&lt;p class="paragraph"/&gt;
       &lt;div style="color:white; background-color:grey; width:150px; height:50px; border:1px solid black; " &gt;
         This is some content&amp;#8230;

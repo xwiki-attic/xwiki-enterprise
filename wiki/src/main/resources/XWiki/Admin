@@ -390,7 +390,7 @@
 <imtype>---</imtype>
 </property>
 <property>
-<blogfeed>http://www.xwiki.com/xwiki/bin/view/Main/BlogRss?xpage=rdf</blogfeed>
+<blogfeed>http://www.xwiki.org/xwiki/bin/view/Main/BlogRss?xpage=rdf</blogfeed>
 </property>
 <property>
 <pageWidth>default</pageWidth>
@@ -414,7 +414,7 @@
 <imaccount></imaccount>
 </property>
 <property>
-<blog>http://www.xwiki.com/xwiki/bin/view/Blog/WebHome</blog>
+<blog>http://www.xwiki.org/xwiki/bin/view/Blog/WebHome</blog>
 </property>
 <property>
 <company>XWiki.org</company>
@@ -426,7 +426,7 @@
 <country></country>
 </property>
 <property>
-<email>webmaster@xwiki.com</email>
+<email>webmaster@xwiki.org</email>
 </property>
 <property>
 <avatar></avatar>

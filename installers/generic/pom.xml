@@ -152,8 +152,8 @@
                 <delete file="${project.build.directory}/container/webapps/xwiki/WEB-INF/hibernate.cfg.xml" />
                 <move todir="${project.build.directory}/container">
                   <fileset dir="${project.build.directory}/container/jetty">
-                    <include name="**/*.sh"/>
-                    <include name="**/*.bat"/>
+                    <include name="**/*.sh" />
+                    <include name="**/*.bat" />
                   </fileset>
                 </move>
               </tasks>

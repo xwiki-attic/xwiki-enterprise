@@ -118,6 +118,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         assertTrue("[" + text + "] isn't present.", getSelenium().isTextPresent(text));
     }
 
+    public void assertTextNotPresent(String text)
+    {
+        assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));        
+    }
+
     public void assertElementPresent(String elementLocator)
     {
         assertTrue("[" + elementLocator + "] isn't present.", isElementPresent(elementLocator));

@@ -42,24 +42,34 @@ public class WatchListTest extends AbstractXWikiTestCase
     {
         loginAsAdmin();
 
-        // Test if the email template exists
+        // Test if the email template document exists
         open("/xwiki/bin/edit/XWiki/WatchListMessage?editor=object");
         assertTextPresent("XWiki.Mail[0]");
+
+        // Test if the watchlist manager document exists
+        open("/xwiki/bin/view/XWiki/WatchListManager");
+        assertTextPresent("Stay tuned");
 
         // Watch Test.TestWatchThisPage
         open("/xwiki/bin/edit/Test/TestWatchThisPage?editor=wiki");
         setFieldValue("content", "TestWatchThisPage selenium");
         clickEditSaveAndView();
-        getSelenium().click("link=Watch this page");
+        clickLinkWithText("Watch this page", false);
 
         // Watch TestWatchWholeSpace
         open("/xwiki/bin/edit/TestWatchWholeSpace/Test1?editor=wiki");
         setFieldValue("content", "TestWatchWholeSpace selenium");
         clickEditSaveAndView();
-        getSelenium().click("link=Watch whole space");
+        clickLinkWithText("Watch whole space", false);
 
-        getSelenium().click("link=Manage your watchlist");
+        // Verify that the watched page & space are present in the watchlist manager
+        clickLinkWithLocator("link=Manage your watchlist");
         assertTextPresent("TestWatchThisPage");
         assertTextPresent("TestWatchWholeSpace");
+
+        // XWIKI-2125
+        // Watchlist menu entry not present if XWiki.WatchListManager does not exists
+        open("/xwiki/bin/delete/XWiki/WatchListManager?confirm=1&xredirect=/xwiki/bin/view/Main/");
+        assertTextNotPresent("Manage your watchlist");
     }
 }

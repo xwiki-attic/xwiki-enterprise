@@ -54,7 +54,7 @@
     <platform.tool.configuration.version>1.11-SNAPSHOT</platform.tool.configuration.version>
     <platform.tool.jetty.version>1.10-SNAPSHOT</platform.tool.jetty.version>
     <platform.tool.test.version>1.9-SNAPSHOT</platform.tool.test.version>
-    <platform.tool.packager.version>1.9-SNAPSHOT</platform.tool.packager.version>
+    <platform.tool.packager.version>1.10-SNAPSHOT</platform.tool.packager.version>
     <platform.core.version>1.4-SNAPSHOT</platform.core.version>
     <platform.web.version>1.4-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.4-SNAPSHOT</platform.panels.version>

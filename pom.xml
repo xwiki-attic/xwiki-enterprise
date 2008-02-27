@@ -57,7 +57,7 @@
     <platform.tool.packager.version>1.10-SNAPSHOT</platform.tool.packager.version>
     <platform.core.version>1.4-SNAPSHOT</platform.core.version>
     <platform.web.version>1.4-SNAPSHOT</platform.web.version>
-    <platform.panels.version>1.4-SNAPSHOT</platform.panels.version>
+    <platform.panels.version>1.5-SNAPSHOT</platform.panels.version>
     <platform.scheduler.version>1.3-SNAPSHOT</platform.scheduler.version>
     <platform.watchlist.version>1.2-SNAPSHOT</platform.watchlist.version>
     <platform.jodatime.version>1.1-SNAPSHOT</platform.jodatime.version>

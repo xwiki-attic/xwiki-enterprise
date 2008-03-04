@@ -142,7 +142,7 @@ public class XWikiLDAPUtilsTest extends TestCase
         assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members
             .keySet()));
 
-        Map wrongGroupMembers = this.ldapUtils.getGroupMembers("wronggroupdn", this.context);
+        Map wrongGroupMembers = this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);
 
         assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]",
             wrongGroupMembers);

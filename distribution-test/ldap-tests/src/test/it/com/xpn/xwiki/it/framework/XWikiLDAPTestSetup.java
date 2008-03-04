@@ -38,9 +38,14 @@ import com.xpn.xwiki.test.XWikiTestSetup;
 public class XWikiLDAPTestSetup extends XWikiTestSetup
 {
     /**
-     * The name of the LDAP property containing user unique id.
+     * The name of the LDAP property containing user unique id (cn).
      */
     public static final String LDAP_USERUID_FIELD = "cn";
+
+    /**
+     * The name of the LDAP property containing user unique id (uid).
+     */
+    public static final String LDAP_USERUID_FIELD_UID = "uid";
 
     /**
      * The name of the system property containing the LDAP embedded server port.
@@ -78,6 +83,21 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     public static final String HORATIOHORNBLOWER_UID = "Horatio Hornblower";
 
     /**
+     * The LDAP DN of user William Bush.
+     */
+    public static final String WILLIAMBUSH_DN = "cn=William Bush,ou=people,o=sevenSeas";
+
+    /**
+     * The LDAP password of user William Bush.
+     */
+    public static final String WILLIAMBUSH_PWD = "pass";
+
+    /**
+     * The LDAP unique id of user William Bush.
+     */
+    public static final String WILLIAMBUSH_UID = "wbush";
+
+    /**
      * The LDAP DN of group HMS Lydia.
      */
     public static final String HMSLYDIA_DN = "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas";
@@ -85,11 +105,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The LDAP members of group HMS Lydia.
      */
-    public static final Set HMSLYDIA_MEMBERS = new HashSet();
+    public static final Set<String> HMSLYDIA_MEMBERS = new HashSet<String>();
 
     static {
-        HMSLYDIA_MEMBERS.add(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN);
-        HMSLYDIA_MEMBERS.add("cn=William Bush,ou=people,o=sevenSeas");
+        HMSLYDIA_MEMBERS.add(HORATIOHORNBLOWER_DN);
+        HMSLYDIA_MEMBERS.add(WILLIAMBUSH_DN);
         HMSLYDIA_MEMBERS.add("cn=Thomas Quist,ou=people,o=sevenSeas");
         HMSLYDIA_MEMBERS.add("cn=Moultrie Crystal,ou=people,o=sevenSeas");
     }
@@ -98,7 +118,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * The xwiki.cfg properties modified for the test.
      */
     public static XWikiConfig CURRENTXWIKICONF;
-    
+
     // ///
 
     /**
@@ -143,15 +163,13 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN",
             "cn={0},ou=people,o=sevenSeas");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_pass", "{1}");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr",
-            LDAP_USERUID_FIELD);
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr", LDAP_USERUID_FIELD);
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name="
             + LDAP_USERUID_FIELD
             + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping",
             "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration",
-            "21800");
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "21800");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group",
             "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.validate_password", "0");
@@ -216,7 +234,7 @@ class LDAPRunner extends AbstractServerTest
         pcfg.setSuffix("o=sevenseas");
 
         // Create some indices
-        Set indexedAttrs = new HashSet();
+        Set<String> indexedAttrs = new HashSet<String>();
         indexedAttrs.add("objectClass");
         indexedAttrs.add("o");
         pcfg.setIndexedAttributes(indexedAttrs);
@@ -240,7 +258,7 @@ class LDAPRunner extends AbstractServerTest
 
         // As we can create more than one partition, we must store
         // each created partition in a Set before initialization
-        Set pcfgs = new HashSet();
+        Set<MutablePartitionConfiguration> pcfgs = new HashSet<MutablePartitionConfiguration>();
         pcfgs.add(pcfg);
 
         configuration.setContextPartitionConfigurations(pcfgs);

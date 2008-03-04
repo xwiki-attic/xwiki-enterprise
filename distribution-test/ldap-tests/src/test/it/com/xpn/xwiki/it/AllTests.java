@@ -64,22 +64,22 @@ public class AllTests extends TestCase
         return new XWikiLDAPTestSetup(suite);
     }
 
-    private static void addTestCase(TestSuite suite, Class testClass) throws Exception
+    private static void addTestCase(TestSuite suite, Class<?> testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
             suite.addTest(new TestSuite(testClass));
         }
     }
 
-    private static void addTestCaseSuite(TestSuite suite, Class testClass) throws Exception
+    private static void addTestCaseSuite(TestSuite suite, Class<?> testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
-            Method method = testClass.getMethod("suite", null);
-            suite.addTest((Test) method.invoke(null, null));
+            Method method = testClass.getMethod("suite");
+            suite.addTest((Test) method.invoke(null));
         }
     }
 
-    private static void addTest(TestSuite suite, Test test, Class testClass) throws Exception
+    private static void addTest(TestSuite suite, Test test, Class<?> testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
             suite.addTest(test);

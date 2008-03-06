@@ -30,12 +30,12 @@ import junit.framework.Test;
  *
  * @version $Id: $
  */
-public class LoginTest extends AbstractXWikiTestCase
+public class LoginLogoutTest extends AbstractXWikiTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the login and logout features of XWiki");
-        suite.addTestSuite(LoginTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(LoginLogoutTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 
@@ -79,4 +79,14 @@ public class LoginTest extends AbstractXWikiTestCase
 
         assertTextPresent("Wrong user name");
     }
+
+
+    public void testLogout()
+    {
+        loginAsAdmin();
+        logout();
+        
+        this.assertTextPresent("Log-in");
+    }
+
 }

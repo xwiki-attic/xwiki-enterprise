@@ -49,7 +49,7 @@ public class AllTests extends TestCase
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
         addTestCase(suite, DeletePageTest.class);
         addTestCase(suite, LanguageTest.class);
-        addTestCase(suite, LoginTest.class);
+        addTestCase(suite, LoginLogoutTest.class);
         addTestCase(suite, WikiEditorTest.class);
         addTestCase(suite, WysiwygEditorFromWikiTest.class);
         addTestCase(suite, WysiwygEditorTest.class);

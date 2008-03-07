@@ -86,6 +86,14 @@
         <artifactId>xwiki-xar-plugin</artifactId>
         <version>${platform.tool.xar-plugin.version}</version>
       </plugin>
+      <!-- Temporary plugin configuration till we find a better solution -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <arguments>-Prelease,ci,hsqldb</arguments>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

@@ -34,12 +34,12 @@
   <artifactId>xwiki-enterprise-parent</artifactId>
   <packaging>pom</packaging>
   <name>XWiki Products - Enterprise - Parent POM</name>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.3</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/branches/xwiki-enterprise-1.3</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/branches/xwiki-enterprise-1.3</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/branches/xwiki-enterprise-1.3</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/tags/xwiki-enterprise-1.3</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/tags/xwiki-enterprise-1.3</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/tags/xwiki-enterprise-1.3</url>
   </scm>
   <modules>        
     <module>wiki</module>
@@ -50,7 +50,7 @@
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
     <platform.tool.xar-handler.version>1.8</platform.tool.xar-handler.version>
-    <platform.tool.xar-plugin.version>1.19</platform.tool.xar-plugin.version>
+    <platform.tool.xar-plugin.version>1.9</platform.tool.xar-plugin.version>
     <platform.tool.configuration.version>1.10</platform.tool.configuration.version>
     <platform.tool.jetty.version>1.9</platform.tool.jetty.version>
     <platform.tool.test.version>1.8</platform.tool.test.version>
@@ -85,6 +85,14 @@
         <groupId>com.xpn.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xar-plugin</artifactId>
         <version>${platform.tool.xar-plugin.version}</version>
+      </plugin>
+      <!-- Temporary plugin configuration till we find a better solution -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <arguments>-Prelease,ci,hsqldb</arguments>
+        </configuration>
       </plugin>
     </plugins>
   </build>

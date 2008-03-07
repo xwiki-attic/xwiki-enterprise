@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
-    <version>11</version>
+    <version>13</version>
     <relativePath>../xwiki-platform-pom</relativePath>
   </parent>
   <groupId>com.xpn.xwiki.products</groupId>
@@ -49,30 +49,23 @@
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
-    <platform.tool.xar-handler.version>1.9-SNAPSHOT</platform.tool.xar-handler.version>
-    <platform.tool.xar-plugin.version>1.10-SNAPSHOT</platform.tool.xar-plugin.version>
-    <platform.tool.configuration.version>1.11-SNAPSHOT</platform.tool.configuration.version>
-    <platform.tool.jetty.version>1.10-SNAPSHOT</platform.tool.jetty.version>
-    <platform.tool.test.version>1.9-SNAPSHOT</platform.tool.test.version>
-    <platform.tool.packager.version>1.10-SNAPSHOT</platform.tool.packager.version>
-    <platform.core.version>1.3-SNAPSHOT</platform.core.version>
-    <platform.web.version>1.3-SNAPSHOT</platform.web.version>
-    <platform.panels.version>1.5-SNAPSHOT</platform.panels.version>
-    <platform.scheduler.version>1.4-SNAPSHOT</platform.scheduler.version>
-    <platform.watchlist.version>1.3-SNAPSHOT</platform.watchlist.version>
-    <platform.jodatime.version>1.1-SNAPSHOT</platform.jodatime.version>
-    <platform.statistics.version>1.1-SNAPSHOT</platform.statistics.version>
+    <platform.tool.xar-handler.version>1.8</platform.tool.xar-handler.version>
+    <platform.tool.xar-plugin.version>1.19</platform.tool.xar-plugin.version>
+    <platform.tool.configuration.version>1.10</platform.tool.configuration.version>
+    <platform.tool.jetty.version>1.9</platform.tool.jetty.version>
+    <platform.tool.test.version>1.8</platform.tool.test.version>
+    <platform.tool.packager.version>1.9</platform.tool.packager.version>
+    <platform.core.version>1.3</platform.core.version>
+    <platform.web.version>1.3</platform.web.version>
+    <platform.panels.version>1.4</platform.panels.version>
+    <platform.scheduler.version>1.3</platform.scheduler.version>
+    <platform.watchlist.version>1.3</platform.watchlist.version>
+    <platform.jodatime.version>1.0.2</platform.jodatime.version>
+    <platform.statistics.version>1.0.2</platform.statistics.version>
   </properties>
   <profiles>
     <profile>
       <id>ci</id>
-      <activation>
-        <!-- This property is automatically defined by the Maven release plugin when executing
-             a release. Thus this profile will be automatically enabled when releasing -->
-        <property>
-          <name>performRelease</name>
-        </property>
-      </activation>
       <modules>
         <module>installers</module>
         <module>distribution-test</module>

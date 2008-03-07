@@ -27,7 +27,6 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      * 
      * @see com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase#setUp()
      */
-    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -105,7 +104,6 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      * 
      * @see com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase#tearDown()
      */
-    @Override
     protected void tearDown() throws Exception
     {
         // Verify that the user isn't logged in

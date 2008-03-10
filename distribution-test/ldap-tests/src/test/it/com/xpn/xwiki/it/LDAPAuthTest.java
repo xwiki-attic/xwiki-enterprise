@@ -97,6 +97,13 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID + " user has not been authenticated",
             isAuthenticated());
+        
+        // ///////////////////
+        // Validate user is added in AdminGroup as it configured in group_mapping property
+        
+        open("/xwiki/bin/view/XWiki/XWikiAdminGroup");
+        
+        assertTextPresent("XWiki." + XWikiLDAPTestSetup.WILLIAMBUSH_UID);
     }
 
     /**

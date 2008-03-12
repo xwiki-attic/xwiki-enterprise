@@ -15,6 +15,7 @@ import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
+import com.xpn.xwiki.plugin.ldap.XWikiLDAPException;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
@@ -52,8 +53,9 @@ public class XWikiLDAPConnectionTest extends TestCase
 
     /**
      * Test open and close of the LDAP connection.
+     * @throws XWikiLDAPException 
      */
-    public void testOpenClose()
+    public void testOpenClose() throws XWikiLDAPException
     {
         int port = XWikiLDAPTestSetup.getLDAPPort();
 
@@ -68,8 +70,9 @@ public class XWikiLDAPConnectionTest extends TestCase
 
     /**
      * Test open and close of the LDAP connection using xwiki.cfg parameters.
+     * @throws XWikiLDAPException 
      */
-    public void testOpen2Close()
+    public void testOpen2Close() throws XWikiLDAPException
     {
         XWikiLDAPConnection connection = new XWikiLDAPConnection();
 

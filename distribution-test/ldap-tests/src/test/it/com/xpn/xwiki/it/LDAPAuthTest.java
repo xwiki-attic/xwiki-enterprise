@@ -79,12 +79,13 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
             XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_pass",
             XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD);
-        //setFieldValue("XWiki.XWikiPreferences_0_ldap_validate_password", "1");
         setFieldValue("XWiki.XWikiPreferences_0_ldap_UID_attr",
             XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_fields_mapping", "name="
             + XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID
             + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
+        setFieldValue("XWiki.XWikiPreferences_0_ldap_group_mapping",
+            "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
         clickEditSaveAndView();
 
         logout();
@@ -97,12 +98,11 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID + " user has not been authenticated",
             isAuthenticated());
-        
+
         // ///////////////////
-        // Validate user is added in AdminGroup as it configured in group_mapping property
-        
+        // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
+
         open("/xwiki/bin/view/XWiki/XWikiAdminGroup");
-        
         assertTextPresent("XWiki." + XWikiLDAPTestSetup.WILLIAMBUSH_UID);
     }
 
@@ -113,21 +113,6 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      */
     protected void tearDown() throws Exception
     {
-        // Verify that the user isn't logged in
-        /*if (isAuthenticated()) {
-            logout();
-        }
-
-        loginAsAdmin();
-
-        open("/xwiki/bin/edit/XWiki/XWikiPreferences?editor=object");
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_validate_password", "");
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_DN", "");
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_pass", "");
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_UID_attr", "");
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_fields_mapping", "");
-        clickEditSaveAndView();*/
-
         super.tearDown();
     }
 }

@@ -56,6 +56,17 @@
       <artifactId>xwiki-plugin-jodatime</artifactId>
       <version>${platform.jodatime.version}</version>
     </dependency>   
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.plugins</groupId>
+      <artifactId>xwiki-plugin-lucene</artifactId>
+      <version>${platform.plugin.lucene.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-lang</groupId>
+          <artifactId>commons-lang</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>   
   </dependencies>
   <build>
     <plugins>
@@ -110,7 +121,8 @@
                     com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
                     com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
                     com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
-                    com.xpn.xwiki.plugin.watchlist.WatchListPlugin
+                    com.xpn.xwiki.plugin.watchlist.WatchListPlugin,\
+                    com.xpn.xwiki.plugin.lucene.LucenePlugin
                 </xwikiCfgPlugins>
                 <xwikiCfgDefaultSkin>toucan</xwikiCfgDefaultSkin>
                 <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>

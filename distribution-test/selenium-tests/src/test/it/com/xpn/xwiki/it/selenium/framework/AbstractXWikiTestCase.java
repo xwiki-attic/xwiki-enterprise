@@ -98,6 +98,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         assertEquals("XWiki - " + space + " - " + page, getTitle());
     }
 
+    public void assertTitle(String title)
+    {
+        assertEquals(title, getTitle());
+    }
+
     public boolean isElementPresent(String locator)
     {
         return getSelenium().isElementPresent(locator);
@@ -277,6 +282,12 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     public void clearWysiwygContent()
     {
         getSkinExecutor().clearWysiwygContent();
+    }
+
+    public void keyPressAndWait(String element, String keycode, int nbMillisecond)
+        throws InterruptedException {
+        getSelenium().keyPress(element, keycode);       
+        getSelenium().waitForPageToLoad(String.valueOf(nbMillisecond));
     }
 
     public void typeInWysiwyg(String text)

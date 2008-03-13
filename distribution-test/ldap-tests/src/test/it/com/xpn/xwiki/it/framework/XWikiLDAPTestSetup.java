@@ -96,6 +96,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * The LDAP unique id of user William Bush.
      */
     public static final String WILLIAMBUSH_UID = "wbush";
+    
+    /**
+     * The LDAP unique id with mixed case of user William Bush.
+     */
+    public static final String WILLIAMBUSH_UID_MIXED = "wBush";
 
     /**
      * The LDAP DN of group HMS Lydia.

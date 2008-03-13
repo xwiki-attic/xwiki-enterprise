@@ -33,8 +33,6 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
 {
     private static String mainHtmlElement = "xwikimaincontainer";
 
-    private static int msToWaitAfterKeypress = 10000;
-
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the keyboard shortcuts feature of XWiki");
@@ -84,7 +82,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         if (withShiftModifier) {
             getSelenium().shiftKeyDown();
         }
-        keyPressAndWait(mainHtmlElement, shortcut, msToWaitAfterKeypress);
+        keyPressAndWait(mainHtmlElement, shortcut);
         if (withCtrlModifier) {
             getSelenium().controlKeyUp();
         }

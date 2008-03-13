@@ -284,10 +284,10 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         getSkinExecutor().clearWysiwygContent();
     }
 
-    public void keyPressAndWait(String element, String keycode, int nbMillisecond)
+    public void keyPressAndWait(String element, String keycode)
         throws InterruptedException {
         getSelenium().keyPress(element, keycode);       
-        getSelenium().waitForPageToLoad(String.valueOf(nbMillisecond));
+        waitPage();
     }
 
     public void typeInWysiwyg(String text)

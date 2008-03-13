@@ -174,7 +174,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
         /*CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping",
             "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");*/
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "21800");
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group",
             "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.validate_password", "0");

@@ -98,6 +98,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     public static final String WILLIAMBUSH_UID = "wbush";
 
     /**
+     * The LDAP unique id with mixed case of user William Bush.
+     */
+    public static final String WILLIAMBUSH_UID_MIXED = "wBush";
+
+    /**
      * The LDAP DN of group HMS Lydia.
      */
     public static final String HMSLYDIA_DN = "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas";
@@ -105,7 +110,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The LDAP members of group HMS Lydia.
      */
-    public static final Set<String> HMSLYDIA_MEMBERS = new HashSet<String>();
+    public static final Set HMSLYDIA_MEMBERS = new HashSet();
 
     static {
         HMSLYDIA_MEMBERS.add(HORATIOHORNBLOWER_DN);
@@ -234,7 +239,7 @@ class LDAPRunner extends AbstractServerTest
         pcfg.setSuffix("o=sevenseas");
 
         // Create some indices
-        Set<String> indexedAttrs = new HashSet<String>();
+        Set indexedAttrs = new HashSet();
         indexedAttrs.add("objectClass");
         indexedAttrs.add("o");
         pcfg.setIndexedAttributes(indexedAttrs);
@@ -258,7 +263,7 @@ class LDAPRunner extends AbstractServerTest
 
         // As we can create more than one partition, we must store
         // each created partition in a Set before initialization
-        Set<MutablePartitionConfiguration> pcfgs = new HashSet<MutablePartitionConfiguration>();
+        Set pcfgs = new HashSet();
         pcfgs.add(pcfg);
 
         configuration.setContextPartitionConfigurations(pcfgs);

@@ -27,7 +27,6 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      * 
      * @see com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase#setUp()
      */
-    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -99,6 +98,22 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID + " user has not been authenticated",
             isAuthenticated());
+        
+        // ///////////////////
+        // Validate 
+        //         - XWIKI-2205: case insensitive user uid
+        //         - XWIKI-2202: LDAP user update corrupt XWiki user page
+        
+        logout();
+        clickLogin();
+        
+        setFieldValue("j_username", XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED);
+        setFieldValue("j_password", XWikiLDAPTestSetup.WILLIAMBUSH_PWD);
+        checkField("rememberme");
+        submit();
+        
+        assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED + " user has not been authenticated",
+            isAuthenticated());
 
         // ///////////////////
         // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
@@ -112,7 +127,6 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      * 
      * @see com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase#tearDown()
      */
-    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

@@ -1889,8 +1889,8 @@
 &lt;meta http-equiv="reply-to" content="" /&gt;
 &lt;meta name="language" content="en" /&gt;
 &lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /&gt;
-&lt;link rel="alternate" type="application/rss+xml" title="Wiki Feed RSS" href="/xwiki/bin/view/Main/WebRss?xpage=rdf" /&gt;
-&lt;link rel="alternate" type="application/rss+xml" title="Blog RSS Feed" href="/xwiki/bin/view/Main/BlogRss?xpage=rdf" /&gt;</meta>
+&lt;link rel="alternate" type="application/rss+xml" title="Wiki Feed RSS" href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=rdf')" /&gt;
+&lt;link rel="alternate" type="application/rss+xml" title="Blog RSS Feed" href="$xwiki.getURL('Main.BlogRss', 'view', 'xpage=rdf')" /&gt;</meta>
 </property>
 <property>
 <multilingual>0</multilingual>

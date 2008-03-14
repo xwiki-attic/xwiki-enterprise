@@ -55,7 +55,11 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         setFieldValue("newgroupi", "NewGroup");
         getSelenium().click("//input[@value='Create group']");
         getSelenium().waitForPageToLoad("10000");
+
         assertTextPresent("NewGroup");
+        
+        // Validate XWIKI-1903: New UI - Empty group shows 1 member
+        assertEquals("Group NewGroup which is empty print more than 0 members" , "0", getSelenium().getText("//tbody/tr[td/a=\"NewGroup\"]/td[2]"));
     }
 
     public void testCreateAnExistingGroup()

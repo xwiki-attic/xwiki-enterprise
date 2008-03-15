@@ -72,4 +72,50 @@ public class XObjectsTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
         assertTextPresent("this is the content");
     }
+
+    /**
+     * Tests that XWIKI-2214 remains fixed.
+     */
+    public void testChangeNumberType()
+    {
+        open("/xwiki/bin/edit/Main/Class2?editor=wiki");
+        typeInWiki("this is the content");
+        clickEditSaveAndView();
+        open("/xwiki/bin/edit/Main/Class2?editor=class");
+        setFieldValue("propname", "prop");
+        setFieldValue("proptype", "com.xpn.xwiki.objects.classes.NumberClass");
+        submit("//input[@value='Add Property']");
+        setFieldValue("prop_numberType", "integer");
+        clickEditSaveAndView();
+        // Check that there was no error up to this point
+        assertTextPresent("this is the content");
+        open("/xwiki/bin/edit/Main/Object2?editor=wiki");
+        typeInWiki("this is the content: $doc.display('prop')");
+        clickEditSaveAndView();
+        open("/xwiki/bin/edit/Main/Object2?editor=object");
+        setFieldValue("classname", "Main.Class2");
+        submit("//input[@value='Add Object from this Class']");
+        setFieldValue("Main.Class2_0_prop", "3");
+        clickEditSaveAndView();
+        // Check that there was no error up to this point
+        assertTextPresent("this is the content: 3");
+        open("/xwiki/bin/edit/Main/Class2?editor=class");
+        setFieldValue("prop_numberType", "double");
+        clickEditSaveAndView();
+        // Check that there was no error up to this point
+        assertTextPresent("this is the content");
+        open("/xwiki/bin/edit/Main/Object2?editor=object");
+        setFieldValue("Main.Class2_0_prop", "2.5");
+        clickEditSaveAndView();
+        // Check that there was no error up to this point
+        assertTextPresent("this is the content: 2.5");
+        open("/xwiki/bin/edit/Main/Class2?editor=class");
+        setFieldValue("prop_numberType", "long");
+        clickEditSaveAndView();
+        // Check that there was no error up to this point
+        assertTextPresent("this is the content");
+        open("/xwiki/bin/view/Main/Object2");
+        // Check that the value was truncated to an int.
+        assertTextPresent("this is the content: 2");
+    }
 }

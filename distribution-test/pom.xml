@@ -240,6 +240,32 @@
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat</xwikiExecutionStopCommand>
       </properties>
     </profile>
+    <!-- This profile must come after the "windows" profile so that it overrides it when it's active.
+         Note: You must define the ${profilePath} property in your settings.xml file or in a
+         profiles.xml one. No spaces are allowed in this path, 8.3 DOS path format should be used.
+         Use the "dir /X" command (in command prompt) within a directory to get 8.3 DOS path.
+         For example (win32) in settings.xml:
+           <settings>
+             <profiles>
+               <profile>
+                 <id>xwiki</id>
+                 <properties>
+                   <profilerPath>C:\PROGRA~1\YOURKI~1.11\bin\win32</profilerPath>                   
+                 </properties>
+                 <repositories>
+                   <repository>
+             [...]
+             <activeProfiles>
+               <activeProfile>xwiki</activeProfile>
+             [...]
+    -->    
+    <profile>
+      <id>winprofiler</id>
+      <properties>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} profiler ${profilerPath}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat</xwikiExecutionStopCommand>
+      </properties>
+    </profile>
   </profiles>
   <modules>
     <module>misc-tests</module>

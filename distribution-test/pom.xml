@@ -225,7 +225,7 @@
       <id>macprofiler</id>
       <properties>
         <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} profiler "${profilerPath}"</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki_debug.sh</xwikiExecutionStopCommand>
+        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <profile>

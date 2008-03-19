@@ -203,6 +203,31 @@
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh</xwikiExecutionStopCommand>
       </properties>
     </profile>
+    <!-- This profile must come after the "mac" profile so that it overrides it when it's active.
+         Note: You must define the ${profilePath} property in your settings.xml file or in a
+         profiles.xml one. For example in settings.xml:
+         
+           <settings>
+             <profiles>
+               <profile>
+                 <id>xwiki</id>
+                 <properties>
+                   <profilerPath>/Applications/YourKit Java Profiler 7.0.11.app/bin/mac</profilerPath>
+                 </properties>
+                 <repositories>
+                   <repository>
+             [...]
+             <activeProfiles>
+               <activeProfile>xwiki</activeProfile>
+             [...]
+    -->    
+    <profile>
+      <id>macprofiler</id>
+      <properties>
+        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} profiler "${profilerPath}"</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh -f stop_xwiki_debug.sh</xwikiExecutionStopCommand>
+      </properties>
+    </profile>
     <profile>
       <id>windows</id>
       <activation>

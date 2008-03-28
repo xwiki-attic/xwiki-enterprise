@@ -57,4 +57,18 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         assertGeneratedHTML("img[@src='/xwiki/skins/albatross/mimetypes/jpg.png' "
             + "and @alt='Image' and @title='Image']");
     }
+    
+    /**
+     * Verify that we can create macros in a document and including them into another document.
+     */
+    public void testIncludeMacrosInPage()
+    {
+        open("/xwiki/bin/edit/Test/Macro?editor=wiki");
+        setFieldValue("content", "#macro(testIncludeMacrosInPage)hellomacro#end");
+        clickEditSaveAndView();
+        open("/xwiki/bin/edit/Test/IncludeMacroTest?editor=wiki");
+        setFieldValue("content", "#testIncludeMacrosInPage()");
+        clickEditSaveAndView();
+        assertTextPresent("hellomacro");
+    }
 }

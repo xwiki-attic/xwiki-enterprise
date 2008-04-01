@@ -67,8 +67,22 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         setFieldValue("content", "#macro(testIncludeMacrosInPage)hellomacro#end");
         clickEditSaveAndView();
         open("/xwiki/bin/edit/Test/IncludeMacroTest?editor=wiki");
-        setFieldValue("content", "#testIncludeMacrosInPage()");
+        setFieldValue("content", "#includeMacros(\"Test.Macro\")\n#testIncludeMacrosInPage()");
         clickEditSaveAndView();
         assertTextPresent("hellomacro");
+    }
+
+    /**
+     * Verify that a Macro defined in a document is not visible from another document.
+     */
+    public void testMacrosAreLocal()
+    {
+        open("/xwiki/bin/edit/Test/TestMacrosAreLocal1?editor=wiki");
+        setFieldValue("content", "#macro(testMacrosAreLocal)mymacro#end");
+        clickEditSaveAndView();
+        open("/xwiki/bin/edit/Test/TestMacrosAreLocal2?editor=wiki");
+        setFieldValue("content", "#testMacrosAreLocal()");
+        clickEditSaveAndView();
+        assertTextNotPresent("mymacro");
     }
 }

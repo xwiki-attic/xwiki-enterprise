@@ -84,7 +84,7 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
         typeShiftEnterInWysiwyg();
         typeInWysiwyg("Text");
 
-        assertWikiTextGeneratedByWysiwyg("Text\\\\\nText");
+        assertWikiTextGeneratedByWysiwyg("Text\\\\Text");
     }
 
     public void testLineFeedBeforeAndAfterLists()

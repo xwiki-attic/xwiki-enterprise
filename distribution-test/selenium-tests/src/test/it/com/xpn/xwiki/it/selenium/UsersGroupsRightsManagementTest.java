@@ -72,4 +72,52 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         getSelenium().click("//input[@value='Create group']");
         assertEquals("Admin cannot be used for the group name, as another document with this name already exists.", this.getSelenium().getAlert());
     }
+       
+    public void testCreateAndDeleteUser()
+    {
+        //
+        // CREATE USER
+        //
+        
+        clickLinkWithText("Administration");
+        clickLinkWithText("Users");
+        getSelenium().setSpeed("1000");
+        clickLinkWithText("Add new user", false);
+        setFieldValue("register_first_name", "New");
+        setFieldValue("register_last_name", "User");
+        setFieldValue("xwikiname", "NewUser");
+        setFieldValue("register_password", "NewUser");
+        setFieldValue("register2_password", "NewUser");
+        setFieldValue("register_email", "new.user@xwiki.org");
+        getSelenium().click("//input[@value='Save']");
+        getSelenium().waitForPageToLoad("10000");
+        
+        assertTextPresent("NewUser");
+        
+        open("/xwiki/bin/view/XWiki/XWikiAllGroup");
+    
+        // Validate XWIKI-2280: Cannot create new users using the Right Management UI
+        assertTextPresent("XWiki.NewUser");
+              
+        //
+        // DELETE USER
+        //
+        
+        /*clickLinkWithText("Administration");
+        clickLinkWithText("Users");
+        getSelenium().chooseOkOnNextConfirmation();
+        open("/xwiki/bin/admin/XWiki/XWikiUsers?editor=users&space=XWiki");
+        getSelenium().click("//tbody/tr[td/a=\"NewUser\"]/td/img[@title='Delete']");
+        */
+        
+        // FIXME : find a way to delete user using user administration
+        open("/xwiki/bin/view/XWiki/NewUser");
+        clickDeletePage();
+        clickLinkWithLocator("//input[@value='yes']");
+                
+        open("/xwiki/bin/view/XWiki/XWikiAllGroup");
+        
+        // Validate XWIKI-2281: When a user is removed it's not removed from the groups it belongs to
+        assertTextNotPresent("XWiki.NewUser");
+    }
 }

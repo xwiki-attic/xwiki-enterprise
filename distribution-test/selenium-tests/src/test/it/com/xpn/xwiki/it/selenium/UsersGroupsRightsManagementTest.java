@@ -50,13 +50,41 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
-        getSelenium().setSpeed("1000");
         clickLinkWithText("Add new group", false);
         setFieldValue("newgroupi", "NewGroup");
         getSelenium().click("//input[@value='Create group']");
         getSelenium().waitForPageToLoad("10000");
 
         assertTextPresent("NewGroup");
+
+        //
+        // GIVE GROUP "VIEW" RIGHT ON WIKI AND "EDIT" RIGHT ON Main.WebHome PAGE
+        //
+
+        clickLinkWithText("Global Rights");
+        getSelenium().click("uorg");
+        getSelenium().click("//tbody/tr[td/a=\"NewGroup\"]/td[2]/img");
+
+        open("/xwiki/bin/view/Main/WebHome");
+        clickLinkWithText("Page access rights");
+        getSelenium().click("uorg");
+        getSelenium().click("//tbody/tr[td/a=\"NewGroup\"]/td[3]/img");
+
+        //
+        // DELETE GROUP
+        //
+
+        // FIXME : find a way to delete user using groups administration
+        open("/xwiki/bin/view/XWiki/NewGroup");
+        clickDeletePage();
+        clickLinkWithLocator("//input[@value='yes']");
+
+        // Validate XWIKI-2304: When a user or a group is removed it's not removed from rights
+        // objects
+        open("/xwiki/bin/edit/XWiki/XWikiPreferences?editor=object");
+        assertTextNotPresent("NewGroup");
+        open("/xwiki/bin/edit/Main/WebHome?editor=object");
+        assertTextNotPresent("NewGroup");
     }
 
     public void testCreateAnExistingGroup()
@@ -67,15 +95,17 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickLinkWithText("Add new group", false);
         setFieldValue("newgroupi", "Admin");
         getSelenium().click("//input[@value='Create group']");
-        assertEquals("Admin cannot be used for the group name, as another document with this name already exists.", this.getSelenium().getAlert());
+        assertEquals(
+            "Admin cannot be used for the group name, as another document with this name already exists.",
+            this.getSelenium().getAlert());
     }
-       
+
     public void testCreateAndDeleteUser()
     {
         //
         // CREATE USER
         //
-        
+
         clickLinkWithText("Administration");
         clickLinkWithText("Users");
         getSelenium().setSpeed("1000");
@@ -88,33 +118,33 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         setFieldValue("register_email", "new.user@xwiki.org");
         getSelenium().click("//input[@value='Save']");
         getSelenium().waitForPageToLoad("10000");
-        
+
         assertTextPresent("NewUser");
-        
+
         open("/xwiki/bin/view/XWiki/XWikiAllGroup");
-    
+
         // Validate XWIKI-2280: Cannot create new users using the Right Management UI
         assertTextPresent("XWiki.NewUser");
-              
+
         //
         // DELETE USER
         //
-        
-        /*clickLinkWithText("Administration");
-        clickLinkWithText("Users");
-        getSelenium().chooseOkOnNextConfirmation();
-        open("/xwiki/bin/admin/XWiki/XWikiUsers?editor=users&space=XWiki");
-        getSelenium().click("//tbody/tr[td/a=\"NewUser\"]/td/img[@title='Delete']");
-        */
-        
-        // FIXME : find a way to delete user using user administration
+
+        // clickLinkWithText("Administration");
+        // clickLinkWithText("Users");
+        // getSelenium().chooseOkOnNextConfirmation();
+        // open("/xwiki/bin/admin/XWiki/XWikiUsers?editor=users&space=XWiki");
+        // getSelenium().click("//tbody/tr[td/a=\"NewUser\"]/td/img[@title='Delete']");
+
+        // FIXME : find a way to delete user using users administration
         open("/xwiki/bin/view/XWiki/NewUser");
         clickDeletePage();
         clickLinkWithLocator("//input[@value='yes']");
-                
+
         open("/xwiki/bin/view/XWiki/XWikiAllGroup");
-        
-        // Validate XWIKI-2281: When a user is removed it's not removed from the groups it belongs to
+
+        // Validate XWIKI-2281: When a user is removed it's not removed from the groups it belongs
+        // to
         assertTextNotPresent("XWiki.NewUser");
     }
 }

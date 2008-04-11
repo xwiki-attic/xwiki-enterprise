@@ -124,10 +124,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      */
     public void testCreateAndDeleteUser()
     {
-        //
-        // Create new user
-        //
-
+        // Create the new user
         clickLinkWithText("Administration");
         clickLinkWithText("Users");
         clickLinkWithText("Add new user", false);
@@ -138,22 +135,18 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         setFieldValue("register2_password", "NewUser");
         setFieldValue("register_email", "new.user@xwiki.org");
         getSelenium().click("//input[@value='Save']");
-        getSelenium().waitForPageToLoad("10000");
+        waitPage();
 
-        // Validate XWIKI-2280: Cannot create new users using the Right Management UI.
-        // Check is user has been created.
+        // Verify that the user is present in the table
         assertTextPresent("NewUser");
 
+        // Verify that new users are automatically added to the XWikiAllGroup group. 
         open("/xwiki/bin/view/XWiki/XWikiAllGroup");
-
-        // Check is user has been automatically added to group "XWikiAllGroup"
         assertTextPresent("XWiki.NewUser");
 
-        //
         // Delete the newly created user and see if groups are cleaned
-        //
 
-        // FIXME : this is the code that should be use to delete a user but I can't makes it works
+        // FIXME: this is the code that should be use to delete a user but I can't makes it works
         // (the popup does not show up)
         // clickLinkWithText("Administration");
         // clickLinkWithText("Users");
@@ -161,16 +154,14 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // open("/xwiki/bin/admin/XWiki/XWikiUsers?editor=users&space=XWiki");
         // getSelenium().click("//tbody/tr[td/a=\"NewUser\"]/td/img[@title='Delete']");
 
-        // FIXME : find a way to delete user using users administration. See previous commented
+        // FIXME: find a way to delete user using users administration. See previous commented
         // code.
         open("/xwiki/bin/view/XWiki/NewUser");
         clickDeletePage();
         clickLinkWithLocator("//input[@value='yes']");
 
+        // Verify that when a user is removed he's removed from the groups he belongs to.
         open("/xwiki/bin/view/XWiki/XWikiAllGroup");
-
-        // Validate XWIKI-2281: When a user is removed it's not removed from the groups it belongs
-        // to
         assertTextNotPresent("XWiki.NewUser");
     }
 }

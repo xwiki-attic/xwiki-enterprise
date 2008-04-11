@@ -46,7 +46,14 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         loginAsAdmin();
     }
 
-    public void testCreateGroup()
+    /**
+     * <ul>
+     * <li>Validate group creation.</li>
+     * <li>Validate group deletion.</li>
+     * <li>Validate rights automatically cleaned from deleted groups.</li>
+     * </ul>
+     */
+    public void testCreateAndDeleteGroup()
     {
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
@@ -55,26 +62,26 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         getSelenium().click("//input[@value='Create group']");
         getSelenium().waitForPageToLoad("10000");
 
+        // Validate that group has been created.
         assertTextPresent("NewGroup");
 
-        //
-        // GIVE GROUP "VIEW" RIGHT ON WIKI AND "EDIT" RIGHT ON Main.WebHome PAGE
-        //
-
+        // Give "view" global right to NewGroup on wiki
         clickLinkWithText("Global Rights");
         getSelenium().click("uorg");
         getSelenium().click("//tbody/tr[td/a=\"NewGroup\"]/td[2]/img");
 
+        // Give "comment" right to NewGroup on Main.WebHome page
         open("/xwiki/bin/view/Main/WebHome");
         clickLinkWithText("Page access rights");
         getSelenium().click("uorg");
         getSelenium().click("//tbody/tr[td/a=\"NewGroup\"]/td[3]/img");
 
         //
-        // DELETE GROUP
+        // Delete the newly created group and see if rights are cleaned
         //
 
-        // FIXME : find a way to delete user using groups administration
+        // FIXME : find a way to delete user using groups administration. See
+        // #testCreateAndDeleteUser() for more.
         open("/xwiki/bin/view/XWiki/NewGroup");
         clickDeletePage();
         clickLinkWithLocator("//input[@value='yes']");
@@ -87,6 +94,9 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         assertTextNotPresent("NewGroup");
     }
 
+    /**
+     * Validate that administration show error when trying to create an existing group.
+     */
     public void testCreateAnExistingGroup()
     {
         clickLinkWithText("Administration");
@@ -100,15 +110,21 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
             this.getSelenium().getAlert());
     }
 
+    /**
+     * <ul>
+     * <li>Validate user creation.</li>
+     * <li>Validate user deletion.</li>
+     * <li>Validate groups automatically cleaned from deleted users.</li>
+     * </ul>
+     */
     public void testCreateAndDeleteUser()
     {
         //
-        // CREATE USER
+        // Create new user
         //
 
         clickLinkWithText("Administration");
         clickLinkWithText("Users");
-        getSelenium().setSpeed("1000");
         clickLinkWithText("Add new user", false);
         setFieldValue("register_first_name", "New");
         setFieldValue("register_last_name", "User");
@@ -119,24 +135,29 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         getSelenium().click("//input[@value='Save']");
         getSelenium().waitForPageToLoad("10000");
 
+        // Validate XWIKI-2280: Cannot create new users using the Right Management UI.
+        // Check is user has been created.
         assertTextPresent("NewUser");
 
         open("/xwiki/bin/view/XWiki/XWikiAllGroup");
 
-        // Validate XWIKI-2280: Cannot create new users using the Right Management UI
+        // Check is user has been automatically added to group "XWikiAllGroup"
         assertTextPresent("XWiki.NewUser");
 
         //
-        // DELETE USER
+        // Delete the newly created user and see if groups are cleaned
         //
 
+        // FIXME : this is the code that should be use to delete a user but I can't makes it works
+        // (the popup does not show up)
         // clickLinkWithText("Administration");
         // clickLinkWithText("Users");
         // getSelenium().chooseOkOnNextConfirmation();
         // open("/xwiki/bin/admin/XWiki/XWikiUsers?editor=users&space=XWiki");
         // getSelenium().click("//tbody/tr[td/a=\"NewUser\"]/td/img[@title='Delete']");
 
-        // FIXME : find a way to delete user using users administration
+        // FIXME : find a way to delete user using users administration. See previous commented
+        // code.
         open("/xwiki/bin/view/XWiki/NewUser");
         clickDeletePage();
         clickLinkWithLocator("//input[@value='yes']");

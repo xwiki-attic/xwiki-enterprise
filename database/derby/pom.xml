@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3.2</version>
   </parent>
   <artifactId>xwiki-enterprise-database-derby</artifactId>
   <name>XWiki Products - Enterprise - Database - Derby</name>

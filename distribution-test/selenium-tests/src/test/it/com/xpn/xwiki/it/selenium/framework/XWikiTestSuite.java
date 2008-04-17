@@ -19,21 +19,21 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
-import junit.framework.TestSuite;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+
+import junit.framework.TestSuite;
 
 /**
  * A JUnit TestSuite extension that understands Skin Executors and which can pass a defined Skin
  * Executor to the underlying test it wraps. This is to let TestCases extending
  * AbstractXWikiTestCase the ability to tell under what Skin Executors it should execute. For
- * example to run the MyTestCase class under both an Albatross skin and a Dodo skin you would
- * write:
+ * example to run the MyTestCase class under both an Albatross skin and a Dodo skin you would write:
+ * 
  * <pre><code>
  * public static Test suite()
  * {
- *     XWikiTestSuite suite = new XWikiTestSuite("My Suite");
+ *     XWikiTestSuite suite = new XWikiTestSuite(&quot;My Suite&quot;);
  *     suite.addTestSuite(MyTestCase.class, AlbatrossSkinExecutor.class);
  *     suite.addTestSuite(MyTestCase.class, DodoSkinExecutor.class);
  *     return suite;
@@ -54,13 +54,13 @@ public class XWikiTestSuite extends TestSuite
                 + AbstractXWikiTestCase.class.getName() + "]");
         }
 
-         try {
-             addSkinExecutorToSuite(testClass, skinExecutorClass);
-         } catch (Exception e) {
+        try {
+            addSkinExecutorToSuite(testClass, skinExecutorClass);
+        } catch (Exception e) {
             throw new RuntimeException("Failed to add skin executor class ["
-                + skinExecutorClass.getName() + "] for test case class ["
-                + testClass.getName() + "]", e);
-         }
+                + skinExecutorClass.getName() + "] for test case class [" + testClass.getName()
+                + "]", e);
+        }
     }
 
     private void addSkinExecutorToSuite(Class testClass, Class skinExecutorClass)
@@ -68,10 +68,8 @@ public class XWikiTestSuite extends TestSuite
     {
         // Find all methods starting with "test" and add them
         Method[] methods = testClass.getMethods();
-        for (int i = 0; i < methods.length; i++)
-        {
-            if (methods[i].getName().startsWith("test"))
-            {
+        for (int i = 0; i < methods.length; i++) {
+            if (methods[i].getName().startsWith("test")) {
                 addSkinExecutorToTest(methods[i].getName(), testClass, skinExecutorClass);
             }
         }
@@ -83,10 +81,11 @@ public class XWikiTestSuite extends TestSuite
         Constructor constructor = testClass.getConstructor(null);
         AbstractXWikiTestCase test = (AbstractXWikiTestCase) constructor.newInstance(null);
 
-        Constructor skinExecutorConstructor = skinExecutorClass.getConstructor(
-            new Class[] { AbstractXWikiTestCase.class });
-        SkinExecutor skinExecutor = (SkinExecutor) skinExecutorConstructor.newInstance(
-            new Object[] { (AbstractXWikiTestCase) test });
+        Constructor skinExecutorConstructor =
+            skinExecutorClass.getConstructor(new Class[] {AbstractXWikiTestCase.class});
+        SkinExecutor skinExecutor =
+            (SkinExecutor) skinExecutorConstructor
+                .newInstance(new Object[] {(AbstractXWikiTestCase) test});
 
         test.setSkinExecutor(skinExecutor);
         test.setName(testName);

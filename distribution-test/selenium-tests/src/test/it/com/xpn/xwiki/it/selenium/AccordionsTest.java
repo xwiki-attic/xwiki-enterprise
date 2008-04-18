@@ -53,21 +53,19 @@ public class AccordionsTest extends AbstractXWikiTestCase
         open(getUrl("XWiki", "XWikiPreferences", "admin"));
         // Open Parameters tab and validate that its contents are displayed in less than
         // 1000 milliseconds
-        Assert.assertEquals(true,
-            getSelenium().getElementHeight("xwikiprefsparamsContent").intValue() > 0);
-        Assert.assertEquals(true, getSelenium().getAttribute("xwikiprefsparamsContent@style")
+        Assert.assertTrue(getSelenium().getElementHeight("xwikiprefsparamsContent").intValue() > 0);
+        Assert.assertTrue(getSelenium().getAttribute("xwikiprefsparamsContent@style")
             .indexOf("display: block;") > -1);
         // Close Parameters tab and validate that its content are not displayed
         getSelenium().setSpeed("1000");
         getSelenium().click("xwikiprefsskinHeader");
         Assert
             .assertEquals(0, getSelenium().getElementHeight("xwikiprefsparamsContent").intValue());
-        Assert.assertEquals(true, getSelenium().getAttribute("xwikiprefsparamsContent@style")
+        Assert.assertTrue(getSelenium().getAttribute("xwikiprefsparamsContent@style")
             .indexOf("display: none;") > -1);
         // Verify that Skin tab is open and its content is displayed
-        Assert.assertEquals(true,
-            getSelenium().getElementHeight("xwikiprefsskinContent").intValue() > 0);
-        Assert.assertEquals(true, getSelenium().getAttribute("xwikiprefsskinContent@style")
+        Assert.assertTrue(getSelenium().getElementHeight("xwikiprefsskinContent").intValue() > 0);
+        Assert.assertTrue(getSelenium().getAttribute("xwikiprefsskinContent@style")
             .indexOf("display: block;") > -1);
         getSelenium().setSpeed("0");
     }
@@ -78,22 +76,21 @@ public class AccordionsTest extends AbstractXWikiTestCase
     public void testClassEdition()
     {
         open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=class"));
+        getSelenium().setSpeed("1000");
         // Open Skin tab and validate that its contents are displayed
-        Assert.assertEquals(true,
-            getSelenium().getElementHeight("field_skin_content").intValue() > 0);
-        Assert.assertEquals(true,
+        Assert.assertTrue(getSelenium().getElementHeight("field_skin_content").intValue() > 0);
+        Assert.assertTrue(
             getSelenium().getAttribute("field_skin_content@style").indexOf("display: block;") > -1);
         // Close Skin tab and validate that its content is not displayed
-        getSelenium().setSpeed("1000");
         getSelenium().click("field_skin_title");
         Assert.assertEquals(0, getSelenium().getElementHeight("field_skin_content").intValue());
-        Assert.assertEquals(true,
+        Assert.assertTrue(
             getSelenium().getAttribute("field_skin_content@style").indexOf("display: none;") > -1);
         // Open last tab and verify its contents are displayed in less then 1000 milliseconds
         getSelenium().click("field_ldap_trylocal_title");
-        Assert.assertEquals(true,
+        Assert.assertTrue(
             getSelenium().getElementHeight("field_ldap_trylocal_content").intValue() > 0);
-        Assert.assertEquals(true, getSelenium().getAttribute("field_ldap_trylocal_content@style")
+        Assert.assertTrue(getSelenium().getAttribute("field_ldap_trylocal_content@style")
             .indexOf("display: block;") > -1);
         getSelenium().setSpeed("0");
     }
@@ -105,11 +102,13 @@ public class AccordionsTest extends AbstractXWikiTestCase
     {
         open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=object"));
         // Open XWikiPreferences tab and validate that its contents are displayed
+        getSelenium().setSpeed("1000");
         getSelenium().click("field_XWiki.XWikiPreferences_0_title");
-        Assert.assertEquals(true, getSelenium()
+        Assert.assertTrue(getSelenium()
             .getElementHeight("field_XWiki.XWikiPreferences_0_content").intValue() > 0);
-        Assert.assertEquals(true, getSelenium()
+        Assert.assertTrue(getSelenium()
             .getAttribute("field_XWiki.XWikiPreferences_0_content@style")
             .indexOf("display: block;") > -1);
+        getSelenium().setSpeed("0");
     }
 }

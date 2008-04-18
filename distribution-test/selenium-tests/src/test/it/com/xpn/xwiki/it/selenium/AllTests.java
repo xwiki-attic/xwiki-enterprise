@@ -65,6 +65,7 @@ public class AllTests extends TestCase
         addTestCase(suite, KeyboardShortcutsTest.class);
         addTestCase(suite, UserProfileTest.class);
         addTestCase(suite, AllDocsTest.class);
+        addTestCase(suite, AccordionsTest.class);
 
         return new XWikiTestSetup(suite);
     }

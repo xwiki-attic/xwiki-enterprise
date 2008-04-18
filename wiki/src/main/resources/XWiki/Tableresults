@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xwikidoc>
+<web>XWiki</web>
+<name>Tableresults</name>
+<language></language>
+<defaultLanguage></defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1207827477000</creationDate>
+<date>1207906346000</date>
+<contentUpdateDate>1207906346000</contentUpdateDate>
+<version>63.1</version>
+<title></title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<content>{pre}
+## ============================================================================================
+## This page is called from live grids via Ajax with the argument xpage=plain. It returns a
+## set of results serialized in JSON.
+## You can see an example of live grid in XWiki.Tableview (note : this grid doesn't use all the
+## serialized fields).
+## ============================================================================================
+
+#set( $offset = $xwiki.parseInt( $request.get( "offset" ) ) )
+## offset starts from 0 in velocity and 1 in javascript
+#set( $off = $offset - 1 )
+#set( $limit = $xwiki.parseInt( $request.get( "limit" ) ) )
+
+#set($page = $request.get("page"))
+#set($space = $request.get("space"))
+#set($author = $request.get("author"))
+#set($formatDate = "yyyy MMMM dd, HH:mm")
+
+#if($page) 
+  #set($page = $page.trim().toLowerCase())
+  #set($sql = "where lower(doc.name) like '%${page}%'")
+#else #set($sql = "where lower(doc.name) &lt;&gt; ''") #end
+#if($space)  
+  #set($space = $space.trim().toLowerCase())
+  #set($sql = $sql + "and lower(doc.web) like '%${space}%'") 
+#end
+#if($author) 
+  #set($author = $author.trim().toLowerCase())
+  #set($sql = $sql + "and lower(doc.author) like '%${author}%'") 
+#end
+#set($sql = $sql + "order by doc.name")
+
+#set($items = $xwiki.searchDocuments($sql, $limit, $off))
+#set($countItems= $xwiki.searchDocuments($sql).size())
+
+## ==============================================
+## json starts
+## ==============================================
+{ 
+"totalrows": $countItems,
+"returnedrows": #if($items.size() &lt; $limit) $items.size() #else $limit #end,
+"offset": $offset,
+"reqNo": $request.reqNo,
+"rows": [
+#foreach( $item in $items )
+  ## ==============================================
+  ## Fullname
+  ## ==============================================
+  #if($item.class == "class com.xpn.xwiki.plugin.lucene.SearchResult")
+    #set($itemfullname = "${item.wiki}:${item.web}.${item.name}")
+  #else
+    #set($itemfullname = "${context.database}:${item}")
+  #end
+  ## ==============================================
+  ## Item url
+  ## ==============================================
+  #set($itemurl = $xwiki.getURL($itemfullname))
+  ##==============================================
+  ## Access level
+  ## ==============================================
+  #set($acclev = $xwiki.hasAccessLevel("view", $context.user, $itemfullname))
+  ## ==============================================
+  ## Bentrydoc
+  ## ==============================================
+  #if ($item.class == "class java.lang.String")
+    #set($bentrydoc = $xwiki.getDocument($item))
+  #elseif ($item.class == "class com.xpn.xwiki.plugin.lucene.SearchResult")
+    #set($bentrydoc = $item)
+  #end
+  ## ==============================================
+  ## Item date
+  ## ==============================================
+  #set($itemdate = $!xwiki.formatDate($!bentrydoc.date, $formatDate))
+  ## ==============================================
+  ## Page
+  ## ==============================================
+  #set($page = $bentrydoc.name)
+  #set($ptitle = "$!bentrydoc.getDisplayTitle()")
+  #if($ptitle == $page)
+  	#set($ptitle = "")
+  #end
+  ## ==============================================
+  ## Space
+  ## ==============================================
+  #set($space = $bentrydoc.web)
+  #set($spaceurl = $xwiki.getURL("${bentrydoc.wiki}:${bentrydoc.web}.WebHome"))
+  ## ==============================================
+  ## Wiki
+  ## ==============================================
+  #if($xwiki.isVirtual())
+    #set($wiki = $bentrydoc.wiki)
+    #set($wikiurl = $xwiki.getURL("${bentrydoc.wiki}:Main.WebHome"))
+  #end
+  ## ==============================================
+  ## is Attachment
+  ## ==============================================
+  #set($isattach = false)
+  #if ($bentrydoc.type)
+    #set ($ptitle = $xwiki.getDocument($itemfullname).getDisplayTitle())
+    #if ($bentrydoc.type == "attachment")
+      #set($isattach = true)
+      #set($filename = $bentrydoc.filename)
+    #end
+  #end
+  ## ==============================================
+  ## Has new comment
+  ## ==============================================
+  #set($hasnewcomm = false)
+  #set($cclass = $xwiki.getDocument("XWiki.XWikiComments").getxWikiClass())
+  #if($xwiki.getWebPreferenceAsInt("commentsorder", 1) == 0)
+    #set($comments = $bentrydoc.getComments())
+  #else
+    #set($comments = $bentrydoc.getComments(false))
+  #end
+  #if($comments &amp;&amp; $comments.size()&gt;0)
+    #set($i = 0)
+    #set($cobj = $comments.get($i))
+    #set($date = $cobj.getXWikiObject().get("date").value)
+    #if($date)
+      #set($date1 = $!xwiki.formatDate($date, $formatDate))
+    #end
+    #if($itemdate.equals($date1))
+      #set($hasnewcomm = true)
+    #end
+  #end
+  ## ==============================================
+  ## Author
+  ## ==============================================
+  #if($hasnewcomm)
+    #set($author = $cobj.author)
+  #else
+    #set($author = $bentrydoc.author)
+  #end
+  #set($authorpage = $xwiki.getURL($author))
+  #set($dot = $author.indexOf('.') + 1)
+  #if($dot &gt; 1)
+    #set($author = $author.substring($dot))
+  #end
+  ## ==============================================
+  ## Actions
+  ## ==============================================
+  #set($copy = $xwiki.getURL("XWiki.CopyDocument", "view", "sourcedoc=${util.encodeURI($itemfullname)}"))
+  #set($delete = $bentrydoc.getURL("delete"))
+  #set($rename = $bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1"))
+  #set($rights = $bentrydoc.getURL("edit", "editor=rights"))
+   
+  #if( $velocityCount &gt; 1 ) , #end
+  {"acclev"    : $acclev,
+   "page"      : "$page",
+   "url"       : "$itemurl",
+   "title"     : "$ptitle",
+   "space"     : "$space",
+   "spaceurl"  : "$spaceurl",
+   "isvirtual" : $xwiki.isVirtual(),
+  #if($xwiki.isVirtual())
+   "wiki"      : "$wiki",
+   "wikiurl"   : "$!wikiurl",
+  #end
+   "date"      : "$itemdate",
+   "author"    : "$author",
+   "authorpage" : "$!authorpage",
+   "hasnewcom" : $hasnewcomm,
+  #if($isattach)
+   "filename"  : "$filename",
+  #end
+   "hasadmin"  : $xwiki.hasAdminRights(),
+   "copyurl"   : "$copy",
+   "deleteurl" : "$delete",
+   "renameurl" : "$rename",
+   "rightsurl" : "$rights"
+  }
+#end
+]}
+## ==============================================
+## json ended
+## ==============================================
+{/pre}
+</content></xwikidoc>

@@ -43,67 +43,58 @@ public class AllDocsTest extends AbstractXWikiTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        loginAsAdmin();
         open(getUrl("Main", "AllDocs"));
     }
 
     /**
-     * Validate presence of "Actions" column in table view for administrator. Validate absence of
-     * "Actions" column for users without administration rights.
+     * This method makes the following tests :
+     *
+     * <ul> <li>Validate presence of "Actions" column in table view for administrator.</li>
+     * <li>Validate absence of "Actions" column for users without administration rights.</li>
+     * <li>Validate input suggest for Page field.</li> <li>Validate input suggest for Space
+     * field.</li> <li>Validate input suggest for Last Author field.</li> <li>Validate Copy link
+     * action.</li> <li>Validate Rename link action.</li> <li>Validate Delete link action.</li>
+     * <li>Validate Rights link action.</li> </ul>
      */
-    public void testTableViewActionsPresence()
+    public void testTableViewActions()
     {
-        assertElementPresent("//td[text()='Actions']");
-
-        // Verify that the user is logged in and log out
+        // Validate absence of "Actions" column for users without administration rights.
         if (isAuthenticated()) {
             logout();
         }
         assertElementNotPresent("//td[text()='Actions']");
-    }
 
-    /**
-     * Validate input suggest for Page field.
-     */
-    public void testTableViewSuggestForPage()
-    {
+        // Validate presence of "Actions" column in table view for administrator.
+        loginAsAdmin();
+        open(getUrl("Main", "AllDocs"));
+        assertElementPresent("//td[text()='Actions']");
+
+        // Validate input suggest for Page field.
         getSelenium().typeKeys("page", "Treeview");
         // The table is updated via Ajax, we give it the time to make this call
         getSelenium().setSpeed("1000");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
         getSelenium().setSpeed("0");
-    }
 
-    /**
-     * Validate input suggest for Space field.
-     */
-    public void testTableViewSuggestForSpace()
-    {
+        // Validate input suggest for Space field.
+        open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("space", "XWiki");
         getSelenium().typeKeys("page", "treeview");
         // The table is updated via Ajax, we give it the time to make this call
         getSelenium().setSpeed("1000");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
         getSelenium().setSpeed("0");
-    }
 
-    /**
-     * Validate input suggest for Last Author field.
-     */
-    public void testTableViewSuggestForLastAuthor()
-    {
+        // Validate input suggest for Last Author field.
+        open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("author", "Admin");
         // The table is updated via Ajax, we give it the time to make this call
         getSelenium().setSpeed("1000");
         assertElementNotPresent("//td[@class='pagename']/a[text()='AggregatorURLClass']");
         getSelenium().setSpeed("0");
-    }
 
-    /**
-     * Validate Copy link action.
-     */
-    public void testTableViewCopyAction()
-    {
+        // Validate Copy link action.
+        open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("page", "treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
         assertElementPresent("link=Copy");
@@ -114,13 +105,9 @@ public class AllDocsTest extends AbstractXWikiTestCase
         getSelenium().typeKeys("space", "New");
         getSelenium().typeKeys("page", "treeviewcopy");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopy']");
-    }
 
-    /**
-     * Validate Rename link action.
-     */
-    public void testTableViewRenameAction()
-    {
+        // Validate Rename link action.
+        open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("page", "TreeviewCopy");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rename']");
         setFieldValue("newPageName", "TreeviewCopyRenamed");
@@ -128,13 +115,9 @@ public class AllDocsTest extends AbstractXWikiTestCase
         open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("page", "TreeviewCopyRenamed");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
-    }
 
-    /**
-     * Validate Delete link action.
-     */
-    public void testTableViewDeleteAction()
-    {
+        // Validate Delete link action.
+        open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("page", "Treeviewcopyrenamed");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Delete']");
         clickLinkWithLocator("//input[@value='yes']");
@@ -142,15 +125,11 @@ public class AllDocsTest extends AbstractXWikiTestCase
         open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("page", "treeview");
         assertElementNotPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
-    }
 
-    /**
-     * Validate Rights link action.
-     */
-    public void testTableViewRightsAction()
-    {
+        // Validate Rights link action.
+        open(getUrl("Main", "AllDocs"));
         getSelenium().typeKeys("page", "Treeview");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rights']");
-        Assert.assertEquals("Editing rights for Treeview", getTitle());
+        Assert.assertEquals("Editing Rights for Treeview", getTitle());
     }
 }

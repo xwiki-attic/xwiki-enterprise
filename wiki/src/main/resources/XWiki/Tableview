@@ -94,6 +94,7 @@
 #set($url = "$xwiki.getURL('XWiki.Tableresults')?xpage=plain")
 {pre}
 &lt;script type="text/javascript"&gt;
+//<![CDATA[
 function displayAllDocs(row, i, table)
 {
   var a = new Element('a', {'href' : row.url}).update(row.page);
@@ -135,6 +136,7 @@ function displayAllDocs(row, i, table)
   return tr;
 }
 var ta = new ASSTable("$url", 15, "display1", "scrollbar1", "alldocstable", displayAllDocs, true);
+//]]>
 &lt;/script&gt;
 {/pre}</content>
 </xwikidoc>

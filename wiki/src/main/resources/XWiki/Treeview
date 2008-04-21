@@ -12,9 +12,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1181560077000</creationDate>
-<date>1207908899000</date>
-<contentUpdateDate>1207908899000</contentUpdateDate>
-<version>11.1</version>
+<date>1208777608000</date>
+<contentUpdateDate>1208777608000</contentUpdateDate>
+<version>12.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -99,7 +99,7 @@
 //<![CDATA[
 var tree;
 function loadNodeData(node, fnLoadComplete)  {
-  var url = "$doc.getURL()?xpage=plain&amp;nodeName="+node.label;
+  var url = "$doc.getURL()?xpage=plain&amp;amp;nodeName="+node.label;
   var callback = {
    success: function(oResponse) {
      var xml = oResponse.responseXML;

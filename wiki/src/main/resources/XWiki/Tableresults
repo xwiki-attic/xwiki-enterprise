@@ -28,7 +28,7 @@
 ## You can see an example of live grid in XWiki.Tableview (note : this grid doesn't use all the
 ## serialized fields).
 ## ============================================================================================
-#if ($request.get("xpage") == "plain")
+#if ($request.get("xpage") && $request.get("xpage") == "plain")
 #set( $offset = $xwiki.parseInt( $request.get( "offset" ) ) )
 ## offset starts from 0 in velocity and 1 in javascript
 #set( $off = $offset - 1 )

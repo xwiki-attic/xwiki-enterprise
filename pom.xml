@@ -63,6 +63,7 @@
     <platform.jodatime.version>1.2-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.2-SNAPSHOT</platform.statistics.version>
     <platform.plugin.lucene.version>1.1-SNAPSHOT</platform.plugin.lucene.version>
+    <platform.plugin.skinx.version>1.0-SNAPSHOT</platform.plugin.skinx.version>
   </properties>
   <profiles>
     <profile>

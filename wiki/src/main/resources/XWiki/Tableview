@@ -69,7 +69,6 @@
           &lt;tr&gt;
             &lt;td&gt;$msg.get("wikiname")&lt;/td&gt;
             &lt;td&gt;$msg.get("wikiweb")&lt;/td&gt;
-            #if($xwiki.isVirtual())&lt;td&gt;$msg.get("editwiki")&lt;/td&gt;#end
             &lt;td&gt;$msg.get("date")&lt;/td&gt;
             &lt;td&gt;$msg.get("lastauthor")&lt;/td&gt;
             #if($xwiki.hasAdminRights())&lt;td&gt;$msg.get("actions")&lt;/td&gt;#end
@@ -77,7 +76,6 @@
           &lt;tr id="table-filters"&gt;
               &lt;td&gt;&lt;input name="page" type="text"/&gt;&lt;/td&gt;
               &lt;td&gt;&lt;input name="space" type="text"/&gt;&lt;/td&gt;
-              #if($xwiki.isVirtual())&lt;td&gt;&lt;/td&gt;#end
               &lt;td&gt;&lt;/td&gt; ## date
               &lt;td&gt;&lt;input name="author" type="text" /&gt;&lt;/td&gt;
               #if($xwiki.hasAdminRights())&lt;td&gt;&lt;/td&gt;#end

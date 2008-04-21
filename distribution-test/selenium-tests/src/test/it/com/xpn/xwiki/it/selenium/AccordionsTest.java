@@ -50,6 +50,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
      */
     public void testPreferencesEdition()
     {
+        getSelenium().setSpeed("1000");
         open(getUrl("XWiki", "XWikiPreferences", "admin"));
         // Open Parameters tab and validate that its contents are displayed in less than
         // 1000 milliseconds
@@ -57,7 +58,6 @@ public class AccordionsTest extends AbstractXWikiTestCase
         Assert.assertTrue(getSelenium().getAttribute("xwikiprefsparamsContent@style")
             .indexOf("display: block;") > -1);
         // Close Parameters tab and validate that its content are not displayed
-        getSelenium().setSpeed("1000");
         getSelenium().click("xwikiprefsskinHeader");
         Assert
             .assertEquals(0, getSelenium().getElementHeight("xwikiprefsparamsContent").intValue());
@@ -75,8 +75,8 @@ public class AccordionsTest extends AbstractXWikiTestCase
      */
     public void testClassEdition()
     {
-        open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=class"));
         getSelenium().setSpeed("1000");
+        open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=class"));
         // Open Skin tab and validate that its contents are displayed
         Assert.assertTrue(getSelenium().getElementHeight("field_skin_content").intValue() > 0);
         Assert.assertTrue(
@@ -100,9 +100,9 @@ public class AccordionsTest extends AbstractXWikiTestCase
      */
     public void testObjectEdition()
     {
+        getSelenium().setSpeed("1000");
         open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=object"));
         // Open XWikiPreferences tab and validate that its contents are displayed
-        getSelenium().setSpeed("1000");
         getSelenium().click("field_XWiki.XWikiPreferences_0_title");
         Assert.assertTrue(getSelenium()
             .getElementHeight("field_XWiki.XWikiPreferences_0_content").intValue() > 0);

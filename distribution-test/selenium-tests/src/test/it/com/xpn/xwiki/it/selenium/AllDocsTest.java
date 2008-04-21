@@ -46,6 +46,13 @@ public class AllDocsTest extends AbstractXWikiTestCase
         open(getUrl("Main", "AllDocs"));
     }
 
+    private void fillTableFilter(String field, String text)
+    {
+        getSelenium().typeKeys(field, text);
+        getSelenium().waitForCondition("selenium.browserbot.getCurrentWindow().document." +
+            "getElementById(\"ajax-loader\").style.display == \"none\"", "3000");    
+    }
+
     /**
      * This method makes the following tests :
      *
@@ -70,65 +77,55 @@ public class AllDocsTest extends AbstractXWikiTestCase
         assertElementPresent("//td[text()='Actions']");
 
         // Validate input suggest for Page field.
-        getSelenium().typeKeys("page", "Treeview");
-        // The table is updated via Ajax, we give it the time to make this call
-        getSelenium().setSpeed("1000");
+        fillTableFilter("page", "Treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
-        getSelenium().setSpeed("0");
 
         // Validate input suggest for Space field.
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("space", "XWiki");
-        getSelenium().typeKeys("page", "treeview");
-        // The table is updated via Ajax, we give it the time to make this call
-        getSelenium().setSpeed("1000");
+        fillTableFilter("space", "XWiki");
+        fillTableFilter("page", "treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
-        getSelenium().setSpeed("0");
 
         // Validate input suggest for Last Author field.
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("author", "Admin");
-        // The table is updated via Ajax, we give it the time to make this call
-        getSelenium().setSpeed("1000");
-        assertElementNotPresent("//td[@class='pagename']/a[text()='AggregatorURLClass']");
-        getSelenium().setSpeed("0");
+        fillTableFilter("author", "SomeUnknownAuthor");
+        assertElementNotPresent("//td[@class='pagename']/a[text()='Treeview']");        
 
         // Validate Copy link action.
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("page", "treeview");
+        fillTableFilter("page", "treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
-        assertElementPresent("link=Copy");
         clickLinkWithText("Copy");
         setFieldValue("targetdoc", "New.TreeviewCopy");
         getSelenium().click("//input[@value='Copy']");
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("space", "New");
-        getSelenium().typeKeys("page", "treeviewcopy");
+        fillTableFilter("space", "New");
+        fillTableFilter("page", "treeviewcopy");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopy']");
 
         // Validate Rename link action.
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("page", "TreeviewCopy");
+        fillTableFilter("page", "TreeviewCopy");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rename']");
         setFieldValue("newPageName", "TreeviewCopyRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("page", "TreeviewCopyRenamed");
+        fillTableFilter("page", "TreeviewCopyRenamed");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
 
         // Validate Delete link action.
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("page", "Treeviewcopyrenamed");
+        fillTableFilter("page", "Treeviewcopyrenamed");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Delete']");
         clickLinkWithLocator("//input[@value='yes']");
         assertTextPresent("The document has been deleted.");
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("page", "treeview");
+        fillTableFilter("page", "treeview");
         assertElementNotPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
 
         // Validate Rights link action.
         open(getUrl("Main", "AllDocs"));
-        getSelenium().typeKeys("page", "Treeview");
+        fillTableFilter("page", "Treeview");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rights']");
         Assert.assertEquals("Editing Rights for Treeview", getTitle());
     }

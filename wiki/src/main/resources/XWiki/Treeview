@@ -96,7 +96,7 @@
 &lt;div id="treeview"&gt;&lt;/div&gt;
 {pre}
 &lt;script type="text/javascript"&gt;
-//<![CDATA[
+//&lt;![CDATA[
 var tree;
 function loadNodeData(node, fnLoadComplete)  {
   var url = "$doc.getURL()?xpage=plain&amp;amp;nodeName="+node.label;
@@ -141,11 +141,10 @@ function buildTree()
  #end
  tree.draw();
 }
-
      
 //once the DOM has loaded, we can go ahead and set up our tree:
 Event.observe(window, "load", buildTree);
-//]]>
+//]]&gt;
 &lt;/script&gt;
 {/pre}
 #end

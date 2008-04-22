@@ -25,13 +25,12 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import org.codehaus.swizzle.confluence.Confluence;
 import org.codehaus.swizzle.confluence.Page;
 
 /**
  * Verifies that all pages in the default wiki have a parent
- * 
+ *
  * @version $Id: $
  */
 public class OrphanedPageTest extends TestCase
@@ -55,7 +54,7 @@ public class OrphanedPageTest extends TestCase
             System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
 
         String patternFilter = System.getProperty("documentsToTest");
-        
+
         List pageNames = XhtmlValidityTest.readXarContents(path, patternFilter);
         Iterator it = pageNames.iterator();
         while (it.hasNext()) {

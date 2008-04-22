@@ -62,7 +62,7 @@ import java.util.zip.ZipInputStream;
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents using the Confluence XMLRPC
  * API.
- * 
+ *
  * @version $Id: $
  */
 public class XhtmlValidityTest extends TestCase implements ErrorHandler
@@ -114,13 +114,13 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
             System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
 
         String patternFilter = System.getProperty("documentsToTest");
-        
+
         List pageNames = readXarContents(path, patternFilter);
         Iterator it = pageNames.iterator();
         while (it.hasNext()) {
             suite.addTest(new XhtmlValidityTest((String) it.next()));
         }
-        
+
         // Prepare validators only once, as this is a costly process
         System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema",
             "org.apache.xerces.jaxp.validation.XMLSchemaFactory");
@@ -250,7 +250,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         while (it.hasNext()) {
             Element el = (Element) it.next();
             String docFullName = el.getStringValue();
-            
+
             if (patternFilter == null || docFullName.matches(patternFilter)) {
                 result.add(docFullName);
             }

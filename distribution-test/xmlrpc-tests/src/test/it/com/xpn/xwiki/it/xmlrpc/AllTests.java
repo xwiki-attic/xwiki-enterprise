@@ -22,14 +22,13 @@ package com.xpn.xwiki.it.xmlrpc;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
  * A class listing all the XMLRPC Functional tests to execute. We need such a class (rather than
  * letting the JUnit Runner discover the different TestCases classes by itself) because we want to
  * start/stop XWiki before and after the tests start (but only once).
- * 
+ *
  * @version $Id: $
  */
 public class AllTests extends TestCase
@@ -45,14 +44,23 @@ public class AllTests extends TestCase
         // think the tests are all running fine. I haven't found a simple solution to this yet
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
-
-        addTestCase(suite, AnonymousAccessTest.class);
-        addTestCase(suite, SpacesTest.class);
-        addTestCase(suite, PagesTest.class);
-        addTestCase(suite, CommentsTest.class);
-        addTestCase(suite, AttachmentsTest.class);
         addTest(suite, XhtmlValidityTest.suite(), XhtmlValidityTest.class);
         addTest(suite, OrphanedPageTest.suite(), OrphanedPageTest.class);
+
+        addTestCase(suite, AnonymousAccessTest.class);
+        addTestCase(suite, AttachmentsTest.class);
+        addTestCase(suite, CommentsTest.class);
+        addTestCase(suite, PagesTest.class);
+        addTestCase(suite, SpacesTest.class);
+
+        addTestCase(suite, org.xwiki.xmlrpc.AttachmentsTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.AuthenticationTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.CommentsTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.PagesTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.SpacesTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.XWikiClassesTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.XWikiObjectsTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.SearchTest.class);
 
         return new XWikiTestSetup(suite);
     }

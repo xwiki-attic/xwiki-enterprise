@@ -34,7 +34,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
 {
     public static Test suite()
     {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the Accordions features");
+        XWikiTestSuite suite = new XWikiTestSuite("Verify the Javascript Accordion feature");
         suite.addTestSuite(AccordionsTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
@@ -45,70 +45,57 @@ public class AccordionsTest extends AbstractXWikiTestCase
         loginAsAdmin();
     }
 
-    /**
-     * Validate accordions features in wiki preferences edition.
-     */
-    public void testPreferencesEdition()
+    private void assertPaneOpened(String paneid)
     {
-        getSelenium().setSpeed("1000");
+        getSelenium().waitForCondition("selenium.browserbot.getCurrentWindow().document." +
+            "getElementById('" + paneid + "').style.display == 'block'", "10000");
+        Assert.assertTrue(getSelenium().getElementHeight(paneid).intValue() > 0);
+    }
+
+    private void assertPaneClosed(String paneid)
+    {
+        getSelenium().waitForCondition("selenium.browserbot.getCurrentWindow().document." +
+            "getElementById('" + paneid + "').style.display == 'none'", "10000");
+        Assert.assertEquals(0, getSelenium().getElementHeight(paneid).intValue());
+    }
+
+    /**
+     * Validate accordion feature.
+     */
+    public void testAccordions() throws InterruptedException
+    {
+        // I've unsuccesfuly tryed many things to avoid this
+        getSelenium().setSpeed("500");
+
+        // Preferences edit
         open(getUrl("XWiki", "XWikiPreferences", "admin"));
-        // Open Parameters tab and validate that its contents are displayed in less than
-        // 1000 milliseconds
-        Assert.assertTrue(getSelenium().getElementHeight("xwikiprefsparamsContent").intValue() > 0);
-        Assert.assertTrue(getSelenium().getAttribute("xwikiprefsparamsContent@style")
-            .indexOf("display: block;") > -1);
-        // Close Parameters tab and validate that its content are not displayed
+        // Open Parameters pane and validate that its content is displayed in less than 2s
+        assertPaneOpened("xwikiprefsparamsContent");
+        // Open Skin pane
         getSelenium().click("xwikiprefsskinHeader");
-        Assert
-            .assertEquals(0, getSelenium().getElementHeight("xwikiprefsparamsContent").intValue());
-        Assert.assertTrue(getSelenium().getAttribute("xwikiprefsparamsContent@style")
-            .indexOf("display: none;") > -1);
-        // Verify that Skin tab is open and its content is displayed
-        Assert.assertTrue(getSelenium().getElementHeight("xwikiprefsskinContent").intValue() > 0);
-        Assert.assertTrue(getSelenium().getAttribute("xwikiprefsskinContent@style")
-            .indexOf("display: block;") > -1);
-        getSelenium().setSpeed("0");
-    }
+        // Validate that Parameters pane is not displayed anymore
+        assertPaneClosed("xwikiprefsparamsContent");
+        // Validate that Skin pane is displayed
+        assertPaneOpened("xwikiprefsskinContent");
 
-    /**
-     * Validate accordions features in XWiki.XWikiPreferences class edition.
-     */
-    public void testClassEdition()
-    {
-        getSelenium().setSpeed("1000");
+        // Class edit
         open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=class"));
-        // Open Skin tab and validate that its contents are displayed
-        Assert.assertTrue(getSelenium().getElementHeight("field_skin_content").intValue() > 0);
-        Assert.assertTrue(
-            getSelenium().getAttribute("field_skin_content@style").indexOf("display: block;") > -1);
-        // Close Skin tab and validate that its content is not displayed
+        // Open skin pane and validate that its content is displayed in less than 2s
+        assertPaneOpened("field_skin_content");
+        // Close skin pane and validate that its content is not displayed anymore
         getSelenium().click("field_skin_title");
-        Assert.assertEquals(0, getSelenium().getElementHeight("field_skin_content").intValue());
-        Assert.assertTrue(
-            getSelenium().getAttribute("field_skin_content@style").indexOf("display: none;") > -1);
-        // Open last tab and verify its contents are displayed in less then 1000 milliseconds
+        assertPaneClosed("field_skin_content");
+        // Open last tab and verify its contents are displayed in less then 2s
         getSelenium().click("field_ldap_trylocal_title");
-        Assert.assertTrue(
-            getSelenium().getElementHeight("field_ldap_trylocal_content").intValue() > 0);
-        Assert.assertTrue(getSelenium().getAttribute("field_ldap_trylocal_content@style")
-            .indexOf("display: block;") > -1);
-        getSelenium().setSpeed("0");
-    }
+        assertPaneOpened("field_ldap_trylocal_content");
 
-    /**
-     * Validate accordions features in XWiki.XWikiPreferences object edition.
-     */
-    public void testObjectEdition()
-    {
-        getSelenium().setSpeed("1000");
+        // Object edit
         open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=object"));
-        // Open XWikiPreferences tab and validate that its contents are displayed
+        // Open XWikiPreferences pane and validate that its content is displayed
         getSelenium().click("field_XWiki.XWikiPreferences_0_title");
-        Assert.assertTrue(getSelenium()
-            .getElementHeight("field_XWiki.XWikiPreferences_0_content").intValue() > 0);
-        Assert.assertTrue(getSelenium()
-            .getAttribute("field_XWiki.XWikiPreferences_0_content@style")
-            .indexOf("display: block;") > -1);
+        assertPaneOpened("field_XWiki.XWikiPreferences_0_content");
+
+        // Reset selenium speed
         getSelenium().setSpeed("0");
     }
 }

@@ -64,7 +64,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
      */
     public void testAccordions() throws InterruptedException
     {
-        // I've unsuccesfuly tryed many things to avoid this
+        // I've unsuccesfuly tried many things to avoid this
         getSelenium().setSpeed("500");
 
         // Preferences edit

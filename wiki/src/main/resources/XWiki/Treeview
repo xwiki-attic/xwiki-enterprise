@@ -99,7 +99,7 @@
 //&lt;![CDATA[
 var tree;
 function loadNodeData(node, fnLoadComplete)  {
-  var url = "$doc.getURL()?xpage=plain&amp;amp;nodeName="+node.label;
+  var url = "$doc.getURL()?xpage=plain&amp;nodeName="+node.label;
   var callback = {
    success: function(oResponse) {
      var xml = oResponse.responseXML;

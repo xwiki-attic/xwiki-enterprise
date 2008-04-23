@@ -41,7 +41,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
 
     public void setUp() throws Exception
     {
-        super.setUp();
+        super.setUp();        
         loginAsAdmin();
     }
 
@@ -69,6 +69,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
 
         // Preferences edit
         open(getUrl("XWiki", "XWikiPreferences", "admin"));
+        waitPage();
         // Open Parameters pane and validate that its content is displayed in less than 2s
         assertPaneOpened("xwikiprefsparamsContent");
         // Open Skin pane
@@ -80,6 +81,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
 
         // Class edit
         open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=class"));
+        waitPage();
         // Open skin pane and validate that its content is displayed in less than 2s
         assertPaneOpened("field_skin_content");
         // Close skin pane and validate that its content is not displayed anymore
@@ -91,6 +93,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
 
         // Object edit
         open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=object"));
+        waitPage();
         // Open XWikiPreferences pane and validate that its content is displayed
         getSelenium().click("field_XWiki.XWikiPreferences_0_title");
         assertPaneOpened("field_XWiki.XWikiPreferences_0_content");

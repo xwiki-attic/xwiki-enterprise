@@ -65,7 +65,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
     public void testAccordions() throws InterruptedException
     {
         // I've unsuccesfuly tried many things to avoid this
-        getSelenium().setSpeed("500");
+        getSelenium().setSpeed("2000");
 
         // Preferences edit
         open(getUrl("XWiki", "XWikiPreferences", "admin"));

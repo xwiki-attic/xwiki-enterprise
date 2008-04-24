@@ -59,6 +59,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
         clickLinkWithText("Add new group", false);
+        // Wait for lightbox
+        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Create new group') != -1;", "2000");
         setFieldValue("newgroupi", "NewGroup");
         getSelenium().click("//input[@value='Create group']");
         getSelenium().waitForPageToLoad("10000");
@@ -106,10 +108,12 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         clickLinkWithText("Administration");
         clickLinkWithText("Groups");
-        getSelenium().setSpeed("1000");
         clickLinkWithText("Add new group", false);
+        // Wait for lightbox
+        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Create new group') != -1;", "2000");
         setFieldValue("newgroupi", "Admin");
         getSelenium().click("//input[@value='Create group']");
+        
         assertEquals(
             "Admin cannot be used for the group name, as another document with this name already exists.",
             this.getSelenium().getAlert());
@@ -128,6 +132,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickLinkWithText("Administration");
         clickLinkWithText("Users");
         clickLinkWithText("Add new user", false);
+        // Wait for lightbox
+        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Registration') != -1;", "2000");
         setFieldValue("register_first_name", "New");
         setFieldValue("register_last_name", "User");
         setFieldValue("xwikiname", "NewUser");

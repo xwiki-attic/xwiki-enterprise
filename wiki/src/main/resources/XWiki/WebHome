@@ -84,8 +84,12 @@
 * [Panels&gt;Panels.WebHome]
 * [Panels Wizard&gt;Panels.PanelWizard?forceLeftPanels=1&amp;amp;forceRightPanels=1]
 
+1.1 Statistics and Performances
+
+* [Statistics&gt;Stats.WebHome]
+* [Performance monitoring&gt;XWiki.RequestsStatus]
+
 1.1 Others
 
 * [Copy Document&gt;XWiki.CopyDocument]
-* [Statistics&gt;Stats.WebHome]
 </content></xwikidoc>

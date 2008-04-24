@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xwikidoc>
+<web>XWiki</web>
+<name>RequestsStatus</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>XWiki.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1208980469000</creationDate>
+<date>1209021832000</date>
+<contentUpdateDate>1209021832000</contentUpdateDate>
+<version>1.1</version>
+<title></title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<object>
+<class>
+<name>XWiki.TagClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<tags>
+<cache>0</cache>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>tags</name>
+<number>1</number>
+<prettyName>Tags</prettyName>
+<relationalStorage>1</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<values></values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</tags>
+</class>
+<name>XWiki.RequestsStatus</name>
+<number>0</number>
+<className>XWiki.TagClass</className>
+<property>
+<tags/>
+</property>
+</object>
+<content>1 XWiki Monitoring
+
+#set($monitor = $xwiki.getXWiki().getPluginManager().getPlugin("monitor"))
+#if($monitor &amp;&amp; $monitor.isActive())
+
+  #set($threadname = $request.thread)
+  #if($threadname)
+    #set($activeTimers = $monitor.getActiveTimerData())
+    #foreach($thread in $activeTimers.keySet())
+      #set($req = $activeTimers.get($thread))
+      #if($req.threadName.equals($threadname))
+        * URL: $req.getURL() Page: $req.getWikiPage()
+        * StartDate: $req.startTime
+        * State: $thread.getState() Alive: $thread.isAlive() [${threadname}&gt;${doc.fullName}?thread=${threadname}&amp;kill=1]
+        #if($request.kill)
+          Interrupting $thread.stop()
+        #end
+      #end
+    #end
+  #else
+  
+    1.1 Consolidated Data
+
+    #set($dur = $xwiki.parseInt("${monitor.duration}"))
+    #set($nbreq = $xwiki.parseInt("${monitor.requests}"))
+    #set($avg = ($dur/$nbreq))
+
+    * Duration: ${monitor.getDuration()} ms
+    * Requests: $monitor.getRequests()
+    * Average: ${avg} ms
+
+    #foreach($timer in $monitor.getTimerSummaries())
+      #set($dur = $xwiki.parseInt("${timer.duration}"))
+      #set($nbreq = $xwiki.parseInt("${timer.requests}"))
+      #set($avg = ($dur/$nbreq))
+      * $timer.name duration: ${timer.duration} ms Calls: $timer.nbCalls Requests: $timer.requests Average: ${avg} ms
+    #end
+
+    1.1 Active requests
+
+    Currently running requests. There is always at least the request for this page.
+
+    #set($timerdata = $monitor.getActiveTimerData())
+    Active requests size: $timerdata.size()
+
+    #foreach($req in $timerdata)
+      * Page: $req.getWikiPage()
+      * URL: $req.getURL()
+      * Thread: [$req.threadName&gt;${doc.fullName}?thread=${req.threadName}]
+      * StartDate: $req.startTime
+    #end
+
+    1.1 Latest unfinished requests
+
+    These are requests that didn't reach "endRequest", but where cleaned-up by a reuse of threads. Only 32 requests max are kept in memory.
+
+    #set($timerdata = $monitor.getLastUnfinishedTimerData())
+    Active requests size: $timerdata.size()
+
+    #foreach($req in $timerdata)
+      * Page: $req.getWikiPage()
+      * URL: $req.getURL()
+      * Thread: [$req.threadName&gt;${doc.fullName}?thread=${req.threadName}]
+      * StartDate: $req.startTime
+    #end
+
+    1.1 Latest requests
+
+    Latest requests that finished properly. Only $timerdata.maxSize() requests max are kept in memory.
+
+    #set($timerdata = $monitor.getLastTimerData())
+    Numbers of requests displayed: $timerdata.size() 
+    #foreach($req in $timerdata)
+      * URL: $req.getURL()
+      * Page: $req.getWikiPage()
+      * Thread: $req.threadName
+      * Duration: $req.duration
+      * StartDate: $req.startTime
+      * EndDate: $req.endTime
+      #foreach($timer in $req.timerList)
+        ** $timer
+      #end
+      \\
+    #end
+  #end
+#else
+  #warning("The Monitor plugin is disabled. Please enable it by setting &lt;tt&gt;xwiki.monitor=1&lt;/tt&gt; in your &lt;tt&gt;xwiki.cfg&lt;/tt&gt; configuration file.")
+#end
+
+</content></xwikidoc>

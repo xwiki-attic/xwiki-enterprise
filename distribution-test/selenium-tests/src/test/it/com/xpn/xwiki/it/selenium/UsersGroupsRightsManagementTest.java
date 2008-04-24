@@ -112,8 +112,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // Wait for lightbox
         getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Create new group') != -1;", "2000");
         setFieldValue("newgroupi", "Admin");
-        getSelenium().click("//input[@value='Create group']");
         getSelenium().setSpeed("1000");
+        getSelenium().click("//input[@value='Create group']");
         assertEquals(
             "Admin cannot be used for the group name, as another document with this name already exists.",
             this.getSelenium().getAlert());

@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4-milestone-2</version>
   </parent>
   <artifactId>xwiki-enterprise-wiki</artifactId>
   <name>XWiki Products - Enterprise - Wiki</name>

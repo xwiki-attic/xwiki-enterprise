@@ -20,6 +20,10 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
@@ -28,11 +32,14 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Verify proper execution of some Velocity Macros.
- *
+ * 
  * @version $Id: $
  */
 public class VelocityMacrosTest extends AbstractXWikiTestCase
 {
+    private static final String EXECUTION_DIRECTORY =
+        System.getProperty("xwikiExecutionDirectory");
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests Velocity Macros");
@@ -57,7 +64,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         assertGeneratedHTML("img[@src='/xwiki/skins/albatross/mimetypes/jpg.png' "
             + "and @alt='Image' and @title='Image']");
     }
-    
+
     /**
      * Verify that we can create macros in a document and including them into another document.
      */
@@ -84,5 +91,28 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         setFieldValue("content", "#testMacrosAreLocal()");
         clickEditSaveAndView();
         assertTextNotPresent("mymacro");
+    }
+
+    public void testUsingMacroInGetRenderedContent() throws IOException
+    {
+        // Get default view.vm template content
+        File file = new File(EXECUTION_DIRECTORY + "/webapps/xwiki/templates/view.vm");
+        FileReader fileReader = new FileReader(file);
+        char[] fileContent = new char[(int)file.length()];
+        fileReader.read(fileContent);
+        String viewTemplate = String.copyValueOf(fileContent);
+        
+        // Overwrite view template in custom skin to add macro definition
+        open("/xwiki/bin/edit/XWiki/DefaultSkin?editor=object");
+        setFieldValue("XWiki.XWikiSkins_0_view.vm", "#macro(testSkinObjectMacro)skin object macro content#end " + viewTemplate);
+        clickEditSaveAndContinue();
+
+        // Create a wiki page which use use the defined macro
+        open("/xwiki/bin/edit/Test/VelocitySkinObjectMacrosUseMacro?editor=wiki");
+        setFieldValue("content", "#testSkinObjectMacro()");
+        clickEditSaveAndView();
+
+        // Validate if the macros works
+        assertTextPresent("skin object macro content");
     }
 }

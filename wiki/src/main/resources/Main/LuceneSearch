@@ -295,18 +295,18 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
 ## ---------------
 #set($lucene = $xwiki.getPlugin("lucene"))
 #if($lucene)
-#set($doRebuild = $request.getParameter("rebuild"))
-#if($doRebuild)
-  #if($doRebuild=="yes")
-		#set($documentCount = $lucene.rebuildIndex())
-		#if(${documentCount}&gt;=0)
-			{/pre}#info("Started index rebuild with $documentCount documents.\\
-                               Will take some time depending on the number of pages/attachments."){pre}
-		#else
-			#error("Index rebuild failed.")
-		#end
+#set($doRebuild = "$!{request.getParameter('rebuild')}")
+#if($doRebuild == "yes")
+  #set($documentCount = $lucene.rebuildIndex())
+  #if(${documentCount} &gt;= 0)
+    {/pre}#info("Started index rebuild with $documentCount documents.\\
+      Will take some time depending on the number of pages/attachments."){pre}
+  #elseif(${documentCount} == -1)
+    #error("You must have administrator rights to rebuild the index")
+  #else
+    #error("Index rebuild failed.")
   #end
-#else
+#else ## !doRebuild
 ## ---------------
 ## Queue &amp; rebuild option
 ## ---------------
@@ -316,14 +316,13 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
         #else
             #set($info1 = "Lucene index is up to date.")
         #end
-        #if($xwiki.hasAdminRights())
+        #if($hasAdmin)
             #set($info2 = " [Rebuild the Lucene index&gt;${doc.web}.${doc.name}?rebuild=yes].")
         #else
             #set($info2 = "")
 	#end
         {/pre}#info("${info1}${info2}"){pre}
-#end
-#end
+#end ## doRebuild
 ## ---------------
 ## Comment
 ## ---------------
@@ -332,5 +331,9 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
         You can still use the XWiki [default search engine&gt;WebSearch?text=$query].")
 {pre}
 #end
-{/pre}</content>
+{/pre}
+#else ## !lucene exists
+#warning("The Lucene plugin is not enabled. You can use the XWiki [default search engine&gt;WebSearch?text=$query].")
+#end ## lucene exists
+</content>
 </xwikidoc>

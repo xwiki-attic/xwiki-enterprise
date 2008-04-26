@@ -93,18 +93,22 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         assertTextNotPresent("mymacro");
     }
 
+    /**
+     * Verify that macros declared in custom skin object are usable in page content.
+     */
     public void testUsingMacroInGetRenderedContent() throws IOException
     {
         // Get default view.vm template content
         File file = new File(EXECUTION_DIRECTORY + "/webapps/xwiki/templates/view.vm");
         FileReader fileReader = new FileReader(file);
-        char[] fileContent = new char[(int)file.length()];
+        char[] fileContent = new char[(int) file.length()];
         fileReader.read(fileContent);
         String viewTemplate = String.copyValueOf(fileContent);
-        
+
         // Overwrite view template in custom skin to add macro definition
         open("/xwiki/bin/edit/XWiki/DefaultSkin?editor=object");
-        setFieldValue("XWiki.XWikiSkins_0_view.vm", "#macro(testSkinObjectMacro)skin object macro content#end " + viewTemplate);
+        setFieldValue("XWiki.XWikiSkins_0_view.vm",
+            "#macro(testSkinObjectMacro)skin object macro content#end " + viewTemplate);
         clickEditSaveAndContinue();
 
         // Create a wiki page which use use the defined macro

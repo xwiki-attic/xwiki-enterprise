@@ -20,33 +20,6 @@
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<object>
-<class>
-<name>XWiki.TagClass</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<tags>
-<name>tags</name>
-<prettyName>Tags</prettyName>
-<relationalStorage>1</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<values></values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</tags>
-</class>
-<name>Main.AllDocs</name>
-<number>0</number>
-<className>XWiki.TagClass</className>
-<property>
-<tags/>
-</property>
-</object>
 <content>1 Documents on this Wiki
 #if((!$view) || ($view == ""))
   #set($view = $request.getParameter("view"))

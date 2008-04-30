@@ -299,10 +299,12 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
 #if($doRebuild == "yes")
   #set($documentCount = $lucene.rebuildIndex())
   #if(${documentCount} &gt;= 0)
-    {/pre}#info("Started index rebuild with $documentCount documents.\\
+    {/pre}#info("Started index rebuild.\\
       Will take some time depending on the number of pages/attachments."){pre}
   #elseif(${documentCount} == -1)
-    #error("You must have administrator rights to rebuild the index")
+    #error("You must have administrator rights to rebuild the index.")
+  #elseif(${documentCount} == -2)
+    #error("Another rebuild is in progress.")
   #else
     #error("Index rebuild failed.")
   #end

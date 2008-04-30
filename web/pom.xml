@@ -122,8 +122,7 @@
                     com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
                     com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
                     com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
-                    com.xpn.xwiki.plugin.watchlist.WatchListPlugin,\
-                    com.xpn.xwiki.plugin.lucene.LucenePlugin
+                    com.xpn.xwiki.plugin.watchlist.WatchListPlugin
                 </xwikiCfgPlugins>
                 <xwikiCfgDefaultSkin>toucan</xwikiCfgDefaultSkin>
                 <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>

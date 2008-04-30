@@ -60,11 +60,11 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
 
     public void testAutomaticConversionFromHashSyntaxToNumberSyntaxForOrderedLists()
     {
-        setFieldValue("content", "# item 1\n## item 2\n# item 3");
+        setFieldValue("content", "# item 1\n# item 2");
         clickLinkWithText("WYSIWYG");
         clickLinkWithText("Wiki");
 
-        assertEquals("1. item 1\n11. item 2\n1. item 3", getFieldValue("content"));
+        assertEquals("1. item 1\n1. item 2", getFieldValue("content"));
     }
 
     public void testHorizontalLineBeforeTableMacro()
@@ -87,5 +87,17 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
         
         clickLinkWithText("Wiki");
         assertEquals("- item 1\n-- item 2\n- item 3", getFieldValue("content"));
+    }
+
+    public void testVelocityComments() throws Exception
+    {
+        setFieldValue("content", "## comment");
+        clickLinkWithText("WYSIWYG");
+
+        // <div class="vcomment"> comment</div>
+        assertHTMLGeneratedByWysiwyg("div[@class='vcomment'][.=' comment']");        
+
+        clickLinkWithText("Wiki");
+        assertEquals("## comment", getFieldValue("content"));
     }
 }

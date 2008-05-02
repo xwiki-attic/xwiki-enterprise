@@ -47,6 +47,7 @@ public class AllTests extends TestCase
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
         addTestCase(suite, PDFTest.class);
+        addTestCase(suite, HTMLExportTest.class);
 
         return new XWikiTestSetup(suite);
     }

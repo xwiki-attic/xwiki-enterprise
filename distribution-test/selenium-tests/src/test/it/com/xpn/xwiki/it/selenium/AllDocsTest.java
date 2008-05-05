@@ -43,6 +43,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
     public void setUp() throws Exception
     {
         super.setUp();
+        loginAsAdmin();
         open(getUrl("Main", "AllDocs"));
     }
 
@@ -129,4 +130,42 @@ public class AllDocsTest extends AbstractXWikiTestCase
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rights']");
         Assert.assertEquals("Editing Rights for Treeview", getTitle());
     }
+    
+    private void assertNodeOpen(String nodeName, int type)
+    {
+    	String className = "";
+    	/* 1 = interior node without children
+    	 * 2 = first node without children
+    	 * 3 = node with children
+    	 */
+    	switch(type)
+    	{
+    		case 1: className = "ygtvtn"; break;
+    		case 2: className = "ygtvln"; break;
+    		case 3: className = "ygtvtm"; break;
+    	}    		
+    	String xpath = "//a[text()='" + nodeName + "']/ancestor::*[position()=1]/preceding-sibling::*[position()=1]"; 
+    	getSelenium().click(xpath);
+    	getSelenium().waitForCondition("selenium.browserbot.findElement(\"" + xpath + "\").className == '" + className + "'", "100000");
+    }
+    
+    /**
+     * <ul><li>Validate that multilevel nodes open correctly.</li></ul>
+     */
+    public void testTreeViewActions()
+    {
+    	open(getUrl("Main", "AllDocs", "view", "view=tree"));
+    	// Verify two-level nodes
+    	assertNodeOpen("Main", 3);
+    	assertNodeOpen("Dashboard", 1);
+    	// Verify three-level nodes
+    	assertNodeOpen("Stats", 3);
+    	assertNodeOpen("Activity", 3);
+    	assertNodeOpen("ActivityData", 2);
+    	// Verify four-level nodes
+    	// assertNodeOpen("Main", 3); //Main was open first
+    	assertNodeOpen("AllDocs", 3);
+    	assertNodeOpen("Tableview", 3);
+    	assertNodeOpen("Tableresults", 2);
+    }   
 }

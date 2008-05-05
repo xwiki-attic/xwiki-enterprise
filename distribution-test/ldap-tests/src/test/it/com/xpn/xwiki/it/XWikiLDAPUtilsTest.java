@@ -5,16 +5,16 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import com.xpn.xwiki.XWiki;
-import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.cache.api.XWikiCache;
 import com.xpn.xwiki.cache.api.XWikiCacheNeedsRefreshException;
 import com.xpn.xwiki.cache.api.XWikiCacheService;
 import com.xpn.xwiki.cache.impl.OSCacheService;
-import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
+import com.xpn.xwiki.it.framework.XWikiConfig;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
+import com.xpn.xwiki.test.XWikiLDAPTestSetup;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
@@ -53,11 +53,11 @@ public class XWikiLDAPUtilsTest extends TestCase
     {
         this.context = new XWikiContext();
 
-        new XWiki(XWikiLDAPTestSetup.CURRENTXWIKICONF, this.context)
+        new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), this.context)
         {
             private XWikiCacheService cacheService;
 
-            public void initXWiki(XWikiConfig config, XWikiContext context,
+            public void initXWiki(com.xpn.xwiki.XWikiConfig config, XWikiContext context,
                 XWikiEngineContext enginecontext, boolean noupdate) throws XWikiException
             {
                 context.setWiki(this);

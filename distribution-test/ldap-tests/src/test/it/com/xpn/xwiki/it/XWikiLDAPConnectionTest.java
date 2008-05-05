@@ -1,22 +1,14 @@
 package com.xpn.xwiki.it;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
-import java.util.List;
-
 import junit.framework.TestCase;
 
-import com.novell.ldap.LDAPAttribute;
-import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPException;
 import com.xpn.xwiki.XWiki;
-import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
-import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
+import com.xpn.xwiki.it.framework.XWikiConfig;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPException;
-import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
+import com.xpn.xwiki.test.XWikiLDAPTestSetup;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
@@ -40,9 +32,9 @@ public class XWikiLDAPConnectionTest extends TestCase
     {
         this.context = new XWikiContext();
 
-        new XWiki(XWikiLDAPTestSetup.CURRENTXWIKICONF, this.context)
+        new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), this.context)
         {
-            public void initXWiki(XWikiConfig config, XWikiContext context,
+            public void initXWiki(com.xpn.xwiki.XWikiConfig config, XWikiContext context,
                 XWikiEngineContext enginecontext, boolean noupdate) throws XWikiException
             {
                 context.setWiki(this);
@@ -53,7 +45,8 @@ public class XWikiLDAPConnectionTest extends TestCase
 
     /**
      * Test open and close of the LDAP connection.
-     * @throws XWikiLDAPException 
+     * 
+     * @throws XWikiLDAPException
      */
     public void testOpenClose() throws XWikiLDAPException
     {
@@ -70,7 +63,8 @@ public class XWikiLDAPConnectionTest extends TestCase
 
     /**
      * Test open and close of the LDAP connection using xwiki.cfg parameters.
-     * @throws XWikiLDAPException 
+     * 
+     * @throws XWikiLDAPException
      */
     public void testOpen2Close() throws XWikiLDAPException
     {

@@ -56,20 +56,14 @@
 </object>
 <content>1 Copy a document
 
-#set($sourcedoc = $request.sourcedoc)
-#set($targetdoc = $request.targetdoc)
-#if ($request.language && $request.language != "")
+#set($sourcedoc = "$!request.sourcedoc")
+#set($targetdoc = "$!request.targetdoc")
+#if("$!request.language" != "")
   #set($language = $request.language)
 #end
-
-#if (!$targetdoc or $targetdoc=="")
- #set($targetdoc = $sourcedoc)
-#end
-
 #set($sourcewiki = $context.database)
 #set($targetwiki = $context.database)
-
-#if ($targetdoc)
+#if("$!targetdoc" != "")
 #set($ok = $xwiki.xWiki.copyDocument($sourcedoc, $targetdoc, $sourcewiki, $targetwiki, $language, false, $context.context))
 Copying document [$sourcedoc #if($language)($language)#end from $sourcewiki&gt;$sourcewiki:$sourcedoc#if($language)?language=$language#end] to [$targetwiki:$targetdoc&gt;$targetwiki:$targetdoc#if($language)?language=$language#end]
 #end

@@ -12,9 +12,9 @@ import com.xpn.xwiki.cache.api.XWikiCacheNeedsRefreshException;
 import com.xpn.xwiki.cache.api.XWikiCacheService;
 import com.xpn.xwiki.cache.impl.OSCacheService;
 import com.xpn.xwiki.it.framework.XWikiConfig;
+import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
-import com.xpn.xwiki.test.XWikiLDAPTestSetup;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
@@ -134,7 +134,7 @@ public class XWikiLDAPUtilsTest extends TestCase
      */
     public void testGetGroupMembers() throws XWikiException
     {
-        Map members =
+        Map<String, String> members =
             this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
 
         assertFalse("No member was found", members.isEmpty());
@@ -142,7 +142,7 @@ public class XWikiLDAPUtilsTest extends TestCase
         assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members
             .keySet()));
 
-        Map wrongGroupMembers =
+        Map<String, String> wrongGroupMembers =
             this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);
 
         assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]",
@@ -164,7 +164,7 @@ public class XWikiLDAPUtilsTest extends TestCase
         assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
 
         this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
-        
+
         userDN =
             this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID,
                 XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);

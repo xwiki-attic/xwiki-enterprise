@@ -6,9 +6,9 @@ import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.it.framework.XWikiConfig;
+import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPException;
-import com.xpn.xwiki.test.XWikiLDAPTestSetup;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**

@@ -2,10 +2,10 @@ package com.xpn.xwiki.it;
 
 import junit.framework.Test;
 
+import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
-import com.xpn.xwiki.test.XWikiLDAPTestSetup;
 
 /**
  * Verify the LDAP login and logout features.

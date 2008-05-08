@@ -150,7 +150,7 @@
   #end
 #end
 ##
-#if($xwiki.isVirtual())
+#if($xwiki.isVirtualMode())
   #if(!$allwikinamelist)
     #set($currentwikiname = $context.database)
     #set($ok = $context.setDatabase($context.mainWikiName))
@@ -211,7 +211,7 @@
 ## ---------------
 &lt;form action="$doc.name" method="get"&gt;
 &lt;div class="centered"&gt;
-Query &lt;input type="text" name="text" value="$query" /&gt; in space #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtual()) in wikis #wikinamesselect($xwiki.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="Search"/&gt;
+Query &lt;input type="text" name="text" value="$query" /&gt; in space #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtualMode()) in wikis #wikinamesselect($xwiki.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="Search"/&gt;
 &lt;/div&gt;
 &lt;/form&gt;
 #end
@@ -319,7 +319,7 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
             #set($info1 = "Lucene index is up to date.")
         #end
         #if($hasAdmin)
-            #set($info2 = " [Rebuild the Lucene index&gt;${doc.web}.${doc.name}?rebuild=yes].")
+            #set($info2 = " [Rebuild the Lucene index&gt;${doc.space}.${doc.name}?rebuild=yes].")
         #else
             #set($info2 = "")
 	#end

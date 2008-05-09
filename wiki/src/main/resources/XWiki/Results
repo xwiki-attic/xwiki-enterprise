@@ -66,7 +66,7 @@
   &lt;tr class="sortHeader"&gt;
     &lt;th&gt;Page&lt;/th&gt;
     &lt;th style="width:150px" class="selectFilter"&gt;Space&lt;/th&gt;
-    #if($xwiki.isVirtual())
+    #if($xwiki.isVirtualMode())
       &lt;th style="width:150px" class="selectFilter"&gt;Wiki&lt;/th&gt;
     #end
     &lt;th style="width:150px"&gt;Date&lt;/th&gt;
@@ -135,7 +135,7 @@
       &lt;td style="text-align:left"&gt;
         [$bentrydoc.web&gt;${bentrydoc.wiki}:${bentrydoc.web}.WebHome]
       &lt;/td&gt;
-      #if($xwiki.isVirtual())
+      #if($xwiki.isVirtualMode())
         &lt;td style="text-align:left"&gt;
           [$bentrydoc.wiki&gt;${bentrydoc.wiki}:Main.WebHome]
         &lt;/td&gt;

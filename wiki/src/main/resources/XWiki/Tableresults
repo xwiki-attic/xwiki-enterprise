@@ -107,7 +107,7 @@
   ## ==============================================
   ## Wiki
   ## ==============================================
-  #if($xwiki.isVirtual())
+  #if($xwiki.isVirtualMode())
     #set($wiki = $bentrydoc.wiki)
     #set($wikiurl = $xwiki.getURL("${bentrydoc.wiki}:Main.WebHome"))
   #end
@@ -171,8 +171,8 @@
    "title"     : "$ptitle",
    "space"     : "$space",
    "spaceurl"  : "$spaceurl",
-   "isvirtual" : $xwiki.isVirtual(),
-  #if($xwiki.isVirtual())
+   "isvirtual" : $xwiki.isVirtualMode(),
+  #if($xwiki.isVirtualMode())
    "wiki"      : "$wiki",
    "wikiurl"   : "$!wikiurl",
   #end

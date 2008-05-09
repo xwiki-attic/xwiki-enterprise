@@ -1941,7 +1941,7 @@
 <stylesheets>style.css</stylesheets>
 </property>
 <property>
-<title>XWiki - $doc.web - $doc.name</title>
+<title>XWiki - $doc.space - $doc.name</title>
 </property>
 <property>
 <upload_maxsize>33554432</upload_maxsize>

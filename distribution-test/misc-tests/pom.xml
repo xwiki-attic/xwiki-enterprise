@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4-rc-1</version>
   </parent>
   <artifactId>xwiki-enterprise-test-misc</artifactId>
   <name>XWiki Products - Enterprise - Misc. Functional Tests</name>
@@ -38,6 +38,11 @@
       <groupId>pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
       <version>0.7.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

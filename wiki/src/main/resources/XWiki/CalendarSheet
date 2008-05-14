@@ -61,7 +61,7 @@ $cparams.put("month", $request.get("month"))
 #if($request.year)
 $cparams.put("year", $request.get("year"))
 #end
-#set($rqcategories = $xwiki.arrayList)
+#set($rqcategories = $util.arrayList)
 #foreach($rqcateg in $request.get("category").split(","))
 #if(!$rqcateg.trim().equals(""))
 #set($discard = $rqcategories.add($rqcateg.trim()))

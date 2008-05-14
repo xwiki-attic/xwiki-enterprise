@@ -65,8 +65,8 @@
 ## TODO: feed category
 #end
 #set($cdate = "")
-#set($inbitems = $xwiki.parseInt($nbitems))
-#set($inbstart = $xwiki.parseInt($nbstart))
+#set($inbitems = $util.parseInt($nbitems))
+#set($inbstart = $util.parseInt($nbstart))
 #foreach ($item in $xwiki.searchDocuments($sql, $inbitems, $inbstart))
 #set($bentrydoc = $xwiki.getDocument($item))
 #if($bentrydoc.fullName == $item)

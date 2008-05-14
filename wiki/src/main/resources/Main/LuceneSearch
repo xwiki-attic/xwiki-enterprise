@@ -211,7 +211,7 @@
 ## ---------------
 &lt;form action="$doc.name" method="get"&gt;
 &lt;div class="centered"&gt;
-Query &lt;input type="text" name="text" value="$query" /&gt; in space #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtualMode()) in wikis #wikinamesselect($xwiki.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="Search"/&gt;
+Query &lt;input type="text" name="text" value="$query" /&gt; in space #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtualMode()) in wikis #wikinamesselect($util.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="Search"/&gt;
 &lt;/div&gt;
 &lt;/form&gt;
 #end
@@ -270,7 +270,7 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
                         #if ($request.xpage &amp;&amp; $request.xpage == "rdf")
                           #set ($baseurl = "http://${request.serverName}")
                           #set ($description = "RSS feed for search on '$text'")
-                          #set ($list = $xwiki.arrayList)
+                          #set ($list = $util.arrayList)
                           #foreach ($item in $results)
                             #if ($item.type != "attachment")
                               #set ($ok = $list.add(0, "${item.web}.${item.name}"))

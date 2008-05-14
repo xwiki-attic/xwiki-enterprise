@@ -77,8 +77,8 @@
   
     1.1 Consolidated Data
 
-    #set($dur = $xwiki.parseInt("${monitor.duration}"))
-    #set($nbreq = $xwiki.parseInt("${monitor.requests}"))
+    #set($dur = $util.parseInt("${monitor.duration}"))
+    #set($nbreq = $util.parseInt("${monitor.requests}"))
     #set($avg = ($dur/$nbreq))
 
     * Duration: ${monitor.getDuration()} ms
@@ -86,8 +86,8 @@
     * Average: ${avg} ms
 
     #foreach($timer in $monitor.getTimerSummaries())
-      #set($dur = $xwiki.parseInt("${timer.duration}"))
-      #set($nbreq = $xwiki.parseInt("${timer.requests}"))
+      #set($dur = $util.parseInt("${timer.duration}"))
+      #set($nbreq = $util.parseInt("${timer.requests}"))
       #set($avg = ($dur/$nbreq))
       * $timer.name duration: ${timer.duration} ms Calls: $timer.nbCalls Requests: $timer.requests Average: ${avg} ms
     #end

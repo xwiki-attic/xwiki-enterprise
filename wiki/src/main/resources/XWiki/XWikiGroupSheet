@@ -175,11 +175,11 @@ window.changeWiki = function(obj)
 #set($allObjects = $doc.getObjects("XWiki.XWikiGroups"))
 #set($itemsPerPage = 50)
 #if($request.ipp)
-#set($itemsPerPage = $xwiki.parseInt($request.ipp))
+#set($itemsPerPage = $util.parseInt($request.ipp))
 #end
 #set($pageNumber = 0)
 #if($request.page)
-#set($pageNumber = $xwiki.parseInt($request.page))
+#set($pageNumber = $util.parseInt($request.page))
 #end
 #set($startAt = $itemsPerPage * $pageNumber)
 #if($startAt &lt; 0)

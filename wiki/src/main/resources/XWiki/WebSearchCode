@@ -61,7 +61,7 @@
 ## Note: Do not put any empty line or this will break
 ## the generated RSS feed
 ## ==================================================
-#set($datedlist = $xwiki.arrayList)
+#set($datedlist = $util.arrayList)
 #if(!$text or $text == "")
   ## No search
 #else
@@ -123,8 +123,8 @@
     #addelement($item $datedlist)
   #end
 #end
-#set($list = $xwiki.arrayList)
-#foreach($item in $xwiki.sort($datedlist))
+#set($list = $util.arrayList)
+#foreach($item in $util.sort($datedlist))
   #set($ok = $list.add(0, $item.substring(14)))
 #end</content>
 </xwikidoc>

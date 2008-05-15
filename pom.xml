@@ -59,11 +59,11 @@
     <platform.web.version>1.5-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.6-SNAPSHOT</platform.panels.version>
     <platform.scheduler.version>1.4-SNAPSHOT</platform.scheduler.version>
-    <platform.watchlist.version>1.5-SNAPSHOT</platform.watchlist.version>
+    <platform.watchlist.version>1.6-SNAPSHOT</platform.watchlist.version>
     <platform.jodatime.version>1.2-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.3-SNAPSHOT</platform.statistics.version>
     <platform.plugin.lucene.version>1.3-SNAPSHOT</platform.plugin.lucene.version>
-    <platform.plugin.skinx.version>1.1-SNAPSHOT</platform.plugin.skinx.version>
+    <platform.plugin.skinx.version>1.2-SNAPSHOT</platform.plugin.skinx.version>
   </properties>
   <profiles>
     <profile>

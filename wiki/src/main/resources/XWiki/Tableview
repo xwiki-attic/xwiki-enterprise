@@ -89,52 +89,81 @@
     &lt;td id="buff"&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
+&lt;div id="inaccessibleDocsMessage" class="hidden"&gt;
+ #info($msg.get("rightsmanager.documentrequireviewrights"))
+&lt;/div&gt;
 #set($url = "$xwiki.getURL('XWiki.Tableresults')?xpage=plain")
 {pre}
 &lt;script type="text/javascript"&gt;
-//<![CDATA[
+//&lt;![CDATA[
 function displayAllDocs(row, i, table)
 {
-  var a = new Element('a', {'href' : row.url}).update(row.page);
-  var page = new Element('td', {'class' : 'pagename'}).update(a);
-  var tr = new Element('tr', {'class' : (i % 2 == 0) ? 'even' : 'odd'} ).update(page);
-  var spaceurl = new Element('a', {'href': row.spaceurl}).update(row.space);
-  var space = new Element('td').update(spaceurl);
-  tr.appendChild(space);
-  if(row.virtual) {
-   var wikiurl = new Element('a', {'href' : row.wikiurl}).update(row.wiki);
-   var wiki = new Element('td').update(wikiurl);
-   tr.appendChild(wiki);
-  }
-  var date = new Element('td').update(row.date);
-  tr.appendChild(date);
-  if(row.authorpage) {
-  	var authorpage = new Element('a', {'href' : row.authorpage}).update(row.author);
-  	var author = new Element('td').update(authorpage);
-  }
-  else
-    var author = new Element('td').update(row.author);
-  tr.appendChild(author);
-  var copy =   new Element('a', {'href' : row.copyurl}).update("$msg.get('copy')");
-  var del = new Element('a', {'href' : row.deleteurl}).update("$msg.get('delete')");
-  var rename = new Element('a', {'href' : row.renameurl}).update("$msg.get('rename')");
-  var rights = new Element('a', {'href' : row.rightsurl}).update("$msg.get('rights')");
-  if(row.hasadmin) {
-  	var actions = new Element('td');
-  	actions.appendChild(copy);
-  	actions.appendChild(new Element('span').update("-"));
-  	actions.appendChild(del);
-  	actions.appendChild(new Element('span').update("-"));
-  	actions.appendChild(rename);
-  	actions.appendChild(new Element('span').update("-"));
-  	actions.appendChild(rights);
-  	tr.appendChild(actions);
-  }
+  var inaccessibleDocs = false;
+  if(row.acclev == true)
+  {
+    var a = new Element('a', {'href' : row.url}).update(row.page);
+    var page = new Element('td', {'class' : 'pagename'}).update(a);
+    var tr = new Element('tr', {'class' : (i % 2 == 0) ? 'even' : 'odd'} ).update(page);
+    var spaceurl = new Element('a', {'href': row.spaceurl}).update(row.space);
+    var space = new Element('td').update(spaceurl);
+    tr.appendChild(space);
+    if (row.virtual) {
+      var wikiurl = new Element('a', {'href' : row.wikiurl}).update(row.wiki);
+      var wiki = new Element('td').update(wikiurl);
+      tr.appendChild(wiki);
+    }
+    var date = new Element('td').update(row.date);
+    tr.appendChild(date);
+    if(row.authorpage) {
+      var authorpage = new Element('a', {'href' : row.authorpage}).update(row.author);
+      var author = new Element('td').update(authorpage);
+    } else {
+      var author = new Element('td').update(row.author);
+    }
+    tr.appendChild(author);
+    var copy =   new Element('a', {'href' : row.copyurl}).update("$msg.get('copy')");
+    var del = new Element('a', {'href' : row.deleteurl}).update("$msg.get('delete')");
+    var rename = new Element('a', {'href' : row.renameurl}).update("$msg.get('rename')");
+    var rights = new Element('a', {'href' : row.rightsurl}).update("$msg.get('rights')");
+    if(row.hasadmin) {
+      var actions = new Element('td');
+      actions.appendChild(copy);
+      actions.appendChild(new Element('span').update("-"));
+      actions.appendChild(del);
+      actions.appendChild(new Element('span').update("-"));
+      actions.appendChild(rename);
+      actions.appendChild(new Element('span').update("-"));
+      actions.appendChild(rights);
+      tr.appendChild(actions);
+    }
 
-  return tr;
+    return tr;
+  }
+  else {
+    var tr = new Element('tr', {'class' : (i % 2 == 0) ? 'even' : 'odd'} );
+    var page = row.fullname;
+    var dp = page.indexOf(':');
+    var p = page.indexOf('.');
+    if(dp &gt; 0) {
+      var space = page.substring(dp + 1, p);
+    } else {
+      var space = page.substring(0, p);
+    }
+    var name = page.substring(p + 1);
+    var td1 = new Element('td', {'class' : 'pagename'}).update(name + "*");
+    var td2 = new Element('td').update(space);
+    var td3 = new Element('td').update(" ");
+    var td4 = new Element('td').update(" ");
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    $('inaccessibleDocsMessage').removeClassName('hidden');
+    return tr;
+  }
 }
 var ta = new ASSTable("$url", 15, "display1", "scrollbar1", "alldocstable", displayAllDocs, true);
-//]]>
+//]]&gt;
 &lt;/script&gt;
 {/pre}</content>
 </xwikidoc>

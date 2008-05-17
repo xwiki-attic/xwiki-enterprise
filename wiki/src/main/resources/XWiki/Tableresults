@@ -37,32 +37,32 @@
 #set($space = $request.get("space"))
 #set($author = $request.get("author"))
 #set($formatDate = "yyyy MMMM dd, HH:mm")
-#if($page) 
+#if($page)
   #set($page = $page.trim().toLowerCase())
   #set($sql = "where lower(doc.name) like '%${page}%'")
 #else #set($sql = "where lower(doc.name) &lt;&gt; ''") #end
-#if($space)  
+#if($space)
   #set($space = $space.trim().toLowerCase())
-  #set($sql = $sql + "and lower(doc.web) like '%${space}%'") 
+  #set($sql = $sql + "and lower(doc.web) like '%${space}%'")
 #end
-#if($author) 
+#if($author)
   #set($author = $author.trim().toLowerCase())
-  #set($sql = $sql + "and lower(doc.author) like '%${author}%'") 
+  #set($sql = $sql + "and lower(doc.author) like '%${author}%'")
 #end
 #set($sql = $sql + "order by doc.name")
 #set($items = $xwiki.searchDocuments($sql, $limit, $off))
-#set($countItems= $xwiki.searchDocuments($sql).size())
-
+#set($totalItems = $xwiki.searchDocuments($sql).size())
+#set($returnedItems = $items.size())
 ## ==============================================
 ## json starts
 ## ==============================================
-{ 
-"totalrows": $countItems,
-"returnedrows": #if($items.size() &lt; $limit) $items.size() #else $limit #end,
+{
+"totalrows": $totalItems,
+"returnedrows": #if($returnedItems &lt; $limit) $returnedItems #else $limit #end,
 "offset": $offset,
 "reqNo": $request.reqNo,
 "rows": [
-#foreach( $item in $items )
+#foreach($item in $items)
   ## ==============================================
   ## Fullname
   ## ==============================================
@@ -71,10 +71,6 @@
   #else
     #set($itemfullname = "${context.database}:${item}")
   #end
-  ## ==============================================
-  ## Item url
-  ## ==============================================
-  #set($itemurl = $xwiki.getURL($itemfullname))
   ##==============================================
   ## Access level
   ## ==============================================
@@ -82,11 +78,17 @@
   ## ==============================================
   ## Bentrydoc
   ## ==============================================
-  #if ($item.class == "class java.lang.String")
+  #set($bentrydoc = "") ## reset the previous value
+  #if($item.class == "class java.lang.String")
     #set($bentrydoc = $xwiki.getDocument($item))
   #elseif ($item.class == "class com.xpn.xwiki.plugin.lucene.SearchResult")
     #set($bentrydoc = $item)
   #end
+  #if($acclev &amp;&amp; ("$!bentrydoc" != ""))
+  ## ==============================================
+  ## Item url
+  ## ==============================================
+  #set($itemurl = $xwiki.getURL($itemfullname))
   ## ==============================================
   ## Item date
   ## ==============================================
@@ -163,9 +165,11 @@
   #set($delete = $bentrydoc.getURL("delete"))
   #set($rename = $bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1"))
   #set($rights = $bentrydoc.getURL("edit", "editor=rights"))
-   
-  #if( $velocityCount &gt; 1 ) , #end
+  #end
+  #if($velocityCount &gt; 1) , #end
   {"acclev"    : $acclev,
+   "fullname"  : "$itemfullname",
+   #if($acclev &amp;&amp; $bentrydoc &amp;&amp; ($bentrydoc != ""))
    "page"      : "$page",
    "url"       : "$itemurl",
    "title"     : "$ptitle",
@@ -175,19 +179,20 @@
   #if($xwiki.isVirtualMode())
    "wiki"      : "$wiki",
    "wikiurl"   : "$!wikiurl",
-  #end
+  #end ## isVirtualMode
    "date"      : "$itemdate",
    "author"    : "$author",
    "authorpage" : "$!authorpage",
    "hasnewcom" : $hasnewcomm,
   #if($isattach)
    "filename"  : "$filename",
-  #end
+  #end ## isattach
    "hasadmin"  : $xwiki.hasAdminRights(),
    "copyurl"   : "$copy",
    "deleteurl" : "$delete",
    "renameurl" : "$rename",
    "rightsurl" : "$rights"
+   #end ## acclev
   }
 #end
 ]}

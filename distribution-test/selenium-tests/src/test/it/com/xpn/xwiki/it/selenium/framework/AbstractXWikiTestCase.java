@@ -125,7 +125,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     public void assertTextNotPresent(String text)
     {
-        assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));        
+        assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));
     }
 
     public void assertElementPresent(String elementLocator)
@@ -284,9 +284,9 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         getSkinExecutor().clearWysiwygContent();
     }
 
-    public void keyPressAndWait(String element, String keycode)
-        throws InterruptedException {
-        getSelenium().keyPress(element, keycode);       
+    public void keyPressAndWait(String element, String keycode) throws InterruptedException
+    {
+        getSelenium().keyPress(element, keycode);
         waitPage();
     }
 
@@ -387,11 +387,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     public String getUrl(String space, String doc, String action)
     {
-        return "/xwiki/bin/"+action+"/"+space+"/"+doc;
+        return "/xwiki/bin/" + action + "/" + space + "/" + doc;
     }
 
     public String getUrl(String space, String doc, String action, String param)
     {
-        return getUrl(space, doc, action)+"?"+param;
+        return getUrl(space, doc, action) + "?" + param;
     }
 }

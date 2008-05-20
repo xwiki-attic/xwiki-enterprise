@@ -78,8 +78,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         Assert.assertTrue("User wasn't authenticated.", isAuthenticated());
         getTest().clickLinkWithLocator("headerlogout");
-        Assert.assertFalse("The user is still authenticated after a logout.",
-            isAuthenticated());
+        Assert.assertFalse("The user is still authenticated after a logout.", isAuthenticated());
     }
 
     public void login(String username, String password, boolean rememberme)
@@ -237,14 +236,13 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     public void assertHTMLGeneratedByWysiwyg(String xpath) throws Exception
     {
         getTest().getSelenium().selectFrame("mce_editor_0");
-        Assert.assertTrue(
-            getTest().getSelenium().isElementPresent("xpath=/html/body/" + xpath));
+        Assert.assertTrue(getTest().getSelenium().isElementPresent("xpath=/html/body/" + xpath));
         getTest().getSelenium().selectFrame("relative=top");
     }
 
     public void assertGeneratedHTML(String xpath) throws Exception
     {
-        Assert.assertTrue(
-            getTest().getSelenium().isElementPresent("xpath=//div[@id='xwikicontent']/" + xpath));
+        Assert.assertTrue(getTest().getSelenium().isElementPresent(
+            "xpath=//div[@id='xwikicontent']/" + xpath));
     }
 }

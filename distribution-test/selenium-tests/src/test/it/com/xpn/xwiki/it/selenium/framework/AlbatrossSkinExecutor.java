@@ -44,6 +44,16 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         return this.test;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#clickEditPage()
+     */
+    public void clickEditPage()
+    {
+        getTest().clickLinkWithLocator("//a[string() = 'Edit']");
+    }
+
     public void clickDeletePage()
     {
         getTest().clickLinkWithLocator("//a[string() = 'Delete']");

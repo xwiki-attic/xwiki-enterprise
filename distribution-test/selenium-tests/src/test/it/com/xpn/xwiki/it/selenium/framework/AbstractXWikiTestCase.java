@@ -219,6 +219,16 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     // SkinExecutor methods
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#clickEditPage()
+     */
+    public void clickEditPage()
+    {
+        getSkinExecutor().clickEditPage();
+    }
+
     public void clickDeletePage()
     {
         getSkinExecutor().clickDeletePage();

@@ -28,6 +28,11 @@ package com.xpn.xwiki.it.selenium.framework;
 public interface SkinExecutor
 {
     /**
+     * Click on the Edit button leading to the default edit mode for the page.
+     */
+    void clickEditPage();
+
+    /**
      * Click on the Delete button leading to the page for deleting the current page.
      */
     void clickDeletePage();

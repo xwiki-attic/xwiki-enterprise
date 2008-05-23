@@ -56,7 +56,7 @@ public class XWikiLDAPConnectionTest extends TestCase
 
         assertTrue("LDAP connection failed", connection.open("localhost", port,
             XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD,
-            null, false));
+            null, false, context));
 
         connection.close();
     }

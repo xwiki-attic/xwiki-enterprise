@@ -80,7 +80,7 @@ public class XWikiLDAPUtilsTest extends TestCase
         int port = XWikiLDAPTestSetup.getLDAPPort();
 
         this.connection.open("localhost", port, XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN,
-            XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false);
+            XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, context);
     }
 
     /**

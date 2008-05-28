@@ -2,7 +2,7 @@ package com.xpn.xwiki.it;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.xwiki.component.manager.ComponentManager;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
@@ -15,6 +15,8 @@ import com.xpn.xwiki.it.framework.XWikiConfig;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
+import com.xpn.xwiki.test.AbstractXWikiComponentTestCase;
+import com.xpn.xwiki.web.Utils;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
@@ -22,7 +24,7 @@ import com.xpn.xwiki.web.XWikiEngineContext;
  * 
  * @version $Id: $
  */
-public class XWikiLDAPUtilsTest extends TestCase
+public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
 {
     /**
      * The name of the group cache.
@@ -40,20 +42,20 @@ public class XWikiLDAPUtilsTest extends TestCase
     private XWikiLDAPUtils ldapUtils = new XWikiLDAPUtils(connection);
 
     /**
-     * The XWiki context.
-     */
-    private XWikiContext context;
-
-    /**
      * {@inheritDoc}
      * 
      * @see junit.framework.TestCase#setUp()
      */
     public void setUp() throws Exception
     {
-        this.context = new XWikiContext();
+        // Statically store the component manager in {@link Utils} to be able to access it without
+        // the context.
+        // @FIXME : move this initialization in AbstractXWikiComponentTestCase.setUp() when
+        // shared-tests will depends on core 1.5 branch
+        Utils.setComponentManager((ComponentManager) getContext().get(
+            ComponentManager.class.getName()));
 
-        new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), this.context)
+        new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), getContext())
         {
             private XWikiCacheService cacheService;
 
@@ -80,7 +82,24 @@ public class XWikiLDAPUtilsTest extends TestCase
         int port = XWikiLDAPTestSetup.getLDAPPort();
 
         this.connection.open("localhost", port, XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN,
-            XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, context);
+            XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, getContext());
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see junit.framework.TestCase#tearDown()
+     */
+    public void tearDown() throws Exception
+    {
+        this.connection.close();
+
+        super.tearDown();
+
+        // Makes sure tests are independents as Utils's ComponentManager is a static
+        // @FIXME : move this initialization in AbstractXWikiComponentTestCase.setUp() when
+        // shared-tests will depends on core 1.5 branch
+        Utils.setComponentManager(null);
     }
 
     /**
@@ -103,8 +122,8 @@ public class XWikiLDAPUtilsTest extends TestCase
     public void testCache() throws XWikiException, XWikiCacheNeedsRefreshException,
         InterruptedException
     {
-        XWikiCache tmpCache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
-        XWikiCache cache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
+        XWikiCache tmpCache = this.ldapUtils.getCache(GROUPCACHE_NAME, getContext());
+        XWikiCache cache = this.ldapUtils.getCache(GROUPCACHE_NAME, getContext());
 
         assertSame("Cache is recreated", tmpCache, cache);
 
@@ -135,7 +154,7 @@ public class XWikiLDAPUtilsTest extends TestCase
     public void testGetGroupMembers() throws XWikiException
     {
         Map<String, String> members =
-            this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+            this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertFalse("No member was found", members.isEmpty());
 
@@ -143,7 +162,7 @@ public class XWikiLDAPUtilsTest extends TestCase
             .keySet()));
 
         Map<String, String> wrongGroupMembers =
-            this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);
+            this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", getContext());
 
         assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]",
             wrongGroupMembers);
@@ -158,7 +177,7 @@ public class XWikiLDAPUtilsTest extends TestCase
     {
         String userDN =
             this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID,
-                XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+                XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
@@ -167,27 +186,15 @@ public class XWikiLDAPUtilsTest extends TestCase
 
         userDN =
             this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID,
-                XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+                XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + XWikiLDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN, userDN);
 
         String wrongUserDN =
             this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN,
-                this.context);
+                getContext());
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
-    public void tearDown() throws Exception
-    {
-        this.connection.close();
-
-        super.tearDown();
     }
 }

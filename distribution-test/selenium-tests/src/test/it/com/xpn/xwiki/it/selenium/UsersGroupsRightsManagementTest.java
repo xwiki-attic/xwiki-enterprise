@@ -78,8 +78,10 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         getSelenium().click("//tbody/tr[td/a=\"NewGroup\"]/td[2]/img");
 
         // Give "comment" right to NewGroup on Main.WebHome page
+        getSelenium().setSpeed("1000");
         open("/xwiki/bin/view/Main/WebHome");
         clickLinkWithText("Page access rights");
+        getSelenium().setSpeed("0");
         getSelenium().click("uorg");
         getSelenium().click("//tbody/tr[td/a=\"NewGroup\"]/td[3]/img");
 
@@ -89,8 +91,10 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // FIXME : find a way to delete user using groups administration. See
         // #testCreateAndDeleteUser() for more.
+        getSelenium().setSpeed("1000");
         open("/xwiki/bin/view/XWiki/NewGroup");
         clickDeletePage();
+        getSelenium().setSpeed("0");
         clickLinkWithLocator("//input[@value='yes']");
 
         // Validate XWIKI-2304: When a user or a group is removed it's not removed from rights

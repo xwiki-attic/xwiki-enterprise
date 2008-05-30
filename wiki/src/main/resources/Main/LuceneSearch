@@ -187,16 +187,13 @@
 ## ---------------
 ## Query preparation
 ## ---------------
-#set($text = $request.getParameter("text"))
+#set($text = "$!request.getParameter('text')")
 #set($query = $text)
-#if(!$query)
-	#set($query = "")
-#end
+#set($utext = $util.encodeURI($query))
 #set($itemsPerPage = "30")
 ## ---------------
 ## RSS link
 ## ---------------
-#set($utext = $util.encodeURI($query))
 #if($space == "")
   #set($url = $xwiki.getURL($doc.fullName, "view", "xpage=rdf&amp;amp;text=${utext}" ))
 #else
@@ -211,7 +208,7 @@
 ## ---------------
 &lt;form action="$doc.name" method="get"&gt;
 &lt;div class="centered"&gt;
-Query &lt;input type="text" name="text" value="$query" /&gt; in space #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtualMode()) in wikis #wikinamesselect($util.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="Search"/&gt;
+Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&gt; in space #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtualMode()) in wikis #wikinamesselect($util.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="Search"/&gt;
 &lt;/div&gt;
 &lt;/form&gt;
 #end
@@ -330,12 +327,12 @@ Query &lt;input type="text" name="text" value="$query" /&gt; in space #spacesele
 ## ---------------
 {/pre}
 #warning("This is the new experimental Lucene search engine. \\
-        You can still use the XWiki [default search engine&gt;WebSearch?text=$query].")
+        You can still use the XWiki [default search engine&gt;WebSearch?text=$utext].")
 {pre}
 #end
 {/pre}
 #else ## !lucene exists
-#warning("The Lucene plugin is not enabled. You can use the XWiki [default search engine&gt;WebSearch?text=$query].")
+#warning("The Lucene plugin is not enabled. You can use the XWiki [default search engine&gt;WebSearch?text=$utext].")
 #end ## lucene exists
 </content>
 </xwikidoc>

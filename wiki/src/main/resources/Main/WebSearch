@@ -80,13 +80,9 @@
     #end
   &lt;/select&gt;
 #end
-
-#if($request.getParameter("text"))
-  #set($text = $request.getParameter("text"))
-#else
-  #set($text = "")
-#end
-
+##
+##
+#set($text = "$!request.getParameter('text')")
 #set($utext = $util.encodeURI($text))
 #if($space == "All")
   #set($url = $xwiki.getURL("Main.WebSearchRss", "view", "xpage=rdf&amp;amp;text=${utext}" ))
@@ -102,7 +98,7 @@
   {pre}
     &lt;div class="centered"&gt;
       Query
-      &lt;input type="text" name="text" value="$!text.replace("&gt;", "&amp;gt;").replace("&lt;", "&amp;lt;").replace('"', "&amp;quot;")" size="20"/&gt;
+      &lt;input type="text" name="text" value="$xwiki.getFormEncoded($!text)" size="20"/&gt;
       in space #spaceselect($space $spaces $spacesText) &lt;input type="submit" value="Search"/&gt;
     &lt;/div&gt;
   {/pre}
@@ -111,5 +107,5 @@
 #includeInContext("XWiki.WebSearchCode")
 #includeInContext("XWiki.Results")
 
-#info("You can also try the new experimental [Lucene Search&gt;Main.LuceneSearch?text=$text]. It adds scoring, searching into attachments and search paging. Please let us know what you think about it.")
+#info("You can also try the new experimental [Lucene Search&gt;Main.LuceneSearch?text=$!utext]. It adds scoring, searching into attachments and search paging. Please let us know what you think about it.")
 </content></xwikidoc>

@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>1.5-milestone-1</version>
+    <version>1.5-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-pgsql</artifactId>
   <name>XWiki Products - Enterprise - Distribution - PGSQL</name>

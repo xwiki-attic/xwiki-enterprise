@@ -48,6 +48,8 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
      */
     public void setUp() throws Exception
     {
+        super.setUp();
+        
         // Statically store the component manager in {@link Utils} to be able to access it without
         // the context.
         // @FIXME : move this initialization in AbstractXWikiComponentTestCase.setUp() when

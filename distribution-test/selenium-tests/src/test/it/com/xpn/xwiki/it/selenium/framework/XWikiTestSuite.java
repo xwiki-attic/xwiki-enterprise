@@ -42,6 +42,12 @@ import junit.framework.TestSuite;
  */
 public class XWikiTestSuite extends TestSuite
 {
+    /**
+     * The property that can be specified by users to only run some specified test from the
+     * TestCase class.
+     */
+    private static final String PATTERN_METHOD = ".*" + System.getProperty("patternMethod", "");
+
     public XWikiTestSuite(String name)
     {
         super(name);
@@ -70,7 +76,12 @@ public class XWikiTestSuite extends TestSuite
         Method[] methods = testClass.getMethods();
         for (int i = 0; i < methods.length; i++) {
             if (methods[i].getName().startsWith("test")) {
-                addSkinExecutorToTest(methods[i].getName(), testClass, skinExecutorClass);
+                // Only add test methods that matches the filter specified by the user who
+                // started the test. This is to allow running only a single test of a single
+                // TestCase class.
+                if (methods[i].getName().matches(PATTERN_METHOD)) {
+                    addSkinExecutorToTest(methods[i].getName(), testClass, skinExecutorClass);
+                }
             }
         }
     }

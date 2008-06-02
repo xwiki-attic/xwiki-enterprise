@@ -100,4 +100,29 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
         clickLinkWithText("Wiki");
         assertEquals("## comment", getFieldValue("content"));
     }
+
+    public void testAccentsInLinks() throws Exception
+    {
+        setFieldValue("content", "[\u00E9t\u00E9]");
+        clickLinkWithText("WYSIWYG");
+        clickLinkWithText("Wiki");
+        assertEquals("[\u00E9t\u00E9]", getFieldValue("content"));
+    }
+
+    public void testAccentsInLinks2() throws Exception
+    {
+        setFieldValue("content", "[test>\u00E9t\u00E9]");
+        clickLinkWithText("WYSIWYG");
+        clickLinkWithText("Wiki");
+        assertEquals("[test>\u00E9t\u00E9]", getFieldValue("content"));
+    }
+
+    public void testAccentsInLinks3() throws Exception
+    {
+        setFieldValue("content", "[\u00E9t\u00E9>test]");
+        clickLinkWithText("WYSIWYG");
+        clickLinkWithText("Wiki");
+        assertEquals("[\u00E9t\u00E9>test]", getFieldValue("content"));
+    }
+
 }

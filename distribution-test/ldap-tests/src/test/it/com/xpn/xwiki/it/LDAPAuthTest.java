@@ -54,8 +54,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Validate that it success to authenticate with LDAP user. Also the user id contains space
-     * character.
+     * Validate that it success to authenticate with LDAP user. Also the user id contains space character.
      */
     public void testLogAsLDAPUser()
     {
@@ -64,8 +63,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         checkField("rememberme");
         submit();
 
-        assertTrue(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " user has not been authenticated",
-            isAuthenticated());
+        assertTrue(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " user has not been authenticated", isAuthenticated());
 
         logout();
 
@@ -75,12 +73,9 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         loginAsAdmin();
 
         open("/xwiki/bin/edit/XWiki/XWikiPreferences?editor=object");
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_DN",
-            XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN);
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_pass",
-            XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD);
-        setFieldValue("XWiki.XWikiPreferences_0_ldap_UID_attr",
-            XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
+        setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_DN", XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN);
+        setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_pass", XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD);
+        setFieldValue("XWiki.XWikiPreferences_0_ldap_UID_attr", XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_fields_mapping", "name="
             + XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID
             + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
@@ -96,30 +91,33 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         checkField("rememberme");
         submit();
 
-        assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID + " user has not been authenticated",
-            isAuthenticated());
-        
+        assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID + " user has not been authenticated", isAuthenticated());
+
         // ///////////////////
-        // Validate 
-        //         - XWIKI-2205: case insensitive user uid
-        //         - XWIKI-2202: LDAP user update corrupt XWiki user page
-        
+        // Validate
+        // - XWIKI-2205: case insensitive user uid
+        // - XWIKI-2202: LDAP user update corrupt XWiki user page
+
         logout();
         clickLogin();
-        
+
         setFieldValue("j_username", XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED);
         setFieldValue("j_password", XWikiLDAPTestSetup.WILLIAMBUSH_PWD);
         checkField("rememberme");
         submit();
-        
-        assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED + " user has not been authenticated",
-            isAuthenticated());
+
+        assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED + " user has not been authenticated", isAuthenticated());
 
         // ///////////////////
         // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
 
         open("/xwiki/bin/view/XWiki/XWikiAdminGroup");
-        assertTextPresent("XWiki." + XWikiLDAPTestSetup.WILLIAMBUSH_UID);
+
+        String userFullName = "XWiki." + XWikiLDAPTestSetup.WILLIAMBUSH_UID;
+
+        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('" + userFullName + "') != -1;", "2000");
+
+        assertTextPresent(userFullName);
     }
 
     /**

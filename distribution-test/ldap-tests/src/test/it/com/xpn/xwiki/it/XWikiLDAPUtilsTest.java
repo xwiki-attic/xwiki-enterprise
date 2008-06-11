@@ -57,8 +57,8 @@ public class XWikiLDAPUtilsTest extends TestCase
         {
             private XWikiCacheService cacheService;
 
-            public void initXWiki(XWikiConfig config, XWikiContext context,
-                XWikiEngineContext enginecontext, boolean noupdate) throws XWikiException
+            public void initXWiki(XWikiConfig config, XWikiContext context, XWikiEngineContext enginecontext,
+                boolean noupdate) throws XWikiException
             {
                 context.setWiki(this);
                 setConfig(config);
@@ -88,20 +88,18 @@ public class XWikiLDAPUtilsTest extends TestCase
      */
     public void testGetUidAttributeName()
     {
-        assertSame("Wrong uid attribute name", XWikiLDAPTestSetup.LDAP_USERUID_FIELD,
-            this.ldapUtils.getUidAttributeName());
+        assertSame("Wrong uid attribute name", XWikiLDAPTestSetup.LDAP_USERUID_FIELD, this.ldapUtils
+            .getUidAttributeName());
     }
 
     /**
-     * check that the cache is not created each time it's retrieved and correctly handle refresh
-     * time.
+     * check that the cache is not created each time it's retrieved and correctly handle refresh time.
      * 
      * @throws XWikiException error when getting the cache.
      * @throws XWikiCacheNeedsRefreshException
      * @throws InterruptedException
      */
-    public void testCache() throws XWikiException, XWikiCacheNeedsRefreshException,
-        InterruptedException
+    public void testCache() throws XWikiException, XWikiCacheNeedsRefreshException, InterruptedException
     {
         XWikiCache tmpCache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
         XWikiCache cache = this.ldapUtils.getCache(GROUPCACHE_NAME, this.context);
@@ -131,22 +129,48 @@ public class XWikiLDAPUtilsTest extends TestCase
      * Test {@link XWikiLDAPUtils#getGroupMembers(String, XWikiContext)}.
      * 
      * @throws XWikiException error when getting group members from cache.
+     * @throws InterruptedException
      */
-    public void testGetGroupMembers() throws XWikiException
+    public void testGetGroupMembers() throws XWikiException, InterruptedException
     {
-        Map members =
-            this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+        Map members = this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
 
         assertFalse("No member was found", members.isEmpty());
 
-        assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members
-            .keySet()));
+        assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members.keySet()));
 
-        Map wrongGroupMembers =
-            this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);
+        // ///////////////////////////////////////////////////
+        // Validate that getGroupMembers return null when try to get non existing group members
 
-        assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]",
-            wrongGroupMembers);
+        Map wrongGroupMembers = this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);
+
+        assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]", wrongGroupMembers);
+
+        // ///////////////////////////////////////////////////
+        // Validate that getGroupMembers does not block when failing to get group members twice
+
+        Thread thread = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                try {
+                    ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", context);
+                } catch (XWikiException e) {
+                    // getGroupMembers should throw exception when it fail to get groups members
+                }
+            }
+        });
+
+        thread.start();
+       
+        thread.join(2000);
+
+        if (thread.isAlive()) {
+            thread.interrupt();
+
+            fail("getGroupMembers should not block when failing to get group members twice");
+        }
+
     }
 
     /**
@@ -157,24 +181,22 @@ public class XWikiLDAPUtilsTest extends TestCase
     public void testIsUserInGroup() throws XWikiException
     {
         String userDN =
-            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID,
-                XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID, XWikiLDAPTestSetup.HMSLYDIA_DN,
+                this.context);
 
         assertNotNull("User " + XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
 
         this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
-        
+
         userDN =
-            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID,
-                XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID, XWikiLDAPTestSetup.HMSLYDIA_DN,
+                this.context);
 
         assertNotNull("User " + XWikiLDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN, userDN);
 
-        String wrongUserDN =
-            this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN,
-                this.context);
+        String wrongUserDN = this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
     }

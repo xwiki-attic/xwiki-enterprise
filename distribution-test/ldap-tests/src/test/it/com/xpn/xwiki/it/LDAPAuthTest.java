@@ -118,6 +118,26 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         getSelenium().waitForCondition("selenium.page().bodyText().indexOf('" + userFullName + "') != -1;", "2000");
 
         assertTextPresent(userFullName);
+
+        // ///////////////////
+        // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
+
+        open("/xwiki/bin/view/XWiki/XWikiAdminGroup");
+        assertTextPresent("XWiki." + XWikiLDAPTestSetup.WILLIAMBUSH_UID);
+
+        // ///////////////////
+        // Validate
+        // - XWIKI-2264: LDAP authentication does not support "." in login names
+
+        logout();
+        clickLogin();
+
+        setFieldValue("j_username", XWikiLDAPTestSetup.USERWITHPOINTS_UID);
+        setFieldValue("j_password", XWikiLDAPTestSetup.USERWITHPOINTS_PWD);
+        checkField("rememberme");
+        submit();
+
+        assertTrue(XWikiLDAPTestSetup.USERWITHPOINTS_UID + " user has not been authenticated", isAuthenticated());
     }
 
     /**

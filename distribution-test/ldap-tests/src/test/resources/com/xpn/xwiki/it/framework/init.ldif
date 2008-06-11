@@ -59,6 +59,19 @@ uid: wbush
 mail: wbush@royalnavy.mod.uk
 userpassword: {SHA}nU4eI71bcnBGqeO0t9tXvY1u5oQ=
 
+dn: cn=User.With.Points,ou=people,o=sevenSeas
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+objectclass: top
+cn: User.With.Points
+description: User containing points in his uid
+givenname: User
+sn: With Points
+uid: user.with.points
+mail: user.with.points@royalnavy.mod.uk
+userpassword: {SHA}nU4eI71bcnBGqeO0t9tXvY1u5oQ=
+
 dn: cn=Thomas Quist,ou=people,o=sevenSeas
 objectclass: person
 objectclass: organizationalPerson

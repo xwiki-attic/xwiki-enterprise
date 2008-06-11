@@ -22,8 +22,8 @@ import junit.framework.Test;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
- * JUnit TestSetup extension that starts/stops embedded LDAP server and modify xwiki.cfg file to use
- * LDAP as authentication system. This class is meant to wrap a JUnit TestSuite. For example:
+ * JUnit TestSetup extension that starts/stops embedded LDAP server and modify xwiki.cfg file to use LDAP as
+ * authentication system. This class is meant to wrap a JUnit TestSuite. For example:
  * 
  * <pre><code>
  * public static Test suite()
@@ -55,22 +55,19 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The directory where is the instance of XWiki Enterprise used for theses tests.
      */
-    public static final String EXECUTION_DIRECTORY =
-        System.getProperty("xwikiExecutionDirectory");
+    public static final String EXECUTION_DIRECTORY = System.getProperty("xwikiExecutionDirectory");
 
     /**
      * The xwiki.cfg file used by the instance of XWiki Enterprise used for theses tests.
      */
-    public static final String XWIKI_CFG_FILE =
-        EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/xwiki.cfg";
+    public static final String XWIKI_CFG_FILE = EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/xwiki.cfg";
 
     // Somes datas examples
 
     /**
      * The LDAP DN of user Horatio Hornblower.
      */
-    public static final String HORATIOHORNBLOWER_DN =
-        "cn=Horatio Hornblower,ou=people,o=sevenSeas";
+    public static final String HORATIOHORNBLOWER_DN = "cn=Horatio Hornblower,ou=people,o=sevenSeas";
 
     /**
      * The LDAP password of user Horatio Hornblower.
@@ -101,6 +98,21 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * The LDAP unique id with mixed case of user William Bush.
      */
     public static final String WILLIAMBUSH_UID_MIXED = "wBush";
+
+    /**
+     * The LDAP DN of user User.With.Points.
+     */
+    public static final String USERWITHPOINTS_DN = "cn=User.With.Points,ou=people,o=sevenSeas";
+
+    /**
+     * The LDAP password of user William Bush.
+     */
+    public static final String USERWITHPOINTS_PWD = "pass";
+
+    /**
+     * The LDAP unique id of user William Bush.
+     */
+    public static final String USERWITHPOINTS_UID = "user.with.points";
 
     /**
      * The LDAP DN of group HMS Lydia.
@@ -165,16 +177,14 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", "localhost");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.base_DN", "o=sevenSeas");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN",
-            "cn={0},ou=people,o=sevenSeas");
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", "cn={0},ou=people,o=sevenSeas");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_pass", "{1}");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr", LDAP_USERUID_FIELD);
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name="
-            + LDAP_USERUID_FIELD
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name=" + LDAP_USERUID_FIELD
             + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
         /*
-         * CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping",
-         * "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
+         * CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.XWikiAdminGroup=cn=HMS
+         * Lydia,ou=crews,ou=groups,o=sevenSeas");
          */
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group",

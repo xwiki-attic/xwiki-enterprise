@@ -39,6 +39,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -65,8 +66,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         getSelenium().setCursorPosition("id=content", "26");
         clickWikiBoldButton();
         assertEquals("Failed to insert bold marker",
-            "Here follows a bold text: *Text in Bold*\nAnd some content after...",
-            getFieldValue("content"));
+            "Here follows a bold text: *Text in Bold*\nAnd some content after...", getFieldValue("content"));
         // TODO: We need to find out how to make a text selection in Selenium
     }
 
@@ -75,14 +75,13 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/WikiItalicsButton?editor=wiki");
         setFieldValue("content", "Here follows an italics text: ");
         clickWikiItalicsButton();
-        assertEquals("Failed to append italics marker",
-            "Here follows an italics text: ~~Text in Italics~~", getFieldValue("content"));
+        assertEquals("Failed to append italics marker", "Here follows an italics text: ~~Text in Italics~~",
+            getFieldValue("content"));
         setFieldValue("content", "Here follows an italics text: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "30");
         clickWikiItalicsButton();
         assertEquals("Failed to insert italics marker",
-            "Here follows an italics text: ~~Text in Italics~~\nAnd some content after...",
-            getFieldValue("content"));
+            "Here follows an italics text: ~~Text in Italics~~\nAnd some content after...", getFieldValue("content"));
         // TODO: We need to find out how to make a text selection in Selenium
     }
 
@@ -91,8 +90,8 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/WikiUnderlineButton?editor=wiki");
         setFieldValue("content", "Here follows an underlined text: ");
         clickWikiUnderlineButton();
-        assertEquals("Failed to append underline marker",
-            "Here follows an underlined text: __Text in Underline__", getFieldValue("content"));
+        assertEquals("Failed to append underline marker", "Here follows an underlined text: __Text in Underline__",
+            getFieldValue("content"));
         setFieldValue("content", "Here follows an underlined text: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "33");
         clickWikiUnderlineButton();
@@ -107,13 +106,11 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/WikiLinkButton?editor=wiki");
         setFieldValue("content", "Here follows a link: ");
         clickWikiLinkButton();
-        assertEquals("Failed to append link marker", "Here follows a link: [Link Example]",
-            getFieldValue("content"));
+        assertEquals("Failed to append link marker", "Here follows a link: [Link Example]", getFieldValue("content"));
         setFieldValue("content", "Here follows a link: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "21");
         clickWikiLinkButton();
-        assertEquals("Failed to insert link marker",
-            "Here follows a link: [Link Example]\nAnd some content after...",
+        assertEquals("Failed to insert link marker", "Here follows a link: [Link Example]\nAnd some content after...",
             getFieldValue("content"));
         // TODO: We need to find out how to make a text selection in Selenium
     }
@@ -123,13 +120,12 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/WikiHRButton?editor=wiki");
         setFieldValue("content", "Here follows a ruler: ");
         clickWikiHRButton();
-        assertEquals("Failed to append ruler marker", "Here follows a ruler: \n----\n",
-            getFieldValue("content"));
+        assertEquals("Failed to append ruler marker", "Here follows a ruler: \n----\n", getFieldValue("content"));
         setFieldValue("content", "Here follows a ruler: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "22");
         clickWikiHRButton();
-        assertEquals("Failed to insert ruler marker",
-            "Here follows a ruler: \n----\n\nAnd some content after...", getFieldValue("content"));
+        assertEquals("Failed to insert ruler marker", "Here follows a ruler: \n----\n\nAnd some content after...",
+            getFieldValue("content"));
     }
 
     public void testImageButton()
@@ -137,14 +133,13 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/WikiImageButton?editor=wiki");
         setFieldValue("content", "Here follows an image: ");
         clickWikiImageButton();
-        assertEquals("Failed to append image marker",
-            "Here follows an image: {image:example.jpg}", getFieldValue("content"));
+        assertEquals("Failed to append image marker", "Here follows an image: {image:example.jpg}",
+            getFieldValue("content"));
         setFieldValue("content", "Here follows an image: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "23");
         clickWikiImageButton();
         assertEquals("Failed to insert image marker",
-            "Here follows an image: {image:example.jpg}\nAnd some content after...",
-            getFieldValue("content"));
+            "Here follows an image: {image:example.jpg}\nAnd some content after...", getFieldValue("content"));
         // TODO: We need to find out how to make a text selection in Selenium
     }
 
@@ -153,8 +148,8 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/WikiSignatureButton?editor=wiki");
         setFieldValue("content", "Here follows a signature: ");
         clickWikiSignatureButton();
-        assertEquals("Failed to append signature marker",
-            "Here follows a signature: #sign(\"XWiki.Admin\")sigtext", getFieldValue("content"));
+        assertEquals("Failed to append signature marker", "Here follows a signature: #sign(\"XWiki.Admin\")sigtext",
+            getFieldValue("content"));
         setFieldValue("content", "Here follows a signature: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "26");
         clickWikiSignatureButton();

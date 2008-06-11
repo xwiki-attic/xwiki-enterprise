@@ -39,6 +39,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -52,7 +53,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
         assertTextPresent("A nice company");
     }
-    
+
     public void testEditButtonTriggersInlineEditing()
     {
         open("/xwiki/bin/view/XWiki/Admin");
@@ -94,5 +95,17 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/inline/XWiki/Admin");
         clickEditSaveAndView();
         assertTextPresent("Welcome to your wiki");
+    }
+
+    /* See XWIKI-2199 */
+    public void testInlineEditPreservesTags()
+    {
+        open("/xwiki/bin/save/XWiki/Admin?tags=tag1|tag2");
+        open("/xwiki/bin/edit/XWiki/Admin?editor=wiki");
+        assertTrue("tag1|tag2".equals(getSelenium().getValue("tags")));
+        open("/xwiki/bin/inline/XWiki/Admin");
+        clickEditSaveAndView();
+        open("/xwiki/bin/edit/XWiki/Admin?editor=wiki");
+        assertTrue("tag1|tag2".equals(getSelenium().getValue("tags")));
     }
 }

@@ -159,6 +159,9 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         // TODO: We need to find out how to make a text selection in Selenium
     }
 
+    /**
+     * See XWIKI-1007
+     */
     public void testEmptyContent()
     {
         open("/xwiki/bin/edit/Test/EmptyWikiContent?editor=wiki");

@@ -158,4 +158,20 @@ public class WikiEditorTest extends AbstractXWikiTestCase
             getFieldValue("content"));
         // TODO: We need to find out how to make a text selection in Selenium
     }
+
+    public void testEmptyContent()
+    {
+        open("/xwiki/bin/edit/Test/EmptyWikiContent?editor=wiki");
+        setFieldValue("content", "this is some content");
+        clickEditSaveAndView();
+        assertFalse(getSelenium().isAlertPresent());
+        assertEquals(-1, getSelenium().getLocation().indexOf("/edit/"));
+        assertTextPresent("this is some content");
+        open("/xwiki/bin/edit/Test/EmptyWikiContent?editor=wiki");
+        setFieldValue("content", "");
+        clickEditSaveAndView();
+        assertFalse(getSelenium().isAlertPresent());
+        assertEquals(-1, getSelenium().getLocation().indexOf("/edit/"));
+        assertTextNotPresent("this is some content");
+    }
 }

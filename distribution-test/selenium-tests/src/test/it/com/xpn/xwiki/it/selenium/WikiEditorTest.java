@@ -160,7 +160,8 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     }
 
     /**
-     * See XWIKI-1007
+     * Tests that users can completely remove the content from a document (make the document empty). In previous
+     * versions (pre-1.5M2), removing all content in page had no effect. See XWIKI-1007.
      */
     public void testEmptyDocumentContentIsAllowed()
     {

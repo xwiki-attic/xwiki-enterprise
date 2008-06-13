@@ -19,11 +19,11 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Verify the Users, Groups and Rights Management features of XWiki.
@@ -56,14 +56,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      */
     public void testCreateAndDeleteGroup()
     {
-        clickLinkWithText("Administration");
-        clickLinkWithText("Groups");
-        clickLinkWithText("Add new group", false);
-        // Wait for lightbox
-        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Create new group') != -1;", "2000");
-        setFieldValue("newgroupi", "NewGroup");
-        getSelenium().click("//input[@value='Create group']");
-        getSelenium().waitForPageToLoad("10000");
+        createGroup("NewGroup");
 
         // Validate that group has been created.
         assertTextPresent("NewGroup");
@@ -88,14 +81,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         //
         // Delete the newly created group and see if rights are cleaned
         //
-
-        // FIXME : find a way to delete user using groups administration. See
-        // #testCreateAndDeleteUser() for more.
-        getSelenium().setSpeed("1000");
-        open("/xwiki/bin/view/XWiki/NewGroup");
-        clickDeletePage();
-        getSelenium().setSpeed("0");
-        clickLinkWithLocator("//input[@value='yes']");
+        deleteGroup("NewGroup");
 
         // Validate XWIKI-2304: When a user or a group is removed it's not removed from rights
         // objects
@@ -132,20 +118,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      */
     public void testCreateAndDeleteUser()
     {
-        // Create the new user
-        clickLinkWithText("Administration");
-        clickLinkWithText("Users");
-        clickLinkWithText("Add new user", false);
-        // Wait for lightbox
-        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Registration') != -1;", "2000");
-        setFieldValue("register_first_name", "New");
-        setFieldValue("register_last_name", "User");
-        setFieldValue("xwikiname", "NewUser");
-        setFieldValue("register_password", "NewUser");
-        setFieldValue("register2_password", "NewUser");
-        setFieldValue("register_email", "new.user@xwiki.org");
-        getSelenium().click("//input[@value='Save']");
-        waitPage();
+        createUser("NewUser", "NewUser");
 
         // Verify that the user is present in the table
         assertTextPresent("NewUser");
@@ -156,6 +129,102 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // Delete the newly created user and see if groups are cleaned
 
+        deleteUser("NewUser");
+
+        // Verify that when a user is removed he's removed from the groups he belongs to.
+        open("/xwiki/bin/view/XWiki/XWikiAllGroup");
+        assertTextNotPresent("XWiki.NewUser");
+    }
+
+    /**
+     *  Validate group rights.
+     *  Validate XWIKI-2375: Group and user access rights problem with a name which includes space characters
+     */
+    public void testGroupRights()
+    {
+        String username = "TestUser";
+        String groupname = "Test Group";
+        createUser(username, username);
+        createGroup(groupname);
+
+        addUserToGroup(username, groupname);
+
+        open(getUrl("Test", "Test", "edit", "editor=wiki&force=1"));
+        setFieldValue("content", "some content");
+        clickEditSaveAndView();
+
+        // deny view right to group
+        open(getUrl("Test", "Test", "edit", "editor=rights"));
+        getSelenium().click("uorg");
+        getSelenium().click("//tbody/tr[td/a=\""+groupname+"\"]/td[2]/img");
+        getSelenium().click("//tbody/tr[td/a=\""+groupname+"\"]/td[2]/img");        
+
+        // admin can view
+        open(getUrl("Test", "Test"));
+        assertTextPresent("some content");
+
+        // but user cannot
+        login(username, username, false);
+        open(getUrl("Test", "Test"));
+        assertTextPresent("not allowed");
+
+        // cleanup
+        loginAsAdmin();
+        open(getUrl("Test", "Test"));
+        clickDeletePage();
+        clickLinkWithLocator("//input[@value='yes']");
+        deleteUser(username);
+        deleteGroup(groupname);
+    }
+    
+    // helper methods
+    
+    void createGroup(String groupname)
+    {
+        clickLinkWithText("Administration");
+        clickLinkWithText("Groups");
+        clickLinkWithText("Add new group", false);
+        // Wait for lightbox
+        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Create new group') != -1;", "2000");
+        setFieldValue("newgroupi", groupname);
+        getSelenium().click("//input[@value='Create group']");
+        getSelenium().waitForPageToLoad("10000");
+    }
+
+    void deleteGroup(String groupname)
+    {
+        // FIXME : find a way to delete user using groups administration. See
+        // #testCreateAndDeleteUser() for more.
+        getSelenium().setSpeed("1000");
+        open(getUrl("XWiki", groupname));
+        clickDeletePage();
+        getSelenium().setSpeed("0");
+        clickLinkWithLocator("//input[@value='yes']");        
+    }
+
+    void createUser(String login, String pwd)
+    {
+        // Create the new user
+        clickLinkWithText("Administration");
+        clickLinkWithText("Users");
+        clickLinkWithText("Add new user", false);
+        // Wait for lightbox
+        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('Registration') != -1;", "2000");
+        setFieldValue("register_first_name", "New");
+        setFieldValue("register_last_name", "User");
+        setFieldValue("xwikiname", login);
+        setFieldValue("register_password", pwd);
+        setFieldValue("register2_password", pwd);
+        setFieldValue("register_email", "new.user@xwiki.org");
+        getSelenium().click("//input[@value='Save']");
+        waitPage();
+
+        // Verify that the user is present in the table
+        assertTextPresent(login);
+    }
+
+    void deleteUser(String login)
+    {
         // FIXME: this is the code that should be use to delete a user but I can't makes it works
         // (the popup does not show up)
         // clickLinkWithText("Administration");
@@ -166,12 +235,19 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // FIXME: find a way to delete user using users administration. See previous commented
         // code.
-        open("/xwiki/bin/view/XWiki/NewUser");
+        open(getUrl("XWiki", login));
         clickDeletePage();
         clickLinkWithLocator("//input[@value='yes']");
+    }
 
-        // Verify that when a user is removed he's removed from the groups he belongs to.
-        open("/xwiki/bin/view/XWiki/XWikiAllGroup");
-        assertTextNotPresent("XWiki.NewUser");
+    void addUserToGroup(String user, String group)
+    {
+        clickLinkWithText("Administration");
+        clickLinkWithText("Groups");
+        
+        getSelenium().click("//tbody/tr[td/a=\""+group+"\"]/td[3]/img[@title=\"Edit\"]");
+        setFieldValue("userSuggest", "XWiki."+user);
+        clickLinkWithLocator("addNewUser", false);
+        clickLinkWithLocator("lb-close");  
     }
 }

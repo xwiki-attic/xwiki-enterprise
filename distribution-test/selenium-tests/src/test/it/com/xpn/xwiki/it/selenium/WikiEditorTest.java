@@ -162,14 +162,11 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     /**
      * See XWIKI-1007
      */
-    public void testEmptyContent()
+    public void testEmptyDocumentContentIsAllowed()
     {
         open("/xwiki/bin/edit/Test/EmptyWikiContent?editor=wiki");
         setFieldValue("content", "this is some content");
         clickEditSaveAndView();
-        assertFalse(getSelenium().isAlertPresent());
-        assertEquals(-1, getSelenium().getLocation().indexOf("/edit/"));
-        assertTextPresent("this is some content");
         open("/xwiki/bin/edit/Test/EmptyWikiContent?editor=wiki");
         setFieldValue("content", "");
         clickEditSaveAndView();

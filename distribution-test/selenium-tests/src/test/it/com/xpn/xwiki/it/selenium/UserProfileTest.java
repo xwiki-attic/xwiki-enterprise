@@ -48,7 +48,7 @@ public class UserProfileTest extends AbstractXWikiTestCase {
 
     public void testChangePasswordWithTwoDifferentPasswords()
     {
-        clickLinkWithText("Change password");
+        clickLinkWithText("Change your password");
         setFieldValue("xwikipassword", "p1");
         setFieldValue("xwikipassword2", "p2");
         clickLinkWithXPath("//input[@type='submit']", false);
@@ -58,6 +58,18 @@ public class UserProfileTest extends AbstractXWikiTestCase {
 
     public void testChangePasswordWithoutEnteringPasswords()
     {
+        clickLinkWithText("Change your password");
+        clickLinkWithXPath("//input[@type='submit']", false);
+        assertTrue(getSelenium().isAlertPresent());
+        assertEquals("The password cannot be empty.", getSelenium().getAlert());
+    }
+
+    public void testChangePasswordOfAnotherUserWithTwoDifferentPasswords()
+    {
+        open("/xwiki/bin/register/XWiki/Register?register_first_name=Test&register_last_name=User&xwikiname=TestUser" +
+                "&register_password=test&register2_password=test&register_email=test@test.com" +
+                "&template=XWiki.XWikiUserTemplate&register=1");
+        open(getUrl("XWiki", "TestUser"));
         clickLinkWithText("Change password");
         clickLinkWithXPath("//input[@type='submit']", false);
         assertTrue(getSelenium().isAlertPresent());

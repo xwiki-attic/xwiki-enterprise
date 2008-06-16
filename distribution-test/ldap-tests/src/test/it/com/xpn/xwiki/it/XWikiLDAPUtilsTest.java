@@ -2,15 +2,16 @@ package com.xpn.xwiki.it;
 
 import java.util.Map;
 
+import org.xwiki.cache.Cache;
+import org.xwiki.cache.CacheException;
+import org.xwiki.cache.CacheFactory;
+import org.xwiki.cache.config.CacheConfiguration;
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.component.manager.ComponentManager;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
-import com.xpn.xwiki.cache.api.XWikiCache;
-import com.xpn.xwiki.cache.api.XWikiCacheNeedsRefreshException;
-import com.xpn.xwiki.cache.api.XWikiCacheService;
-import com.xpn.xwiki.cache.impl.OSCacheService;
 import com.xpn.xwiki.it.framework.XWikiConfig;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
@@ -42,6 +43,11 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
     private XWikiLDAPUtils ldapUtils = new XWikiLDAPUtils(connection);
 
     /**
+     * The XWiki context.
+     */
+    private XWikiContext context;
+
+    /**
      * {@inheritDoc}
      * 
      * @see junit.framework.TestCase#setUp()
@@ -49,18 +55,15 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        
+
         // Statically store the component manager in {@link Utils} to be able to access it without
         // the context.
         // @FIXME : move this initialization in AbstractXWikiComponentTestCase.setUp() when
         // shared-tests will depends on core 1.5 branch
-        Utils.setComponentManager((ComponentManager) getContext().get(
-            ComponentManager.class.getName()));
+        Utils.setComponentManager((ComponentManager) getContext().get(ComponentManager.class.getName()));
 
         new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), getContext())
         {
-            private XWikiCacheService cacheService;
-
             public void initXWiki(com.xpn.xwiki.XWikiConfig config, XWikiContext context,
                 XWikiEngineContext enginecontext, boolean noupdate) throws XWikiException
             {
@@ -68,11 +71,19 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
                 setConfig(config);
             }
 
-            public XWikiCacheService getCacheService()
+            @Override
+            public CacheFactory getCacheFactory()
             {
-                if (this.cacheService == null) {
-                    cacheService = new OSCacheService();
-                    cacheService.init(this);
+                CacheFactory cacheService = null;
+
+                try {
+                    cacheService = (CacheFactory) getComponentManager().lookup(CacheFactory.ROLE);
+                } catch (ComponentLookupException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }
 
                 return cacheService;
@@ -109,43 +120,26 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
      */
     public void testGetUidAttributeName()
     {
-        assertSame("Wrong uid attribute name", XWikiLDAPTestSetup.LDAP_USERUID_FIELD,
-            this.ldapUtils.getUidAttributeName());
+        assertSame("Wrong uid attribute name", XWikiLDAPTestSetup.LDAP_USERUID_FIELD, this.ldapUtils
+            .getUidAttributeName());
     }
 
     /**
-     * check that the cache is not created each time it's retrieved and correctly handle refresh
-     * time.
+     * check that the cache is not created each time it's retrieved and correctly handle refresh time.
      * 
      * @throws XWikiException error when getting the cache.
      * @throws XWikiCacheNeedsRefreshException
      * @throws InterruptedException
+     * @throws CacheException
      */
-    public void testCache() throws XWikiException, XWikiCacheNeedsRefreshException,
-        InterruptedException
+    public void testCache() throws XWikiException, InterruptedException, CacheException
     {
-        XWikiCache tmpCache = this.ldapUtils.getCache(GROUPCACHE_NAME, getContext());
-        XWikiCache cache = this.ldapUtils.getCache(GROUPCACHE_NAME, getContext());
+        CacheConfiguration cacheConfigurationGroups = new CacheConfiguration();
+
+        Cache<Map<String, String>> tmpCache = this.ldapUtils.getCache(cacheConfigurationGroups, this.context);
+        Cache<Map<String, String>> cache = this.ldapUtils.getCache(cacheConfigurationGroups, this.context);
 
         assertSame("Cache is recreated", tmpCache, cache);
-
-        cache.putInCache("key", "value");
-
-        String value = (String) cache.getFromCache("key");
-
-        assertEquals("Value retrieved from cache is wrong", "value", value);
-
-        // Wait at least 1 second because the refresh time is provided in seconds in {@link
-        // XWikiCache#getFromCache(String, int)}.
-        Thread.sleep(1000);
-
-        try {
-            value = (String) cache.getFromCache("key", 1);
-            fail("Should have thrown " + XWikiCacheNeedsRefreshException.class
-                + " exception because object has been added to the cache more than 1 second ago.");
-        } catch (XWikiCacheNeedsRefreshException expected) {
-            // OK : means the retrieved value is "older" than 1 second.
-        }
     }
 
     /**
@@ -155,19 +149,16 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
      */
     public void testGetGroupMembers() throws XWikiException
     {
-        Map<String, String> members =
-            this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
+        Map<String, String> members = this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
 
         assertFalse("No member was found", members.isEmpty());
 
-        assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members
-            .keySet()));
+        assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members.keySet()));
 
         Map<String, String> wrongGroupMembers =
-            this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", getContext());
+            this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);
 
-        assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]",
-            wrongGroupMembers);
+        assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]", wrongGroupMembers);
     }
 
     /**
@@ -178,8 +169,8 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
     public void testIsUserInGroup() throws XWikiException
     {
         String userDN =
-            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID,
-                XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
+            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID, XWikiLDAPTestSetup.HMSLYDIA_DN,
+                this.context);
 
         assertNotNull("User " + XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
@@ -187,15 +178,13 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
         this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
 
         userDN =
-            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID,
-                XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
+            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID, XWikiLDAPTestSetup.HMSLYDIA_DN,
+                this.context);
 
         assertNotNull("User " + XWikiLDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN, userDN);
 
-        String wrongUserDN =
-            this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN,
-                getContext());
+        String wrongUserDN = this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
     }

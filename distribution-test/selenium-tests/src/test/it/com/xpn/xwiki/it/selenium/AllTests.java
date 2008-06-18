@@ -68,6 +68,7 @@ public class AllTests extends TestCase
         addTestCase(suite, AllDocsTest.class);
         addTestCase(suite, AccordionsTest.class);
         addTestCase(suite, UrlMiscTest.class);
+        addTestCase(suite, ValidationTest.class);
 
         return new XWikiTestSetup(suite);
     }

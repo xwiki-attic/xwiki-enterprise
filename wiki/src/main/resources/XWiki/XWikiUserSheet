@@ -78,7 +78,7 @@
   ##------------------------------------------------------------------
   #set($i = $context.user.indexOf(":")+1)
   #set($isMyProfile = ($doc.fullName == $context.user.substring($i)) &amp;&amp; ($context.action == "view"))
-  #if($isMyprofile || $xwiki.hasAdminRights())
+  #if($isMyProfile || $xwiki.hasAdminRights())
     #if($isMyProfile)
       #set($msgKeyEditSuffix = ".mine")
     #end

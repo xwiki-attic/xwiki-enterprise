@@ -40,12 +40,21 @@ public class DeletePageTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+        loginAsAdmin();
+    }
+
     public void testDeleteOkWhenConfirming()
     {
-        logInAndCreatePageToBeDeleted("DeleteTest");
+        createPage("Test", "DeleteTest", "some content");
         clickDeletePage();
-        clickLinkWithLocator("//input[@value='yes']");
 
+        // This tests for regression of XWIKI-1388
+        assertTrue("The interface should not show the user as logged out while deleting page", isAuthenticated());
+        
+        clickLinkWithLocator("//input[@value='yes']");
         assertTextPresent("The document has been deleted.");
     }
 
@@ -55,8 +64,8 @@ public class DeletePageTest extends AbstractXWikiTestCase
      */
     public void testDeletePageCanSkipConfirmationAndDoARedirect()
     {
-        logInAndCreatePageToBeDeleted("DeleteTest");
-        open("/xwiki/bin/delete/Test/DeleteTest?confirm=1&xredirect=/xwiki/bin/view/Main/");
+        createPage("Test", "DeleteTest", "some content");
+        open("Test", "DeleteTest", "delete", "confirm=1&xredirect=" + getUrl("Main", "WebHome"));
         assertPage("Main", "WebHome");
     }
 
@@ -66,8 +75,8 @@ public class DeletePageTest extends AbstractXWikiTestCase
      */
     public void testDeletePageCanDoRedirect()
     {
-        logInAndCreatePageToBeDeleted("DeleteTest");
-        open("/xwiki/bin/delete/Test/DeleteTest?xredirect=/xwiki/bin/view/Main/");
+        createPage("Test", "DeleteTest", "some content");
+        open("Test", "DeleteTest", "delete", "xredirect=" + getUrl("Main", "WebHome"));
         clickLinkWithLocator("//input[@value='yes']");
         assertPage("Main", "WebHome");
     }
@@ -78,23 +87,23 @@ public class DeletePageTest extends AbstractXWikiTestCase
      */
     public void testDeletePageGoesToOriginalPageWhenCancelled()
     {
-        logInAndCreatePageToBeDeleted("DeleteTestNoDelete");
+        createPage("Test", "DeleteTestNoDelete", "some content");
         // Note: We call the page with a unique name as we're not going to delete it and it should
         // not interefere with others tests. We could always remove the DeleteTest page before any
         // test but it would take longer.
-        open("/xwiki/bin/delete/Test/DeleteTestNoDelete");
+        open("Test", "DeleteTestNoDelete", "delete");
         clickLinkWithLocator("//input[@value='no']");
         assertPage("Test", "DeleteTestNoDelete");
     }
 
     public void testDeletePageIsImpossibleWhenNoDeleteRights()
     {
-        open("/xwiki/bin/view/Main/");
-
         // Ensure the user isn't logged in
         if (isAuthenticated()) {
             logout();
         }
+
+        open("Main", "WebHome");
 
         // Note: Ideally we should have tested for the non existence of the Delete button element.
         // However, in order to isolate skin implementation from the test this would have required
@@ -108,26 +117,5 @@ public class DeletePageTest extends AbstractXWikiTestCase
         } catch (AssertionFailedError expected) {
             assertTrue(expected.getMessage().endsWith("isn't present."));
         }
-    }
-
-    /**
-     * This tests for regression of XWIKI-1388
-     */
-    public void testInterfaceShouldNotShowUserAsLoggedOutWhileDeletingPage()
-    {
-        logInAndCreatePageToBeDeleted("DeleteTest");
-        clickDeletePage();
-
-        assertTrue("The interface should not show the user as logged out while deleting page",
-                isAuthenticated());
-    }
-
-    private void logInAndCreatePageToBeDeleted(String pageName)
-    {
-        loginAsAdmin();
-
-        open("/xwiki/bin/edit/Test/" + pageName + "?editor=wiki");
-        setFieldValue("content", "some content");
-        clickEditSaveAndView();
     }
 }

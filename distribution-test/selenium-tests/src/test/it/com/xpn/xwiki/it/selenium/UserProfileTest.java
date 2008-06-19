@@ -30,7 +30,8 @@ import junit.framework.Test;
  *
  * @version $Id: $
  */
-public class UserProfileTest extends AbstractXWikiTestCase {
+public class UserProfileTest extends AbstractXWikiTestCase
+{
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Different user profile tests");
@@ -43,7 +44,7 @@ public class UserProfileTest extends AbstractXWikiTestCase {
         super.setUp();
         loginAsAdmin();
 
-        open(getUrl("XWiki", "Admin"));
+        open("XWiki", "Admin");
     }
 
     public void testChangePasswordWithTwoDifferentPasswords()
@@ -66,10 +67,10 @@ public class UserProfileTest extends AbstractXWikiTestCase {
 
     public void testChangePasswordOfAnotherUserWithTwoDifferentPasswords()
     {
-        open("/xwiki/bin/register/XWiki/Register?register_first_name=Test&register_last_name=User&xwikiname=TestUser" +
-                "&register_password=test&register2_password=test&register_email=test@test.com" +
-                "&template=XWiki.XWikiUserTemplate&register=1");
-        open(getUrl("XWiki", "TestUser"));
+        open("XWiki", "Register", "register", "register_first_name=Test&register_last_name=User&xwikiname=TestUser"
+            + "&register_password=test&register2_password=test&register_email=test@test.com"
+            + "&template=XWiki.XWikiUserTemplate&register=1");
+        open("XWiki", "TestUser");
         clickLinkWithText("Change password");
         clickLinkWithXPath("//input[@type='submit']", false);
         assertTrue(getSelenium().isAlertPresent());

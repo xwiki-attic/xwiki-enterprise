@@ -47,15 +47,15 @@ public class AccordionsTest extends AbstractXWikiTestCase
 
     private void assertPaneOpened(String paneid)
     {
-        getSelenium().waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById('" + paneid + "').style.display == 'block'", "10000");
+        waitForCondition("selenium.browserbot.getCurrentWindow().document." +
+            "getElementById('" + paneid + "').style.display == 'block'");
         Assert.assertTrue(getSelenium().getElementHeight(paneid).intValue() > 0);
     }
 
     private void assertPaneClosed(String paneid)
     {
-        getSelenium().waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById('" + paneid + "').style.display == 'none'", "10000");
+        waitForCondition("selenium.browserbot.getCurrentWindow().document." +
+            "getElementById('" + paneid + "').style.display == 'none'");
         Assert.assertEquals(0, getSelenium().getElementHeight(paneid).intValue());
     }
 
@@ -68,8 +68,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
         getSelenium().setSpeed("500");
 
         // Preferences edit
-        open(getUrl("XWiki", "XWikiPreferences", "admin"));
-        waitPage();
+        open("XWiki", "XWikiPreferences", "admin");
         // Open Parameters pane and validate that its content is displayed in less than 2s
         assertPaneOpened("xwikiprefsparamsContent");
         // Open Skin pane
@@ -83,7 +82,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
         // TODO > 1.4M2, will need investigations before 1.4 final.
 
         // Class edit
-        // open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=class"));
+        // open("XWiki", "XWikiPreferences", "edit", "editor=class");
         // waitPage();
         // Open skin pane and validate that its content is displayed in less than 2s
         // assertPaneOpened("field_skin_content");
@@ -95,7 +94,7 @@ public class AccordionsTest extends AbstractXWikiTestCase
         // assertPaneOpened("field_ldap_trylocal_content");
 
         // Object edit
-        // open(getUrl("XWiki", "XWikiPreferences", "edit", "editor=object"));
+        // open("XWiki", "XWikiPreferences", "edit", "editor=object");
         // waitPage();
         // Open XWikiPreferences pane and validate that its content is displayed
         // getSelenium().click("field_XWiki.XWikiPreferences_0_title");

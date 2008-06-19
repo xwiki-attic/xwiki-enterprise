@@ -48,30 +48,30 @@ public class ValidationTest extends AbstractXWikiTestCase
 
     public void testSaveActionValidatesWhenXValidateIsPresent()
     {
-        open("/xwiki/bin/edit/Main/ValidatedClass?editor=class");
+        deletePage("Main", "ValidatedClass");
+        open("Main", "ValidatedClass", "edit", "editor=class");
         setFieldValue("propname", "prop");
         setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StringClass");
         submit("//input[@value='Add Property']");
         setFieldValue("prop_validationRegExp", "/^[0-4][0-2]$/");
         setFieldValue("prop_validationMessage", "invalid value for prop");
         clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/ValidatedObject?editor=wiki");
-        typeInWiki("value: $doc.display('prop')\n\n#foreach($e in $context.validationStatus.errors)$e #end");
-        clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/ValidatedObject?editor=object");
+        createPage("Main", "ValidatedObject",
+            "value: $doc.display('prop')\n\n#foreach($e in $context.validationStatus.errors)$e #end");
+        open("Main", "ValidatedObject", "edit", "editor=object");
         setFieldValue("classname", "Main.ValidatedClass");
         submit("//input[@value='Add Object from this Class']");
         setFieldValue("Main.ValidatedClass_0_prop", "22");
         clickEditSaveAndView();
-        open("/xwiki/bin/save/Main/ValidatedObject?xvalidate=1");
+        open("Main", "ValidatedObject", "save", "xvalidate=1");
         assertTextPresent("value: 22");
-        open("/xwiki/bin/edit/Main/ValidatedObject?editor=object");
+        open("Main", "ValidatedObject", "edit", "editor=object");
         setFieldValue("Main.ValidatedClass_0_prop", "44");
         clickEditSaveAndView();
-        open("/xwiki/bin/save/Main/ValidatedObject?xvalidate=1");
+        open("Main", "ValidatedObject", "save", "xvalidate=1");
         assertTextNotPresent("value: 44");
         assertTextPresent("invalid value for prop");
-        open("/xwiki/bin/save/Main/ValidatedObject?xvalidate=1&Main.ValidatedClass_0_prop=11");
+        open("Main", "ValidatedObject", "save", "xvalidate=1&Main.ValidatedClass_0_prop=11");
         assertTextPresent("value: 11");
     }
 }

@@ -48,9 +48,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testEmptyLineAndSpaceCharactersBeforeSectionTitleIsNotRemoved()
     {
-        open("/xwiki/bin/edit/Test/WikiEdit?editor=wiki");
-        setFieldValue("content", "\n  1.1 Section\n\ntext");
-        clickEditSaveAndView();
+        createPage("Test", "WikiEdit", "\n  1.1 Section\n\ntext");
         open("/xwiki/bin/edit/Test/WikiEdit?editor=wiki");
         assertEquals("\n  1.1 Section\n\ntext", getFieldValue("content"));
     }
@@ -165,9 +163,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
      */
     public void testEmptyDocumentContentIsAllowed()
     {
-        open("/xwiki/bin/edit/Test/EmptyWikiContent?editor=wiki");
-        setFieldValue("content", "this is some content");
-        clickEditSaveAndView();
+        createPage("Test", "EmptyWikiContent", "this is some content");
         open("/xwiki/bin/edit/Test/EmptyWikiContent?editor=wiki");
         setFieldValue("content", "");
         clickEditSaveAndView();

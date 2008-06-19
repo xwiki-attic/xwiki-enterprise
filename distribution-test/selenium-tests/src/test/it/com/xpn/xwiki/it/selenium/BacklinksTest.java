@@ -43,18 +43,14 @@ public class BacklinksTest extends AbstractXWikiTestCase
         loginAsAdmin();
 
         // Create page which will have a backlink to it
-        open("/xwiki/bin/edit/Test/BacklinkTargetTest?editor=wiki");
-        setFieldValue("content", "#foreach ($link in $doc.getBacklinks())\n"
+        createPage("Test", "BacklinkTargetTest", "#foreach ($link in $doc.getBacklinks())\n"
             + "$link\n"
             + "#end");
-        clickEditSaveAndView();
 
         // Create page pointing to the backlinked page
-        open("/xwiki/bin/edit/Test/BacklinkSourceTest?editor=wiki");
-        setFieldValue("content", "[backlink>Test.BacklinkTargetTest]");
-        clickEditSaveAndView();
+        createPage("Test", "BacklinkSourceTest", "[backlink>Test.BacklinkTargetTest]");
 
-        open("/xwiki/bin/view/Test/BacklinkTargetTest");
+        open("Test", "BacklinkTargetTest");
         assertEquals("Test.BacklinkSourceTest", getSelenium().getText("xwikicontent"));
     }
 }

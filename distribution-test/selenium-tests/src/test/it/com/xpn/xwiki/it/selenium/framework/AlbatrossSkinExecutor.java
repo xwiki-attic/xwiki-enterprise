@@ -81,7 +81,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public boolean isAuthenticated()
     {
-        return !(getTest().isElementPresent("headerlogin"));
+        return !getTest().isElementPresent("headerlogin") && !getTest().isElementPresent("headerregister");
     }
 
     public void logout()
@@ -93,7 +93,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void login(String username, String password, boolean rememberme)
     {
-        getTest().open("/xwiki/bin/view/Main/");
+        getTest().open("Main", "WebHome");
 
         if (isAuthenticated()) {
             logout();
@@ -113,7 +113,10 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void loginAsAdmin()
     {
-        login("Admin", "admin", false);
+        // First verify if the logged in user is not already the Administrator. That'll save us execution time.
+        if (!getTest().isElementPresent("//a[@id='headeruser' and contains(@href, 'XWiki/Admin')]")) {
+            login("Admin", "admin", false);
+        }
     }
 
     public void clickLogin()
@@ -157,8 +160,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void clearWysiwygContent()
     {
-        getTest().getSelenium().waitForCondition(
-            "selenium.browserbot.getCurrentWindow().tinyMCE.setContent(\"\"); true", "18000");
+        getTest().waitForCondition("selenium.browserbot.getCurrentWindow().tinyMCE.setContent(\"\"); true");
     }
 
     public void typeInWysiwyg(String text)
@@ -180,6 +182,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         getTest().getSelenium().shiftKeyDown();
         getTest().getSelenium().keyPress(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, "\\13");
+        getTest().getSelenium().shiftKeyUp();
     }
 
     public void clickWysiwygUnorderedListButton()
@@ -254,5 +257,10 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         Assert.assertTrue(getTest().getSelenium().isElementPresent(
             "xpath=//div[@id='xwikicontent']/" + xpath));
+    }
+
+    public void openAdministrationPage()
+    {
+        getTest().clickLinkWithLocator("headeradmin");
     }
 }

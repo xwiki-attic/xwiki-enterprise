@@ -38,28 +38,39 @@ public class WatchListTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    protected void tearDown()
+    {
+        // Restore XWiki.WatchListManager from the trash since it's been deleted by the tests below.
+        open("XWiki", "WatchListManager");
+        if (isElementPresent("link=Restore")) {
+            clickLinkWithLocator("link=Restore");
+            assertTextPresent("Watchlist for Administrator");
+        }
+    }
+
     public void testWatchThisPageAndWholeSpace()
     {
         loginAsAdmin();
 
+        // Clear the list of watched documents and spaces
+        open("XWiki", "Admin", "edit", "editor=object");
+        setFieldValue("XWiki.WatchListClass_0_spaces", "");
+        setFieldValue("XWiki.WatchListClass_0_documents", "");
+        clickEditSaveAndView();
+
         // Test if the email template document exists
-        open("/xwiki/bin/edit/XWiki/WatchListMessage?editor=object");
+        open("XWiki", "WatchListMessage", "edit", "editor=object");
         assertTextPresent("XWiki.Mail[0]");
 
         // Test if the watchlist manager document exists
-        open("/xwiki/bin/view/XWiki/WatchListManager");
-        assertTextPresent("Stay tuned");
+        assertTrue("Page XWiki.WatchListManager doesn't exist", isExistingPage("XWiki", "WatchListManager"));
 
         // Watch Test.TestWatchThisPage
-        open("/xwiki/bin/edit/Test/TestWatchThisPage?editor=wiki");
-        setFieldValue("content", "TestWatchThisPage selenium");
-        clickEditSaveAndView();
+        createPage("Test", "TestWatchThisPage", "TestWatchThisPage selenium");
         clickLinkWithText("Watch this page", false);
 
         // Watch TestWatchWholeSpace
-        open("/xwiki/bin/edit/TestWatchWholeSpace/Test1?editor=wiki");
-        setFieldValue("content", "TestWatchWholeSpace selenium");
-        clickEditSaveAndView();
+        createPage("TestWatchWholeSpace", "Test1", "TestWatchWholeSpace selenium");
         clickLinkWithText("Watch whole space", false);
 
         // Verify that the watched page & space are present in the watchlist manager
@@ -68,8 +79,9 @@ public class WatchListTest extends AbstractXWikiTestCase
         assertTextPresent("TestWatchWholeSpace");
 
         // XWIKI-2125
-        // Watchlist menu entry not present if XWiki.WatchListManager does not exists
-        open("/xwiki/bin/delete/XWiki/WatchListManager?confirm=1&xredirect=/xwiki/bin/view/Main/");
+        // Verify that the Watchlist menu entry is not present if XWiki.WatchListManager does not exists
+        // We start by copying
+        deletePage("XWiki", "WatchListManager");
         assertTextNotPresent("Manage your watchlist");
     }
 }

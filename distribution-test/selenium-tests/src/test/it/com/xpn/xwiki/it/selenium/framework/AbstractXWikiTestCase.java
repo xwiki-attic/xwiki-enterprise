@@ -20,10 +20,6 @@
 package com.xpn.xwiki.it.selenium.framework;
 
 import junit.framework.TestCase;
-
-import org.openqa.selenium.server.SeleniumServer;
-
-import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.Selenium;
 
 /**
@@ -33,11 +29,9 @@ import com.thoughtworks.selenium.Selenium;
  */
 public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 {
+    private static final int WAIT_TIME = 10000;
+    
     private SkinExecutor skinExecutor;
-
-    private static final String PORT = System.getProperty("xwikiPort", "8080");
-
-    private static final String BASE_URL = "http://localhost:" + PORT;
 
     private Selenium selenium;
 
@@ -58,22 +52,9 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         return this.skinExecutor;
     }
 
-    protected void setUp() throws Exception
+    public void setSelenium(Selenium selenium)
     {
-        super.setUp();
-
-        // Get the browser to test with from a System property set by the Maven2 build.
-        // Defaults to Firefox.
-        String browser = System.getProperty("browser", "*firefox");
-
-        this.selenium =
-            new DefaultSelenium("localhost", SeleniumServer.DEFAULT_PORT, browser, BASE_URL);
-        this.selenium.start();
-    }
-
-    protected void tearDown() throws Exception
-    {
-        getSelenium().stop();
+        this.selenium = selenium;
     }
 
     public Selenium getSelenium()
@@ -88,6 +69,21 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         getSelenium().open(url);
     }
 
+    public void open(String space, String page)
+    {
+        open(getUrl(space, page));
+    }
+
+    public void open(String space, String page, String action)
+    {
+        open(getUrl(space, page, action));
+    }
+
+    public void open(String space, String page, String action, String queryString)
+    {
+        open(getUrl(space, page, action, queryString));
+    }
+
     public String getTitle()
     {
         return getSelenium().getTitle();
@@ -96,6 +92,19 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     public void assertPage(String space, String page)
     {
         assertEquals("XWiki - " + space + " - " + page, getTitle());
+    }
+
+    public boolean isExistingPage(String space, String page)
+    {
+        String saveUrl = getSelenium().getLocation();
+
+        open(getUrl(space, page));
+        boolean exists = !getSelenium().isTextPresent("The requested document could not be found.");
+
+        // Restore original URL
+        open(saveUrl);
+
+        return exists; 
     }
 
     public void assertTitle(String title)
@@ -140,13 +149,27 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     public void waitPage()
     {
-        // TODO move magic number to property file?
-        waitPage(180000);
+        waitPage(WAIT_TIME);
     }
 
     public void waitPage(int nbMillisecond)
     {
         getSelenium().waitForPageToLoad(String.valueOf(nbMillisecond));
+    }
+
+    public void createPage(String space, String page, String content)
+    {
+        // If the page already exists, delete it first
+        deletePage(space, page);
+
+        editInWikiEditor(space, page);
+        setFieldValue("content", content);
+        clickEditSaveAndView();
+    }
+
+    public void deletePage(String space, String page)
+    {
+        open(space, page, "delete", "confirm=1");
     }
 
     public void clickLinkWithLocator(String locator)
@@ -217,7 +240,10 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         clickLinkWithLocator("xpath=" + xpath, wait);
     }
 
-    // SkinExecutor methods
+    public void waitForCondition(String condition)
+    {
+        getSelenium().waitForCondition(condition, "" + WAIT_TIME);
+    }
 
     /**
      * {@inheritDoc}
@@ -289,6 +315,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         getSkinExecutor().editInWysiwyg(space, page);
     }
 
+    public void editInWikiEditor(String space, String page)
+    {
+        open(space, page, "edit", "editor=wiki");
+    }
+    
     public void clearWysiwygContent()
     {
         getSkinExecutor().clearWysiwygContent();
@@ -390,6 +421,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         getSkinExecutor().assertGeneratedHTML(xpath);
     }
 
+    public void openAdministrationPage()
+    {
+        getSkinExecutor().openAdministrationPage();
+    }
+
     public String getUrl(String space, String doc)
     {
         return getUrl(space, doc, "view");
@@ -400,8 +436,8 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         return "/xwiki/bin/" + action + "/" + space + "/" + doc;
     }
 
-    public String getUrl(String space, String doc, String action, String param)
+    public String getUrl(String space, String doc, String action, String queryString)
     {
-        return getUrl(space, doc, action) + "?" + param;
+        return getUrl(space, doc, action) + "?" + queryString;
     }
 }

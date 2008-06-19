@@ -52,10 +52,7 @@ public class CacheTest extends AbstractXWikiTestCase
      */
     public void testDateClass()
     {
-        open("/xwiki/bin/edit/Main/TestDateClass?editor=wiki");
-        setFieldValue("content",
-            "$xwiki.flushCache()\n$xwiki.getDocument(\"Main.WebHome\").date.class");
-        clickEditSaveAndView();
+        createPage("Main", "TestDateClass", "$xwiki.flushCache()\n$xwiki.getDocument(\"Main.WebHome\").date.class");
         assertTextPresent("java.util.Date");
     }
 }

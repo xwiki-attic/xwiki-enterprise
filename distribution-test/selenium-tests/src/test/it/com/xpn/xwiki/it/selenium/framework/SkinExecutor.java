@@ -214,4 +214,9 @@ public interface SkinExecutor
      * @throws Exception in case of a XPath parsing exception
      */
     void assertGeneratedHTML(String xpath) throws Exception;
+
+    /**
+     * Opens the Administration page.
+     */
+    void openAdministrationPage();
 }

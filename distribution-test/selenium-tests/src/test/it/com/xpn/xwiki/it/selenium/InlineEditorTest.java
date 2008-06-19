@@ -48,7 +48,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
 
     public void testBasicInlineEditing()
     {
-        open("/xwiki/bin/inline/XWiki/Admin");
+        open("XWiki", "Admin", "inline");
         setFieldValue("XWiki.XWikiUsers_0_company", "A nice company");
         clickEditSaveAndView();
         assertTextPresent("A nice company");
@@ -56,7 +56,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
 
     public void testEditButtonTriggersInlineEditing()
     {
-        open("/xwiki/bin/view/XWiki/Admin");
+        open("XWiki", "Admin");
         clickEditPage();
         assertElementPresent("XWiki.XWikiUsers_0_last_name");
     }
@@ -64,7 +64,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     /* See XE-168 */
     public void testInlineEditCanChangeTitle()
     {
-        open("/xwiki/bin/inline/XWiki/Admin?title=The%20Powerful%20Admin");
+        open("XWiki", "Admin", "inline", "title=The%20Powerful%20Admin");
         clickEditSaveAndView();
         assertTextPresent("The Powerful Admin");
     }
@@ -72,9 +72,9 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     /* See XWIKI-2389 */
     public void testInlineEditPreservesTitle()
     {
-        open("/xwiki/bin/save/XWiki/Admin?title=The%20Powerful%20Admin");
+        open("XWiki", "Admin", "save", "title=The%20Powerful%20Admin");
         assertTextPresent("The Powerful Admin");
-        open("/xwiki/bin/inline/XWiki/Admin");
+        open("XWiki", "Admin", "inline");
         clickEditSaveAndView();
         assertTextPresent("The Powerful Admin");
     }
@@ -82,7 +82,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     /* See XE-168 */
     public void testInlineEditCanChangeParent()
     {
-        open("/xwiki/bin/inline/XWiki/Admin?parent=Main.WebHome");
+        open("XWiki", "Admin", "inline", "parent=Main.WebHome");
         clickEditSaveAndView();
         assertTextPresent("Welcome to your wiki");
     }
@@ -90,9 +90,9 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     /* See XWIKI-2389 */
     public void testInlineEditPreservesParent()
     {
-        open("/xwiki/bin/save/XWiki/Admin?parent=Main.WebHome");
+        open("XWiki", "Admin", "save", "parent=Main.WebHome");
         assertTextPresent("Welcome to your wiki");
-        open("/xwiki/bin/inline/XWiki/Admin");
+        open("XWiki", "Admin", "inline");
         clickEditSaveAndView();
         assertTextPresent("Welcome to your wiki");
     }
@@ -100,12 +100,12 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     /* See XWIKI-2199 */
     public void testInlineEditPreservesTags()
     {
-        open("/xwiki/bin/save/XWiki/Admin?tags=tag1|tag2");
-        open("/xwiki/bin/edit/XWiki/Admin?editor=wiki");
+        open("XWiki", "Admin", "save", "tags=tag1|tag2");
+        editInWikiEditor("XWiki", "Admin");
         assertTrue("tag1|tag2".equals(getSelenium().getValue("tags")));
-        open("/xwiki/bin/inline/XWiki/Admin");
+        open("XWiki", "Admin", "inline");
         clickEditSaveAndView();
-        open("/xwiki/bin/edit/XWiki/Admin?editor=wiki");
+        editInWikiEditor("XWiki", "Admin");
         assertTrue("tag1|tag2".equals(getSelenium().getValue("tags")));
     }
 }

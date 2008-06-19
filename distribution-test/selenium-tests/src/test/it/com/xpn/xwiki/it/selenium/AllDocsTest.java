@@ -40,33 +40,32 @@ public class AllDocsTest extends AbstractXWikiTestCase
         return suite;
     }
 
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-        open(getUrl("Main", "AllDocs"));
-    }
-
     private void fillTableFilter(String field, String text)
     {
         getSelenium().typeKeys(field, text);
-        getSelenium().waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById(\"ajax-loader\").style.display == \"none\"", "3000");    
+        waitForCondition("selenium.browserbot.getCurrentWindow().document." +
+            "getElementById(\"ajax-loader\").style.display == \"none\"");    
     }
 
     /**
      * This method makes the following tests :
      *
-     * <ul> <li>Validate presence of "Actions" column in table view for administrator.</li>
-     * <li>Validate absence of "Actions" column for users without administration rights.</li>
-     * <li>Validate input suggest for Page field.</li> <li>Validate input suggest for Space
-     * field.</li> <li>Validate input suggest for Last Author field.</li> <li>Validate Copy link
-     * action.</li> <li>Validate Rename link action.</li> <li>Validate Delete link action.</li>
-     * <li>Validate Rights link action.</li> </ul>
+     * <ul>
+     *   <li>Validate presence of "Actions" column in table view for administrator.</li>
+     *   <li>Validate absence of "Actions" column for users without administration rights.</li>
+     *   <li>Validate input suggest for Page field.</li>
+     *   <li>Validate input suggest for Space field.</li>
+     *   <li>Validate input suggest for Last Author field.</li>
+     *   <li>Validate Copy link action.</li>
+     *   <li>Validate Rename link action.</li>
+     *   <li>Validate Delete link action.</li>
+     *   <li>Validate Rights link action.</li>
+     * </ul>
      */
     public void testTableViewActions()
     {
         // Validate absence of "Actions" column for users without administration rights.
+        open("Main", "AllDocs");
         if (isAuthenticated()) {
             logout();
         }
@@ -74,7 +73,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Validate presence of "Actions" column in table view for administrator.
         loginAsAdmin();
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         assertElementPresent("//td[text()='Actions']");
 
         // Validate input suggest for Page field.
@@ -82,50 +81,50 @@ public class AllDocsTest extends AbstractXWikiTestCase
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
 
         // Validate input suggest for Space field.
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("space", "XWiki");
         fillTableFilter("page", "treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
 
         // Validate input suggest for Last Author field.
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("author", "SomeUnknownAuthor");
         assertElementNotPresent("//td[@class='pagename']/a[text()='Treeview']");        
 
         // Validate Copy link action.
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("page", "treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
         clickLinkWithText("Copy");
         setFieldValue("targetdoc", "New.TreeviewCopy");
         getSelenium().click("//input[@value='Copy']");
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("space", "New");
         fillTableFilter("page", "treeviewcopy");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopy']");
 
         // Validate Rename link action.
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("page", "TreeviewCopy");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rename']");
         setFieldValue("newPageName", "TreeviewCopyRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("page", "TreeviewCopyRenamed");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
 
         // Validate Delete link action.
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("page", "Treeviewcopyrenamed");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Delete']");
         clickLinkWithLocator("//input[@value='yes']");
         assertTextPresent("The document has been deleted.");
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("page", "treeview");
         assertElementNotPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
 
         // Validate Rights link action.
-        open(getUrl("Main", "AllDocs"));
+        open("Main", "AllDocs");
         fillTableFilter("page", "Treeview");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rights']");
         Assert.assertEquals("Editing Rights for Treeview", getTitle());
@@ -146,7 +145,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
     	}    		
     	String xpath = "//a[text()='" + nodeName + "']/ancestor::*[position()=1]/preceding-sibling::*[position()=1]"; 
     	getSelenium().click(xpath);
-    	getSelenium().waitForCondition("selenium.browserbot.findElement(\"" + xpath + "\").className == '" + className + "'", "100000");
+    	waitForCondition("selenium.browserbot.findElement(\"" + xpath + "\").className == '" + className + "'");
     }
     
     /**
@@ -154,7 +153,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
      */
     public void testTreeViewActions()
     {
-    	open(getUrl("Main", "AllDocs", "view", "view=tree"));
+    	open("Main", "AllDocs", "view", "view=tree");
     	// Verify two-level nodes
     	assertNodeOpen("Main", 3);
     	assertNodeOpen("Dashboard", 1);

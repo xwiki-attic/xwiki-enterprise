@@ -50,24 +50,22 @@ public class XObjectsTest extends AbstractXWikiTestCase
      */
     public void testChangeMultiselectProperty()
     {
-        open("/xwiki/bin/edit/Main/Class?editor=class");
+        open("Main", "Class", "edit", "editor=class");
         setFieldValue("propname", "prop");
         setFieldValue("proptype", "com.xpn.xwiki.objects.classes.DBListClass");
         submit("//input[@value='Add Property']");
         setFieldValue("prop_sql", "select doc.fullName from XWikiDocument doc");
         clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/Object?editor=wiki");
-        typeInWiki("this is the content");
-        clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/Object?editor=object");
+        createPage("Main", "Object", "this is the content");
+        open("Main", "Object", "edit", "editor=object");
         setFieldValue("classname", "Main.Class");
         submit("//input[@value='Add Object from this Class']");
         setFieldValue("Main.Class_0_prop", "Main.Class");
         clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/Class?editor=class");
+        open("Main", "Class", "edit", "editor=class");
         setFieldValue("prop_multiSelect", "1");
         clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/Object?editor=object");
+        open("Main", "Object", "edit", "editor=object");
         setFieldValue("Main.Class_0_prop", "Main.Object");
         clickEditSaveAndView();
         assertTextPresent("this is the content");
@@ -78,43 +76,34 @@ public class XObjectsTest extends AbstractXWikiTestCase
      */
     public void testChangeNumberType()
     {
-        open("/xwiki/bin/edit/Main/Class2?editor=wiki");
-        typeInWiki("this is the content");
-        clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/Class2?editor=class");
+        createPage("Main", "Class2", "this is the content");
+        open("Main", "Class2", "edit", "editor=class");
         setFieldValue("propname", "prop");
         setFieldValue("proptype", "com.xpn.xwiki.objects.classes.NumberClass");
         submit("//input[@value='Add Property']");
         setFieldValue("prop_numberType", "integer");
         clickEditSaveAndView();
-        // Check that there was no error up to this point
         assertTextPresent("this is the content");
-        open("/xwiki/bin/edit/Main/Object2?editor=wiki");
-        typeInWiki("this is the content: $doc.display('prop')");
-        clickEditSaveAndView();
-        open("/xwiki/bin/edit/Main/Object2?editor=object");
+        createPage("Main", "Object2", "this is the content: $doc.display('prop')");
+        open("Main", "Object2", "edit", "editor=object");
         setFieldValue("classname", "Main.Class2");
         submit("//input[@value='Add Object from this Class']");
         setFieldValue("Main.Class2_0_prop", "3");
         clickEditSaveAndView();
-        // Check that there was no error up to this point
         assertTextPresent("this is the content: 3");
-        open("/xwiki/bin/edit/Main/Class2?editor=class");
+        open("Main", "Class2", "edit", "editor=class");
         setFieldValue("prop_numberType", "double");
         clickEditSaveAndView();
-        // Check that there was no error up to this point
         assertTextPresent("this is the content");
-        open("/xwiki/bin/edit/Main/Object2?editor=object");
+        open("Main", "Object2", "edit", "editor=object");
         setFieldValue("Main.Class2_0_prop", "2.5");
         clickEditSaveAndView();
-        // Check that there was no error up to this point
         assertTextPresent("this is the content: 2.5");
-        open("/xwiki/bin/edit/Main/Class2?editor=class");
+        open("Main", "Class2", "edit", "editor=class");
         setFieldValue("prop_numberType", "long");
         clickEditSaveAndView();
-        // Check that there was no error up to this point
         assertTextPresent("this is the content");
-        open("/xwiki/bin/view/Main/Object2");
+        open("Main", "Object2");
         // Check that the value was truncated to an int.
         assertTextPresent("this is the content: 2");
     }

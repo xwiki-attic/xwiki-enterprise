@@ -30,10 +30,11 @@ import junit.framework.Test;
  *
  * @version $Id: $
  */
-public class RegisterTest extends AbstractXWikiTestCase {
+public class RegisterTest extends AbstractXWikiTestCase
+{
     public static Test suite()
     {
-        XWikiTestSuite suite = new XWikiTestSuite("Tries to register a new xwiki user");
+        XWikiTestSuite suite = new XWikiTestSuite("Tries to register a new XWiki user");
         suite.addTestSuite(RegisterTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
@@ -41,17 +42,14 @@ public class RegisterTest extends AbstractXWikiTestCase {
     public void setUp() throws Exception
     {
         super.setUp();
-        open(getUrl("Main", "WebHome"));
-
-        // Verify that the user isn't logged in
-        if (isAuthenticated()) {
-            logout();
-        }
+        open("Main", "WebHome");
 
         // Remove "JohnSmith" user if already exists
-        if (documentExists("XWiki", "JohnSmith")) {
-            deleteDocument("XWiki", "JohnSmith");
-        }
+        loginAsAdmin();
+        deletePage("XWiki", "JohnSmith");
+
+        // Ensure that the user isn't logged in
+        logout();
 
         clickRegister();
     }
@@ -59,13 +57,12 @@ public class RegisterTest extends AbstractXWikiTestCase {
     public void tearDown() throws Exception
     {
         // Remove "JohnSmith" user if already exists
-         if (documentExists("XWiki", "JohnSmith")) {
-            deleteDocument("XWiki", "JohnSmith");
-        }
+        deletePage("XWiki", "JohnSmith");
         super.tearDown();
     }
 
-    private void fillFormWithJohnSmithValues() {
+    private void fillFormWithJohnSmithValues()
+    {
         setFieldValue("register_first_name", "John");
         setFieldValue("register_last_name", "Smith");
         setFieldValue("xwikiname", "JohnSmith");
@@ -77,13 +74,9 @@ public class RegisterTest extends AbstractXWikiTestCase {
     public void testRegisterJohnSmith()
     {
         fillFormWithJohnSmithValues();
-
         submit();
-
         assertTextPresent("Registration successful");
-
         clickLinkWithLocator("link=John Smith");
-
         assertTextPresent("Profile of John Smith");
 
         // Check that the new user can also login
@@ -94,9 +87,7 @@ public class RegisterTest extends AbstractXWikiTestCase {
     {
         fillFormWithJohnSmithValues();
         setFieldValue("xwikiname", "Admin");
-
         submit();
-
         assertTextPresent("User already exists.");
     }
 
@@ -105,9 +96,7 @@ public class RegisterTest extends AbstractXWikiTestCase {
         fillFormWithJohnSmithValues();
         setFieldValue("register_password", "a");
         setFieldValue("register2_password", "b");
-
         submit();
-
         assertTextPresent("Passwords are different or password is empty.");
     }
 
@@ -115,9 +104,7 @@ public class RegisterTest extends AbstractXWikiTestCase {
     {
         fillFormWithJohnSmithValues();
         setFieldValue("xwikiname", "");
-
         submit();
-
         assertTextPresent("Invalid username provided");
     }
 
@@ -126,39 +113,7 @@ public class RegisterTest extends AbstractXWikiTestCase {
         fillFormWithJohnSmithValues();
         setFieldValue("register_password", "");
         setFieldValue("register2_password", "");
-
         submit();
-
         assertTextPresent("Passwords are different or password is empty.");
-    }
-
-    // TODO move to framework
-    private void deleteDocument(String space, String doc)
-    {
-        loginAsAdmin();
-        // use URL factory ?
-        // open(getUrl(space, doc, "delete")+ "?confirm=1");
-        open("/xwiki/bin/delete/"+space+"/"+doc+"?confirm=1");
-        assertTextPresent("The document has been deleted.");
-        logout();
-    }
-
-    // TODO move to framework
-    private boolean documentExists(String space, String doc)
-    {
-        String saveUrl = getSelenium().getLocation();
-
-        open(getUrl(space, doc));
-
-        // TODO not a reliable way to test this
-        // TODO use property files to get the exact string? No
-        // TODO so what else then ? XMLRPC ?
-        boolean exists = getTitle().equals("XWiki - " + space + " - " + doc) &&
-                !getSelenium().isTextPresent("The requested document could not be found.");
-
-        // Restore original URL
-        open(saveUrl);
-
-        return exists;
     }
 }

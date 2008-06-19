@@ -34,12 +34,12 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 {
     public static Test suite()
     {
-        XWikiTestSuite suite =
-            new XWikiTestSuite("Verify the Users, Groups and Rights Management features of XWiki");
+        XWikiTestSuite suite = new XWikiTestSuite("Verify the Users, Groups and Rights Management features of XWiki");
         suite.addTestSuite(UsersGroupsRightsManagementTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -127,8 +127,26 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     }
 
     /**
-     *  Validate group rights.
-     *  Validate XWIKI-2375: Group and user access rights problem with a name which includes space characters
+     * Test that the Ajax registration tool accepts non-ASCII symbols.
+     */
+    public void testCreateNonAsciiUser()
+    {
+        // Make sure there's no AccentUser user before we try to create it
+        deleteUser("AccentUser", true);
+
+        // Use ISO-8859-1 symbols to make sure that the test works both in ISO-8859-1 and UTF8
+        createUser("AccentUser", "AccentUser", "a\u00e9b", "c\u00e0d");
+
+        // Verify that the user is present in the table
+        assertTextPresent("AccentUser");
+        // Verify that the correct symbols appear
+        assertTextPresent("a\u00e9b");
+        assertTextPresent("c\u00e0d");
+    }
+
+    /**
+     * Validate group rights. Validate XWIKI-2375: Group and user access rights problem with a name which includes space
+     * characters
      */
     public void testGroupRights()
     {
@@ -167,9 +185,9 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         deleteUser(username, false);
         deleteGroup(groupname, false);
     }
-    
+
     // Helper methods
-    
+
     private void createGroup(String groupname)
     {
         openGroupsPage();
@@ -201,11 +219,16 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
     private void createUser(String login, String pwd)
     {
+        createUser(login, pwd, "New", "User");
+    }
+
+    private void createUser(String login, String pwd, String fname, String lname)
+    {
         openUsersPage();
         clickLinkWithText("Add new user", false);
         waitForLightbox("Registration");
-        setFieldValue("register_first_name", "New");
-        setFieldValue("register_last_name", "User");
+        setFieldValue("register_first_name", fname);
+        setFieldValue("register_last_name", lname);
         setFieldValue("xwikiname", login);
         setFieldValue("register_password", pwd);
         setFieldValue("register2_password", pwd);

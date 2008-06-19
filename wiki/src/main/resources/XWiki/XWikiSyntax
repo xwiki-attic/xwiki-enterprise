@@ -580,7 +580,7 @@ This is not a \[link\]
 
 1.1.1 Escaping wiki syntax rendering
 
-The &lt;tt&gt;{&amp;#112;re}{/&amp;#112;re}&lt;/tt&gt; macro prevents wiki syntax and Radeox macro rendering but preserves HTML rendering and preserces execution of Groovy/Velocity scripts.
+The &lt;tt&gt;{&amp;#112;re}{/&amp;#112;re}&lt;/tt&gt; macro prevents wiki syntax and Radeox macro rendering but preserves HTML rendering and preserves execution of Groovy/Velocity scripts.
 
 {pre}
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;

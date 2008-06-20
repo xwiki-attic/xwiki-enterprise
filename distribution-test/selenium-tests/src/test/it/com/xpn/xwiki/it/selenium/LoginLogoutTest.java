@@ -94,7 +94,8 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
      */
     public void testDataIsPreservedAfterLogin()
     {
-        if (isAuthenticated()) {
+        boolean wasAuthenticated = isAuthenticated();
+        if (wasAuthenticated) {
             logout();
         }
         open("Test", "TestData", "save", "content=this+should+not+be+saved");
@@ -108,5 +109,36 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
         assertPage("Test", "TestData");
         assertTextPresent("this should be saved instead");
         assertTextPresent("Welcome to your wiki");
+        // Preserve the initial state
+        if (!wasAuthenticated) {
+            logout();
+        }
+    }
+
+    /**
+     * Tests that in case the authentication is lost, the data is restored after the login.
+     */
+    public void testCorrectUrlIsAccessedAfterLogin()
+    {
+        boolean wasAuthenticated = isAuthenticated();
+        if (wasAuthenticated) {
+            logout();
+        }
+        open("Test", "TestData", "save", "content=this+should+be+the+new+value");
+        getSelenium().waitForCondition(
+            "new Ajax.Request('" + getUrl("Test", "TestData", "cancel", "ajax=1") + "', {asynchronous: false});",
+            "2000");
+
+        setFieldValue("j_username", "Admin");
+        setFieldValue("j_password", "admin");
+        checkField("rememberme");
+        submit();
+
+        assertPage("Test", "TestData");
+        assertTextPresent("this should be the new value");
+        // Preserve the initial state
+        if (!wasAuthenticated) {
+            logout();
+        }
     }
 }

@@ -56,12 +56,6 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
     {
         super.setUp();
 
-        // Statically store the component manager in {@link Utils} to be able to access it without
-        // the context.
-        // @FIXME : move this initialization in AbstractXWikiComponentTestCase.setUp() when
-        // shared-tests will depends on core 1.5 branch
-        Utils.setComponentManager((ComponentManager) getContext().get(ComponentManager.class.getName()));
-
         new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), getContext())
         {
             public void initXWiki(com.xpn.xwiki.XWikiConfig config, XWikiContext context,
@@ -108,11 +102,6 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
         this.connection.close();
 
         super.tearDown();
-
-        // Makes sure tests are independents as Utils's ComponentManager is a static
-        // @FIXME : move this initialization in AbstractXWikiComponentTestCase.setUp() when
-        // shared-tests will depends on core 1.5 branch
-        Utils.setComponentManager(null);
     }
 
     /**

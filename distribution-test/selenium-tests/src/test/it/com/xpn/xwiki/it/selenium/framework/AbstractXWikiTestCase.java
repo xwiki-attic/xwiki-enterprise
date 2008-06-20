@@ -19,7 +19,14 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
+import java.io.IOException;
+import java.util.Properties;
+import java.util.Map.Entry;
+
 import junit.framework.TestCase;
+
+import org.codehaus.plexus.util.StringInputStream;
+
 import com.thoughtworks.selenium.Selenium;
 
 /**
@@ -439,5 +446,28 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     public String getUrl(String space, String doc, String action, String queryString)
     {
         return getUrl(space, doc, action) + "?" + queryString;
+    }
+
+    /**
+     * Set global xwiki configuration options.
+     * @param config - configuration in {@link Properties} format ("param1=value2\nparam2=value2")
+     * @throws IOException if error while parsing config
+     */
+    public void setXWikiConfiguration(String config) throws IOException
+    {
+        Properties properties = new Properties();
+        properties.load(new StringInputStream(config));
+        StringBuffer sb = new StringBuffer();
+        for (Entry<Object, Object> param : properties.entrySet()) {
+            sb.append("$xwiki.xWiki.config.setProperty('")
+                .append(param.getKey()).append("', '")
+                .append(param.getValue()).append("')")
+                .append('\n');
+        }
+        // we can't access to xwiki server directly, so need to write script
+        editInWikiEditor("Test", "XWikiConfigurationPageForTest");
+        setFieldValue("content", sb.toString());
+        // execute script in preview mode. So no need to save doc.
+        clickEditPreview();
     }
 }

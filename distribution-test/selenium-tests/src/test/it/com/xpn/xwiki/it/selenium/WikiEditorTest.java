@@ -19,6 +19,8 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import java.io.IOException;
+
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
@@ -170,5 +172,21 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         assertFalse(getSelenium().isAlertPresent());
         assertEquals(-1, getSelenium().getLocation().indexOf("/edit/"));
         assertTextNotPresent("this is some content");
+    }
+
+    /**
+     * Test for edit comment feature.
+     */
+    public void testEditComment() throws IOException
+    {
+        // Test for XWIKI-2487: Hiding the edit comment field doesn't work
+        editInWikiEditor("Test", "EditComment");
+        assertTrue( getSelenium().isVisible("comment") );
+
+        setXWikiConfiguration("xwiki.editcomment.hidden=1");
+        editInWikiEditor("Test", "EditComment");
+        assertFalse( getSelenium().isVisible("comment") );
+
+        setXWikiConfiguration("xwiki.editcomment.hidden=0");
     }
 }

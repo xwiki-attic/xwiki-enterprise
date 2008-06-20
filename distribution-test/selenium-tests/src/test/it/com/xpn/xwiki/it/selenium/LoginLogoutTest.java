@@ -19,15 +19,15 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
-
 /**
  * Verify the login and logout features of XWiki.
- *
+ * 
  * @version $Id: $
  */
 public class LoginLogoutTest extends AbstractXWikiTestCase
@@ -39,6 +39,7 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -80,13 +81,32 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
         assertTextPresent("Wrong user name");
     }
 
-
     public void testLogout()
     {
         loginAsAdmin();
         logout();
-        
+
         this.assertTextPresent("Log-in");
     }
 
+    /**
+     * Tests that in case the authentication is lost, the data is restored after the login.
+     */
+    public void testDataIsPreservedAfterLogin()
+    {
+        if (isAuthenticated()) {
+            logout();
+        }
+        open("Test", "TestData", "save", "content=this+should+not+be+saved");
+        open("Test", "TestData", "save", "content=this+should+be+saved+instead&parent=Main.WebHome");
+
+        setFieldValue("j_username", "Admin");
+        setFieldValue("j_password", "admin");
+        checkField("rememberme");
+        submit();
+
+        assertPage("Test", "TestData");
+        assertTextPresent("this should be saved instead");
+        assertTextPresent("Welcome to your wiki");
+    }
 }

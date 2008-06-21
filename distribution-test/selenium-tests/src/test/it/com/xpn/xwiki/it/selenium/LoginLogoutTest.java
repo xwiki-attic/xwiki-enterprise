@@ -125,9 +125,8 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
             logout();
         }
         open("Test", "TestData", "save", "content=this+should+be+the+new+value");
-        getSelenium().waitForCondition(
-            "new Ajax.Request('" + getUrl("Test", "TestData", "cancel", "ajax=1") + "', {asynchronous: false});",
-            "2000");
+        waitForCondition(
+            "new Ajax.Request('" + getUrl("Test", "TestData", "cancel", "ajax=1") + "', {asynchronous: false});");
 
         setFieldValue("j_username", "Admin");
         setFieldValue("j_password", "admin");

@@ -107,15 +107,15 @@ Find below all the recent news from the site blog and from the list of pages tha
                   #set($date1 = $!xwiki.formatDate($!bentrydoc.date,"yyyy MM dd HH:mm:ss") )
                 #end
                 #if($date1.equals($date2) )
-                  [$bentrydoc.name&gt;${bentrydoc.web}.$bentrydoc.name] &lt;em&gt;- 1 new comment&lt;/em&gt;
+                  [$bentrydoc.name&gt;${bentrydoc.fullName}] &lt;em&gt;- 1 new comment&lt;/em&gt;
                   #set($troubi ="oui")
                   #set($desc = $cobj.getXWikiObject().get("comment").value)
                 #else
-                  [$bentrydoc.name in $bentrydoc.web&gt;${bentrydoc.web}.$bentrydoc.name]
+                  [$bentrydoc.name in $bentrydoc.space&gt;${bentrydoc.fullName}]
                 #end
               #else  
                 #set($comment = "")  
-                [$bentrydoc.name in $bentrydoc.web&gt;${bentrydoc.web}.$bentrydoc.name.replaceAll("@","%40")]
+                [$bentrydoc.name in $bentrydoc.space&gt;${bentrydoc.space}.$bentrydoc.name.replaceAll("@","%40")]
               #end   
               $xwiki.formatDate($bentrydoc.date,"yyyy MMM dd") at $xwiki.formatDate($bentrydoc.date,"HH:mm")
               #if($troubi =="oui")

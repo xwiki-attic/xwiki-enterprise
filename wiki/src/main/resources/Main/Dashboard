@@ -73,7 +73,7 @@ Find below all the recent news from the site blog and from the list of pages tha
       #if(!$xwiki.hasMinorEdit() || $request.getParameter("showminor"))
         #set ($sql = "where 1=1 order by doc.date desc")
       #else
-        #set ($sql = ", XWikiRCSNodeInfo as ni where doc.id=ni.id.docId and ni.id.version2=1 group by doc.web, doc.name order by max(ni.date) desc")
+        #set ($sql = ", XWikiRCSNodeInfo as ni where doc.id=ni.id.docId and ni.id.version2=1 group by doc.space, doc.name order by max(ni.date) desc")
       #end
       #set($showdata = 1)
       #if(!$nb)

@@ -52,13 +52,13 @@
 </property>
 </object>
 <content>#set( $class = $doc.name.substring(0,$doc.name.indexOf("Class")))
-#set( $doc1new = $xwiki.getDocument("${doc.web}.${class}ClassSheet").isNew())
-#set( $doc2new = $xwiki.getDocument("${doc.web}.${class}ClassTemplate").isNew())
+#set( $doc1new = $xwiki.getDocument("${doc.space}.${class}ClassSheet").isNew())
+#set( $doc2new = $xwiki.getDocument("${doc.space}.${class}ClassTemplate").isNew())
 #if (!$defaultweb)
 #set($defaultweb = "Main")
 #end
 #if (!$defaultparent)
-#set($defaultparent = "${doc.web}.${class}Class")
+#set($defaultparent = "${doc.space}.${class}Class")
 #end
 
 1 Class: $doc.name
@@ -74,7 +74,7 @@ To create a new document, you should first choose a name for you document
 &lt;form action="" id="newdoc" method="post"&gt;
 &lt;div&gt;
 &lt;input type="hidden" name="parent" value="${defaultparent}"/&gt;
-&lt;input type="hidden" name="template" value="${doc.web}.${class}ClassTemplate"/&gt;
+&lt;input type="hidden" name="template" value="${doc.space}.${class}ClassTemplate"/&gt;
 &lt;input type="hidden" name="sheet" value="1"/&gt;
 Space: &lt;input type="text" name="webname" value="${defaultweb}" size="8"/&gt;
 Document: &lt;input type="text" name="name" value="Name of your document"/&gt;
@@ -87,22 +87,22 @@ Document: &lt;input type="text" name="name" value="Name of your document"/&gt;
 
 1.1 Sheet and Template
 
-#set($templatedoc = $xwiki.getDocument("${doc.web}.${class}ClassTemplate"))
-#set($hasobj = $templatedoc.getObject("${doc.web}.${class}Class"))
+#set($templatedoc = $xwiki.getDocument("${doc.space}.${class}ClassTemplate"))
+#set($hasobj = $templatedoc.getObject("${doc.space}.${class}Class"))
 #if(!$hasobj)
 #set($xredirect = $request.getRequestURL())
-#set($createUrl = $templatedoc.getURL("objectadd", "classname=${doc.web}.${class}Class&amp;amp;xredirect=${xredirect}"))
+#set($createUrl = $templatedoc.getURL("objectadd", "classname=${doc.space}.${class}Class&amp;amp;xredirect=${xredirect}"))
 #set($m = "The template does not have an object of class ${class}Class. &lt;a href='$createUrl'&gt;Click here to add it&lt;/a&gt;.")
 #warning($m)
 #end
 
-* Sheet: [${doc.web}.${class}ClassSheet]
-* Template: [${doc.web}.${class}ClassTemplate]
+* Sheet: [${doc.space}.${class}ClassSheet]
+* Template: [${doc.space}.${class}ClassTemplate]
 * [View the sample code to show the document list and create new documents&gt;XWiki.ClassSheet?xpage=code]
 
 1.1 Existing documents
 
-#set ($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='${doc.web}.${class}Class' and obj.name&lt;&gt;'${doc.web}.${class}ClassTemplate'")
+#set ($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='${doc.space}.${class}Class' and obj.name&lt;&gt;'${doc.space}.${class}ClassTemplate'")
 #foreach ($item in $xwiki.searchDocuments($sql))
    * [$item]
 #end
@@ -112,9 +112,9 @@ Document: &lt;input type="text" name="name" value="Name of your document"/&gt;
 Before using this class you must first create the sheet and template for it. Follow the instructions below to do this.
 
 #if ($doc1new)
-&lt;form action="$xwiki.getURL("${doc.web}.${class}ClassSheet","edit")" method="post"&gt;
+&lt;form action="$xwiki.getURL("${doc.space}.${class}ClassSheet","edit")" method="post"&gt;
 &lt;div&gt;
-&lt;input type="hidden" name="parent" value="${doc.web}.${class}Class"/&gt;
+&lt;input type="hidden" name="parent" value="${doc.space}.${class}Class"/&gt;
 &lt;input type="hidden" name="template" value="XWiki.ClassItemSheet"/&gt;
 &lt;input type="hidden" name="sheet" value="1"/&gt;
 &lt;input type="submit" value="Create the document sheet"/&gt;
@@ -126,9 +126,9 @@ The Sheet allows to control the presentation of documents using the class you de
 #end
 
 #if ($doc2new)
-&lt;form action="$xwiki.getURL("${doc.web}.${class}ClassTemplate","edit")" method="post"&gt;
+&lt;form action="$xwiki.getURL("${doc.space}.${class}ClassTemplate","edit")" method="post"&gt;
 &lt;div&gt;
-&lt;input type="hidden" name="parent" value="${doc.web}.${class}Class"/&gt;
+&lt;input type="hidden" name="parent" value="${doc.space}.${class}Class"/&gt;
 &lt;input type="hidden" name="template" value="XWiki.ClassItemTemplate"/&gt;
 &lt;input type="hidden" name="sheet" value="1"/&gt;
 &lt;input type="submit" value="Create the document template"/&gt;

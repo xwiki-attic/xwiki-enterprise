@@ -55,7 +55,7 @@
 </object>
 <content>1 Space Index
 
-#set ($sql = "where doc.web='$request.space' order by doc.name asc")
+#set ($sql = "where doc.space='$request.space' order by doc.name asc")
 #set ($list = $xwiki.searchDocuments($sql))
 #includeInContext("XWiki.Results")
 </content></xwikidoc>

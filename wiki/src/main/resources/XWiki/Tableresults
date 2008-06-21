@@ -43,7 +43,7 @@
 #else #set($sql = "where lower(doc.name) &lt;&gt; ''") #end
 #if($space)
   #set($space = $space.trim().toLowerCase())
-  #set($sql = $sql + "and lower(doc.web) like '%${space}%'")
+  #set($sql = $sql + "and lower(doc.space) like '%${space}%'")
 #end
 #if($author)
   #set($author = $author.trim().toLowerCase())

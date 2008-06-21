@@ -62,7 +62,7 @@
   &lt;?xml version="1.0" encoding="UTF-8"?&gt;
   &lt;results&gt;
   #set($res = "false") 
-  #foreach ($page in $xwiki.searchDocuments("doc.web = '$node' and (doc.parent = '${node}.WebHome' or doc.parent = '' or doc.parent is null or doc.parent not like '${node}%') order by doc.name"))
+  #foreach ($page in $xwiki.searchDocuments("doc.space = '$node' and (doc.parent = '${node}.WebHome' or doc.parent = '' or doc.parent is null or doc.parent not like '${node}%') order by doc.name"))
    #if (($page != "${node}.WebHome") &amp;&amp; (!$hiddenPages.contains($page) || ($hiddenPages.contains($page) &amp;&amp; $xwiki.hasAdminRights())))
     #set($index = $page.indexOf(".") + 1)
     #set($pageName = $page.substring($index))
@@ -74,7 +74,7 @@
   #end
   #if($res == "false")
  	#set($ppp = $node.replaceAll("'", "''"))
- 	#set($space = $xwiki.search("select distinct doc.web from XWikiDocument doc where doc.name= '$ppp' order by 1"))
+ 	#set($space = $xwiki.search("select distinct doc.space from XWikiDocument doc where doc.name= '$ppp' order by 1"))
  	#foreach ($page in $xwiki.searchDocuments("doc.parent = '$space.get(0).$ppp' order by doc.name"))
    	  #if (!$hiddenPages.contains($page) || ($hiddenPages.contains($page) &amp;&amp; $xwiki.hasAdminRights()))
       	#set($index = $page.indexOf(".") + 1)

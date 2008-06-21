@@ -74,7 +74,7 @@
   #if ($xwiki.hasAdminRights())
     #set ($excludedWebs = "")
   #else
-    #set ($excludedWebs = "doc.web&lt;&gt;'XWiki' and doc.web&lt;&gt;'Admin' and doc.web&lt;&gt;'Panels' and doc.name&lt;&gt;'WebPreferences' and")
+    #set ($excludedWebs = "doc.space&lt;&gt;'XWiki' and doc.space&lt;&gt;'Admin' and doc.space&lt;&gt;'Panels' and doc.name&lt;&gt;'WebPreferences' and")
   #end
   ## -----------------------------------------------------------
   ## Display only a given space if $request.space is defined
@@ -82,7 +82,7 @@
   #if($space and $space == "All")
     #set ($webClause = "$excludedWebs")
   #else
-    #set ($webClause = "doc.web='$space' and $excludedWebs")
+    #set ($webClause = "doc.space='$space' and $excludedWebs")
   #end
   #macro(addelement $item $list)
     #if($xwiki.hasAccessLevel("view", $context.user, "${context.database}:${item}"))

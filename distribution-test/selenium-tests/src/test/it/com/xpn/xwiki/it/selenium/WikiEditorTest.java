@@ -175,23 +175,29 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Test for edit comment feature.
+     * Test the ability to add edit comments and the ability to disable the edit comments feature.
      */
     public void testEditComment() throws IOException
     {
-        // Test for XWIKI-2487: Hiding the edit comment field doesn't work
-        editInWikiEditor("Test", "EditComment");
-        assertTrue( getSelenium().isVisible("comment") );
+        try {
+            editInWikiEditor("Test", "EditComment");
+            assertTrue( getSelenium().isVisible("comment") );
 
-        setXWikiConfiguration("xwiki.editcomment.hidden=1");
-        editInWikiEditor("Test", "EditComment");
-        assertFalse( getSelenium().isVisible("comment") );
-
-        setXWikiConfiguration("xwiki.editcomment.hidden=0");
+            // Test for XWIKI-2487: Hiding the edit comment field doesn't work
+            setXWikiConfiguration("xwiki.editcomment.hidden=1");
+            editInWikiEditor("Test", "EditComment");
+            assertFalse( getSelenium().isVisible("comment") );
+        } finally {
+            setXWikiConfiguration("xwiki.editcomment.hidden=0");
+        }
     }
 
-    public void testPreviewMode() {
-        // Test for XWIKI-2490: Preview Action doesn't update contentAuthor
+    /**
+     * Verify that the preview works when the document content contains script requiring programming rights.
+     * See also XWIKI-2490.
+     */
+    public void testPreviewModeWithContentRequiringProgrammingRights()
+    {
         editInWikiEditor("Test", "PreviewMode");
         setFieldValue("content", "$xwiki.hasAccessLevel('programming') $doc.author $doc.contentAuthor $doc.creator");
         clickEditPreview();

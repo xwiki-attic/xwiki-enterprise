@@ -449,25 +449,30 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     }
 
     /**
-     * Set global xwiki configuration options.
-     * @param config - configuration in {@link Properties} format ("param1=value2\nparam2=value2")
-     * @throws IOException if error while parsing config
+     * Set global xwiki configuration options (as if the xwiki.cfg file had been modified). This is useful for
+     * testing configuration options.
+     *
+     * @param configuration the configuration in {@link Properties} format. For example "param1=value2\nparam2=value2"
+     * @throws IOException if an error occurs while parsing the configuration
      */
-    public void setXWikiConfiguration(String config) throws IOException
+    public void setXWikiConfiguration(String configuration) throws IOException
     {
         Properties properties = new Properties();
-        properties.load(new StringInputStream(config));
+        properties.load(new StringInputStream(configuration));
         StringBuffer sb = new StringBuffer();
+
+        // Since we don't have access to the XWiki object from Selenium tests and since we don't want to restart XWiki
+        // with a different xwiki.cfg file for each test that requires a configuration change, we use the following
+        // trick: We create a document and we access the XWiki object with a Velocity script inside that document.
         for (Entry<Object, Object> param : properties.entrySet()) {
             sb.append("$xwiki.xWiki.config.setProperty('")
                 .append(param.getKey()).append("', '")
                 .append(param.getValue()).append("')")
                 .append('\n');
         }
-        // we can't access to xwiki server directly, so need to write script
         editInWikiEditor("Test", "XWikiConfigurationPageForTest");
         setFieldValue("content", sb.toString());
-        // execute script in preview mode. So no need to save doc.
+        // We can execute the script in preview mode. Thus we don't need to save the document.
         clickEditPreview();
     }
 }

@@ -189,4 +189,12 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
         setXWikiConfiguration("xwiki.editcomment.hidden=0");
     }
+
+    public void testPreviewMode() {
+        // Test for XWIKI-2490: Preview Action doesn't update contentAuthor
+        editInWikiEditor("Test", "PreviewMode");
+        setFieldValue("content", "$xwiki.hasAccessLevel('programming') $doc.author $doc.contentAuthor $doc.creator");
+        clickEditPreview();
+        assertTextPresent("true XWiki.Admin XWiki.Admin XWiki.Admin");        
+    }
 }

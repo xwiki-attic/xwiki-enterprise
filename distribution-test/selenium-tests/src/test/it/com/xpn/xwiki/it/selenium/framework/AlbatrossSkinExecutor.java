@@ -261,6 +261,6 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void openAdministrationPage()
     {
-        getTest().clickLinkWithLocator("headeradmin");
+        getTest().open("XWiki", "XWikiPreferences", "admin");
     }
 }

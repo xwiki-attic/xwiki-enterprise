@@ -275,19 +275,13 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
     private void openGlobalRightsPage()
     {
-        // Note: We could have used the following command instead:
-        // open("XWiki", "XWikiPreferences", "admin", "editor=globalrights")
-        // However we haven't done it since we also want to verify that clicking on the "Global Rights" tab works.
         openAdministrationPage();
-        clickLinkWithText("Global Rights");
+        clickLinkWithText("Rights");
     }
 
     private void openGroupsPage()
     {
-        // Note: We could have used the following command instead:
-        // open("XWiki", "XWikiGroups", "admin", "editor=groups")
-        // However we haven't done it since we also want to verify that clicking on the "Group" tab works.
-        openAdministrationPage();
+        openAdministrationPage();                
         clickLinkWithText("Groups");
         // Since the Groups page has a table loaded using Ajax calls we need to ensure it's filled before going
         // further. We do that by verifying that the AdminGroup and the AllGroup are loaded.

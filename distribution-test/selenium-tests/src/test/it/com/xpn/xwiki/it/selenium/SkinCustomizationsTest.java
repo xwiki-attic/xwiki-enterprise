@@ -50,16 +50,18 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
     protected void tearDown() throws Exception
     {
         // Ensure that we reset the style
-        clickLinkWithLocator("headeradmin");
+        openAdministrationPage();
+        clickLinkWithText("Presentation");
         getSelenium().type("XWiki.XWikiPreferences_0_stylesheet", "style.css");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
     }
 
     public void testChangeDefaultStyleCss() throws Exception
     {
-        clickLinkWithLocator("headeradmin");
+        openAdministrationPage();
+        clickLinkWithText("Presentation");
         getSelenium().type("XWiki.XWikiPreferences_0_stylesheet", "somestyle.css");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
         assertTrue(getSelenium().isElementPresent(
             "xpath=//head/link[@href='/xwiki/bin/skin/skins/albatross/somestyle.css']"));
     }

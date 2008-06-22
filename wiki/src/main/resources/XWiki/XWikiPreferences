@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1106311617000</creationDate>
-<date>1196378418000</date>
-<contentUpdateDate>1196378418000</contentUpdateDate>
+<date>1214061284000</date>
+<contentUpdateDate>1214061284000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -21,6 +21,7 @@
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
 <class>
 <name>XWiki.XWikiPreferences</name>
 <customClass></customClass>
@@ -1881,14 +1882,14 @@
 &lt;a href="$xwiki.getURL("Doc.WebHome","view")"&gt;Doc&lt;/a&gt;&lt;span&gt; | &lt;/span&gt;
 &lt;a href="$xwiki.getURL("XWiki.RegisterNewUser","view")"&gt;Register&lt;/a&gt;&lt;span&gt; | &lt;/span&gt;
 </menu></property><property><meta>&lt;meta name="revisit-after" content="7 days" /&gt;
-&lt;meta name="description" content="XWiki for sharing information" /&gt;
-&lt;meta name="keywords" content="wiki" /&gt;
+&lt;meta name="description" content="$!doc.getDisplayTitle()" /&gt;
+&lt;meta name="keywords" content="wiki $!doc.getTags().replaceAll("|", " ")" /&gt;
 &lt;meta name="distribution" content="GLOBAL" /&gt;
 &lt;meta name="rating" content="General" /&gt;
-&lt;meta name="author" content="" /&gt;
+&lt;meta name="author" content="$!xwiki.getLocalUserName($doc.getAuthor(), false)" /&gt;
 &lt;meta http-equiv="reply-to" content="" /&gt;
-&lt;meta name="language" content="en" /&gt;
-&lt;meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /&gt;
+&lt;meta name="language" content="$!context.language" /&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=$!xwiki.encoding" /&gt;
 ## We verify that we don't display RSS feeds on the login page since it causes problems if these feeds are
 ## protected. In addition it makes the login redirect to the feeds page in some cases.
 #if($doc.fullName != "XWiki.XWikiLogin")
@@ -1924,7 +1925,7 @@
 <renderXWikiVelocityRenderer></renderXWikiVelocityRenderer>
 </property>
 <property>
-<rightPanels>Panels.Search,Panels.QuickLinks,Panels.MyRecentModifications,Panels.NewPage</rightPanels>
+<rightPanels>Panels.Search,Panels.QuickLinks,Panels.MyRecentModifications</rightPanels>
 </property>
 <property>
 <showLeftPanels>0</showLeftPanels>
@@ -1945,7 +1946,7 @@
 <stylesheets>style.css</stylesheets>
 </property>
 <property>
-<title>XWiki - $doc.space - $doc.name</title>
+<title>$doc.displayTitle ($doc.fullName) - XWiki</title>
 </property>
 <property>
 <upload_maxsize>33554432</upload_maxsize>
@@ -1954,16 +1955,14 @@
 <validation_email_content></validation_email_content>
 </property>
 <property>
-<version></version>
+<version>XWiki Enterprise $xwiki.getVersion() - &lt;a onclick="openURL('http://enterprise.xwiki.org/xwiki/bin/view/Main/Documentation', '_blank'); return false;" href="http://www.xwiki.org/xwiki/bin/view/Main/Documentation"&gt;Documentation&lt;/a&gt;</version>
 </property>
 <property>
 <webbgcolor></webbgcolor>
 </property>
 <property>
-<webcopyright>This wiki is licensed under a &lt;a href="http://creativecommons.org/licenses/by/1.0/"&gt;Creative Commons&lt;/a&gt; license</webcopyright>
+<webcopyright>This wiki is licensed under a &lt;a href="http://creativecommons.org/licenses/by/2.0/"&gt;Creative Commons 2.0&lt;/a&gt; license</webcopyright>
 </property>
 </object>
-<content>1 Preferences
-
-To edit preferences, please use the Administration page.</content>
+<content>#includeForm("XWiki.AdminSheet")</content>
 </xwikidoc>

@@ -98,7 +98,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     public void assertPage(String space, String page)
     {
-        assertEquals("XWiki - " + space + " - " + page, getTitle());
+        assertTrue(getTitle().matches(".*\\("+ space +"."+ page +"\\) - XWiki"));
     }
 
     public boolean isExistingPage(String space, String page)

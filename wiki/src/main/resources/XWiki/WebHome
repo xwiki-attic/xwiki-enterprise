@@ -12,14 +12,16 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1107117224000</creationDate>
-<date>1184173074000</date>
-<contentUpdateDate>1184173074000</contentUpdateDate>
-<version>1.17</version>
-<title></title>
+<date>1213864880000</date>
+<contentUpdateDate>1213864880000</contentUpdateDate>
+<version>15.1</version>
+<title>WebHome</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
 <object>
 <class>
 <name>XWiki.TagClass</name>
@@ -31,18 +33,18 @@
 <nameField></nameField>
 <validationScript></validationScript>
 <tags>
-<name>tags</name>
-<prettyName>Tags</prettyName>
-<unmodifiable>0</unmodifiable>
-<relationalStorage>1</relationalStorage>
+<cache>0</cache>
 <displayType>input</displayType>
 <multiSelect>1</multiSelect>
-<size>30</size>
-<separator> </separator>
-<cache>0</cache>
-<separators> ,|</separators>
-<values></values>
+<name>tags</name>
 <number>1</number>
+<prettyName>Tags</prettyName>
+<relationalStorage>1</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<values></values>
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </tags>
 </class>
@@ -53,43 +55,5 @@
 <tags/>
 </property>
 </object>
-<content>1 Administration
-
-1.1 User Administration
-
-* [Users&gt;XWiki.XWikiUsers]
-* [Groups&gt;XWiki.XWikiGroups]
-* [Recent Members&gt;Main.RecentMembers]
-
-1.1 Blog
-
-* [Categories&gt;Blog.Categories]
-* [Article Sheet&gt;XWiki.ArticleClassSheet]
-* [Article Template&gt;XWiki.ArticleClassTemplate]
-
-1.1 Photos
-
-* [Photo Album Sheet&gt;XWiki.PhotoAlbumClassSheet]
-* [Photo Album Template&gt;XWiki.PhotoAlbumClassTemplate]
-
-1.1 Rss
-
-* [Web RSS Feed&gt;Main.WebRss?xpage=rdf]
-* [Search RSS Feed&gt;Main.WebSearchRss?xpage=rdf]
-* [Blog RSS Feed&gt;Main.BlogRss?xpage=rdf]
-* [Tags RSS Feed&gt;Main.TagsRss?xpage=rdf]
-
-1.1 Layout
-
-* [Panels&gt;Panels.WebHome]
-* [Panels Wizard&gt;Panels.PanelWizard?forceLeftPanels=1&amp;amp;forceRightPanels=1]
-
-1.1 Statistics and Performances
-
-* [Statistics&gt;Stats.WebHome]
-* [Performance monitoring&gt;XWiki.RequestsStatus]
-
-1.1 Others
-
-* [Copy Document&gt;XWiki.CopyDocument]
-</content></xwikidoc>
+<content>#info("The XWiki space contains documents used by XWiki for its own use. You can administrate your wiki through the [Administration application&gt;XWiki.XWikiPreferences].")</content>
+</xwikidoc>

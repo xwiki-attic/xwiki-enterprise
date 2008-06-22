@@ -12,17 +12,35 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1108465485000</creationDate>
-<date>1166177442000</date>
-<contentUpdateDate>1169801142000</contentUpdateDate>
-<version>1.8</version>
-<title></title>
+<date>1213865226000</date>
+<contentUpdateDate>1213865226000</contentUpdateDate>
+<version>2.1</version>
+<title>CategorySheet</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<content>1 Categories
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<content>##----------------------------------------------
+## If the Administration app exists, Blog Categories will be integrated in the global menu
+##-------------------------------------------------
+1.1.1 $msg.get("changes.blog.category")
+$doc.displayForm($doc.fullName)
+#if($xwiki.exists("XWiki.AdminSheet") &amp;&amp; $globalAppAdmin &amp;&amp; $globalAppAdmin.contains($doc.fullName))
+ #set($editurl = $doc.getURL("admin", "$!request.getQueryString()&amp;editmode=inline").replaceAll("&amp;","&amp;amp;"))
+ #set($redirurl = $util.encodeURI($doc.getURL("admin", "$!request.getQueryString()&amp;editmode=inline")))
+#else
+ #set($editurl = $doc.getURL("inline"))
+ #set($redirurl = $util.encodeURI($xwiki.getRequestURL()))
+#end
+#if($context.action != "inline" &amp;&amp; "$!{request.editmode}" != "inline") &lt;a href="$editurl"&gt;$msg.get("changes.blog.editcategories")&lt;/a&gt; #end
+&lt;a href="$doc.getURL("objectadd","classname=${doc.fullName}&amp;amp;xredirect=${redirurl}")"&gt;$msg.get("changes.blog.addnewcategory")&lt;/a&gt;
 
-{form:${doc.fullName}}
-
-#set($redirect = $xwiki.getRequestURL())
-&lt;a href="$doc.getURL("inline")"&gt;Edit categories&lt;/a&gt;, &lt;a href="$doc.getURL("objectadd","classname=${doc.fullName}&amp;amp;xredirect=$redirect")"&gt;Add a category&lt;/a&gt;.
-</content></xwikidoc>
+#if($xwiki.exists("XWiki.AdminSheet") &amp;&amp; $globalAppAdmin &amp;&amp; $globalAppAdmin.contains($doc.fullName))
+1.1.1 $msg.get("usefullinks")
+* [Blog Home&gt;Blog.WebHome]
+* [Blog Article Sheet&gt;XWiki.ArticleClassSheet]
+* [Blog Article Template&gt;XWiki.ArticleClassTemplate]
+#end</content>
+</xwikidoc>

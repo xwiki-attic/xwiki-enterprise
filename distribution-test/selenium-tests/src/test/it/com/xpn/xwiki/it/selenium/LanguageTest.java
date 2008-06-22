@@ -69,9 +69,10 @@ public class LanguageTest extends AbstractXWikiTestCase
         assertEquals("context = (en), doc = (), default = (en), tdoc = (), tdocdefault = (en)",
             getSelenium().getText("xwikicontent"));
 
-        clickLinkWithLocator("headeradmin");
+        openAdministrationPage();
+        clickLinkWithText("General");
         getSelenium().type("XWiki.XWikiPreferences_0_default_language", "fr");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
 
         assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
 
@@ -89,9 +90,10 @@ public class LanguageTest extends AbstractXWikiTestCase
 
     public void testChangeLanguageInMultilingualModeUsingTheLanguageRequestParameter()
     {
-        clickLinkWithLocator("headeradmin");
+        openAdministrationPage();
+        clickLinkWithText("General");
         getSelenium().select("XWiki.XWikiPreferences_0_multilingual", "value=1");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
         open("/xwiki/bin/view/Main/?language=fr");
 
         assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
@@ -100,13 +102,14 @@ public class LanguageTest extends AbstractXWikiTestCase
     private void setMonoLingualAndEnglish()
     {
         // Ensure the default language is English and that the wiki is in monolingual mode
-        clickLinkWithLocator("headeradmin");
+        openAdministrationPage();
+        clickLinkWithText("General");
 
         // Note: We cannot use "label=No" as some tests below might have changed the language...
         getSelenium().select("XWiki.XWikiPreferences_0_multilingual", "value=0");
 
         getSelenium().type("XWiki.XWikiPreferences_0_default_language", "en");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
 
         assertEquals("Log-out", getSelenium().getText("headerlogout"));
     }

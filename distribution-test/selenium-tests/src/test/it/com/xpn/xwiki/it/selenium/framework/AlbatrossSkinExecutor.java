@@ -23,7 +23,7 @@ import junit.framework.Assert;
 
 /**
  * Implementation of skin-related actions for the Albatross skin.
- * 
+ *
  * @version $Id: $
  */
 public class AlbatrossSkinExecutor implements SkinExecutor
@@ -46,7 +46,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see SkinExecutor#clickEditPage()
      */
     public void clickEditPage()

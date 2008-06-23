@@ -24,20 +24,18 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
-
 import org.codehaus.plexus.util.StringInputStream;
-
 import com.thoughtworks.selenium.Selenium;
 
 /**
  * All XWiki Selenium tests must extend this class.
- * 
+ *
  * @version $Id: $
  */
 public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 {
     private static final int WAIT_TIME = 10000;
-    
+
     private SkinExecutor skinExecutor;
 
     private Selenium selenium;
@@ -98,7 +96,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     public void assertPage(String space, String page)
     {
-        assertTrue(getTitle().matches(".*\\("+ space +"."+ page +"\\) - XWiki"));
+        assertTrue(getTitle().matches(".*\\(" + space + "." + page + "\\) - XWiki"));
     }
 
     public boolean isExistingPage(String space, String page)
@@ -111,7 +109,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         // Restore original URL
         open(saveUrl);
 
-        return exists; 
+        return exists;
     }
 
     public void assertTitle(String title)
@@ -254,7 +252,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see SkinExecutor#clickEditPage()
      */
     public void clickEditPage()
@@ -331,7 +329,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     {
         open(space, page, "edit", "editor=wiki");
     }
-    
+
     public void clearWysiwygContent()
     {
         getSkinExecutor().clearWysiwygContent();
@@ -454,8 +452,8 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     }
 
     /**
-     * Set global xwiki configuration options (as if the xwiki.cfg file had been modified). This is useful for
-     * testing configuration options.
+     * Set global xwiki configuration options (as if the xwiki.cfg file had been modified). This is useful for testing
+     * configuration options.
      *
      * @param configuration the configuration in {@link Properties} format. For example "param1=value2\nparam2=value2"
      * @throws IOException if an error occurs while parsing the configuration

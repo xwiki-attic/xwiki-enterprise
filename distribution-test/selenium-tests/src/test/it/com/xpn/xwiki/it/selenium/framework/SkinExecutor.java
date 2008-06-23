@@ -38,6 +38,12 @@ public interface SkinExecutor
     void clickDeletePage();
 
     /**
+     * Click on the Delete button leading to the page for deleting the current page.
+     */
+    void clickCopyPage();
+
+
+    /**
      * Click on the Preview button in Edit mode to preview the changed made to a page.
      */
     void clickEditPreview();
@@ -216,7 +222,7 @@ public interface SkinExecutor
     void assertGeneratedHTML(String xpath) throws Exception;
 
     /**
-     * Opens the Administration page.
+     * Opens the wiki administration application homepage
      */
-    void openAdministrationPage();
+    public void openAdministrationPage();
 }

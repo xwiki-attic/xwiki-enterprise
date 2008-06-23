@@ -59,6 +59,11 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().clickLinkWithLocator("//a[string() = 'Delete']");
     }
 
+    public void clickCopyPage()
+    {
+        getTest().clickLinkWithLocator("//a[string() = 'Copy']");
+    }
+
     public void clickEditPreview()
     {
         getTest().submit("formactionpreview");

@@ -267,6 +267,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         getSkinExecutor().clickDeletePage();
     }
 
+    public void clickCopyPage()
+    {
+        getSkinExecutor().clickCopyPage();
+    }
+
     public void clickEditPreview()
     {
         getSkinExecutor().clickEditPreview();

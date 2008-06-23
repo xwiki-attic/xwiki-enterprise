@@ -19,20 +19,19 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import junit.framework.TestCase;
+
 import java.lang.reflect.Method;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
- * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit
- * Runner discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the
- * tests start (but only once).
+ * A class listing all the Selenium Functional tests to execute. We need such a class (rather than
+ * letting the JUnit Runner discover the different TestCases classes by itself) because we want to
+ * start/stop XWiki before and after the tests start (but only once).
  * 
  * @version $Id: $
  */
@@ -69,14 +68,14 @@ public class AllTests extends TestCase
         addTestCase(suite, AllDocsTest.class);
         addTestCase(suite, AccordionsTest.class);
         addTestCase(suite, UrlMiscTest.class);
-        addTestCase(suite, RegisterTest.class);
-        addTestCase(suite, ValidationTest.class);
+        addTestCase(suite, CopyPageTest.class);
 
-        return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
+
+        return new XWikiTestSetup(suite);
     }
 
-    private static void addTestCase(TestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)
-        throws Exception
+    private static void addTestCase(TestSuite suite,
+        Class< ? extends AbstractXWikiTestCase> testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
             Method method = testClass.getMethod("suite", (Class[]) null);

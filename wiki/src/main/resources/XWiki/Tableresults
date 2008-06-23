@@ -104,8 +104,8 @@
   ## ==============================================
   ## Space
   ## ==============================================
-  #set($space = $bentrydoc.web)
-  #set($spaceurl = $xwiki.getURL("${bentrydoc.wiki}:${bentrydoc.web}.WebHome"))
+  #set($space = $bentrydoc.space)
+  #set($spaceurl = $xwiki.getURL("${bentrydoc.wiki}:${bentrydoc.space}.WebHome"))
   ## ==============================================
   ## Wiki
   ## ==============================================

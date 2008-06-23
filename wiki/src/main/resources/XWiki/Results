@@ -133,7 +133,7 @@
         #end
       &lt;/td&gt;
       &lt;td style="text-align:left"&gt;
-        [$bentrydoc.web&gt;${bentrydoc.wiki}:${bentrydoc.web}.WebHome]
+        [$bentrydoc.space&gt;${bentrydoc.wiki}:${bentrydoc.space}.WebHome]
       &lt;/td&gt;
       #if($xwiki.isVirtualMode())
         &lt;td style="text-align:left"&gt;

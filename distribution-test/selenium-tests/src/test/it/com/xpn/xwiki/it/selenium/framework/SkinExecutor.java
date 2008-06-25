@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium.framework;
 /**
  * Skin-related actions to be implemented by the different Skin Executors. A Skin Executor is simply a class extending
  * this interface and implementing the listed UI actions.
- *
+ * 
  * @version $Id: $
  */
 public interface SkinExecutor
@@ -74,7 +74,7 @@ public interface SkinExecutor
 
     /**
      * Login the passed user.
-     *
+     * 
      * @param username name of the user to log in
      * @param password password of the user to log in
      * @param rememberme if true the user will not have to log in again when he comes back
@@ -100,7 +100,7 @@ public interface SkinExecutor
 
     /**
      * Edit the passed space/page using the WYSIWYG editor.
-     *
+     * 
      * @param space the space to which the page to edit belongs to
      * @param page the page to edit
      */
@@ -113,14 +113,14 @@ public interface SkinExecutor
 
     /**
      * Type the passed text in the WYSIWYG editor.
-     *
+     * 
      * @param text the text to be added to the WYSIWYG editor content
      */
     void typeInWysiwyg(String text);
 
     /**
-     * Type the passed text in thw Wiki editor.
-     *
+     * Type the passed text in the Wiki editor.
+     * 
      * @param text the text to be added to the Wiki editor content
      */
     void typeInWiki(String text);
@@ -195,7 +195,7 @@ public interface SkinExecutor
 
     /**
      * Verify that the WYSIWYG editor has generated the passed text when the page is viewed in the Wiki editor.
-     *
+     * 
      * @param text the text to verify
      */
     void assertWikiTextGeneratedByWysiwyg(String text);
@@ -203,7 +203,7 @@ public interface SkinExecutor
     /**
      * Verify that the WYSIWYG editor has generated HTML content matching the passed XPath expression, without having to
      * save the edited document.
-     *
+     * 
      * @param xpath the XPath expression to check
      * @throws Exception in case of a XPath parsing exception
      */
@@ -212,7 +212,7 @@ public interface SkinExecutor
     /**
      * Verify that the XWiki editor (be it Wiki or WYSIWYG) has generated HTML matching the passed XPath expression when
      * the document has been saved.
-     *
+     * 
      * @param xpath the XPath expression to check
      * @throws Exception in case of a XPath parsing exception
      */

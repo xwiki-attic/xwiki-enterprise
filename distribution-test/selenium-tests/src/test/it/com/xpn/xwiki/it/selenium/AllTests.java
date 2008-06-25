@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
+import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
@@ -72,7 +73,7 @@ public class AllTests extends TestCase
         addTestCase(suite, ValidationTest.class);
         addTestCase(suite, CopyPageTest.class);
 
-        return new XWikiTestSetup(suite);
+        return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }
 
     private static void addTestCase(TestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)

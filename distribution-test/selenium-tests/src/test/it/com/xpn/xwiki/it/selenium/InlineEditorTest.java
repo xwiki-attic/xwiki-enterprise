@@ -108,4 +108,23 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         editInWikiEditor("XWiki", "Admin");
         assertTrue("tag1|tag2".equals(getSelenium().getValue("tags")));
     }
+
+    /**
+     * Tests that pages can override the default property display mode using $context.setDisplayMode. See XWIKI-2436.
+     */
+    public void testEditModeCanBeSet()
+    {
+        String initialContent = null;
+        try {
+            open("XWiki", "Admin", "edit", "editor=wiki");
+            initialContent = getFieldValue("content");
+            typeInWiki("$context.setDisplayMode('edit')\n" + initialContent);
+            clickEditSaveAndView();
+            assertElementPresent("XWiki.XWikiUsers_0_last_name");
+        } finally {
+            if (initialContent != null) {
+                open("XWiki", "Admin", "save", "content=" + initialContent);
+            }
+        }
+    }
 }

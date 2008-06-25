@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1186588178000</creationDate>
-<date>1203516201000</date>
-<contentUpdateDate>1203516201000</contentUpdateDate>
+<date>1214405010000</date>
+<contentUpdateDate>1214405010000</contentUpdateDate>
 <version>4.1</version>
 <title></title>
 <template></template>
@@ -21,15 +21,7 @@
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<attachment>
-<filename>previous.png</filename>
-<filesize>389</filesize>
-<author>XWiki.Admin</author>
-<date>1199724183000</date>
-<version>1.5</version>
-<comment></comment>
-<content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEXSURBVDjLY/j//z8DJZiBLgZkz37Ynjrz4ReyDEideb89afrDf5ET7v4n2YCEqXf7qpY9/T9r76v/Xu03STMgasLteaVLHv+fufvl/6k7X/y3qrlCvAHBvTeXFC54ANbctv7p/95Nz/5rFZ0nzoCAzpuPsuc++D91x4v/jasf/y9aeP9/89rH/6VTTxJngGPDtc3xU+/879789H/5kgf/02fd+V+17OF/yZhjxBmgVXCaRT3v7BqP1mv/a1Y+/J824/b/woX3/osHHSAtECVjjqy0Lb/wP2/+3f+Zs+/8F3XfS3o0inntXWSeffJ/0tRb/0Ucdv4nKyEJW25ZYBh/5L+w5fb/ZCdlQYMNs4WMt/wfuMyEDwMA0Irn/pDRT58AAAAASUVORK5CYII=</content>
-</attachment>
+<syntaxId>xwiki/1.0</syntaxId>
 <attachment>
 <filename>next.png</filename>
 <filesize>395</filesize>
@@ -38,6 +30,15 @@
 <version>1.5</version>
 <comment></comment>
 <content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEdSURBVDjLY/j//z8DJZiB6gY0rH7xpW7li3YKDHj1v2bli38lix61k2VA5fJn/9eeeP+/fcOL/wlT7/aRbEDegkf/Vxx/93/xobf/S5c8/u/ecm0eSQYkTX/4f+HBN/8nbX/xf+bul/8Tp9/9r1N0dgnRBgT33QZqfPW/YdXj/42rH//v2vjkv3fHtf9SScceEWWAc8u1/xO2Pv9fsvjB//IlD4CGPPrvXH/5v2Tksc1EGWBaful/+/on/4sW3gfGxsP/9lUX/ksEH1gj6rqdhSgDlPPO/q9b8fB/5bIH/23LL/wXD9i7kqRAlEo6+b908f3/NiXn/4t57V1EcjRKRB75b1145r+o684FZCUkMb8D/0Uct88euMxEKgYA7Ojrv4CgE7EAAAAASUVORK5CYII=</content>
+</attachment>
+<attachment>
+<filename>previous.png</filename>
+<filesize>389</filesize>
+<author>XWiki.Admin</author>
+<date>1199724183000</date>
+<version>1.5</version>
+<comment></comment>
+<content>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEXSURBVDjLY/j//z8DJZiBLgZkz37Ynjrz4ReyDEideb89afrDf5ET7v4n2YCEqXf7qpY9/T9r76v/Xu03STMgasLteaVLHv+fufvl/6k7X/y3qrlCvAHBvTeXFC54ANbctv7p/95Nz/5rFZ0nzoCAzpuPsuc++D91x4v/jasf/y9aeP9/89rH/6VTTxJngGPDtc3xU+/879789H/5kgf/02fd+V+17OF/yZhjxBmgVXCaRT3v7BqP1mv/a1Y+/J824/b/woX3/osHHSAtECVjjqy0Lb/wP2/+3f+Zs+/8F3XfS3o0inntXWSeffJ/0tRb/0Ucdv4nKyEJW25ZYBh/5L+w5fb/ZCdlQYMNs4WMt/wfuMyEDwMA0Irn/pDRT58AAAAASUVORK5CYII=</content>
 </attachment>
 <object>
 <class>
@@ -250,7 +251,7 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
                                 {pre}
 				&lt;a href="$link"&gt;&lt;img src="${doc.getAttachmentURL("previous.png")}" alt="previous" /&gt;previous page&lt;/a&gt;
 				{/pre}
-			#end		
+			#end
                         ## -------------
                         ## Next page
                         ## -------------
@@ -285,54 +286,52 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
 		#error("Lucene plugin not found. Make sure it's defined in your xwiki.cfg file.")
 	#end
 #end
-{pre}
 #if ($displayUI)
-## ---------------
-## Rebuild processing
-## ---------------
-#set($lucene = $xwiki.getPlugin("lucene"))
-#if($lucene)
-#set($doRebuild = "$!{request.getParameter('rebuild')}")
-#if($doRebuild == "yes")
-  #set($documentCount = $lucene.rebuildIndex())
-  #if(${documentCount} &gt;= 0)
-    {/pre}#info("Started index rebuild.\\
-      Will take some time depending on the number of pages/attachments."){pre}
-  #elseif(${documentCount} == -1)
-    #error("You must have administrator rights to rebuild the index.")
-  #elseif(${documentCount} == -2)
-    #error("Another rebuild is in progress.")
-  #else
-    #error("Index rebuild failed.")
-  #end
-#else ## !doRebuild
-## ---------------
-## Queue &amp; rebuild option
-## ---------------
-        #set ($queuesize = $xwiki.lucene.getQueueSize())
-        #if ($queuesize &gt; 2)
-            #set($info1 = "Lucene is currently building its index, ${queuesize} documents in queue.")
-        #else
-            #set($info1 = "Lucene index is up to date.")
-        #end
-        #if($hasAdmin)
-            #set($info2 = " [Rebuild the Lucene index&gt;${doc.space}.${doc.name}?rebuild=yes].")
-        #else
-            #set($info2 = "")
-	#end
-        {/pre}#info("${info1}${info2}"){pre}
-#end ## doRebuild
-## ---------------
-## Comment
-## ---------------
-{/pre}
+  {pre}
+  ## ---------------
+  ## Rebuild processing
+  ## ---------------
+  #set($lucene = $xwiki.getPlugin("lucene"))
+  #if($lucene)
+    #set($doRebuild = "$!{request.getParameter('rebuild')}")
+    #if($doRebuild == "yes")
+      #set($documentCount = $lucene.rebuildIndex())
+      #if(${documentCount} &gt;= 0)
+        {/pre}#info("Started index rebuild.\\
+        Will take some time depending on the number of pages/attachments."){pre}
+      #elseif(${documentCount} == -1)
+        #error("You must have administrator rights to rebuild the index.")
+      #elseif(${documentCount} == -2)
+        #error("Another rebuild is in progress.")
+      #else
+        #error("Index rebuild failed.")
+      #end
+    #else ## !doRebuild
+      ## ---------------
+      ## Queue &amp; rebuild option
+      ## ---------------
+      #set ($queuesize = $xwiki.lucene.getQueueSize())
+      #if ($queuesize &gt; 2)
+        #set($info1 = "Lucene is currently building its index, ${queuesize} documents in queue.")
+      #else
+        #set($info1 = "Lucene index is up to date.")
+      #end
+      #if($hasAdmin)
+        #set($info2 = " [Rebuild the Lucene index&gt;${doc.space}.${doc.name}?rebuild=yes].")
+      #else
+        #set($info2 = "")
+	  #end
+      {/pre}#info("${info1}${info2}"){pre}
+    #end ## doRebuild
+    ## ---------------
+    ## Comment
+    ## ---------------
+    {/pre}
 #warning("This is the new experimental Lucene search engine. \\
         You can still use the XWiki [default search engine&gt;WebSearch?text=$utext].")
-{pre}
-#end
-{/pre}
-#else ## !lucene exists
-#warning("The Lucene plugin is not enabled. You can use the XWiki [default search engine&gt;WebSearch?text=$utext].")
-#end ## lucene exists
+  #else ## !lucene exists
+    #warning("The Lucene plugin is not enabled. You can use the XWiki [default search engine&gt;WebSearch?text=$utext].")
+  #end ## lucene exists
+#end ## displayUI
 </content>
 </xwikidoc>

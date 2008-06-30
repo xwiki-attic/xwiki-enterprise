@@ -213,7 +213,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
             assertEquals("The group XWiki." + groupname + " will be deleted. Are you sure you want to proceed?",
                 getSelenium().getConfirmation());
             // Wait till the group has been deleted.
-            waitForCondition("!selenium.isTextPresent('" + groupname + "')");
+            waitForCondition("!selenium.isElementPresent('//tbody/tr[td/a=\"" + groupname + "\"]')");
         }
     }
 
@@ -249,7 +249,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
             assertEquals("The user XWiki." + login + " will be deleted and removed from all groups he belongs to. "
                 + "Are you sure you want to proceed?", getSelenium().getConfirmation());
             // Wait till the user has been deleted.
-            waitForCondition("!selenium.isTextPresent('" + login + "')");
+            waitForCondition("!selenium.isElementPresent('//tbody/tr[td/a=\"" + login + "\"]')");
         }
     }
 

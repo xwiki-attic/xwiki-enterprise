@@ -227,3 +227,11 @@ uniquemember: cn=William Bligh,ou=people,o=sevenSeas
 uniquemember: cn=Fletcher Christian,ou=people,o=sevenSeas
 uniquemember: cn=John Fryer,ou=people,o=sevenSeas
 uniquemember: cn=John Hallett,ou=people,o=sevenSeas
+
+# Group filter
+# --------------------
+dn: cn=Exlude Group,ou=crews,ou=groups,o=sevenSeas
+objectclass: groupOfUniqueNames
+objectclass: top
+cn: Exlude Group
+uniquemember: cn=Thomas Quist,ou=people,o=sevenSeas

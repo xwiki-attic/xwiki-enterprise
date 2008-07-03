@@ -25,13 +25,15 @@ import com.xpn.xwiki.test.XWikiTestSetup;
  * JUnit TestSetup extension that starts/stops embedded LDAP server and modify xwiki.cfg file to use LDAP as
  * authentication system. This class is meant to wrap a JUnit TestSuite. For example:
  * 
- * <pre><code>
+ * <pre>
+ * &lt;code&gt;
  * public static Test suite()
  * {
  *     // Create some TestSuite object here
  *     return new LDAPXWikiTestSetup(suite);
  * }
- * </code></pre>
+ * &lt;/code&gt;
+ * </pre>
  * 
  * @version $Id: $
  */
@@ -70,14 +72,29 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     public static final String HORATIOHORNBLOWER_DN = "cn=Horatio Hornblower,ou=people,o=sevenSeas";
 
     /**
+     * The LDAP unique id of user Horatio Hornblower.
+     */
+    public static final String HORATIOHORNBLOWER_UID = "Horatio Hornblower";
+    
+    /**
      * The LDAP password of user Horatio Hornblower.
      */
     public static final String HORATIOHORNBLOWER_PWD = "pass";
 
     /**
-     * The LDAP unique id of user Horatio Hornblower.
+     * The LDAP DN of user Thomas Quist.
      */
-    public static final String HORATIOHORNBLOWER_UID = "Horatio Hornblower";
+    public static final String THOMASQUIST_DN = "cn=Thomas Quist,ou=people,o=sevenSeas";
+
+    /**
+     * The LDAP unique id of user Thomas Quist.
+     */
+    public static final String THOMASQUIST_UID = "tquist";
+    
+    /**
+     * The LDAP password of user Thomas Quist.
+     */
+    public static final String THOMASQUIST_PWD = "pass";
 
     /**
      * The LDAP DN of user William Bush.
@@ -118,6 +135,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * The LDAP DN of group HMS Lydia.
      */
     public static final String HMSLYDIA_DN = "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas";
+
+    /**
+     * The LDAP DN of group to exclude from login.
+     */
+    public static final String EXCLUSIONGROUP_DN = "cn=Exlude Group,ou=crews,ou=groups,o=sevenSeas";
 
     /**
      * The LDAP members of group HMS Lydia.
@@ -187,8 +209,8 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
          * Lydia,ou=crews,ou=groups,o=sevenSeas");
          */
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group",
-            "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group", HMSLYDIA_DN);
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group", EXCLUSIONGROUP_DN);
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.validate_password", "0");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.update_user", "1");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.trylocal", "1");

@@ -65,11 +65,22 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         assertTrue(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " user has not been authenticated", isAuthenticated());
 
+        // ///////////////////
+        // Validate exclusion group
+
         logout();
+
+        setFieldValue("j_username", XWikiLDAPTestSetup.THOMASQUIST_UID);
+        setFieldValue("j_password", XWikiLDAPTestSetup.THOMASQUIST_PWD);
+        checkField("rememberme");
+        submit();
+
+        assertFalse(XWikiLDAPTestSetup.THOMASQUIST_UID + " user has been authenticated", isAuthenticated());
 
         // ///////////////////
         // Validate XE-136: log with LDAP user then search for provided user uid/pass
 
+        logout();
         loginAsAdmin();
 
         open("/xwiki/bin/edit/XWiki/XWikiPreferences?editor=object");

@@ -7,7 +7,6 @@ import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
 import org.xwiki.component.manager.ComponentLookupException;
-import org.xwiki.component.manager.ComponentManager;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
@@ -17,7 +16,6 @@ import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
 import com.xpn.xwiki.test.AbstractXWikiComponentTestCase;
-import com.xpn.xwiki.web.Utils;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
@@ -68,10 +66,10 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
             @Override
             public CacheFactory getCacheFactory()
             {
-                CacheFactory cacheService = null;
+                CacheFactory cacheFactory = null;
 
                 try {
-                    cacheService = (CacheFactory) getComponentManager().lookup(CacheFactory.ROLE);
+                    cacheFactory = (CacheFactory) getComponentManager().lookup(CacheFactory.ROLE);
                 } catch (ComponentLookupException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -80,7 +78,7 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
                     e.printStackTrace();
                 }
 
-                return cacheService;
+                return cacheFactory;
             }
         };
 

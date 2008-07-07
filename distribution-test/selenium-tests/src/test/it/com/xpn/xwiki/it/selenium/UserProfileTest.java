@@ -43,12 +43,11 @@ public class UserProfileTest extends AbstractXWikiTestCase
     {
         super.setUp();
         loginAsAdmin();
-
-        open("XWiki", "Admin");
     }
 
     public void testChangePasswordWithTwoDifferentPasswords()
     {
+        open("XWiki", "Admin");
         clickLinkWithText("Change your password");
         setFieldValue("xwikipassword", "p1");
         setFieldValue("xwikipassword2", "p2");
@@ -59,6 +58,7 @@ public class UserProfileTest extends AbstractXWikiTestCase
 
     public void testChangePasswordWithoutEnteringPasswords()
     {
+        open("XWiki", "Admin");
         clickLinkWithText("Change your password");
         clickLinkWithXPath("//input[@type='submit']", false);
         assertTrue(getSelenium().isAlertPresent());

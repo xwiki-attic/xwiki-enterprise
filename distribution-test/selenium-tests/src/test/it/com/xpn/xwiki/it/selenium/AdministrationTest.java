@@ -119,9 +119,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testBlogAdmin()
     {
-        clickLinkWithText("Administrate wiki");
+        open("XWiki", "XWikiPreferences", "admin");
+
         // select global administration
-        getSelenium().select("goto-select", "label=Wiki administration");
         clickLinkWithLocator("//span[text()='General']", true);
         getSelenium().select("//select[@id='XWiki.XWikiPreferences_0_editor']", "label=Text");
         clickLinkWithLocator("//input[@value='Save']");
@@ -142,9 +142,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testPanelsAdmin()
     {
-        clickLinkWithText("Administrate wiki");
+        open("XWiki", "XWikiPreferences", "admin");
+
         //test panel wizard at global level
-        getSelenium().select("goto-select", "label=Wiki administration");
         clickLinkWithLocator("//span[text()='Panel Wizard']");
         getSelenium().click("//a[@href='#PageLayoutSection']");
         getSelenium().click("//div[@id='bothcolumns']");

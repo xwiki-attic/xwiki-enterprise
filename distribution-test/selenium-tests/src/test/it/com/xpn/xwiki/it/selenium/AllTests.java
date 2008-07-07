@@ -50,8 +50,8 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
         addTestCase(suite, DeletePageTest.class);
-        addTestCase(suite, LanguageTest.class);
         addTestCase(suite, LoginLogoutTest.class);
+        addTestCase(suite, UserProfileTest.class);        
         addTestCase(suite, WikiEditorTest.class);
         addTestCase(suite, WysiwygEditorFromWikiTest.class);
         addTestCase(suite, WysiwygEditorTest.class);
@@ -65,7 +65,6 @@ public class AllTests extends TestCase
         addTestCase(suite, VersionTest.class);
         addTestCase(suite, WatchListTest.class);
         addTestCase(suite, KeyboardShortcutsTest.class);
-        addTestCase(suite, UserProfileTest.class);
         addTestCase(suite, AllDocsTest.class);
         addTestCase(suite, AccordionsTest.class);
         addTestCase(suite, UrlMiscTest.class);
@@ -73,6 +72,7 @@ public class AllTests extends TestCase
         addTestCase(suite, ValidationTest.class);
         addTestCase(suite, CopyPageTest.class);
         addTestCase(suite, AdministrationTest.class);
+        addTestCase(suite, LanguageTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

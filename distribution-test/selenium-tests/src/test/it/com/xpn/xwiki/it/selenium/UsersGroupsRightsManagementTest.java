@@ -259,8 +259,11 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     private void addUserToGroup(String user, String group)
     {
         openGroupsPage();
+        // TODO : replace the setSpeed by a "wait for lightbox to be loaded" condition
+        getSelenium().setSpeed("1000");
         getSelenium().click("//tbody/tr[td/a=\"" + group + "\"]/td[3]/img[@title=\"Edit\"]");
         setFieldValue("userSuggest", "XWiki." + user);
+        getSelenium().setSpeed("0");
         clickLinkWithLocator("addNewUser", false);
         // Close the group edit lightbox
         clickLinkWithLocator("lb-close");  

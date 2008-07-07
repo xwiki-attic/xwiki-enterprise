@@ -90,15 +90,18 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      */
     public void testCreateGroupWhenGroupAlreadyExists()
     {
+        open("XWiki", "testCreateGroupWhenGroupAlreadyExists", "edit", "editor=wiki");
+        setFieldValue("content", "some content");
+        clickEditSaveAndView();                                           
         openGroupsPage();
         clickLinkWithText("Add new group", false);
         waitForLightbox("Create new group");
-        setFieldValue("newgroupi", "Admin");
+        setFieldValue("newgroupi", "testCreateGroupWhenGroupAlreadyExists");
         getSelenium().click("//input[@value='Create group']");
         // We need to wait till the alert appears since when the user clicks on the "Create Group" button there's
         // an Ajax call made to the server.
-        waitForCondition("try {selenium.getAlert() == 'Admin cannot be used for the group name, "
-            + "as another document with this name already exists.'} catch(err) { false;}");
+        waitForCondition("try {selenium.getAlert() == 'testCreateGroupWhenGroupAlreadyExists cannot be used for the " +
+            "group name, as another document with this name already exists.'} catch(err) { false;}");
     }
 
     /**

@@ -52,11 +52,14 @@ public class VersionTest extends AbstractXWikiTestCase
      */ 
     public void testRollbackToFirstVersion() throws Exception
     {
-        open("Main", "WebHome", "edit", "editor=wiki");
+        open("Main", "VersionTest", "edit", "editor=wiki");
         setFieldValue("content", "aaa");
         clickEditSaveAndView();
-        open("Main", "WebHome", "rollback", "rev=1.1");
+        open("Main", "VersionTest", "edit", "editor=wiki");
+        setFieldValue("content", "bbb");
+        clickEditSaveAndView();
+        open("Main", "VersionTest", "rollback", "rev=1.1");
         clickLinkWithLocator("//input[@value='yes']");
-        assertTextPresent("Welcome to your wiki");
+        assertTextPresent("aaa");
     }
 }

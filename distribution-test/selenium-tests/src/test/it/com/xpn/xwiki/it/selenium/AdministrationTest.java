@@ -96,6 +96,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         deletePage("Photos", "Links");
         clickLinkWithText("Administrate wiki");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Photos']");
+        restorePage("Photos", "Links");
     }
 
     /*
@@ -103,6 +104,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testSettingXWikiPreferences()
     {
+        clickLinkWithText("Administrate wiki");
         getSelenium().select("goto-select", "label=Wiki administration");
         getSelenium().click("//span[text()='General']");
         waitPage();
@@ -117,6 +119,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testBlogAdmin()
     {
+        clickLinkWithText("Administrate wiki");
         // select global administration
         getSelenium().select("goto-select", "label=Wiki administration");
         clickLinkWithLocator("//span[text()='General']", true);
@@ -139,20 +142,38 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testPanelsAdmin()
     {
+        clickLinkWithText("Administrate wiki");
         //test panel wizard at global level
         getSelenium().select("goto-select", "label=Wiki administration");
         clickLinkWithLocator("//span[text()='Panel Wizard']");
         getSelenium().click("//a[@href='#PageLayoutSection']");
-        getSelenium().click("//div[@id='nosidecolumn']");
+        getSelenium().click("//div[@id='bothcolumns']");
+        getSelenium().click("//a[@href='#PanelListSection']");
+        getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
+        getSelenium().click("//a[text()='Save the new layout']");
+        waitForCondition("selenium.isAlertPresent()");
+        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
+        open("Main", "WebHome");
+        assertElementPresent("leftPanels");
+        assertElementPresent("rightPanels");
+
+        // Revert changes
+        open("XWiki", "XWikiPreferences", "admin");
+        clickLinkWithLocator("//span[text()='Panel Wizard']");
+        getSelenium().click("//a[@href='#PageLayoutSection']");
+        getSelenium().click("//div[@id='rightcolumn']");
         getSelenium().click("//a[text()='Save the new layout']");
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
         assertElementNotPresent("leftPanels");
-        assertElementNotPresent("rightPanels");
+        assertElementPresent("rightPanels");
 
         //test panel wizard at space level
-        open("Main", "WebPreferences", "admin");
+        open("TestPanelsAdmin", "WebHome", "edit", "editor=wiki");
+        setFieldValue("content", "aaa");
+        clickEditSaveAndView();
+        open("TestPanelsAdmin", "WebPreferences", "admin");
         clickLinkWithLocator("//span[text()='Panel Wizard']");
         getSelenium().click("//a[@href='#PageLayoutSection']");
         getSelenium().click("//div[@id='leftcolumn']");
@@ -161,7 +182,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         getSelenium().click("//a[text()='Save the new layout']");
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
-        open("Main", "WebHome");
+        open("TestPanelsAdmin", "WebHome");
         assertElementPresent("leftPanels");
         assertElementPresent("//div[@class='panel expanded QuickLinks']");
         open("XWiki", "WebHome");

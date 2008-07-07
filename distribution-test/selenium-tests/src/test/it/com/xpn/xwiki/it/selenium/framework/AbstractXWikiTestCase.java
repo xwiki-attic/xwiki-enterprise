@@ -177,6 +177,14 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         open(space, page, "delete", "confirm=1");
     }
 
+    public void restorePage(String space, String page)
+    {
+        open(space, page, "view");
+        if (getSelenium().isTextPresent("Restore")) {
+            clickLinkWithText("Restore", true);
+        }
+    }
+
     public void clickLinkWithLocator(String locator)
     {
         clickLinkWithLocator(locator, true);

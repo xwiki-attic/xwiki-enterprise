@@ -131,7 +131,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         testShortcutFromTextPresent(viewURL, "d", "Wiki code for Welcome to your wiki");
         // Delete : delete
         testShortcutFromTextPresent(viewURL, "\\46",
-            "Are you sure you wish to move the document to recycle bin");
+            "Are you sure you wish to move this document to the recycle bin");
         // F2 : rename
         testShortcutFromTextPresent(viewURL, "\\113", "Renaming Main.WebHome");
 

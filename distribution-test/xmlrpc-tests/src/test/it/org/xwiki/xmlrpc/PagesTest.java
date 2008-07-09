@@ -313,11 +313,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         assertEquals(storedPage.getContent(), content);
 
-        /*
-         * This is normal since on the server side the getDocument actually creates the empty document with version 1,
-         * and the doc.save() store the actual content by incrementing the version
-         */
-        assertTrue(storedPage.getVersion() == 2);
+        assertTrue(storedPage.getVersion() == 1);
         assertEquals("", storedPage.getLanguage());
     }
 

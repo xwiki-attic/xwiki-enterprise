@@ -242,7 +242,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void clickWikiSignatureButton()
     {
-        getTest().clickLinkWithXPath("//img[@title='sig']", false);
+        getTest().clickLinkWithXPath("//img[@title='Signature']", false);
     }
 
     public void assertWikiTextGeneratedByWysiwyg(String text)

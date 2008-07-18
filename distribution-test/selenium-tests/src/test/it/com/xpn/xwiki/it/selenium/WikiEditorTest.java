@@ -148,13 +148,13 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         open("/xwiki/bin/edit/Test/WikiSignatureButton?editor=wiki");
         setFieldValue("content", "Here follows a signature: ");
         clickWikiSignatureButton();
-        assertEquals("Failed to append signature marker", "Here follows a signature: #sign(\"XWiki.Admin\")sigtext",
+        assertEquals("Failed to append signature marker", "Here follows a signature: #sign(\"XWiki.Admin\")",
             getFieldValue("content"));
         setFieldValue("content", "Here follows a signature: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "26");
         clickWikiSignatureButton();
         assertEquals("Failed to insert signature marker",
-            "Here follows a signature: #sign(\"XWiki.Admin\")sigtext\nAnd some content after...",
+            "Here follows a signature: #sign(\"XWiki.Admin\")\nAnd some content after...",
             getFieldValue("content"));
         // TODO: We need to find out how to make a text selection in Selenium
     }

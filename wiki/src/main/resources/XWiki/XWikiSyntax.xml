@@ -107,12 +107,12 @@ In addition to these special wiki syntaxes XWiki allows any HTML to be inserted 
 &lt;/pre&gt;
     &lt;/td&gt;
     &lt;td&gt;
-      &lt;h2 class="heading-1"&gt;&lt;span id="HTitle1"&gt;Title 1&lt;/span&gt;&lt;/h2&gt;&lt;p class="paragraph"/&gt;
-      &lt;h3 class="heading-1-1"&gt;&lt;span id="HTitle2"&gt;Title 2&lt;/span&gt;&lt;/h3&gt;&lt;p class="paragraph"/&gt;
-      &lt;h4 class="heading-1-1-1"&gt;&lt;span id="HTitle3"&gt;Title 3&lt;/span&gt;&lt;/h4&gt;&lt;p class="paragraph"/&gt;
-      &lt;h5 class="heading-1-1-1-1"&gt;&lt;span id="HTitle4"&gt;Title 4&lt;/span&gt;&lt;/h5&gt;&lt;p class="paragraph"/&gt;
-      &lt;h6 class="heading-1-1-1-1-1"&gt;&lt;span id="HTitle5"&gt;Title 5&lt;/span&gt;&lt;/h6&gt;&lt;p class="paragraph"/&gt;
-      &lt;h6 class="heading-1-1-1-1-1-1"&gt;&lt;span id="HTitle6"&gt;Title 6&lt;/span&gt;&lt;/h6&gt;&lt;p class="paragraph"/&gt;
+      &lt;h2&gt;&lt;span id="HTitle1"&gt;Title 1&lt;/span&gt;&lt;/h2&gt;&lt;p class="paragraph"/&gt;
+      &lt;h3&gt;&lt;span id="HTitle2"&gt;Title 2&lt;/span&gt;&lt;/h3&gt;&lt;p class="paragraph"/&gt;
+      &lt;h4&gt;&lt;span id="HTitle3"&gt;Title 3&lt;/span&gt;&lt;/h4&gt;&lt;p class="paragraph"/&gt;
+      &lt;h5&gt;&lt;span id="HTitle4"&gt;Title 4&lt;/span&gt;&lt;/h5&gt;&lt;p class="paragraph"/&gt;
+      &lt;h6&gt;&lt;span id="HTitle5"&gt;Title 5&lt;/span&gt;&lt;/h6&gt;&lt;p class="paragraph"/&gt;
+      &lt;h6&gt;&lt;span id="HTitle6"&gt;Title 6&lt;/span&gt;&lt;/h6&gt;&lt;p class="paragraph"/&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;

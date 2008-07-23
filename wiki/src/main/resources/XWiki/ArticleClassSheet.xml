@@ -58,7 +58,7 @@
 #elseif($context.action!="inline")
 &lt;div class="hfeed"&gt;
 &lt;div class="hentry"&gt;
-&lt;h3 class="heading-1-1 entry-title"&gt;$doc.display("title","view", $obj)&lt;/h3&gt;
+&lt;h2 class="entry-title"&gt;$doc.display("title","view", $obj)&lt;/h2&gt;
 &lt;div class="article_content entry-content"&gt;
 $doc.display("content", "rendered", $obj)
 &lt;/div&gt; ## entry-content

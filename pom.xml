@@ -28,7 +28,6 @@
     <groupId>com.xpn.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
     <version>18-SNAPSHOT</version>
-    <relativePath>../xwiki-platform-pom</relativePath>
   </parent>
   <groupId>com.xpn.xwiki.products</groupId>
   <artifactId>xwiki-enterprise-parent</artifactId>
@@ -37,9 +36,9 @@
   <version>1.6-SNAPSHOT</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/xwiki-products/xwiki-enterprise/trunk</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</url>
   </scm>
   <modules>        
     <module>wiki</module>

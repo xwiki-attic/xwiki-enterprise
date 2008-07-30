@@ -150,14 +150,4 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         assertTrue(XWikiLDAPTestSetup.USERWITHPOINTS_UID + " user has not been authenticated", isAuthenticated());
     }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase#tearDown()
-     */
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
 }

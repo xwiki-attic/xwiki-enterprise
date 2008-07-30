@@ -15,7 +15,7 @@ import com.xpn.xwiki.it.framework.XWikiConfig;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
-import com.xpn.xwiki.test.AbstractXWikiComponentTestCase;
+import com.xpn.xwiki.test.AbstractBridgedXWikiComponentTestCase;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
@@ -23,7 +23,7 @@ import com.xpn.xwiki.web.XWikiEngineContext;
  * 
  * @version $Id: $
  */
-public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
+public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
 {
     /**
      * The name of the group cache.
@@ -39,11 +39,6 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
      * The LDAP tool.
      */
     private XWikiLDAPUtils ldapUtils = new XWikiLDAPUtils(connection);
-
-    /**
-     * The XWiki context.
-     */
-    private XWikiContext context;
 
     /**
      * {@inheritDoc}
@@ -123,8 +118,8 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
     {
         CacheConfiguration cacheConfigurationGroups = new CacheConfiguration();
 
-        Cache<Map<String, String>> tmpCache = this.ldapUtils.getCache(cacheConfigurationGroups, this.context);
-        Cache<Map<String, String>> cache = this.ldapUtils.getCache(cacheConfigurationGroups, this.context);
+        Cache<Map<String, String>> tmpCache = this.ldapUtils.getCache(cacheConfigurationGroups, getContext());
+        Cache<Map<String, String>> cache = this.ldapUtils.getCache(cacheConfigurationGroups, getContext());
 
         assertSame("Cache is recreated", tmpCache, cache);
     }
@@ -136,14 +131,14 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
      */
     public void testGetGroupMembers() throws XWikiException
     {
-        Map<String, String> members = this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+        Map<String, String> members = this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertFalse("No member was found", members.isEmpty());
 
         assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members.keySet()));
 
         Map<String, String> wrongGroupMembers =
-            this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);
+            this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", getContext());
 
         assertNull("Should return null if group does not exists [" + wrongGroupMembers + "]", wrongGroupMembers);
     }
@@ -157,7 +152,7 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
     {
         String userDN =
             this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID, XWikiLDAPTestSetup.HMSLYDIA_DN,
-                this.context);
+                getContext());
 
         assertNotNull("User " + XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
@@ -166,12 +161,12 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
 
         userDN =
             this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID, XWikiLDAPTestSetup.HMSLYDIA_DN,
-                this.context);
+                getContext());
 
         assertNotNull("User " + XWikiLDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN, userDN);
 
-        String wrongUserDN = this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, this.context);
+        String wrongUserDN = this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
     }

@@ -22,6 +22,7 @@ package com.xpn.xwiki.it;
 import java.lang.reflect.Method;
 
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
+import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -61,7 +62,9 @@ public class AllTests extends TestCase
         // Selenium
         addTestCaseSuite(suite, LDAPAuthTest.class);
 
-        return new XWikiLDAPTestSetup(suite);
+        // The XWikiSeleniumTestSetup wrapper is used to inject a Selenium instance into all test classes that
+        // extend AbstractXWikiTestCase. This is done here in order to have only a single shared Selenium instance.
+        return new XWikiSeleniumTestSetup(new XWikiLDAPTestSetup(suite));
     }
 
     private static void addTestCase(TestSuite suite, Class< ? > testClass) throws Exception

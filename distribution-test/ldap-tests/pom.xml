@@ -38,9 +38,15 @@
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
       <version>${platform.core.version}</version>
+      <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
-    
+    <dependency>
+      <groupId>com.xpn.xwiki.platform</groupId>
+      <artifactId>xwiki-core</artifactId>
+      <version>${platform.core.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>
       <artifactId>xwiki-enterprise-test-selenium</artifactId>
@@ -48,7 +54,6 @@
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
-    
     <!-- Needed at test time. Some versions of Maven don't inherit provided dependencies. -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -56,14 +61,12 @@
       <version>2.4</version>
       <scope>test</scope>
     </dependency>
-    
     <dependency>
       <groupId>org.openqa.selenium.client-drivers</groupId>
       <artifactId>selenium-java-client-driver</artifactId>
       <version>0.9.2</version>
       <scope>test</scope>
     </dependency>
-    
     <!-- Dependencies for LDAP unit tests -->
     <dependency>
       <groupId>org.apache.directory.server</groupId>

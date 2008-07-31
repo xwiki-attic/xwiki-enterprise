@@ -74,7 +74,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The LDAP unique id of user Horatio Hornblower.
      */
-    public static final String HORATIOHORNBLOWER_UID = "Horatio Hornblower";
+    public static final String HORATIOHORNBLOWER_CN = "Horatio Hornblower";
     
     /**
      * The LDAP password of user Horatio Hornblower.
@@ -89,7 +89,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The LDAP unique id of user Thomas Quist.
      */
-    public static final String THOMASQUIST_UID = "tquist";
+    public static final String THOMASQUIST_CN = "Thomas Quist";
     
     /**
      * The LDAP password of user Thomas Quist.
@@ -210,7 +210,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
          */
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group", HMSLYDIA_DN);
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group", EXCLUSIONGROUP_DN);
+        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.exclude_group", EXCLUSIONGROUP_DN);
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.validate_password", "0");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.update_user", "1");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.trylocal", "1");
@@ -224,6 +224,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * 
      * @see com.xpn.xwiki.test.XWikiTestSetup#setUp()
      */
+    @Override
     protected void setUp() throws Exception
     {
         this.ldap.start();
@@ -243,6 +244,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * 
      * @see com.xpn.xwiki.test.XWikiTestSetup#tearDown()
      */
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

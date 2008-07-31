@@ -157,6 +157,9 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         waitPage(WAIT_TIME);
     }
 
+    /**
+     * @deprecated use {@link #waitPage()} instead
+     */
     public void waitPage(int nbMillisecond)
     {
         getSelenium().waitForPageToLoad(String.valueOf(nbMillisecond));

@@ -27,6 +27,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      * 
      * @see com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase#setUp()
      */
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -45,12 +46,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      */
     public void testLogAsXWikiUser()
     {
-        setFieldValue("j_username", "Admin");
-        setFieldValue("j_password", "admin");
-        checkField("rememberme");
-        submit();
-
-        assertTrue("Admin user has not been authenticated", isAuthenticated());
+        login("Admin", "admin", true);
     }
 
     /**
@@ -58,29 +54,24 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      */
     public void testLogAsLDAPUser()
     {
-        setFieldValue("j_username", XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID);
-        setFieldValue("j_password", XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD);
-        checkField("rememberme");
-        submit();
-
-        assertTrue(XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID + " user has not been authenticated", isAuthenticated());
+        login(XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN, XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, true);
 
         // ///////////////////
         // Validate exclusion group
 
         logout();
+        clickLogin();
 
-        setFieldValue("j_username", XWikiLDAPTestSetup.THOMASQUIST_UID);
+        setFieldValue("j_username", XWikiLDAPTestSetup.THOMASQUIST_CN);
         setFieldValue("j_password", XWikiLDAPTestSetup.THOMASQUIST_PWD);
         checkField("rememberme");
         submit();
 
-        assertFalse(XWikiLDAPTestSetup.THOMASQUIST_UID + " user has been authenticated", isAuthenticated());
+        assertFalse(XWikiLDAPTestSetup.THOMASQUIST_CN + " user has been authenticated", isAuthenticated());
 
         // ///////////////////
         // Validate XE-136: log with LDAP user then search for provided user uid/pass
 
-        logout();
         loginAsAdmin();
 
         open("/xwiki/bin/edit/XWiki/XWikiPreferences?editor=object");
@@ -94,30 +85,14 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
             "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
         clickEditSaveAndView();
 
-        logout();
-        clickLogin();
-
-        setFieldValue("j_username", XWikiLDAPTestSetup.WILLIAMBUSH_UID);
-        setFieldValue("j_password", XWikiLDAPTestSetup.WILLIAMBUSH_PWD);
-        checkField("rememberme");
-        submit();
-
-        assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID + " user has not been authenticated", isAuthenticated());
+        login(XWikiLDAPTestSetup.WILLIAMBUSH_UID, XWikiLDAPTestSetup.WILLIAMBUSH_PWD, true);
 
         // ///////////////////
         // Validate
         // - XWIKI-2205: case insensitive user uid
         // - XWIKI-2202: LDAP user update corrupt XWiki user page
 
-        logout();
-        clickLogin();
-
-        setFieldValue("j_username", XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED);
-        setFieldValue("j_password", XWikiLDAPTestSetup.WILLIAMBUSH_PWD);
-        checkField("rememberme");
-        submit();
-
-        assertTrue(XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED + " user has not been authenticated", isAuthenticated());
+        login(XWikiLDAPTestSetup.WILLIAMBUSH_UID_MIXED, XWikiLDAPTestSetup.WILLIAMBUSH_PWD, true);
 
         // ///////////////////
         // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
@@ -140,14 +115,6 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         // Validate
         // - XWIKI-2264: LDAP authentication does not support "." in login names
 
-        logout();
-        clickLogin();
-
-        setFieldValue("j_username", XWikiLDAPTestSetup.USERWITHPOINTS_UID);
-        setFieldValue("j_password", XWikiLDAPTestSetup.USERWITHPOINTS_PWD);
-        checkField("rememberme");
-        submit();
-
-        assertTrue(XWikiLDAPTestSetup.USERWITHPOINTS_UID + " user has not been authenticated", isAuthenticated());
+        login(XWikiLDAPTestSetup.USERWITHPOINTS_UID, XWikiLDAPTestSetup.USERWITHPOINTS_PWD, true);
     }
 }

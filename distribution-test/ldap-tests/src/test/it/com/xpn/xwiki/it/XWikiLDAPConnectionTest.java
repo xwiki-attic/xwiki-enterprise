@@ -28,12 +28,14 @@ public class XWikiLDAPConnectionTest extends TestCase
      * 
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     public void setUp() throws Exception
     {
         this.context = new XWikiContext();
 
         new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), this.context)
         {
+            @Override
             public void initXWiki(com.xpn.xwiki.XWikiConfig config, XWikiContext context,
                 XWikiEngineContext enginecontext, boolean noupdate) throws XWikiException
             {
@@ -55,8 +57,7 @@ public class XWikiLDAPConnectionTest extends TestCase
         XWikiLDAPConnection connection = new XWikiLDAPConnection();
 
         assertTrue("LDAP connection failed", connection.open("localhost", port,
-            XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD,
-            null, false, context));
+            XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, context));
 
         connection.close();
     }
@@ -70,20 +71,9 @@ public class XWikiLDAPConnectionTest extends TestCase
     {
         XWikiLDAPConnection connection = new XWikiLDAPConnection();
 
-        assertTrue("LDAP connection failed", connection.open(
-            XWikiLDAPTestSetup.HORATIOHORNBLOWER_UID, XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD,
-            this.context));
+        assertTrue("LDAP connection failed", connection.open(XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN,
+            XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, this.context));
 
         connection.close();
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
-    public void tearDown() throws Exception
-    {
-        super.tearDown();
     }
 }

@@ -56,8 +56,8 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
-        //addTestCase(suite, XWikiLDAPUtilsTest.class);
-        //addTestCase(suite, XWikiLDAPConnectionTest.class);
+        addTestCase(suite, XWikiLDAPUtilsTest.class);
+        addTestCase(suite, XWikiLDAPConnectionTest.class);
 
         // Selenium
         addTestCaseSuite(suite, LDAPAuthTest.class);

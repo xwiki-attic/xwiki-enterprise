@@ -73,6 +73,8 @@ public class AllTests extends TestCase
         addTestCase(suite, CopyPageTest.class);
         addTestCase(suite, AdministrationTest.class);
         addTestCase(suite, LanguageTest.class);
+        addTestCase(suite, SchedulerTest.class);
+        addTestCase(suite, PanelWizardTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

@@ -40,63 +40,36 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         return suite;
     }
 
-    private void testShortcutFromResultingTitle(String origURL, String shortcut,
+    protected void testShortcutFromResultingTitle(String origURL, String shortcut,
         String expectedTitle) throws InterruptedException
     {
         testShortcutFromResultingTitle(origURL, shortcut, expectedTitle, false, false, false);
     }
 
-    private void testShortcutFromResultingTitle(String origURL, String shortcut,
+    protected void testShortcutFromResultingTitle(String origURL, String shortcut,
         String expectedTitle, boolean withCtrlModifier, boolean withAltModifier,
         boolean withShiftModifier) throws InterruptedException
     {
-        testShortcut(origURL, shortcut, expectedTitle, withCtrlModifier, withAltModifier,
-            withShiftModifier, true);
+        open(origURL);
+        pressKeyboardShortcut(shortcut, withCtrlModifier, withAltModifier, withShiftModifier);
+        waitPage();
+        assertTitle(expectedTitle);
     }
 
-    private void testShortcutFromTextPresent(String origURL, String shortcut,
+    protected void testShortcutFromTextPresent(String origURL, String shortcut,
         String text) throws InterruptedException
     {
         testShortcutFromTextPresent(origURL, shortcut, text, false, false, false);
     }
 
-    private void testShortcutFromTextPresent(String origURL, String shortcut,
-        String text, boolean withCtrlModifier, boolean withAltModifier,
+    protected void testShortcutFromTextPresent(String origURL, String shortcut,
+        String expectedText, boolean withCtrlModifier, boolean withAltModifier,
         boolean withShiftModifier) throws InterruptedException
     {
-        testShortcut(origURL, shortcut, text, withCtrlModifier, withAltModifier,
-            withShiftModifier, false);
-    }
-
-    private void testShortcut(String origURL, String shortcut,
-        String text, boolean withCtrlModifier, boolean withAltModifier,
-        boolean withShiftModifier, boolean fromTitle) throws InterruptedException
-    {
         open(origURL);
-        if (withCtrlModifier) {
-            getSelenium().controlKeyDown();
-        }
-        if (withAltModifier) {
-            getSelenium().altKeyDown();
-        }
-        if (withShiftModifier) {
-            getSelenium().shiftKeyDown();
-        }
-        keyPressAndWait(mainHtmlElement, shortcut);
-        if (withCtrlModifier) {
-            getSelenium().controlKeyUp();
-        }
-        if (withAltModifier) {
-            getSelenium().altKeyUp();
-        }
-        if (withShiftModifier) {
-            getSelenium().shiftKeyUp();
-        }
-        if (fromTitle) {
-            assertTitle(text);
-        } else {
-            assertTextPresent(text);
-        }
+        pressKeyboardShortcut(shortcut, withCtrlModifier, withAltModifier, withShiftModifier);
+        waitPage();
+        assertTextPresent(expectedText);
     }
 
     public void testAllKeyboardShortcuts() throws InterruptedException
@@ -104,7 +77,6 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         loginAsAdmin();
 
         String viewURL = "/xwiki/bin/view/Main/WebHome";
-        String editURL = "/xwiki/bin/edit/Main/WebHome?editor=wiki";
 
         // e : default edit wysiswyg
         testShortcutFromResultingTitle(viewURL, "e", "Editing wysiwyg for Welcome to your wiki");
@@ -119,19 +91,11 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // o : edit objects
         testShortcutFromTextPresent(viewURL, "o", "Welcome to the objects editor");
         // s : edit class
-        testShortcutFromTextPresent(viewURL, "s",
-            "Choose a property to edit or add a property to the class");
-        // c : comments
-        testShortcutFromTextPresent(viewURL, "c", "Comments for Welcome to your wiki");
-        // a : attachments
-        testShortcutFromTextPresent(viewURL, "a", "Attachments for Welcome to your wiki");        
-        // h : history
-        testShortcutFromTextPresent(viewURL, "h", "History of Welcome to your wiki");
+        testShortcutFromTextPresent(viewURL, "s", "Choose a property to edit or add a property to the class");
         // d : code
         testShortcutFromTextPresent(viewURL, "d", "Wiki code for Welcome to your wiki");
         // Delete : delete
-        testShortcutFromTextPresent(viewURL, "\\46",
-            "Are you sure you wish to move this document to the recycle bin");
+        testShortcutFromTextPresent(viewURL, "\\46", "Are you sure you wish to move this document to the recycle bin");
         // F2 : rename
         testShortcutFromTextPresent(viewURL, "\\113", "Renaming Main.WebHome");
 

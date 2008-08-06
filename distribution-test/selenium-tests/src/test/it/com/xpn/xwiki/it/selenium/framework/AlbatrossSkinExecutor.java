@@ -268,4 +268,28 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         getTest().open("XWiki", "XWikiPreferences", "admin");
     }
+
+    public void pressKeyboardShortcut(String shortcut, boolean withCtrlModifier, boolean withAltModifier,
+        boolean withShiftModifier) throws InterruptedException
+    {
+        if (withCtrlModifier) {
+            getTest().getSelenium().controlKeyDown();
+        }
+        if (withAltModifier) {
+            getTest().getSelenium().altKeyDown();
+        }
+        if (withShiftModifier) {
+            getTest().getSelenium().shiftKeyDown();
+        }
+        getTest().getSelenium().keyPress("xwikimaincontainer", shortcut);        
+        if (withCtrlModifier) {
+            getTest().getSelenium().controlKeyUp();
+        }
+        if (withAltModifier) {
+            getTest().getSelenium().altKeyUp();
+        }
+        if (withShiftModifier) {
+            getTest().getSelenium().shiftKeyUp();
+        }
+    }
 }

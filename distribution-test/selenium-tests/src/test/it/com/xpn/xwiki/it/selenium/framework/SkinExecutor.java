@@ -222,4 +222,16 @@ public interface SkinExecutor
      * Opens the wiki administration application homepage
      */
     void openAdministrationPage();
+
+    /**
+     * Press a key with optionnal keypress modifiers (Ctrl,Shift,etc)
+     *
+     * @param shortcut the key to press
+     * @param withCtrlModifier press Ctrl during shortcut key press
+     * @param withAltModifier press Alt during shortcut key press
+     * @param withShiftModifier press Shift during shortcut key press
+     * @throws InterruptedException if selenium is interrupted during the key press
+     */
+    void pressKeyboardShortcut(String shortcut, boolean withCtrlModifier, boolean withAltModifier,
+        boolean withShiftModifier) throws InterruptedException;
 }

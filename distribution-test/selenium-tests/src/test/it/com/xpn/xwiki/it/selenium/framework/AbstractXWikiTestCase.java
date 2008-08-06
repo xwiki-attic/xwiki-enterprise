@@ -462,6 +462,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         return getUrl(space, doc, action) + "?" + queryString;
     }
 
+    public void pressKeyboardShortcut(String shortcut, boolean withCtrlModifier, boolean withAltModifier,
+        boolean withShiftModifier) throws InterruptedException {
+        getSkinExecutor().pressKeyboardShortcut(shortcut, withCtrlModifier, withAltModifier, withShiftModifier);
+    }
+
     /**
      * Set global xwiki configuration options (as if the xwiki.cfg file had been modified). This is useful for testing
      * configuration options.

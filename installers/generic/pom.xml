@@ -71,6 +71,30 @@
         </executions>
       </plugin>
       <plugin>
+        <!-- Make sure the directories used by the dependency plugin exist since they are not created by default
+             with Maven 2.0.x. Note that this works fine with Maven 2.1.x. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- Note that we need a phase that executes before prepare-package as otherwise the
+                 Antrun plugin executes after the dependency plugin below. This is fixed in
+                 Maven 2.1 (http://jira.codehaus.org/browse/MNG-2258). -->
+            <phase>test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="${xwiki.database}" />
+                <mkdir dir="${xwiki.container}/jetty" />
+                <mkdir dir="${xwiki.container}/webapps/xwiki" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
@@ -86,7 +110,7 @@
                   <groupId>com.xpn.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
-                  <outputDirectory>${project.build.directory}/container/jetty</outputDirectory>
+                  <outputDirectory>${xwiki.container}/jetty</outputDirectory>
                   <!-- Note: This the Dependency plugin doesn't support includes/excludes we
                        copy all the jetty resources in the jetty/ dir and then using the AntRun
                        plugin below we move all shell scripts file into the root. -->
@@ -96,7 +120,7 @@
                   <artifactId>xwiki-enterprise-web</artifactId>
                   <version>${pom.version}</version>
                   <type>war</type>
-                  <outputDirectory>${project.build.directory}/container/webapps/xwiki</outputDirectory>
+                  <outputDirectory>${xwiki.container}/webapps/xwiki</outputDirectory>
                   <!-- Exclude default Hibernate config file since we're instead using one with the
                        selected database configuration defined.
                        NOTE: This is only supported by version 2.0-alpha-5 and above of the Dependency plugin which is
@@ -109,7 +133,7 @@
                   <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
                   <version>${pom.version}</version>
                   <type>zip</type>
-                  <outputDirectory>${project.build.directory}/database</outputDirectory>
+                  <outputDirectory>${xwiki.database}</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -126,7 +150,7 @@
                   <groupId>${xwiki.db.jdbc.groupId}</groupId>
                   <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
                   <version>${xwiki.db.jdbc.version}</version>
-                  <outputDirectory>${project.build.directory}/container/webapps/xwiki/WEB-INF/lib</outputDirectory>
+                  <outputDirectory>${xwiki.container}/webapps/xwiki/WEB-INF/lib</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -149,9 +173,9 @@
             </goals>
             <configuration>
               <tasks>
-                <delete file="${project.build.directory}/container/webapps/xwiki/WEB-INF/hibernate.cfg.xml" />
-                <move todir="${project.build.directory}/container">
-                  <fileset dir="${project.build.directory}/container/jetty">
+                <delete file="${xwiki.container}/webapps/xwiki/WEB-INF/hibernate.cfg.xml" />
+                <move todir="${xwiki.container}">
+                  <fileset dir="${xwiki.container}/jetty">
                     <include name="**/*.sh" />
                     <include name="**/*.bat" />
                   </fileset>

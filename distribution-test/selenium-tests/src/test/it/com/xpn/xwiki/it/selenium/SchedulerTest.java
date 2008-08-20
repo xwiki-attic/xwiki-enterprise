@@ -39,8 +39,6 @@ public class SchedulerTest extends AbstractXWikiTestCase
         super.setUp();
         loginAsAdmin();
         open("Scheduler", "WebHome");
-        assertElementPresent("//h3[text()='Comments']");
-        assertElementPresent("//h3[text()='Attachments']");
         if (!getSelenium().isTextPresent("Tester problem")) {
             setFieldValue("title", "xyz");
             clickLinkWithXPath("//input[@value='Add']");

@@ -146,8 +146,11 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         //test panel wizard at global level
         clickLinkWithLocator("//span[text()='Panel Wizard']");
+        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         getSelenium().click("//a[@href='#PageLayoutSection']");
+        waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
         getSelenium().click("//div[@id='bothcolumns']");
+        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         getSelenium().click("//a[@href='#PanelListSection']");
         getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
         getSelenium().click("//a[text()='Save the new layout']");
@@ -160,7 +163,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Revert changes
         open("XWiki", "XWikiPreferences", "admin");
         clickLinkWithLocator("//span[text()='Panel Wizard']");
+        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         getSelenium().click("//a[@href='#PageLayoutSection']");
+        waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
         getSelenium().click("//div[@id='rightcolumn']");
         getSelenium().click("//a[text()='Save the new layout']");
         waitForCondition("selenium.isAlertPresent()");
@@ -175,8 +180,11 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
         open("TestPanelsAdmin", "WebPreferences", "admin");
         clickLinkWithLocator("//span[text()='Panel Wizard']");
+        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         getSelenium().click("//a[@href='#PageLayoutSection']");
+        waitForCondition("selenium.isElementPresent(\"//div[@id='leftcolumn']\")!=false;");
         getSelenium().click("//div[@id='leftcolumn']");
+        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         getSelenium().click("//a[@href='#PanelListSection']");
         getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
         getSelenium().click("//a[text()='Save the new layout']");

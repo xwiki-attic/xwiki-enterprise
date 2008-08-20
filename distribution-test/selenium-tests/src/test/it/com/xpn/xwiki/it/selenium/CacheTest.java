@@ -53,6 +53,6 @@ public class CacheTest extends AbstractXWikiTestCase
     public void testDateClass()
     {
         createPage("Main", "TestDateClass", "$xwiki.flushCache()\n$xwiki.getDocument(\"Main.WebHome\").date.class");
-        assertTextPresent("java.util.Date");
+        waitForCondition("selenium.page().bodyText().indexOf('java.util.Date')!=-1;");
     }
 }

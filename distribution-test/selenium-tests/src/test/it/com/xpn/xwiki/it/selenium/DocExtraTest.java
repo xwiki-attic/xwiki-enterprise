@@ -117,25 +117,25 @@ public class DocExtraTest extends AbstractXWikiTestCase
         // our functions (on purpose)
         open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
         open("/xwiki/bin/view/Main/WebHome#Attachments");
-        assertTextPresent("Add an attachment");
+        waitForCondition("selenium.page().bodyText().indexOf('Add an attachment')!=-1;");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
         open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
         open("/xwiki/bin/view/Main/WebHome#History");
-        assertElementPresent("historyform");
+        waitForCondition("selenium.isElementPresent(\"historyform\")!=false;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
         open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
         open("/xwiki/bin/view/Main/WebHome#Information");
-        assertTextPresent("Creation:");
+        waitForCondition("selenium.page().bodyText().indexOf('Creation:')!=-1;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
         open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
         open("/xwiki/bin/view/Main/WebHome#Comments");
-        assertTextPresent("Add Comment");
+        waitForCondition("selenium.page().bodyText().indexOf('Add Comment')!=-1;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
     }

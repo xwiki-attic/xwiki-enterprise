@@ -69,7 +69,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-wysiwyg</artifactId>
-      <version>${platform.wysiwyg.version}</version>
+      <version>${platform.plugin.wysiwyg.version}</version>
     </dependency>
   </dependencies>
   <build>

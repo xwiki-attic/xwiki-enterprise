@@ -18,12 +18,6 @@
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-password-reset</artifactId>
-      <version>${platform.passwordReset.version}</version>
-      <type>xar</type>
-    </dependency>
-    <dependency>
-      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-administration</artifactId>
       <version>${platform.administration.version}</version>
       <type>xar</type>

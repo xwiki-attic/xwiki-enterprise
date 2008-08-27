@@ -37,8 +37,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class VelocityMacrosTest extends AbstractXWikiTestCase
 {
-    private static final String EXECUTION_DIRECTORY =
-        System.getProperty("xwikiExecutionDirectory");
+    private static final String EXECUTION_DIRECTORY = System.getProperty("xwikiExecutionDirectory");
 
     public static Test suite()
     {
@@ -55,7 +54,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
 
     public void testMacros() throws Exception
     {
-        open("/xwiki/bin/edit/Test/VelocityMacrosTest?editor=wiki");
+        open("Test", "VelocityMacrosTest", "edit", "editor=wiki");
 
         // TODO: Add more macro tests here (for performance reasons it's much faster to have more
         // tests in a single junit test) and modify thet assert so that it checks for exact content
@@ -70,10 +69,10 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
      */
     public void testIncludeMacrosInPage()
     {
-        open("/xwiki/bin/edit/Test/Macro?editor=wiki");
+        open("Test", "Macro", "edit", "editor=wiki");
         setFieldValue("content", "#macro(testIncludeMacrosInPage)hellomacro#end");
         clickEditSaveAndView();
-        open("/xwiki/bin/edit/Test/IncludeMacroTest?editor=wiki");
+        open("Test", "IncludeMacroTest", "edit", "editor=wiki");
         setFieldValue("content", "#includeMacros(\"Test.Macro\")\n#testIncludeMacrosInPage()");
         clickEditSaveAndView();
         assertTextPresent("hellomacro");
@@ -84,10 +83,10 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
      */
     public void testMacrosAreLocal()
     {
-        open("/xwiki/bin/edit/Test/TestMacrosAreLocal1?editor=wiki");
+        open("Test", "TestMacrosAreLocal1", "edit", "editor=wiki");
         setFieldValue("content", "#macro(testMacrosAreLocal)mymacro#end");
         clickEditSaveAndView();
-        open("/xwiki/bin/edit/Test/TestMacrosAreLocal2?editor=wiki");
+        open("Test", "TestMacrosAreLocal2", "edit", "editor=wiki");
         setFieldValue("content", "#testMacrosAreLocal()");
         clickEditSaveAndView();
         assertTextNotPresent("mymacro");
@@ -106,13 +105,13 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         String viewTemplate = String.copyValueOf(fileContent);
 
         // Overwrite view template in custom skin to add macro definition
-        open("/xwiki/bin/edit/XWiki/DefaultSkin?editor=object");
-        setFieldValue("XWiki.XWikiSkins_0_view.vm",
-            "#macro(testSkinObjectMacro)skin object macro content#end " + viewTemplate);
+        open("XWiki", "DefaultSkin", "edit", "editor=object");
+        setFieldValue("XWiki.XWikiSkins_0_view.vm", "#macro(testSkinObjectMacro)skin object macro content#end "
+            + viewTemplate);
         clickEditSaveAndContinue();
 
         // Create a wiki page which use use the defined macro
-        open("/xwiki/bin/edit/Test/VelocitySkinObjectMacrosUseMacro?editor=wiki");
+        open("Test", "VelocitySkinObjectMacrosUseMacro", "edit", "editor=wiki");
         setFieldValue("content", "#testSkinObjectMacro()");
         clickEditSaveAndView();
 

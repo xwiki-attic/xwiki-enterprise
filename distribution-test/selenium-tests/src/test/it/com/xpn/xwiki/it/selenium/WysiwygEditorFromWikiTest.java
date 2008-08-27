@@ -27,7 +27,7 @@ import junit.framework.Test;
 
 /**
  * Tests the WYSIWYG editor (content edited in Wiki mode and then switched in WYSIWYG mode).
- *
+ * 
  * @version $Id: $
  */
 public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
@@ -43,7 +43,7 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
     {
         super.setUp();
         loginAsAdmin();
-        open("/xwiki/bin/edit/Test/WysiwygEdit?editor=wiki");
+        open("Test", "WysiwygEdit", "edit", "editor=wiki");
     }
 
     public void testIndentedOrderedList() throws Exception
@@ -84,7 +84,7 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
         assertHTMLGeneratedByWysiwyg("ul/li[text()='item 1']");
         assertHTMLGeneratedByWysiwyg("ul/ul/li[text()='item 2']");
         assertHTMLGeneratedByWysiwyg("ul/li[text()='item 3']");
-        
+
         clickLinkWithText("Wiki");
         assertEquals("- item 1\n-- item 2\n- item 3", getFieldValue("content"));
     }
@@ -95,7 +95,7 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
         clickLinkWithText("WYSIWYG");
 
         // <div class="vcomment"> comment</div>
-        assertHTMLGeneratedByWysiwyg("div[@class='vcomment'][.=' comment']");        
+        assertHTMLGeneratedByWysiwyg("div[@class='vcomment'][.=' comment']");
 
         clickLinkWithText("Wiki");
         assertEquals("## comment", getFieldValue("content"));

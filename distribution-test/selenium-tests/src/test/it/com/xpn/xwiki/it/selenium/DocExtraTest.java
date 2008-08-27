@@ -26,7 +26,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Verify the document extra feature of XWiki.
- *
+ * 
  * @version $Id: $
  */
 public class DocExtraTest extends AbstractXWikiTestCase
@@ -38,33 +38,44 @@ public class DocExtraTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        loginAsAdmin();
+    }
+
     /**
      * Test document extras presence after a click on the corresponding tabs. This test also verify that the browser
      * doesn't scroll after tab clicks.
      */
     public void testDocExtraLoadingFromTabClicks()
     {
-        loginAsAdmin();
+        open("Main", "WebHome");
         int initialScrollY = Integer.parseInt(getSelenium().getEval("window.scrollX"));
 
+        waitForCondition("selenium.isElementPresent(\"//a[@id='Attachmentslink']\")!=false;");
         clickLinkWithXPath("//a[@id='Attachmentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
         assertTextPresent("Choose file to upload:");
         int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollX"));
         assertEquals(initialScrollY, scrollY);
 
+        waitForCondition("selenium.isElementPresent(\"//a[@id='Historylink']\")!=false;");
         clickLinkWithXPath("//a[@id='Historylink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("historyform");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
+        waitForCondition("selenium.isElementPresent(\"//a[@id='Informationlink']\")!=false;");
         clickLinkWithXPath("//a[@id='Informationlink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
         assertTextPresent("Creation:");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
+        waitForCondition("selenium.isElementPresent(\"//a[@id='Commentslink']\")!=false;");
         clickLinkWithXPath("//a[@id='Commentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
         assertTextPresent("Add Comment");
@@ -75,32 +86,37 @@ public class DocExtraTest extends AbstractXWikiTestCase
     /**
      * Test document extras presence after pressing the corresponding keyboard shortcuts. This test also verify that the
      * browser scrolls to the bottom of the page.
-     *
+     * 
      * @throws InterruptedException if selenium fails to simulate keyboard shortcut.
      */
     public void testDocExtraLoadingFromKeyboardShortcuts() throws InterruptedException
     {
+        open("Main", "WebHome");
         int initialScrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
 
         getSkinExecutor().pressKeyboardShortcut("a", false, false, false);
+        waitForCondition("selenium.isTextPresent('Add an attachment')!=-1;");
         assertTextPresent("Add an attachment");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
         getSkinExecutor().pressKeyboardShortcut("h", false, false, false);
+        waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("historyform");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
         getSkinExecutor().pressKeyboardShortcut("i", false, false, false);
+        waitForCondition("selenium.isTextPresent('Creation:')!=-1;");
         assertTextPresent("Creation:");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
         getSkinExecutor().pressKeyboardShortcut("c", false, false, false);
+        waitForCondition("selenium.isTextPresent('Add Comment')!=-1;");
         assertTextPresent("Add Comment");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
@@ -115,26 +131,26 @@ public class DocExtraTest extends AbstractXWikiTestCase
     {
         // We have to load a different page first since opening the same page with a new anchor doesn't call
         // our functions (on purpose)
-        open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
-        open("/xwiki/bin/view/Main/WebHome#Attachments");
+        open("Main", "ThisPageDoesNotExist");
+        open("Main", "WebHome#Attachments");
         waitForCondition("selenium.page().bodyText().indexOf('Add an attachment')!=-1;");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
-        open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
-        open("/xwiki/bin/view/Main/WebHome#History");
+        open("Main", "ThisPageDoesNotExist");
+        open("Main", "WebHome#History");
         waitForCondition("selenium.isElementPresent(\"historyform\")!=false;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
-        open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
-        open("/xwiki/bin/view/Main/WebHome#Information");
+        open("Main", "ThisPageDoesNotExist");
+        open("Main", "WebHome#Information");
         waitForCondition("selenium.page().bodyText().indexOf('Creation:')!=-1;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
-        open("/xwiki/bin/view/Main/ThisPageDoesNotExist");
-        open("/xwiki/bin/view/Main/WebHome#Comments");
+        open("Main", "ThisPageDoesNotExist");
+        open("Main", "WebHome#Comments");
         waitForCondition("selenium.page().bodyText().indexOf('Add Comment')!=-1;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);

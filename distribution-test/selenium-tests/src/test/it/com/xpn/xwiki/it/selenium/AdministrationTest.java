@@ -26,7 +26,7 @@ import junit.framework.Test;
 
 /**
  * Verify the overall Administration application features.
- *
+ * 
  * @version $Id: $
  */
 public class AdministrationTest extends AbstractXWikiTestCase
@@ -46,11 +46,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
     /**
      * This method makes the following tests :
-     *
+     * 
      * <ul>
      * <li>Login as global admin.</li>
-     * <li>Validate presence of default sections for global and space
-     * sections.</li>
+     * <li>Validate presence of default sections for global and space sections.</li>
      * <li>Validate presence of application administration sections at global level only.</li>
      * </ul>
      */
@@ -106,11 +105,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         clickLinkWithText("Administrate wiki");
         getSelenium().select("goto-select", "label=Wiki administration");
-        getSelenium().click("//span[text()='General']");
-        waitPage();
+        clickLinkWithXPath("//span[text()='General']", true);
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");
-        getSelenium().click("//input[@value='Save']");
-        waitPage();
+        clickLinkWithXPath("//input[@value='Save']", true);
         assertElementPresent("//span[@id='headerlanguages']");
     }
 
@@ -126,12 +123,12 @@ public class AdministrationTest extends AbstractXWikiTestCase
         getSelenium().select("//select[@id='XWiki.XWikiPreferences_0_editor']", "label=Text");
         clickLinkWithLocator("//input[@value='Save']");
         assertElementPresent("//span[@id='showsectionswrapper']");
-        getSelenium().click("//a[@id='showsections']");
+        clickLinkWithXPath("//a[@id='showsections']", false);
         assertElementPresent("//span[@id='hidesectionswrapper']");
         clickLinkWithLocator("//span[text()='Blog categories']");
         clickLinkWithText("Add a category", true);
         setFieldValue("Blog.Categories_3_name", "New Category");
-        getSelenium().type("Blog.Categories_3_description", "New Category Content");
+        setFieldValue("Blog.Categories_3_description", "New Category Content");
         clickLinkWithLocator("//input[@value='Save & View']", true);
         assertElementPresent("//td[text()='New Category']");
         assertElementPresent("//td[text()='New Category Content']");
@@ -144,16 +141,16 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         open("XWiki", "XWikiPreferences", "admin");
 
-        //test panel wizard at global level
+        // test panel wizard at global level
         clickLinkWithLocator("//span[text()='Panel Wizard']");
         waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
-        getSelenium().click("//a[@href='#PageLayoutSection']");
+        clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
-        getSelenium().click("//div[@id='bothcolumns']");
+        clickLinkWithXPath("//div[@id='bothcolumns']", false);
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        getSelenium().click("//a[@href='#PanelListSection']");
+        clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
-        getSelenium().click("//a[text()='Save the new layout']");
+        clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
@@ -164,30 +161,30 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open("XWiki", "XWikiPreferences", "admin");
         clickLinkWithLocator("//span[text()='Panel Wizard']");
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        getSelenium().click("//a[@href='#PageLayoutSection']");
+        clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
-        getSelenium().click("//div[@id='rightcolumn']");
-        getSelenium().click("//a[text()='Save the new layout']");
+        clickLinkWithXPath("//div[@id='rightcolumn']", false);
+        clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
         assertElementNotPresent("leftPanels");
         assertElementPresent("rightPanels");
 
-        //test panel wizard at space level
+        // test panel wizard at space level
         open("TestPanelsAdmin", "WebHome", "edit", "editor=wiki");
         setFieldValue("content", "aaa");
         clickEditSaveAndView();
         open("TestPanelsAdmin", "WebPreferences", "admin");
         clickLinkWithLocator("//span[text()='Panel Wizard']");
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        getSelenium().click("//a[@href='#PageLayoutSection']");
+        clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='leftcolumn']\")!=false;");
-        getSelenium().click("//div[@id='leftcolumn']");
+        clickLinkWithXPath("//div[@id='leftcolumn']", false);
         waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
-        getSelenium().click("//a[@href='#PanelListSection']");
+        clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
-        getSelenium().click("//a[text()='Save the new layout']");
+        clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("TestPanelsAdmin", "WebHome");

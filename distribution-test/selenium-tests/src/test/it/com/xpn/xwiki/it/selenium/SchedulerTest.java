@@ -52,9 +52,13 @@ public class SchedulerTest extends AbstractXWikiTestCase
     }
 
     /**
-     * This method makes the following tests : <p/> <ul> <li>Opens the Scheduler for XWiki instance.</li> <li>Edits the
-     * task in top of the list.</li> <li>Modifies the form with details.</li> <li>Goes back to job list and check for
-     * the presence of the newly created job.</li> </ul>
+     * This method makes the following tests : <p/>
+     * <ul>
+     * <li>Opens the Scheduler for XWiki instance.</li>
+     * <li>Edits the task in top of the list.</li>
+     * <li>Modifies the form with details.</li>
+     * <li>Goes back to job list and check for the presence of the newly created job.</li>
+     * </ul>
      */
     public void testEditJob()
     {
@@ -67,9 +71,13 @@ public class SchedulerTest extends AbstractXWikiTestCase
     }
 
     /**
-     * This method makes the following tests : <p/> <ul> <li>Opens the Scheduler for XWiki instance.</li> <li>Deletes
-     * the task in top of the list.</li> <li>Sends it to recycle bin then restores it.</li> <li>Goes back to job
-     * list.</li> </ul>
+     * This method makes the following tests : <p/>
+     * <ul>
+     * <li>Opens the Scheduler for XWiki instance.</li>
+     * <li>Deletes the task in top of the list.</li>
+     * <li>Sends it to recycle bin then restores it.</li>
+     * <li>Goes back to job list.</li>
+     * </ul>
      */
     public void testRestoreJob()
     {
@@ -98,8 +106,12 @@ public class SchedulerTest extends AbstractXWikiTestCase
     }
 
     /**
-     * This method makes the following tests : <p/> <ul> <li>Opens the Scheduler for XWiki instance.</li> <li>Deletes
-     * the task in top of the list.</li> <li>Sends it to recycle bin then deletes it forever.</li> </ul>
+     * This method makes the following tests : <p/>
+     * <ul>
+     * <li>Opens the Scheduler for XWiki instance.</li>
+     * <li>Deletes the task in top of the list.</li>
+     * <li>Sends it to recycle bin then deletes it forever.</li>
+     * </ul>
      */
     public void testDeleteJob()
     {
@@ -108,7 +120,7 @@ public class SchedulerTest extends AbstractXWikiTestCase
         clickLinkWithText("Job Scheduler");
         assertElementNotPresent("//td[text()='Tester job']");
         open("Scheduler", "xyz", "view", "confirm=1");
-        getSelenium().click("//a[@onclick=\"if (confirm('This action is not reversible. "
+        clickLinkWithXPath("//a[@onclick=\"if (confirm('This action is not reversible. "
             + "Are you sure you wish to continue?')) {this.href += '&confirm=1'; return true;} return false;\"]");
         assertTrue(getSelenium().getConfirmation().matches(
             "^This action is not reversible\\. Are you sure you wish to continue[\\s\\S]$"));

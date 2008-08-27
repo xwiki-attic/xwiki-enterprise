@@ -92,7 +92,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         open("XWiki", "testCreateGroupWhenGroupAlreadyExists", "edit", "editor=wiki");
         setFieldValue("content", "some content");
-        clickEditSaveAndView();                                           
+        clickEditSaveAndView();
         openGroupsPage();
         clickLinkWithText("Add new group", false);
         waitForLightbox("Create new group");
@@ -100,8 +100,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         getSelenium().click("//input[@value='Create group']");
         // We need to wait till the alert appears since when the user clicks on the "Create Group" button there's
         // an Ajax call made to the server.
-        waitForCondition("try {selenium.getAlert() == 'testCreateGroupWhenGroupAlreadyExists cannot be used for the " +
-            "group name, as another document with this name already exists.'} catch(err) { false;}");
+        waitForCondition("try {selenium.getAlert() == 'testCreateGroupWhenGroupAlreadyExists cannot be used for the "
+            + "group name, as another document with this name already exists.'} catch(err) { false;}");
     }
 
     /**
@@ -197,9 +197,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickLinkWithText("Add new group", false);
         waitForLightbox("Create new group");
         setFieldValue("newgroupi", groupname);
-        getSelenium().click("//input[@value='Create group']");
-        // Wait till the group is displayed
-        waitPage();
+        clickLinkWithXPath("//input[@value='Create group']", true);
         waitForCondition("selenium.isTextPresent('" + groupname + "')");
     }
 
@@ -266,7 +264,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         getSelenium().setSpeed("0");
         clickLinkWithLocator("addNewUser", false);
         // Close the group edit lightbox
-        clickLinkWithLocator("lb-close");  
+        clickLinkWithLocator("lb-close");
     }
 
     private void waitForLightbox(String lightboxName)
@@ -276,7 +274,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
     private void clickGroupsRadioButton()
     {
-        getSelenium().click("//input[@name='uorg' and @value='groups']");
+        clickLinkWithXPath("//input[@name='uorg' and @value='groups']", false);
     }
 
     private void openGlobalRightsPage()
@@ -287,7 +285,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
     private void openGroupsPage()
     {
-        openAdministrationPage();                
+        openAdministrationPage();
         clickLinkWithText("Groups");
         // Since the Groups page has a table loaded using Ajax calls we need to ensure it's filled before going
         // further. We do that by verifying that the AdminGroup and the AllGroup are loaded.
@@ -314,7 +312,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
     /**
      * @param actionToVerify the action that the click is supposed to have done. Valid values are "allow", "deny1" or
-     *        "none".
+     *            "none".
      */
     private void clickViewRightsCheckbox(String groupOrUserName, String actionToVerify)
     {
@@ -323,7 +321,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
     /**
      * @param actionToVerify the action that the click is supposed to have done. Valid values are "allow", "deny1" or
-     *        "none".
+     *            "none".
      */
     private void clickCommentRightsCheckbox(String groupOrUserName, String actionToVerify)
     {
@@ -333,9 +331,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     private void clickRightsCheckbox(String groupOrUserName, String actionToVerify, int positionInTd)
     {
         String xpath = "//tbody/tr[td/a='" + groupOrUserName + "']/td[" + positionInTd + "]/img";
-        getSelenium().click(xpath);
+        clickLinkWithXPath(xpath, false);
         // Wait till it has been clicked since this can take some time.
-        waitForCondition("selenium.isElementPresent(\"" + xpath + "[contains(@src, '" + actionToVerify
-            + ".png')]\")");
+        waitForCondition("selenium.isElementPresent(\"" + xpath + "[contains(@src, '" + actionToVerify + ".png')]\")");
     }
 }

@@ -43,7 +43,7 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        open("/xwiki/bin/view/Main/");
+        open("Main","WebHome");
 
         // Verify that the user isn't logged in
         if (isAuthenticated()) {

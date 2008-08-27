@@ -26,17 +26,16 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 import junit.framework.Test;
 
 /**
- * Verify the skin customization features available in the Administration (like changing
- * the default CSS, etc).
- *
+ * Verify the skin customization features available in the Administration (like changing the default CSS, etc).
+ * 
  * @version $Id: $
  */
 public class SkinCustomizationsTest extends AbstractXWikiTestCase
 {
     public static Test suite()
     {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the skin customization features "
-            + "available in the Administration");
+        XWikiTestSuite suite =
+            new XWikiTestSuite("Verify the skin customization features " + "available in the Administration");
         suite.addTestSuite(SkinCustomizationsTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
@@ -52,7 +51,7 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
         // Ensure that we reset the style
         openAdministrationPage();
         clickLinkWithText("Presentation");
-        getSelenium().type("XWiki.XWikiPreferences_0_stylesheet", "style.css");
+        setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "style.css");
         clickEditSaveAndContinue();
     }
 
@@ -60,7 +59,7 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
     {
         openAdministrationPage();
         clickLinkWithText("Presentation");
-        getSelenium().type("XWiki.XWikiPreferences_0_stylesheet", "somestyle.css");
+        setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "somestyle.css");
         clickEditSaveAndContinue();
         assertTrue(getSelenium().isElementPresent(
             "xpath=//head/link[@href='/xwiki/bin/skin/skins/albatross/somestyle.css']"));

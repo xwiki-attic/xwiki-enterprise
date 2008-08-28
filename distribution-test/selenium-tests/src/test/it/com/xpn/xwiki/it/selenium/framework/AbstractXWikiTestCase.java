@@ -34,7 +34,7 @@ import com.thoughtworks.selenium.Selenium;
  */
 public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 {
-    private static final int WAIT_TIME = 10000;
+    private static final int WAIT_TIME = 30000;
 
     private SkinExecutor skinExecutor;
 

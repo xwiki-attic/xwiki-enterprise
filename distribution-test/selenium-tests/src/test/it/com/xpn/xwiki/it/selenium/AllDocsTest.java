@@ -44,6 +44,8 @@ public class AllDocsTest extends AbstractXWikiTestCase
     {
         getSelenium().typeKeys(field, text);
         waitForCondition("selenium.browserbot.getCurrentWindow().document." +
+            "getElementById(\"ajax-loader\") != null");        
+        waitForCondition("selenium.browserbot.getCurrentWindow().document." +
             "getElementById(\"ajax-loader\").style.display == \"none\"");    
     }
 

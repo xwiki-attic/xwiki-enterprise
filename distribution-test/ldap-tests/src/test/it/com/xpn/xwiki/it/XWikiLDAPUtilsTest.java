@@ -138,7 +138,7 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
 
         assertFalse("No member was found", members.isEmpty());
 
-        assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members.keySet()));
+        assertEquals(XWikiLDAPTestSetup.HMSLYDIA_MEMBERS, members.keySet());
 
         Map<String, String> wrongGroupMembers =
             this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", getContext());

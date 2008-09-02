@@ -54,6 +54,8 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
     public void setUp() throws Exception
     {
         super.setUp();
+        
+        this.context = new XWikiContext();
 
         new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), this.context)
         {

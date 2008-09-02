@@ -133,7 +133,7 @@ function buildTree()
  #set ($hiddenPages = ["Main.WebRss", "Main.WebSearch", "Main.LuceneSearch", "Main.BlogRss", "Blog.Macros", "Main.TagsRss", "Main.RegisterNewUserAction", "Main.SpaceIndex", "Blog.Category"])
  #set ($blackListedPages = ["WebPreferences"])
  // Add spaces as top level nodes
- #foreach ($space in $xwiki.spaces)
+ #foreach ($space in $util.sort($xwiki.spaces))
    #if (!$hiddenSpaces.contains($space) || ($hiddenSpaces.contains($space) &amp;&amp; $xwiki.hasAdminRights()))
      nodeObject = { label: "$space", href:"$xwiki.getURL("${space}.WebHome")" };
      var spaceNode = new YAHOO.widget.TextNode(nodeObject, root, false); 

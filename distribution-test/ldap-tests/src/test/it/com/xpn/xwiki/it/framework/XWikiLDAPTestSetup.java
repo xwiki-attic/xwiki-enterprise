@@ -19,7 +19,7 @@ import org.apache.directory.server.unit.AbstractServerTest;
 
 import junit.framework.Test;
 
-import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
+import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
  * JUnit TestSetup extension that starts/stops embedded LDAP server and modify xwiki.cfg file to use LDAP as
@@ -37,7 +37,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
  * 
  * @version $Id: $
  */
-public class XWikiLDAPTestSetup extends XWikiSeleniumTestSetup
+public class XWikiLDAPTestSetup extends XWikiTestSetup
 {
     /**
      * The name of the LDAP property containing user unique id (cn).

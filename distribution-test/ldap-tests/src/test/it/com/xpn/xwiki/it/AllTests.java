@@ -22,15 +22,17 @@ package com.xpn.xwiki.it;
 import java.lang.reflect.Method;
 
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
+import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
+import com.xpn.xwiki.test.XWikiTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * A class listing all the Functional tests to execute. We need such a class (rather than letting
- * the JUnit Runner discover the different TestCases classes by itself) because we want to
- * start/stop XWiki before and after the tests start (but only once).
+ * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
+ * discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the tests
+ * start (but only once).
  * 
  * @version $Id: $
  */
@@ -61,7 +63,9 @@ public class AllTests extends TestCase
         // Selenium
         addTestCaseSuite(suite, LDAPAuthTest.class);
 
-        return new XWikiLDAPTestSetup(suite);
+        // The XWikiSeleniumTestSetup wrapper is used to inject a Selenium instance into all test classes that
+        // extend AbstractXWikiTestCase. This is done here in order to have only a single shared Selenium instance.
+        return new XWikiSeleniumTestSetup(new XWikiLDAPTestSetup(suite));
     }
 
     private static void addTestCase(TestSuite suite, Class< ? > testClass) throws Exception

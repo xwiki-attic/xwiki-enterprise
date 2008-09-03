@@ -1,14 +1,7 @@
 package com.xpn.xwiki.it;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
-import java.util.List;
-
 import junit.framework.TestCase;
 
-import com.novell.ldap.LDAPAttribute;
-import com.novell.ldap.LDAPConnection;
-import com.novell.ldap.LDAPException;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiConfig;
 import com.xpn.xwiki.XWikiContext;
@@ -16,7 +9,6 @@ import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPException;
-import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**

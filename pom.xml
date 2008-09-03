@@ -64,7 +64,6 @@
     <platform.statistics.version>1.4-SNAPSHOT</platform.statistics.version>
     <platform.plugin.lucene.version>1.6-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.skinx.version>1.2-SNAPSHOT</platform.plugin.skinx.version>
-    <platform.plugin.wysiwyg.version>1.1-SNAPSHOT</platform.plugin.wysiwyg.version>
   </properties>
   <profiles>
     <profile>

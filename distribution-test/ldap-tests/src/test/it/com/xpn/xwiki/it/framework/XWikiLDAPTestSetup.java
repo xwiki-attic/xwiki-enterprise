@@ -35,7 +35,7 @@ import com.xpn.xwiki.test.XWikiTestSetup;
  * &lt;/code&gt;
  * </pre>
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class XWikiLDAPTestSetup extends XWikiTestSetup
 {
@@ -64,6 +64,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      */
     public static final String XWIKI_CFG_FILE = EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/xwiki.cfg";
 
+    /**
+     * The log4j.properties used by the instance of XWiki Enterprise used for theses tests.
+     */
+    public static final String XWIKI_LOG_FILE = EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/classes/log4j.properties";
+
     // Somes datas examples
 
     /**
@@ -75,7 +80,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * The LDAP unique id of user Horatio Hornblower.
      */
     public static final String HORATIOHORNBLOWER_CN = "Horatio Hornblower";
-    
+
     /**
      * The LDAP password of user Horatio Hornblower.
      */
@@ -90,7 +95,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      * The LDAP unique id of user Thomas Quist.
      */
     public static final String THOMASQUIST_CN = "Thomas Quist";
-    
+
     /**
      * The LDAP password of user Thomas Quist.
      */
@@ -151,6 +156,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         HMSLYDIA_MEMBERS.add(WILLIAMBUSH_DN);
         HMSLYDIA_MEMBERS.add("cn=Thomas Quist,ou=people,o=sevenSeas");
         HMSLYDIA_MEMBERS.add("cn=Moultrie Crystal,ou=people,o=sevenSeas");
+        HMSLYDIA_MEMBERS.add("cn=User.With.Points,ou=people,o=sevenSeas");
     }
 
     /**
@@ -171,6 +177,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     private Properties initialXWikiConf;
 
     /**
+     * The log4j.properties properties.
+     */
+    private Properties logProperties;
+
+    /**
      * @return return the port of the current instance of LDAP server.
      */
     public static int getLDAPPort()
@@ -182,9 +193,9 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     {
         super(test);
 
-        FileInputStream fis;
+        // Prepare xwiki.cfg properties
 
-        fis = new FileInputStream(XWIKI_CFG_FILE);
+        FileInputStream fis = new FileInputStream(XWIKI_CFG_FILE);
         this.initialXWikiConf = new Properties();
         this.initialXWikiConf.load(fis);
         fis.close();
@@ -217,6 +228,17 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.mode_group_sync", "always");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl", "0");
         CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
+
+        // Prepare log4j.properties properties
+        this.logProperties = new Properties();
+        this.logProperties.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
+        this.logProperties.setProperty("log4j.appender.stdout.Target", "System.out");
+        this.logProperties.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
+        this.logProperties.setProperty("log4j.appender.stdout.layout.ConversionPattern",
+            "%d [%X{url}] [%t] %-5p %-30.30c{2} %x - %m %n");
+        this.logProperties.setProperty("log4j.rootLogger", "warn, stdout");
+        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.plugin.ldap", "debug");
+        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.user.impl.LDAP", "debug");
     }
 
     /**
@@ -234,6 +256,10 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
 
         FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
         CURRENTXWIKICONF.store(fos, null);
+        fos.close();
+
+        fos = new FileOutputStream(XWIKI_LOG_FILE);
+        this.logProperties.store(fos, null);
         fos.close();
 
         super.setUp();
@@ -260,7 +286,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
 /**
  * Tool to start and stop embedded LDAP server.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 class LDAPRunner extends AbstractServerTest
 {

@@ -23,7 +23,6 @@ import java.lang.reflect.Method;
 
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
-import com.xpn.xwiki.test.XWikiTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -34,7 +33,7 @@ import junit.framework.TestSuite;
  * discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the tests
  * start (but only once).
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class AllTests extends TestCase
 {

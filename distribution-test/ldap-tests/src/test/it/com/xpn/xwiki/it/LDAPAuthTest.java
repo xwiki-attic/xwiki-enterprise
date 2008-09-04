@@ -10,7 +10,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the LDAP login and logout features.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class LDAPAuthTest extends AbstractXWikiTestCase
 {

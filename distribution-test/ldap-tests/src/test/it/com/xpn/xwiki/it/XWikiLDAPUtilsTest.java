@@ -21,7 +21,7 @@ import com.xpn.xwiki.web.XWikiEngineContext;
 /**
  * Tests {@link XWikiLDAPUtilsTest}.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
 {
@@ -145,7 +145,7 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
 
         assertFalse("No member was found", members.isEmpty());
 
-        assertTrue("Wrong members was found", XWikiLDAPTestSetup.HMSLYDIA_MEMBERS.equals(members.keySet()));
+        assertEquals(XWikiLDAPTestSetup.HMSLYDIA_MEMBERS, members.keySet());
 
         Map<String, String> wrongGroupMembers =
             this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", this.context);

@@ -14,7 +14,7 @@ import com.xpn.xwiki.web.XWikiEngineContext;
 /**
  * Tests {@link XWikiLDAPConnection}.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class XWikiLDAPConnectionTest extends TestCase
 {

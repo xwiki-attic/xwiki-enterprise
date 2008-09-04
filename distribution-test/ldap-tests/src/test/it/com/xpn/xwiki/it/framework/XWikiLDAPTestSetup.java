@@ -151,6 +151,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         HMSLYDIA_MEMBERS.add(WILLIAMBUSH_DN);
         HMSLYDIA_MEMBERS.add("cn=Thomas Quist,ou=people,o=sevenSeas");
         HMSLYDIA_MEMBERS.add("cn=Moultrie Crystal,ou=people,o=sevenSeas");
+        HMSLYDIA_MEMBERS.add("cn=User.With.Points,ou=people,o=sevenSeas");
     }
 
     /**

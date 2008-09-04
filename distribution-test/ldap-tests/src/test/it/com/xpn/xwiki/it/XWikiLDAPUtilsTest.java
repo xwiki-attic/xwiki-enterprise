@@ -21,7 +21,7 @@ import com.xpn.xwiki.web.XWikiEngineContext;
 /**
  * Tests {@link XWikiLDAPUtilsTest}.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
 {

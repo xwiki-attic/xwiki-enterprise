@@ -1,7 +1,11 @@
 package com.xpn.xwiki.it;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.xwiki.cache.Cache;
 import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheFactory;
@@ -14,6 +18,7 @@ import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.it.framework.XWikiConfig;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
+import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
 import com.xpn.xwiki.test.AbstractBridgedXWikiComponentTestCase;
 import com.xpn.xwiki.web.XWikiEngineContext;
@@ -80,6 +85,7 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
         };
 
         this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD);
+        this.ldapUtils.setBaseDN(XWikiLDAPTestSetup.LDAP_BASEDN);
 
         int port = XWikiLDAPTestSetup.getLDAPPort();
 
@@ -127,6 +133,30 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
         assertSame("Cache is recreated", tmpCache, cache);
     }
 
+    public void testSearchUserAttributesByUid()
+    {
+        List<XWikiLDAPSearchAttribute> attributes =
+            this.ldapUtils.searchUserAttributesByUid("Moultrie Crystal", new String[] {"dn", "cn"});
+
+        Map<String, String> mexpected = new HashMap<String, String>();
+        mexpected.put("dn", "cn=Moultrie Crystal,ou=people,o=sevenSeas");
+        mexpected.put("cn", "Moultrie Crystal");
+
+        Map<String, String> mresult = new HashMap<String, String>();
+        for (XWikiLDAPSearchAttribute att : attributes) {
+            mresult.put(att.name, att.value);
+        }
+
+        assertEquals(mexpected, mresult);
+    }
+
+    public void testSearchUserDNByUid()
+    {
+        String userDN = this.ldapUtils.searchUserDNByUid(XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN);
+
+        assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
+    }
+
     /**
      * Test {@link XWikiLDAPUtils#getGroupMembers(String, XWikiContext)}.
      * 
@@ -169,7 +199,8 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
         assertNotNull("User " + XWikiLDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN, userDN);
 
-        String wrongUserDN = this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
+        String wrongUserDN =
+            this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
     }

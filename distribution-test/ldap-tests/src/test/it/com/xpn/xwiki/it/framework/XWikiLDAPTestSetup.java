@@ -14,7 +14,6 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 
 import org.apache.directory.server.core.configuration.MutablePartitionConfiguration;
-import org.apache.directory.server.core.configuration.PartitionConfiguration;
 import org.apache.directory.server.unit.AbstractServerTest;
 
 import junit.framework.Test;
@@ -39,6 +38,11 @@ import com.xpn.xwiki.test.XWikiTestSetup;
  */
 public class XWikiLDAPTestSetup extends XWikiTestSetup
 {
+    /**
+     * The LDAP base DN from where to executes LDAP queries.
+     */
+    public static final String LDAP_BASEDN = "o=sevenSeas";
+
     /**
      * The name of the LDAP property containing user unique id (cn).
      */
@@ -67,7 +71,8 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The log4j.properties used by the instance of XWiki Enterprise used for theses tests.
      */
-    public static final String XWIKI_LOG_FILE = EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/classes/log4j.properties";
+    public static final String XWIKI_LOG_FILE =
+        EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/classes/log4j.properties";
 
     // Somes datas examples
 
@@ -195,39 +200,41 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
 
         // Prepare xwiki.cfg properties
 
-        FileInputStream fis = new FileInputStream(XWIKI_CFG_FILE);
-        this.initialXWikiConf = new Properties();
-        this.initialXWikiConf.load(fis);
-        fis.close();
+        if (new File(XWIKI_CFG_FILE).exists()) {
+            FileInputStream fis = new FileInputStream(XWIKI_CFG_FILE);
+            this.initialXWikiConf = new Properties();
+            this.initialXWikiConf.load(fis);
+            fis.close();
 
-        fis = new FileInputStream(XWIKI_CFG_FILE);
-        CURRENTXWIKICONF = new Properties();
-        CURRENTXWIKICONF.load(fis);
-        fis.close();
+            fis = new FileInputStream(XWIKI_CFG_FILE);
+            CURRENTXWIKICONF = new Properties();
+            CURRENTXWIKICONF.load(fis);
+            fis.close();
 
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap", "1");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
-            "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", "localhost");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.base_DN", "o=sevenSeas");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", "cn={0},ou=people,o=sevenSeas");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_pass", "{1}");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr", LDAP_USERUID_FIELD);
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name=" + LDAP_USERUID_FIELD
-            + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
-        /*
-         * CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.XWikiAdminGroup=cn=HMS
-         * Lydia,ou=crews,ou=groups,o=sevenSeas");
-         */
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group", HMSLYDIA_DN);
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.exclude_group", EXCLUSIONGROUP_DN);
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.validate_password", "0");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.update_user", "1");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.trylocal", "1");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.mode_group_sync", "always");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl", "0");
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap", "1");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
+                "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", "localhost");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.base_DN", LDAP_BASEDN);
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", "cn={0},ou=people,o=sevenSeas");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_pass", "{1}");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr", LDAP_USERUID_FIELD);
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name=" + LDAP_USERUID_FIELD
+                + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
+            /*
+             * CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.XWikiAdminGroup=cn=HMS
+             * Lydia,ou=crews,ou=groups,o=sevenSeas");
+             */
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group", HMSLYDIA_DN);
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.exclude_group", EXCLUSIONGROUP_DN);
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.validate_password", "0");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.update_user", "1");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.trylocal", "1");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.mode_group_sync", "always");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl", "0");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
+        }
 
         // Prepare log4j.properties properties
         this.logProperties = new Properties();
@@ -252,17 +259,21 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         this.ldap.start();
 
         System.setProperty(SYSPROPNAME_LDAPPORT, "" + ldap.getPort());
-        CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.port", "" + ldap.getPort());
 
-        FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
-        CURRENTXWIKICONF.store(fos, null);
-        fos.close();
+        if (new File(XWIKI_CFG_FILE).exists()) {
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.port", "" + ldap.getPort());
+            FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
+            CURRENTXWIKICONF.store(fos, null);
+            fos.close();
+        }
 
-        fos = new FileOutputStream(XWIKI_LOG_FILE);
-        this.logProperties.store(fos, null);
-        fos.close();
+        if (new File(XWIKI_LOG_FILE).exists()) {
+            FileOutputStream fos = new FileOutputStream(XWIKI_LOG_FILE);
+            this.logProperties.store(fos, null);
+            fos.close();
+        }
 
-        super.setUp();
+        // super.setUp();
     }
 
     /**
@@ -275,9 +286,11 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     {
         super.tearDown();
 
-        FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
-        initialXWikiConf.store(fos, null);
-        fos.close();
+        if (new File(XWIKI_CFG_FILE).exists()) {
+            FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
+            initialXWikiConf.store(fos, null);
+            fos.close();
+        }
 
         this.ldap.stop();
     }
@@ -325,7 +338,7 @@ class LDAPRunner extends AbstractServerTest
 
         // As we can create more than one partition, we must store
         // each created partition in a Set before initialization
-        Set<PartitionConfiguration> pcfgs = new HashSet<PartitionConfiguration>();
+        Set<MutablePartitionConfiguration> pcfgs = new HashSet<MutablePartitionConfiguration>();
         pcfgs.add(pcfg);
 
         configuration.setContextPartitionConfigurations(pcfgs);

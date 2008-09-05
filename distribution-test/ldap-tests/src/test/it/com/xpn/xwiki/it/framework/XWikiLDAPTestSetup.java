@@ -273,7 +273,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             fos.close();
         }
 
-        // super.setUp();
+        super.setUp();
     }
 
     /**

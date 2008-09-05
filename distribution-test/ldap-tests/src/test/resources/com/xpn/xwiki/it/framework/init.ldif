@@ -108,7 +108,7 @@ uniquemember: cn=Horatio Hornblower,ou=people,o=sevenSeas
 uniquemember: cn=William Bush,ou=people,o=sevenSeas
 uniquemember: cn=Thomas Quist,ou=people,o=sevenSeas
 uniquemember: cn=User.With.Points,ou=people,o=sevenSeas
-uniquemember: Moultrie Crystal
+uniquemember: cn=Moultrie Crystal,ou=people,o=sevenSeas
 
 # HMS Victory Crew
 # ----------------

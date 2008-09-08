@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
-    <version>17</version>
+    <version>18-SNAPSHOT</version>
     <relativePath>../xwiki-platform-pom</relativePath>
   </parent>
   <groupId>com.xpn.xwiki.products</groupId>
@@ -55,9 +55,9 @@
     <platform.tool.jetty.version>1.10</platform.tool.jetty.version>
     <platform.tool.test.version>1.11</platform.tool.test.version>
     <platform.tool.packager.version>1.10</platform.tool.packager.version>
-    <platform.core.version>1.5.1</platform.core.version>
-    <platform.web.version>1.5.1</platform.web.version>
-    <platform.panels.version>1.8</platform.panels.version>
+    <platform.core.version>1.5-SNAPSHOT</platform.core.version>
+    <platform.web.version>1.5-SNAPSHOT</platform.web.version>
+    <platform.panels.version>1.8-SNAPSHOT</platform.panels.version>
     <platform.administration.version>1.2</platform.administration.version>
     <platform.scheduler.version>1.5</platform.scheduler.version>
     <platform.watchlist.version>1.9</platform.watchlist.version>

@@ -44,9 +44,11 @@ public class AllDocsTest extends AbstractXWikiTestCase
     {
         getSelenium().typeKeys(field, text);
         waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById(\"ajax-loader\") != null");        
+            "getElementById(\"ajax-loader\") != null");
+        waitForCondition("typeof selenium.browserbot.getCurrentWindow().document." +
+            "getElementById(\"ajax-loader\").style.display == 'string'");
         waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById(\"ajax-loader\").style.display == \"none\"");    
+            "getElementById(\"ajax-loader\").style.display == \"none\"");
     }
 
     /**
@@ -91,7 +93,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // Validate input suggest for Last Author field.
         open("Main", "AllDocs");
         fillTableFilter("author", "SomeUnknownAuthor");
-        assertElementNotPresent("//td[@class='pagename']/a[text()='Treeview']");        
+        assertElementNotPresent("//td[@class='pagename']/a[text()='Treeview']");
 
         // Validate Copy link action.
         open("Main", "AllDocs");
@@ -131,7 +133,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rights']");
         Assert.assertEquals("Editing Rights for Treeview", getTitle());
     }
-    
+
     private void assertNodeOpen(String nodeName, int type)
     {
     	String className = "";
@@ -144,12 +146,12 @@ public class AllDocsTest extends AbstractXWikiTestCase
     		case 1: className = "ygtvtn"; break;
     		case 2: className = "ygtvln"; break;
     		case 3: className = "ygtvtm"; break;
-    	}    		
-    	String xpath = "//a[text()='" + nodeName + "']/ancestor::*[position()=1]/preceding-sibling::*[position()=1]"; 
+    	}
+    	String xpath = "//a[text()='" + nodeName + "']/ancestor::*[position()=1]/preceding-sibling::*[position()=1]";
     	getSelenium().click(xpath);
     	waitForCondition("selenium.browserbot.findElement(\"" + xpath + "\").className == '" + className + "'");
     }
-    
+
     /**
      * <ul><li>Validate that multilevel nodes open correctly.</li></ul>
      */
@@ -168,5 +170,5 @@ public class AllDocsTest extends AbstractXWikiTestCase
     	assertNodeOpen("AllDocs", 3);
     	assertNodeOpen("Tableview", 3);
     	assertNodeOpen("Tableresults", 2);
-    }   
+    }
 }

@@ -43,12 +43,17 @@ public class AllDocsTest extends AbstractXWikiTestCase
     private void fillTableFilter(String field, String text)
     {
         getSelenium().typeKeys(field, text);
+        // setSpeed is used to avoid the error :
+        // selenium.browserbot.getCurrentWindow().document.getElementById("ajax-loader") has no properties
+        // which is not prevented by the following waitForCondition.
+        getSelenium().setSpeed("200");
         waitForCondition("selenium.browserbot.getCurrentWindow().document." +
             "getElementById(\"ajax-loader\") != null");
         waitForCondition("typeof selenium.browserbot.getCurrentWindow().document." +
             "getElementById(\"ajax-loader\").style.display == 'string'");
         waitForCondition("selenium.browserbot.getCurrentWindow().document." +
             "getElementById(\"ajax-loader\").style.display == \"none\"");
+        getSelenium().setSpeed("0");
     }
 
     /**

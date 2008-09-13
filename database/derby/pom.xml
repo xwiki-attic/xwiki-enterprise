@@ -16,11 +16,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
-        <configuration>
-          <properties>
-            <xwikiDbConnectionUrl>jdbc:derby:${project.build.directory}/database;create=true</xwikiDbConnectionUrl>
-          </properties>
-        </configuration>
+        <executions>
+          <execution>
+            <id>xwiki-configuration-resources</id>
+            <configuration>
+              <properties>
+                <xwikiDbConnectionUrl>jdbc:derby:${project.build.directory}/database;create=true</xwikiDbConnectionUrl>
+              </properties>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <!-- Step 2: Expand the XAR file -->
       <plugin>

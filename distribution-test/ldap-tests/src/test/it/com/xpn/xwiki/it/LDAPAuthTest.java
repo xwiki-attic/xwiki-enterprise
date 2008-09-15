@@ -80,7 +80,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.XWikiPreferences_0_ldap_UID_attr", XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_fields_mapping", "name="
             + XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID
-            + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
+            + ",last_name=sn,first_name=givenname,fullname=description,email=mail");
         setFieldValue("XWiki.XWikiPreferences_0_ldap_group_mapping",
             "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
         clickEditSaveAndView();

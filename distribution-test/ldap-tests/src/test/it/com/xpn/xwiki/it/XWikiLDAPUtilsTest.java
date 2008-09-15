@@ -165,7 +165,7 @@ public class XWikiLDAPUtilsTest extends AbstractXWikiComponentTestCase
                 this.context);
 
         assertNotNull("User " + XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN + " not found", userDN);
-        assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
+        assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN.toLowerCase(), userDN);
 
         this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
     }

@@ -104,7 +104,7 @@ dn: cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas
 objectclass: groupOfUniqueNames
 objectclass: top
 cn: HMS Lydia
-uniquemember: cn=Horatio Hornblower,ou=people,o=sevenSeas
+uniquemember: cn=horatio Hornblower,ou=people,o=sevenseas
 uniquemember: cn=William Bush,ou=people,o=sevenSeas
 uniquemember: cn=Thomas Quist,ou=people,o=sevenSeas
 uniquemember: cn=User.With.Points,ou=people,o=sevenSeas

@@ -186,7 +186,7 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
                 getContext());
 
         assertNotNull("User " + XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN + " not found", userDN);
-        assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
+        assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN.toLowerCase(), userDN);
 
         this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
 
@@ -195,7 +195,7 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
                 getContext());
 
         assertNotNull("User " + XWikiLDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
-        assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN, userDN);
+        assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN.toLowerCase(), userDN);
 
         String wrongUserDN =
             this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());

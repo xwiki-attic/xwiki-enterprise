@@ -55,16 +55,4 @@ public class CacheTest extends AbstractXWikiTestCase
         createPage("Main", "TestDateClass", "$xwiki.flushCache()\n$xwiki.getDocument(\"Main.WebHome\").date.class");
         waitForCondition("selenium.page().bodyText().indexOf('java.util.Date')!=-1;");
     }
-
-    /**
-     * Tests that $context.setCacheDuration don't breaks links
-     * XWIKI-2672
-     */
-    public void testCacheDuration()
-    {
-        createPage("Main", "CacheDuration", "$context.setCacheDuration(1800)\n http://some:123/link");
-        assertTextPresent("http://some:123/link");
-        open("Main", "CacheDuration");
-        assertTextPresent("http://some:123/link");
-    }
 }

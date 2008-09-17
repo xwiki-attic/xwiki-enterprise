@@ -203,4 +203,31 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         clickEditPreview();
         assertTextPresent("true XWiki.Admin XWiki.Admin XWiki.Admin");        
     }
+
+    /**
+     * Verify minor edit feature is working
+     */
+    public void testMinorEdit()
+    {
+        try {
+            editInWikiEditor("Test", "MinorEdit");
+            setFieldValue("content", "version=1.1");
+            clickEditSaveAndContinue();
+            setFieldValue("content", "version=2.1");
+            clickEditSaveAndView();
+
+            open("Test", "MinorEdit", "viewrev", "rev=2.1");
+            assertTextPresent("version=2.1");
+
+            editInWikiEditor("Test", "MinorEdit");
+            setFieldValue("content", "version=2.2");
+            getSelenium().click("minorEdit");
+            clickEditSaveAndView();
+
+            open("Test", "MinorEdit", "viewrev", "rev=2.2");
+            assertTextPresent("version=2.2");
+        } finally {
+            deletePage("Test", "MinorEdit");
+        }
+    }
 }

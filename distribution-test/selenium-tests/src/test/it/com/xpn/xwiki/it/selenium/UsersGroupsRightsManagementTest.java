@@ -189,6 +189,43 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         deleteGroup(groupname, false);
     }
 
+    /**
+     * Test adding a group to a group.
+     * Specifically, assert that the group is added as a member itself, not adding all its members one by one.
+     */
+    public void testAddGroupToGroup()
+    {
+        String group ="GroupWithGroup"; 
+        createGroup(group);
+        openGroupsPage();
+        String xpath = "//tbody/tr[td/a='" + group + "']/td[3]/img[@title='Edit']";
+        System.out.println("XPATH: "+xpath);
+        waitForCondition("selenium.isElementPresent(\"" + xpath +"\")");
+        getSelenium().click("//tbody/tr[td/a=\"" + group + "\"]/td[3]/img[@title=\"Edit\"]");
+        waitForLightbox("Add new user");
+        setFieldValue("groupSuggest", "XWiki.XWikiAllGroup");
+        clickLinkWithLocator("addNewGroup", false);
+        String xpathPrefix =  "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";
+        String adminGroupXPath = xpathPrefix + "/td[@class='username']/a[@href='/xwiki/bin/view/XWiki/XWikiAllGroup']";
+        // this xpath expression is fragile, but we have to start as up as the lightbox does, because
+        // the same table with same ids and classes is already displayed in the Preferences page
+        // (that is, the list of existing groups).
+        waitForCondition("selenium.isElementPresent(\"" + adminGroupXPath + "\")");
+        // Now assert that XWiki.Admin, member of XWikiAdminGroup is not added as a member of our created group
+        assertElementNotPresent(xpathPrefix + "/td[@class='username']/a[@href='/xwiki/bin/view/XWiki/Admin']");
+        clickLinkWithLocator("lb-close");
+        
+        // Now same test, but from the group document UI in inline mode
+        clickLinkWithText(group);
+        this.clickLinkWithText("Inline form");
+        setFieldValue("groupSuggest", "XWiki.XWikiAdminGroup");
+        clickLinkWithLocator("addNewGroup", false);
+        waitForCondition("selenium.isTextPresent('XWiki.XWikiAdminGroup')");
+        
+        //cleanup
+        deleteGroup(group, false);
+    }
+    
     // Helper methods
 
     private void createGroup(String groupname)
@@ -257,11 +294,11 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     private void addUserToGroup(String user, String group)
     {
         openGroupsPage();
-        // TODO : replace the setSpeed by a "wait for lightbox to be loaded" condition
-        getSelenium().setSpeed("1000");
-        getSelenium().click("//tbody/tr[td/a=\"" + group + "\"]/td[3]/img[@title=\"Edit\"]");
+        String xpath = "//tbody/tr[td/a='" + group + "']/td[3]/img[@title='Edit']";
+        waitForCondition("selenium.isElementPresent(\""+xpath+"\")");
+        getSelenium().click(xpath);
+        waitForLightbox("Add new user");
         setFieldValue("userSuggest", "XWiki." + user);
-        getSelenium().setSpeed("0");
         clickLinkWithLocator("addNewUser", false);
         // Close the group edit lightbox
         clickLinkWithLocator("lb-close");

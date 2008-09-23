@@ -21,6 +21,7 @@ package com.xpn.xwiki.it;
 
 import java.lang.reflect.Method;
 
+import com.xpn.xwiki.it.framework.LDAPTestSetup;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
 
@@ -29,9 +30,9 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * A class listing all the Functional tests to execute. We need such a class (rather than letting
- * the JUnit Runner discover the different TestCases classes by itself) because we want to
- * start/stop XWiki before and after the tests start (but only once).
+ * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
+ * discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the tests
+ * start (but only once).
  * 
  * @version $Id$
  */
@@ -56,15 +57,18 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
+        // Unit tests
         addTestCase(suite, XWikiLDAPUtilsTest.class);
         addTestCase(suite, XWikiLDAPConnectionTest.class);
 
-        // Selenium
-        addTestCaseSuite(suite, LDAPAuthTest.class);
+        // Selenium tests
+        TestSuite seleniumSuite = new TestSuite();
 
-        // The XWikiSeleniumTestSetup wrapper is used to inject a Selenium instance into all test classes that
-        // extend AbstractXWikiTestCase. This is done here in order to have only a single shared Selenium instance.
-        return new XWikiSeleniumTestSetup(new XWikiLDAPTestSetup(suite));
+        addTestCaseSuite(seleniumSuite, LDAPAuthTest.class);
+
+        suite.addTest(new XWikiSeleniumTestSetup(new XWikiLDAPTestSetup(seleniumSuite)));
+
+        return new LDAPTestSetup(suite);
     }
 
     private static void addTestCase(TestSuite suite, Class< ? > testClass) throws Exception

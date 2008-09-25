@@ -226,6 +226,21 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         deleteGroup(group, false);
     }
     
+    /**
+     * Validate member filtering on group sheet.
+     */
+    public void testFilteringOnGroupSheet()
+    {
+        openGroupsPage();
+        String rowXPath = "//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/Admin']";
+        this.clickLinkWithText("XWikiAdminGroup");
+        this.waitForCondition("selenium.isElementPresent(\""+rowXPath+"\")");
+        this.getSelenium().typeKeys("member","Ad");
+        this.waitForCondition("selenium.isElementPresent(\""+rowXPath+"\")");
+        this.getSelenium().typeKeys("member","zzz");
+        this.waitForCondition("!selenium.isElementPresent(\""+rowXPath+"\")");
+    }
+    
     // Helper methods
 
     private void createGroup(String groupname)

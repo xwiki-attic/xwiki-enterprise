@@ -37,7 +37,17 @@
     <resources>
       <resource>
         <directory>${basedir}/src/main/resources</directory>
+        <includes>
+          <include>install.xml</include>
+        </includes>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <excludes>
+          <exclude>install.xml</exclude>
+        </excludes>
+        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>

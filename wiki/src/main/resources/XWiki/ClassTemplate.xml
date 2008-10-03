@@ -53,7 +53,7 @@
 </object>
 <content>## replace Main with the Space where you want your documents to be created
 ## replace the default parent with the one of your choice
-## Save this template using the ’Save’ button
+## Save this template using the 'Save' button
 #set( $class = $doc.name.substring(0,$doc.name.indexOf("Class")))
 #set($defaultparent = "XWiki.${class}Class")
 #set($defaultweb = "Main")

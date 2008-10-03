@@ -17,26 +17,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it;
+package com.xpn.xwiki.it.framework;
 
-import com.xpn.xwiki.XWiki;
-import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.it.framework.AbstractLDAPTestCase;
 import com.xpn.xwiki.it.framework.LDAPTestSetup;
-import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
-import com.xpn.xwiki.plugin.ldap.XWikiLDAPException;
+import com.xpn.xwiki.test.AbstractBridgedXWikiComponentTestCase;
 
 /**
- * Tests {@link XWikiLDAPConnection}.
+ * Start LDAP embedded server if it's not already started.
  * 
  * @version $Id$
  */
-public class XWikiLDAPConnectionTest extends AbstractLDAPTestCase
+public abstract class AbstractLDAPTestCase extends AbstractBridgedXWikiComponentTestCase
 {
     /**
-     * The XWiki context.
+     * Tool to start and stop embedded LDAP server.
      */
-    private XWikiContext context;
+    private LDAPRunner ldap;
 
     /**
      * {@inheritDoc}
@@ -48,25 +44,24 @@ public class XWikiLDAPConnectionTest extends AbstractLDAPTestCase
     {
         super.setUp();
 
-        this.context = new XWikiContext();
-
-        this.context.setWiki(new XWiki());
+        if (System.getProperty(LDAPTestSetup.SYSPROPNAME_LDAPPORT) == null) {
+            this.ldap = new LDAPRunner();
+            this.ldap.start();
+        }
     }
 
     /**
-     * Test open and close of the LDAP connection.
+     * {@inheritDoc}
      * 
-     * @throws XWikiLDAPException
+     * @see junit.framework.TestCase#tearDown()
      */
-    public void testOpenClose() throws XWikiLDAPException
+    @Override
+    public void tearDown() throws Exception
     {
-        int port = LDAPTestSetup.getLDAPPort();
+        if (this.ldap != null) {
+            this.ldap.stop();
+        }
 
-        XWikiLDAPConnection connection = new XWikiLDAPConnection();
-
-        assertTrue("LDAP connection failed", connection.open("localhost", port, LDAPTestSetup.HORATIOHORNBLOWER_DN,
-            LDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, context));
-
-        connection.close();
+        super.tearDown();
     }
 }

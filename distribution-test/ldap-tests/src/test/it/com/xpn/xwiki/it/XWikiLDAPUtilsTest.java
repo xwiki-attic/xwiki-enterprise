@@ -1,3 +1,22 @@
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package com.xpn.xwiki.it;
 
 import java.util.HashMap;
@@ -13,12 +32,13 @@ import org.xwiki.component.manager.ComponentLookupException;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
+import com.xpn.xwiki.it.framework.AbstractLDAPTestCase;
+import com.xpn.xwiki.it.framework.LDAPTestSetup;
 import com.xpn.xwiki.it.framework.XWikiConfig;
 import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
-import com.xpn.xwiki.test.AbstractBridgedXWikiComponentTestCase;
 import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
@@ -26,7 +46,7 @@ import com.xpn.xwiki.web.XWikiEngineContext;
  * 
  * @version $Id$
  */
-public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
+public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 {
     /**
      * The name of the group cache.
@@ -82,13 +102,13 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
             }
         };
 
-        this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD);
-        this.ldapUtils.setBaseDN(XWikiLDAPTestSetup.LDAP_BASEDN);
+        this.ldapUtils.setUidAttributeName(LDAPTestSetup.LDAP_USERUID_FIELD);
+        this.ldapUtils.setBaseDN(LDAPTestSetup.LDAP_BASEDN);
 
-        int port = XWikiLDAPTestSetup.getLDAPPort();
+        int port = LDAPTestSetup.getLDAPPort();
 
-        this.connection.open("localhost", port, XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN,
-            XWikiLDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, getContext());
+        this.connection.open("localhost", port, LDAPTestSetup.HORATIOHORNBLOWER_DN,
+            LDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, getContext());
     }
 
     /**
@@ -109,7 +129,7 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
      */
     public void testGetUidAttributeName()
     {
-        assertSame("Wrong uid attribute name", XWikiLDAPTestSetup.LDAP_USERUID_FIELD, this.ldapUtils
+        assertSame("Wrong uid attribute name", LDAPTestSetup.LDAP_USERUID_FIELD, this.ldapUtils
             .getUidAttributeName());
     }
 
@@ -150,9 +170,9 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
 
     public void testSearchUserDNByUid()
     {
-        String userDN = this.ldapUtils.searchUserDNByUid(XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN);
+        String userDN = this.ldapUtils.searchUserDNByUid(LDAPTestSetup.HORATIOHORNBLOWER_CN);
 
-        assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
+        assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
     }
 
     /**
@@ -162,11 +182,11 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
      */
     public void testGetGroupMembers() throws XWikiException
     {
-        Map<String, String> members = this.ldapUtils.getGroupMembers(XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
+        Map<String, String> members = this.ldapUtils.getGroupMembers(LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertFalse("No member was found", members.isEmpty());
 
-        assertEquals(XWikiLDAPTestSetup.HMSLYDIA_MEMBERS, members.keySet());
+        assertEquals(LDAPTestSetup.HMSLYDIA_MEMBERS, members.keySet());
 
         Map<String, String> wrongGroupMembers =
             this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", getContext());
@@ -182,23 +202,23 @@ public class XWikiLDAPUtilsTest extends AbstractBridgedXWikiComponentTestCase
     public void testIsUserInGroup() throws XWikiException
     {
         String userDN =
-            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN, XWikiLDAPTestSetup.HMSLYDIA_DN,
+            this.ldapUtils.isUserInGroup(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HMSLYDIA_DN,
                 getContext());
 
-        assertNotNull("User " + XWikiLDAPTestSetup.HORATIOHORNBLOWER_CN + " not found", userDN);
-        assertEquals(XWikiLDAPTestSetup.HORATIOHORNBLOWER_DN, userDN);
+        assertNotNull("User " + LDAPTestSetup.HORATIOHORNBLOWER_CN + " not found", userDN);
+        assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_DN.toLowerCase(), userDN);
 
-        this.ldapUtils.setUidAttributeName(XWikiLDAPTestSetup.LDAP_USERUID_FIELD_UID);
+        this.ldapUtils.setUidAttributeName(LDAPTestSetup.LDAP_USERUID_FIELD_UID);
 
         userDN =
-            this.ldapUtils.isUserInGroup(XWikiLDAPTestSetup.WILLIAMBUSH_UID, XWikiLDAPTestSetup.HMSLYDIA_DN,
+            this.ldapUtils.isUserInGroup(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.HMSLYDIA_DN,
                 getContext());
 
-        assertNotNull("User " + XWikiLDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
-        assertEquals(XWikiLDAPTestSetup.WILLIAMBUSH_DN, userDN);
+        assertNotNull("User " + LDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
+        assertEquals(LDAPTestSetup.WILLIAMBUSH_DN.toLowerCase(), userDN);
 
         String wrongUserDN =
-            this.ldapUtils.isUserInGroup("wronguseruid", XWikiLDAPTestSetup.HMSLYDIA_DN, getContext());
+            this.ldapUtils.isUserInGroup("wronguseruid", LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
     }

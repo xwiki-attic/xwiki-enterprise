@@ -37,7 +37,17 @@
     <resources>
       <resource>
         <directory>${basedir}/src/main/resources</directory>
+        <includes>
+          <include>install.xml</include>
+        </includes>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <excludes>
+          <exclude>install.xml</exclude>
+        </excludes>
+        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>
@@ -71,36 +81,11 @@
         </executions>
       </plugin>
       <plugin>
-        <!-- Make sure the directories used by the dependency plugin exist since they are not created by default
-             with Maven 2.0.x. Note that this works fine with Maven 2.1.x. -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- Note that we need a phase that executes before prepare-package as otherwise the
-                 Antrun plugin executes after the dependency plugin below. This is fixed in
-                 Maven 2.1 (http://jira.codehaus.org/browse/MNG-2258). -->
-            <phase>test</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <mkdir dir="${xwiki.database}" />
-                <mkdir dir="${xwiki.container}/jetty" />
-                <mkdir dir="${xwiki.container}/webapps/xwiki" />
-              </tasks>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
             <id>unpack</id>
-            <phase>prepare-package</phase>
             <goals>
               <goal>unpack</goal>
             </goals>
@@ -140,7 +125,6 @@
           </execution>
           <execution>
             <id>copy</id>
-            <phase>prepare-package</phase>
             <goals>
               <goal>copy</goal>
             </goals>
@@ -167,7 +151,22 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <phase>prepare-package</phase>
+            <id>mkdirs</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="${xwiki.database}" />
+                <mkdir dir="${xwiki.container}/jetty" />
+                <mkdir dir="${xwiki.container}/webapps/xwiki" />
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>mvscripts</id>
+            <phase>process-classes</phase>
             <goals>
               <goal>run</goal>
             </goals>
@@ -186,40 +185,17 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
+        <groupId>org.codehaus.izpack</groupId>
         <artifactId>izpack-maven-plugin</artifactId>
-        <version>1.0-20070710-dev</version>
+        <version>1.0-alpha-3</version>
         <configuration>
-          <izpackConfig>${project.build.directory}/classes/install.xml</izpackConfig>
+          <izpackBasedir>${project.build.directory}/classes</izpackBasedir>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>izpack</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Use the Maven build-helper plugin to attach the generated installer JAR to this
-           project's main artifact -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>attach-artifact</goal>
-            </goals>
-            <configuration>
-              <artifacts>
-                <artifact>
-                  <file>${project.build.directory}/${pom.groupId}-${pom.artifactId}-${pom.version}-installer.jar</file>
-                  <type>jar</type>
-                </artifact>
-              </artifacts>
-            </configuration>
           </execution>
         </executions>
       </plugin>

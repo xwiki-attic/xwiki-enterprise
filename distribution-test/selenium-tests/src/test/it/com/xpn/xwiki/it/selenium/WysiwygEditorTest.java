@@ -34,7 +34,7 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
 {
     public static Test suite()
     {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
+        XWikiTestSuite suite = new XWikiTestSuite("Tests the wysiwyg editor");
         suite.addTestSuite(WysiwygEditorTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }

@@ -30,7 +30,7 @@
     <version>1.7-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-pgsql</artifactId>
-  <version>1.6-SNAPSHOT</version>
+  <version>1.7-SNAPSHOT</version>
   <name>XWiki Products - Enterprise - Distribution - PGSQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - PGSQL</description>

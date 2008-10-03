@@ -1,6 +1,6 @@
 <launch4jConfig>
   <headerType>gui</headerType>
-  <jar>${project.build.directory}/dependency/xwiki-enterprise-installer-generic-${pom.version}.jar</jar>
+  <jar>${project.build.directory}/dependency/xwiki-enterprise-installer-generic-${pom.version}-standard.jar</jar>
   <outfile>${project.build.directory}/${pom.artifactId}-${pom.version}.exe</outfile>
   <errTitle>XWiki Windows Installer</errTitle>
   <customProcName>true</customProcName>

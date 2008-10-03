@@ -47,7 +47,17 @@
     <resources>
       <resource>
         <directory>${basedir}/src/main/resources</directory>
+        <includes>
+          <include>launch4j.xml</include>
+        </includes>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <excludes>
+          <exclude>launch4j.xml</exclude>
+        </excludes>
+        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>
@@ -84,6 +94,7 @@
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise-installer-generic</artifactId>
                   <version>${pom.version}</version>
+                  <classifier>standard</classifier>
                 </artifactItem>
               </artifactItems>
             </configuration>

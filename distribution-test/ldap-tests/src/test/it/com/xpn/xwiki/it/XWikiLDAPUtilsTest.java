@@ -27,6 +27,7 @@ import org.xwiki.cache.Cache;
 import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
+import org.xwiki.cache.event.CacheEntryListener;
 import org.xwiki.component.manager.ComponentLookupException;
 
 import com.xpn.xwiki.XWiki;
@@ -48,11 +49,6 @@ import com.xpn.xwiki.web.XWikiEngineContext;
  */
 public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 {
-    /**
-     * The name of the group cache.
-     */
-    public static final String GROUPCACHE_NAME = "groups";
-
     /**
      * The LDAP connection tool.
      */
@@ -86,19 +82,43 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
             @Override
             public CacheFactory getCacheFactory()
             {
-                CacheFactory cacheFactory = null;
+                return new CacheFactory()
+                {
+                    public <T> Cache<T> newCache(CacheConfiguration config) throws CacheException
+                    {
+                        return new Cache<T>()
+                        {
+                            public void addCacheEntryListener(CacheEntryListener<T> listener)
+                            {
+                            }
 
-                try {
-                    cacheFactory = (CacheFactory) getComponentManager().lookup(CacheFactory.ROLE);
-                } catch (ComponentLookupException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                            public void dispose()
+                            {
+                            }
 
-                return cacheFactory;
+                            public T get(String key)
+                            {
+                                return null;
+                            }
+
+                            public void remove(String key)
+                            {
+                            }
+
+                            public void removeAll()
+                            {
+                            }
+
+                            public void removeCacheEntryListener(CacheEntryListener<T> listener)
+                            {
+                            }
+
+                            public void set(String key, T value)
+                            {
+                            }
+                        };
+                    }
+                };
             }
         };
 
@@ -129,8 +149,7 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
      */
     public void testGetUidAttributeName()
     {
-        assertSame("Wrong uid attribute name", LDAPTestSetup.LDAP_USERUID_FIELD, this.ldapUtils
-            .getUidAttributeName());
+        assertSame("Wrong uid attribute name", LDAPTestSetup.LDAP_USERUID_FIELD, this.ldapUtils.getUidAttributeName());
     }
 
     /**
@@ -202,23 +221,19 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
     public void testIsUserInGroup() throws XWikiException
     {
         String userDN =
-            this.ldapUtils.isUserInGroup(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HMSLYDIA_DN,
-                getContext());
+            this.ldapUtils.isUserInGroup(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + LDAPTestSetup.HORATIOHORNBLOWER_CN + " not found", userDN);
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_DN.toLowerCase(), userDN);
 
         this.ldapUtils.setUidAttributeName(LDAPTestSetup.LDAP_USERUID_FIELD_UID);
 
-        userDN =
-            this.ldapUtils.isUserInGroup(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.HMSLYDIA_DN,
-                getContext());
+        userDN = this.ldapUtils.isUserInGroup(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + LDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(LDAPTestSetup.WILLIAMBUSH_DN.toLowerCase(), userDN);
 
-        String wrongUserDN =
-            this.ldapUtils.isUserInGroup("wronguseruid", LDAPTestSetup.HMSLYDIA_DN, getContext());
+        String wrongUserDN = this.ldapUtils.isUserInGroup("wronguseruid", LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
     }

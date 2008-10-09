@@ -66,8 +66,8 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The xwiki.cfg properties modified for the test.
      */
-    public static Properties CURRENTXWIKICONF;
-
+    public Properties CURRENTXWIKICONF;
+    
     // ///
 
     /**
@@ -100,10 +100,10 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap", "1");
             CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
                 "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", "localhost");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", LDAPTestSetup.LDAP_SERVER);
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.base_DN", LDAPTestSetup.LDAP_BASEDN);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", "cn={0},ou=people,o=sevenSeas");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_pass", "{1}");
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", LDAPTestSetup.LDAP_BINDDN_CN);
+            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_pass", LDAPTestSetup.LDAP_BINDPASS_CN);
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD);
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name="
                 + LDAPTestSetup.LDAP_USERUID_FIELD

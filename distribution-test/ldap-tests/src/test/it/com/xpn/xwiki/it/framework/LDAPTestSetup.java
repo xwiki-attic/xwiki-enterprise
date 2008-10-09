@@ -43,10 +43,15 @@ import junit.framework.Test;
  */
 public class LDAPTestSetup extends TestSetup
 {
+    public static final String LDAP_SERVER = "127.0.0.1";
+
     /**
      * The LDAP base DN from where to executes LDAP queries.
      */
     public static final String LDAP_BASEDN = "o=sevenSeas";
+    
+    public static final String LDAP_BINDDN_CN = "cn={0},ou=people,o=sevenSeas";
+    public static final String LDAP_BINDPASS_CN = "{1}";
 
     /**
      * The name of the LDAP property containing user unique id (cn).

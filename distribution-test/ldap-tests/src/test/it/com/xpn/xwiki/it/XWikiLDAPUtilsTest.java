@@ -22,24 +22,25 @@ package com.xpn.xwiki.it;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import org.jmock.Mock;
+import org.jmock.core.Invocation;
+import org.jmock.core.stub.CustomStub;
 import org.xwiki.cache.Cache;
 import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
-import org.xwiki.cache.event.CacheEntryListener;
+import org.xwiki.cache.internal.DefaultCache;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.it.framework.AbstractLDAPTestCase;
 import com.xpn.xwiki.it.framework.LDAPTestSetup;
-import com.xpn.xwiki.it.framework.XWikiConfig;
-import com.xpn.xwiki.it.framework.XWikiLDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
-import com.xpn.xwiki.web.XWikiEngineContext;
 
 /**
  * Tests {@link XWikiLDAPUtilsTest}.
@@ -48,6 +49,14 @@ import com.xpn.xwiki.web.XWikiEngineContext;
  */
 public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 {
+    private CacheFactory cacheFactory = new CacheFactory()
+    {
+        public <T> Cache<T> newCache(CacheConfiguration config) throws CacheException
+        {
+            return new DefaultCache<T>();
+        }
+    };
+
     /**
      * The LDAP connection tool.
      */
@@ -57,6 +66,8 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
      * The LDAP tool.
      */
     private XWikiLDAPUtils ldapUtils = new XWikiLDAPUtils(connection);
+
+    private Properties properties = new Properties();
 
     /**
      * {@inheritDoc}
@@ -68,58 +79,36 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
     {
         super.setUp();
 
-        new XWiki(new XWikiConfig(XWikiLDAPTestSetup.CURRENTXWIKICONF), getContext())
+        Mock mockXWiki = mock(XWiki.class, new Class[] {}, new Object[] {});
+
+        mockXWiki.stubs().method("getCacheFactory").will(returnValue(cacheFactory));
+        mockXWiki.stubs().method("getXWikiPreference").will(returnValue(null));
+        mockXWiki.stubs().method("getXWikiPreferenceAsInt").will(throwException(new NumberFormatException("null")));
+        mockXWiki.stubs().method("Param").will(new CustomStub("Implements XWiki.Param")
         {
-            @Override
-            public void initXWiki(com.xpn.xwiki.XWikiConfig config, XWikiContext context,
-                XWikiEngineContext enginecontext, boolean noupdate) throws XWikiException
+            public Object invoke(Invocation invocation) throws Throwable
             {
-                context.setWiki(this);
-                setConfig(config);
+                return properties.getProperty((String) invocation.parameterValues.get(0));
             }
-
-            @Override
-            public CacheFactory getCacheFactory()
+        });
+        mockXWiki.stubs().method("ParamAsLong").will(new CustomStub("Implements XWiki.ParamAsLong")
+        {
+            public Object invoke(Invocation invocation) throws Throwable
             {
-                return new CacheFactory()
-                {
-                    public <T> Cache<T> newCache(CacheConfiguration config) throws CacheException
-                    {
-                        return new Cache<T>()
-                        {
-                            public void addCacheEntryListener(CacheEntryListener<T> listener)
-                            {
-                            }
-
-                            public void dispose()
-                            {
-                            }
-
-                            public T get(String key)
-                            {
-                                return null;
-                            }
-
-                            public void remove(String key)
-                            {
-                            }
-
-                            public void removeAll()
-                            {
-                            }
-
-                            public void removeCacheEntryListener(CacheEntryListener<T> listener)
-                            {
-                            }
-
-                            public void set(String key, T value)
-                            {
-                            }
-                        };
-                    }
-                };
+                return Long.parseLong(properties.getProperty((String) invocation.parameterValues.get(0)));
             }
-        };
+        });
+
+        getContext().setWiki((XWiki) mockXWiki.proxy());
+
+        this.properties.setProperty("xwiki.authentication.ldap", "1");
+        this.properties.setProperty("xwiki.authentication.ldap.server", LDAPTestSetup.LDAP_SERVER);
+        this.properties.setProperty("xwiki.authentication.ldap.port", "" + LDAPTestSetup.getLDAPPort());
+        this.properties.setProperty("xwiki.authentication.ldap.base_DN", LDAPTestSetup.LDAP_BASEDN);
+        this.properties.setProperty("xwiki.authentication.ldap.bind_DN", LDAPTestSetup.LDAP_BINDDN_CN);
+        this.properties.setProperty("xwiki.authentication.ldap.bind_pass", LDAPTestSetup.LDAP_BINDPASS_CN);
+        this.properties.setProperty("xwiki.authentication.ldap.UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD);
+        this.properties.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
 
         this.ldapUtils.setUidAttributeName(LDAPTestSetup.LDAP_USERUID_FIELD);
         this.ldapUtils.setBaseDN(LDAPTestSetup.LDAP_BASEDN);

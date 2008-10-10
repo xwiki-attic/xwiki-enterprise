@@ -168,8 +168,7 @@
   #end
   #if($velocityCount &gt; 1) , #end
   {"acclev"    : $acclev,
-   "fullname"  : "$itemfullname",
-   #if($acclev &amp;&amp; $bentrydoc &amp;&amp; ($bentrydoc != ""))
+   "fullname"  : "$itemfullname"#if($acclev &amp;&amp; $bentrydoc &amp;&amp; ($bentrydoc != "")),
    "page"      : "$page",
    "url"       : "$itemurl",
    "title"     : "$ptitle",

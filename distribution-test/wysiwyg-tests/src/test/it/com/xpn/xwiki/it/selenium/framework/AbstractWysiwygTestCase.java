@@ -58,6 +58,10 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             clickEditSaveAndContinue();
         }
 
+        // Give the focus to the xwiki window
+        getSelenium().windowFocus();
+        runScript("XWE.focus();");
+
         // Reset editor's content
         resetContent();
 

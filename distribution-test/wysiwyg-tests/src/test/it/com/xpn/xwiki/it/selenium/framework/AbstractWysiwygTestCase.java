@@ -20,6 +20,11 @@
 package com.xpn.xwiki.it.selenium.framework;
 
 import junit.framework.Assert;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.File;
+
+import org.apache.commons.logging.LogFactory;
 
 /**
  * All XWiki Wysiwyg tests must extend this class.
@@ -35,9 +40,62 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     private static final String WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT = "title";
 
+    private static final String XWINDOWFOCUS_BINARY = "/home/maven/xwindowfocus";
+
     public static final String WYSIWYG_DEFAULT_CONTENT = "<br>";
 
     private boolean firstEnterTyped = true;
+
+    private class StreamRedirector extends Thread
+    {
+        private InputStream is;
+
+        private OutputStream os;
+
+        StreamRedirector(InputStream in, OutputStream out)
+        {
+            is = in;
+            os = out;
+        }
+
+        public void run()
+        {
+            byte[] buf = new byte[512];
+            int n;
+
+            try {
+                while (true) {
+                    n = is.read(buf);
+                    if (n == 0) {
+                        return;
+                    }
+                    os.write(buf, 0, n);
+                }
+            } catch (Exception e) {
+                LogFactory.getLog(StreamRedirector.class).error("Error while reading/writing: " + e);
+            }
+        }
+    }
+
+    /*
+     * HACK. This method is needed by our Continuous Build server : maven.xwiki.org.
+     * GWT seems to have an unusual way to manage input events, our WYSIWYG editor needs its container window to have
+     * a _real_ focus (Windowing System level) to catch them (at least on Linux and OSX).
+     * This method executes a small C program to set the Windowing System (X) focus on the window named :
+     * "Editing wysiwyg for WysiwygTest - Iceweasel". More information about this program can be found here :
+     * http://dev.xwiki.org/xwiki/bin/view/Community/ContinuousBuild
+     */
+    private void externalX11WindowFocus() throws Exception
+    {
+        if ((new File(XWINDOWFOCUS_BINARY)).exists()) {
+            ProcessBuilder pb =
+                new ProcessBuilder(new String[]{XWINDOWFOCUS_BINARY, "Editing wysiwyg for WysiwygTest - Iceweasel"});
+            pb.environment().put("DISPLAY", ":1.0");
+            Process shell = pb.start();            
+            new StreamRedirector(shell.getInputStream(), System.out).start();
+            new StreamRedirector(shell.getErrorStream(), System.err).start();
+        }
+    }
 
     protected void setUp() throws Exception
     {
@@ -58,9 +116,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             clickEditSaveAndContinue();
         }
 
-        // Give the focus to the xwiki window
+        // Focus on the XWiki window (Seems not to work, at least on Linux and OSX)
         getSelenium().windowFocus();
-        runScript("XWE.focus();");
+
+        // Focus on the XWiki window on our continuous build server (The hard way)
+        externalX11WindowFocus();
 
         // Reset editor's content
         resetContent();

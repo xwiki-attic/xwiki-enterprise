@@ -91,7 +91,7 @@ public class LDAPTestSetup extends TestSetup
     public static final String THOMASQUIST_DN = "cn=Thomas Quist,ou=people,o=sevenSeas";
 
     /**
-     * The LDAP unique id of user Thomas Quist.
+     * The LDAP common name of user Thomas Quist.
      */
     public static final String THOMASQUIST_CN = "Thomas Quist";
 
@@ -126,14 +126,39 @@ public class LDAPTestSetup extends TestSetup
     public static final String USERWITHPOINTS_DN = "cn=User.With.Points,ou=people,o=sevenSeas";
 
     /**
-     * The LDAP password of user William Bush.
+     * The LDAP password of user User.With.Points.
      */
     public static final String USERWITHPOINTS_PWD = "pass";
 
     /**
-     * The LDAP unique id of user William Bush.
+     * The LDAP common name of user User.With.Points.
+     */
+    public static final String USERWITHPOINTS_CN = "User.With.Points";
+    
+    /**
+     * The LDAP unique id of user User.With.Points.
      */
     public static final String USERWITHPOINTS_UID = "user.with.points";
+    
+    /**
+     * The LDAP DN of user User.WithPoints.
+     */
+    public static final String OTHERUSERWITHPOINTS_DN = "cn=User.WithPoints,ou=people,o=sevenSeas";
+
+    /**
+     * The LDAP password of user User.WithPoints.
+     */
+    public static final String OTHERUSERWITHPOINTS_PWD = "pass";
+
+    /**
+     * The LDAP common name of user User.WithPoints.
+     */
+    public static final String OTHERUSERWITHPOINTS_CN = "User.WithPoints";
+    
+    /**
+     * The LDAP unique id of user User.WithPoints.
+     */
+    public static final String OTHERUSERWITHPOINTS_UID = "user.withpoints";
 
     /**
      * The LDAP DN of group HMS Lydia.

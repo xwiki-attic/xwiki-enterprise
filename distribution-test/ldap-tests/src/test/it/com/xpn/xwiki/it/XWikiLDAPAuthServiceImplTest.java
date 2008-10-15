@@ -22,8 +22,15 @@ import com.xpn.xwiki.it.framework.AbstractLDAPTestCase;
 import com.xpn.xwiki.it.framework.LDAPTestSetup;
 import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.classes.BaseClass;
+import com.xpn.xwiki.store.XWikiStoreInterface;
+import com.xpn.xwiki.user.impl.LDAP.LDAPProfileXClass;
 import com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl;
 
+/**
+ * Unit tests using embedded LDAP server (Apache DS). Theses test can be launched directly from JUnit plugin of EDI.
+ * 
+ * @version $Id$
+ */
 public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 {
     private static final String MAIN_WIKI_NAME = "xwiki";
@@ -45,6 +52,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     private Map<String, Map<String, XWikiDocument>> databases = new HashMap<String, Map<String, XWikiDocument>>();
 
     private BaseClass userClass = new BaseClass();
+
+    private Mock mockStore;
 
     private Map<String, XWikiDocument> getDocuments(String database, boolean create) throws XWikiException
     {
@@ -103,8 +112,13 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         this.databases.put(MAIN_WIKI_NAME, new HashMap<String, XWikiDocument>());
 
+        this.mockStore = mock(XWikiStoreInterface.class, new Class[] {}, new Object[] {});
+
+        this.mockStore.stubs().method("searchDocuments").will(returnValue(Collections.EMPTY_LIST));
+
         Mock mockXWiki = mock(XWiki.class, new Class[] {}, new Object[] {});
 
+        mockXWiki.stubs().method("getStore").will(returnValue(mockStore.proxy()));
         mockXWiki.stubs().method("getCacheFactory").will(returnValue(this.cacheFactory));
         mockXWiki.stubs().method("getXWikiPreference").will(returnValue(null));
         mockXWiki.stubs().method("getXWikiPreferenceAsInt").will(throwException(new NumberFormatException("null")));
@@ -130,11 +144,27 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
                 return getDocument((String) invocation.parameterValues.get(0));
             }
         });
+        mockXWiki.stubs().method("saveDocument").will(new CustomStub("Implements XWiki.saveDocument")
+        {
+            public Object invoke(Invocation invocation) throws Throwable
+            {
+                saveDocument((XWikiDocument) invocation.parameterValues.get(0));
+
+                return null;
+            }
+        });
         mockXWiki.stubs().method("exists").will(new CustomStub("Implements XWiki.exists")
         {
             public Object invoke(Invocation invocation) throws Throwable
             {
                 return documentExists((String) invocation.parameterValues.get(0));
+            }
+        });
+        mockXWiki.stubs().method("getClass").will(new CustomStub("Implements XWiki.getClass")
+        {
+            public Object invoke(Invocation invocation) throws Throwable
+            {
+                return getDocument((String) invocation.parameterValues.get(0)).getxWikiClass();
             }
         });
         mockXWiki.stubs().method("search").will(returnValue(Collections.EMPTY_LIST));
@@ -172,19 +202,99 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.properties.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
     }
 
-    public void testAuthenticate() throws XWikiException
+    private void testAuthenticate(String login, String password, String storedDn) throws XWikiException
     {
-        Principal principal =
-            this.ldapAuth.authenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
-                getContext());
+        testAuthenticate(login, password, login, storedDn);
+    }
+
+    private void testAuthenticate(String login, String password, String validUserName, String storedDn)
+        throws XWikiException
+    {
+        testAuthenticate(login, password, validUserName, storedDn, login);
+    }
+
+    private void testAuthenticate(String login, String password, String validUserName, String storedDn,
+        String storedUid) throws XWikiException
+    {
+        Principal principal = this.ldapAuth.authenticate(login, password, getContext());
 
         // Check that authentication return a valid Principal
         assertNotNull(principal);
 
         // Check that the returned Principal has the good name
-        assertEquals("xwiki:XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN, principal.getName());
+        assertEquals("xwiki:XWiki." + validUserName, principal.getName());
+
+        XWikiDocument userProfile = getDocument("XWiki." + validUserName);
 
         // check hat user has been created
-        assertTrue(documentExists("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN));
+        assertTrue(!userProfile.isNew());
+
+        BaseObject ldapProfile = userProfile.getObject(LDAPProfileXClass.LDAP_XCLASS);
+
+        assertNotNull(ldapProfile);
+
+        assertEquals(storedDn, ldapProfile.getStringValue(LDAPProfileXClass.LDAP_XFIELD_DN));
+        assertEquals(storedUid, ldapProfile.getStringValue(LDAPProfileXClass.LDAP_XFIELD_UID));
+    }
+
+    /**
+     * Validate "simple" LDAP authentication.
+     */
+    public void testAuthenticate() throws XWikiException
+    {
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_DN, LDAPTestSetup.HORATIOHORNBLOWER_CN);
+    }
+
+    /**
+     * Validate the same user profile is used when authentication is called twice for same user.
+     */
+    public void testAuthenticateTwice() throws XWikiException
+    {
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        this.mockStore.stubs().method("searchDocuments").will(
+            returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
+
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+    }
+
+    /**
+     * Validate the same user profile is used when authentication is called twice for same user even the uid used have
+     * different case.
+     */
+    public void testAuthenticateTwiceAndDifferentCase() throws XWikiException
+    {
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        this.mockStore.stubs().method("searchDocuments").will(
+            returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
+
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN.toUpperCase(), LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_DN, LDAPTestSetup.HORATIOHORNBLOWER_CN);
+    }
+
+    /**
+     * Validate "simple" LDAP authentication when uid contains point(s).
+     */
+    public void testAuthenticateWhenUidContainsPoints() throws XWikiException
+    {
+        testAuthenticate(LDAPTestSetup.USERWITHPOINTS_CN, LDAPTestSetup.USERWITHPOINTS_PWD,
+            LDAPTestSetup.USERWITHPOINTS_CN.replaceAll("\\.", ""), LDAPTestSetup.USERWITHPOINTS_DN);
+    }
+
+    /**
+     * Validate a different profile is used for different uid containing points but having same cleaned uid.
+     */
+    public void testAuthenticateTwiceWhenDifferentUsersAndUidContainsPoints() throws XWikiException
+    {
+        testAuthenticate(LDAPTestSetup.USERWITHPOINTS_CN, LDAPTestSetup.USERWITHPOINTS_PWD,
+            LDAPTestSetup.USERWITHPOINTS_CN.replaceAll("\\.", ""), LDAPTestSetup.USERWITHPOINTS_DN);
+
+        testAuthenticate(LDAPTestSetup.OTHERUSERWITHPOINTS_CN, LDAPTestSetup.OTHERUSERWITHPOINTS_PWD,
+            LDAPTestSetup.OTHERUSERWITHPOINTS_CN.replaceAll("\\.", "") + "_1", LDAPTestSetup.OTHERUSERWITHPOINTS_DN);
     }
 }

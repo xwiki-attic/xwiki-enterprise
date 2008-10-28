@@ -170,7 +170,12 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         mockXWiki.stubs().method("search").will(returnValue(Collections.EMPTY_LIST));
 
         this.userClass.setName("XWiki.XWikiUsers");
-        this.userClass.addTextField("ldap_dn", "LDAP DN", 80);
+
+        this.userClass.addTextField("first_name", "First Name", 30);
+        this.userClass.addTextField("last_name", "Last Name", 30);
+        this.userClass.addTextField("email", "e-Mail", 30);
+        this.userClass.addPasswordField("password", "Password", 10);
+
         mockXWiki.stubs().method("getUserClass").will(returnValue(this.userClass));
 
         mockXWiki.stubs().method("createUser").will(new CustomStub("Implements XWiki.createUser")
@@ -200,6 +205,10 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.properties.setProperty("xwiki.authentication.ldap.bind_pass", LDAPTestSetup.LDAP_BINDPASS_CN);
         this.properties.setProperty("xwiki.authentication.ldap.UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD);
         this.properties.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
+        this.properties.setProperty("xwiki.authentication.ldap.try_local", "0");
+        this.properties.setProperty("xwiki.authentication.ldap.update_user", "1");
+        this.properties.setProperty("xwiki.authentication.ldap.fields_mapping",
+            "last_name=sn,first_name=givenName,fullname=fullName,email=mail");
     }
 
     private void testAuthenticate(String login, String password, String storedDn) throws XWikiException
@@ -213,8 +222,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         testAuthenticate(login, password, validUserName, storedDn, login);
     }
 
-    private void testAuthenticate(String login, String password, String validUserName, String storedDn,
-        String storedUid) throws XWikiException
+    private void testAuthenticate(String login, String password, String validUserName, String storedDn, String storedUid)
+        throws XWikiException
     {
         Principal principal = this.ldapAuth.authenticate(login, password, getContext());
 
@@ -243,7 +252,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     public void testAuthenticate() throws XWikiException
     {
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
-            LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_DN, LDAPTestSetup.HORATIOHORNBLOWER_CN);
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
 
     /**
@@ -296,5 +305,18 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         testAuthenticate(LDAPTestSetup.OTHERUSERWITHPOINTS_CN, LDAPTestSetup.OTHERUSERWITHPOINTS_PWD,
             LDAPTestSetup.OTHERUSERWITHPOINTS_CN.replaceAll("\\.", "") + "_1", LDAPTestSetup.OTHERUSERWITHPOINTS_DN);
+    }
+
+    /**
+     * Validate "simple" LDAP authentication when the user already exists but does not contains LDAP profile object.
+     */
+    public void testAuthenticateWhenNonLDAPUserAlreadyExists() throws XWikiException
+    {
+        XWikiDocument userDoc = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
+        userDoc.newObject(this.userClass.getName(), getContext());
+        saveDocument(userDoc);
+
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
 }

@@ -319,4 +319,17 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
+
+    /**
+     * Validate "simple" LDAP authentication when the user profile default page already exists but does not contains
+     * user object. In that case it is using another document to create the user.
+     */
+    public void testAuthenticateWhenNonLDAPNonUserAlreadyExists() throws XWikiException
+    {
+        XWikiDocument userDoc = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
+        saveDocument(userDoc);
+
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_CN + "_1", LDAPTestSetup.HORATIOHORNBLOWER_DN);
+    }
 }

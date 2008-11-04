@@ -26,14 +26,21 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
+    <artifactId>xwiki-enterprise-jetty</artifactId>
     <version>1.7-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-mysql</artifactId>
-  <version>1.7-SNAPSHOT</version>
-  <name>XWiki Products - Enterprise - Distribution - MySQL</name>
+  <artifactId>xwiki-enterprise-jetty-hsqldb</artifactId>
+  <name>XWiki Products - Enterprise - Distribution - HSQLDB</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - MySQL</description>
+  <description>XWiki Products - Enterprise - Distribution - HSQLDB</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
+      <version>${pom.version}</version>
+      <type>zip</type>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->
@@ -46,7 +53,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-            <descriptor>src/assemble/application-no-database.xml</descriptor>
+            <descriptor>src/assemble/application.xml</descriptor>
           </descriptors>
         </configuration>
       </plugin>

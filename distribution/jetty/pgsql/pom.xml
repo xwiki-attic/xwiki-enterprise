@@ -26,22 +26,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
+    <artifactId>xwiki-enterprise-jetty</artifactId>
     <version>1.7-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-derby</artifactId>
+  <artifactId>xwiki-enterprise-jetty-pgsql</artifactId>
   <version>1.7-SNAPSHOT</version>
-  <name>XWiki Products - Enterprise - Distribution - Derby</name>
+  <name>XWiki Products - Enterprise - Distribution - PGSQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - Derby</description>
-  <dependencies>
-    <dependency>
-      <groupId>com.xpn.xwiki.products</groupId>
-      <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-      <version>${pom.version}</version>
-      <type>zip</type>
-    </dependency>
-  </dependencies>
+  <description>XWiki Products - Enterprise - Distribution - PGSQL</description>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->
@@ -54,7 +46,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-            <descriptor>src/assemble/application.xml</descriptor>
+            <descriptor>src/assemble/application-no-database.xml</descriptor>
           </descriptors>
         </configuration>
       </plugin>

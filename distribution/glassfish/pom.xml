@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise</artifactId>
+    <version>1.7-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-enterprise-glassfish</artifactId>
+  <name>XWiki Products - Enterprise - Distribution - GlassFish</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Distribution - GlassFish</description>
+  <properties>
+    <glassfish.database.folder>glassfish/domains/domain1/database</glassfish.database.folder>
+    <glassfish.war.folder>glassfish/domains/domain1/autodeploy</glassfish.war.folder>
+  </properties>
+  <repositories>
+    <repository>
+      <id>glassfish-repository</id>
+      <name>Java.net Repository for Glassfish</name>
+      <url>http://download.java.net/maven/glassfish</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <!--
+        back up glassfish maven repository in case the 'glassfish-repository' goes down 
+      -->
+      <id>glassfish-repository-wsinterop</id>
+      <name>Java.net Repository for Glassfish</name>
+      <url>http://maven.dyndns.org/glassfish/</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>maven2.java.net</id>
+      <name>Java.net Repository for Maven 2</name>
+      <url>http://download.java.net/maven/2</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <!-- in case the primary repository goes down -->
+      <id>maven2.java.net-backup</id>
+      <name>Java.net Repository for Maven 2</name>
+      <url>https://maven2-repository.dev.java.net/nonav/repository</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  <!-- Need some more maven plugin repositories for GlassFish and its dependencies -->
+  <pluginRepositories>
+    <pluginRepository>
+      <id>glassfish-repository</id>
+      <name>Java.net Repository for Maven 2</name>
+      <url>http://download.java.net/maven/glassfish</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <!--
+        back up glassfish maven repository in case the 'glassfish-repository' goes down 
+      -->
+      <id>glassfish-repository-wsinterop</id>
+      <name>Java.net Repository for Glassfish</name>
+      <url>http://maven.dyndns.org/glassfish/</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>maven2.java.net</id>
+      <name>Java.net Repository for Maven 2</name>
+      <url>http://download.java.net/maven/2</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <!-- backup -->
+      <id>maven2.java.net-wsinterop</id>
+      <name>Java.net Repository for Maven 2</name>
+      <url>http://maven.dyndns.org/2</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+  <dependencies>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${pom.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.distributions</groupId>
+      <artifactId>web</artifactId>
+      <version>3.0-Prelude-b28b</version>
+      <type>zip</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.glassfish.build</groupId>
+        <artifactId>maven-glassfish-plugin</artifactId>
+        <version>3.0-Prelude-b28b</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.glassfish.build</groupId>
+        <artifactId>maven-glassfish-extension</artifactId>
+        <version>3.0-Prelude-b28b</version>
+      </extension>
+    </extensions>
+  </build>
+  <profiles>
+    <profile>
+      <id>derby</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>derby</module>
+      </modules>
+    </profile>
+  </profiles>
+</project>

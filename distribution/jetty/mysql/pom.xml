@@ -26,14 +26,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
+    <artifactId>xwiki-enterprise-jetty</artifactId>
     <version>1.7-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-pgsql</artifactId>
+  <artifactId>xwiki-enterprise-jetty-mysql</artifactId>
   <version>1.7-SNAPSHOT</version>
-  <name>XWiki Products - Enterprise - Distribution - PGSQL</name>
+  <name>XWiki Products - Enterprise - Distribution - MySQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - PGSQL</description>
+  <description>XWiki Products - Enterprise - Distribution - MySQL</description>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->

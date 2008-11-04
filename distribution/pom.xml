@@ -40,82 +40,21 @@
       <version>${pom.version}</version>
       <type>war</type>
     </dependency>
-    <dependency>
-      <groupId>com.xpn.xwiki.platform.tools</groupId>
-      <artifactId>xwiki-jetty-resources</artifactId>
-      <version>${platform.tool.jetty.version}</version>
-    </dependency>
-    <!-- Add the database JAR so that it's included in the expanded WAR since it's not included
-         by default in the Platform WAR. -->
-    <dependency>
-      <groupId>${xwiki.db.jdbc.groupId}</groupId>
-      <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
-      <version>${xwiki.db.jdbc.version}</version>
-      <scope>runtime</scope>
-    </dependency>
   </dependencies>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <!-- Inject Hibernate's configuration for the specified database -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-remote-resources-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>xwiki-configuration-resources</id>
-              <goals>
-                <goal>process</goal>
-              </goals>
-              <configuration>
-                <resourceBundles>
-                  <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
-                </resourceBundles>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>single</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
   <profiles>
     <profile>
-      <id>hsqldb</id>
+      <id>jetty</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>hsqldb</module>
+        <module>jetty</module>
       </modules>
     </profile>
     <profile>
-      <id>derby</id>
+      <id>glassfish</id>
       <modules>
-        <module>derby</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>pgsql</id>
-      <modules>
-        <module>pgsql</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>mysql</id>
-      <modules>
-        <module>mysql</module>
+        <module>glassfish</module>
       </modules>
     </profile>
   </profiles>

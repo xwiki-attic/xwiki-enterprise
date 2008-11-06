@@ -107,7 +107,7 @@
                 <artifactItems>
                   <artifactItem>
                     <groupId>com.xpn.xwiki.products</groupId>
-                    <artifactId>xwiki-enterprise-${xe.container}-${xwiki.db}</artifactId>
+                    <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
                     <version>${pom.version}</version>
                     <type>zip</type>
                   </artifactItem>
@@ -148,7 +148,7 @@
               </property>
               <property>
                 <name>xwikiExecutionDirectory</name>
-                <value>${basedir}/target/xwiki-enterprise-${xe.container}-${xwiki.db}-${pom.version}</value>
+                <value>${basedir}/target/xwiki-enterprise-jetty-${xwiki.db}-${pom.version}</value>
               </property>
               <property>
                 <name>xwikiExecutionStartCommand</name>

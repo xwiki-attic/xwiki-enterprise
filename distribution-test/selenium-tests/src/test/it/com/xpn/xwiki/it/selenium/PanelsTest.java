@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Test the Panel feature. Note that some panels tests are also done by the
  * {@link com.xpn.xwiki.it.selenium.PanelWizardTest} test case class.
- *
+ * 
  * @version $Id: $
  * @since 1.6M1
  */
@@ -50,7 +50,6 @@ public class PanelsTest extends AbstractXWikiTestCase
 
     /**
      * This method makes the following tests:
-     * 
      * <ul>
      * <li>Opens the Panels page for XWiki instance.</li>
      * <li>Creates a panel - setting the title.</li>
@@ -62,13 +61,41 @@ public class PanelsTest extends AbstractXWikiTestCase
      */
     public void testCreatePanel()
     {
-        open("Panels", "WebHome");
-        setFieldValue("title", "Thesecondpaneltobecreated");
-        clickLinkWithXPath("//input[@value='Create']");
-        setFieldValue("Panels.PanelClass_0_description", "Tester panel");
-        setFieldValue("Panels.PanelClass_0_content", "#panelheader(\"Test panel\")\nTest Panel\n#panelfooter()");
-        clickLinkWithLocator("formactionsave");
-        open("Panels", "WebHome");
-        assertElementPresent("//a[text()='Thesecondpaneltobecreated']");
+        try {
+            open("Panels", "WebHome");
+            setFieldValue("panelTitle", "Thesecondpaneltobecreated");
+            clickLinkWithXPath("//input[@value='Create']");
+            setFieldValue("Panels.PanelClass_0_description", "Tester panel");
+            setFieldValue("Panels.PanelClass_0_content", "#panelheader(\"Test panel\")\nTest Panel\n#panelfooter()");
+            clickLinkWithLocator("formactionsave");
+            open("Panels", "WebHome");
+            assertElementPresent("//a[text()='Thesecondpaneltobecreated']");
+        } finally {
+            deletePage("Panels", "Thesecondpaneltobecreated");
+        }
+    }
+
+    /**
+     * This method makes the following tests:
+     * <ul>
+     * <li>Opens the Panels page for XWiki instance.</li>
+     * <li>Creates a panel - setting a title with special characters ('$&/\?#).</li>
+     * <li>...Checking that no error occurred</li>
+     * <li>Goes back to panels list and check for the presence of the newly created panel.</li>
+     * </ul>
+     */
+    public void testCreatePanelWithSpecialSymbols()
+    {
+        String title = "Is # & \u0163 'triky\"? c:\\windows /root $util";
+        try {
+            open("Panels", "WebHome");
+            getSelenium().setSpeed("4000");
+            setFieldValue("panelTitle", title);
+            clickLinkWithXPath("//input[@value='Create']");
+            clickLinkWithLocator("formactionsave");
+            assertTextPresent(title);
+        } finally {
+            deletePage("Panels", title);
+        }
     }
 }

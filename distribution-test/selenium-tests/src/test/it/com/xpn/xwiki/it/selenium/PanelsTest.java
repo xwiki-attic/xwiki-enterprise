@@ -89,7 +89,6 @@ public class PanelsTest extends AbstractXWikiTestCase
         String title = "Is # & \u0163 'triky\"? c:\\windows /root $util";
         try {
             open("Panels", "WebHome");
-            getSelenium().setSpeed("4000");
             setFieldValue("panelTitle", title);
             clickLinkWithXPath("//input[@value='Create']");
             clickLinkWithLocator("formactionsave");

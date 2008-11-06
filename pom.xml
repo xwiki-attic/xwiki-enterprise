@@ -80,6 +80,21 @@
         <module>distribution-test</module>
       </modules>
     </profile>
+    <profile>
+      <id>jetty</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <xe.container>jetty</xe.container>
+      </properties>
+    </profile>
+    <profile>
+      <id>glassfish</id>
+      <properties>
+        <xe.container>glassfish</xe.container>
+      </properties>
+    </profile>
   </profiles>
   <build>
     <extensions>

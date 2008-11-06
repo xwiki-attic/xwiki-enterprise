@@ -115,6 +115,13 @@
                   <!--excludes>**/hibernate.cfg.xml</excludes-->
                 </artifactItem>
                 <artifactItem>
+                  <groupId>com.xpn.xwiki.platform.tools</groupId>
+                  <artifactId>xwiki-rootwebapp</artifactId>
+                  <version>${platform.tool.rootwebapp.version}</version>
+                  <type>war</type>
+                  <outputDirectory>${xwiki.container}/webapps/root</outputDirectory>
+                </artifactItem>
+                <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
                   <version>${pom.version}</version>

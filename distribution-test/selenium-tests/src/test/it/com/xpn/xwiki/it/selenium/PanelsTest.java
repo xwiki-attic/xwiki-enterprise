@@ -63,7 +63,7 @@ public class PanelsTest extends AbstractXWikiTestCase
     public void testCreatePanel()
     {
         open("Panels", "WebHome");
-        setFieldValue("title", "Thesecondpaneltobecreated");
+        setFieldValue("panelTitle", "Thesecondpaneltobecreated");
         clickLinkWithXPath("//input[@value='Create']");
         setFieldValue("Panels.PanelClass_0_description", "Tester panel");
         setFieldValue("Panels.PanelClass_0_content", "#panelheader(\"Test panel\")\nTest Panel\n#panelfooter()");

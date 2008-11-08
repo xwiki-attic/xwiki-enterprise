@@ -6,26 +6,29 @@ import org.codehaus.swizzle.confluence.Page;
 import org.codehaus.swizzle.confluence.PageHistorySummary;
 import org.codehaus.swizzle.confluence.PageSummary;
 import org.codehaus.swizzle.confluence.Space;
+
 import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
 
 public class PagesTest extends AbstractXmlRpcTestCase
 {
     private String spaceKey;
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
 
-        spaceKey = "ContainerSpace";
+        this.spaceKey = "ContainerSpace";
         Space space = new Space();
-        space.setKey(spaceKey);
+        space.setKey(this.spaceKey);
         space.setName("Some Name");
-        rpc.addSpace(space);
+        this.rpc.addSpace(space);
     }
 
+    @Override
     public void tearDown() throws Exception
     {
-        rpc.removeSpace(spaceKey);
+        this.rpc.removeSpace(this.spaceKey);
 
         super.tearDown();
     }
@@ -37,61 +40,60 @@ public class PagesTest extends AbstractXmlRpcTestCase
 
         // add the page
         Page p = new Page();
-        p.setSpace(spaceKey);
+        p.setSpace(this.spaceKey);
         p.setTitle(title);
         p.setContent(content);
         // no id in p means storePage will add
-        Page resultPage = rpc.storePage(p);
+        Page resultPage = this.rpc.storePage(p);
 
         String id = resultPage.getId();
 
         assertEquals(title, resultPage.getTitle());
-        assertEquals(spaceKey, resultPage.getSpace());
+        assertEquals(this.spaceKey, resultPage.getSpace());
         assertEquals(content, resultPage.getContent());
         assertNotNull(id);
 
         // check that the page was added using getPages
-        List pages = rpc.getPages(spaceKey);
+        List pages = this.rpc.getPages(this.spaceKey);
         boolean found = false;
         for (int i = 0; i < pages.size() && !found; i++) {
             PageSummary summary = (PageSummary) pages.get(i);
             if (summary.getTitle().equals(title)) {
                 found = true;
-                assertEquals(spaceKey, summary.getSpace());
+                assertEquals(this.spaceKey, summary.getSpace());
             }
         }
-        assertTrue("Adding page failed. There should be a page entitled \"" + title
-            + "\" in this space", found);
+        assertTrue("Adding page failed. There should be a page entitled \"" + title + "\" in this space", found);
 
         // also check that the page was added using getPage
-        Page page = rpc.getPage(id);
+        Page page = this.rpc.getPage(id);
         assertEquals(id, page.getId());
         assertEquals(title, page.getTitle());
-        assertEquals(spaceKey, page.getSpace());
+        assertEquals(this.spaceKey, page.getSpace());
         assertEquals(content, page.getContent());
 
         // modify the page
         String newContent = "Some Other Content";
         resultPage.setContent(newContent);
-        Page modifiedPage = rpc.storePage(resultPage);
+        Page modifiedPage = this.rpc.storePage(resultPage);
 
         // check that the page was modified
         assertEquals(id, modifiedPage.getId());
         assertEquals(title, modifiedPage.getTitle());
-        assertEquals(spaceKey, modifiedPage.getSpace());
+        assertEquals(this.spaceKey, modifiedPage.getSpace());
         assertEquals(newContent, modifiedPage.getContent());
         assertTrue(resultPage.getVersion() < modifiedPage.getVersion());
 
         // check again in a different way
-        modifiedPage = rpc.getPage(id);
+        modifiedPage = this.rpc.getPage(id);
         assertEquals(id, modifiedPage.getId());
         assertEquals(title, modifiedPage.getTitle());
-        assertEquals(spaceKey, modifiedPage.getSpace());
+        assertEquals(this.spaceKey, modifiedPage.getSpace());
         assertEquals(newContent, modifiedPage.getContent());
         assertTrue(resultPage.getVersion() < modifiedPage.getVersion());
 
         // check page history
-        List oldVersions = rpc.getPageHistory(id);
+        List oldVersions = this.rpc.getPageHistory(id);
         assertEquals(2, oldVersions.size());
 
         PageHistorySummary phs0 = (PageHistorySummary) oldVersions.get(0);
@@ -99,7 +101,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertNotNull(phs0.getModified());
         assertNotNull(phs0.getId());
 
-        Page page0 = rpc.getPage(phs0.getId());
+        Page page0 = this.rpc.getPage(phs0.getId());
         assertEquals(page.getContent(), page0.getContent());
         assertEquals(page.getVersion(), page0.getVersion());
 
@@ -114,10 +116,10 @@ public class PagesTest extends AbstractXmlRpcTestCase
         // assertNotNull(searchResult.getUrl());
 
         // remove the page
-        rpc.removePage(id);
+        this.rpc.removePage(id);
 
         // check that the page was really removed
-        pages = rpc.getPages(spaceKey);
+        pages = this.rpc.getPages(this.spaceKey);
         found = false;
         for (int i = 0; i < pages.size() && !found; i++) {
             PageSummary summary = (PageSummary) pages.get(i);
@@ -132,32 +134,32 @@ public class PagesTest extends AbstractXmlRpcTestCase
 
         // add the page
         Page p = new Page();
-        p.setSpace(spaceKey);
+        p.setSpace(this.spaceKey);
         p.setTitle(title);
         p.setContent(content1);
-        Page page1 = rpc.storePage(p);
+        Page page1 = this.rpc.storePage(p);
 
         // modify the page
         String content2 = "Content v2";
         p.setContent(content2);
         p.setId(page1.getId());
         p.setVersion(page1.getVersion());
-        Page page2 = rpc.storePage(p);
+        Page page2 = this.rpc.storePage(p);
 
         // modify the page again
         String content3 = "Content v3";
         p.setContent(content3);
         p.setId(page2.getId());
         p.setVersion(page2.getVersion());
-        Page page3 = rpc.storePage(p);
+        Page page3 = this.rpc.storePage(p);
 
         // get page history
-        List historyObjs = rpc.getPageHistory(page3.getId());
+        List historyObjs = this.rpc.getPageHistory(page3.getId());
         assertEquals(3, historyObjs.size());
         PageHistorySummary phs1 = (PageHistorySummary) historyObjs.get(1);
         assertEquals(page1.getVersion() + 1, phs1.getVersion());
 
-        Page p1 = rpc.getPage(phs1.getId());
+        Page p1 = this.rpc.getPage(phs1.getId());
         assertEquals(page2.getVersion(), p1.getVersion());
         assertEquals(page2.getContent(), p1.getContent());
         assertEquals(page2.getCreated(), p1.getCreated());
@@ -171,7 +173,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
 
         PageHistorySummary phs2 = (PageHistorySummary) historyObjs.get(0);
         // assertEquals(page3.getVersion(), phs2.getVersion());
-        Page p2 = rpc.getPage(phs2.getId());
+        Page p2 = this.rpc.getPage(phs2.getId());
         // assertEquals(page3.getVersion(), p2.getVersion());
         // assertEquals(page3.getContent(), p2.getContent());
         // assertEquals(page3.getCreated(), p2.getCreated());
@@ -186,11 +188,11 @@ public class PagesTest extends AbstractXmlRpcTestCase
         // get history of page from history
         // confluence does not allow this
         // ("This is not the most recent version of this page")
-        historyObjs = rpc.getPageHistory(p2.getId());
+        historyObjs = this.rpc.getPageHistory(p2.getId());
         // assertEquals(1, historyObjs.size());
         phs1 = (PageHistorySummary) historyObjs.get(0);
         assertEquals(page1.getVersion(), phs1.getVersion());
-        p1 = rpc.getPage(phs1.getId());
+        p1 = this.rpc.getPage(phs1.getId());
         assertEquals(page1.getVersion(), p1.getVersion());
         assertEquals(page1.getContent(), p1.getContent());
         assertEquals(page1.getCreated(), p1.getCreated());
@@ -202,8 +204,8 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(page1.getTitle(), p1.getTitle());
 
         /*
-         * This doesn't make sense since when we pass an id to the storePage, it automatically
-         * discards all version info and takes the latest version of the page.
+         * This doesn't make sense since when we pass an id to the storePage, it automatically discards all version info
+         * and takes the latest version of the page.
          */
         // p2.setContent("New content");
         // try {
@@ -226,7 +228,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
     public void testRenderContentWithInvalidPageId()
     {
         try {
-            rpc.renderContent("unused", "InvalidPageId", "Dummy content");
+            this.rpc.renderContent("unused", "InvalidPageId", "Dummy content");
             fail("Should have received an exception here since the page id format is invalid");
         } catch (Exception expected) {
             //

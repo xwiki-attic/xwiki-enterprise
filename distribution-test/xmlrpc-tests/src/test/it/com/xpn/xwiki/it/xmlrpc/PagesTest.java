@@ -159,6 +159,10 @@ public class PagesTest extends AbstractXmlRpcTestCase
         PageHistorySummary phs1 = (PageHistorySummary) historyObjs.get(1);
         assertEquals(page1.getVersion() + 1, phs1.getVersion());
 
+        // This ensures that getting the page from XmlRpc uses the date of the version, and not the current date
+        // See XWIKI-2821
+        Thread.sleep(2000);
+
         Page p1 = this.rpc.getPage(phs1.getId());
         assertEquals(page2.getVersion(), p1.getVersion());
         assertEquals(page2.getContent(), p1.getContent());

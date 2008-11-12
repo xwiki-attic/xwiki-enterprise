@@ -464,6 +464,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().mouseOver(locator);
         getSelenium().mouseDown(locator);
         getSelenium().mouseUp(locator);
+        getSelenium().mouseOut(locator);
     }
 
     public void assertXHTML(String xhtml)

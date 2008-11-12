@@ -35,6 +35,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 {
     private static final String MAIN_WIKI_NAME = "xwiki";
 
+    private static final String USER_XCLASS = "XWiki.XWikiUsers";
+
     private XWikiLDAPAuthServiceImpl ldapAuth = new XWikiLDAPAuthServiceImpl();
 
     private CacheFactory cacheFactory = new CacheFactory()
@@ -94,7 +96,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     private void saveDocument(XWikiDocument document) throws XWikiException
     {
         document.setNew(false);
-        getDocuments(document.getDatabase(), true).put(document.getFullName(), document);
+        Map<String, XWikiDocument> database = getDocuments(document.getDatabase(), true);
+        database.remove(document.getFullName());
+        database.put(document.getFullName(), document);
     }
 
     private boolean documentExists(String documentFullName) throws XWikiException
@@ -169,7 +173,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         });
         mockXWiki.stubs().method("search").will(returnValue(Collections.EMPTY_LIST));
 
-        this.userClass.setName("XWiki.XWikiUsers");
+        this.userClass.setName(USER_XCLASS);
 
         this.userClass.addTextField("first_name", "First Name", 30);
         this.userClass.addTextField("last_name", "Last Name", 30);
@@ -236,14 +240,18 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         XWikiDocument userProfile = getDocument("XWiki." + validUserName);
 
         // check hat user has been created
-        assertTrue(!userProfile.isNew());
+        assertTrue("The user profile has not been created", !userProfile.isNew());
 
-        BaseObject ldapProfile = userProfile.getObject(LDAPProfileXClass.LDAP_XCLASS);
+        BaseObject userProfileObj = userProfile.getObject(USER_XCLASS);
 
-        assertNotNull(ldapProfile);
+        assertNotNull("The user profile document does not contains user object", userProfileObj);
 
-        assertEquals(storedDn, ldapProfile.getStringValue(LDAPProfileXClass.LDAP_XFIELD_DN));
-        assertEquals(storedUid, ldapProfile.getStringValue(LDAPProfileXClass.LDAP_XFIELD_UID));
+        BaseObject ldapProfileObj = userProfile.getObject(LDAPProfileXClass.LDAP_XCLASS);
+
+        assertNotNull("The user profile document does not contains ldap object", ldapProfileObj);
+
+        assertEquals(storedDn, ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_DN));
+        assertEquals(storedUid, ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_UID));
     }
 
     /**

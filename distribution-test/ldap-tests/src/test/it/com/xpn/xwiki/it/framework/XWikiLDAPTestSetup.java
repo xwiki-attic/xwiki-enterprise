@@ -149,12 +149,10 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             CURRENTXWIKICONF.store(fos, null);
             fos.close();
         }
-
-        if (new File(XWIKI_LOG_FILE).exists()) {
-            FileOutputStream fos = new FileOutputStream(XWIKI_LOG_FILE);
-            this.logProperties.store(fos, null);
-            fos.close();
-        }
+        
+        FileOutputStream fos = new FileOutputStream(XWIKI_LOG_FILE);
+        this.logProperties.store(fos, null);
+        fos.close();
 
         super.setUp();
     }

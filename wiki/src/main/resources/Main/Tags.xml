@@ -55,7 +55,7 @@
 </object>
 <content>#if(!$request.tag)
 
-#set($sql = "select distinct elements(prop.list) from BaseObject as obj, DBStringListProperty as prop where obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags'")
+#set($sql = "select distinct tag from BaseObject as obj, DBStringListProperty as prop join prop.list as tag where obj.className='XWiki.TagClass' and obj.id=prop.id.id and prop.id.name='tags' order by 1 asc")
 #set ($tags = $xwiki.search($sql))
 
 #set ($title = 'All Tags')

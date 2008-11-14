@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
+
 import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.ConfluenceException;
 import org.codehaus.swizzle.confluence.PageSummary;
@@ -39,12 +40,13 @@ import org.xwiki.xmlrpc.model.XWikiPageSummary;
 
 public class PagesTest extends AbstractXWikiXmlRpcTest
 {
+    @Override
     public void setUp() throws XmlRpcException, MalformedURLException
     {
         super.setUp();
 
         try {
-            rpc.getPage(TestConstants.TEST_PAGE);
+            this.rpc.getPage(TestConstants.TEST_PAGE);
         } catch (Exception e) {
             XWikiPage page = new XWikiPage();
             page.setId(TestConstants.TEST_PAGE);
@@ -53,11 +55,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
                 String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(), page
                     .getVersion() + 1);
             page.setContent(content);
-            rpc.storePage(page);
+            this.rpc.storePage(page);
         }
 
         try {
-            rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+            this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
         } catch (Exception e) {
             XWikiPage page = new XWikiPage();
             page.setId(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
@@ -66,14 +68,14 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
                 String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(), page
                     .getVersion() + 1);
             page.setContent(content);
-            rpc.storePage(page);
+            this.rpc.storePage(page);
         }
     }
 
     public void testGetPages() throws XmlRpcException, ConfluenceException, SwizzleException
     {
-        List<SpaceSummary> spaces = rpc.getSpaces();
-        List<XWikiPageSummary> pages = rpc.getPages(spaces.get(0).getKey());
+        List<SpaceSummary> spaces = this.rpc.getSpaces();
+        List<XWikiPageSummary> pages = this.rpc.getPages(spaces.get(0).getKey());
 
         TestUtils.banner("TEST: getPages()");
         for (PageSummary pageSummary : pages) {
@@ -90,15 +92,15 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             return;
         }
 
-        List<XWikiPageSummary> pages = rpc.getPages(TestConstants.SPACE_WITH_NO_ACCESS_RIGHTS);
+        List<XWikiPageSummary> pages = this.rpc.getPages(TestConstants.SPACE_WITH_NO_ACCESS_RIGHTS);
         assertTrue(pages.isEmpty());
     }
 
     public void testGetPage() throws XmlRpcException
     {
-        List<SpaceSummary> spaces = rpc.getSpaces();
-        List<XWikiPageSummary> pages = rpc.getPages(spaces.get(0).getKey());
-        XWikiPage page = rpc.getPage(pages.get(0).getId());
+        List<SpaceSummary> spaces = this.rpc.getSpaces();
+        List<XWikiPageSummary> pages = this.rpc.getPages(spaces.get(0).getKey());
+        XWikiPage page = this.rpc.getPage(pages.get(0).getId());
 
         TestUtils.banner("TEST: getPage()");
         System.out.format("%s\n", page);
@@ -108,14 +110,14 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testStorePage() throws XmlRpcException
     {
-        XWikiPage page = rpc.getPage(TestConstants.TEST_PAGE);
+        XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE);
 
         String content =
             String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(), page
                 .getVersion() + 1);
 
         page.setContent(content);
-        XWikiPage storedPage = rpc.storePage(page);
+        XWikiPage storedPage = this.rpc.storePage(page);
 
         TestUtils.banner("TEST: storePage()");
         System.out.format("Content sent: '%s'\n", Utils.truncateToFirstLine(content));
@@ -128,7 +130,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testChangeParentId() throws XmlRpcException
     {
-        List<XWikiPageSummary> pages = rpc.getPages(TestConstants.TEST_SPACE);
+        List<XWikiPageSummary> pages = this.rpc.getPages(TestConstants.TEST_SPACE);
         XWikiPageSummary pageSummary1 = pages.get(0);
         XWikiPageSummary pageSummary2 = null;
         for (XWikiPageSummary ps : pages) {
@@ -140,11 +142,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         TestUtils.banner("TEST: changeParentId()");
         System.out.format("Setting page '%s' parent id to '%s'. Now: '%s'\n", pageSummary1.getId(), pageSummary2
             .getId(), pageSummary1.getParentId());
-        XWikiPage page = rpc.getPage(pageSummary1.getId());
+        XWikiPage page = this.rpc.getPage(pageSummary1.getId());
         assertNotSame(pageSummary2.getId(), page.getParentId());
 
         page.setParentId(pageSummary2.getId());
-        page = rpc.storePage(page);
+        page = this.rpc.storePage(page);
 
         System.out.format("New page: %s\n", page);
 
@@ -154,16 +156,16 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
     public void testStoreNewPageTranslation() throws XmlRpcException
     {
         /* Get the current page and all its available translations */
-        XWikiPage page = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+        XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
         Map<String, XWikiPage> before = new HashMap<String, XWikiPage>();
         before.put(page.getLanguage(), page);
         for (String l : page.getTranslations()) {
-            XWikiPage p = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
+            XWikiPage p = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
             before.put(l, p);
         }
 
         /* Add a translation in a fake language */
-        String fakeLanguage = (String.format("%d", Math.abs(random.nextInt()))).substring(0, 4);
+        String fakeLanguage = (String.format("%d", Math.abs(this.random.nextInt()))).substring(0, 4);
         String translatedContent =
             String.format("This is the content in the '%s' language. (This will be version: %d)", fakeLanguage, page
                 .getVersion() + 1);
@@ -174,14 +176,14 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         translatedPage.setTitle("Translated page");
         translatedPage.setContent(translatedContent);
         translatedPage.setLanguage(fakeLanguage);
-        translatedPage = rpc.storePage(translatedPage);
+        translatedPage = this.rpc.storePage(translatedPage);
 
         /* Re-get the page and all its translations */
-        page = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+        page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
         Map<String, XWikiPage> after = new HashMap<String, XWikiPage>();
         after.put(page.getLanguage(), page);
         for (String l : page.getTranslations()) {
-            XWikiPage p = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
+            XWikiPage p = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
             after.put(l, p);
         }
 
@@ -209,12 +211,12 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testStorePageTranslation() throws XmlRpcException
     {
-        XWikiPage page = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+        XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
 
         Map<String, String> translatedContents = new HashMap<String, String>();
         translatedContents.put("", page.getContent());
         for (String l : page.getTranslations()) {
-            XWikiPage p = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
+            XWikiPage p = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
             translatedContents.put(l, p.getContent());
         }
 
@@ -233,17 +235,17 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         translatedPage.setTitle("Translated page");
         translatedPage.setContent(content);
         translatedPage.setLanguage(targetLanguage);
-        translatedPage = rpc.storePage(translatedPage);
+        translatedPage = this.rpc.storePage(translatedPage);
 
         System.out.format("New content: %s\n", content);
         System.out.format("%s\n", page);
 
         /* The following command could be removed. Check it! */
-        translatedPage = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+        translatedPage = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
         Map<String, String> newTranslatedContents = new HashMap<String, String>();
         newTranslatedContents.put("", page.getContent());
         for (String l : page.getTranslations()) {
-            XWikiPage p = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
+            XWikiPage p = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, l);
             newTranslatedContents.put(l, p.getContent());
         }
 
@@ -263,7 +265,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testGetPageWithTranslations() throws XmlRpcException
     {
-        XWikiPage page = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+        XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
 
         TestUtils.banner("TEST: getPageWithTranslations()");
         System.out.format("%s\n", page);
@@ -273,12 +275,12 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testGetPageTranslations() throws XmlRpcException
     {
-        XWikiPage page = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+        XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
 
         TestUtils.banner("TEST: getPageTranslations()");
 
         for (String language : page.getTranslations()) {
-            XWikiPage translatedPage = rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, language);
+            XWikiPage translatedPage = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, language);
             System.out.format("XWikiPage for language '%s': %s\n", language, translatedPage);
 
             assertEquals(language, translatedPage.getLanguage());
@@ -288,14 +290,15 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
     public void testCreatePage() throws XmlRpcException
     {
         String pageId =
-            String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX, Math.abs(random.nextInt()));
+            String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX, Math.abs(this.random
+                .nextInt()));
         String content = String.format("Modified by org.xwiki.xmlrpc @ %s (inital version)\n", new Date());
         XWikiPage page = null;
 
         TestUtils.banner("TEST: createPage()");
 
         try {
-            page = rpc.getPage(pageId);
+            page = this.rpc.getPage(pageId);
             throw new RuntimeException(String.format("XWikiPage %s exists!", pageId));
         } catch (Exception e) {
             System.out.format("XWikiPage %s does not exist... Good!\n", pageId);
@@ -306,7 +309,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         page.setSpace(TestConstants.TEST_SPACE);
         page.setTitle("Test page");
         page.setContent(content);
-        XWikiPage storedPage = rpc.storePage(page);
+        XWikiPage storedPage = this.rpc.storePage(page);
 
         System.out.format("Content sent: '%s'\n", Utils.truncateToFirstLine(content));
         System.out.format("%s\n", storedPage);
@@ -327,14 +330,14 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         String pageId =
             String.format("%s.%s-%d", TestConstants.SPACE_WITH_NO_ACCESS_RIGHTS, TestConstants.TEST_PREFIX, Math
-                .abs(random.nextInt()));
+                .abs(this.random.nextInt()));
         String content = String.format("Modified by org.xwiki.xmlrpc @ %s\n", new Date());
         XWikiPage page = null;
 
         TestUtils.banner("TEST: createPageInSpaceWithNoAccessRights()");
 
         try {
-            page = rpc.getPage(pageId);
+            page = this.rpc.getPage(pageId);
             throw new RuntimeException(String.format("XWikiPage %s exists!", pageId));
         } catch (Exception e) {
             System.out.format("XWikiPage %s does not exist... Good!\n", pageId);
@@ -347,7 +350,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         page.setContent(content);
 
         try {
-            rpc.storePage(page);
+            this.rpc.storePage(page);
             Assert.fail();
         } catch (XmlRpcException e) {
         }
@@ -355,7 +358,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testRemovePage() throws XmlRpcException
     {
-        List<XWikiPageSummary> pages = rpc.getPages(TestConstants.TEST_SPACE);
+        List<XWikiPageSummary> pages = this.rpc.getPages(TestConstants.TEST_SPACE);
         XWikiPageSummary pageToBeDeleted = null;
         for (XWikiPageSummary pageSummary : pages) {
             if (pageSummary.getId().contains(TestConstants.TEST_PREFIX)) {
@@ -364,11 +367,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             }
         }
 
-        Boolean result = rpc.removePage(pageToBeDeleted);
+        Boolean result = this.rpc.removePage(pageToBeDeleted);
         TestUtils.banner("TEST: removePage()");
         System.out.format("XWikiPage %s removed: %b\n", pageToBeDeleted.getId(), result);
 
-        pages = rpc.getPages(TestConstants.TEST_SPACE);
+        pages = this.rpc.getPages(TestConstants.TEST_SPACE);
         boolean removed = true;
         for (PageSummary pageSummary : pages) {
             if (pageSummary.getId().equals(pageToBeDeleted.getId())) {
@@ -382,7 +385,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testGetPageHistory() throws XmlRpcException
     {
-        List<XWikiPageHistorySummary> pageHistorySummaries = rpc.getPageHistory(TestConstants.TEST_PAGE);
+        List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getPageHistory(TestConstants.TEST_PAGE);
 
         TestUtils.banner("TEST: getPageHistory()");
         for (XWikiPageHistorySummary pageHistorySummary : pageHistorySummaries) {
@@ -394,11 +397,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testGetPageAtVersion() throws XmlRpcException
     {
-        List<XWikiPageHistorySummary> pageHistorySummaries = rpc.getPageHistory(TestConstants.TEST_PAGE);
+        List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getPageHistory(TestConstants.TEST_PAGE);
         XWikiPageHistorySummary pageHistorySummary =
-            pageHistorySummaries.get(random.nextInt(pageHistorySummaries.size()));
+            pageHistorySummaries.get(this.random.nextInt(pageHistorySummaries.size()));
 
-        XWikiPage page = rpc.getPage(TestConstants.TEST_PAGE, pageHistorySummary.getVersion());
+        XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE, pageHistorySummary.getVersion());
         TestUtils.banner("TEST: getPageAtVersion()");
         System.out.format("%s\n", pageHistorySummary);
         System.out.format("%s\n", page);
@@ -418,11 +421,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testGetPageAtVersionUsingExtendedId() throws XmlRpcException
     {
-        List<XWikiPageHistorySummary> pageHistorySummaries = rpc.getPageHistory(TestConstants.TEST_PAGE);
+        List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getPageHistory(TestConstants.TEST_PAGE);
         XWikiPageHistorySummary pageHistorySummary =
-            pageHistorySummaries.get(random.nextInt(pageHistorySummaries.size()));
+            pageHistorySummaries.get(this.random.nextInt(pageHistorySummaries.size()));
 
-        XWikiPage page = rpc.getPage(pageHistorySummary.getId());
+        XWikiPage page = this.rpc.getPage(pageHistorySummary.getId());
         TestUtils.banner("TEST: getPageAtVersionUsingExtendedId()");
         System.out.format("%s\n", pageHistorySummary);
         System.out.format("%s\n", page);
@@ -438,7 +441,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             page.setId("Space.Name::Version");
             page.setTitle("Test page");
             page.setContent("Test page");
-            rpc.storePage(page);
+            this.rpc.storePage(page);
             Assert.fail();
         } catch (XmlRpcException e) {
         }
@@ -446,7 +449,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testRenderContent() throws XmlRpcException
     {
-        String html = rpc.renderContent(TestConstants.TEST_SPACE, TestConstants.TEST_PAGE, "");
+        String html = this.rpc.renderContent(TestConstants.TEST_SPACE, TestConstants.TEST_PAGE, "");
         TestUtils.banner("TEST: renderContent()");
         System.out.format("Rendered content: '%s'\n", html);
 
@@ -455,74 +458,71 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testRenamePage() throws XmlRpcException
     {
-        String pageName = String.format("%s-%d", TestConstants.TEST_PREFIX, Math.abs(random.nextInt()));
+        String pageName = String.format("%s-%d", TestConstants.TEST_PREFIX, Math.abs(this.random.nextInt()));
         String pageId = String.format("%s.%s", TestConstants.TEST_SPACE, pageName);
         String content = String.format("Modified by org.xwiki.xmlrpc @ %s (inital version)\n", new Date());
         XWikiPage page = null;
 
         TestUtils.banner("TEST: renamePage()");
-        
+
         page = new XWikiPage();
         page.setId(pageId);
         page.setContent(content);
-        page = rpc.storePage(page);
-        
+        page = this.rpc.storePage(page);
+
         page.setSpace("Foo");
         page.setTitle("Bar");
-        XWikiPage renamedPage = rpc.storePage(page);
-        
+        XWikiPage renamedPage = this.rpc.storePage(page);
+
         try {
-            rpc.getPage(pageId);
+            this.rpc.getPage(pageId);
             fail("This page should no longer exist");
+        } catch (Exception e) {
+            // Ignore
         }
-        catch(Exception e) {
-            //Ignore
-        }
-        
+
         assertTrue(renamedPage.getId().equals("Foo.Bar"));
         assertTrue(renamedPage.getContent().equals(content));
-        
+
         /* Test other cases as well */
-        
+
         page = new XWikiPage();
         page.setId(pageId);
         page.setContent(content);
-        page = rpc.storePage(page);
-        
-        page.setSpace("TargetSpace");        
-        renamedPage = rpc.storePage(page);
-        
+        page = this.rpc.storePage(page);
+
+        page.setSpace("TargetSpace");
+        renamedPage = this.rpc.storePage(page);
+
         try {
-            rpc.getPage(pageId);
+            this.rpc.getPage(pageId);
             fail("This page should no longer exist");
+        } catch (Exception e) {
+            // Ignore
         }
-        catch(Exception e) {
-            //Ignore
-        }
-        
+
         assertTrue(renamedPage.getId().equals(String.format("TargetSpace.%s", pageName)));
         assertTrue(renamedPage.getContent().equals(content));
-        
+
         /*-*/
-        
+
         page = new XWikiPage();
         page.setId(pageId);
         page.setContent(content);
-        page = rpc.storePage(page);
-        
-        page.setTitle("Foo");        
-        renamedPage = rpc.storePage(page);
-        
+        page = this.rpc.storePage(page);
+
+        page.setTitle("Foo");
+        renamedPage = this.rpc.storePage(page);
+
         try {
-            rpc.getPage(pageId);
+            this.rpc.getPage(pageId);
             fail("This page should no longer exist");
+        } catch (Exception e) {
+            // Ignore
         }
-        catch(Exception e) {
-            //Ignore
-        }
-        
+
         assertTrue(renamedPage.getId().equals(String.format("%s.Foo", TestConstants.TEST_SPACE)));
         assertTrue(renamedPage.getContent().equals(content));
-        
+
     }
 }

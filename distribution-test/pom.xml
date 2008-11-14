@@ -280,5 +280,6 @@
     <module>xmlrpc-tests</module>
     <module>selenium-tests</module>
     <module>ldap-tests</module>
+    <module>webdav-tests</module>
   </modules>
 </project>

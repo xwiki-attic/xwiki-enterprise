@@ -60,14 +60,13 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * The log4j.properties used by the instance of XWiki Enterprise used for theses tests.
      */
-    public static final String XWIKI_LOG_FILE =
-        EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/classes/log4j.properties";
+    public static final String XWIKI_LOG_FILE = EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/classes/log4j.properties";
 
     /**
      * The xwiki.cfg properties modified for the test.
      */
     public Properties CURRENTXWIKICONF;
-    
+
     // ///
 
     /**
@@ -98,8 +97,10 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             fis.close();
 
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap", "1");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
-                "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
+            /*
+             * CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
+             * "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
+             */
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", LDAPTestSetup.LDAP_SERVER);
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.base_DN", LDAPTestSetup.LDAP_BASEDN);
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", LDAPTestSetup.LDAP_BINDDN_CN);
@@ -149,7 +150,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             CURRENTXWIKICONF.store(fos, null);
             fos.close();
         }
-        
+
         FileOutputStream fos = new FileOutputStream(XWIKI_LOG_FILE);
         this.logProperties.store(fos, null);
         fos.close();

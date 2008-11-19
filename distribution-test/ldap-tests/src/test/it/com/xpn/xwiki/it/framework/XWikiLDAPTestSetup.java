@@ -98,8 +98,10 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             fis.close();
 
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap", "1");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
-                "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
+            /*
+             * CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
+             * "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
+             */
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", "localhost");
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.base_DN", LDAPTestSetup.LDAP_BASEDN);
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", "cn={0},ou=people,o=sevenSeas");

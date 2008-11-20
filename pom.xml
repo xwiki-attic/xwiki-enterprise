@@ -33,12 +33,12 @@
   <artifactId>xwiki-enterprise-parent</artifactId>
   <packaging>pom</packaging>
   <name>XWiki Products - Enterprise - Parent POM</name>
-  <version>1.7-milestone-3</version>
+  <version>1.7-SNAPSHOT</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.7-milestone-3</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.7-milestone-3</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.7-milestone-3</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</url>
   </scm>
   <modules>        
     <module>wiki</module>

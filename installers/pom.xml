@@ -27,19 +27,19 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7-milestone-3</version>
   </parent>
   <artifactId>xwiki-enterprise-installers</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7-milestone-3</version>
   <name>XWiki Products - Enterprise - Installers - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Installers - Parent POM</description>
   <!-- We need to specify SCM information since this module's name doesn't match its artifactId and if this module is checked-out
        by itself (for example by Continuum) it'll have wrong SCM information computed. -->
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.7-milestone-3/installers</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.7-milestone-3/installers</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.7-milestone-3/installers</url>
   </scm>
   <modules>
     <module>generic</module>

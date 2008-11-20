@@ -3,10 +3,10 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7-milestone-3</version>
   </parent>
   <artifactId>xwiki-enterprise-database-mysql</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7-milestone-3</version>
   <name>XWiki Products - Enterprise - Database - MySQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Database - MySQL</description>

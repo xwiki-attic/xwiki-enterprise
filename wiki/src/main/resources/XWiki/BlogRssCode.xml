@@ -131,7 +131,7 @@ $request.serverName
 #set($content = $content.concat('&lt;a href="${url}"&gt;...&lt;/a&gt;'))
 #end
 #end
-#set($desc = $xwiki.getXMLEncoded($doc.getRenderedContent($content)))
+#set($desc = $xwiki.getXMLEncoded($doc.getRenderedContent($content, $doc.syntaxId)))
 &lt;item rdf:about="$url"&gt;
 &lt;title&gt;$xwiki.getXMLEncoded($currentdoc.display("title", "view", $currentobj))&lt;/title&gt;
 &lt;link&gt;$url&lt;/link&gt;

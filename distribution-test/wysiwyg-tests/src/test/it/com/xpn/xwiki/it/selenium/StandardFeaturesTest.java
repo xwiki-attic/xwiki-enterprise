@@ -200,6 +200,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeText("foobar");
         clickHRButton();
-        assertXHTML("foobar<br><hr size=\"2\" width=\"100%\">");
+        assertXHTML("foobar<hr><br>");
     }
 }

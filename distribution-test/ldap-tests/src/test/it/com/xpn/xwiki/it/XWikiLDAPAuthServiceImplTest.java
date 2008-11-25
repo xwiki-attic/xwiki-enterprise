@@ -3,6 +3,7 @@ package com.xpn.xwiki.it;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -23,6 +24,7 @@ import com.xpn.xwiki.it.framework.LDAPTestSetup;
 import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.classes.BaseClass;
 import com.xpn.xwiki.store.XWikiStoreInterface;
+import com.xpn.xwiki.user.api.XWikiGroupService;
 import com.xpn.xwiki.user.impl.LDAP.LDAPProfileXClass;
 import com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl;
 
@@ -36,6 +38,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     private static final String MAIN_WIKI_NAME = "xwiki";
 
     private static final String USER_XCLASS = "XWiki.XWikiUsers";
+
+    private static final String GROUP_XCLASS = "XWiki.XWikiGroups";
 
     private XWikiLDAPAuthServiceImpl ldapAuth = new XWikiLDAPAuthServiceImpl();
 
@@ -55,7 +59,11 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
     private BaseClass userClass = new BaseClass();
 
+    private BaseClass groupClass = new BaseClass();
+
     private Mock mockStore;
+
+    private Mock mockGroupService;
 
     private Map<String, XWikiDocument> getDocuments(String database, boolean create) throws XWikiException
     {
@@ -106,6 +114,11 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         return !getDocument(documentFullName).isNew();
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see com.xpn.xwiki.it.framework.AbstractLDAPTestCase#setUp()
+     */
     @Override
     public void setUp() throws Exception
     {
@@ -117,12 +130,16 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.databases.put(MAIN_WIKI_NAME, new HashMap<String, XWikiDocument>());
 
         this.mockStore = mock(XWikiStoreInterface.class, new Class[] {}, new Object[] {});
-
         this.mockStore.stubs().method("searchDocuments").will(returnValue(Collections.EMPTY_LIST));
+
+        this.mockGroupService = mock(XWikiGroupService.class, new Class[] {}, new Object[] {});
+        this.mockGroupService.stubs().method("getAllGroupsNamesForMember").will(returnValue(Collections.EMPTY_LIST));
+        this.mockGroupService.stubs().method("getAllMatchedGroups").will(returnValue(Collections.EMPTY_LIST));
 
         Mock mockXWiki = mock(XWiki.class, new Class[] {}, new Object[] {});
 
         mockXWiki.stubs().method("getStore").will(returnValue(mockStore.proxy()));
+        mockXWiki.stubs().method("getGroupService").will(returnValue(mockGroupService.proxy()));
         mockXWiki.stubs().method("getCacheFactory").will(returnValue(this.cacheFactory));
         mockXWiki.stubs().method("getXWikiPreference").will(returnValue(null));
         mockXWiki.stubs().method("getXWikiPreferenceAsInt").will(throwException(new NumberFormatException("null")));
@@ -174,13 +191,17 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         mockXWiki.stubs().method("search").will(returnValue(Collections.EMPTY_LIST));
 
         this.userClass.setName(USER_XCLASS);
-
         this.userClass.addTextField("first_name", "First Name", 30);
         this.userClass.addTextField("last_name", "Last Name", 30);
         this.userClass.addTextField("email", "e-Mail", 30);
         this.userClass.addPasswordField("password", "Password", 10);
 
         mockXWiki.stubs().method("getUserClass").will(returnValue(this.userClass));
+
+        this.groupClass.setName(GROUP_XCLASS);
+        this.groupClass.addTextField("member", "Member", 30);
+
+        mockXWiki.stubs().method("getGroupClass").will(returnValue(this.groupClass));
 
         mockXWiki.stubs().method("createUser").will(new CustomStub("Implements XWiki.createUser")
         {
@@ -339,5 +360,59 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_CN + "_1", LDAPTestSetup.HORATIOHORNBLOWER_DN);
+    }
+
+    public void testAuthenticateWithGroupMembership() throws XWikiException
+    {
+        saveDocument(getDocument("XWiki.Group1"));
+
+        this.properties.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1="
+            + LDAPTestSetup.HMSLYDIA_DN);
+
+        this.mockGroupService.stubs().method("getAllMatchedGroups").will(
+            returnValue(Collections.singletonList("XWiki.Group1")));
+
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        List<BaseObject> groupList = getDocument("XWiki.Group1").getObjects(this.groupClass.getName());
+
+        assertTrue("No user has been added to the group", groupList != null && groupList.size() > 0);
+
+        BaseObject groupObject = groupList.get(0);
+
+        assertEquals("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN, groupObject.getStringValue("member"));
+    }
+
+    public void testAuthenticateTwiceWithGroupMembership() throws XWikiException
+    {
+        saveDocument(getDocument("XWiki.Group1"));
+
+        this.properties.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1="
+            + LDAPTestSetup.HMSLYDIA_DN);
+
+        this.mockGroupService.stubs().method("getAllMatchedGroups").will(
+            returnValue(Collections.singletonList("XWiki.Group1")));
+
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+        
+        this.mockGroupService.stubs().method("getAllGroupsNamesForMember").will(returnValue(Collections.singletonList("XWiki.Group1")));
+        
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        List<BaseObject> groupList = getDocument("XWiki.Group1").getObjects(this.groupClass.getName());
+
+        assertTrue("No user has been added to the group", groupList != null);
+
+        assertTrue("The user has been added twice in the group", groupList.size() == 1);
+
+        BaseObject groupObject = groupList.get(0);
+
+        assertEquals("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN, groupObject.getStringValue("member"));
+
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
 }

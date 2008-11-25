@@ -108,7 +108,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD);
             CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name="
                 + LDAPTestSetup.LDAP_USERUID_FIELD
-                + ",last_name=sn,first_name=givenname,fullname=description,email=mail,ldap_dn=dn");
+                + ",last_name=sn,first_name=givenname,fullname=description,email=mail");
             /*
              * CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.XWikiAdminGroup=cn=HMS
              * Lydia,ou=crews,ou=groups,o=sevenSeas");

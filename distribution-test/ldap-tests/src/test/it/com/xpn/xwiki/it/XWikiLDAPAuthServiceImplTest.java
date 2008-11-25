@@ -233,7 +233,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.properties.setProperty("xwiki.authentication.ldap.try_local", "0");
         this.properties.setProperty("xwiki.authentication.ldap.update_user", "1");
         this.properties.setProperty("xwiki.authentication.ldap.fields_mapping",
-            "last_name=sn,first_name=givenName,fullname=fullName,email=mail");
+            "last_name=sn,first_name=givenName,fullname=cn,email=mail");
     }
 
     private void testAuthenticate(String login, String password, String storedDn) throws XWikiException

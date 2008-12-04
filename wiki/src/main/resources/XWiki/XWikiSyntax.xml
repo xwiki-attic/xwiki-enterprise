@@ -12,15 +12,17 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1203507376000</creationDate>
-<date>1203508137000</date>
-<contentUpdateDate>1203508137000</contentUpdateDate>
-<version>1.1</version>
+<date>1227789387000</date>
+<contentUpdateDate>1227789387000</contentUpdateDate>
+<version>2.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
 <attachment>
 <filename>img.png</filename>
 <filesize>959</filesize>
@@ -419,17 +421,17 @@ The full format of a link is {code}(alias[|&gt;])(link)(@interWikiAlias)([|&gt;]
 [home|Main.WebHome]
 [home&gt;Main.WebHome&gt;_blank]
 &lt;/pre&gt;
+{/pre}
     &lt;/td&gt;
     &lt;td&gt;
-      &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/UserGuide/"&gt;Web Home&lt;/a&gt;&lt;/span&gt; (uses current space)&lt;br/&gt;
-      &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/UserGuide/"&gt;home&lt;/a&gt;&lt;/span&gt; (uses current space)&lt;br/&gt;
-      &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;Web Home&lt;/a&gt;&lt;/span&gt;&lt;br/&gt;
-      &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;home&lt;/a&gt;&lt;/span&gt;&lt;br/&gt;
-      &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/" rel="__blank"&gt;home&lt;/a&gt;&lt;/span&gt;
+      [WebHome] (uses current space)&lt;br/&gt;
+      [home&gt;WebHome] (uses current space)&lt;br/&gt;
+      [Main.WebHome]&lt;br/&gt;
+      [home|Main.WebHome]&lt;br/&gt;
+      [home&gt;Main.WebHome&gt;_blank]
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
 
 1.1.1 External Links
 

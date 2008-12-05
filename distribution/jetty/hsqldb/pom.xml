@@ -39,6 +39,7 @@
       <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
       <version>${pom.version}</version>
       <type>zip</type>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>

@@ -38,6 +38,7 @@
       <groupId>com.xpn.xwiki.platform.tools</groupId>
       <artifactId>xwiki-jetty-resources</artifactId>
       <version>${platform.tool.jetty.version}</version>
+      <optional>true</optional>
     </dependency>
     <!-- Add the database JAR so that it's included in the expanded WAR since it's not included
          by default in the Platform WAR. -->
@@ -46,6 +47,7 @@
       <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
       <version>${xwiki.db.jdbc.version}</version>
       <scope>runtime</scope>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>

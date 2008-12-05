@@ -43,6 +43,15 @@
     <xwiki.db.hbm.xwiki>xwiki.derby.hbm.xml</xwiki.db.hbm.xwiki>
     <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
   </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-database-derby</artifactId>
+      <version>${pom.version}</version>
+      <type>zip</type>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->

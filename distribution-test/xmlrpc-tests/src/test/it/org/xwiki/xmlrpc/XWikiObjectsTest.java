@@ -47,8 +47,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
 
     public void testCreateTagsObject() throws XmlRpcException
     {
-        XWikiObject tagsObject =
-            new XWikiObject();
+        XWikiObject tagsObject = new XWikiObject();
         tagsObject.setPageId(TestConstants.TEST_PAGE_WITH_OBJECTS);
         tagsObject.setClassName("XWiki.TagClass");
         tagsObject.setPrettyName("PrettyName");
@@ -68,8 +67,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
 
     public void testGetXWikiObjects() throws XmlRpcException
     {
-        List<XWikiObjectSummary> xwikiObjects =
-            rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
+        List<XWikiObjectSummary> xwikiObjects = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
 
         TestUtils.banner("TEST: getXWikiObjects()");
         for (XWikiObjectSummary xwikiObjectSummary : xwikiObjects) {
@@ -81,8 +79,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
 
     public void testGetXWikiTagObject() throws XmlRpcException
     {
-        List<XWikiObjectSummary> xwikiObjects =
-            rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
+        List<XWikiObjectSummary> xwikiObjects = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
 
         XWikiObjectSummary tagsObjectSummary = null;
         for (XWikiObjectSummary xwikiObjectSummary : xwikiObjects) {
@@ -103,8 +100,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
 
     public void testSetTagsObject() throws XmlRpcException
     {
-        List<XWikiObjectSummary> xwikiObjects =
-            rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
+        List<XWikiObjectSummary> xwikiObjects = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
 
         XWikiObjectSummary tagsObjectSummary = null;
         for (XWikiObjectSummary xwikiObjectSummary : xwikiObjects) {
@@ -113,8 +109,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
             }
         }
 
-        XWikiObject object =
-            rpc.getObject(tagsObjectSummary);
+        XWikiObject object = rpc.getObject(tagsObjectSummary);
 
         TestUtils.banner("TEST: setTagsObject()");
         System.out.format("%s\n", object);
@@ -161,9 +156,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         List<XWikiObjectSummary> objects = rpc.getObjects(tagsObject.getPageId());
         boolean found = false;
         for (XWikiObjectSummary object : objects) {
-            if (object.getClassName().equals(tagsObject.getClassName())
-                && object.getId() == tagsObject.getId())
-            {
+            if (object.getClassName().equals(tagsObject.getClassName()) && object.getId() == tagsObject.getId()) {
                 found = true;
                 break;
             }
@@ -171,4 +164,29 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
 
         assertFalse(found);
     }
+
+    public void testCreateTagsObjectWithCheckVersion() throws XmlRpcException
+    {
+        XWikiObject tagsObject = new XWikiObject();
+        tagsObject.setPageId(TestConstants.TEST_PAGE_WITH_OBJECTS);
+        tagsObject.setClassName("XWiki.TagClass");
+        tagsObject.setPrettyName("PrettyName");
+
+        List tags = new ArrayList();
+        tags.add(String.format("New-%d", random.nextInt()));
+        tagsObject.setProperty("tags", tags);
+
+        XWikiObject storedTagsObject = rpc.storeObject(tagsObject);
+
+        TestUtils.banner("createTagsObjectWithCheckVersion()");
+        System.out.format("%s\n", storedTagsObject);
+
+        assertTrue(storedTagsObject.getId() != -1);
+        assertEquals(tags, storedTagsObject.getProperty("tags"));
+
+        /* Try to store the object again */
+        storedTagsObject = rpc.storeObject(tagsObject, true);
+        assertTrue(storedTagsObject.getPageId().equals(""));
+    }
+    
 }

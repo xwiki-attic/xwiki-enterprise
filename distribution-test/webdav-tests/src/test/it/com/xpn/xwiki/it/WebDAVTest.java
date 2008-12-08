@@ -244,8 +244,8 @@ public class WebDAVTest extends TestCase
             putMethod
                 .setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(newContent
                     .getBytes())));
-            // XML saving is not allowed, should return BAD_REQUEST status.
-            assertEquals(DavServletResponse.SC_METHOD_NOT_ALLOWED, client
+            // XML saving requires valid XML.
+            assertEquals(DavServletResponse.SC_INTERNAL_SERVER_ERROR, client
                 .executeMethod(putMethod));
             deleteMethod.setPath(pageUrl);
             assertEquals(DavServletResponse.SC_NO_CONTENT, client

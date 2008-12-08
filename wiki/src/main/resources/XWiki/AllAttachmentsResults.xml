@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>XWiki</web>
+<name>AllAttachmentsResults</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+<creationDate>1223662477000</creationDate>
+<date>1228720810000</date>
+<contentUpdateDate>1228720810000</contentUpdateDate>
+<version>14.1</version>
+<title></title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<object>
+<class>
+<name>XWiki.TagClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<tags>
+<cache>0</cache>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>tags</name>
+<number>1</number>
+<prettyName>Tags</prettyName>
+<relationalStorage>1</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<values></values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</tags>
+</class>
+<name>XWiki.AllAttachmentsResults</name>
+<number>0</number>
+<className>XWiki.TagClass</className>
+<property>
+<tags/>
+</property>
+</object>
+<content>{pre}
+## ============================================================================================
+## This page is called from live grids via Ajax with the argument xpage=plain. It returns a
+## set of results serialized in JSON.
+## @programming This service page needs to be saved by a user with the programming access level
+## to work as expected
+## ============================================================================================
+#if ($request.get("xpage") &amp;&amp; $request.get("xpage") == "plain")
+#set( $offset = $util.parseInt( $request.get( "offset" ) ) )
+## offset starts from 0 in velocity and 1 in javascript
+#set( $off = $offset - 1 )
+#set( $limit = $util.parseInt( $request.get( "limit" ) ) )
+#set($title = $request.get("title"))
+#set($author = $request.get("author"))
+#set($space = $request.get("space"))
+#set($filename = $request.filename)
+#set($formatDate = "yyyy MMMM dd, HH:mm")
+#if($title)
+  #set($title = $title.trim().toLowerCase())
+  #set($sql = "and lower(doc.fullName) like '%${title}%' ")
+#else #set($sql = "and lower(doc.fullName) &lt;&gt; '' ") #end
+#if($author)
+  #set($author = $author.trim().toLowerCase())
+  #set($sql = $sql + "and lower(attach.author) like '%${author}%' ")
+#end
+#if($filename)
+  #set($filename = $filename.trim().toLowerCase())
+  #set($sql = $sql + "and lower(attach.filename) like '%${filename}%' ")
+#end
+#if($space)
+  #set($space = $space.trim().toLowerCase())
+  #set($sql = $sql + "and lower(doc.space) like '%${space}%' ")
+#end
+#set($sql = "select doc.fullName, attach from XWikiDocument as doc, XWikiAttachment as attach where attach.docId=doc.id " + $sql + " order by attach.filename")
+#set($items = $xwiki.search($sql, $limit, $off))
+#set($totalItems = $xwiki.search($sql).size())
+#set($returnedItems = $items.size())
+## ==============================================
+## json starts
+## ==============================================
+{
+"totalrows": $totalItems,
+"returnedrows": #if($returnedItems &lt; $limit) $returnedItems #else $limit #end,
+"offset": $offset,
+"reqNo": $request.reqNo,
+"rows": [
+#foreach($item in $items)
+  #foreach($element in $item)
+    #if($velocityCount==1) 
+      #set($docName=$element) 
+      #set($acclev = $xwiki.hasAccessLevel("view", $context.user, $docName)) 
+    #else 
+      #set($attachment=$element) 
+    #end
+  #end
+  #set($document = $xwiki.getDocument($docName))  
+  #if($velocityCount &gt; 1) , #end
+  {"acclev"    : $acclev,     
+     "page"  : "$document.name",
+     "space" : "$document.space",
+     "fullname"  : "$document.fullName"#if ($acclev),
+     "filename"    : "$attachment.filename",
+     "fileurl" : "$document.getAttachmentURL($attachment.filename)",
+     "url" : "$document.getURL('view')",
+     "spaceurl" : '$xwiki.getURL("${document.space}.WebHome","view")',
+     "date" : "$xwiki.formatDate($attachment.date,$formatDate)",
+     "author" : "$attachment.author",
+     "authorname" : "$xwiki.getDocument($attachment.author).name",
+     "authorurl" : "$xwiki.getURL($attachment.author,'view')",
+     "type" : "$attachment.getMimeType($context.context)"
+   #end ## acclev
+   }  
+#end
+]}
+## ==============================================
+## json ended
+## ==============================================
+#end
+{/pre}</content>
+</xwikidoc>

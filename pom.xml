@@ -56,8 +56,8 @@
     <platform.tool.rootwebapp.version>1.1-SNAPSHOT</platform.tool.rootwebapp.version>
     <platform.tool.test.version>1.15-SNAPSHOT</platform.tool.test.version>
     <platform.tool.packager.version>1.12-SNAPSHOT</platform.tool.packager.version>
-    <platform.core.version>1.7-SNAPSHOT</platform.core.version>
-    <platform.web.version>1.7-SNAPSHOT</platform.web.version>
+    <platform.core.version>1.8-SNAPSHOT</platform.core.version>
+    <platform.web.version>1.8-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.14-SNAPSHOT</platform.panels.version>
     <platform.administration.version>1.6-SNAPSHOT</platform.administration.version>
     <platform.scheduler.version>1.6-SNAPSHOT</platform.scheduler.version>

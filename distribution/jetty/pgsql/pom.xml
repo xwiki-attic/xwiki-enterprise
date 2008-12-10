@@ -27,10 +27,10 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-jetty</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-pgsql</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.7</version>
   <name>XWiki Products - Enterprise - Distribution - PGSQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - PGSQL</description>

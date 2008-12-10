@@ -3,10 +3,10 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-database-pgsql</artifactId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.8-SNAPSHOT</version>
   <name>XWiki Products - Enterprise - Database - PGSQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Database - PGSQL</description>

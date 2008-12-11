@@ -10,6 +10,15 @@
   <name>XWiki Products - Enterprise - Database - Derby</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Database - Derby</description>
+  <!-- Required for the exec:exec plugin execution below. Doesn't seem to work as an exec plugin
+       dependency -->
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <version>10.2.2.0</version>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager

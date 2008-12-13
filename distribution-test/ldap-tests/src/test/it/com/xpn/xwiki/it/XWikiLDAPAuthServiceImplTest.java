@@ -212,6 +212,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
                 BaseObject newobject = new BaseObject();
                 newobject.setClassName(userClass.getName());
+                
+                userClass.fromMap((Map) invocation.parameterValues.get(1), newobject);
+                
                 document.addObject(userClass.getName(), newobject);
 
                 saveDocument(document);
@@ -414,5 +417,22 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
+    }
+    
+    /**
+     * Validate user field synchronization in "simple" LDAP authentication.
+     */
+    public void testAuthenticateUserSync() throws XWikiException
+    {
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+        
+        XWikiDocument userProfile = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
+
+        BaseObject userProfileObj = userProfile.getObject(USER_XCLASS);
+        
+        assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_SN, userProfileObj.getStringValue("last_name"));
+        assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_GIVENNAME, userProfileObj.getStringValue("first_name"));
+        assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_MAIL, userProfileObj.getStringValue("email"));
     }
 }

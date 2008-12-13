@@ -84,6 +84,21 @@ public class LDAPTestSetup extends TestSetup
      * The LDAP password of user Horatio Hornblower.
      */
     public static final String HORATIOHORNBLOWER_PWD = "pass";
+    
+    /**
+     * The value of the LDAP sn for user Horatio Hornblower.
+     */
+    public static final String HORATIOHORNBLOWER_SN = "Hornblower";
+    
+    /**
+     * The value of the LDAP givenName for user Horatio Hornblower.
+     */
+    public static final String HORATIOHORNBLOWER_GIVENNAME = "Horatio";
+    
+    /**
+     * The value of the LDAP mail for user Horatio Hornblower.
+     */
+    public static final String HORATIOHORNBLOWER_MAIL = "hhornblo@royalnavy.mod.uk";
 
     /**
      * The LDAP DN of user Thomas Quist.

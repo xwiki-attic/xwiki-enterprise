@@ -42,8 +42,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     private static final String XWINDOWFOCUS_BINARY = "/home/maven/xwindowfocus";
 
-    public static final String WYSIWYG_DEFAULT_CONTENT = "<br>";
-
     private boolean firstEnterTyped = true;
 
     private class StreamRedirector extends Thread
@@ -181,9 +179,17 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         runScript("XWE.focus();");
     }
 
+    /**
+     * Resets the content of the rich text area by selecting all the text like CTRL+A and deleting it using Backspace.
+     */
     public void resetContent()
     {
-        setContent(WYSIWYG_DEFAULT_CONTENT);
+        // We try to mimic as much as possible the user behavior.
+        selectAllContent();
+        typeBackspace();
+        // We select again all the content. In Firefox, the selection will include the annoying br tag. Further typing
+        // will overwrite it. See XWIKI-2732.
+        selectAllContent();
     }
 
     public void selectAllContent()
@@ -351,7 +357,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeDelete()
     {
-        specialKeyPress("\\46");
+        // Although Delete is not a printable key, it affects the displayed text so we must fire KeyPress event too.
+        keyPress("\\46");
     }
 
     public void clickUnorderedListButton()
@@ -424,9 +431,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().select("//select[@title=\"Apply Style\"]", style);
     }
 
-    public void applyStyleNormal()
+    public void applyStyleInLine()
     {
-        applyStyle("Normal");
+        applyStyle("Inline");
+    }
+
+    public void applyStyleParagraph()
+    {
+        applyStyle("Paragraph");
     }
 
     public void applyStyleTitle1()

@@ -19,10 +19,11 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import junit.framework.Test;
+
+import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
+import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 public class StandardFeaturesTest extends AbstractWysiwygTestCase
 {
@@ -35,15 +36,16 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
     public void testEmptyWysiwyg()
     {
-        assertXHTML(WYSIWYG_DEFAULT_CONTENT);
+        assertXHTML("<br>");
     }
 
     public void testTypingAndDeletion()
     {
-        typeText("foobar");
-        assertXHTML("foobar<br>");
-        typeBackspaces("foobar".length());
-        assertXHTML(WYSIWYG_DEFAULT_CONTENT);
+        String text = "foobar";
+        typeText(text);
+        assertXHTML(text);
+        typeBackspaces(text.length());
+        assertXHTML("<br>");
     }
 
     public void testParagraphs()
@@ -51,7 +53,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("a");
         typeTextThenEnter("b");
         typeText("c");
-        assertXHTML("<p>a</p><p>b</p><p>c<br></p>");
+        // If the caret is followed by a br tag, delete it. See XWIKI-2732.
+        typeDelete();
+        assertXHTML("<p>a</p><p>b</p><p>c</p>");
     }
 
     public void testBold()
@@ -59,7 +63,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("foobar");
         selectElement("p", 1);
         clickBoldButton();
-        assertXHTML("<p><strong>foobar</strong></p><p><br></p>");
+        assertXHTML("<p><strong>foobar</strong></p><p></p>");
     }
 
     public void testItalics()
@@ -67,7 +71,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("foobar");
         selectElement("p", 1);
         clickItalicsButton();
-        assertXHTML("<p><em>foobar</em></p><p><br></p>");
+        assertXHTML("<p><em>foobar</em></p><p></p>");
     }
 
     public void testUnderline()
@@ -75,7 +79,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("foobar");
         selectElement("p", 1);
         clickUnderlineButton();
-        assertXHTML("<p><ins>foobar</ins></p><p><br></p>");
+        assertXHTML("<p><ins>foobar</ins></p><p></p>");
     }
 
     public void testStrikethrough()
@@ -83,7 +87,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("foobar");
         selectElement("p", 1);
         clickStrikethroughButton();
-        assertXHTML("<p><del>foobar</del></p><p><br></p>");
+        assertXHTML("<p><del>foobar</del></p><p></p>");
     }
 
     public void testSubscript()
@@ -91,7 +95,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("foobar");
         selectElement("p", 1);
         clickSubscriptButton();
-        assertXHTML("<p><sub>foobar</sub></p><p><br></p>");
+        assertXHTML("<p><sub>foobar</sub></p><p></p>");
     }
 
     public void testSuperscript()
@@ -99,7 +103,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("foobar");
         selectElement("p", 1);
         clickSuperscriptButton();
-        assertXHTML("<p><sup>foobar</sup></p><p><br></p>");
+        assertXHTML("<p><sup>foobar</sup></p><p></p>");
     }
 
     public void testUnorderedList()
@@ -108,13 +112,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("a");
         typeTextThenEnter("b");
         typeText("c");
+        // If the caret is followed by a br tag, delete it. See XWIKI-2732.
+        typeDelete();
         selectAllContent();
         clickUnorderedListButton();
-        assertXHTML("<ul><li>a</li><li>b</li><li>c<br></li></ul>");
+        assertXHTML("<ul><li>a</li><li>b</li><li>c</li></ul>");
 
         // Undo
         clickUnorderedListButton();
-        assertXHTML("a<br>b<br>c<br>");
+        assertXHTML("a<br>b<br>c");
 
         // Create a list with 1 item and delete it
         resetContent();
@@ -142,13 +148,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("a");
         typeTextThenEnter("b");
         typeText("c");
+        // If the caret is followed by a br tag, delete it. See XWIKI-2732.
+        typeDelete();
         selectAllContent();
         clickOrderedListButton();
-        assertXHTML("<ol><li>a</li><li>b</li><li>c<br></li></ol>");
+        assertXHTML("<ol><li>a</li><li>b</li><li>c</li></ol>");
 
         // Undo
         clickOrderedListButton();
-        assertXHTML("a<br>b<br>c<br>");
+        assertXHTML("a<br>b<br>c");
 
         // Create a list with 1 item and delete it
         resetContent();
@@ -174,7 +182,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeText("foobar");
         selectAllContent();
-        assertXHTML("foobar<br>");
 
         applyStyleTitle1();
         assertXHTML("<h1>foobar</h1>");
@@ -191,15 +198,17 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         applyStyleTitle5();
         assertXHTML("<h5>foobar</h5>");
 
-        // FIXME : fix this behavior (foobar<br> becomes <p>foobar</p>)
-        applyStyleNormal();
+        applyStyleParagraph();
         assertXHTML("<p>foobar</p>");
+
+        applyStyleInLine();
+        assertXHTML("foobar");
     }
 
     public void testHR()
     {
         typeText("foobar");
         clickHRButton();
-        assertXHTML("foobar<hr><br>");
+        assertXHTML("foobar<hr>");
     }
 }

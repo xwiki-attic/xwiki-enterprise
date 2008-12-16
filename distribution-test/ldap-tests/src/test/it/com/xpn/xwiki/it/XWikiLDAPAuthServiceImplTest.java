@@ -212,9 +212,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
                 BaseObject newobject = new BaseObject();
                 newobject.setClassName(userClass.getName());
-                
+
                 userClass.fromMap((Map) invocation.parameterValues.get(1), newobject);
-                
+
                 document.addObject(userClass.getName(), newobject);
 
                 saveDocument(document);
@@ -372,8 +372,24 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.properties.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1="
             + LDAPTestSetup.HMSLYDIA_DN);
 
-        this.mockGroupService.stubs().method("getAllMatchedGroups").will(
-            returnValue(Collections.singletonList("XWiki.Group1")));
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        List<BaseObject> groupList = getDocument("XWiki.Group1").getObjects(this.groupClass.getName());
+
+        assertTrue("No user has been added to the group", groupList != null && groupList.size() > 0);
+
+        BaseObject groupObject = groupList.get(0);
+
+        assertEquals("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN, groupObject.getStringValue("member"));
+    }
+
+    public void testAuthenticateWithGroupMembershipWhenOneXWikiGroupMapTwoLDAPGroups() throws XWikiException
+    {
+        saveDocument(getDocument("XWiki.Group1"));
+
+        this.properties.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1="
+            + LDAPTestSetup.HMSLYDIA_DN + "|" + "XWiki.Group1=" + LDAPTestSetup.EXCLUSIONGROUP_DN);
 
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
@@ -399,9 +415,10 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
-        
-        this.mockGroupService.stubs().method("getAllGroupsNamesForMember").will(returnValue(Collections.singletonList("XWiki.Group1")));
-        
+
+        this.mockGroupService.stubs().method("getAllGroupsNamesForMember").will(
+            returnValue(Collections.singletonList("XWiki.Group1")));
+
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
 
@@ -418,7 +435,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
-    
+
     /**
      * Validate user field synchronization in "simple" LDAP authentication.
      */
@@ -426,11 +443,11 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     {
         testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
-        
+
         XWikiDocument userProfile = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
 
         BaseObject userProfileObj = userProfile.getObject(USER_XCLASS);
-        
+
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_SN, userProfileObj.getStringValue("last_name"));
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_GIVENNAME, userProfileObj.getStringValue("first_name"));
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_MAIL, userProfileObj.getStringValue("email"));

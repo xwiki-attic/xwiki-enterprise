@@ -19,6 +19,7 @@
  */
 package com.xpn.xwiki.it;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -202,27 +203,55 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
     }
 
     /**
-     * Test {@link XWikiLDAPUtils#isUserInGroup(String, String, XWikiContext)}.
+     * Test {@link XWikiLDAPUtils#isUidInGroup(String, String, XWikiContext)}.
      * 
      * @throws XWikiException error when getting group members from cache.
      */
     public void testIsUserInGroup() throws XWikiException
     {
         String userDN =
-            this.ldapUtils.isUserInGroup(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HMSLYDIA_DN, getContext());
+            this.ldapUtils.isUidInGroup(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + LDAPTestSetup.HORATIOHORNBLOWER_CN + " not found", userDN);
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_DN.toLowerCase(), userDN);
 
         this.ldapUtils.setUidAttributeName(LDAPTestSetup.LDAP_USERUID_FIELD_UID);
 
-        userDN = this.ldapUtils.isUserInGroup(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.HMSLYDIA_DN, getContext());
+        userDN = this.ldapUtils.isUidInGroup(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + LDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(LDAPTestSetup.WILLIAMBUSH_DN.toLowerCase(), userDN);
 
-        String wrongUserDN = this.ldapUtils.isUserInGroup("wronguseruid", LDAPTestSetup.HMSLYDIA_DN, getContext());
+        String wrongUserDN = this.ldapUtils.isUidInGroup("wronguseruid", LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
+    }
+
+    /**
+     * Test {@link XWikiLDAPUtils#isMemberOfGroup(String, String, XWikiContext)}.
+     * 
+     * @throws XWikiException error when getting group members from cache.
+     */
+    public void testIsMemberOfGroup() throws XWikiException
+    {
+        assertTrue(this.ldapUtils.isMemberOfGroup(LDAPTestSetup.HORATIOHORNBLOWER_DN, LDAPTestSetup.HMSLYDIA_DN,
+            getContext()));
+
+        assertFalse(this.ldapUtils.isMemberOfGroup(LDAPTestSetup.HORATIOHORNBLOWER_DN, LDAPTestSetup.EXCLUSIONGROUP_DN,
+            getContext()));
+    }
+
+    /**
+     * Test {@link XWikiLDAPUtils#isMemberOfGroups(String, java.util.Collection, XWikiContext)}.
+     * 
+     * @throws XWikiException error when getting group members from cache.
+     */
+    public void testIsMemberOfGroups() throws XWikiException
+    {
+        assertTrue(this.ldapUtils.isMemberOfGroups(LDAPTestSetup.HORATIOHORNBLOWER_DN, Arrays.asList(
+            LDAPTestSetup.HMSLYDIA_DN, LDAPTestSetup.EXCLUSIONGROUP_DN), getContext()));
+
+        assertTrue(this.ldapUtils.isMemberOfGroups(LDAPTestSetup.HORATIOHORNBLOWER_DN, Arrays.asList(
+            LDAPTestSetup.EXCLUSIONGROUP_DN, LDAPTestSetup.HMSLYDIA_DN), getContext()));
     }
 }

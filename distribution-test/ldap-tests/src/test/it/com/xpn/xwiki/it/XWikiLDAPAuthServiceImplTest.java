@@ -288,6 +288,22 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     }
 
     /**
+     * Validate "simple" LDAP authentication fail with wrong user.
+     */
+    public void testAuthenticateWithWrongUser() throws XWikiException
+    {
+        Principal principal = this.ldapAuth.authenticate("WrongUser", "WrongPass", getContext());
+
+        // Check that authentication return a null Principal
+        assertNull(principal);
+
+        XWikiDocument userProfile = getDocument("XWiki.WrongUser");
+
+        // check hat user has not been created
+        assertTrue("The user profile has been created", userProfile.isNew());
+    }
+    
+    /**
      * Validate the same user profile is used when authentication is called twice for same user.
      */
     public void testAuthenticateTwice() throws XWikiException

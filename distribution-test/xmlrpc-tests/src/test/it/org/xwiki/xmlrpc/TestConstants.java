@@ -21,11 +21,10 @@
 package org.xwiki.xmlrpc;
 
 /**
- * This class defines the constants that are used when performing the tests. In particular, the
- * XWiki instance must have all the pages TEST_PAGE_* existing, and the TEST_PAGE_WITH_ATTACHMENTS
- * with some attachments loaded into.
- *
- * @author fmancinelli
+ * This class defines the constants that are used when performing the tests. In particular, the XWiki instance must have
+ * all the pages TEST_PAGE_* existing, and the TEST_PAGE_WITH_ATTACHMENTS with some attachments loaded into.
+ * 
+ * @version $Id$
  */
 public final class TestConstants
 {
@@ -34,8 +33,6 @@ public final class TestConstants
     public static final String PASSWORD = "admin";
 
     public static final String ENDPOINT = "http://localhost:8080/xwiki/xmlrpc";
-
-    public static final String ENDPOINT_HANDLER = "confluence1";
 
     public static final String SPACE_WITH_NO_ACCESS_RIGHTS = "Scheduler";
 

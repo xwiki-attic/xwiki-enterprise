@@ -2,15 +2,16 @@ package org.xwiki.xmlrpc;
 
 import java.util.List;
 
-import org.apache.xmlrpc.XmlRpcException;
-import org.codehaus.swizzle.confluence.PageSummary;
 import org.codehaus.swizzle.confluence.SearchResult;
 import org.codehaus.swizzle.confluence.SpaceSummary;
 import org.xwiki.xmlrpc.model.XWikiPageSummary;
 
+/**
+ * @version $Id$
+ */
 public class SearchTest extends AbstractXWikiXmlRpcTest
 {
-    public void testSearch() throws XmlRpcException
+    public void testSearch() throws Exception
     {
         List<SearchResult> result = rpc.search("a", 10);
 
@@ -20,7 +21,7 @@ public class SearchTest extends AbstractXWikiXmlRpcTest
         assertFalse(result.isEmpty());
     }
 
-    public void testSearchAllPageIds() throws XmlRpcException
+    public void testSearchAllPageIds() throws Exception
     {
         List<SearchResult> result = rpc.searchAllPagesIds();
 

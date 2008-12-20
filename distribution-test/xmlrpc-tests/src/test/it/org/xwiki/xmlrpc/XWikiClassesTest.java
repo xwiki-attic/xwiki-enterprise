@@ -22,13 +22,15 @@ package org.xwiki.xmlrpc;
 
 import java.util.List;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.xwiki.xmlrpc.model.XWikiClass;
 import org.xwiki.xmlrpc.model.XWikiClassSummary;
 
+/**
+ * @version $Id$
+ */
 public class XWikiClassesTest extends AbstractXWikiXmlRpcTest
 {
-    public void testGetXWikiClasses() throws XmlRpcException
+    public void testGetXWikiClasses() throws Exception
     {
         List<XWikiClassSummary> xwikiClasses = rpc.getClasses();
 
@@ -40,7 +42,7 @@ public class XWikiClassesTest extends AbstractXWikiXmlRpcTest
         assertFalse(xwikiClasses.isEmpty());
     }
 
-    public void testGetXWikiClass() throws XmlRpcException
+    public void testGetXWikiClass() throws Exception
     {
         List<XWikiClassSummary> xwikiClasses = rpc.getClasses();
         XWikiClass xwikiClass = rpc.getClass(xwikiClasses.get(0).getId());
@@ -51,12 +53,12 @@ public class XWikiClassesTest extends AbstractXWikiXmlRpcTest
         assertEquals(xwikiClasses.get(0).getId(), xwikiClass.getId());
     }
 
-    public void testGetNonExistentXWikiClass() throws XmlRpcException
+    public void testGetNonExistentXWikiClass() throws Exception
     {
         try {
             XWikiClass xwikiClass = rpc.getClass("thisClassShouldNotExist");
-        } catch (XmlRpcException e) {
-
+            fail();
+        } catch (Exception e) {
         }
     }
 }

@@ -20,27 +20,27 @@
  */
 package org.xwiki.xmlrpc;
 
-import java.net.MalformedURLException;
 import java.util.Random;
 
 import junit.framework.TestCase;
-import org.apache.xmlrpc.XmlRpcException;
-import org.codehaus.swizzle.confluence.SwizzleException;
 
+/**
+ * @version $Id$
+ */
 public class AbstractXWikiXmlRpcTest extends TestCase
 {
     protected XWikiXmlRpcClient rpc;
 
     protected Random random;
 
-    public void setUp() throws MalformedURLException, XmlRpcException
+    public void setUp() throws Exception
     {
         rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
         rpc.login(TestConstants.USERNAME, TestConstants.PASSWORD);
         random = new Random();
     }
 
-    public void tearDown() throws XmlRpcException, SwizzleException
+    public void tearDown() throws Exception
     {
         rpc.logout();
         rpc = null;

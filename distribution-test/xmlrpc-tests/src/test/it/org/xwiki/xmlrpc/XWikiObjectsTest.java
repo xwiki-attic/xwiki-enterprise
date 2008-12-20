@@ -20,18 +20,19 @@
  */
 package org.xwiki.xmlrpc;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.xwiki.xmlrpc.model.XWikiObject;
 import org.xwiki.xmlrpc.model.XWikiObjectSummary;
 import org.xwiki.xmlrpc.model.XWikiPage;
 
+/**
+ * @version $Id$
+ */
 public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
 {
-    public void setUp() throws XmlRpcException, MalformedURLException
+    public void setUp() throws Exception
     {
         super.setUp();
         try {
@@ -45,7 +46,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testCreateTagsObject() throws XmlRpcException
+    public void testCreateTagsObject() throws Exception
     {
         XWikiObject tagsObject = new XWikiObject();
         tagsObject.setPageId(TestConstants.TEST_PAGE_WITH_OBJECTS);
@@ -65,7 +66,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         assertEquals(tags, tagsObject.getProperty("tags"));
     }
 
-    public void testGetXWikiObjects() throws XmlRpcException
+    public void testGetXWikiObjects() throws Exception
     {
         List<XWikiObjectSummary> xwikiObjects = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
 
@@ -77,7 +78,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         assertFalse(xwikiObjects.isEmpty());
     }
 
-    public void testGetXWikiTagObject() throws XmlRpcException
+    public void testGetXWikiTagObject() throws Exception
     {
         List<XWikiObjectSummary> xwikiObjects = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
 
@@ -98,7 +99,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         assertEquals(tagsObjectSummary.getClassName(), tagsObject.getClassName());
     }
 
-    public void testSetTagsObject() throws XmlRpcException
+    public void testSetTagsObject() throws Exception
     {
         List<XWikiObjectSummary> xwikiObjects = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
 
@@ -134,7 +135,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testRemoveObject() throws XmlRpcException
+    public void testRemoveObject() throws Exception
     {
         XWikiObject tagsObject = new XWikiObject();
         tagsObject.setPageId(TestConstants.TEST_PAGE_WITH_OBJECTS);
@@ -165,7 +166,7 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         assertFalse(found);
     }
 
-    public void testCreateTagsObjectWithCheckVersion() throws XmlRpcException
+    public void testCreateTagsObjectWithCheckVersion() throws Exception
     {
         XWikiObject tagsObject = new XWikiObject();
         tagsObject.setPageId(TestConstants.TEST_PAGE_WITH_OBJECTS);
@@ -188,5 +189,37 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         storedTagsObject = rpc.storeObject(tagsObject, true);
         assertTrue(storedTagsObject.getPageId().equals(""));
     }
-    
+
+    public void testGetObjectAtPreviousVersion() throws Exception
+    {
+        XWikiObject tagsObject = new XWikiObject();
+        tagsObject.setPageId(TestConstants.TEST_PAGE_WITH_OBJECTS);
+        tagsObject.setClassName("XWiki.TagClass");
+        tagsObject.setPrettyName("PrettyName");
+
+        List tags = new ArrayList();
+        tags.add(String.format("VERSION1", random.nextInt()));
+        tagsObject.setProperty("tags", tags);
+
+        TestUtils.banner("getObjectAtPreviousVersion()");
+
+        XWikiObject storedTagsObject1 = rpc.storeObject(tagsObject);
+        System.out.format("%s %s\n", storedTagsObject1.getProperty("tags"), storedTagsObject1);
+
+        tags = new ArrayList();
+        tags.add(String.format("VERSION2", random.nextInt()));
+        storedTagsObject1.setProperty("tags", tags);
+
+        XWikiObject storedTagsObject2 = rpc.storeObject(storedTagsObject1);
+        System.out.format("%s %s\n", storedTagsObject2.getProperty("tags"), storedTagsObject2);
+
+        XWikiObject object =
+            rpc.getObject(storedTagsObject1.getPageId(), storedTagsObject1.getClassName(), storedTagsObject1.getId(),
+                storedTagsObject1.getPageVersion(), storedTagsObject1.getPageMinorVersion());
+        System.out.format("%s %s\n", object.getProperty("tags"), object);
+
+        tags = (List) object.getProperty("tags");
+        assertTrue(tags.contains("VERSION1"));
+    }
+
 }

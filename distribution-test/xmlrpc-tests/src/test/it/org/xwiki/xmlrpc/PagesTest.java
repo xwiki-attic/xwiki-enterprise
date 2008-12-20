@@ -20,7 +20,6 @@
  */
 package org.xwiki.xmlrpc;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,20 +28,20 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-import org.apache.xmlrpc.XmlRpcException;
-import org.codehaus.swizzle.confluence.ConfluenceException;
 import org.codehaus.swizzle.confluence.PageSummary;
 import org.codehaus.swizzle.confluence.SpaceSummary;
-import org.codehaus.swizzle.confluence.SwizzleException;
 import org.xwiki.xmlrpc.model.Utils;
 import org.xwiki.xmlrpc.model.XWikiPage;
 import org.xwiki.xmlrpc.model.XWikiPageHistorySummary;
 import org.xwiki.xmlrpc.model.XWikiPageSummary;
 
+/**
+ * @version $Id$
+ */
 public class PagesTest extends AbstractXWikiXmlRpcTest
 {
     @Override
-    public void setUp() throws XmlRpcException, MalformedURLException
+    public void setUp() throws Exception
     {
         super.setUp();
 
@@ -73,7 +72,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testGetPages() throws XmlRpcException, ConfluenceException, SwizzleException
+    public void testGetPages() throws Exception
     {
         List<SpaceSummary> spaces = this.rpc.getSpaces();
         List<XWikiPageSummary> pages = this.rpc.getPages(spaces.get(0).getKey());
@@ -86,7 +85,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertFalse(pages.isEmpty());
     }
 
-    public void testGetPagesWithNoRightsOnSpace() throws XmlRpcException, ConfluenceException, SwizzleException
+    public void testGetPagesWithNoRightsOnSpace() throws Exception
     {
         if (TestConstants.USERNAME.equals("Admin")) {
             /* If the username is Admin this test will fail. Just return to make it pass. */
@@ -97,7 +96,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertTrue(pages.isEmpty());
     }
 
-    public void testGetPage() throws XmlRpcException
+    public void testGetPage() throws Exception
     {
         List<SpaceSummary> spaces = this.rpc.getSpaces();
         List<XWikiPageSummary> pages = this.rpc.getPages(spaces.get(0).getKey());
@@ -109,7 +108,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertEquals(page.getId(), pages.get(0).getId());
     }
 
-    public void testStorePage() throws XmlRpcException
+    public void testStorePage() throws Exception
     {
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE);
 
@@ -129,7 +128,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertEquals(page.getLanguage(), storedPage.getLanguage());
     }
 
-    public void testChangeParentId() throws XmlRpcException
+    public void testChangeParentId() throws Exception
     {
         List<XWikiPageSummary> pages = this.rpc.getPages(TestConstants.TEST_SPACE);
         XWikiPageSummary pageSummary1 = pages.get(0);
@@ -154,7 +153,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertEquals(pageSummary2.getId(), page.getParentId());
     }
 
-    public void testStoreNewPageTranslation() throws XmlRpcException
+    public void testStoreNewPageTranslation() throws Exception
     {
         /* Get the current page and all its available translations */
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
@@ -210,7 +209,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testStorePageTranslation() throws XmlRpcException
+    public void testStorePageTranslation() throws Exception
     {
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
 
@@ -264,7 +263,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testGetPageWithTranslations() throws XmlRpcException
+    public void testGetPageWithTranslations() throws Exception
     {
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
 
@@ -274,7 +273,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertFalse(page.getTranslations().isEmpty());
     }
 
-    public void testGetPageTranslations() throws XmlRpcException
+    public void testGetPageTranslations() throws Exception
     {
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
 
@@ -288,7 +287,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testCreatePage() throws XmlRpcException
+    public void testCreatePage() throws Exception
     {
         String pageId =
             String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX, Math.abs(this.random
@@ -321,7 +320,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertEquals("", storedPage.getLanguage());
     }
 
-    public void testCreatePageInSpaceWithNoAccessRights() throws XmlRpcException
+    public void testCreatePageInSpaceWithNoAccessRights() throws Exception
     {
         if (TestConstants.USERNAME.equals("Admin")) {
             /* If the username is Admin this test will fail. Throw an exception to make it pass. */
@@ -353,11 +352,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         try {
             this.rpc.storePage(page);
             Assert.fail();
-        } catch (XmlRpcException e) {
+        } catch (Exception e) {
         }
     }
 
-    public void testRemovePage() throws XmlRpcException
+    public void testRemovePage() throws Exception
     {
         List<XWikiPageSummary> pages = this.rpc.getPages(TestConstants.TEST_SPACE);
         XWikiPageSummary pageToBeDeleted = null;
@@ -368,7 +367,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             }
         }
 
-        Boolean result = this.rpc.removePage(pageToBeDeleted);
+        Boolean result = this.rpc.removePage(pageToBeDeleted.getId());
         TestUtils.banner("TEST: removePage()");
         System.out.format("XWikiPage %s removed: %b\n", pageToBeDeleted.getId(), result);
 
@@ -384,7 +383,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertTrue(removed);
     }
 
-    public void testGetPageHistory() throws XmlRpcException
+    public void testGetPageHistory() throws Exception
     {
         List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getPageHistory(TestConstants.TEST_PAGE);
 
@@ -396,7 +395,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertFalse(pageHistorySummaries.isEmpty());
     }
 
-    public void testGetPageAtVersion() throws XmlRpcException
+    public void testGetPageAtVersion() throws Exception
     {
         List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getPageHistory(TestConstants.TEST_PAGE);
         XWikiPageHistorySummary pageHistorySummary =
@@ -420,7 +419,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         // assertEquals(pageHistorySummary.getModified(), page.getModified());
     }
 
-    public void testGetPageAtVersionUsingExtendedId() throws XmlRpcException
+    public void testGetPageAtVersionUsingExtendedId() throws Exception
     {
         List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getPageHistory(TestConstants.TEST_PAGE);
         XWikiPageHistorySummary pageHistorySummary =
@@ -444,11 +443,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             page.setContent("Test page");
             this.rpc.storePage(page);
             Assert.fail();
-        } catch (XmlRpcException e) {
+        } catch (Exception e) {
         }
     }
 
-    public void testRenderContent() throws XmlRpcException
+    public void testRenderContent() throws Exception
     {
         String html = this.rpc.renderContent(TestConstants.TEST_SPACE, TestConstants.TEST_PAGE, "");
         TestUtils.banner("TEST: renderContent()");
@@ -457,7 +456,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertTrue(html.length() != 0);
     }
 
-    public void testRenamePage() throws XmlRpcException
+    public void testRenamePage() throws Exception
     {
         String pageName = String.format("%s-%d", TestConstants.TEST_PREFIX, Math.abs(this.random.nextInt()));
         String pageId = String.format("%s.%s", TestConstants.TEST_SPACE, pageName);
@@ -526,14 +525,14 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertTrue(renamedPage.getContent().equals(content));
 
     }
-    
-    public void testGetModifiedPagesHistoryDescending() throws XmlRpcException
+
+    public void testGetModifiedPagesHistoryDescending() throws Exception
     {
         List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getModifiedPagesHistory(50, 0, true);
 
         TestUtils.banner("TEST: getModifiedPageHistoryDescending()");
         for (XWikiPageHistorySummary pageHistorySummary : pageHistorySummaries) {
-            System.out.format("%d %s\n", pageHistorySummary.getModified().getTime(), pageHistorySummary);            
+            System.out.format("%d %s\n", pageHistorySummary.getModified().getTime(), pageHistorySummary);
         }
 
         long t = Long.MAX_VALUE;
@@ -541,17 +540,17 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             assertTrue(pageHistorySummary.getModified().getTime() <= t);
             t = pageHistorySummary.getModified().getTime();
         }
-        
+
         assertFalse(pageHistorySummaries.isEmpty());
     }
-    
-    public void testGetModifiedPagesHistoryAscending() throws XmlRpcException
+
+    public void testGetModifiedPagesHistoryAscending() throws Exception
     {
         List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getModifiedPagesHistory(50, 0, false);
 
         TestUtils.banner("TEST: getModifiedPageHistoryAscending()");
         for (XWikiPageHistorySummary pageHistorySummary : pageHistorySummaries) {
-            System.out.format("%d %s\n", pageHistorySummary.getModified().getTime(), pageHistorySummary);            
+            System.out.format("%d %s\n", pageHistorySummary.getModified().getTime(), pageHistorySummary);
         }
 
         long t = Long.MIN_VALUE;
@@ -559,72 +558,74 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             assertTrue(pageHistorySummary.getModified().getTime() >= t);
             t = pageHistorySummary.getModified().getTime();
         }
-        
+
         assertFalse(pageHistorySummaries.isEmpty());
     }
-    
-    public void testGetModifiedPagesHistoryMultipleRequests() throws XmlRpcException
+
+    public void testGetModifiedPagesHistoryMultipleRequests() throws Exception
     {
         List<XWikiPageHistorySummary> result = new ArrayList<XWikiPageHistorySummary>();
-    	
+
         List<XWikiPageHistorySummary> pageHistorySummaries1 = this.rpc.getModifiedPagesHistory(10, 0, true);
-    	result.addAll(pageHistorySummaries1);
-    	List<XWikiPageHistorySummary> pageHistorySummaries2 = this.rpc.getModifiedPagesHistory(10, 10, true);
-    	result.addAll(pageHistorySummaries2);
-    	List<XWikiPageHistorySummary> pageHistorySummaries3 = this.rpc.getModifiedPagesHistory(10, 20, true);
-    	result.addAll(pageHistorySummaries3);
-    	
-    	List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getModifiedPagesHistory(30, 0, true);
-    	
+        result.addAll(pageHistorySummaries1);
+        List<XWikiPageHistorySummary> pageHistorySummaries2 = this.rpc.getModifiedPagesHistory(10, 10, true);
+        result.addAll(pageHistorySummaries2);
+        List<XWikiPageHistorySummary> pageHistorySummaries3 = this.rpc.getModifiedPagesHistory(10, 20, true);
+        result.addAll(pageHistorySummaries3);
+
+        List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getModifiedPagesHistory(30, 0, true);
+
         TestUtils.banner("TEST: getModifiedPageHistoryMultipleRequests()");
-        for(int i = 0; i < pageHistorySummaries.size(); i++) {
-        	XWikiPageHistorySummary h1 = pageHistorySummaries.get(i);
-        	XWikiPageHistorySummary h2 = result.get(i);
-        	
-        	assertTrue(h1.getId().equals(h2.getId()));
-        	assertTrue(h1.getModifier().equals(h2.getModifier()));
-        	assertTrue(h1.getModified().equals(h2.getModified()));
-        	assertTrue(h1.getVersion() == h2.getVersion());
-        	assertTrue(h1.getMinorVersion() == h2.getMinorVersion());
-        }       
-        
+        for (int i = 0; i < pageHistorySummaries.size(); i++) {
+            XWikiPageHistorySummary h1 = pageHistorySummaries.get(i);
+            XWikiPageHistorySummary h2 = result.get(i);
+
+            assertTrue(h1.getId().equals(h2.getId()));
+            assertTrue(h1.getModifier().equals(h2.getModifier()));
+            assertTrue(h1.getModified().equals(h2.getModified()));
+            assertTrue(h1.getVersion() == h2.getVersion());
+            assertTrue(h1.getMinorVersion() == h2.getMinorVersion());
+        }
+
         long t = Long.MAX_VALUE;
         for (XWikiPageHistorySummary pageHistorySummary : result) {
             assertTrue(pageHistorySummary.getModified().getTime() <= t);
             t = pageHistorySummary.getModified().getTime();
-        }               
+        }
     }
-    
-    public void testGetAllModifiedPagesHistory() throws XmlRpcException {
-    	List<XWikiPageHistorySummary> result = new ArrayList<XWikiPageHistorySummary>();
-    	
-    	TestUtils.banner("TEST: getAllModifiedPageHistory()");
-    	
-    	int start = 0;
-    	int number = 50;
-    	while(true) {
-    		List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getModifiedPagesHistory(number, start, true);
-    		System.out.format("Got %d entries...\n", pageHistorySummaries.size());
-    		result.addAll(pageHistorySummaries);
-    		if(pageHistorySummaries.size() < number) {
-    			break;
-    		}
-    		
-    		start += number;
-    	}    	
-    	
-    	System.out.format("Total entries received: %d\n", result.size());
-    	
-    	long t = Long.MAX_VALUE;
+
+    public void testGetAllModifiedPagesHistory() throws Exception
+    {
+        List<XWikiPageHistorySummary> result = new ArrayList<XWikiPageHistorySummary>();
+
+        TestUtils.banner("TEST: getAllModifiedPageHistory()");
+
+        int start = 0;
+        int number = 50;
+        while (true) {
+            List<XWikiPageHistorySummary> pageHistorySummaries = this.rpc.getModifiedPagesHistory(number, start, true);
+            System.out.format("Got %d entries...\n", pageHistorySummaries.size());
+            result.addAll(pageHistorySummaries);
+            if (pageHistorySummaries.size() < number) {
+                break;
+            }
+
+            start += number;
+        }
+
+        System.out.format("Total entries received: %d\n", result.size());
+
+        long t = Long.MAX_VALUE;
         for (XWikiPageHistorySummary pageHistorySummary : result) {
             assertTrue(pageHistorySummary.getModified().getTime() <= t);
             t = pageHistorySummary.getModified().getTime();
-        }   
-    	
-    	assertFalse(result.isEmpty());
+        }
+
+        assertFalse(result.isEmpty());
     }
-    
-    public void testStorePageWithCheckVersion() throws XmlRpcException {
+
+    public void testStorePageWithCheckVersion() throws Exception
+    {
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE);
 
         String content =
@@ -641,9 +642,9 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertEquals(content, storedPage.getContent());
         assertTrue(storedPage.getVersion() == (page.getVersion() + 1));
         assertEquals(page.getLanguage(), storedPage.getLanguage());
-        
-        /* Try to store again the page */        
-        storedPage =  this.rpc.storePage(page, true);
-        assertTrue(storedPage.getId().equals(""));               
+
+        /* Try to store again the page */
+        storedPage = this.rpc.storePage(page, true);
+        assertTrue(storedPage.getId().equals(""));
     }
 }

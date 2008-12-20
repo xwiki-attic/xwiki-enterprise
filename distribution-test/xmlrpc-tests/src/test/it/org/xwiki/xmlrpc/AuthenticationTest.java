@@ -23,13 +23,17 @@ package org.xwiki.xmlrpc;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
 import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.ServerInfo;
 import org.codehaus.swizzle.confluence.SpaceSummary;
 import org.xwiki.xmlrpc.model.XWikiPage;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
+/**
+ * @version $Id$
+ */
 public class AuthenticationTest extends TestCase
 {
     public void setUp()
@@ -40,30 +44,29 @@ public class AuthenticationTest extends TestCase
     {
     }
 
-    public void testLoginLogout() throws MalformedURLException, XmlRpcException
+    public void testLoginLogout() throws Exception
     {
         XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
         rpc.login(TestConstants.USERNAME, TestConstants.PASSWORD);
         rpc.logout();
     }
 
-    public void testLoginWithInvalidUser() throws MalformedURLException, XmlRpcException
+    public void testLoginWithInvalidUser() throws MalformedURLException
     {
-        XWikiXmlRpcClient rpc =
-            new XWikiXmlRpcClient(TestConstants.ENDPOINT, TestConstants.ENDPOINT_HANDLER);
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
 
         try {
             rpc.login("thisUserShouldNotExist", "foo");
             Assert.fail();
-        } catch (XmlRpcException e) {
+        } catch (Exception e) {
         }
     }
 
-    public void testXWikiXmlRpcServiceWithoutLogin() throws MalformedURLException,
-        XmlRpcException
+    public void testXWikiXmlRpcServiceWithoutLogin() throws Exception, XmlRpcException
     {
-        XWikiXmlRpcClient rpc =
-            new XWikiXmlRpcClient(TestConstants.ENDPOINT, TestConstants.ENDPOINT_HANDLER);
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
+
+        rpc.login("Admin", "admin");
 
         List<SpaceSummary> spaces = rpc.getSpaces();
 
@@ -75,23 +78,20 @@ public class AuthenticationTest extends TestCase
         assertTrue(spaces.size() != 0);
     }
 
-    public void testXWikiXmlRpcServiceWithoutLoginNoRights() throws MalformedURLException,
-        XmlRpcException
+    public void testXWikiXmlRpcServiceWithoutLoginNoRights() throws MalformedURLException
     {
-        XWikiXmlRpcClient rpc =
-            new XWikiXmlRpcClient(TestConstants.ENDPOINT, TestConstants.ENDPOINT_HANDLER);
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
 
         try {
-            XWikiPage page = rpc.getPage("XWiki.Admin");
+            XWikiPage page = rpc.getPage("Scheduler.WebHome");
             Assert.fail();
-        } catch (XmlRpcException e) {
+        } catch (Exception e) {
         }
     }
 
-    public void testGetServerInfo() throws MalformedURLException, XmlRpcException
+    public void testGetServerInfo() throws Exception
     {
-        XWikiXmlRpcClient rpc =
-            new XWikiXmlRpcClient(TestConstants.ENDPOINT, TestConstants.ENDPOINT_HANDLER);
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
         rpc.login(TestConstants.USERNAME, TestConstants.PASSWORD);
 
         ServerInfo serverInfo = rpc.getServerInfo();

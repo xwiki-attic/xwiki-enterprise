@@ -20,16 +20,17 @@
  */
 package org.xwiki.xmlrpc;
 
-import java.net.MalformedURLException;
 import java.util.List;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.Comment;
 import org.xwiki.xmlrpc.model.XWikiPage;
 
+/**
+ * @version $Id$
+ */
 public class CommentsTest extends AbstractXWikiXmlRpcTest
 {
-    public void setUp() throws XmlRpcException, MalformedURLException
+    public void setUp() throws Exception
     {
         super.setUp();
 
@@ -44,7 +45,7 @@ public class CommentsTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testAddComment() throws XmlRpcException
+    public void testAddComment() throws Exception
     {
         String content = String.format("This is a new comment!!! %s", random.nextInt());
         Comment comment = new Comment();
@@ -60,7 +61,7 @@ public class CommentsTest extends AbstractXWikiXmlRpcTest
         assertEquals(String.format("XWiki.%s", TestConstants.USERNAME), comment.getCreator());
     }
 
-    public void testGetComments() throws XmlRpcException
+    public void testGetComments() throws Exception
     {
         List<Comment> comments = rpc.getComments(TestConstants.TEST_PAGE_WITH_COMMENTS);
 
@@ -72,13 +73,12 @@ public class CommentsTest extends AbstractXWikiXmlRpcTest
         assertFalse(comments.isEmpty());
     }
 
-    public void testRemoveComment() throws XmlRpcException
+    public void testRemoveComment() throws Exception
     {
         List<Comment> comments = rpc.getComments(TestConstants.TEST_PAGE_WITH_COMMENTS);
         Comment comment = comments.get(random.nextInt(comments.size()));
 
-        Boolean result =
-            rpc.removeComment(comment.getId());
+        Boolean result = rpc.removeComment(comment.getId());
         TestUtils.banner("TEST: removeComment()");
         System.out.format("Comment removed = %b\n", result);
 

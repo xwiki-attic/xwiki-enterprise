@@ -20,6 +20,9 @@
  */
 package org.xwiki.xmlrpc;
 
+/**
+ * @version $Id$
+ */
 public class TestUtils
 {
     public static void banner(String message)

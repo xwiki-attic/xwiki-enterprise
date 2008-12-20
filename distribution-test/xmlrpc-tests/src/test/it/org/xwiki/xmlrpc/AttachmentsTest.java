@@ -20,17 +20,18 @@
  */
 package org.xwiki.xmlrpc;
 
-import java.net.MalformedURLException;
 import java.util.List;
 
-import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.Attachment;
 import org.xwiki.xmlrpc.model.Utils;
 import org.xwiki.xmlrpc.model.XWikiPage;
 
+/**
+ * @version $Id$
+ */
 public class AttachmentsTest extends AbstractXWikiXmlRpcTest
 {
-    public void setUp() throws XmlRpcException, MalformedURLException
+    public void setUp() throws Exception
     {
         super.setUp();
 
@@ -45,7 +46,7 @@ public class AttachmentsTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testAddAttachment() throws XmlRpcException
+    public void testAddAttachment() throws Exception
     {
         String attachmentName = String.format("test_attachment_%d.png", random.nextInt());
         byte[] data = (new String("This is a test").getBytes());
@@ -61,10 +62,9 @@ public class AttachmentsTest extends AbstractXWikiXmlRpcTest
         assertTrue(Integer.parseInt(attachment.getFileSize()) == data.length);
     }
 
-    public void testGetAttachments() throws XmlRpcException
+    public void testGetAttachments() throws Exception
     {
-        List<Attachment> attachments =
-            rpc.getAttachments(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
+        List<Attachment> attachments = rpc.getAttachments(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
 
         TestUtils.banner("TEST: getAttachments()");
         for (Attachment attachment : attachments) {
@@ -74,36 +74,30 @@ public class AttachmentsTest extends AbstractXWikiXmlRpcTest
         assertFalse(attachments.isEmpty());
     }
 
-    public void testGetAttachmentData() throws XmlRpcException
+    public void testGetAttachmentData() throws Exception
     {
-        List<Attachment> attachments =
-            rpc.getAttachments(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
+        List<Attachment> attachments = rpc.getAttachments(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
         Attachment attachment = attachments.get(0);
 
-        byte[] content =
-            rpc.getAttachmentData(attachment.getPageId(), attachment.getFileName(), "1.1");
+        byte[] content = rpc.getAttachmentData(attachment.getPageId(), attachment.getFileName(), "1.1");
 
         TestUtils.banner("getAttachmentData()");
         System.out.format("%s\n", attachment);
-        System.out.format("Content = %s\n", Utils.truncateToFirstLine(new String(content,
-            0,
-            content.length > 32 ? 32 : content.length)));
+        System.out.format("Content = %s\n", Utils.truncateToFirstLine(new String(content, 0, content.length > 32 ? 32
+            : content.length)));
 
         int contentLength = new Integer(attachment.getFileSize());
         assertTrue(content.length == contentLength);
     }
 
-    public void testRemoveAttachment() throws XmlRpcException
+    public void testRemoveAttachment() throws Exception
     {
-        List<Attachment> attachments =
-            rpc.getAttachments(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
+        List<Attachment> attachments = rpc.getAttachments(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
         Attachment attachmentToBeRemoved = attachments.get(random.nextInt(attachments.size()));
 
         TestUtils.banner("TEST: getAttachments()");
         System.out.format("Before: %s\n", attachments);
-        Boolean result =
-            rpc.removeAttachment(attachmentToBeRemoved.getPageId(), attachmentToBeRemoved
-                .getFileName());
+        Boolean result = rpc.removeAttachment(attachmentToBeRemoved.getPageId(), attachmentToBeRemoved.getFileName());
 
         System.out.format("Result: %b\n", result);
 

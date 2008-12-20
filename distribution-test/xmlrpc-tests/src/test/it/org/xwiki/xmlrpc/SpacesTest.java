@@ -23,15 +23,17 @@ package org.xwiki.xmlrpc;
 import java.util.List;
 
 import junit.framework.Assert;
+
 import org.apache.xmlrpc.XmlRpcException;
-import org.codehaus.swizzle.confluence.ConfluenceException;
 import org.codehaus.swizzle.confluence.Space;
 import org.codehaus.swizzle.confluence.SpaceSummary;
-import org.codehaus.swizzle.confluence.SwizzleException;
 
+/**
+ * @version $Id$
+ */
 public class SpacesTest extends AbstractXWikiXmlRpcTest
 {
-    public void testGetSpaces() throws XmlRpcException, ConfluenceException, SwizzleException
+    public void testGetSpaces() throws Exception
     {
         List<SpaceSummary> spaces = rpc.getSpaces();
 
@@ -43,7 +45,7 @@ public class SpacesTest extends AbstractXWikiXmlRpcTest
         assertTrue(spaces.size() != 0);
     }
 
-    public void testGetSpace() throws XmlRpcException, ConfluenceException, SwizzleException
+    public void testGetSpace() throws Exception
     {
         List<SpaceSummary> spaces = rpc.getSpaces();
         Space space = rpc.getSpace(spaces.get(0).getKey());
@@ -54,7 +56,7 @@ public class SpacesTest extends AbstractXWikiXmlRpcTest
         assertEquals(space.getKey(), spaces.get(0).getKey());
     }
 
-    public void testGetNonExistingSpace() throws XmlRpcException
+    public void testGetNonExistingSpace() throws Exception
     {
         try {
             Space space = rpc.getSpace("thisSpaceShouldNotExist");
@@ -63,11 +65,10 @@ public class SpacesTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testAddSpace() throws XmlRpcException, ConfluenceException, SwizzleException
+    public void testAddSpace() throws Exception
     {
         Space space = new Space();
-        space.setKey(String.format("%s-%d", TestConstants.TEST_PREFIX, Math
-            .abs(random.nextInt())));
+        space.setKey(String.format("%s-%d", TestConstants.TEST_PREFIX, Math.abs(random.nextInt())));
         space.setName("TEST Space");
 
         space = rpc.addSpace(space);
@@ -87,11 +88,10 @@ public class SpacesTest extends AbstractXWikiXmlRpcTest
         Assert.assertTrue(found);
     }
 
-    public void testAddDuplicatedSpace() throws XmlRpcException
+    public void testAddDuplicatedSpace() throws Exception
     {
         Space space = new Space();
-        space.setKey(String.format("%s-%d", TestConstants.TEST_PREFIX, Math
-            .abs(random.nextInt())));
+        space.setKey(String.format("%s-%d", TestConstants.TEST_PREFIX, Math.abs(random.nextInt())));
         space.setName("TEST Space");
 
         try {
@@ -102,7 +102,7 @@ public class SpacesTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testGetSpaceWithoutRights() throws XmlRpcException
+    public void testGetSpaceWithoutRights() throws Exception
     {
         if (TestConstants.USERNAME.equals("Admin")) {
             /* If the username is Admin this test will fail. Throw an exception to make it pass. */
@@ -116,7 +116,7 @@ public class SpacesTest extends AbstractXWikiXmlRpcTest
         }
     }
 
-    public void testRemoveSpace() throws XmlRpcException, ConfluenceException, SwizzleException
+    public void testRemoveSpace() throws Exception
     {
         List<SpaceSummary> spaces = rpc.getSpaces();
         SpaceSummary spaceToBeRemoved = null;
@@ -145,7 +145,7 @@ public class SpacesTest extends AbstractXWikiXmlRpcTest
         Assert.assertFalse(found);
     }
 
-    public void testRemoveNonExistingSpace() throws XmlRpcException
+    public void testRemoveNonExistingSpace() throws Exception
     {
         try {
             Boolean result = rpc.removeSpace("thisSpaceShouldNotExist");

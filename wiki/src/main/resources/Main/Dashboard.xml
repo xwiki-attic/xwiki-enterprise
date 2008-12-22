@@ -12,47 +12,17 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1166000404000</creationDate>
-<date>1184498122000</date>
-<contentUpdateDate>1184498122000</contentUpdateDate>
-<version>1.16</version>
+<date>1229616663000</date>
+<contentUpdateDate>1229616663000</contentUpdateDate>
+<version>1.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<object>
-<class>
-<name>XWiki.TagClass</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<tags>
-<name>tags</name>
-<prettyName>Tags</prettyName>
-<unmodifiable>0</unmodifiable>
-<relationalStorage>1</relationalStorage>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<size>30</size>
-<separator> </separator>
-<cache>0</cache>
-<separators> ,|</separators>
-<values></values>
-<number>1</number>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</tags>
-</class>
-<name>Main.Dashboard</name>
-<number>0</number>
-<className>XWiki.TagClass</className>
-<property>
-<tags/>
-</property>
-</object>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
 <content>1 News
 
 Find below all the recent news from the site blog and from the list of pages that have been changed recently.
@@ -60,11 +30,8 @@ Find below all the recent news from the site blog and from the list of pages tha
 &lt;div&gt;
   &lt;div id="webhomeblogdisplay" style="float:left; width: 49.9%;"&gt;
     &lt;div style="padding-right:20px;"&gt;
-      &lt;h3&gt;Blog &lt;a href="$xwiki.getURL("Main.BlogRss", "view", "xpage=rdf")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" alt="rss icon"/&gt;&lt;/a&gt;&lt;/h3&gt;
-      #set($nbstart = $request.nbstart)
-      #set($category = "")
-      #set($nbitems = "3")
-      #includeMacros("Blog.Macros")
+      &lt;h3&gt;Blog &lt;a href="$xwiki.getURL("Blog.GlobalBlogRss", "view", "xpage=plain")" style=""&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss.png")" alt="rss icon"/&gt;&lt;/a&gt;&lt;/h3&gt;
+#includeTopic("Blog.WebHome")
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div id="webhomeNewsdisplay" style="float:left; width: 50.1%;"&gt;

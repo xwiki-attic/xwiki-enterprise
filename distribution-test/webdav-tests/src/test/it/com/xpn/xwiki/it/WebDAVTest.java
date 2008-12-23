@@ -244,8 +244,8 @@ public class WebDAVTest extends TestCase
             putMethod
                 .setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(newContent
                     .getBytes())));
-            // XML saving requires valid XML.
-            assertEquals(DavServletResponse.SC_INTERNAL_SERVER_ERROR, client
+            // XML saving was disabled recently. See http://jira.xwiki.org/jira/browse/XWIKI-2910
+            assertEquals(DavServletResponse.SC_METHOD_NOT_ALLOWED, client
                 .executeMethod(putMethod));
             deleteMethod.setPath(pageUrl);
             assertEquals(DavServletResponse.SC_NO_CONTENT, client

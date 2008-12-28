@@ -19,10 +19,11 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
-import junit.framework.Assert;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.File;
+
+import junit.framework.Assert;
 
 import org.apache.commons.logging.LogFactory;
 
@@ -41,8 +42,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     private static final String WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT = "title";
 
     private static final String XWINDOWFOCUS_BINARY = "/home/maven/xwindowfocus";
-
-    private boolean firstEnterTyped = true;
 
     private class StreamRedirector extends Thread
     {
@@ -122,9 +121,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
         // Reset editor's content
         resetContent();
-
-        // See typeEnter for more details
-        firstEnterTyped = true;
     }
 
     protected void runScript(String script)
@@ -289,6 +285,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         typeEnter();
     }
 
+    public void typeTextThenEnterTwice(String text)
+    {
+        typeTextThenEnter(text);
+        typeEnter();
+    }
+
     public void keyPress(String key)
     {
         getSelenium().keyDown(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
@@ -305,14 +307,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeEnter()
     {
-        // I know this looks weird but to obtain a single carriage return we must first use keyDown/KeyUp
-        // for all the following ones keyDown/keyPress/KeyUp
-        if (firstEnterTyped) {
-            specialKeyPress("\\13");
-            firstEnterTyped = false;
-        } else {
-            keyPress("\\13");
-        }
+        keyPress("\\13");
     }
 
     public void typeShiftEnter()
@@ -359,6 +354,32 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         // Although Delete is not a printable key, it affects the displayed text so we must fire KeyPress event too.
         keyPress("\\46");
+    }
+
+    public void typeTab()
+    {
+        keyPress("\\9");
+    }
+
+    public void typeTab(int count)
+    {
+        for (int i = 0; i < count; i++) {
+            typeTab();
+        }
+    }
+
+    public void typeShiftTab()
+    {
+        getSelenium().shiftKeyDown();
+        typeTab();
+        getSelenium().shiftKeyUp();
+    }
+
+    public void typeShiftTab(int count)
+    {
+        for (int i = 0; i < count; i++) {
+            typeShiftTab();
+        }
     }
 
     public void clickUnorderedListButton()
@@ -424,6 +445,21 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void clickRedoButton()
     {
         pushButton("//div[@title='Redo (CTRL+Y)']");
+    }
+
+    public void clickSymbolButton()
+    {
+        pushButton("//div[@title='Insert custom character']");
+    }
+
+    public void clickInsertImageButton()
+    {
+        pushButton("//div[@title='Insert image']");
+    }
+
+    public void clickInsertTableButton()
+    {
+        pushButton("//div[@title='Inserts a new table']");
     }
 
     public void applyStyle(String style)

@@ -319,6 +319,37 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertTrue(storedPage.getVersion() == 1);
         assertEquals("", storedPage.getLanguage());
     }
+    
+    public void testCreatePageWithNullSpace() throws Exception {
+        String pageId =
+            String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX, Math.abs(this.random
+                .nextInt()));
+        String content = String.format("Modified by org.xwiki.xmlrpc @ %s (inital version)\n", new Date());
+        XWikiPage page = null;
+
+        TestUtils.banner("TEST: createPageWithNullSpace()");
+
+        try {
+            page = this.rpc.getPage(pageId);
+            throw new RuntimeException(String.format("XWikiPage %s exists!", pageId));
+        } catch (Exception e) {
+            System.out.format("XWikiPage %s does not exist... Good!\n", pageId);
+        }
+
+        page = new XWikiPage();
+        page.setId(pageId);        
+        page.setTitle("Test page");
+        page.setContent(content);
+        XWikiPage storedPage = this.rpc.storePage(page);
+
+        System.out.format("Content sent: '%s'\n", Utils.truncateToFirstLine(content));
+        System.out.format("%s\n", storedPage);
+
+        assertEquals(storedPage.getContent(), content);
+
+        assertTrue(storedPage.getVersion() == 1);
+        assertEquals("", storedPage.getLanguage());
+    }
 
     public void testCreatePageInSpaceWithNoAccessRights() throws Exception
     {

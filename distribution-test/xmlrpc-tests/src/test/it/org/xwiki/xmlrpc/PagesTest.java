@@ -319,8 +319,9 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertTrue(storedPage.getVersion() == 1);
         assertEquals("", storedPage.getLanguage());
     }
-    
-    public void testCreatePageWithNullSpace() throws Exception {
+
+    public void testCreatePageWithNullSpace() throws Exception
+    {
         String pageId =
             String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX, Math.abs(this.random
                 .nextInt()));
@@ -337,7 +338,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
 
         page = new XWikiPage();
-        page.setId(pageId);        
+        page.setId(pageId);
         page.setTitle("Test page");
         page.setContent(content);
         XWikiPage storedPage = this.rpc.storePage(page);
@@ -653,6 +654,24 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
 
         assertFalse(result.isEmpty());
+    }
+
+    public void testGetModifiedPageHistoryCorrectness() throws Exception
+    {
+        List<SpaceSummary> spaces = this.rpc.getSpaces();
+        List<XWikiPageSummary> pages = this.rpc.getPages(spaces.get(0).getKey());
+
+        TestUtils.banner("TEST: getAllModifiedPageHistoryCorrectness()");
+
+        XWikiPage page = this.rpc.getPage(pages.get(0).getId());
+
+        page.setContent(String.format("Modified %d", System.currentTimeMillis()));
+        page = rpc.storePage(page);
+
+        List<XWikiPageHistorySummary> modifications = rpc.getModifiedPagesHistory(1, 0);
+
+        assertEquals(page.getId(), modifications.get(0).getBasePageId());
+        assertEquals(page.getModified(), modifications.get(0).getModified());
     }
 
     public void testStorePageWithCheckVersion() throws Exception

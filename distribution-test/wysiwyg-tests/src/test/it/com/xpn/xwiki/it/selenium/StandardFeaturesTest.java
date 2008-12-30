@@ -305,11 +305,25 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testEnterAfterImage()
     {
         clickInsertImageButton();
-        getSelenium().select("//div[@class=\"xImageChooser\"]//select[2]", "Main");
-        getSelenium().select("//div[@class=\"xImageChooser\"]//select[3]", "LuceneSearch");
+
+        String spaceSelector = "//div[@class=\"xImageChooser\"]//select[2]";
+        String space = "Main";
+        waitForCondition("selenium.isElementPresent('" + spaceSelector + "/option[@value=\"" + space + "\"]');");
+        getSelenium().select(spaceSelector, space);
+
+        String pageSelector = "//div[@class=\"xImageChooser\"]//select[3]";
+        String page = "LuceneSearch";
+        waitForCondition("selenium.isElementPresent('" + pageSelector + "/option[@value=\"" + page + "\"]');");
+        getSelenium().select(pageSelector, page);
+
         getSelenium().click("//div[@class=\"xImageChooser\"]//button[text()=\"Update\"]");
-        getSelenium().click("//div[@class=\"xImagesContainerPanel\"]//img[@title=\"next.png\"]");
+
+        String imageSelector = "//div[@class=\"xImagesContainerPanel\"]//img[@title=\"next.png\"]";
+        waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
+        getSelenium().click(imageSelector);
+
         getSelenium().click("//div[@class=\"xImageDialogMain\"]/button[text()=\"Insert\"]");
+
         // The inserted image should be selected. By pressing the right arrow key the caret is not moved after the image
         // thus we are forced to collapse the selection to the end.
         runScript("XWE.selection.collapseToEnd()");

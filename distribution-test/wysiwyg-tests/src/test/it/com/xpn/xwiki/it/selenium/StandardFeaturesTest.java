@@ -322,7 +322,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
 
-        getSelenium().click("//div[@class=\"xImageDialogMain\"]/button[text()=\"Insert\"]");
+        getSelenium().click("//div[@class=\"xImageDialogMain\"]/button[text()=\"OK\"]");
 
         // The inserted image should be selected. By pressing the right arrow key the caret is not moved after the image
         // thus we are forced to collapse the selection to the end.
@@ -396,11 +396,31 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEmptyLinesAreEditable()
     {
+        // It seems that clicking on the link to Wiki editor doesn't trigger the blur event on the rich text area and so
+        // the underlying HTML hidden input is not updated. We have to force the blur event by clicking on the title
+        // text input.
+        getSelenium().click("title");
         clickLinkWithText("Wiki", true);
         setFieldValue("content", "a\n\n\n\nb");
         clickLinkWithText("WYSIWYG", true);
         assertXHTML("<p>a</p><p><br></p><p><br></p><p>b</p>");
         // TODO: Since neither the down arrow key nor the click doesn't seem to move the caret we have to find another
         // way of placing the caret on the empty lines, without using the Range API.
+    }
+
+    /**
+     * @see XWIKI-3039: Changes are lost if an exception is thrown during saving
+     */
+    public void testRecoverAfterConversionException()
+    {
+        // We removed the startwikilink comment to force a parsing failure.
+        String html = "<span class=\"wikiexternallink\"><a href=\"mailto:x@y.z\">xyz</a></span><!--stopwikilink-->";
+        setContent(html);
+        // Test to see if the HTML was accepted by the rich text area.
+        assertXHTML(html);
+        // Let's see what happens when we save an continue.
+        clickEditSaveAndContinue();
+        // The user shouldn't loose his changes.
+        assertXHTML(html);
     }
 }

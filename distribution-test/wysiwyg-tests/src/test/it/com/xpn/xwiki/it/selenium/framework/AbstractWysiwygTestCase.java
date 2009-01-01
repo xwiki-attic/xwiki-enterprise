@@ -104,7 +104,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             .equals("http://localhost:8080/xwiki/bin/edit/Main/WysiwygTest?editor=wysiwyg"))
         {
             open("Main", "WysiwygTest");
-            clickEditPage();
+            clickLinkWithText("WYSIWYG");
         }
 
         // Switch the document to xwiki/2.0 syntax if needed
@@ -169,7 +169,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         runScript("XWE.body.innerHTML = '" + html + "';");
         // Give the focus to the RTE so that it takes the modification into account.
         runScript("XWE.focus();");
-        // We have to click outside of the editor since the "content" input is updated on blur event.
+        // The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input
+        // which is updated each time the rich text area looses the focus. Let's update this hidden input by clicking
+        // outside of the rich text area.
         getSelenium().clickAt(WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT, "0,0");
         // Give the focus back to the RTE
         runScript("XWE.focus();");
@@ -454,7 +456,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickInsertImageButton()
     {
-        pushButton("//div[@title='Insert image']");
+        pushButton("//div[@title='Insert/Edit Image']");
     }
 
     public void clickInsertTableButton()
@@ -517,7 +519,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void assertXHTML(String xhtml)
     {
-        // We have to click outside of the editor since the "content" input is updated on blur event.
+        // The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input
+        // which is updated each time the rich text area looses the focus. Let's update this hidden input by clicking
+        // outside of the rich text area.
         getSelenium().clickAt(WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT, "0,0");
         // System.err.println("\n*********** ASSERTXHTMLDEBUG : " + getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT) + "\n");
         Assert.assertEquals(xhtml, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT));

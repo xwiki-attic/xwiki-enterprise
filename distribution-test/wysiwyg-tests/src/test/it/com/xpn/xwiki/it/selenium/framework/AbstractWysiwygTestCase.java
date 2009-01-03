@@ -311,6 +311,13 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         keyPress("\\13");
     }
+    
+    public void typeEnter(int nb)
+    {
+        for (; nb > 0; nb--) {
+            typeEnter();
+        }
+    }
 
     public void typeShiftEnter()
     {
@@ -527,5 +534,19 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         Assert.assertEquals(xhtml, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT));
         // Give the focus back to the RTE
         runScript("XWE.focus();");
+    }
+
+    public void switchToWikiEditor()
+    {
+        // The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input
+        // which is updated each time the rich text area looses the focus. Let's update this hidden input by clicking
+        // outside of the rich text area.
+        getSelenium().clickAt(WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT, "0,0");
+        clickLinkWithText("Wiki", true);
+    }
+
+    public void switchToWysiwygEditor()
+    {
+        clickLinkWithText("WYSIWYG", true);
     }
 }

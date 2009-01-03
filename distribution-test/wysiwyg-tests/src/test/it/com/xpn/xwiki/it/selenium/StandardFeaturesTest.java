@@ -36,7 +36,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
     public void testEmptyWysiwyg()
     {
-        assertXHTML("<br>");
+        switchToWikiEditor();
+        assertEquals("", getFieldValue("content"));
+        switchToWysiwygEditor();
     }
 
     public void testTypingAndDeletion()
@@ -45,7 +47,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText(text);
         assertXHTML(text);
         typeBackspaces(text.length());
-        assertXHTML("<br>");
+        testEmptyWysiwyg();
     }
 
     /**
@@ -96,8 +98,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnterTwice("a");
         typeEnter();
         typeText("b");
-        typeDelete();
-        assertXHTML("a<p><br></p><p>b</p>");
+        switchToWikiEditor();
+        assertEquals("a\n\n\nb", getFieldValue("content"));
     }
 
     public void testBold()
@@ -176,7 +178,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         selectAllContent();
         clickUnorderedListButton();
         typeBackspaces(2);
-        assertXHTML("<br>");
+        testEmptyWysiwyg();
 
         // Create a list with 1 item and delete the bullet
         // FIXME : this should be working.
@@ -208,7 +210,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         selectAllContent();
         clickOrderedListButton();
         typeBackspaces(2);
-        assertXHTML("<br>");
+        testEmptyWysiwyg();
 
         // Create a list with 1 item and delete the bullet
         // FIXME : this should be working.
@@ -255,7 +257,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertXHTML("<hr>");
 
         typeBackspaces(2);
-        assertXHTML("<br>");
+        testEmptyWysiwyg();
 
         typeText("foobar");
         typeDelete();
@@ -273,7 +275,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testInsertSymbol()
     {
-        // getSelenium().setSpeed("1000");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         clickSymbolButton();
@@ -281,7 +282,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickSymbolButton();
         getSelenium().click("//div[@title='registered sign']");
         assertXHTML("\u00A9\u00AE");
-        // getSelenium().setSpeed("0");
     }
 
     /**
@@ -292,11 +292,10 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeEnter();
         typeText("foobar");
         applyStyleTitle1();
-        typeEnter();
-        typeEnter();
+        typeEnter(2);
         typeText("x");
-        typeDelete();
-        assertXHTML("<p><br></p><h1>foobar</h1><p>x</p>");
+        switchToWikiEditor();
+        assertEquals("\n= foobar =\n\nx", getFieldValue("content"));
     }
 
     /**
@@ -327,8 +326,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // The inserted image should be selected. By pressing the right arrow key the caret is not moved after the image
         // thus we are forced to collapse the selection to the end.
         runScript("XWE.selection.collapseToEnd()");
-        typeEnter();
-        typeEnter();
+        typeEnter(2);
         typeText("xyz");
         typeDelete();
         assertXHTML("<!--startimage:Main.LuceneSearch@next.png-->"
@@ -396,16 +394,13 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEmptyLinesAreEditable()
     {
-        // It seems that clicking on the link to Wiki editor doesn't trigger the blur event on the rich text area and so
-        // the underlying HTML hidden input is not updated. We have to force the blur event by clicking on the title
-        // text input.
-        getSelenium().click("title");
-        clickLinkWithText("Wiki", true);
+        switchToWikiEditor();
         setFieldValue("content", "a\n\n\n\nb");
-        clickLinkWithText("WYSIWYG", true);
-        assertXHTML("<p>a</p><p><br></p><p><br></p><p>b</p>");
+        switchToWysiwygEditor();
+        assertXHTML("<p>a</p><p><br class=\"emptyLine\"></p><p><br class=\"emptyLine\"></p><p>b</p>");
         // TODO: Since neither the down arrow key nor the click doesn't seem to move the caret we have to find another
         // way of placing the caret on the empty lines, without using the Range API.
+        // TODO: Assert by switching to Wiki editor to avoid hard-coding class="emptyLine".
     }
 
     /**
@@ -422,5 +417,36 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickEditSaveAndContinue();
         // The user shouldn't loose his changes.
         assertXHTML(html);
+    }
+
+    /**
+     * @see XWIKI-2732: Unwanted BR tags
+     */
+    public void testUnwantedBRsAreRemoved()
+    {
+        typeTextThenEnter("a");
+        typeTextThenEnter("b");
+        switchToWikiEditor();
+        assertEquals("a\nb\n", getFieldValue("content"));
+    }
+
+    /**
+     * @see XWIKI-2723: Empty paragraphs should not be displayed even if they have styles applied to them
+     */
+    public void testEmptyParagraphsGenerateEmptyLines()
+    {
+        switchToWikiEditor();
+        setFieldValue("content", "(% style=\"color: blue; text-align: center;\" %)\nHello world");
+
+        switchToWysiwygEditor();
+
+        // Place the caret after "Hello ".
+        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setEnd(XWE.body.firstChild.firstChild, 6);\n"
+            + "range.collapse(false);");
+
+        typeEnter(4);
+
+        switchToWikiEditor();
+        assertEquals("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld", getFieldValue("content"));
     }
 }

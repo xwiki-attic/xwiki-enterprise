@@ -120,5 +120,11 @@ Posted by &lt;address class="author vcard"&gt;#userfn($bentrydoc.creator)&lt;/ad
 #end
 &lt;/div&gt; ## hfeed
 #end
+#if("$!{nbitems}" == '')
+  #set($nbitems = "10")
+#end
+#if("$!{nbstart}" == '')
+  #set($nbstart = "0")
+#end
 #blog($category $nbitems $nbstart)</content>
 </xwikidoc>

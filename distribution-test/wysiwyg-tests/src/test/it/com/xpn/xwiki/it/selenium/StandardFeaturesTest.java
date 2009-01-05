@@ -385,8 +385,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("d");
         typeShiftTab(4);
         typeText("e");
-        assertXHTML("<table><tbody><tr><th>e ab</th><th>&nbsp;</th></tr>"
-            + "<tr><td>&nbsp;</td><td>cd&nbsp;</td></tr></tbody></table>");
+        assertXHTML("<table><thead><tr><th>e ab</th><th>&nbsp;</th></tr></thead>"
+            + "<tbody><tr><td>&nbsp;</td><td>cd&nbsp;</td></tr></tbody></table>");
     }
 
     /**

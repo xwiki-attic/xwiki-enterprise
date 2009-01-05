@@ -25,5 +25,5 @@
 
 1 Entries for category $category
 
-#includeMacros("Blog.Macros")
+#includeTopic("Blog.Macros")
 </content></xwikidoc>

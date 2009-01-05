@@ -64,7 +64,7 @@ Find below all the recent news from the site blog and from the list of pages tha
       #set($nbstart = $request.nbstart)
       #set($category = "")
       #set($nbitems = "3")
-      #includeMacros("Blog.Macros")
+      #includeTopic("Blog.Macros")
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div id="webhomeNewsdisplay" style="float:left; width: 50.1%;"&gt;

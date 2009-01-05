@@ -56,7 +56,7 @@
 #set($nbstart = $request.nbstart)
 #set($category = "")
 #set($nbitems = "10")
-#includeMacros("Blog.Macros")
+#includeTopic("Blog.Macros")
 
 1.1 Add an Article
 

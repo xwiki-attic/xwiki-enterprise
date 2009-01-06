@@ -29,7 +29,12 @@ public class WebDAVTest extends TestCase
     /**
      * Root of the webdav server.
      */
-    private static final String ROOT_URL = "http://localhost:8080/xwiki/webdav";
+    private static final String ROOT = "http://localhost:8080/xwiki/webdav";
+    
+    /**
+     * location of the spaces view.
+     */
+    private static final String SPACES = ROOT + "/spaces";
 
     /**
      * The {@link HttpClient} used to invoke various methods on the webdav server.
@@ -56,7 +61,7 @@ public class WebDAVTest extends TestCase
      */
     public void testPropFind()
     {
-        PropFindMethod propFindMethod = new PropFindMethod(ROOT_URL);
+        PropFindMethod propFindMethod = new PropFindMethod(ROOT);
         propFindMethod.setDoAuthentication(true);
         propFindMethod.setDepth(PropFindMethod.DEPTH_1);
         try {
@@ -74,7 +79,7 @@ public class WebDAVTest extends TestCase
      */
     public void testCreateAndDeleteSpace()
     {
-        String spaceUrl = ROOT_URL + "/pages/TestSpace";
+        String spaceUrl = SPACES + "/TestSpace";
         DeleteMethod deleteMethod = new DeleteMethod();
         deleteMethod.setDoAuthentication(true);
         MkcolMethod mkColMethod = new MkcolMethod();
@@ -100,9 +105,9 @@ public class WebDAVTest extends TestCase
      */
     public void testRenameSpace()
     {
-        String spaceUrl = ROOT_URL + "/pages/TestSpace";
-        String relativeDestinationPath = "/xwiki/webdav/pages/RenamedTestSpace";
-        String movedSpaceUrl = ROOT_URL + "/pages/RenamedTestSpace";
+        String spaceUrl = SPACES + "/TestSpace";
+        String relativeDestinationPath = "/xwiki/webdav/spaces/RenamedTestSpace";
+        String movedSpaceUrl = SPACES + "/RenamedTestSpace";
         DeleteMethod deleteMethod = new DeleteMethod();
         deleteMethod.setDoAuthentication(true);
         MkcolMethod mkColMethod = new MkcolMethod();
@@ -136,7 +141,7 @@ public class WebDAVTest extends TestCase
      */
     public void testCreateAndDeletePage()
     {
-        String spaceUrl = ROOT_URL + "/pages/TestSpace";
+        String spaceUrl = SPACES + "/TestSpace";
         String pageUrl = spaceUrl + "/TestPage";
         DeleteMethod deleteMethod = new DeleteMethod();
         deleteMethod.setDoAuthentication(true);
@@ -168,7 +173,7 @@ public class WebDAVTest extends TestCase
      */
     public void testGetPageWikiContent()
     {
-        String spaceUrl = ROOT_URL + "/pages/TestSpace";
+        String spaceUrl = SPACES + "/TestSpace";
         String pageUrl = spaceUrl + "/TestPage";
         String wikiTextFileUrl = pageUrl + "/wiki.txt";
         String wikiXMLFileUrl = pageUrl + "/wiki.xml";
@@ -210,7 +215,7 @@ public class WebDAVTest extends TestCase
      */
     public void testUpdatePageWikiContent()
     {
-        String spaceUrl = ROOT_URL + "/pages/TestSpace";
+        String spaceUrl = SPACES + "/TestSpace";
         String pageUrl = spaceUrl + "/TestPage";
         String wikiTextFileUrl = pageUrl + "/wiki.txt";
         String wikiXMLFileUrl = pageUrl + "/wiki.xml";
@@ -265,7 +270,7 @@ public class WebDAVTest extends TestCase
      */
     public void testMakingAttachment()
     {
-        String spaceUrl = ROOT_URL + "/pages/TestSpace";
+        String spaceUrl = SPACES + "/TestSpace";
         String pageUrl = spaceUrl + "/TestPage";
         String attachmentUrl = pageUrl + "/attachment.txt";
         String attachmentContent = "Attachment Content";

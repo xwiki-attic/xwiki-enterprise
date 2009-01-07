@@ -105,7 +105,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <browser>*chrome /home/asiri/software/firefox-selenium/firefox-bin</browser>
+        <browser>*chrome</browser>
       </properties>
     </profile>
   </profiles>

@@ -190,7 +190,6 @@
     -->
     <pattern>.*</pattern>
     <port>8080</port>
-    <openOfficeExecutable>/usr/bin/openoffice.org</openOfficeExecutable>
   </properties>
   <profiles>
     <profile>

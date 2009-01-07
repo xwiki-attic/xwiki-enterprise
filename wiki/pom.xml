@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
@@ -44,6 +45,12 @@
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-blog</artifactId>
       <version>${platform.blog.version}</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-officeimporter</artifactId>
+      <version>${platform.officeimporter.version}</version>
       <type>xar</type>
     </dependency>
   </dependencies>

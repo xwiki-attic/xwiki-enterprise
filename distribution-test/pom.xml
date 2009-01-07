@@ -172,6 +172,11 @@
                 <name>pathToXWikiXar</name>
                 <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${pom.version}/xwiki-enterprise-wiki-${pom.version}.xar</value>
               </property>
+              <!-- Used only in office importer tests -->
+              <property>
+                <name>openOfficeExecutable</name>
+                <value>${openOfficeExecutable}</value>
+              </property>
             </systemProperties>
           </configuration>
         </plugin>
@@ -185,6 +190,7 @@
     -->
     <pattern>.*</pattern>
     <port>8080</port>
+    <openOfficeExecutable>/usr/bin/openoffice.org</openOfficeExecutable>
   </properties>
   <profiles>
     <profile>

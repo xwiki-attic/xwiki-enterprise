@@ -38,7 +38,7 @@
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
       <version>${platform.core.version}</version>
-      <classifier>tests</classifier>
+      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -51,7 +51,7 @@
       <groupId>com.xpn.xwiki.products</groupId>
       <artifactId>xwiki-enterprise-test-selenium</artifactId>
       <version>${pom.version}</version>
-      <classifier>tests</classifier>
+      <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <!-- Needed at test time. Some versions of Maven don't inherit provided dependencies. -->

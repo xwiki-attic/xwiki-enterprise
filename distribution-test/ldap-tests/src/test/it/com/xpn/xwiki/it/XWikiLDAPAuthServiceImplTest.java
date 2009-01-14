@@ -195,6 +195,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.userClass.addTextField("last_name", "Last Name", 30);
         this.userClass.addTextField("email", "e-Mail", 30);
         this.userClass.addPasswordField("password", "Password", 10);
+        this.userClass.addTextField("customproperty", "Custom property", 10);
 
         mockXWiki.stubs().method("getUserClass").will(returnValue(this.userClass));
 
@@ -467,5 +468,18 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_SN, userProfileObj.getStringValue("last_name"));
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_GIVENNAME, userProfileObj.getStringValue("first_name"));
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_MAIL, userProfileObj.getStringValue("email"));
+        
+        // Check non mapped properties are not touched
+        
+        userProfileObj.setStringValue("customproperty", "customvalue");
+        
+        testAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+        
+        userProfile = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
+
+        userProfileObj = userProfile.getObject(USER_XCLASS);
+        
+        assertEquals("customvalue", userProfileObj.getStringValue("customproperty"));
     }
 }

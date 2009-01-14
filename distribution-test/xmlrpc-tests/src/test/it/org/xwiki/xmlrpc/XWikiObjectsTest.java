@@ -23,6 +23,7 @@ package org.xwiki.xmlrpc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.xwiki.xmlrpc.model.XWikiObject;
 import org.xwiki.xmlrpc.model.XWikiObjectSummary;
 import org.xwiki.xmlrpc.model.XWikiPage;
@@ -222,4 +223,35 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         assertTrue(tags.contains("VERSION1"));
     }
 
+    public void testGetObjectByGuid() throws XmlRpcException
+    {
+        List<XWikiObjectSummary> objectSummaries = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
+
+        TestUtils.banner("getObjectByGuid()");
+        System.out.format("%s\n", objectSummaries);
+
+        XWikiObject object = rpc.getObject(TestConstants.TEST_PAGE_WITH_OBJECTS, objectSummaries.get(0).getGuid());
+        System.out.format("Guid '%s': %s\n", objectSummaries.get(0).getGuid(), object);
+
+        assertTrue(object.getGuid().equals(objectSummaries.get(0).getGuid()));
+    }
+
+    public void testOverrideObjectGuid() throws XmlRpcException
+    {
+        final String GUID = "overridden-guid";
+
+        List<XWikiObjectSummary> objectSummaries = rpc.getObjects(TestConstants.TEST_PAGE_WITH_OBJECTS);
+
+        TestUtils.banner("getOverrideObjectGuid()");
+
+        XWikiObject object = rpc.getObject(TestConstants.TEST_PAGE_WITH_OBJECTS, objectSummaries.get(0).getGuid());
+        object.setGuid(GUID);
+        rpc.storeObject(object);
+
+        object = rpc.getObject(TestConstants.TEST_PAGE_WITH_OBJECTS, GUID);
+
+        System.out.format("%s\n", object);
+
+        assertTrue(object.getGuid().equals(GUID));
+    }
 }

@@ -109,8 +109,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
         // Switch the document to xwiki/2.0 syntax if needed
         if (!getSelenium().getValue("syntaxId").equals("xwiki/2.0")) {
+            // The syntax can be changed only from Wiki mode at this point.
+            clickLinkWithText("Wiki");
             setFieldValue("syntaxId", "xwiki/2.0");
             clickEditSaveAndContinue();
+            // We changed the syntax. Let's go back to WYSIWYG mode.
+            clickLinkWithText("WYSIWYG");
         }
 
         // Focus on the XWiki window (Seems not to work, at least on Linux and OSX)
@@ -451,9 +455,23 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         pushButton("//div[@title='Undo (CTRL+Z)']");
     }
 
+    public void clickUndoButton(int count)
+    {
+        for (int i = 0; i < count; i++) {
+            clickUndoButton();
+        }
+    }
+
     public void clickRedoButton()
     {
         pushButton("//div[@title='Redo (CTRL+Y)']");
+    }
+
+    public void clickRedoButton(int count)
+    {
+        for (int i = 0; i < count; i++) {
+            clickRedoButton();
+        }
     }
 
     public void clickSymbolButton()

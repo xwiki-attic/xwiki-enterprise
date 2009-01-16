@@ -449,4 +449,23 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWikiEditor();
         assertEquals("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld", getFieldValue("content"));
     }
+
+    /**
+     * Basic integration test for the history mechanism.
+     */
+    public void testUndoRedo()
+    {
+        typeText("alice bob");
+        typeTab();
+        typeText("carol");
+        clickSymbolButton();
+        getSelenium().click("//div[@title='copyright sign']");
+        applyStyleTitle1();
+        clickUndoButton(4);
+        assertXHTML("alice bob<br class=\"emptyLine\">");
+        clickUndoButton(3);
+        assertXHTML("<br class=\"emptyLine\">");
+        clickRedoButton(7);
+        assertXHTML("<h1>alice bob&nbsp;&nbsp;&nbsp; carol©<br class=\"emptyLine\"></h1>");
+    }
 }

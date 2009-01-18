@@ -466,6 +466,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickUndoButton(3);
         assertXHTML("<br class=\"emptyLine\">");
         clickRedoButton(7);
-        assertXHTML("<h1>alice bob&nbsp;&nbsp;&nbsp; carol©<br class=\"emptyLine\"></h1>");
+        assertXHTML("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br class=\"emptyLine\"></h1>");
     }
 }

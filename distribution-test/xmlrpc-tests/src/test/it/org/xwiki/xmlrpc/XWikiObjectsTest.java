@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.model.XWikiClassSummary;
 import org.xwiki.xmlrpc.model.XWikiObject;
 import org.xwiki.xmlrpc.model.XWikiObjectSummary;
 import org.xwiki.xmlrpc.model.XWikiPage;
@@ -253,5 +254,18 @@ public class XWikiObjectsTest extends AbstractXWikiXmlRpcTest
         System.out.format("%s\n", object);
 
         assertTrue(object.getGuid().equals(GUID));
+    }
+    
+    public void testCreateEmptyObjectsFromAllClasses() throws XmlRpcException {
+        TestUtils.banner("createEmptyObjectsFromAllClasses()");
+        
+        List<XWikiClassSummary> xwikiClasses = rpc.getClasses();
+        for (XWikiClassSummary cs : xwikiClasses) {
+            System.out.format("Storing object for class %s\n", cs.getId());
+            XWikiObject object = new XWikiObject();
+            object.setPageId(TestConstants.TEST_PAGE_WITH_OBJECTS);
+            object.setClassName(cs.getId());
+            rpc.storeObject(object);
+        }     
     }
 }

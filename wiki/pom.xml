@@ -58,5 +58,11 @@
       <version>${platform.webdav.version}</version>
       <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-tag</artifactId>
+      <version>${platform.tag.version}</version>
+      <type>xar</type>
+    </dependency>
   </dependencies>
 </project>

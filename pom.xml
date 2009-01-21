@@ -69,6 +69,7 @@
     <platform.plugin.skinx.version>1.6-SNAPSHOT</platform.plugin.skinx.version>
     <platform.officeimporter.version>1.1-SNAPSHOT</platform.officeimporter.version>
     <platform.webdav.version>1.1-SNAPSHOT</platform.webdav.version>
+    <platform.tag.version>1.0-SNAPSHOT</platform.tag.version>
   </properties>
   <profiles>
     <profile>

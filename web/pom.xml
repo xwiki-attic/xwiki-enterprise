@@ -66,6 +66,11 @@
       <artifactId>xwiki-plugin-skinx</artifactId>
       <version>${platform.plugin.skinx.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.plugins</groupId>
+      <artifactId>xwiki-plugin-tag</artifactId>
+      <version>${platform.tag.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -97,7 +102,6 @@
               <properties>
                 <xwikiCfgPlugins>\
                     com.xpn.xwiki.monitor.api.MonitorPlugin,\
-                    com.xpn.xwiki.plugin.calendar.CalendarPlugin,\
                     com.xpn.xwiki.plugin.skinx.JsSkinExtensionPlugin,\
                     com.xpn.xwiki.plugin.skinx.CssSkinExtensionPlugin,\
                     com.xpn.xwiki.plugin.feed.FeedPlugin,\
@@ -123,7 +127,8 @@
                     com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
                     com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
                     com.xpn.xwiki.plugin.watchlist.WatchListPlugin, \
-                    com.xpn.xwiki.wysiwyg.server.plugin.WysiwygPlugin
+                    com.xpn.xwiki.wysiwyg.server.plugin.WysiwygPlugin, \
+                    com.xpn.xwiki.plugin.tag.TagPlugin
                 </xwikiCfgPlugins>
                 <xwikiCfgDefaultSkin>toucan</xwikiCfgDefaultSkin>
                 <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>

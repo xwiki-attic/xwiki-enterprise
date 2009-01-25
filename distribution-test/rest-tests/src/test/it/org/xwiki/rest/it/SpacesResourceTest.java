@@ -21,13 +21,12 @@ package org.xwiki.rest.it;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.rest.Utils;
 import org.xwiki.rest.model.Link;
 import org.xwiki.rest.model.Relations;
 import org.xwiki.rest.model.Spaces;
 import org.xwiki.rest.model.Wiki;
 import org.xwiki.rest.model.Wikis;
-import org.xwiki.rest.resources.WikisResource;
+import org.xwiki.rest.resources.wikis.WikisResource;
 
 public class SpacesResourceTest extends AbstractHttpTest
 {
@@ -35,8 +34,7 @@ public class SpacesResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testRepresentation()");
 
-        GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(WikisResource.class))));
+        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
         assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
         TestUtils.printHttpMethodInfo(getMethod);
 
@@ -54,5 +52,7 @@ public class SpacesResourceTest extends AbstractHttpTest
         Spaces spaces = (Spaces) xstream.fromXML(getMethod.getResponseBodyAsString());
 
         assertTrue(spaces.getSpaceList().size() > 0);
+
+        checkLinks(spaces);
     }
 }

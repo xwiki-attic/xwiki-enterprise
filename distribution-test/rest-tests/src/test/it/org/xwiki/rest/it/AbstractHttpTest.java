@@ -22,16 +22,22 @@ package org.xwiki.rest.it;
 import java.util.Random;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.restlet.data.MediaType;
 import org.xwiki.rest.XWikiResource;
+import org.xwiki.rest.model.Link;
+import org.xwiki.rest.model.LinkCollection;
+import org.xwiki.rest.model.Wikis;
 import org.xwiki.rest.model.XStreamFactory;
+import org.xwiki.rest.resources.wikis.WikisResource;
 
 import com.thoughtworks.xstream.XStream;
 import com.xpn.xwiki.test.AbstractXWikiComponentTestCase;
@@ -74,6 +80,26 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         httpClient.getParams().setAuthenticationPreemptive(true);
 
         return executeGet(uri);
+    }
+
+    protected PostMethod executePost(String uri, Object object) throws Exception
+    {
+        PostMethod postMethod = new PostMethod(uri);
+        RequestEntity entity =
+            new StringRequestEntity(xstream.toXML(object), MediaType.APPLICATION_XML.toString(), "UTF-8");
+        postMethod.setRequestEntity(entity);
+
+        httpClient.executeMethod(postMethod);
+
+        return postMethod;
+    }
+
+    protected PostMethod executePost(String uri, Object object, String userName, String password) throws Exception
+    {
+        httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
+        httpClient.getParams().setAuthenticationPreemptive(true);
+
+        return executePost(uri, object);
     }
 
     protected PutMethod executePut(String uri, Object object) throws Exception
@@ -124,4 +150,28 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return uriPattern;
     }
 
+    public String getWiki() throws Exception
+    {
+        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
+        assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Wikis wikis = (Wikis) xstream.fromXML(getMethod.getResponseBodyAsString());
+        assertTrue(wikis.getWikiList().size() > 0);
+
+        return wikis.getWikiList().get(0).getName();
+    }
+
+    public void checkLinks(LinkCollection linkCollection) throws Exception
+    {
+        System.out.format("Checking links...\n");
+        if (linkCollection.getLinks() != null) {
+            for (Link link : linkCollection.getLinks()) {
+                System.out.format("Relation '%s': ", link.getRel());
+                GetMethod getMethod = executeGet(link.getHref());
+                assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+                TestUtils.printHttpMethodInfo(getMethod);
+            }
+        }
+    }
 }

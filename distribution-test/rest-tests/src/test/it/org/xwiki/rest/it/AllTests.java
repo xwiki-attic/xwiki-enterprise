@@ -19,11 +19,11 @@
  */
 package org.xwiki.rest.it;
 
-import com.xpn.xwiki.test.XWikiTestSetup;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
  * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
@@ -43,6 +43,7 @@ public class AllTests extends TestCase
         addTestCase(suite, SpacesResourceTest.class);
         addTestCase(suite, PagesResourceTest.class);
         addTestCase(suite, PageResourceTest.class);
+        addTestCase(suite, CommentsResourceTest.class);
         return new XWikiTestSetup(suite);
     }
 

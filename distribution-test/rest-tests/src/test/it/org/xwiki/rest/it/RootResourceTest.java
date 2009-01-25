@@ -21,7 +21,6 @@ package org.xwiki.rest.it;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.rest.Utils;
 import org.xwiki.rest.model.Link;
 import org.xwiki.rest.model.Relations;
 import org.xwiki.rest.model.XWikiRoot;
@@ -33,8 +32,7 @@ public class RootResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testRepresentation()");
 
-        GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(RootResource.class))));
+        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(RootResource.class)));
         assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
         TestUtils.printHttpMethodInfo(getMethod);
 
@@ -45,5 +43,7 @@ public class RootResourceTest extends AbstractHttpTest
 
         link = xwikiRoot.getFirstLinkByRelation(Relations.WADL);
         assertNotNull(link);
+
+        checkLinks(xwikiRoot);
     }
 }

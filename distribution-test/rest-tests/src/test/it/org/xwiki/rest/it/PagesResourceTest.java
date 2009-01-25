@@ -21,7 +21,6 @@ package org.xwiki.rest.it;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.rest.Utils;
 import org.xwiki.rest.model.Link;
 import org.xwiki.rest.model.Pages;
 import org.xwiki.rest.model.Relations;
@@ -29,7 +28,7 @@ import org.xwiki.rest.model.Space;
 import org.xwiki.rest.model.Spaces;
 import org.xwiki.rest.model.Wiki;
 import org.xwiki.rest.model.Wikis;
-import org.xwiki.rest.resources.WikisResource;
+import org.xwiki.rest.resources.wikis.WikisResource;
 
 public class PagesResourceTest extends AbstractHttpTest
 {
@@ -37,8 +36,7 @@ public class PagesResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testRepresentation()");
 
-        GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(WikisResource.class))));
+        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
         assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
         TestUtils.printHttpMethodInfo(getMethod);
 
@@ -66,6 +64,8 @@ public class PagesResourceTest extends AbstractHttpTest
 
         Pages pages = (Pages) xstream.fromXML(getMethod.getResponseBodyAsString());
         assertTrue(pages.getPageSummaryList().size() > 0);
+
+        checkLinks(pages);
     }
 
 }

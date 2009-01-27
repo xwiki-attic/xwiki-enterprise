@@ -468,4 +468,18 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickRedoButton(7);
         assertXHTML("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br class=\"emptyLine\"></h1>");
     }
+
+    /**
+     * @see XWIKI-3138: WYSIWYG 2.0 Preview Error
+     */
+    public void testPreview()
+    {
+        typeText("x");
+        selectAllContent();
+        clickBoldButton();
+        clickEditPreview();
+        clickBackToEdit();
+        switchToWikiEditor();
+        assertEquals("**x**", getFieldValue("content"));
+    }
 }

@@ -24,6 +24,7 @@
     <res id="HTMLInfoPanel.info" src="${xwiki.readme}"/>
     <res id="shortcutSpec.xml" src="${xwiki.shortcutSpec.windows}"/>
     <res id="Unix_shortcutSpec.xml" src="${xwiki.shortcutSpec.unix}"/>
+    <res id="RegistrySpec.xml" src="${xwiki.registrySpec}" />
     <res id="installer.langsel.img" src="${xwiki.png}" />
     <res id="Installer.image.0" src="${xwiki.border1.png}" />
     <res id="Installer.image.1" src="${xwiki.border2.png}" />
@@ -46,6 +47,12 @@
     <panel classname="ShortcutPanel" id="shortcutpanel"/>
     <panel classname="FinishPanel" id="finishpanel"/>
   </panels>
+  <listeners>
+    <!-- Add support for installing/uninstalling through the Windows Install Control Panel location -->
+    <listener installer="RegistryInstallerListener" uninstaller="RegistryUninstallerListener">
+      <os family="windows"/>
+    </listener>
+  </listeners>
   <packs>
     <pack name="Core" required="yes">
       <description>The core files</description>
@@ -67,5 +74,11 @@
     </pack>
   </packs>
   <!-- The native libraries to add. This is required for creating shortcuts on Windows -->
-  <native type="izpack" name="ShellLink.dll"/>
+  <native type="izpack" name="ShellLink.dll">
+    <os family="windows"/>
+  </native>
+  <!-- In addition add support for proper Windows registry support  -->
+  <native type="3rdparty" name="COIOSHelper.dll" stage="both">
+    <os family="windows"/>
+  </native>
 </installation>

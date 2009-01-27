@@ -39,8 +39,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     private static final String WYSIWYG_LOCATOR_FOR_HTML_CONTENT = "content";
 
-    private static final String WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT = "title";
-
     private static final String XWINDOWFOCUS_BINARY = "/home/maven/xwindowfocus";
 
     private class StreamRedirector extends Thread
@@ -173,12 +171,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         runScript("XWE.body.innerHTML = '" + html + "';");
         // Give the focus to the RTE so that it takes the modification into account.
         runScript("XWE.focus();");
-        // The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input
-        // which is updated each time the rich text area looses the focus. Let's update this hidden input by clicking
-        // outside of the rich text area.
-        getSelenium().clickAt(WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT, "0,0");
-        // Give the focus back to the RTE
-        runScript("XWE.focus();");
+        updateRichTextAreaFormField();
     }
 
     /**
@@ -489,6 +482,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         pushButton("//div[@title='Inserts a new table']");
     }
 
+    public void clickBackToEdit()
+    {
+        submit("//button[text()='Back To Edit']");
+    }
+
     public void applyStyle(String style)
     {
         getSelenium().select("//select[@title=\"Apply Style\"]", style);
@@ -544,27 +542,42 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void assertXHTML(String xhtml)
     {
-        // The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input
-        // which is updated each time the rich text area looses the focus. Let's update this hidden input by clicking
-        // outside of the rich text area.
-        getSelenium().clickAt(WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT, "0,0");
-        // System.err.println("\n*********** ASSERTXHTMLDEBUG : " + getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT) + "\n");
+        updateRichTextAreaFormField();
         Assert.assertEquals(xhtml, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT));
-        // Give the focus back to the RTE
-        runScript("XWE.focus();");
     }
 
     public void switchToWikiEditor()
     {
-        // The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input
-        // which is updated each time the rich text area looses the focus. Let's update this hidden input by clicking
-        // outside of the rich text area.
-        getSelenium().clickAt(WYSIWYG_LOCATOR_TO_CLICK_FOR_BLUR_EVENT, "0,0");
+        updateRichTextAreaFormField();
         clickLinkWithText("Wiki", true);
     }
 
     public void switchToWysiwygEditor()
     {
         clickLinkWithText("WYSIWYG", true);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractXWikiTestCase#clickEditPreview()
+     */
+    public void clickEditPreview()
+    {
+        updateRichTextAreaFormField();
+        super.clickEditPreview();
+    }
+
+    /**
+     * The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input which
+     * is updated each time the rich text area looses the focus. Let's update this hidden input by clicking outside of
+     * the rich text area.
+     */
+    public void updateRichTextAreaFormField()
+    {
+        // Blur the rich text area.
+        getSelenium().clickAt("title", "0,0");
+        // Give the focus back.
+        runScript("XWE.focus();");
     }
 }

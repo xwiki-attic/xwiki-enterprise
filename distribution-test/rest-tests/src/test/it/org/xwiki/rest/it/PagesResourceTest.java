@@ -37,7 +37,7 @@ public class PagesResourceTest extends AbstractHttpTest
         TestUtils.banner("testRepresentation()");
 
         GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
-        assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
         Wikis wikis = (Wikis) xstream.fromXML(getMethod.getResponseBodyAsString());
@@ -48,7 +48,7 @@ public class PagesResourceTest extends AbstractHttpTest
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
         Spaces spaces = (Spaces) xstream.fromXML(getMethod.getResponseBodyAsString());
@@ -59,7 +59,7 @@ public class PagesResourceTest extends AbstractHttpTest
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
         Pages pages = (Pages) xstream.fromXML(getMethod.getResponseBodyAsString());

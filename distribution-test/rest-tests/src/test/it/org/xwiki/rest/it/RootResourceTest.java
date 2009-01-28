@@ -33,7 +33,7 @@ public class RootResourceTest extends AbstractHttpTest
         TestUtils.banner("testRepresentation()");
 
         GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(RootResource.class)));
-        assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
         XWikiRoot xwikiRoot = (XWikiRoot) xstream.fromXML(getMethod.getResponseBodyAsString());

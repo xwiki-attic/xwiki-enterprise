@@ -153,7 +153,7 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
     public String getWiki() throws Exception
     {
         GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
-        assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
         Wikis wikis = (Wikis) xstream.fromXML(getMethod.getResponseBodyAsString());
@@ -169,7 +169,7 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
             for (Link link : linkCollection.getLinks()) {
                 System.out.format("Relation '%s': ", link.getRel());
                 GetMethod getMethod = executeGet(link.getHref());
-                assertTrue(getMethod.getStatusCode() == HttpStatus.SC_OK);
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
             }
         }

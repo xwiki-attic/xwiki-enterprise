@@ -43,6 +43,7 @@
   </dependencies>
   <build>
     <resources>
+      <!-- Filter only install.xml since it contains maven properties to expand. -->
       <resource>
         <directory>${basedir}/src/main/resources</directory>
         <includes>
@@ -50,6 +51,7 @@
         </includes>
         <filtering>true</filtering>
       </resource>
+      <!-- Don't filter resources other than install.xml since it's not required and some are binary files -->
       <resource>
         <directory>${basedir}/src/main/resources</directory>
         <excludes>
@@ -99,14 +101,23 @@
             </goals>
             <configuration>
               <artifactItems>
+                <!-- Expand Jetty startup/stop scripts in the container root directory -->
+                <artifactItem>
+                  <groupId>com.xpn.xwiki.platform.tools</groupId>
+                  <artifactId>xwiki-jetty-resources</artifactId>
+                  <version>${platform.tool.jetty.version}</version>
+                  <outputDirectory>${xwiki.container}</outputDirectory>
+                  <!-- Only extract shell scripts -->
+                  <includes>**/*.sh,**/*.bat</includes>
+                </artifactItem>
+                <!-- Expand other Jetty container files into the Jetty directory -->
                 <artifactItem>
                   <groupId>com.xpn.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
                   <outputDirectory>${xwiki.container}/jetty</outputDirectory>
-                  <!-- Note: This the Dependency plugin doesn't support includes/excludes we
-                       copy all the jetty resources in the jetty/ dir and then using the AntRun
-                       plugin below we move all shell scripts file into the root. -->
+                  <!-- Extracts everything excepts shell scripts -->
+                  <excludes>**/*.sh,**/*.bat</excludes>
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
@@ -115,11 +126,8 @@
                   <type>war</type>
                   <outputDirectory>${xwiki.container}/webapps/xwiki</outputDirectory>
                   <!-- Exclude default Hibernate config file since we're instead using one with the
-                       selected database configuration defined.
-                       NOTE: This is only supported by version 2.0-alpha-5 and above of the Dependency plugin which is
-                       why we are using the AntRun plugin below to remove the Hibernate config file. Uncomment when
-                       the 2.0-alpha-5 release is out. -->
-                  <!--excludes>**/hibernate.cfg.xml</excludes-->
+                       selected database configuration defined. -->
+                  <excludes>**/hibernate.cfg.xml</excludes>
                 </artifactItem>
                 <artifactItem>
                   <groupId>com.xpn.xwiki.platform.tools</groupId>
@@ -152,49 +160,6 @@
                   <outputDirectory>${xwiki.container}/webapps/xwiki/WEB-INF/lib</outputDirectory>
                 </artifactItem>
               </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <!-- The Dependency plugin only supports excluding files in version 2.0-alpha-5 and above
-             and at this time the latest released version is 2.0-alpha-4. Thus we need to perform
-             this hack to remove the Hibernate config file and to move the jetty shell script files.
-             We want to remove it since we want to use one we provide that has the HSQLDB database
-             set up by default. Remove this when version 2.0-alpha-5 is released. -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>mkdirs</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <mkdir dir="${xwiki.database}" />
-                <mkdir dir="${xwiki.container}/jetty" />
-                <mkdir dir="${xwiki.container}/webapps/xwiki" />
-              </tasks>
-            </configuration>
-          </execution>
-          <execution>
-            <id>mvscripts</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <delete file="${xwiki.container}/webapps/xwiki/WEB-INF/hibernate.cfg.xml" />
-                <move todir="${xwiki.container}">
-                  <fileset dir="${xwiki.container}/jetty">
-                    <include name="**/*.sh" />
-                    <include name="**/*.bat" />
-                  </fileset>
-                </move>
-              </tasks>
             </configuration>
           </execution>
         </executions>

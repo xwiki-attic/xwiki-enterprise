@@ -106,6 +106,7 @@
                   <groupId>com.xpn.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
+                  <type>zip</type>
                   <outputDirectory>${xwiki.container}</outputDirectory>
                   <!-- Only extract shell scripts -->
                   <includes>**/*.sh,**/*.bat</includes>
@@ -115,7 +116,8 @@
                   <groupId>com.xpn.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
-                  <outputDirectory>${xwiki.container}/jetty</outputDirectory>
+                  <type>zip</type>
+                  <outputDirectory>${xwiki.container}</outputDirectory>
                   <!-- Extracts everything excepts shell scripts -->
                   <excludes>**/*.sh,**/*.bat</excludes>
                 </artifactItem>

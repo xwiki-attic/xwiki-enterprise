@@ -61,7 +61,8 @@
 ## the Javascript we're using for filtering/sorting columns. It might work in FF but will break
 ## in other browsers like IE. This is because empty lines add &lt;p class="paragraph"&gt;&lt;/p&gt; elements
 ## when rendered.
-
+$xwiki.ssfx.use("js/xwiki/table/table.css")
+$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js")
 &lt;table id="searchTableUnique" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
     &lt;th&gt;Page&lt;/th&gt;

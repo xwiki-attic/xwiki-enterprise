@@ -62,7 +62,7 @@
 ## in other browsers like IE. This is because empty lines add &lt;p class="paragraph"&gt;&lt;/p&gt; elements
 ## when rendered.
 $xwiki.ssfx.use("js/xwiki/table/table.css")
-$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js")
+$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 &lt;table id="searchTableUnique" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
     &lt;th&gt;Page&lt;/th&gt;

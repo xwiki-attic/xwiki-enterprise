@@ -44,6 +44,7 @@ public class AllTests extends TestCase
         addTestCase(suite, PagesResourceTest.class);
         addTestCase(suite, PageResourceTest.class);
         addTestCase(suite, CommentsResourceTest.class);
+        addTestCase(suite, AttachmentsResourceTest.class);
         return new XWikiTestSetup(suite);
     }
 

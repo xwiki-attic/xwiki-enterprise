@@ -122,6 +122,25 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return executePut(uri, object);
     }
 
+    protected PutMethod executePlainPut(String uri, String string) throws Exception
+    {
+        PutMethod putMethod = new PutMethod(uri);
+        RequestEntity entity = new StringRequestEntity(string, MediaType.TEXT_PLAIN.toString(), "UTF-8");
+        putMethod.setRequestEntity(entity);
+
+        httpClient.executeMethod(putMethod);
+
+        return putMethod;
+    }
+
+    protected PutMethod executePlainPut(String uri, String string, String userName, String password) throws Exception
+    {
+        httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
+        httpClient.getParams().setAuthenticationPreemptive(true);
+
+        return executePlainPut(uri, string);
+    }
+
     protected DeleteMethod executeDelete(String uri) throws Exception
     {
         DeleteMethod deleteMethod = new DeleteMethod(uri);

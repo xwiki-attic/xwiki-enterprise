@@ -48,7 +48,7 @@ public class CommentsResourceTest extends AbstractHttpTest
         /* Everything is done in test methods */
     }
 
-    public void testCreateComments() throws Exception
+    public void testPOSTComment() throws Exception
     {
         TestUtils.banner("testCreateComments()");
 
@@ -87,7 +87,7 @@ public class CommentsResourceTest extends AbstractHttpTest
         assertEquals(numberOfComments + 1, comments.getCommentList().size());
     }
 
-    public void testGetComment() throws Exception
+    public void testGETComment() throws Exception
     {
         TestUtils.banner("testGetComment()");
 
@@ -112,7 +112,7 @@ public class CommentsResourceTest extends AbstractHttpTest
         }
     }
 
-    public void testCommentsAtPreviousVersions() throws Exception
+    public void testGETCommentsAtPreviousVersions() throws Exception
     {
         TestUtils.banner("testCommentsAtPreviousVersions");
 

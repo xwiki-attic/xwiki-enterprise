@@ -254,7 +254,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testHR()
     {
         clickHRButton();
-        assertXHTML("<hr>");
+        // We don't switch to Wiki because we want to see if the Backspace works.
+        assertXHTML("<hr><br class=\"emptyLine\">");
 
         typeBackspaces(2);
         testEmptyWysiwyg();
@@ -281,7 +282,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().click("//div[@title='Close']");
         clickSymbolButton();
         getSelenium().click("//div[@title='registered sign']");
-        assertXHTML("\u00A9\u00AE");
+        switchToWikiEditor();
+        assertEquals("\u00A9\u00AE", getFieldValue("content"));
     }
 
     /**
@@ -385,8 +387,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("d");
         typeShiftTab(4);
         typeText("e");
-        assertXHTML("<table><thead><tr><th>e ab</th><th>&nbsp;</th></tr></thead>"
-            + "<tbody><tr><td>&nbsp;</td><td>cd&nbsp;</td></tr></tbody></table>");
+        switchToWikiEditor();
+        assertEquals("|=e ab|= \n| |cd ", getFieldValue("content"));
     }
 
     /**
@@ -481,5 +483,67 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickBackToEdit();
         switchToWikiEditor();
         assertEquals("**x**", getFieldValue("content"));
+    }
+
+    /**
+     * Creates two paragraphs, makes a selection that spans both paragraphs and then presses Enter.
+     */
+    public void testEnterOnCrossParagraphSelection()
+    {
+        // Creates the two paragraphs.
+        typeText("ab");
+        applyStyleParagraph();
+        typeEnter(2);
+        typeText("cd");
+
+        // Make a cross paragraph selection.
+        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(XWE.body.firstChild.firstChild, 1);\n"
+            + "range.setEnd(XWE.body.lastChild.firstChild, 1);");
+
+        // Press Enter.
+        typeEnter();
+        switchToWikiEditor();
+        assertEquals("a\nd", getFieldValue("content"));
+    }
+
+    /**
+     * Inserts a table, types some text in each cell, makes a selection that spans some table cells and then presses
+     * Enter.
+     */
+    public void testEnterOnCrossTableCellSelection()
+    {
+        // Insert the table.
+        clickInsertTableButton();
+        getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
+
+        // Fill the table.
+        typeText("ab");
+        typeTab();
+        typeText("cd");
+
+        // Make a cross table cell selection.
+        runScript("var range = XWE.selection.getRangeAt(0);\n"
+            + "range.setStart(XWE.body.firstChild.rows[0].cells[0].lastChild, 1);\n"
+            + "range.setEnd(XWE.body.firstChild.rows[0].cells[1].firstChild, 1);");
+
+        // Press Enter.
+        typeEnter();
+        typeText("x");
+        switchToWikiEditor();
+        assertEquals("|= a\nx|=d \n| | ", getFieldValue("content"));
+    }
+
+    /**
+     * @see XWIKI-2993: Insert horizontal line on a selection of unordered list.
+     */
+    public void testInsertHRInPlaceOfASelectedList()
+    {
+        typeTextThenEnter("foo");
+        typeText("bar");
+        selectAllContent();
+        clickUnorderedListButton();
+        clickHRButton();
+        switchToWikiEditor();
+        assertEquals("----", getFieldValue("content"));
     }
 }

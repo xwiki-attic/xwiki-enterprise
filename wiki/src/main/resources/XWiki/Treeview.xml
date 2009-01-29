@@ -90,11 +90,12 @@
   #end
   &lt;/results&gt;
 #else
-&lt;script type='text/javascript' src='$xwiki.getSkinFile("js/yui/yahoo/yahoo-min.js")' &gt;&lt;/script&gt;
-&lt;script type='text/javascript' src='$xwiki.getSkinFile("js/yui/treeview/treeview-min.js")' &gt;&lt;/script&gt;
-&lt;script type='text/javascript' src='$xwiki.getSkinFile("js/yui/treeview/checknode.js")' &gt;&lt;/script&gt;
-&lt;script type='text/javascript' src='$xwiki.getSkinFile("js/yui/event/event-min.js")' &gt;&lt;/script&gt;
-&lt;script type='text/javascript' src='$xwiki.getSkinFile("js/yui/connection/connection-min.js")' &gt;&lt;/script&gt;
+$xwiki.ssfx.use("js/yui/treeview/assets/tree.css")
+$xwiki.jsfx.use("js/yui/yahoo/yahoo-min.js")
+$xwiki.jsfx.use("js/yui/treeview/treeview-min.js")
+$xwiki.jsfx.use("js/yui/treeview/checknode.js")
+$xwiki.jsfx.use("js/yui/event/event-min.js")
+$xwiki.jsfx.use("js/yui/connection/connection-min.js")
 &lt;div id="treeview"&gt;&lt;/div&gt;
 {pre}
 &lt;script type="text/javascript"&gt;

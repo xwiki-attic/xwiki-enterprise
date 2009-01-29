@@ -257,7 +257,9 @@ var ta = new ASSTable("$url", 15, "display1", "scrollbar1", "allfilestable", dis
 <tags/>
 </property>
 </object>
-<content>$xwiki.jsx.use("XWiki.AllAttachments")
+<content>## inject the needed JS file and extension
+$xwiki.jsfx.use("js/xwiki/table/livetable.js", true)
+$xwiki.jsx.use("XWiki.AllAttachments")
 &lt;div id="ajax-loader"&gt;$msg.get("ui.ajaxTable.loading")&lt;br /&gt;
   &lt;img src="$xwiki.getSkinFile('icons/ajax-loader.gif')" alt="$msg.get('ui.ajaxTable.loading')" title="" /&gt;
 &lt;/div&gt;

@@ -54,7 +54,9 @@
 <tags/>
 </property>
 </object>
-<content>&lt;div id="ajax-loader"&gt;$msg.get("ui.ajaxTable.loading")&lt;br /&gt;
+<content>## inject the needed JS file
+$xwiki.jsfx.use("js/xwiki/table/livetable.js", true)
+&lt;div id="ajax-loader"&gt;$msg.get("ui.ajaxTable.loading")&lt;br /&gt;
   &lt;img src="$xwiki.getSkinFile('icons/ajax-loader.gif')" alt="$msg.get('ui.ajaxTable.loading')" title="" /&gt;
 &lt;/div&gt;
 &lt;table id="alldocstable"&gt;

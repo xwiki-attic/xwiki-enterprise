@@ -54,12 +54,13 @@
 <tags/>
 </property>
 </object>
-<content>## inject the needed JS file
-$xwiki.jsfx.use("js/xwiki/table/livetable.js", true)
+<content>## inject the needed JS and CSS files
+#set($ok = $xwiki.jsfx.use("js/xwiki/table/livetable.js", true))
+#set($ok = $xwiki.ssfx.use("js/xwiki/table/livetable.css", true))
 &lt;div id="ajax-loader"&gt;$msg.get("ui.ajaxTable.loading")&lt;br /&gt;
   &lt;img src="$xwiki.getSkinFile('icons/ajax-loader.gif')" alt="$msg.get('ui.ajaxTable.loading')" title="" /&gt;
 &lt;/div&gt;
-&lt;table id="alldocstable"&gt;
+&lt;table id="alldocstable" class="livetable"&gt;
 &lt;tr&gt;
  &lt;td colspan="2" style="padding-top:10px;"&gt;
    &lt;span id="showLimits"&gt;&lt;/span&gt;

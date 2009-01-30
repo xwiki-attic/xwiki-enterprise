@@ -257,13 +257,14 @@ var ta = new ASSTable("$url", 15, "display1", "scrollbar1", "allfilestable", dis
 <tags/>
 </property>
 </object>
-<content>## inject the needed JS file and extension
-$xwiki.jsfx.use("js/xwiki/table/livetable.js", true)
-$xwiki.jsx.use("XWiki.AllAttachments")
+<content>## inject the needed JS and CSS files and extensions
+#set($ok = $xwiki.jsfx.use("js/xwiki/table/livetable.js", true))
+#set($ok = $xwiki.ssfx.use("js/xwiki/table/livetable.css", true))
+#set($ok = $xwiki.jsx.use("XWiki.AllAttachments"))
 &lt;div id="ajax-loader"&gt;$msg.get("ui.ajaxTable.loading")&lt;br /&gt;
   &lt;img src="$xwiki.getSkinFile('icons/ajax-loader.gif')" alt="$msg.get('ui.ajaxTable.loading')" title="" /&gt;
 &lt;/div&gt;
-&lt;table id="allfilestable"&gt;
+&lt;table id="allfilestable" class="livetable"&gt;
 &lt;tr&gt;
  &lt;td colspan="2" style="padding-top:10px;"&gt;
    &lt;span id="showLimits"&gt;&lt;/span&gt;

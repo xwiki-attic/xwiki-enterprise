@@ -26,10 +26,13 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.jackrabbit.uuid.UUID;
 import org.xwiki.rest.Constants;
 import org.xwiki.rest.Utils;
+import org.xwiki.rest.model.Attachment;
 import org.xwiki.rest.model.Attachments;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
+import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
 
 public class AttachmentsResourceTest extends AbstractHttpTest
@@ -46,7 +49,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
     public void testPUTAttachment() throws Exception
     {
-        TestUtils.banner("testCreateAttachment()");
+        TestUtils.banner("testPUTAttachment()");
 
         String attachmentName = String.format("%d.txt", System.currentTimeMillis());
         String content = "ATTACHMENT CONTENT";
@@ -77,6 +80,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
     public void testGETAttachments() throws Exception
     {
+        TestUtils.banner("testGETAttachments()");
+
         Map<String, String> parametersMap = new HashMap<String, String>();
         parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
         parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
@@ -96,6 +101,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
     public void testDELETEAttachment() throws Exception
     {
+        TestUtils.banner("testDELETEAttachment()");
+
         Map<String, String> parametersMap = new HashMap<String, String>();
         parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
         parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
@@ -133,6 +140,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
     public void testDELETEAttachmentNoRights() throws Exception
     {
+        TestUtils.banner("testDELETEAttachmentNoRights()");
+
         String attachmentName = String.format("%d.txt", System.currentTimeMillis());
         String content = "ATTACHMENT CONTENT";
 
@@ -144,7 +153,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         String attachmentUri =
             getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
-        
+
         PutMethod putMethod = executePlainPut(attachmentUri, content, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
@@ -165,5 +174,86 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         GetMethod getMethod = executeGet(attachmentUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+    }
+
+    public void testGETAttachmentsAtPageVersion() throws Exception
+    {
+        TestUtils.banner("testGETAttachmentsAtPageVersion");
+
+        final int NUMBER_OF_ATTACHMENTS = 4;
+        String[] attachmentNames = new String[NUMBER_OF_ATTACHMENTS];
+        String[] pageVersions = new String[NUMBER_OF_ATTACHMENTS];
+
+        for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
+            attachmentNames[i] = String.format("%s.txt", UUID.randomUUID());
+        }
+
+        String content = "ATTACHMENT CONTENT";
+
+        Map<String, String> parametersMap;
+
+        /* Create NUMBER_OF_ATTACHMENTS attachments */
+        for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
+            parametersMap = new HashMap<String, String>();
+            parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
+            parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
+            parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
+            parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentNames[i]);
+
+            String attachmentUri =
+                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+
+            PutMethod putMethod = executePlainPut(attachmentUri, content, "Admin", "admin");
+            assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
+            TestUtils.printHttpMethodInfo(putMethod);
+
+            Attachment attachment = (Attachment) xstream.fromXML(putMethod.getResponseBodyAsString());
+            pageVersions[i] = attachment.getPageVersion();
+
+            System.out.format("Attachment %s stored at page version %s\n", attachmentNames[i], pageVersions[i]);
+        }
+
+        /*
+         * For each page version generated, check that the attachments that are supposed to be there are actually there.
+         * We do the following: at pageVersion[i] we check that all attachmentNames[0..i] are there.
+         */
+        for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
+            parametersMap = new HashMap<String, String>();
+            parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
+            parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
+            parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
+            parametersMap.put(Constants.VERSION_PARAMETER, pageVersions[i]);
+
+            String attachmentsUri =
+                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentsAtPageVersionResource.class),
+                    parametersMap));
+
+            GetMethod getMethod = executeGet(attachmentsUri);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+            TestUtils.printHttpMethodInfo(getMethod);
+
+            Attachments attachments = (Attachments) xstream.fromXML(getMethod.getResponseBodyAsString());
+
+            /*
+             * Check that all attachmentNames[0..i] are present in the list of attachments of page at version
+             * pageVersions[i]
+             */
+            for (int j = 0; j <= i; j++) {
+                System.out.format("Checking that %s is present in attachments list of the page at version %s... ",
+                    attachmentNames[j], pageVersions[i]);
+
+                boolean found = false;
+                for (Attachment attachment : attachments.getAttachmentList()) {
+                    if (attachment.getName().equals(attachmentNames[j])) {
+                        if (attachment.getPageVersion().equals(pageVersions[i])) {
+                            System.out.format("OK\n");
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                assertTrue(found);
+            }
+        }
     }
 }

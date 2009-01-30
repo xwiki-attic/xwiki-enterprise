@@ -546,4 +546,35 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWikiEditor();
         assertEquals("----", getFieldValue("content"));
     }
+
+    /**
+     * @see XWIKI-3109: Headers generated from wiki syntax look and behave differently
+     */
+    public void testEnterTwiceInHeader()
+    {
+        typeText("header");
+        applyStyleTitle1();
+        switchToWikiEditor();
+        assertEquals("= header =", getFieldValue("content"));
+        switchToWysiwygEditor();
+
+        // Place the caret in the middle of the header.
+        runScript("var range = XWE.selection.getRangeAt(0);\n"
+            + "range.setEnd(XWE.body.firstChild.firstChild.firstChild, 3);\n" + "range.collapse(false);");
+
+        // Type some text to update the tool bar.
+        typeText("#");
+
+        // See if the header is detected.
+        assertEquals("h1", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
+
+        // Press enter twice to split the header and generate a paragraph.
+        typeEnter(2);
+
+        // See if the paragraph is detected.
+        assertEquals("p", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
+
+        switchToWikiEditor();
+        assertEquals("= hea# =\n\nder", getFieldValue("content"));
+    }
 }

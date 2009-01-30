@@ -663,12 +663,32 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         TestUtils.banner("TEST: getAllModifiedPageHistoryCorrectness()");
 
+        /*
+         * Wait 2 seconds before making the modification. This is necessary because if pages are stored in the same
+         * second, they will have the same timestamp and they could be returned in an arbitrary order making the
+         * following assert fail randomly
+         */
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+
+        }
+
         XWikiPage page = this.rpc.getPage(pages.get(0).getId());
+
+        System.out.format("Modifying: %s\n", page);
 
         page.setContent(String.format("Modified %d", System.currentTimeMillis()));
         page = rpc.storePage(page);
 
-        List<XWikiPageHistorySummary> modifications = rpc.getModifiedPagesHistory(1, 0);
+        System.out.format("Modified: %s\n", page);
+
+        List<XWikiPageHistorySummary> modifications = rpc.getModifiedPagesHistory(3, 0);
+
+        System.out.format("Modifications:\n");
+        for (XWikiPageHistorySummary modification : modifications) {
+            System.out.format("%s\n", modification);
+        }
 
         assertEquals(page.getId(), modifications.get(0).getBasePageId());
         assertEquals(page.getModified(), modifications.get(0).getModified());

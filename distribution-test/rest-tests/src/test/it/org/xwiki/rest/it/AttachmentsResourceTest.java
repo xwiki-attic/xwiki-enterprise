@@ -254,6 +254,11 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 }
                 assertTrue(found);
             }
+
+            /* Check links */
+            for (Attachment attachment : attachments.getAttachmentList()) {
+                checkLinks(attachment);
+            }
         }
     }
 }

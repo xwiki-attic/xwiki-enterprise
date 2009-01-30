@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xwikidoc>
+<web>Main</web>
+<name>RecentChanges</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1233334826000</creationDate>
+<date>1233339510000</date>
+<contentUpdateDate>1233339510000</contentUpdateDate>
+<version>1.1</version>
+<title></title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>onDemand=On demand|always=Always</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Main.RecentChanges</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>6489836d-a0fc-49f0-8dec-d2fa5c889737</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>/*
+** Add pseudo-support for li:hover in IE6.
+*/
+ie6lihoverfix = function() {
+  var lists = document.getElementsByClassName("xlist");
+  for (i = 0; i &lt; lists.length; i++) {
+    listRoot = lists[i];
+    for (j = 0; j &lt; listRoot.childNodes.length; j++) {
+      var node = listRoot.childNodes[j];
+      if (node.nodeName=="LI") {
+        node.onmouseover=function() {
+          this.className+=" over";
+        }
+        node.onmouseout=function() {
+          this.className=this.className.replace(" over", "");
+        }
+      }
+    }
+  }
+}
+/*
+** Activate hack on load if browser is IE6 and if needed (some other applications may contain it).
+*/
+if (browser.isIE &amp;&amp; browser.versionMajor == 6 &amp;&amp; typeof XWiki.ie6lihoverfix == "undefined") {
+  Event.observe(window, "load", ie6lihoverfix);
+  XWiki.ie6lihoverfix = true;
+}
+</code></property><property><name></name></property><property><parse>0</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>onDemand=On demand|always=Always</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Main.RecentChanges</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>ab40f34b-0de4-4e6a-a6c8-f03dce1d6db5</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>/* General table style */
+
+table.recentChanges {
+  width: 100%;
+  margin: 0 !important;
+}
+
+.recentChangesDate {
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.recentChangesLeft {
+  width: 20%;
+  border: 0 !important;
+  vertical-align: top !important;
+  padding: 1em !important;
+  background-color: #efefef;
+}
+
+.recentChangesLeft img {
+  height: 60px;
+}
+
+.recentChangesRight {
+  border: 0 !important;
+  padding: 0 0 1em 0 !important;
+  width: 80%;
+  vertical-align: top !important;
+}
+
+.recentChangesHeader {
+  display:none;
+}
+
+.recentChangesMoreActions {
+  text-align: right;
+  margin: 0 !important;
+}
+
+/* List styles */
+
+.rcVersion {
+  font-size: 0.8em;
+}
+
+ul.xlist li.xitem div.modifiedPage {
+  float:left;
+}
+
+ul.xlist li.xitem div.modifiedPageActions a.ajax {
+  color: #777;
+  text-decoration: none;
+}
+
+/* Attachment lists */
+
+li.attachment {
+  border-bottom: 0;
+  padding-top: 0;
+  background-image: url($xwiki.getSkinFile("icons/silk/attach.gif"));
+  background-position: 2px 1px;
+  font-size: 0.9em;
+}
+
+li.attachment a {
+  text-decoration: none;
+}
+
+li.attachment:hover {
+  background-color: transparent;
+}
+
+/* Comments divs */
+
+div.commentQuote {
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+}
+
+div.lQuo {
+  float:left; 
+  background-image:url($doc.getAttachmentURL("lquo.gif"));
+}
+
+div.rQuo {
+  float:right; 
+  background-image:url($doc.getAttachmentURL("rquo.gif"));
+}
+
+div.comment {
+  margin-left: 32px;
+  margin-right: 32px;
+  text-indent: 1em;
+}
+
+div.commentContainer, div.attachmentContainer {
+  clear:both;
+  border-top: 1px dashed #efefef;
+  background-color: #fcfcfc;
+  overflow: hidden;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+div.commentAdd {
+  text-align: right;
+  font-size: 0.8em;
+}
+
+
+/* 
+** Hidden elements in lists that are show on hover 
+*/
+
+ul.xlist li.xitem div.xshowonhover {
+  float: right;
+  font-size: 0.8em;
+  padding: 0;
+  padding-right: 0.5em;
+  display: none;
+}
+
+ul.xlist li.xitem:hover div.xshowonhover {  
+  display:block;
+}
+
+/* IE6 hack, see JSX */
+ul.xlist li.over div.xshowonhover {  
+  display:block;
+}</code>
+</property>
+<property>
+<name></name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.TagClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<tags>
+<cache>0</cache>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>tags</name>
+<number>1</number>
+<prettyName>Tags</prettyName>
+<relationalStorage>1</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<values></values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</tags>
+</class>
+<name>Main.RecentChanges</name>
+<number>0</number>
+<className>XWiki.TagClass</className>
+<guid>2fff107b-853c-432b-b07d-701a5efb16c2</guid>
+<property>
+<tags/>
+</property>
+</object>
+<content>## 
+## Recent changes.
+##
+## Optional parameters :
+## 
+## Parameters which can be set in velocity before including this page or can be passed as HTTP parameters.
+## Note that HTTP parameters supercede velocity set variables.
+##
+##  - rcShowMinor (String set to "true" or "false"): show minor edits.
+##  - rcShowDiff (String set to "true" or "false"): show diff in items. 
+##  - rcShowRss (String set to "true" or "false"): show RSS at the bottom of the list.
+##  - rcChangesNb (String set to a numerical value): number of recent changes to display. 
+##  - rcSpace (List of string[s]): restrict recent changes retrieval to pages within the given space.
+##  - rcTag (List of string[s]): restrict recent changes retrieval to pages with the given tag.
+##  - rcAuthor (List of string[s]): restrict recent changes retrieval to pages with the given author.
+##
+## Parameters which can be set before including this page only.
+##
+##  - rcDocumentNames (Collection): The list of recentlyChanged documents, to reuse a previous search query. 
+##
+$xwiki.jsx.use("Main.RecentChanges")
+$xwiki.ssx.use("Main.RecentChanges")
+#set($action = "$!request.getParameter('action')")
+##
+## Start execution timer
+##
+#set($execStart = $util.getDate())
+##
+## Go to diff URL service.
+##
+#if($action == "goToDiffURL")
+  #set($page = "$!request.getParameter('page')")
+  #set($author = "$!request.getParameter('author')")
+  #set($date = "$!request.getParameter('date')")    
+  #set($period = $xwiki.criteriaService.getPeriodFactory().createDayPeriod($date))
+  #set($criterion = $xwiki.criteriaService.getRevisionCriteriaFactory().createRevisionCriteria($author, $period))
+  #if("$!request.getParameter('rcShowMinor')" == "true")
+    #set($discard = $criterion.setIncludeMinorVersions(true))
+  #end
+  #set($diffDoc = $xwiki.getDocument($page))
+  #set($revisions = $diffDoc.getRevisions($criterion))
+  #set($rev1 = $listtool.get($revisions, 0))
+  #set($revMax = $revisions.size() - 1)
+  #set($rev2 = $listtool.get($revisions, $revMax))
+  $response.sendRedirect($diffDoc.getURL("view", "viewer=changes&amp;rev1=${rev1}&amp;rev2=${rev2}"))
+#end
+## Manage minor edits.
+#setVariableFromRequest($rcShowMinor "rcShowMinor" false)
+## Manage show diff in items.
+#setVariableFromRequest($rcShowDiff "rcShowDiff" true)
+## Manage show RSS links.
+#setVariableFromRequest($rcShowRss "rcShowRss" true)
+## Manage number of changes to display.
+#setVariableFromRequest($rcChangesNb "rcChangesNb" 30)
+## Manage tag criterion
+#setVariableFromRequest($rcTag "rcTag" [])
+## Manage space criterion
+#setVariableFromRequest($rcSpace "rcSpace" [])
+## Manage author criterion
+#setVariableFromRequest($rcAuthor "rcAuthor" [])
+##
+## Create a string containing one or more ? given the number of values in the passed list.
+##
+#macro(createQueryParameters $values $parameters)
+  #foreach($value in $values)
+    #if($parameters == "")
+      #set($parameters = "?")
+    #else
+      #set($parameters = "${parameters}, ?")
+    #end
+  #end
+#end
+##
+## Retrieve recently changed documents.
+##
+#set($criteria = $util.getHashMap())
+#if("$!rcDocumentNames" == "")    
+  #if(!$xwiki.hasMinorEdit() || $rcShowMinor)
+    #set ($hqlQuery = "where 1=1 order by doc.date desc")
+  #else
+    #set ($hqlQuery = ", XWikiRCSNodeInfo as ni where doc.id=ni.id.docId and ni.id.version2=1 group by doc.space, doc.name order by max(ni.date) desc")
+  #end
+  ## Create space criterion.
+  #if($rcSpace.size() &gt; 0)
+    #set($spaceParameters = "")
+    #createQueryParameters($rcSpace $spaceParameters)
+    #set($discard = $criteria.put("doc.space in (${spaceParameters})", $rcSpace))
+  #end
+  ## Create tag criterion.
+  #if("$!xwiki.getPlugin('tag')" != "" &amp;&amp; $rcTag.size() &gt; 0)
+    #set($docsWithTag = $util.getArrayList())
+    #foreach($item in $rcTag)
+      #set($discard = $docsWithTag.addAll($xwiki.tag.getDocumentsWithTag($item)))
+    #end
+    #set($docsWithTagParameters = "")
+    #createQueryParameters($docsWithTag $docsWithTagParameters)
+    #set($discard = $criteria.put("doc.fullName in (${docsWithTagParameters})", $docsWithTag))    
+  #end
+  #if($rcAuthor.size() &gt; 0)
+    #set($authorParameters = "")
+    #createQueryParameters($rcAuthor $authorParameters)
+    #set($discard = $criteria.put("doc.author in (${authorParameters})", $rcAuthor))
+  #end
+  #if($criteria.size() &gt; 0)
+    ## If any, loop over criterias to add them to the query, then perform the query.
+    #set($values = $util.getArrayList())       
+    #foreach($criterion in $criteria.keySet())
+      #if($criteria.get($criterion).size() &gt; 0)        
+        #set($hqlQuery = $hqlQuery.replaceAll("where", "where ${criterion} and"))
+        #set($discard = $values.addAll($criteria.get($criterion)))
+      #end
+    #end
+    #set($rcDocumentNames = $xwiki.searchDocuments($hqlQuery, $rcChangesNb, 0, $values))
+  #else
+    ## No query criterion, perform the query as is.
+    #set($rcDocumentNames = $xwiki.searchDocuments($hqlQuery, $rcChangesNb, 0))
+  #end
+#end
+## 
+## Prepare comments handling
+#set($commentsOrder = false)
+#if($xwiki.getWebPreferenceAsInt("commentsorder",1) == 0)
+  #set($commentsOrder = true)
+#end
+##
+## Comment handling macro.
+## Retreive page's last comment if any and 
+## overwrite variables if this comment is the last modification on the page.
+##
+#macro(handleComment $rcDoc $rcType $rcDt $commentsOrder)
+  ## Retrieve comments from last to first.
+  #set($rcComments = $rcDoc.getComments($commentsOrder))
+  #if($rcComments.size() &gt; 0)
+    ## Retrieve last comment.
+    #set($lastComment = $listtool.get($rcComments, 0))
+    #set($lastCommentDate = $lastComment.getProperty("date").getValue())
+    ## If the last modification on the page is the comment, overwrite values.
+    ## We don't test compareTo() == 0 since the comment date and the save date may vary a little bit.
+    #if($lastCommentDate.compareTo($rcDt.toDate()) &gt; -1 &amp;&amp; $lastCommentDate.compareTo($rcDt.toDate()) &lt;= 1)
+      #set($rcType = "comment")
+    #end
+  #end
+#end
+##
+## Attachments handling macro.
+## Retreive page's attachments and put those which upload matches the modification entry (author and timeframe)
+## in the $rcAttachments List.
+##
+#macro(handleAttachments $rcDoc $rcAuthor $rcDt)  
+  #set($attachments = $rcDoc.getAttachmentList())
+  #foreach($attachment in $attachments)
+    #set($attachmentDt = $xwiki.jodatime.getDateTime($attachment.getDate().getTime()))
+    #if($rcAuthor == $attachment.getAuthor() &amp;&amp; $rcDt.getYear() == $attachmentDt.getYear() &amp;&amp; $rcDt.getDayOfYear() == $attachmentDt.getDayOfYear())
+      #set($discard = $rcAttachments.add($attachment))
+    #end
+  #end
+#end
+##
+## 
+##
+#macro(displayRcAuthor $author)
+  #useravatar($author)
+  &lt;br/&gt;&lt;span class="recentChangesAuthor"&gt;
+  #if ($author == "XWikiGuest")
+    Guest
+  #else    
+    $xwiki.getLocalUserName($author)
+  #end
+  &lt;/span&gt;
+#end
+#macro(displayRcVersion $version)
+  #if($version == "1.1")
+    &lt;span class="rcVersion"&gt;(&lt;span style="color:red;"&gt;$msg.get("xe.recentchanges.entry.new")&lt;/span&gt;)&lt;/span&gt;
+  #end
+#end
+##
+## Display the recent changes list.
+##  
+#set($previousDt = $xwiki.jodatime.getDateTime(0))
+#set($discard = $previousDate.setTime(0))
+#set($previousAuthor = "")
+## Get this very doc, useful when it is included from another one.
+#set($recentChangesDoc = $xwiki.getDocument("Main.RecentChanges"))
+&lt;table class="recentChanges"&gt;
+  &lt;tr class="recentChangesHeader"&gt;&lt;th&gt;$msg.get("xe.recentchanges.column.authoranddate")&lt;/th&gt;&lt;th&gt;$msg.get("xe.recentchanges.column.changes")&lt;/th&gt;&lt;/tr&gt;
+  #foreach ($rcDocName in $rcDocumentNames)    
+    #set($row = "")
+    #set($rcAttachments = $util.arrayList)
+    ## Verify user access level on the document 
+    #if ($xwiki.hasAccessLevel("view", $context.user, "${context.database}:${rcDocName}"))           
+      #set($rcDoc = $xwiki.getDocument($rcDocName))
+      #set($rcType = "page")
+      #set($rcAuthor = $rcDoc.getAuthor()) ## TODO : check comments
+      #set($rcDt = $xwiki.jodatime.getDateTime($rcDoc.getDate().getTime()))      
+      ## The handleComment macro overwrites rcType variable if the last modification is a comment.
+      #handleComment($rcDoc $rcType $rcDt $commentsOrder)
+      ## The handleAttachments macro put a list of attachments uploaded during the day by the author in $rcAttachments.
+      #handleAttachments($rcDoc $rcAuthor $rcDt)      
+      #if($rcAuthor == $previousAuthor &amp;&amp; $rcDt.getYear() == $previousDt.getYear() &amp;&amp; $rcDt.getDayOfYear() == $previousDt.getDayOfYear())
+        ## Same day and author, continue in the same row.
+      #else
+        ## Different day or author, end previous row and start a new one.        
+        #if($velocityCount &gt; 1)&lt;/ul&gt;&lt;/td&gt;&lt;/tr&gt;#end ## close previous row if needed
+        &lt;tr&gt;&lt;td class="recentChangesLeft"&gt;#displayRcAuthor($rcAuthor)&lt;br/&gt;
+        &lt;span class="recentChangesDate"&gt;$xwiki.formatDate($rcDt.toDate(), "MMMM d")&lt;/span&gt;&lt;/td&gt;
+        &lt;td class="recentChangesRight"&gt;&lt;ul class="xlist"&gt; ## open next cell
+      #end
+      ## Compute a GUID for this modification with page name, modification date and author.
+      #set($modGUID = "${rcDoc.fullName}_${xwiki.formatDate($rcDt.toDate(), 'yyyyMMdd')}_${rcAuthor}")
+      ## Build the URL used to retreive the diff viewer URL
+      #set($goToDiffURL = $recentChangesDoc.getURL("view", "xpage=plain&amp;amp;action=goToDiffURL&amp;amp;page=${rcDoc.getFullName()}&amp;amp;author=${rcAuthor}&amp;amp;date=${xwiki.formatDate($rcDt.toDate(), 'yyyyMMdd')}&amp;amp;rcShowMinor=${rcShowMinor}"))
+      &lt;li class="xitem xunderline xhighlight ${rcType}"&gt;
+        &lt;div class="xitemcontainer"&gt;        
+          #if($rcType == "comment")
+            &lt;div class="modifiedPage"&gt;&lt;a href="$rcDoc.getURL()" title="$msg.get("xe.recentchanges.entry.comment.tooltip", [$xwiki.formatDate($rcDt.toDate(), "HH:mm")]) "&gt;$rcDoc.getDisplayTitle()&lt;/a&gt;&lt;/div&gt;
+            #if($rcShowDiff)
+              &lt;div class="xshowonhover modifiedPageActions"&gt;&lt;a class="ajax" href="$rcDoc.getURL("vire", "viewer=comments")" onclick="toggleClass(document.getElementById('$modGUID'), 'hidden'); toggleClass(document.getElementById('${modGUID}_comShow'), 'hidden'); toggleClass(document.getElementById('${modGUID}_comHide'), 'hidden'); return false;"&gt;&lt;span id="${modGUID}_comShow"&gt;&amp;#91;+&amp;#93; $msg.get("xe.recentchanges.entry.comment.show")&lt;/span&gt;&lt;span id="${modGUID}_comHide" class="hidden"&gt;&amp;#91;-&amp;#93; $msg.get("xe.recentchanges.entry.comment.hide")&lt;/span&gt; $msg.get("xe.recentchanges.entry.comment")&lt;/a&gt;&lt;/div&gt;
+              &lt;div class="commentContainer hidden" id="$modGUID"&gt;
+                &lt;div class="commentQuote lQuo"&gt;&amp;nbsp;&lt;/div&gt;
+                &lt;div class="commentQuote rQuo"&gt;&amp;nbsp;&lt;/div&gt;
+                &lt;div class="comment"&gt;
+                  $lastComment.get("comment")
+                &lt;/div&gt;
+                ## Display discussion link, this link point to the comments anchor.
+                &lt;div class="commentAdd"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/comment.gif")" alt="Reply icon" /&gt; &lt;a href="${rcDoc.getURL("view")}#Comments"&gt;$msg.get("xe.recentchanges.entry.comment.seediscussion")&lt;/a&gt;&lt;/div&gt;
+              &lt;/div&gt;
+            #end
+          #else
+            &lt;div class="modifiedPage"&gt;&lt;a href="$rcDoc.getURL()" title="$msg.get("xe.recentchanges.entry.page.tooltip", [$rcDoc.getVersion(), $xwiki.formatDate($rcDt.toDate())])"&gt;$rcDoc.getDisplayTitle()&lt;/a&gt; #displayRcVersion($rcDoc.getVersion())&lt;/div&gt; 
+            #if($rcShowDiff)
+              &lt;div class="xshowonhover modifiedPageActions"&gt;&lt;a href="$goToDiffURL"&gt;$msg.get("xe.recentchanges.entry.page.seemodifications")&lt;/a&gt;&lt;/div&gt;
+              ## If the author has uploaded attachments during the day in this page, display them.
+              #if($rcAttachments.size() &gt; 0)              
+                &lt;div class="attachmentContainer" id="$modGUID"&gt;
+                  &lt;ul&gt;
+                    #foreach($rcAttachment in $rcAttachments)
+                      &lt;li class="attachment"&gt;&lt;a href="$rcDoc.getAttachmentURL($rcAttachment.filename)"&gt;$rcAttachment.filename&lt;/a&gt; #displayRcVersion($rcAttachment.getVersion())&lt;/li&gt;
+                    #end  
+                  &lt;/ul&gt;            
+                &lt;/div&gt;          
+              #end
+            #end
+          #end
+          &lt;div class="xspacer"&gt;&amp;nbsp;&lt;/div&gt;
+        &lt;/div&gt;                
+      &lt;/li&gt;
+    #end
+    #set($previousAuthor = $rcAuthor)
+    #set($previousDt = $rcDt)
+  #end
+  ## Close last row if any.
+  #if($rcDocumentNames.size() &gt; 1)&lt;/ul&gt;&lt;/td&gt;&lt;/tr&gt;#end
+&lt;/table&gt;
+##
+## Rebuild URL query string
+## Workaround until we fix $request.getQueryString()
+## 
+#set($queryString = "")
+#set($paramMap = $request.getParameterMap())
+#foreach($key in $paramMap.keySet())
+  #foreach($value in $paramMap.get($key))
+    #set($queryString = "${queryString}&amp;amp;${key}=${value}")
+  #end
+#end
+##
+## Provide links to display minor edits and RSS feed.
+##
+#if($xwiki.hasMinorEdit())
+  &lt;p class="recentChangesMoreActions"&gt;
+    #if($rcShowMinor)
+      &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", $queryString.replaceAll('rcShowMinor=true', ''))"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/zoom_out.gif")" alt="Hide minor icon"/&gt; $msg.get("xe.recentchanges.hideminor")&lt;/a&gt;
+    #else
+      &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "${queryString}&amp;amp;rcShowMinor=true")"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/zoom_in.gif")" alt="Show minor icon"/&gt; $msg.get("xe.recentchanges.showminor")&lt;/a&gt;
+    #end
+    #if($rcShowRss)
+      #set($rssURL = "")
+      #if($rcTag.size() &gt; 0)
+        ## Temporary harcoded URL until we refactor our RSS feeds.
+        #set($rssURL = $xwiki.getURL("Main.TagsRss", "view", "xpage=rdf&amp;amp;tag=$listtool.get($rcTag, 0)"))        
+      #else
+        #set($rssURL = $xwiki.getURL("Main.WebRss", "view", "xpage=rdf"))
+      #end
+      &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt; $msg.get("xe.recentchanges.rssfeed")&lt;/a&gt;
+    #end
+  &lt;/p&gt;
+#end
+##
+## Compute and display execution time.
+##
+#set($execEnd = $util.getDate())
+#set($execDuration = $execEnd.getTime() - $execStart.getTime())
+&lt;!-- Main.RecentChanges execution time: ${execDuration}ms --&gt;
+</content></xwikidoc>

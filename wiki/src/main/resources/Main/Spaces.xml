@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xwikidoc>
+<web>Main</web>
+<name>Spaces</name>
+<language></language>
+<defaultLanguage></defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1231930712000</creationDate>
+<date>1233339498000</date>
+<contentUpdateDate>1233339498000</contentUpdateDate>
+<version>1.1</version>
+<title>Spaces</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>onDemand=On demand|always=Always</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Main.Spaces</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>fbafc3a8-1969-4124-815b-d6e48f8b391b</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>/*
+** Add pseudo-support for li:hover in IE6.
+*/
+ie6lihoverfix = function() {
+  var lists = document.getElementsByClassName("xlist");
+  for (i = 0; i &lt; lists.length; i++) {
+    listRoot = lists[i];
+    for (j = 0; j &lt; listRoot.childNodes.length; j++) {
+      var node = listRoot.childNodes[j];
+      if (node.nodeName=="LI") {
+        node.onmouseover=function() {
+          this.className+=" over";
+        }
+        node.onmouseout=function() {
+          this.className=this.className.replace(" over", "");
+        }
+      }
+    }
+  }
+}
+/*
+** Activate hack on load if browser is IE6 and if needed (some other applications may contain it).
+*/
+if (browser.isIE &amp;&amp; browser.versionMajor == 6 &amp;&amp; typeof XWiki.ie6lihoverfix == "undefined") {
+  Event.observe(window, "load", ie6lihoverfix);
+  XWiki.ie6lihoverfix = true;
+}
+</code></property><property><name></name></property><property><parse>0</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>onDemand=On demand|always=Always</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Main.Spaces</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>0556ca2b-73ab-4779-a84d-1d7e4107d9ae</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>#spSpaceCreateItem {
+  background-image: url($xwiki.getSkinFile("icons/silk/folder_add.gif"));
+}
+
+ul.xlist li.space div.spSpaceName {
+  float: left;
+  padding: 0;
+}
+
+ul.xlist li.space div.spSpaceActions {
+  line-height: 0;
+}
+
+.spSpaceCreate {
+  float:right;
+}
+
+#spSpaceCreateLabel a {
+  color: #555;
+}
+
+#spSpaceCreateForm {
+  padding: 0.5em;
+  border-top: 1px dashed #efefef;
+  background-color: #fcfcfc;
+  overflow: hidden;
+}
+
+/* 
+** Hidden elements in lists that are show on hover 
+*/
+
+ul.xlist li.xitem div.xshowonhover {
+  float: right;
+  font-size: 0.8em;
+  padding: 0;
+  padding-right: 0.5em;
+  display: none;
+}
+
+ul.xlist li.xitem:hover div.xshowonhover {  
+  display:block;
+}
+
+/* IE6 hack, see JSX */
+ul.xlist li.over div.xshowonhover {  
+  display:block;
+}</code>
+</property>
+<property>
+<name>XWiki.Spaces</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.TagClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<tags>
+<cache>0</cache>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>tags</name>
+<number>1</number>
+<prettyName>Tags</prettyName>
+<relationalStorage>1</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<values></values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</tags>
+</class>
+<name>Main.Spaces</name>
+<number>0</number>
+<className>XWiki.TagClass</className>
+<guid>42808584-693a-4917-a3f2-e73ed647eee6</guid>
+<property>
+<tags/>
+</property>
+</object>
+<content>##
+## List spaces wihtin the wiki.
+##
+$xwiki.ssx.use("Main.Spaces")
+##
+## List of spaces in this wiki.
+## This page allow to display spaces within this wiki and to delete any space.
+## Only wiki administrators are allowed to delete spaces.
+##
+## Optional HTTP parameter :
+## deleteSpace name of a space to delete.
+##
+## Delete space if requested.
+##
+#set($spaceToDelete = "$!request.getParameter('deleteSpace')")
+#if("$!spaceToDelete" != "" &amp;&amp; $xwiki.hasAdminRights())
+  #foreach ($page in $xwiki.getSpaceDocsName($spaceToDelete))
+    #set($discard = $xwiki.getDocument("${spaceToDelete}.${page}").delete())  
+  #end
+  #info("Space &amp;rdquo;${spaceToDelete}&amp;ldquo; deleted.")
+  #set($xredirect = "$!request.getParameter('xredirect')")
+  ## Redirect to the previous page if requested.
+  #if("$!xredirect" != "")
+    $response.sendRedirect($xredirect)
+  #end
+#end
+#set($spaceList = $xwiki.getSpaces())
+## Get this very doc, useful when it is included from another one.
+#set($spaceListDoc = $xwiki.getDocument("Main.Spaces"))  
+&lt;ul class="xlist"&gt;
+  ##
+  ## List spaces.
+  ##
+  #foreach($space in $spaceList)
+    ## Display space only if the user has view right on space home and if the space is not blacklisted.
+    ## $blacklistedSpaces is set in xwikivars.vm
+    #if($xwiki.hasAccessLevel("view", "${space}.WebHome") &amp;&amp; !$blacklistedSpaces.contains($space))
+      &lt;li class="xitem xunderline xhighlight space"&gt;
+        &lt;div class="xitemcontainer"&gt;        
+          &lt;div class="spSpaceName"&gt;[${space}&gt;${space}.WebHome]&lt;/div&gt;
+          &lt;div class="xshowonhover spSpaceActions"&gt;
+            ## Link to the space index.
+            &lt;a href="$xwiki.getURL("Main.SpaceIndex", "view", "space=${space}")" title="$msg.get("xe.spaces.action.index")"&gt;
+              &lt;img src="$xwiki.getSkinFile("icons/silk/book_open.gif")" alt="Space index icon"/&gt;
+            &lt;/a&gt;
+            ## If the user has admin right on the space display links to administration and delete.
+            #if($xwiki.hasAccessLevel("admin", "${space}.XWikiPreferences"))  
+              &lt;a href="$xwiki.getURL("${space}.WebPreferences", "admin")" title="$msg.get("xe.spaces.action.admin")"&gt;
+                &lt;img src="$xwiki.getSkinFile("icons/silk/cog.gif")" alt="Administrate space icon"/&gt;
+              &lt;/a&gt;                  
+              ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='$spaceListDoc.getURL("view", "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()")'" title="$msg.get("xe.spaces.action.delete")"&gt;
+              ##  &lt;img src="$xwiki.getSkinFile("icons/silk/cross.gif")" alt="Delete space icon" /&gt;
+              ##&lt;/a&gt;
+            #end          
+          &lt;/div&gt; 
+          &lt;div class="xspacer"&gt;&amp;nbsp;&lt;/div&gt;
+        &lt;/div&gt;   
+      &lt;/li&gt;
+    #end    
+  #end
+  ##
+  ## Space creation.
+  ##
+  #if($xwiki.hasAdminRights())  
+    &lt;li id="spSpaceCreateItem" class="xitem space"&gt;      
+      &lt;div class="xitemcontainer"&gt;
+        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="#" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get("xe.spaces.createspace")&lt;/a&gt;&lt;/div&gt;
+        &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;        
+        &lt;div id="spSpaceCreateForm" class="hidden"&gt;
+          &lt;form method="post" action="$doc.getURL("view", "xpage=create")"&gt;
+            &lt;fieldset&gt;
+              &lt;input name="tocreate" type="hidden" value="space" /&gt;       
+              #set($newSpaceName = $msg.get("xe.spaces.createspace.defaultname"))
+              &lt;input type="text" name="title" value="$newSpaceName" class="panelinput" style="margin:auto;" onfocus="if(this.value=='$newSpaceName') this.value=''" onblur="if(this.value=='') this.value='$newSpaceName'" /&gt;        
+              &lt;input type="submit" value="$msg.get("xe.spaces.createspace.submit")" /&gt;
+            &lt;/fieldset&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+        &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;
+      &lt;/div&gt;     
+    &lt;/li&gt;
+  #end
+&lt;/ul&gt;</content>
+</xwikidoc>

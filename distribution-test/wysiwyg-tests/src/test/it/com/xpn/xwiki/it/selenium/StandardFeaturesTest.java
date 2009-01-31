@@ -308,18 +308,18 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickInsertImageButton();
 
         String spaceSelector = "//div[@class=\"xImageChooser\"]//select[2]";
-        String space = "Main";
+        String space = "XWiki";
         waitForCondition("selenium.isElementPresent('" + spaceSelector + "/option[@value=\"" + space + "\"]');");
         getSelenium().select(spaceSelector, space);
 
         String pageSelector = "//div[@class=\"xImageChooser\"]//select[3]";
-        String page = "LuceneSearch";
+        String page = "AdminSheet";
         waitForCondition("selenium.isElementPresent('" + pageSelector + "/option[@value=\"" + page + "\"]');");
         getSelenium().select(pageSelector, page);
 
         getSelenium().click("//div[@class=\"xImageChooser\"]//button[text()=\"Update\"]");
 
-        String imageSelector = "//div[@class=\"xImagesContainerPanel\"]//img[@title=\"next.png\"]";
+        String imageSelector = "//div[@class=\"xImagesContainerPanel\"]//img[@title=\"photos.png\"]";
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
 
@@ -331,8 +331,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeEnter(2);
         typeText("xyz");
         typeDelete();
-        assertXHTML("<!--startimage:Main.LuceneSearch@next.png-->"
-            + "<img src=\"/xwiki/bin/download/Main/LuceneSearch/next.png\" alt=\"next.png\">"
+        assertXHTML("<!--startimage:XWiki.AdminSheet@photos.png-->"
+            + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"
             + "<!--stopimage--><p>xyz</p>");
     }
 

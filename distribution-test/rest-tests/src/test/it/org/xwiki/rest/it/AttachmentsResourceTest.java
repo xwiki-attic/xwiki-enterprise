@@ -31,6 +31,8 @@ import org.xwiki.rest.Constants;
 import org.xwiki.rest.Utils;
 import org.xwiki.rest.model.Attachment;
 import org.xwiki.rest.model.Attachments;
+import org.xwiki.rest.model.Relations;
+import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
 import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
@@ -222,7 +224,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
             parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
             parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-            parametersMap.put(Constants.VERSION_PARAMETER, pageVersions[i]);
+            parametersMap.put(Constants.PAGE_VERSION_PARAMETER, pageVersions[i]);
 
             String attachmentsUri =
                 getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentsAtPageVersionResource.class),
@@ -260,5 +262,70 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 checkLinks(attachment);
             }
         }
+    }
+
+    public void testGETAttachmentVersions() throws Exception
+    {
+        TestUtils.banner("testGETAttachmentVersions");
+
+        final int NUMBER_OF_VERSIONS = 4;
+        String attachmentName = String.format("%s.txt", UUID.randomUUID().toString());
+
+        Map<String, String> versionToContentMap = new HashMap<String, String>();
+
+        Map<String, String> parametersMap;
+
+        /* Create NUMBER_OF_ATTACHMENTS attachments */
+        for (int i = 0; i < NUMBER_OF_VERSIONS; i++) {
+            parametersMap = new HashMap<String, String>();
+            parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
+            parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
+            parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
+            parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
+
+            String attachmentUri =
+                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+
+            String content = String.format("CONTENT %d", i);
+            PutMethod putMethod = executePlainPut(attachmentUri, content, "Admin", "admin");
+            if (i == 0) {
+                assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
+            } else {
+                assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
+            }
+            TestUtils.printHttpMethodInfo(putMethod);
+
+            Attachment attachment = (Attachment) xstream.fromXML(putMethod.getResponseBodyAsString());
+
+            System.out.format("Attachment %s stored at version %s: %s\n", attachmentName, attachment.getVersion(),
+                content);
+
+            versionToContentMap.put(attachment.getVersion(), content);
+        }
+
+        parametersMap = new HashMap<String, String>();
+        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
+        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
+        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
+        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
+
+        String attachmentsUri =
+            getFullUri(Utils
+                .formatUriTemplate(getUriPatternForResource(AttachmentHistoryResource.class), parametersMap));
+
+        GetMethod getMethod = executeGet(attachmentsUri);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Attachments attachments = (Attachments) xstream.fromXML(getMethod.getResponseBodyAsString());
+
+        for (Attachment attachment : attachments.getAttachmentList()) {
+            getMethod = executeGet(attachment.getFirstLinkByRelation(Relations.ATTACHMENT_DATA).getHref());
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+            TestUtils.printHttpMethodInfo(getMethod);
+
+            assertEquals(versionToContentMap.get(attachment.getVersion()), getMethod.getResponseBodyAsString());
+        }
+
     }
 }

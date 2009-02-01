@@ -379,16 +379,18 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickInsertTableButton();
         getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
         typeText("a");
+        // Shit+Tab should do nothing since we are in the first cell.
         typeShiftTab();
         typeText("b");
         typeTab(3);
         typeText("c");
+        // Tab should insert a new row since we are in the last cell.
         typeTab();
         typeText("d");
         typeShiftTab(4);
         typeText("e");
         switchToWikiEditor();
-        assertEquals("|=e ab|= \n| |cd ", getFieldValue("content"));
+        assertEquals("|=e ab|= \n| |c \n|d | ", getFieldValue("content"));
     }
 
     /**
@@ -576,5 +578,39 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         switchToWikiEditor();
         assertEquals("= hea# =\n\nder", getFieldValue("content"));
+    }
+
+    /**
+     * @see XWIKI-3090: Cannot move cursor before table
+     * @see XWIKI-3089: Cannot move cursor after table
+     */
+    public void testMoveCaretBeforeAndAfterTable()
+    {
+        switchToWikiEditor();
+        setFieldValue("content", "|=Space|=Page\n|Main|WebHome");
+        switchToWysiwygEditor();
+
+        // Place the caret in one of the table cells.
+        runScript("var range = XWE.selection.getRangeAt(0);\n"
+            + "range.setEnd(XWE.body.firstChild.rows[0].cells[0].firstChild, 2);\n" + "range.collapse(false);");
+
+        // Move the caret before the table and type some text.
+        getSelenium().controlKeyDown();
+        typeUpArrow();
+        getSelenium().controlKeyUp();
+        typeText("before");
+
+        // Place the caret again in one of the table cells.
+        runScript("var range = XWE.selection.getRangeAt(0);\n"
+            + "range.setEnd(XWE.body.lastChild.rows[1].cells[1].firstChild, 3);\n" + "range.collapse(false);");
+
+        // Move the caret after the table and type some text.
+        getSelenium().controlKeyDown();
+        typeDownArrow();
+        getSelenium().controlKeyUp();
+        typeText("after");
+
+        switchToWikiEditor();
+        assertEquals("before\n\n|=Space|=Page\n|Main|WebHome\n\nafter", getFieldValue("content"));
     }
 }

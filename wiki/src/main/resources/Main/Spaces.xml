@@ -369,12 +369,12 @@ $xwiki.ssx.use("Main.Spaces")
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;        
         &lt;div id="spSpaceCreateForm" class="hidden"&gt;
           &lt;form method="post" action="$doc.getURL("view", "xpage=create")"&gt;
-            &lt;fieldset&gt;
+            &lt;div&gt;
               &lt;input name="tocreate" type="hidden" value="space" /&gt;       
               #set($newSpaceName = $msg.get("xe.spaces.createspace.defaultname"))
               &lt;input type="text" name="title" value="$newSpaceName" class="panelinput" style="margin:auto;" onfocus="if(this.value=='$newSpaceName') this.value=''" onblur="if(this.value=='') this.value='$newSpaceName'" /&gt;        
               &lt;input type="submit" value="$msg.get("xe.spaces.createspace.submit")" /&gt;
-            &lt;/fieldset&gt;
+            &lt;/div&gt;
           &lt;/form&gt;
         &lt;/div&gt;
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;

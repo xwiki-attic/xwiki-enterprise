@@ -115,7 +115,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     public void testBlogAdmin()
     {
         open("XWiki", "XWikiPreferences", "admin");
-
+       
         // select global administration
         clickLinkWithLocator("//span[text()='General']", true);
         getSelenium().select("//select[@id='XWiki.XWikiPreferences_0_editor']", "label=Text");
@@ -124,12 +124,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[@id='showsections']", false);
         assertElementPresent("//span[@id='hidesectionswrapper']");
         clickLinkWithLocator("//span[text()='Blog categories']");
-        clickLinkWithText("Add a category", true);
-        setFieldValue("Blog.Categories_3_name", "New Category");
-        setFieldValue("Blog.Categories_3_description", "New Category Content");
-        clickLinkWithLocator("//input[@value='Save & View']", true);
-        assertElementPresent("//td[text()='New Category']");
-        assertElementPresent("//td[text()='New Category Content']");
+        setFieldValue("name", "New Category");
+        setFieldValue("description", "New Category Content");
+        clickLinkWithText("Add", true);                       
+        assertElementPresent("//td[text()='New Category']");        
     }
 
     /*

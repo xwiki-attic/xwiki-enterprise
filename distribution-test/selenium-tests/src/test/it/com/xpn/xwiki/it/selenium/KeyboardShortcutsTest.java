@@ -79,11 +79,11 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         String viewURL = "/xwiki/bin/view/Sandbox/WebHome";
 
         // e : default edit wysiswyg
-        testShortcutFromResultingTitle(viewURL, "e", "Editing wysiwyg for Welcome to your wiki");
+        testShortcutFromResultingTitle(viewURL, "e", "Editing wysiwyg for Training Zone");
         // k : edit wiki
-        testShortcutFromResultingTitle(viewURL, "k", "Editing Wiki for Welcome to your wiki");
+        testShortcutFromResultingTitle(viewURL, "k", "Editing Wiki for Training Zone");
         // g : edit wysiwyg
-        testShortcutFromResultingTitle(viewURL, "g", "Editing wysiwyg for Welcome to your wiki");
+        testShortcutFromResultingTitle(viewURL, "g", "Editing wysiwyg for Training Zone");
         // f : edit inline
         testShortcutFromTextPresent(viewURL, "f", "Is minor edit:");
         // r : edit rights
@@ -93,11 +93,11 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // s : edit class
         testShortcutFromTextPresent(viewURL, "s", "Choose a property to edit or add a property to the class");
         // d : code
-        testShortcutFromTextPresent(viewURL, "d", "Wiki code for Welcome to your wiki");
+        testShortcutFromTextPresent(viewURL, "d", "Wiki code for Training Zone");
         // Delete : delete
         testShortcutFromTextPresent(viewURL, "\\46", "Are you sure you wish to move this document to the recycle bin");
         // F2 : rename
-        testShortcutFromTextPresent(viewURL, "\\113", "Renaming Main.WebHome");
+        testShortcutFromTextPresent(viewURL, "\\113", "Renaming Sandbox.WebHome");
 
         // Alt+C : cancel edit
         // open(editURL);

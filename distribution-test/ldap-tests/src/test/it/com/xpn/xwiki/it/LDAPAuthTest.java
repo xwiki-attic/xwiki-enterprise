@@ -119,7 +119,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         String userFullName = "XWiki." + LDAPTestSetup.WILLIAMBUSH_UID;
 
-        getSelenium().waitForCondition("selenium.page().bodyText().indexOf('" + userFullName + "') != -1;", "2000");
+        waitForCondition("selenium.page().bodyText().indexOf('" + userFullName + "') != -1;");
 
         assertTextPresent(userFullName);
 

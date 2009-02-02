@@ -76,7 +76,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
     {
         loginAsAdmin();
 
-        String viewURL = "/xwiki/bin/view/Main/WebHome";
+        String viewURL = "/xwiki/bin/view/Sandbox/WebHome";
 
         // e : default edit wysiswyg
         testShortcutFromResultingTitle(viewURL, "e", "Editing wysiwyg for Welcome to your wiki");

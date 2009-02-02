@@ -162,7 +162,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//div[@id='rightcolumn']", false);
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         waitForCondition("selenium.isElementPresent(\"//a[text()='Revert']\")!=false;");
-        getSelenium().dragAndDropToObject("//div[@class='panel expanded BlogCategories']", "//div[@id='leftPanels']");
+        getSelenium().dragAndDropToObject("//div[@class='panel expanded CategoriesPanel']", "//div[@id='leftPanels']");
         clickLinkWithXPath("//a[text()='Revert']", false);
 
         //test button 'Save the new layout'

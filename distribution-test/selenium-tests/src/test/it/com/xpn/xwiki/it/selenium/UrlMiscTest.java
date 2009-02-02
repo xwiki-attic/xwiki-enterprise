@@ -48,6 +48,6 @@ public class UrlMiscTest extends AbstractXWikiTestCase
     public void testSimpleBinUrlDoesNotThrowException()
     {
         open("/xwiki/bin");
-        assertTextPresent("Congratulations");
+        assertTextPresent("Welcome to your wiki");
     }
 }

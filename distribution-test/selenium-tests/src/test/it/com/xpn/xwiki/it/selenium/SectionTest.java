@@ -25,9 +25,9 @@ public class SectionTest extends AbstractXWikiTestCase
     {
         super.setUp();
         loginAsAdmin();
-        open("Main", "WebHome");
-        assertTextPresent("Welcome to your wiki");
-        assertTextPresent("How to start");
+        open("Sandbox", "WebHome");
+        assertTextPresent("Training Zone");
+        assertTextPresent("Heading 1");
     }
 
     /**
@@ -37,11 +37,11 @@ public class SectionTest extends AbstractXWikiTestCase
     { 
         clickLinkWithLocator("//div[@id='xwikicontent']/span[2]/a"); // Edit the second section
         clickLinkWithText("Wiki");
-        assertTextNotPresent("Welcome to your wiki");
-        assertTextPresent("How to start");
+        assertTextNotPresent("Training Zone");
+        assertTextPresent("Heading 1");
         clickEditSaveAndContinue();
-        assertTextNotPresent("Welcome to your wiki");
-        assertTextPresent("How to start");
+        assertTextNotPresent("Training Zone");
+        assertTextPresent("Heading 1");
     }
     
     /**
@@ -50,10 +50,10 @@ public class SectionTest extends AbstractXWikiTestCase
     public void testSectionEditInWysiwygEditor()
     {
         clickLinkWithLocator("//div[@id='xwikicontent']/span[2]/a"); // Edit the second section
-        assertTextNotPresent("Welcome to your wiki");
-        assertTextPresent("How to start");
+        assertTextNotPresent("Training Zone");
+        assertTextPresent("Heading 1");
         clickEditSaveAndContinue();
-        assertTextNotPresent("Welcome to your wiki");
-        assertTextPresent("How to start");
+        assertTextNotPresent("Training Zone");
+        assertTextPresent("Heading 1");
     }
 }

@@ -613,4 +613,35 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWikiEditor();
         assertEquals("before\n\n|=Space|=Page\n|Main|WebHome\n\nafter", getFieldValue("content"));
     }
+
+    /**
+     * @see XWIKI-3053: When a HR is inserted at the beginning of a paragraph an extra empty paragraph is generated
+     *      before that HR
+     */
+    public void testInsertHRInsideParagraph()
+    {
+        typeText("xy");
+        applyStyleParagraph();
+
+        // Insert HR at the end of the paragraph.
+        clickHRButton();
+
+        // More the caret between x and y.
+        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(XWE.body.firstChild.firstChild, 1);\n"
+            + "range.collapse(true);");
+
+        // Insert HR in the middle of the paragraph.
+        clickHRButton();
+
+        // Move the caret before x.
+        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(XWE.body.firstChild.firstChild, 0);\n"
+            + "range.collapse(true);");
+
+        // Insert HR at the beginning of the paragraph.
+        clickHRButton();
+
+        // We have to assert the XHTML because the arrow keys don't move the caret so we can't test if the user can edit
+        // the generated empty paragraphs. The fact that they contain a BR proves this.
+        assertXHTML("<p><br class=\"emptyLine\"></p><hr><p>x</p><hr><p>y</p><hr><p><br class=\"emptyLine\"></p>");
+    }
 }

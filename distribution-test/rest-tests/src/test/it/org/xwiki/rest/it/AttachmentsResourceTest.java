@@ -80,6 +80,31 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         assertEquals(content, getMethod.getResponseBodyAsString());
     }
 
+    public void testPUTAttachmentNoRights() throws Exception
+    {
+        TestUtils.banner("testPUTAttachment()");
+
+        String attachmentName = String.format("%d.txt", System.currentTimeMillis());
+        String content = "ATTACHMENT CONTENT";
+
+        Map<String, String> parametersMap = new HashMap<String, String>();
+        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
+        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
+        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
+        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
+
+        String attachmentUri =
+            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+
+        GetMethod getMethod = executeGet(attachmentUri);
+        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        PutMethod putMethod = executePlainPut(attachmentUri, content, "Guest", "guest");
+        assertEquals(HttpStatus.SC_FORBIDDEN, putMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(putMethod);
+    }
+
     public void testGETAttachments() throws Exception
     {
         TestUtils.banner("testGETAttachments()");

@@ -125,8 +125,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementPresent("//span[@id='hidesectionswrapper']");
         clickLinkWithLocator("//span[text()='Blog categories']");
         setFieldValue("name", "New Category");
-        setFieldValue("description", "New Category Content");
-        clickLinkWithText("Add", true);                       
+        setFieldValue("description", "New Category Content");              
+        clickLinkWithLocator("//input[@value='Add']", true);
         assertElementPresent("//td[text()='New Category']");        
     }
 

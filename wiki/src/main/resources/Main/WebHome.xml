@@ -15,7 +15,7 @@
 <date>1233340430000</date>
 <contentUpdateDate>1233340430000</contentUpdateDate>
 <version>1.1</version>
-<title>Welcome To Your Wiki</title>
+<title>Welcome to your wiki</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -57,7 +57,7 @@
 <tags/>
 </property>
 </object>
-<content>1 Welcome To Your Wiki
+<content>1 Welcome to your wiki
 
 It is an online workspace that allow people to work better together. This Wiki contains ~~pages~~ organized by ~~spaces~~. You're currently in the *Main* space, looking at the home page (*WebHome*). #if($hasEdit) You can use the [Sandbox space&gt;Sandbox.WebHome] to get familiar with page editing. #end
 

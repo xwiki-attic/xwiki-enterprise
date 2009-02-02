@@ -6,7 +6,7 @@
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent></parent>
+<parent>Main.Dashboard</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
@@ -546,10 +546,17 @@ $xwiki.ssx.use("Main.RecentChanges")
 #macro(displayRcAuthor $author)
   #useravatar($author)
   &lt;br/&gt;&lt;span class="recentChangesAuthor"&gt;
-  #if ($author == "XWikiGuest")
+  #if($author == "XWikiGuest")
     Guest
   #else    
-    $xwiki.getLocalUserName($author)
+    #set($localUserName = $xwiki.getLocalUserName($author))
+    #if($localUserName == "")
+      ## localUserName can be empty when the page has been saved without specifying the author. 
+      ## We're printing a non-breaking space to ensure xhtml validity (ie: avoid empty paragraph).
+      &amp;nbsp;      
+    #else
+      $localUserName
+    #end
   #end
   &lt;/span&gt;
 #end

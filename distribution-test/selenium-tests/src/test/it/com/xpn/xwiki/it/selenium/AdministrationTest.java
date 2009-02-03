@@ -127,7 +127,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("name", "New Category");
         setFieldValue("description", "New Category Content");              
         clickLinkWithLocator("//input[@value='Add']", true);
-        assertElementPresent("//td[text()='New Category']");        
+        assertTextPresent("New Category");               
     }
 
     /*

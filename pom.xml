@@ -40,6 +40,25 @@
     <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</developerConnection>
     <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</url>
   </scm>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <!-- Lock down plugin version for build reproducibility -->
+          <version>2.0-beta-7</version>
+          <configuration>
+            <!-- By default the release plugin will execute the "clean" and "verify" goals but won't perform an
+                 "install". This is causing problems since several modules will fail to build during release:prepare.
+                 See http://tinyurl.com/354vwe for more details. Thus we're forcing the execution of the "install"
+                 goal. -->
+            <preparationGoals>clean install</preparationGoals>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
   <modules>        
     <module>wiki</module>
     <module>database</module>

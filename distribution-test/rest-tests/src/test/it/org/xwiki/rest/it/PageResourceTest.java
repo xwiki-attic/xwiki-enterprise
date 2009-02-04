@@ -40,6 +40,7 @@ import org.xwiki.rest.model.Space;
 import org.xwiki.rest.model.Spaces;
 import org.xwiki.rest.model.Wiki;
 import org.xwiki.rest.model.Wikis;
+import org.xwiki.rest.resources.pages.PageChildrenResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
 import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.pages.PageTranslationResource;
@@ -424,6 +425,30 @@ public class PageResourceTest extends AbstractHttpTest
 
             checkLinks(page);
             checkLinks(page.getTranslations());
+        }
+    }
+
+    public void testGETPageChildren() throws Exception
+    {
+        TestUtils.banner("testGETPageChildren");
+
+        Map<String, String> parametersMap = new HashMap<String, String>();
+        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
+        parametersMap.put(Constants.SPACE_NAME_PARAMETER, "Main");
+        parametersMap.put(Constants.PAGE_NAME_PARAMETER, "WebHome");
+
+        String pageChildrenUri =
+            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageChildrenResource.class), parametersMap));
+
+        GetMethod getMethod = executeGet(pageChildrenUri);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Pages pages = (Pages) xstream.fromXML(getMethod.getResponseBodyAsString());
+        assertTrue(pages.getPageSummaryList().size() > 0);
+
+        for (PageSummary pageSummary : pages.getPageSummaryList()) {
+            checkLinks(pageSummary);
         }
     }
 

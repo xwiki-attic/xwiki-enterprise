@@ -580,4 +580,52 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         // Give the focus back.
         runScript("XWE.focus();");
     }
+
+    /**
+     * Places the caret in the specified container, at the specified offset.
+     * 
+     * @param containerJSLocator the JavaScript code used to access the container node
+     * @param offset the offset within the container node
+     */
+    public void moveCaret(String containerJSLocator, int offset)
+    {
+        StringBuffer script = new StringBuffer();
+        script.append("var range = XWE.document.createRange();\n");
+        script.append("range.setStart(");
+        script.append(containerJSLocator);
+        script.append(", ");
+        script.append(offset);
+        script.append(");\n");
+        script.append("range.collapse(true);\n");
+        script.append("XWE.selection.removeAllRanges();\n");
+        script.append("XWE.selection.addRange(range);");
+        runScript(script.toString());
+    }
+
+    /**
+     * Selects the content between the specified points in the DOM tree.
+     * 
+     * @param startContainerJSLocator the node containing the start of the selection
+     * @param startOffset the offset within the start container where the selection starts
+     * @param endContainerJSLocator the node containing the end of the selection
+     * @param endOffset the offset within the end container where the selection ends
+     */
+    public void select(String startContainerJSLocator, int startOffset, String endContainerJSLocator, int endOffset)
+    {
+        StringBuffer script = new StringBuffer();
+        script.append("var range = XWE.document.createRange();\n");
+        script.append("range.setStart(");
+        script.append(startContainerJSLocator);
+        script.append(", ");
+        script.append(startOffset);
+        script.append(");\n");
+        script.append("range.setEnd(");
+        script.append(endContainerJSLocator);
+        script.append(", ");
+        script.append(endOffset);
+        script.append(");\n");
+        script.append("XWE.selection.removeAllRanges();\n");
+        script.append("XWE.selection.addRange(range);");
+        runScript(script.toString());
+    }
 }

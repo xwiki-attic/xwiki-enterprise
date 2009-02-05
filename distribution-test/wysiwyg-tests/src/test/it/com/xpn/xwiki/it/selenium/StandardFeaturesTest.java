@@ -255,7 +255,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         clickHRButton();
         // We don't switch to Wiki because we want to see if the Backspace works.
-        assertXHTML("<hr><br class=\"emptyLine\">");
+        assertXHTML("<hr><br class=\"spacer\">");
 
         typeBackspaces(2);
         testEmptyWysiwyg();
@@ -264,8 +264,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeDelete();
         applyStyleTitle1();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(range.startContainer, 3);\n"
-            + "range.collapse(true);");
+        moveCaret("XWE.selection.getRangeAt(0).startContainer", 3);
         clickHRButton();
         assertXHTML("<h1>foo</h1><hr><h1>bar</h1>");
     }
@@ -360,8 +359,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeText("x");
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(range.startContainer, 0);\n"
-            + "range.collapse(true);");
+        moveCaret("XWE.selection.getRangeAt(0).startContainer", 0);
         clickUnorderedListButton();
         typeTab();
         assertXHTML("<ul><ul><li>x</li></ul></ul>");
@@ -401,10 +399,10 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWikiEditor();
         setFieldValue("content", "a\n\n\n\nb");
         switchToWysiwygEditor();
-        assertXHTML("<p>a</p><p><br class=\"emptyLine\"></p><p><br class=\"emptyLine\"></p><p>b</p>");
+        assertXHTML("<p>a</p><p><br class=\"spacer\"></p><p><br class=\"spacer\"></p><p>b</p>");
         // TODO: Since neither the down arrow key nor the click doesn't seem to move the caret we have to find another
         // way of placing the caret on the empty lines, without using the Range API.
-        // TODO: Assert by switching to Wiki editor to avoid hard-coding class="emptyLine".
+        // TODO: Assert by switching to Wiki editor to avoid hard-coding class="spacer".
     }
 
     /**
@@ -445,8 +443,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwygEditor();
 
         // Place the caret after "Hello ".
-        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setEnd(XWE.body.firstChild.firstChild, 6);\n"
-            + "range.collapse(false);");
+        moveCaret("XWE.body.firstChild.firstChild", 6);
 
         typeEnter(4);
 
@@ -466,11 +463,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().click("//div[@title='copyright sign']");
         applyStyleTitle1();
         clickUndoButton(4);
-        assertXHTML("alice bob<br class=\"emptyLine\">");
+        assertXHTML("alice bob<br class=\"spacer\">");
         clickUndoButton(3);
-        assertXHTML("<br class=\"emptyLine\">");
+        assertXHTML("<br class=\"spacer\">");
         clickRedoButton(7);
-        assertXHTML("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br class=\"emptyLine\"></h1>");
+        assertXHTML("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br class=\"spacer\"></h1>");
     }
 
     /**
@@ -499,8 +496,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("cd");
 
         // Make a cross paragraph selection.
-        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(XWE.body.firstChild.firstChild, 1);\n"
-            + "range.setEnd(XWE.body.lastChild.firstChild, 1);");
+        select("XWE.body.firstChild.firstChild", 1, "XWE.body.lastChild.firstChild", 1);
 
         // Press Enter.
         typeEnter();
@@ -524,9 +520,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("cd");
 
         // Make a cross table cell selection.
-        runScript("var range = XWE.selection.getRangeAt(0);\n"
-            + "range.setStart(XWE.body.firstChild.rows[0].cells[0].lastChild, 1);\n"
-            + "range.setEnd(XWE.body.firstChild.rows[0].cells[1].firstChild, 1);");
+        select("XWE.body.firstChild.rows[0].cells[0].lastChild", 1, "XWE.body.firstChild.rows[0].cells[1].firstChild",
+            1);
 
         // Press Enter.
         typeEnter();
@@ -561,8 +556,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwygEditor();
 
         // Place the caret in the middle of the header.
-        runScript("var range = XWE.selection.getRangeAt(0);\n"
-            + "range.setEnd(XWE.body.firstChild.firstChild.firstChild, 3);\n" + "range.collapse(false);");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
 
         // Type some text to update the tool bar.
         typeText("#");
@@ -591,8 +585,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwygEditor();
 
         // Place the caret in one of the table cells.
-        runScript("var range = XWE.selection.getRangeAt(0);\n"
-            + "range.setEnd(XWE.body.firstChild.rows[0].cells[0].firstChild, 2);\n" + "range.collapse(false);");
+        moveCaret("XWE.body.firstChild.rows[0].cells[0].firstChild", 2);
 
         // Move the caret before the table and type some text.
         getSelenium().controlKeyDown();
@@ -601,8 +594,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("before");
 
         // Place the caret again in one of the table cells.
-        runScript("var range = XWE.selection.getRangeAt(0);\n"
-            + "range.setEnd(XWE.body.lastChild.rows[1].cells[1].firstChild, 3);\n" + "range.collapse(false);");
+        moveCaret("XWE.body.lastChild.rows[1].cells[1].firstChild", 3);
 
         // Move the caret after the table and type some text.
         getSelenium().controlKeyDown();
@@ -627,21 +619,31 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickHRButton();
 
         // More the caret between x and y.
-        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(XWE.body.firstChild.firstChild, 1);\n"
-            + "range.collapse(true);");
+        moveCaret("XWE.body.firstChild.firstChild", 1);
 
         // Insert HR in the middle of the paragraph.
         clickHRButton();
 
         // Move the caret before x.
-        runScript("var range = XWE.selection.getRangeAt(0);\n" + "range.setStart(XWE.body.firstChild.firstChild, 0);\n"
-            + "range.collapse(true);");
+        moveCaret("XWE.body.firstChild.firstChild", 0);
 
         // Insert HR at the beginning of the paragraph.
         clickHRButton();
 
         // We have to assert the XHTML because the arrow keys don't move the caret so we can't test if the user can edit
         // the generated empty paragraphs. The fact that they contain a BR proves this.
-        assertXHTML("<p><br class=\"emptyLine\"></p><hr><p>x</p><hr><p>y</p><hr><p><br class=\"emptyLine\"></p>");
+        assertXHTML("<p><br class=\"spacer\"></p><hr><p>x</p><hr><p>y</p><hr><p><br class=\"spacer\"></p>");
+    }
+
+    /**
+     * @see XWIKI-3191: New lines at the end of list items are not preserved by the wysiwyg
+     */
+    public void testNewLinesAtTheEndOfListItemsArePreserved()
+    {
+        switchToWikiEditor();
+        setFieldValue("content", "* \\\\\n** \\\\\n*** test1");
+        switchToWysiwygEditor();
+        switchToWikiEditor();
+        assertEquals("* \\\\\n** \\\\\n*** test1", getFieldValue("content"));
     }
 }

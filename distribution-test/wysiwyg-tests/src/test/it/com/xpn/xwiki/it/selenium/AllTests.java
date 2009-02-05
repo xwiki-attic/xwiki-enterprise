@@ -44,6 +44,7 @@ public class AllTests extends TestCase
         TestSuite suite = new TestSuite();
 
         addTestCase(suite, StandardFeaturesTest.class);
+        addTestCase(suite, ListSupportTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

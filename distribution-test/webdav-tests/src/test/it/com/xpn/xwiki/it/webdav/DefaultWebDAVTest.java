@@ -22,12 +22,7 @@ package com.xpn.xwiki.it.webdav;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
-import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PutMethod;
@@ -42,58 +37,8 @@ import org.apache.webdav.lib.methods.PropFindMethod;
  * 
  * @version $Id$
  */
-public class DefaultWebDAVTest extends TestCase
+public class DefaultWebDAVTest extends AbstractWebDAVTest
 {
-    /**
-     * Root webdav view.
-     */
-    private static final String ROOT = "http://localhost:8080/xwiki/webdav";
-    
-    /**
-     * location of the home view.
-     */
-    private static final String HOME = ROOT + "/home";
-    
-    /**
-     * location of the spaces view.
-     */
-    private static final String SPACES = ROOT + "/spaces";        
-    
-    /**
-     * location of the attachments view.
-     */
-    private static final String ATTACHMENTS = ROOT + "/attachments";
-
-    /**
-     * location of the orphans view.
-     */
-    private static final String ORPHANS = ROOT + "/orphans";
-    
-    /**
-     * location of the whatsnew view.
-     */
-    private static final String WHATSNEW = ROOT + "/whatsnew";
-    
-    /**
-     * The {@link HttpClient} used to invoke various methods on the webdav server.
-     */
-    private static HttpClient client;
-
-    /**
-     * Initializes the http client.
-     */
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        client = new HttpClient();
-        client.getState().setCredentials(
-            new AuthScope(AuthScope.ANY_HOST,
-                AuthScope.ANY_PORT,
-                AuthScope.ANY_REALM,
-                AuthScope.ANY_SCHEME), new UsernamePasswordCredentials("Admin", "admin"));
-        client.getHttpConnectionManager().getParams().setConnectionTimeout(10000);
-    }
-
     /**
      * Test PROPFIND request on webdav root.
      */
@@ -103,7 +48,7 @@ public class DefaultWebDAVTest extends TestCase
         propFindMethod.setDoAuthentication(true);
         propFindMethod.setDepth(PropFindMethod.DEPTH_1);
         try {
-            int status = client.executeMethod(propFindMethod);
+            int status = getHttpClient().executeMethod(propFindMethod);
             assertEquals(DavServletResponse.SC_MULTI_STATUS, status);
         } catch (HttpException ex) {
             fail(ex.getMessage());
@@ -124,13 +69,11 @@ public class DefaultWebDAVTest extends TestCase
         mkColMethod.setDoAuthentication(true);
         try {
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             mkColMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
             fail(ex.getMessage());
         } catch (IOException ex) {
@@ -154,19 +97,16 @@ public class DefaultWebDAVTest extends TestCase
         moveMethod.setDoAuthentication(true);
         try {
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             deleteMethod.setPath(movedSpaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             mkColMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             moveMethod.setPath(spaceUrl);
             moveMethod.setDestination(relativeDestinationPath);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(moveMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(moveMethod));
             deleteMethod.setPath(movedSpaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
             fail(ex.getMessage());
         } catch (IOException ex) {
@@ -187,18 +127,15 @@ public class DefaultWebDAVTest extends TestCase
         mkColMethod.setDoAuthentication(true);
         try {
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             mkColMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             mkColMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             deleteMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
             fail(ex.getMessage());
         } catch (IOException ex) {
@@ -223,24 +160,21 @@ public class DefaultWebDAVTest extends TestCase
         getMethod.setDoAuthentication(true);
         try {
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             mkColMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             mkColMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             getMethod.setPath(wikiTextFileUrl);
-            assertEquals(DavServletResponse.SC_OK, client.executeMethod(getMethod));
+            assertEquals(DavServletResponse.SC_OK, getHttpClient().executeMethod(getMethod));
             assertTrue(getMethod.getResponseBodyAsStream().read() != -1);
             getMethod.setPath(wikiXMLFileUrl);
-            assertEquals(DavServletResponse.SC_OK, client.executeMethod(getMethod));
+            assertEquals(DavServletResponse.SC_OK, getHttpClient().executeMethod(getMethod));
             assertTrue(getMethod.getResponseBodyAsStream().read() != -1);
             deleteMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
             fail(ex.getMessage());
         } catch (IOException ex) {
@@ -268,34 +202,26 @@ public class DefaultWebDAVTest extends TestCase
         getMethod.setDoAuthentication(true);
         try {
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             mkColMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             mkColMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             putMethod.setPath(wikiTextFileUrl);
-            putMethod
-                .setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(newContent
-                    .getBytes())));
+            putMethod.setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(newContent.getBytes())));
             // Already existing resource, in which case SC_NO_CONTENT will be the return status.
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client.executeMethod(putMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(putMethod));
             getMethod.setPath(wikiTextFileUrl);
-            assertEquals(DavServletResponse.SC_OK, client.executeMethod(getMethod));
+            assertEquals(DavServletResponse.SC_OK, getHttpClient().executeMethod(getMethod));
             assertEquals(newContent, getMethod.getResponseBodyAsString());
             putMethod.setPath(wikiXMLFileUrl);
-            putMethod
-                .setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(newContent
-                    .getBytes())));
+            putMethod.setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(newContent.getBytes())));
             // XML saving was disabled recently. See http://jira.xwiki.org/jira/browse/XWIKI-2910
-            assertEquals(DavServletResponse.SC_METHOD_NOT_ALLOWED, client
-                .executeMethod(putMethod));
+            assertEquals(DavServletResponse.SC_METHOD_NOT_ALLOWED, getHttpClient().executeMethod(putMethod));
             deleteMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
             fail(ex.getMessage());
         } catch (IOException ex) {
@@ -322,31 +248,26 @@ public class DefaultWebDAVTest extends TestCase
         getMethod.setDoAuthentication(true);
         try {
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             mkColMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             mkColMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(mkColMethod));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(mkColMethod));
             getMethod.setPath(attachmentUrl);
-            assertEquals(DavServletResponse.SC_NOT_FOUND, client.executeMethod(getMethod));
+            assertEquals(DavServletResponse.SC_NOT_FOUND, getHttpClient().executeMethod(getMethod));
             putMethod.setPath(attachmentUrl);
-            putMethod
-                .setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(attachmentContent
-                    .getBytes())));
-            assertEquals(DavServletResponse.SC_CREATED, client.executeMethod(putMethod));
+            putMethod.setRequestEntity(new InputStreamRequestEntity(new ByteArrayInputStream(attachmentContent
+                .getBytes())));
+            assertEquals(DavServletResponse.SC_CREATED, getHttpClient().executeMethod(putMethod));
             getMethod.setPath(attachmentUrl);
-            assertEquals(DavServletResponse.SC_OK, client.executeMethod(getMethod));
+            assertEquals(DavServletResponse.SC_OK, getHttpClient().executeMethod(getMethod));
             assertEquals(attachmentContent, getMethod.getResponseBodyAsString());
             deleteMethod.setPath(attachmentUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             deleteMethod.setPath(pageUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
             deleteMethod.setPath(spaceUrl);
-            assertEquals(DavServletResponse.SC_NO_CONTENT, client
-                .executeMethod(deleteMethod));
+            assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
             fail(ex.getMessage());
         } catch (IOException ex) {

@@ -23,6 +23,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import com.xpn.xwiki.it.webdav.DefaultWebDAVTest;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
@@ -39,7 +40,7 @@ public class AllTests extends TestCase
     public static Test suite() throws Exception
     {
         TestSuite suite = new TestSuite();
-        addTestCase(suite, WebDAVTest.class);
+        addTestCase(suite, DefaultWebDAVTest.class);
         return new XWikiTestSetup(suite);
     }
 

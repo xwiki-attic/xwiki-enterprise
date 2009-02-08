@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import com.xpn.xwiki.it.webdav.DefaultWebDAVTest;
+import com.xpn.xwiki.it.webdav.RootViewTest;
 import com.xpn.xwiki.test.XWikiTestSetup;
 
 /**
@@ -41,6 +42,7 @@ public class AllTests extends TestCase
     {
         TestSuite suite = new TestSuite();
         addTestCase(suite, DefaultWebDAVTest.class);
+        addTestCase(suite, RootViewTest.class);
         return new XWikiTestSetup(suite);
     }
 

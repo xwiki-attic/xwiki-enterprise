@@ -30,7 +30,6 @@ import org.apache.jackrabbit.webdav.DavServletResponse;
 import org.apache.webdav.lib.methods.DeleteMethod;
 import org.apache.webdav.lib.methods.MkcolMethod;
 import org.apache.webdav.lib.methods.MoveMethod;
-import org.apache.webdav.lib.methods.PropFindMethod;
 
 /**
  * The integration test suite for webdav.
@@ -39,24 +38,6 @@ import org.apache.webdav.lib.methods.PropFindMethod;
  */
 public class DefaultWebDAVTest extends AbstractWebDAVTest
 {
-    /**
-     * Test PROPFIND request on webdav root.
-     */
-    public void testPropFind()
-    {
-        PropFindMethod propFindMethod = new PropFindMethod(ROOT);
-        propFindMethod.setDoAuthentication(true);
-        propFindMethod.setDepth(PropFindMethod.DEPTH_1);
-        try {
-            int status = getHttpClient().executeMethod(propFindMethod);
-            assertEquals(DavServletResponse.SC_MULTI_STATUS, status);
-        } catch (HttpException ex) {
-            fail(ex.getMessage());
-        } catch (IOException ex) {
-            fail(ex.getMessage());
-        }
-    }
-
     /**
      * Test create and delete space.
      */

@@ -30,6 +30,7 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.webdav.lib.methods.MkcolMethod;
@@ -190,6 +191,14 @@ public class AbstractWebDAVTest extends TestCase
         return deleteMethod;
     }
 
+    /**
+     * Tests the MOVE method on the given url.
+     * 
+     * @param url the target url.
+     * @param destination the destination parameter for the {@link MoveMethod}.
+     * @param expect the return status expected.
+     * @return the {@link HttpMethod} which contains the response.
+     */
     protected HttpMethod move(String url, String destination, int expect)
     {
         MoveMethod moveMethod = new MoveMethod();
@@ -198,5 +207,21 @@ public class AbstractWebDAVTest extends TestCase
         moveMethod.setDestination(destination);
         testMethod(moveMethod, expect);
         return moveMethod;
+    }
+    
+    /**
+     * Tests the GET method on the given url.
+     * 
+     * @param url the target url.
+     * @param expect the return status expected.
+     * @return the {@link HttpMethod} which contains the response.
+     */
+    protected HttpMethod get(String url, int expect)
+    {
+        GetMethod getMethod = new GetMethod();
+        getMethod.setDoAuthentication(true);
+        getMethod.setPath(url);
+        testMethod(getMethod, expect);
+        return getMethod;
     }
 }

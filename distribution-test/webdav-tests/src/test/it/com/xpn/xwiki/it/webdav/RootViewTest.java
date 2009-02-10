@@ -61,10 +61,10 @@ public class RootViewTest extends AbstractWebDAVTest
         String tempCollectionUrl = ROOT + "/.temp";
         // Create.
         mkCol(tempCollectionUrl, DavServletResponse.SC_CREATED);
-        // Invalid move.
-        move(tempCollectionUrl, "/xwiki/webdav/temp", DavServletResponse.SC_METHOD_NOT_ALLOWED);
-        // Valid move: renaming temporary collections is not allowed at the moment.
-        move(tempCollectionUrl, "/xwiki/webdav/.tmp", DavServletResponse.SC_FORBIDDEN);
+        // Invalid rename (move).
+        move(tempCollectionUrl, "/xwiki/webdav/temp2", DavServletResponse.SC_METHOD_NOT_ALLOWED);
+        // Valid rename (move): renaming temporary collections is not allowed at the moment.
+        move(tempCollectionUrl, "/xwiki/webdav/.temp2", DavServletResponse.SC_FORBIDDEN);
         // Delete.
         delete(tempCollectionUrl, DavServletResponse.SC_NO_CONTENT);
     }
@@ -75,15 +75,20 @@ public class RootViewTest extends AbstractWebDAVTest
     public void testTempFileOperations()
     {
         String tempFileUrl = ROOT + "/temp.txt~";
-        String destinationUrl = "/xwiki/webdav/.temp.txt";
+        String destinationUrl = ROOT + "/.temp.txt";
+        String relativeDestinationUrl = "/xwiki/webdav/.temp.txt";
         // Create.
         put(tempFileUrl, "Content", DavServletResponse.SC_CREATED);
-        // Invalid move.
+        // Spool.
+        get(tempFileUrl, DavServletResponse.SC_OK);
+        // Invalid rename (move).
         move(tempFileUrl, "/xwiki/webdav/temp.txt", DavServletResponse.SC_METHOD_NOT_ALLOWED);
-        // Valid move.
-        move(tempFileUrl, destinationUrl, DavServletResponse.SC_CREATED);
+        // Valid rename (move).
+        move(tempFileUrl, relativeDestinationUrl, DavServletResponse.SC_CREATED);
+        // Spool.
+        get(destinationUrl, DavServletResponse.SC_OK);
         // Delete.
-        delete(ROOT + "/.temp.txt", DavServletResponse.SC_NO_CONTENT);
+        delete(destinationUrl, DavServletResponse.SC_NO_CONTENT);
     }
 
     /**

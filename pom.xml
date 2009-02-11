@@ -50,8 +50,8 @@
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
     <platform.tool.xar-handler.version>1.9-SNAPSHOT</platform.tool.xar-handler.version>
-    <platform.tool.xar-plugin.version>1.12-SNAPSHOT</platform.tool.xar-plugin.version>
-    <platform.tool.configuration.version>1.22-SNAPSHOT</platform.tool.configuration.version>
+    <platform.tool.xar-plugin.version>1.13-SNAPSHOT</platform.tool.xar-plugin.version>
+    <platform.tool.configuration.version>1.22</platform.tool.configuration.version>
     <platform.tool.jetty.version>1.11</platform.tool.jetty.version>
     <platform.tool.rootwebapp.version>1.1-SNAPSHOT</platform.tool.rootwebapp.version>
     <platform.tool.test.version>1.15-SNAPSHOT</platform.tool.test.version>
@@ -64,7 +64,7 @@
     <platform.administration.version>1.5</platform.administration.version>
     <platform.scheduler.version>1.6-SNAPSHOT</platform.scheduler.version>
     <platform.watchlist.version>1.13-SNAPSHOT</platform.watchlist.version>
-    <platform.jodatime.version>1.3-SNAPSHOT</platform.jodatime.version>
+    <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.4-SNAPSHOT</platform.statistics.version>
     <platform.plugin.lucene.version>1.7-SNAPSHOT</platform.plugin.lucene.version>
     <!-- Skinx 1.6 implements skin file extensions which depends on web-standard 1.8, we must keep 1.5 -->

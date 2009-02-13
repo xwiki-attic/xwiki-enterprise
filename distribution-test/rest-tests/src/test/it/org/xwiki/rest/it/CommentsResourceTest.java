@@ -31,10 +31,12 @@ import org.xwiki.rest.model.Comment;
 import org.xwiki.rest.model.Comments;
 import org.xwiki.rest.model.History;
 import org.xwiki.rest.model.HistorySummary;
+import org.xwiki.rest.model.Link;
 import org.xwiki.rest.model.Page;
 import org.xwiki.rest.model.Relations;
 import org.xwiki.rest.resources.comments.CommentsResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
+import org.xwiki.rest.resources.pages.PageResource;
 
 public class CommentsResourceTest extends AbstractHttpTest
 {
@@ -106,6 +108,18 @@ public class CommentsResourceTest extends AbstractHttpTest
         Comments comments = (Comments) xstream.fromXML(getMethod.getResponseBodyAsString());
 
         if (comments.getCommentList() != null) {
+            String pageUri =
+                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap));
+
+            getMethod = executeGet(pageUri);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+            TestUtils.printHttpMethodInfo(getMethod);
+
+            Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+
+            Link link = page.getFirstLinkByRelation(Relations.COMMENTS);
+            assertNotNull(link);
+
             for (Comment comment : comments.getCommentList()) {
                 checkLinks(comment);
             }
@@ -136,9 +150,14 @@ public class CommentsResourceTest extends AbstractHttpTest
             TestUtils.printHttpMethodInfo(getMethod);
 
             Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
-            getMethod = executeGet(page.getFirstLinkByRelation(Relations.COMMENTS).getHref());
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
-            TestUtils.printHttpMethodInfo(getMethod);
+            
+            Link commentsLink = page.getFirstLinkByRelation(Relations.COMMENTS);
+            
+            if (commentsLink != null) {
+                getMethod = executeGet(commentsLink.getHref());
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                TestUtils.printHttpMethodInfo(getMethod);
+            }
         }
 
     }

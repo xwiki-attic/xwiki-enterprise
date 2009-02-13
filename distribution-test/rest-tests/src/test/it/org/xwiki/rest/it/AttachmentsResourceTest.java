@@ -31,11 +31,14 @@ import org.xwiki.rest.Constants;
 import org.xwiki.rest.Utils;
 import org.xwiki.rest.model.Attachment;
 import org.xwiki.rest.model.Attachments;
+import org.xwiki.rest.model.Link;
+import org.xwiki.rest.model.Page;
 import org.xwiki.rest.model.Relations;
 import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
 import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
+import org.xwiki.rest.resources.pages.PageResource;
 
 public class AttachmentsResourceTest extends AbstractHttpTest
 {
@@ -124,6 +127,17 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         Attachments attachments = (Attachments) xstream.fromXML(getMethod.getResponseBodyAsString());
 
         assertTrue(attachments.getAttachmentList().size() > 0);
+        
+        String pageUri = getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap));
+        
+        getMethod = executeGet(pageUri);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+        
+        Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());            
+        
+        Link link = page.getFirstLinkByRelation(Relations.ATTACHMENTS);
+        assertNotNull(link);
     }
 
     public void testDELETEAttachment() throws Exception

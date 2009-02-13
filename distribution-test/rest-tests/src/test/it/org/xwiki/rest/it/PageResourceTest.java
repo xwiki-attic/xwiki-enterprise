@@ -101,6 +101,9 @@ public class PageResourceTest extends AbstractHttpTest
 
         Link link = page.getFirstLinkByRelation(Relations.SELF);
         assertNotNull(link);
+        
+        link = page.getFirstLinkByRelation(Relations.HISTORY);
+        assertNotNull(link);
 
         checkLinks(page);
     }

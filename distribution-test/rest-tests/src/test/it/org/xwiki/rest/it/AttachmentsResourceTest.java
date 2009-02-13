@@ -128,6 +128,13 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         assertTrue(attachments.getAttachmentList().size() > 0);
         
+        for(Attachment attachment : attachments.getAttachmentList()) {
+            Link link = attachment.getFirstLinkByRelation(Relations.HISTORY);
+            assertNotNull(link);
+            
+            checkLinks(attachment);
+        }        
+        
         String pageUri = getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap));
         
         getMethod = executeGet(pageUri);
@@ -135,7 +142,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
         
         Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());            
-        
+                
         Link link = page.getFirstLinkByRelation(Relations.ATTACHMENTS);
         assertNotNull(link);
     }

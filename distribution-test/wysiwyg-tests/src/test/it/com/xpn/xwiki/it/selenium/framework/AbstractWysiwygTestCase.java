@@ -403,9 +403,19 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         pushButton("//div[@title='Indent']");
     }
 
+    public boolean isIndentButtonEnabled()
+    {
+        return isButtonEnabled("Indent");
+    }
+
     public void clickOutdentButton()
     {
         pushButton("//div[@title='Outdent']");
+    }
+
+    public boolean isOutdentButtonEnabled()
+    {
+        return isButtonEnabled("Outdent");
     }
 
     public void clickBoldButton()
@@ -538,6 +548,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().mouseDown(locator);
         getSelenium().mouseUp(locator);
         getSelenium().mouseOut(locator);
+    }
+
+    public boolean isButtonEnabled(String buttonTitle)
+    {
+        return getSelenium().isElementPresent(
+            "//div[@title='" + buttonTitle + "' and @class='gwt-PushButton gwt-PushButton-up']");
     }
 
     public void assertXHTML(String xhtml)

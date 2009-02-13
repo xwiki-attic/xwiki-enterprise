@@ -357,14 +357,16 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testTabInListItem()
     {
-        typeText("x");
-        // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        moveCaret("XWE.selection.getRangeAt(0).startContainer", 0);
+        typeTextThenEnter("x");
+        typeText("y");
+        selectAllContent();
         clickUnorderedListButton();
+        // Since the left arrow key doesn't move the caret we have to use the Range API instead.
+        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);        
         typeTab();
-        assertXHTML("<ul><ul><li>x</li></ul></ul>");
+        assertXHTML("<ul><li>x<ul><li>y</li></ul></li></ul>");
         typeShiftTab();
-        assertXHTML("<ul><li>x</li></ul>");
+        assertXHTML("<ul><li>x</li><li>y</li></ul>");
     }
 
     /**

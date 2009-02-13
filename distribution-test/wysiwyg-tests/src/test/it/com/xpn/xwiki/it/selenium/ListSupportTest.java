@@ -269,7 +269,9 @@ public class ListSupportTest extends AbstractWysiwygTestCase
 
     /**
      * Test delete at the end of a sublist item on a higher level moves the list item on the lower level inside it.
-     * XWIKI-3114: Backspace is ignored at the beginning of a list item if the previous list item is on a lower level.
+     * 
+     * @see XWIKI-3114: Backspace is ignored at the beginning of a list item if the previous list item is on a lower
+     *      level.
      */
     public void testDeleteBeforePreviousLevelItem()
     {
@@ -284,8 +286,10 @@ public class ListSupportTest extends AbstractWysiwygTestCase
 
     /**
      * Test backspace at the beginning of a sublist item before a sublist moves the item on the lower level to the item
-     * on the higher level. XWIKI-3114: Backspace is ignored at the beginning of a list item if the previous list item
-     * is on a lower level.
+     * on the higher level.
+     * 
+     * @see XWIKI-3114: Backspace is ignored at the beginning of a list item if the previous list item is on a lower
+     *      level.
      */
     public void testBackspaceAfterPreviousLevelItem()
     {
@@ -433,5 +437,111 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         select("XWE.body.firstChild.firstChild.firstChild", 2, "XWE.body.firstChild.lastChild.firstChild", 1);
         typeDelete();
         assertXHTML("<ul><li>onix</li></ul>");
+    }
+
+    /**
+     * Test creating a list with two items and indenting the second item. The indented item should be a sublist of the
+     * first item and the resulted HTML should be valid.
+     */
+    public void testIndentNoSublist()
+    {
+        clickUnorderedListButton();
+        typeText("foo");
+        typeEnter();
+        typeText("bar");
+        assertXHTML("<ul><li>foo</li><li>bar<br class=\"spacer\"></li></ul>");
+        clickIndentButton();
+        assertXHTML("<ul><li>foo<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
+        // test that the indented item cannot be indented once more
+        assertFalse(isIndentButtonEnabled());
+        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0);
+        typeTab();
+        // check that nothing happened
+        assertXHTML("<ul><li>foo<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
+        switchToWikiEditor();
+        assertEquals("* foo\n** bar", getFieldValue("content"));
+    }
+
+    /**
+     * Test that indenting an item to the second level under a list item with a list already on the second level unifies
+     * the two lists.
+     */
+    public void testIndentUnderSublist()
+    {
+        clickUnorderedListButton();
+        typeTextThenEnter("one");
+        typeTextThenEnter("two");
+        typeTab();
+        typeTextThenEnter("two plus one");
+        typeShiftTab();
+        typeText("three");
+        clickIndentButton();
+        assertXHTML("<ul><li>one</li><li>two<ul><li>two plus one</li>"
+            + "<li>three<br class=\"spacer\"></li></ul></li></ul>");
+        switchToWikiEditor();
+        assertEquals("* one\n* two\n** two plus one\n** three", getFieldValue("content"));
+    }
+
+    /**
+     * Test indenting (using the tab key) an item with a sublist, that the child sublist is indented with its parent.
+     * 
+     * @see XWIKI-3118: Indenting a list item with a sublist works incorrectly.
+     * @see XWIKI-3117: Shift + Tab does works incorrect on an item that contains a sublist.
+     */
+    public void testIndentOutdentWithSublist()
+    {
+        clickUnorderedListButton();
+        typeText("foo");
+        typeEnter();
+        typeText("bar");
+        clickIndentButton();
+        // move to the end of the foo element, hit enter, tab and type. Should create a new list item, parent of the bar
+        // sublist, tab should indent and type should add content
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        typeText("one");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        typeEnter();
+        assertXHTML("<ul><li>foo</li><li>one<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
+        // check that the list item is indentable, the list plugin is correctly recognizing lists (XWIKI-3061)
+        assertTrue(isIndentButtonEnabled());
+        clickIndentButton();
+        assertXHTML("<ul><li>foo<ul><li>one<ul><li>bar<br class=\"spacer\"></li></ul></li></ul></li></ul>");
+        switchToWikiEditor();
+        assertEquals("* foo\n** one\n*** bar", getFieldValue("content"));
+        switchToWysiwygEditor();
+        // select second element "one"
+        select("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0,
+            "XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 3);
+        // check that the list item is outdentable, the list plugin is correctly recognizing lists (XWIKI-3061)
+        assertTrue(isOutdentButtonEnabled());
+        clickOutdentButton();
+        assertXHTML("<ul><li>foo</li><li>one<ul><li>bar</li></ul></li></ul>");
+        moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        clickOutdentButton();
+        assertXHTML("<ul><li>foo</li><li>one</li><li>bar</li></ul>");
+        switchToWikiEditor();
+        assertEquals("* foo\n* one\n* bar", getFieldValue("content"));
+    }
+
+    /**
+     * Test outdenting an item on the first level in a list: it should split the list in two and put the content of the
+     * unindented item in between.
+     */
+    public void testOutdentOnFirstLevel()
+    {
+        clickUnorderedListButton();
+        typeTextThenEnter("one");
+        typeTextThenEnter("two");
+        typeTab();
+        typeTextThenEnter("two plus one");
+        typeShiftTab();
+        typeText("three");
+        // move caret at the beginning of the "two" item
+        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
+        typeShiftTab();
+        assertXHTML("<ul><li>one</li></ul>two<ul><li>two plus one</li></ul>"
+            + "<ul><li>three<br class=\"spacer\"></li></ul>");
+        switchToWikiEditor();
+        assertEquals("* one\n\ntwo\n\n* two plus one\n\n* three", getFieldValue("content"));
     }
 }

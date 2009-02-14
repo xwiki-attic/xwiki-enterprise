@@ -362,7 +362,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         selectAllContent();
         clickUnorderedListButton();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);        
+        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
         typeTab();
         assertXHTML("<ul><li>x<ul><li>y</li></ul></li></ul>");
         typeShiftTab();
@@ -431,7 +431,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnter("a");
         typeTextThenEnter("b");
         switchToWikiEditor();
-        assertEquals("a\nb\n", getFieldValue("content"));
+        assertEquals("a\nb\\\\", getFieldValue("content"));
     }
 
     /**

@@ -6,6 +6,7 @@
     <appversion>${project.version}</appversion>
     <url>http://xwiki.org/</url>
     <javaversion>1.5</javaversion>
+    <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>
   </info>
   <guiprefs width="800" height="600" resizable="yes">
   </guiprefs>

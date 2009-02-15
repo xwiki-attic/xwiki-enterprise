@@ -150,9 +150,9 @@ public class CommentsResourceTest extends AbstractHttpTest
             TestUtils.printHttpMethodInfo(getMethod);
 
             Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
-            
+
             Link commentsLink = page.getFirstLinkByRelation(Relations.COMMENTS);
-            
+
             if (commentsLink != null) {
                 getMethod = executeGet(commentsLink.getHref());
                 assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());

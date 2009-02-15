@@ -46,7 +46,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         String text = "foobar";
         typeText(text);
         assertXHTML(text);
-        typeBackspaces(text.length());
+        typeBackspace(text.length());
         testEmptyWysiwyg();
     }
 
@@ -177,7 +177,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("a");
         selectAllContent();
         clickUnorderedListButton();
-        typeBackspaces(2);
+        typeBackspace(2);
         testEmptyWysiwyg();
 
         // Create a list with 1 item and delete the bullet
@@ -209,7 +209,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("a");
         selectAllContent();
         clickOrderedListButton();
-        typeBackspaces(2);
+        typeBackspace(2);
         testEmptyWysiwyg();
 
         // Create a list with 1 item and delete the bullet
@@ -257,7 +257,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // We don't switch to Wiki because we want to see if the Backspace works.
         assertXHTML("<hr><br class=\"spacer\">");
 
-        typeBackspaces(2);
+        typeBackspace(2);
         testEmptyWysiwyg();
 
         typeText("foobar");

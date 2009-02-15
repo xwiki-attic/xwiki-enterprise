@@ -27,6 +27,8 @@ import junit.framework.Assert;
 
 import org.apache.commons.logging.LogFactory;
 
+import com.thoughtworks.selenium.Selenium;
+
 /**
  * All XWiki Wysiwyg tests must extend this class.
  *
@@ -274,7 +276,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
         for (int i = 0; i < chars.length; i++) {
             char tChar = chars[i];
-            keyPress(Character.toString(tChar));
+            typeKey(Character.toString(tChar), true);
         }
     }
 
@@ -290,30 +292,52 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         typeEnter();
     }
 
-    public void keyPress(String key)
+    /**
+     * Presses the specified key for the given number of times.
+     * 
+     * @param key the key to be pressed
+     * @param fireKeyPress {@code true} if the specified key should generate a key press event, {@code false} otherwise.
+     *            Normally only printable keys generate a key press event.
+     * @param count the number of times to press the specified key
+     * @param hold {@code false} if the key should be released after each key press, {@code true} if it should be hold
+     *            down and released just at the end
+     */
+    public void typeKey(String key, boolean fireKeyPress, int count, boolean hold)
     {
-        getSelenium().keyDown(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
-        getSelenium().keyPress(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
-        getSelenium().keyUp(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+        for (int i = 0; i < count; i++) {
+            getSelenium().keyDown(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+            if (fireKeyPress) {
+                getSelenium().keyPress(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+            }
+            if (!hold) {
+                getSelenium().keyUp(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+            }
+        }
+        if (hold && count > 0) {
+            getSelenium().keyUp(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+        }
     }
 
-    public void specialKeyPress(String key)
+    /**
+     * Presses the specified key.
+     * 
+     * @param key the key to be pressed
+     * @param fireKeyPress {@code true} to fire a KeyPress event, {@code false} otherwise. Normally only printable keys
+     *            generate a key press event.
+     */
+    public void typeKey(String key, boolean fireKeyPress)
     {
-        // Can't use keyPress for this events since they aren't catched by GWT RTE's callback (unknown reason).
-        getSelenium().keyDown(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
-        getSelenium().keyUp(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+        typeKey(key, fireKeyPress, 1, false);
     }
 
     public void typeEnter()
     {
-        keyPress("\\13");
+        typeEnter(1);
     }
-    
+
     public void typeEnter(int nb)
     {
-        for (; nb > 0; nb--) {
-            typeEnter();
-        }
+        typeKey("\\13", true, nb, false);
     }
 
     public void typeShiftEnter()
@@ -325,53 +349,64 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeBackspace()
     {
-        // It would be 'logical' to use specialKeyPress here but for some reason it doesn't work.
-        keyPress("\\8");
+        typeBackspace(1);
     }
 
-    public void typeBackspaces(int nb)
+    public void typeBackspace(int count)
     {
-        for (; nb > 0; nb--) {
-            typeBackspace();
-        }
+        typeBackspace(count, false);
+    }
+
+    public void typeBackspace(int count, boolean hold)
+    {
+        // Although Backspace is not a printable key, it affects the displayed text so we must fire KeyPress event too.
+        typeKey("\\8", true, count, hold);
     }
 
     public void typeLeftArrow()
     {
-        specialKeyPress("\\37");
+        typeKey("\\37", false);
     }
 
     public void typeUpArrow()
     {
-        specialKeyPress("\\38");
+        typeKey("\\38", false);
     }
 
     public void typeRightArrow()
     {
-        specialKeyPress("\\39");
+        typeKey("\\39", false);
     }
 
     public void typeDownArrow()
     {
-        specialKeyPress("\\40");
+        typeKey("\\40", false);
     }
 
     public void typeDelete()
     {
+        typeDelete(1);
+    }
+
+    public void typeDelete(int count)
+    {
+        typeDelete(count, false);
+    }
+
+    public void typeDelete(int count, boolean hold)
+    {
         // Although Delete is not a printable key, it affects the displayed text so we must fire KeyPress event too.
-        keyPress("\\46");
+        typeKey("\\46", true, count, hold);
     }
 
     public void typeTab()
     {
-        keyPress("\\9");
+        typeTab(1);
     }
 
     public void typeTab(int count)
     {
-        for (int i = 0; i < count; i++) {
-            typeTab();
-        }
+        typeKey("\\9", true, count, false);
     }
 
     public void typeShiftTab()
@@ -571,6 +606,10 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void switchToWysiwygEditor()
     {
         clickLinkWithText("WYSIWYG", true);
+        if (getSelenium().isConfirmationPresent()) {
+            assertEquals("Your content contains HTML or special code that might be lost in the WYSIWYG Editor."
+                + " Are you sure you want to switch editors?", getSelenium().getConfirmation());
+        }
     }
 
     /**
@@ -643,5 +682,52 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         script.append("XWE.selection.removeAllRanges();\n");
         script.append("XWE.selection.addRange(range);");
         runScript(script.toString());
+    }
+
+    /**
+     * Selects the specified DOM node.
+     * 
+     * @param jsLocator a JavaScript locator for the node to be selected
+     */
+    public void selectNode(String jsLocator)
+    {
+        StringBuffer script = new StringBuffer();
+        script.append("var range = XWE.document.createRange();\n");
+        script.append("range.selectNode(");
+        script.append(jsLocator);
+        script.append(");\n");
+        script.append("XWE.selection.removeAllRanges();\n");
+        script.append("XWE.selection.addRange(range);");
+        runScript(script.toString());
+    }
+
+    /**
+     * Selects the contents of the specified DOM node.
+     * 
+     * @param jsLocator a JavaScript locator for the node whose content are to be selected
+     */
+    public void selectNodeContents(String jsLocator)
+    {
+        StringBuffer script = new StringBuffer();
+        script.append("var range = XWE.document.createRange();\n");
+        script.append("range.selectNodeContents(");
+        script.append(jsLocator);
+        script.append(");\n");
+        script.append("XWE.selection.removeAllRanges();\n");
+        script.append("XWE.selection.addRange(range);");
+        runScript(script.toString());
+    }
+
+    /**
+     * Converts a DOM locator relative to the document edited by the WYSIWYG editor to a DOM locator relative to the
+     * document hosting the WYSIWYG editor. The returned locator can be used in Selenium methods like
+     * {@link Selenium#click(String)}.
+     * 
+     * @param domLocator a Selenium DOM locator relative to the document edited with the WYSIWYG editor
+     * @return a Selenium DOM locator relative to the document hosting the WYSIWYG editor
+     */
+    public String getDOMLocator(String domLocator)
+    {
+        return "document.getElementsByTagName('iframe')[0].contentWindow.document." + domLocator;
     }
 }

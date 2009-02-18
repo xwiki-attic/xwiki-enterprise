@@ -56,8 +56,8 @@
     <platform.tool.rootwebapp.version>1.0</platform.tool.rootwebapp.version>
     <platform.tool.test.version>1.14</platform.tool.test.version>
     <platform.tool.packager.version>1.11</platform.tool.packager.version>
-    <platform.core.version>1.7-SNAPSHOT</platform.core.version>
-    <platform.web.version>1.7-SNAPSHOT</platform.web.version>
+    <platform.core.version>1.7.2</platform.core.version>
+    <platform.web.version>1.7.2</platform.web.version>
     <!-- Panels 1.14 breaks compatibility with this branch (it's bound to the new blog), we must keep 1.13 -->
     <platform.panels.version>1.13</platform.panels.version>
     <!-- Administration 1.6 depends on skinx 1.6, we must keep 1.5 -->

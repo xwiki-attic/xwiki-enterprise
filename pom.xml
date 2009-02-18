@@ -27,8 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.platform</groupId>
     <artifactId>xwiki</artifactId>
-    <!-- Note that enterprise must be released with xwiki-18 parent for the moment. See XE-331 -->
-    <version>18</version>
+    <version>19</version>
   </parent>
   <groupId>com.xpn.xwiki.products</groupId>
   <artifactId>xwiki-enterprise-parent</artifactId>

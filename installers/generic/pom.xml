@@ -190,7 +190,7 @@
     </plugins>
   </build>
   <properties>
-    <izpack.compiler.version>4.2.1-preview</izpack.compiler.version>
+    <izpack.compiler.version>4.2.1</izpack.compiler.version>
     <xwiki.hibernate>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</xwiki.hibernate>
     <xwiki.license>${project.build.directory}/classes/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>

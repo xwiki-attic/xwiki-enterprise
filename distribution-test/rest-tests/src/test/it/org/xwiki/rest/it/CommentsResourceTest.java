@@ -19,24 +19,19 @@
  */
 package org.xwiki.rest.it;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.xwiki.rest.Constants;
-import org.xwiki.rest.Utils;
-import org.xwiki.rest.model.Comment;
-import org.xwiki.rest.model.Comments;
-import org.xwiki.rest.model.History;
-import org.xwiki.rest.model.HistorySummary;
-import org.xwiki.rest.model.Link;
-import org.xwiki.rest.model.Page;
-import org.xwiki.rest.model.Relations;
+import org.xwiki.rest.Relations;
+import org.xwiki.rest.model.jaxb.Comment;
+import org.xwiki.rest.model.jaxb.Comments;
+import org.xwiki.rest.model.jaxb.History;
+import org.xwiki.rest.model.jaxb.HistorySummary;
+import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.resources.comments.CommentsResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
-import org.xwiki.rest.resources.pages.PageResource;
 
 public class CommentsResourceTest extends AbstractHttpTest
 {
@@ -54,29 +49,22 @@ public class CommentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testCreateComments()");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-
         String commentsUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(CommentsResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Comments comments = (Comments) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        int numberOfComments = 0;
-        if (comments.getCommentList() != null) {
-            numberOfComments = comments.getCommentList().size();
-        }
+        int numberOfComments = comments.getComments().size();
 
-        Comment comment = new Comment();
+        Comment comment = objectFactory.createComment();
         comment.setText("Comment");
 
-        PostMethod postMethod = executePost(commentsUri, comment, "Admin", "admin");
+        PostMethod postMethod = executePostXml(commentsUri, comment, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
 
@@ -84,45 +72,27 @@ public class CommentsResourceTest extends AbstractHttpTest
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        comments = (Comments) xstream.fromXML(getMethod.getResponseBodyAsString());
+        comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(numberOfComments + 1, comments.getCommentList().size());
+        assertEquals(numberOfComments + 1, comments.getComments().size());
     }
 
     public void testGETComment() throws Exception
     {
         TestUtils.banner("testGetComment()");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-
         String commentsUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(CommentsResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Comments comments = (Comments) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        if (comments.getCommentList() != null) {
-            String pageUri =
-                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap));
-
-            getMethod = executeGet(pageUri);
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
-            TestUtils.printHttpMethodInfo(getMethod);
-
-            Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
-
-            Link link = page.getFirstLinkByRelation(Relations.COMMENTS);
-            assertNotNull(link);
-
-            for (Comment comment : comments.getCommentList()) {
-                checkLinks(comment);
-            }
+        for (Comment comment : comments.getComments()) {
+            checkLinks(comment);
         }
     }
 
@@ -130,36 +100,29 @@ public class CommentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testCommentsAtPreviousVersions");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-
         String pageHistoryUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageHistoryResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageHistoryResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        History history = (History) xstream.fromXML(getMethod.getResponseBodyAsString());
+        History history = (History) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        for (HistorySummary historySummary : history.getHistorySummaryList()) {
-            getMethod = executeGet(historySummary.getFirstLinkByRelation(Relations.PAGE).getHref());
+        for (HistorySummary historySummary : history.getHistorySummaries()) {
+            getMethod = executeGet(getFirstLinkByRelation(historySummary, Relations.PAGE).getHref());
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
 
-            Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+            Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-            Link commentsLink = page.getFirstLinkByRelation(Relations.COMMENTS);
-
-            if (commentsLink != null) {
-                getMethod = executeGet(commentsLink.getHref());
+            if (getFirstLinkByRelation(page, Relations.COMMENTS) != null) {
+                getMethod = executeGet(getFirstLinkByRelation(page, Relations.COMMENTS).getHref());
                 assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
             }
         }
-
     }
 
 }

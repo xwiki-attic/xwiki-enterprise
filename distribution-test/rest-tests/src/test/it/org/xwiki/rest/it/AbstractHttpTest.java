@@ -19,7 +19,15 @@
  */
 package org.xwiki.rest.it;
 
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import javax.ws.rs.core.UriBuilder;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -32,43 +40,82 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.restlet.data.MediaType;
-import org.xwiki.rest.XWikiResource;
-import org.xwiki.rest.model.Link;
-import org.xwiki.rest.model.LinkCollection;
-import org.xwiki.rest.model.Wikis;
-import org.xwiki.rest.model.XStreamFactory;
+import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.LinkCollection;
+import org.xwiki.rest.model.jaxb.ObjectFactory;
+import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.wikis.WikisResource;
 
-import com.thoughtworks.xstream.XStream;
 import com.xpn.xwiki.test.AbstractXWikiComponentTestCase;
 
 public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
-{
-    protected HttpClient httpClient;
-
-    protected XStream xstream;
-
+{   
     protected Random random;
+
+    protected Marshaller marshaller;
+
+    protected Unmarshaller unmarshaller;
+
+    protected ObjectFactory objectFactory;
 
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();
-        httpClient = new HttpClient();
-        xstream = XStreamFactory.getXStream();
+        super.setUp();        
         random = new Random();
+
+        JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb");
+        marshaller = context.createMarshaller();
+        unmarshaller = context.createUnmarshaller();
+        objectFactory = new ObjectFactory();
+
     }
 
-    protected String getFullUri(String relativeUri)
+    protected Link getFirstLinkByRelation(LinkCollection linkCollection, String relation)
     {
-        return String.format("%s%s", TestConstants.REST_API_ENTRYPOINT, relativeUri);
+        if (linkCollection.getLinks() == null) {
+            return null;
+        }
+
+        for (Link link : linkCollection.getLinks()) {
+            if (link.getRel().equals(relation)) {
+                return link;
+            }
+        }
+
+        return null;
+    }
+    
+    protected List<Link> getLinksByRelation(LinkCollection linkCollection, String relation)
+    {
+        List<Link> result = new ArrayList<Link>();
+        
+        if (linkCollection.getLinks() == null) {
+            return result;
+        }
+
+        for (Link link : linkCollection.getLinks()) {
+            if (link.getRel().equals(relation)) {
+                result.add(link);
+            }
+        }
+
+        return result;
+    }
+
+    protected String getFullUri(Class resourceClass)
+    {
+        return String.format("%s%s", TestConstants.REST_API_ENTRYPOINT, UriBuilder.fromResource(resourceClass).build());
     }
 
     public abstract void testRepresentation() throws Exception;
 
     protected GetMethod executeGet(String uri) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
+
         GetMethod getMethod = new GetMethod(uri);
+        getMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
         httpClient.executeMethod(getMethod);
 
         return getMethod;
@@ -76,17 +123,28 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
     protected GetMethod executeGet(String uri, String userName, String password) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
-        return executeGet(uri);
+        GetMethod getMethod = new GetMethod(uri);
+        getMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
+        httpClient.executeMethod(getMethod);
+
+        return getMethod;
     }
 
-    protected PostMethod executePost(String uri, Object object) throws Exception
+    protected PostMethod executePostXml(String uri, Object object) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
+
         PostMethod postMethod = new PostMethod(uri);
-        RequestEntity entity =
-            new StringRequestEntity(xstream.toXML(object), MediaType.APPLICATION_XML.toString(), "UTF-8");
+        postMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
+        
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(object, writer);        
+        
+        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         postMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(postMethod);
@@ -94,19 +152,37 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return postMethod;
     }
 
-    protected PostMethod executePost(String uri, Object object, String userName, String password) throws Exception
+    protected PostMethod executePostXml(String uri, Object object, String userName, String password) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
-        return executePost(uri, object);
+        PostMethod postMethod = new PostMethod(uri);
+        postMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
+        
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(object, writer);
+        
+        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+        postMethod.setRequestEntity(entity);
+        
+        httpClient.executeMethod(postMethod);
+
+        return postMethod;
     }
 
-    protected PutMethod executePut(String uri, Object object) throws Exception
+    protected PutMethod executePutXml(String uri, Object object) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
+
         PutMethod putMethod = new PutMethod(uri);
-        RequestEntity entity =
-            new StringRequestEntity(xstream.toXML(object), MediaType.APPLICATION_XML.toString(), "UTF-8");
+        putMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
+        
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(object, writer);
+        
+        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         putMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(putMethod);
@@ -114,18 +190,19 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return putMethod;
     }
 
-    protected PutMethod executePut(String uri, Object object, String userName, String password) throws Exception
+    protected PutMethod executePutXml(String uri, Object object, String userName, String password) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
-        return executePut(uri, object);
-    }
-
-    protected PutMethod executePlainPut(String uri, String string) throws Exception
-    {
         PutMethod putMethod = new PutMethod(uri);
-        RequestEntity entity = new StringRequestEntity(string, MediaType.TEXT_PLAIN.toString(), "UTF-8");
+        putMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
+        
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(object, writer);
+        
+        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         putMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(putMethod);
@@ -133,16 +210,37 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return putMethod;
     }
 
-    protected PutMethod executePlainPut(String uri, String string, String userName, String password) throws Exception
+    protected PutMethod executePut(String uri, String string, String mediaType) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
+
+        PutMethod putMethod = new PutMethod(uri);
+        RequestEntity entity = new StringRequestEntity(string, mediaType, "UTF-8");
+        putMethod.setRequestEntity(entity);
+
+        httpClient.executeMethod(putMethod);
+
+        return putMethod;
+    }
+
+    protected PutMethod executePut(String uri, String string, String mediaType, String userName, String password) throws Exception
+    {
+        HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
-        return executePlainPut(uri, string);
+        PutMethod putMethod = new PutMethod(uri);
+        RequestEntity entity = new StringRequestEntity(string, mediaType, "UTF-8");
+        putMethod.setRequestEntity(entity);
+
+        httpClient.executeMethod(putMethod);
+
+        return putMethod;
     }
 
     protected DeleteMethod executeDelete(String uri) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
         DeleteMethod deleteMethod = new DeleteMethod(uri);
         httpClient.executeMethod(deleteMethod);
 
@@ -151,34 +249,26 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
     protected DeleteMethod executeDelete(String uri, String userName, String password) throws Exception
     {
+        HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
-        return executeDelete(uri);
+        DeleteMethod deleteMethod = new DeleteMethod(uri);
+        httpClient.executeMethod(deleteMethod);
+
+        return deleteMethod;
     }
-
-    protected String getUriPatternForResource(Class< ? extends XWikiResource> resourceClass) throws Exception
-    {
-        XWikiResource resource =
-            (XWikiResource) getComponentManager().lookup(XWikiResource.class.getName(), resourceClass.getName());
-
-        String uriPattern = resource.getUriPattern();
-
-        getComponentManager().release(resource);
-
-        return uriPattern;
-    }
-
+   
     public String getWiki() throws Exception
     {
-        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
+        GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Wikis wikis = (Wikis) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(wikis.getWikiList().size() > 0);
+        Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(wikis.getWikis().size() > 0);
 
-        return wikis.getWikiList().get(0).getName();
+        return wikis.getWikis().get(0).getName();
     }
 
     public void checkLinks(LinkCollection linkCollection) throws Exception

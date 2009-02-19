@@ -21,13 +21,13 @@ package org.xwiki.rest.it;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.rest.model.Link;
-import org.xwiki.rest.model.Pages;
-import org.xwiki.rest.model.Relations;
-import org.xwiki.rest.model.Space;
-import org.xwiki.rest.model.Spaces;
-import org.xwiki.rest.model.Wiki;
-import org.xwiki.rest.model.Wikis;
+import org.xwiki.rest.Relations;
+import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.Pages;
+import org.xwiki.rest.model.jaxb.Space;
+import org.xwiki.rest.model.jaxb.Spaces;
+import org.xwiki.rest.model.jaxb.Wiki;
+import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.wikis.WikisResource;
 
 public class PagesResourceTest extends AbstractHttpTest
@@ -36,34 +36,34 @@ public class PagesResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testRepresentation()");
 
-        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
+        GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Wikis wikis = (Wikis) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(wikis.getWikiList().size() > 0);
+        Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(wikis.getWikis().size() > 0);
 
-        Wiki wiki = wikis.getWikiList().get(0);
-        Link link = wiki.getFirstLinkByRelation(Relations.SPACES);
+        Wiki wiki = wikis.getWikis().get(0);
+        Link link = getFirstLinkByRelation(wiki, Relations.SPACES);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Spaces spaces = (Spaces) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(spaces.getSpaceList().size() > 0);
+        Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(spaces.getSpaces().size() > 0);
 
-        Space space = spaces.getSpaceList().get(0);
-        link = space.getFirstLinkByRelation(Relations.PAGES);
+        Space space = spaces.getSpaces().get(0);
+        link = getFirstLinkByRelation(space, Relations.PAGES);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Pages pages = (Pages) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(pages.getPageSummaryList().size() > 0);
+        Pages pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(pages.getPageSummaries().size() > 0);
 
         checkLinks(pages);
     }

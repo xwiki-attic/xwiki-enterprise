@@ -21,9 +21,9 @@ package org.xwiki.rest.it;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.rest.model.Link;
-import org.xwiki.rest.model.Relations;
-import org.xwiki.rest.model.XWikiRoot;
+import org.xwiki.rest.Relations;
+import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.Xwiki;
 import org.xwiki.rest.resources.RootResource;
 
 public class RootResourceTest extends AbstractHttpTest
@@ -32,18 +32,18 @@ public class RootResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testRepresentation()");
 
-        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(RootResource.class)));
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        GetMethod getMethod = executeGet(getFullUri(RootResource.class));
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
-        XWikiRoot xwikiRoot = (XWikiRoot) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Xwiki xwiki = (Xwiki) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        Link link = xwikiRoot.getFirstLinkByRelation(Relations.WIKIS);
+        Link link = getFirstLinkByRelation(xwiki, Relations.WIKIS);
         assertNotNull(link);
 
-        link = xwikiRoot.getFirstLinkByRelation(Relations.WADL);
-        assertNotNull(link);
+        //link = xwikiRoot.getFirstLinkByRelation(Relations.WADL);
+        //assertNotNull(link);
 
-        checkLinks(xwikiRoot);
+        checkLinks(xwiki);
     }
 }

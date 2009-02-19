@@ -1,15 +1,14 @@
 package org.xwiki.rest.it;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.rest.Constants;
-import org.xwiki.rest.Utils;
-import org.xwiki.rest.model.Classes;
+import org.xwiki.rest.model.jaxb.Class;
+import org.xwiki.rest.model.jaxb.Classes;
+import org.xwiki.rest.model.jaxb.Property;
 import org.xwiki.rest.resources.classes.ClassesResource;
-import org.xwiki.rest.resources.pages.PageResource;
+
 
 public class ClassesResourceTest extends AbstractHttpTest
 {
@@ -17,20 +16,20 @@ public class ClassesResourceTest extends AbstractHttpTest
     public void testRepresentation() throws Exception
     {
         TestUtils.banner("testRepresentation()");
-
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-
+        
         GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(ClassesResource.class),
-                parametersMap)));
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ClassesResource.class).build(getWiki()).toString());                
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Classes classes = (Classes) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Classes classes = (Classes) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        for (org.xwiki.rest.model.Class theClass : classes.getClassList()) {
-            checkLinks(theClass);
+        for (Class clazz : classes.getClazzs()) {
+            checkLinks(clazz);
+            
+            for(Property property : clazz.getProperties()) {
+                checkLinks(property);
+            }
         }
     }
 

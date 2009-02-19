@@ -21,24 +21,22 @@ package org.xwiki.rest.it;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.jackrabbit.uuid.UUID;
-import org.xwiki.rest.Constants;
-import org.xwiki.rest.Utils;
-import org.xwiki.rest.model.Attachment;
-import org.xwiki.rest.model.Attachments;
-import org.xwiki.rest.model.Link;
-import org.xwiki.rest.model.Page;
-import org.xwiki.rest.model.Relations;
+import org.xwiki.rest.Relations;
+import org.xwiki.rest.model.jaxb.Attachment;
+import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
 import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
-import org.xwiki.rest.resources.pages.PageResource;
 
 public class AttachmentsResourceTest extends AbstractHttpTest
 {
@@ -56,23 +54,18 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testPUTAttachment()");
 
-        String attachmentName = String.format("%d.txt", System.currentTimeMillis());
+        String attachmentName = String.format("%s.txt", UUID.randomUUID());
         String content = "ATTACHMENT CONTENT";
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
-
         String attachmentUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentUri);
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        PutMethod putMethod = executePlainPut(attachmentUri, content, "Admin", "admin");
+        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
 
@@ -87,96 +80,60 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testPUTAttachment()");
 
-        String attachmentName = String.format("%d.txt", System.currentTimeMillis());
+        String attachmentName = String.format("%s.txt", UUID.randomUUID());
         String content = "ATTACHMENT CONTENT";
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
-
         String attachmentUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentUri);
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        PutMethod putMethod = executePlainPut(attachmentUri, content, "Guest", "guest");
-        assertEquals(HttpStatus.SC_FORBIDDEN, putMethod.getStatusCode());
+        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
     }
 
     public void testGETAttachments() throws Exception
     {
         TestUtils.banner("testGETAttachments()");
-
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-
+        
         String attachmentsUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentsResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Attachments attachments = (Attachments) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertTrue(attachments.getAttachmentList().size() > 0);
-
-        for (Attachment attachment : attachments.getAttachmentList()) {
-            Link link = attachment.getFirstLinkByRelation(Relations.HISTORY);
-            assertNotNull(link);
-
-            checkLinks(attachment);
-        }
-
-        String pageUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap));
-
-        getMethod = executeGet(pageUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
-        TestUtils.printHttpMethodInfo(getMethod);
-
-        Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
-
-        Link link = page.getFirstLinkByRelation(Relations.ATTACHMENTS);
-        assertNotNull(link);
+        assertTrue(attachments.getAttachments().size() > 0);
     }
 
     public void testDELETEAttachment() throws Exception
     {
         TestUtils.banner("testDELETEAttachment()");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-
         String attachmentsUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentsResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Attachments attachments = (Attachments) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertTrue(attachments.getAttachmentList().size() > 0);
+        assertTrue(attachments.getAttachments().size() > 0);
 
-        String attachmentName = attachments.getAttachmentList().get(0).getName();
-        parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
+        String attachmentName = attachments.getAttachments().get(0).getName();
 
         String attachmentUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         DeleteMethod deleteMethod = executeDelete(attachmentUri, "Admin", "admin");
         assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
@@ -194,30 +151,16 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String attachmentName = String.format("%d.txt", System.currentTimeMillis());
         String content = "ATTACHMENT CONTENT";
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
-
         String attachmentUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
-        PutMethod putMethod = executePlainPut(attachmentUri, content, "Admin", "admin");
+        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
 
-        parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
-
-        attachmentUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
-
-        DeleteMethod deleteMethod = executeDelete(attachmentUri, "Guest", "guest");
-        assertEquals(HttpStatus.SC_FORBIDDEN, deleteMethod.getStatusCode());
+        DeleteMethod deleteMethod = executeDelete(attachmentUri);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
 
         GetMethod getMethod = executeGet(attachmentUri);
@@ -243,20 +186,15 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
-            parametersMap = new HashMap<String, String>();
-            parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-            parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-            parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-            parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentNames[i]);
-
             String attachmentUri =
-                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+                UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
+                    SPACE_NAME, PAGE_NAME, attachmentNames[i]).toString();
 
-            PutMethod putMethod = executePlainPut(attachmentUri, content, "Admin", "admin");
+            PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
             assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(putMethod);
 
-            Attachment attachment = (Attachment) xstream.fromXML(putMethod.getResponseBodyAsString());
+            Attachment attachment = (Attachment) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
             pageVersions[i] = attachment.getPageVersion();
 
             System.out.format("Attachment %s stored at page version %s\n", attachmentNames[i], pageVersions[i]);
@@ -266,22 +204,16 @@ public class AttachmentsResourceTest extends AbstractHttpTest
          * For each page version generated, check that the attachments that are supposed to be there are actually there.
          * We do the following: at pageVersion[i] we check that all attachmentNames[0..i] are there.
          */
-        for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
-            parametersMap = new HashMap<String, String>();
-            parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-            parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-            parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-            parametersMap.put(Constants.PAGE_VERSION_PARAMETER, pageVersions[i]);
-
+        for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {            
             String attachmentsUri =
-                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentsAtPageVersionResource.class),
-                    parametersMap));
+                UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsAtPageVersionResource.class)
+                    .build(getWiki(), SPACE_NAME, PAGE_NAME, pageVersions[i]).toString();
 
             GetMethod getMethod = executeGet(attachmentsUri);
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
 
-            Attachments attachments = (Attachments) xstream.fromXML(getMethod.getResponseBodyAsString());
+            Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
             /*
              * Check that all attachmentNames[0..i] are present in the list of attachments of page at version
@@ -292,7 +224,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                     attachmentNames[j], pageVersions[i]);
 
                 boolean found = false;
-                for (Attachment attachment : attachments.getAttachmentList()) {
+                for (Attachment attachment : attachments.getAttachments()) {
                     if (attachment.getName().equals(attachmentNames[j])) {
                         if (attachment.getPageVersion().equals(pageVersions[i])) {
                             System.out.format("OK\n");
@@ -305,7 +237,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             }
 
             /* Check links */
-            for (Attachment attachment : attachments.getAttachmentList()) {
+            for (Attachment attachment : attachments.getAttachments()) {
                 checkLinks(attachment);
             }
         }
@@ -324,17 +256,12 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_VERSIONS; i++) {
-            parametersMap = new HashMap<String, String>();
-            parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-            parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-            parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-            parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
-
             String attachmentUri =
-                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(AttachmentResource.class), parametersMap));
+                UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
+                    SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
             String content = String.format("CONTENT %d", i);
-            PutMethod putMethod = executePlainPut(attachmentUri, content, "Admin", "admin");
+            PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
             if (i == 0) {
                 assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
             } else {
@@ -342,7 +269,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             }
             TestUtils.printHttpMethodInfo(putMethod);
 
-            Attachment attachment = (Attachment) xstream.fromXML(putMethod.getResponseBodyAsString());
+            Attachment attachment = (Attachment) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
             System.out.format("Attachment %s stored at version %s: %s\n", attachmentName, attachment.getVersion(),
                 content);
@@ -350,24 +277,18 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             versionToContentMap.put(attachment.getVersion(), content);
         }
 
-        parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-        parametersMap.put(Constants.ATTACHMENT_NAME_PARAMETER, attachmentName);
-
         String attachmentsUri =
-            getFullUri(Utils
-                .formatUriTemplate(getUriPatternForResource(AttachmentHistoryResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentHistoryResource.class).build(
+                getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Attachments attachments = (Attachments) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        for (Attachment attachment : attachments.getAttachmentList()) {
-            getMethod = executeGet(attachment.getFirstLinkByRelation(Relations.ATTACHMENT_DATA).getHref());
+        for (Attachment attachment : attachments.getAttachments()) {
+            getMethod = executeGet(getFirstLinkByRelation(attachment, Relations.ATTACHMENT_DATA).getHref());
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
 

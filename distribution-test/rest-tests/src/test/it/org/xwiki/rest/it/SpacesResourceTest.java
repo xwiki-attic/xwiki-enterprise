@@ -21,11 +21,11 @@ package org.xwiki.rest.it;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.rest.model.Link;
-import org.xwiki.rest.model.Relations;
-import org.xwiki.rest.model.Spaces;
-import org.xwiki.rest.model.Wiki;
-import org.xwiki.rest.model.Wikis;
+import org.xwiki.rest.Relations;
+import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.Spaces;
+import org.xwiki.rest.model.jaxb.Wiki;
+import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.wikis.WikisResource;
 
 public class SpacesResourceTest extends AbstractHttpTest
@@ -34,24 +34,24 @@ public class SpacesResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testRepresentation()");
 
-        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
+        GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Wikis wikis = (Wikis) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(wikis.getWikiList().size() > 0);
+        Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(wikis.getWikis().size() > 0);
 
-        Wiki wiki = wikis.getWikiList().get(0);
-        Link link = wiki.getFirstLinkByRelation(Relations.SPACES);
+        Wiki wiki = wikis.getWikis().get(0);
+        Link link = getFirstLinkByRelation(wiki, Relations.SPACES);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Spaces spaces = (Spaces) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertTrue(spaces.getSpaceList().size() > 0);
+        assertTrue(spaces.getSpaces().size() > 0);
 
         checkLinks(spaces);
     }

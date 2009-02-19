@@ -19,27 +19,25 @@
  */
 package org.xwiki.rest.it;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
-import org.xwiki.rest.Constants;
-import org.xwiki.rest.Utils;
-import org.xwiki.rest.model.History;
-import org.xwiki.rest.model.HistorySummary;
-import org.xwiki.rest.model.Link;
-import org.xwiki.rest.model.Page;
-import org.xwiki.rest.model.PageSummary;
-import org.xwiki.rest.model.Pages;
-import org.xwiki.rest.model.Relations;
-import org.xwiki.rest.model.Space;
-import org.xwiki.rest.model.Spaces;
-import org.xwiki.rest.model.Wiki;
-import org.xwiki.rest.model.Wikis;
+import org.xwiki.rest.Relations;
+import org.xwiki.rest.model.jaxb.History;
+import org.xwiki.rest.model.jaxb.HistorySummary;
+import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.Page;
+import org.xwiki.rest.model.jaxb.PageSummary;
+import org.xwiki.rest.model.jaxb.Pages;
+import org.xwiki.rest.model.jaxb.Space;
+import org.xwiki.rest.model.jaxb.Spaces;
+import org.xwiki.rest.model.jaxb.Translation;
+import org.xwiki.rest.model.jaxb.Wiki;
+import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.pages.PageChildrenResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
 import org.xwiki.rest.resources.pages.PageResource;
@@ -50,45 +48,45 @@ public class PageResourceTest extends AbstractHttpTest
 {
     private Page getPage() throws Exception
     {
-        GetMethod getMethod = executeGet(getFullUri(getUriPatternForResource(WikisResource.class)));
+        GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Wikis wikis = (Wikis) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(wikis.getWikiList().size() > 0);
+        Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(wikis.getWikis().size() > 0);
 
-        Wiki wiki = wikis.getWikiList().get(0);
-        Link link = wiki.getFirstLinkByRelation(Relations.SPACES);
+        Wiki wiki = wikis.getWikis().get(0);
+        Link link = getFirstLinkByRelation(wiki, Relations.SPACES);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Spaces spaces = (Spaces) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertTrue(spaces.getSpaceList().size() > 0);
+        assertTrue(spaces.getSpaces().size() > 0);
 
-        Space space = spaces.getSpaceList().get(0);
-        link = space.getFirstLinkByRelation(Relations.PAGES);
+        Space space = spaces.getSpaces().get(0);
+        link = getFirstLinkByRelation(space, Relations.PAGES);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Pages pages = (Pages) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(pages.getPageSummaryList().size() > 0);
+        Pages pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(pages.getPageSummaries().size() > 0);
 
-        PageSummary pageSummary = pages.getPageSummaryList().get(0);
-        link = pageSummary.getFirstLinkByRelation(Relations.PAGE);
+        PageSummary pageSummary = pages.getPageSummaries().get(0);
+        link = getFirstLinkByRelation(pageSummary, Relations.PAGE);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         return page;
     }
@@ -99,10 +97,7 @@ public class PageResourceTest extends AbstractHttpTest
 
         Page page = getPage();
 
-        Link link = page.getFirstLinkByRelation(Relations.SELF);
-        assertNotNull(link);
-
-        link = page.getFirstLinkByRelation(Relations.HISTORY);
+        Link link = getFirstLinkByRelation(page, Relations.SELF);
         assertNotNull(link);
 
         checkLinks(page);
@@ -112,13 +107,9 @@ public class PageResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testGETNotExistingPage()");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, "NOTEXISTING");
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, "NOTEXISTING");
-
         GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap)));
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                "NOTEXISTING", "NOTEXISTING").toString());
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
     }
@@ -132,19 +123,18 @@ public class PageResourceTest extends AbstractHttpTest
 
         Page originalPage = getPage();
 
-        Page newPage = new Page();
+        Page newPage = objectFactory.createPage();
         newPage.setContent(CONTENT);
         newPage.setTitle(TITLE);
 
-        Link link = originalPage.getFirstLinkByRelation(Relations.SELF);
+        Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
         assertNotNull(link);
 
-        PutMethod putMethod = executePut(link.getHref(), newPage, "Admin", "admin");
+        PutMethod putMethod = executePutXml(link.getHref(), newPage, "Admin", "admin");
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
 
-        String body = putMethod.getResponseBodyAsString();
-        Page modifiedPage = (Page) xstream.fromXML(body);
+        Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
         assertEquals(modifiedPage.getContent(), CONTENT);
         assertEquals(modifiedPage.getTitle(), TITLE);
@@ -157,11 +147,11 @@ public class PageResourceTest extends AbstractHttpTest
         Page page = getPage();
         page.setContent("New content");
 
-        Link link = page.getFirstLinkByRelation(Relations.SELF);
+        Link link = getFirstLinkByRelation(page, Relations.SELF);
         assertNotNull(link);
 
-        PutMethod putMethod = executePut(link.getHref(), page);
-        assertEquals(HttpStatus.SC_FORBIDDEN, putMethod.getStatusCode());
+        PutMethod putMethod = executePutXml(link.getHref(), page);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
     }
 
@@ -175,25 +165,18 @@ public class PageResourceTest extends AbstractHttpTest
 
         TestUtils.banner("testPUTNotExistingPage()");
 
-        Page page = new Page();
+        Page page = objectFactory.createPage();
         page.setContent(CONTENT);
         page.setTitle(TITLE);
         page.setParent(PARENT);
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, PAGE_NAME);
-
         PutMethod putMethod =
-            executePut(
-                getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap)), page,
-                "Admin", "admin");
+            executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(
+                getWiki(), SPACE_NAME, PAGE_NAME).toString(), page, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
 
-        String body = putMethod.getResponseBodyAsString();
-        Page modifiedPage = (Page) xstream.fromXML(body);
+        Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
         assertEquals(CONTENT, modifiedPage.getContent());
         assertEquals(TITLE, modifiedPage.getTitle());
@@ -205,20 +188,20 @@ public class PageResourceTest extends AbstractHttpTest
         TestUtils.banner("testPUTWithInvalidRepresentation()");
 
         Page page = getPage();
-        Link link = page.getFirstLinkByRelation(Relations.SELF);
+        Link link = getFirstLinkByRelation(page, Relations.SELF);
 
-        PutMethod putMethod = executePut(link.getHref(), Utils.getResourceAsString(TestConstants.INVALID_PAGE_XML));
-        assertEquals(HttpStatus.SC_NOT_ACCEPTABLE, putMethod.getStatusCode());
+        PutMethod putMethod =
+            executePut(link.getHref(),
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><invalidPage><content/></invalidPage>", MediaType.TEXT_XML);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
     }
 
     private void createPageIfDoesntExist(String spaceName, String pageName, String content) throws Exception
     {
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, spaceName);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, pageName);
-        String uri = getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap));
+        String uri =
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(), spaceName,
+                pageName).toString();
 
         GetMethod getMethod = executeGet(uri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -226,10 +209,10 @@ public class PageResourceTest extends AbstractHttpTest
         if (getMethod.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
             System.out.format("Page %s.%s doesn't exist... Creating it\n", spaceName, pageName);
 
-            Page page = new Page();
+            Page page = objectFactory.createPage();
             page.setContent(content);
 
-            PutMethod putMethod = executePut(uri, page, "Admin", "admin");
+            PutMethod putMethod = executePutXml(uri, page, "Admin", "admin");
             assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(putMethod);
 
@@ -250,34 +233,23 @@ public class PageResourceTest extends AbstractHttpTest
 
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME, "Translations");
 
-        Page page = new Page();
+        Page page = objectFactory.createPage();
         page.setContent(languageId);
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, TestConstants.TEST_SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, TestConstants.TRANSLATIONS_PAGE_NAME);
-        parametersMap.put(Constants.LANGUAGE_ID_PARAMETER, languageId);
-
         PutMethod putMethod =
-            executePut(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageTranslationResource.class),
-                parametersMap)), page, "Admin", "admin");
+            executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageTranslationResource.class)
+                .build(getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME, languageId)
+                .toString(), page, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
 
-        parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, TestConstants.TEST_SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, TestConstants.TRANSLATIONS_PAGE_NAME);
-        parametersMap.put(Constants.LANGUAGE_ID_PARAMETER, languageId);
-
         GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageTranslationResource.class),
-                parametersMap)));
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageTranslationResource.class).build(
+                getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME, languageId).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Page modifiedPage = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Page modifiedPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertEquals(languageId, modifiedPage.getLanguage());
         assertEquals(languageId, modifiedPage.getLanguage());
     }
@@ -286,58 +258,43 @@ public class PageResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testGETTranslations()");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, TestConstants.TEST_SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, TestConstants.TRANSLATIONS_PAGE_NAME);
-
         GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap)));
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+        Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        List<Link> translationLinks = page.getTranslations().getLinksByRelation(Relations.TRANSLATION);
-        assertTrue(translationLinks.size() > 0);
+        assertTrue(page.getTranslations().getTranslations().size() > 0);
 
-        for (Link translationLink : translationLinks) {
-            System.out.format("Translation link: %s\n", translationLink.getHref());
-            getMethod = executeGet(translationLink.getHref());
+        for (Translation translation : page.getTranslations().getTranslations()) {
+            getMethod = executeGet(getFirstLinkByRelation(translation, Relations.PAGE).getHref());
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
 
-            page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+            page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-            assertEquals(page.getLanguage(), translationLink.getHrefLang());
+            assertEquals(page.getLanguage(), translation.getLanguage());
+
+            checkLinks(translation);
         }
-
-        checkLinks(page.getTranslations());
     }
 
     public void testGETNotExistingTranslation() throws Exception
     {
         TestUtils.banner("testGETNotExistingTranslation()");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, TestConstants.TEST_SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, TestConstants.TRANSLATIONS_PAGE_NAME);
-
         GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap)));
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, TestConstants.TEST_SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, TestConstants.TRANSLATIONS_PAGE_NAME);
-        parametersMap.put(Constants.LANGUAGE_ID_PARAMETER, "NOTEXISTING");
-
         getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageTranslationResource.class),
-                parametersMap)));
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageTranslationResource.class).build(
+                getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME, "NOT_EXISTING")
+                .toString());
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
     }
@@ -350,20 +307,37 @@ public class PageResourceTest extends AbstractHttpTest
 
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, pageName, "Test page");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, TestConstants.TEST_SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, pageName);
-
         DeleteMethod deleteMethod =
-            executeDelete(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class),
-                parametersMap)));
-        assertEquals(HttpStatus.SC_OK, deleteMethod.getStatusCode());
+            executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(
+                getWiki(), TestConstants.TEST_SPACE_NAME, pageName).toString(), "Admin", "admin");
+        assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
 
         GetMethod getMethod =
-            executeGet(getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageResource.class), parametersMap)));
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                TestConstants.TEST_SPACE_NAME, pageName).toString());
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+    }
+
+    public void testDELETEPageNoRights() throws Exception
+    {
+        final String pageName = String.format("Test-%d", random.nextLong());
+
+        TestUtils.banner("testDELETEPage()");
+
+        createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, pageName, "Test page");
+
+        DeleteMethod deleteMethod =
+            executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(
+                getWiki(), TestConstants.TEST_SPACE_NAME, pageName).toString());
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(deleteMethod);
+
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                TestConstants.TEST_SPACE_NAME, pageName).toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
     }
 
@@ -371,30 +345,36 @@ public class PageResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testPageHistory");
 
-        Page originalPage = getPage();
-
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, originalPage.getSpace());
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, originalPage.getName());
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                "Main", "WebHome").toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+        
+        Page originalPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         String pageHistoryUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageHistoryResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageHistoryResource.class).build(getWiki(),
+                originalPage.getSpace(), originalPage.getName()).toString();
 
-        GetMethod getMethod = executeGet(pageHistoryUri);
+        getMethod = executeGet(pageHistoryUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        History history = (History) xstream.fromXML(getMethod.getResponseBodyAsString());
+        History history = (History) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        for (HistorySummary historySummary : history.getHistorySummaryList()) {
-            getMethod = executeGet(historySummary.getFirstLinkByRelation(Relations.PAGE).getHref());
+        for (HistorySummary historySummary : history.getHistorySummaries()) {
+            getMethod = executeGet(getFirstLinkByRelation(historySummary, Relations.PAGE).getHref());
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
 
-            Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+            Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
             checkLinks(page);
+
+            for (Translation translation : page.getTranslations().getTranslations()) {
+                checkLinks(translation);
+            }
         }
     }
 
@@ -402,26 +382,22 @@ public class PageResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testPageTranslationHistory");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, TestConstants.TEST_SPACE_NAME);
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, TestConstants.TRANSLATIONS_PAGE_NAME);
-
         String pageHistoryUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageHistoryResource.class), parametersMap));
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageHistoryResource.class).build(getWiki(),
+                TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        History history = (History) xstream.fromXML(getMethod.getResponseBodyAsString());
+        History history = (History) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        for (HistorySummary historySummary : history.getHistorySummaryList()) {
-            getMethod = executeGet(historySummary.getFirstLinkByRelation(Relations.PAGE).getHref());
+        for (HistorySummary historySummary : history.getHistorySummaries()) {
+            getMethod = executeGet(getFirstLinkByRelation(historySummary, Relations.PAGE).getHref());
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
 
-            Page page = (Page) xstream.fromXML(getMethod.getResponseBodyAsString());
+            Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
             checkLinks(page);
             checkLinks(page.getTranslations());
@@ -432,22 +408,16 @@ public class PageResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testGETPageChildren");
 
-        Map<String, String> parametersMap = new HashMap<String, String>();
-        parametersMap.put(Constants.WIKI_NAME_PARAMETER, getWiki());
-        parametersMap.put(Constants.SPACE_NAME_PARAMETER, "Main");
-        parametersMap.put(Constants.PAGE_NAME_PARAMETER, "WebHome");
-
-        String pageChildrenUri =
-            getFullUri(Utils.formatUriTemplate(getUriPatternForResource(PageChildrenResource.class), parametersMap));
-
-        GetMethod getMethod = executeGet(pageChildrenUri);
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageChildrenResource.class).build(
+                getWiki(), "Main", "WebHome").toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
-        Pages pages = (Pages) xstream.fromXML(getMethod.getResponseBodyAsString());
-        assertTrue(pages.getPageSummaryList().size() > 0);
+        Pages pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        assertTrue(pages.getPageSummaries().size() > 0);
 
-        for (PageSummary pageSummary : pages.getPageSummaryList()) {
+        for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);
         }
     }

@@ -14,7 +14,7 @@
 <creationDate>1179519911000</creationDate>
 <date>1184489161000</date>
 <contentUpdateDate>1184489161000</contentUpdateDate>
-<version>1.9</version>
+<version>1.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -65,6 +65,6 @@
 #end
 #includeInContext("XWiki.WebSearchCode")
 #set ($baseurl = "http://${request.serverName}")
-#set ($description = "RSS feed for search on '$text'")
+#set ($description = $msg.get("xe.search.rss", [$text]))
 #includeInContext("XWiki.WebRssCode")
 </content></xwikidoc>

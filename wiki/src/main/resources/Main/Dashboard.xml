@@ -67,6 +67,8 @@
 #if($doc.space != "Main")
   #set($isSpaceDashboard = true)
 #end
+1.1 $msg.get("xe.dashboard.wiki")
+
 &lt;div&gt;
   &lt;div id="dashboardleft" style="float:left; width: 44.9%;"&gt;
     ##

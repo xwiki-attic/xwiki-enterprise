@@ -79,7 +79,7 @@
 ## ---------------
 #if ($displayUI)
 {/pre}
-1 Search
+1 $msg.get("search")
 {pre}
 #end
 ## ---------------
@@ -193,7 +193,7 @@
 ## ---------------
 &lt;form action="$doc.name" method="get"&gt;
 &lt;div class="centered"&gt;
-Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&gt; in space #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtualMode()) in wikis #wikinamesselect($util.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="Search"/&gt;
+$msg.get("xe.search.query") &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&gt; $msg.get("xe.search.in.space") #spaceselect($space $spaces $spacesText)#if($xwiki.isVirtualMode()) $msg.get("xe.search.in.wikis") #wikinamesselect($util.sort($allwikinamelist) $wikinamelist)#end &lt;input type="submit" value="$msg.get("xe.search.go")"/&gt;
 &lt;/div&gt;
 &lt;/form&gt;
 #end
@@ -221,9 +221,9 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
                         #set($lastIndex=$searchresults.getEndIndex($firstIndex, $itemsPerPage))
                         #if ($displayUI)
 			#if($searchresults.getHitcount()==1)
-				One result:
+				$msg.get("xe.search.results.one")
 			#else
-				Results $firstIndex - $lastIndex of ${searchresults.getHitcount()}:
+				$msg.get("xe.search.results") $firstIndex - $lastIndex $msg.get("xe.search.of") ${searchresults.getHitcount()}:
 			#end
                         #end
                         ## ---------------
@@ -233,7 +233,7 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
 				#set($linkfirstIndex = $searchresults.getPreviousIndex($firstIndex,$itemsPerPage))
 				#set($link = "${doc.name}?text=${query}&amp;firstIndex=${linkfirstIndex}")
                                 {pre}
-				&lt;a href="$link"&gt;&lt;img src="${xwiki.getSkinFile("icons/silk/resultset_previous.gif")}" alt="previous" /&gt;previous page&lt;/a&gt;
+				&lt;a href="$link"&gt;&lt;img src="${xwiki.getSkinFile("icons/silk/resultset_previous.gif")}" alt="$msg.get('xe.search.page.previous')" /&gt;$msg.get("xe.search.page.previous")&lt;/a&gt;
 				{/pre}
 			#end
                         ## -------------
@@ -243,7 +243,7 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
 				#set($linkfirstIndex = $searchresults.getNextIndex($firstIndex,$itemsPerPage))
 				#set($link = "${doc.name}?text=${query}&amp;firstIndex=${linkfirstIndex}")
                                 {pre}
-				&lt;a href="$link"&gt;&lt;img src="${xwiki.getSkinFile("icons/silk/resultset_next.gif")}" alt="next" /&gt;next page&lt;/a&gt;
+				&lt;a href="$link"&gt;&lt;img src="${xwiki.getSkinFile("icons/silk/resultset_next.gif")}" alt="$msg.get('xe.search.page.next')" /&gt;$msg.get("xe.search.page.next")&lt;/a&gt;
                                 {/pre}
 			#end
                         ## -----------------
@@ -251,7 +251,8 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
                         ## -----------------
                         #if ($request.xpage &amp;&amp; $request.xpage == "rdf")
                           #set ($baseurl = "http://${request.serverName}")
-                          #set ($description = "RSS feed for search on '$text'")
+                          #set ($descText = $msg.get("xe.search.rss.feedfor"))
+                          #set ($description = "$descText '$text'")
                           #set ($list = $util.arrayList)
                           #foreach ($item in $results)
                             #if ($item.type != "attachment")
@@ -267,7 +268,7 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
                         #end
                 #end
 	#else
-		#error("Lucene plugin not found. Make sure it's defined in your xwiki.cfg file.")
+		#error($msg.get("xe.search.plugin.notfound"))
 	#end
 #end
 #if ($displayUI)
@@ -281,14 +282,13 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
     #if($doRebuild == "yes")
       #set($documentCount = $lucene.rebuildIndex())
       #if(${documentCount} &gt;= 0)
-        {/pre}#info("Started index rebuild.\\
-        Will take some time depending on the number of pages/attachments."){pre}
+        {/pre}#info($msg.get("xe.search.rebuild.started")){pre}
       #elseif(${documentCount} == -1)
-        #error("You must have administrator rights to rebuild the index.")
+        #error($msg.get("xe.search.rebuild.rights"))
       #elseif(${documentCount} == -2)
-        #error("Another rebuild is in progress.")
+        #error($msg.get("xe.search.rebuild.inprogress"))
       #else
-        #error("Index rebuild failed.")
+        #error($msg.get("xe.search.rebuild.failed"))
       #end
     #else ## !doRebuild
       ## ---------------
@@ -296,12 +296,12 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
       ## ---------------
       #set ($queuesize = $xwiki.lucene.getQueueSize())
       #if ($queuesize &gt; 2)
-        #set($info1 = "Lucene is currently building its index, ${queuesize} documents in queue.")
+        #set($info1 = $msg.get('xe.search.rebuild.currently', [${queuesize}]))
       #else
-        #set($info1 = "Lucene index is up to date.")
+        #set($info1 = $msg.get('xe.search.index.uptodate'))
       #end
       #if($hasAdmin)
-        #set($info2 = " [Rebuild the Lucene index&gt;${doc.space}.${doc.name}?rebuild=yes].")
+        #set($info2 = " [$msg.get('xe.search.index.rebuild')&gt;${doc.space}.${doc.name}?rebuild=yes].")
       #else
         #set($info2 = "")
 	  #end
@@ -311,10 +311,11 @@ Query &lt;input type="text" name="text" value="$xwiki.getFormEncoded($query)" /&
     ## Comment
     ## ---------------
     {/pre}
-#warning("This is the new experimental Lucene search engine. \\
-        You can still use the XWiki [default search engine&gt;WebSearch?text=$utext].")
+   #set($defaultSearch = "[$msg.get('xe.search.default.engine')&gt;WebSearch?text=$utext]") 
+   #warning($msg.get("xe.search.lucene.experimental", [$defaultSearch]))
   #else ## !lucene exists
-    #warning("The Lucene plugin is not enabled. You can use the XWiki [default search engine&gt;WebSearch?text=$utext].")
+  #set($defaultSearch = "[$msg.get('xe.search.default.engine')&gt;WebSearch?text=$utext]")
+    #warning($msg.get("xe.search.plugin.notenabled", [$defaultSearch]))
   #end ## lucene exists
 #end ## displayUI
 </content></xwikidoc>

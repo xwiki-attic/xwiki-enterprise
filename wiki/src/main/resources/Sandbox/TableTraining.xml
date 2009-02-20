@@ -14,7 +14,7 @@
 <creationDate>1165913378000</creationDate>
 <date>1166177447000</date>
 <contentUpdateDate>1169801141000</contentUpdateDate>
-<version>1.6</version>
+<version>1.1</version>
 <title>Table Training</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -53,7 +53,6 @@
 </object>
 <content>1 Table Training
 
-
 {table}
 Category | Sales (KE)
 Category 1 | 100
@@ -62,9 +61,7 @@ Category 3 | 50
 Total | =sum(B2:B4)
 {table}
 
-
 ----
-
 
 {table}
 row1 | Row 2 | ROW 3 | Row 4
@@ -72,6 +69,5 @@ Cell 1 | 10 | 100 | 1000
 Cell 2 | 20 | 200 | 2000
 Cell 3 | 30 | 300 | 3000
 Total | =sum(B2:B4)|=sum(C2:C4)| =sum(D2:D4)
-
 {table}</content>
 </xwikidoc>

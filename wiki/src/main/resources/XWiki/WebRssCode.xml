@@ -14,7 +14,7 @@
 <creationDate>1165962783000</creationDate>
 <date>1167582658000</date>
 <contentUpdateDate>1169801142000</contentUpdateDate>
-<version>1.9</version>
+<version>1.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -117,7 +117,7 @@ $request.serverName
 &lt;item rdf:about="$url"&gt;
 &lt;title&gt;$xwiki.getXMLEncoded(${currentdoc.displayTitle})&lt;/title&gt;
 &lt;link&gt;$url&lt;/link&gt;
-&lt;description&gt;Version $currentdoc.version edited by $xwiki.getXMLEncoded($xwiki.getUserName($currentdoc.author, false)) on $currentdoc.date&lt;/description&gt;
+&lt;description&gt;$msg.get("xe.rss.version") $currentdoc.version $msg.get("xe.rss.editedby") $xwiki.getXMLEncoded($xwiki.getUserName($currentdoc.author, false)) $msg.get("xe.rss.on") $currentdoc.date&lt;/description&gt;
 #set($tz = $xwiki.formatDate($currentdoc.date, "Z"))
 #set($tz = "${tz.substring(0, 3)}:${tz.substring(3)}")
 &lt;dc:date&gt;$xwiki.formatDate($currentdoc.date, "yyyy-MM-dd")T$xwiki.formatDate($currentdoc.date, "hh:mm:ss")$tz&lt;/dc:date&gt;

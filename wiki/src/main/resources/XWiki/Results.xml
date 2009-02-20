@@ -68,18 +68,18 @@ $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 &lt;table id="searchTableUnique" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Page&lt;/th&gt;
-    &lt;th style="width:150px" class="selectFilter"&gt;Space&lt;/th&gt;
+    &lt;th&gt;$msg.get("xe.results.page")&lt;/th&gt;
+    &lt;th style="width:150px" class="selectFilter"&gt;$msg.get("xe.results.space")&lt;/th&gt;
     #if($xwiki.isVirtualMode())
-      &lt;th style="width:150px" class="selectFilter"&gt;Wiki&lt;/th&gt;
+      &lt;th style="width:150px" class="selectFilter"&gt;$msg.get("xe.results.wiki")&lt;/th&gt;
     #end
-    &lt;th style="width:150px"&gt;Date&lt;/th&gt;
-    &lt;th style="width:150px"&gt;Last Author&lt;/th&gt;
+    &lt;th style="width:150px"&gt;$msg.get("xe.results.date")&lt;/th&gt;
+    &lt;th style="width:150px"&gt;$msg.get("xe.results.author")&lt;/th&gt;
     #if($isScored)
-    &lt;th style="width:150px" class="noFilter"&gt;Score&lt;/th&gt;
+    &lt;th style="width:150px" class="noFilter"&gt;$msg.get("xe.results.score")&lt;/th&gt;
     #end
     #if($xwiki.hasAdminRights())
-      &lt;th style="width:210px" class="unsortable noFilter"&gt;Actions&lt;/th&gt;
+      &lt;th style="width:210px" class="unsortable noFilter"&gt;$msg.get("xe.results.actions")&lt;/th&gt;
     #end
   &lt;/tr&gt;
   #foreach ($item in $list)
@@ -125,7 +125,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
             #set($date1 = $!xwiki.formatDate($!bentrydoc.date,"yyyy MM dd HH:mm:ss") )
           #end
           #if($date1.equals($date2) )
-            [$ptitle&gt;$itemfullname] &lt;em&gt;- 1 new comment&lt;/em&gt;
+            [$ptitle&gt;$itemfullname] &lt;em&gt;$msg.get("xe.results.newcomment")&lt;/em&gt;
             #set($troubi ="oui")
             #set($desc = $cobj.getXWikiObject().get("comment").value)
           #else
@@ -150,7 +150,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
           #set($createur = $xwiki.getUserName($cobj.author)   )
         #end
         #if ($createur == "XWikiGuest")
-          Guest
+          $msg.get("xe.results.guest")
         #else
           $createur
         #end
@@ -173,7 +173,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
       #end
       #if($xwiki.hasAdminRights())
         &lt;td&gt;
-          &lt;a href="$xwiki.getURL("XWiki.CopyDocument", "view", "sourcedoc=${util.encodeURI($itemfullname)}")"&gt;Copy&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;Delete&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1")"&gt;Rename&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;Rights&lt;/a&gt;
+          &lt;a href="$xwiki.getURL("XWiki.CopyDocument", "view", "sourcedoc=${util.encodeURI($itemfullname)}")"&gt;$msg.get("xe.results.copy")&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("delete")"&gt;$msg.get("xe.results.delete")&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("view", "xpage=rename&amp;amp;step=1")"&gt;$msg.get("xe.results.rename")&lt;/a&gt; - &lt;a href="$bentrydoc.getURL("edit", "editor=rights")"&gt;$msg.get("xe.results.rights")&lt;/a&gt;
         &lt;/td&gt;
       #end
       &lt;/tr&gt;

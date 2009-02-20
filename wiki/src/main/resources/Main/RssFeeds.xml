@@ -14,7 +14,7 @@
 <creationDate>1184166013000</creationDate>
 <date>1184255091000</date>
 <contentUpdateDate>1184255091000</contentUpdateDate>
-<version>1.5</version>
+<version>1.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -53,12 +53,15 @@
 <tags/>
 </property>
 </object>
-<content>1 RSS Feeds
+<content>1 $msg.get("xe.rss.feeds")
 
-There are currently 4 types of RSS feeds available on this wiki. You can subscribe to each of them by clicking on their name or on the icon next to them.
+$msg.get("xe.rss.feeds.description")
 
-* &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=rdf')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="Modified Pages RSS Feed" alt="Modified Pages RSS Feed"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=rdf')"&gt;*Web RSS:*&lt;/a&gt; this feed displays all page modifications and creation activity on this wiki.
-* &lt;a href="$xwiki.getURL('Main.BlogRss', 'view', 'xpage=rdf')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="Blog RSS Feed" alt="Blog RSS Feed"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.BlogRss', 'view', 'xpage=rdf')"&gt;*Blog RSS:*&lt;/a&gt; this feed displays blog feeds from this wiki's [Blog&gt;WebHome].
-* &lt;a href="$xwiki.getURL('Main.WebSearch')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="WebSearch RSS Feed" alt="Web Search Feed"/&gt;&lt;/a&gt; *[Search RSS&gt;Main.WebSearch]:* It is possible to subscribe to a search on a specific query term. To do this, got to the [Search page&gt;Main.WebSearch], run a search on a keyword and then click on the RSS icon.
-* &lt;a href="$xwiki.getURL('Main.Tags')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="Tags RSS Feed" alt="Tags Feed"/&gt;&lt;/a&gt; *[Tags RSS&gt;Main.Tags]:* It is possible to subscribe to a feed for a specific tag or for all existing tags. To do this, got to the [Tags page&gt;Main.Tags] and click on the RSS feed icon you wish to use.
+#set($blog = "[$msg.get('xe.rss.blog')&gt;Blog.WebHome]")
+#set($search = "[$msg.get('xe.rss.search')&gt;Main.WebSearch]")
+#set($tags = "[$msg.get('xe.rss.tags')&gt;Main.Tags]")
+* &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=rdf')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.pages.modified')" alt="$msg.get('xe.rss.pages.modified')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=rdf')"&gt;*$msg.get('xe.rss.global')*&lt;/a&gt; $msg.get('xe.rss.global.description')
+* &lt;a href="$xwiki.getURL('Main.BlogRss', 'view', 'xpage=rdf')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.blog.feed')" alt="$msg.get('xe.rss.blog.feed')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.BlogRss', 'view', 'xpage=rdf')"&gt;*$msg.get('xe.rss.blog')*&lt;/a&gt; $msg.get("xe.rss.blog.description", [$blog])
+* &lt;a href="$xwiki.getURL('Main.WebSearch')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="WebSearch RSS Feed" alt="Web Search Feed"/&gt;&lt;/a&gt; *[$msg.get('xe.rss.search')&gt;Main.WebSearch]* $msg.get("xe.rss.search.description", [$search])
+* &lt;a href="$xwiki.getURL('Main.Tags')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.tags.feed')" alt="$msg.get('xe.rss.tags.feed')"/&gt;&lt;/a&gt; *[$msg.get('xe.rss.tags')&gt;Main.Tags]* $msg.get("xe.rss.tags.description", [$tags])
 </content></xwikidoc>

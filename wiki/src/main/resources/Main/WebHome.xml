@@ -59,9 +59,9 @@
 </object>
 <content>1 Welcome to your wiki
 
-It is an online workspace that allow people to work better together. This Wiki contains ~~pages~~ organized by ~~spaces~~. You're currently in the *Main* space, looking at the home page (*WebHome*). #if($hasEdit) You can use the [Sandbox space&gt;Sandbox.WebHome] to get familiar with page editing. #end
+It's an easy-to-edit website that will help you work better together. This Wiki is made of ~~pages~~ sorted by ~~spaces~~. You're currently in the *Main* space, looking at its home page (*WebHome*). 
 
-1.1 $msg.get("xe.dashboard.wiki")
+#if($hasEdit) You can use the [Sandbox space&gt;Sandbox.WebHome] to try out your wiki's features. #end
 
 #includeInContext("Main.Dashboard")</content>
 </xwikidoc>

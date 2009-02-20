@@ -26,6 +26,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.jackrabbit.uuid.UUID;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.History;
 import org.xwiki.rest.model.jaxb.HistorySummary;
@@ -117,7 +118,7 @@ public class PageResourceTest extends AbstractHttpTest
     public void testPUTPage() throws Exception
     {
         final String CONTENT = String.format("This is a content (%d)", System.currentTimeMillis());
-        final String TITLE = String.format("Title (%d)", System.currentTimeMillis());
+        final String TITLE = String.format("Title (%s)", UUID.randomUUID().toString());
 
         TestUtils.banner("testPUTPage()");
 
@@ -138,6 +139,26 @@ public class PageResourceTest extends AbstractHttpTest
 
         assertEquals(modifiedPage.getContent(), CONTENT);
         assertEquals(modifiedPage.getTitle(), TITLE);
+    }
+    
+    public void testPUTPageWithTextPlain() throws Exception
+    {
+        final String CONTENT = String.format("This is a content (%d)", System.currentTimeMillis());        
+
+        TestUtils.banner("testPUTPage()");
+
+        Page originalPage = getPage();
+
+        Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
+        assertNotNull(link);
+
+        PutMethod putMethod = executePut(link.getHref(), CONTENT, MediaType.TEXT_PLAIN, "Admin", "admin");
+        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(putMethod);
+
+        Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        assertEquals(modifiedPage.getContent(), CONTENT);        
     }
 
     public void testPUTPageUnauthorized() throws Exception

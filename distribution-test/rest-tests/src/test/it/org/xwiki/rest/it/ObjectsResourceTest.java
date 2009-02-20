@@ -2,6 +2,7 @@ package org.xwiki.rest.it;
 
 import java.util.UUID;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -12,6 +13,7 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.Object;
+import org.xwiki.rest.model.jaxb.ObjectSummary;
 import org.xwiki.rest.model.jaxb.Objects;
 import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.Property;
@@ -42,17 +44,17 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertFalse(objects.getObjects().isEmpty());
+        assertFalse(objects.getObjectSummaries().isEmpty());
 
-        for (Object object : objects.getObjects()) {
-            link = getFirstLinkByRelation(object, Relations.SELF);
+        for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
+            link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
             getMethod = executeGet(link.getHref());
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
 
-            object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+            Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
             
-            checkLinks(object);
+            checkLinks(objectSummary);
             
             for(Property property : object.getProperties()) {
                 checkLinks(property);
@@ -275,13 +277,19 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertFalse(objects.getObjects().isEmpty());
+        assertFalse(objects.getObjectSummaries().isEmpty());
 
         Object currentObject = null;
         
-        for (Object object : objects.getObjects()) {
-            if(object.getClassName().equals("XWiki.TagClass")) {
-                currentObject = object;
+        for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
+            if(objectSummary.getClassName().equals("XWiki.TagClass")) {
+                link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
+                assertNotNull(link);
+                getMethod = executeGet(link.getHref());
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                TestUtils.printHttpMethodInfo(getMethod);
+                
+                currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
                 break;
             }
         }
@@ -316,6 +324,71 @@ public class ObjectsResourceTest extends AbstractHttpTest
         
     }
     
+    public void testPUTPropertyWithTextPlain() throws Exception {
+        TestUtils.banner("testPUTProperty()");
+        
+        final String TAG_VALUE = UUID.randomUUID().toString();
+        
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                "Main", "WebHome").toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Link link = getFirstLinkByRelation(page, Relations.OBJECTS);
+        assertNotNull(link);
+
+        getMethod = executeGet(link.getHref());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertFalse(objects.getObjectSummaries().isEmpty());
+
+        Object currentObject = null;
+        
+        for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
+            if(objectSummary.getClassName().equals("XWiki.TagClass")) {
+                link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
+                assertNotNull(link);
+                getMethod = executeGet(link.getHref());
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                TestUtils.printHttpMethodInfo(getMethod);
+                
+                currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+                break;
+            }
+        }
+        
+        assertNotNull(currentObject);
+        
+        Property tagsProperty = getProperty(currentObject, "tags");
+        
+        assertNotNull(tagsProperty);
+        
+        Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.PROPERTY);
+        
+        assertNotNull(tagsPropertyLink);
+                
+        PutMethod putMethod = executePut(tagsPropertyLink.getHref(), TAG_VALUE, MediaType.TEXT_PLAIN, "Admin", "admin");
+        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(putMethod);
+        
+        getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(getWiki(),
+                "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        
+        currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        
+        tagsProperty = getProperty(currentObject, "tags");
+        
+        assertEquals(TAG_VALUE, tagsProperty.getValue());
+        
+    }
+    
     private Object getObject(String className) throws Exception {
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(getWiki(),
@@ -325,10 +398,18 @@ public class ObjectsResourceTest extends AbstractHttpTest
         
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertFalse(objects.getObjects().isEmpty());
+        assertFalse(objects.getObjectSummaries().isEmpty());
         
-        for(Object object : objects.getObjects()) {
-            if(object.getClassName().equals(className)) {
+        for(ObjectSummary objectSummary : objects.getObjectSummaries()) {
+            if(objectSummary.getClassName().equals(className)) {
+                Link link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
+                assertNotNull(link);
+                getMethod = executeGet(link.getHref());
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                TestUtils.printHttpMethodInfo(getMethod);
+                
+                Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+                
                 return object;
             }
             

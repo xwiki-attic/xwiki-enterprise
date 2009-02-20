@@ -19,6 +19,7 @@
  */
 package org.xwiki.rest.it;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -65,6 +66,35 @@ public class CommentsResourceTest extends AbstractHttpTest
         comment.setText("Comment");
 
         PostMethod postMethod = executePostXml(commentsUri, comment, "Admin", "admin");
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
+
+        getMethod = executeGet(commentsUri);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertEquals(numberOfComments + 1, comments.getComments().size());
+    }
+    
+    public void testPOSTCommentWithTextPlain() throws Exception
+    {
+        TestUtils.banner("testCreateComments()");
+
+        String commentsUri =
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME).toString();
+
+        GetMethod getMethod = executeGet(commentsUri);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int numberOfComments = comments.getComments().size();
+        
+        PostMethod postMethod = executePost(commentsUri, "Comment", MediaType.TEXT_PLAIN, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
 

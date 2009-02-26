@@ -522,6 +522,27 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         pushButton("//div[@title='Insert/Edit Image']");
     }
 
+    public void clickInsertLinkButton()
+    {
+        pushButton("//div[@title='Insert link']");
+    }
+
+    public void clickUnlinkButton()
+    {
+        pushButton("//div[@title='Unlink']");
+    }
+
+    public boolean isUnlinkButtonEnabled()
+    {
+        return isButtonEnabled("Unlink");
+    }
+
+    public boolean isInsertLinkButtonEnabled()
+    {
+        return isButtonEnabled("Insert link");
+
+    }
+
     public void clickInsertTableButton()
     {
         pushButton("//div[@title='Inserts a new table']");
@@ -583,6 +604,36 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().mouseDown(locator);
         getSelenium().mouseUp(locator);
         getSelenium().mouseOut(locator);
+    }
+
+    /**
+     * Clicks the button with the specified title.
+     * 
+     * @param buttonTitle the value of the {@code title} attribute of the {@code button} element to click
+     */
+    public void clickButton(String buttonTitle)
+    {
+        getSelenium().click("//button[@title=\"" + buttonTitle + "\"]");
+    }
+
+    /**
+     * Types the specified text in the input specified by its title.
+     * 
+     * @param inputTitle the {@code title} attribute of the {@code} input element to type in
+     * @param text the text to type in the input
+     */
+    public void typeInInput(String inputTitle, String text)
+    {
+        getSelenium().type("//input[@title=\"" + inputTitle + "\"]", text);
+    }
+    
+    /**
+     * @param inputTitle the title of the input whose value to return.
+     * @return the value of an input specified by its title. 
+     */
+    public String getInputValue(String inputTitle) 
+    {
+        return getSelenium().getValue("//input[@title=\"" + inputTitle + "\"]");
     }
 
     public boolean isButtonEnabled(String buttonTitle)

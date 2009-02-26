@@ -45,6 +45,7 @@ public class AllTests extends TestCase
         TestSuite suite = new TestSuite();
 
         addTestCase(suite, StandardFeaturesTest.class);
+        addTestCase(suite, LinkPluginTest.class);
         addTestCase(suite, ListSupportTest.class);
         addTestCase(suite, MacroSupportTest.class);
 

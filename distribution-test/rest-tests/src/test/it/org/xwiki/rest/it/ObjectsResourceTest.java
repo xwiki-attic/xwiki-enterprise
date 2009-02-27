@@ -300,7 +300,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         
         assertNotNull(tagsProperty);
         
-        Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.PROPERTY);
+        Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.SELF);
         
         assertNotNull(tagsPropertyLink);
         
@@ -368,7 +368,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         
         assertNotNull(tagsProperty);
         
-        Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.PROPERTY);
+        Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.SELF);
         
         assertNotNull(tagsPropertyLink);
                 

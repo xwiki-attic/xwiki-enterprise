@@ -26,6 +26,8 @@ public class TestConstants
     public static final String INVALID_PAGE_XML = "invalidPage.xml";
 
     public static final String TEST_SPACE_NAME = "Test";
+    
+    public static final String TEST_PAGE_NAME = "Test";
 
     public static final String TRANSLATIONS_PAGE_NAME = "Translations";
 

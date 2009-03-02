@@ -45,13 +45,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteCharacterBeforeMacro()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "a{{html}}b{{/html}}");
-        switchToWysiwygEditor();
+        setWikiContent("a{{html}}b{{/html}}");
         typeDelete();
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("x{{html}}b{{/html}}", getFieldValue("content"));
+        assertWiki("x{{html}}b{{/html}}");
     }
 
     /**
@@ -60,13 +57,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testHoldDeleteKeyBeforeMacro()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "c{{html}}def{{/html}}g");
-        switchToWysiwygEditor();
+        setWikiContent("c{{html}}def{{/html}}g");
         typeDelete(2, true);
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("xg", getFieldValue("content"));
+        assertWiki("xg");
     }
 
     /**
@@ -75,15 +69,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterBeforeMacroAndPressBackspace()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "g{{html}}h{{/html}}");
-        switchToWysiwygEditor();
+        setWikiContent("g{{html}}h{{/html}}");
         // Select the character preceding the macro.
         selectNode("XWE.body.firstChild.firstChild");
         typeBackspace();
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("x{{html}}h{{/html}}", getFieldValue("content"));
+        assertWiki("x{{html}}h{{/html}}");
     }
 
     /**
@@ -92,16 +83,13 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterBeforeMacroAndInsertSymbol()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "i{{html}}j{{/html}}");
-        switchToWysiwygEditor();
+        setWikiContent("i{{html}}j{{/html}}");
         // Select the character preceding the macro.
         selectNode("XWE.body.firstChild.firstChild");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("\u00A9x{{html}}j{{/html}}", getFieldValue("content"));
+        assertWiki("\u00A9x{{html}}j{{/html}}");
     }
 
     /**
@@ -109,13 +97,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testPressDeleteJustBeforeMacro()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "{{html}}k{{/html}}l");
-        switchToWysiwygEditor();
+        setWikiContent("{{html}}k{{/html}}l");
         typeDelete();
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("xl", getFieldValue("content"));
+        assertWiki("xl");
     }
 
     /**
@@ -124,15 +109,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteCharacterAfterMacro()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "a{{html}}b{{/html}}c");
-        switchToWysiwygEditor();
+        setWikiContent("a{{html}}b{{/html}}c");
         // Move the caret at the end.
         moveCaret("XWE.body.firstChild.lastChild", 1);
         typeBackspace();
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("a{{html}}b{{/html}}x", getFieldValue("content"));
+        assertWiki("a{{html}}b{{/html}}x");
     }
 
     /**
@@ -141,15 +123,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testHoldBackspaceKeyAfterMacro()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "c{{html}}def{{/html}}g");
-        switchToWysiwygEditor();
+        setWikiContent("c{{html}}def{{/html}}g");
         // Move the caret at the end.
         moveCaret("XWE.body.firstChild.lastChild", 1);
         typeBackspace(2, true);
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("cx", getFieldValue("content"));
+        assertWiki("cx");
     }
 
     /**
@@ -158,15 +137,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterAfterMacroAndPressDelete()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "g{{html}}h{{/html}}i");
-        switchToWysiwygEditor();
+        setWikiContent("g{{html}}h{{/html}}i");
         // Select the character following the macro.
         selectNode("XWE.body.firstChild.lastChild");
         typeDelete();
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("g{{html}}h{{/html}}x", getFieldValue("content"));
+        assertWiki("g{{html}}h{{/html}}x");
     }
 
     /**
@@ -175,16 +151,13 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterAfterMacroAndInsertSymbol()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "i{{html}}j{{/html}}k");
-        switchToWysiwygEditor();
+        setWikiContent("i{{html}}j{{/html}}k");
         // Select the character following the macro.
         selectNode("XWE.body.firstChild.lastChild");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("i{{html}}j{{/html}}\u00A9x", getFieldValue("content"));
+        assertWiki("i{{html}}j{{/html}}\u00A9x");
     }
 
     /**
@@ -192,15 +165,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testPressBackspaceJustAfterMacro()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "k{{html}}l{{/html}}m");
-        switchToWysiwygEditor();
+        setWikiContent("k{{html}}l{{/html}}m");
         // Move the caret at the end.
         moveCaret("XWE.body.firstChild.lastChild", 0);
         typeBackspace();
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("kxm", getFieldValue("content"));
+        assertWiki("kxm");
     }
 
     /**
@@ -208,15 +178,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testUndoRedoWhenMacrosArePresent()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "{{html}}pq{{/html}}");
-        switchToWysiwygEditor();
+        setWikiContent("{{html}}pq{{/html}}");
         applyStyleParagraph();
         typeText("uv");
         clickUndoButton();
         clickRedoButton();
-        switchToWikiEditor();
-        assertEquals("uv{{html}}pq{{/html}}", getFieldValue("content"));
+        assertWiki("uv{{html}}pq{{/html}}");
     }
 
     /**
@@ -224,13 +191,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testSelectAndDeleteMacro()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "{{html}}<p>foo</p>{{/html}}\n\nbar");
-        switchToWysiwygEditor();
+        setWikiContent("{{html}}<p>foo</p>{{/html}}\n\nbar");
         getSelenium().clickAt(getDOMLocator("getElementsByTagName('button')[0]"), "0, 0");
         typeDelete();
-        switchToWikiEditor();
-        assertEquals("bar", getFieldValue("content"));
+        assertWiki("bar");
     }
 
     /**
@@ -238,11 +202,8 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testWhiteSpacesInsideCodeMacroArePreserved()
     {
-        switchToWikiEditor();
         String wikiText = "{{code}}\nfunction foo() {\n    alert('bar');\n}\n{{/code}}";
-        setFieldValue("content", wikiText);
-        switchToWysiwygEditor();
-        switchToWikiEditor();
-        assertEquals(wikiText, getFieldValue("content"));
+        setWikiContent(wikiText);
+        assertWiki(wikiText);
     }
 }

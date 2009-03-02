@@ -25,7 +25,7 @@ import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
-public class LinkPluginTest extends AbstractWysiwygTestCase
+public class LinkSupportTest extends AbstractWysiwygTestCase
 {
     /**
      * The XPath selector for the existing spaces selector.
@@ -50,7 +50,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests insert link feature");
-        suite.addTestSuite(LinkPluginTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(LinkSupportTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 
@@ -80,7 +80,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
+        assertWiki("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
     }
 
     /**
@@ -100,7 +100,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateExistingSpaceLinkButton();
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[" + linkLabel + ">>" + space + ".WebHome]]");
+        assertWiki("[[" + linkLabel + ">>" + space + ".WebHome]]");
     }
 
     /**
@@ -124,7 +124,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[" + linkLabel + ">>" + space + "." + newPageName + "]]");
+        assertWiki("[[" + linkLabel + ">>" + space + "." + newPageName + "]]");
     }
 
     /**
@@ -149,7 +149,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
+        assertWiki("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
     }
 
     /**
@@ -168,7 +168,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         typeInInput("Web page address", url);
         clickCreateWebPageLinkButton();
 
-        assertWikiContent("[[" + linkLabel + ">>" + url + "]]");
+        assertWiki("[[" + linkLabel + ">>" + url + "]]");
     }
 
     /**
@@ -188,7 +188,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         typeInInput("Web page address", url);
         clickCreateWebPageLinkButton();
 
-        assertWikiContent("[[" + newLabel + ">>" + url + "]]");
+        assertWiki("[[" + newLabel + ">>" + url + "]]");
     }
 
     /**
@@ -206,7 +206,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         typeInInput("Email address", email);
         clickCreateEmailLinkButton();
 
-        assertWikiContent("[[" + linkLabel + ">>" + email + "]]");
+        assertWiki("[[" + linkLabel + ">>" + email + "]]");
     }
 
     /**
@@ -226,7 +226,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         // Note: the new line here because, although we remove initial <br> in the editor content by typing here after
         // setUp selected all content, typing a space in the editor causes browser (FF) to add a <br> at the end,
         // which we then select and add inside the anchor label.
-        assertWikiContent("[[" + linkLabel + "\n>>mailto:" + email + "]]");
+        assertWiki("[[" + linkLabel + "\n>>mailto:" + email + "]]");
     }
 
     /**
@@ -244,7 +244,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         typeInInput("Label of the link to a web page", linkLabel);
         clickCreateWebPageLinkButton();
 
-        assertWikiContent("[[" + linkLabel + ">>http://" + linkURL + "]]");
+        assertWiki("[[" + linkLabel + ">>http://" + linkURL + "]]");
     }
 
     /**
@@ -270,7 +270,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateWebPageLinkButton();
 
         ensureLinkDialogIsClosed();
-        assertWikiContent("[[our**xwiki**rox>>http://www.xwiki.org]]");
+        assertWiki("[[our**xwiki**rox>>http://www.xwiki.org]]");
     }
 
     /**
@@ -319,8 +319,8 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateExistingPageLinkButton();
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("this is [[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
-        switchToWysiwygEditor();
+        assertWiki("this is [[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
+
         assertXHTML("<p>this is <!--startwikilink:Main.WebHome--><span class=\"wikilink\">"
             + "<a href=\"/xwiki/bin/view/Main/\">xwiki</a></span><!--stopwikilink--></p>");
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 5);
@@ -332,9 +332,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         // unlink here should only move the caret out
         clickUnlinkButton();
         typeText(" which rox");
-        assertWikiContent("this is [[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]] which rox");
-
-        switchToWysiwygEditor();
+        assertWiki("this is [[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]] which rox");
 
         select("XWE.body.firstChild", 1, "XWE.body.firstChild.childNodes[1].firstChild", 5);
         triggerToolbarUpdate();
@@ -358,7 +356,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateWebPageLinkButton();
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("this is [[" + linkLabel + ">>" + newLinkURL + "]] which rox");
+        assertWiki("this is [[" + linkLabel + ">>" + newLinkURL + "]] which rox");
     }
 
     /**
@@ -413,9 +411,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateNewPageLinkButton();
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
-
-        switchToWysiwygEditor();
+        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
 
         // move caret at the end and type some more
         moveCaret("XWE.body.firstChild", 1);
@@ -436,7 +432,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
 
         clickInsertLinkButton();
         ensureLinkDialogIsOpen();
-        
+
         // assert the state of the dialog:
         // wait for the spaces selector to load
         waitForCondition("selenium.isElementPresent('" + existingOrNewSpacesSelector + "/option[@value=\"" + spaceName
@@ -451,7 +447,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateNewPageLinkButton();
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Images]] foo [[bar>>http://bar.myxwiki.org]]");
+        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Images]] foo [[bar>>http://bar.myxwiki.org]]");
     }
 
     /**
@@ -460,11 +456,9 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
      */
     public void testDetectAndUnlinkSelectedAnchor()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "foo [[bar>>http://xwiki.org]] [[far>>Main.WebHome]] [[alice>>Main.NewPage]] "
+        setWikiContent("foo [[bar>>http://xwiki.org]] [[far>>Main.WebHome]] [[alice>>Main.NewPage]] "
             + "[[carol>>mailto:carol@xwiki.org]] [[b**o**b>>http://xwiki.org]] blog webhome [[Blog.WebHome]] "
             + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
-        switchToWysiwygEditor();
 
         // put selection inside first text
         moveCaret("XWE.body.firstChild.firstChild", 2);
@@ -524,7 +518,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         assertFalse(isInsertLinkButtonEnabled());
         assertFalse(isUnlinkButtonEnabled());
 
-        assertWikiContent("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
+        assertWiki("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
             + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
     }
 
@@ -534,10 +528,8 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
      */
     public void testEditLinkInList()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* one\n* [[two>>http://www.xwiki.com]]\n** three");
-        switchToWysiwygEditor();
-
+        setWikiContent("* one\n* [[two>>http://www.xwiki.com]]\n** three");
+        
         // now edit the link in the second list item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild.firstChild", 1);
         triggerToolbarUpdate();
@@ -554,7 +546,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateWebPageLinkButton();
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("* one\n* [[two>>http://www.xwiki.org]]\n** three");
+        assertWiki("* one\n* [[two>>http://www.xwiki.org]]\n** three");
     }
 
     /**
@@ -587,8 +579,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
 
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[foo>>" + space + "." + page + "]]");
-        switchToWysiwygEditor();
+        assertWiki("[[foo>>" + space + "." + page + "]]");
 
         // clean up
         selectAllContent();
@@ -624,8 +615,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
 
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[foo>>NewSpace.NewPage]]");
-        switchToWysiwygEditor();
+        assertWiki("[[foo>>NewSpace.NewPage]]");
 
         // clean up
         selectAllContent();
@@ -650,8 +640,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
         clickCreateWebPageLinkButton();
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[xwiki>>http://www.xwiki.org]]");
-        switchToWysiwygEditor();
+        assertWiki("[[xwiki>>http://www.xwiki.org]]");
 
         // clean up
         selectAllContent();
@@ -683,7 +672,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
 
         ensureLinkDialogIsClosed();
 
-        assertWikiContent("[[alice>>mailto:alice@wonderla.nd]]");
+        assertWiki("[[alice>>mailto:alice@wonderla.nd]]");
     }
 
     /**
@@ -788,27 +777,5 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
     protected void clickCreateEmailLinkButton()
     {
         clickButton("Create a link to an email address");
-    }
-
-    /**
-     * Triggers the wysiwyg toolbar update by typing a key. To be used after programatically setting the selection (with
-     * {@link AbstractWysiwygTestCase#select(String, int, String, int)} or
-     * {@link AbstractWysiwygTestCase#moveCaret(String, int)}): it will not influence the selection but it will cause
-     * the toolbar to update according to the new selection.
-     */
-    protected void triggerToolbarUpdate()
-    {
-        typeLeftArrow();
-    }
-
-    /**
-     * Switches to the wiki editor and checks the content of the wiki edit area against the passed expected content.
-     * 
-     * @param expected the expected content of the wiki editor
-     */
-    public void assertWikiContent(String expected)
-    {
-        switchToWikiEditor();
-        assertEquals(expected, getFieldValue("content"));
     }
 }

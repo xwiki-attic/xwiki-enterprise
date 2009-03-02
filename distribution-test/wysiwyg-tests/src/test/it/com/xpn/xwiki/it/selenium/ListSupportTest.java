@@ -47,9 +47,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testEmptyListItemsEditable()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "** rox");
-        switchToWysiwygEditor();
+        setWikiContent("** rox");
         // Check that a br is added in the parent list item so that it becomes editable
         assertXHTML("<ul><li><br class=\"spacer\"><ul><li>rox</li></ul></li></ul>");
         // Place the caret in the first list item
@@ -65,9 +63,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testEnterBeforeSublist()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* x\n** rox");
-        switchToWysiwygEditor();
+        setWikiContent("* x\n** rox");
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
         typeEnter();
         // Check the created item is editable
@@ -83,9 +79,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testEnterOnEntireList()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n* bar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n* bar");
         // Set the selection around the list
         select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.lastChild.firstChild", 3);
         typeEnter();
@@ -98,9 +92,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteInsideItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo**bar**\n** far");
-        switchToWysiwygEditor();
+        setWikiContent("* foo**bar**\n** far");
         // Set the selection inside the foo text
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
         typeDelete();
@@ -117,9 +109,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceInsideItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n** b//arf//ar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n** b//arf//ar");
         // Set the selection in the "ar" text in the second list item
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.lastChild", 1);
         typeBackspace();
@@ -134,9 +124,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteInSameList()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n* bar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n* bar");
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
@@ -150,9 +138,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceInSameList()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n* bar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n* bar");
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
         typeBackspace();
@@ -165,9 +151,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteInDifferentLists()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n\n* bar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n\n* bar");
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
@@ -179,9 +163,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceInDifferentLists()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n\n* bar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n\n* bar");
         // Set the selection at the end of the first item
         moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
@@ -194,18 +176,14 @@ public class ListSupportTest extends AbstractWysiwygTestCase
     public void testDeleteBeforeSublist()
     {
         // 1/ with only one item -> the sublist should be removed
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n** bar\n");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n** bar\n");
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
         assertXHTML("<ul><li>foobar</li></ul>");
 
         // 2/ with more than one item -> only the first item should be moved to the list above
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n** bar\n** far");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n** bar\n** far");
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
@@ -219,18 +197,14 @@ public class ListSupportTest extends AbstractWysiwygTestCase
     public void testBackspaceBeginSublist()
     {
         // 1/ with only one item -> the sublist should be deleted
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n** bar\n");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n** bar\n");
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
         typeBackspace();
         assertXHTML("<ul><li>foobar</li></ul>");
 
         // 2/ with more than one item -> only the first item should be moved to the list above
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n** bar\n** far");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n** bar\n** far");
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
         typeBackspace();
@@ -243,9 +217,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteDecreasesLevelWithEmptyItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n*** bar\n");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n*** bar\n");
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
@@ -258,9 +230,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceDecreasesLevelWithEmptyItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n*** bar\n");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n*** bar\n");
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild", 0);
         typeBackspace();
@@ -275,9 +245,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteBeforePreviousLevelItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n** bar\n* bar minus one");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n** bar\n* bar minus one");
         // Set the selection at the end of "bar"
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
         typeDelete();
@@ -293,9 +261,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceAfterPreviousLevelItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n** bar\n* bar minus one");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n** bar\n* bar minus one");
         // Set the selection at the end of "bar"
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
         typeBackspace();
@@ -309,9 +275,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteAllTextInListItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n* b\n** ar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n* b\n** ar");
 
         // Set the selection at the beginning of the text in the second list item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
@@ -334,9 +298,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceAllTextInListItem()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* foo\n* b\n** ar");
-        switchToWysiwygEditor();
+        setWikiContent("* foo\n* b\n** ar");
 
         // Set the selection at the end of the text in the second list item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 1);
@@ -359,9 +321,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteBeforeParagraph()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* one\n* two\n\nFoobar");
-        switchToWysiwygEditor();
+        setWikiContent("* one\n* two\n\nFoobar");
 
         // Set the selection at the end of the "two" list item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 3);
@@ -369,9 +329,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         assertXHTML("<ul><li>one</li><li>twoFoobar</li></ul>");
 
         // now run the case with delete in a sublist
-        switchToWikiEditor();
-        setFieldValue("content", "* one\n** two\n\nFoobar");
-        switchToWysiwygEditor();
+        setWikiContent("* one\n** two\n\nFoobar");
 
         // Set the selection at the end of the "two" list item
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
@@ -384,9 +342,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceAfterParagraph()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "Foobar\n\n* one\n* two");
-        switchToWysiwygEditor();
+        setWikiContent("Foobar\n\n* one\n* two");
 
         // Set the selection at the beginning of the "one" list item
         moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
@@ -396,9 +352,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         // Now test the case when the list has a sublist, in which case FF keeps the sublist parent, as empty and
         // editable
         // Note that this behaves differently on Internet Explorer, unwrapping the sublist
-        switchToWikiEditor();
-        setFieldValue("content", "Foobar\n\n* one\n** two");
-        switchToWysiwygEditor();
+        setWikiContent("Foobar\n\n* one\n** two");
 
         // Set the selection at the beginning of the "one" list item
         moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
@@ -412,9 +366,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteSelectionPreserveSublists()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* one\n** two\n** three\n*** four\n*** five");
-        switchToWysiwygEditor();
+        setWikiContent("* one\n** two\n** three\n*** four\n*** five");
 
         // Set the selection starting in the one element and ending in the four element
         select("XWE.body.firstChild.firstChild.firstChild", 2,
@@ -429,9 +381,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public void testDeleteSelectionDeletesEnclosedSublists()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* one\n** two\n** three\n*** four\n** five\n* six");
-        switchToWysiwygEditor();
+        setWikiContent("* one\n** two\n** three\n*** four\n** five\n* six");
 
         // Set the selection starting in the one element and ending in the six element
         select("XWE.body.firstChild.firstChild.firstChild", 2, "XWE.body.firstChild.lastChild.firstChild", 1);
@@ -458,8 +408,8 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         typeTab();
         // check that nothing happened
         assertXHTML("<ul><li>foo<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
-        switchToWikiEditor();
-        assertEquals("* foo\n** bar", getFieldValue("content"));
+        
+        assertWiki("* foo\n** bar");
     }
 
     /**
@@ -478,8 +428,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         clickIndentButton();
         assertXHTML("<ul><li>one</li><li>two<ul><li>two plus one</li>"
             + "<li>three<br class=\"spacer\"></li></ul></li></ul>");
-        switchToWikiEditor();
-        assertEquals("* one\n* two\n** two plus one\n** three", getFieldValue("content"));
+        assertWiki("* one\n* two\n** two plus one\n** three");
     }
 
     /**
@@ -506,9 +455,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
         assertXHTML("<ul><li>foo<ul><li>one<ul><li>bar<br class=\"spacer\"></li></ul></li></ul></li></ul>");
-        switchToWikiEditor();
-        assertEquals("* foo\n** one\n*** bar", getFieldValue("content"));
-        switchToWysiwygEditor();
+        assertWiki("* foo\n** one\n*** bar");
         // select second element "one"
         select("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0,
             "XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 3);
@@ -519,8 +466,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         clickOutdentButton();
         assertXHTML("<ul><li>foo</li><li>one</li><li>bar</li></ul>");
-        switchToWikiEditor();
-        assertEquals("* foo\n* one\n* bar", getFieldValue("content"));
+        assertWiki("* foo\n* one\n* bar");
     }
 
     /**
@@ -541,7 +487,6 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         typeShiftTab();
         assertXHTML("<ul><li>one</li></ul>two<ul><li>two plus one</li></ul>"
             + "<ul><li>three<br class=\"spacer\"></li></ul>");
-        switchToWikiEditor();
-        assertEquals("* one\n\ntwo\n\n* two plus one\n\n* three", getFieldValue("content"));
+        assertWiki("* one\n\ntwo\n\n* two plus one\n\n* three");
     }
 }

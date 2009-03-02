@@ -781,4 +781,51 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         return "document.getElementsByTagName('iframe')[0].contentWindow.document." + domLocator;
     }
+
+    /**
+     * Triggers the wysiwyg toolbar update by typing a key. To be used after programatically setting the selection (with
+     * {@link AbstractWysiwygTestCase#select(String, int, String, int)} or
+     * {@link AbstractWysiwygTestCase#moveCaret(String, int)}): it will not influence the selection but it will cause
+     * the toolbar to update according to the new selection.
+     */
+    protected void triggerToolbarUpdate()
+    {
+        typeLeftArrow();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractXWikiTestCase#assertWikiTextGeneratedByWysiwyg(String)
+     */
+    public void assertWikiTextGeneratedByWysiwyg(String text)
+    {
+        switchToWikiEditor();
+        assertEquals(text, getFieldValue("content"));
+    }
+
+    /**
+     * Switches to the wiki editor and checks the content of the wiki edit area against the passed expected content. At
+     * the end, it the editor is switched back to wysiwyg.
+     * 
+     * @param expected the expected content of the wiki editor
+     */
+    public void assertWiki(String expected)
+    {
+        assertWikiTextGeneratedByWysiwyg(expected);
+        switchToWysiwygEditor();
+    }
+
+    /**
+     * Sets the passed wiki text as the editor content, leaving the wysiwyg editor active. To be used from the wysiwyg
+     * editor to set the text as wiki text.
+     * 
+     * @param wikiText the wiki text to set
+     */
+    public void setWikiContent(String wikiText)
+    {
+        switchToWikiEditor();
+        setFieldValue("content", wikiText);
+        switchToWysiwygEditor();
+    }
 }

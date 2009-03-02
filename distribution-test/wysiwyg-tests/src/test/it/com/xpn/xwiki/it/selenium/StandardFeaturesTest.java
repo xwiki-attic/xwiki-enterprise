@@ -36,9 +36,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
     public void testEmptyWysiwyg()
     {
-        switchToWikiEditor();
-        assertEquals("", getFieldValue("content"));
-        switchToWysiwygEditor();
+        assertWiki("");
     }
 
     public void testTypingAndDeletion()
@@ -98,8 +96,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeTextThenEnterTwice("a");
         typeEnter();
         typeText("b");
-        switchToWikiEditor();
-        assertEquals("a\n\n\nb", getFieldValue("content"));
+        assertWiki("a\n\n\nb");
     }
 
     public void testBold()
@@ -281,8 +278,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().click("//img[@title='Close']");
         clickSymbolButton();
         getSelenium().click("//div[@title='registered sign']");
-        switchToWikiEditor();
-        assertEquals("\u00A9\u00AE", getFieldValue("content"));
+        assertWiki("\u00A9\u00AE");
     }
 
     /**
@@ -295,8 +291,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         applyStyleTitle1();
         typeEnter(2);
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("\n= foobar =\n\nx", getFieldValue("content"));
+        assertWiki("\n= foobar =\n\nx");
     }
 
     /**
@@ -389,8 +384,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("d");
         typeShiftTab(4);
         typeText("e");
-        switchToWikiEditor();
-        assertEquals("|=e ab|= \n| |c \n|d | ", getFieldValue("content"));
+        assertWiki("|=e ab|= \n| |c \n|d | ");
     }
 
     /**
@@ -398,9 +392,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEmptyLinesAreEditable()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "a\n\n\n\nb");
-        switchToWysiwygEditor();
+        setWikiContent("a\n\n\n\nb");
         assertXHTML("<p>a</p><p><br class=\"spacer\"></p><p><br class=\"spacer\"></p><p>b</p>");
         // TODO: Since neither the down arrow key nor the click doesn't seem to move the caret we have to find another
         // way of placing the caret on the empty lines, without using the Range API.
@@ -430,8 +422,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeTextThenEnter("a");
         typeTextThenEnter("b");
-        switchToWikiEditor();
-        assertEquals("a\nb\\\\", getFieldValue("content"));
+        assertWiki("a\nb\\\\");
     }
 
     /**
@@ -439,18 +430,14 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEmptyParagraphsGenerateEmptyLines()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "(% style=\"color: blue; text-align: center;\" %)\nHello world");
-
-        switchToWysiwygEditor();
+        setWikiContent("(% style=\"color: blue; text-align: center;\" %)\nHello world");
 
         // Place the caret after "Hello ".
         moveCaret("XWE.body.firstChild.firstChild", 6);
 
         typeEnter(4);
 
-        switchToWikiEditor();
-        assertEquals("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld", getFieldValue("content"));
+        assertWiki("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld");
     }
 
     /**
@@ -482,8 +469,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickBoldButton();
         clickEditPreview();
         clickBackToEdit();
-        switchToWikiEditor();
-        assertEquals("**x**", getFieldValue("content"));
+        assertWiki("**x**");
     }
 
     /**
@@ -502,8 +488,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // Press Enter.
         typeEnter();
-        switchToWikiEditor();
-        assertEquals("a\nd", getFieldValue("content"));
+        assertWiki("a\nd");
     }
 
     /**
@@ -528,8 +513,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Press Enter.
         typeEnter();
         typeText("x");
-        switchToWikiEditor();
-        assertEquals("|= a\nx|=d \n| | ", getFieldValue("content"));
+        assertWiki("|= a\nx|=d \n| | ");
     }
 
     /**
@@ -542,8 +526,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         selectAllContent();
         clickUnorderedListButton();
         clickHRButton();
-        switchToWikiEditor();
-        assertEquals("----", getFieldValue("content"));
+        assertWiki("----");
     }
 
     /**
@@ -553,9 +536,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeText("header");
         applyStyleTitle1();
-        switchToWikiEditor();
-        assertEquals("= header =", getFieldValue("content"));
-        switchToWysiwygEditor();
+        assertWiki("= header =");
 
         // Place the caret in the middle of the header.
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
@@ -572,8 +553,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // See if the paragraph is detected.
         assertEquals("p", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
 
-        switchToWikiEditor();
-        assertEquals("= hea# =\n\nder", getFieldValue("content"));
+        assertWiki("= hea# =\n\nder");
     }
 
     /**
@@ -582,9 +562,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testMoveCaretBeforeAndAfterTable()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "|=Space|=Page\n|Main|WebHome");
-        switchToWysiwygEditor();
+        setWikiContent("|=Space|=Page\n|Main|WebHome");
 
         // Place the caret in one of the table cells.
         moveCaret("XWE.body.firstChild.rows[0].cells[0].firstChild", 2);
@@ -604,8 +582,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().controlKeyUp();
         typeText("after");
 
-        switchToWikiEditor();
-        assertEquals("before\n\n|=Space|=Page\n|Main|WebHome\n\nafter", getFieldValue("content"));
+        assertWiki("before\n\n|=Space|=Page\n|Main|WebHome\n\nafter");
     }
 
     /**
@@ -642,10 +619,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testNewLinesAtTheEndOfListItemsArePreserved()
     {
-        switchToWikiEditor();
-        setFieldValue("content", "* \\\\\n** \\\\\n*** test1");
-        switchToWysiwygEditor();
-        switchToWikiEditor();
-        assertEquals("* \\\\\n** \\\\\n*** test1", getFieldValue("content"));
+        String wikiText = "* \\\\\n** \\\\\n*** test1";
+        setWikiContent(wikiText);
+        assertWiki(wikiText);
     }
 }

@@ -532,6 +532,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         pushButton("//div[@title='Unlink']");
     }
 
+    public void clickOfficeImporterButton()
+    {
+        pushButton("//div[@title='Import office content']");
+    }
+
     public boolean isUnlinkButtonEnabled()
     {
         return isButtonEnabled("Unlink");

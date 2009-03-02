@@ -707,7 +707,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
      */
     protected void ensureLinkDialogIsOpen()
     {
-        waitForCondition("selenium.isElementPresent('//div[@class=\"gwt-PopupPanel xDialogBox linkDialog\"]')");
+        waitForCondition("selenium.isElementPresent('//div[@class=\"gwt-PopupPanel linkDialog\"]')");
     }
 
     /**
@@ -715,7 +715,7 @@ public class LinkPluginTest extends AbstractWysiwygTestCase
      */
     protected void ensureLinkDialogIsClosed()
     {
-        waitForCondition("!selenium.isElementPresent('//div[@class=\"gwt-PopupPanel xDialogBox linkDialog\"]')");
+        waitForCondition("!selenium.isElementPresent('//div[@class=\"gwt-PopupPanel linkDialog\"]')");
     }
 
     /**

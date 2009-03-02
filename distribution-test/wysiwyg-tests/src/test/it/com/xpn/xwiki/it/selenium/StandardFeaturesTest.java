@@ -278,7 +278,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         clickSymbolButton();
-        getSelenium().click("//div[@title='Close']");
+        getSelenium().click("//img[@title='Close']");
         clickSymbolButton();
         getSelenium().click("//div[@title='registered sign']");
         switchToWikiEditor();

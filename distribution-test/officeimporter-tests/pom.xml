@@ -29,7 +29,7 @@
     <artifactId>xwiki-enterprise-test</artifactId>
     <version>1.8-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-test-officeimorter</artifactId>
+  <artifactId>xwiki-enterprise-test-officeimporter</artifactId>
   <name>XWiki Products - Enterprise - Functional Office Importer Selenium Tests</name>
   <packaging>pom</packaging>
   <description>Selenium tests for office importer application</description>

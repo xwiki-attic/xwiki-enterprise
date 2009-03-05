@@ -27,10 +27,10 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-jetty</artifactId>
-    <version>1.8-rc-2</version>
+    <version>1.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-derby</artifactId>
-  <version>1.8-rc-2</version>
+  <version>1.8-SNAPSHOT</version>
   <name>XWiki Products - Enterprise - Distribution - Jetty - Derby</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - Jetty - Derby</description>

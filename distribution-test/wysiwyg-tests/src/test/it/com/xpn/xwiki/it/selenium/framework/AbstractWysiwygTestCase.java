@@ -622,6 +622,30 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
+     * Clicks on the menu item with the specified label.
+     * 
+     * @param menuLabel a {@link String} representing the label of a menu item
+     */
+    public void clickMenu(String menuLabel)
+    {
+        String selector = "//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']";
+        // We select the menu item first.
+        getSelenium().mouseOver(selector);
+        // And then we click on it.
+        getSelenium().click(selector);
+    }
+
+    /**
+     * Closes the menu containing the specified menu item by pressing the escape key.
+     * 
+     * @param menuLabel a menu item from the menu to be closed
+     */
+    public void closeMenuContaining(String menuLabel)
+    {
+        getSelenium().keyDown("//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']", "\\27");
+    }
+
+    /**
      * Types the specified text in the input specified by its title.
      * 
      * @param inputTitle the {@code title} attribute of the {@code} input element to type in
@@ -645,6 +669,20 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         return getSelenium().isElementPresent(
             "//div[@title='" + buttonTitle + "' and @class='gwt-PushButton gwt-PushButton-up']");
+    }
+
+    /**
+     * Checks if a menu item is enabled or disabled. Menu items have {@code gwt-MenuItem} CSS class. Disabled menu items
+     * have and additional {@code gwt-MenuItem-disabled} CSS class.
+     * 
+     * @param menuLabel a {@link String} representing the label of a menu item
+     * @return {@code true} if the menu with the specified label is enabled, {@code false} otherwise
+     */
+    public boolean isMenuEnabled(String menuLabel)
+    {
+        return getSelenium().isElementPresent(
+            "//td[contains(@class, 'gwt-MenuItem') and not(contains(@class, 'gwt-MenuItem-disabled')) and . = '"
+                + menuLabel + "']");
     }
 
     public void assertXHTML(String xhtml)
@@ -832,5 +870,19 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         switchToWikiEditor();
         setFieldValue("content", wikiText);
         switchToWysiwygEditor();
+    }
+
+    /**
+     * @param element a element locator
+     * @return {@code true} if the specified element is present and visible
+     */
+    public boolean isElementVisible(String element)
+    {
+        // We have to escape the quotes first.
+        element = element.replace("\"", "\\\"").replace("\'", "\\\'");
+        // Check if the specified element is present and if it is displayed.
+        return Boolean.parseBoolean(getSelenium().getEval(
+            "\nvar element = selenium.browserbot.findElementOrNull('" + element
+                + "');\n(element == null || 'none' == element.style.display) ? false : true;\n"));
     }
 }

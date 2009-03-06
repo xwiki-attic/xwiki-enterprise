@@ -32,6 +32,20 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class MacroSupportTest extends AbstractWysiwygTestCase
 {
+    public static final String MENU_MACRO = "Macro";
+
+    public static final String MENU_REFRESH = "Refresh";
+
+    public static final String MENU_COLLAPSE = "Collapse";
+
+    public static final String MENU_COLLAPSE_ALL = "Collapse All";
+
+    public static final String MENU_EXPAND = "Expand";
+
+    public static final String MENU_EXPAND_ALL = "Expand All";
+
+    public static final String MENU_EDIT = "Edit Macro Properties...";
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Integration tests for macro support inside the WYSIWYG editor.");
@@ -205,5 +219,384 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         String wikiText = "{{code}}\nfunction foo() {\n    alert('bar');\n}\n{{/code}}";
         setWikiContent(wikiText);
         assertWiki(wikiText);
+    }
+
+    /**
+     * Test if the user can collapse and expand all the macros using the macro menu and if this menu is synchronized
+     * with the current state of the rich text area.
+     */
+    public void testCollapseAndExpandAllMacros()
+    {
+        typeText("no macro");
+
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_REFRESH));
+        // If there's no macro present then the Collapse/Expand menu items must be disabled.
+        assertFalse(isMenuEnabled(MENU_COLLAPSE_ALL));
+        assertFalse(isMenuEnabled(MENU_EXPAND_ALL));
+        closeMenuContaining(MENU_REFRESH);
+
+        setWikiContent("k\n\n{{html}}l{{/html}}\n\nm\n\n{{code}}n{{/code}}\n\no");
+        clickMenu(MENU_MACRO);
+        // By default all macros are expanded.
+        assertTrue(isMenuEnabled(MENU_COLLAPSE_ALL));
+        assertFalse(isMenuEnabled(MENU_EXPAND_ALL));
+
+        // Let's collapse all macros.
+        clickMenu(MENU_COLLAPSE_ALL);
+
+        clickMenu(MENU_MACRO);
+        // Now all macros should be collapsed.
+        assertFalse(isMenuEnabled(MENU_COLLAPSE_ALL));
+        assertTrue(isMenuEnabled(MENU_EXPAND_ALL));
+
+        // Let's expand all macros.
+        clickMenu(MENU_EXPAND_ALL);
+
+        clickMenu(MENU_MACRO);
+        // Now all macros should be expanded.
+        assertTrue(isMenuEnabled(MENU_COLLAPSE_ALL));
+        assertFalse(isMenuEnabled(MENU_EXPAND_ALL));
+        closeMenuContaining(MENU_REFRESH);
+
+        // Let's collapse the first macro by clicking it.
+        // First click selects the macro.
+        clickMacro(0);
+        // Second click toggles between collapsed and expanded state.
+        clickMacro(0);
+        // Finally unselect the macro.
+        runScript("XWE.selection.collapseToEnd()");
+        triggerToolbarUpdate();
+
+        // Now let's check the menu. Both Collapse All and Expand All menu items should be enabled.
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_COLLAPSE_ALL));
+        assertTrue(isMenuEnabled(MENU_EXPAND_ALL));
+    }
+
+    /**
+     * Test if the user can collapse and expand the selected macros using the macro menu and if this menu is
+     * synchronized with the current state of the rich text area.
+     */
+    public void testCollapseAndExpandSelectedMacros()
+    {
+        setWikiContent("o\n\n{{html}}n{{/html}}\n\nm\n\n{{code}}l{{/code}}\n\nk");
+
+        // If no macro is selected then Expand and Collapse menu entries shouldn't be present.
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_REFRESH));
+        assertFalse(isMenuEnabled(MENU_COLLAPSE));
+        assertFalse(isMenuEnabled(MENU_EXPAND));
+        closeMenuContaining(MENU_REFRESH);
+
+        // Select the first macro and collapse it (by default macros should be expanded).
+        clickMacro(0);
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_COLLAPSE));
+        assertFalse(isMenuEnabled(MENU_EXPAND));
+        clickMenu(MENU_COLLAPSE);
+
+        // Now expand it back.
+        clickMenu(MENU_MACRO);
+        assertFalse(isMenuEnabled(MENU_COLLAPSE));
+        assertTrue(isMenuEnabled(MENU_EXPAND));
+        clickMenu(MENU_EXPAND);
+
+        // Let's select the second macro too.
+        getSelenium().controlKeyDown();
+        clickMacro(1);
+        getSelenium().controlKeyUp();
+
+        // Collapse both selected macros.
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_COLLAPSE));
+        assertFalse(isMenuEnabled(MENU_EXPAND));
+        clickMenu(MENU_COLLAPSE);
+
+        // Let's check if the menu reports them as collapsed.
+        clickMenu(MENU_MACRO);
+        assertFalse(isMenuEnabled(MENU_COLLAPSE));
+        assertTrue(isMenuEnabled(MENU_EXPAND));
+
+        // Expand both.
+        clickMenu(MENU_EXPAND);
+
+        // Let's check if the menu reports them as expanded.
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_COLLAPSE));
+        assertFalse(isMenuEnabled(MENU_EXPAND));
+        closeMenuContaining(MENU_COLLAPSE);
+    }
+
+    /**
+     * Test if the user can select a macro by clicking it and then toggle between collapsed and expanded states.
+     */
+    public void testClickToSelectMacroAndToggleCollapse()
+    {
+        // Let's use a macro without definition.
+        setWikiContent("{{foo}}bar{{/foo}}");
+
+        // By default macros are expanded. Let's check this.
+        assertFalse(isElementVisible(getMacroPlaceHolderLocator(0)));
+        assertTrue(isElementVisible(getMacroOutputLocator(0)));
+
+        // Select the macro.
+        clickMacro(0);
+
+        // Let's collapse the selected macro and check its state.
+        clickMacro(0);
+        assertTrue(isElementVisible(getMacroPlaceHolderLocator(0)));
+        assertFalse(isElementVisible(getMacroOutputLocator(0)));
+
+        // Let's expand the selected macro and check its state.
+        clickMacro(0);
+        assertFalse(isElementVisible(getMacroPlaceHolderLocator(0)));
+        assertTrue(isElementVisible(getMacroOutputLocator(0)));
+    }
+
+    /**
+     * Tests the refresh feature when there's no macro present in the edited document.
+     */
+    public void testRefreshContentWithoutMacros()
+    {
+        typeText("a b");
+        assertXHTML("a b<br class=\"spacer\">");
+
+        // If no macros are present then the refresh shoudn't affect too much the edited content.
+        refreshMacros();
+        assertXHTML("<p>a b<br class=\"spacer\"></p>");
+    }
+
+    /**
+     * Tests that the user can refresh all the macros from the edited document by using the Refresh menu.
+     */
+    public void testRefreshMacros()
+    {
+        setWikiContent("{{box}}p{{/box}}\n\n{{code}}q{{/code}}");
+
+        // Collapse the second macro.
+        assertFalse(isElementVisible(getMacroPlaceHolderLocator(1)));
+        assertTrue(isElementVisible(getMacroOutputLocator(1)));
+        clickMacro(1);
+        clickMacro(1);
+        assertTrue(isElementVisible(getMacroPlaceHolderLocator(1)));
+        assertFalse(isElementVisible(getMacroOutputLocator(1)));
+
+        // Unselect the macro
+        runScript("XWE.selection.collapseToEnd()");
+        triggerToolbarUpdate();
+
+        // Refresh the content
+        refreshMacros();
+
+        // Check if the second macro is expanded.
+        assertFalse(isElementVisible(getMacroPlaceHolderLocator(1)));
+        assertTrue(isElementVisible(getMacroOutputLocator(1)));
+    }
+
+    /**
+     * Tests that the user can refresh the Table Of Contents macro after adding more headers.
+     */
+    public void testRefreshTocMacro()
+    {
+        setWikiContent("{{toc start=\"1\"/}}\n\n= Title 1\n\n== Title 2");
+        // We should have two list items in the edited document.
+        String listItemCountExpression = "window." + getDOMLocator("getElementsByTagName('li')") + ".length";
+        assertEquals("2", getSelenium().getEval(listItemCountExpression));
+
+        // Place the caret after the second heading and insert a new one.
+        moveCaret(getDOMLocator("getElementsByTagName('h2')[0].firstChild.firstChild"), 7);
+        typeEnter(2);
+        typeText("Title 3");
+        applyStyleTitle3();
+
+        // Refresh the content and the TOC macro.
+        refreshMacros();
+
+        // We should have three list items in the edited document now.
+        assertEquals("3", getSelenium().getEval(listItemCountExpression));
+    }
+
+    /**
+     * Tests the edit macro feature by editing a HTML macro instance and changing its content and a parameter.
+     */
+    public void testEditHTMLMacro()
+    {
+        setWikiContent("{{html}}white{{/html}}");
+        editMacro(0);
+
+        // Change the content of the HTML macro.
+        setFieldValue("pd-content-input", "black");
+
+        // Set the Wiki parameter to false.
+        getSelenium().select("pd-wiki-input", "no");
+
+        // Apply changes.
+        applyMacroChanges();
+
+        // Test is our changes have been applied.
+        // NOTE: The new line at the end is generated because of a BR inserted by Firefox. In order to apply the changes
+        // to the macro we use the browser-specific Delete command to delete the current selection (selected macro) and
+        // insert the updated macro. Firefox adds a BR if the Delete command leaves the BODY element empty.
+        assertWiki("{{html wiki=\"false\"}}black{{/html}}\n");
+    }
+
+    /**
+     * Tests if the edit macro feature doesn't fail when the user inputs special characters like {@code "} (used for
+     * wrapping parameter values) or {@code |-|} (used to separate the macro name, parameter list and macro content in
+     * macro serialization).
+     * 
+     * @see XWIKI-3270: Quotes inside macro parameter values need to be escaped
+     */
+    public void testEditMacroWithSpecialCharactersInParameterValues()
+    {
+        setWikiContent("{{box title =  \"1\\\"2|-|3=\\\\\\\"4\\\\\" }}=\\\"|-|\\\\{{/box}}");
+        editMacro(0);
+
+        // Check if the content of the macro has the right value.
+        assertEquals("=\\\"|-|\\\\", getSelenium().getValue("pd-content-input"));
+
+        // Check if the title parameter has the right value (it should be the first text input).
+        assertEquals("1\"2|-|3=\\\"4\\", getSelenium().getValue("pd-title-input"));
+
+        // Change the title parameter.
+        // NOTE: We remove the |-| separator from the value of the parameter because of
+        // http://jira.xwiki.org/jira/browse/XWIKI-3274
+        setFieldValue("pd-title-input", "1\"2=\\\"3\\");
+        applyMacroChanges();
+
+        assertWiki("{{box title= \"1\\\"2=\\\\\\\"3\\\\\"}}=\\\"|-|\\\\{{/box}}");
+    }
+
+    /**
+     * Tests if the edit macro feature doesn't fail when the user tries to edit an unregistered macro (a macro who's
+     * descriptor can't be found).
+     */
+    public void testEditUnregisteredMacro()
+    {
+        setWikiContent("{{foo}}bar{{/foo}}");
+        editMacro(0);
+
+        // Check if the dialog shows the error message
+        assertTrue(isElementVisible("//div[@class = 'xDialogBody']/div[contains(@class, 'errormessage')]"));
+    }
+
+    /**
+     * Tests that macro edits can be undone.
+     */
+    public void testUndoMacroEdit()
+    {
+        setWikiContent("{{velocity}}$context.user{{/velocity}}");
+
+        // First edit.
+        editMacro(0);
+        setFieldValue("pd-content-input", "$util.date");
+        applyMacroChanges();
+
+        // Second edit.
+        editMacro(0);
+        setFieldValue("pd-content-input", "$xwiki.version");
+        applyMacroChanges();
+
+        clickUndoButton(2);
+        clickRedoButton();
+        assertWiki("{{velocity}}$util.date{{/velocity}}\n");
+    }
+
+    /**
+     * @param index the index of a macro inside the edited document
+     * @return a {@link String} representing a DOM locator for the specified macro
+     */
+    public String getMacroLocator(int index)
+    {
+        return getDOMLocator("getElementsByTagName('button')[" + index + "]");
+    }
+
+    /**
+     * The macro place holder is shown when the macro is collapsed. In this state the output of the macro is hidden.
+     * 
+     * @param index the index of a macro inside the edited document
+     * @return a {@link String} representing a DOM locator for the place holder of the specified macro
+     */
+    public String getMacroPlaceHolderLocator(int index)
+    {
+        return getMacroLocator(index) + ".childNodes[1]";
+    }
+
+    /**
+     * The output of a macro is shown when the macro is expanded. In this state the macro place holder is hidden.
+     * 
+     * @param index the index of a macro inside the edited document
+     * @return a {@link String} representing a DOM locator for the output of the specified macro
+     */
+    public String getMacroOutputLocator(int index)
+    {
+        return getMacroLocator(index) + ".childNodes[2]";
+    }
+
+    /**
+     * Waits for the edited content to be refreshed.
+     */
+    public void waitForRefresh()
+    {
+        waitForCondition("window.document.getElementsByTagName('iframe')[0].previousSibling.className == 'xToolbar'");
+    }
+
+    /**
+     * Simulates a click on the macro with the specified index.
+     * 
+     * @param index the index of the macro to be clicked
+     */
+    public void clickMacro(int index)
+    {
+        String locator = getMacroLocator(index);
+        getSelenium().mouseOver(locator);
+        getSelenium().mouseMove(locator);
+        getSelenium().mouseDown(locator);
+        getSelenium().mouseUp(locator);
+        getSelenium().click(locator);
+        getSelenium().mouseMove(locator);
+        getSelenium().mouseOut(locator);
+    }
+
+    /**
+     * Opens the edit macro dialog to edit the specified macro.
+     * 
+     * @param index the index of the macro to be edited
+     */
+    public void editMacro(int index)
+    {
+        clickMacro(index);
+        clickMenu(MENU_MACRO);
+        clickMenu(MENU_EDIT);
+        waitForDialog();
+    }
+
+    /**
+     * Applies the changes from the edit macro dialog.
+     */
+    public void applyMacroChanges()
+    {
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Apply']");
+        waitForRefresh();
+    }
+
+    /**
+     * Refreshes the macros present in the edited document.
+     */
+    public void refreshMacros()
+    {
+        clickMenu(MENU_MACRO);
+        clickMenu(MENU_REFRESH);
+        waitForRefresh();
+    }
+
+    /**
+     * Waits until the edit macro dialog is fully loaded. While loading, the body of the dialog has the {@code loading}
+     * CSS class besides the {@code xDialogBody} one.
+     */
+    public void waitForDialog()
+    {
+        waitForCondition("selenium.isElementPresent('//div[@class = \"xDialogBody\"]')");
     }
 }

@@ -23,8 +23,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.jackrabbit.uuid.UUID;
 import org.xwiki.rest.Relations;
@@ -140,10 +142,10 @@ public class PageResourceTest extends AbstractHttpTest
         assertEquals(modifiedPage.getContent(), CONTENT);
         assertEquals(modifiedPage.getTitle(), TITLE);
     }
-    
+
     public void testPUTPageWithTextPlain() throws Exception
     {
-        final String CONTENT = String.format("This is a content (%d)", System.currentTimeMillis());        
+        final String CONTENT = String.format("This is a content (%d)", System.currentTimeMillis());
 
         TestUtils.banner("testPUTPage()");
 
@@ -158,7 +160,7 @@ public class PageResourceTest extends AbstractHttpTest
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
-        assertEquals(modifiedPage.getContent(), CONTENT);        
+        assertEquals(modifiedPage.getContent(), CONTENT);
     }
 
     public void testPUTPageUnauthorized() throws Exception
@@ -371,7 +373,7 @@ public class PageResourceTest extends AbstractHttpTest
                 "Main", "WebHome").toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
-        
+
         Page originalPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         String pageHistoryUri =
@@ -441,6 +443,36 @@ public class PageResourceTest extends AbstractHttpTest
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);
         }
+    }
+
+    public void testPOSTPageFormUrlEncoded() throws Exception
+    {
+        TestUtils.banner("testPUTPageFormUrlEncoded()");
+
+        final String CONTENT = String.format("This is a content (%d)", System.currentTimeMillis());
+        final String TITLE = String.format("Title (%s)", UUID.randomUUID().toString());
+
+        TestUtils.banner("testPUTPage()");
+
+        Page originalPage = getPage();
+
+        Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
+        assertNotNull(link);
+
+        NameValuePair[] nameValuePairs = new NameValuePair[2];
+        nameValuePairs[0] = new NameValuePair("title", TITLE);
+        nameValuePairs[1] = new NameValuePair("content", CONTENT);
+
+        PostMethod postMethod =
+            executePostForm(String.format("%s?method=PUT", link.getHref()), nameValuePairs, "Admin", "admin");
+        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
+
+        Page modifiedPage = (Page) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
+
+        assertEquals(modifiedPage.getContent(), CONTENT);
+        assertEquals(modifiedPage.getTitle(), TITLE);
+
     }
 
 }

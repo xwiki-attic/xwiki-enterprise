@@ -9,16 +9,16 @@ import org.xwiki.rest.model.jaxb.Classes;
 import org.xwiki.rest.model.jaxb.Property;
 import org.xwiki.rest.resources.classes.ClassesResource;
 
-
 public class ClassesResourceTest extends AbstractHttpTest
 {
     @Override
     public void testRepresentation() throws Exception
     {
         TestUtils.banner("testRepresentation()");
-        
+
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ClassesResource.class).build(getWiki()).toString());                
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ClassesResource.class).build(
+                getWiki()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
 
@@ -26,8 +26,8 @@ public class ClassesResourceTest extends AbstractHttpTest
 
         for (Class clazz : classes.getClazzs()) {
             checkLinks(clazz);
-            
-            for(Property property : clazz.getProperties()) {
+
+            for (Property property : clazz.getProperties()) {
                 checkLinks(property);
             }
         }

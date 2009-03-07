@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.xwiki.rest.Relations;
@@ -77,7 +78,7 @@ public class CommentsResourceTest extends AbstractHttpTest
 
         assertEquals(numberOfComments + 1, comments.getComments().size());
     }
-    
+
     public void testPOSTCommentWithTextPlain() throws Exception
     {
         TestUtils.banner("testCreateComments()");
@@ -93,7 +94,7 @@ public class CommentsResourceTest extends AbstractHttpTest
         Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         int numberOfComments = comments.getComments().size();
-        
+
         PostMethod postMethod = executePost(commentsUri, "Comment", MediaType.TEXT_PLAIN, "Admin", "admin");
         assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
@@ -153,6 +154,38 @@ public class CommentsResourceTest extends AbstractHttpTest
                 TestUtils.printHttpMethodInfo(getMethod);
             }
         }
+    }
+
+    public void testPOSTCommentFormUrlEncoded() throws Exception
+    {
+        TestUtils.banner("testPOSTCommentFormUrlEncoded()");
+
+        String commentsUri =
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME).toString();
+
+        GetMethod getMethod = executeGet(commentsUri);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int numberOfComments = comments.getComments().size();
+
+        NameValuePair[] nameValuePairs = new NameValuePair[1];
+        nameValuePairs[0] = new NameValuePair("text", "Comment");
+
+        PostMethod postMethod = executePostForm(commentsUri, nameValuePairs, "Admin", "admin");
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
+
+        getMethod = executeGet(commentsUri);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertEquals(numberOfComments + 1, comments.getComments().size());
     }
 
 }

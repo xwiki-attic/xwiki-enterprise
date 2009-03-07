@@ -6,6 +6,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -53,10 +54,10 @@ public class ObjectsResourceTest extends AbstractHttpTest
             TestUtils.printHttpMethodInfo(getMethod);
 
             Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-            
+
             checkLinks(objectSummary);
-            
-            for(Property property : object.getProperties()) {
+
+            for (Property property : object.getProperties()) {
                 checkLinks(property);
             }
         }
@@ -142,7 +143,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         final String TAG_VALUE = "TAG";
 
         TestUtils.banner("testPOSTObject()");
-        
+
         Property property = new Property();
         property.setName("tags");
         property.setValue(TAG_VALUE);
@@ -162,105 +163,116 @@ public class ObjectsResourceTest extends AbstractHttpTest
         final String TAG_VALUE = UUID.randomUUID().toString();
 
         TestUtils.banner("testPUTObject()");
-        
+
         Object objectToBePut = getObject("XWiki.TagClass");
-        
+
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());        
+                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
-        
+
         Object objectSummary = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         getProperty(objectSummary, "tags").setValue(TAG_VALUE);
-        
+
         PutMethod putMethod =
             executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(), objectSummary,
-                "Admin", "admin");
+                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
+                objectSummary, "Admin", "admin");
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
-        
+
         Object updatedObjectSummary = (Object) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
         assertEquals(TAG_VALUE, getProperty(updatedObjectSummary, "tags").getValue());
         assertEquals(objectSummary.getClassName(), updatedObjectSummary.getClassName());
         assertEquals(objectSummary.getNumber(), updatedObjectSummary.getNumber());
     }
-    
+
     public void testPUTObjectUnauthorized() throws Exception
     {
         final String TAG_VALUE = UUID.randomUUID().toString();
 
         TestUtils.banner("testPUTObject()");
-        
+
         Object objectToBePut = getObject("XWiki.TagClass");
-        
+
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());        
+                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
-        
+
         Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-        String originalTagValue = getProperty(object, "tags").getValue();        
+        String originalTagValue = getProperty(object, "tags").getValue();
         getProperty(object, "tags").setValue(TAG_VALUE);
-        
+
         PutMethod putMethod =
             executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(), object);
+                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
+                object);
         assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
-        TestUtils.printHttpMethodInfo(putMethod);        
-        
+        TestUtils.printHttpMethodInfo(putMethod);
+
         getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());        
+                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
-        
+
         object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-        
+
         assertEquals(originalTagValue, getProperty(object, "tags").getValue());
     }
 
-    public void testDELETEObject() throws Exception {
+    public void testDELETEObject() throws Exception
+    {
         TestUtils.banner("testDELETEObject()");
 
         Object objectToBeDeleted = getObject("XWiki.TagClass");
-        
-        DeleteMethod deleteMethod = executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(getWiki(),
-            "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString(), "Admin", "admin");
+
+        DeleteMethod deleteMethod =
+            executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
+                .toString(), "Admin", "admin");
         assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
-        
+
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(getWiki(),
-                "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString());
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
+                .toString());
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
     }
-    
-    public void testDELETEObjectUnAuthorized() throws Exception {
+
+    public void testDELETEObjectUnAuthorized() throws Exception
+    {
         TestUtils.banner("testDELETEObjectUnAuthorized()");
 
         Object objectToBeDeleted = getObject("XWiki.TagClass");
-        
-        DeleteMethod deleteMethod = executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(getWiki(),
-            "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString());
+
+        DeleteMethod deleteMethod =
+            executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
+                .toString());
         assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
-        
-        GetMethod getMethod = executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(getWiki(),
-            "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString());
+
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
+                .toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
     }
-    
-    public void testPUTProperty() throws Exception {
+
+    public void testPUTProperty() throws Exception
+    {
         TestUtils.banner("testPUTProperty()");
-        
+
         final String TAG_VALUE = UUID.randomUUID().toString();
-        
+
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
                 "Main", "WebHome").toString());
@@ -280,55 +292,56 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertFalse(objects.getObjectSummaries().isEmpty());
 
         Object currentObject = null;
-        
+
         for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
-            if(objectSummary.getClassName().equals("XWiki.TagClass")) {
+            if (objectSummary.getClassName().equals("XWiki.TagClass")) {
                 link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
                 assertNotNull(link);
                 getMethod = executeGet(link.getHref());
                 assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
-                
+
                 currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
                 break;
             }
         }
-        
+
         assertNotNull(currentObject);
-        
+
         Property tagsProperty = getProperty(currentObject, "tags");
-        
+
         assertNotNull(tagsProperty);
-        
+
         Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.SELF);
-        
+
         assertNotNull(tagsPropertyLink);
-        
+
         Property newTags = objectFactory.createProperty();
         newTags.setValue(TAG_VALUE);
-        
+
         PutMethod putMethod = executePutXml(tagsPropertyLink.getHref(), newTags, "Admin", "admin");
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
-        
+
         getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(getWiki(),
-                "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
-        
+
         currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-        
+
         tagsProperty = getProperty(currentObject, "tags");
-        
+
         assertEquals(TAG_VALUE, tagsProperty.getValue());
-        
+
     }
-    
-    public void testPUTPropertyWithTextPlain() throws Exception {
+
+    public void testPUTPropertyWithTextPlain() throws Exception
+    {
         TestUtils.banner("testPUTProperty()");
-        
+
         final String TAG_VALUE = UUID.randomUUID().toString();
-        
+
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
                 "Main", "WebHome").toString());
@@ -348,73 +361,209 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertFalse(objects.getObjectSummaries().isEmpty());
 
         Object currentObject = null;
-        
+
         for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
-            if(objectSummary.getClassName().equals("XWiki.TagClass")) {
+            if (objectSummary.getClassName().equals("XWiki.TagClass")) {
                 link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
                 assertNotNull(link);
                 getMethod = executeGet(link.getHref());
                 assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
-                
+
                 currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
                 break;
             }
         }
-        
+
         assertNotNull(currentObject);
-        
+
         Property tagsProperty = getProperty(currentObject, "tags");
-        
+
         assertNotNull(tagsProperty);
-        
+
         Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.SELF);
-        
+
         assertNotNull(tagsPropertyLink);
-                
+
         PutMethod putMethod = executePut(tagsPropertyLink.getHref(), TAG_VALUE, MediaType.TEXT_PLAIN, "Admin", "admin");
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
-        
+
         getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(getWiki(),
-                "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
-        
+
         currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-        
+
         tagsProperty = getProperty(currentObject, "tags");
-        
+
         assertEquals(TAG_VALUE, tagsProperty.getValue());
-        
+
     }
-    
-    private Object getObject(String className) throws Exception {
+
+    private Object getObject(String className) throws Exception
+    {
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(getWiki(),
-                "Main", "WebHome").toString());
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
+                getWiki(), "Main", "WebHome").toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
-        
+
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         assertFalse(objects.getObjectSummaries().isEmpty());
-        
-        for(ObjectSummary objectSummary : objects.getObjectSummaries()) {
-            if(objectSummary.getClassName().equals(className)) {
+
+        for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
+            if (objectSummary.getClassName().equals(className)) {
                 Link link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
                 assertNotNull(link);
                 getMethod = executeGet(link.getHref());
                 assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
-                
+
                 Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-                
+
                 return object;
             }
-            
+
         }
-        
+
         return null;
     }
+
+    public void testPUTObjectFormUrlEncoded() throws Exception
+    {
+        final String TAG_VALUE = UUID.randomUUID().toString();
+
+        TestUtils.banner("testPUTObjectFormUrlEncoded()");
+
+        Object objectToBePut = getObject("XWiki.TagClass");
+
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        NameValuePair[] nameValuePairs = new NameValuePair[1];
+        nameValuePairs[0] = new NameValuePair("property#tags", TAG_VALUE);
+
+        PostMethod postMethod =
+            executePostForm(String.format("%s?method=PUT", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
+                ObjectResource.class).build(getWiki(), "Main", "WebHome", objectToBePut.getClassName(),
+                objectToBePut.getNumber()).toString()), nameValuePairs, "Admin", "admin");
+        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
+
+        Object updatedObjectSummary = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
+
+        assertEquals(TAG_VALUE, getProperty(updatedObjectSummary, "tags").getValue());
+        assertEquals(object.getClassName(), updatedObjectSummary.getClassName());
+        assertEquals(object.getNumber(), updatedObjectSummary.getNumber());
+    }
+
+    public void testPOSTObjectFormUrlEncoded() throws Exception
+    {
+        TestUtils.banner("testPOSTObject()");
+
+        final String TAG_VALUE = "TAG";
+
+        NameValuePair[] nameValuePairs = new NameValuePair[2];
+        nameValuePairs[0] = new NameValuePair("className", "XWiki.TagClass");
+        nameValuePairs[1] = new NameValuePair("property#tags", TAG_VALUE);
+
+        PostMethod postMethod =
+            executePostForm(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
+                getWiki(), "Main", "WebHome").toString(), nameValuePairs, "Admin", "admin");
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
+
+        Object object = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
+
+        assertEquals(TAG_VALUE, getProperty(object, "tags").getValue());
+
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", object.getClassName(), object.getNumber()).toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertEquals(TAG_VALUE, getProperty(object, "tags").getValue());
+    }
+
+    public void testPUTPropertyFormUrlEncoded() throws Exception
+    {
+        TestUtils.banner("testPUTPropertyFormUrlEncoded()");
+
+        final String TAG_VALUE = UUID.randomUUID().toString();
+
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                "Main", "WebHome").toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Link link = getFirstLinkByRelation(page, Relations.OBJECTS);
+        assertNotNull(link);
+
+        getMethod = executeGet(link.getHref());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertFalse(objects.getObjectSummaries().isEmpty());
+
+        Object currentObject = null;
+
+        for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
+            if (objectSummary.getClassName().equals("XWiki.TagClass")) {
+                link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
+                assertNotNull(link);
+                getMethod = executeGet(link.getHref());
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                TestUtils.printHttpMethodInfo(getMethod);
+
+                currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+                break;
+            }
+        }
+
+        assertNotNull(currentObject);
+
+        Property tagsProperty = getProperty(currentObject, "tags");
+
+        assertNotNull(tagsProperty);
+
+        Link tagsPropertyLink = getFirstLinkByRelation(tagsProperty, Relations.SELF);
+
+        assertNotNull(tagsPropertyLink);
+
+        NameValuePair[] nameValuePairs = new NameValuePair[1];
+        nameValuePairs[0] = new NameValuePair("property#tags", TAG_VALUE);
+
+        PostMethod postMethod =
+            executePostForm(String.format("%s?method=PUT", tagsPropertyLink.getHref()), nameValuePairs, "Admin",
+                "admin");
+        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
+
+        getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                getWiki(), "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        tagsProperty = getProperty(currentObject, "tags");
+
+        assertEquals(TAG_VALUE, tagsProperty.getValue());
+    }
+
 }

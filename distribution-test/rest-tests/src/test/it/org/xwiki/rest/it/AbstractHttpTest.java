@@ -31,6 +31,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
@@ -49,7 +50,7 @@ import org.xwiki.rest.resources.wikis.WikisResource;
 import com.xpn.xwiki.test.AbstractXWikiComponentTestCase;
 
 public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
-{   
+{
     protected Random random;
 
     protected Marshaller marshaller;
@@ -61,7 +62,7 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
     @Override
     protected void setUp() throws Exception
     {
-        super.setUp();        
+        super.setUp();
         random = new Random();
 
         JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb");
@@ -85,11 +86,11 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
         return null;
     }
-    
+
     protected List<Link> getLinksByRelation(LinkCollection linkCollection, String relation)
     {
         List<Link> result = new ArrayList<Link>();
-        
+
         if (linkCollection.getLinks() == null) {
             return result;
         }
@@ -140,11 +141,12 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
         PostMethod postMethod = new PostMethod(uri);
         postMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
-        
+
         StringWriter writer = new StringWriter();
-        marshaller.marshal(object, writer);        
-        
-        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+        marshaller.marshal(object, writer);
+
+        RequestEntity entity =
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         postMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(postMethod);
@@ -160,19 +162,21 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
         PostMethod postMethod = new PostMethod(uri);
         postMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
-        
+
         StringWriter writer = new StringWriter();
         marshaller.marshal(object, writer);
-        
-        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+
+        RequestEntity entity =
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         postMethod.setRequestEntity(entity);
-        
+
         httpClient.executeMethod(postMethod);
 
         return postMethod;
     }
 
-    protected PostMethod executePost(String uri, String string, String mediaType, String userName, String password) throws Exception
+    protected PostMethod executePost(String uri, String string, String mediaType, String userName, String password)
+        throws Exception
     {
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
@@ -180,26 +184,45 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
         PostMethod postMethod = new PostMethod(uri);
         postMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
-                        
+
         RequestEntity entity = new StringRequestEntity(string, mediaType, "UTF-8");
         postMethod.setRequestEntity(entity);
-        
+
         httpClient.executeMethod(postMethod);
 
         return postMethod;
     }
-    
+
+    protected PostMethod executePostForm(String uri, NameValuePair[] nameValuePairs, String userName, String password)
+        throws Exception
+    {
+        HttpClient httpClient = new HttpClient();
+        httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
+        httpClient.getParams().setAuthenticationPreemptive(true);
+
+        PostMethod postMethod = new PostMethod(uri);
+        postMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
+        postMethod.addRequestHeader("Content-type", MediaType.APPLICATION_WWW_FORM.toString());
+
+        postMethod.setRequestBody(nameValuePairs);
+
+        httpClient.executeMethod(postMethod);
+
+        return postMethod;
+    }
+
     protected PutMethod executePutXml(String uri, Object object) throws Exception
     {
         HttpClient httpClient = new HttpClient();
 
         PutMethod putMethod = new PutMethod(uri);
         putMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
-        
+
         StringWriter writer = new StringWriter();
         marshaller.marshal(object, writer);
-        
-        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+
+        RequestEntity entity =
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         putMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(putMethod);
@@ -215,11 +238,12 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
         PutMethod putMethod = new PutMethod(uri);
         putMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
-        
+
         StringWriter writer = new StringWriter();
         marshaller.marshal(object, writer);
-        
-        RequestEntity entity = new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+
+        RequestEntity entity =
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         putMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(putMethod);
@@ -240,7 +264,8 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return putMethod;
     }
 
-    protected PutMethod executePut(String uri, String string, String mediaType, String userName, String password) throws Exception
+    protected PutMethod executePut(String uri, String string, String mediaType, String userName, String password)
+        throws Exception
     {
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
@@ -275,7 +300,7 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 
         return deleteMethod;
     }
-   
+
     public String getWiki() throws Exception
     {
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));

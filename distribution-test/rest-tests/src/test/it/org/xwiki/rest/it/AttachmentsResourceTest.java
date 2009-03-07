@@ -99,7 +99,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testGETAttachments() throws Exception
     {
         TestUtils.banner("testGETAttachments()");
-        
+
         String attachmentsUri =
             UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsResource.class).build(getWiki(),
                 SPACE_NAME, PAGE_NAME).toString();
@@ -204,7 +204,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
          * For each page version generated, check that the attachments that are supposed to be there are actually there.
          * We do the following: at pageVersion[i] we check that all attachmentNames[0..i] are there.
          */
-        for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {            
+        for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
             String attachmentsUri =
                 UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsAtPageVersionResource.class)
                     .build(getWiki(), SPACE_NAME, PAGE_NAME, pageVersions[i]).toString();

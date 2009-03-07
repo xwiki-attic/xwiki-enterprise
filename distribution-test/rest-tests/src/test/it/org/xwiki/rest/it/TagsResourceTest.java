@@ -23,7 +23,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.jackrabbit.uuid.UUID;
 import org.xwiki.rest.Relations;
@@ -70,14 +72,14 @@ public class TagsResourceTest extends AbstractHttpTest
             System.out.format("Page %s.%s exists. Good!\n", spaceName, pageName);
         }
     }
-    
+
     @Override
     public void testRepresentation() throws Exception
     {
         TestUtils.banner("testRepresentation()");
 
         String tagName = UUID.randomUUID().toString();
-        
+
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME, "Test");
 
         GetMethod getMethod =
@@ -93,7 +95,8 @@ public class TagsResourceTest extends AbstractHttpTest
 
         PutMethod putMethod =
             executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageTagsResource.class).build(
-                getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME).toString(), tags, "Admin", "admin");
+                getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME).toString(), tags, "Admin",
+                "admin");
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
 
@@ -139,7 +142,8 @@ public class TagsResourceTest extends AbstractHttpTest
 
         found = false;
         for (PageSummary pageSummary : pages.getPageSummaries()) {
-            if (pageSummary.getFullName().equals(String.format("%s.%s", TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME))) {
+            if (pageSummary.getFullName().equals(
+                String.format("%s.%s", TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME))) {
                 found = true;
             }
         }
@@ -159,7 +163,7 @@ public class TagsResourceTest extends AbstractHttpTest
     public void testPUTTagsWithTextPlain() throws Exception
     {
         TestUtils.banner("testPUTTagsWithTextPlain()");
-        
+
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME, "Test");
 
         String tagName = UUID.randomUUID().toString();
@@ -172,9 +176,52 @@ public class TagsResourceTest extends AbstractHttpTest
 
         PutMethod putMethod =
             executePut(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageTagsResource.class).build(
-                getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME).toString(), tagName, MediaType.TEXT_PLAIN, "Admin", "admin");
+                getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME).toString(), tagName,
+                MediaType.TEXT_PLAIN, "Admin", "admin");
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
+
+        getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageTagsResource.class).build(
+                getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME).toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Tags tags = (Tags) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        boolean found = false;
+        for (Tag t : tags.getTags()) {
+            if (tagName.equals(t.getName())) {
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+
+    }
+
+    public void testPUTTagsFormUrlEncoded() throws Exception
+    {
+        TestUtils.banner("testPUTTagsFormUrlEncoded()");
+
+        createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME, "Test");
+
+        String tagName = UUID.randomUUID().toString();
+
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME).toString());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        NameValuePair[] nameValuePairs = new NameValuePair[1];
+        nameValuePairs[0] = new NameValuePair("tags", tagName);
+
+        PostMethod postMethod =
+            executePostForm(String.format("%s?method=PUT", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
+                PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME)
+                .toString()), nameValuePairs, "Admin", "admin");
+        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
 
         getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageTagsResource.class).build(

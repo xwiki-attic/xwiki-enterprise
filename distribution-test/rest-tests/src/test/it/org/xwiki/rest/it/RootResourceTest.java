@@ -41,8 +41,8 @@ public class RootResourceTest extends AbstractHttpTest
         Link link = getFirstLinkByRelation(xwiki, Relations.WIKIS);
         assertNotNull(link);
 
-        //link = xwikiRoot.getFirstLinkByRelation(Relations.WADL);
-        //assertNotNull(link);
+        // link = xwikiRoot.getFirstLinkByRelation(Relations.WADL);
+        // assertNotNull(link);
 
         checkLinks(xwiki);
     }

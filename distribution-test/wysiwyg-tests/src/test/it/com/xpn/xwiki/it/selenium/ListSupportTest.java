@@ -19,6 +19,8 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import java.awt.event.KeyEvent;
+
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
@@ -488,5 +490,20 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         assertXHTML("<ul><li>one</li></ul>two<ul><li>two plus one</li></ul>"
             + "<ul><li>three<br class=\"spacer\"></li></ul>");
         assertWiki("* one\n\ntwo\n\n* two plus one\n\n* three");
+    }
+
+    /**
+     * Test that hitting the . key at the end of a list item does not act as delete.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
+     */
+    public void testDotAtEndDoesNotDelete()
+    {
+        setWikiContent("* foo\n* bar");
+        // Set the selection at the end of the first item
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        // type the dot native, to make sure it goes through the browser's key handling code
+        getSelenium().keyPressNative(Integer.toString(KeyEvent.VK_PERIOD));
+        assertXHTML("<ul><li>foo.</li><li>bar</li></ul>");
     }
 }

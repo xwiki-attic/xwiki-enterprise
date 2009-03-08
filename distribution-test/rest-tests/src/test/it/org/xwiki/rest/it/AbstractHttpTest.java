@@ -320,8 +320,9 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
             for (Link link : linkCollection.getLinks()) {
                 System.out.format("Relation '%s': ", link.getRel());
                 GetMethod getMethod = executeGet(link.getHref());
-                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+
             }
         }
     }

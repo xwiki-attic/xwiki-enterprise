@@ -19,13 +19,19 @@
  */
 package org.xwiki.rest.it;
 
+import javax.ws.rs.core.UriBuilder;
+
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.SearchResult;
+import org.xwiki.rest.model.jaxb.SearchResults;
 import org.xwiki.rest.model.jaxb.Spaces;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
+import org.xwiki.rest.resources.spaces.SpaceSearchResource;
+import org.xwiki.rest.resources.wikis.WikiSearchResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 
 public class SpacesResourceTest extends AbstractHttpTest
@@ -54,5 +60,32 @@ public class SpacesResourceTest extends AbstractHttpTest
         assertTrue(spaces.getSpaces().size() > 0);
 
         checkLinks(spaces);
+    }
+
+    public void testSearch() throws Exception
+    {
+        GetMethod getMethod =
+            executeGet(String.format("%s?q=training", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
+                SpaceSearchResource.class).build(getWiki(), "Main")));
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertEquals(0, searchResults.getSearchResults().size());
+
+        getMethod =
+            executeGet(String.format("%s?q=training", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
+                WikiSearchResource.class).build(getWiki(), "Sandbox")));
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertTrue(searchResults.getSearchResults().size() >= 2);
+
+        for (SearchResult searchResult : searchResults.getSearchResults()) {
+            checkLinks(searchResult);
+        }
     }
 }

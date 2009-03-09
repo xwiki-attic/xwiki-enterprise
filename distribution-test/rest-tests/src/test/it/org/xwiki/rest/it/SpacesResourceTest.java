@@ -27,6 +27,7 @@ import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.SearchResult;
 import org.xwiki.rest.model.jaxb.SearchResults;
+import org.xwiki.rest.model.jaxb.Space;
 import org.xwiki.rest.model.jaxb.Spaces;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
@@ -59,7 +60,13 @@ public class SpacesResourceTest extends AbstractHttpTest
 
         assertTrue(spaces.getSpaces().size() > 0);
 
-        checkLinks(spaces);
+        for (Space space : spaces.getSpaces()) {
+            link = getFirstLinkByRelation(space, Relations.SEARCH);
+            assertNotNull(link);
+
+            checkLinks(space);
+        }
+
     }
 
     public void testSearch() throws Exception

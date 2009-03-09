@@ -37,6 +37,9 @@ public class WikisResourceTest extends AbstractHttpTest
             link = getFirstLinkByRelation(wiki, Relations.MODIFICATIONS);
             assertNotNull(link);
 
+            link = getFirstLinkByRelation(wiki, Relations.SEARCH);
+            assertNotNull(link);
+
             checkLinks(wiki);
 
         }

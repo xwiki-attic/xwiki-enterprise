@@ -663,17 +663,6 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         TestUtils.banner("TEST: getAllModifiedPageHistoryCorrectness()");
 
-        /*
-         * Wait 2 seconds before making the modification. This is necessary because if pages are stored in the same
-         * second, they will have the same timestamp and they could be returned in an arbitrary order making the
-         * following assert fail randomly
-         */
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-
-        }
-
         XWikiPage page = this.rpc.getPage(pages.get(0).getId());
 
         System.out.format("Modifying: %s\n", page);
@@ -683,15 +672,22 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         System.out.format("Modified: %s\n", page);
 
-        List<XWikiPageHistorySummary> modifications = rpc.getModifiedPagesHistory(3, 0);
+        /* Get the last 25 changes. This should be enough to catch the page modified in this test */
+        List<XWikiPageHistorySummary> modifications = rpc.getModifiedPagesHistory(25, 0);
 
+        /* Check if the modified page is listed in the retrieved modification list */
+        boolean found = false;
         System.out.format("Modifications:\n");
         for (XWikiPageHistorySummary modification : modifications) {
             System.out.format("%s\n", modification);
+            if (page.getId().equals(modifications.get(0).getBasePageId())) {
+                if (page.getModified().equals(modifications.get(0).getModified())) {
+                    found = true;
+                }
+            }
         }
 
-        assertEquals(page.getId(), modifications.get(0).getBasePageId());
-        assertEquals(page.getModified(), modifications.get(0).getModified());
+        assertTrue(found);
     }
 
     public void testStorePageWithCheckVersion() throws Exception
@@ -716,5 +712,20 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         /* Try to store again the page */
         storedPage = this.rpc.storePage(page, true);
         assertTrue(storedPage.getId().equals(""));
+    }
+
+    public void testStoreExistingPageUsingNullTitle() throws Exception
+    {
+        XWikiPage page = new XWikiPage();
+        page.setId(TestConstants.TEST_PAGE);
+
+        String content = String.format("Modified by org.xwiki.xmlrpc @ %s\n", new Date());
+
+        page.setContent(content);
+
+        page = rpc.storePage(page);
+
+        assertEquals(TestConstants.TEST_PAGE, page.getId());
+        assertEquals(content, page.getContent());
     }
 }

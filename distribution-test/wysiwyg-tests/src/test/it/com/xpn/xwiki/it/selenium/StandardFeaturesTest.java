@@ -460,6 +460,46 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Tests the shortcut keys for undo and redo operations. Undo is triggered by CTRL+Z or META+Z. The second is used
+     * on apple keyboards. Redo is triggered by CTRL+Y or META+Y. The second is also used on apple keyboards.
+     * 
+     * @see XWIKI-3048: Undo/Redo/Copy/Paste/Cut Mac shortcuts should be mapped to the corresponding features of the
+     *      WYSIWYG editor
+     */
+    public void testUndoRedoShortcutKeys()
+    {
+        typeText("March 9th, 2009");
+        select("XWE.body.firstChild", 0, "XWE.body.firstChild", 5);
+
+        // Make text bold.
+        getSelenium().controlKeyDown();
+        typeText("B");
+        getSelenium().controlKeyUp();
+
+        // Make text italic.
+        getSelenium().metaKeyDown();
+        typeText("I");
+        getSelenium().metaKeyUp();
+
+        // Make text underline.
+        getSelenium().controlKeyDown();
+        typeText("U");
+        getSelenium().controlKeyUp();
+
+        // Undo last 3 steps.
+        getSelenium().metaKeyDown();
+        typeText("ZZZ");
+        getSelenium().metaKeyUp();
+
+        // Redo 2 steps
+        getSelenium().controlKeyDown();
+        typeText("YY");
+        getSelenium().controlKeyUp();
+
+        assertWiki("**//March//** 9th, 2009");
+    }
+
+    /**
      * @see XWIKI-3138: WYSIWYG 2.0 Preview Error
      */
     public void testPreview()

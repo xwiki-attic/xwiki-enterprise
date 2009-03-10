@@ -871,18 +871,4 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         setFieldValue("content", wikiText);
         switchToWysiwygEditor();
     }
-
-    /**
-     * @param element a element locator
-     * @return {@code true} if the specified element is present and visible
-     */
-    public boolean isElementVisible(String element)
-    {
-        // We have to escape the quotes first.
-        element = element.replace("\"", "\\\"").replace("\'", "\\\'");
-        // Check if the specified element is present and if it is displayed.
-        return Boolean.parseBoolean(getSelenium().getEval(
-            "\nvar element = selenium.browserbot.findElementOrNull('" + element
-                + "');\n(element == null || 'none' == element.style.display) ? false : true;\n"));
-    }
 }

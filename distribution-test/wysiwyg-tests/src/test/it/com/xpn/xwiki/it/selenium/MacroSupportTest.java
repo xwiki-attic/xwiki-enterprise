@@ -46,6 +46,8 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
     public static final String MENU_EDIT = "Edit Macro Properties...";
 
+    public static final String MENU_INSERT = "Insert Macro...";
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Integration tests for macro support inside the WYSIWYG editor.");
@@ -337,21 +339,21 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         setWikiContent("{{foo}}bar{{/foo}}");
 
         // By default macros are expanded. Let's check this.
-        assertFalse(isElementVisible(getMacroPlaceHolderLocator(0)));
-        assertTrue(isElementVisible(getMacroOutputLocator(0)));
+        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
+        assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
 
         // Select the macro.
         clickMacro(0);
 
         // Let's collapse the selected macro and check its state.
         clickMacro(0);
-        assertTrue(isElementVisible(getMacroPlaceHolderLocator(0)));
-        assertFalse(isElementVisible(getMacroOutputLocator(0)));
+        assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
+        assertFalse(getSelenium().isVisible(getMacroOutputLocator(0)));
 
         // Let's expand the selected macro and check its state.
         clickMacro(0);
-        assertFalse(isElementVisible(getMacroPlaceHolderLocator(0)));
-        assertTrue(isElementVisible(getMacroOutputLocator(0)));
+        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
+        assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
     }
 
     /**
@@ -375,12 +377,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         setWikiContent("{{box}}p{{/box}}\n\n{{code}}q{{/code}}");
 
         // Collapse the second macro.
-        assertFalse(isElementVisible(getMacroPlaceHolderLocator(1)));
-        assertTrue(isElementVisible(getMacroOutputLocator(1)));
+        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
+        assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
         clickMacro(1);
         clickMacro(1);
-        assertTrue(isElementVisible(getMacroPlaceHolderLocator(1)));
-        assertFalse(isElementVisible(getMacroOutputLocator(1)));
+        assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
+        assertFalse(getSelenium().isVisible(getMacroOutputLocator(1)));
 
         // Unselect the macro
         runScript("XWE.selection.collapseToEnd()");
@@ -390,8 +392,8 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         refreshMacros();
 
         // Check if the second macro is expanded.
-        assertFalse(isElementVisible(getMacroPlaceHolderLocator(1)));
-        assertTrue(isElementVisible(getMacroOutputLocator(1)));
+        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
+        assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
     }
 
     /**
@@ -478,7 +480,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         editMacro(0);
 
         // Check if the dialog shows the error message
-        assertTrue(isElementVisible("//div[@class = 'xDialogBody']/div[contains(@class, 'errormessage')]"));
+        assertTrue(getSelenium().isVisible("//div[@class = 'xDialogBody']/div[contains(@class, 'errormessage')]"));
     }
 
     /**
@@ -501,6 +503,30 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickUndoButton(2);
         clickRedoButton();
         assertWiki("{{velocity}}$util.date{{/velocity}}\n");
+    }
+
+    /**
+     * Tests the basic insert macro scenario, using the code macro.
+     */
+    public void testInsertCodeMacro()
+    {
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_INSERT));
+        clickMenu(MENU_INSERT);
+        waitForDialog();
+
+        getSelenium().select("//select[contains(@class, 'xMacroList')]", "code");
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        waitForDialog();
+
+        setFieldValue("pd-content-input", "function f(x) {\n  return x;\n}");
+        applyMacroChanges();
+
+        editMacro(0);
+        setFieldValue("pd-title-input", "Identity function");
+        applyMacroChanges();
+
+        assertWiki("{{code title=\"Identity function\"}}function f(x) {\n  return x;\n}{{/code}}\n\n\\\\");
     }
 
     /**

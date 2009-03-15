@@ -1,5 +1,7 @@
 package org.xwiki.rest.it;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
@@ -18,6 +20,7 @@ import org.xwiki.rest.model.jaxb.ObjectSummary;
 import org.xwiki.rest.model.jaxb.Objects;
 import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.Property;
+import org.xwiki.rest.resources.objects.ObjectAtPageVersionResource;
 import org.xwiki.rest.resources.objects.ObjectResource;
 import org.xwiki.rest.resources.objects.ObjectsResource;
 import org.xwiki.rest.resources.pages.PageResource;
@@ -564,6 +567,59 @@ public class ObjectsResourceTest extends AbstractHttpTest
         tagsProperty = getProperty(currentObject, "tags");
 
         assertEquals(TAG_VALUE, tagsProperty.getValue());
+    }
+
+    public void testGETObjectAtPageVersion() throws Exception
+    {
+        TestUtils.banner("testPUTObject()");
+
+        Object objectToBePut = getObject("XWiki.TagClass");
+
+        Map<String, String> versionToValueMap = new HashMap<String, String>();
+        for (int i = 0; i < 5; i++) {
+            String value = String.format("Value%d", i);
+
+            Property property = getProperty(objectToBePut, "tags");
+            property.setValue(value);
+
+            PutMethod putMethod =
+                executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
+                    getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
+                    objectToBePut, "Admin", "admin");
+            assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
+            TestUtils.printHttpMethodInfo(putMethod);
+
+            GetMethod getMethod =
+                executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(
+                    getWiki(), "Main", "WebHome").toString());
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+            TestUtils.printHttpMethodInfo(getMethod);
+
+            Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+            versionToValueMap.put(page.getVersion(), value);
+        }
+     
+        for (String version : versionToValueMap.keySet()) {
+            GetMethod getMethod =
+                executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT)
+                    .path(ObjectAtPageVersionResource.class).build(getWiki(), "Main", "WebHome", version,
+                        objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+            TestUtils.printHttpMethodInfo(getMethod);
+
+            Object currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+            Property property = getProperty(currentObject, "tags");
+
+            assertEquals(versionToValueMap.get(version), property.getValue());
+
+            checkLinks(currentObject);
+            for (Property p : currentObject.getProperties()) {
+                checkLinks(p);
+            }
+        }
+
     }
 
 }

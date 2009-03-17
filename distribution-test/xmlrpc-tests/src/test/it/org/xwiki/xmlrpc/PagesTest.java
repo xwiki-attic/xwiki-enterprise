@@ -680,8 +680,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         System.out.format("Modifications:\n");
         for (XWikiPageHistorySummary modification : modifications) {
             System.out.format("%s\n", modification);
-            if (page.getId().equals(modifications.get(0).getBasePageId())) {
-                if (page.getModified().equals(modifications.get(0).getModified())) {
+            if (page.getId().equals(modification.getBasePageId())) {
+                if (page.getModified().equals(modification.getModified())) {
                     found = true;
                 }
             }

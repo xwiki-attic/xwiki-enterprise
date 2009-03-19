@@ -57,7 +57,7 @@
     <platform.tool.packager.version>1.11</platform.tool.packager.version>
     <platform.core.version>1.8</platform.core.version>
     <platform.web.version>1.8</platform.web.version>
-    <platform.panels.version>1.15</platform.panels.version>
+    <platform.panels.version>1.16</platform.panels.version>
     <platform.administration.version>1.8</platform.administration.version>
     <platform.scheduler.version>1.6</platform.scheduler.version>
     <platform.watchlist.version>1.13</platform.watchlist.version>

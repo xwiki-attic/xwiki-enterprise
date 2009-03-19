@@ -64,7 +64,7 @@
     <platform.blog.version>1.2-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.5-SNAPSHOT</platform.statistics.version>
-    <platform.plugin.lucene.version>1.7-SNAPSHOT</platform.plugin.lucene.version>
+    <platform.plugin.lucene.version>1.8-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.skinx.version>1.7-SNAPSHOT</platform.plugin.skinx.version>
     <platform.officeimporter.version>1.4-SNAPSHOT</platform.officeimporter.version>
     <platform.webdav.version>1.2-SNAPSHOT</platform.webdav.version>

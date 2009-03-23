@@ -79,14 +79,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      * GWT seems to have an unusual way to manage input events, our WYSIWYG editor needs its container window to have
      * a _real_ focus (Windowing System level) to catch them (at least on Linux and OSX).
      * This method executes a small C program to set the Windowing System (X) focus on the window named :
-     * "Editing wysiwyg for WysiwygTest - Iceweasel". More information about this program can be found here :
+     * "Editing wysiwyg for WysiwygTest - Mozilla Firefox". More information about this program can be found here :
      * http://dev.xwiki.org/xwiki/bin/view/Community/ContinuousBuild
      */
     private void externalX11WindowFocus() throws Exception
     {
         if ((new File(XWINDOWFOCUS_BINARY)).exists()) {
             ProcessBuilder pb =
-                new ProcessBuilder(new String[]{XWINDOWFOCUS_BINARY, "Editing wysiwyg for WysiwygTest - Iceweasel"});
+                new ProcessBuilder(new String[]{XWINDOWFOCUS_BINARY, "Editing wysiwyg for WysiwygTest - Mozilla Firefox"});
             pb.environment().put("DISPLAY", ":1.0");
             Process shell = pb.start();            
             new StreamRedirector(shell.getInputStream(), System.out).start();

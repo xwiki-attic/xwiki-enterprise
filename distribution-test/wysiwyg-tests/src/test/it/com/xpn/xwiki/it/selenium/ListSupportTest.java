@@ -410,7 +410,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         typeTab();
         // check that nothing happened
         assertXHTML("<ul><li>foo<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
-        
+
         assertWiki("* foo\n** bar");
     }
 
@@ -505,5 +505,58 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         // type the dot native, to make sure it goes through the browser's key handling code
         getSelenium().keyPressNative(Integer.toString(KeyEvent.VK_PERIOD));
         assertXHTML("<ul><li>foo.</li><li>bar</li></ul>");
+    }
+
+    /**
+     * @see XWIKI-3447: List detection is reversed
+     */
+    public void testListDetection()
+    {
+        setWikiContent("before\n\n" + "* unordered list item\n*1. ordered sub-list item\n\n"
+            + "1. ordered list item\n1*. unordered sub-list item");
+
+        // Outside lists
+        moveCaret("XWE.body.firstChild.firstChild", 3);
+        triggerToolbarUpdate();
+        assertFalse(isOrderedListDetected());
+        assertFalse(isUnorderedListDetected());
+
+        // Inside unordered list item
+        moveCaret("XWE.body.childNodes[1].firstChild.firstChild", 4);
+        triggerToolbarUpdate();
+        assertFalse(isOrderedListDetected());
+        assertTrue(isUnorderedListDetected());
+        // Inside ordered sub-list item
+        moveCaret("XWE.body.childNodes[1].firstChild.lastChild.firstChild.firstChild", 7);
+        triggerToolbarUpdate();
+        assertTrue(isOrderedListDetected());
+        assertTrue(isUnorderedListDetected());
+
+        // Inside ordered list item
+        moveCaret("XWE.body.childNodes[2].firstChild.firstChild", 10);
+        triggerToolbarUpdate();
+        assertTrue(isOrderedListDetected());
+        assertFalse(isUnorderedListDetected());
+        // Inside unordered sub-list item
+        moveCaret("XWE.body.childNodes[2].firstChild.lastChild.firstChild.firstChild", 9);
+        triggerToolbarUpdate();
+        assertTrue(isOrderedListDetected());
+        assertTrue(isUnorderedListDetected());
+    }
+
+    /**
+     * @return {@code true} if the current selection is inside an ordered list, {@code false} otherwise
+     */
+    public boolean isOrderedListDetected()
+    {
+        return isToggleButtonDown("Ordered list");
+    }
+
+    /**
+     * @return {@code true} if the current selection is inside an unordered list, {@code false} otherwise
+     */
+    public boolean isUnorderedListDetected()
+    {
+        return isToggleButtonDown("Unordered list");
     }
 }

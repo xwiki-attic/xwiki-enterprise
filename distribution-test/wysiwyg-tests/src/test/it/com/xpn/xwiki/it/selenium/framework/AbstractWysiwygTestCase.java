@@ -672,6 +672,16 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
+     * @param toggleButtonTitle the tool tip of a toggle button
+     * @return {@code true} if the specified toggle button is down, {@code false} otherwise
+     */
+    public boolean isToggleButtonDown(String toggleButtonTitle)
+    {
+        return getSelenium().isElementPresent(
+            "//div[@title='" + toggleButtonTitle + "' and @class='gwt-ToggleButton gwt-ToggleButton-down']");
+    }
+
+    /**
      * Checks if a menu item is enabled or disabled. Menu items have {@code gwt-MenuItem} CSS class. Disabled menu items
      * have and additional {@code gwt-MenuItem-disabled} CSS class.
      * 

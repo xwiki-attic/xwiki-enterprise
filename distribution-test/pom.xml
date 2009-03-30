@@ -147,6 +147,10 @@
                 <value>${port}</value>
               </property>
               <property>
+                <name>seleniumPort</name>
+                <value>${seleniumPort}</value>
+              </property>
+               <property>
                 <name>xwikiExecutionDirectory</name>
                 <value>${basedir}/target/xwiki-enterprise-jetty-${xwiki.db}-${pom.version}</value>
               </property>
@@ -184,12 +188,14 @@
     </pluginManagement>
   </build>
   <properties>
+    <selenium.version>1.0-beta-2</selenium.version>
     <!-- This is to allow users to override this property on the command line to choose what
       test to run. For example to run only the DeletePageTest you would type:
       mvn install -DPattern=DeletePageTest
     -->
     <pattern>.*</pattern>
     <port>8080</port>
+    <seleniumPort>4444</seleniumPort>
   </properties>
   <profiles>
     <profile>
@@ -303,4 +309,20 @@
     <module>webdav-tests</module>
     <module>rest-tests</module>
   </modules>
+  <repositories>
+    <repository>
+      <id>openqa.org</id>
+      <name>Openqa Release Repository</name>
+      <url>http://archiva.openqa.org/repository/releases/</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+        <checksumPolicy>ignore</checksumPolicy>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
 </project>

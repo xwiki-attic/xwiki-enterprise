@@ -35,6 +35,8 @@ import org.openqa.selenium.server.SeleniumServer;
  */
 public class XWikiSeleniumTestSetup extends TestSetup
 {
+    private static final int SELENIUM_PORT = Integer.parseInt(System.getProperty("seleniumPort", "4444"));
+
     private static final String PORT = System.getProperty("xwikiPort", "8080");
 
     private static final String BASE_URL = "http://localhost:" + PORT;
@@ -50,7 +52,7 @@ public class XWikiSeleniumTestSetup extends TestSetup
 
     protected void setUp() throws Exception
     {
-        this.selenium = new DefaultSelenium("localhost", SeleniumServer.DEFAULT_PORT, BROWSER, BASE_URL);
+        this.selenium = new DefaultSelenium("localhost", SELENIUM_PORT, BROWSER, BASE_URL);
 
         // Sets the Selenium object in all tests
         for (AbstractXWikiTestCase test: getTests(getTest())) {

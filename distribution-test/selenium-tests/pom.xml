@@ -35,9 +35,9 @@
   <description>XWiki Products - Enterprise - Functional Selenium Tests</description>
   <dependencies>
     <dependency>
-      <groupId>org.openqa.selenium.client-drivers</groupId>
+      <groupId>org.seleniumhq.selenium.client-drivers</groupId>
       <artifactId>selenium-java-client-driver</artifactId>
-      <version>1.0-beta-1</version>
+      <version>${selenium.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -114,20 +114,4 @@
       </properties>
     </profile>
   </profiles>
-  <repositories>
-    <repository>
-      <id>openqa.org</id>
-      <name>Openqa Release Repository</name>
-      <url>http://archiva.openqa.org/repository/releases/</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>daily</updatePolicy>
-        <checksumPolicy>ignore</checksumPolicy>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-  </repositories>
 </project>

@@ -52,7 +52,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForCondition("typeof selenium.browserbot.getCurrentWindow().document." +
             "getElementById(\"ajax-loader\").style.display == 'string'");
         waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById(\"ajax-loader\").style.display == \"none\"");
+            "getElementById(\"ajax-loader\").style.display == \"none\"");        
         getSelenium().setSpeed("0");
     }
 
@@ -139,41 +139,89 @@ public class AllDocsTest extends AbstractXWikiTestCase
         Assert.assertEquals("Editing Rights for Treeview", getTitle());
     }
 
-    private void assertNodeOpen(String nodeName, int type)
+    /**
+     * Click on a node in the Treeview widget.
+     *
+     * @param nodeId Id of the node to be clicked.
+     */
+    private void clickOnNode(String nodeId)
     {
-    	String className = "";
-    	/* 1 = interior node without children
-    	 * 2 = first node without children
-    	 * 3 = node with children
-    	 */
-    	switch(type)
-    	{
-    		case 1: className = "ygtvtn"; break;
-    		case 2: className = "ygtvln"; break;
-    		case 3: className = "ygtvtm"; break;
-    	}
-    	String xpath = "//a[text()='" + nodeName + "']/ancestor::*[position()=1]/preceding-sibling::*[position()=1]";
-    	getSelenium().click(xpath);
-    	waitForCondition("selenium.browserbot.findElement(\"" + xpath + "\").className == '" + className + "'");
+        
+        getSelenium().click("//img[@name='" + nodeId + "']");
     }
 
     /**
-     * <ul><li>Validate that multilevel nodes open correctly.</li></ul>
-     */
-    public void testTreeViewActions()
+     * Wait for the node with the given ID to load.
+     *
+     * @param nodeId Id of the node to wait for.
+     */     
+    private void waitForNodeToLoad(String nodeId)
     {
-    	open("Main", "AllDocs", "view", "view=tree");
-    	// Verify two-level nodes
-    	assertNodeOpen("Main", 3);
-    	assertNodeOpen("Dashboard", 1);
-    	// Verify three-level nodes
-    	assertNodeOpen("Stats", 3);
-    	assertNodeOpen("Activity", 3);
-    	assertNodeOpen("ActivityData", 2);
-    	// Verify four-level nodes
-    	// assertNodeOpen("Main", 3); //Main was open first
-    	assertNodeOpen("AllDocs", 3);
-    	assertNodeOpen("Tableview", 3);
-    	assertNodeOpen("Tableresults", 2);
+        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview.data.findById('"
+                + nodeId + "') != 'undefined'");
+    }
+
+    /**
+     * Validate that space nodes are loaded by the Treeview widget.
+     */
+    public void testTreeViewInit()
+    {
+        open("Main", "AllDocs", "view", "view=tree");
+
+        // Wait for the widget to load.
+        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview != 'undefined'");
+
+        // Wait for the data to arrive.
+        waitForNodeToLoad("xwiki:Blog");
+        waitForNodeToLoad("xwiki:Main");
+        waitForNodeToLoad("xwiki:Panels");
+        waitForNodeToLoad("xwiki:Sandbox");
+        waitForNodeToLoad("xwiki:Scheduler");
+        waitForNodeToLoad("xwiki:Stats");
+        waitForNodeToLoad("xwiki:XWiki");
+
+        // We can't use Selenium to generate events (clicks and keys) for Smartclient widgets.
+        // See this thread for more details: http://forums.smartclient.com/showthread.php?t=2312
+    }
+
+    /**
+     * Validate that the suggest allow to open a node further levels down the tree.
+     */
+    public void testTreeViewSuggest()
+    {
+        open("Main", "AllDocs", "view", "view=tree");
+
+        // Wait for the widget to load.
+        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview != 'undefined'");
+        waitForNodeToLoad("xwiki:XWiki");
+
+        setFieldValue("Treeview_Input", "Sandbox.TableTraining");
+        waitForNodeToLoad("xwiki:Sandbox.TableTraining");
+    }
+
+    /**
+     * Validate Treeview API.
+     */
+    public void testTreeViewAPI()
+    {
+        open("Main", "AllDocs", "view", "view=tree");
+
+        // Wait for the widget to load.
+        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview != 'undefined'");
+        waitForNodeToLoad("xwiki:Main");
+
+        setFieldValue("Treeview_Input", "Main.RecentChanges@lquo.gif");
+        waitForNodeToLoad("xwiki:Main.RecentChanges@lquo.gif");
+
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.XWE_getSelectedWiki() == 'xwiki'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.XWE_getSelectedSpace() == 'Main'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.XWE_getSelectedPage() == 'RecentChanges'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.XWE_getSelectedAttachment() == 'lquo.gif'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.XWE_getSelectedAnchor() == ''");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.XWE_getSelectedUrl() == "
+            + "'/xwiki/bin/download/Main/RecentChanges/lquo.gif'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.XWE_getValue() == " 
+            + "'Main.RecentChanges@lquo.gif'");
+
     }
 }

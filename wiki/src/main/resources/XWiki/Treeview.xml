@@ -55,100 +55,36 @@
 <tags/>
 </property>
 </object>
-<content>#if($request.nodeName)
-  #set ($hiddenSpaces = ["XWiki", "Admin", "Panels"])
-  #set ($hiddenPages = ["Main.WebRss", "Main.WebSearch", "Main.LuceneSearch", "Main.BlogRss", "Blog.Macros", "Main.TagsRss", "Main.RegisterNewUserAction", "Main.SpaceIndex", "Blog.Category"])
-  #set ($blackListedPages = ["WebPreferences"])
-  #set($node = $request.get("nodeName"))
-  $response.setContentType("text/xml") 
-  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-  &lt;results&gt;
-  #set($res = "false") 
-  #foreach ($page in $xwiki.searchDocuments("doc.space = '$node' and (doc.parent = '${node}.WebHome' or doc.parent = '' or doc.parent is null or doc.parent not like '${node}%') order by doc.name"))
-   #if (($page != "${node}.WebHome") &amp;&amp; (!$hiddenPages.contains($page) || ($hiddenPages.contains($page) &amp;&amp; $xwiki.hasAdminRights())))
-    #set($index = $page.indexOf(".") + 1)
-    #set($pageName = $page.substring($index))
-    #if (!$blackListedPages.contains($pageName) || ($blackListedPages.contains($pageName) &amp;&amp; $xwiki.hasAdminRights()))
-       #set($res = "true")
-       &lt;rs label="$pageName.replaceAll('"', '\\\"')" parent="$page"&gt;$xwiki.getURL("${page}")&lt;/rs&gt;
-    #end
-   #end
-  #end
-  #if($res == "false")
- 	#set($ppp = $node.replaceAll("'", "''"))
- 	#set($space = $xwiki.searchSpacesNames("where doc.name=?", 1, 0, [$ppp]))
- 	#foreach ($page in $xwiki.searchDocuments("doc.parent = '$space.get(0).$ppp' order by doc.name"))
-   	  #if (!$hiddenPages.contains($page) || ($hiddenPages.contains($page) &amp;&amp; $xwiki.hasAdminRights()))
-      	#set($index = $page.indexOf(".") + 1)
-      	#set($pageName = $page.substring($index))
-      	#if (!$blackListedPages.contains($pageName) || ($blackListedPages.contains($pageName) &amp;&amp; $xwiki.hasAdminRights()))
-        	#set($res = "true")
-        	&lt;rs label="$pageName.replaceAll('"', '\\\"')" parent="$page"&gt;$xwiki.getURL("${page}")&lt;/rs&gt;
-      	#end
-      #end
-    #end
-  #end
-  &lt;/results&gt;
-#else
-$xwiki.ssfx.use("js/yui/treeview/assets/tree.css")
-$xwiki.jsfx.use("js/yui/yahoo/yahoo-min.js")
-$xwiki.jsfx.use("js/yui/treeview/treeview-min.js")
-$xwiki.jsfx.use("js/yui/treeview/checknode.js")
-$xwiki.jsfx.use("js/yui/event/event-min.js")
-$xwiki.jsfx.use("js/yui/connection/connection-min.js")
-&lt;div id="treeview"&gt;&lt;/div&gt;
-{pre}
-&lt;script type="text/javascript"&gt;
-//&lt;![CDATA[
-var tree;
-function loadNodeData(node, fnLoadComplete)  {
-  var url = "$doc.getURL()?xpage=plain&amp;nodeName="+node.label;
-  var callback = {
-   success: function(oResponse) {
-     var xml = oResponse.responseXML;
-     var results = xml.getElementsByTagName('results')[0].childNodes;
-     for (var i = 0; i &lt; results.length; i++)
-	if (results[i].hasChildNodes()) {
-	 var nodeObject = {label: results[i].getAttribute('label'), href: results[i].childNodes[0].nodeValue};
-         var tempNode = new YAHOO.widget.TextNode(nodeObject, node, false);
-     }
-     oResponse.argument.fnLoadComplete();
-   },
-   failure: function(oResponse) {
-	oResponse.argument.fnLoadComplete();
-   },
-   argument: {
-		"node": node,
-		"fnLoadComplete": fnLoadComplete
-   },
-   timeout: 7000
-  };
-  YAHOO.util.Connect.asyncRequest('GET', url, callback);
-}
-  
-function buildTree() 
-{
- var tree = new YAHOO.widget.TreeView("treeview");
- //turn dynamic loading on for entire tree:
- tree.setDynamicLoad(loadNodeData, 1);
- var root = tree.getRoot();
- #set ($hiddenSpaces = ["XWiki", "Admin", "Panels"])
- #set ($hiddenPages = ["Main.WebRss", "Main.WebSearch", "Main.LuceneSearch", "Main.BlogRss", "Blog.Macros", "Main.TagsRss", "Main.RegisterNewUserAction", "Main.SpaceIndex", "Blog.Category"])
- #set ($blackListedPages = ["WebPreferences"])
- // Add spaces as top level nodes
- #foreach ($space in $util.sort($xwiki.spaces))
-   #if (!$hiddenSpaces.contains($space) || ($hiddenSpaces.contains($space) &amp;&amp; $xwiki.hasAdminRights()))
-     nodeObject = { label: "$space", href:"$xwiki.getURL("${space}.WebHome")" };
-     var spaceNode = new YAHOO.widget.TextNode(nodeObject, root, false); 
-   #end
- #end
- tree.draw();
-}
-     
-//once the DOM has loaded, we can go ahead and set up our tree:
-Event.observe(window, "load", buildTree);
-//]]&gt;
+<content>## Smartclient
+$xwiki.jsfx.use("js/smartclient/initsc.js", true)##
+$xwiki.jsfx.use("js/smartclient/modules/ISC_Core.js")##
+$xwiki.jsfx.use("js/smartclient/modules/ISC_Foundation.js")##
+$xwiki.jsfx.use("js/smartclient/modules/ISC_Containers.js")##
+$xwiki.jsfx.use("js/smartclient/modules/ISC_Grids.js")##
+$xwiki.jsfx.use("js/smartclient/modules/ISC_Forms.js")##
+$xwiki.jsfx.use("js/smartclient/modules/ISC_DataBinding.js")##
+$xwiki.jsfx.use("js/smartclient/skins/Enterprise/load_skin.js")##
+## XWikiExplorer
+$xwiki.jsfx.use("js/xwiki/xwikiexplorer/xwikiexplorer.js", true)##
+{pre}##
+&lt;div id="XWEWrapper" style="height:300px;margin-right:20px;padding-bottom:30px;"&gt;&lt;/div&gt;
+&lt;script&gt;
+isc.XWETreeGrid.create({
+  ID: "Treeview",
+  // Example of default values:
+  // defaultValue: "Main.WebHome",
+  // defaultValue: "Main.RecentChanges@lquo.gif",
+  defaultValue: "",
+  htmlElement: "XWEWrapper", // Mandatory HTML wrapper.
+  // Example of data sources:
+  // dataSource: isc.XWEDataSource.create({}),
+  // dataSource: isc.XWESpaceDataSource.create({ space: "Main" }),
+  dataSource: isc.XWEWikiDataSource.create({}),
+  displaySuggest: true, // Display the input at the bottom.
+  displayLinks: true, // Node titles are HTML links.
+  displayAttachments: true, // Display pages attachments.
+  displayAttachmentsOnTop: true, // Display attachments before page children.
+}).draw();
 &lt;/script&gt;
 {/pre}
-#end
 </content></xwikidoc>

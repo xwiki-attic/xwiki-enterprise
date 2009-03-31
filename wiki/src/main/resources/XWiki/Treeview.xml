@@ -68,7 +68,7 @@ $xwiki.jsfx.use("js/smartclient/skins/Enterprise/load_skin.js")##
 $xwiki.jsfx.use("js/xwiki/xwikiexplorer/xwikiexplorer.js", true)##
 {pre}##
 &lt;div id="XWEWrapper" style="height:300px;margin-right:20px;padding-bottom:30px;"&gt;&lt;/div&gt;
-&lt;script&gt;
+&lt;script type="text/javascript"&gt;
 isc.XWETreeGrid.create({
   ID: "Treeview",
   // Example of default values:

@@ -366,7 +366,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
         // If no macros are present then the refresh shoudn't affect too much the edited content.
         refreshMacros();
-        assertXHTML("<p>a b<br class=\"spacer\"></p>");
+        assertXHTML("<p>a b</p>");
     }
 
     /**
@@ -430,17 +430,28 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         // Change the content of the HTML macro.
         setFieldValue("pd-content-input", "black");
 
-        // Set the Wiki parameter to false.
+        // Set the Wiki parameter to true.
+        getSelenium().select("pd-wiki-input", "yes");
+
+        // Apply changes.
+        applyMacroChanges();
+
+        // Test if our changes have been applied.
+        assertWiki("{{html wiki=\"true\"}}black{{/html}}");
+
+        // Edit again, this time using the default value for the Wiki parameter.
+        editMacro(0);
+
+        // Set the Wiki parameter to its default value, false.
+        assertEquals("true", getSelenium().getValue("pd-wiki-input"));
         getSelenium().select("pd-wiki-input", "no");
 
         // Apply changes.
         applyMacroChanges();
 
-        // Test is our changes have been applied.
-        // NOTE: The new line at the end is generated because of a BR inserted by Firefox. In order to apply the changes
-        // to the macro we use the browser-specific Delete command to delete the current selection (selected macro) and
-        // insert the updated macro. Firefox adds a BR if the Delete command leaves the BODY element empty.
-        assertWiki("{{html wiki=\"false\"}}black{{/html}}\n");
+        // Test if our changes have been applied. This time the Wiki parameter is missing from the output because it has
+        // the default value.
+        assertWiki("{{html}}black{{/html}}");
     }
 
     /**
@@ -462,12 +473,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         assertEquals("1\"2|-|3=\\\"4\\", getSelenium().getValue("pd-title-input"));
 
         // Change the title parameter.
-        // NOTE: We remove the |-| separator from the value of the parameter because of
-        // http://jira.xwiki.org/jira/browse/XWIKI-3274
-        setFieldValue("pd-title-input", "1\"2=\\\"3\\");
+        setFieldValue("pd-title-input", "a\"b|-|c=\\\"d\\");
         applyMacroChanges();
 
-        assertWiki("{{box title= \"1\\\"2=\\\\\\\"3\\\\\"}}=\\\"|-|\\\\{{/box}}");
+        assertWiki("{{box title=\"a\\\"b|-|c=\\\\\\\"d\\\\\"}}=\\\"|-|\\\\{{/box}}");
     }
 
     /**
@@ -502,7 +511,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
         clickUndoButton(2);
         clickRedoButton();
-        assertWiki("{{velocity}}$util.date{{/velocity}}\n");
+        assertWiki("{{velocity}}$util.date{{/velocity}}");
     }
 
     /**
@@ -510,14 +519,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testInsertCodeMacro()
     {
-        clickMenu(MENU_MACRO);
-        assertTrue(isMenuEnabled(MENU_INSERT));
-        clickMenu(MENU_INSERT);
-        waitForDialog();
-
-        getSelenium().select("//select[contains(@class, 'xMacroList')]", "code");
-        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
-        waitForDialog();
+        insertMacro("code");
 
         setFieldValue("pd-content-input", "function f(x) {\n  return x;\n}");
         applyMacroChanges();
@@ -526,7 +528,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         setFieldValue("pd-title-input", "Identity function");
         applyMacroChanges();
 
-        assertWiki("{{code title=\"Identity function\"}}function f(x) {\n  return x;\n}{{/code}}\n\n\\\\");
+        assertWiki("{{code title=\"Identity function\"}}function f(x) {\n  return x;\n}{{/code}}");
     }
 
     /**
@@ -595,6 +597,24 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMacro(index);
         clickMenu(MENU_MACRO);
         clickMenu(MENU_EDIT);
+        waitForDialog();
+    }
+
+    /**
+     * Opens the insert macro dialog, chooses the specified macro and then opens the edit macro dialog to fill the
+     * parameters of the selected macro.
+     * 
+     * @param macroName the name of the macro to insert
+     */
+    public void insertMacro(String macroName)
+    {
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_INSERT));
+        clickMenu(MENU_INSERT);
+        waitForDialog();
+
+        getSelenium().click("//div[@class = 'xListBox']//div[text() = '" + macroName + "']");
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialog();
     }
 

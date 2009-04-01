@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1203507376000</creationDate>
-<date>1227789387000</date>
-<contentUpdateDate>1227789387000</contentUpdateDate>
+<date>1238593281000</date>
+<contentUpdateDate>1238593281000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -27,8 +27,8 @@
 <filename>img.png</filename>
 <filesize>959</filesize>
 <author>XWiki.Admin</author>
-<date>1203507880000</date>
-<version>1.1</version>
+<date>1238497750000</date>
+<version>1.2</version>
 <comment></comment>
 <content>iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAAAAADgE0Q3AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfWBxcOEy+3/bdlAAADUElEQVRIx52WTW/cVBSG32tfezxJZiaT0EwnCkVKgVZI3cFAVYkFLEFCKoI/wz9Bgh/ApqqEWLQLFmUHAtJKqKIqMKhSJ50R+aCTTHzPey4L2/PVIru9C8u6Po/f83XtYzxefAUvwcACAMZPjrXc1gfJVm0VgPHA+HCQGmOMKcfQ6jYypeO/jQ1tWAGCng1sHRY4ehzYuBbUwzIojb1nOkmMBf5xNonW46iCUhoxPY3WLPBvEK826lFQAUq8xhawgNrE1muBqZJsFwVQWMAE8Vq0xIxv7a+rjhN38Z3Ezu3HQORgPO6G7VYSLjD9Gx92SJK8e//z15KFF3qJAgBmOZz+d5+ec8455+TSe18/mCw8NEAAPFvXGx9Z55yIiHPr79/suwq9d+fd0ImIc86JuFbrx5EvhwY7LndORCS9uPfo7HkNu7goQiWZXWhOn5wmpZB3M4JK6kTKleAKHVGSozAMKkCS6YiSSh4mjbiyUu4b03qjVpq98eMs3yLihCKj+lpUqvRzV0hRKkmlsjV8epaUKR2tO+co4kQoItJ1fx2Vutc9dCJ5F4mI7FPKO2JrNI+IjNrbjVLovP81s6aIk8HoaXc7KYXsZ40D5hhl8OjC5XNhKWQ2r0ym7k2423urgfLixu2sGZTKk/obVzq2AgRkZVKqnq502hZVoFcPEyU9VVVXl3vo//4aTVJIISmTqBaiktKBcapUVVXWrKkGfdNkjmhkjDcVoOGXJioYjf54uL1iyqDht7+3QdUsD/TRzb2Pdxc/lzAe9+xGM9/t//bLSQuFilIzsvN275VZaC6ag/o//MkVy4Iorqr0Pn7zg0tJsAyN7txn02R29My8o5+iCC/0crkCSm/3NyLmZizc0iIyVQAIbOdarxMUUP2r8wHpqXO+Kf0UmZ7BcOuLTbjIAsDDDQinxpr7VUQ2d2w5fLBZpHzsnV8MfuagLhx1OZjWSZpHupjnWUyLVdxJ84Y1uPa6kJSsRUmhZvdcZnD1kxyqAX6XuX1mKxSKyDNML/sVGo/RsN38CXv76mflVFX1y8jOVVwHXBgYj5NR1EqC732+FF7hvX/OTHd91ns4OV4tn3Gm+QsNjAcwUSSm2vBhYTIlAGk1xmQzinmZcfQ/40v+ffqYGLoAAAAASUVORK5CYII=</content>
 </attachment>
@@ -61,639 +61,1540 @@
 <name>XWiki.XWikiSyntax</name>
 <number>0</number>
 <className>XWiki.TagClass</className>
+<guid>01f8eda0-e148-44fe-8936-c1bd45acfde7</guid>
 <property>
 <tags/>
 </property>
 </object>
-<content>1 XWiki Syntax
+<content>#startfloatingbox()
+*Contents*
+#toc ("2" "2" "")
+#endfloatingbox()
 
-* [Titles&gt;#HTitles]
-* [Paragraphs&gt;#HParagraphs]
-* [Lists&gt;#HLists]
-** [Bulleted Lists&gt;#HBulletedLists]
-** [Numbered Lists&gt;#HNumberedLists]
-** [Definition Lists&gt;#HDefinitionLists]
-* [Text Styles&gt;#HTextStyles]
-* [Horizontal Line&gt;#HHorizontalLine]
-* [Links&gt;#HLinks]
-** [Internal Links&gt;#HInternalLinks]
-** [External Links&gt;#HExternalLinks]
-* [Tables&gt;#HTables]
-* [Images&gt;#HImages]
-* [Escaping Text&gt;#HEscapingText]
-** [Escaping a single character&gt;#HEscapingasinglecharacter]
-** [Escaping wiki syntax rendering&gt;#HEscapingwikisyntaxrendering]
-** [Escaping everything&gt;#HEscapingeverything]
-* [Boxes&gt;#HBoxes]
-* [Other macros&gt;#HOtherMacros]
+1 XWiki Syntaxes
 
-In addition to these special wiki syntaxes XWiki allows any HTML to be inserted in a page so if there no wiki syntax for what you wish to achieve, consider using HTML.
+Starting with XWiki Enterprise version 1.7 and above we've introduced a new wiki syntax. So we're now naming the current syntax the ~~XWiki Syntax v1.0~~ and the new syntax is logically called the ~~XWiki Syntax v2.0~~. The main reasons for introducing the new syntax were:
+* Fix the limitations and ambiguities of the XWiki 1.0 syntax (which was inspired by both Radeox - the underlying rendering engine - and TWiki). 
+** Not optimal symbols. For example the symbol for bold was single stars. This was causing trouble when users were entering text containing stars since that text was mistakenly considered to be bold when it wasn't. Hence we've rationalized the syntax by using at least double characters everywhere. 
+** Ambiguities. For example there was an ambiguity between a bold item starting a line and a bulletted list. Resolving the ambiguities was required in order to rewrite the WYSIWYG editor so that it could be deterministic.
+* Be closer to the [Creole 1.0 syntax&gt;http://www.wikicreole.org/] which is becoming a standard for wiki syntax. In addition the Creole community has taken the time to analyze all the existing wiki syntaxes before deciding on symbols. The choices made are thus very good.
 
-1.1 Titles
+In addition to these 2 XWiki syntaxes we've also changed our underlying rendering engine (was Radeox previously) in favor of our own engine which is superset wrapper around [Wikimodel&gt;http://code.google.com/p/wikimodel/] and [Doxia&gt;http://maven.apache.org/doxia/] (and possibly others in the future). This has allowed us to provide other syntaxes in the wiki: [MediaWiki, Confluence, JSPWiki, Creole, TWiki and more&gt;#HOthersyntaxes]
 
-{pre}
+1.1 General Remarks
+
+XWiki Syntax v2.0 corrects some errors entered by the user as shown in the examples in the table below.
+
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
+    &lt;th&gt;Example of invalid syntax&lt;/th&gt;
+    &lt;th&gt;Fixed XWiki Syntax 2.0&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    {pre}
     &lt;td&gt;
-&lt;pre&gt;
-1 Title 1
-1.1 Title 2
-1.1.1 Title 3
-1.1.1.1 Title 4
-1.1.1.1.1 Title 5
-1.1.1.1.1.1 Title 6
-&lt;/pre&gt;
+**bold
     &lt;/td&gt;
     &lt;td&gt;
-      &lt;h2&gt;&lt;span id="HTitle1"&gt;Title 1&lt;/span&gt;&lt;/h2&gt;&lt;p class="paragraph"/&gt;
-      &lt;h3&gt;&lt;span id="HTitle2"&gt;Title 2&lt;/span&gt;&lt;/h3&gt;&lt;p class="paragraph"/&gt;
-      &lt;h4&gt;&lt;span id="HTitle3"&gt;Title 3&lt;/span&gt;&lt;/h4&gt;&lt;p class="paragraph"/&gt;
-      &lt;h5&gt;&lt;span id="HTitle4"&gt;Title 4&lt;/span&gt;&lt;/h5&gt;&lt;p class="paragraph"/&gt;
-      &lt;h6&gt;&lt;span id="HTitle5"&gt;Title 5&lt;/span&gt;&lt;/h6&gt;&lt;p class="paragraph"/&gt;
-      &lt;h6&gt;&lt;span id="HTitle6"&gt;Title 6&lt;/span&gt;&lt;/h6&gt;&lt;p class="paragraph"/&gt;
+**bold**
     &lt;/td&gt;
+    {/pre}
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;
+|| table cell&lt;br/&gt;
+* list item
+    &lt;/td&gt;
+    &lt;td&gt;
+|| table cell&lt;br/&gt;
+&lt;br/&gt;
+* list item
+    &lt;/td&gt;
+    {/pre}
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;
+paragraph&lt;br/&gt;
+----&lt;br/&gt;
+paragraph
+    &lt;/td&gt;
+    &lt;td&gt;
+paragraph&lt;br/&gt;
+&lt;br/&gt;
+----&lt;br/&gt;
+&lt;br/&gt;
+paragraph
+    &lt;/td&gt;
+    {/pre}
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;
+&amp;lt;new line at beginning of document&amp;gt;&lt;br/&gt;
+paragraph
+    &lt;/td&gt;
+    &lt;td&gt;
+paragraph
+    &lt;/td&gt;
+    {/pre}
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
 
 1.1 Paragraphs
 
-{pre}
+Paragraphs are text elements separated by 2 or more new lines.
+
+#info("In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 1.0 and in Creole syntax.")
+
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 1.2&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Simple paragraph&lt;/td&gt;
+    &lt;td&gt;This is a paragraph&lt;/td&gt;
+    &lt;td&gt;This is a paragraph&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;This is a paragraph&lt;/td&gt;
+    &lt;td&gt;This is a paragraph&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Paragraph on multiple lines&lt;/td&gt;
+    &lt;td&gt;Paragraph on\\&lt;br/&gt;multiple lines&lt;/td&gt;
+    &lt;td&gt;Paragraph on&lt;br/&gt;multiple lines&lt;/td&gt;
+    {/pre}
     &lt;td&gt;
-&lt;pre&gt;
-Here is a paragraph.
-This text continues the same paragraph.
-
-This paragraph is a new one.
-
-This paragraph is another new one.
-
-This paragraph is displayed\\
-on two lines.
-&lt;/pre&gt;
+Paragraph on\\
+multiple lines
     &lt;/td&gt;
     &lt;td&gt;
-Here is a paragraph.
-This text continues the same paragraph.&lt;p class="paragraph"/&gt;This paragraph is a new one.&lt;p class="paragraph"/&gt;This paragraph is another new one.&lt;p class="paragraph"/&gt;
-This paragraph is displayed&lt;br/&gt;on two lines.
+Paragraph on&lt;br/&gt;
+multiple lines
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Two paragraphs&lt;/td&gt;
+    &lt;td&gt;Paragraph one&lt;br/&gt;&lt;br/&gt;Paragraph two&lt;/td&gt;
+    &lt;td&gt;Paragraph one&lt;br/&gt;&lt;br/&gt;Paragraph two&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+Paragraph one
+
+Paragraph two
+    &lt;/td&gt;
+    &lt;td&gt;
+Paragraph one
+
+Paragraph two
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Parametrized paragraph&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;p style="text-align:center;color:blue"&amp;gt;Centered and blue paragraph&amp;lt;/p&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="text-align:center;color:blue" %)&lt;br/&gt;
+Centered and blue paragraph
+    {/pre}
+    &lt;td&gt;
+&lt;p style="text-align:center;color:blue"&gt;Centered and blue paragraph&lt;/p&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+&lt;p style="text-align:center;color:blue"&gt;Centered and blue paragraph&lt;/p&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
 
-1.1 Lists
+1.1 Headers
 
-1.1.1 Bulleted Lists
-
-{pre}
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
     &lt;th&gt;Result&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Standard headers&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
-* Item 1
-** Item 2
-*** Item 3
-* Item 4
-&lt;/pre&gt;
+#set ($h1 = "1")
+#set ($h2 = "1.1")
+#set ($h3 = "1.1.1")
+#set ($h4 = "1.1.1.1")
+#set ($h5 = "1.1.1.1.1")
+#set ($h6 = "1.1.1.1.1.1")
+$h1 level 1&lt;br/&gt;
+$h2 level 2&lt;br/&gt;
+$h3 level 3&lt;br/&gt;
+$h4 level 4&lt;br/&gt;
+$h5 level 5&lt;br/&gt;
+$h6 level 6
     &lt;/td&gt;
     &lt;td&gt;
-      &lt;ul class="star"&gt;
-        &lt;li&gt;Item 1
-          &lt;ul class="star"&gt;
-            &lt;li&gt;Item 2
-              &lt;ul class="star"&gt;
-                &lt;li&gt;Item 3&lt;/li&gt;
-              &lt;/ul&gt;
-            &lt;/li&gt;
-          &lt;/ul&gt;
-        &lt;/li&gt;
-        &lt;li&gt;Item 4&lt;/li&gt;
-      &lt;/ul&gt;
+= level 1&lt;br/&gt;
+== level 2&lt;br/&gt;
+=== level 3&lt;br/&gt;
+==== level 4&lt;br/&gt;
+===== level 5&lt;br/&gt;
+====== level 6
+#info("Closing equal signs are optional.")
     &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+$h1 level 1
+$h2 level 2
+$h3 level 3
+$h4 level 4
+$h5 level 5
+$h6 level 6
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Parametrized headers&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;h2 class="heading-1"&amp;gt;&amp;lt;span style="color:blue"&amp;gt;header&amp;lt;/span&amp;gt;&amp;lt;/h2&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="color:blue" %)&lt;br/&gt;
+= header
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;h2 class="heading-1" id="Hlevel1"&gt;&lt;span style="color:blue"&gt;header&lt;/span&gt;&lt;/h2&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Headers with wiki syntax&lt;/td&gt;
+    &lt;td&gt;$h3 Header with *bold*&lt;/td&gt;
+    &lt;td&gt;=== Header with **bold**&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+$h3 Header with *bold*
+    &lt;/td&gt;    
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
 
-1.1.1 Numbered Lists
+1.1 Text Formatting
 
-{pre}
+#info("New in XWiki Syntax 2.0 over XWiki Syntax 1.0:
+* Spaces are allowed just after the syntax symbols (for example in XWiki Syntax 1.0, this was not * bold *).
+* Use double symbols when there was only a single symbol in XWiki Syntax 1.0 so that it's less likely that the user will mistakenly use them in text.
+* Ability to span several lines (wasn't the case in XWiki Syntax 1.0).")
+
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
     &lt;th&gt;Result&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td&gt;
-&lt;pre&gt;
-1. Item 1
-11. Item 2
-111. Item 3
-1. Item 4
-
-1. Item 1
-1*. Item 2
-1*. Item 3
-1. Item 4
-
-a. Alphabetical enumerated list
-a. Alphabetical enumerated list
-
-A. Uppercase alphabetical enumerated list
-A. Uppercase alphabetical enumerated list
-
-i. Roman enumerated list
-i. Roman enumerated list
-
-I. Uppercase roman enumerated list
-I. Uppercase roman enumerated list
-
-g. Greek enumerated list
-g. Greek enumerated list
-
-h. Hirigana (jap.) enumerated list
-h. Hirigana (jap.) enumerated list
-
-k. Katakana (jap.) enumerated list
-k. Katakana (jap.) enumerated list
-&lt;/pre&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;ol&gt;
-        &lt;li&gt;Item 1
-          &lt;ol&gt;
-            &lt;li&gt;Item 2
-              &lt;ol&gt;
-                &lt;li&gt;Item 3&lt;/li&gt;
-              &lt;/ol&gt;
-            &lt;/li&gt;
-          &lt;/ol&gt;
-        &lt;/li&gt;
-        &lt;li&gt;Item 4&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol&gt;
-        &lt;li&gt;Item 1
-          &lt;ul class="star"&gt;
-            &lt;li&gt;Item 2&lt;/li&gt;
-            &lt;li&gt;Item 3&lt;/li&gt;
-          &lt;/ul&gt;
-        &lt;/li&gt;
-        &lt;li&gt;Item 4&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol class="alpha"&gt;
-        &lt;li&gt;Alphabetical enumerated list&lt;/li&gt;
-        &lt;li&gt;Alphabetical enumerated list&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol class="ALPHA"&gt;
-        &lt;li&gt;Uppercase alphabetical enumerated list&lt;/li&gt;
-        &lt;li&gt;Uppercase alphabetical enumerated list&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol class="roman"&gt;
-        &lt;li&gt;Roman enumerated list&lt;/li&gt;
-        &lt;li&gt;Roman enumerated list&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol class="ROMAN"&gt;
-        &lt;li&gt;Uppercase roman enumerated list&lt;/li&gt;
-        &lt;li&gt;Uppercase roman enumerated list&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol class="greek"&gt;
-        &lt;li&gt;Greek enumerated list&lt;/li&gt;
-        &lt;li&gt;Greek enumerated list&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol class="hiragana"&gt;
-        &lt;li&gt;Hirigana (jap.) enumerated list&lt;/li&gt;
-        &lt;li&gt;Hirigana (jap.) enumerated list&lt;/li&gt;
-      &lt;/ol&gt;
-
-      &lt;ol class="katakana"&gt;
-        &lt;li&gt;Katakana (jap.) enumerated list&lt;/li&gt;
-        &lt;li&gt;Katakana (jap.) enumerated list&lt;/li&gt;
-      &lt;/ol&gt;
-
-    &lt;/td&gt;
+    {pre}
+    &lt;td&gt;Bold&lt;/td&gt;
+    &lt;td&gt;*bold*&lt;/td&gt;
+    &lt;td&gt;**bold**&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;*bold*&lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Underline&lt;/td&gt;
+    &lt;td&gt;__underline___&lt;/td&gt;
+    &lt;td&gt;__underline__&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;__underline__&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Italics&lt;/td&gt;
+    &lt;td&gt;~~italic~~&lt;/td&gt;
+    &lt;td&gt;//italic//&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;~~italic~~&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Striked out&lt;/td&gt;
+    &lt;td&gt;--strike--&lt;/td&gt;
+    &lt;td&gt;--strike--&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;--strike--&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Monospace&lt;/td&gt;
+    &lt;td&gt;&amp;lt;tt&amp;gt;monospace&amp;lt;/tt&amp;gt;&lt;/td&gt;
+    #set($dash = "#")
+    &lt;td&gt;${dash}${dash}monospace${dash}${dash}&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;&lt;tt&gt;monospace&lt;/tt&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Superscript&lt;/td&gt;
+    &lt;td&gt;some &amp;lt;sup&amp;gt;superscript&amp;lt;/sup&amp;gt;&lt;/td&gt;
+    &lt;td&gt;some ^^superscript^^&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;some &lt;sup&gt;superscript&lt;/sup&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Subscript&lt;/td&gt;
+    &lt;td&gt;some &amp;lt;sub&amp;gt;subscript&amp;lt;/sub&amp;gt;&lt;/td&gt;
+    &lt;td&gt;some ,,subscript,,&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;some &lt;sub&gt;subscript&lt;/sub&gt;&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
-
-1.1.1 Definition Lists
-
-{pre}
-&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;
-&lt;pre&gt;
-&amp;lt;dl&amp;gt;
-  &amp;lt;dt&amp;gt;Term&amp;lt;/dt&amp;gt;
-  &amp;lt;dd&amp;gt;Definition&amp;lt;/dd&amp;gt;
-&amp;lt;/dl&amp;gt;
-&lt;/pre&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;dl&gt;
-        &lt;dt&gt;Term&lt;/dt&gt;
-        &lt;dd&gt;Definition&lt;/dd&gt;
-      &lt;/dl&gt;
-     &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{/pre}
-
-1.1 Text Styles
-
-{pre}
-&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;
-&lt;pre&gt;
-a *bold* word
-
-an __underlined__ word
-
-~~text in italics~~
-
---striked text--
-
-&amp;lt;tt&amp;gt;text in monospace font&amp;lt;/tt&amp;gt;
-
-Text in a &amp;lt;sup&amp;gt;superscript&amp;lt;/sup&amp;gt; format
-
-Text in a &amp;lt;sub&amp;gt;subscript&amp;lt;/sub&amp;gt; format
-
-{quote:http://www.xwiki.org}
-Here is some text with a quote
-{quote}
-&lt;/pre&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      a &lt;strong class="strong"&gt;bold&lt;/strong&gt; word&lt;p class="paragraph"/&gt;
-      an &lt;span class="underline"&gt;underlined&lt;/span&gt; word&lt;p class="paragraph"/&gt;
-      &lt;em class="italic"&gt;text in italics&lt;/em&gt;&lt;p class="paragraph"/&gt;
-      &lt;del class="strike"&gt;striked text&lt;/del&gt;&lt;p class="paragraph"/&gt;
-      &lt;tt&gt;text in monospace font&lt;/tt&gt;&lt;p class="paragraph"/&gt;
-      Text in a &lt;sup&gt;superscript&lt;/sup&gt; format&lt;p class="paragraph"/&gt;
-      Text in a &lt;sub&gt;subscript&lt;/sub&gt; format&lt;p class="paragraph"/&gt;
-      &lt;blockquote class="quote"&gt;&lt;p&gt;
-        Here is some text with a quote
-        &lt;a href="http://www.xwiki.org"&gt;Source&lt;/a&gt;
-      &lt;/p&gt;&lt;/blockquote&gt;&lt;p class="paragraph"/&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{/pre}
 
 1.1 Horizontal Line
 
-{pre}
+#info("There must be 4 or more dashes.")
+#info("Note that this is different from Creole where exactly 4 dashes are required.")
+
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
     &lt;th&gt;Result&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Simple Horizontal Line&lt;/td&gt;
+    &lt;td&gt;----&lt;/td&gt;
+    &lt;td&gt;----&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;&lt;hr/&gt;&lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Parametrized Horizontal Line&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
+&amp;lt;hr style="color:blue"/&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="color:blue" %)&lt;br/&gt;
 ----
-&lt;/pre&gt;
     &lt;/td&gt;
-    &lt;td&gt;
-      &lt;hr class="line"/&gt;
-    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;&lt;hr style="color:blue"/&gt;&lt;/td&gt;    
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
+
+1.1 Lists
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Bulleted list&lt;/td&gt;
+    &lt;td&gt;
+* item 1&lt;br/&gt;
+** item 2&lt;br/&gt;
+*** item 3&lt;br/&gt;
+* item 4
+    &lt;/td&gt;
+    &lt;td&gt;
+* item 1&lt;br/&gt;
+** item 2&lt;br/&gt;
+*** item 3&lt;br/&gt;
+* item 4
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+* item 1
+** item 2
+*** item 3
+* item 4
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Numbered list&lt;/td&gt;
+    &lt;td&gt;
+1. item 1&lt;br/&gt;
+11. item 2&lt;br/&gt;
+111. item 3&lt;br/&gt;
+1. item 4
+    &lt;/td&gt;
+    &lt;td&gt;
+1. item 1&lt;br/&gt;
+11. item 2&lt;br/&gt;
+111. item 3&lt;br/&gt;
+1. item 4
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+1. item 1
+11. item 2
+111. item 3
+1. item 4
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Mixed list&lt;/td&gt;
+    &lt;td&gt;
+1. item 1&lt;br/&gt;
+1*. item 2&lt;br/&gt;
+1*. item 3&lt;br/&gt;
+1. item 4
+    &lt;/td&gt;
+    &lt;td&gt;
+1. item 1&lt;br/&gt;
+1*. item 2&lt;br/&gt;
+1*. item 3&lt;br/&gt;
+1. item 4
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+1. item 1
+1*. item 2
+1*. item 3
+1. item 4
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Square list&lt;/td&gt;
+    &lt;td&gt;
+- item 1&lt;br/&gt;
+- item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: square" %)&lt;br/&gt;
+* item 1&lt;br/&gt;
+* item 2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+- item 1
+- item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Disc list&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;ul style="list-style-type: disc"&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item1&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item2&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;lt;/ul&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: disc" %)&lt;br/&gt;
+* item 1&lt;br/&gt;
+* item 2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;ul style="list-style-type: disc"&gt;
+  &lt;li&gt;item1&lt;/li&gt;
+  &lt;li&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Lowercase Alphabetical list&lt;/td&gt;
+    &lt;td&gt;
+a. item 1&lt;br/&gt;
+a. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: lower-alpha" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+a. item 1
+a. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Uppercase Alphabetical list&lt;/td&gt;
+    &lt;td&gt;
+A. item 1&lt;br/&gt;
+A. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: upper-alpha" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+A. item 1
+A. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Lowercase Roman list&lt;/td&gt;
+    &lt;td&gt;
+i. item 1&lt;br/&gt;
+i. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: lower-roman" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+i. item 1
+i. item 2
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Uppercase Roman list&lt;/td&gt;
+    &lt;td&gt;
+I. item 1&lt;br/&gt;
+I. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: upper-roman" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+I. item 1
+I. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Lowercase Greek list&lt;/td&gt;
+    &lt;td&gt;
+g. item 1&lt;br/&gt;
+g. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: lower-greek" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+g. item 1
+g. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Uppercase Greek list&lt;/td&gt;
+    &lt;td&gt;
+G. item 1&lt;br/&gt;
+G. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: upper-greek" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;ul style="list-style-type: upper-greek"&gt;
+  &lt;li&gt;item1&lt;/li&gt;
+  &lt;li&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Hiragana list&lt;/td&gt;
+    &lt;td&gt;
+h. item 1&lt;br/&gt;
+h. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: hiragana" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+h. item 1
+h. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Hiragana Iroah list&lt;/td&gt;
+    &lt;td&gt;
+H. item 1&lt;br/&gt;
+H. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: hiragana-iroha" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+H. item 1
+H. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Katakana list&lt;/td&gt;
+    &lt;td&gt;
+k. item 1&lt;br/&gt;
+k. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: katakana" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+k. item 1
+k. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Katakana Iroha list&lt;/td&gt;
+    &lt;td&gt;
+K. item 1&lt;br/&gt;
+K. item 2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: katakana-iroha" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+K. item 1
+K. item 2
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Armenian list&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;ul style="list-style-type: armenian"&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item1&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item2&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;lt;/ul&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: armenian" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;ul style="list-style-type: armenian"&gt;
+  &lt;li&gt;item1&lt;/li&gt;
+  &lt;li&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Hebrew list&lt;/td&gt;
+    &lt;td&gt;
+j. item1&lt;br/&gt;
+j. item2&lt;br/&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: hebrew" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;ul style="list-style-type: hebrew"&gt;
+  &lt;li&gt;item1&lt;/li&gt;
+  &lt;li&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Georgian list&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;ul style="list-style-type: georgian"&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item1&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item2&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;lt;/ul&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: georgian" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;ul style="list-style-type: georgian"&gt;
+  &lt;li&gt;item1&lt;/li&gt;
+  &lt;li&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;CJK ideographic list&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;ul style="list-style-type: cjk-ideographic"&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item1&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;li&amp;gt;item2&amp;lt;/li&amp;gt;&lt;br/&gt;
+&amp;lt;/ul&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="list-style-type: cjk-ideographic" %)&lt;br/&gt;
+* item1&lt;br/&gt;
+* item2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;ul style="list-style-type: cjk-ideographic"&gt;
+  &lt;li&gt;item1&lt;/li&gt;
+  &lt;li&gt;item2&lt;/li&gt;
+&lt;/ul&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1 Definition Lists
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Standard definition&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;dl&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;dt&amp;gt;term&amp;lt;/dt&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;dd&amp;gt;definition&amp;lt;/dd&amp;gt;&lt;br/&gt;
+&amp;lt;/dl&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+; term&lt;br/&gt;
+: definition
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;dl&gt;
+  &lt;dt&gt;term&lt;/dt&gt;
+  &lt;dd&gt;definition&lt;/dd&gt;
+&lt;/dl&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Nested definitions&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;dl&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;dt&amp;gt;term1&amp;lt;/dt&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;dd&amp;gt;definition1&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;dl&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;dt&amp;gt;term2&amp;lt;/dt&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;dd&amp;gt;definition2&amp;lt;/dd&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/dl&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;/dd&amp;gt;&lt;br/&gt;
+&amp;lt;/dl&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+; term1&lt;br/&gt;
+: definition1&lt;br/&gt;
+:; term2&lt;br/&gt;
+:: definition2
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;dl&gt;
+  &lt;dt&gt;term1&lt;/dt&gt;
+  &lt;dd&gt;definition1
+    &lt;dl&gt;
+      &lt;dt&gt;term2&lt;/dt&gt;
+      &lt;dd&gt;definition2&lt;/dd&gt;
+    &lt;/dl&gt;
+  &lt;/dd&gt;
+&lt;/dl&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Parametrized definition&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;dl style="color:blue"&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;dt&amp;gt;term&amp;lt;/dt&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;dd&amp;gt;definition&amp;lt;/dd&amp;gt;&lt;br/&gt;
+&amp;lt;/dl&amp;gt;
+    &lt;/td&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+(% style="color:blue" %)&lt;br/&gt;
+; term&lt;br/&gt;
+: definition
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;dl style="color:blue"&gt;
+  &lt;dt&gt;term&lt;/dt&gt;
+  &lt;dd&gt;definition&lt;/dd&gt;
+&lt;/dl&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1 New Line/Line breaks
+
+A new line is a carriage return. A line break is a forced new line that can appear anywhere in the text.
+
+#info("In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 1.0 and in Creole syntax.")
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 2.0&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Line break&lt;/td&gt;
+    &lt;td&gt;Line&amp;#92;&amp;#92New line&lt;/td&gt;
+    &lt;td&gt;Line&amp;#92;&amp;#92New line&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;Line\\New line&lt;/td&gt;    
+    &lt;td&gt;Line\\New line&lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;New line&lt;/td&gt;
+    &lt;td&gt;Line&lt;br/&gt;New line&lt;/td&gt;
+    &lt;td&gt;Line&lt;br/&gt;New line&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;Line New line&lt;/td&gt;
+    &lt;td&gt;Line&lt;br/&gt;New line&lt;/td&gt;    
+  &lt;/tr&gt;
+&lt;/table&gt;
 
 1.1 Links
 
-The full format of a link is {code}(alias[|&gt;])(link)(@interWikiAlias)([|&gt;]target){code}
+#*
+TODO: In XWiki Syntax 2.0 it's possible to configure how links are displayed when they don't have an explicit label specified. 
+Give a link to how to configure this feature
+*#
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 2.0&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link to a page in the current Space&lt;/td&gt;
+    &lt;td&gt;[WebHome]&lt;/td&gt;
+    &lt;td&gt;[[WebHome]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;Web Home&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;WebHome&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link with a label&lt;/td&gt;
+    &lt;td&gt;[label&gt;WebHome]&lt;/td&gt;
+    &lt;td&gt;[[label&gt;&gt;WebHome]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;label&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;label&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link to a page with the space specified&lt;/td&gt;
+    &lt;td&gt;[Main.WebHome]&lt;/td&gt;
+    &lt;td&gt;[[Main.WebHome]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;Web Home&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;WebHome&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link to a subwiki&lt;/td&gt;
+    &lt;td&gt;[subwiki:Main.WebHome]&lt;/td&gt;
+    &lt;td&gt;[[subwiki:Main.WebHome]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;Web Home&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/"&gt;WebHome&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link that opens in a new page&lt;/td&gt;
+    &lt;td&gt;[label&gt;WebHome&gt;_blank]&lt;/td&gt;
+    &lt;td&gt;[[label&gt;&gt;WebHome||target="_blank"]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/" rel="__blank"&gt;label&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/" rel="__blank"&gt;label&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link to a URL directly in the text&lt;/td&gt;
+    &lt;td&gt;This is a URL: http://xwiki.org&lt;/td&gt;
+    &lt;td&gt;This is a URL: http://xwiki.org&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+This is a URL: &lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;&amp;#104;ttp://www.xwiki.org&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+This is a URL: &lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;&amp;#104;ttp://www.xwiki.org&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link to a URL&lt;/td&gt;
+    &lt;td&gt;[http://xwiki.org]&lt;/td&gt;
+    &lt;td&gt;[[http://xwiki.org]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;&amp;#104;ttp://www.xwiki.org&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;&amp;#104;ttp://www.xwiki.org&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link to a URL with a label&lt;/td&gt;
+    &lt;td&gt;[XWiki&gt;http://xwiki.org]&lt;/td&gt;
+    &lt;td&gt;[[XWiki&gt;&gt;http://xwiki.org]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;XWiki&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;XWiki&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Link to an email&lt;/td&gt;
+    &lt;td&gt;[email&gt;mailto:john@smith.net]&lt;/td&gt;
+    &lt;td&gt;[[email&gt;&gt;mailto:john@smith.net]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="mailto:john&amp;@smith.com"&gt;email&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+    &lt;td&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="mailto:john&amp;@smith.com"&gt;email&lt;/a&gt;&lt;/span&gt;
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Image Link&lt;/td&gt;
+    &lt;td&gt;&amp;lt;a href="\$xwiki.getURL("Space1.Page1")"&amp;gt;{image:img.png|document=Space2.Page2}&amp;lt;/a&amp;gt;&lt;/td&gt;
+    &lt;td&gt;[[image:Space2.Page2@img.png&gt;&gt;Space1.Page1]] #info("Wiki syntax is supported inside link labels")&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;a href="/xwiki/bin/view/Main/"&gt;{image:img.png}&lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+&lt;a href="/xwiki/bin/view/Main/"&gt;{image:img.png}&lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Link to attachment&lt;/td&gt;
+    &lt;td&gt;#info("See [Attach Macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro] for details")
+    {pre}
+{attach:text|file=img.png}&lt;/td&gt;
+    &lt;td&gt;[[text&gt;&gt;attach:img.png]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+{attach:text|file=img.png}&lt;/td&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+{attach:text|file=img.png}&lt;/td&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1.1 XWiki Syntax 1.0 Link Specification
+
+The full format of a link is {code}(alias[|&amp;gt;])+(link)(@interWikiAlias)+([|&amp;gt;]target)+{code}
 * &lt;tt&gt;alias&lt;/tt&gt;: An optional string which will be displayed to the user as the link name when rendered. Example: "My Page".
-* &lt;tt&gt;link&lt;/tt&gt;: The full link reference using the following syntax: {code}(virtualWikiAlias:)(space.)(reference)(?queryString)(#anchor) {code}
+* &lt;tt&gt;link&lt;/tt&gt;: The full link reference using the following syntax: {code}(virtualWikiAlias:)+(space.)+(reference)(?queryString)+(#anchor)+{code}
 * Note that either the &lt;tt&gt;link&lt;/tt&gt; or the &lt;tt&gt;alias&lt;/tt&gt; must be specified.
 ** &lt;tt&gt;virtualWikiAlias&lt;/tt&gt;: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: "mywiki".
 ** &lt;tt&gt;space&lt;/tt&gt;: An optional Wiki Space name. If not space is specified the current space is used. Example: "Main".
 ** &lt;tt&gt;reference&lt;/tt&gt;: The link reference. This can be either a URI in the form &lt;tt&gt;protocol:path&lt;/tt&gt; (example: "http://xwiki.org", "mailto:john@smith.com") or a wiki page name (example: "WebHome").
-** &lt;tt&gt;queryString&lt;/tt&gt;: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;amp;mydata2=Hello".
+** &lt;tt&gt;queryString&lt;/tt&gt;: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;mydata2=Hello".
 ** &lt;tt&gt;anchor&lt;/tt&gt;: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for titles. Example: "TableOfContentAnchor".
 * &lt;tt&gt;interWikiAlias&lt;/tt&gt;: An optional [Inter Wiki&gt;http://en.wikipedia.org/wiki/InterWiki] alias as defined in the InterWiki Map (see the [Admin Guide&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]). Example: "wikipedia"
 * &lt;tt&gt;target&lt;/tt&gt;: An optional string corresponding to the HTML &lt;tt&gt;target&lt;/tt&gt; attribute for a HTML &lt;tt&gt;a&lt;/tt&gt; link element. This element is used when rendering the link. It defaults to opening the link in the current page. Examples: "_self", "_blank"
 
-1.1.1 Internal Links
+1.1.1 XWiki Syntax 2.0 Link Specification
 
-{pre}
-&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;
-&lt;pre&gt;
-[WebHome] (uses current space)
-[home&gt;WebHome] (uses current space)
-[Main.WebHome]
-[home|Main.WebHome]
-[home&gt;Main.WebHome&gt;_blank]
-&lt;/pre&gt;
-{/pre}
-    &lt;/td&gt;
-    &lt;td&gt;
-      [WebHome] (uses current space)&lt;br/&gt;
-      [home&gt;WebHome] (uses current space)&lt;br/&gt;
-      [Main.WebHome]&lt;br/&gt;
-      [home|Main.WebHome]&lt;br/&gt;
-      [home&gt;Main.WebHome&gt;_blank]
-    &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-
-1.1.1 External Links
-
-{pre}
-&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
-  &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;
-&lt;pre&gt;
-http://www.xwiki.org
-[http://www.xwiki.org]
-[XWiki&gt;http://www.xwiki.org]
-&lt;/pre&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;span class="nobr"&gt;&lt;a href="http://www.xwiki.org"&gt;http://www.xwiki.org&lt;/a&gt;&lt;/span&gt;&lt;br/&gt;
-      &lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;&amp;#104;ttp://www.xwiki.org&lt;/a&gt;&lt;/span&gt;&lt;br/&gt;
-      &lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki.org"&gt;XWiki&lt;/a&gt;&lt;/span&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{/pre}
+The full format of a link is {code}(label&gt;&gt;)?(link)(||parameters)*{code}
+* &lt;tt&gt;label&lt;/tt&gt;: the link label, can contain wiki syntax
+* &lt;tt&gt;link&lt;/tt&gt;: the link target, i.e. where to go when the link is clicked. It has a similar format than in the XWiki 1.0 syntax and it can also contain 2 types of URIs: &lt;tt&gt;mailto:&lt;/tt&gt; and &lt;tt&gt;attach:&lt;/tt&gt; for linking to an email and linking to an attachment respectively.
+* &lt;tt&gt;parameters&lt;/tt&gt;: An optional list of parameters passed to the link. For example the &lt;tt&gt;target&lt;/tt&gt; element from XWiki Syntax 1.0 can be passed as a parameter.
 
 1.1 Tables
 
-The syntax for tables allows to easily create content in table format. It even allows to make some simple calculations on the content!
+Allows to easily create content in table format. It also support parameters for table, row or cell in XWiki Syntax 2.0.
 
-{pre}
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 2.0&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Standard table&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
-{table}
-Title 1 | Title 2
-Word 1 | Word 2
-{table}
-
-{table}
-Category | Sales (K?)
-Category 1 | 100
-Category 2 | 50
-Category 3 | 50
-Total | =sum(B2:B4)
-{table}
-&lt;/pre&gt;
+      {table}&lt;br/&gt;
+      Title 1 | Title 2&lt;br/&gt;
+      Word 1 | Word 2&lt;br/&gt;
+      {table}
     &lt;/td&gt;
     &lt;td&gt;
-      &lt;table class="wiki-table" cellpadding="0" cellspacing="0" border="0"&gt;
-        &lt;tr&gt;
-          &lt;th&gt;Title 1&lt;/th&gt;
-          &lt;th&gt;Title 2&lt;/th&gt;
-        &lt;/tr&gt;
-        &lt;tr class="table-odd"&gt;
-          &lt;td&gt;Word 1&lt;/td&gt;
-          &lt;td&gt;Word 2&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/table&gt;
-      &lt;table class="wiki-table" cellpadding="0" cellspacing="0" border="0"&gt;
-        &lt;tr&gt;
-          &lt;th&gt;Category&lt;/th&gt;
-          &lt;th&gt;Sales (K?)&lt;/th&gt;
-        &lt;/tr&gt;
-        &lt;tr class="table-odd"&gt;
-          &lt;td&gt;Category 1&lt;/td&gt;
-          &lt;td&gt;100&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr class="table-even"&gt;
-          &lt;td&gt;Category 2&lt;/td&gt;
-          &lt;td&gt;50&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr class="table-odd"&gt;
-          &lt;td&gt;Category 3&lt;/td&gt;
-          &lt;td&gt;50&lt;/td&gt;
-        &lt;/tr&gt;
-        &lt;tr class="table-even"&gt;
-          &lt;td&gt;Total&lt;/td&gt;
-          &lt;td&gt;200&lt;/td&gt;
-        &lt;/tr&gt;
-      &lt;/table&gt;
+      |=Title 1|=Title 2&lt;br/&gt;
+      |Word 1|Word 2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;table class="wiki-table" border="0" cellpadding="0" cellspacing="0"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th&gt;Title 1&lt;/th&gt;&lt;th&gt;Title 2&lt;/th&gt;&lt;/tr&gt;&lt;tr class="table-odd"&gt;&lt;td&gt;Word 1&lt;/td&gt;&lt;td&gt;Word 2&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th&gt;Title 1&lt;/th&gt;&lt;th&gt;Title 2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Word 1&lt;/td&gt;&lt;td&gt;Word 2&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Parametrized table&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;table&amp;nbsp;style=&amp;quot;background-color:red;align:center&amp;quot;&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;tbody&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;th&amp;gt;Title&amp;nbsp;1&amp;lt;/th&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;th&amp;nbsp;style=&amp;quot;background-color:yellow&amp;quot;&amp;gt;Title&amp;nbsp;2&amp;lt;/th&amp;gt;&lt;br/&gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;td&amp;gt;Word&amp;nbsp;1&amp;lt;/td&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;td&amp;gt;Word&amp;nbsp;2&amp;lt;/td&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;/tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;/tbody&amp;gt;&lt;br/&gt;
+&amp;lt;/table&amp;gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      (% style="background-color:red;align=center" %)&lt;br/&gt;
+      |=Title 1|=(% style="background-color:yellow" %)Title 2&lt;br/&gt;
+      |Word 1|Word 2&lt;br/&gt;
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;table style="background-color:red;align:center"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th&gt;Title 1&lt;/th&gt;&lt;th style="background-color:yellow"&gt;Title 2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Word 1&lt;/td&gt;&lt;td&gt;Word 2&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+&lt;table style="background-color:red;align:center"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th&gt;Title 1&lt;/th&gt;&lt;th style="background-color:yellow"&gt;Title 2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Word 1&lt;/td&gt;&lt;td&gt;Word 2&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+  {pre}
+   &lt;td&gt;Filterable Sortable table&lt;/td&gt;
+   &lt;td&gt; 
+&amp;lt;table id=&amp;quot;tableid&amp;quot; class=&amp;quot;grid sortable filterable doOddEven&amp;quot;&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;tr class=&amp;quot;sortHeader&amp;quot;&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;th&amp;gt;Title1&amp;lt;/th&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;th&amp;gt;Title2&amp;lt;/th&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;/tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;td&amp;gt;Cell11&amp;lt;/td&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;td&amp;gt;Cell12&amp;lt;/td&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;/tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;tr&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;td&amp;gt;Cell21&amp;lt;/td&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;lt;td&amp;gt;Cell22&amp;lt;/td&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;/tr&amp;gt;&lt;br/&gt;
+&amp;lt;/table&amp;gt;&lt;br/&gt;
+   &lt;/td&gt;
+   &lt;td&gt;
+#warning("Not implemented yet")
+   &lt;/td&gt;
+   &lt;td&gt;
+&lt;table id="MovieTable" class="grid sortable filterable doOddEven"&gt;
+  &lt;tr class="sortHeader"&gt;
+    &lt;th&gt;Title1&lt;/th&gt;
+    &lt;th&gt;Title2&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Cell11&lt;/td&gt;
+   &lt;td&gt;Cell12&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Cell21&lt;/td&gt;
+   &lt;td&gt;Cell22&lt;/td&gt;
+  &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
+   &lt;/td&gt;
+   &lt;td&gt;
+#warning("Not implemented yet")
+   &lt;/td&gt;
+ {/pre}
+ &lt;/tr&gt;
+&lt;/table&gt;
 
 1.1 Images
 
-The &lt;tt&gt;\{image\}&lt;/tt&gt; macro is used to display attachments as images. Check the [Image macro reference guide&gt;http://code.xwiki.org/xwiki/bin/view/Macros/ImageMacro] for all options.
-
-{pre}
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
     &lt;th&gt;Result&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    &lt;td&gt;Image from attachment in current page&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
+#info("See [Image Macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/ImageMacro] for details")
+    {pre}
 {image:img.png}
-
-{image:img.png|30}
-
-{image:img.png| |20}
-
-{image:img.png|30|20}
-&lt;/pre&gt;
     &lt;/td&gt;
+    &lt;td&gt;image:img.png&lt;/td&gt;
+    {/pre}
     &lt;td&gt;
-      &lt;img src="$xwiki.getAttachmentURL($doc.fullName, "img.png")" alt="img.png" title="img.png"/&gt;&lt;p class="paragraph"/&gt;
-      &lt;img src="$xwiki.getAttachmentURL($doc.fullName, "img.png")" height="30" alt="img.png" title="img.png"/&gt;&lt;p class="paragraph"/&gt;
-      &lt;img src="$xwiki.getAttachmentURL($doc.fullName, "img.png")" width="20" alt="img.png" title="img.png"/&gt;&lt;p class="paragraph"/&gt;
-      &lt;img src="$xwiki.getAttachmentURL($doc.fullName, "img.png")" height="30" width="20" alt="img.png" title="img.png"/&gt;
+{image:img.png}
     &lt;/td&gt;
   &lt;/tr&gt;
-&lt;/table&gt;
-{/pre}
-
-1.1 Escaping Text
-
-1.1.1 Escaping a single character
-
-{pre}
-&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
+    &lt;td&gt;Image from attachment in another document&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
-This is not a \[link\]
-\#set (\$var = "something")
-&lt;/pre&gt;
+    {pre}
+{image:img.png|document=Space.Page}
     &lt;/td&gt;
+    &lt;td&gt;image:Space.Page@img.png&lt;/td&gt;
+    {/pre}
     &lt;td&gt;
-      This is not a &amp;#91;link&amp;#93;&lt;br /&gt;
-      \#set (\$var = &amp;#34;something&amp;#34;)
+{image:img.png}
     &lt;/td&gt;
   &lt;/tr&gt;
-&lt;/table&gt;
-{/pre}
-
-1.1.1 Escaping wiki syntax rendering
-
-The &lt;tt&gt;{&amp;#112;re}{/&amp;#112;re}&lt;/tt&gt; macro prevents wiki syntax and Radeox macro rendering but preserves HTML rendering and preserves execution of Groovy/Velocity scripts.
-
-{pre}
-&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
-    &lt;th&gt;Result&lt;/th&gt;
+    &lt;td&gt;Image with parameters&lt;/td&gt;
+    &lt;td&gt;
+    {pre}
+{image:img.png|width=25|height=25}
+    &lt;/td&gt;
+    &lt;td&gt;[[image:img.png||width="25" height="25"]]&lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+{image:img.png|width=25|height=25}
+    &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    &lt;td&gt;Images located at URL&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
-{&amp;#112;re}
-No *bold rendering* in wiki syntax.
-{/&amp;#112;re}
-&lt;/pre&gt;
+    {pre}
+http://some/url/img.png
     &lt;/td&gt;
+    &lt;td&gt;image:http://some/url/img.png&lt;/td&gt;
+    {/pre}
     &lt;td&gt;
-      No *bold rendering* in wiki syntax.
+{image:img.png}
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
 
-1.1.1 Escaping everything
+1.1 Verbatim
 
-The &lt;tt&gt;\{code\}\{code\}&lt;/tt&gt; macro prevents wiki syntax rendering, HTML rendering and Groovy/Velocity rendering. Check the [Code macro reference guide&gt;http://code.xwiki.org/xwiki/bin/view/Macros/CodeMacro] for all options.
+Allow to enter content that will not be formatted (in other words the wiki syntax will not be taken into account).
 
-{pre}
+#info("In XWiki Syntax 1.0 the [Pre macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/PreMacro] only preserves wiki syntax and Radeox macros. However HTML snippets and Groovy/Velocity scripts are still executed.")
+
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 2.0&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Verbatim inline&lt;/td&gt;
+    &lt;td&gt;
+Some verbatim \{pre\}\*\[not rendered\]\*\{/pre\} content
+    &lt;/td&gt;
+    {pre}
+    &lt;td&gt;
+Some verbatim {{{**[[not rendered]]**}}} content
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+Some verbatim \*\[not rendered\]\* content
+    &lt;/td&gt;    
+    &lt;td&gt;
+Some verbatim \*\*\[\[not rendered\]\]\*\* content
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Verbatim block&lt;/td&gt;
+    &lt;td&gt;
+\{pre\}
+multi line&lt;br/&gt;
+\*verbatim\*&lt;br/&gt;
+content&lt;br/&gt;
+\{/pre\}
+#info("It's also possible to use the [Code macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/CodeMacro] but it displays its content in a box by default.")
+    &lt;/td&gt;
+    &lt;td&gt;
+{{{&lt;br/&gt;
+multi line&lt;br/&gt;
+\*\*verbatim\*\*&lt;br/&gt;
+content&lt;br/&gt;
+}}}
+    &lt;/td&gt;
+    &lt;td&gt;
+multi line&lt;br/&gt;
+\*verbatim\*&lt;br/&gt;
+content
+    &lt;/td&gt;
+    &lt;td&gt;
+multi line&lt;br/&gt;
+\*\*verbatim\*\*&lt;br/&gt;
+content
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1 Quotations
+
+Allows to quote some text.
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
     &lt;th&gt;Result&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Simple quote&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
+&amp;lt;blockquote&amp;gt;john said this&amp;lt;/blockquote&amp;gt;&lt;br/&gt;
+I said ok
+    &lt;/td&gt;
+    &lt;td&gt;
+&gt; john said this&lt;br/&gt;
+I said ok
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;blockquote&gt;john said this&lt;/blockquote&gt;
+I said ok
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Nested quotes&lt;/td&gt;
+    &lt;td&gt;
+&amp;lt;blockquote&amp;gt;john said this&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;blockquote&amp;gt;marie answered that&amp;lt;/blockquote&amp;gt;&lt;br/&gt;
+&amp;lt;/blockquote&amp;gt;&lt;br/&gt;
+I said ok
+    &lt;/td&gt;
+    &lt;td&gt;
+&gt; john said this&lt;br/&gt;
+&gt;&gt; marie answered that&lt;br/&gt;
+I said ok
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;
+&lt;blockquote&gt;john said this&lt;blockquote&gt;marie answered that&lt;/blockquote&gt;&lt;/blockquote&gt;
+I said ok
+    &lt;/td&gt;    
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1 Embedded documents
+
+This feature allows inserting another document inline directly into the current document. This allows for example to insert complex elements inside a list item or inside a table cell. Embedded documents are delimited by the following syntactic elements: &lt;tt&gt;(((...)))&lt;/tt&gt;. One embedded document can contain its own embedded documents and there is no limit of imbrication.
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;This feature doesn't exist in XWiki syntax 1.0. You'd have to use pure HTML to achieve the result.&lt;/td&gt;
+    &lt;td&gt;
+{code:none}
+|=Header 1|=Header 2|=Header 3
+|Cell One|(((
+= Embedded document
+
+Some embedded paragraph.
+
+* list item one
+* list item two
+  ** sub-item 1
+  ** sub-item 2
+))) | Cell Three
+
+Next paragraph in the top-level document
 {code}
-No &amp;lt;strong&amp;gt;bold rendering&amp;lt;/strong&amp;gt; in HTML.
-No *bold rendering in* wiki syntax.
-{code}
-&lt;/pre&gt;
     &lt;/td&gt;
     &lt;td&gt;
-      &lt;div class="code"&gt;
-&lt;pre&gt;No &amp;#60;strong&amp;#62;bold rendering&amp;#60;/strong&amp;#62; in HTML.
-No &amp;#42;bold rendering in&amp;#42; wiki syntax.&lt;/pre&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Header 1&lt;/th&gt;
+    &lt;th&gt;Header 2&lt;/th&gt;
+    &lt;th&gt;Header 3&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Cell One&lt;/td&gt;
+    &lt;td&gt;
+      &lt;div class="xwiki-document"&gt;
+        &lt;h1 id="HEmbeddeddocument"&gt;
+          &lt;span&gt;Embedded document&lt;/span&gt;
+        &lt;/h1&gt;
+        &lt;p&gt;Some embedded paragraph&lt;/p&gt;
+        &lt;ul&gt;
+          &lt;li&gt;list item one&lt;/li&gt;
+          &lt;li&gt;list item two
+            &lt;ul&gt;
+              &lt;li&gt;sub-item 1&lt;/li&gt;
+              &lt;li&gt;sub-item 2&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
       &lt;/div&gt;
     &lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;Cell Three&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
+&lt;p&gt;Next paragraph in the top-level document&lt;/p&gt;&lt;/td&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
 
-1.1 Boxes
+1.1 Escapes
 
-Boxes are a nice way to improve on the visual presentation and highlight important elements. The reference documentation for the macros shown below can be found here:
-* [Info Macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/InfoMacro]
-* [Warning Macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/WarningMacro]
-* [Error Macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/ErrorMacro]
-* [Floating Box Macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/FloatingBoxMacro]
-* [Style Macro&gt;http://code.xwiki.org/xwiki/bin/view/Macros/StyleMacro]
-
-{pre}
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
-    &lt;th&gt;Example&lt;/th&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;Result XWiki Syntax 2.0&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;Escape a character&lt;/td&gt;
+    &lt;td&gt;This is not a \[link\]&lt;/td&gt;
+    &lt;td&gt;
+This is not a ~[~[link~]~]
+#info("To enter a ~ character use a double escape: ~~")
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;This is not a \[link\]&lt;/td&gt;    
+    &lt;td&gt;This is not a \[\[link\]\]&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1 Macros
+
+There are 2 kinds of macros in XWiki syntax 1.0:
+* Velocity macros (called using the &lt;tt&gt;\#macroname(param1 ... paramN)&lt;/tt&gt; syntax)
+* Radeox macros (called using the &lt;tt&gt;\{macroname:param1=value1|...|paramN=valueN\}&lt;/tt&gt; syntax)
+
+There are also 2 kinds of macros in XWiki Syntax 2.0:
+* Velocity macros (called using the &lt;tt&gt;\#macroname(param1 ... paramN)&lt;/tt&gt; syntax)
+* XWiki macros (called using the &lt;tt&gt;\{\{macroname param1="value1" ... paramN="valueN"\}\}&lt;/tt&gt; syntax)
+
+#info("The Radeox macros cannot be used in XWiki Syntax 2.0. Thus they have been rewritten as XWiki macros.")
+
+#info("For the full list of available macros check the [Macro Reference page&gt;http://code.xwiki.org/xwiki/bin/view/Macros/].")
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
     &lt;th&gt;Result&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
+    &lt;td&gt;Velocity Macro&lt;/td&gt;
     &lt;td&gt;
-&lt;pre&gt;
-\#info("This is an information panel")
-
-\#warning("This is a warning panel")
-
-\#error("This is an error panel")
-
-\#startfloatingbox()
-Some content in a floating box
-\#endfloatingbox()
-This is a floating box displayed on the right.
-
-\#floatingbox("Some content in a floating box")
-This is also a floating box displayed on the right.
-
-{style:type=div|border=1px solid red|background-color=grey|width=300px|height=300px|color=red}
-This is some content...
-{style}
-&lt;/pre&gt;
+\#info("Some info text")
     &lt;/td&gt;
     &lt;td&gt;
-      &lt;div class="infomessage"&gt;This is an information panel&lt;/div&gt;
-      &lt;div class="warningmessage"&gt;&lt;span class="messagetype"&gt;Warning: &lt;/span&gt;This is a warning panel&lt;/div&gt;
-      &lt;div class="errormessage"&gt;&lt;span class="messagetype"&gt;Error: &lt;/span&gt;This is an error panel&lt;/div&gt;
-      &lt;br /&gt;&lt;br /&gt;
-      &lt;fieldset class="floatinginfobox"&gt;
-        &lt;legend/&gt;
-        Some content in a floating box
-      &lt;/fieldset&gt;
-      This is a floating box displayed on the right.&lt;p class="paragraph"/&gt;
-      &lt;fieldset class="floatinginfobox"&gt;&lt;legend/&gt;Some content in a floating box&lt;/fieldset&gt;
-      This is also a floating box displayed on the right.&lt;p class="paragraph"/&gt;
-      &lt;div style="color:white; background-color:grey; width:150px; height:50px; border:1px solid black; " &gt;
-        This is some content&amp;#8230;
-      &lt;/div&gt;
+\{\{velocity\}\}
+\#info("Some info text")
+\{\{/velocity\}\}
+    &lt;/td&gt;
+    &lt;td&gt;#info("Some info text")&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Radeox Macro/XWiki Macros&lt;/td&gt;
+    &lt;td&gt;
+\{code:java\}
+content
+\{code\}
+    &lt;/td&gt;
+    &lt;td&gt;
+\{\{velocity context="new"\}\}
+content
+\{\{/velocity\}\}
+    &lt;/td&gt;
+    &lt;td&gt;N/A (depends on the macro)&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1 HTML
+
+#info("In XWiki Syntax 2.0 HTML or XHTML must be entered by using the HTML macro whereas in XWiki Syntax 1.0 it's possible to enter HTML directly in the text")
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Result&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    {pre}
+    &lt;td&gt;&amp;lt;b&amp;gt;bold&amp;lt;/b&amp;gt;&lt;/td&gt;
+    &lt;td&gt;
+{{html}}&lt;br/&gt;
+&amp;lt;b&amp;gt;bold&amp;lt;/b&amp;gt;&lt;br/&gt;
+{{/html}}
+    &lt;/td&gt;
+    {/pre}
+    &lt;td&gt;&lt;b&gt;bold&lt;/b&gt;&lt;/td&gt;    
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+#info("In XWiki Syntax 2.0, by default the HTML macro understands wiki syntax. To prevent this, use {{html wiki=\"false\"}}")
+
+1.1 Velocity/Groovy Scripts
+
+#info("In XWiki Syntax 1.0 it was possible to enter Velocity scripts anywhere directly in the page. This lead to issues for example when the user was involuntarily entering Velocity content. It was also performance hungry for pages not requiring Velocity content. There were several other technical limitations. Thus in XWiki Syntax 2.0 Velocity scripts must be entered using the &lt;tt&gt;velocity&lt;/tt&gt; macro. Same goes for entering Groovy scripts.")
+
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Feature&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Velocity script&lt;/td&gt;
+    &lt;td&gt;\#set (\$var = "whatever")&lt;/td&gt;
+    &lt;td&gt;
+\{\{velocity\}\}&lt;br/&gt;
+\#set (\$var = "whatever")&lt;br/&gt;
+\{\{/velocity\}\}
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Groovy script&lt;/td&gt;
+    &lt;td&gt;
+\&lt;\%&lt;br/&gt;
+def var = "whatever"&lt;br/&gt;
+\%\&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+\{\{groovy\}\}&lt;br/&gt;
+def var = "whatever"&lt;br/&gt;
+\{\{/groovy\}\}
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{/pre}
 
-1.1 Other Macros
+1.1 Parameters
 
-*XWiki boasts a [lot of other very useful macros&gt;http://code.xwiki.org/xwiki/bin/view/Macros/WebHome]*.
+With XWiki Syntax 2.0 it's possible to pass parameters to the different syntax elements and also to blocks of text. This is used for example to style them. You can set any parameter key/value pair you want. The XHTML renderer will pass these parameters as XHTML attributes to the underlying XHTML representation of the different syntax elements. In XWiki Syntax 1.0 there was no syntax for passing parameters and the only way to do it was to write XHTML directly in the content as shown in the table below.
 
-#info("Make sure to check also our [Code Zone&gt;http://code.xwiki.org/xwiki/bin/view/Main/WebHome] as we also have [Plugins&gt;http://code.xwiki.org/xwiki/bin/view/Plugins/WebHome], [Code Snippets&gt;http://code.xwiki.org/xwiki/bin/view/Snippets/WebHome], [Applications&gt;http://code.xwiki.org/xwiki/bin/view/Applications/WebHome] and [Extensions&gt;http://code.xwiki.org/xwiki/bin/view/Extensions/WebHome].")
+&lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
+  &lt;tr&gt;
+    &lt;th&gt;XWiki Syntax 1.0&lt;/th&gt;
+    &lt;th&gt;XWiki Syntax 2.0&lt;/th&gt;
+    &lt;th&gt;Generated XHTML&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+&amp;lt;h1 class="myClass" style="myStyle" id="myId"&amp;gt;header&amp;lt;/h1&amp;gt
+    &lt;/td&gt;
+    &lt;td&gt;
+(% class="myClass" style="myStyle" id="myId" %)&lt;br/&gt;
+= header =
+    &lt;td&gt;
+&amp;lt;h1 class="myClass" style="myStyle" id="myId"&amp;gt;header&amp;lt;/h1&amp;gt
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+1.1 Other syntaxes
+
+The following other syntaxes are implemented in XWiki Enterprise 1.6 and above:
+* [JSPWiki&gt;http://www.jspwiki.org/wiki/TextFormattingRules]
+* [MediaWiki&gt;http://en.wikipedia.org/wiki/Help:Editing]
+* [Confluence&gt;http://confluence.atlassian.com/display/CONF20/Confluence+Notation+Guide+Overview]
+* [TWiki&gt;http://twiki.org/cgi-bin/view/TWiki/WikiSyntax]
+* [Creole 1.0&gt;http://www.wikicreole.org/wiki/Creole1.0]
+* [XHTML 1.0&gt;http://www.w3.org/TR/xhtml1/]
+
+#warning("The implementation for these syntaxes is not fully finished yet. For example support for links is not working yet. We also need to define if we want to extend the original syntaxes to support XWiki-specific features like ability to link to another sub-wiki.")
 </content></xwikidoc>

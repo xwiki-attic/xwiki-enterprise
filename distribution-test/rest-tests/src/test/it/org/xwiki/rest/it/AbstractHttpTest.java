@@ -321,7 +321,9 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
                 System.out.format("Relation '%s': ", link.getRel());
                 GetMethod getMethod = executeGet(link.getHref());
                 TestUtils.printHttpMethodInfo(getMethod);
-                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                if (getMethod.getStatusCode() != HttpStatus.SC_UNAUTHORIZED) {
+                    assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                }
 
             }
         }

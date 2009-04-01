@@ -24,6 +24,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.model.jaxb.Attachment;
+import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.SearchResult;
 import org.xwiki.rest.model.jaxb.SearchResults;
@@ -31,7 +33,9 @@ import org.xwiki.rest.model.jaxb.Space;
 import org.xwiki.rest.model.jaxb.Spaces;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
+import org.xwiki.rest.resources.spaces.SpaceAttachmentsResource;
 import org.xwiki.rest.resources.spaces.SpaceSearchResource;
+import org.xwiki.rest.resources.wikis.WikiAttachmentsResource;
 import org.xwiki.rest.resources.wikis.WikiSearchResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 
@@ -94,5 +98,25 @@ public class SpacesResourceTest extends AbstractHttpTest
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);
         }
+    }
+    
+    public void testAttachments() throws Exception
+    {
+        TestUtils.banner("testSpaceAttachments()");
+        
+        GetMethod getMethod =
+            executeGet(String.format("%s", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
+                SpaceAttachmentsResource.class).build(getWiki(), "blog")));
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        assertEquals(7, attachments.getAttachments().size());
+
+        for (Attachment attachment : attachments.getAttachments()) {
+            checkLinks(attachment);
+        }
+                
     }
 }

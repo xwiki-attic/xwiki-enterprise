@@ -83,7 +83,7 @@ isc.XWETreeGrid.create({
   displaySuggest: true, // Display the input at the bottom.
   displayLinks: true, // Node titles are HTML links.
   displayAttachments: true, // Display pages attachments.
-  displayAttachmentsOnTop: true, // Display attachments before page children.
+  displayAttachmentsOnTop: true // Display attachments before page children.
 }).draw();
 &lt;/script&gt;
 {/pre}

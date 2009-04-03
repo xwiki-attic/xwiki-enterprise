@@ -616,9 +616,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      * 
      * @param buttonTitle the value of the {@code title} attribute of the {@code button} element to click
      */
-    public void clickButton(String buttonTitle)
+    public void clickButtonWithTitle(String buttonTitle)
     {
         getSelenium().click("//button[@title=\"" + buttonTitle + "\"]");
+    }
+    
+    public void clickButtonWithText(String buttonText)
+    {
+        getSelenium().click("//button[. = \"" + buttonText + "\"]");
     }
 
     /**

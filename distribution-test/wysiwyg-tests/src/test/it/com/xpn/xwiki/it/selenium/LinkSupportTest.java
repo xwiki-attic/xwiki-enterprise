@@ -27,20 +27,17 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 public class LinkSupportTest extends AbstractWysiwygTestCase
 {
-    /**
-     * The XPath selector for the existing spaces selector.
-     */
-    private String existingSpacesSelector = "//select[@title=\"Select a space\"]";
+    public static final String MENU_LINK = "Link";
 
-    /**
-     * The XPath selector for spaces selector in the "New Page" link creation tab.
-     */
-    private String existingOrNewSpacesSelector = "//select[@title=\"Select or create a space\"]";
+    public static final String MENU_WEBPAGE = "Web page";
 
-    /**
-     * The XPath selector for the pages selector.
-     */
-    private String pagesSelector = "//select[@title=\"Select a page\"]";
+    public static final String MENU_EMAIL_ADDRESS = "Email address";
+
+    public static final String MENU_WIKIPAGE = "Wiki page";
+
+    public static final String MENU_LINK_EDIT = "Edit link";
+
+    public static final String MENU_LINK_REMOVE = "Remove link";
 
     /**
      * Creates the test suite for this test class.
@@ -62,23 +59,46 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String linkLabel = "foo";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
+
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WIKIPAGE);
         // wait for dialog to open
-        ensureLinkDialogIsOpen();
-        selectExistingPageTab();
-        // wait for selectors to load in the dialog
+        ensureDialogIsOpen();
+
         String selectedSpace = "Blog";
         String selectedPage = "AddCategory";
-        waitForCondition("selenium.isElementPresent('" + existingSpacesSelector + "/option[@value=\"" + selectedSpace
-            + "\"]" + "')");
-        getSelenium().select(existingSpacesSelector, selectedSpace);
-        // wait for pages to reload
-        waitForCondition("selenium.isElementPresent('" + pagesSelector + "/option[@value=\"" + selectedPage + "\"]"
-            + "')");
-        getSelenium().select(pagesSelector, selectedPage);
-        clickCreateExistingPageLinkButton();
+
+        // click the + sign next to the element:
+        // "//td[following-sibling::td[contains(@class, 'cell') and nobr="XWiki"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]"
+        // use push button to open the tree
+        // can't click the little +
+        /*
+         * waitForCondition("selenium.isElementPresent('//td[following-sibling::td[contains(@class, \"cell\") and nobr=\""
+         * + selectedSpace +
+         * "\"]]/img[contains(@src, \"/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/\")]');");
+         * assertElementPresent("//td[following-sibling::td[contains(@class, 'cell') and nobr=\"" + selectedSpace +
+         * "\"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]");
+         * pushButton("//td[following-sibling::td[contains(@class, 'cell') and nobr=\"" + selectedSpace +
+         * "\"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]"); //
+         * waitForCondition
+         * ("selenium.isElementPresent('//td[following-sibling::td[contains(@class, \"cell\") and nobr=\"" // +
+         * selectedPage + "\"]]');"); /* getSelenium().click(
+         * "//td[following-sibling::td[contains(@class, 'cell') and nobr=\"" + selectedSpace +
+         * "\"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]");
+         */
+
+        typeInExplorerInput(selectedSpace + "." + selectedPage);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + selectedPage + "\"]');");
+        clickButtonWithText("Select");
+        // make sure the existing page config parameters are loaded
+        ensureStepIsLoaded("xLinkToWikiPage");
+        clickButtonWithText("Create Link");
+
         // wait for the link dialog to close
-        ensureLinkDialogIsClosed();
+        ensureDialogIsClosed();
 
         assertWiki("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
     }
@@ -91,14 +111,24 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String linkLabel = "foobar";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
-        selectExistingPageTab();
-        // wait for selectors to load in the dialog
-        waitForCondition("selenium.isElementPresent('" + existingSpacesSelector + "/option[1]');");
-        String space = getSelenium().getValue(existingSpacesSelector);
-        clickCreateExistingSpaceLinkButton();
-        ensureLinkDialogIsClosed();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WIKIPAGE);
+        // wait for dialog to open
+        ensureDialogIsOpen();
+
+        String space = "Blog";
+
+        typeInExplorerInput(space + ".WebHome");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "WebHome\"]');");
+
+        clickButtonWithText("Select");
+        // make sure the existing page config parameters are loaded
+        ensureStepIsLoaded("xLinkToWikiPage");
+        clickButtonWithText("Create Link");
+
+        ensureDialogIsClosed();
 
         assertWiki("[[" + linkLabel + ">>" + space + ".WebHome]]");
     }
@@ -109,20 +139,24 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public void testCreateLinkToNewPage()
     {
         String linkLabel = "alice";
+        String space = "Main";
         String newPageName = "AliceInWonderwiki";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WIKIPAGE);
         // make sure dialog is open
-        ensureLinkDialogIsOpen();
-        selectNewPageTab();
-        typeInInput("New page name", newPageName);
-        // wait for the spaces selector to load
-        waitForCondition("selenium.isElementPresent('" + existingOrNewSpacesSelector + "/option[1]');");
-        String space = getSelenium().getValue(existingOrNewSpacesSelector);
-        clickCreateNewPageLinkButton();
+        ensureDialogIsOpen();
+        typeInExplorerInput(space + "." + newPageName);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "New page...\"]');");
+
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkToWikiPage");
+        clickButtonWithText("Create Link");
         // wait for the link dialog to close
-        ensureLinkDialogIsClosed();
+        ensureDialogIsClosed();
 
         assertWiki("[[" + linkLabel + ">>" + space + "." + newPageName + "]]");
     }
@@ -137,17 +171,17 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String newPage = "Cat";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WIKIPAGE);
         // make sure dialog is open
-        ensureLinkDialogIsOpen();
-        selectNewPageTab();
-        typeInInput("New page name", newPage);
-        waitForCondition("selenium.isElementPresent('" + existingOrNewSpacesSelector + "/option[1]');");
-        getSelenium().select(existingOrNewSpacesSelector, "index=0");
-        typeInInput("New space name", newSpace);
-        clickCreateNewPageLinkButton();
+        ensureDialogIsOpen();
+        typeInExplorerInput(newSpace + "." + newPage);
+
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkToWikiPage");
+        clickButtonWithText("Create Link");
         // wait for the link dialog to close
-        ensureLinkDialogIsClosed();
+        ensureDialogIsClosed();
 
         assertWiki("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
     }
@@ -161,12 +195,16 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String url = "http://www.xwiki.org";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
+
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WEBPAGE);
         // make sure the dialog is open
-        ensureLinkDialogIsOpen();
-        selectWebPageTab();
+        ensureDialogIsOpen();
+        // ensure wizard step is loaded
+        ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Web page address", url);
-        clickCreateWebPageLinkButton();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("[[" + linkLabel + ">>" + url + "]]");
     }
@@ -177,16 +215,20 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public void testCreateLinkToWebPageWithChangedLabel()
     {
         String linkLabel = "rox";
+        String url = "http://www.xwiki.org";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
-        selectWebPageTab();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WEBPAGE);
+        // make sure the dialog is open
+        ensureDialogIsOpen();
+        // ensure wizard step is loaded
+        ensureStepIsLoaded("xLinkToUrl");
         String newLabel = "xwiki rox";
-        String url = "http://www.xwiki.org";
         typeInInput("Label of the link to a web page", newLabel);
         typeInInput("Web page address", url);
-        clickCreateWebPageLinkButton();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("[[" + newLabel + ">>" + url + "]]");
     }
@@ -200,11 +242,13 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String email = "mailto:carol@xwiki.org";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
-        selectEmailTab();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_EMAIL_ADDRESS);
+
+        ensureDialogIsOpen();
         typeInInput("Email address", email);
-        clickCreateEmailLinkButton();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("[[" + linkLabel + ">>" + email + "]]");
     }
@@ -218,11 +262,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String email = "joe@xwiki.org";
         typeText(linkLabel);
         selectAllContent();
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
-        selectEmailTab();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_EMAIL_ADDRESS);
+        ensureDialogIsOpen();
         typeInInput("Email address", email);
-        clickCreateEmailLinkButton();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
         // Note: the new line here because, although we remove initial <br> in the editor content by typing here after
         // setUp selected all content, typing a space in the editor causes browser (FF) to add a <br> at the end,
         // which we then select and add inside the anchor label.
@@ -236,13 +281,14 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "xwiki";
         String linkURL = "www.xwiki.org";
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WEBPAGE);
+        ensureDialogIsOpen();
 
-        selectWebPageTab();
         typeInInput("Web page address", linkURL);
         typeInInput("Label of the link to a web page", linkLabel);
-        clickCreateWebPageLinkButton();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("[[" + linkLabel + ">>http://" + linkURL + "]]");
     }
@@ -259,17 +305,17 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         typeText("rox");
         selectAllContent();
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_WEBPAGE));
+        clickMenu(MENU_WEBPAGE);
+        ensureDialogIsOpen();
 
-        selectWebPageTab();
         // test that the picked up label of the link is the right text
         assertEquals("ourxwikirox", getInputValue("Label of the link to a web page"));
         typeInInput("Web page address", "www.xwiki.org");
-        clickCreateWebPageLinkButton();
+        clickButtonWithText("Create Link");
 
-        ensureLinkDialogIsClosed();
+        ensureDialogIsClosed();
         assertWiki("[[our**xwiki**rox>>http://www.xwiki.org]]");
     }
 
@@ -286,75 +332,43 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String linkURL = "http://www.xwiki.com";
         String newLinkURL = "http://www.xwiki.org";
 
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WEBPAGE);
+        ensureDialogIsOpen();
 
-        selectWebPageTab();
         typeInInput("Web page address", linkURL);
         typeInInput("Label of the link to a web page", linkLabel);
-        clickCreateWebPageLinkButton();
-        ensureLinkDialogIsClosed();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
-        // now edit
-        assertTrue(isInsertLinkButtonEnabled());
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
-        assertEquals(linkLabel, getInputValue("Label of the link to a web page"));
-        assertEquals(linkURL, getInputValue("Web page address"));
-
-        selectExistingPageTab();
-        assertEquals(linkLabel, getInputValue("Label of the link to an existing page"));
-
-        String selectedSpace = "Main";
-        String selectedPage = "WebHome";
-
-        waitForCondition("selenium.isElementPresent('" + existingSpacesSelector + "/option[@value=\"" + selectedSpace
-            + "\"]" + "')");
-        getSelenium().select(existingSpacesSelector, selectedSpace);
-        // wait for pages to reload
-        waitForCondition("selenium.isElementPresent('" + pagesSelector + "/option[@value=\"" + selectedPage + "\"]"
-            + "')");
-        getSelenium().select(pagesSelector, selectedPage);
-
-        clickCreateExistingPageLinkButton();
-        ensureLinkDialogIsClosed();
-
-        assertWiki("this is [[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
-
-        assertXHTML("<p>this is <!--startwikilink:Main.WebHome--><span class=\"wikilink\">"
-            + "<a href=\"/xwiki/bin/view/Main/\">xwiki</a></span><!--stopwikilink--></p>");
+        assertXHTML("<p>this is <!--startwikilink:http://www.xwiki.com--><span class=\"wikiexternallink\">"
+            + "<a href=\"http://www.xwiki.com\">xwiki</a></span><!--stopwikilink--><br class=\"spacer\"></p>");
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 5);
         // type things to trigger toolbar update
         typeBackspace();
         typeText("i");
 
-        assertTrue(isUnlinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         // unlink here should only move the caret out
-        clickUnlinkButton();
+        clickMenu(MENU_LINK_REMOVE);
         typeText(" which rox");
-        assertWiki("this is [[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]] which rox");
+        assertWiki("this is [[" + linkLabel + ">>" + linkURL + "]] which rox");
 
         select("XWE.body.firstChild", 1, "XWE.body.firstChild.childNodes[1].firstChild", 5);
         triggerToolbarUpdate();
 
-        assertTrue(isInsertLinkButtonEnabled());
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        ensureDialogIsOpen();
 
-        waitForCondition("selenium.isElementPresent('" + existingSpacesSelector + "/option[@value=\"" + selectedSpace
-            + "\"]" + "')");
-        waitForCondition("selenium.isElementPresent('" + pagesSelector + "/option[@value=\"" + selectedPage + "\"]"
-            + "')");
-
-        assertEquals(linkLabel, getInputValue("Label of the link to an existing page"));
-        assertEquals(getSelenium().getValue(existingSpacesSelector), selectedSpace);
-        assertEquals(getSelenium().getValue(pagesSelector), selectedPage);
-
-        selectWebPageTab();
         assertEquals(linkLabel, getInputValue("Label of the link to a web page"));
+        assertEquals(linkURL, getInputValue("Web page address"));
+
         typeInInput("Web page address", newLinkURL);
-        clickCreateWebPageLinkButton();
-        ensureLinkDialogIsClosed();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("this is [[" + linkLabel + ">>" + newLinkURL + "]] which rox");
     }
@@ -395,21 +409,25 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // now add a link around this image
         String pageName = "Photos";
         String spaceName = "Blog";
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
-        selectNewPageTab();
-        assertEquals("photos.png", getInputValue("Label of the link to a new page"));
-        // check that the label is readonly
-        assertElementPresent("//input[@title=\"Label of the link to a new page\" and @readonly=\"\"]");
+        String newPageName = "Images";
 
-        // wait for the spaces selector to load
-        waitForCondition("selenium.isElementPresent('" + existingOrNewSpacesSelector + "/option[@value=\"" + spaceName
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WIKIPAGE);
+        ensureDialogIsOpen();
+        typeInExplorerInput(spaceName + "." + pageName);
+        // wait for the space to get selected
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
             + "\"]');");
-        getSelenium().select(existingOrNewSpacesSelector, spaceName);
-        typeInInput("New page name", pageName);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "New page...\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkToWikiPage");
+        assertEquals("photos.png", getInputValue("Label of the link to an existing page"));
+        // check that the label is readonly
+        assertElementPresent("//input[@title=\"Label of the link to an existing page\" and @readonly=\"\"]");
 
-        clickCreateNewPageLinkButton();
-        ensureLinkDialogIsClosed();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
 
@@ -417,35 +435,31 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild", 1);
         typeText(" foo ");
 
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
-        selectWebPageTab();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WEBPAGE);
         typeInInput("Label of the link to a web page", "bar");
         typeInInput("Web page address", "http://bar.myxwiki.org");
-        clickCreateWebPageLinkButton();
-        ensureLinkDialogIsClosed();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         // now go on and edit the image
         select("XWE.body.firstChild.firstChild", 0, "XWE.body.firstChild.firstChild", 1);
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        ensureDialogIsOpen();
 
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        assertEquals(spaceName + "." + pageName, getExplorerInputValue());
 
-        // assert the state of the dialog:
-        // wait for the spaces selector to load
-        waitForCondition("selenium.isElementPresent('" + existingOrNewSpacesSelector + "/option[@value=\"" + spaceName
+        typeInExplorerInput(spaceName + "." + newPageName);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
             + "\"]');");
-        assertEquals("photos.png", getInputValue("Label of the link to a new page"));
-        // check that the label is readonly
-        assertElementPresent("//input[@title=\"Label of the link to a new page\" and @readonly=\"\"]");
-        assertEquals("Blog", getSelenium().getValue(existingOrNewSpacesSelector));
-        assertEquals("Photos", getInputValue("New page name"));
-        typeInInput("New page name", "Images");
-
-        clickCreateNewPageLinkButton();
-        ensureLinkDialogIsClosed();
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "New page...\"]');");
+        clickButtonWithText("Select");
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Images]] foo [[bar>>http://bar.myxwiki.org]]");
     }
@@ -463,60 +477,76 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // put selection inside first text
         moveCaret("XWE.body.firstChild.firstChild", 2);
         triggerToolbarUpdate();
-        assertFalse(isUnlinkButtonEnabled());
-        assertTrue(isInsertLinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
+        assertTrue(isMenuEnabled(MENU_WIKIPAGE));
+        assertTrue(isMenuEnabled(MENU_WEBPAGE));
+        assertTrue(isMenuEnabled(MENU_EMAIL_ADDRESS));
 
         // put selection inside the first link
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 2);
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         // now unlink it
-        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 2);
-        triggerToolbarUpdate();
-        assertTrue(isUnlinkButtonEnabled());
-        clickUnlinkButton();
+        clickMenu(MENU_LINK_REMOVE);
 
         // put selection around the second link, in the parent
         select("XWE.body.firstChild", 3, "XWE.body.firstChild", 4);
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        assertTrue(isUnlinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         // now unlink it
-        clickUnlinkButton();
+        clickMenu(MENU_LINK_REMOVE);
 
         // put selection with ends at the end of previous text and at the beginning of the next text
         select("XWE.body.firstChild.childNodes[4]", 1, "XWE.body.firstChild.childNodes[6]", 0);
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        assertTrue(isUnlinkButtonEnabled());
-        clickUnlinkButton();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
+        // now unlink it
+        clickMenu(MENU_LINK_REMOVE);
 
         // put selection with one end inside the anchor and one end at the end of the text before or after
         select("XWE.body.firstChild.childNodes[6]", 1, "XWE.body.firstChild.childNodes[7].firstChild", 5);
-        triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        assertTrue(isUnlinkButtonEnabled());
-        clickUnlinkButton();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
+        // now unlink it
+        clickMenu(MENU_LINK_REMOVE);
 
         // put selection around the bold text inside a link label
         select("XWE.body.firstChild.childNodes[9].childNodes[1].firstChild", 0,
             "XWE.body.firstChild.childNodes[9].childNodes[1].firstChild", 1);
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        assertTrue(isUnlinkButtonEnabled());
-        clickUnlinkButton();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
+        // now unlink it
+        clickMenu(MENU_LINK_REMOVE);
 
         // set selection starting in the text before the link and ending in the link
         select("XWE.body.firstChild.childNodes[12]", 5, "XWE.body.firstChild.childNodes[13].firstChild.firstChild", 4);
         triggerToolbarUpdate();
-        assertFalse(isInsertLinkButtonEnabled());
-        assertFalse(isUnlinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertFalse(isMenuEnabled(MENU_LINK_EDIT));
+        assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
+        assertFalse(isMenuEnabled(MENU_WEBPAGE));
+        assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
+        assertFalse(isMenuEnabled(MENU_WIKIPAGE));
 
         // set selection in two different links
         select("XWE.body.firstChild.childNodes[13].firstChild.firstChild", 4, "XWE.body.firstChild.childNodes[15]", 1);
         triggerToolbarUpdate();
-        assertFalse(isInsertLinkButtonEnabled());
-        assertFalse(isUnlinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertFalse(isMenuEnabled(MENU_LINK_EDIT));
+        assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
+        assertFalse(isMenuEnabled(MENU_WEBPAGE));
+        assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
+        assertFalse(isMenuEnabled(MENU_WIKIPAGE));
 
         assertWiki("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
             + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
@@ -529,22 +559,24 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public void testEditLinkInList()
     {
         setWikiContent("* one\n* [[two>>http://www.xwiki.com]]\n** three");
-        
+
         // now edit the link in the second list item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild.firstChild", 1);
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
 
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        ensureDialogIsOpen();
 
         // now check if the dialog has loaded correctly
+        ensureStepIsLoaded("xLinkToUrl");
         assertEquals("two", getInputValue("Label of the link to a web page"));
         assertEquals("http://www.xwiki.com", getInputValue("Web page address"));
         typeInInput("Web page address", "http://www.xwiki.org");
 
-        clickCreateWebPageLinkButton();
-        ensureLinkDialogIsClosed();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("* one\n* [[two>>http://www.xwiki.org]]\n** three");
     }
@@ -557,27 +589,33 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     {
         // try to create a link to an existing page without a label
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_WIKIPAGE));
+        clickMenu(MENU_WIKIPAGE);
+        ensureDialogIsOpen();
 
-        selectExistingPageTab();
-        waitForCondition("selenium.isElementPresent('" + existingSpacesSelector + "/option[1]');");
-        waitForCondition("selenium.isElementPresent('" + pagesSelector + "/option[1]');");
-        String space = getSelenium().getValue(existingSpacesSelector);
-        String page = getSelenium().getValue(pagesSelector);
+        String space = "Main";
+        String page = "WebHome";
 
-        clickCreateExistingPageLinkButton();
+        typeInExplorerInput(space + "." + page);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + page
+            + "\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkToWikiPage");
+        // try to create link without filling in the label
+        clickButtonWithText("Create Link");
 
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
         // fill in the label and create link
-        ensureLinkDialogIsOpen();
+        ensureDialogIsOpen();
+        ensureStepIsLoaded("xLinkToWikiPage");
         typeInInput("Label of the link to an existing page", "foo");
-        clickCreateExistingPageLinkButton();
+        clickButtonWithText("Create Link");
 
-        ensureLinkDialogIsClosed();
+        ensureDialogIsClosed();
 
         assertWiki("[[foo>>" + space + "." + page + "]]");
 
@@ -587,35 +625,39 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // now try again with a new page link
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_WIKIPAGE));
+        clickMenu(MENU_WIKIPAGE);
+        ensureDialogIsOpen();
 
-        selectNewPageTab();
-        waitForCondition("selenium.isElementPresent('" + existingOrNewSpacesSelector + "/option[1]');");
-        getSelenium().select(existingOrNewSpacesSelector, "index=0");
+        space = "Main";
+        page = "NewPage";
 
-        clickCreateNewPageLinkButton();
+        typeInExplorerInput(space + "." + page);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "New page...\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkToWikiPage");
+        clickButtonWithText("Create Link");
 
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
         // fill in the label and create link
-        ensureLinkDialogIsOpen();
-        typeInInput("Label of the link to a new page", "foo");
-        clickCreateNewPageLinkButton();
+        ensureDialogIsOpen();
+        ensureStepIsLoaded("xLinkToWikiPage");
+        typeInInput("Label of the link to an existing page", "foo");
+        clickButtonWithText("Create Link");
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("The name of the new space was not set", getSelenium().getAlert());
+        /*
+         * Cannot check these, for the moment assertTrue(getSelenium().isAlertPresent());
+         * assertEquals("The name of the new space was not set", getSelenium().getAlert()); ensureDialogIsOpen();
+         * typeInInputWithTitle("New space name", "NewSpace"); typeInInputWithTitle("New page name", "NewPage");
+         * clickCreateNewPageLinkButton(); ensureDialogIsClosed(); assertWiki("[[foo>>NewSpace.NewPage]]");
+         */
 
-        ensureLinkDialogIsOpen();
-        typeInInput("New space name", "NewSpace");
-        typeInInput("New page name", "NewPage");
-        clickCreateNewPageLinkButton();
-
-        ensureLinkDialogIsClosed();
-
-        assertWiki("[[foo>>NewSpace.NewPage]]");
+        assertWiki("[[foo>>Main.NewPage]]");
 
         // clean up
         selectAllContent();
@@ -623,22 +665,23 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // now create a link to a web page
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_WEBPAGE));
+        clickMenu(MENU_WEBPAGE);
+        ensureDialogIsOpen();
 
-        selectWebPageTab();
         typeInInput("Web page address", "http://www.xwiki.org");
-        clickCreateWebPageLinkButton();
+        clickButtonWithText("Create Link");
 
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
         // fill in the label and create link
-        ensureLinkDialogIsOpen();
+        ensureDialogIsOpen();
+        ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Label of the link to a web page", "xwiki");
-        clickCreateWebPageLinkButton();
-        ensureLinkDialogIsClosed();
+        clickButtonWithText("Create Link");
+        ensureDialogIsClosed();
 
         assertWiki("[[xwiki>>http://www.xwiki.org]]");
 
@@ -646,31 +689,32 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         selectAllContent();
         typeDelete();
 
-        // now create a link to a web page
+        // now create a link to an email page
         triggerToolbarUpdate();
-        assertTrue(isInsertLinkButtonEnabled());
-        clickInsertLinkButton();
-        ensureLinkDialogIsOpen();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_EMAIL_ADDRESS));
+        clickMenu(MENU_EMAIL_ADDRESS);
+        ensureDialogIsOpen();
 
-        selectEmailTab();
-
-        clickCreateEmailLinkButton();
+        clickButtonWithText("Create Link");
 
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
-        ensureLinkDialogIsOpen();
+        ensureDialogIsOpen();
+        ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Label of the link to an email address", "alice");
-        clickCreateEmailLinkButton();
+        clickButtonWithText("Create Link");
 
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The email address was not set", getSelenium().getAlert());
 
-        ensureLinkDialogIsOpen();
+        ensureDialogIsOpen();
+        ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Email address", "alice@wonderla.nd");
-        clickCreateEmailLinkButton();
+        clickButtonWithText("Create Link");
 
-        ensureLinkDialogIsClosed();
+        ensureDialogIsClosed();
 
         assertWiki("[[alice>>mailto:alice@wonderla.nd]]");
     }
@@ -687,95 +731,42 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertXHTML("<p>foo</p><p>bar<br class=\"spacer\"></p>");
         select("XWE.body.firstChild.firstChild", 2, "XWE.body.childNodes[1].firstChild", 2);
         triggerToolbarUpdate();
-        assertFalse(isInsertLinkButtonEnabled());
-        assertFalse(isUnlinkButtonEnabled());
+        clickMenu(MENU_LINK);
+        assertFalse(isMenuEnabled(MENU_WEBPAGE));
+        assertFalse(isMenuEnabled(MENU_WIKIPAGE));
+        assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
+        assertFalse(isMenuEnabled(MENU_LINK_EDIT));
+        assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
     }
 
     /**
      * Make sure the link dialog is opened.
      */
-    protected void ensureLinkDialogIsOpen()
+    protected void ensureDialogIsOpen()
     {
-        waitForCondition("selenium.isElementPresent('//div[@class=\"gwt-PopupPanel linkDialog\"]')");
+        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
     }
 
     /**
      * Make sure that the link dialog is closed.
      */
-    protected void ensureLinkDialogIsClosed()
+    protected void ensureDialogIsClosed()
     {
-        waitForCondition("!selenium.isElementPresent('//div[@class=\"gwt-PopupPanel linkDialog\"]')");
+        waitForCondition("!selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
     }
 
-    /**
-     * Select the existing page link tab.
-     */
-    protected void selectExistingPageTab()
+    protected void ensureStepIsLoaded(String divClass)
     {
-        getSelenium().click("//div[text()='Existing page']");
+        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"" + divClass + "\")]');");
     }
 
-    /**
-     * Select the new page link tab.
-     */
-    protected void selectNewPageTab()
+    protected void typeInExplorerInput(String text)
     {
-        getSelenium().click("//div[text()='New page']");
+        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", text);
     }
 
-    /**
-     * Select the web page link tab.
-     */
-    protected void selectWebPageTab()
+    protected String getExplorerInputValue()
     {
-        getSelenium().click("//div[text()='Web page']");
-    }
-
-    /**
-     * Select the email address link tab.
-     */
-    protected void selectEmailTab()
-    {
-        getSelenium().click("//div[text()='Email address']");
-    }
-
-    /**
-     * Click the existing page link submit button.
-     */
-    protected void clickCreateExistingPageLinkButton()
-    {
-        clickButton("Create a link to an existing page");
-    }
-
-    /**
-     * Click the existing space link submit button.
-     */
-    protected void clickCreateExistingSpaceLinkButton()
-    {
-        clickButton("Create a link to the space main page");
-    }
-
-    /**
-     * Click the new page link submit button.
-     */
-    protected void clickCreateNewPageLinkButton()
-    {
-        clickButton("Create a link to a new page");
-    }
-
-    /**
-     * Click the web page link submit button.
-     */
-    protected void clickCreateWebPageLinkButton()
-    {
-        clickButton("Create a link to a web page");
-    }
-
-    /**
-     * Click the email address link submit button.
-     */
-    protected void clickCreateEmailLinkButton()
-    {
-        clickButton("Create a link to an email address");
+        return getSelenium().getValue("//div[contains(@class, 'xExplorerPanel')]/input");
     }
 }

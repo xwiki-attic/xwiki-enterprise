@@ -207,6 +207,7 @@ Paragraph two
 (% style="text-align:center;color:blue" %)&lt;br/&gt;
 Centered and blue paragraph
     {/pre}
+    &lt;/td&gt;
     &lt;td&gt;
 &lt;p style="text-align:center;color:blue"&gt;Centered and blue paragraph&lt;/p&gt;
     &lt;/td&gt;
@@ -273,7 +274,7 @@ $h6 level 6
     &lt;/td&gt;
     {/pre}
     &lt;td&gt;
-&lt;h2 class="heading-1" id="Hlevel1"&gt;&lt;span style="color:blue"&gt;header&lt;/span&gt;&lt;/h2&gt;
+&lt;h2 class="heading-1"&gt;&lt;span style="color:blue"&gt;header&lt;/span&gt;&lt;/h2&gt;
     &lt;/td&gt;    
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -293,7 +294,8 @@ $h3 Header with *bold*
 #info("New in XWiki Syntax 2.0 over XWiki Syntax 1.0:
 * Spaces are allowed just after the syntax symbols (for example in XWiki Syntax 1.0, this was not * bold *).
 * Use double symbols when there was only a single symbol in XWiki Syntax 1.0 so that it's less likely that the user will mistakenly use them in text.
-* Ability to span several lines (wasn't the case in XWiki Syntax 1.0).")
+* Ability to span several lines (wasn't the case in XWiki Syntax 1.0).
+")
 
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;
@@ -856,7 +858,6 @@ j. item2&lt;br/&gt;
 &amp;nbsp;&amp;nbsp;&amp;lt;dd&amp;gt;definition&amp;lt;/dd&amp;gt;&lt;br/&gt;
 &amp;lt;/dl&amp;gt;
     &lt;/td&gt;
-    &lt;/td&gt;
     &lt;td&gt;
 (% style="color:blue" %)&lt;br/&gt;
 ; term&lt;br/&gt;
@@ -889,8 +890,8 @@ A new line is a carriage return. A line break is a forced new line that can appe
   &lt;tr&gt;
     {pre}
     &lt;td&gt;Line break&lt;/td&gt;
-    &lt;td&gt;Line&amp;#92;&amp;#92New line&lt;/td&gt;
-    &lt;td&gt;Line&amp;#92;&amp;#92New line&lt;/td&gt;
+    &lt;td&gt;Line&amp;#92;&amp;#92;New line&lt;/td&gt;
+    &lt;td&gt;Line&amp;#92;&amp;#92;New line&lt;/td&gt;
     {/pre}
     &lt;td&gt;Line\\New line&lt;/td&gt;    
     &lt;td&gt;Line\\New line&lt;/td&gt;    
@@ -1032,10 +1033,10 @@ This is a URL: &lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki
     &lt;td&gt;[[email&gt;&gt;mailto:john@smith.net]]&lt;/td&gt;
     {/pre}
     &lt;td&gt;
-&lt;span class="wikiexternallink"&gt;&lt;a href="mailto:john&amp;@smith.com"&gt;email&lt;/a&gt;&lt;/span&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="mailto:john@smith.com"&gt;email&lt;/a&gt;&lt;/span&gt;
     &lt;/td&gt;    
     &lt;td&gt;
-&lt;span class="wikiexternallink"&gt;&lt;a href="mailto:john&amp;@smith.com"&gt;email&lt;/a&gt;&lt;/span&gt;
+&lt;span class="wikiexternallink"&gt;&lt;a href="mailto:john@smith.com"&gt;email&lt;/a&gt;&lt;/span&gt;
     &lt;/td&gt;    
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -1060,10 +1061,8 @@ This is a URL: &lt;span class="wikiexternallink"&gt;&lt;a href="http://www.xwiki
     {/pre}
     &lt;td&gt;
 {attach:text|file=img.png}&lt;/td&gt;
-    &lt;/td&gt;
     &lt;td&gt;
 {attach:text|file=img.png}&lt;/td&gt;
-    &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
 
@@ -1076,7 +1075,7 @@ The full format of a link is {code}(alias[|&amp;gt;])+(link)(@interWikiAlias)+([
 ** &lt;tt&gt;virtualWikiAlias&lt;/tt&gt;: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: "mywiki".
 ** &lt;tt&gt;space&lt;/tt&gt;: An optional Wiki Space name. If not space is specified the current space is used. Example: "Main".
 ** &lt;tt&gt;reference&lt;/tt&gt;: The link reference. This can be either a URI in the form &lt;tt&gt;protocol:path&lt;/tt&gt; (example: "http://xwiki.org", "mailto:john@smith.com") or a wiki page name (example: "WebHome").
-** &lt;tt&gt;queryString&lt;/tt&gt;: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;mydata2=Hello".
+** &lt;tt&gt;queryString&lt;/tt&gt;: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;amp;mydata2=Hello".
 ** &lt;tt&gt;anchor&lt;/tt&gt;: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for titles. Example: "TableOfContentAnchor".
 * &lt;tt&gt;interWikiAlias&lt;/tt&gt;: An optional [Inter Wiki&gt;http://en.wikipedia.org/wiki/InterWiki] alias as defined in the InterWiki Map (see the [Admin Guide&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]). Example: "wikipedia"
 * &lt;tt&gt;target&lt;/tt&gt;: An optional string corresponding to the HTML &lt;tt&gt;target&lt;/tt&gt; attribute for a HTML &lt;tt&gt;a&lt;/tt&gt; link element. This element is used when rendering the link. It defaults to opening the link in the current page. Examples: "_self", "_blank"
@@ -1333,7 +1332,7 @@ Allows to quote some text.
     {pre}
     &lt;td&gt;Simple quote&lt;/td&gt;
     &lt;td&gt;
-&amp;lt;blockquote&amp;gt;john said this&amp;lt;/blockquote&amp;gt;&lt;br/&gt;
+&amp;lt;blockquote&amp;gt;&amp;lt;p&amp;gt;john said this&amp;lt;/p&amp;gt;&amp;lt;/blockquote&amp;gt;&lt;br/&gt;
 I said ok
     &lt;/td&gt;
     &lt;td&gt;
@@ -1342,7 +1341,7 @@ I said ok
     &lt;/td&gt;
     {/pre}
     &lt;td&gt;
-&lt;blockquote&gt;john said this&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;john said this&lt;/p&gt;&lt;/blockquote&gt;
 I said ok
     &lt;/td&gt;    
   &lt;/tr&gt;
@@ -1350,8 +1349,8 @@ I said ok
     {pre}
     &lt;td&gt;Nested quotes&lt;/td&gt;
     &lt;td&gt;
-&amp;lt;blockquote&amp;gt;john said this&lt;br/&gt;
-&amp;nbsp;&amp;nbsp;&amp;lt;blockquote&amp;gt;marie answered that&amp;lt;/blockquote&amp;gt;&lt;br/&gt;
+&amp;lt;blockquote&amp;gt;&amp;lt;p&amp;gt;john said this&amp;lt;/p&amp;gt;&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;&amp;lt;blockquote&amp;gt;&amp;lt;p&amp;gt;marie answered that&amp;lt;/p&amp;gt;&amp;lt;/blockquote&amp;gt;&lt;br/&gt;
 &amp;lt;/blockquote&amp;gt;&lt;br/&gt;
 I said ok
     &lt;/td&gt;
@@ -1362,7 +1361,7 @@ I said ok
     &lt;/td&gt;
     {/pre}
     &lt;td&gt;
-&lt;blockquote&gt;john said this&lt;blockquote&gt;marie answered that&lt;/blockquote&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;john said this&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;marie answered that&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;
 I said ok
     &lt;/td&gt;    
   &lt;/tr&gt;
@@ -1427,7 +1426,6 @@ Next paragraph in the top-level document
   &lt;/tr&gt;
 &lt;/table&gt;
 &lt;p&gt;Next paragraph in the top-level document&lt;/p&gt;&lt;/td&gt;
-    &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
 
@@ -1575,13 +1573,14 @@ With XWiki Syntax 2.0 it's possible to pass parameters to the different syntax e
   &lt;/tr&gt;
   &lt;tr&gt;
     &lt;td&gt;
-&amp;lt;h1 class="myClass" style="myStyle" id="myId"&amp;gt;header&amp;lt;/h1&amp;gt
+&amp;lt;h1 class="myClass" style="myStyle" id="myId"&amp;gt;header&amp;lt;/h1&amp;gt;
     &lt;/td&gt;
     &lt;td&gt;
 (% class="myClass" style="myStyle" id="myId" %)&lt;br/&gt;
 = header =
+    &lt;/td&gt;
     &lt;td&gt;
-&amp;lt;h1 class="myClass" style="myStyle" id="myId"&amp;gt;header&amp;lt;/h1&amp;gt
+&amp;lt;h1 class="myClass" style="myStyle" id="myId"&amp;gt;header&amp;lt;/h1&amp;gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;

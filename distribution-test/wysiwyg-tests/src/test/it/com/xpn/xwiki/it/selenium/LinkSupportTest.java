@@ -68,25 +68,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String selectedSpace = "Blog";
         String selectedPage = "AddCategory";
 
-        // click the + sign next to the element:
-        // "//td[following-sibling::td[contains(@class, 'cell') and nobr="XWiki"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]"
-        // use push button to open the tree
-        // can't click the little +
-        /*
-         * waitForCondition("selenium.isElementPresent('//td[following-sibling::td[contains(@class, \"cell\") and nobr=\""
-         * + selectedSpace +
-         * "\"]]/img[contains(@src, \"/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/\")]');");
-         * assertElementPresent("//td[following-sibling::td[contains(@class, 'cell') and nobr=\"" + selectedSpace +
-         * "\"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]");
-         * pushButton("//td[following-sibling::td[contains(@class, 'cell') and nobr=\"" + selectedSpace +
-         * "\"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]"); //
-         * waitForCondition
-         * ("selenium.isElementPresent('//td[following-sibling::td[contains(@class, \"cell\") and nobr=\"" // +
-         * selectedPage + "\"]]');"); /* getSelenium().click(
-         * "//td[following-sibling::td[contains(@class, 'cell') and nobr=\"" + selectedSpace +
-         * "\"]]/img[contains(@src, '/xwiki/resources/js/smartclient/skins/Enterprise/images/TreeGrid/')]");
-         */
-
         typeInExplorerInput(selectedSpace + "." + selectedPage);
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
             + "\"]');");
@@ -100,7 +81,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         ensureDialogIsClosed();
 
-        assertWiki("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
+        assertWiki("[[" + linkLabel + ">>xwiki:" + selectedSpace + "." + selectedPage + "]]");
     }
 
     /**
@@ -130,7 +111,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         ensureDialogIsClosed();
 
-        assertWiki("[[" + linkLabel + ">>" + space + ".WebHome]]");
+        assertWiki("[[" + linkLabel + ">>xwiki:" + space + ".WebHome]]");
     }
 
     /**
@@ -158,7 +139,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         ensureDialogIsClosed();
 
-        assertWiki("[[" + linkLabel + ">>" + space + "." + newPageName + "]]");
+        assertWiki("[[" + linkLabel + ">>xwiki:" + space + "." + newPageName + "]]");
     }
 
     /**
@@ -183,7 +164,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         ensureDialogIsClosed();
 
-        assertWiki("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
+        assertWiki("[[" + linkLabel + ">>xwiki:" + newSpace + "." + newPage + "]]");
     }
 
     /**
@@ -429,7 +410,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         ensureDialogIsClosed();
 
-        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
+        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Photos]]");
 
         // move caret at the end and type some more
         moveCaret("XWE.body.firstChild", 1);
@@ -461,7 +442,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         ensureDialogIsClosed();
 
-        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Images]] foo [[bar>>http://bar.myxwiki.org]]");
+        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Images]] foo [[bar>>http://bar.myxwiki.org]]");
     }
 
     /**
@@ -617,7 +598,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         ensureDialogIsClosed();
 
-        assertWiki("[[foo>>" + space + "." + page + "]]");
+        assertWiki("[[foo>>xwiki:" + space + "." + page + "]]");
 
         // clean up
         selectAllContent();
@@ -657,7 +638,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
          * clickCreateNewPageLinkButton(); ensureDialogIsClosed(); assertWiki("[[foo>>NewSpace.NewPage]]");
          */
 
-        assertWiki("[[foo>>Main.NewPage]]");
+        assertWiki("[[foo>>xwiki:Main.NewPage]]");
 
         // clean up
         selectAllContent();

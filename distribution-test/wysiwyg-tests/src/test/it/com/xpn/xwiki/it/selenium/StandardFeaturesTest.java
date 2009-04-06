@@ -275,7 +275,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         clickSymbolButton();
-        getSelenium().click("//img[@title='Close']");
+        closeDialog();
         clickSymbolButton();
         getSelenium().click("//div[@title='registered sign']");
         assertWiki("\u00A9\u00AE");
@@ -679,5 +679,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().dragdrop("//div[@class='gwt-Label xDialogCaption']", "100, 100");
         // Test if the rich text area has the content we set.
         assertEquals("office", getSelenium().getEval("window.iframe.contentWindow.document.body.innerHTML"));
+        // close the dialog
+        closeDialog();
+        // make sure the dialog is closed
+        waitForDialogToClose();
     }
 }

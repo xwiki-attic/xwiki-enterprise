@@ -597,7 +597,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMacro(index);
         clickMenu(MENU_MACRO);
         clickMenu(MENU_EDIT);
-        waitForDialog();
+        waitForDialogToOpen();
     }
 
     /**
@@ -611,11 +611,11 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_MACRO);
         assertTrue(isMenuEnabled(MENU_INSERT));
         clickMenu(MENU_INSERT);
-        waitForDialog();
+        waitForDialogToOpen();
 
         getSelenium().click("//div[@class = 'xListBox']//div[text() = '" + macroName + "']");
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
-        waitForDialog();
+        waitForDialogToOpen();
     }
 
     /**
@@ -635,14 +635,5 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_MACRO);
         clickMenu(MENU_REFRESH);
         waitForRefresh();
-    }
-
-    /**
-     * Waits until the edit macro dialog is fully loaded. While loading, the body of the dialog has the {@code loading}
-     * CSS class besides the {@code xDialogBody} one.
-     */
-    public void waitForDialog()
-    {
-        waitForCondition("selenium.isElementPresent('//div[@class = \"xDialogBody\"]')");
     }
 }

@@ -886,4 +886,30 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         setFieldValue("content", wikiText);
         switchToWysiwygEditor();
     }
+    
+    /**
+     * Wait for a WYSIWYG dialog to close. The test checks for a {@code div} element with {@code xDialogBox} value of
+     * {@code class} to not be present.
+     */
+    public void waitForDialogToClose()
+    {
+        waitForCondition("!selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
+    }
+
+    /**
+     * Wait for a WYSIWYG dialog to open. The test checks for a {@code div} element with {@code xDialogBox} value of
+     * {@code class} to be present.
+     */
+    public void waitForDialogToOpen()
+    {
+        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
+    }
+
+    /**
+     * Close the dialog by clicking the close icon in the top right.
+     */
+    public void closeDialog()
+    {
+        getSelenium().click("//img[contains(@class, \"gwt-Image\") and contains(@class, \"xDialogCloseIcon\")]");
+    }
 }

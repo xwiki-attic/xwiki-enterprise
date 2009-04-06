@@ -63,7 +63,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         clickMenu(MENU_WIKIPAGE);
         // wait for dialog to open
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         String selectedSpace = "Blog";
         String selectedPage = "AddCategory";
@@ -79,7 +79,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
 
         // wait for the link dialog to close
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + linkLabel + ">>xwiki:" + selectedSpace + "." + selectedPage + "]]");
     }
@@ -95,7 +95,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         clickMenu(MENU_WIKIPAGE);
         // wait for dialog to open
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         String space = "Blog";
 
@@ -109,7 +109,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         ensureStepIsLoaded("xLinkToWikiPage");
         clickButtonWithText("Create Link");
 
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + linkLabel + ">>xwiki:" + space + ".WebHome]]");
     }
@@ -127,7 +127,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         clickMenu(MENU_WIKIPAGE);
         // make sure dialog is open
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         typeInExplorerInput(space + "." + newPageName);
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
@@ -137,7 +137,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         ensureStepIsLoaded("xLinkToWikiPage");
         clickButtonWithText("Create Link");
         // wait for the link dialog to close
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + linkLabel + ">>xwiki:" + space + "." + newPageName + "]]");
     }
@@ -155,14 +155,14 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         clickMenu(MENU_WIKIPAGE);
         // make sure dialog is open
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         typeInExplorerInput(newSpace + "." + newPage);
 
         clickButtonWithText("Select");
         ensureStepIsLoaded("xLinkToWikiPage");
         clickButtonWithText("Create Link");
         // wait for the link dialog to close
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + linkLabel + ">>xwiki:" + newSpace + "." + newPage + "]]");
     }
@@ -180,12 +180,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         clickMenu(MENU_WEBPAGE);
         // make sure the dialog is open
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         // ensure wizard step is loaded
         ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Web page address", url);
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + linkLabel + ">>" + url + "]]");
     }
@@ -202,14 +202,14 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         clickMenu(MENU_WEBPAGE);
         // make sure the dialog is open
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         // ensure wizard step is loaded
         ensureStepIsLoaded("xLinkToUrl");
         String newLabel = "xwiki rox";
         typeInInput("Label of the link to a web page", newLabel);
         typeInInput("Web page address", url);
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + newLabel + ">>" + url + "]]");
     }
@@ -226,10 +226,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         clickMenu(MENU_EMAIL_ADDRESS);
 
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         typeInInput("Email address", email);
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + linkLabel + ">>" + email + "]]");
     }
@@ -245,10 +245,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         selectAllContent();
         clickMenu(MENU_LINK);
         clickMenu(MENU_EMAIL_ADDRESS);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         typeInInput("Email address", email);
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
         // Note: the new line here because, although we remove initial <br> in the editor content by typing here after
         // setUp selected all content, typing a space in the editor causes browser (FF) to add a <br> at the end,
         // which we then select and add inside the anchor label.
@@ -264,12 +264,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String linkURL = "www.xwiki.org";
         clickMenu(MENU_LINK);
         clickMenu(MENU_WEBPAGE);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         typeInInput("Web page address", linkURL);
         typeInInput("Label of the link to a web page", linkLabel);
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[" + linkLabel + ">>http://" + linkURL + "]]");
     }
@@ -289,14 +289,14 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WEBPAGE));
         clickMenu(MENU_WEBPAGE);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         // test that the picked up label of the link is the right text
         assertEquals("ourxwikirox", getInputValue("Label of the link to a web page"));
         typeInInput("Web page address", "www.xwiki.org");
         clickButtonWithText("Create Link");
 
-        ensureDialogIsClosed();
+        waitForDialogToClose();
         assertWiki("[[our**xwiki**rox>>http://www.xwiki.org]]");
     }
 
@@ -315,12 +315,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         clickMenu(MENU_LINK);
         clickMenu(MENU_WEBPAGE);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         typeInInput("Web page address", linkURL);
         typeInInput("Label of the link to a web page", linkLabel);
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertXHTML("<p>this is <!--startwikilink:http://www.xwiki.com--><span class=\"wikiexternallink\">"
             + "<a href=\"http://www.xwiki.com\">xwiki</a></span><!--stopwikilink--><br class=\"spacer\"></p>");
@@ -342,14 +342,14 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         clickMenu(MENU_LINK_EDIT);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         assertEquals(linkLabel, getInputValue("Label of the link to a web page"));
         assertEquals(linkURL, getInputValue("Web page address"));
 
         typeInInput("Web page address", newLinkURL);
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("this is [[" + linkLabel + ">>" + newLinkURL + "]] which rox");
     }
@@ -394,7 +394,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         clickMenu(MENU_LINK);
         clickMenu(MENU_WIKIPAGE);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         typeInExplorerInput(spaceName + "." + pageName);
         // wait for the space to get selected
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
@@ -408,7 +408,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertElementPresent("//input[@title=\"Label of the link to an existing page\" and @readonly=\"\"]");
 
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Photos]]");
 
@@ -421,7 +421,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         typeInInput("Label of the link to a web page", "bar");
         typeInInput("Web page address", "http://bar.myxwiki.org");
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         // now go on and edit the image
         select("XWE.body.firstChild.firstChild", 0, "XWE.body.firstChild.firstChild", 1);
@@ -429,7 +429,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         clickMenu(MENU_LINK_EDIT);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         assertEquals(spaceName + "." + pageName, getExplorerInputValue());
 
@@ -440,7 +440,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
             + "New page...\"]');");
         clickButtonWithText("Select");
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Images]] foo [[bar>>http://bar.myxwiki.org]]");
     }
@@ -548,7 +548,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         clickMenu(MENU_LINK_EDIT);
 
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         // now check if the dialog has loaded correctly
         ensureStepIsLoaded("xLinkToUrl");
@@ -557,7 +557,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         typeInInput("Web page address", "http://www.xwiki.org");
 
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("* one\n* [[two>>http://www.xwiki.org]]\n** three");
     }
@@ -573,7 +573,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WIKIPAGE));
         clickMenu(MENU_WIKIPAGE);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         String space = "Main";
         String page = "WebHome";
@@ -591,12 +591,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
         // fill in the label and create link
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         ensureStepIsLoaded("xLinkToWikiPage");
         typeInInput("Label of the link to an existing page", "foo");
         clickButtonWithText("Create Link");
 
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[foo>>xwiki:" + space + "." + page + "]]");
 
@@ -609,7 +609,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WIKIPAGE));
         clickMenu(MENU_WIKIPAGE);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         space = "Main";
         page = "NewPage";
@@ -626,7 +626,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
         // fill in the label and create link
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         ensureStepIsLoaded("xLinkToWikiPage");
         typeInInput("Label of the link to an existing page", "foo");
         clickButtonWithText("Create Link");
@@ -649,7 +649,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WEBPAGE));
         clickMenu(MENU_WEBPAGE);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         typeInInput("Web page address", "http://www.xwiki.org");
         clickButtonWithText("Create Link");
@@ -658,11 +658,11 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
         // fill in the label and create link
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Label of the link to a web page", "xwiki");
         clickButtonWithText("Create Link");
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[xwiki>>http://www.xwiki.org]]");
 
@@ -675,14 +675,14 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_EMAIL_ADDRESS));
         clickMenu(MENU_EMAIL_ADDRESS);
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
 
         clickButtonWithText("Create Link");
 
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
 
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Label of the link to an email address", "alice");
         clickButtonWithText("Create Link");
@@ -690,12 +690,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The email address was not set", getSelenium().getAlert());
 
-        ensureDialogIsOpen();
+        waitForDialogToOpen();
         ensureStepIsLoaded("xLinkToUrl");
         typeInInput("Email address", "alice@wonderla.nd");
         clickButtonWithText("Create Link");
 
-        ensureDialogIsClosed();
+        waitForDialogToClose();
 
         assertWiki("[[alice>>mailto:alice@wonderla.nd]]");
     }
@@ -718,22 +718,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
         assertFalse(isMenuEnabled(MENU_LINK_EDIT));
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
-    }
-
-    /**
-     * Make sure the link dialog is opened.
-     */
-    protected void ensureDialogIsOpen()
-    {
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
-    }
-
-    /**
-     * Make sure that the link dialog is closed.
-     */
-    protected void ensureDialogIsClosed()
-    {
-        waitForCondition("!selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
     }
 
     protected void ensureStepIsLoaded(String divClass)

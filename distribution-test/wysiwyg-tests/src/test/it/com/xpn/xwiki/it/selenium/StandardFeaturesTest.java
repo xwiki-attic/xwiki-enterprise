@@ -684,4 +684,65 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // make sure the dialog is closed
         waitForDialogToClose();
     }
+
+    /**
+     * @see XWIKI-3194: Cannot remove just one text style when using the style attribute instead of formatting tags
+     */
+    public void testRemoveBoldStyleWhenTheStyleAttributeIsUsed()
+    {
+        setWikiContent("hello (% style=\"font-weight: bold; font-family: monospace;\" %)vincent(%%) world");
+
+        // Select the word in bold.
+        selectNodeContents("XWE.body.firstChild.childNodes[1]");
+        assertTrue(isBoldDetected());
+
+        // Remove the bold style.
+        clickBoldButton();
+        assertFalse(isBoldDetected());
+
+        // Check the XWiki syntax.
+        assertWiki("hello (% style=\"font-weight: normal; font-family: monospace;\" %)vincent(%%) world");
+    }
+
+    /**
+     * @see XWIKI-2997: Cannot un-bold a text with style Title 1
+     */
+    public void testRemoveBoldStyleWithinHeading()
+    {
+        // Insert a heading and make sure it has bold style.
+        setWikiContent("(% style=\"font-weight: bold;\" %)\n= Title 1 =");
+
+        // Select a part of the heading.
+        select("XWE.body.firstChild.firstChild.firstChild", 3, "XWE.body.firstChild.firstChild.firstChild", 5);
+        assertTrue(isBoldDetected());
+
+        // Remove the bold style.
+        clickBoldButton();
+        assertFalse(isBoldDetected());
+
+        // Check the XWiki syntax.
+        assertWiki("(% style=\"font-weight: bold;\" %)\n= Tit(% style=\"font-weight: normal;\" %)le(%%) 1 =");
+    }
+
+    /**
+     * @see XWIKI-3111: A link to an email address can be removed by removing the underline style
+     */
+    public void testRemoveUnderlineStyleFromALink()
+    {
+        // Insert a link to an email address.
+        setWikiContent("[[foo>>mailto:x@y.z||title=\"bar\"]]");
+
+        // Select the text of the link.
+        selectNode("XWE.body.getElementsByTagName('a')[0]");
+        assertTrue(isUnderlineDetected());
+
+        // Try to remove the underline style.
+        clickUnderlineButton();
+        // The underline style is still present although we changed the value of the text-decoration property. I don't
+        // think we can do something about this.
+        assertTrue(isUnderlineDetected());
+
+        // Check the XWiki syntax.
+        assertWiki("[[foo>>mailto:x@y.z||style=\"text-decoration: none;\" title=\"bar\"]]");
+    }
 }

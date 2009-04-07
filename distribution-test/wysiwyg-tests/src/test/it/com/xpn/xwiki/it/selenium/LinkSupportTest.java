@@ -287,7 +287,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickBoldButton();
         typeText("rox");
         selectAllContent();
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WEBPAGE));
         clickMenu(MENU_WEBPAGE);
@@ -339,7 +338,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertWiki("this is [[" + linkLabel + ">>" + linkURL + "]] which rox");
 
         select("XWE.body.firstChild", 1, "XWE.body.firstChild.childNodes[1].firstChild", 5);
-        triggerToolbarUpdate();
 
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
@@ -427,7 +425,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // now go on and edit the image
         select("XWE.body.firstChild.firstChild", 0, "XWE.body.firstChild.firstChild", 1);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         clickMenu(MENU_LINK_EDIT);
@@ -464,7 +461,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // put selection inside first text
         moveCaret("XWE.body.firstChild.firstChild", 2);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
         assertTrue(isMenuEnabled(MENU_WIKIPAGE));
@@ -473,7 +469,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // put selection inside the first link
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 2);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -482,7 +477,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // put selection around the second link, in the parent
         select("XWE.body.firstChild", 3, "XWE.body.firstChild", 4);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -491,7 +485,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // put selection with ends at the end of previous text and at the beginning of the next text
         select("XWE.body.firstChild.childNodes[4]", 1, "XWE.body.firstChild.childNodes[6]", 0);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -509,7 +502,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // put selection around the bold text inside a link label
         select("XWE.body.firstChild.childNodes[9].childNodes[1].firstChild", 0,
             "XWE.body.firstChild.childNodes[9].childNodes[1].firstChild", 1);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -518,7 +510,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // set selection starting in the text before the link and ending in the link
         select("XWE.body.firstChild.childNodes[12]", 5, "XWE.body.firstChild.childNodes[13].firstChild.firstChild", 4);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_LINK_EDIT));
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
@@ -528,7 +519,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // set selection in two different links
         select("XWE.body.firstChild.childNodes[13].firstChild.firstChild", 4, "XWE.body.firstChild.childNodes[15]", 1);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_LINK_EDIT));
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
@@ -550,7 +540,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // now edit the link in the second list item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild.firstChild", 1);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         clickMenu(MENU_LINK_EDIT);
@@ -576,7 +565,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public void testValidationOnLinkInsert()
     {
         // try to create a link to an existing page without a label
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WIKIPAGE));
         clickMenu(MENU_WIKIPAGE);
@@ -608,11 +596,9 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertWiki("[[foo>>xwiki:" + space + "." + page + "]]");
 
         // clean up
-        selectAllContent();
-        typeDelete();
+        resetContent();
 
         // now try again with a new page link
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WIKIPAGE));
         clickMenu(MENU_WIKIPAGE);
@@ -648,11 +634,9 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertWiki("[[foo>>xwiki:Main.NewPage]]");
 
         // clean up
-        selectAllContent();
-        typeDelete();
+        resetContent();
 
         // now create a link to a web page
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WEBPAGE));
         clickMenu(MENU_WEBPAGE);
@@ -674,11 +658,9 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertWiki("[[xwiki>>http://www.xwiki.org]]");
 
         // clean up
-        selectAllContent();
-        typeDelete();
+        resetContent();
 
         // now create a link to an email page
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_EMAIL_ADDRESS));
         clickMenu(MENU_EMAIL_ADDRESS);
@@ -718,7 +700,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         typeText("bar");
         assertXHTML("<p>foo</p><p>bar<br class=\"spacer\"></p>");
         select("XWE.body.firstChild.firstChild", 2, "XWE.body.childNodes[1].firstChild", 2);
-        triggerToolbarUpdate();
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_WEBPAGE));
         assertFalse(isMenuEnabled(MENU_WIKIPAGE));

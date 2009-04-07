@@ -35,6 +35,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     public static final String MENU_WIKIPAGE = "Wiki page";
 
+    public static final String MENU_ATTACHMENT = "Attached file";
+
     public static final String MENU_LINK_EDIT = "Edit link";
 
     public static final String MENU_LINK_REMOVE = "Remove link";
@@ -75,7 +77,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
             + selectedPage + "\"]');");
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
-        ensureStepIsLoaded("xLinkToWikiPage");
+        ensureStepIsLoaded("xLinkConfig");
         clickButtonWithText("Create Link");
 
         // wait for the link dialog to close
@@ -106,7 +108,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
-        ensureStepIsLoaded("xLinkToWikiPage");
+        ensureStepIsLoaded("xLinkConfig");
         clickButtonWithText("Create Link");
 
         waitForDialogToClose();
@@ -134,7 +136,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
             + "New page...\"]');");
 
         clickButtonWithText("Select");
-        ensureStepIsLoaded("xLinkToWikiPage");
+        ensureStepIsLoaded("xLinkConfig");
         clickButtonWithText("Create Link");
         // wait for the link dialog to close
         waitForDialogToClose();
@@ -159,7 +161,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         typeInExplorerInput(newSpace + "." + newPage);
 
         clickButtonWithText("Select");
-        ensureStepIsLoaded("xLinkToWikiPage");
+        ensureStepIsLoaded("xLinkConfig");
         clickButtonWithText("Create Link");
         // wait for the link dialog to close
         waitForDialogToClose();
@@ -402,10 +404,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
             + "New page...\"]');");
         clickButtonWithText("Select");
-        ensureStepIsLoaded("xLinkToWikiPage");
-        assertEquals("photos.png", getInputValue("Label of the link to an existing page"));
+        ensureStepIsLoaded("xLinkConfig");
+        assertEquals("photos.png", getInputValue("Label of the created link"));
         // check that the label is readonly
-        assertElementPresent("//input[@title=\"Label of the link to an existing page\" and @readonly=\"\"]");
+        assertElementPresent("//input[@title=\"Label of the created link\" and @readonly=\"\"]");
 
         clickButtonWithText("Create Link");
         waitForDialogToClose();
@@ -431,7 +433,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK_EDIT);
         waitForDialogToOpen();
 
-        assertEquals(spaceName + "." + pageName, getExplorerInputValue());
+        // check the explorer selection
+        assertEquals("xwiki:" + spaceName + "." + pageName, getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "New page...\"]');");
 
         typeInExplorerInput(spaceName + "." + newPageName);
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
@@ -583,7 +590,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + page
             + "\"]');");
         clickButtonWithText("Select");
-        ensureStepIsLoaded("xLinkToWikiPage");
+        ensureStepIsLoaded("xLinkConfig");
         // try to create link without filling in the label
         clickButtonWithText("Create Link");
 
@@ -592,8 +599,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // fill in the label and create link
         waitForDialogToOpen();
-        ensureStepIsLoaded("xLinkToWikiPage");
-        typeInInput("Label of the link to an existing page", "foo");
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", "foo");
         clickButtonWithText("Create Link");
 
         waitForDialogToClose();
@@ -619,7 +626,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
             + "New page...\"]');");
         clickButtonWithText("Select");
-        ensureStepIsLoaded("xLinkToWikiPage");
+        ensureStepIsLoaded("xLinkConfig");
         clickButtonWithText("Create Link");
 
         assertTrue(getSelenium().isAlertPresent());
@@ -627,13 +634,13 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         // fill in the label and create link
         waitForDialogToOpen();
-        ensureStepIsLoaded("xLinkToWikiPage");
-        typeInInput("Label of the link to an existing page", "foo");
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", "foo");
         clickButtonWithText("Create Link");
 
         /*
          * Cannot check these, for the moment assertTrue(getSelenium().isAlertPresent());
-         * assertEquals("The name of the new space was not set", getSelenium().getAlert()); ensureDialogIsOpen();
+         * assertEquals("The name of the new space was not set", getSelenium() .getAlert()); ensureDialogIsOpen();
          * typeInInputWithTitle("New space name", "NewSpace"); typeInInputWithTitle("New page name", "NewPage");
          * clickCreateNewPageLinkButton(); ensureDialogIsClosed(); assertWiki("[[foo>>NewSpace.NewPage]]");
          */
@@ -718,6 +725,232 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
         assertFalse(isMenuEnabled(MENU_LINK_EDIT));
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
+    }
+
+    /**
+     * Test that the location of the link is preserved if we go back from the configuration step to the page selection
+     * step.
+     */
+    public void testLinkLocationIsPreservedOnPrevious()
+    {
+        String linkLabel = "foo";
+        typeText(linkLabel);
+        selectAllContent();
+
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WIKIPAGE);
+        // wait for dialog to open
+        waitForDialogToOpen();
+
+        String selectedSpace = "Blog";
+        String selectedPage = "AddCategory";
+        String changedSpace = "Main";
+        String changedPage = "RecentChanges";
+
+        typeInExplorerInput(selectedSpace + "." + selectedPage);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + selectedPage + "\"]');");
+        clickButtonWithText("Select");
+        // make sure the existing page config parameters are loaded
+        ensureStepIsLoaded("xLinkConfig");
+
+        // now hit previous
+        clickButtonWithText("Previous");
+        // wait for tree to load
+        ensureStepIsLoaded("xExplorerPanel");
+        // make sure input and selection in the tree reflect previously inserted values
+        assertEquals("xwiki:" + selectedSpace + "." + selectedPage, getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + selectedPage + "\"]');");
+
+        // and now change it
+        typeInExplorerInput(changedSpace + "." + changedPage);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + changedSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + changedPage
+            + "\"]');");
+        clickButtonWithText("Select");
+        // make sure the existing page config parameters are loaded
+        ensureStepIsLoaded("xLinkConfig");
+        clickButtonWithText("Create Link");
+
+        // wait for the link dialog to close
+        waitForDialogToClose();
+
+        assertWiki("[[" + linkLabel + ">>xwiki:" + changedSpace + "." + changedPage + "]]");
+    }
+
+    /**
+     * Test the basic feature of adding a link to an attached file with the label from the selected text.
+     */
+    public void testCreateLinkToAttachment()
+    {
+        String linkLabel = "boo";
+        typeText(linkLabel);
+        selectAllContent();
+
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_ATTACHMENT));
+        clickMenu(MENU_ATTACHMENT);
+        // wait for dialog to open
+        waitForDialogToOpen();
+
+        String attachSpace = "Main";
+        String attachPage = "RecentChanges";
+        String attachment = "lquo.gif";
+
+        typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
+            + "\"]');");
+
+        clickButtonWithText("Select");
+        // make sure the existing page config parameters are loaded
+        ensureStepIsLoaded("xLinkConfig");
+        clickButtonWithText("Create Link");
+
+        // wait for the link dialog to close
+        waitForDialogToClose();
+
+        assertWiki("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
+    }
+
+    /**
+     * Test the basic feature of adding a link to an attached file, configuring its parameters in the parameter panel.
+     */
+    public void testCreateLinkToAttachmentWithParameters()
+    {
+        String linkLabel = "rquo";
+        String linkTooltip = "Right quote image";
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_ATTACHMENT));
+        clickMenu(MENU_ATTACHMENT);
+        // wait for dialog to open
+        waitForDialogToOpen();
+
+        String attachSpace = "Main";
+        String attachPage = "RecentChanges";
+        String attachment = "rquo.gif";
+
+        typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
+            + "\"]');");
+
+        clickButtonWithText("Select");
+        // make sure the existing page config parameters are loaded
+        ensureStepIsLoaded("xLinkConfig");
+        // fill in the link label and title
+        typeInInput("Label of the created link", linkLabel);
+        typeInInput("Tooltip of the created link, which will appear when mouse is over the link", linkTooltip);
+
+        clickButtonWithText("Create Link");
+
+        // wait for the link dialog to close
+        waitForDialogToClose();
+
+        assertWiki("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "||title=\""
+            + linkTooltip + "\"]]");
+    }
+
+    /**
+     * Test that he creation of a link to an attached file is validated correctly.
+     */
+    public void testValidationOnLinkToAttachment()
+    {
+        String linkLabel = "boo";
+
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_ATTACHMENT));
+        clickMenu(MENU_ATTACHMENT);
+        // wait for dialog to open
+        waitForDialogToOpen();
+
+        String attachSpace = "Main";
+        String attachPage = "RecentChanges";
+        String attachment = "lquo.gif";
+
+        // get an error from not inserting the attachment name
+        typeInExplorerInput(attachSpace + "." + attachPage);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachPage
+            + "\"]');");
+
+        clickButtonWithText("Select");
+        assertTrue(getSelenium().isAlertPresent());
+        assertEquals("No attachment was selected", getSelenium().getAlert());
+
+        ensureStepIsLoaded("xExplorerPanel");
+
+        // type correct file reference
+        typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
+            + "\"]');");
+
+        clickButtonWithText("Select");
+        // make sure the existing page config parameters are loaded
+        ensureStepIsLoaded("xLinkConfig");
+        clickButtonWithText("Create Link");
+
+        assertTrue(getSelenium().isAlertPresent());
+        assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
+
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", linkLabel);
+        clickButtonWithText("Create Link");
+
+        // wait for the link dialog to close
+        waitForDialogToClose();
+
+        assertWiki("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
+    }
+
+    /**
+     * Test editing an existing link to an attachment
+     */
+    public void testEditLinkToAttachment()
+    {
+        setWikiContent("[[foobar>>attach:Main.RecentChanges@lquo.gif]]");
+        moveCaret("XWE.body.firstChild.firstChild", 2);
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        // assert the content of the suggest and the position on the tree
+        assertEquals("Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif"
+            + "\"]');");
+        // and edit it now
+        typeInExplorerInput("XWiki.AdminSheet@photos.png");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"XWiki\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"AdminSheet\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"photos.png"
+            + "\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+        
+        assertWiki("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
     }
 
     protected void ensureStepIsLoaded(String divClass)

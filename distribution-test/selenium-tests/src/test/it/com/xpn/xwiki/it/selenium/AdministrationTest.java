@@ -55,7 +55,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testGlobalAndSpaceSections()
     {
-        clickLinkWithText("Administrate wiki");
+        clickLinkWithText("Administer wiki");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='General']");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Presentation']");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Registration']");
@@ -91,7 +91,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         // Delete the Blog.Categories page and test it's not present in the admin global menu anymore
         deletePage("Blog", "Categories");
-        clickLinkWithText("Administrate wiki");
+        clickLinkWithText("Administer wiki");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Blog']");
         restorePage("Blog", "Categories");
     }
@@ -101,7 +101,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testSettingXWikiPreferences()
     {
-        clickLinkWithText("Administrate wiki");
+        clickLinkWithText("Administer wiki");
         getSelenium().select("goto-select", "label=Wiki administration");
         clickLinkWithXPath("//span[text()='General']", true);
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");

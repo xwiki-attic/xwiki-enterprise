@@ -192,6 +192,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void selectAllContent()
     {
         runScript("XWE.selectAll();");
+        triggerToolbarUpdate();
     }
 
     private void selectElement(String tagName, int occurence, boolean includeElement)
@@ -764,6 +765,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         script.append("XWE.selection.removeAllRanges();\n");
         script.append("XWE.selection.addRange(range);");
         runScript(script.toString());
+        triggerToolbarUpdate();
     }
 
     /**
@@ -791,6 +793,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         script.append("XWE.selection.removeAllRanges();\n");
         script.append("XWE.selection.addRange(range);");
         runScript(script.toString());
+        triggerToolbarUpdate();
     }
 
     /**
@@ -808,6 +811,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         script.append("XWE.selection.removeAllRanges();\n");
         script.append("XWE.selection.addRange(range);");
         runScript(script.toString());
+        triggerToolbarUpdate();
     }
 
     /**
@@ -825,6 +829,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         script.append("XWE.selection.removeAllRanges();\n");
         script.append("XWE.selection.addRange(range);");
         runScript(script.toString());
+        triggerToolbarUpdate();
     }
 
     /**
@@ -911,5 +916,23 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void closeDialog()
     {
         getSelenium().click("//img[contains(@class, \"gwt-Image\") and contains(@class, \"xDialogCloseIcon\")]");
+    }
+
+    /**
+     * @return {@code true} if the WYSIWYG editor detects the bold style on the current selection, {@code false}
+     *         otherwise
+     */
+    public boolean isBoldDetected()
+    {
+        return isToggleButtonDown("Bold (CTRL+B)");
+    }
+
+    /**
+     * @return {@code true} if the WYSIWYG editor detects the underline style on the current selection, {@code false}
+     *         otherwise
+     */
+    public boolean isUnderlineDetected()
+    {
+        return isToggleButtonDown("Underline (CTRL+U)");
     }
 }

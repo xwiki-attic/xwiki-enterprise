@@ -25,9 +25,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xwiki.test.XWikiTestSetup;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
-import org.xwiki.test.XWikiTestSetup;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit
@@ -48,6 +49,7 @@ public class AllTests extends TestCase
         addTestCase(suite, LinkSupportTest.class);
         addTestCase(suite, ListSupportTest.class);
         addTestCase(suite, MacroSupportTest.class);
+        addTestCase(suite, ColorSupportTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

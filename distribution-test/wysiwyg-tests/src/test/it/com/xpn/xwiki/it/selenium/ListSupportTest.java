@@ -517,29 +517,24 @@ public class ListSupportTest extends AbstractWysiwygTestCase
 
         // Outside lists
         moveCaret("XWE.body.firstChild.firstChild", 3);
-        triggerToolbarUpdate();
         assertFalse(isOrderedListDetected());
         assertFalse(isUnorderedListDetected());
 
         // Inside unordered list item
         moveCaret("XWE.body.childNodes[1].firstChild.firstChild", 4);
-        triggerToolbarUpdate();
         assertFalse(isOrderedListDetected());
         assertTrue(isUnorderedListDetected());
         // Inside ordered sub-list item
         moveCaret("XWE.body.childNodes[1].firstChild.lastChild.firstChild.firstChild", 7);
-        triggerToolbarUpdate();
         assertTrue(isOrderedListDetected());
         assertTrue(isUnorderedListDetected());
 
         // Inside ordered list item
         moveCaret("XWE.body.childNodes[2].firstChild.firstChild", 10);
-        triggerToolbarUpdate();
         assertTrue(isOrderedListDetected());
         assertFalse(isUnorderedListDetected());
         // Inside unordered sub-list item
         moveCaret("XWE.body.childNodes[2].firstChild.lastChild.firstChild.firstChild", 9);
-        triggerToolbarUpdate();
         assertTrue(isOrderedListDetected());
         assertTrue(isUnorderedListDetected());
     }

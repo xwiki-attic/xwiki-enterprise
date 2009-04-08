@@ -141,8 +141,8 @@ public class WikisResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-
-        assertEquals(7, pages.getPageSummaries().size());
+                
+        assertEquals(6, pages.getPageSummaries().size());
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);
@@ -156,7 +156,7 @@ public class WikisResourceTest extends AbstractHttpTest
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(4, pages.getPageSummaries().size());
+        assertEquals(3, pages.getPageSummaries().size());
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);

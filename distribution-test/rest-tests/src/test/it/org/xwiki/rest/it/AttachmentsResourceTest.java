@@ -19,6 +19,8 @@
  */
 package org.xwiki.rest.it;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -26,10 +28,22 @@ import java.util.UUID;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.PartBase;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
@@ -295,5 +309,42 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             assertEquals(versionToContentMap.get(attachment.getVersion()), getMethod.getResponseBodyAsString());
         }
 
+    }
+    
+    public void testPOSTAttachment() throws Exception {
+        TestUtils.banner("testPUTAttachment()");
+
+        final String attachmentName = String.format("%s.txt", UUID.randomUUID());
+        final String content = "ATTACHMENT CONTENT";
+
+        String attachmentsUri =
+            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsResource.class).build(getWiki(),
+                SPACE_NAME, PAGE_NAME, attachmentName).toString();
+
+        HttpClient httpClient = new HttpClient();
+        httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("Admin", "admin"));
+        httpClient.getParams().setAuthenticationPreemptive(true);
+        
+        Part[] parts = new Part[1];
+                       
+        ByteArrayPartSource baps = new ByteArrayPartSource(attachmentName, content.getBytes());
+        parts[0] = new FilePart(attachmentName, baps);                        
+
+        PostMethod postMethod = new PostMethod(attachmentsUri); 
+        MultipartRequestEntity mpre = new MultipartRequestEntity(parts, postMethod.getParams());         
+        postMethod.setRequestEntity(mpre);
+        httpClient.executeMethod(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(postMethod);
+
+        Attachment attachment = (Attachment) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
+        
+        Header location = postMethod.getResponseHeader("location");
+        
+        GetMethod getMethod = executeGet(location.getValue());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        assertEquals(content, getMethod.getResponseBodyAsString());
     }
 }

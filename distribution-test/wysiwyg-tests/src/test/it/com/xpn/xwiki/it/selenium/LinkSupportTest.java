@@ -390,7 +390,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // now add a link around this image
         String pageName = "Photos";
         String spaceName = "Blog";
-        String newPageName = "Images";
+        String newSpaceName = "Main";
+        String newPageName = "Dashboard";
 
         clickMenu(MENU_LINK);
         clickMenu(MENU_WIKIPAGE);
@@ -437,16 +438,17 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
             + "New page...\"]');");
 
-        typeInExplorerInput(spaceName + "." + newPageName);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
+        typeInExplorerInput(newSpaceName + "." + newPageName);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + newSpaceName
             + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "New page...\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + newPageName
+            + "\"]');");
         clickButtonWithText("Select");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Images]] foo [[bar>>http://bar.myxwiki.org]]");
+        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:" + newSpaceName + "." + newPageName
+            + "]] foo [[bar>>http://bar.myxwiki.org]]");
     }
 
     /**
@@ -930,7 +932,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         ensureStepIsLoaded("xLinkConfig");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
-        
+
         assertWiki("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
     }
 

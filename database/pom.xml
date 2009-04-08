@@ -39,6 +39,7 @@
       <artifactId>xwiki-enterprise-wiki</artifactId>
       <version>${pom.version}</version>
       <type>xar</type>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>

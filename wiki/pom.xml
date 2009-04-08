@@ -15,14 +15,12 @@
       <artifactId>xwiki-application-panels</artifactId>
       <version>${platform.panels.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-administration</artifactId>
       <version>${platform.administration.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
@@ -36,42 +34,36 @@
       <artifactId>xwiki-application-watchlist</artifactId>
       <version>${platform.watchlist.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-statistics</artifactId>
       <version>${platform.statistics.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-blog</artifactId>
       <version>${platform.blog.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-officeimporter</artifactId>
       <version>${platform.officeimporter.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-webdav</artifactId>
       <version>${platform.webdav.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-tag</artifactId>
       <version>${platform.tag.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>

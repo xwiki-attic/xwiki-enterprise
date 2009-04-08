@@ -39,6 +39,7 @@
       <groupId>org.codehaus.izpack</groupId>
       <artifactId>izpack-standalone-compiler</artifactId>
       <version>${izpack.compiler.version}</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>

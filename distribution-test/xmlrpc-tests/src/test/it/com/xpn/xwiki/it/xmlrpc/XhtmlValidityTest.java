@@ -71,8 +71,6 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
 
     private static Validator xv;
 
-    // private static Validator rv;
-
     private Confluence rpc;
 
     private int errors = 0;
@@ -98,7 +96,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
      * The new stderr stream we're using to replace the default console output.
      */
     private ByteArrayOutputStream err;
-
+    
     public XhtmlValidityTest(String fullPageName)
     {
         super("testValidityOfDocument");
@@ -129,6 +127,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
             XhtmlValidityTest.class.getClassLoader().getResource("xhtml1-strict.xsd"));
         // Schema rssSchema = sf.newSchema(new File("rdf.xsd"));
         xv = xhtmlSchema.newValidator();
+        
         // rv = rssSchema.newValidator();
         // rv.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
         // "http://purl.org/dc/elements/1.1/ dc.xsd http://www.w3.org/1999/xhtml xhtml1-strict.xsd
@@ -204,7 +203,9 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
             try {
                 xv.validate(s);
             } catch (SAXParseException ex) {
-                System.err.println(ex.getMessage());
+                System.err.println("Line " + ex.getLineNumber() + ", Column " + ex.getLineNumber() + " " + ex.getMessage());
+                System.err.println("Validated content:");
+                System.err.println(completeXhtml(page.getTitle(), renderedContent));
                 errors++;
             }
             // errors += assertCssValid(page.getUrl());
@@ -306,19 +307,17 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
 
     public void error(SAXParseException exception) throws SAXException
     {
-        this.errors++;
-        System.out.println(exception.getMessage());
+        throw exception;
     }
 
     public void fatalError(SAXParseException exception) throws SAXException
     {
-        this.errors++;
-        System.out.println(exception.getMessage());
-        exception.printStackTrace();
+        throw exception;
     }
 
     public void warning(SAXParseException exception) throws SAXException
     {
-        System.out.println(exception.getMessage());
+        System.out.println("Warning at " + exception.getLineNumber() + ":" + exception.getColumnNumber() 
+            + " " + exception.getMessage());
     }
 }

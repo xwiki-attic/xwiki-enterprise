@@ -58,12 +58,15 @@
     <platform.web.version>1.8-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.17-SNAPSHOT</platform.panels.version>
     <platform.administration.version>1.9-SNAPSHOT</platform.administration.version>
-    <platform.scheduler.version>1.7-SNAPSHOT</platform.scheduler.version>
-    <platform.watchlist.version>1.14-SNAPSHOT</platform.watchlist.version>
+    <!-- Since Watchlist 1.14 (based on Scheduler 1.6), Watchlist plugin needs core 1.9 api-->
+    <platform.scheduler.version>1.6</platform.scheduler.version>
+    <!-- Since 1.14, Watchlist plugin needs core 1.9 api-->
+    <platform.watchlist.version>1.13</platform.watchlist.version>
     <platform.blog.version>1.2-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.5-SNAPSHOT</platform.statistics.version>
-    <platform.plugin.lucene.version>1.8-SNAPSHOT</platform.plugin.lucene.version>
+    <!-- Since 1.8, Lucene plugin needs core 1.9 api-->
+    <platform.plugin.lucene.version>1.7</platform.plugin.lucene.version>
     <platform.plugin.skinx.version>1.7-SNAPSHOT</platform.plugin.skinx.version>
     <platform.officeimporter.version>1.5-SNAPSHOT</platform.officeimporter.version>
     <platform.webdav.version>1.2-SNAPSHOT</platform.webdav.version>

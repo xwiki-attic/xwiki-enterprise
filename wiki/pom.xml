@@ -27,7 +27,6 @@
       <artifactId>xwiki-application-scheduler</artifactId>
       <version>${platform.scheduler.version}</version>
       <type>xar</type>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.applications</groupId>

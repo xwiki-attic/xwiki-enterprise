@@ -134,6 +134,35 @@ public class ColorSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Types two words in different colors, selects both and tries to change their color.
+     * 
+     * @see XWIKI-3564: Cannot change the text color after selecting text with different colors in IE
+     */
+    public void testChangeTextColorAfterSelectingTextWithDifferentColors()
+    {
+        // Type the two words.
+        typeText("foo bar");
+
+        // Select the first word and change its color to red.
+        select("XWE.body.firstChild", 0, "XWE.body.firstChild", 3);
+        clickForegroundColorButton();
+        selectColor("rgb(255, 0, 0)");
+
+        // Select the second word and change its color to blue.
+        select("XWE.body.childNodes[1]", 1, "XWE.body.childNodes[1]", 4);
+        clickForegroundColorButton();
+        selectColor("rgb(0, 0, 255)");
+
+        // Select both words and change their color to green.
+        selectAllContent();
+        clickForegroundColorButton();
+        selectColor("rgb(0, 255, 0)");
+
+        // Check the XWiki syntax.
+        assertWiki("(% style=\"color: rgb(0, 255, 0);\" %)foo bar");
+    }
+
+    /**
      * Clicks on the tool bar button for changing the text color.
      */
     protected void clickForegroundColorButton()

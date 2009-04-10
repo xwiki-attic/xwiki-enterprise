@@ -127,7 +127,7 @@ public class WikisResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
 
         Pages pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-
+        
         assertTrue(pages.getPageSummaries().size() > 0);
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
@@ -141,8 +141,13 @@ public class WikisResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        
+        System.out.format("Pages: %d\n", pages.getPageSummaries().size());
+        for(PageSummary pageSummary : pages.getPageSummaries()) {
+            System.out.format("* %s\n", pageSummary.getFullName());
+        }
                 
-        assertEquals(6, pages.getPageSummaries().size());
+        assertEquals(7, pages.getPageSummaries().size());
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);
@@ -155,8 +160,13 @@ public class WikisResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        
+        System.out.format("Pages: %d\n", pages.getPageSummaries().size());
+        for(PageSummary pageSummary : pages.getPageSummaries()) {
+            System.out.format("* %s\n", pageSummary.getFullName());
+        }
 
-        assertEquals(3, pages.getPageSummaries().size());
+        assertEquals(4, pages.getPageSummaries().size());
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);

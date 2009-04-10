@@ -146,6 +146,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     /**
      * Test the basic feature for adding a link to a new page in a new space.
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3511
      */
     public void testCreateLinkToNewPageInNewSpace()
     {

@@ -532,6 +532,83 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Tests if the ToC macro can be inserted in an empty paragraph without receiving the "Not an inline macro" error
+     * message.
+     * 
+     * @see XWIKI-3551: Cannot insert standalone macros
+     */
+    public void testInsertTOCMacro()
+    {
+        // Create two headings to be able to detect if the ToC macro has the right output.
+        typeText("Title 1");
+        applyStyleTitle1();
+
+        typeEnter(2);
+        typeText("Title 2");
+        applyStyleTitle2();
+
+        // Let's insert a ToC macro between the two headings.
+        // First, place the caret at the end of first heading.
+        moveCaret("XWE.body.getElementsByTagName('h1')[0].firstChild", 7);
+        // Get out of the heading.
+        typeEnter(2);
+        // Insert the ToC macro
+        insertMacro("toc");
+        // Make sure the ToC starts with level 2 headings.
+        setFieldValue("pd-start-input", "2");
+        applyMacroChanges();
+
+        // Check the output of the ToC macro.
+        assertEquals("1", getSelenium().getEval("window." + getDOMLocator("getElementsByTagName('li')") + ".length"));
+
+        // Check the XWiki syntax.
+        assertWiki("= Title 1 =\n\n{{toc/}}\n\n== Title 2 ==");
+    }
+
+    /**
+     * Inserts a HTML macro, whose output contains block-level elements, in the middle of a paragraph's text and tests
+     * if the macro can be fixed by separating it in an empty paragraph.
+     * 
+     * @see XWIKI-3551: Cannot insert standalone macros
+     */
+    public void testInsertHTMLMacroWithBlockContentInANotEmptyParagraph()
+    {
+        // Create a paragraph with some text inside.
+        typeText("beforeafter");
+        applyStyleParagraph();
+
+        // Place the caret in the middle of the paragraph.
+        moveCaret("XWE.body.firstChild.firstChild", 6);
+
+        // Insert the HTML macro.
+        insertMacro("html");
+        // Make the macro render a list, which is forbidden inside a paragraph.
+        setFieldValue("pd-content-input", "<ul><li>xwiki</li></ul>");
+        applyMacroChanges();
+
+        // At this point the macro should render an error message instead of the list.
+        String listItemCountExpression = "window." + getDOMLocator("getElementsByTagName('li')") + ".length";
+        assertEquals("0", getSelenium().getEval(listItemCountExpression));
+
+        // Let's fix the macro by separating it in an empty paragraph.
+        // Move the caret before the macro and press Enter twice to move it into a new paragraph.
+        moveCaret("XWE.body.firstChild.firstChild", 6);
+        typeEnter(2);
+        // Move the caret after the macro and press Enter twice to move the following text in a new paragraph.
+        moveCaret("XWE.body.lastChild.lastChild", 0);
+        typeEnter(2);
+
+        // Now the macro should be in an empty paragraph.
+        // Let's refresh the content to see if the macro was fixed.
+        refreshMacros();
+        // Check the output of the HTML macro.
+        assertEquals("1", getSelenium().getEval(listItemCountExpression));
+
+        // Check the XWiki syntax.
+        assertWiki("before\n\n{{html}}<ul><li>xwiki</li></ul>{{/html}}\n\nafter");
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

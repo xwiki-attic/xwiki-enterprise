@@ -465,20 +465,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertEquals(pageHistorySummary.getVersion(), page.getVersion());
         assertEquals(pageHistorySummary.getModifier(), page.getModifier());
     }
-
-    public void testStorePageWithInvalidId()
-    {
-        try {
-            XWikiPage page = new XWikiPage();
-            page.setId("Space.Name::Version");
-            page.setTitle("Test page");
-            page.setContent("Test page");
-            this.rpc.storePage(page);
-            Assert.fail();
-        } catch (Exception e) {
-        }
-    }
-
+    
     public void testRenderContent() throws Exception
     {
         String html = this.rpc.renderContent(TestConstants.TEST_SPACE, TestConstants.TEST_PAGE, "");

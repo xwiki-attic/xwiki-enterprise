@@ -53,6 +53,11 @@
 </object>
 <content>{pre}
 $context.setCacheDuration(1800)
+#if("$!request.xpage" == 'plain')
+  $response.setContentType('application/rdf+xml')
+#elseif("$!request.xpage" == '')
+  &gt;pre&lt;&gt;![CDATA[
+#end
 &lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wiki="http://purl.org/rss/1.0/modules/wiki/" xmlns:html="http://www.w3.org/1999/xhtml"&gt;
 &lt;channel rdf:about="$baseurl"&gt;
 &lt;title&gt;
@@ -131,5 +136,8 @@ $request.serverName
 #end
 #end
 &lt;/rdf:RDF&gt;
+#if("$!request.xpage" == '')
+  ]]&lt;&gt;/pre&lt;
+#end
 {/pre}</content>
 </xwikidoc>

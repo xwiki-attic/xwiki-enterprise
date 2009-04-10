@@ -56,14 +56,14 @@
 <content>1 $msg.get("search")
 
 #if(!$request.space)
-  #set($space = "All")
+  #set($space = 'All')
 #else
   #set($space = $request.space)
 #end
 
 #set($spacesText = {})
 #set($spaces = $xwiki.spaces)
-#set($ok = $spacesText.put("All","All"))
+#set($ok = $spacesText.put('All','All'))
 #foreach($space in $spaces)
   #set($ok = $spacesText.put($space,$space))
 #end
@@ -85,9 +85,9 @@
 #set($text = "$!request.getParameter('text')")
 #set($utext = $util.encodeURI($text))
 #if($space == "All")
-  #set($url = $xwiki.getURL("Main.WebSearchRss", "view", "xpage=rdf&amp;amp;text=${utext}" ))
+  #set($url = $xwiki.getURL('Main.WebSearchRss', 'view', "xpage=plain&amp;amp;text=${utext}" ))
 #else
-  #set($url = $xwiki.getURL("Main.WebSearchRss", "view", "xpage=rdf&amp;space=$space&amp;text=${utext}"))
+  #set($url = $xwiki.getURL('Main.WebSearchRss', 'view', "xpage=plain&amp;space=$space&amp;text=${utext}"))
 #end
 
 &lt;div style="float: right;"&gt;
@@ -97,9 +97,9 @@
 &lt;form action=""&gt;
   {pre}
     &lt;div class="centered"&gt;
-      $msg.get("xe.search.query")
+      $msg.get('xe.search.query')
       &lt;input type="text" name="text" value="$xwiki.getFormEncoded($!text)" size="20"/&gt;
-      $msg.get("xe.search.in.space") #spaceselect($space $spaces $spacesText) &lt;input type="submit" value="$msg.get("xe.search.go")"/&gt;
+      $msg.get('xe.search.in.space') #spaceselect($space $spaces $spacesText) &lt;input type="submit" value="$msg.get('xe.search.go')"/&gt;
     &lt;/div&gt;
   {/pre}
 &lt;/form&gt;
@@ -108,5 +108,5 @@
 #includeInContext("XWiki.Results")
 
 #set($luceneSearch = "[$msg.get('xe.search.lucene')&gt;Main.LuceneSearch?text=$!utext]")
-#info($msg.get("xe.search.lucene.try", [$luceneSearch]))
+#info($msg.get('xe.search.lucene.try', [$luceneSearch]))
 </content></xwikidoc>

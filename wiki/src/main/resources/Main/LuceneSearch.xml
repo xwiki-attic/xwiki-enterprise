@@ -71,7 +71,7 @@
 ##
 {pre}
 #set ($displayUI = true)
-#if ($request.xpage &amp;&amp; $request.xpage == "rdf")
+#if ("$!request.xpage" == 'rdf')
   #set ($displayUI = false)
 #end
 ## ---------------
@@ -85,7 +85,7 @@
 ## ---------------
 ## Space filtering
 ## ---------------
-#if($request.space &amp;&amp; $request.space != "")
+#if("$!request.space" != '')
   #set($space = $request.space)
   #set($reqspace = " AND web:${space}")
 #else
@@ -180,9 +180,9 @@
 ## RSS link
 ## ---------------
 #if($space == "")
-  #set($url = $xwiki.getURL($doc.fullName, "view", "xpage=rdf&amp;amp;text=${utext}" ))
+  #set($url = $xwiki.getURL($doc.fullName, 'view', "xpage=rdf&amp;amp;text=${utext}" ))
 #else
-  #set($url = $xwiki.getURL($doc.fullName, "view", "xpage=rdf&amp;space=$space&amp;text=${utext}"))
+  #set($url = $xwiki.getURL($doc.fullName, 'view', "xpage=rdf&amp;space=$space&amp;text=${utext}"))
 #end
 #if ($displayUI)
 &lt;div style="float: right;"&gt;
@@ -201,7 +201,7 @@ $msg.get("xe.search.query") &lt;input type="text" name="text" value="$xwiki.getF
 ## ---------------
 ## Results processing
 ## ---------------
-#if($query != "")
+#if($query != '')
 	#set($lucene = $xwiki.getPlugin("lucene"))
 	#if($lucene)
                 ## ---------------
@@ -249,7 +249,7 @@ $msg.get("xe.search.query") &lt;input type="text" name="text" value="$xwiki.getF
                         ## -----------------
                         ## Display results
                         ## -----------------
-                        #if ($request.xpage &amp;&amp; $request.xpage == "rdf")
+                        #if ("$!request.xpage" == 'rdf')
                           #set ($baseurl = "http://${request.serverName}")
                           #set ($descText = $msg.get("xe.search.rss.feedfor"))
                           #set ($description = "$descText '$text'")

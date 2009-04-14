@@ -49,7 +49,8 @@ public class AllTests extends TestCase
         addTestCase(suite, LinkSupportTest.class);
         addTestCase(suite, ListSupportTest.class);
         addTestCase(suite, MacroSupportTest.class);
-        addTestCase(suite, ColorSupportTest.class);
+        // Color support tests are disabled till we find a way to enable the color plugin before running the tests.
+        // addTestCase(suite, ColorSupportTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

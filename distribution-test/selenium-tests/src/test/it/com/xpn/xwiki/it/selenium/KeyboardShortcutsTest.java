@@ -93,7 +93,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // s : edit class
         testShortcutFromTextPresent(viewURL, "s", "Choose a property to edit or add a property to the class");
         // d : code
-        testShortcutFromTextPresent(viewURL, "d", "Wiki code for Training Zone");
+        testShortcutFromTextPresent(viewURL, "d", "Wiki source code of Training Zone");
         // Delete : delete
         testShortcutFromTextPresent(viewURL, "\\46", "Are you sure you wish to move this document to the recycle bin");
         // F2 : rename

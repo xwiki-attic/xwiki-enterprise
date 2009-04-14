@@ -71,7 +71,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
         waitForCondition("selenium.isElementPresent(\"//a[@id='Informationlink']\")!=false;");
         clickLinkWithXPath("//a[@id='Informationlink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Creation");
+        assertTextPresent("Created");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
@@ -109,8 +109,8 @@ public class DocExtraTest extends AbstractXWikiTestCase
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
         getSkinExecutor().pressKeyboardShortcut("i", false, false, false);
-        waitForCondition("selenium.isTextPresent('Creation')!=-1;");
-        assertTextPresent("Creation");
+        waitForCondition("selenium.isTextPresent('Created')!=-1;");
+        assertTextPresent("Created");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
@@ -145,7 +145,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Information");
-        waitForCondition("selenium.page().bodyText().indexOf('Creation')!=-1;");
+        waitForCondition("selenium.page().bodyText().indexOf('Created')!=-1;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
@@ -180,7 +180,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         clickLinkWithXPath("//a[@id='tmShowInformation']", false);
         waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Creation");
+        assertTextPresent("Created");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");

@@ -146,6 +146,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     /**
      * Test the basic feature for adding a link to a new page in a new space.
+     * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3511
      */
     public void testCreateLinkToNewPageInNewSpace()
@@ -910,7 +911,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public void testEditLinkToAttachment()
     {
         setWikiContent("[[foobar>>attach:Main.RecentChanges@lquo.gif]]");
-        moveCaret("XWE.body.firstChild.firstChild", 2);
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
@@ -935,6 +935,70 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         assertWiki("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
+    }
+
+    /**
+     * Test that editing a link with custom parameters set from wiki syntax preserves the parameters of the link.
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3568
+     */
+    public void testEditLinkPreservesCustomParameters()
+    {
+        setWikiContent("[[foobar>>Main.RecentChanges||class=\"foobarLink\"]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        // assert the content of the suggest and the position on the tree
+        assertEquals("Main.RecentChanges", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and "
+            + "nobr=\"RecentChanges\"]');");
+        // and edit it now
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", "barfoo");
+        typeInInput("Tooltip of the created link, which will appear when mouse is over the link", "Foo and bar");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[barfoo>>xwiki:Main.RecentChanges||class=\"foobarLink\" title=\"Foo and bar\"]]");
+    }
+
+    /**
+     * Test that quotes in link tooltips are correctly escaped.
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3569
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3575
+     */
+    public void testQuoteInLinkTooltip()
+    {
+        String linkLabel = "rox";
+        String url = "http://www.xwiki.org";
+        String tooltip = "our xwiki \"rox\"";
+        typeText(linkLabel);
+        selectAllContent();
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_WEBPAGE);
+        // make sure the dialog is open
+        waitForDialogToOpen();
+        // ensure wizard step is loaded
+        ensureStepIsLoaded("xLinkToUrl");
+        typeInInput("Tooltip of the created link, which will appear when mouse is over the link", tooltip);
+        typeInInput("Web page address", url);
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[" + linkLabel + ">>" + url + "||title=\"our xwiki \\\"rox\\\"\"]]");
+
+        // now test the link is correctly parsed back
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        clickMenu(MENU_LINK);
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xLinkToUrl");
+        assertEquals(tooltip,
+            getInputValue("Tooltip of the created link, which will appear when mouse is over the link"));
     }
 
     protected void ensureStepIsLoaded(String divClass)

@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>1.9-milestone-1</version>
+    <version>1.9-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
   <name>XWiki Products - Enterprise - Database - HSQLDB</name>

@@ -113,10 +113,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testPressDeleteJustBeforeMacro()
     {
-        setWikiContent("{{html}}k{{/html}}l");
+        setWikiContent("j{{html}}k{{/html}}l");
+        // Move the caret just before the macro.
+        moveCaret("XWE.body.firstChild.firstChild", 1);
         typeDelete();
         typeText("x");
-        assertWiki("xl");
+        assertWiki("jxl");
     }
 
     /**

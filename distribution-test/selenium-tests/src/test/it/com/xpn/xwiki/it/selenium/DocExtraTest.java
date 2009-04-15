@@ -78,7 +78,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
         waitForCondition("selenium.isElementPresent(\"//a[@id='Commentslink']\")!=false;");
         clickLinkWithXPath("//a[@id='Commentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Add Comment");
+        assertTextPresent("Add comment");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
     }
@@ -116,8 +116,8 @@ public class DocExtraTest extends AbstractXWikiTestCase
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
         getSkinExecutor().pressKeyboardShortcut("c", false, false, false);
-        waitForCondition("selenium.isTextPresent('Add Comment')!=-1;");
-        assertTextPresent("Add Comment");
+        waitForCondition("selenium.isTextPresent('Add comment')!=-1;");
+        assertTextPresent("Add comment");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
@@ -151,7 +151,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Comments");
-        waitForCondition("selenium.page().bodyText().indexOf('Add Comment')!=-1;");
+        waitForCondition("selenium.page().bodyText().indexOf('Add comment')!=-1;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
     }
@@ -187,7 +187,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         clickLinkWithXPath("//a[@id='tmShowComments']", false);
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Add Comment");
+        assertTextPresent("Add comment");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");

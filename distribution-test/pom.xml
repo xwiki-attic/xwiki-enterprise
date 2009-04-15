@@ -27,19 +27,19 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>1.9-milestone-1</version>
   </parent>
   <artifactId>xwiki-enterprise-test</artifactId>
-  <version>1.9-SNAPSHOT</version>
+  <version>1.9-milestone-1</version>
   <name>XWiki Products - Enterprise - Functional Tests</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional Tests</description>
   <!-- We need to specify SCM information since this module's name doesn't match its artifactId and if this module is checked-out
        by itself (for example by Continuum) it'll have wrong SCM information computed. -->
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/distribution-test</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/distribution-test</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/distribution-test</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.9-milestone-1/distribution-test</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.9-milestone-1/distribution-test</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-1.9-milestone-1/distribution-test</url>
   </scm>
   <dependencies>
     <dependency>

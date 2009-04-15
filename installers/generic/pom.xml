@@ -27,10 +27,10 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>1.9-milestone-1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-generic</artifactId>
-  <version>1.9-SNAPSHOT</version>
+  <version>1.9-milestone-1</version>
   <name>XWiki Products - Enterprise - Installers - Generic</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Installers - Generic</description>

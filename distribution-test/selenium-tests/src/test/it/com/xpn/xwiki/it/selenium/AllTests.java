@@ -79,6 +79,7 @@ public class AllTests extends TestCase
         addTestCase(suite, DocExtraTest.class);
         addTestCase(suite, PanelsTest.class);
         addTestCase(suite, SectionTest.class);
+        addTestCase(suite, SimpleAdvancedTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

@@ -76,4 +76,48 @@ public class UserProfileTest extends AbstractXWikiTestCase
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The password cannot be empty.", getSelenium().getAlert());
     }
+
+    public void testSimpleAdvancedUsertype()
+    {
+        // Remove "JohnSmith" user if already exists
+        loginAsAdmin();
+        deletePage("XWiki", "JohnSmith");
+        getSelenium().waitForPageToLoad("30000");
+        // Ensure that the user isn't logged in
+        logout();
+
+        // Register new user "JohnSmith"
+        open("XWiki", "Register", "register", "register_first_name=John&register_last_name=Smith&xwikiname=JohnSmith"
+            + "&register_password=JohnSmith&register2_password=JohnSmith&register_email=JohnSmith@example.com"
+            + "&template=XWiki.XWikiUserTemplate&register=1");
+
+        // Login as "JohnSmith" and chech for the user type. Verify whether the Usertype Switch Link works.
+        login("JohnSmith", "JohnSmith", false);
+        getSelenium().waitForPageToLoad("30000");
+        open("XWiki", "JohnSmith");
+        assertTextPresent("Switch to Advanced edit mode");
+        getSelenium().click("link=Switch to Advanced edit mode");
+        getSelenium().waitForPageToLoad("30000");
+        getSelenium().click("link=Switch to Simple edit mode");
+        getSelenium().waitForPageToLoad("30000");
+        assertTextPresent("Switch to Advanced edit mode");
+        logout();
+
+        // Login as "Admin" and Verify whether usertype of "JohnSmith" is Simple.
+        loginAsAdmin();
+        open("XWiki", "JohnSmith");
+        assertTextPresent("Switch to Advanced edit mode");
+
+        // Switch Usertype of "JohnSmith" to Advanced.
+        getSelenium().click("link=Switch to Advanced edit mode");
+        getSelenium().waitForPageToLoad("30000");
+        assertTextPresent("Switch to Simple edit mode");
+        logout();
+
+        // Login as "JohnSmith" and verify whether the usertype is Advanced.
+        login("JohnSmith", "JohnSmith", false);
+        open("XWiki", "JohnSmith");
+        assertTextPresent("Switch to Simple edit mode");
+        logout();
+    }
 }

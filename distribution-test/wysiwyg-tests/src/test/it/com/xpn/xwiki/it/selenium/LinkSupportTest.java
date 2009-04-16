@@ -939,6 +939,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     /**
      * Test that editing a link with custom parameters set from wiki syntax preserves the parameters of the link.
+     * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3568
      */
     public void testEditLinkPreservesCustomParameters()
@@ -968,6 +969,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     /**
      * Test that quotes in link tooltips are correctly escaped.
+     * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3569
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3575
      */
@@ -999,6 +1001,69 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         ensureStepIsLoaded("xLinkToUrl");
         assertEquals(tooltip,
             getInputValue("Tooltip of the created link, which will appear when mouse is over the link"));
+    }
+
+    /**
+     * Test that the default selection is set to the current page when opening the wizard to create a link to a wiki
+     * page or attachment.
+     */
+    public void testDefaultSelection()
+    {
+        // make sure we reload the current page, to check first display of the wikipage and attachment explorers
+        switchToWikiEditor();
+        switchToWysiwygEditor();
+        String currentSpace = "Main";
+        String currentPage = "WysiwygTest";
+        // check the wikipage link dialog
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_WIKIPAGE));
+        clickMenu(MENU_WIKIPAGE);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals(currentSpace + "." + currentPage, getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
+            + currentPage + "\"]');");
+        closeDialog();
+        waitForDialogToClose();
+
+        // check the attachment link dialog
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_ATTACHMENT));
+        clickMenu(MENU_ATTACHMENT);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals(currentSpace + "." + currentPage + "#Attachments", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
+            + currentPage + "\"]');");
+        typeInExplorerInput("XWiki.AdminSheet@photos.png");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"XWiki\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"AdminSheet\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"photos.png"
+            + "\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", "barfoo");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        // now type something and check second display of the dialog
+        typeText("poof");
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_ATTACHMENT));
+        clickMenu(MENU_ATTACHMENT);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals(currentSpace + "." + currentPage + "#Attachments", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
+            + currentPage + "\"]');");
+        closeDialog();
+        waitForDialogToClose();
     }
 
     protected void ensureStepIsLoaded(String divClass)

@@ -69,11 +69,6 @@ public class WatchListTest extends AbstractXWikiTestCase
 
         // Set the Admin user's email address to use a localhost domain so that the mail is caught by our
         // GreenMail Mock mail server.
-/*        open("XWiki", "WebHome", "admin");
-        clickLinkWithText("General");
-        setFieldValue("XWiki.XWikiPreferences_0_admin_email", "admin@localhost");
-        clickLinkWithLocator("formactionsac", true);*/
-
         open("/xwiki/bin/edit/XWiki/Admin?editor=object");
         clickLinkWithXPath("//div[@id='field_XWiki.XWikiUsers_0_title']/h6", false);
         waitForCondition("selenium.isElementPresent(\"//input[@id='XWiki.XWikiUsers_0_email']\")!=false;");

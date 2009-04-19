@@ -426,17 +426,17 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickUnorderedListButton()
     {
-        pushButton("//div[@title='Unordered list']");
+        pushToolBarButton("Unordered list");
     }
 
     public void clickOrderedListButton()
     {
-        pushButton("//div[@title='Ordered list']");
+        pushToolBarButton("Ordered list");
     }
 
     public void clickIndentButton()
     {
-        pushButton("//div[@title='Indent']");
+        pushToolBarButton("Indent");
     }
 
     public boolean isIndentButtonEnabled()
@@ -446,7 +446,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickOutdentButton()
     {
-        pushButton("//div[@title='Outdent']");
+        pushToolBarButton("Outdent");
     }
 
     public boolean isOutdentButtonEnabled()
@@ -456,42 +456,42 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickBoldButton()
     {
-        pushButton("//div[@title='Bold (CTRL+B)']");
+        pushToolBarButton("Bold (CTRL+B)");
     }
 
     public void clickItalicsButton()
     {
-        pushButton("//div[@title='Italic (CTRL+I)']");
+        pushToolBarButton("Italic (CTRL+I)");
     }
 
     public void clickUnderlineButton()
     {
-        pushButton("//div[@title='Underline (CTRL+U)']");
+        pushToolBarButton("Underline (CTRL+U)");
     }
 
     public void clickStrikethroughButton()
     {
-        pushButton("//div[@title='Strikethrough']");
+        pushToolBarButton("Strikethrough");
     }
 
     public void clickHRButton()
     {
-        pushButton("//div[@title='Insert horizontal ruler']");
+        pushToolBarButton("Insert horizontal ruler");
     }
 
     public void clickSubscriptButton()
     {
-        pushButton("//div[@title='Subscript']");
+        pushToolBarButton("Subscript");
     }
 
     public void clickSuperscriptButton()
     {
-        pushButton("//div[@title='Superscript']");
+        pushToolBarButton("Superscript");
     }
 
     public void clickUndoButton()
     {
-        pushButton("//div[@title='Undo (CTRL+Z)']");
+        pushToolBarButton("Undo (CTRL+Z)");
     }
 
     public void clickUndoButton(int count)
@@ -503,7 +503,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickRedoButton()
     {
-        pushButton("//div[@title='Redo (CTRL+Y)']");
+        pushToolBarButton("Redo (CTRL+Y)");
     }
 
     public void clickRedoButton(int count)
@@ -515,27 +515,27 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickSymbolButton()
     {
-        pushButton("//div[@title='Insert custom character']");
+        pushToolBarButton("Insert custom character");
     }
 
     public void clickInsertImageButton()
     {
-        pushButton("//div[@title='Insert/Edit Image']");
+        pushToolBarButton("Insert/Edit Image");
     }
 
     public void clickInsertLinkButton()
     {
-        pushButton("//div[@title='Insert link']");
+        pushToolBarButton("Insert link");
     }
 
     public void clickUnlinkButton()
     {
-        pushButton("//div[@title='Unlink']");
+        pushToolBarButton("Unlink");
     }
 
     public void clickOfficeImporterButton()
     {
-        pushButton("//div[@title='Import office content']");
+        pushToolBarButton("Import office content");
     }
 
     public boolean isUnlinkButtonEnabled()
@@ -551,7 +551,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickInsertTableButton()
     {
-        pushButton("//div[@title='Inserts a new table']");
+        pushToolBarButton("Inserts a new table");
     }
 
     public void clickBackToEdit()
@@ -610,6 +610,16 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().mouseDown(locator);
         getSelenium().mouseUp(locator);
         getSelenium().mouseOut(locator);
+    }
+
+    /**
+     * Pushes the tool bar button with the specified title.
+     * 
+     * @param title the title of the tool bar button to be pushed
+     */
+    public void pushToolBarButton(String title)
+    {
+        pushButton("//div[@title='" + title + "']");
     }
 
     /**

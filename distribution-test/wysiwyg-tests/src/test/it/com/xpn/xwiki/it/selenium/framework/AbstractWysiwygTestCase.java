@@ -20,6 +20,7 @@
 package com.xpn.xwiki.it.selenium.framework;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -57,18 +58,13 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
         public void run()
         {
-            byte[] buf = new byte[512];
-            int n;
-
             try {
-                while (true) {
-                    n = is.read(buf);
-                    if (n == 0) {
-                        return;
-                    }
-                    os.write(buf, 0, n);
+                int bytesRead;
+                byte[] buffer = new byte[512];
+                while ((bytesRead = is.read(buffer)) > 0) {
+                    os.write(buffer, 0, bytesRead);
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 LogFactory.getLog(StreamRedirector.class).error("Error while reading/writing: " + e);
             }
         }

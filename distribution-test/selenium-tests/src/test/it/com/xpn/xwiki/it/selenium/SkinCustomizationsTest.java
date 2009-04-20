@@ -19,11 +19,11 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Verify the skin customization features available in the Administration (like changing the default CSS, etc).
@@ -40,19 +40,21 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
         loginAsAdmin();
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         // Ensure that we reset the style
         openAdministrationPage();
         clickLinkWithText("Presentation");
         setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "style.css");
-        clickEditSaveAndContinue();
+        clickEditSaveAndView();
     }
 
     public void testChangeDefaultStyleCss() throws Exception
@@ -60,7 +62,7 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
         openAdministrationPage();
         clickLinkWithText("Presentation");
         setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "somestyle.css");
-        clickEditSaveAndContinue();
+        clickEditSaveAndView();
         assertTrue(getSelenium().isElementPresent(
             "xpath=//head/link[@href='/xwiki/bin/skin/skins/albatross/somestyle.css']"));
     }

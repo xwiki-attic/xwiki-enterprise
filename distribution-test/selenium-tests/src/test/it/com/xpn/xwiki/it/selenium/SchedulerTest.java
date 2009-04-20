@@ -19,10 +19,11 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
-import junit.framework.Test;
 
 public class SchedulerTest extends AbstractXWikiTestCase
 {
@@ -45,7 +46,7 @@ public class SchedulerTest extends AbstractXWikiTestCase
             setFieldValue("XWiki.SchedulerJobClass_0_jobName", "Tester problem");
             setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem");
             setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 10 15 2008");
-            clickLinkWithLocator("formactionsave");
+            clickEditSaveAndView();
             clickLinkWithText("Back to the job list");
             assertElementPresent("//td[text()='Tester problem']");
         }
@@ -65,7 +66,7 @@ public class SchedulerTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/xyz']");
         setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem2");
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 10 15 2009");
-        clickLinkWithLocator("formactionsave");
+        clickEditSaveAndView();
         clickLinkWithText("Back to the job list");
         assertElementPresent("//td[text()='Tester problem']");
     }

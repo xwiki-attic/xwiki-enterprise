@@ -19,15 +19,15 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
-
 /**
  * Different user profile tests.
- *
+ * 
  * @version $Id: $
  */
 public class UserProfileTest extends AbstractXWikiTestCase
@@ -39,6 +39,7 @@ public class UserProfileTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -82,7 +83,6 @@ public class UserProfileTest extends AbstractXWikiTestCase
         // Remove "JohnSmith" user if already exists
         loginAsAdmin();
         deletePage("XWiki", "JohnSmith");
-        getSelenium().waitForPageToLoad("30000");
         // Ensure that the user isn't logged in
         logout();
 
@@ -93,13 +93,10 @@ public class UserProfileTest extends AbstractXWikiTestCase
 
         // Login as "JohnSmith" and chech for the user type. Verify whether the Usertype Switch Link works.
         login("JohnSmith", "JohnSmith", false);
-        getSelenium().waitForPageToLoad("30000");
         open("XWiki", "JohnSmith");
         assertTextPresent("Switch to Advanced edit mode");
         getSelenium().click("link=Switch to Advanced edit mode");
-        getSelenium().waitForPageToLoad("30000");
         getSelenium().click("link=Switch to Simple edit mode");
-        getSelenium().waitForPageToLoad("30000");
         assertTextPresent("Switch to Advanced edit mode");
         logout();
 
@@ -110,7 +107,6 @@ public class UserProfileTest extends AbstractXWikiTestCase
 
         // Switch Usertype of "JohnSmith" to Advanced.
         getSelenium().click("link=Switch to Advanced edit mode");
-        getSelenium().waitForPageToLoad("30000");
         assertTextPresent("Switch to Simple edit mode");
         logout();
 

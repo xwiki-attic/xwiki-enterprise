@@ -19,18 +19,17 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
-
 /**
  * Verify the ability to change the wiki language.
- *
+ * 
  * @version $Id: $
- * @todo refactor after creating the APIs for each skin so that we don't have to use getSelenium()
- *       at all
+ * @todo refactor after creating the APIs for each skin so that we don't have to use getSelenium() at all
  */
 public class LanguageTest extends AbstractXWikiTestCase
 {
@@ -41,6 +40,7 @@ public class LanguageTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -53,6 +53,7 @@ public class LanguageTest extends AbstractXWikiTestCase
     /**
      * Make sure we set back the language to monolingual and english for other tests that come thereafter.
      */
+    @Override
     protected void tearDown()
     {
         setMonoLingualAndEnglish();
@@ -60,30 +61,29 @@ public class LanguageTest extends AbstractXWikiTestCase
 
     public void testChangeLanguageInMonolingualModeUsingTheAdministrationPreference()
     {
-        open("Test","LanguageTest","edit","editor=wiki");
+        open("Test", "LanguageTest", "edit", "editor=wiki");
         setFieldValue("content", "context = ($context.language), doc = ($doc.language), "
-            + "default = ($doc.defaultLanguage), tdoc = ($tdoc.language), "
-            + "tdocdefault = ($tdoc.defaultLanguage)");
+            + "default = ($doc.defaultLanguage), tdoc = ($tdoc.language), " + "tdocdefault = ($tdoc.defaultLanguage)");
         clickEditSaveAndView();
 
-        assertEquals("context = (en), doc = (), default = (en), tdoc = (), tdocdefault = (en)",
-            getSelenium().getText("xwikicontent"));
+        assertEquals("context = (en), doc = (), default = (en), tdoc = (), tdocdefault = (en)", getSelenium().getText(
+            "xwikicontent"));
 
         openAdministrationPage();
         clickLinkWithText("General");
         setFieldValue("XWiki.XWikiPreferences_0_default_language", "fr");
-        clickEditSaveAndContinue();
+        clickEditSaveAndView();
 
         assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
 
-        open("Test","LanguageTest");
-        assertEquals("context = (fr), doc = (), default = (en), tdoc = (), tdocdefault = (en)",
-            getSelenium().getText("xwikicontent"));
+        open("Test", "LanguageTest");
+        assertEquals("context = (fr), doc = (), default = (en), tdoc = (), tdocdefault = (en)", getSelenium().getText(
+            "xwikicontent"));
     }
 
     public void testVerifyPassingLanguageInRequestHasNotEffectInMonoligualMode()
     {
-        open("Main","WebHome","language=fr");
+        open("Main", "WebHome", "language=fr");
 
         assertEquals("Log-out", getSelenium().getText("headerlogout"));
     }
@@ -93,7 +93,7 @@ public class LanguageTest extends AbstractXWikiTestCase
         openAdministrationPage();
         clickLinkWithText("General");
         getSelenium().select("XWiki.XWikiPreferences_0_multilingual", "value=1");
-        clickEditSaveAndContinue();
+        clickEditSaveAndView();
         open("/xwiki/bin/view/Main/?language=fr");
 
         assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
@@ -109,7 +109,7 @@ public class LanguageTest extends AbstractXWikiTestCase
         getSelenium().select("XWiki.XWikiPreferences_0_multilingual", "value=0");
 
         setFieldValue("XWiki.XWikiPreferences_0_default_language", "en");
-        clickEditSaveAndContinue();
+        clickEditSaveAndView();
 
         assertEquals("Log-out", getSelenium().getText("headerlogout"));
     }

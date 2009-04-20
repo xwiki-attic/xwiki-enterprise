@@ -72,17 +72,17 @@ public class WatchListTest extends AbstractXWikiTestCase
         // Set the Admin user's email address to use a localhost domain so that the mail is caught by our
         // GreenMail Mock mail server.
         open("/xwiki/bin/edit/XWiki/Admin?editor=object");
-        clickLinkWithXPath("//div[@id='field_XWiki.XWikiUsers_0_title']/h6", false);
+        clickLinkWithXPath("//div[@id='xobject_XWiki.XWikiUsers_0_title']", false);
         waitForCondition("selenium.isElementPresent(\"//input[@id='XWiki.XWikiUsers_0_email']\")!=false;");
         setFieldValue("XWiki.XWikiUsers_0_email", "admin@localhost");
-        clickLinkWithLocator("formactionsave", true);
+        clickEditSaveAndView();
 
         // Set the SMTP port to the default port used by Greenmail (3025)
         open("XWiki", "XWikiPreferences", "admin");
         clickLinkWithLocator("tmEditObjects", true);
-        clickLinkWithXPath("//div[@id='field_XWiki.XWikiPreferences_0_title']/h6", false);
+        clickLinkWithXPath("//div[@id='xobject_XWiki.XWikiPreferences_0_title']", false);
         setFieldValue("XWiki.XWikiPreferences_0_smtp_port", "3025");
-        clickLinkWithLocator("formactionsave", true);
+        clickEditSaveAndView();
 
         // Clear the list of watched documents and spaces
         open("XWiki", "Admin", "edit", "editor=object");
@@ -92,7 +92,7 @@ public class WatchListTest extends AbstractXWikiTestCase
 
         // Test if the email template document exists
         open("XWiki", "WatchListMessage", "edit", "editor=object");
-        assertTextPresent("XWiki.Mail[0]");
+        assertTextPresent("Mail 0:");
 
         // Test if the watchlist manager document exists
         assertTrue("Page XWiki.WatchListManager doesn't exist", isExistingPage("XWiki", "WatchListManager"));
@@ -103,7 +103,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[text()='unschedule']");
         clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/WatchListJob1']");
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 * * * * ?");
-        clickLinkWithLocator("formactionsave", true);
+        clickEditSaveAndView();
         clickLinkWithText("Back to the job list", true);
         clickLinkWithXPath("//a[text()='schedule']");
 
@@ -137,7 +137,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         clickLinkWithLocator("tmEditObjects", true);
         clickLinkWithXPath("//div[@id='field_XWiki.XWikiPreferences_0_title']/h6", false);
         setFieldValue("XWiki.XWikiPreferences_0_smtp_port", "25");
-        clickLinkWithLocator("formactionsave", true);
+        clickEditSaveAndView();
 
         // XWIKI-2125
         // Verify that the Watchlist menu entry is not present if XWiki.WatchListManager does not exists

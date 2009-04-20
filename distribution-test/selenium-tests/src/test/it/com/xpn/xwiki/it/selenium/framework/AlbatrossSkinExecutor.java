@@ -23,7 +23,7 @@ import junit.framework.Assert;
 
 /**
  * Implementation of skin-related actions for the Albatross skin.
- *
+ * 
  * @version $Id: $
  */
 public class AlbatrossSkinExecutor implements SkinExecutor
@@ -46,7 +46,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see SkinExecutor#clickEditPage()
      */
     public void clickEditPage()
@@ -66,22 +66,22 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void clickEditPreview()
     {
-        getTest().submit("formactionpreview");
+        getTest().submit("xpath=//input[@name='formactionpreview' or @name='action_preview']");
     }
 
     public void clickEditSaveAndContinue()
     {
-        getTest().submit("formactionsac");
+        getTest().submit("xpath=//input[@name='formactionsac' or @name='action_saveandcontinue']", false);
     }
 
     public void clickEditCancelEdition()
     {
-        getTest().submit("formactioncancel");
+        getTest().submit("xpath=//input[@name='formactioncancel' or @name='action_cancel']");
     }
 
     public void clickEditSaveAndView()
     {
-        getTest().submit("formactionsave");
+        getTest().submit("xpath=//input[@name='formactionsave' or @name='action_save']");
     }
 
     public boolean isAuthenticated()
@@ -260,8 +260,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void assertGeneratedHTML(String xpath) throws Exception
     {
-        Assert.assertTrue(getTest().getSelenium().isElementPresent(
-            "xpath=//div[@id='xwikicontent']/" + xpath));
+        Assert.assertTrue(getTest().getSelenium().isElementPresent("xpath=//div[@id='xwikicontent']/" + xpath));
     }
 
     public void openAdministrationPage()
@@ -281,7 +280,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         if (withShiftModifier) {
             getTest().getSelenium().shiftKeyDown();
         }
-        getTest().getSelenium().keyPress("xwikimaincontainer", shortcut);        
+        getTest().getSelenium().keyPress("xwikimaincontainer", shortcut);
         if (withCtrlModifier) {
             getTest().getSelenium().controlKeyUp();
         }

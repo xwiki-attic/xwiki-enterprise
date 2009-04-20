@@ -20,13 +20,14 @@
 package com.xpn.xwiki.it.selenium;
 
 import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Verify the keyboard shortcuts feature of XWiki.
- *
+ * 
  * @version $Id: $
  */
 public class KeyboardShortcutsTest extends AbstractXWikiTestCase
@@ -40,15 +41,14 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         return suite;
     }
 
-    protected void testShortcutFromResultingTitle(String origURL, String shortcut,
-        String expectedTitle) throws InterruptedException
+    protected void testShortcutFromResultingTitle(String origURL, String shortcut, String expectedTitle)
+        throws InterruptedException
     {
         testShortcutFromResultingTitle(origURL, shortcut, expectedTitle, false, false, false);
     }
 
-    protected void testShortcutFromResultingTitle(String origURL, String shortcut,
-        String expectedTitle, boolean withCtrlModifier, boolean withAltModifier,
-        boolean withShiftModifier) throws InterruptedException
+    protected void testShortcutFromResultingTitle(String origURL, String shortcut, String expectedTitle,
+        boolean withCtrlModifier, boolean withAltModifier, boolean withShiftModifier) throws InterruptedException
     {
         open(origURL);
         pressKeyboardShortcut(shortcut, withCtrlModifier, withAltModifier, withShiftModifier);
@@ -56,15 +56,14 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         assertTitle(expectedTitle);
     }
 
-    protected void testShortcutFromTextPresent(String origURL, String shortcut,
-        String text) throws InterruptedException
+    protected void testShortcutFromTextPresent(String origURL, String shortcut, String text)
+        throws InterruptedException
     {
         testShortcutFromTextPresent(origURL, shortcut, text, false, false, false);
     }
 
-    protected void testShortcutFromTextPresent(String origURL, String shortcut,
-        String expectedText, boolean withCtrlModifier, boolean withAltModifier,
-        boolean withShiftModifier) throws InterruptedException
+    protected void testShortcutFromTextPresent(String origURL, String shortcut, String expectedText,
+        boolean withCtrlModifier, boolean withAltModifier, boolean withShiftModifier) throws InterruptedException
     {
         open(origURL);
         pressKeyboardShortcut(shortcut, withCtrlModifier, withAltModifier, withShiftModifier);
@@ -91,7 +90,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // o : edit objects
         testShortcutFromTextPresent(viewURL, "o", "Welcome to the objects editor");
         // s : edit class
-        testShortcutFromTextPresent(viewURL, "s", "Choose a property to edit or add a property to the class");
+        testShortcutFromTextPresent(viewURL, "s", "No class is defined in this wiki document.");
         // d : code
         testShortcutFromTextPresent(viewURL, "d", "Wiki source code of Training Zone");
         // Delete : delete

@@ -1026,7 +1026,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
             + currentPage + "\"]');");
         closeDialog();
-        waitForDialogToClose();
 
         // check the attachment link dialog
         clickMenu(MENU_LINK);

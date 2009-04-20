@@ -24,16 +24,20 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
+
 import org.codehaus.plexus.util.StringInputStream;
+
 import com.thoughtworks.selenium.Selenium;
 
 /**
  * All XWiki Selenium tests must extend this class.
- *
+ * 
  * @version $Id: $
  */
 public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 {
+    public static final String DOC = "selenium.browserbot.getCurrentWindow().document.";
+
     private static final int WAIT_TIME = 30000;
 
     private SkinExecutor skinExecutor;
@@ -48,10 +52,8 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     public SkinExecutor getSkinExecutor()
     {
         if (this.skinExecutor == null) {
-            throw new RuntimeException("Skin executor hasn't been initialized. Make sure to wrap "
-                + "your test in a "
-                + XWikiTestSuite.class.getName()
-                + " class and call "
+            throw new RuntimeException("Skin executor hasn't been initialized. Make sure to wrap " + "your test in a "
+                + XWikiTestSuite.class.getName() + " class and call "
                 + " addTestSuite(Class testClass, SkinExecutor skinExecutor).");
         }
         return this.skinExecutor;
@@ -160,6 +162,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     /**
      * @deprecated use {@link #waitPage()} instead
      */
+    @Deprecated
     public void waitPage(int nbMillisecond)
     {
         getSelenium().waitForPageToLoad(String.valueOf(nbMillisecond));
@@ -217,8 +220,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         // Note: We could use getSelenium().getvalue() here. However getValue() is stripping spaces
         // and some of our tests verify that there are leading spaces/empty lines.
         return getSelenium().getEval(
-            "selenium.browserbot.getCurrentWindow().document.getElementById(\"" + fieldName
-                + "\").value");
+            "selenium.browserbot.getCurrentWindow().document.getElementById(\"" + fieldName + "\").value");
     }
 
     public void setFieldValue(String fieldName, String value)
@@ -263,7 +265,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see SkinExecutor#clickEditPage()
      */
     public void clickEditPage()
@@ -463,14 +465,15 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     }
 
     public void pressKeyboardShortcut(String shortcut, boolean withCtrlModifier, boolean withAltModifier,
-        boolean withShiftModifier) throws InterruptedException {
+        boolean withShiftModifier) throws InterruptedException
+    {
         getSkinExecutor().pressKeyboardShortcut(shortcut, withCtrlModifier, withAltModifier, withShiftModifier);
     }
 
     /**
      * Set global xwiki configuration options (as if the xwiki.cfg file had been modified). This is useful for testing
      * configuration options.
-     *
+     * 
      * @param configuration the configuration in {@link Properties} format. For example "param1=value2\nparam2=value2"
      * @throws IOException if an error occurs while parsing the configuration
      */
@@ -484,10 +487,8 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
         // with a different xwiki.cfg file for each test that requires a configuration change, we use the following
         // trick: We create a document and we access the XWiki object with a Velocity script inside that document.
         for (Entry<Object, Object> param : properties.entrySet()) {
-            sb.append("$xwiki.xWiki.config.setProperty('")
-                .append(param.getKey()).append("', '")
-                .append(param.getValue()).append("')")
-                .append('\n');
+            sb.append("$xwiki.xWiki.config.setProperty('").append(param.getKey()).append("', '").append(
+                param.getValue()).append("')").append('\n');
         }
         editInWikiEditor("Test", "XWikiConfigurationPageForTest");
         setFieldValue("content", sb.toString());

@@ -19,23 +19,23 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 import junit.framework.Assert;
 import junit.framework.Test;
 
+import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
+import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
+
 /**
  * Verify the table view for AllDocs wiki document.
- *
+ * 
  * @version $Id: $
  */
 public class AllDocsTest extends AbstractXWikiTestCase
 {
     public static Test suite()
     {
-        XWikiTestSuite suite =
-            new XWikiTestSuite("Verify the table view for AllDocs wiki document");
+        XWikiTestSuite suite = new XWikiTestSuite("Verify the table view for AllDocs wiki document");
         suite.addTestSuite(AllDocsTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
@@ -46,29 +46,28 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // setSpeed is used to avoid the error :
         // selenium.browserbot.getCurrentWindow().document.getElementById("ajax-loader") has no properties
         // which is not prevented by the following waitForCondition.
-        getSelenium().setSpeed("200");
-        waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById(\"ajax-loader\") != null");
-        waitForCondition("typeof selenium.browserbot.getCurrentWindow().document." +
-            "getElementById(\"ajax-loader\").style.display == 'string'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().document." +
-            "getElementById(\"ajax-loader\").style.display == \"none\"");        
-        getSelenium().setSpeed("0");
+        try {
+            getSelenium().setSpeed("200");
+            waitForCondition(DOC + "getElementById(\"ajax-loader\") != null");
+            waitForCondition("typeof " + DOC + "getElementById(\"ajax-loader\").style.display == 'string'");
+            waitForCondition(DOC + "getElementById(\"ajax-loader\").style.display == \"none\"");
+        } finally {
+            getSelenium().setSpeed("0");
+        }
     }
 
     /**
      * This method makes the following tests :
-     *
      * <ul>
-     *   <li>Validate presence of "Actions" column in table view for administrator.</li>
-     *   <li>Validate absence of "Actions" column for users without administration rights.</li>
-     *   <li>Validate input suggest for Page field.</li>
-     *   <li>Validate input suggest for Space field.</li>
-     *   <li>Validate input suggest for Last Author field.</li>
-     *   <li>Validate Copy link action.</li>
-     *   <li>Validate Rename link action.</li>
-     *   <li>Validate Delete link action.</li>
-     *   <li>Validate Rights link action.</li>
+     * <li>Validate presence of "Actions" column in table view for administrator.</li>
+     * <li>Validate absence of "Actions" column for users without administration rights.</li>
+     * <li>Validate input suggest for Page field.</li>
+     * <li>Validate input suggest for Space field.</li>
+     * <li>Validate input suggest for Last Author field.</li>
+     * <li>Validate Copy link action.</li>
+     * <li>Validate Rename link action.</li>
+     * <li>Validate Delete link action.</li>
+     * <li>Validate Rights link action.</li>
      * </ul>
      */
     public void testTableViewActions()
@@ -86,79 +85,79 @@ public class AllDocsTest extends AbstractXWikiTestCase
         assertElementPresent("//td[text()='Actions']");
 
         // Validate input suggest for Page field.
-        fillTableFilter("page", "Treeview");
+        fillTableFilter("xpath=//input[@name='page']", "Treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
 
         // Validate input suggest for Space field.
         open("Main", "AllDocs");
-        fillTableFilter("space", "XWiki");
-        fillTableFilter("page", "treeview");
+        fillTableFilter("xpath=//input[@name='space']", "XWiki");
+        fillTableFilter("xpath=//input[@name='page']", "treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
 
         // Validate input suggest for Last Author field.
         open("Main", "AllDocs");
-        fillTableFilter("author", "SomeUnknownAuthor");
+        fillTableFilter("xpath=//input[@name='author']", "SomeUnknownAuthor");
         assertElementNotPresent("//td[@class='pagename']/a[text()='Treeview']");
 
         // Validate Copy link action.
         open("Main", "AllDocs");
-        fillTableFilter("page", "treeview");
+        fillTableFilter("xpath=//input[@name='page']", "treeview");
         assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
         clickLinkWithText("Copy");
         setFieldValue("targetdoc", "New.TreeviewCopy");
         getSelenium().click("//input[@value='Copy']");
         open("Main", "AllDocs");
-        fillTableFilter("space", "New");
-        fillTableFilter("page", "treeviewcopy");
+        fillTableFilter("xpath=//input[@name='space']", "New");
+        fillTableFilter("xpath=//input[@name='page']", "treeviewcopy");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopy']");
 
         // Validate Rename link action.
         open("Main", "AllDocs");
-        fillTableFilter("page", "TreeviewCopy");
+        fillTableFilter("xpath=//input[@name='page']", "TreeviewCopy");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rename']");
         setFieldValue("newPageName", "TreeviewCopyRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
         open("Main", "AllDocs");
-        fillTableFilter("page", "TreeviewCopyRenamed");
+        fillTableFilter("xpath=//input[@name='page']", "TreeviewCopyRenamed");
         assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
 
         // Validate Delete link action.
         open("Main", "AllDocs");
-        fillTableFilter("page", "Treeviewcopyrenamed");
+        fillTableFilter("xpath=//input[@name='page']", "Treeviewcopyrenamed");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Delete']");
         clickLinkWithLocator("//input[@value='yes']");
         assertTextPresent("The document has been deleted.");
         open("Main", "AllDocs");
-        fillTableFilter("page", "treeview");
+        fillTableFilter("xpath=//input[@name='page']", "treeview");
         assertElementNotPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
 
         // Validate Rights link action.
         open("Main", "AllDocs");
-        fillTableFilter("page", "Treeview");
+        fillTableFilter("xpath=//input[@name='page']", "Treeview");
         clickLinkWithLocator("//tbody/tr/td/a[text()='Rights']");
         Assert.assertEquals("Editing Rights for Treeview", getTitle());
     }
 
     /**
      * Click on a node in the Treeview widget.
-     *
+     * 
      * @param nodeId Id of the node to be clicked.
      */
     private void clickOnNode(String nodeId)
     {
-        
+
         getSelenium().click("//img[@name='" + nodeId + "']");
     }
 
     /**
      * Wait for the node with the given ID to load.
-     *
+     * 
      * @param nodeId Id of the node to wait for.
-     */     
+     */
     private void waitForNodeToLoad(String nodeId)
     {
-        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview.data.findById('"
-                + nodeId + "') != 'undefined'");
+        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview.data.findById('" + nodeId
+            + "') != 'undefined'");
     }
 
     /**
@@ -220,8 +219,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedAnchor() == ''");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedUrl() == "
             + "'/xwiki/bin/download/Main/RecentChanges/lquo.gif'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == " 
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == "
             + "'Main.RecentChanges@lquo.gif'");
-
     }
 }

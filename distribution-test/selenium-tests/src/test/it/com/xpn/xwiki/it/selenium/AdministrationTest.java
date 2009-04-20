@@ -112,6 +112,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     /*
      * Test adding a new category in Blog Categories
      */
+    /* Disabled until the new blog can insert its own administration page.
     public void testBlogAdmin()
     {
         open("XWiki", "XWikiPreferences", "admin");
@@ -128,7 +129,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("description", "New Category Content");              
         clickLinkWithLocator("//input[@value='Add']", true);
         assertTextPresent("New Category");               
-    }
+    }*/
 
     /*
      * Test Panel Wizard

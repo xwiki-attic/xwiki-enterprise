@@ -611,6 +611,49 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-3570: Code macro fails to escape properly in GWT editor
+     */
+    public void testInsertCodeMacroWithXMLComments()
+    {
+        // Insert the Code macro.
+        insertMacro("code");
+        // Set the language parameter to XML.
+        setFieldValue("pd-language-input", "xml");
+        // Set the content. Include XML comments in the content.
+        setFieldValue("pd-content-input",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- this is a test -->\n<test>123</test>");
+        applyMacroChanges();
+
+        // Check the XWiki syntax.
+        assertWiki("{{code language=\"xml\"}}<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<!-- this is a test -->\n<test>123</test>{{/code}}");
+
+        // Edit the inserted macro.
+        editMacro(0);
+        assertEquals("xml", getSelenium().getValue("pd-language-input"));
+        assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- this is a test -->\n<test>123</test>",
+            getSelenium().getValue("pd-content-input"));
+        closeDialog();
+    }
+
+    /**
+     * @see XWIKI-3581: WYSIWYG editor treats macro parameter names as case sensitive
+     */
+    public void testDetectMacroParameterNamesIgnoringCase()
+    {
+        setWikiContent("{{box CSSClaSS=\"foo\"}}bar{{/box}}");
+        // Edit the Box macro.
+        editMacro(0);
+        // See if the CSSClaSS parameter was correctly detected.
+        assertEquals("foo", getSelenium().getValue("pd-cssClass-input"));
+        // Change the value of the CSSClaSS parameter.
+        setFieldValue("pd-cssClass-input", "xyz");
+        applyMacroChanges();
+        // Check the XWiki syntax.
+        assertWiki("{{box CSSClaSS=\"xyz\"}}bar{{/box}}");
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

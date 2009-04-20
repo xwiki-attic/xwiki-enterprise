@@ -681,8 +681,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertEquals("office", getSelenium().getEval("window.iframe.contentWindow.document.body.innerHTML"));
         // close the dialog
         closeDialog();
-        // make sure the dialog is closed
-        waitForDialogToClose();
     }
 
     /**

@@ -926,6 +926,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void closeDialog()
     {
         getSelenium().click("//img[contains(@class, \"gwt-Image\") and contains(@class, \"xDialogCloseIcon\")]");
+        waitForDialogToClose();
     }
 
     /**

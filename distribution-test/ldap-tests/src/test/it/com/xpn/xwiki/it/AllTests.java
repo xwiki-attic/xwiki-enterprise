@@ -60,6 +60,7 @@ public class AllTests extends TestCase
         // Unit tests
         addTestCase(suite, XWikiLDAPUtilsTest.class);
         addTestCase(suite, XWikiLDAPConnectionTest.class);
+        addTestCase(suite, XWikiLDAPAuthServiceImplTest.class);
 
         // Selenium tests
         TestSuite seleniumSuite = new TestSuite();

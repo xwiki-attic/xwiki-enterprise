@@ -144,6 +144,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         mockXWiki.stubs().method("getXWikiPreference").will(returnValue(null));
         mockXWiki.stubs().method("getXWikiPreferenceAsInt").will(throwException(new NumberFormatException("null")));
         mockXWiki.stubs().method("isVirtualMode").will(returnValue(this.isVirtualMode));
+        mockXWiki.stubs().method("getDefaultDocumentSyntax").will(returnValue(XWikiDocument.XWIKI10_SYNTAXID));
         mockXWiki.stubs().method("Param").will(new CustomStub("Implements XWiki.Param")
         {
             public Object invoke(Invocation invocation) throws Throwable

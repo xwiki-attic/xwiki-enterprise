@@ -99,7 +99,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         super.setUp();
         loginAsAdmin();
 
-        // Go to the wysiwyg editor if needed
+        // Go to the WYSIWYG editor if needed.
         if (!getSelenium().getLocation()
             .equals("http://localhost:8080/xwiki/bin/edit/Main/WysiwygTest?editor=wysiwyg"))
         {
@@ -107,14 +107,18 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             clickLinkWithText("WYSIWYG");
         }
 
-        // Switch the document to xwiki/2.0 syntax if needed
+        // Switch the document to xwiki/2.0 syntax if needed.
         if (!getSelenium().getValue("syntaxId").equals("xwiki/2.0")) {
-            // The syntax can be changed only from Wiki mode at this point.
-            clickLinkWithText("Wiki");
             setFieldValue("syntaxId", "xwiki/2.0");
-            clickEditSaveAndContinue();
-            // We changed the syntax. Let's go back to WYSIWYG mode.
-            clickLinkWithText("WYSIWYG");
+            if (getSelenium().isConfirmationPresent()) {
+                assertEquals("Do you want to also convert the document's content and objects to the selected syntax?"
+                    + " Choosing 'cancel' will reset the syntax to the previous one and do nothing."
+                    + " Note that if you choose 'ok' you will loose modifications and this will save the document"
+                    + " automatically, you can cancel this modification by going to the document history interface"
+                    + " and revert the last version.", getSelenium().getConfirmation());
+            }
+            // In order to change the syntax the page has to be reloaded.
+            waitPage();
         }
 
         // Focus on the XWiki window (Seems not to work, at least on Linux and OSX)

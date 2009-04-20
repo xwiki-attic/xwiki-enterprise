@@ -20,12 +20,12 @@
 package com.xpn.xwiki.it.selenium;
 
 import junit.framework.Test;
-import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
+import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
+import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Verify the watchlist feature of XWiki.
@@ -35,7 +35,7 @@ import com.icegreen.greenmail.util.GreenMailUtil;
 public class WatchListTest extends AbstractXWikiTestCase
 {
     private GreenMail greenMail;
-    
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the watchlist feature of XWiki");
@@ -43,6 +43,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     protected void setUp()
     {
         // Start GreenMail test server
@@ -50,11 +51,12 @@ public class WatchListTest extends AbstractXWikiTestCase
         this.greenMail.start();
     }
 
+    @Override
     protected void tearDown()
     {
         // Stop GreenMail test server
         this.greenMail.stop();
-        
+
         // Restore XWiki.WatchListManager from the trash since it's been deleted by the tests below.
         open("XWiki", "WatchListManager");
         if (isElementPresent("link=Restore")) {
@@ -104,7 +106,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         clickLinkWithLocator("formactionsave", true);
         clickLinkWithText("Back to the job list", true);
         clickLinkWithXPath("//a[text()='schedule']");
-        
+
         // Watch Test.TestWatchThisPage
         createPage("Test", "TestWatchThisPage", "TestWatchThisPage selenium");
         clickLinkWithText("Watch this page", false);

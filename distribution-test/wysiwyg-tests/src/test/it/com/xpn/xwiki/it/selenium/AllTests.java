@@ -52,6 +52,7 @@ public class AllTests extends TestCase
         // The following tests are disabled till we find a way to enable the related plugins before running the tests.
         // addTestCase(suite, ColorSupportTest.class);
         // addTestCase(suite, AlignmentSupportTest.class);
+        // addTestCase(suite, RemoveFormattingSupportTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

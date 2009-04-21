@@ -96,7 +96,9 @@ public class UserProfileTest extends AbstractXWikiTestCase
         open("XWiki", "JohnSmith");
         assertTextPresent("Switch to Advanced edit mode");
         getSelenium().click("link=Switch to Advanced edit mode");
+        getSelenium().waitForPageToLoad("10000");
         getSelenium().click("link=Switch to Simple edit mode");
+        getSelenium().waitForPageToLoad("10000");
         assertTextPresent("Switch to Advanced edit mode");
         logout();
 
@@ -107,6 +109,7 @@ public class UserProfileTest extends AbstractXWikiTestCase
 
         // Switch Usertype of "JohnSmith" to Advanced.
         getSelenium().click("link=Switch to Advanced edit mode");
+        getSelenium().waitForPageToLoad("10000");
         assertTextPresent("Switch to Simple edit mode");
         logout();
 

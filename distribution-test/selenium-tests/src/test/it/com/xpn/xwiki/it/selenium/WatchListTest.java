@@ -135,7 +135,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         // Reset the SMTP port
         open("XWiki", "XWikiPreferences", "admin");
         clickLinkWithLocator("tmEditObjects", true);
-        clickLinkWithXPath("//div[@id='field_XWiki.XWikiPreferences_0_title']/h6", false);
+        clickLinkWithXPath("//div[@id='xobject_XWiki.XWikiPreferences_0_title']", false);
         setFieldValue("XWiki.XWikiPreferences_0_smtp_port", "25");
         clickEditSaveAndView();
 

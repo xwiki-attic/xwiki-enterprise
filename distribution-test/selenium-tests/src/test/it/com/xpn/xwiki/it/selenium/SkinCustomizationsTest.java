@@ -54,7 +54,7 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
         openAdministrationPage();
         clickLinkWithText("Presentation");
         setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "style.css");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
     }
 
     public void testChangeDefaultStyleCss() throws Exception
@@ -62,7 +62,8 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
         openAdministrationPage();
         clickLinkWithText("Presentation");
         setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "somestyle.css");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
+        open("Main", "WebHome");
         assertTrue(getSelenium().isElementPresent(
             "xpath=//head/link[@href='/xwiki/bin/skin/skins/albatross/somestyle.css']"));
     }

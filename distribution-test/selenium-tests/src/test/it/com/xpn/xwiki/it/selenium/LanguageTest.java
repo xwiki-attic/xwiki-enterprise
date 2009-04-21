@@ -72,11 +72,10 @@ public class LanguageTest extends AbstractXWikiTestCase
         openAdministrationPage();
         clickLinkWithText("General");
         setFieldValue("XWiki.XWikiPreferences_0_default_language", "fr");
-        clickEditSaveAndView();
-
-        assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
+        clickEditSaveAndContinue();
 
         open("Test", "LanguageTest");
+        assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
         assertEquals("context = (fr), doc = (), default = (en), tdoc = (), tdocdefault = (en)", getSelenium().getText(
             "xwikicontent"));
     }
@@ -93,7 +92,7 @@ public class LanguageTest extends AbstractXWikiTestCase
         openAdministrationPage();
         clickLinkWithText("General");
         getSelenium().select("XWiki.XWikiPreferences_0_multilingual", "value=1");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
         open("/xwiki/bin/view/Main/?language=fr");
 
         assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
@@ -109,7 +108,8 @@ public class LanguageTest extends AbstractXWikiTestCase
         getSelenium().select("XWiki.XWikiPreferences_0_multilingual", "value=0");
 
         setFieldValue("XWiki.XWikiPreferences_0_default_language", "en");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
+        open("/xwiki/bin/view/Main/");
 
         assertEquals("Log-out", getSelenium().getText("headerlogout"));
     }

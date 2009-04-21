@@ -81,7 +81,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void clickEditSaveAndView()
     {
-        getTest().submit("xpath=//input[@name='formactionsave' or @name='action_save']");
+        getTest().submit("xpath=//input[@name='formactionsave' or @name='action_save' or @name='action_propupdate']");
     }
 
     public boolean isAuthenticated()

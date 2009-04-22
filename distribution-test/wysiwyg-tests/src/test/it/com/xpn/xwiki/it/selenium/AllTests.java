@@ -53,6 +53,7 @@ public class AllTests extends TestCase
         // addTestCase(suite, ColorSupportTest.class);
         // addTestCase(suite, AlignmentSupportTest.class);
         // addTestCase(suite, RemoveFormattingSupportTest.class);
+        // addTestCase(suite, FontSupportTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

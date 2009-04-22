@@ -32,6 +32,16 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class FontSupportTest extends AbstractWysiwygTestCase
 {
+    /**
+     * The XPath selector used to access the font size list box.
+     */
+    private static final String FONT_SIZE_SELECTOR = "//select[@title=\"Font Size\"]";
+
+    /**
+     * The XPath selector used to access the font name list box.
+     */
+    private static final String FONT_NAME_SELECTOR = "//select[@title=\"Font Name\"]";
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Functional tests for font support inside the WYSIWYG editor.");
@@ -76,13 +86,24 @@ public class FontSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Test if the font size and font name are detected correctly.
+     */
+    public void testDetectFont()
+    {
+        setWikiContent("(% style=\"font-size: 24px; font-family: foo,verdana,sans-serif;\" %)\nabc");
+        selectAllContent();
+        assertDetectedFontSize("18pt");
+        assertDetectedFontName("verdana");
+    }
+
+    /**
      * Selects a font size from the list box.
      * 
      * @param fontSize the font size to select from the list box
      */
     protected void applyFontSize(String fontSize)
     {
-        getSelenium().select("//select[@title=\"Font Size\"]", fontSize);
+        getSelenium().select(FONT_SIZE_SELECTOR, fontSize);
     }
 
     /**
@@ -92,6 +113,26 @@ public class FontSupportTest extends AbstractWysiwygTestCase
      */
     protected void applyFontName(String fontName)
     {
-        getSelenium().select("//select[@title=\"Font Name\"]", fontName);
+        getSelenium().select(FONT_NAME_SELECTOR, fontName);
+    }
+
+    /**
+     * Asserts if the detected font size equals the expected font size.
+     * 
+     * @param expectedFontSize the expected font size
+     */
+    protected void assertDetectedFontSize(String expectedFontSize)
+    {
+        assertEquals(expectedFontSize, getSelenium().getValue(FONT_SIZE_SELECTOR));
+    }
+
+    /**
+     * Asserts if the detected font name equals the expected font name.
+     * 
+     * @param expectedFontName the expected font name
+     */
+    protected void assertDetectedFontName(String expectedFontName)
+    {
+        assertEquals(expectedFontName, getSelenium().getValue(FONT_NAME_SELECTOR));
     }
 }

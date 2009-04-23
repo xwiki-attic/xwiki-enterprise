@@ -97,6 +97,52 @@ public class FontSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Test if a known font name (contained in the list box) that is not supported by the current browser is correctly
+     * detected.
+     */
+    public void testDetectKnownUnsupportedFontName()
+    {
+        setWikiContent("(% style=\"font-family: symbol;\" %)\nabc");
+        selectAllContent();
+        assertDetectedFontName("");
+
+        setWikiContent("(% style=\"font-family: symbol,sans-serif;\" %)\nabc");
+        selectAllContent();
+        // The default sans-serif font should be detected.
+        assertDetectedFontName("helvetica");
+    }
+
+    /**
+     * Tests if an unknown font name if detected.
+     */
+    public void testDetectUnknownFontName()
+    {
+        setWikiContent("(% style=\"font-family: unknown;\" %)\nabc");
+        selectAllContent();
+        assertDetectedFontName("");
+
+        setWikiContent("(% style=\"font-family: unknown,sans-serif;\" %)\nabc");
+        selectAllContent();
+        // The default sans-serif font should be detected.
+        assertDetectedFontName("helvetica");
+    }
+
+    /**
+     * Test if the font name for a cross paragraph selection is correctly detected.
+     */
+    public void testDetectFontNameOnCroosParagraphSelection()
+    {
+        setWikiContent("(% style=\"font-family: courier new;\" %)\nabc\n\n(% style=\"font-family: times new roman;\" %)\nxyz");
+        moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
+        assertDetectedFontName("courier new");
+        moveCaret("XWE.body.getElementsByTagName('p')[1].firstChild", 1);
+        assertDetectedFontName("times new roman");
+        select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
+            "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
+        assertDetectedFontName("");
+    }
+
+    /**
      * Selects a font size from the list box.
      * 
      * @param fontSize the font size to select from the list box

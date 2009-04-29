@@ -71,7 +71,13 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void clickEditSaveAndContinue()
     {
-        getTest().submit("xpath=//input[@name='formactionsac' or @name='action_saveandcontinue']", false);
+        if (getTest().isElementPresent("xpath=//input[@name='formactionsac']")) {
+            getTest().submit("xpath=//input[@name='formactionsac']");
+        } else {
+            getTest().submit("xpath=//input[@name='action_saveandcontinue']", false);
+            getTest().getSelenium().waitForCondition("selenium.isVisible(\"xpath=//span[string(.) = 'Saved']\")",
+                "5000");
+        }
     }
 
     public void clickEditCancelEdition()

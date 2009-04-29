@@ -57,6 +57,7 @@
     <platform.core.version>1.8-SNAPSHOT</platform.core.version>
     <platform.web.version>1.8-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.20-SNAPSHOT</platform.panels.version>
+    <!-- Since 1.11, Administration application needs core/web 1.9 -->
     <platform.administration.version>1.10</platform.administration.version>
     <platform.scheduler.version>1.8-SNAPSHOT</platform.scheduler.version>
     <platform.watchlist.version>1.15-SNAPSHOT</platform.watchlist.version>

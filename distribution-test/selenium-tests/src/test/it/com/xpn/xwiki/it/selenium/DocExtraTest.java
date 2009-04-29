@@ -167,7 +167,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         clickLinkWithXPath("//a[@id='tmShowAttachments']", false);
         waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("attachmentform");
+        assertElementPresent("attachform");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");

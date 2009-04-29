@@ -194,8 +194,8 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview != 'undefined'");
         waitForNodeToLoad("xwiki:XWiki");
 
-        setFieldValue("Treeview_Input", "Sandbox.TableTraining");
-        waitForNodeToLoad("xwiki:Sandbox.TableTraining");
+        setFieldValue("Treeview_Input", "Main.RecentChanges");
+        waitForNodeToLoad("xwiki:Main.RecentChanges");
     }
 
     /**

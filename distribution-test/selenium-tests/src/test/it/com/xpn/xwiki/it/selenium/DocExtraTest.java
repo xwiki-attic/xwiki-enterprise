@@ -20,6 +20,7 @@
 package com.xpn.xwiki.it.selenium;
 
 import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
@@ -57,7 +58,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
         waitForCondition("selenium.isElementPresent(\"//a[@id='Attachmentslink']\")!=false;");
         clickLinkWithXPath("//a[@id='Attachmentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Choose file to upload:");
+        assertElementPresent("attachform");
         int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollX"));
         assertEquals(initialScrollY, scrollY);
 
@@ -78,7 +79,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
         waitForCondition("selenium.isElementPresent(\"//a[@id='Commentslink']\")!=false;");
         clickLinkWithXPath("//a[@id='Commentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Add comment");
+        assertElementPresent("commentform");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
     }
@@ -96,7 +97,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         getSkinExecutor().pressKeyboardShortcut("a", false, false, false);
         waitForCondition("selenium.isTextPresent('Add an attachment')!=-1;");
-        assertTextPresent("Add an attachment");
+        assertElementPresent("attachform");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
@@ -117,7 +118,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         getSkinExecutor().pressKeyboardShortcut("c", false, false, false);
         waitForCondition("selenium.isTextPresent('Add comment')!=-1;");
-        assertTextPresent("Add comment");
+        assertElementPresent("commentform");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(initialScrollY < scrollY);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
@@ -133,7 +134,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
         // our functions (on purpose)
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Attachments");
-        waitForCondition("selenium.page().bodyText().indexOf('Add an attachment')!=-1;");
+        waitForCondition("selenium.isElementPresent(\"attachform\")!=false;");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
 
@@ -151,7 +152,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Comments");
-        waitForCondition("selenium.page().bodyText().indexOf('Add comment')!=-1;");
+        waitForCondition("selenium.isElementPresent(\"commentform\")!=false;");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
     }
@@ -166,7 +167,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         clickLinkWithXPath("//a[@id='tmShowAttachments']", false);
         waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Choose file to upload:");
+        assertElementPresent("attachmentform");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
@@ -187,7 +188,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         clickLinkWithXPath("//a[@id='tmShowComments']", false);
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Add comment");
+        assertElementPresent("commentform");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");

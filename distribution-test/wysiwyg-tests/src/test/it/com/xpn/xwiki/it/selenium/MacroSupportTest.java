@@ -197,6 +197,9 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     public void testUndoRedoWhenMacrosArePresent()
     {
         setWikiContent("{{html}}pq{{/html}}");
+        // We have to manually place the caret to be sure it is before the macro. The caret is before the macro when the
+        // browser window is focused but inside the macro when the tests run in background.
+        moveCaret("XWE.body", 0);
         applyStyleParagraph();
         typeText("uv");
         clickUndoButton();
@@ -386,7 +389,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
         assertFalse(getSelenium().isVisible(getMacroOutputLocator(1)));
 
-        // Unselect the macro
+        // Unselect the macro.
         runScript("XWE.selection.collapseToEnd()");
         triggerToolbarUpdate();
 
@@ -690,6 +693,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     public void waitForRefresh()
     {
         waitForCondition("window.document.getElementsByTagName('iframe')[0].previousSibling.className == 'xToolbar'");
+        focusRichTextArea();
     }
 
     /**
@@ -719,7 +723,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMacro(index);
         clickMenu(MENU_MACRO);
         clickMenu(MENU_EDIT);
-        waitForDialogToOpen();
+        waitForDialogToLoad();
     }
 
     /**
@@ -733,11 +737,11 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_MACRO);
         assertTrue(isMenuEnabled(MENU_INSERT));
         clickMenu(MENU_INSERT);
-        waitForDialogToOpen();
+        waitForDialogToLoad();
 
         getSelenium().click("//div[@class = 'xListBox']//div[text() = '" + macroName + "']");
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
-        waitForDialogToOpen();
+        waitForDialogToLoad();
     }
 
     /**

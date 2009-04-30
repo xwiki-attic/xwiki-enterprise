@@ -41,6 +41,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     public static final String MENU_LINK_REMOVE = "Remove link";
 
+    public static final String CURRENT_PAGE_BUTTON = "Current page";
+
+    public static final String ALL_PAGES_BUTTON = "All pages";
+
     /**
      * Creates the test suite for this test class.
      * 
@@ -708,6 +712,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_WEBPAGE));
         assertFalse(isMenuEnabled(MENU_WIKIPAGE));
         assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
+        assertFalse(isMenuEnabled(MENU_ATTACHMENT));
         assertFalse(isMenuEnabled(MENU_LINK_EDIT));
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
     }
@@ -784,6 +789,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for dialog to open
         waitForDialogToOpen();
 
+        // click the tree explorer tab
+        clickButtonWithText(ALL_PAGES_BUTTON);
+        ensureStepIsLoaded("xExplorerPanel");
+
         String attachSpace = "Main";
         String attachPage = "RecentChanges";
         String attachment = "lquo.gif";
@@ -819,6 +828,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_ATTACHMENT);
         // wait for dialog to open
         waitForDialogToOpen();
+
+        // click the tree explorer tab
+        clickButtonWithText(ALL_PAGES_BUTTON);
+        ensureStepIsLoaded("xExplorerPanel");
 
         String attachSpace = "Main";
         String attachPage = "RecentChanges";
@@ -860,6 +873,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_ATTACHMENT);
         // wait for dialog to open
         waitForDialogToOpen();
+
+        // click the tree explorer tab
+        clickButtonWithText(ALL_PAGES_BUTTON);
+        ensureStepIsLoaded("xExplorerPanel");
 
         String attachSpace = "Main";
         String attachPage = "RecentChanges";
@@ -1005,64 +1022,241 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     /**
      * Test that the default selection is set to the current page when opening the wizard to create a link to a wiki
-     * page or attachment.
+     * page.
      */
-    public void testDefaultSelection()
+    public void testDefaultWikipageExplorerSelection()
     {
         // make sure we reload the current page, to check first display of the wikipage and attachment explorers
         switchToWikiEditor();
         switchToWysiwygEditor();
         String currentSpace = "Main";
         String currentPage = "WysiwygTest";
+
+        String newSpace = "XWiki";
+        String newPage = "AdminSheet";
         // check the wikipage link dialog
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_WIKIPAGE));
         clickMenu(MENU_WIKIPAGE);
         waitForDialogToOpen();
         ensureStepIsLoaded("xExplorerPanel");
-        assertEquals(currentSpace + "." + currentPage, getExplorerInputValue());
+        assertEquals("xwiki:" + currentSpace + "." + currentPage, getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
+            + currentPage + "\"]');");
+        typeInExplorerInput(newSpace + "." + newPage);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + newSpace + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + newPage
+            + "\"]');");
+        closeDialog();
+
+        // now type something and check second display of the dialog, that it stays to the last inserted page
+        typeText("poof");
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_WIKIPAGE));
+        clickMenu(MENU_WIKIPAGE);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals(newSpace + "." + newPage, getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + newSpace + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
+            + newPage + "\"]');");
+        closeDialog();
+        waitForDialogToClose();
+    }
+
+    /**
+     * Tests that the link attachments step is loaded on the current page attachments every time it's displayed.
+     */
+    public void testDefaultAttachmentSelectorSelection()
+    {
+        // make sure we reload the current page, to check first display of the wikipage and attachment explorer
+        switchToWikiEditor();
+        switchToWysiwygEditor();
+        String currentSpace = "Main";
+        String currentPage = "WysiwygTest";
+
+        // check the wikipage link dialog
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_ATTACHMENT));
+        clickMenu(MENU_ATTACHMENT);
+        waitForDialogToOpen();
+
+        ensureStepIsLoaded("xAttachmentsSelector");
+        // test that there is a "new attachment" option
+        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
+
+        clickButtonWithText(ALL_PAGES_BUTTON);
+        assertEquals("xwiki:" + currentSpace + "." + currentPage + "#Attachments", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
             + currentPage + "\"]');");
         closeDialog();
-
-        // check the attachment link dialog
-        clickMenu(MENU_LINK);
-        assertTrue(isMenuEnabled(MENU_ATTACHMENT));
-        clickMenu(MENU_ATTACHMENT);
-        waitForDialogToOpen();
-        ensureStepIsLoaded("xExplorerPanel");
-        assertEquals(currentSpace + "." + currentPage + "#Attachments", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
-            + currentPage + "\"]');");
-        typeInExplorerInput("XWiki.AdminSheet@photos.png");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"XWiki\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"AdminSheet\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"photos.png"
-            + "\"]');");
-        clickButtonWithText("Select");
-        ensureStepIsLoaded("xLinkConfig");
-        typeInInput("Label of the created link", "barfoo");
-        clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        // now type something and check second display of the dialog
+        // now type something and check second display of the dialog, that it opens on the current page
         typeText("poof");
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_ATTACHMENT));
         clickMenu(MENU_ATTACHMENT);
         waitForDialogToOpen();
+        ensureStepIsLoaded("xAttachmentsSelector");
+        // test that there is a "new attachment" option
+        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
+        closeDialog();
+        waitForDialogToClose();
+    }
+
+    /**
+     * Test that a relative link is correctly edited.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3676
+     */
+    public void testEditRelativeLink()
+    {
+        String currentSpace = "Main";
+        String pageToLinkTo = "Dashboard";
+        setWikiContent("[[the main page>>" + pageToLinkTo + "]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToOpen();
+
         ensureStepIsLoaded("xExplorerPanel");
-        assertEquals(currentSpace + "." + currentPage + "#Attachments", getExplorerInputValue());
+        // assert the content of the suggest and the position on the tree
+        assertEquals("xwiki:Main.Dashboard", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
-            + currentPage + "\"]');");
+            + pageToLinkTo + "\"]');");
+        // and edit it now
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", "the Dashboard");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[the Dashboard>>xwiki:" + currentSpace + "." + pageToLinkTo + "]]");
+    }
+
+    /**
+     * Test that a relative link to a file attachment is correctly edited
+     */
+    public void testEditRelativeLinkToAttachment()
+    {
+        String currentSpace = "Main";
+        String pageToLinkTo = "RecentChanges";
+        String fileToLinkTo = "lquo.gif";
+
+        setWikiContent("[[left quote>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        // assert the content of the suggest and the position on the tree
+        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + fileToLinkTo + "\"]');");
+
+        // check the current page step is correctly loaded when we switch to it
+        clickButtonWithText(CURRENT_PAGE_BUTTON);
+        ensureStepIsLoaded("xAttachmentsSelector");
+        // test that there is a "new attachment" option
+        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
+
+        // switch back to the tree
+        clickButtonWithText(ALL_PAGES_BUTTON);
+        ensureStepIsLoaded("xExplorerPanel");
+        // test that the position in the tree was preserved
+        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + fileToLinkTo + "\"]');");
+
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", "quote left");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[quote left>>attach:xwiki:" + currentSpace + "." + pageToLinkTo + "@" + fileToLinkTo + "]]");
+
+        // ensure this opens on the current page selector
+        setWikiContent("[[attach.png>>attach:attach.png]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xAttachmentsSelector");
+        // make sure no option is selected
+        assertElementNotPresent("//div[contains(@class, \"xListItem-selected\")]");
+        // test that there is a "new attachment" option
+        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
         closeDialog();
         waitForDialogToClose();
+    }
+
+    /**
+     * Test that when no option is selected in the current page attachments selector and a "select" is tried, an alert
+     * is displayed to show the error.
+     */
+    public void testValidationOnCurrentPageAttachmentsSelector()
+    {
+        setWikiContent("[[left quote>>attach:Main.RecentChanges@rquo.gif]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+
+        waitForDialogToOpen();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals("xwiki:Main.RecentChanges@rquo.gif", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"rquo.gif\"]');");
+
+        typeInExplorerInput("xwiki:Main.RecentChanges@lquo.gif");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif\"]');");
+
+        clickButtonWithText(CURRENT_PAGE_BUTTON);
+
+        ensureStepIsLoaded("xAttachmentsSelector");
+        // make sure no option is selected
+        assertElementNotPresent("//div[contains(@class, \"xListItem-selected\")]");
+
+        clickButtonWithText("Select");
+        assertTrue(getSelenium().isAlertPresent());
+        assertEquals("No attachment was selected", getSelenium().getAlert());
+
+        ensureStepIsLoaded("xAttachmentsSelector");
+        clickButtonWithText(ALL_PAGES_BUTTON);
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif\"]');");
+
+        clickButtonWithText("Select");
+
+        ensureStepIsLoaded("xLinkConfig");
+        typeInInput("Label of the created link", "lquo.gif");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[lquo.gif>>attach:xwiki:Main.RecentChanges@lquo.gif]]");
     }
 
     protected void ensureStepIsLoaded(String divClass)

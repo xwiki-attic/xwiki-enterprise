@@ -25,9 +25,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.xwiki.test.XWikiTestSetup;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
-import org.xwiki.test.XWikiTestSetup;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit
@@ -52,7 +53,7 @@ public class AllTests extends TestCase
 
         addTestCase(suite, DeletePageTest.class);
         addTestCase(suite, LoginLogoutTest.class);
-        addTestCase(suite, UserProfileTest.class);        
+        addTestCase(suite, UserProfileTest.class);
         addTestCase(suite, WikiEditorTest.class);
         addTestCase(suite, WysiwygEditorFromWikiTest.class);
         addTestCase(suite, WysiwygEditorTest.class);
@@ -67,7 +68,6 @@ public class AllTests extends TestCase
         addTestCase(suite, WatchListTest.class);
         addTestCase(suite, KeyboardShortcutsTest.class);
         addTestCase(suite, AllDocsTest.class);
-        addTestCase(suite, AccordionsTest.class);
         addTestCase(suite, UrlMiscTest.class);
         addTestCase(suite, RegisterTest.class);
         addTestCase(suite, ValidationTest.class);

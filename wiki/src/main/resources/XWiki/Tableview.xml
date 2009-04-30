@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1207750266000</creationDate>
-<date>1207915279000</date>
-<contentUpdateDate>1207915279000</contentUpdateDate>
+<date>1241027582000</date>
+<contentUpdateDate>1241027582000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -21,9 +21,11 @@
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
 <object>
 <class>
-<name>XWiki.TagClass</name>
+<name>XWiki.JavaScriptExtension</name>
 <customClass></customClass>
 <customMapping></customMapping>
 <defaultViewSheet></defaultViewSheet>
@@ -31,97 +33,94 @@
 <defaultWeb></defaultWeb>
 <nameField></nameField>
 <validationScript></validationScript>
-<tags>
+<cache>
 <cache>0</cache>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>tags</name>
-<number>1</number>
-<prettyName>Tags</prettyName>
-<relationalStorage>1</relationalStorage>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
 <separator> </separator>
 <separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
 <size>30</size>
 <unmodifiable>0</unmodifiable>
-<values></values>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>onDemand=On demand|always=Always</values>
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</tags>
+</use>
 </class>
 <name>XWiki.Tableview</name>
 <number>0</number>
-<className>XWiki.TagClass</className>
+<className>XWiki.JavaScriptExtension</className>
+<guid>6f537189-4c89-4bb7-a6d9-ba3c4b5dafd2</guid>
 <property>
-<tags/>
+<cache>default</cache>
 </property>
-</object>
-<content>## inject the needed JS and CSS files
-#set($ok = $xwiki.jsfx.use("js/xwiki/table/livetable.js", true))
-#set($ok = $xwiki.ssfx.use("js/xwiki/table/livetable.css", true))
-&lt;div id="ajax-loader"&gt;$msg.get("ui.ajaxTable.loading")&lt;br /&gt;
-  &lt;img src="$xwiki.getSkinFile('icons/ajax-loader.gif')" alt="$msg.get('ui.ajaxTable.loading')" title="" /&gt;
-&lt;/div&gt;
-&lt;table id="alldocstable" class="livetable"&gt;
-&lt;tr&gt;
- &lt;td colspan="2" style="padding-top:10px;"&gt;
-   &lt;span id="showLimits"&gt;&lt;/span&gt;
- &lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td style="width:100%"&gt;
-      &lt;table class="display"&gt;
-       &lt;thead class="theader"&gt;
-          &lt;tr&gt;
-            &lt;td&gt;$msg.get("wikiname")&lt;/td&gt;
-            &lt;td&gt;$msg.get("wikiweb")&lt;/td&gt;
-            &lt;td&gt;$msg.get("date")&lt;/td&gt;
-            &lt;td&gt;$msg.get("lastauthor")&lt;/td&gt;
-            #if($xwiki.hasAdminRights())&lt;td&gt;$msg.get("actions")&lt;/td&gt;#end
-          &lt;/tr&gt;
-          &lt;tr id="table-filters"&gt;
-              &lt;td&gt;&lt;input name="page" type="text"/&gt;&lt;/td&gt;
-              &lt;td&gt;&lt;input name="space" type="text"/&gt;&lt;/td&gt;
-              &lt;td&gt;&lt;/td&gt; ## date
-              &lt;td&gt;&lt;input name="author" type="text" /&gt;&lt;/td&gt;
-              #if($xwiki.hasAdminRights())&lt;td&gt;&lt;/td&gt;#end
-          &lt;/tr&gt;
-       &lt;/thead&gt;
-       &lt;tbody id="display1"&gt;&lt;tr&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
-      &lt;/table&gt;&lt;/td&gt;
-      &lt;td valign="top"&gt;
-        &lt;div id="scrollbar1" class="scrollbar"&gt;&lt;div class="inscrollbar"&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;
-      &lt;/td&gt;
-    &lt;td id="buff"&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;div id="inaccessibleDocsMessage" class="hidden"&gt;
- #info($msg.get("rightsmanager.documentrequireviewrights"))
-&lt;/div&gt;
-#set($url = "$xwiki.getURL('XWiki.Tableresults')?xpage=plain")
-{pre}
-&lt;script type="text/javascript"&gt;
-//&lt;![CDATA[
-function displayAllDocs(row, i, table)
+<property>
+<code>function displayAllDocs(row, i, table)
 {
   var inaccessibleDocs = false;
   if(row.acclev == true)
   {
     var a = new Element('a', {'href' : row.url}).update(row.page);
-    var page = new Element('td', {'class' : 'pagename'}).update(a);
-    var tr = new Element('tr', {'class' : (i % 2 == 0) ? 'even' : 'odd'} ).update(page);
+    var page = new Element('td', {'class' : 'typetext'}).update(a);
+    var tr = new Element('tr').update(page);
     var spaceurl = new Element('a', {'href': row.spaceurl}).update(row.space);
-    var space = new Element('td').update(spaceurl);
+    var space = new Element('td', {'class' : 'typetext'}).update(spaceurl);
     tr.appendChild(space);
     if (row.virtual) {
       var wikiurl = new Element('a', {'href' : row.wikiurl}).update(row.wiki);
       var wiki = new Element('td').update(wikiurl);
       tr.appendChild(wiki);
     }
-    var date = new Element('td').update(row.date);
+    var date = new Element('td', {'class' : 'typedate'}).update(row.date);
     tr.appendChild(date);
     if(row.authorpage) {
       var authorpage = new Element('a', {'href' : row.authorpage}).update(row.author);
-      var author = new Element('td').update(authorpage);
+      var author = new Element('td', {'class' : 'typetext'}).update(authorpage);
     } else {
-      var author = new Element('td').update(row.author);
+      var author = new Element('td', {'class' : 'typetext'}).update(row.author);
     }
     tr.appendChild(author);
     var copy =   new Element('a', {'href' : row.copyurl}).update("$msg.get('copy')");
@@ -129,13 +128,13 @@ function displayAllDocs(row, i, table)
     var rename = new Element('a', {'href' : row.renameurl}).update("$msg.get('rename')");
     var rights = new Element('a', {'href' : row.rightsurl}).update("$msg.get('rights')");
     if(row.hasadmin) {
-      var actions = new Element('td');
+      var actions = new Element('td', {'class' : 'typetext'});
       actions.appendChild(copy);
-      actions.appendChild(new Element('span').update("-"));
+      actions.appendChild(new Element('span').update(" - "));
       actions.appendChild(del);
-      actions.appendChild(new Element('span').update("-"));
+      actions.appendChild(new Element('span').update(" - "));
       actions.appendChild(rename);
-      actions.appendChild(new Element('span').update("-"));
+      actions.appendChild(new Element('span').update(" - "));
       actions.appendChild(rights);
       tr.appendChild(actions);
     }
@@ -143,7 +142,7 @@ function displayAllDocs(row, i, table)
     return tr;
   }
   else {
-    var tr = new Element('tr', {'class' : (i % 2 == 0) ? 'even' : 'odd'} );
+    var tr = new Element('tr');
     var page = row.fullname;
     var dp = page.indexOf(':');
     var p = page.indexOf('.');
@@ -153,10 +152,10 @@ function displayAllDocs(row, i, table)
       var space = page.substring(0, p);
     }
     var name = page.substring(p + 1);
-    var td1 = new Element('td', {'class' : 'pagename'}).update(name + "*");
-    var td2 = new Element('td').update(space);
-    var td3 = new Element('td').update(" ");
-    var td4 = new Element('td').update(" ");
+    var td1 = new Element('td', {'class' : 'typetext'}).update(name + "*");
+    var td2 = new Element('td', {'class' : 'typetext'}).update(space);
+    var td3 = new Element('td', {'class' : 'typetext'}).update(" ");
+    var td4 = new Element('td', {'class' : 'typetext'}).update(" ");
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
@@ -164,9 +163,35 @@ function displayAllDocs(row, i, table)
     $('inaccessibleDocsMessage').removeClassName('hidden');
     return tr;
   }
-}
-var ta = new ASSTable("$url", 15, "display1", "scrollbar1", "alldocstable", displayAllDocs, true);
-//]]&gt;
-&lt;/script&gt;
+}</code>
+</property>
+<property>
+<name>All Documents Callback Method for the livetable</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<content>{pre}
+#set($ok = $xwiki.jsx.use("XWiki.Tableview"))
+##
+#set($collist = ["doc.name", "doc.space","doc.date", "doc.author", "actions"])
+#set($colprops = {
+                   "doc.name" : { "type" : "text" , "size" : 10, "link" : "view"}, 
+                   "doc.space" : { "type" : "text" , "size" : 10, "link" : "space"},
+                   "doc.date" : { "type" : "date" },
+                   "doc.author" : { "type" : "text" , "size" : 10, "link" : "author"},
+                   "actions" : {"sortable": false}
+                 })
+#set($options = { "url":"$xwiki.getURL('XWiki.Tableresults')?xpage=plain",
+                  "callback" : "displayAllDocs", 
+                  "translationPrefix" : "xe.index." })
+#livetable("alldocs" $collist $colprops $options)
+&lt;div id="inaccessibleDocsMessage" class="hidden"&gt;
+ #info($msg.get("rightsmanager.documentrequireviewrights"))
+&lt;/div&gt;
 {/pre}</content>
 </xwikidoc>

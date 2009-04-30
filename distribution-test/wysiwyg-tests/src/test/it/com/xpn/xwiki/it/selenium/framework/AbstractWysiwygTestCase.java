@@ -19,89 +19,29 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import junit.framework.Assert;
-
-import org.apache.commons.logging.LogFactory;
 
 import com.thoughtworks.selenium.Selenium;
 
 /**
- * All XWiki Wysiwyg tests must extend this class.
+ * All XWiki WYSIWYG tests must extend this class.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 {
     private static final String WYSIWYG_LOCATOR_FOR_KEY_EVENTS =
-        "document.getElementsByTagName('iframe').item(0).contentDocument.documentElement";
+        "document.getElementsByTagName('iframe')[0].contentWindow.document.documentElement";
 
     private static final String WYSIWYG_LOCATOR_FOR_HTML_CONTENT = "content";
-
-    private static final String XWINDOWFOCUS_BINARY = "/home/maven/xwindowfocus";
-
-    private class StreamRedirector extends Thread
-    {
-        private InputStream is;
-
-        private OutputStream os;
-
-        StreamRedirector(InputStream in, OutputStream out)
-        {
-            is = in;
-            os = out;
-        }
-
-        public void run()
-        {
-            try {
-                int bytesRead;
-                byte[] buffer = new byte[512];
-                while ((bytesRead = is.read(buffer)) > 0) {
-                    os.write(buffer, 0, bytesRead);
-                }
-            } catch (IOException e) {
-                LogFactory.getLog(StreamRedirector.class).error("Error while reading/writing: " + e);
-            }
-        }
-    }
-
-    /*
-     * HACK. This method is needed by our Continuous Build server : maven.xwiki.org.
-     * GWT seems to have an unusual way to manage input events, our WYSIWYG editor needs its container window to have
-     * a _real_ focus (Windowing System level) to catch them (at least on Linux and OSX).
-     * This method executes a small C program to set the Windowing System (X) focus on the window named :
-     * "Editing wysiwyg for WysiwygTest - Mozilla Firefox". More information about this program can be found here :
-     * http://dev.xwiki.org/xwiki/bin/view/Community/ContinuousBuild
-     */
-    private void externalX11WindowFocus() throws Exception
-    {
-        if ((new File(XWINDOWFOCUS_BINARY)).exists()) {
-            ProcessBuilder pb =
-                new ProcessBuilder(new String[]{XWINDOWFOCUS_BINARY, "Editing wysiwyg for WysiwygTest - Mozilla Firefox"});
-            pb.environment().put("DISPLAY", ":1.0");
-            Process shell = pb.start();            
-            new StreamRedirector(shell.getInputStream(), System.out).start();
-            new StreamRedirector(shell.getErrorStream(), System.err).start();
-        }
-    }
 
     protected void setUp() throws Exception
     {
         super.setUp();
-        loginAsAdmin();
 
-        // Go to the WYSIWYG editor if needed.
-        if (!getSelenium().getLocation()
-            .equals("http://localhost:8080/xwiki/bin/edit/Main/WysiwygTest?editor=wysiwyg"))
-        {
-            open("Main", "WysiwygTest");
-            clickLinkWithText("WYSIWYG");
-        }
+        loginAsAdmin();
+        open("Main", "WysiwygTest");
+        clickLinkWithText("WYSIWYG");
 
         // Switch the document to xwiki/2.0 syntax if needed.
         if (!getSelenium().getValue("syntaxId").equals("xwiki/2.0")) {
@@ -117,13 +57,10 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             waitPage();
         }
 
-        // Focus on the XWiki window (Seems not to work, at least on Linux and OSX)
-        getSelenium().windowFocus();
+        // Focus the rich text area in order to enter design mode.
+        focusRichTextArea();
 
-        // Focus on the XWiki window on our continuous build server (The hard way)
-        externalX11WindowFocus();
-
-        // Reset editor's content
+        // Reset editor's content.
         resetContent();
     }
 
@@ -143,26 +80,28 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         if (!getSelenium().getEval("typeof window.XWE").equals("object")) {
             getSelenium().runScript("var XWE = function() {\n" +
-                "  var iframe = window.document.getElementsByTagName('iframe').item(0);\n" +
-                "    return {\n" +
-                "    document : iframe.contentDocument,\n" +
-                "    window : iframe.contentWindow,\n" +
-                "    rootNode : iframe.contentDocument.documentElement,\n" +
-                "    body : iframe.contentDocument.body,\n" +
-                "    innerHTML : iframe.contentDocument.body.innerHTML,\t\t\n" +
-                "    selection : iframe.contentWindow.getSelection(),\n" +
-                "    focus : function() { iframe.contentWindow.focus() },\t\t\n" +
+                "  var iframe = window.document.getElementsByTagName('iframe')[0];\n" +
+                "  var iwnd = iframe.contentWindow;\n" +
+                "  var idoc = iwnd.document;\n" +
+                "  return {\n" +
+                "    document : idoc,\n" +
+                "    window : iwnd,\n" +
+                "    rootNode : idoc.documentElement,\n" +
+                "    body : idoc.body,\n" +
+                "    innerHTML : idoc.body.innerHTML,\t\t\n" +
+                "    selection : iwnd.getSelection(),\n" +
                 "    getRange : function() { \n" +
-                "        try {\n" +
-                "          var range = iframe.contentDocument.defaultView.getSelection().getRangeAt(0);\n" +
-                "        } catch(e) {\n" +
-                "          var range = iframe.contentDocument.createRange();   \n" +
-                "          iframe.contentDocument.defaultView.getSelection().addRange(range);\t\t\t\t\n" +
-                "        }\n" +
+                "      if (iwnd.getSelection().rangeCount > 0) {\n" +
+                "        return iwnd.getSelection().getRangeAt(0);\n" +
+                "      } else {\n" +
+                "        var range = idoc.createRange();\n" +
+                "        range.selectNodeContents(idoc.body);\n" +
+                "        iwnd.getSelection().addRange(range);\t\t\t\t\n" +
                 "        return range;\n" +
-                "      },\n" +
-                "    removeAllRanges : function() { iframe.contentWindow.getSelection().removeAllRanges(); },\n" +
-                "    selectAll : function() { iframe.contentWindow.document.execCommand('selectall', false, null) },\n"+
+                "      }\n" +
+                "    },\n" +
+                "    removeAllRanges : function() { iwnd.getSelection().removeAllRanges(); },\n" +
+                "    selectAll : function() { idoc.execCommand('selectall', false, null) },\n"+
                 "  };\n" +
                 "}();");
         }
@@ -171,8 +110,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void setContent(String html)
     {
         runScript("XWE.body.innerHTML = '" + html + "';");
-        // Give the focus to the RTE so that it takes the modification into account.
-        runScript("XWE.focus();");
         updateRichTextAreaFormField();
     }
 
@@ -182,7 +119,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void resetContent()
     {
         // We try to mimic as much as possible the user behavior.
+        // First, we select all the content.
         selectAllContent();
+        // Delete the selected content.
         typeBackspace();
         // We select again all the content. In Firefox, the selection will include the annoying br tag. Further typing
         // will overwrite it. See XWIKI-2732.
@@ -197,29 +136,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     private void selectElement(String tagName, int occurence, boolean includeElement)
     {
-        String rangeMethod = "selectNode";
-
-        if (!includeElement) {
-            rangeMethod = "selectNodeContents";
+        String locator = getDOMLocator("getElementsByTagName('" + tagName + "')[" + (occurence - 1) + "]");
+        if (includeElement) {
+            selectNode(locator);
+        } else {
+            selectNodeContents(locator);
         }
-
-        runScript("XWE.focus();" +
-            "var elementNumber = " + occurence + ";\n" +
-            "var children = XWE.body.childNodes;\n" +
-            "var r = XWE.getRange();   \n" +
-            "for (var i = 0; i < children.length; i++) {\n" +
-            "  if (children[i].tagName == '" + tagName.toUpperCase() + "') {\n" +
-            "    if (elementNumber == 1) {\n" +
-            "      r." + rangeMethod + "(children[i]);\n" +
-            "      XWE.focus();\n" +
-            "      break;\n" +
-            "    }\n" +
-            "    elementNumber--;\n" +
-            "  }\n" +
-            "}" +
-            "if (elementNumber > 1) {\n" +
-            "  throw ('There is no element number <" + occurence + "> of type <" + tagName + "> ')\n" +
-            "}\n");
     }
 
     /**
@@ -556,7 +478,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickBackToEdit()
     {
-        submit("//button[text()='Back To Edit']");
+        submit("//input[@type = 'submit' and @value = 'Back To Edit']");
+        focusRichTextArea();
     }
 
     public void applyStyle(String style)
@@ -631,7 +554,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         getSelenium().click("//button[@title=\"" + buttonTitle + "\"]");
     }
-    
+
     public void clickButtonWithText(String buttonText)
     {
         getSelenium().click("//button[. = \"" + buttonText + "\"]");
@@ -671,12 +594,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         getSelenium().type("//input[@title=\"" + inputTitle + "\"]", text);
     }
-    
+
     /**
      * @param inputTitle the title of the input whose value to return.
-     * @return the value of an input specified by its title. 
+     * @return the value of an input specified by its title.
      */
-    public String getInputValue(String inputTitle) 
+    public String getInputValue(String inputTitle)
     {
         return getSelenium().getValue("//input[@title=\"" + inputTitle + "\"]");
     }
@@ -730,6 +653,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             assertEquals("Your content contains HTML or special code that might be lost in the WYSIWYG Editor."
                 + " Are you sure you want to switch editors?", getSelenium().getConfirmation());
         }
+        focusRichTextArea();
     }
 
     /**
@@ -750,10 +674,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void updateRichTextAreaFormField()
     {
-        // Blur the rich text area.
-        getSelenium().clickAt("title", "0,0");
-        // Give the focus back.
-        runScript("XWE.focus();");
+        blurRichTextArea();
+        focusRichTextArea();
     }
 
     /**
@@ -901,7 +823,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         setFieldValue("content", wikiText);
         switchToWysiwygEditor();
     }
-    
+
     /**
      * Wait for a WYSIWYG dialog to close. The test checks for a {@code div} element with {@code xDialogBox} value of
      * {@code class} to not be present.
@@ -912,12 +834,13 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Wait for a WYSIWYG dialog to open. The test checks for a {@code div} element with {@code xDialogBox} value of
-     * {@code class} to be present.
+     * Waits until a WYSIWYG modal dialog is fully loaded. While loading, the body of the dialog has the {@code loading}
+     * CSS class besides the {@code xDialogBody} one.
      */
-    public void waitForDialogToOpen()
+    public void waitForDialogToLoad()
     {
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
+        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")"
+            + " and not(contains(@class, \"loading\"))]')");
     }
 
     /**
@@ -945,5 +868,36 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public boolean isUnderlineDetected()
     {
         return isToggleButtonDown("Underline (CTRL+U)");
+    }
+
+    /**
+     * Simulates a focus event on the rich text area. We don't use the focus method because it fails to notify our
+     * listeners when the browser window is not focused, preventing us from running the tests in background.
+     * <p>
+     * NOTE: The initial range CAN differ when the browser window is focused from when it isn't! Make sure you place the
+     * caret where you want it to be at the beginning of you test and after switching back to WYSIWYG editor.
+     */
+    protected void focusRichTextArea()
+    {
+        // We dont't use getSelenium.focus(locator) because it uses the focus method when the target of the locator has
+        // it and in our case the target is a window object which has the focus method. Moreover, the focus event
+        // doesn't propagate from an inner element to the host window, meaning we are forced to trigger the focus event
+        // on the window object. We haven't found a way to call triggerEvent from the scope of runScript and thus we use
+        // getEval.
+        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'focus', false);");
+        // Wait till the rich text area enters design mode.
+        waitForCondition("window." + getDOMLocator("defaultView") + ".getSelection().rangeCount > 0");
+        // Update the state of the tool bar buttons.
+        triggerToolbarUpdate();
+    }
+
+    /**
+     * Simulates a blur event on the rich text area. We don't use the blur method because it fails to notify our
+     * listeners when the browser window is not focused, preventing us from running the tests in background.
+     */
+    protected void blurRichTextArea()
+    {
+        // We haven't found a way to call triggerEvent from the scope of runScript and thus we use getEval.
+        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'blur', false);");
     }
 }

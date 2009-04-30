@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1207750266000</creationDate>
-<date>1241027582000</date>
-<contentUpdateDate>1241027582000</contentUpdateDate>
+<date>1241106927000</date>
+<contentUpdateDate>1241106927000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -93,7 +93,7 @@
 <name>XWiki.Tableview</name>
 <number>0</number>
 <className>XWiki.JavaScriptExtension</className>
-<guid>6f537189-4c89-4bb7-a6d9-ba3c4b5dafd2</guid>
+<guid>2e0bc0dc-8e9f-425f-a1f8-837a5db5b437</guid>
 <property>
 <cache>default</cache>
 </property>
@@ -138,6 +138,9 @@
       actions.appendChild(rights);
       tr.appendChild(actions);
     }
+    else {
+      tr.appendChild(new Element("td"));
+    }
 
     return tr;
   }
@@ -160,6 +163,7 @@
     tr.appendChild(td2);
     tr.appendChild(td3);
     tr.appendChild(td4);
+    tr.appendChild(new Element("td"));
     $('inaccessibleDocsMessage').removeClassName('hidden');
     return tr;
   }

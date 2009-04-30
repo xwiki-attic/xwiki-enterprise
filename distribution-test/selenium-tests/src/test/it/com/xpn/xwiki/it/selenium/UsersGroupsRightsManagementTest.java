@@ -227,6 +227,21 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     }
     
     /**
+     * Validate adding a member to a group via the administration.
+     */
+    public void testAddUserToGroup()
+    {
+        // Make sure there's no XWikiNewUser user before we try to create it
+        deleteUser("XWikiTestUser", true);
+        createUser("XWikiTestUser", "XWikiTestUser");
+        
+        addUserToGroup("XWikiTestUser", "XWikiAdminGroup");
+        
+        deleteUser("XWikiTestUser", true);
+    }
+    
+    
+    /**
      * Validate member filtering on group sheet.
      */
     public void testFilteringOnGroupSheet()
@@ -315,6 +330,14 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         waitForLightbox("Add new user");
         setFieldValue("userSuggest", "XWiki." + user);
         clickLinkWithLocator("addNewUser", false);
+        
+        String xpathPrefix =  "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";
+        String newGroupMemberXPath = xpathPrefix + "/td[@class='username']/a[@href='/xwiki/bin/view/XWiki/" + user + "']";
+        // this xpath expression is fragile, but we have to start as up as the lightbox does, because
+        // the same table with same ids and classes is already displayed in the Preferences page
+        // (that is, the list of existing groups).
+        waitForCondition("selenium.isElementPresent(\"" + newGroupMemberXPath + "\")");
+        
         // Close the group edit lightbox
         clickLinkWithLocator("lb-close");
     }

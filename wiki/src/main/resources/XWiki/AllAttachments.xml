@@ -12,9 +12,9 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1223662469000</creationDate>
-<date>1241109272000</date>
-<contentUpdateDate>1241109272000</contentUpdateDate>
-<version>10.1</version>
+<date>1241186947000</date>
+<contentUpdateDate>1241186947000</contentUpdateDate>
+<version>1.1</version>
 <title></title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -93,7 +93,7 @@
 <name>XWiki.AllAttachments</name>
 <number>0</number>
 <className>XWiki.JavaScriptExtension</className>
-<guid>416529a8-b4fe-4f43-a8a3-4a53cb1c1bfa</guid>
+<guid>9ad0f248-6336-4543-ae2b-fd41dda77be4</guid>
 <property>
 <cache>default</cache>
 </property>

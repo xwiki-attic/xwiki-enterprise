@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1240741979000</creationDate>
-<date>1241027857000</date>
-<contentUpdateDate>1241027857000</contentUpdateDate>
+<date>1241199835000</date>
+<contentUpdateDate>1241199835000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -43,11 +43,11 @@
 ## set of results serialized in JSON.
 ## ============================================================================================
 #if ($request.get("xpage") &amp;&amp; $request.get("xpage") == "plain")
-  #set( $offset = $xwiki.parseInt( $request.get( "offset" ) ) )
+  #set( $offset = $util.parseInt( $request.get( "offset" ) ) )
   ## offset starts from 0 in velocity and 1 in javascript
   #set( $off = $offset - 1 )
-  #set( $limit = $xwiki.parseInt( $request.get( "limit" ) ) )
-  #set($tablelist = $xwiki.arrayList)
+  #set( $limit = $util.parseInt( $request.get( "limit" ) ) )
+  #set($tablelist = $util.arrayList)
   #set($whereSql = "")
   #set($fromSql = "")
   #set($class = $xwiki.getDocument($className).getxWikiClass())
@@ -96,16 +96,24 @@
       #end
     #end
  
-  #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className='${className}' $!whereSql $!filterwhere")
-  #set($tagsMatchingFiltersFrom = ", BaseObject as obj $!fromSql $!filterfrom")
-  #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className='${className}' $!whereSql $!filterwhere")
+  #if("$!className" != "")
+    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className='${className}' $!whereSql $!filterwhere")
+    #set($tagsMatchingFiltersFrom = ", BaseObject as obj $!fromSql $!filterfrom")
+    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className='${className}' $!whereSql $!filterwhere")
+    #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
+    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' $!filterwhere")  
+  #else
+    #set($countSql = "$!fromSql $!filterfrom where 1=1 $!whereSql and $!filterwhere")
+    #set($tagsMatchingFiltersFrom = "$!fromSql $!filterfrom")
+    #set($tagsMatchingFiltersWhere = "1=1 $!whereSql and $!filterwhere")
+    #set($allMatchingTagsFrom = "$!filterfrom")
+    #set($allMatchingTagsWhere = "$!filterwhere")
+  #end
   #set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere))
-  #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
-  #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' $!filterwhere")  
   #set($allMatchingTags = $xwiki.tag.getTagCountForQuery($allMatchingTagsFrom, $allMatchingTagsWhere))
   #set($sql = "$countSql $!{orderSql}")
   #set($items = $xwiki.searchDocuments($sql, $limit, $off))
-  #set($totalItems = $listtool.get($xwiki.search("select count(distinct doc.fullName) from XWikiDocument as doc $countSql"), 0))
+  #set($totalItems = $xwiki.countDocuments($countSql))
   #set($returnedItems = $items.size())
   ## ==============================================
   ## json starts
@@ -134,76 +142,106 @@
   "reqNo": $request.reqNo,
   "rows": [
     #foreach($item in $items)
-     #set($udoc = $xwiki.getDocument($item))
-     #set($ok = $udoc.use($className))
-     #set($itemurl = $xwiki.getURL($item))
+     #set($viewable = $xwiki.hasAccessLevel("view", $context.user, "${context.database}:${item}"))
      #if($velocityCount &gt; 1) , #end
      {
-    #foreach($colname in $collist)
-      #if($colname.startsWith("doc."))
-      #elseif($colname=="_action")
-        #set($text = $msg.get("${request.transprefix}actiontext"))
-        "${colname}" : "${text}",
-      #elseif($colname=="_attachment")
-        #grid_attachlist($udoc)
-        "${colname}" : "${attachlist}",
-      #elseif($colname=="_avatar")
-        #grid_avatar($udoc)
-        "${colname}" : "${avatar}",
-      #elseif($colname=="_photo")
-        #grid_photolist($udoc)
-        "${colname}" : "${photolist}",
+      "doc_viewable" : $viewable,
+      #if(!$viewable)
+        "doc_fullname" : "${context.database}:${item}"
       #else
-       #set($propClassName = "")
-       #set($propClassName = $request.get("${colname}_class"))
-       #if($propClassName)
-        #set($propClass = $xwiki.getDocument($propClassName).getxWikiClass())
-        #set($ok = $udoc.use($propClassName))
-       #else
-        #set($propClass = $class)
-       #end
-       ## retrieve the property type as it might be usefull
-       #set($proptype = "")
-       #if($listtool.contains($propClass.getPropertyNames(), $colname))
-        #set($proptype = $!propClass.get($colname).type)
-       #end
-       #set($fieldvalue = "")
-       #set($fielddisplayvalue = "")
-       #set($fieldvalue = $udoc.getValue($colname))
-       #set($fielddisplayvalue = $udoc.display($colname, "view"))
-       ## we need to transform carriage returns to &lt;br /&gt;
-       #if($proptype=="TextAreaClass")
-        #set($fieldvalue = $fieldvalue.replaceAll("\r", "").replaceAll("\n","&lt;br /&gt;"))
-        #set($fielddisplayvalue = $fielddisplayvalue.replaceAll("\r", "").replaceAll("\n","&lt;br /&gt;"))
-       #else
-        #set($fieldvalue = $fieldvalue.replaceAll("\r", "").replaceAll("\n",""))
-        #set($fielddisplayvalue = $fielddisplayvalue.replaceAll("\r", "").replaceAll("\n",""))
-       #end
-       #if($fielddisplayvalue=="")
-        #set($fielddisplayvalue = $msg.get("${request.transprefix}emptyvalue"))
-       #end
-       #set($fieldurl = "")
-       ## only retrieve an URL for a DBListClass item
-       #if($proptype=="DBListClass")
-        #set($fieldurl = $xwiki.getDocument($fieldvalue).getURL())
-        #if($fieldurl == "/xwiki/bin/view/Main/")
-         #set($fieldurl = "")
+        #set($udoc = $xwiki.getDocument($item))
+        #set($fullname = "${udoc.wiki}:${udoc.space}.${udoc.name}")
+        #set($ok = $udoc.use($className))
+        #set($itemurl = $xwiki.getURL($item))
+        #set($spaceurl = $xwiki.getURL("${udoc.wiki}:${udoc.space}.WebHome"))
+        #if($xwiki.isVirtualMode())
+          #set($wiki = $udoc.wiki)
+          #set($wikiurl = $xwiki.getURL("${udoc.wiki}:Main.WebHome"))
         #end
-       #end
-       "${colname}" : "${fielddisplayvalue}",
-       "${colname}_value" : "${fieldvalue}",
-       "${colname}_url" : "${fieldurl}",
-       ## reset to the default class
-       #set($ok = $udoc.use($className))
+        #set($copy = $xwiki.getURL("XWiki.CopyDocument", "view", "sourcedoc=${util.encodeURI($fullname)}"))
+        #set($delete = $udoc.getURL("delete"))
+        #set($rename = $udoc.getURL("view", "xpage=rename&amp;amp;step=1"))
+        #set($rights = $udoc.getURL("edit", "editor=rights"))
+        "doc_name" : "$udoc.name",
+        "doc_fullname" : "$fullname",
+        "doc_space" : "${udoc.space}",
+        "doc_url" : "${itemurl}",
+        "doc_space_url" : "${spaceurl}",
+        #if($xwiki.isVirtualMode())
+        "doc_wiki" : "$wiki",
+        "doc_wiki_url" "$wikiurl",
+        #end
+        "doc_hasadmin"  : $xwiki.hasAdminRights(),
+        "doc_copy_url"   : "$copy",
+        "doc_delete_url" : "$delete",
+        "doc_rename_url" : "$rename",
+        "doc_rights_url" : "$rights",
+        "doc_author_url" : "$xwiki.getURL($udoc.author)",
+        "doc_date" : "${xwiki.formatDate($udoc.date)}",
+        "doc_title" : "${udoc.title}",
+        "doc_author" : "${xwiki.getLocalUserName($udoc.author, false)}",
+        "doc_creationDate" : "${xwiki.formatDate($udoc.creationDate)}",
+        "doc_creator" : "${xwiki.getLocalUserName($udoc.creator, false)}"
+        #foreach($colname in $collist)
+          #if($colname.startsWith("doc."))
+          #elseif($colname=="_action") ,
+            #set($text = $msg.get("${request.transprefix}actiontext"))
+           "${colname}" : "${text}",
+          #elseif($colname=="_attachment") ,
+            #grid_attachlist($udoc)
+            "${colname}" : "${attachlist}",
+          #elseif($colname=="_avatar") ,
+            #grid_avatar($udoc)
+            "${colname}" : "${avatar}",
+          #elseif($colname=="_photo") ,
+            #grid_photolist($udoc)
+            "${colname}" : "${photolist}",
+          #else ,
+            #set($propClassName = "")
+            #set($propClassName = $request.get("${colname}_class"))
+            #if($propClassName)
+              #set($propClass = $xwiki.getDocument($propClassName).getxWikiClass())
+              #set($ok = $udoc.use($propClassName))
+            #else
+              #set($propClass = $class)
+            #end
+            ## retrieve the property type as it might be usefull
+            #set($proptype = "")
+            #if($listtool.contains($propClass.getPropertyNames(), $colname))
+              #set($proptype = $!propClass.get($colname).type)
+            #end
+            #set($fieldvalue = "")
+            #set($fielddisplayvalue = "")
+            #set($fieldvalue = $udoc.getValue($colname))
+            #set($fielddisplayvalue = $udoc.display($colname, "view"))
+            ## we need to transform carriage returns to &lt;br /&gt;
+            #if($proptype=="TextAreaClass")
+              #set($fieldvalue = $fieldvalue.replaceAll("\r", "").replaceAll("\n","&lt;br /&gt;"))
+              #set($fielddisplayvalue = $fielddisplayvalue.replaceAll("\r", "").replaceAll("\n","&lt;br /&gt;"))
+            #else
+              #set($fieldvalue = $fieldvalue.replaceAll("\r", "").replaceAll("\n",""))
+              #set($fielddisplayvalue = $fielddisplayvalue.replaceAll("\r", "").replaceAll("\n",""))
+            #end
+            #if($fielddisplayvalue=="")
+              #set($fielddisplayvalue = $msg.get("${request.transprefix}emptyvalue"))
+            #end
+            #set($fieldurl = "")
+            ## only retrieve an URL for a DBListClass item
+            #if($proptype=="DBListClass")
+              #set($fieldurl = $xwiki.getDocument($fieldvalue).getURL())
+              #if($fieldurl == "/xwiki/bin/view/Main/")
+                #set($fieldurl = "")
+              #end
+            #end
+            "${colname}" : "${fielddisplayvalue}",
+            "${colname}_value" : "${fieldvalue}",
+            "${colname}_url" : "${fieldurl}",
+            ## reset to the default class
+            #set($ok = $udoc.use($className))
+          #end
+        #end
       #end
-    #end
-      "doc_url" : "${itemurl}",
-      "doc_date" : "${xwiki.formatDate($udoc.date)}",
-      "doc_title" : "${udoc.title}",
-      "doc_author" : "${xwiki.getLocalUserName($udoc.author, false)}",
-      "doc_creationDate" : "${xwiki.formatDate($udoc.creationDate)}",
-      "doc_creator" : "${xwiki.getLocalUserName($udoc.creator, false)}",
-      "page" : "${item}"  }
+     }
     #end
   ]}
   ## ==============================================
@@ -353,10 +391,10 @@
    #set($tablealias = $colname)
   #end
   #set($proptype = "")
-  #if($listtool.contains($class.getPropertyNames(), $colname))
+  #if($class &amp;&amp; $listtool.contains($class.getPropertyNames(), $colname))
    #set($proptype = $!class.get($colname).type)
   #end
-  #if($fieldvalue &amp;&amp; $fieldvalue!="")
+  #if("$!fieldvalue" != "")
     #set($ok = $tablelist.add($tablealias))
     #if($colname.startsWith("doc."))
      #set($whereSql = " ${whereSql} and upper(str(${colname.replace('_','.')})) like upper('%${fieldvalue}%')")

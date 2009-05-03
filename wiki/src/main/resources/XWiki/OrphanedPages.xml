@@ -26,10 +26,10 @@
 <content>{pre}
 #set($collist = ["doc.name", "doc.space","doc.date", "doc.author", "_actions"])
 #set($colprops = {
-                   "doc.name" : { "type" : "text" , "size" : 10, "link" : "view"}, 
-                   "doc.space" : { "type" : "text" , "size" : 10, "link" : "space"},
+                   "doc.name" : { "type" : "text" , "size" : 30, "link" : "view"}, 
+                   "doc.space" : { "type" : "text", "link" : "space"},
                    "doc.date" : { "type" : "date" },
-                   "doc.author" : { "type" : "text" , "size" : 10, "link" : "author"},
+                   "doc.author" : { "type" : "text", "link" : "author"},
                    "_actions" : { "actions": ["copy","delete","rename","rights"]}
                  })
 #set($options = { "url":"$xwiki.getURL('XWiki.OrphanedPagesResults')?xpage=plain",

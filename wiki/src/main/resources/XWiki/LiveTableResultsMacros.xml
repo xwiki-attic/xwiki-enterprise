@@ -187,13 +187,13 @@
           #elseif($colname=="_action") ,
             #set($text = $msg.get("${request.transprefix}actiontext"))
            "${colname}" : "${text}",
-          #elseif($colname=="_attachment") ,
+          #elseif($colname=="_attachments") ,
             #grid_attachlist($udoc)
             "${colname}" : "${attachlist}",
           #elseif($colname=="_avatar") ,
             #grid_avatar($udoc)
             "${colname}" : "${avatar}",
-          #elseif($colname=="_photo") ,
+          #elseif($colname=="_images") ,
             #grid_photolist($udoc)
             "${colname}" : "${photolist}",
           #else ,

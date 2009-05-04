@@ -743,4 +743,14 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Check the XWiki syntax.
         assertWiki("[[foo>>mailto:x@y.z||style=\"text-decoration: none;\" title=\"bar\"]]");
     }
+
+    /**
+     * Tests if the state of the tool bar buttons is updated immediately after the editor finished loading.
+     */
+    public void testToolBarIsUpdatedOnLoad()
+    {
+        setWikiContent("**__abc__**");
+        assertTrue(isBoldDetected());
+        assertTrue(isUnderlineDetected());
+    }
 }

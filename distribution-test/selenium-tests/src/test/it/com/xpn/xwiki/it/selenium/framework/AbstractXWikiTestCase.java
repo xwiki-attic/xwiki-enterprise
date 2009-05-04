@@ -446,6 +446,11 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     {
         getSkinExecutor().openAdministrationPage();
     }
+    
+    public void openAdministrationSection(String section)
+    {
+        getSkinExecutor().openAdministrationSection(section);
+    }
 
     public String getUrl(String space, String doc)
     {

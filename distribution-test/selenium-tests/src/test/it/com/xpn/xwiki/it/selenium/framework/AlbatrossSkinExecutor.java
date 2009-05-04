@@ -268,6 +268,13 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         getTest().open("XWiki", "XWikiPreferences", "admin");
     }
+    
+    public void openAdministrationSection(String section)
+    {
+        this.openAdministrationPage();
+        
+        getTest().clickLinkWithLocator("//li[@class='" + section + "']/a");
+    }
 
     public void pressKeyboardShortcut(String shortcut, boolean withCtrlModifier, boolean withAltModifier,
         boolean withShiftModifier) throws InterruptedException

@@ -442,7 +442,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickInsertImageButton()
     {
-        pushToolBarButton("Insert/Edit Image");
+        pushToolBarButton("Insert or edit image");
     }
 
     public void clickInsertLinkButton()

@@ -224,6 +224,11 @@ public interface SkinExecutor
     void openAdministrationPage();
 
     /**
+     * Opens an administration section in the wiki administration application
+     */
+    void openAdministrationSection(String section);
+    
+    /**
      * Press a key with optionnal keypress modifiers (Ctrl,Shift,etc)
      *
      * @param shortcut the key to press

@@ -299,25 +299,28 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEnterAfterImage()
     {
-        clickInsertImageButton();
-
-        String spaceSelector = "//div[@class=\"xImageChooser\"]//select[2]";
-        String space = "XWiki";
-        waitForCondition("selenium.isElementPresent('" + spaceSelector + "/option[@value=\"" + space + "\"]');");
-        getSelenium().select(spaceSelector, space);
-
-        String pageSelector = "//div[@class=\"xImageChooser\"]//select[3]";
-        String page = "AdminSheet";
-        waitForCondition("selenium.isElementPresent('" + pageSelector + "/option[@value=\"" + page + "\"]');");
-        getSelenium().select(pageSelector, page);
-
-        getSelenium().click("//div[@class=\"xImageChooser\"]//button[text()=\"Update\"]");
-
-        String imageSelector = "//div[@class=\"xImagesContainerPanel\"]//img[@title=\"photos.png\"]";
+        clickMenu("Image");
+        clickMenu("Image insert");
+        
+        waitForDialogToLoad();
+        clickButtonWithText("All pages");
+        String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
+        String imageSpace = "XWiki";
+        waitForCondition("selenium.isElementPresent('" + imageSpaceSelector + "/option[@value=\"" + imageSpace
+            + "\"]');");
+        getSelenium().select(imageSpaceSelector, imageSpace);
+        String imagePageSelector = "//div[@class=\"xPageChooser\"]//select[3]";
+        String imagePage = "AdminSheet";
+        waitForCondition("selenium.isElementPresent('" + imagePageSelector + "/option[@value=\"" + imagePage + "\"]');");
+        getSelenium().select(imagePageSelector, imagePage);
+        getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
+        String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"photos.png\"]";
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
-        getSelenium().click(imageSelector);
-
-        getSelenium().click("//div[@class=\"xImageDialogMain\"]/button[text()=\"OK\"]");
+        getSelenium().click(imageSelector);        
+        clickButtonWithText("Select");
+        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xImageConfig\")]');");
+        clickButtonWithText("Insert image");
+        waitForDialogToClose();        
 
         // The inserted image should be selected. By pressing the right arrow key the caret is not moved after the image
         // thus we are forced to collapse the selection to the end.
@@ -325,7 +328,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeEnter(2);
         typeText("xyz");
         typeDelete();
-        assertXHTML("<!--startimage:XWiki.AdminSheet@photos.png-->"
+        assertXHTML("<!--startimage:xwiki:XWiki.AdminSheet@photos.png-->"
             + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"
             + "<!--stopimage--><p>xyz</p>");
     }

@@ -369,29 +369,36 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // put everything in a paragraph as there are some whitespace trouble parsing outside the paragraph
         applyStyleParagraph();
 
-        clickInsertImageButton();
+        clickMenu("Image");
+        clickMenu("Insert image");
+        
+        waitForDialogToLoad();
+        
+        //switch to "all pages" tab
+        clickButtonWithText(ALL_PAGES_BUTTON);
 
-        String imageSpaceSelector = "//div[@class=\"xImageChooser\"]//select[2]";
+        String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
         String imageSpace = "XWiki";
         waitForCondition("selenium.isElementPresent('" + imageSpaceSelector + "/option[@value=\"" + imageSpace
             + "\"]');");
         getSelenium().select(imageSpaceSelector, imageSpace);
 
-        String imagePageSelector = "//div[@class=\"xImageChooser\"]//select[3]";
+        String imagePageSelector = "//div[@class=\"xPageChooser\"]//select[3]";
         String imagePage = "AdminSheet";
         waitForCondition("selenium.isElementPresent('" + imagePageSelector + "/option[@value=\"" + imagePage + "\"]');");
         getSelenium().select(imagePageSelector, imagePage);
 
-        getSelenium().click("//div[@class=\"xImageChooser\"]//button[text()=\"Update\"]");
+        getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
 
-        String imageSelector = "//div[@class=\"xImagesContainerPanel\"]//img[@title=\"photos.png\"]";
+        String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"photos.png\"]";
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
-
-        getSelenium().click("//div[@class=\"xImageDialogMain\"]/button[text()=\"OK\"]");
-
-        // wait for the image dialog to be closed
-        waitForCondition("!selenium.isElementPresent('//div[@class=\"xImageDialogMain\"]')");
+        
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xImageConfig");
+        clickButtonWithText("Insert image");
+        
+        waitForDialogToClose();
 
         // now add a link around this image
         String pageName = "Photos";
@@ -417,7 +424,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Photos]]");
+        assertWiki("[[[[image:xwiki:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Photos]]");
 
         // move caret at the end and type some more
         moveCaret("XWE.body.firstChild", 1);
@@ -453,7 +460,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>xwiki:" + newSpaceName + "." + newPageName
+        assertWiki("[[[[image:xwiki:XWiki.AdminSheet@photos.png]]>>xwiki:" + newSpaceName + "." + newPageName
             + "]] foo [[bar>>http://bar.myxwiki.org]]");
     }
 
@@ -936,7 +943,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         ensureStepIsLoaded("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif"
@@ -970,7 +977,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         ensureStepIsLoaded("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("Main.RecentChanges", getExplorerInputValue());
+        assertEquals("xwiki:Main.RecentChanges", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and "
             + "nobr=\"RecentChanges\"]');");

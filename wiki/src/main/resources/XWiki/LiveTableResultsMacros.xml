@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1240741979000</creationDate>
-<date>1241199835000</date>
-<contentUpdateDate>1241199835000</contentUpdateDate>
+<date>1241412486000</date>
+<contentUpdateDate>1241412486000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -97,11 +97,11 @@
     #end
  
   #if("$!className" != "")
-    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className='${className}' $!whereSql $!filterwhere")
+    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
     #set($tagsMatchingFiltersFrom = ", BaseObject as obj $!fromSql $!filterfrom")
-    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className='${className}' $!whereSql $!filterwhere")
+    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
     #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
-    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' $!filterwhere")  
+    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!filterwhere")  
   #else
     #set($countSql = "$!fromSql $!filterfrom where 1=1 $!whereSql and $!filterwhere")
     #set($tagsMatchingFiltersFrom = "$!fromSql $!filterfrom")
@@ -235,7 +235,7 @@
             #end
             "${colname}" : "${fielddisplayvalue}",
             "${colname}_value" : "${fieldvalue}",
-            "${colname}_url" : "${fieldurl}",
+            "${colname}_url" : "${fieldurl}"
             ## reset to the default class
             #set($ok = $udoc.use($className))
           #end

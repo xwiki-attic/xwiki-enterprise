@@ -534,6 +534,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
         assertFalse(isMenuEnabled(MENU_WIKIPAGE));
 
+        closeMenuContaining(MENU_WEBPAGE);
         assertWiki("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
             + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
     }

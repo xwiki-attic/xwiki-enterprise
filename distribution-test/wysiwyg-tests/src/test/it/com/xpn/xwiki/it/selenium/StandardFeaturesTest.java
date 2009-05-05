@@ -300,7 +300,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testEnterAfterImage()
     {
         clickMenu("Image");
-        clickMenu("Image insert");
+        clickMenu("Insert image");
         
         waitForDialogToLoad();
         clickButtonWithText("All pages");

@@ -46,6 +46,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -60,7 +61,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         // tests in a single junit test) and modify thet assert so that it checks for exact content
         setFieldValue("content", "#mimetypeimg(\"image/jpeg\" \"photo.jpeg\")");
         clickEditSaveAndView();
-        assertGeneratedHTML("img[@src='/xwiki/skins/albatross/mimetypes/jpg.png' "
+        assertGeneratedHTML("img[@src='/xwiki/resources/icons/silk/picture.gif' "
             + "and @alt='Image' and @title='Image']");
     }
 

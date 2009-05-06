@@ -82,7 +82,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // Validate presence of "Actions" column in table view for administrator.
         loginAsAdmin();
         open("Main", "AllDocs");
-        assertElementPresent("//th[text()='Actions']");
+        assertElementPresent("//th[normalize-space(text())='Actions']");
 
         // Validate input suggest for Page field.
         fillTableFilter("xpath=//input[@name='page']", "Treeview");

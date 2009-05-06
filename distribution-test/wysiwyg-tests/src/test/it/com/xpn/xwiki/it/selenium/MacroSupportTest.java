@@ -200,7 +200,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         // We have to manually place the caret to be sure it is before the macro. The caret is before the macro when the
         // browser window is focused but inside the macro when the tests run in background.
         moveCaret("XWE.body", 0);
-        applyStyleParagraph();
+        applyStylePlainText();
         typeText("uv");
         clickUndoButton();
         clickRedoButton();
@@ -413,7 +413,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
         // Place the caret after the second heading and insert a new one.
         moveCaret(getDOMLocator("getElementsByTagName('h2')[0].firstChild.firstChild"), 7);
-        typeEnter(2);
+        typeEnter();
         typeText("Title 3");
         applyStyleTitle3();
 
@@ -548,7 +548,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         typeText("Title 1");
         applyStyleTitle1();
 
-        typeEnter(2);
+        typeEnter();
         typeText("Title 2");
         applyStyleTitle2();
 
@@ -556,7 +556,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         // First, place the caret at the end of first heading.
         moveCaret("XWE.body.getElementsByTagName('h1')[0].firstChild", 7);
         // Get out of the heading.
-        typeEnter(2);
+        typeEnter();
         // Insert the ToC macro
         insertMacro("toc");
         // Make sure the ToC starts with level 2 headings.
@@ -580,7 +580,8 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     {
         // Create a paragraph with some text inside.
         typeText("beforeafter");
-        applyStyleParagraph();
+        applyStyleTitle1();
+        applyStylePlainText();
 
         // Place the caret in the middle of the paragraph.
         moveCaret("XWE.body.firstChild.firstChild", 6);
@@ -598,10 +599,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         // Let's fix the macro by separating it in an empty paragraph.
         // Move the caret before the macro and press Enter twice to move it into a new paragraph.
         moveCaret("XWE.body.firstChild.firstChild", 6);
-        typeEnter(2);
+        typeEnter();
         // Move the caret after the macro and press Enter twice to move the following text in a new paragraph.
         moveCaret("XWE.body.lastChild.lastChild", 0);
-        typeEnter(2);
+        typeEnter();
 
         // Now the macro should be in an empty paragraph.
         // Let's refresh the content to see if the macro was fixed.

@@ -209,12 +209,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         typeEnter();
     }
 
-    public void typeTextThenEnterTwice(String text)
-    {
-        typeTextThenEnter(text);
-        typeEnter();
-    }
-
     /**
      * Presses the specified key for the given number of times.
      * 
@@ -492,9 +486,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         applyStyle("Inline");
     }
 
-    public void applyStyleParagraph()
+    public void applyStylePlainText()
     {
-        applyStyle("Paragraph");
+        applyStyle("Plain text");
     }
 
     public void applyStyleTitle1()

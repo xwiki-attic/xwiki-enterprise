@@ -314,7 +314,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public void testCreateThenEditLink()
     {
         // put everything in a paragraph because editing in body is sometimes parsed wrong
-        applyStyleParagraph();
+        applyStyleTitle1();
+        applyStylePlainText();
         typeText("this is ");
         String linkLabel = "xwiki";
         String linkURL = "http://www.xwiki.com";
@@ -367,7 +368,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public void testCreateAndEditLinkOnImage()
     {
         // put everything in a paragraph as there are some whitespace trouble parsing outside the paragraph
-        applyStyleParagraph();
+        applyStyleTitle1();
+        applyStylePlainText();
 
         clickMenu("Image");
         clickMenu("Insert image");
@@ -710,9 +712,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
      */
     public void testCannotCreateLinkAroundBlockElements()
     {
-        applyStyleParagraph();
+        applyStyleTitle1();
+        applyStylePlainText();
         typeText("foo");
-        typeEnter(2);
+        typeEnter();
         typeText("bar");
         assertXHTML("<p>foo</p><p>bar<br class=\"spacer\"></p>");
         select("XWE.body.firstChild.firstChild", 2, "XWE.body.childNodes[1].firstChild", 2);

@@ -48,109 +48,58 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         testEmptyWysiwyg();
     }
 
-    /**
-     * @see XWIKI-3011: Different behavior of &lt;enter&gt; on FF2.0 and FF3.0
-     */
-    public void testParagraphs()
-    {
-        typeTextThenEnterTwice("a");
-        typeTextThenEnterTwice("b");
-        typeText("c");
-        // If the caret is followed by a br tag, delete it. See XWIKI-2732.
-        typeDelete();
-        assertXHTML("a<p>b</p><p>c</p>");
-    }
-
-    /**
-     * Tests the behavior of the WYSIWYG editor when the user presses Enter once. The right behavior is to generate a
-     * BR.
-     */
-    public void testEnterOnce()
-    {
-        typeTextThenEnter("a");
-        typeText("b");
-        typeDelete();
-        assertXHTML("a<br>b");
-    }
-
-    /**
-     * Tests the behavior of the WYSIWYG editor when the user presses Enter twice. The right behavior is to generate a
-     * paragraph.
-     */
-    public void testEnterTwice()
-    {
-        typeTextThenEnterTwice("a");
-        typeText("b");
-        typeDelete();
-        assertXHTML("a<p>b</p>");
-    }
-
-    /**
-     * Tests the behavior of the WYSIWYG editor when the user presses Enter thrice. The right behavior is to generate an
-     * empty line (an empty paragraph in the DOM)
-     * 
-     * @see XWIKI-3035: Cannot type more than 2 consecutive &lt;enter&gt; in IE6, following are ignored
-     */
-    public void testEnterThrice()
-    {
-        typeTextThenEnterTwice("a");
-        typeEnter();
-        typeText("b");
-        assertWiki("a\n\n\nb");
-    }
-
     public void testBold()
     {
         typeText("foobar");
-        applyStyleParagraph();
-        selectElement("p", 1);
+        applyStyleTitle5();
+        selectElement("h5", 1);
         clickBoldButton();
-        assertXHTML("<p><strong>foobar</strong></p>");
+        assertXHTML("<h5><strong>foobar</strong></h5>");
     }
 
     public void testItalics()
     {
         typeText("foobar");
-        applyStyleParagraph();
-        selectElement("p", 1);
+        applyStyleTitle5();
+        selectElement("h5", 1);
         clickItalicsButton();
-        assertXHTML("<p><em>foobar</em></p>");
+        assertXHTML("<h5><em>foobar</em></h5>");
     }
 
     public void testUnderline()
     {
         typeText("foobar");
-        applyStyleParagraph();
-        selectElement("p", 1);
+        applyStyleTitle5();
+        selectElement("h5", 1);
         clickUnderlineButton();
-        assertXHTML("<p><ins>foobar</ins></p>");
+        assertXHTML("<h5><ins>foobar</ins></h5>");
     }
 
     public void testStrikethrough()
     {
         typeText("foobar");
-        applyStyleParagraph();
-        selectElement("p", 1);
+        applyStyleTitle5();
+        selectElement("h5", 1);
         clickStrikethroughButton();
-        assertXHTML("<p><del>foobar</del></p>");
+        assertXHTML("<h5><del>foobar</del></h5>");
     }
 
     public void testSubscript()
     {
         typeText("foobar");
-        applyStyleParagraph();
-        selectElement("p", 1);
+        applyStyleTitle5();
+        selectElement("h5", 1);
         clickSubscriptButton();
-        assertXHTML("<p><sub>foobar</sub></p>");
+        assertXHTML("<h5><sub>foobar</sub></h5>");
     }
 
     public void testSuperscript()
     {
         typeText("foobar");
-        applyStyleParagraph();
-        selectElement("p", 1);
+        applyStyleTitle5();
+        selectElement("h5", 1);
         clickSuperscriptButton();
-        assertXHTML("<p><sup>foobar</sup></p>");
+        assertXHTML("<h5><sup>foobar</sup></h5>");
     }
 
     public void testUnorderedList()
@@ -237,11 +186,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         applyStyleTitle5();
         assertXHTML("<h5>foobar</h5>");
 
-        applyStyleParagraph();
+        applyStylePlainText();
         assertXHTML("<p>foobar</p>");
-
-        applyStyleInLine();
-        assertXHTML("foobar");
     }
 
     /**
@@ -282,58 +228,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @see XWIKI-2996: Text area sometimes loses focus when pressing Enter on an empty line
-     */
-    public void testEnterOnEmptyLine()
-    {
-        typeEnter();
-        typeText("foobar");
-        applyStyleTitle1();
-        typeEnter(2);
-        typeText("x");
-        assertWiki("\n= foobar =\n\nx");
-    }
-
-    /**
-     * @see XWIKI-2991: Editor is losing the focus when pressing enter after an image
-     */
-    public void testEnterAfterImage()
-    {
-        clickMenu("Image");
-        clickMenu("Insert image");
-        
-        waitForDialogToLoad();
-        clickButtonWithText("All pages");
-        String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
-        String imageSpace = "XWiki";
-        waitForCondition("selenium.isElementPresent('" + imageSpaceSelector + "/option[@value=\"" + imageSpace
-            + "\"]');");
-        getSelenium().select(imageSpaceSelector, imageSpace);
-        String imagePageSelector = "//div[@class=\"xPageChooser\"]//select[3]";
-        String imagePage = "AdminSheet";
-        waitForCondition("selenium.isElementPresent('" + imagePageSelector + "/option[@value=\"" + imagePage + "\"]');");
-        getSelenium().select(imagePageSelector, imagePage);
-        getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
-        String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"photos.png\"]";
-        waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
-        getSelenium().click(imageSelector);        
-        clickButtonWithText("Select");
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xImageConfig\")]');");
-        clickButtonWithText("Insert image");
-        waitForDialogToClose();        
-
-        // The inserted image should be selected. By pressing the right arrow key the caret is not moved after the image
-        // thus we are forced to collapse the selection to the end.
-        runScript("XWE.selection.collapseToEnd()");
-        typeEnter(2);
-        typeText("xyz");
-        typeDelete();
-        assertXHTML("<!--startimage:xwiki:XWiki.AdminSheet@photos.png-->"
-            + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"
-            + "<!--stopimage--><p>xyz</p>");
-    }
-
-    /**
      * The rich text area should remain focused and the text shouldn't be changed.
      * 
      * @see XWIKI-3043: Prevent tab from moving focus from the new WYSIWYG editor
@@ -355,7 +249,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testTabInListItem()
     {
-        typeTextThenEnter("x");
+        typeText("x");
+        typeShiftEnter();
         typeText("y");
         selectAllContent();
         clickUnorderedListButton();
@@ -423,8 +318,10 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testUnwantedBRsAreRemoved()
     {
-        typeTextThenEnter("a");
-        typeTextThenEnter("b");
+        typeText("a");
+        typeShiftEnter();
+        typeText("b");
+        typeShiftEnter();
         assertWiki("a\nb\\\\");
     }
 
@@ -438,7 +335,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Place the caret after "Hello ".
         moveCaret("XWE.body.firstChild.firstChild", 6);
 
-        typeEnter(4);
+        typeEnter(3);
 
         assertWiki("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld");
     }
@@ -516,50 +413,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Creates two paragraphs, makes a selection that spans both paragraphs and then presses Enter.
-     */
-    public void testEnterOnCrossParagraphSelection()
-    {
-        // Creates the two paragraphs.
-        typeText("ab");
-        applyStyleParagraph();
-        typeEnter(2);
-        typeText("cd");
-
-        // Make a cross paragraph selection.
-        select("XWE.body.firstChild.firstChild", 1, "XWE.body.lastChild.firstChild", 1);
-
-        // Press Enter.
-        typeEnter();
-        assertWiki("a\nd");
-    }
-
-    /**
-     * Inserts a table, types some text in each cell, makes a selection that spans some table cells and then presses
-     * Enter.
-     */
-    public void testEnterOnCrossTableCellSelection()
-    {
-        // Insert the table.
-        clickInsertTableButton();
-        getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
-
-        // Fill the table.
-        typeText("ab");
-        typeTab();
-        typeText("cd");
-
-        // Make a cross table cell selection.
-        select("XWE.body.firstChild.rows[0].cells[0].lastChild", 1, "XWE.body.firstChild.rows[0].cells[1].firstChild",
-            1);
-
-        // Press Enter.
-        typeEnter();
-        typeText("x");
-        assertWiki("|= a\nx|=d \n| | ");
-    }
-
-    /**
      * @see XWIKI-2993: Insert horizontal line on a selection of unordered list.
      */
     public void testInsertHRInPlaceOfASelectedList()
@@ -570,33 +423,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickUnorderedListButton();
         clickHRButton();
         assertWiki("----");
-    }
-
-    /**
-     * @see XWIKI-3109: Headers generated from wiki syntax look and behave differently
-     */
-    public void testEnterTwiceInHeader()
-    {
-        typeText("header");
-        applyStyleTitle1();
-        assertWiki("= header =");
-
-        // Place the caret in the middle of the header.
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
-
-        // Type some text to update the tool bar.
-        typeText("#");
-
-        // See if the header is detected.
-        assertEquals("h1", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
-
-        // Press enter twice to split the header and generate a paragraph.
-        typeEnter(2);
-
-        // See if the paragraph is detected.
-        assertEquals("p", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
-
-        assertWiki("= hea# =\n\nder");
     }
 
     /**
@@ -635,7 +461,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testInsertHRInsideParagraph()
     {
         typeText("xy");
-        applyStyleParagraph();
+        applyStyleTitle1();
+        applyStylePlainText();
 
         // Insert HR at the end of the paragraph.
         clickHRButton();

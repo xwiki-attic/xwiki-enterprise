@@ -65,7 +65,8 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
 
         resetContent();
 
-        typeTextThenEnter("a");
+        typeText("a");
+        typeShiftEnter();
         typeText("b");
         selectNode("XWE.body.childNodes[2]");
         clickAlignLeftButton();
@@ -78,7 +79,8 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
      */
     public void testAlignParagraph()
     {
-        applyStyleParagraph();
+        applyStyleTitle1();
+        applyStylePlainText();
         clickAlignCenterButton();
         typeText("a");
         assertTrue(isAlignCenterDetected());
@@ -87,7 +89,8 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
         // Assert again the center alignment after coming back from the Wiki editor.
         assertTrue(isAlignCenterDetected());
 
-        typeTextThenEnter("b");
+        typeText("b");
+        typeShiftEnter();
         clickAlignRightButton();
         assertTrue(isAlignRightDetected());
         assertWiki("(% style=\"text-align: right;\" %)\nb\na");

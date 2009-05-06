@@ -155,7 +155,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         applyStyleTitle1();
         typeText("Attention");
-        typeEnter(2);
+        typeEnter();
 
         clickMenu(MENU_IMAGE);
         assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
@@ -173,7 +173,9 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         getSelenium().type(INPUT_ALT, "No parking sign");
         selectAlignment("CENTER");
         clickButtonWithText(BUTTON_INSERT_IMAGE);
-        moveCaret("XWE.body.childNodes[1]", 1);
+        
+        // Place the caret after the inserted image.
+        runScript("XWE.selection.collapseToEnd()");
 
         typeText("There is no parking on this wiki!");
 

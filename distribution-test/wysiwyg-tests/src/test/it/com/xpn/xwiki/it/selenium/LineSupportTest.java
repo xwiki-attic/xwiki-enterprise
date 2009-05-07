@@ -223,6 +223,8 @@ public class LineSupportTest extends AbstractWysiwygTestCase
         clickMenu("Insert image");
 
         waitForDialogToLoad();
+        // wait for the main step of the dialog to load
+        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xSelectorStep\")]');");
         clickButtonWithText("All pages");
         String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
         String imageSpace = "XWiki";

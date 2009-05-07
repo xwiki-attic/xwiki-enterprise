@@ -301,7 +301,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3109: Headers generated from wiki syntax look and behave differently
      */
-    public void testEnterTwiceInHeader()
+    public void testEnterInHeader()
     {
         typeText("header");
         applyStyleTitle1();
@@ -316,7 +316,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
         // See if the header is detected.
         assertEquals("h1", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
 
-        // Press enter twice to split the header and generate a paragraph.
+        // Press enter to split the header and generate a paragraph.
         typeEnter();
 
         // See if the paragraph is detected.

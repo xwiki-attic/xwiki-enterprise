@@ -472,7 +472,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickBackToEdit()
     {
-        submit("//input[@type = 'submit' and @value = 'Back To Edit']");
+        submit("//button[text()='Back To Edit']");
         focusRichTextArea();
     }
 

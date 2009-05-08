@@ -91,7 +91,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // o : edit objects
         testShortcutFromTextPresent(viewURL, "o", "Welcome to the objects editor");
         // s : edit class
-        testShortcutFromTextPresent(viewURL, "s", "Choose a property to edit or add a property to the class");
+        testShortcutFromTextPresent(viewURL, "s", "Add Property");
         // d : code
         testShortcutFromTextPresent(viewURL, "d", "Wiki code for Training Zone");
         // Delete : delete

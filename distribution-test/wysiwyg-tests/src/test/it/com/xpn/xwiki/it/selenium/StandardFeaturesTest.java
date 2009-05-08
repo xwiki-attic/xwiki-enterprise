@@ -269,7 +269,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testTabInTableCell()
     {
-        clickInsertTableButton();
+        clickMenu("Table");
+        clickMenu("Insert table");
         getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
         typeText("a");
         // Shit+Tab should do nothing since we are in the first cell.

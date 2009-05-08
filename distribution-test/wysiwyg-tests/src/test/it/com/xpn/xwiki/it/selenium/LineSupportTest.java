@@ -282,7 +282,8 @@ public class LineSupportTest extends AbstractWysiwygTestCase
     public void testEnterOnCrossTableCellSelection()
     {
         // Insert the table.
-        clickInsertTableButton();
+        clickMenu("Table");
+        clickMenu("Insert table");
         getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
 
         // Fill the table.

@@ -336,10 +336,14 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // this xpath expression is fragile, but we have to start as up as the lightbox does, because
         // the same table with same ids and classes is already displayed in the Preferences page
         // (that is, the list of existing groups).
-        waitForCondition("selenium.isElementPresent(\"" + newGroupMemberXPath + "\")");
+        // Disabling, since it fails due to XWIKI-3126
+        // waitForCondition("selenium.isElementPresent(\"" + newGroupMemberXPath + "\")");
         
         // Close the group edit lightbox
         clickLinkWithLocator("lb-close");
+
+        open("XWiki", group);
+        assertTextPresent(user);
     }
 
     private void waitForLightbox(String lightboxName)

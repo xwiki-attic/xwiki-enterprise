@@ -6,7 +6,6 @@
     <version>1.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-database-derby</artifactId>
-  <version>1.8-SNAPSHOT</version>
   <name>XWiki Products - Enterprise - Database - Derby</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Database - Derby</description>

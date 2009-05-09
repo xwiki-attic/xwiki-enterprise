@@ -30,7 +30,6 @@
     <version>1.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-pgsql</artifactId>
-  <version>1.8-SNAPSHOT</version>
   <name>XWiki Products - Enterprise - Distribution - Jetty - PGSQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - Jetty - PGSQL</description>

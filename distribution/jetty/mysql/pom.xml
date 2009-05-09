@@ -30,7 +30,6 @@
     <version>1.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-mysql</artifactId>
-  <version>1.8-SNAPSHOT</version>
   <name>XWiki Products - Enterprise - Distribution - Jetty - MySQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - Jetty - MySQL</description>

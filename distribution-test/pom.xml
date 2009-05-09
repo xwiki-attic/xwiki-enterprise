@@ -30,7 +30,6 @@
     <version>1.8-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test</artifactId>
-  <version>1.8-SNAPSHOT</version>
   <name>XWiki Products - Enterprise - Functional Tests</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional Tests</description>

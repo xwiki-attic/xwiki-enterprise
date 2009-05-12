@@ -34,13 +34,16 @@
   <name>XWiki Products - Enterprise - Installers - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Installers - Parent POM</description>
+  <!-- The SCM configuration is commented since Subversion 1.5. Starting with this version the usage of release:branch on 
+       enterprise is prevented by: http://subversion.tigris.org/issues/show_bug.cgi?id=3119. If we keep the SCM configuration 
+       uncommented this file will be commited before branching and will make the branching fail due to the bug above -->
   <!-- We need to specify SCM information since this module's name doesn't match its artifactId and if this module is checked-out
        by itself (for example by Continuum) it'll have wrong SCM information computed. -->
-  <scm>
+  <!-- scm>
     <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</connection>
     <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</developerConnection>
     <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</url>
-  </scm>
+  </scm -->
   <modules>
     <module>generic</module>
     <module>windows</module>

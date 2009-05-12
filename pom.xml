@@ -63,7 +63,8 @@
     <!-- Since 1.11, Administration application needs core/web 1.9 -->
     <platform.administration.version>1.10.1</platform.administration.version>
     <platform.scheduler.version>1.8-SNAPSHOT</platform.scheduler.version>
-    <platform.watchlist.version>1.15-SNAPSHOT</platform.watchlist.version>
+    <!-- Since 1.15, Watchlist does not come with its dependencies -->
+    <platform.watchlist.version>1.14</platform.watchlist.version>
     <platform.blog.version>1.4-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.5-SNAPSHOT</platform.statistics.version>

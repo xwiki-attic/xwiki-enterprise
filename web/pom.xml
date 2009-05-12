@@ -63,6 +63,16 @@
     </dependency>   
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
+      <artifactId>xwiki-plugin-scheduler</artifactId>
+      <version>${platform.scheduler.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.plugins</groupId>
+      <artifactId>xwiki-plugin-mailsender</artifactId>
+      <version>${platform.plugin.mailsender.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-skinx</artifactId>
       <version>${platform.plugin.skinx.version}</version>
     </dependency>

@@ -48,9 +48,9 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // which is not prevented by the following waitForCondition.
         try {
             getSelenium().setSpeed("200");
-            waitForCondition(DOC + "getElementById(\"ajax-loader\") != null");
-            waitForCondition("typeof " + DOC + "getElementById(\"ajax-loader\").style.display == 'string'");
-            waitForCondition(DOC + "getElementById(\"ajax-loader\").style.display == \"none\"");
+            waitForCondition(DOC + "getElementById(\"alldocs-ajax-loader\") != null");
+            waitForCondition("typeof " + DOC + "getElementById(\"alldocs-ajax-loader\").style.display == 'string'");
+            waitForCondition(DOC + "getElementById(\"alldocs-ajax-loader\").style.display == \"none\"");
         } finally {
             getSelenium().setSpeed("0");
         }
@@ -85,56 +85,56 @@ public class AllDocsTest extends AbstractXWikiTestCase
         assertElementPresent("//th[normalize-space(text())='Actions']");
 
         // Validate input suggest for Page field.
-        fillTableFilter("xpath=//input[@name='page']", "Treeview");
-        assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
+        fillTableFilter("xpath=//input[@name='doc.name']", "Treeview");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
 
         // Validate input suggest for Space field.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='space']", "XWiki");
-        fillTableFilter("xpath=//input[@name='page']", "treeview");
-        assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
+        fillTableFilter("xpath=//input[@name='doc.space']", "XWiki");
+        fillTableFilter("xpath=//input[@name='doc.name']", "treeview");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
 
         // Validate input suggest for Last Author field.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='author']", "SomeUnknownAuthor");
-        assertElementNotPresent("//td[@class='pagename']/a[text()='Treeview']");
+        fillTableFilter("xpath=//input[@name='doc.author']", "SomeUnknownAuthor");
+        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
 
         // Validate Copy link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='page']", "treeview");
-        assertElementPresent("//td[@class='pagename']/a[text()='Treeview']");
-        clickLinkWithText("Copy");
+        fillTableFilter("xpath=//input[@name='doc.name']", "treeview");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
+        clickLinkWithText("copy");
         setFieldValue("targetdoc", "New.TreeviewCopy");
         getSelenium().click("//input[@value='Copy']");
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='space']", "New");
-        fillTableFilter("xpath=//input[@name='page']", "treeviewcopy");
-        assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopy']");
+        fillTableFilter("xpath=//input[@name='doc.space']", "New");
+        fillTableFilter("xpath=//input[@name='doc.name']", "treeviewcopy");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopy']");
 
         // Validate Rename link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='page']", "TreeviewCopy");
-        clickLinkWithLocator("//tbody/tr/td/a[text()='Rename']");
+        fillTableFilter("xpath=//input[@name='doc.name']", "TreeviewCopy");
+        clickLinkWithLocator("//tbody/tr/td/a[text()='rename']");
         setFieldValue("newPageName", "TreeviewCopyRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='page']", "TreeviewCopyRenamed");
-        assertElementPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
+        fillTableFilter("xpath=//input[@name='doc.name']", "TreeviewCopyRenamed");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopyRenamed']");
 
         // Validate Delete link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='page']", "Treeviewcopyrenamed");
-        clickLinkWithLocator("//tbody/tr/td/a[text()='Delete']");
+        fillTableFilter("xpath=//input[@name='doc.name']", "Treeviewcopyrenamed");
+        clickLinkWithLocator("//tbody/tr/td/a[text()='delete']");
         clickLinkWithLocator("//input[@value='yes']");
         assertTextPresent("The document has been deleted.");
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='page']", "treeview");
-        assertElementNotPresent("//td[@class='pagename']/a[text()='TreeviewCopyRenamed']");
+        fillTableFilter("xpath=//input[@name='doc.name']", "treeview");
+        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopyRenamed']");
 
         // Validate Rights link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='page']", "Treeview");
-        clickLinkWithLocator("//tbody/tr/td/a[text()='Rights']");
+        fillTableFilter("xpath=//input[@name='doc.name']", "Treeview");
+        clickLinkWithLocator("//tbody/tr/td/a[text()='rights']");
         Assert.assertEquals("Editing Rights for Treeview", getTitle());
     }
 

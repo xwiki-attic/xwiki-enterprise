@@ -32,7 +32,7 @@ import com.thoughtworks.selenium.Selenium;
 /**
  * All XWiki Selenium tests must extend this class.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 {

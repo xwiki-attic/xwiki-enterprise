@@ -63,7 +63,7 @@ import java.util.zip.ZipInputStream;
  * Verifies that all pages in the default wiki are valid XHTML documents using the Confluence XMLRPC
  * API.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class XhtmlValidityTest extends TestCase implements ErrorHandler
 {

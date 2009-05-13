@@ -35,7 +35,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
  * Runner discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the
  * tests start (but only once).
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class AllTests extends TestCase
 {

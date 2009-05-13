@@ -29,7 +29,7 @@ import junit.framework.AssertionFailedError;
 /**
  * Verify deletion of pages.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class DeletePageTest extends AbstractXWikiTestCase
 {

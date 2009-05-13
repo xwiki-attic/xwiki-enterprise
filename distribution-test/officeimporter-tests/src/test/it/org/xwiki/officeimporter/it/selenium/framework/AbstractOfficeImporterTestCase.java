@@ -30,7 +30,7 @@ import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 /**
  * All XWiki Office Importer selenium tests must extend this class.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class AbstractOfficeImporterTestCase extends AbstractXWikiTestCase
 {

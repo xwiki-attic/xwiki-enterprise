@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Different user profile tests.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class UserProfileTest extends AbstractXWikiTestCase
 {

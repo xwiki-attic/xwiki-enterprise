@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the keyboard shortcuts feature of XWiki.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class KeyboardShortcutsTest extends AbstractXWikiTestCase
 {

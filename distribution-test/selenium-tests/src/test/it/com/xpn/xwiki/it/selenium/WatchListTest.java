@@ -30,7 +30,7 @@ import com.icegreen.greenmail.util.GreenMailUtil;
 /**
  * Verify the watchlist feature of XWiki.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WatchListTest extends AbstractXWikiTestCase
 {

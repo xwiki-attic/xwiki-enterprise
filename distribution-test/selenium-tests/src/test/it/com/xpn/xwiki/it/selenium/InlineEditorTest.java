@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Tests the inline editor.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class InlineEditorTest extends AbstractXWikiTestCase
 {

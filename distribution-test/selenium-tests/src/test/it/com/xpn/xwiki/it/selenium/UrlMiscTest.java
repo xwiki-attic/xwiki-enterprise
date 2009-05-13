@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Tests different URL features/bugs.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class UrlMiscTest extends AbstractXWikiTestCase
 {

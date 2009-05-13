@@ -29,7 +29,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * Test the Panel feature. Note that some panels tests are also done by the
  * {@link com.xpn.xwiki.it.selenium.PanelWizardTest} test case class.
  * 
- * @version $Id: $
+ * @version $Id$
  * @since 1.6M1
  */
 public class PanelsTest extends AbstractXWikiTestCase

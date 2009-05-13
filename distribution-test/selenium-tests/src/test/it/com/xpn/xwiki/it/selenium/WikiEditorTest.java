@@ -30,7 +30,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Tests the wiki editor.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WikiEditorTest extends AbstractXWikiTestCase
 {

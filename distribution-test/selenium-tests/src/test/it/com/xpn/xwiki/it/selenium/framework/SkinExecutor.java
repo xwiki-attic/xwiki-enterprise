@@ -23,7 +23,7 @@ package com.xpn.xwiki.it.selenium.framework;
  * Skin-related actions to be implemented by the different Skin Executors. A Skin Executor is simply a class extending
  * this interface and implementing the listed UI actions.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public interface SkinExecutor
 {

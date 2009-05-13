@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the caching features of XWiki.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class CacheTest extends AbstractXWikiTestCase
 {

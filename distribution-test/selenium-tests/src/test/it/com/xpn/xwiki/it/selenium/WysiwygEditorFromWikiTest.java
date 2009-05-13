@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Tests the WYSIWYG editor (content edited in Wiki mode and then switched in WYSIWYG mode).
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
 {

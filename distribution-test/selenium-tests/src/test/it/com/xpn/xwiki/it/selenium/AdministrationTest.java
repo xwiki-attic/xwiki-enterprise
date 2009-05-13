@@ -27,7 +27,7 @@ import junit.framework.Test;
 /**
  * Verify the overall Administration application features.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class AdministrationTest extends AbstractXWikiTestCase
 {

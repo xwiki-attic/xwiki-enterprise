@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Verify the Accordions features.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class AccordionsTest extends AbstractXWikiTestCase
 {

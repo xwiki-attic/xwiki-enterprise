@@ -9,7 +9,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Tests the document edit section feature
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class SectionTest extends AbstractXWikiTestCase
 {

@@ -27,7 +27,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the document extra feature of XWiki.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class DocExtraTest extends AbstractXWikiTestCase
 {

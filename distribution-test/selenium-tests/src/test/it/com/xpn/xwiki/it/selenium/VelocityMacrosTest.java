@@ -33,7 +33,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify proper execution of some Velocity Macros.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class VelocityMacrosTest extends AbstractXWikiTestCase
 {

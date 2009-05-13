@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the structured data features of XWiki.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class XObjectsTest extends AbstractXWikiTestCase
 {

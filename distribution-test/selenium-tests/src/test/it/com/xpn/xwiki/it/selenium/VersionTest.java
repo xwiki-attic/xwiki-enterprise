@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Verify versioning features of documents and attachments.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class VersionTest extends AbstractXWikiTestCase
 {

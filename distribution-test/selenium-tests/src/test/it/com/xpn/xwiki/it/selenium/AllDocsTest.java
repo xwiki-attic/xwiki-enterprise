@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Verify the table view for AllDocs wiki document.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class AllDocsTest extends AbstractXWikiTestCase
 {

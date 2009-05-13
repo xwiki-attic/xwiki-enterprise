@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Different user profile tests.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class UserProfileTest extends AbstractXWikiTestCase
 {

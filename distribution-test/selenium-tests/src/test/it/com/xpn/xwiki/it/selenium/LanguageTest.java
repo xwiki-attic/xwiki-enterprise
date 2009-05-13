@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the ability to change the wiki language.
  * 
- * @version $Id: $
+ * @version $Id$
  * @todo refactor after creating the APIs for each skin so that we don't have to use getSelenium() at all
  */
 public class LanguageTest extends AbstractXWikiTestCase

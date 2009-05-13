@@ -27,7 +27,7 @@ import junit.framework.Test;
 /**
  * Verify the Backlinks feature.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class BacklinksTest extends AbstractXWikiTestCase
 {

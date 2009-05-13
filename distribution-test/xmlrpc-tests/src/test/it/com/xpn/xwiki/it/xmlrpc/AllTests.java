@@ -29,7 +29,7 @@ import org.xwiki.test.XWikiTestSetup;
  * letting the JUnit Runner discover the different TestCases classes by itself) because we want to
  * start/stop XWiki before and after the tests start (but only once).
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class AllTests extends TestCase
 {

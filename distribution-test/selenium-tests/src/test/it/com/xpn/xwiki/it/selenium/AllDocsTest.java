@@ -29,7 +29,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the table view for AllDocs wiki document.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class AllDocsTest extends AbstractXWikiTestCase
 {

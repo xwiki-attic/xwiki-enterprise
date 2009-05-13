@@ -31,7 +31,7 @@ import org.codehaus.swizzle.confluence.Page;
 /**
  * Verifies that all pages in the default wiki have a parent
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class OrphanedPageTest extends TestCase
 {

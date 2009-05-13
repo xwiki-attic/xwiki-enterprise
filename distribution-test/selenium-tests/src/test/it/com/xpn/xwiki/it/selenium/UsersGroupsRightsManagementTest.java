@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the Users, Groups and Rights Management features of XWiki.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 {

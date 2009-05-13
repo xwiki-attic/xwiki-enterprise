@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the skin customization features available in the Administration (like changing the default CSS, etc).
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class SkinCustomizationsTest extends AbstractXWikiTestCase
 {

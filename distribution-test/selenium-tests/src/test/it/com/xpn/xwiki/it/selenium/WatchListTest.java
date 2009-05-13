@@ -30,7 +30,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the watchlist feature of XWiki.
  * 
- * @version $Id: $
+ * @version $Id$
  */
 public class WatchListTest extends AbstractXWikiTestCase
 {

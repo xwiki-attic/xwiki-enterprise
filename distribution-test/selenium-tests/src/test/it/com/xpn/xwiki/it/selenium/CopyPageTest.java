@@ -27,7 +27,7 @@ import junit.framework.Test;
 /**
  * Verify the copy document feature.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class CopyPageTest extends AbstractXWikiTestCase
 {

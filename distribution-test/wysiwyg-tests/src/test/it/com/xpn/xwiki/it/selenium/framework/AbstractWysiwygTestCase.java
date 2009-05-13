@@ -881,7 +881,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'focus', false);");
         // Wait till the rich text area enters design mode.
         waitForCondition("window." + getDOMLocator("defaultView") + ".getSelection().rangeCount > 0");
-        // Update the state of the tool bar buttons.
+        // We have to trigger a tool bar update in order to enabled the tool bat buttons. Unfortunately, this also
+        // triggers an update of the state of the tool bar widgets like toggle buttons or list boxes.
         triggerToolbarUpdate();
     }
 

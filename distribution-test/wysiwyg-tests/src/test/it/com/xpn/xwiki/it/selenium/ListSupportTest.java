@@ -149,7 +149,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test that delete at the end of a list item moves the next list item (in another list) in it.
+     * Test that delete at the end of a list preserves browser default behaviour: for firefox is to join the two lists.
      */
     public void testDeleteInDifferentLists()
     {
@@ -157,11 +157,12 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foobar</li></ul>");
+        assertXHTML("<ul><li>foo</li><li>bar</li></ul>");
     }
 
     /**
-     * Test that backspace at the beginning of a list item moves it to the previous list item (in another list).
+     * Test that backspace at the beginning of a list preserves browser default behaviour: for firefox is to join the
+     * two lists.
      */
     public void testBackspaceInDifferentLists()
     {
@@ -169,7 +170,47 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         // Set the selection at the end of the first item
         moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foobar</li></ul>");
+        assertXHTML("<ul><li>foo</li><li>bar</li></ul>");
+    }
+
+    /**
+     * Test that backspace at the beginning of a list after another list in an embedded document (two lists on the
+     * second level) preserves default behaviour: for firefox is to join the two lists.
+     */
+    public void testBackspaceInEmbeddedDocumentDifferentLists()
+    {
+        setWikiContent("* foo\n* bar (((\n* foo 2\n1. bar 2)))");
+        moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        typeBackspace();
+        assertXHTML("<ul><li>foo</li><li>bar<div><ul><li>foo 2</li><li>bar 2</li></ul></div></li></ul>");
+    }
+
+    /**
+     * Test that delete at the end of a list before another list in an embedded document (two lists on the second level)
+     * preserves default behaviour: for firefox is to join the two lists.
+     */
+    public void testDeleteInEmbeddedDocumentDifferentLists()
+    {
+        setWikiContent("* foo\n* bar (((\n1. foo 2\n* bar 2)))");
+        moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild.firstChild", 5);
+        typeDelete();
+        assertXHTML("<ul><li>foo</li><li>bar<div><ol><li>foo 2</li><li>bar 2</li></ol></div></li></ul>");
+    }
+
+    public void testBackspaceInEmbeddedDocumentList()
+    {
+        setWikiContent("* foo(((bar\n* foar)))");
+        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        typeBackspace();
+        assertXHTML("<ul><li>foo<div><p>barfoar</p></div></li></ul>");
+    }
+
+    public void testDeleteInEmbeddedDocumentList()
+    {
+        setWikiContent("* foo(((* bar\n\nfoar)))");
+        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild", 3);
+        typeDelete();
+        assertXHTML("<ul><li>foo<div><ul><li>barfoar</li></ul></div></li></ul>");
     }
 
     /**

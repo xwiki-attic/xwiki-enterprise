@@ -215,7 +215,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3012: Exception when opening a WYSIWYG dialog in FF2.0
      * @see XWIKI-2992: Place the caret after the inserted symbol
-     * @see @see XWIKI-3682: Trademark symbol is not displayed correctly.
+     * @see XWIKI-3682: Trademark symbol is not displayed correctly.
      */
     public void testInsertSymbol()
     {

@@ -202,7 +202,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         System.out.println("XPATH: " + xpath);
         waitForCondition("selenium.isElementPresent(\"" + xpath + "\")");
         getSelenium().click("//tbody/tr[td/a=\"" + group + "\"]/td[3]/img[@title=\"Edit\"]");
-        waitForLightbox("Add new user");
+        waitForLightbox("Add user to group");
         setFieldValue("groupSuggest", "XWiki.XWikiAllGroup");
         clickLinkWithLocator("addNewGroup", false);
         String xpathPrefix = "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";

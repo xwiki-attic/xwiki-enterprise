@@ -51,8 +51,8 @@
     <!-- Versions of XWiki dependencies used in XE modules -->
     <platform.tool.xar-handler.version>1.9-SNAPSHOT</platform.tool.xar-handler.version>
     <platform.tool.xar-plugin.version>1.13-SNAPSHOT</platform.tool.xar-plugin.version>
-    <!-- Since 25 configuration is not compatible anymore with 1.8 branch (default encoding changed to UTF-8) -->
-    <platform.tool.configuration.version>1.25</platform.tool.configuration.version>
+    <!-- Since 1.26 configuration is not compatible anymore with 1.8 branch (default encoding changed to UTF-8) -->
+    <platform.tool.configuration.version>1.25-SNAPSHOT</platform.tool.configuration.version>
     <!-- Since 13 jetty-resources is not compatible anymore with 1.8 branch (default encoding changed to UTF-8) -->
     <platform.tool.jetty.version>1.13</platform.tool.jetty.version>
     <platform.tool.rootwebapp.version>1.2-SNAPSHOT</platform.tool.rootwebapp.version>
@@ -71,8 +71,7 @@
     <!-- Since 1.8, Lucene plugin needs core 1.9 api-->
     <platform.plugin.lucene.version>1.7</platform.plugin.lucene.version>
     <platform.plugin.skinx.version>1.9-SNAPSHOT</platform.plugin.skinx.version>
-    <!-- Since 1.5, Office Importer application needs core 1.9 api-->
-    <platform.officeimporter.version>1.4</platform.officeimporter.version>
+    <platform.officeimporter.version>1.7-SNAPSHOT</platform.officeimporter.version>
     <platform.webdav.version>1.3-SNAPSHOT</platform.webdav.version>
     <platform.tag.version>1.3-SNAPSHOT</platform.tag.version>
   </properties>

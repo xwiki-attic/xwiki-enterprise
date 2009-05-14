@@ -581,6 +581,19 @@ public class ListSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-3773: Adding and editing lists in table cells.
+     */
+    public void testCreateListInTableCell()
+    {
+        insertTable();
+        typeText("a");
+        clickUnorderedListButton();
+        typeEnter();
+        typeText("b");
+        assertWiki("|=(((*  a\n* b)))|= \n| | ");
+    }
+
+    /**
      * @return {@code true} if the current selection is inside an ordered list, {@code false} otherwise
      */
     public boolean isOrderedListDetected()

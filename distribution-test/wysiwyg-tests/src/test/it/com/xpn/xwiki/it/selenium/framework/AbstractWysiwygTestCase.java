@@ -264,6 +264,20 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().shiftKeyUp();
     }
 
+    public void typeControlEnter()
+    {
+        getSelenium().controlKeyDown();
+        typeEnter();
+        getSelenium().controlKeyUp();
+    }
+
+    public void typeMetaEnter()
+    {
+        getSelenium().metaKeyDown();
+        typeEnter();
+        getSelenium().metaKeyUp();
+    }
+
     public void typeBackspace()
     {
         typeBackspace(1);
@@ -894,5 +908,15 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         // We haven't found a way to call triggerEvent from the scope of runScript and thus we use getEval.
         getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'blur', false);");
+    }
+
+    /**
+     * Inserts a table in place of the current selection or at the caret position, using the default table settings.
+     */
+    protected void insertTable()
+    {
+        clickMenu("Table");
+        clickMenu("Insert table");
+        getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
     }
 }

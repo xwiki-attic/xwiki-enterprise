@@ -281,10 +281,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
      */
     public void testEnterOnCrossTableCellSelection()
     {
-        // Insert the table.
-        clickMenu("Table");
-        clickMenu("Insert table");
-        getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
+        insertTable();
 
         // Fill the table.
         typeText("ab");
@@ -326,5 +323,34 @@ public class LineSupportTest extends AbstractWysiwygTestCase
         assertEquals("p", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
 
         assertWiki("= hea# =\n\nder");
+    }
+
+    /**
+     * Tests how the Enter key behaves inside a list item with complex content.
+     */
+    public void testEnterInListItem()
+    {
+        typeText("a");
+        clickUnorderedListButton();
+        applyStyleTitle1();
+
+        // Shift+Enter
+        typeShiftEnter();
+        typeText("b");
+
+        // Control+Enter
+        typeControlEnter();
+        typeText("c");
+
+        // Meta+Enter
+        typeMetaEnter();
+        typeText("d");
+
+        // Enter
+        typeEnter();
+        typeText("e");
+
+        // Check the result.
+        assertWiki("* (((= a\nb =\n\nc\n\nd)))\n* e");
     }
 }

@@ -215,6 +215,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3012: Exception when opening a WYSIWYG dialog in FF2.0
      * @see XWIKI-2992: Place the caret after the inserted symbol
+     * @see @see XWIKI-3682: Trademark symbol is not displayed correctly.
      */
     public void testInsertSymbol()
     {
@@ -224,7 +225,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         closeDialog();
         clickSymbolButton();
         getSelenium().click("//div[@title='registered sign']");
-        assertWiki("\u00A9\u00AE");
+        clickSymbolButton();
+        getSelenium().click("//div[@title='trade mark sign']");
+        assertWiki("\u00A9\u00AE\u2122");
     }
 
     /**

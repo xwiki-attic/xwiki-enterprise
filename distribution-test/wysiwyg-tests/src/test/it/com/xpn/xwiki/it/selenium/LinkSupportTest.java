@@ -153,7 +153,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3511
      */
-    public void failingtestCreateLinkToNewPageInNewSpace()
+    public void testCreateLinkToNewPageInNewSpace()
     {
         // TODO Skipping, since it fails.
         String linkLabel = "bob";

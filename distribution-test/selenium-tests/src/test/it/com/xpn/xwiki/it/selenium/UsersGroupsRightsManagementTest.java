@@ -205,16 +205,16 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         waitForLightbox("Add new user");
         setFieldValue("groupSuggest", "XWiki.XWikiAllGroup");
         clickLinkWithLocator("addNewGroup", false);
-        String xpathPrefix =  "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";
-        String adminGroupXPath = xpathPrefix + "/td[@class='username']/a[@href='/xwiki/bin/view/XWiki/XWikiAllGroup']";
+        String xpathPrefix = "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";
+        String adminGroupXPath = xpathPrefix + "/td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/XWikiAllGroup']";
         // this xpath expression is fragile, but we have to start as up as the lightbox does, because
         // the same table with same ids and classes is already displayed in the Preferences page
         // (that is, the list of existing groups).
         waitForCondition("selenium.isElementPresent(\"" + adminGroupXPath + "\")");
         // Now assert that XWiki.Admin, member of XWikiAdminGroup is not added as a member of our created group
-        assertElementNotPresent(xpathPrefix + "/td[@class='username']/a[@href='/xwiki/bin/view/XWiki/Admin']");
+        assertElementNotPresent(xpathPrefix + "/td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/Admin']");
         clickLinkWithLocator("lb-close");
-        
+
         // Now same test, but from the group document UI in inline mode
         clickLinkWithText(group);
         this.clickLinkWithText("Inline form");
@@ -247,7 +247,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     public void testFilteringOnGroupSheet()
     {
         openGroupsPage();
-        String rowXPath = "//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/Admin']";
+        String rowXPath = "//td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/Admin']";
         this.clickLinkWithText("XWikiAdminGroup");
         this.waitForCondition("selenium.isElementPresent(\""+rowXPath+"\")");
         this.getSelenium().typeKeys("member","Ad");
@@ -327,12 +327,13 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         String xpath = "//tbody/tr[td/a='" + group + "']/td[3]/img[@title='Edit']";
         waitForCondition("selenium.isElementPresent(\""+xpath+"\")");
         getSelenium().click(xpath);
-        waitForLightbox("Add new user");
+        waitForLightbox("Add user to group");
         setFieldValue("userSuggest", "XWiki." + user);
         clickLinkWithLocator("addNewUser", false);
-        
-        String xpathPrefix =  "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";
-        String newGroupMemberXPath = xpathPrefix + "/td[@class='username']/a[@href='/xwiki/bin/view/XWiki/" + user + "']";
+
+        String xpathPrefix = "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";
+        String newGroupMemberXPath =
+            xpathPrefix + "/td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/" + user + "']";
         // this xpath expression is fragile, but we have to start as up as the lightbox does, because
         // the same table with same ids and classes is already displayed in the Preferences page
         // (that is, the list of existing groups).

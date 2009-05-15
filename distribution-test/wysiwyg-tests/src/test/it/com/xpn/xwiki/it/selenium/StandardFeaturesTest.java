@@ -186,6 +186,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         applyStyleTitle5();
         assertXHTML("<h5>foobar</h5>");
 
+        applyStyleTitle6();
+        assertXHTML("<h6>foobar</h6>");
+
         applyStylePlainText();
         assertXHTML("<p>foobar</p>");
     }
@@ -427,30 +430,49 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3090: Cannot move cursor before table
      * @see XWIKI-3089: Cannot move cursor after table
+     * @see XWIKI-3829: Use Control/Meta+Up/Down arrow keys to navigate before/after a table
      */
     public void testMoveCaretBeforeAndAfterTable()
     {
         setWikiContent("|=Space|=Page\n|Main|WebHome");
 
         // Place the caret in one of the table cells.
-        moveCaret("XWE.body.firstChild.rows[0].cells[0].firstChild", 2);
+        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
 
-        // Move the caret before the table and type some text.
+        // Move the caret before the table and type some text. This time using Control+Up.
         getSelenium().controlKeyDown();
         typeUpArrow();
         getSelenium().controlKeyUp();
         typeText("before");
 
         // Place the caret again in one of the table cells.
-        moveCaret("XWE.body.lastChild.rows[1].cells[1].firstChild", 3);
+        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
 
-        // Move the caret after the table and type some text.
+        // Move the caret before the table and type some text. This time using Meta+Up.
+        getSelenium().metaKeyDown();
+        typeUpArrow();
+        getSelenium().metaKeyUp();
+        typeText("up");
+
+        // Place the caret again in one of the table cells.
+        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
+
+        // Move the caret after the table and type some text. This time using Control+Down.
         getSelenium().controlKeyDown();
         typeDownArrow();
         getSelenium().controlKeyUp();
         typeText("after");
 
-        assertWiki("before\n\n|=Space|=Page\n|Main|WebHome\n\nafter");
+        // Place the caret again in one of the table cells.
+        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
+
+        // Move the caret after the table and type some text. This time using Meta+Down.
+        getSelenium().metaKeyDown();
+        typeDownArrow();
+        getSelenium().metaKeyUp();
+        typeText("down");
+
+        assertWiki("before\n\nup\n\n|=Space|=Page\n|Main|WebHome\n\ndown\n\nafter");
     }
 
     /**

@@ -530,6 +530,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         applyStyle("Title 5");
     }
 
+    public void applyStyleTitle6()
+    {
+        applyStyle("Title 6");
+    }
+
     public void pushButton(String locator)
     {
         // Can't use : selenium.click(locator);

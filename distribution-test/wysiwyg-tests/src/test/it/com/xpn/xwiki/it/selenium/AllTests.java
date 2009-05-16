@@ -53,6 +53,7 @@ public class AllTests extends TestCase
         addTestCase(suite, MacroSupportTest.class);
         addTestCase(suite, ImageSupportTest.class);
         addTestCase(suite, TabsTest.class);
+        addTestCase(suite, NativeJavaScriptApiTest.class);
         // The following tests are disabled till we find a way to enable the related plugins before running the tests.
         // addTestCase(suite, ColorSupportTest.class);
         // addTestCase(suite, AlignmentSupportTest.class);

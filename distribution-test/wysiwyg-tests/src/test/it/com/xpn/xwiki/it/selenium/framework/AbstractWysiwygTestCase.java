@@ -34,6 +34,10 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         "document.getElementsByTagName('iframe')[0].contentWindow.document.documentElement";
 
     private static final String WYSIWYG_LOCATOR_FOR_HTML_CONTENT = "content";
+    
+    private static final String WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='WYSIWYG']";
+    
+    private static final String WYSIWYG_LOCATOR_FOR_SOURCE_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='Source']";
 
     protected void setUp() throws Exception
     {
@@ -596,7 +600,35 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         getSelenium().keyDown("//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']", "\\27");
     }
+    
+    /**
+     * @return True if the tabs are enabled, false otherwise.
+     */
+    public boolean tabsEnabled()
+    {        
+        return isElementPresent(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
+    }
 
+    /**
+     * Switch the WYSIWYG editor by clicking on the "WYSIWYG" tab item.
+     */    
+    public void switchToWysiwyg()
+    {
+        if (tabsEnabled()) {
+            getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
+        }
+    }
+    
+    /**
+     * Switch the Source editor by clicking on the "Source" tab item. 
+     */
+    public void switchToSource()
+    {
+        if (tabsEnabled()) {
+            getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
+        }
+    }
+    
     /**
      * Types the specified text in the input specified by its title.
      * 
@@ -897,7 +929,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         // doesn't propagate from an inner element to the host window, meaning we are forced to trigger the focus event
         // on the window object. We haven't found a way to call triggerEvent from the scope of runScript and thus we use
         // getEval.
-        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'focus', false);");
+        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'focus', false);");        
         // Wait till the rich text area enters design mode.
         waitForCondition("window." + getDOMLocator("defaultView") + ".getSelection().rangeCount > 0");
         // We have to trigger a tool bar update in order to enabled the tool bat buttons. Unfortunately, this also

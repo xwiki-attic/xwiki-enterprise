@@ -658,6 +658,49 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-3735: Differentiate macros with empty content from macros without content.
+     */
+    public void testDifferentiateMacrosWithEmptyContentFromMacrosWithoutContent()
+    {
+        StringBuffer macros = new StringBuffer();
+        macros.append("{{code/}}");
+        macros.append("{{code}}{{/code}}");
+        macros.append("{{code title=\"1|-|2\"/}}");
+        macros.append("{{code title=\"1|-|2\"}}{{/code}}");
+
+        // Insert the macros.
+        setWikiContent(macros.toString());
+        // See if the macro syntax is left unchanged when the macros are not edited.
+        assertWiki(macros.toString());
+
+        // Edit the first macro (the one without content and without arguments).
+        editMacro(0);
+        // We just want to test if the content of the edited macro becomes empty.
+        applyMacroChanges();
+        assertWiki("{{code}}{{/code}}{{code}}{{/code}}{{code title=\"1|-|2\"/}}{{code title=\"1|-|2\"}}{{/code}}");
+
+        // Edit the second macro (the one with empty content but without arguments).
+        editMacro(1);
+        setFieldValue("pd-title-input", "|-|");
+        applyMacroChanges();
+
+        // Edit the third macro (the one without content but with arguments).
+        editMacro(2);
+        setFieldValue("pd-title-input", "");
+        setFieldValue("pd-content-input", "|-|");
+        applyMacroChanges();
+
+        // Edit the forth macro (the one with empty content and with arguments).
+        editMacro(3);
+        setFieldValue("pd-content-input", "|-|");
+        applyMacroChanges();
+
+        // Check the result.
+        assertWiki("{{code}}{{/code}}{{code title=\"|-|\"}}{{/code}}"
+            + "{{code}}|-|{{/code}}{{code title=\"1|-|2\"}}|-|{{/code}}");
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

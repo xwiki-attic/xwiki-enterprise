@@ -95,7 +95,8 @@ public class AbstractWebDAVTest extends TestCase
         client.getState().setCredentials(
             new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT, AuthScope.ANY_REALM, AuthScope.ANY_SCHEME),
             new UsernamePasswordCredentials("Admin", "admin"));
-        client.getHttpConnectionManager().getParams().setConnectionTimeout(10000);
+        client.getHttpConnectionManager().getParams().setConnectionTimeout(10000);      
+        client.getParams().setAuthenticationPreemptive(true);
     }
 
     /**

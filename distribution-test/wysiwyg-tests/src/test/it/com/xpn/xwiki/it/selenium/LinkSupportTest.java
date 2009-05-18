@@ -824,7 +824,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
+        assertWiki("[[" + linkLabel + ">>attach:xwiki:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
     }
 
     /**
@@ -849,12 +849,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String attachment = "rquo.gif";
 
         typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
-            + "\"]');");
 
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
@@ -868,7 +862,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "||title=\""
+        assertWiki("[[" + linkLabel + ">>attach:xwiki:" + attachSpace + "." + attachPage + "@" + attachment + "||title=\""
             + linkTooltip + "\"]]");
     }
 
@@ -930,7 +924,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
+        assertWiki("[[" + linkLabel + ">>attach:xwiki:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
     }
 
     /**
@@ -962,7 +956,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
+        assertWiki("[[foobar>>attach:xwiki:XWiki.AdminSheet@photos.png]]");
     }
 
     /**

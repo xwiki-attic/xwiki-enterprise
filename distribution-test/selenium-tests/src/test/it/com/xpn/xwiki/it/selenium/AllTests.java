@@ -80,6 +80,7 @@ public class AllTests extends TestCase
         addTestCase(suite, PanelsTest.class);
         addTestCase(suite, SectionTest.class);
         addTestCase(suite, ImportTest.class);
+        addTestCase(suite, XWikiJavaScriptComponentsTest.class);
         
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

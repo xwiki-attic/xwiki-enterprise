@@ -607,4 +607,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertTrue(isBoldDetected());
         assertTrue(isUnderlineDetected());
     }
+
+    /**
+     * @see XWIKI-2669: New WYSIWYG editor doesn't work when special characters are entered by the user.
+     */
+    public void testHTMLSpecialChars()
+    {
+        typeText("<\"'&#\"'>");
+        assertWiki("<\"'&#\"'>");
+        assertXHTML("<p>&lt;\"'&amp;#\"'&gt;</p>");
+        assertWiki("<\"'&#\"'>");
+    }
 }

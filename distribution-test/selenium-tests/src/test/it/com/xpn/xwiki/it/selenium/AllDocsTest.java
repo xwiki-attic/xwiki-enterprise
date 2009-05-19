@@ -212,14 +212,15 @@ public class AllDocsTest extends AbstractXWikiTestCase
         setFieldValue("Treeview_Input", "Main.RecentChanges@lquo.gif");
         waitForNodeToLoad("xwiki:Main.RecentChanges@lquo.gif");
 
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedWiki() == 'xwiki'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedSpace() == 'Main'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedPage() == 'RecentChanges'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedAttachment() == 'lquo.gif'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedAnchor() == ''");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedUrl() == "
-            + "'/xwiki/bin/download/Main/RecentChanges/lquo.gif'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == "
-            + "'Main.RecentChanges@lquo.gif'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('wiki') " +
+        		"== 'xwiki'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('space') " +
+        		"== 'Main'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('name') " +
+        		"== 'RecentChanges'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('attachment') " +
+        		"== 'lquo.gif'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('anchor') == ''");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == 'Main.RecentChanges@lquo.gif'");
     }
 }

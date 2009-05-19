@@ -28,7 +28,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 /**
  * Verify the JavaScript components of XWiki.
  * 
- * @version $Id:$
+ * @version $Id$
  */
 public class XWikiJavaScriptComponentsTest extends AbstractXWikiTestCase
 {
@@ -49,7 +49,7 @@ public class XWikiJavaScriptComponentsTest extends AbstractXWikiTestCase
     {
         if (getSelenium().getEval("typeof window.XWiki.testResourceFromResourceName") != "function") {
             StringBuffer script = new StringBuffer();
-            script.append("XWiki.testResourceFromResourceName = function(name, expected) {\n");
+            script.append("window.XWiki.testResourceFromResourceName = function(name, expected) {\n");
             script.append("var res = XWiki.resource.get(name);\n");
             script.append("var expectedObj = eval(expected);\n");
             script.append("var equals = true;\n");

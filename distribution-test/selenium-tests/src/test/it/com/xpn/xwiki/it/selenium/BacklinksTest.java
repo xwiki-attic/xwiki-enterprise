@@ -31,6 +31,8 @@ import junit.framework.Test;
  */
 public class BacklinksTest extends AbstractXWikiTestCase
 {
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the Backlinks feature");
@@ -45,10 +47,10 @@ public class BacklinksTest extends AbstractXWikiTestCase
         // Create page which will have a backlink to it
         createPage("Test", "BacklinkTargetTest", "#foreach ($link in $doc.getBacklinks())\n"
             + "$link\n"
-            + "#end");
+            + "#end", SYNTAX);
 
         // Create page pointing to the backlinked page
-        createPage("Test", "BacklinkSourceTest", "[backlink>Test.BacklinkTargetTest]");
+        createPage("Test", "BacklinkSourceTest", "[backlink>Test.BacklinkTargetTest]", SYNTAX);
 
         open("Test", "BacklinkTargetTest");
         assertEquals("Test.BacklinkSourceTest", getSelenium().getText("xwikicontent"));

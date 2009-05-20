@@ -13,6 +13,8 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class SectionTest extends AbstractXWikiTestCase
 {
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the document edit section feature");
@@ -28,7 +30,7 @@ public class SectionTest extends AbstractXWikiTestCase
         open("Sandbox", "WebHome", "edit", "editor=wiki");
         createPage("Test", "SectionEditing", "1 First section\nSection 1 content\n\n"
             + "1 Second section\nSection 2 content\n\n1.1 Subsection\nSubsection content\n\n"
-            + "1 Third section\nSection 3 content");
+            + "1 Third section\nSection 3 content", SYNTAX);
         assertTextPresent("First section");
         assertTextPresent("Subsection content");
     }

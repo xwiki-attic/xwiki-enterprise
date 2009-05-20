@@ -163,12 +163,44 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().assertElementPresent("register_email");
     }
 
-    // For WYSIWYG editor
-
-    public void editInWysiwyg(String space, String page)
+    public String getEditorSyntax()
+    {        
+        return getTest().getFieldValue("xwikidocsyntaxinput2");        
+    }
+    
+    public void setEditorSyntax(String syntax)
     {
+        if (!syntax.equals(getEditorSyntax())) {            
+            getTest().getSelenium().select("name=syntaxId", "value=" + syntax);
+            clickEditSaveAndContinue();
+            getTest().getSelenium().refresh();
+            getTest().waitPage();
+        }
+    }
+    
+    public void editInWikiEditor(String space, String page)
+    {
+        getTest().open("/xwiki/bin/edit/" + space + "/" + page + "?editor=wiki");        
+    }
+    
+    public void editInWikiEditor(String space, String page, String syntax)
+    {
+        editInWikiEditor(space, page);
+        setEditorSyntax(syntax);        
+    }
+    
+    // For WYSIWYG editor
+    
+    public void editInWysiwyg(String space, String page)
+    {        
         getTest().open("/xwiki/bin/edit/" + space + "/" + page + "?editor=wysiwyg");
     }
+
+    public void editInWysiwyg(String space, String page, String syntax)
+    {
+        editInWysiwyg(space, page);
+        setEditorSyntax(syntax);                
+    }   
 
     public void clearWysiwygContent()
     {

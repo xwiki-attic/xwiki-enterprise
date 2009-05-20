@@ -31,7 +31,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * @version $Id$
  */
 public class InlineEditorTest extends AbstractXWikiTestCase
-{
+{       
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the inline editor");
@@ -115,8 +115,8 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     public void testEditModeCanBeSet()
     {
         String initialContent = null;
-        try {
-            open("XWiki", "Admin", "edit", "editor=wiki");
+        try {            
+            editInWikiEditor("XWiki", "Admin");
             initialContent = getFieldValue("content");
             typeInWiki("$context.setDisplayMode('edit')\n" + initialContent);
             clickEditSaveAndView();

@@ -75,8 +75,9 @@ public class AlbatrossSkinExecutor implements SkinExecutor
             getTest().submit("xpath=//input[@name='formactionsac']");
         } else {
             getTest().submit("xpath=//input[@name='action_saveandcontinue']", false);
-            getTest().getSelenium().waitForCondition("selenium.isVisible(\"xpath=//span[string(.) = 'Saved']\")",
-                "5000");
+            getTest().getSelenium().waitForCondition(
+                "(window.document.getElementsByClassName('xnotification-done')[0] != null " +
+                "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')", "5000");             
         }
     }
 

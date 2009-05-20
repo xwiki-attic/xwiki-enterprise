@@ -33,6 +33,8 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class LanguageTest extends AbstractXWikiTestCase
 {
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the ability to change the wiki language");
@@ -60,8 +62,8 @@ public class LanguageTest extends AbstractXWikiTestCase
     }
 
     public void testChangeLanguageInMonolingualModeUsingTheAdministrationPreference()
-    {
-        open("Test", "LanguageTest", "edit", "editor=wiki");
+    {        
+        editInWikiEditor("Test", "LanguageTest", SYNTAX);
         setFieldValue("content", "context = ($context.language), doc = ($doc.language), "
             + "default = ($doc.defaultLanguage), tdoc = ($tdoc.language), " + "tdocdefault = ($tdoc.defaultLanguage)");
         clickEditSaveAndView();

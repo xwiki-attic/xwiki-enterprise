@@ -32,6 +32,8 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class ValidationTest extends AbstractXWikiTestCase
 {
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the data validation feature of XWiki");
@@ -57,7 +59,7 @@ public class ValidationTest extends AbstractXWikiTestCase
         setFieldValue("prop_validationMessage", "invalid value for prop");
         clickEditSaveAndView();
         createPage("Main", "ValidatedObject",
-            "value: $doc.display('prop')\n\n#foreach($e in $context.validationStatus.errors)$e #end");
+            "value: $doc.display('prop')\n\n#foreach($e in $context.validationStatus.errors)$e #end", SYNTAX);
         open("Main", "ValidatedObject", "edit", "editor=object");
         setFieldValue("classname", "Main.ValidatedClass");
         submit("//input[@value='Add Object from this Class']");

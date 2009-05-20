@@ -34,6 +34,8 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class WikiEditorTest extends AbstractXWikiTestCase
 {
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
@@ -50,17 +52,17 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testEmptyLineAndSpaceCharactersBeforeSectionTitleIsNotRemoved()
     {
-        createPage("Test", "WikiEdit", "\n  1.1 Section\n\ntext");
+        createPage("Test", "WikiEdit", "\n  1.1 Section\n\ntext", SYNTAX);
         open("Test", "WikiEdit", "edit", "editor=wiki");
         assertEquals("\n  1.1 Section\n\ntext", getFieldValue("content"));
     }
 
     public void testBoldButton()
-    {
-        open("Test", "WikiBoldButton", "edit", "editor=wiki");
+    {        
+        editInWikiEditor("Test", "WikiBoldButton", SYNTAX);
         setFieldValue("content", "Here follows a bold text: ");
         clickWikiBoldButton();
-        assertEquals("Failed to append bold marker", "Here follows a bold text: *Text in Bold*",
+        assertEquals("Failed to append bold marker", "Here follows a bold text: *Text in Bold*", 
             getFieldValue("content"));
         setFieldValue("content", "Here follows a bold text: \nAnd some content after...");
         getSelenium().setCursorPosition("id=content", "26");
@@ -71,8 +73,8 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     }
 
     public void testItalicsButton()
-    {
-        open("Test", "WikiItalicsButton", "edit", "editor=wiki");
+    {        
+        editInWikiEditor("Test", "WikiItalicsButton", SYNTAX);
         setFieldValue("content", "Here follows an italics text: ");
         clickWikiItalicsButton();
         assertEquals("Failed to append italics marker", "Here follows an italics text: ~~Text in Italics~~",
@@ -86,8 +88,8 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     }
 
     public void testUnderlineButton()
-    {
-        open("Test", "WikiUnderlineButton", "edit", "editor=wiki");
+    {        
+        editInWikiEditor("Test", "WikiUnderlineButton", SYNTAX);
         setFieldValue("content", "Here follows an underlined text: ");
         clickWikiUnderlineButton();
         assertEquals("Failed to append underline marker", "Here follows an underlined text: __Text in Underline__",
@@ -103,7 +105,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testLinkButton()
     {
-        open("Test", "WikiLinkButton", "edit", "editor=wiki");
+        editInWikiEditor("Test", "WikiLinkButton", SYNTAX);
         setFieldValue("content", "Here follows a link: ");
         clickWikiLinkButton();
         assertEquals("Failed to append link marker", "Here follows a link: [Link Example]", getFieldValue("content"));
@@ -117,7 +119,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testHRButton()
     {
-        open("Test", "WikiHRButton", "edit", "editor=wiki");
+        editInWikiEditor("Test", "WikiHRButton", SYNTAX);
         setFieldValue("content", "Here follows a ruler: ");
         clickWikiHRButton();
         assertEquals("Failed to append ruler marker", "Here follows a ruler: \n----\n", getFieldValue("content"));
@@ -130,7 +132,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testImageButton()
     {
-        open("Test", "WikiImageButton", "edit", "editor=wiki");
+        editInWikiEditor("Test", "WikiImageButton", SYNTAX);
         setFieldValue("content", "Here follows an image: ");
         clickWikiImageButton();
         assertEquals("Failed to append image marker", "Here follows an image: {image:example.jpg}",
@@ -145,7 +147,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testSignatureButton()
     {
-        open("Test", "WikiSignatureButton", "edit", "editor=wiki");
+        editInWikiEditor("Test", "WikiSignatureButton", SYNTAX);
         setFieldValue("content", "Here follows a signature: ");
         clickWikiSignatureButton();
         assertEquals("Failed to append signature marker", "Here follows a signature: #sign(\"XWiki.Admin\")",
@@ -164,8 +166,8 @@ public class WikiEditorTest extends AbstractXWikiTestCase
      */
     public void testEmptyDocumentContentIsAllowed()
     {
-        createPage("Test", "EmptyWikiContent", "this is some content");
-        open("Test", "EmptyWikiContent", "edit", "editor=wiki");
+        createPage("Test", "EmptyWikiContent", "this is some content", SYNTAX);
+        editInWikiEditor("Test", "EmptyWikiContent", SYNTAX);
         setFieldValue("content", "");
         clickEditSaveAndView();
         assertFalse(getSelenium().isAlertPresent());
@@ -179,12 +181,12 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     public void testEditComment() throws IOException
     {
         try {
-            editInWikiEditor("Test", "EditComment");
+            editInWikiEditor("Test", "EditComment", SYNTAX);
             assertTrue(getSelenium().isVisible("comment"));
 
             // Test for XWIKI-2487: Hiding the edit comment field doesn't work
             setXWikiConfiguration("xwiki.editcomment.hidden=1");
-            editInWikiEditor("Test", "EditComment");
+            editInWikiEditor("Test", "EditComment", SYNTAX);
             assertFalse(getSelenium().isVisible("comment"));
         } finally {
             setXWikiConfiguration("xwiki.editcomment.hidden=0");
@@ -197,7 +199,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
      */
     public void testPreviewModeWithContentRequiringProgrammingRights()
     {
-        editInWikiEditor("Test", "PreviewMode");
+        editInWikiEditor("Test", "PreviewMode", SYNTAX);
         setFieldValue("content", "$xwiki.hasAccessLevel('programming') $doc.author $doc.contentAuthor $doc.creator");
         clickEditPreview();
         assertTextPresent("true XWiki.Admin XWiki.Admin XWiki.Admin");
@@ -209,7 +211,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     public void testMinorEdit()
     {
         try {
-            editInWikiEditor("Test", "MinorEdit");
+            editInWikiEditor("Test", "MinorEdit", SYNTAX);
             setFieldValue("content", "version=1.1");
             clickEditSaveAndContinue();
             setFieldValue("content", "version=2.1");
@@ -218,7 +220,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
             open("Test", "MinorEdit", "viewrev", "rev=2.1");
             assertTextPresent("version=2.1");
 
-            editInWikiEditor("Test", "MinorEdit");
+            editInWikiEditor("Test", "MinorEdit", SYNTAX);
             setFieldValue("content", "version=2.2");
             getSelenium().click("minorEdit");
             clickEditSaveAndView();

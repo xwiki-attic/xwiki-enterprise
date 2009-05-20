@@ -32,6 +32,8 @@ import junit.framework.Test;
  */
 public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
 {
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
@@ -42,8 +44,8 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        loginAsAdmin();
-        open("Test", "WysiwygEdit", "edit", "editor=wiki");
+        loginAsAdmin();        
+        editInWikiEditor("Test", "WysiwygEdit", SYNTAX);
     }
 
     public void testIndentedOrderedList() throws Exception

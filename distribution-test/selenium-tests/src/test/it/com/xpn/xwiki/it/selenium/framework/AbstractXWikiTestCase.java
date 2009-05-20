@@ -167,13 +167,21 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     {
         getSelenium().waitForPageToLoad(String.valueOf(nbMillisecond));
     }
-
+    
     public void createPage(String space, String page, String content)
+    {
+        createPage(space, page, content, null);
+    }
+
+    public void createPage(String space, String page, String content, String syntax)
     {
         // If the page already exists, delete it first
         deletePage(space, page);
-
-        editInWikiEditor(space, page);
+        if (syntax == null) {
+            editInWikiEditor(space, page);
+        } else {
+            editInWikiEditor(space, page, syntax);
+        }
         setFieldValue("content", content);
         clickEditSaveAndView();
     }
@@ -332,15 +340,35 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
     {
         getSkinExecutor().clickRegister();
     }
+    
+    public String getEditorSyntax()
+    {
+        return getSkinExecutor().getEditorSyntax();
+    }
+    
+    public void setEditorSyntax(String syntax)
+    {
+        getSkinExecutor().setEditorSyntax(syntax);
+    }
+    
+    public void editInWikiEditor(String space, String page)
+    {
+        getSkinExecutor().editInWikiEditor(space, page);
+    }    
+    
+    public void editInWikiEditor(String space, String page, String syntax)
+    {
+        getSkinExecutor().editInWikiEditor(space, page, syntax);
+    }
 
     public void editInWysiwyg(String space, String page)
     {
-        getSkinExecutor().editInWysiwyg(space, page);
+        getSkinExecutor().editInWysiwyg(space, page);                
     }
-
-    public void editInWikiEditor(String space, String page)
+    
+    public void editInWysiwyg(String space, String page, String syntax)
     {
-        open(space, page, "edit", "editor=wiki");
+        getSkinExecutor().editInWysiwyg(space, page, syntax);                
     }
 
     public void clearWysiwygContent()
@@ -495,7 +523,7 @@ public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
             sb.append("$xwiki.xWiki.config.setProperty('").append(param.getKey()).append("', '").append(
                 param.getValue()).append("')").append('\n');
         }
-        editInWikiEditor("Test", "XWikiConfigurationPageForTest");
+        editInWikiEditor("Test", "XWikiConfigurationPageForTest", "xwiki/1.0");
         setFieldValue("content", sb.toString());
         // We can execute the script in preview mode. Thus we don't need to save the document.
         clickEditPreview();

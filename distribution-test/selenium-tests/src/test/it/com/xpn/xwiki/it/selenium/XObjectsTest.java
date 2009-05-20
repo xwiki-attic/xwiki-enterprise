@@ -31,7 +31,9 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * @version $Id$
  */
 public class XObjectsTest extends AbstractXWikiTestCase
-{
+{    
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the structured data features of XWiki");
@@ -56,7 +58,7 @@ public class XObjectsTest extends AbstractXWikiTestCase
         submit("//input[@value='Add Property']");
         setFieldValue("prop_sql", "select doc.fullName from XWikiDocument doc");
         clickEditSaveAndView();
-        createPage("Main", "Object", "this is the content");
+        createPage("Main", "Object", "this is the content", SYNTAX);
         open("Main", "Object", "edit", "editor=object");
         setFieldValue("classname", "Main.Class");
         submit("//input[@value='Add Object from this Class']");
@@ -76,7 +78,7 @@ public class XObjectsTest extends AbstractXWikiTestCase
      */
     public void testChangeNumberType()
     {
-        createPage("Main", "Class2", "this is the content");
+        createPage("Main", "Class2", "this is the content", SYNTAX);
         open("Main", "Class2", "edit", "editor=class");
         setFieldValue("propname", "prop");
         setFieldValue("proptype", "com.xpn.xwiki.objects.classes.NumberClass");
@@ -84,7 +86,7 @@ public class XObjectsTest extends AbstractXWikiTestCase
         setFieldValue("prop_numberType", "integer");
         clickEditSaveAndView();
         assertTextPresent("this is the content");
-        createPage("Main", "Object2", "this is the content: $doc.display('prop')");
+        createPage("Main", "Object2", "this is the content: $doc.display('prop')", SYNTAX);
         open("Main", "Object2", "edit", "editor=object");
         setFieldValue("classname", "Main.Class2");
         submit("//input[@value='Add Object from this Class']");

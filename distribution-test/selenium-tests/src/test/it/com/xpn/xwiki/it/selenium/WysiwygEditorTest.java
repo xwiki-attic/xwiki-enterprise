@@ -32,6 +32,8 @@ import junit.framework.Test;
  */
 public class WysiwygEditorTest extends AbstractXWikiTestCase
 {
+    private static final String SYNTAX = "xwiki/1.0";
+    
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wysiwyg editor");
@@ -43,7 +45,7 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
     {
         super.setUp();
         loginAsAdmin();
-        editInWysiwyg("Test", "TestWysiwyg");
+        editInWysiwyg("Test", "TestWysiwyg", SYNTAX);
         clearWysiwygContent();
     }
 

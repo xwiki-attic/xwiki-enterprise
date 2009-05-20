@@ -95,6 +95,36 @@ public interface SkinExecutor
      * Click on the Register button
      */
     void clickRegister();
+    
+
+    /**
+     * @return The syntax used by the editor, examples: "xwiki/1.0", "xwiki/2.0".
+     */
+    String getEditorSyntax();
+    
+    /**
+     * Set the syntax to use when editing a page.
+     * 
+     * @param syntax Syntax to use.
+     */
+    void setEditorSyntax(String syntax);
+    
+    /**
+     * Edit the passed space/page using the Wiki editor.
+     * 
+     * @param space the space to which the page to edit belongs to
+     * @param page the page to edit
+     */
+    void editInWikiEditor(String space, String page);
+    
+    /**
+     * Edit the passed space/page using the Wiki editor.
+     * 
+     * @param space the space to which the page to edit belongs to
+     * @param page the page to edit
+     * @param syntax the syntax to use
+     */
+    void editInWikiEditor(String space, String page, String syntax);
 
     // For WYSIWYG editor
 
@@ -105,6 +135,15 @@ public interface SkinExecutor
      * @param page the page to edit
      */
     void editInWysiwyg(String space, String page);
+    
+    /**
+     * Edit the passed space/page using the WYSIWYG editor.
+     * 
+     * @param space the space to which the page to edit belongs to
+     * @param page the page to edit
+     * @param syntax the syntax to use
+     */
+    void editInWysiwyg(String space, String page, String syntax);    
 
     /**
      * Clears the content of the current page being edited in WYSIWYG mode

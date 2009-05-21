@@ -23,40 +23,6 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/1.0</syntaxId>
 <hidden>false</hidden>
-<object>
-<class>
-<name>XWiki.TagClass</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<tags>
-<cache>0</cache>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>tags</name>
-<number>1</number>
-<prettyName>Tags</prettyName>
-<relationalStorage>1</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<values></values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</tags>
-</class>
-<name>Main.WebHome</name>
-<number>0</number>
-<className>XWiki.TagClass</className>
-<guid>ce00f004-89d1-4c4d-a609-915d624a91a9</guid>
-<property>
-<tags/>
-</property>
-</object>
 <content>1 Welcome to your wiki
 
 It's an easy-to-edit website that will help you work better together. This Wiki is made of ~~pages~~ sorted by ~~spaces~~. You're currently in the *Main* space, looking at its home page (*WebHome*). 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>XWiki</web>
@@ -20,6 +20,9 @@
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/1.0</syntaxId>
+<hidden>false</hidden>
 <content>## ==================================================
 ## Common code for WebSearch and WebSearchRss
 ## ==================================================
@@ -29,7 +32,7 @@
 ## the generated RSS feed
 ## ==================================================
 #set($datedlist = $util.arrayList)
-#if(!$text or $text == "")
+#if("$!text" == '')
   ## No search
 #else
   #set($text = $text.replaceAll("'", "''").replaceAll("%", "\\%"))
@@ -39,22 +42,24 @@
   ## Panels spaces. Also exclude the WebPreferences doc.
   ## -----------------------------------------------------------
   #if ($xwiki.hasAdminRights())
-    #set ($excludedWebs = "")
+    #set ($excludedWebs = '')
   #else
     #set ($excludedWebs = "doc.space&lt;&gt;'XWiki' and doc.space&lt;&gt;'Admin' and doc.space&lt;&gt;'Panels' and doc.name&lt;&gt;'WebPreferences' and")
   #end
   ## -----------------------------------------------------------
   ## Display only a given space if $request.space is defined
   ## -----------------------------------------------------------
-  #if($space and $space == "All")
-    #set ($webClause = "$excludedWebs")
+  #if("$!space" == '')
+    #set ($webClause = $excludedWebs)
   #else
     #set ($webClause = "doc.space='$space' and $excludedWebs")
   #end
   #macro(addelement $item $list)
-    #if($xwiki.hasAccessLevel("view", $context.user, "${context.database}:${item}"))
+    #if($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${item}"))
       #set($itemdoc = $xwiki.getDocument($item))
-      #set($sdate = $xwiki.formatDate($itemdoc.date, "yyyyMMddHHmmss"))
+      ## All items will be sorted by the date; since the list is obtained from several queries, we can't order in the HQL.
+      ## Prefix all item names with the date for sorting the combined results.
+      #set($sdate = $xwiki.formatDate($itemdoc.date, 'yyyyMMddHHmmss'))
       #set($sitem = "${sdate}${item}")
       #if(!$list.contains($sitem))
         #set($discard = $list.add($sitem))
@@ -92,6 +97,7 @@
 #end
 #set($list = $util.arrayList)
 #foreach($item in $util.sort($datedlist))
+  ## datedlist contains items prefixed with the date; strip the date from the actual item name:
   #set($ok = $list.add(0, $item.substring(14)))
 #end</content>
 </xwikidoc>

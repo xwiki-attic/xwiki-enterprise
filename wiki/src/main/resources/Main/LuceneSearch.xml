@@ -181,7 +181,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       ## Pagination (top)
       ## -----------------
       #if($displayUI)
-        #set($paginationParameters = {'url' : $doc.getURL('view', "text=${query}"), 'totalItems' : $searchresults.getHitcount(), 'defaultItemsPerPage' : $defaultItemsPerPage, 'position': 'top'})
+        #set($paginationParameters = {'url' : $doc.getURL('view', "text=${query}&amp;amp;space=${selectedSpace}"), 'totalItems' : $searchresults.getHitcount(), 'defaultItemsPerPage' : $defaultItemsPerPage, 'position': 'top'})
         #pagination($paginationParameters)
       #end
       ## -----------------

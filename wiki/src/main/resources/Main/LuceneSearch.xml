@@ -132,7 +132,11 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
 #set($text = "$!request.getParameter('text')")
 #set($query = $text)
 #set($utext = $util.encodeURI($query))
-#set($itemsPerPage = '30')
+#set($defaultItemsPerPage = 30)
+#set($itemsPerPage = $util.parseInt("$!{request.perPage}"))
+#if($itemsPerPage &lt;= 0)
+  #set($itemsPerPage = $defaultItemsPerPage)
+#end
 ## ---------------
 ## RSS link
 ## ---------------
@@ -171,23 +175,28 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
     ## ---------------
     ## Lucene search
     ## ---------------
-    #set($firstIndex = "$!request.getParameter('firstIndex')")
-    #if($firstIndex == '')
-      #set($firstIndex = '1')
-    #end
     #set($searchresults = $lucene.getSearchResults("${query}$!{reqspace}", $wikinames, $!languages, $xwiki))
-    #set($results = $searchresults.getResults($firstIndex, $itemsPerPage))
     #if($searchresults.getHitcount() &gt; 0)
       ## -----------------
       ## Pagination (top)
       ## -----------------
       #if($displayUI)
-        #set($itemParamName = 'firstIndex')
-        #pagination($doc.getURL('view', "text=${query}") $searchresults.getHitcount() 15 'top')
+        #set($paginationParameters = {'url' : $doc.getURL('view', "text=${query}"), 'totalItems' : $searchresults.getHitcount(), 'defaultItemsPerPage' : $defaultItemsPerPage, 'position': 'top'})
+        #pagination($paginationParameters)
       #end
       ## -----------------
       ## Display results
       ## -----------------
+      #set($firstIndex = "$!{paginationParameters.firstItem}")
+      #if($firstIndex == '')
+        #set($firstIndex = "$!request.getParameter('firstIndex')")
+        #if($firstIndex == '')
+          #set($firstIndex = '0')
+        #end
+      #end
+      #set($firstIndex = $util.parseInt($firstIndex))
+      #set($firstIndex = $firstIndex + 1)
+      #set($results = $searchresults.getResults("$firstIndex", "$itemsPerPage"))
       #if ("$!request.xpage" == 'rdf')
         #set ($baseurl = "http://${request.serverName}")
         #set ($descText = $msg.get("xe.search.rss.feedfor"))
@@ -209,7 +218,8 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       ## Pagination (bottom)
       ## -----------------
       #if($displayUI)
-        #pagination($doc.getURL('view', "text=${query}") $searchresults.getHitcount() 15 'bottom')
+        #set($paginationParameters.position = 'bottom')
+        #pagination($paginationParameters)
       #end
     #end
   #else

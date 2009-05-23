@@ -622,7 +622,7 @@ $xwiki.ssx.use("Main.RecentChanges")
       &lt;li class="xitem xunderline xhighlight ${rcType}"&gt;
         &lt;div class="xitemcontainer"&gt;        
           #if($rcType == "comment")
-            &lt;div class="modifiedPage"&gt;&lt;a href="$rcDoc.getURL()" title="$msg.get("xe.recentchanges.entry.comment.tooltip", [$xwiki.formatDate($rcDt.toDate(), "HH:mm")]) "&gt;$rcDoc.getDisplayTitle()&lt;/a&gt;&lt;/div&gt;
+            &lt;div class="modifiedPage"&gt;&lt;a href="$rcDoc.getURL()" title="$msg.get("xe.recentchanges.entry.comment.tooltip", [$xwiki.formatDate($rcDt.toDate(), "HH:mm")]) "&gt;$xwiki.getXMLEncoded($rcDoc.getDisplayTitle())&lt;/a&gt;&lt;/div&gt;
             #if($rcShowDiff)
               &lt;div class="xshowonhover modifiedPageActions"&gt;&lt;a class="ajax" href="$rcDoc.getURL("vire", "viewer=comments")" onclick="toggleClass(document.getElementById('$modGUID'), 'hidden'); toggleClass(document.getElementById('${modGUID}_comShow'), 'hidden'); toggleClass(document.getElementById('${modGUID}_comHide'), 'hidden'); return false;"&gt;&lt;span id="${modGUID}_comShow"&gt;&amp;#91;+&amp;#93; $msg.get("xe.recentchanges.entry.comment.show")&lt;/span&gt;&lt;span id="${modGUID}_comHide" class="hidden"&gt;&amp;#91;-&amp;#93; $msg.get("xe.recentchanges.entry.comment.hide")&lt;/span&gt; $msg.get("xe.recentchanges.entry.comment")&lt;/a&gt;&lt;/div&gt;
               &lt;div class="commentContainer hidden" id="$modGUID"&gt;
@@ -636,7 +636,7 @@ $xwiki.ssx.use("Main.RecentChanges")
               &lt;/div&gt;
             #end
           #else
-            &lt;div class="modifiedPage"&gt;&lt;a href="$rcDoc.getURL()" title="$msg.get("xe.recentchanges.entry.page.tooltip", [$rcDoc.getVersion(), $xwiki.formatDate($rcDt.toDate())])"&gt;$rcDoc.getDisplayTitle()&lt;/a&gt; #displayRcVersion($rcDoc.getVersion())&lt;/div&gt; 
+            &lt;div class="modifiedPage"&gt;&lt;a href="$rcDoc.getURL()" title="$msg.get("xe.recentchanges.entry.page.tooltip", [$rcDoc.getVersion(), $xwiki.formatDate($rcDt.toDate())])"&gt;$xwiki.getXMLEncoded($rcDoc.getDisplayTitle())&lt;/a&gt; #displayRcVersion($rcDoc.getVersion())&lt;/div&gt; 
             #if($rcShowDiff)
               &lt;div class="xshowonhover modifiedPageActions"&gt;&lt;a href="$goToDiffURL"&gt;$msg.get("xe.recentchanges.entry.page.seemodifications")&lt;/a&gt;&lt;/div&gt;
               ## If the author has uploaded attachments during the day in this page, display them.

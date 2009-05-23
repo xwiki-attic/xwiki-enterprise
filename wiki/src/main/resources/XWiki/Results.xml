@@ -56,12 +56,12 @@
         &lt;h4 class="itemTitle"&gt;
           #if($isLuceneResult)
             #if($item.type == 'attachment')
-              &lt;a href="$xwiki.getDocument($itemfullname).getAttachmentURL($item.filename)"&gt;$item.filename&lt;/a&gt;
+              &lt;a href="$xwiki.getDocument($itemfullname).getAttachmentURL($item.filename)"&gt;$xwiki.getXMLEncoded($item.filename)&lt;/a&gt;
             #else
-              &lt;a href="$xwiki.getURL($itemfullname)"&gt;$xwiki.getDocument($itemfullname).getDisplayTitle()&lt;/a&gt;
+              &lt;a href="$xwiki.getURL($itemfullname)"&gt;$xwiki.getXMLEncoded($xwiki.getDocument($itemfullname).getDisplayTitle())&lt;/a&gt;
             #end
           #else
-            &lt;a href="$xwiki.getURL($itemfullname)"&gt;$itemDoc.getDisplayTitle()&lt;/a&gt;
+            &lt;a href="$xwiki.getURL($itemfullname)"&gt;$xwiki.getXMLEncoded($itemDoc.getDisplayTitle())&lt;/a&gt;
           #end
         &lt;/h4&gt;
         ##*********************************************************##
@@ -69,9 +69,9 @@
         ##*********************************************************##
         &lt;div class="itemLocation"&gt;
           $msg.get('xe.search.item.location', [
-          $itemDoc.wiki, $xwiki.getURL("${itemDoc.wiki}:Main.WebHome"),
-          $itemDoc.space, $xwiki.getURL("${itemDoc.wiki}:${itemDoc.space}.WebHome"),
-          $itemDoc.name, $xwiki.getURL($itemfullname)])
+          $xwiki.getXMLEncoded($itemDoc.wiki), $xwiki.getURL("${itemDoc.wiki}:Main.WebHome"),
+          $xwiki.getXMLEncoded($itemDoc.space), $xwiki.getURL("${itemDoc.wiki}:${itemDoc.space}.WebHome"),
+          $xwiki.getXMLEncoded($itemDoc.name), $xwiki.getURL($itemfullname)])
         &lt;/div&gt;
         ##*********************************************************##
         ## Modifiers - content update date                         ##
@@ -80,7 +80,7 @@
           #if ($author == 'XWikiGuest')
             #set($author = $msg.get('xe.results.guest'))
           #end
-          $msg.get('xe.search.item.modified', [$author, $xwiki.formatDate($itemDoc.date, 'dd MMM yyyy')])
+          $msg.get('xe.search.item.modified', [$xwiki.getXMLEncoded($author), $xwiki.formatDate($itemDoc.date, 'dd MMM yyyy')])
         &lt;/div&gt;
 ## TODO: Uncomment when the attachment and comment count will be implemented
 ##         &lt;div class="itemOthers"&gt;

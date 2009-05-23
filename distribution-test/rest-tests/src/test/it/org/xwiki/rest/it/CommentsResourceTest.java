@@ -56,8 +56,8 @@ public class CommentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -67,12 +67,12 @@ public class CommentsResourceTest extends AbstractHttpTest
         comment.setText("Comment");
 
         PostMethod postMethod = executePostXml(commentsUri, comment, "Admin", "admin");
-        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         getMethod = executeGet(commentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -88,20 +88,20 @@ public class CommentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         int numberOfComments = comments.getComments().size();
 
         PostMethod postMethod = executePost(commentsUri, "Comment", MediaType.TEXT_PLAIN, "Admin", "admin");
-        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         getMethod = executeGet(commentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -117,8 +117,8 @@ public class CommentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -136,22 +136,23 @@ public class CommentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         History history = (History) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         for (HistorySummary historySummary : history.getHistorySummaries()) {
             getMethod = executeGet(getFirstLinkByRelation(historySummary, Relations.PAGE).getHref());
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
             Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
             if (getFirstLinkByRelation(page, Relations.COMMENTS) != null) {
                 getMethod = executeGet(getFirstLinkByRelation(page, Relations.COMMENTS).getHref());
-                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+
             }
         }
     }
@@ -165,8 +166,8 @@ public class CommentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Comments comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -176,12 +177,12 @@ public class CommentsResourceTest extends AbstractHttpTest
         nameValuePairs[0] = new NameValuePair("text", "Comment");
 
         PostMethod postMethod = executePostForm(commentsUri, nameValuePairs, "Admin", "admin");
-        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         getMethod = executeGet(commentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         comments = (Comments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 

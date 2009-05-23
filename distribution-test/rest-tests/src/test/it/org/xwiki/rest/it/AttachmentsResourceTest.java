@@ -19,8 +19,6 @@
  */
 package org.xwiki.rest.it;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -41,9 +39,6 @@ import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.methods.multipart.PartBase;
-import org.apache.commons.httpclient.methods.multipart.StringPart;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
@@ -76,16 +71,16 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentUri);
-        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
         PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
-        assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         getMethod = executeGet(attachmentUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         assertEquals(content, getMethod.getResponseBodyAsString());
     }
@@ -102,12 +97,12 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentUri);
-        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
         PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN);
-        assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
     }
 
     public void testGETAttachments() throws Exception
@@ -119,8 +114,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -136,8 +131,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -150,12 +145,12 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         DeleteMethod deleteMethod = executeDelete(attachmentUri, "Admin", "admin");
-        assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
+        assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         getMethod = executeGet(attachmentUri);
-        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
     }
 
     public void testDELETEAttachmentNoRights() throws Exception
@@ -170,16 +165,16 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
-        assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         DeleteMethod deleteMethod = executeDelete(attachmentUri);
-        assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
 
         GetMethod getMethod = executeGet(attachmentUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
     }
 
     public void testGETAttachmentsAtPageVersion() throws Exception
@@ -205,8 +200,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                     SPACE_NAME, PAGE_NAME, attachmentNames[i]).toString();
 
             PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
-            assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(putMethod);
+            assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
             Attachment attachment = (Attachment) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
             pageVersions[i] = attachment.getPageVersion();
@@ -224,8 +219,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                     .build(getWiki(), SPACE_NAME, PAGE_NAME, pageVersions[i]).toString();
 
             GetMethod getMethod = executeGet(attachmentsUri);
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
             Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -276,12 +271,12 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
             String content = String.format("CONTENT %d", i);
             PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
+            TestUtils.printHttpMethodInfo(putMethod);
             if (i == 0) {
                 assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
             } else {
                 assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
             }
-            TestUtils.printHttpMethodInfo(putMethod);
 
             Attachment attachment = (Attachment) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
@@ -296,22 +291,22 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         for (Attachment attachment : attachments.getAttachments()) {
             getMethod = executeGet(getFirstLinkByRelation(attachment, Relations.ATTACHMENT_DATA).getHref());
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
             assertEquals(versionToContentMap.get(attachment.getVersion()), getMethod.getResponseBodyAsString());
         }
-
     }
-    
-    public void testPOSTAttachment() throws Exception {
+
+    public void testPOSTAttachment() throws Exception
+    {
         TestUtils.banner("testPUTAttachment()");
 
         final String attachmentName = String.format("%s.txt", UUID.randomUUID());
@@ -324,26 +319,26 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("Admin", "admin"));
         httpClient.getParams().setAuthenticationPreemptive(true);
-        
-        Part[] parts = new Part[1];
-                       
-        ByteArrayPartSource baps = new ByteArrayPartSource(attachmentName, content.getBytes());
-        parts[0] = new FilePart(attachmentName, baps);                        
 
-        PostMethod postMethod = new PostMethod(attachmentsUri); 
-        MultipartRequestEntity mpre = new MultipartRequestEntity(parts, postMethod.getParams());         
+        Part[] parts = new Part[1];
+
+        ByteArrayPartSource baps = new ByteArrayPartSource(attachmentName, content.getBytes());
+        parts[0] = new FilePart(attachmentName, baps);
+
+        PostMethod postMethod = new PostMethod(attachmentsUri);
+        MultipartRequestEntity mpre = new MultipartRequestEntity(parts, postMethod.getParams());
         postMethod.setRequestEntity(mpre);
         httpClient.executeMethod(postMethod);
-        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         Attachment attachment = (Attachment) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
-        
+
         Header location = postMethod.getResponseHeader("location");
-        
+
         GetMethod getMethod = executeGet(location.getValue());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         assertEquals(content, getMethod.getResponseBodyAsString());
     }

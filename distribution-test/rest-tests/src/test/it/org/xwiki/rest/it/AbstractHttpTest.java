@@ -46,7 +46,6 @@ import org.xwiki.rest.model.jaxb.LinkCollection;
 import org.xwiki.rest.model.jaxb.ObjectFactory;
 import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.wikis.WikisResource;
-
 import org.xwiki.test.AbstractXWikiComponentTestCase;
 
 public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
@@ -304,8 +303,8 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
     public String getWiki() throws Exception
     {
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertTrue(wikis.getWikis().size() > 0);
@@ -324,7 +323,6 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
                 if (getMethod.getStatusCode() != HttpStatus.SC_UNAUTHORIZED) {
                     assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 }
-
             }
         }
     }

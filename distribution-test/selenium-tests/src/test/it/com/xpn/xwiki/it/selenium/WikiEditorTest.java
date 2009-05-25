@@ -212,21 +212,22 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     {
         try {
             editInWikiEditor("Test", "MinorEdit", SYNTAX);
-            setFieldValue("content", "version=1.1");
-            clickEditSaveAndContinue();
+            // Note: Revision 2.1 is used since starting with 1.9-rc-1 editInWikiEditor creates an initial version to set the syntax.
             setFieldValue("content", "version=2.1");
+            clickEditSaveAndContinue();
+            setFieldValue("content", "version=3.1");
             clickEditSaveAndView();
 
-            open("Test", "MinorEdit", "viewrev", "rev=2.1");
-            assertTextPresent("version=2.1");
+            open("Test", "MinorEdit", "viewrev", "rev=3.1");
+            assertTextPresent("version=3.1");
 
             editInWikiEditor("Test", "MinorEdit", SYNTAX);
-            setFieldValue("content", "version=2.2");
+            setFieldValue("content", "version=3.2");
             getSelenium().click("minorEdit");
             clickEditSaveAndView();
 
-            open("Test", "MinorEdit", "viewrev", "rev=2.2");
-            assertTextPresent("version=2.2");
+            open("Test", "MinorEdit", "viewrev", "rev=3.2");
+            assertTextPresent("version=3.2");
         } finally {
             deletePage("Test", "MinorEdit");
         }

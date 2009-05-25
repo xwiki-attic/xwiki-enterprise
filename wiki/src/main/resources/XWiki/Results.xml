@@ -80,7 +80,7 @@
           #if ($author == 'XWikiGuest')
             #set($author = $msg.get('xe.results.guest'))
           #end
-          $msg.get('xe.search.item.modified', [$xwiki.getXMLEncoded($author), $xwiki.formatDate($itemDoc.date, 'dd MMM yyyy')])
+          $msg.get('xe.search.item.modified', [$author, $xwiki.formatDate($itemDoc.date, 'dd MMM yyyy')])
         &lt;/div&gt;
 ## TODO: Uncomment when the attachment and comment count will be implemented
 ##         &lt;div class="itemOthers"&gt;

@@ -675,13 +675,14 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
         // Edit the first macro (the one without content and without arguments).
         editMacro(0);
-        // We just want to test if the content of the edited macro becomes empty.
+        setFieldValue("pd-content-input", "|-|");
         applyMacroChanges();
-        assertWiki("{{code}}{{/code}}{{code}}{{/code}}{{code title=\"1|-|2\"/}}{{code title=\"1|-|2\"}}{{/code}}");
+        assertWiki("{{code}}|-|{{/code}}{{code}}{{/code}}{{code title=\"1|-|2\"/}}{{code title=\"1|-|2\"}}{{/code}}");
 
         // Edit the second macro (the one with empty content but without arguments).
         editMacro(1);
         setFieldValue("pd-title-input", "|-|");
+        setFieldValue("pd-content-input", "|-|");
         applyMacroChanges();
 
         // Edit the third macro (the one without content but with arguments).
@@ -696,7 +697,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the result.
-        assertWiki("{{code}}{{/code}}{{code title=\"|-|\"}}{{/code}}"
+        assertWiki("{{code}}|-|{{/code}}{{code title=\"|-|\"}}|-|{{/code}}"
             + "{{code}}|-|{{/code}}{{code title=\"1|-|2\"}}|-|{{/code}}");
     }
 

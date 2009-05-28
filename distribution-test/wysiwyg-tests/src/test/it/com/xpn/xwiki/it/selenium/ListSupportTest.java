@@ -534,6 +534,20 @@ public class ListSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Test outdenting an item on the second level inside a list item which also contains content after the sublist
+     * correctly moves the content in the outdented list item.
+     */
+    public void testOutdentWithContentAfter()
+    {
+        setContent("<ul><li>one<br />before<ul><li>two</li><li>three</li><li>four</li></ul>after</li></ul>");
+        moveCaret("XWE.body.firstChild.firstChild.childNodes[3].childNodes[1].firstChild", 0);
+        assertTrue(isOutdentButtonEnabled());
+        clickOutdentButton();
+        assertXHTML("<ul><li>one<br>before<ul><li>two</li></ul></li><li>three<ul><li>four</li></ul>"
+            + "after</li></ul>");
+    }
+
+    /**
      * Test that hitting the . key at the end of a list item does not act as delete.
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
@@ -591,6 +605,78 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         typeEnter();
         typeText("b");
         assertWiki("|=(((*  a\n* b)))|= \n| | ");
+    }
+
+    /**
+     * Test indenting a list fragment by selecting all the items and hitting the indent button.
+     */
+    public void testIndentListFragment()
+    {
+        setWikiContent("* one\n* two\n* three\n* three point one\n* three point two\n* three point three\n* four");
+        select("XWE.body.firstChild.childNodes[3].firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 17);
+        assertTrue(isIndentButtonEnabled());
+        clickIndentButton();
+        assertWiki("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
+    }
+
+    /**
+     * Test the usual use case about only indenting the parent one level further, without its sublist. This cannot be
+     * done in one because it is not a correct indent, from a semantic pov, but most users expect it to happen. The
+     * correct steps are to indent the parent and then outindent the sublist, which is the case tested by this function.
+     */
+    public void testIndentParentWithNoSublist()
+    {
+        setWikiContent("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
+        select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[2].firstChild", 5);
+        assertTrue(isIndentButtonEnabled());
+        clickIndentButton();
+        select("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].firstChild.firstChild", 0,
+            "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[2].firstChild", 17);
+        assertTrue(isOutdentButtonEnabled());
+        clickOutdentButton();
+        assertWiki("* one\n* two\n** three\n** three point one\n** three point two\n** three point three\n* four");
+    }
+
+    /**
+     * Tests indenting two items, amongst which one with a sublist and then outending the item with the sublist.
+     */
+    public void testIndentItemWithSublistAndOutdent()
+    {
+        setWikiContent("* one\n* two\n* three\n** foo\n** bar\n* four\n* four\n* five");
+        select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[3].firstChild", 4);
+        assertTrue(isIndentButtonEnabled());
+        clickIndentButton();
+        assertWiki("* one\n* two\n** three\n*** foo\n*** bar\n** four\n* four\n* five");
+        select("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0,
+            "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[1].firstChild", 3);
+        assertTrue(isOutdentButtonEnabled());
+        clickOutdentButton();
+        assertWiki("* one\n* two\n* three\n** foo\n** bar\n** four\n* four\n* five");
+    }
+
+    /**
+     * Tests a few indent and outdent operations on a list inside an embedded document (in this case, a table cell),
+     * preceded by another list in the previous table cell.
+     */
+    public void testIndentOutdentInTableCell()
+    {
+        setWikiContent("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n** one plus two\n* two\n* three)))\n| | ");
+        select(
+            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
+                + "childNodes[1].firstChild", 0,
+            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
+                + "firstChild", 3);
+        assertTrue(isIndentButtonEnabled());
+        clickIndentButton();
+        assertWiki("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n*** one plus two\n** two\n* three)))\n| | ");
+        select(
+            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
+                + "childNodes[1].firstChild", 0,
+            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
+                + "firstChild", 5);
+        assertTrue(isOutdentButtonEnabled());
+        clickOutdentButton();
+        assertWiki("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n*** one plus two\n* two\n\nthree)))\n| | ");
     }
 
     /**

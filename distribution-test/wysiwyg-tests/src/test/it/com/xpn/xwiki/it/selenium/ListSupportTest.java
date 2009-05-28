@@ -528,9 +528,9 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         // move caret at the beginning of the "two" item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
         typeShiftTab();
-        assertXHTML("<ul><li>one</li></ul>two<ul><li>two plus one</li></ul>"
-            + "<ul><li>three<br class=\"spacer\"></li></ul>");
-        assertWiki("* one\n\ntwo\n\n* two plus one\n\n* three");
+        assertXHTML("<ul><li>one</li></ul>two<ul><li>two plus one</li><li>three"
+            + "<br class=\"spacer\"></li></ul>");
+        assertWiki("* one\n\ntwo\n\n* two plus one\n* three");
     }
 
     /**

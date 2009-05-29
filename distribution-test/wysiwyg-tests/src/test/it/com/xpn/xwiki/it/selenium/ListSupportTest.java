@@ -528,8 +528,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         // move caret at the beginning of the "two" item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
         typeShiftTab();
-        assertXHTML("<ul><li>one</li></ul>two<ul><li>two plus one</li><li>three"
-            + "<br class=\"spacer\"></li></ul>");
+        assertXHTML("<ul><li>one</li></ul>two<ul><li>two plus one</li><li>three" + "<br class=\"spacer\"></li></ul>");
         assertWiki("* one\n\ntwo\n\n* two plus one\n* three");
     }
 
@@ -677,6 +676,23 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
         assertWiki("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n*** one plus two\n* two\n\nthree)))\n| | ");
+    }
+
+    /**
+     * Test that outdenting multiple list items on the first level of a list preserves distinct lines for the content of
+     * the list items.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3921
+     */
+    public void testOutdentFirstLevelPreservesLines()
+    {
+        setWikiContent("* one\n* two\n* three\n** three plus one\n"
+            + "* four\n* (((before\n* inner five\n* inner five + 1\n\nafter)))\n* six");
+        select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 3);
+        assertTrue(isOutdentButtonEnabled());
+        clickOutdentButton();
+        assertWiki("one\n\ntwo\n\nthree\n\n* three plus one\n\nfour\n\n"
+            + "(((before\n\n* inner five\n* inner five + 1\n\nafter)))\n\nsix");
     }
 
     /**

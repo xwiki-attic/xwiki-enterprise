@@ -38,9 +38,11 @@ import org.xwiki.rest.model.jaxb.PageSummary;
 import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.Space;
 import org.xwiki.rest.model.jaxb.Spaces;
+import org.xwiki.rest.model.jaxb.Syntaxes;
 import org.xwiki.rest.model.jaxb.Translation;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
+import org.xwiki.rest.resources.SyntaxesResource;
 import org.xwiki.rest.resources.pages.PageChildrenResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
 import org.xwiki.rest.resources.pages.PageResource;
@@ -455,12 +457,10 @@ public class PageResourceTest extends AbstractHttpTest
 
     public void testPOSTPageFormUrlEncoded() throws Exception
     {
-        TestUtils.banner("testPUTPageFormUrlEncoded()");
+        TestUtils.banner("testPUTPageFormUrlEncoded");
 
         final String CONTENT = String.format("This is a content (%d)", System.currentTimeMillis());
         final String TITLE = String.format("Title (%s)", UUID.randomUUID().toString());
-
-        TestUtils.banner("testPUTPage()");
 
         Page originalPage = getPage();
 
@@ -483,4 +483,33 @@ public class PageResourceTest extends AbstractHttpTest
 
     }
 
+    public void testPUTPageSyntax() throws Exception {
+        TestUtils.banner("testPUTPageSyntax");
+        
+        Page originalPage = getPage();
+        
+        GetMethod getMethod = executeGet(getFullUri(SyntaxesResource.class));
+        Syntaxes syntaxes = (Syntaxes) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        
+        String newSyntax = null;
+        for(String syntax : syntaxes.getSyntaxes()) {
+            if(!syntax.equals(originalPage.getSyntax())) {
+                newSyntax = syntax;
+                break;
+            }
+        }
+        
+        originalPage.setSyntax(newSyntax);
+        
+        Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
+        assertNotNull(link);
+        
+        PutMethod putMethod = executePutXml(link.getHref(), originalPage, "Admin", "admin");
+        TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
+        
+        Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+        
+        assertEquals(newSyntax, modifiedPage.getSyntax());
+    }
 }

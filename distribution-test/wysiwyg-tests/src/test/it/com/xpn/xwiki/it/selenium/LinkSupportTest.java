@@ -87,7 +87,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>xwiki:" + selectedSpace + "." + selectedPage + "]]");
+        assertWiki("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
     }
 
     /**
@@ -117,7 +117,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>xwiki:" + space + ".WebHome]]");
+        assertWiki("[[" + linkLabel + ">>" + space + ".WebHome]]");
     }
 
     /**
@@ -145,7 +145,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>xwiki:" + space + "." + newPageName + "]]");
+        assertWiki("[[" + linkLabel + ">>" + newPageName + "]]");
     }
 
     /**
@@ -172,7 +172,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>xwiki:" + newSpace + "." + newPage + "]]");
+        assertWiki("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
     }
 
     /**
@@ -373,10 +373,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         clickMenu("Image");
         clickMenu("Insert image");
-        
+
         waitForDialogToLoad();
-        
-        //switch to "all pages" tab
+
+        // switch to "all pages" tab
         clickButtonWithText(ALL_PAGES_BUTTON);
 
         String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
@@ -395,11 +395,11 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"photos.png\"]";
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
-        
+
         clickButtonWithText("Select");
         ensureStepIsLoaded("xImageConfig");
         clickButtonWithText("Insert image");
-        
+
         waitForDialogToClose();
 
         // now add a link around this image
@@ -426,7 +426,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[[[image:xwiki:XWiki.AdminSheet@photos.png]]>>xwiki:Blog.Photos]]");
+        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
 
         // move caret at the end and type some more
         moveCaret("XWE.body.firstChild", 1);
@@ -447,7 +447,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
 
         // check the explorer selection
-        assertEquals("xwiki:" + spaceName + "." + pageName, getExplorerInputValue());
+        assertEquals(spaceName + "." + pageName, getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
@@ -462,8 +462,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[[[image:xwiki:XWiki.AdminSheet@photos.png]]>>xwiki:" + newSpaceName + "." + newPageName
-            + "]] foo [[bar>>http://bar.myxwiki.org]]");
+        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>" + newPageName + "]] foo [[bar>>http://bar.myxwiki.org]]");
     }
 
     /**
@@ -611,7 +610,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         waitForDialogToClose();
 
-        assertWiki("[[foo>>xwiki:" + space + "." + page + "]]");
+        assertWiki("[[foo>>" + page + "]]");
 
         // clean up
         resetContent();
@@ -649,7 +648,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
          * clickCreateNewPageLinkButton(); ensureDialogIsClosed(); assertWiki("[[foo>>NewSpace.NewPage]]");
          */
 
-        assertWiki("[[foo>>xwiki:Main.NewPage]]");
+        assertWiki("[[foo>>NewPage]]");
 
         // clean up
         resetContent();
@@ -762,7 +761,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for tree to load
         ensureStepIsLoaded("xExplorerPanel");
         // make sure input and selection in the tree reflect previously inserted values
-        assertEquals("xwiki:" + selectedSpace + "." + selectedPage, getExplorerInputValue());
+        assertEquals(selectedSpace + "." + selectedPage, getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
@@ -782,7 +781,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>xwiki:" + changedSpace + "." + changedPage + "]]");
+        assertWiki("[[" + linkLabel + ">>" + changedPage + "]]");
     }
 
     /**
@@ -824,7 +823,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:xwiki:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
+        assertWiki("[[" + linkLabel + ">>attach:" + attachPage + "@" + attachment + "]]");
     }
 
     /**
@@ -849,6 +848,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         String attachment = "rquo.gif";
 
         typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
+            + "\"]');");
 
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
@@ -862,8 +867,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:xwiki:" + attachSpace + "." + attachPage + "@" + attachment + "||title=\""
-            + linkTooltip + "\"]]");
+        assertWiki("[[" + linkLabel + ">>attach:" + attachPage + "@" + attachment + "||title=\"" + linkTooltip + "\"]]");
     }
 
     /**
@@ -924,7 +928,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:xwiki:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
+        assertWiki("[[" + linkLabel + ">>attach:" + attachPage + "@" + attachment + "]]");
     }
 
     /**
@@ -940,7 +944,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         ensureStepIsLoaded("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        assertEquals("Main.RecentChanges@lquo.gif", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif"
@@ -956,7 +960,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[foobar>>attach:xwiki:XWiki.AdminSheet@photos.png]]");
+        assertWiki("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
     }
 
     /**
@@ -974,7 +978,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         ensureStepIsLoaded("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Main.RecentChanges", getExplorerInputValue());
+        assertEquals("Main.RecentChanges", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and "
             + "nobr=\"RecentChanges\"]');");
@@ -986,7 +990,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[barfoo>>xwiki:Main.RecentChanges||class=\"foobarLink\" title=\"Foo and bar\"]]");
+        assertWiki("[[barfoo>>Main.RecentChanges||class=\"foobarLink\" title=\"Foo and bar\"]]");
     }
 
     /**
@@ -1034,6 +1038,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // make sure we reload the current page, to check first display of the wikipage and attachment explorers
         switchToWikiEditor();
         switchToWysiwygEditor();
+
+        // make sure this page is saved so that the tree can load the reference to it
+        clickEditSaveAndContinue();
+
         String currentSpace = "Main";
         String currentPage = "WysiwygTest";
 
@@ -1080,6 +1088,10 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // make sure we reload the current page, to check first display of the wikipage and attachment explorer
         switchToWikiEditor();
         switchToWysiwygEditor();
+
+        // make sure this page is saved so that the tree can load the reference to it
+        clickEditSaveAndContinue();
+
         String currentSpace = "Main";
         String currentPage = "WysiwygTest";
 
@@ -1133,7 +1145,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         ensureStepIsLoaded("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Main.Dashboard", getExplorerInputValue());
+        assertEquals("Dashboard", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
@@ -1145,7 +1157,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[the Dashboard>>xwiki:" + currentSpace + "." + pageToLinkTo + "]]");
+        assertWiki("[[the Dashboard>>" + pageToLinkTo + "]]");
     }
 
     /**
@@ -1165,7 +1177,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         ensureStepIsLoaded("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        assertEquals("RecentChanges@lquo.gif", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
@@ -1183,7 +1195,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText(ALL_PAGES_BUTTON);
         ensureStepIsLoaded("xExplorerPanel");
         // test that the position in the tree was preserved
-        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        assertEquals("RecentChanges@lquo.gif", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
@@ -1197,7 +1209,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[quote left>>attach:xwiki:" + currentSpace + "." + pageToLinkTo + "@" + fileToLinkTo + "]]");
+        assertWiki("[[quote left>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
 
         // ensure this opens on the current page selector
         setWikiContent("[[attach.png>>attach:attach.png]]");
@@ -1229,7 +1241,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         waitForDialogToLoad();
         ensureStepIsLoaded("xExplorerPanel");
-        assertEquals("xwiki:Main.RecentChanges@rquo.gif", getExplorerInputValue());
+        assertEquals("Main.RecentChanges@rquo.gif", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"rquo.gif\"]');");
@@ -1262,7 +1274,69 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[lquo.gif>>attach:xwiki:Main.RecentChanges@lquo.gif]]");
+        assertWiki("[[lquo.gif>>attach:RecentChanges@lquo.gif]]");
+    }
+
+    /**
+     * Test that editing a link and not changing its location preserves a full reference and does not transform it into
+     * a relative one.
+     */
+    public void testEditLinkPreservesFullReferences()
+    {
+        setWikiContent("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
+            + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
+
+        // first link, a link to an existing page
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToLoad();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals("Main.RecentChanges", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") "
+            + "and nobr=\"RecentChanges\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        // second link, a link to a new page
+        moveCaret("XWE.body.firstChild.childNodes[2].firstChild", 2);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToLoad();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals("Main.NewPage", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "New page...\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        // third link, a link to an existing file
+        moveCaret("XWE.body.firstChild.childNodes[4].firstChild", 2);
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_EDIT));
+        clickMenu(MENU_LINK_EDIT);
+        waitForDialogToLoad();
+        ensureStepIsLoaded("xExplorerPanel");
+        assertEquals("Main.RecentChanges@lquo.gif", getExplorerInputValue());
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif"
+            + "\"]');");
+        clickButtonWithText("Select");
+        ensureStepIsLoaded("xLinkConfig");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
+            + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
     }
 
     protected void ensureStepIsLoaded(String divClass)

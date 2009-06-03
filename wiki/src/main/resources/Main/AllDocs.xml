@@ -37,7 +37,7 @@
 &lt;li id="xwikiattachments"#if($view == "attachments") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=attachments&amp;amp;$!param")"&gt;$msg.get("xe.index.attachments")&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div id="xwikieditcontent" class="clear"&gt;
+&lt;div class="xwikitabpanescontainer"&gt;
 ## ==============================================
 ## If view=index then displays the index of pages
 ## ==============================================

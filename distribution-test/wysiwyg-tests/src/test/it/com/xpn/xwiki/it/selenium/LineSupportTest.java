@@ -250,7 +250,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
         typeEnter();
         typeText("xyz");
         typeDelete();
-        assertXHTML("<!--startimage:xwiki:XWiki.AdminSheet@photos.png-->"
+        assertXHTML("<!--startimage:XWiki.AdminSheet@photos.png-->"
             + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"
             + "<!--stopimage--><p>xyz</p>");
     }

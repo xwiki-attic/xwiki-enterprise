@@ -99,7 +99,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        assertWiki("[[image:xwiki:" + imageSpace + "." + imagePage + "@" + imageFile + "]]");
+        assertWiki("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]]");
     }
 
     /**
@@ -141,7 +141,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         assertEquals(imageFile, getSelenium().getValue(INPUT_ALT));
         clickButtonWithText(BUTTON_INSERT_IMAGE);
 
-        assertWiki("[[image:xwiki:" + imageSpace + "." + imagePage + "@" + imageFile + "]] blogging is cool");
+        assertWiki("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]] blogging is cool");
     }
 
     /**
@@ -173,13 +173,13 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         getSelenium().type(INPUT_ALT, "No parking sign");
         selectAlignment("CENTER");
         clickButtonWithText(BUTTON_INSERT_IMAGE);
-        
+
         // Place the caret after the inserted image.
         runScript("XWE.selection.collapseToEnd()");
 
         typeText("There is no parking on this wiki!");
 
-        assertWiki("= Attention =\n\n[[image:xwiki:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
+        assertWiki("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
             + "style=\"margin-right: auto; margin-left: auto; display: block;\" width=\"200\"]]"
             + "There is no parking on this wiki!");
 
@@ -200,7 +200,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         getSelenium().type(INPUT_WIDTH, "");
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
-        assertWiki("= Attention =\n\n[[image:xwiki:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
+        assertWiki("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
             + "style=\"margin-right: auto; margin-left: auto; display: block;\"]]There is no parking on this wiki!");
     }
 
@@ -261,8 +261,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        assertWiki("[[image:xwiki:Main.RecentChanges@lquo.gif]]Mmmh, cheese!"
-            + "[[image:xwiki:Main.RecentChanges@rquo.gif]]");
+        assertWiki("[[image:RecentChanges@lquo.gif]]Mmmh, cheese!" + "[[image:RecentChanges@rquo.gif]]");
     }
 
     /**
@@ -297,7 +296,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
 
         // test that the correct image has been inserted
-        assertWiki("[[image:xwiki:" + imageSpace + "." + imagePage + "@" + imageFile2 + "]]");
+        assertWiki("[[image:" + imagePage + "@" + imageFile2 + "]]");
     }
 
     /**
@@ -384,6 +383,51 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad(STEP_UPLOAD);
         closeDialog();
+    }
+
+    /**
+     * Test that editing an image and not changing its location preserves a full reference and does not change it to a
+     * relative one.
+     */
+    public void testEditImagePreservesFullReferences()
+    {
+        setWikiContent("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
+
+        // edit first image
+        selectNode("XWE.body.firstChild.firstChild");
+        clickMenu(MENU_IMAGE);
+        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
+        clickMenu(MENU_EDIT_IMAGE);
+
+        waitForDialogToLoad();
+        waitForStepToLoad(STEP_SELECTOR);
+        waitForStepToLoad(STEP_EXPLORER);
+        assertImageSelected("Main", "RecentChanges", "lquo.gif");
+
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+
+        // edit second image too
+        selectNode("XWE.body.firstChild.childNodes[2]");
+        clickMenu(MENU_IMAGE);
+        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
+        clickMenu(MENU_EDIT_IMAGE);
+
+        waitForDialogToLoad();
+        waitForStepToLoad(STEP_SELECTOR);
+        waitForStepToLoad(STEP_EXPLORER);
+        assertImageSelected("Main", "RecentChanges", "rquo.gif");
+
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+
+        assertWiki("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");        
     }
 
     private void waitForStepToLoad(String stepClass)

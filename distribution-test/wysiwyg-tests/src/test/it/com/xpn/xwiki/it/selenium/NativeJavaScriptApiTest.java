@@ -25,6 +25,11 @@ import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
+/**
+ * Functional tests for the native JavaScript API exposed by the WYSIWYG editor.
+ * 
+ * @version $Id$
+ */
 public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
 {
     public static Test suite()
@@ -32,19 +37,100 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         XWikiTestSuite suite = new XWikiTestSuite("Tests wysiwyg native JS API");
         suite.addTestSuite(NativeJavaScriptApiTest.class, AlbatrossSkinExecutor.class);
         return suite;
-    }       
-    
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractWysiwygTestCase#tearDown()
+     */
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+
+        // Clear the page content.
+        clickLinkWithText("Wiki", true);
+        setFieldValue("content", "");
+        clickEditSaveAndView();
+    }
+
+    /**
+     * Functional tests for:
+     * <ul>
+     * <li>WysiwygEditor#getPlainTextArea()</li>
+     * <li>WysiwygEditor#getRichTextArea()</li>
+     * </ul>
+     * .
+     */
     public void testTextAreaElementsGetters()
-    {        
-        // Wait for the API to be injected.
-        waitForCondition("typeof window.Wysiwyg.getPlainTextArea == 'function'");
-        
+    {
+        insertEditor("editor", "displayTabs: true");
+
         // Test plain text editor.
-        assertTrue("xPlainTextEditor".equals(getEval("window.Wysiwyg.getPlainTextArea('content').className")));
-        assertTrue("TEXTAREA".equals(getEval("window.Wysiwyg.getPlainTextArea('content').nodeName")));
-        
+        assertEquals("xPlainTextEditor", getEval("window.editor.getPlainTextArea().className"));
+        assertEquals("textarea", getEval("window.editor.getPlainTextArea().nodeName").toLowerCase());
+
         // Test rich text editor.
-        assertTrue("xRichTextEditor".equals(getEval("window.Wysiwyg.getRichTextArea('content').className")));
-        assertTrue("IFRAME".equals(getEval("window.Wysiwyg.getRichTextArea('content').nodeName")));
+        assertEquals("gwt-RichTextArea", getEval("window.editor.getRichTextArea().className"));
+        assertEquals("iframe", getEval("window.editor.getRichTextArea().nodeName").toLowerCase());
+    }
+
+    /**
+     * Functional test for {@code WysiwygEditor#getSourceText()} when the rich text area is enabled. The rich text area
+     * is disable when the source tab is active.
+     */
+    public void testGetSourceTextWhenRichTextAreaIsEnabled()
+    {
+        insertEditor("editor", "syntax: 'xwiki/2.0'");
+        setContent("<em>xwiki</em> is the <strong>best</strong>!<br/>");
+        getEval("window.editor.getSourceText(function(result){window.sourceText = result;})");
+        waitForCondition("typeof window.sourceText == 'string'");
+        assertEquals("//xwiki// is the **best**!", getEval("window.sourceText"));
+    }
+
+    /**
+     * Functional test for {@code WysiwygEditor#getSourceText()} when the rich text area is disabled. The rich text area
+     * is disable when the source tab is active.
+     */
+    public void testGetSourceTextWhenRichTextAreaIsDisabled()
+    {
+        insertEditor("editor", "syntax: 'xwiki/2.0',\ndisplayTabs: true,\ndefaultEditor: 'wysiwyg'");
+        setContent("<h1>Veni, <em>vidi</em>, vici<br/></h1>");
+        switchToSource();
+        getEval("window.editor.getSourceText(function(result){window.sourceText = result;})");
+        waitForCondition("typeof window.sourceText == 'string'");
+        assertEquals("= Veni, //vidi//, vici =", getEval("window.sourceText"));
+    }
+
+    /**
+     * Inserts a WYSIWYG editor into the current page.
+     * 
+     * @param name the name of JavaScript variable to be used for accessing the editor
+     * @param config additional configuration parameters to give to the created editor
+     */
+    protected void insertEditor(String name, String config)
+    {
+        // Insert the code that creates the editor.
+        switchToWikiEditor();
+        StringBuffer content = new StringBuffer();
+        content.append("{{velocity}}\n");
+        content.append("{{html}}\n");
+        content.append("#wysiwyg_import(false)\n");
+        content.append("<textarea id=\"" + name + "\"></textarea>\n");
+        content.append("<script type=\"text/javascript\">\n");
+        content.append("Wysiwyg.onModuleLoad(function() {\n");
+        content.append("  " + name + " = new WysiwygEditor({\n");
+        content.append("    hookId: '" + name + "',\n");
+        content.append("    " + config + "\n");
+        content.append("  });\n");
+        content.append("});\n");
+        content.append("</script>\n");
+        content.append("{{/html}}\n");
+        content.append("{{/velocity}}");
+        setFieldValue("content", content.toString());
+        clickEditSaveAndView();
+
+        // Wait for the editor to be created.
+        waitForCondition("typeof window." + name + " == 'object'");
     }
 }

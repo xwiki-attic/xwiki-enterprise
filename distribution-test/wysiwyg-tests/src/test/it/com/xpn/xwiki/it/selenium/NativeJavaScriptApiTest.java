@@ -83,9 +83,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     {
         insertEditor("editor", "syntax: 'xwiki/2.0'");
         setContent("<em>xwiki</em> is the <strong>best</strong>!<br/>");
-        getEval("window.editor.getSourceText(function(result){window.sourceText = result;})");
-        waitForCondition("typeof window.sourceText == 'string'");
-        assertEquals("//xwiki// is the **best**!", getEval("window.sourceText"));
+        assertEquals("//xwiki// is the **best**!", getSourceText("editor"));
     }
 
     /**
@@ -97,9 +95,50 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         insertEditor("editor", "syntax: 'xwiki/2.0',\ndisplayTabs: true,\ndefaultEditor: 'wysiwyg'");
         setContent("<h1>Veni, <em>vidi</em>, vici<br/></h1>");
         switchToSource();
-        getEval("window.editor.getSourceText(function(result){window.sourceText = result;})");
-        waitForCondition("typeof window.sourceText == 'string'");
-        assertEquals("= Veni, //vidi//, vici =", getEval("window.sourceText"));
+        assertEquals("= Veni, //vidi//, vici =", getSourceText("editor"));
+    }
+
+    /**
+     * Functional test for {@code WysiwygEditor#release()}.
+     */
+    public void testRelease()
+    {
+        switchToWikiEditor();
+        StringBuffer content = new StringBuffer();
+        content.append("{{velocity}}\n");
+        content.append("{{html}}\n");
+        content.append("#wysiwyg_import(true)\n");
+        content.append("<div id=\"wrapper\"></div>\n");
+        content.append("<div><button onclick=\"loadEditor();\">Load Editor</button></div>\n");
+        content.append("<script type=\"text/javascript\">\n");
+        content.append("function loadEditor() {\n");
+        content.append("    if (window.editor) {\n");
+        content.append("        editor.release();\n");
+        content.append("    }\n");
+        content.append("    Wysiwyg.onModuleLoad(function() {\n");
+        content.append("        document.getElementById('wrapper').innerHTML = '<textarea id=\"test\"></textarea>';\n");
+        content.append("        editor = new WysiwygEditor({hookId: 'test', syntax: 'xwiki/2.0'});\n");
+        content.append("    });\n");
+        content.append("}\n");
+        content.append("</script>\n");
+        content.append("{{/html}}\n");
+        content.append("{{/velocity}}");
+        setFieldValue("content", content.toString());
+        clickEditSaveAndView();
+
+        clickButtonWithText("Load Editor");
+        waitForCondition("typeof window.editor == 'object'");
+
+        typeText("x");
+        assertEquals("x", getSourceText("editor"));
+
+        typeText("y");
+        clickButtonWithText("Load Editor");
+        waitForCondition("typeof window.editor == 'object'");
+
+        applyStyleTitle1();
+        typeText("z");
+        assertEquals("= z =", getSourceText("editor"));
     }
 
     /**
@@ -132,5 +171,16 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
 
         // Wait for the editor to be created.
         waitForCondition("typeof window." + name + " == 'object'");
+    }
+
+    /**
+     * @param editorName the name of a JavaScript variable holding a reference to a WysiwygEditor instance
+     * @return the source text of the specified editor
+     */
+    protected String getSourceText(String editorName)
+    {
+        getEval("window." + editorName + ".getSourceText(function(result){window.sourceText = result;})");
+        waitForCondition("typeof window.sourceText == 'string'");
+        return getEval("window.sourceText");
     }
 }

@@ -202,7 +202,16 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         setWikiContent("* foo(((bar\n* foar)))");
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foo<div><p>barfoar</p></div></li></ul>");
+        assertXHTML("<ul><li>foo<div><p>bar</p>foar</div></li></ul>");
+        
+        // now try to put the text up next to the other text
+        resetContent();
+        
+        setWikiContent("* foo(((bar\n* foar)))");
+        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        typeBackspace();
+        typeDelete();
+        assertXHTML("<ul><li>foo<div><p>barfoar</p></div></li></ul>");        
     }
 
     public void testDeleteInEmbeddedDocumentList()
@@ -695,6 +704,74 @@ public class ListSupportTest extends AbstractWysiwygTestCase
         assertWiki("one\n\ntwo\n\nthree\n\n* three plus one\n\nfour\n\n"
             + "(((before\n\n* inner five\n* inner five + 1\n\nafter)))\n\nsix");
     }
+
+    /**
+     * Tests that a backspace between two list items with headings inside moves the second heading in the first list
+     * item.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
+     */
+    public void testBackspaceBetweenHeadingListItems()
+    {
+        typeText("abc");
+        clickUnorderedListButton();
+        applyStyleTitle1();
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        typeEnter();
+        typeBackspace();
+        // expecting a single list item, with 2 headings
+        assertXHTML("<ul><li><h1>ab</h1><h1>c</h1></li></ul>");
+        assertWiki("* (((= ab =\n\n= c =)))");
+        
+        resetContent();
+        
+        // now try to reunite two heading list items, with a backspace and a delete        
+        typeText("abc");
+        clickUnorderedListButton();
+        applyStyleTitle1();
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        typeEnter();
+        typeBackspace();
+        typeDelete();
+        // expecting a single list item, with 2 headings
+        assertXHTML("<ul><li><h1>abc</h1></li></ul>");
+        assertWiki("* (((= abc =)))");        
+    }
+    
+    /**
+     * Tests that a delete between two list items with headings inside moves the second heading in the first list
+     * item.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
+     */
+    public void testDeleteBetweenHeadingListItems()
+    {
+        typeText("cba");
+        clickUnorderedListButton();
+        applyStyleTitle1();
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        typeEnter();
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        typeDelete();
+        // expecting a single list item, with 2 headings
+        assertXHTML("<ul><li><h1>cb</h1><h1>a</h1></li></ul>");
+        assertWiki("* (((= cb =\n\n= a =)))");
+        
+        resetContent();
+        
+        // now try to reunite the two, with 2 deletes        
+        typeText("cba");
+        clickUnorderedListButton();
+        applyStyleTitle1();
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        typeEnter();
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);        
+        typeDelete();
+        typeDelete();
+        // expecting a single list item, with 2 headings
+        assertXHTML("<ul><li><h1>cba</h1></li></ul>");
+        assertWiki("* (((= cba =)))");        
+    }    
 
     /**
      * @return {@code true} if the current selection is inside an ordered list, {@code false} otherwise

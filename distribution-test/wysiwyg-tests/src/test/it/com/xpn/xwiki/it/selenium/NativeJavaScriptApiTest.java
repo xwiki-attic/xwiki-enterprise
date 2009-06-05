@@ -114,6 +114,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("function loadEditor() {\n");
         content.append("    if (window.editor) {\n");
         content.append("        editor.release();\n");
+        content.append("        editor = undefined;\n");
         content.append("    }\n");
         content.append("    Wysiwyg.onModuleLoad(function() {\n");
         content.append("        document.getElementById('wrapper').innerHTML = '<textarea id=\"test\"></textarea>';\n");
@@ -128,6 +129,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");
+        focusRichTextArea();
 
         typeText("x");
         assertEquals("x", getSourceText("editor"));
@@ -135,9 +137,10 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         typeText("y");
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");
+        focusRichTextArea();
 
-        applyStyleTitle1();
         typeText("z");
+        applyStyleTitle1();
         assertEquals("= z =", getSourceText("editor"));
     }
 

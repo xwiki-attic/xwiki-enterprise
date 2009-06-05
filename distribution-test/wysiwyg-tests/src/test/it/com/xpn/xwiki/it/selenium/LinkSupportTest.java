@@ -1017,7 +1017,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + url + "||title=\"our xwiki \\\"rox\\\"\"]]");
+        assertWiki("[[" + linkLabel + ">>" + url + "||title=\"our xwiki ~\"rox~\"\"]]");
 
         // now test the link is correctly parsed back
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);

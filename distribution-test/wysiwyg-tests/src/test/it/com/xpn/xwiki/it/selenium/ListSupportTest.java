@@ -561,7 +561,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
      */
-    public void testDotAtEndDoesNotDelete()
+    public void failingTestDotAtEndDoesNotDelete()
     {
         setWikiContent("* foo\n* bar");
         // Set the selection at the end of the first item

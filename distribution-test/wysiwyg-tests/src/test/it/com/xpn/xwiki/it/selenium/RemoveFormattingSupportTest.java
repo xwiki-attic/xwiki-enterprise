@@ -75,6 +75,25 @@ public class RemoveFormattingSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Tests if the anchors are kept after removing the formatting.
+     */
+    public void testRemoveFormattingKeepsTheAnchorsIntact()
+    {
+        // Selection includes the anchor.
+        setWikiContent("a**b[[c//d//e>>http://www.xwiki.org]]f**g");
+        selectAllContent();
+        clickRemoveFormattingButton();
+        assertWiki("ab[[cde>>http://www.xwiki.org]]fg");
+
+        // Selection is included in the anchor.
+        setWikiContent("1**2[[3//456//7>>http://www.xwiki.org]]8**9");
+        select(getDOMLocator("getElementsByTagName('em')[0].firstChild"), 1,
+            getDOMLocator("getElementsByTagName('em')[0].firstChild"), 2);
+        clickRemoveFormattingButton();
+        assertWiki("1**2**[[**3//4//**5**//6//7**>>http://www.xwiki.org]]**8**9");
+    }
+
+    /**
      * Clicks on the tool bar button for removing the in-line formatting of the current selection.
      */
     protected void clickRemoveFormattingButton()

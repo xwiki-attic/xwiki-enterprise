@@ -20,11 +20,8 @@
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<content>#if(!$request.space)
-  #set ($space = "All")
-#else
-  #set ($space = $request.space)
-#end
+<content>
+#set ($space = $request.space)
 #if($request.getParameter("text"))
   #set ($text = $request.getParameter("text"))
 #else

@@ -21,12 +21,8 @@
 <validationScript></validationScript>
 <comment></comment>
 <content>
-#set ($space = $request.space)
-#if($request.getParameter("text"))
-  #set ($text = $request.getParameter("text"))
-#else
-  #set ($text = "")
-#end
+#set ($space = "$!{request.getParameter('space')}")
+#set ($text = "$!{request.getParameter('text')}")
 #includeInContext("XWiki.WebSearchCode")
 #set ($baseurl = "http://${request.serverName}")
 #set ($description = $msg.get("xe.search.rss", [$text]))

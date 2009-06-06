@@ -38,21 +38,20 @@
   #set($text = $text.replaceAll("'", "''").replaceAll("%", "\\%"))
   #set($nbitems = 50)
   ## -----------------------------------------------------------
-  ## Non-admins should not see results from XWiki, Admin and
-  ## Panels spaces. Also exclude the WebPreferences doc.
-  ## -----------------------------------------------------------
-  #if ($xwiki.hasAdminRights())
-    #set ($excludedWebs = '')
-  #else
-    #set ($excludedWebs = "doc.space&lt;&gt;'XWiki' and doc.space&lt;&gt;'Admin' and doc.space&lt;&gt;'Panels' and doc.name&lt;&gt;'WebPreferences' and")
-  #end
-  ## -----------------------------------------------------------
   ## Display only a given space if $request.space is defined
   ## -----------------------------------------------------------
   #if("$!space" == '')
-    #set ($webClause = $excludedWebs)
+    ## -----------------------------------------------------------
+    ## Non-admins should not see results from XWiki, Admin and
+    ## Panels spaces. Also exclude the WebPreferences doc.
+    ## -----------------------------------------------------------
+    #if ($xwiki.hasAdminRights())
+      #set ($webClause = '')
+    #else
+      #set ($webClause = "doc.space&lt;&gt;'XWiki' and doc.space&lt;&gt;'Admin' and doc.space&lt;&gt;'Panels' and doc.name&lt;&gt;'WebPreferences' and")
+    #end
   #else
-    #set ($webClause = "doc.space='$space' and $excludedWebs")
+    #set ($webClause = "doc.space='$space' and")
   #end
   #macro(addelement $item $list)
     #if($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${item}"))

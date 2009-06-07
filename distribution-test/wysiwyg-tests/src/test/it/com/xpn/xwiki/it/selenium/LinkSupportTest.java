@@ -72,7 +72,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
 
         String selectedSpace = "Blog";
-        String selectedPage = "AddCategory";
+        String selectedPage = "News";
 
         typeInExplorerInput(selectedSpace + "." + selectedPage);
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
@@ -743,7 +743,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
 
         String selectedSpace = "Blog";
-        String selectedPage = "AddCategory";
+        String selectedPage = "News";
         String changedSpace = "Main";
         String changedPage = "RecentChanges";
 

@@ -468,20 +468,20 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testEditMacroWithSpecialCharactersInParameterValues()
     {
-        setWikiContent("{{box title =  \"1\\\"2|-|3=\\\\\\\"4\\\\\" }}=\\\"|-|\\\\{{/box}}");
+        setWikiContent("{{box title =  \"1~\"2|-|3=~~~\"4~~\" }}=~\"|-|~~{{/box}}");
         editMacro(0);
 
         // Check if the content of the macro has the right value.
-        assertEquals("=\\\"|-|\\\\", getSelenium().getValue("pd-content-input"));
+        assertEquals("=~\"|-|~~", getSelenium().getValue("pd-content-input"));
 
         // Check if the title parameter has the right value (it should be the first text input).
-        assertEquals("1\"2|-|3=\\\"4\\", getSelenium().getValue("pd-title-input"));
+        assertEquals("1\"2|-|3=~\"4~", getSelenium().getValue("pd-title-input"));
 
         // Change the title parameter.
-        setFieldValue("pd-title-input", "a\"b|-|c=\\\"d\\");
+        setFieldValue("pd-title-input", "a\"b|-|c=~\"d~");
         applyMacroChanges();
 
-        assertWiki("{{box title=\"a\\\"b|-|c=\\\\\\\"d\\\\\"}}=\\\"|-|\\\\{{/box}}");
+        assertWiki("{{box title=\"a~\"b|-|c=~~~\"d~~\"}}=~\"|-|~~{{/box}}");
     }
 
     /**

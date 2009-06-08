@@ -28,6 +28,33 @@ import org.xwiki.rest.resources.pages.PageResource;
 public class ObjectsResourceTest extends AbstractHttpTest
 {
     @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+
+        GetMethod getMethod =
+            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
+                "Main", "WebHome").toString());
+        TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Link link = getFirstLinkByRelation(page, Relations.OBJECTS);
+
+        /* Create a tag object if it doesn't exist yet */
+        if (link == null) {
+            Object object = objectFactory.createObject();
+            object.setClassName("XWiki.TagClass");
+
+            PostMethod postMethod =
+                executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
+                    getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
+            TestUtils.printHttpMethodInfo(postMethod);
+            assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
+        }
+    }
+
+    @Override
     public void testRepresentation() throws Exception
     {
         TestUtils.banner("testRepresentation()");
@@ -35,16 +62,16 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
                 "Main", "WebHome").toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         Link link = getFirstLinkByRelation(page, Relations.OBJECTS);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -53,8 +80,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         for (ObjectSummary objectSummary : objects.getObjectSummaries()) {
             link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
             getMethod = executeGet(link.getHref());
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
             Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -73,8 +100,9 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", "NOTEXISTING", 0).toString());
-        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+
     }
 
     public Property getProperty(Object object, String propertyName)
@@ -104,8 +132,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         PostMethod postMethod =
             executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
                 getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
-        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         object = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
 
@@ -114,8 +142,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", object.getClassName(), object.getNumber()).toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -137,8 +165,9 @@ public class ObjectsResourceTest extends AbstractHttpTest
         PostMethod postMethod =
             executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
                 getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
-        assertEquals(HttpStatus.SC_BAD_REQUEST, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, postMethod.getStatusCode());
+
     }
 
     public void testPOSTObjectNotAuthorized() throws Exception
@@ -157,8 +186,9 @@ public class ObjectsResourceTest extends AbstractHttpTest
         PostMethod postMethod =
             executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
                 getWiki(), "Main", "WebHome").toString(), object);
-        assertEquals(HttpStatus.SC_UNAUTHORIZED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, postMethod.getStatusCode());
+
     }
 
     public void testPUTObject() throws Exception
@@ -172,8 +202,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Object objectSummary = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         getProperty(objectSummary, "tags").setValue(TAG_VALUE);
@@ -182,8 +212,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
             executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
                 objectSummary, "Admin", "admin");
-        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         Object updatedObjectSummary = (Object) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
@@ -203,8 +233,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         String originalTagValue = getProperty(object, "tags").getValue();
@@ -214,14 +244,15 @@ public class ObjectsResourceTest extends AbstractHttpTest
             executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
                 object);
-        assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
+
         TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
 
         getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -238,15 +269,16 @@ public class ObjectsResourceTest extends AbstractHttpTest
             executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
                 .toString(), "Admin", "admin");
-        assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
+        assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
                 .toString());
-        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+
     }
 
     public void testDELETEObjectUnAuthorized() throws Exception
@@ -259,15 +291,16 @@ public class ObjectsResourceTest extends AbstractHttpTest
             executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
                 .toString());
-        assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(deleteMethod);
+        assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
                 .toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+
     }
 
     public void testPUTProperty() throws Exception
@@ -279,16 +312,16 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
                 "Main", "WebHome").toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         Link link = getFirstLinkByRelation(page, Relations.OBJECTS);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -301,8 +334,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
                 link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
                 assertNotNull(link);
                 getMethod = executeGet(link.getHref());
-                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
                 currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
                 break;
@@ -323,8 +356,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         newTags.setValue(TAG_VALUE);
 
         PutMethod putMethod = executePutXml(tagsPropertyLink.getHref(), newTags, "Admin", "admin");
-        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
@@ -348,16 +381,16 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
                 "Main", "WebHome").toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         Link link = getFirstLinkByRelation(page, Relations.OBJECTS);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -370,8 +403,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
                 link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
                 assertNotNull(link);
                 getMethod = executeGet(link.getHref());
-                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
                 currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
                 break;
@@ -389,8 +422,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertNotNull(tagsPropertyLink);
 
         PutMethod putMethod = executePut(tagsPropertyLink.getHref(), TAG_VALUE, MediaType.TEXT_PLAIN, "Admin", "admin");
-        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(putMethod);
+        assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
@@ -410,8 +443,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
                 getWiki(), "Main", "WebHome").toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -422,8 +455,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
                 Link link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
                 assertNotNull(link);
                 getMethod = executeGet(link.getHref());
-                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
                 Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -432,7 +465,19 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         }
 
-        return null;
+        /* If no object of that class is found, then create a new one */
+        Object object = objectFactory.createObject();
+        object.setClassName(className);
+
+        PostMethod postMethod =
+            executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
+                getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
+        TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
+
+        object = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
+
+        return object;
     }
 
     public void testPUTObjectFormUrlEncoded() throws Exception
@@ -446,8 +491,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Object object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -458,8 +503,9 @@ public class ObjectsResourceTest extends AbstractHttpTest
             executePostForm(String.format("%s?method=PUT", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
                 ObjectResource.class).build(getWiki(), "Main", "WebHome", objectToBePut.getClassName(),
                 objectToBePut.getNumber()).toString()), nameValuePairs, "Admin", "admin");
-        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
+
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
         Object updatedObjectSummary = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
 
@@ -481,8 +527,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         PostMethod postMethod =
             executePostForm(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
                 getWiki(), "Main", "WebHome").toString(), nameValuePairs, "Admin", "admin");
-        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         Object object = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
 
@@ -491,8 +537,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                 getWiki(), "Main", "WebHome", object.getClassName(), object.getNumber()).toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         object = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -508,16 +554,16 @@ public class ObjectsResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
                 "Main", "WebHome").toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         Link link = getFirstLinkByRelation(page, Relations.OBJECTS);
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Objects objects = (Objects) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -530,8 +576,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
                 link = getFirstLinkByRelation(objectSummary, Relations.OBJECT);
                 assertNotNull(link);
                 getMethod = executeGet(link.getHref());
-                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
                 TestUtils.printHttpMethodInfo(getMethod);
+                assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
                 currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
                 break;
@@ -554,8 +600,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         PostMethod postMethod =
             executePostForm(String.format("%s?method=PUT", tagsPropertyLink.getHref()), nameValuePairs, "Admin",
                 "admin");
-        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(postMethod);
+        assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
         getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
@@ -586,27 +632,27 @@ public class ObjectsResourceTest extends AbstractHttpTest
                 executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
                     getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
                     objectToBePut, "Admin", "admin");
-            assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(putMethod);
+            assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
             GetMethod getMethod =
                 executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(
                     getWiki(), "Main", "WebHome").toString());
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
             Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
             versionToValueMap.put(page.getVersion(), value);
         }
-     
+
         for (String version : versionToValueMap.keySet()) {
             GetMethod getMethod =
                 executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT)
                     .path(ObjectAtPageVersionResource.class).build(getWiki(), "Main", "WebHome", version,
                         objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
-            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
             TestUtils.printHttpMethodInfo(getMethod);
+            assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
             Object currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 

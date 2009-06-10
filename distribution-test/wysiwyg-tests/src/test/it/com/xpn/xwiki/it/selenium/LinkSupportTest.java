@@ -1339,6 +1339,21 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
             + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
     }
 
+    /**
+     * Test that choosing remove link when the caret is in an empty link (after hitting enter at the end of a line with a link, for example), removes the empty link instead of putting the caret outside the link.  
+     */
+    public void testUnlinkInEmptyLink()
+    {
+        setWikiContent("http://www.xwiki.org");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 20);
+        typeEnter();
+        clickMenu(MENU_LINK);
+        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
+        clickMenu(MENU_LINK_REMOVE);
+        typeText("foo");
+        assertWiki("http://www.xwiki.org\n\nfoo");
+    }
+
     protected void ensureStepIsLoaded(String divClass)
     {
         waitForCondition("selenium.isElementPresent('//div[contains(@class, \"" + divClass + "\")]');");

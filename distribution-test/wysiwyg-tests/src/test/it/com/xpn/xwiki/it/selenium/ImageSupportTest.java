@@ -427,7 +427,73 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        assertWiki("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");        
+        assertWiki("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
+    }
+
+    /**
+     * Test that, upon editing an image which is the label of a link, the link is preserved.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3784
+     */
+    public void testEditImageWithLink()
+    {
+        // add all the image & link, otherwise it will not reproduce, it only reproduces if container is body
+        clickMenu(MENU_IMAGE);
+        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
+        clickMenu(MENU_INSERT_IMAGE);
+
+        waitForDialogToLoad();
+        waitForStepToLoad(STEP_SELECTOR);
+        // switch to all pages view
+        clickButtonWithText(BUTTON_ALL_PAGES);
+        waitForStepToLoad(STEP_EXPLORER);
+        selectImage("XWiki", "AdminSheet", "registration.png");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+        
+        selectNode("XWE.body.firstChild");
+        
+        // add link around the image
+        clickMenu("Link");
+        clickMenu("Wiki page");
+        waitForDialogToLoad();
+        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", "XWiki.Register");
+        // wait for the space to get selected
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + "XWiki"
+            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
+            + "New page...\"]');");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        assertEquals("registration.png", getInputValue("Label of the created link"));
+        // check that the label is readonly
+        assertElementPresent("//input[@title=\"Label of the created link\" and @readonly=\"\"]");
+
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();        
+        
+        // edit image
+        selectNode("XWE.body.firstChild.firstChild");
+        clickMenu(MENU_IMAGE);
+        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
+        clickMenu(MENU_EDIT_IMAGE);
+
+        waitForDialogToLoad();
+        waitForStepToLoad(STEP_SELECTOR);
+        waitForStepToLoad(STEP_EXPLORER);
+        assertImageSelected("XWiki", "AdminSheet", "registration.png");
+        selectImage("Main", "RecentChanges", "lquo.gif");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+        // clear the alt text
+        getSelenium().type(INPUT_ALT, "");
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+        
+        assertWiki("[[[[image:RecentChanges@lquo.gif]]>>XWiki.Register]]");
     }
 
     private void waitForStepToLoad(String stepClass)

@@ -22,7 +22,7 @@
 <comment></comment>
 <content>1 $msg.get("xe.space.index")
 
-$msg.get("xe.space.index.description")
+$msg.get("xe.space.index.description", [$doc.space])
 
 #set ($sql = "where doc.space='$request.space' order by doc.name asc")
 #set ($list = $xwiki.searchDocuments($sql))

@@ -20,12 +20,12 @@
       </plugin>
       <!-- Step 2: Expand the XAR file -->
       <plugin>
-        <groupId>com.xpn.xwiki.platform.tools</groupId>
+        <groupId>org.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xar-plugin</artifactId>
       </plugin>
       <!-- Step 3: Import the XAR content into the Database -->
       <plugin>
-        <groupId>com.xpn.xwiki.platform.tools</groupId>
+        <groupId>org.xwiki.platform.tools</groupId>
         <artifactId>xwiki-packager-plugin</artifactId>
       </plugin>
     </plugins>

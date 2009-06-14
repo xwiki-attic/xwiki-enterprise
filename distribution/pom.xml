@@ -42,7 +42,7 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.xpn.xwiki.platform.tools</groupId>
+      <groupId>org.xwiki.platform.tools</groupId>
       <artifactId>xwiki-rootwebapp</artifactId>
       <version>${platform.tool.rootwebapp.version}</version>
       <type>war</type>

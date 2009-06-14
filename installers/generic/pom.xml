@@ -85,7 +85,7 @@
             </goals>
             <configuration>
               <resourceBundles>
-                <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
+                <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
               </resourceBundles>
             </configuration>
           </execution>
@@ -104,7 +104,7 @@
               <artifactItems>
                 <!-- Expand Jetty startup/stop scripts in the container root directory -->
                 <artifactItem>
-                  <groupId>com.xpn.xwiki.platform.tools</groupId>
+                  <groupId>org.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
                   <type>zip</type>
@@ -114,7 +114,7 @@
                 </artifactItem>
                 <!-- Expand other Jetty container files into the Jetty directory -->
                 <artifactItem>
-                  <groupId>com.xpn.xwiki.platform.tools</groupId>
+                  <groupId>org.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.tool.jetty.version}</version>
                   <type>zip</type>
@@ -133,7 +133,7 @@
                   <excludes>**/hibernate.cfg.xml</excludes>
                 </artifactItem>
                 <artifactItem>
-                  <groupId>com.xpn.xwiki.platform.tools</groupId>
+                  <groupId>org.xwiki.platform.tools</groupId>
                   <artifactId>xwiki-rootwebapp</artifactId>
                   <version>${platform.tool.rootwebapp.version}</version>
                   <type>war</type>

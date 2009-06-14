@@ -58,7 +58,7 @@
               </goals>
               <configuration>
                 <resourceBundles>
-                  <resourceBundle>com.xpn.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
+                  <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
                 </resourceBundles>
               </configuration>
             </execution>
@@ -66,7 +66,7 @@
         </plugin>
         <!-- Step 2: Expand the XAR file -->
         <plugin>
-          <groupId>com.xpn.xwiki.platform.tools</groupId>
+          <groupId>org.xwiki.platform.tools</groupId>
           <artifactId>xwiki-xar-plugin</artifactId>
           <version>${platform.tool.xar-plugin.version}</version>
           <configuration>
@@ -87,7 +87,7 @@
         </plugin>
         <!-- Step 3: Import the XAR content into the Database -->
         <plugin>
-          <groupId>com.xpn.xwiki.platform.tools</groupId>
+          <groupId>org.xwiki.platform.tools</groupId>
           <artifactId>xwiki-packager-plugin</artifactId>
           <version>${platform.tool.packager.version}</version>
           <configuration>

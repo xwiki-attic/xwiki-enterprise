@@ -50,7 +50,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.platform.tools:xwiki-rootwebapp</include>
+        <include>org.xwiki.platform.tools:xwiki-rootwebapp</include>
       </includes>
       <outputDirectory>webapps/root</outputDirectory>
       <unpack>true</unpack>
@@ -65,7 +65,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.platform.tools:xwiki-jetty-resources</include>
+        <include>org.xwiki.platform.tools:xwiki-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>
@@ -84,7 +84,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.platform.tools:xwiki-jetty-resources</include>
+        <include>org.xwiki.platform.tools:xwiki-jetty-resources</include>
       </includes>
       <outputDirectory>jetty</outputDirectory>
       <unpack>true</unpack>

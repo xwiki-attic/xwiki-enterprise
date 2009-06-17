@@ -187,7 +187,6 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
     ## ---------------
     ## Lucene search
     ## ---------------
-QUERY = ${query}${extraClause}
     #set($searchresults = $lucene.getSearchResults("${query}${extraClause}", $wikinames, $!languages, $xwiki))
     #if($searchresults.getHitcount() &gt; 0)
       ## -----------------

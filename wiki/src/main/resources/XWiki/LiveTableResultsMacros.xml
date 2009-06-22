@@ -98,7 +98,7 @@
         #if("$multiselect"!="1")
           #grid_gettablename($order)
           #set($fromSql = "${fromSql}, ${tableName} ${tablealias}")
-          #set($whereSql = "${whereSql} and obj.id=${tablealias}.id.id and ${tablealias}.name='${order}'")  
+          #set($whereSql = "${whereSql} and obj.id=${tablealias}.id.id and ${tablealias}.id.name='${order}'")  
           #set($orderSql = " order by ${tablealias}.value ${orderDirection}")  
         #end
       #end
@@ -415,7 +415,7 @@
     #elseif($proptype=="DateClass")
      #set($fromSql = "${fromSql}, DateProperty ${tablealias}")
      #set($whereSql = " ${whereSql} and obj.id=${tablealias}.id.id and ${tablealias}.name='${colname}' and upper(str(${tablealias}.value)) like upper('%${fieldvalue}%')")
-    #elseif($proptype=="TextAreaClass")
+    #elseif($proptype=="TextAreaClass"||$proptype=="UsersClass"||$proptype=="GroupsClass")
      #set($fromSql = "${fromSql}, LargeStringProperty ${tablealias}")
      #set($whereSql = " ${whereSql} and obj.id=${tablealias}.id.id and ${tablealias}.name='${colname}' and upper(${tablealias}.value) like upper('%${fieldvalue}%')")
     #elseif($proptype=="StaticListClass"||$proptype=="DBListClass")

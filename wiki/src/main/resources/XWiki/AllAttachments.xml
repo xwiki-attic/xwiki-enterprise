@@ -237,8 +237,6 @@ XWiki.index.displayAttachmentEntry = function (row, i, table)
 #set($options = { "url":"$xwiki.getURL('XWiki.AllAttachmentsResults')?xpage=plain",
                   "callback" : "XWiki.index.displayAttachmentEntry", 
                   "translationPrefix" : "xe.index.attachments." })
-{pre}
 #livetable("allattachments" $collist $colprops $options)
-{/pre}
 &lt;div id="inaccessibleDocsMessage" class="hidden"&gt; #info($msg.get("rightsmanager.documentrequireviewrights")) &lt;/div&gt;</content>
 </xwikidoc>

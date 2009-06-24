@@ -35,7 +35,6 @@ import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.spaces.SpaceAttachmentsResource;
 import org.xwiki.rest.resources.spaces.SpaceSearchResource;
-import org.xwiki.rest.resources.wikis.WikiAttachmentsResource;
 import org.xwiki.rest.resources.wikis.WikiSearchResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 
@@ -46,8 +45,8 @@ public class SpacesResourceTest extends AbstractHttpTest
         TestUtils.banner("testRepresentation()");
 
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertTrue(wikis.getWikis().size() > 0);
@@ -57,8 +56,8 @@ public class SpacesResourceTest extends AbstractHttpTest
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -78,8 +77,8 @@ public class SpacesResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(String.format("%s?q=training", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
                 SpaceSearchResource.class).build(getWiki(), "Main")));
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -88,8 +87,8 @@ public class SpacesResourceTest extends AbstractHttpTest
         getMethod =
             executeGet(String.format("%s?q=training", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
                 WikiSearchResource.class).build(getWiki(), "Sandbox")));
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -99,16 +98,16 @@ public class SpacesResourceTest extends AbstractHttpTest
             checkLinks(searchResult);
         }
     }
-    
+
     public void testAttachments() throws Exception
     {
         TestUtils.banner("testSpaceAttachments()");
-        
+
         GetMethod getMethod =
             executeGet(String.format("%s", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
                 SpaceAttachmentsResource.class).build(getWiki(), "blog")));
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -117,6 +116,6 @@ public class SpacesResourceTest extends AbstractHttpTest
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);
         }
-                
+
     }
 }

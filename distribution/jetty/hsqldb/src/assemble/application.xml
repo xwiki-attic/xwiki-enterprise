@@ -54,7 +54,7 @@
       <!-- Uncomment when we move to version 2.2 beta 3 of the Assembly plugin since it's not supported in 2.2 beta 1 (and not needed) -->
       <!--useProjectArtifact>false</useProjectArtifact-->
       <includes>
-        <include>com.xpn.xwiki.platform.tools:xwiki-rootwebapp</include>
+        <include>org.xwiki.platform.tools:xwiki-rootwebapp</include>
       </includes>
       <outputDirectory>webapps/root</outputDirectory>
       <unpack>true</unpack>
@@ -69,7 +69,7 @@
       <!-- Uncomment when we move to version 2.2 beta 3 of the Assembly plugin since it's not supported in 2.2 beta 1 (and not needed) -->
       <!--useProjectArtifact>false</useProjectArtifact-->
       <includes>
-        <include>com.xpn.xwiki.platform.tools:xwiki-jetty-resources</include>
+        <include>org.xwiki.platform.tools:xwiki-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>
@@ -90,7 +90,7 @@
       <!-- Uncomment when we move to version 2.2 beta 3 of the Assembly plugin since it's not supported in 2.2 beta 1 (and not needed) -->
       <!--useProjectArtifact>false</useProjectArtifact-->
       <includes>
-        <include>com.xpn.xwiki.platform.tools:xwiki-jetty-resources</include>
+        <include>org.xwiki.platform.tools:xwiki-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>

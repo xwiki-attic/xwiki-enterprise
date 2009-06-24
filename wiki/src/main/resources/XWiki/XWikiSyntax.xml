@@ -978,7 +978,7 @@ Give a link to how to configure this feature
     {pre}
     &lt;td&gt;Link that opens in a new page&lt;/td&gt;
     &lt;td&gt;[label&gt;WebHome&gt;_blank]&lt;/td&gt;
-    &lt;td&gt;[[label&gt;&gt;WebHome||target="_blank"]]&lt;/td&gt;
+    &lt;td&gt;[[label&gt;&gt;WebHome||rel="__blank"]]&lt;/td&gt;
     {/pre}
     &lt;td&gt;
 &lt;span class="wikilink"&gt;&lt;a href="/xwiki/bin/view/Main/" rel="__blank"&gt;label&lt;/a&gt;&lt;/span&gt;
@@ -1085,7 +1085,7 @@ The full format of a link is {code}(alias[|&amp;gt;])+(link)(@interWikiAlias)+([
 The full format of a link is {code}(label&gt;&gt;)?(link)(||parameters)*{code}
 * &lt;tt&gt;label&lt;/tt&gt;: the link label, can contain wiki syntax
 * &lt;tt&gt;link&lt;/tt&gt;: the link target, i.e. where to go when the link is clicked. It has a similar format than in the XWiki 1.0 syntax and it can also contain 2 types of URIs: &lt;tt&gt;mailto:&lt;/tt&gt; and &lt;tt&gt;attach:&lt;/tt&gt; for linking to an email and linking to an attachment respectively.
-* &lt;tt&gt;parameters&lt;/tt&gt;: An optional list of parameters passed to the link. For example the &lt;tt&gt;target&lt;/tt&gt; element from XWiki Syntax 1.0 can be passed as a parameter.
+* &lt;tt&gt;parameters&lt;/tt&gt;: An optional list of parameters passed to the link.
 
 1.1 Tables
 

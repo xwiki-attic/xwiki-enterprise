@@ -37,8 +37,8 @@ public class PagesResourceTest extends AbstractHttpTest
         TestUtils.banner("testRepresentation()");
 
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertTrue(wikis.getWikis().size() > 0);
@@ -48,8 +48,8 @@ public class PagesResourceTest extends AbstractHttpTest
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertTrue(spaces.getSpaces().size() > 0);
@@ -59,8 +59,8 @@ public class PagesResourceTest extends AbstractHttpTest
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Pages pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertTrue(pages.getPageSummaries().size() > 0);

@@ -19,8 +19,8 @@ public class ClassesResourceTest extends AbstractHttpTest
         GetMethod getMethod =
             executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ClassesResource.class).build(
                 getWiki()).toString());
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
         TestUtils.printHttpMethodInfo(getMethod);
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Classes classes = (Classes) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 

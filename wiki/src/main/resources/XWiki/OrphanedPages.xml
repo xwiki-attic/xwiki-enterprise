@@ -23,8 +23,7 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/1.0</syntaxId>
 <hidden>false</hidden>
-<content>{pre}
-#set($collist = ["doc.name", "doc.space","doc.date", "doc.author", "_actions"])
+<content>#set($collist = ["doc.name", "doc.space","doc.date", "doc.author", "_actions"])
 #set($colprops = {
                    "doc.name" : { "type" : "text" , "size" : 30, "link" : "view"}, 
                    "doc.space" : { "type" : "text", "link" : "space"},
@@ -35,5 +34,5 @@
 #set($options = { "url":"$xwiki.getURL('XWiki.OrphanedPagesResults')?xpage=plain",
                   "translationPrefix" : "xe.index." })
 #livetable("orphanedpages" $collist $colprops $options)
-{/pre}</content>
+</content>
 </xwikidoc>

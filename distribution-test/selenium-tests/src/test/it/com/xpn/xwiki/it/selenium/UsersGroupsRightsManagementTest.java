@@ -190,17 +190,17 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Test adding a group to a group.
-     * Specifically, assert that the group is added as a member itself, not adding all its members one by one.
+     * Test adding a group to a group. Specifically, assert that the group is added as a member itself, not adding all
+     * its members one by one.
      */
     public void testAddGroupToGroup()
     {
-        String group ="GroupWithGroup"; 
+        String group = "GroupWithGroup";
         createGroup(group);
         openGroupsPage();
         String xpath = "//tbody/tr[td/a='" + group + "']/td[3]/img[@title='Edit']";
-        System.out.println("XPATH: "+xpath);
-        waitForCondition("selenium.isElementPresent(\"" + xpath +"\")");
+        System.out.println("XPATH: " + xpath);
+        waitForCondition("selenium.isElementPresent(\"" + xpath + "\")");
         getSelenium().click("//tbody/tr[td/a=\"" + group + "\"]/td[3]/img[@title=\"Edit\"]");
         waitForLightbox("Add user to group");
         setFieldValue("groupSuggest", "XWiki.XWikiAllGroup");
@@ -221,11 +221,11 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         setFieldValue("groupSuggest", "XWiki.XWikiAdminGroup");
         clickLinkWithLocator("addNewGroup", false);
         waitForCondition("selenium.isTextPresent('XWiki.XWikiAdminGroup')");
-        
-        //cleanup
+
+        // cleanup
         deleteGroup(group, false);
     }
-    
+
     /**
      * Validate adding a member to a group via the administration.
      */
@@ -234,13 +234,12 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // Make sure there's no XWikiNewUser user before we try to create it
         deleteUser("XWikiTestUser", true);
         createUser("XWikiTestUser", "XWikiTestUser");
-        
+
         addUserToGroup("XWikiTestUser", "XWikiAdminGroup");
-        
+
         deleteUser("XWikiTestUser", true);
     }
-    
-    
+
     /**
      * Validate member filtering on group sheet.
      */
@@ -249,13 +248,13 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         openGroupsPage();
         String rowXPath = "//td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/Admin']";
         this.clickLinkWithText("XWikiAdminGroup");
-        this.waitForCondition("selenium.isElementPresent(\""+rowXPath+"\")");
-        this.getSelenium().typeKeys("member","Ad");
-        this.waitForCondition("selenium.isElementPresent(\""+rowXPath+"\")");
-        this.getSelenium().typeKeys("member","zzz");
-        this.waitForCondition("!selenium.isElementPresent(\""+rowXPath+"\")");
+        this.waitForCondition("selenium.isElementPresent(\"" + rowXPath + "\")");
+        this.getSelenium().typeKeys("member", "Ad");
+        this.waitForCondition("selenium.isElementPresent(\"" + rowXPath + "\")");
+        this.getSelenium().typeKeys("member", "zzz");
+        this.waitForCondition("!selenium.isElementPresent(\"" + rowXPath + "\")");
     }
-    
+
     // Helper methods
 
     private void createGroup(String groupname)
@@ -325,7 +324,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         openGroupsPage();
         String xpath = "//tbody/tr[td/a='" + group + "']/td[3]/img[@title='Edit']";
-        waitForCondition("selenium.isElementPresent(\""+xpath+"\")");
+        waitForCondition("selenium.isElementPresent(\"" + xpath + "\")");
         getSelenium().click(xpath);
         waitForLightbox("Add user to group");
         setFieldValue("userSuggest", "XWiki." + user);
@@ -338,9 +337,11 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // the same table with same ids and classes is already displayed in the Preferences page
         // (that is, the list of existing groups).
         waitForCondition("selenium.isElementPresent(\"" + newGroupMemberXPath + "\")");
-        
+
         // Close the group edit lightbox
         clickLinkWithLocator("lb-close");
+        open("XWiki", group);
+        assertTextPresent(user);
     }
 
     private void waitForLightbox(String lightboxName)

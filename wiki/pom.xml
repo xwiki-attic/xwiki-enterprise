@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>1.9-SNAPSHOT</version>
+    <version>2.0-milestone-1</version>
   </parent>
   <artifactId>xwiki-enterprise-wiki</artifactId>
   <name>XWiki Products - Enterprise - Wiki</name>
@@ -68,14 +68,14 @@
   <build>
     <extensions>
       <extension>
-        <groupId>com.xpn.xwiki.platform.tools</groupId>
+        <groupId>org.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xar-handlers</artifactId>
         <version>${platform.tool.xar-handler.version}</version>
       </extension>
     </extensions>
     <plugins>
       <plugin>
-        <groupId>com.xpn.xwiki.platform.tools</groupId>
+        <groupId>org.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xar-plugin</artifactId>
         <version>${platform.tool.xar-plugin.version}</version>
       </plugin>

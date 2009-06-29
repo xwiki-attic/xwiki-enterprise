@@ -618,4 +618,31 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertXHTML("<p>&lt;\"'&amp;#\"'&gt;</p>");
         assertWiki("<\"'&#\"'>");
     }
+
+    /**
+     * @see XWIKI-4033: When saving after section edit entire page is overwritten.
+     */
+    public void testSectionEditing()
+    {
+        // Save the current location to be able to get back to it later.
+        String location = getSelenium().getLocation();
+
+        // Create two sections.
+        switchToWikiEditor();
+        setFieldValue("content", "= s1 =\n\nabc\n\n= s2 =\n\nxyz");
+        clickEditSaveAndView();
+
+        // Edit the second section.
+        open(location + (location.indexOf('?') < 0 ? "?" : "") + "&section=2");
+        focusRichTextArea();
+        typeDelete(2);
+        typeText("Section 2");
+        assertWiki("= Section 2 =\n\nxyz");
+        clickEditSaveAndView();
+
+        // Check the content of the page.
+        open(location);
+        focusRichTextArea();
+        assertWiki("= s1 =\n\nabc\n\n= Section 2 =\n\nxyz");
+    }
 }

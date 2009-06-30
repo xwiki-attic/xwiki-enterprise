@@ -178,7 +178,7 @@
         "doc_space_url" : "${spaceurl}",
         #if($xwiki.isVirtualMode())
         "doc_wiki" : "$wiki",
-        "doc_wiki_url" "$wikiurl",
+        "doc_wiki_url" : "$wikiurl",
         #end
         "doc_hasadmin"  : $xwiki.hasAdminRights(),
         "doc_edit_url" : "$edit",

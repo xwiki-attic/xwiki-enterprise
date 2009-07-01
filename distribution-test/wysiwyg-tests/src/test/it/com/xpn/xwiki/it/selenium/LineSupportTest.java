@@ -365,4 +365,20 @@ public class LineSupportTest extends AbstractWysiwygTestCase
         // inside the heading.
         assertXHTML("<p>before</p><h1 id=\"H\"><span></span><br class=\"spacer\"></h1><p>after</p>");
     }
+
+    /**
+     * Tests that splitting a line containing only invisible garbage generates two empty lines that can be edited.
+     */
+    public void testSplitEmptyLineWithGarbage()
+    {
+        // Create a line that has only invisible garbage.
+        setContent("<p><em></em><strong></strong></p>");
+        // Move the caret between the garbage.
+        moveCaret(getDOMLocator("body.firstChild"), 1);
+        // Split the line.
+        typeEnter();
+        typeText("x");
+        // Check the result. The only way to test if the empty lines can be edited is to look for the BR spacers.
+        assertXHTML("<p><em></em><br class=\"spacer\"></p><p>x<strong></strong><br class=\"spacer\"></p>");
+    }
 }

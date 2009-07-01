@@ -167,7 +167,7 @@ public class ColorSupportTest extends AbstractWysiwygTestCase
      */
     protected void clickForegroundColorButton()
     {
-        pushToolBarButton("Select text color");
+        pushToolBarButton("Font Color");
     }
 
     /**
@@ -175,7 +175,7 @@ public class ColorSupportTest extends AbstractWysiwygTestCase
      */
     protected void clickBackgroundColorButton()
     {
-        pushToolBarButton("Select background color");
+        pushToolBarButton("Background Color");
     }
 
     /**

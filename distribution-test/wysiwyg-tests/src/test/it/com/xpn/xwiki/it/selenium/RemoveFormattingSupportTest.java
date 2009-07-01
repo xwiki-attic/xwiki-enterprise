@@ -98,6 +98,6 @@ public class RemoveFormattingSupportTest extends AbstractWysiwygTestCase
      */
     protected void clickRemoveFormattingButton()
     {
-        pushToolBarButton("Remove formatting");
+        pushToolBarButton("Clear Formatting");
     }
 }

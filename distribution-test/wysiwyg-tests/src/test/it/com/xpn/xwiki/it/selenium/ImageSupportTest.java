@@ -35,11 +35,11 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 {
     public static final String MENU_IMAGE = "Image";
 
-    public static final String MENU_INSERT_IMAGE = "Insert image";
+    public static final String MENU_INSERT_IMAGE = "Insert Image...";
 
-    public static final String MENU_EDIT_IMAGE = "Edit image";
+    public static final String MENU_EDIT_IMAGE = "Edit Image...";
 
-    public static final String MENU_REMOVE_IMAGE = "Remove image";
+    public static final String MENU_REMOVE_IMAGE = "Remove Image";
 
     public static final String STEP_SELECTOR = "xSelectorStep";
 
@@ -57,7 +57,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
     public static final String BUTTON_SELECT = "Select";
 
-    public static final String BUTTON_INSERT_IMAGE = "Insert image";
+    public static final String BUTTON_INSERT_IMAGE = "Insert Image";
 
     public static final String INPUT_WIDTH = "//div[contains(@class, \"xSizePanel\")]//input[1]";
 
@@ -458,7 +458,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         
         // add link around the image
         clickMenu("Link");
-        clickMenu("Wiki page");
+        clickMenu("Wiki page...");
         waitForDialogToLoad();
         getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", "XWiki.Register");
         // wait for the space to get selected

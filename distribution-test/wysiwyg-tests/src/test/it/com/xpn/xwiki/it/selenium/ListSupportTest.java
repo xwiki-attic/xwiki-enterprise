@@ -778,7 +778,7 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public boolean isOrderedListDetected()
     {
-        return isToggleButtonDown("Ordered list");
+        return isToggleButtonDown("Numbering On/Off");
     }
 
     /**
@@ -786,6 +786,6 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      */
     public boolean isUnorderedListDetected()
     {
-        return isToggleButtonDown("Unordered list");
+        return isToggleButtonDown("Bullets On/Off");
     }
 }

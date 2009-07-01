@@ -220,7 +220,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
     public void testEnterAfterImage()
     {
         clickMenu("Image");
-        clickMenu("Insert image");
+        clickMenu("Insert Image...");
 
         waitForDialogToLoad();
         // wait for the main step of the dialog to load
@@ -241,7 +241,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
         getSelenium().click(imageSelector);
         clickButtonWithText("Select");
         waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xImageConfig\")]');");
-        clickButtonWithText("Insert image");
+        clickButtonWithText("Insert Image");
         waitForDialogToClose();
 
         // The inserted image should be selected. By pressing the right arrow key the caret is not moved after the image
@@ -352,5 +352,17 @@ public class LineSupportTest extends AbstractWysiwygTestCase
 
         // Check the result.
         assertWiki("* (((= a\nb =\n\nc\n\nd)))\n* e");
+    }
+
+    /**
+     * @see XWIKI-4023: Cannot place the caret inside an empty heading.
+     */
+    public void testEmptyHeadingsAreEditable()
+    {
+        setWikiContent("before\n\n= =\n\nafter");
+        // We can't test if the caret can be placed inside the empty heading because the selection is not updated on
+        // fake events. We can only check the generated HTML for a BR spacer that will allow the user to write text
+        // inside the heading.
+        assertXHTML("<p>before</p><h1 id=\"H\"><span></span><br class=\"spacer\"></h1><p>after</p>");
     }
 }

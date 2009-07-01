@@ -645,4 +645,32 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         focusRichTextArea();
         assertWiki("= s1 =\n\nabc\n\n= Section 2 =\n\nxyz");
     }
+
+    /**
+     * @see XWIKI-4017: The close X button from the "Insert Table" dialog acts like the "Insert" button after a table
+     *      has been inserted.
+     */
+    public void testCancelInsertTable()
+    {
+        clickMenu("Table");
+        clickMenu("Insert Table...");
+        // Cancel the insert table operation.
+        closeDialog();
+
+        // Insert a default table this time.
+        insertTable();
+
+        // Move the caret after the table.
+        getSelenium().controlKeyDown();
+        typeDownArrow();
+        getSelenium().controlKeyUp();
+
+        clickMenu("Table");
+        clickMenu("Insert Table...");
+        // Cancel the insert table operation again.
+        closeDialog();
+
+        // Check the result.
+        assertWiki("|= |= \n| | \n");
+    }
 }

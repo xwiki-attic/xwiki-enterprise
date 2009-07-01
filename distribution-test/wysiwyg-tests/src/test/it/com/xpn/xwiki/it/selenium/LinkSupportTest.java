@@ -29,17 +29,17 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 {
     public static final String MENU_LINK = "Link";
 
-    public static final String MENU_WEBPAGE = "Web page";
+    public static final String MENU_WEBPAGE = "Web Page...";
 
-    public static final String MENU_EMAIL_ADDRESS = "Email address";
+    public static final String MENU_EMAIL_ADDRESS = "Email Address...";
 
-    public static final String MENU_WIKIPAGE = "Wiki page";
+    public static final String MENU_WIKIPAGE = "Wiki Page...";
 
-    public static final String MENU_ATTACHMENT = "Attached file";
+    public static final String MENU_ATTACHMENT = "Attached File...";
 
-    public static final String MENU_LINK_EDIT = "Edit link";
+    public static final String MENU_LINK_EDIT = "Edit Link...";
 
-    public static final String MENU_LINK_REMOVE = "Remove link";
+    public static final String MENU_LINK_REMOVE = "Remove Link";
 
     public static final String CURRENT_PAGE_BUTTON = "Current page";
 
@@ -372,7 +372,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         applyStylePlainText();
 
         clickMenu("Image");
-        clickMenu("Insert image");
+        clickMenu("Insert Image...");
 
         waitForDialogToLoad();
 
@@ -398,7 +398,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Select");
         ensureStepIsLoaded("xImageConfig");
-        clickButtonWithText("Insert image");
+        clickButtonWithText("Insert Image");
 
         waitForDialogToClose();
 

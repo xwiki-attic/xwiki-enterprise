@@ -258,7 +258,7 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignLeftButton()
     {
-        pushToolBarButton("Align left");
+        pushToolBarButton("Align Left");
     }
 
     /**
@@ -266,7 +266,7 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignCenterButton()
     {
-        pushToolBarButton("Align center");
+        pushToolBarButton("Centered");
     }
 
     /**
@@ -274,7 +274,7 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignRightButton()
     {
-        pushToolBarButton("Align right");
+        pushToolBarButton("Align Right");
     }
 
     /**
@@ -282,7 +282,7 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignFullButton()
     {
-        pushToolBarButton("Align full");
+        pushToolBarButton("Justified");
     }
 
     /**
@@ -292,7 +292,7 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
     protected boolean isAlignLeftDetected()
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Align left");
+        return isToggleButtonDown("Align Left");
     }
 
     /**
@@ -302,7 +302,7 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
     protected boolean isAlignCenterDetected()
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Align center");
+        return isToggleButtonDown("Centered");
     }
 
     /**
@@ -312,7 +312,7 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
     protected boolean isAlignRightDetected()
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Align right");
+        return isToggleButtonDown("Align Right");
     }
 
     /**
@@ -322,6 +322,6 @@ public class AlignmentSupportTest extends AbstractWysiwygTestCase
     protected boolean isAlignFullDetected()
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Align full");
+        return isToggleButtonDown("Justified");
     }
 }

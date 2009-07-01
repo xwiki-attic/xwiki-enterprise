@@ -360,32 +360,32 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickUnorderedListButton()
     {
-        pushToolBarButton("Unordered list");
+        pushToolBarButton("Bullets On/Off");
     }
 
     public void clickOrderedListButton()
     {
-        pushToolBarButton("Ordered list");
+        pushToolBarButton("Numbering On/Off");
     }
 
     public void clickIndentButton()
     {
-        pushToolBarButton("Indent");
+        pushToolBarButton("Increase Indent");
     }
 
     public boolean isIndentButtonEnabled()
     {
-        return isButtonEnabled("Indent");
+        return isButtonEnabled("Increase Indent");
     }
 
     public void clickOutdentButton()
     {
-        pushToolBarButton("Outdent");
+        pushToolBarButton("Decrease Indent");
     }
 
     public boolean isOutdentButtonEnabled()
     {
-        return isButtonEnabled("Outdent");
+        return isButtonEnabled("Decrease Indent");
     }
 
     public void clickBoldButton()
@@ -410,7 +410,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickHRButton()
     {
-        pushToolBarButton("Insert horizontal ruler");
+        pushToolBarButton("Insert Horizontal Ruler");
     }
 
     public void clickSubscriptButton()
@@ -449,7 +449,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickSymbolButton()
     {
-        pushToolBarButton("Insert custom character");
+        pushToolBarButton("Insert Custom Character");
     }
 
     public void clickInsertImageButton()
@@ -459,33 +459,33 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickInsertLinkButton()
     {
-        pushToolBarButton("Insert link");
+        pushToolBarButton("Insert Link");
     }
 
     public void clickUnlinkButton()
     {
-        pushToolBarButton("Unlink");
+        pushToolBarButton("Remove Link");
     }
 
     public void clickOfficeImporterButton()
     {
-        pushToolBarButton("Import office content");
+        pushToolBarButton("Import Office Content");
     }
 
     public boolean isUnlinkButtonEnabled()
     {
-        return isButtonEnabled("Unlink");
+        return isButtonEnabled("Remove Link");
     }
 
     public boolean isInsertLinkButtonEnabled()
     {
-        return isButtonEnabled("Insert link");
+        return isButtonEnabled("Insert Link");
 
     }
 
     public void clickInsertTableButton()
     {
-        pushToolBarButton("Inserts a new table");
+        pushToolBarButton("Insert Table");
     }
 
     public void clickBackToEdit()
@@ -953,7 +953,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     protected void insertTable()
     {
         clickMenu("Table");
-        clickMenu("Insert table");
+        clickMenu("Insert Table...");
         getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
     }
 }

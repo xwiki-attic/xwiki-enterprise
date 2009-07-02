@@ -54,8 +54,8 @@
     <platform.tool.jetty.version>1.14</platform.tool.jetty.version>
     <platform.tool.rootwebapp.version>1.1</platform.tool.rootwebapp.version>
     <platform.tool.packager.version>1.12</platform.tool.packager.version>
-    <platform.core.version>1.9.1</platform.core.version>
-    <platform.web.version>1.9.1</platform.web.version>
+    <platform.core.version>1.9-SNAPSHOT</platform.core.version>
+    <platform.web.version>1.9-SNAPSHOT</platform.web.version>
     <!-- Since 1.21 panels application needs core 2.0 -->
     <platform.panels.version>1.20.1</platform.panels.version>
     <!-- Since 1.13 administration application needs platform/web 2.0 -->

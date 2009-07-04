@@ -243,16 +243,16 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
     private void assertAuthenticate(String login, String password, String storedDn) throws XWikiException
     {
-        assertAuthenticate(login, password, login, storedDn);
+        assertAuthenticate(login, password, "XWiki." + login, storedDn);
     }
 
-    private void assertAuthenticate(String login, String password, String validUserName, String storedDn)
+    private void assertAuthenticate(String login, String password, String xwikiUserName, String storedDn)
         throws XWikiException
     {
-        assertAuthenticate(login, password, validUserName, storedDn, login);
+        assertAuthenticate(login, password, xwikiUserName, storedDn, login);
     }
 
-    private void assertAuthenticate(String login, String password, String validUserName, String storedDn,
+    private void assertAuthenticate(String login, String password, String xwikiUserName, String storedDn,
         String storedUid) throws XWikiException
     {
         Principal principal = this.ldapAuth.authenticate(login, password, getContext());
@@ -261,9 +261,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertNotNull(principal);
 
         // Check that the returned Principal has the good name
-        assertEquals("xwiki:XWiki." + validUserName, principal.getName());
+        assertEquals(xwikiUserName, principal.getName());
 
-        XWikiDocument userProfile = getDocument("XWiki." + validUserName);
+        XWikiDocument userProfile = getDocument(xwikiUserName);
 
         // check hat user has been created
         assertTrue("The user profile has not been created", !userProfile.isNew());
@@ -333,7 +333,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
             returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN.toUpperCase(), LDAPTestSetup.HORATIOHORNBLOWER_PWD,
-            LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_DN, LDAPTestSetup.HORATIOHORNBLOWER_CN);
+            "XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_DN,
+            LDAPTestSetup.HORATIOHORNBLOWER_CN);
     }
 
     /**
@@ -341,8 +342,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
      */
     public void testAuthenticateWhenUidContainsPoints() throws XWikiException
     {
-        assertAuthenticate(LDAPTestSetup.USERWITHPOINTS_CN, LDAPTestSetup.USERWITHPOINTS_PWD,
-            LDAPTestSetup.USERWITHPOINTS_CN.replaceAll("\\.", ""), LDAPTestSetup.USERWITHPOINTS_DN);
+        assertAuthenticate(LDAPTestSetup.USERWITHPOINTS_CN, LDAPTestSetup.USERWITHPOINTS_PWD, "XWiki."
+            + LDAPTestSetup.USERWITHPOINTS_CN.replaceAll("\\.", ""), LDAPTestSetup.USERWITHPOINTS_DN);
     }
 
     /**
@@ -350,11 +351,11 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
      */
     public void testAuthenticateTwiceWhenDifferentUsersAndUidContainsPoints() throws XWikiException
     {
-        assertAuthenticate(LDAPTestSetup.USERWITHPOINTS_CN, LDAPTestSetup.USERWITHPOINTS_PWD,
-            LDAPTestSetup.USERWITHPOINTS_CN.replaceAll("\\.", ""), LDAPTestSetup.USERWITHPOINTS_DN);
+        assertAuthenticate(LDAPTestSetup.USERWITHPOINTS_CN, LDAPTestSetup.USERWITHPOINTS_PWD, "XWiki."
+            + LDAPTestSetup.USERWITHPOINTS_CN.replaceAll("\\.", ""), LDAPTestSetup.USERWITHPOINTS_DN);
 
-        assertAuthenticate(LDAPTestSetup.OTHERUSERWITHPOINTS_CN, LDAPTestSetup.OTHERUSERWITHPOINTS_PWD,
-            LDAPTestSetup.OTHERUSERWITHPOINTS_CN.replaceAll("\\.", "") + "_1", LDAPTestSetup.OTHERUSERWITHPOINTS_DN);
+        assertAuthenticate(LDAPTestSetup.OTHERUSERWITHPOINTS_CN, LDAPTestSetup.OTHERUSERWITHPOINTS_PWD, "XWiki."
+            + LDAPTestSetup.OTHERUSERWITHPOINTS_CN.replaceAll("\\.", "") + "_1", LDAPTestSetup.OTHERUSERWITHPOINTS_DN);
     }
 
     /**
@@ -379,8 +380,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         XWikiDocument userDoc = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
         saveDocument(userDoc);
 
-        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
-            LDAPTestSetup.HORATIOHORNBLOWER_CN + "_1", LDAPTestSetup.HORATIOHORNBLOWER_DN);
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD, "XWiki."
+            + LDAPTestSetup.HORATIOHORNBLOWER_CN + "_1", LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
 
     public void testAuthenticateWithGroupMembership() throws XWikiException

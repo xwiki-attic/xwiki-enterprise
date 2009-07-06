@@ -784,6 +784,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_INSERT);
         waitForDialogToLoad();
 
+        // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
+        // removed just before the list of macros is displayed and the Selenium click command can interfere.
+        waitForCondition("selenium.isElementPresent(\"//div[@class = 'xListBox']//div[text() = '" + macroName
+            + "']\");");
         getSelenium().click("//div[@class = 'xListBox']//div[text() = '" + macroName + "']");
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialogToLoad();

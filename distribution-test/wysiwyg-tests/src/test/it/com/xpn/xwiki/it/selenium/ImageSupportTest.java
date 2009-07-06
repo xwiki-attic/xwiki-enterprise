@@ -435,7 +435,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3784
      */
-    public void failingtestEditImageWithLink()
+    public void testEditImageWithLink()
     {
         // add all the image & link, otherwise it will not reproduce, it only reproduces if container is body
         clickMenu(MENU_IMAGE);
@@ -458,7 +458,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         
         // add link around the image
         clickMenu("Link");
-        clickMenu("Wiki page...");
+        clickMenu("Wiki Page...");
         waitForDialogToLoad();
         getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", "XWiki.Register");
         // wait for the space to get selected

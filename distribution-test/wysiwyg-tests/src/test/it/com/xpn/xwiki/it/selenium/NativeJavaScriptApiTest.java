@@ -40,21 +40,6 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractWysiwygTestCase#tearDown()
-     */
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-
-        // Clear the page content.
-        clickLinkWithText("Wiki", true);
-        setFieldValue("content", "");
-        clickEditSaveAndView();
-    }
-
-    /**
      * Functional tests for:
      * <ul>
      * <li>WysiwygEditor#getPlainTextArea()</li>
@@ -142,6 +127,48 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         typeText("z");
         applyStyleTitle1();
         assertEquals("= z =", getSourceText("editor"));
+    }
+
+    /**
+     * @see XWIKI-4067: Trying to edit a missing object property with the new WYSIWYG editor can lead to infinite
+     *      include recursion.
+     */
+    public void testEditMissingProperty()
+    {
+        // Save the current location to be able to get back.
+        String location = getSelenium().getLocation();
+
+        // Create a new page and set its content. This page should have a XWiki.TagClass object attached.
+        open("Test", "Alice", "edit", "editor=wiki");
+        // We have to set the content of the page in order to detect if the value of the missing property is empty.
+        setFieldValue("content", "I want ice cream");
+        clickEditSaveAndView();
+
+        // Go back to the previous location.
+        open(location);
+        switchToWikiEditor();
+        // Load the WYSIWYG editor for a property that doesn't exist.
+        StringBuffer content = new StringBuffer();
+        content.append("{{velocity}}\n");
+        content.append("{{html}}\n");
+        // xyz is not a property of the XWiki.TagClass.
+        content.append("<textarea id=\"XWiki.TagClass_0_xyz\"></textarea>\n");
+        content.append("#wysiwyg_import(false)\n");
+        content.append("#wysiwyg_inputProperty($xwiki.getDocument('Test.Alice') 'XWiki.TagClass_0_xyz')\n");
+        content.append("#wysiwyg_storeConfig('cfg' $xwiki.getDocument('Test.Alice') 'XWiki.TagClass_0_xyz' false)\n");
+        content.append("<script type=\"text/javascript\">\n");
+        content.append("Wysiwyg.onModuleLoad(function() {\n");
+        content.append("    window.editor = new WysiwygEditor(cfg);\n");
+        content.append("});\n");
+        content.append("</script>\n");
+        content.append("{{/html}}\n");
+        content.append("{{/velocity}}");
+        setFieldValue("content", content.toString());
+        clickEditSaveAndView();
+
+        waitForCondition("typeof window.editor == 'object'");
+        // Check the WYSIWYG editor input value.
+        assertEquals("", getSourceText("editor"));
     }
 
     /**

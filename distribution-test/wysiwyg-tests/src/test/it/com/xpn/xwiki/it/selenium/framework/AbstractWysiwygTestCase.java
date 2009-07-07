@@ -39,33 +39,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     
     private static final String WYSIWYG_LOCATOR_FOR_SOURCE_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='Source']";
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractXWikiTestCase#setUp()
+     */
     protected void setUp() throws Exception
     {
         super.setUp();
 
         loginAsAdmin();
-        open("Main", "WysiwygTest");
-        clickLinkWithText("WYSIWYG");
-
-        // Switch the document to xwiki/2.0 syntax if needed.
-        if (!getSelenium().getValue("syntaxId").equals("xwiki/2.0")) {
-            setFieldValue("syntaxId", "xwiki/2.0");
-            if (getSelenium().isConfirmationPresent()) {
-                assertEquals("Do you want to also convert the document's content and objects to the selected syntax?"
-                    + " Choosing 'cancel' will reset the syntax to the previous one and do nothing."
-                    + " Note that if you choose 'ok' you will loose modifications and this will save the document"
-                    + " automatically, you can cancel this modification by going to the document history interface"
-                    + " and revert the last version.", getSelenium().getConfirmation());
-            }
-            // In order to change the syntax the page has to be reloaded.
-            waitPage();
-        }
-
-        // Focus the rich text area in order to enter design mode.
-        focusRichTextArea();
-
-        // Reset editor's content.
-        resetContent();
+        open("Main", "WysiwygTest", "edit", "editor=wiki");
+        // Reset the content of the test page.
+        setFieldValue("content", "");
+        clickEditSaveAndContinue();
+        // Load the WYSIWYG editor.
+        switchToWysiwygEditor();
     }
 
     protected void runScript(String script)

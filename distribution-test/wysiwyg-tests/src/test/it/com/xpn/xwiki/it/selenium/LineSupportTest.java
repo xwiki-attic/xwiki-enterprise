@@ -224,8 +224,9 @@ public class LineSupportTest extends AbstractWysiwygTestCase
 
         waitForDialogToLoad();
         // wait for the main step of the dialog to load
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xSelectorStep\")]');");
-        clickButtonWithText("All pages");
+        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"xSelectorStep\")]');");
+        // click the 'All pages' tab
+        getSelenium().click("//div[.='All pages']");
         String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
         String imageSpace = "XWiki";
         waitForCondition("selenium.isElementPresent('" + imageSpaceSelector + "/option[@value=\"" + imageSpace
@@ -240,7 +241,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
         clickButtonWithText("Select");
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xImageConfig\")]');");
+        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"xImageConfig\")]');");
         clickButtonWithText("Insert Image");
         waitForDialogToClose();
 

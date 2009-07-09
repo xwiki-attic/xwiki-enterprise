@@ -55,6 +55,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         clickEditSaveAndContinue();
         // Load the WYSIWYG editor.
         switchToWysiwygEditor();
+        // We select again all the content. In Firefox, the selection will include the annoying br tag. Further typing
+        // will overwrite it. See XWIKI-2732.
+        selectAllContent();
     }
 
     protected void runScript(String script)

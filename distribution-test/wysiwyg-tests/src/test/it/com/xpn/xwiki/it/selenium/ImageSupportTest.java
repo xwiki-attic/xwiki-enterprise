@@ -51,9 +51,9 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
     public static final String STEP_UPLOAD = "xUploadPanel";
 
-    public static final String BUTTON_CURRENT_PAGE = "Current page";
+    public static final String TAB_CURRENT_PAGE = "Current page";
 
-    public static final String BUTTON_ALL_PAGES = "All pages";
+    public static final String TAB_ALL_PAGES = "All pages";
 
     public static final String BUTTON_SELECT = "Select";
 
@@ -91,7 +91,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         selectImage(imageSpace, imagePage, imageFile);
         clickButtonWithText(BUTTON_SELECT);
@@ -117,7 +117,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         selectImage(imageSpace, imagePage, imageFile);
         clickButtonWithText(BUTTON_SELECT);
@@ -163,7 +163,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         selectImage(imageSpace, imagePage, imageFile);
         clickButtonWithText(BUTTON_SELECT);
@@ -223,7 +223,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         // test that the default loaded view is the current page view
         assertElementPresent("//div[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]");
         // now switch view
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         selectImage(imageSpace, imagePage, imageFile1);
         clickButtonWithText(BUTTON_SELECT);
@@ -244,7 +244,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         // test that the default loaded view is the current page view
         assertElementPresent("//div[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]");
         // now switch view
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the selectors are positioned to the old page
         String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
@@ -279,7 +279,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_INSERT_IMAGE);
         waitForDialogToLoad();
         waitForStepToLoad(STEP_SELECTOR);
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         selectImage(imageSpace, imagePage, imageFile1);
 
@@ -312,7 +312,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_EDIT_IMAGE);
 
         waitForStepToLoad(STEP_EXPLORER);
-        clickButtonWithText(BUTTON_CURRENT_PAGE);
+        clickTab(TAB_CURRENT_PAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
 
         clickButtonWithText(BUTTON_SELECT);
@@ -320,7 +320,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("No image has been selected", getSelenium().getAlert());
 
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
 
         clickButtonWithText(BUTTON_SELECT);
@@ -373,7 +373,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_INSERT_IMAGE);
         waitForDialogToLoad();
         waitForStepToLoad(STEP_SELECTOR);
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
 
         // wait for the default option to show up and then click it
@@ -445,7 +445,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
-        clickButtonWithText(BUTTON_ALL_PAGES);
+        clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         selectImage("XWiki", "AdminSheet", "registration.png");
         clickButtonWithText(BUTTON_SELECT);
@@ -453,17 +453,21 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
-        
+
         selectNode("XWE.body.firstChild");
-        
+
         // add link around the image
         clickMenu("Link");
         clickMenu("Wiki Page...");
         waitForDialogToLoad();
+        waitForStepToLoad(STEP_SELECTOR);
+        // get the all pages tree
+        clickTab("All pages");
+        waitForStepToLoad("xExplorerPanel");
+        
         getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", "XWiki.Register");
         // wait for the space to get selected
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + "XWiki"
-            + "\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + "XWiki" + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
             + "New page...\"]');");
         clickButtonWithText("Select");
@@ -473,8 +477,8 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         assertElementPresent("//input[@title=\"Label of the created link\" and @readonly=\"\"]");
 
         clickButtonWithText("Create Link");
-        waitForDialogToClose();        
-        
+        waitForDialogToClose();
+
         // edit image
         selectNode("XWE.body.firstChild.firstChild");
         clickMenu(MENU_IMAGE);
@@ -492,13 +496,13 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         getSelenium().type(INPUT_ALT, "");
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
-        
+
         assertWiki("[[[[image:RecentChanges@lquo.gif]]>>XWiki.Register]]");
     }
 
     private void waitForStepToLoad(String stepClass)
     {
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"" + stepClass + "\")]');");
+        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + stepClass + "\")]');");
     }
 
     private void selectImage(String space, String page, String filename)
@@ -534,6 +538,12 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         assertEquals(page, getSelenium().getSelectedValue(imagePageSelector));
 
         assertImageSelected(filename);
+    }
+
+    private void clickTab(String tabName)
+    {
+        String tabSelector = "//div[.='" + tabName + "']";
+        getSelenium().click(tabSelector);
     }
 
     private void assertImageSelected(String filename)

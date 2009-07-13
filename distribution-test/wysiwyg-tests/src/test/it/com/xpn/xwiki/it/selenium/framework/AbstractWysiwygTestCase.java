@@ -602,22 +602,52 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Switch the WYSIWYG editor by clicking on the "WYSIWYG" tab item.
-     */    
+     * Switch the WYSIWYG editor by clicking on the "WYSIWYG" tab item and waits for the rich text area to be
+     * initialized.
+     */
     public void switchToWysiwyg()
+    {
+        switchToWysiwyg(true);
+    }
+
+    /**
+     * Switch the WYSIWYG editor by clicking on the "WYSIWYG" tab item.
+     * 
+     * @param wait {@code true} to wait for the rich text area to be initialized, {@code false} otherwise
+     */
+    public void switchToWysiwyg(boolean wait)
     {
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
+            if (wait) {
+                waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xRichTextEditor\")"
+                    + " and not(contains(@class, \"loading\"))]')");
+            }
         }
     }
-    
+
     /**
-     * Switch the Source editor by clicking on the "Source" tab item. 
+     * Switch the Source editor by clicking on the "Source" tab item and waits for the plain text area to be
+     * initialized.
      */
     public void switchToSource()
     {
+        switchToSource(true);
+    }
+
+    /**
+     * Switch the Source editor by clicking on the "Source" tab item.
+     * 
+     * @param wait {@code true} to wait for the plain text area to be initialized, {@code false} otherwise
+     */
+    public void switchToSource(boolean wait)
+    {
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
+            if (wait) {
+                waitForCondition("selenium.isElementPresent('//textarea[contains(@class, \"xPlainTextEditor\")"
+                    + " and not(contains(@class, \"loading\"))]')");
+            }
         }
     }
     

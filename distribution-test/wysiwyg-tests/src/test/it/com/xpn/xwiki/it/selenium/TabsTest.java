@@ -32,54 +32,63 @@ public class TabsTest extends AbstractWysiwygTestCase
         XWikiTestSuite suite = new XWikiTestSuite("Tests wysiwyg tabs");
         suite.addTestSuite(TabsTest.class, AlbatrossSkinExecutor.class);
         return suite;
-    }       
-            
+    }
+
     public void testMultipleClicksOnTheSameTab()
     {
         setContent("<strong>foo</strong>");
-        switchToWysiwyg();
+        switchToWysiwyg(false);
         switchToWysiwyg();
         assertWiki("**foo**");
     }
-    
-    /** 
+
+    /**
      * Tests that XWIKI-3834 remains fixed.
      */
     public void testMultipleSwitches()
     {
         StringBuffer content = new StringBuffer();
         // We put quite a lot of content so that the conversion is not immediate.
-        content.append("<strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor " +
-        		"incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation " +
-        		"ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in " +
-        		"voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non " +
-        		"proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-        content.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt " +
-            "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco " +
-            "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in " +
-            "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non " +
-            "proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-        content.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt " +
-            "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco " +
-            "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in " +
-            "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non " +
-            "proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-        content.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt " +
-            "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco " +
-            "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in " +
-            "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non " +
-            "proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</strong>");        
-        setContent(content.toString());    
-        
+        content.append("<strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor "
+            + "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation "
+            + "ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
+            + "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
+            + "proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        content.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt "
+            + "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco "
+            + "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
+            + "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
+            + "proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        content.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt "
+            + "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco "
+            + "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
+            + "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
+            + "proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        content.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt "
+            + "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco "
+            + "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in "
+            + "voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non "
+            + "proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</strong>");
+        setContent(content.toString());
+
         // We go back and forth multiple times to be sure that it is not a matter of chance.
+        switchToSource(false);
+        switchToWysiwyg(false);
+        switchToSource(false);
+        switchToWysiwyg(false);
         switchToSource();
-        switchToWysiwyg();
-        switchToSource();
-        switchToWysiwyg();
-        switchToSource();
-        
-        waitForCondition("window.document.getElementsByClassName('xPlainTextEditor')[0].className.indexOf('loading') " +
-        		"== -1");                     
+
         assertFalse(getFieldValue("content").contains("strong"));
-    }   
+    }
+
+    /**
+     * @see XWIKI-4079: Links are lost when switching to Source in the WYSIWYG editor.
+     */
+    public void testLinksAreNotLostWhenSwitchingToSourceTab()
+    {
+        String content = "Visit [[XWiki>>http://www.xwiki.org]] and our [[blog>>Blog.WebHome]].";
+        setWikiContent(content);
+        switchToSource();
+        assertEquals(content, getFieldValue("content"));
+    }
 }

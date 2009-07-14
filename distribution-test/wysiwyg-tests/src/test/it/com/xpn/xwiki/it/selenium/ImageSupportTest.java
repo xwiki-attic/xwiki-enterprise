@@ -85,10 +85,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         String imageSpace = "XWiki";
         String imagePage = "AdminSheet";
         String imageFile = "photos.png";
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -111,10 +108,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         String imagePage = "AdminSheet";
         String imageFile = "blog.png";
 
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -128,10 +122,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         // cannot select the image otherwise but like this: click won't work, nor push button
         selectNode("XWE.body.firstChild");
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
-        clickMenu(MENU_EDIT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the page is the right page
         assertImageSelected(imageSpace, imagePage, imageFile);
@@ -157,10 +148,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         typeText("Attention");
         typeEnter();
 
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -185,10 +173,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         // now edit
         selectNode("XWE.body.childNodes[1].firstChild");
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
-        clickMenu(MENU_EDIT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the page is the right page
         assertImageSelected(imageSpace, imagePage, imageFile);
@@ -215,10 +200,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         String imageFile1 = "lquo.gif";
         String imageFile2 = "rquo.gif";
 
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // test that the default loaded view is the current page view
         assertElementPresent("//div[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]");
@@ -236,10 +218,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         typeText("Mmmh, cheese!");
 
         // now second image
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // test that the default loaded view is the current page view
         assertElementPresent("//div[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]");
@@ -274,10 +253,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         String imageFile1 = "rquo.gif";
         String imageFile2 = "lquo.gif";
 
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
@@ -307,9 +283,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         // edit a page from a different page, and switch to current page to try to add. so, no image will be selected
         setWikiContent("[[image:xwiki:XWiki.AdminSheet@registration.png]]");
         selectNode("XWE.body.firstChild.firstChild");
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
-        clickMenu(MENU_EDIT_IMAGE);
+        openImageDialog(MENU_EDIT_IMAGE);
 
         waitForStepToLoad(STEP_EXPLORER);
         clickTab(TAB_CURRENT_PAGE);
@@ -354,10 +328,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
      */
     public void testNewImageOptionLoadsFileUploadStep()
     {
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
 
         // wait for the default option to load and then click it
@@ -368,10 +339,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_UPLOAD);
         closeDialog();
 
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
@@ -395,11 +363,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         // edit first image
         selectNode("XWE.body.firstChild.firstChild");
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
-        clickMenu(MENU_EDIT_IMAGE);
-
-        waitForDialogToLoad();
+        openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
         assertImageSelected("Main", "RecentChanges", "lquo.gif");
@@ -412,11 +376,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         // edit second image too
         selectNode("XWE.body.firstChild.childNodes[2]");
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
-        clickMenu(MENU_EDIT_IMAGE);
-
-        waitForDialogToLoad();
+        openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
         assertImageSelected("Main", "RecentChanges", "rquo.gif");
@@ -438,11 +398,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
     public void testEditImageWithLink()
     {
         // add all the image & link, otherwise it will not reproduce, it only reproduces if container is body
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_INSERT_IMAGE));
-        clickMenu(MENU_INSERT_IMAGE);
-
-        waitForDialogToLoad();
+        openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -464,7 +420,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab("All pages");
         waitForStepToLoad("xExplorerPanel");
-        
+
         getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", "XWiki.Register");
         // wait for the space to get selected
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + "XWiki" + "\"]');");
@@ -481,11 +437,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         // edit image
         selectNode("XWE.body.firstChild.firstChild");
-        clickMenu(MENU_IMAGE);
-        assertTrue(isMenuEnabled(MENU_EDIT_IMAGE));
-        clickMenu(MENU_EDIT_IMAGE);
-
-        waitForDialogToLoad();
+        openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
         assertImageSelected("XWiki", "AdminSheet", "registration.png");
@@ -565,5 +517,13 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         return getSelenium().isElementPresent(
             "//div[contains(@class, \"AlignPanel\")]//input[@name=\"alignment\" and @value=\"" + alignment
                 + "\" and @checked=\"\"]");
+    }
+
+    private void openImageDialog(String menuName)
+    {
+        clickMenu(MENU_IMAGE);
+        assertTrue(isMenuEnabled(menuName));
+        clickMenu(menuName);
+        waitForDialogToLoad();
     }
 }

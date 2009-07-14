@@ -702,12 +702,48 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4085: Content duplicated if i have a macro (toc, id..) in an html macro.
+     */
+    public void testNestedMacrosAreNotDuplicated()
+    {
+        StringBuffer content = new StringBuffer();
+        content.append("{{html wiki=\"true\"}}\n\n");
+        content.append("= Hello title 1 =\n\n");
+        content.append("{{toc start=\"2\"/}}\n\n");
+        content.append("= Hello title 2 =\n\n");
+        content.append("{{/html}}");
+        setWikiContent(content.toString());
+
+        // Check if only one macro was detected (which should be the top level macro).
+        assertEquals(1, getMacroCount());
+
+        // Check if the top level macro was correctly detected.
+        deleteMacro(0);
+        assertWiki("");
+
+        // Reset the initial content.
+        setWikiContent(content.toString());
+
+        // Check if the nested macro is duplicated.
+        assertWiki(content.toString());
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */
     public String getMacroLocator(int index)
     {
         return getDOMLocator("getElementsByTagName('button')[" + index + "]");
+    }
+
+    /**
+     * @return the number of macros detected in the edited document
+     */
+    public int getMacroCount()
+    {
+        String expression = "window." + getDOMLocator("getElementsByTagName('button').length");
+        return Integer.parseInt(getSelenium().getEval(expression));
     }
 
     /**
@@ -769,6 +805,17 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_MACRO);
         clickMenu(MENU_EDIT);
         waitForDialogToLoad();
+    }
+
+    /**
+     * Deletes the specified macro by selecting it and then pressing the Delete key.
+     * 
+     * @param index the index of the macro to be deleted
+     */
+    public void deleteMacro(int index)
+    {
+        clickMacro(index);
+        typeDelete();
     }
 
     /**

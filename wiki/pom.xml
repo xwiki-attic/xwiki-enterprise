@@ -64,6 +64,12 @@
       <version>${platform.tag.version}</version>
       <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-wiki-macro-bridge</artifactId>
+      <version>${platform.wikimacrobridge.version}</version>
+      <type>xar</type>
+    </dependency>    
   </dependencies>
   <build>
     <extensions>

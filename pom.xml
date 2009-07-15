@@ -69,6 +69,7 @@
     <platform.officeimporter.version>1.10-SNAPSHOT</platform.officeimporter.version>
     <platform.webdav.version>1.3-SNAPSHOT</platform.webdav.version>
     <platform.tag.version>1.5-SNAPSHOT</platform.tag.version>
+    <platform.wikimacrobridge.version>1.0-SNAPSHOT</platform.wikimacrobridge.version>
   </properties>
   <profiles>
     <profile>

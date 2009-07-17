@@ -976,6 +976,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         clickMenu("Table");
         clickMenu("Insert Table...");
-        getSelenium().click("//div[@class=\"xTableMainPanel\"]/button[text()=\"Insert\"]");
+        getSelenium().click("//button[text()=\"Insert\"]");
     }
 }

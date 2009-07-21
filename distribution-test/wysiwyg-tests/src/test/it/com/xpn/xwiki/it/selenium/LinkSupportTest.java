@@ -467,6 +467,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertTrue(isMenuEnabled(MENU_WIKI_PAGE));
         assertTrue(isMenuEnabled(MENU_WEB_PAGE));
         assertTrue(isMenuEnabled(MENU_EMAIL_ADDRESS));
+        clickMenu(MENU_LINK);
 
         // put selection inside the first link
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 2);
@@ -517,6 +518,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_WEB_PAGE));
         assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
         assertFalse(isMenuEnabled(MENU_WIKI_PAGE));
+        clickMenu(MENU_LINK);
 
         // set selection in two different links
         select("XWE.body.firstChild.childNodes[13].firstChild.firstChild", 4, "XWE.body.firstChild.childNodes[15]", 1);
@@ -934,7 +936,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         setWikiContent("[[foobar>>Main.RecentChanges||class=\"foobarLink\"]]");
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
-        
+
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
         assertEquals("Main.RecentChanges", getExplorerInputValue());
@@ -1409,7 +1411,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // first link, a link to an existing page
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
         openLinkDialog(MENU_LINK_EDIT);
-        
+
         waitForStepToLoad("xExplorerPanel");
         assertEquals("Main.RecentChanges", getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");

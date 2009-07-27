@@ -60,7 +60,7 @@
     <platform.administration.version>1.14-SNAPSHOT</platform.administration.version>
     <platform.scheduler.version>1.10-SNAPSHOT</platform.scheduler.version>       
     <platform.watchlist.version>1.17-SNAPSHOT</platform.watchlist.version>
-    <platform.blog.version>1.7-SNAPSHOT</platform.blog.version>
+    <platform.blog.version>1.8-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.5-SNAPSHOT</platform.statistics.version>
     <platform.plugin.mailsender.version>1.10-SNAPSHOT</platform.plugin.mailsender.version>

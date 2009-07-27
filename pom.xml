@@ -54,15 +54,15 @@
     <platform.tool.jetty.version>1.14</platform.tool.jetty.version>
     <platform.tool.rootwebapp.version>1.1</platform.tool.rootwebapp.version>
     <platform.tool.packager.version>1.12</platform.tool.packager.version>
-    <platform.core.version>1.9-SNAPSHOT</platform.core.version>
-    <platform.web.version>1.9-SNAPSHOT</platform.web.version>
+    <platform.core.version>1.9.2</platform.core.version>
+    <platform.web.version>1.9.2</platform.web.version>
     <!-- Since 1.21 panels application needs core 2.0 -->
     <platform.panels.version>1.20.1</platform.panels.version>
     <!-- Since 1.13 administration application needs platform/web 2.0 -->
     <platform.administration.version>1.12</platform.administration.version>
     <platform.scheduler.version>1.9</platform.scheduler.version>
     <platform.watchlist.version>1.16</platform.watchlist.version>
-    <platform.blog.version>1.6</platform.blog.version>
+    <platform.blog.version>1.7</platform.blog.version>
     <platform.jodatime.version>1.3</platform.jodatime.version>
     <platform.statistics.version>1.4</platform.statistics.version>
     <platform.plugin.mailsender.version>1.9</platform.plugin.mailsender.version>

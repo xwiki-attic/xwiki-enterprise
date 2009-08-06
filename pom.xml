@@ -65,12 +65,12 @@
     <platform.blog.version>1.8-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.3</platform.jodatime.version>
     <platform.statistics.version>1.4</platform.statistics.version>
-    <platform.plugin.mailsender.version>1.9</platform.plugin.mailsender.version>
+    <platform.plugin.mailsender.version>1.10-SNAPSHOT</platform.plugin.mailsender.version>
     <platform.plugin.lucene.version>1.8</platform.plugin.lucene.version>
     <platform.plugin.skinx.version>1.9</platform.plugin.skinx.version>
     <platform.officeimporter.version>1.9</platform.officeimporter.version>
     <platform.webdav.version>1.2</platform.webdav.version>
-    <platform.tag.version>1.4</platform.tag.version>
+    <platform.tag.version>1.6-SNAPSHOT</platform.tag.version>
   </properties>
   <profiles>
     <profile>

@@ -444,6 +444,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + newPageName
             + "\"]');");
         clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
@@ -624,13 +625,6 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "foo");
         clickButtonWithText("Create Link");
-
-        /*
-         * Cannot check these, for the moment assertTrue(getSelenium().isAlertPresent());
-         * assertEquals("The name of the new space was not set", getSelenium() .getAlert()); ensureDialogIsOpen();
-         * typeInInputWithTitle("New space name", "NewSpace"); typeInInputWithTitle("New page name", "NewPage");
-         * clickCreateNewPageLinkButton(); ensureDialogIsClosed(); assertWiki("[[foo>>NewSpace.NewPage]]");
-         */
 
         assertWiki("[[foo>>NewPage]]");
 
@@ -1476,12 +1470,12 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     protected void typeInExplorerInput(String text)
     {
-        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", text);
+        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", text);
     }
 
     protected String getExplorerInputValue()
     {
-        return getSelenium().getValue("//div[contains(@class, 'xExplorerPanel')]/input");
+        return getSelenium().getValue("//div[contains(@class, 'xExplorerPanel')]//input");
     }
 
     private void clickTab(String tabName)

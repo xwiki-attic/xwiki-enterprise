@@ -524,7 +524,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testInsertCodeMacro()
     {
-        insertMacro("code");
+        insertMacro("Code");
 
         setFieldValue("pd-content-input", "function f(x) {\n  return x;\n}");
         applyMacroChanges();
@@ -558,7 +558,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         // Get out of the heading.
         typeEnter();
         // Insert the ToC macro
-        insertMacro("toc");
+        insertMacro("Table Of Contents");
         // Make sure the ToC starts with level 2 headings.
         setFieldValue("pd-start-input", "2");
         applyMacroChanges();
@@ -587,7 +587,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild", 6);
 
         // Insert the HTML macro.
-        insertMacro("html");
+        insertMacro("HTML");
         // Make the macro render a list, which is forbidden inside a paragraph.
         setFieldValue("pd-content-input", "<ul><li>xwiki</li></ul>");
         applyMacroChanges();
@@ -620,7 +620,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     public void testInsertCodeMacroWithXMLComments()
     {
         // Insert the Code macro.
-        insertMacro("code");
+        insertMacro("Code");
         // Set the language parameter to XML.
         setFieldValue("pd-language-input", "xml");
         // Set the content. Include XML comments in the content.
@@ -726,6 +726,81 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
         // Check if the nested macro is duplicated.
         assertWiki(content.toString());
+    }
+
+    /**
+     * @see XWIKI-4155: Use double click or Enter to select the macro to insert.
+     */
+    public void testDoubleClickToSelectMacroToInsert()
+    {
+        clickMenu(MENU_MACRO);
+        clickMenu(MENU_INSERT);
+        waitForDialogToLoad();
+
+        // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
+        // removed just before the list of macros is displayed and the Selenium click command can interfere.
+        waitForCondition("selenium.isElementPresent(\"//div[@class = 'xListBox']//div[text() = 'Info Message']\");");
+        // Each double click event should be preceded by a click event.
+        getSelenium().click("//div[@class = 'xListBox']//div[text() = 'Info Message']");
+        // Fire the double click event.
+        getSelenium().doubleClick("//div[@class = 'xListBox']//div[text() = 'Info Message']");
+        waitForDialogToLoad();
+
+        // Fill the macro content.
+        setFieldValue("pd-content-input", "x");
+        applyMacroChanges();
+
+        // Check the result.
+        assertWiki("{{info}}x{{/info}}");
+    }
+
+    /**
+     * @see XWIKI-4155: Use double click or Enter to select the macro to insert.
+     */
+    public void testPressEnterToSelectMacroToInsert()
+    {
+        clickMenu(MENU_MACRO);
+        clickMenu(MENU_INSERT);
+        waitForDialogToLoad();
+
+        // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
+        // removed just before the list of macros is displayed and the Selenium click command can interfere.
+        waitForCondition("selenium.isElementPresent(\"//div[@class = 'xListBox']//div[text() = 'HTML']\");");
+        // Select a macro.
+        getSelenium().click("//div[@class = 'xListBox']//div[text() = 'HTML']");
+        // Press Enter to choose the selected macro.
+        getSelenium().keyUp("//div[@class = 'xListBox']", "\\13");
+        waitForDialogToLoad();
+
+        // Fill the macro content.
+        setFieldValue("pd-content-input", "a");
+        applyMacroChanges();
+
+        // Check the result.
+        assertWiki("{{html}}a{{/html}}");
+    }
+
+    /**
+     * @see XWIKI-4137: Pop up the "Edit macro properties" dialog when double-clicking on a macro block.
+     */
+    public void testDoubleClickToEditMacro()
+    {
+        // Insert two macros.
+        setWikiContent("{{error}}x{{/error}}{{info}}y{{/info}}");
+
+        // Double click to edit the second macro.
+        // Each double click event should be preceded by a click event.
+        clickMacro(1);
+        // Fire the double click event on the macro.
+        getSelenium().doubleClick(getMacroLocator(1));
+        waitForDialogToLoad();
+
+        // Fill the macro content.
+        setFieldValue("pd-content-input", "z");
+        applyMacroChanges();
+
+        // Check the result.
+        assertWiki("{{error}}x{{/error}}{{info}}z{{/info}}");
     }
 
     /**

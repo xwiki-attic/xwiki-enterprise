@@ -1367,9 +1367,9 @@ I said ok
   &lt;/tr&gt;
 &lt;/table&gt;
 
-1.1 Embedded documents
+1.1 Groups
 
-This feature allows inserting another document inline directly into the current document. This allows for example to insert complex elements inside a list item or inside a table cell. Embedded documents are delimited by the following syntactic elements: &lt;tt&gt;(((...)))&lt;/tt&gt;. One embedded document can contain its own embedded documents and there is no limit of imbrication.
+Groups can be used to insert another document inline directly into the current document. This allows for example to insert complex elements inside a list item or inside a table cell. Groups are delimited by the following syntactic elements: &lt;tt&gt;(((...)))&lt;/tt&gt;. One Group can contain another Group and there is no limit of imbrication.
 
 &lt;table class="wiki-table" border="1" cellspacing="0" cellpadding="2" width="80%"&gt;
   &lt;tr&gt;

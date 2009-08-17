@@ -94,7 +94,7 @@ Class properties:
         &lt;input type="hidden" name="template" value="${classTemplateDoc}"/&gt;
         &lt;input type="hidden" name="sheet" value="1"/&gt;
         Space: &lt;input type="text" name="spaceName" value="${defaultSpace}" size="8"/&gt;
-        Document: &lt;input type="text" name="docName" value="Document name" class="defaulted"'/&gt;
+        Document: &lt;input type="text" name="docName" value="Document name" class="withTip"'/&gt;
         &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create this document" class="button"/&gt;&lt;/span&gt;
       &lt;/div&gt;
     &lt;/form&gt;

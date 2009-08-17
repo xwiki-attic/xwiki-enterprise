@@ -64,7 +64,7 @@ Choose a simple name, such as //Article//, //Book//, //Employee//. '//Class//' w
     &lt;input type="hidden" name="template" value="XWiki.ClassTemplate"/&gt;
     &lt;input type="hidden" name="sheet" value="1"/&gt;
     Space: &lt;input type="text" name="space" value="XWiki"/&gt;
-    Class: &lt;input type="text" name="name" value="Name of the class" class="defaulted"/&gt;
+    Class: &lt;input type="text" name="name" value="Name of the class" class="withTip"/&gt;
     &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create this Class" class="button"/&gt;&lt;/span&gt;
   &lt;/div&gt;
 &lt;/form&gt;

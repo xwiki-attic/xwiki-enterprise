@@ -28,7 +28,6 @@ import java.util.Enumeration;
 
 import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.DefaultSelenium;
-import org.openqa.selenium.server.SeleniumServer;
 
 /**
  * Starts the Browser only once per Test Suite.

@@ -938,6 +938,28 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
+     * Asserts that the specified error message in a container with the specified error class is present.
+     * 
+     * @param errorMessage the expected error message
+     * @param errorClass the expected class of the error container
+     */
+    public void assertFieldErrorIsPresent(String errorMessage, String errorClass)
+    {
+        assertTrue(getSelenium().isVisible(
+            "//*[contains(@class, \"" + errorClass + "\") and . = \"" + errorMessage + "\"]"));
+    }
+
+    /**
+     * Asserts that no message with the specified container class is present.
+     * 
+     * @param errorClass the class of the error container
+     */
+    public void assertFieldErrorIsNotPresent(String errorClass)
+    {
+        assertFalse(getSelenium().isVisible("//*[contains(@class, \"" + errorClass + "\")]"));
+    }
+
+    /**
      * Simulates a focus event on the rich text area. We don't use the focus method because it fails to notify our
      * listeners when the browser window is not focused, preventing us from running the tests in background.
      * <p>

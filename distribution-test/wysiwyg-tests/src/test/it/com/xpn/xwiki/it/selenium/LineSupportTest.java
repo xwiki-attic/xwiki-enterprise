@@ -224,7 +224,7 @@ public class LineSupportTest extends AbstractWysiwygTestCase
 
         waitForDialogToLoad();
         // wait for the main step of the dialog to load
-        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"xSelectorStep\")]');");
+        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"xSelectorAggregatorStep\")]');");
         // click the 'All pages' tab
         getSelenium().click("//div[.='All pages']");
         String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";

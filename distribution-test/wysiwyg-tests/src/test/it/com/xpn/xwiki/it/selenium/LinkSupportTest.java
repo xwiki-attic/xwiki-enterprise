@@ -53,6 +53,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
     public static final String LABEL_INPUT_TITLE = "Type the label of the created link.";
 
+    public static final String LINK_ERROR_CLASS = "xLinkParameterError";
+
     /**
      * Creates the test suite for this test class.
      * 
@@ -584,12 +586,9 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // try to create link without filling in the label
         clickButtonWithText("Create Link");
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
 
         // fill in the label and create link
-        waitForDialogToLoad();
-        waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "foo");
         clickButtonWithText("Create Link");
 
@@ -617,12 +616,9 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
 
         // fill in the label and create link
-        waitForDialogToLoad();
-        waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "foo");
         clickButtonWithText("Create Link");
 
@@ -637,12 +633,9 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         typeInInput("Web page address", "http://www.xwiki.org");
         clickButtonWithText("Create Link");
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
 
         // fill in the label and create link
-        waitForDialogToLoad();
-        waitForStepToLoad("xLinkToUrl");
         typeInInput(LABEL_INPUT_TITLE, "xwiki");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
@@ -657,19 +650,13 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Create Link");
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
 
-        waitForDialogToLoad();
-        waitForStepToLoad("xLinkToUrl");
         typeInInput(LABEL_INPUT_TITLE, "alice");
         clickButtonWithText("Create Link");
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("The email address was not set", getSelenium().getAlert());
+        assertFieldErrorIsPresentInStep("The email address was not set", LINK_ERROR_CLASS, "xLinkToUrl");
 
-        waitForDialogToLoad();
-        waitForStepToLoad("xLinkToUrl");
         typeInInput("Email address", "alice@wonderla.nd");
         clickButtonWithText("Create Link");
 
@@ -859,10 +846,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
             + "\"]');");
 
         clickButtonWithText("Select");
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("No attachment was selected", getSelenium().getAlert());
 
-        waitForStepToLoad("xExplorerPanel");
+        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xExplorerPanel");
 
         // type correct file reference
         typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
@@ -878,10 +863,8 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("The label of the link cannot be empty", getSelenium().getAlert());
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
 
-        waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
         clickButtonWithText("Create Link");
 
@@ -1030,7 +1013,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_WIKI_PAGE);
 
         // check the recent changes selection
-        waitForStepToLoad("xSelectorStep");
+        waitForStepToLoad("xSelectorAggregatorStep");
 
         // test that the default open tab is the recent changes tab
         assertElementPresent("//div[contains(@class, 'gwt-TabBarItem-selected')]/div[.='" + RECENT_PAGES_TAB + "']");
@@ -1081,7 +1064,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_WIKI_PAGE);
 
         // check the recent changes selection
-        waitForStepToLoad("xSelectorStep");
+        waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesSelector");
         // test that the selected element is the new page element
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
@@ -1112,7 +1095,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_WIKI_PAGE);
 
         // check the recent changes selection
-        waitForStepToLoad("xSelectorStep");
+        waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesSelector");
         // test that the selected element is the new page element
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
@@ -1140,7 +1123,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // check the wikipage link dialog
         openLinkDialog(MENU_WIKI_PAGE);
 
-        waitForStepToLoad("xSelectorStep");
+        waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
         // test that the selected element is the new page element
@@ -1162,7 +1145,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // check the wikipage link dialog
         openLinkDialog(MENU_WIKI_PAGE);
 
-        waitForStepToLoad("xSelectorStep");
+        waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
         // perform a search
@@ -1197,7 +1180,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_WIKI_PAGE);
 
         // check the recent changes selection
-        waitForStepToLoad("xSelectorStep");
+        waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
         // test that the selected element is the new page element
@@ -1372,25 +1355,17 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertElementNotPresent("//div[contains(@class, \"xListItem-selected\")]");
 
         clickButtonWithText("Select");
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("No attachment was selected", getSelenium().getAlert());
 
-        waitForStepToLoad("xAttachmentsSelector");
-        clickTab(ALL_PAGES_TAB);
-        waitForStepToLoad("xExplorerPanel");
-        assertEquals("xwiki:Main.RecentChanges@lquo.gif", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif\"]');");
+        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xAttachmentsSelector");
 
+        // select the new file option
+        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
         clickButtonWithText("Select");
+        waitForStepToLoad("xUploadPanel");
+        clickButtonWithText("Upload");
+        assertFieldErrorIsPresentInStep("The file path was not set", "xFileUploadError", "xUploadPanel");
 
-        waitForStepToLoad("xLinkConfig");
-        typeInInput(LABEL_INPUT_TITLE, "lquo.gif");
-        clickButtonWithText("Create Link");
-        waitForDialogToClose();
-
-        assertWiki("[[lquo.gif>>attach:RecentChanges@lquo.gif]]");
+        closeDialog();
     }
 
     /**
@@ -1463,6 +1438,261 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertWiki("http://www.xwiki.org\n\nfoo");
     }
 
+    /**
+     * Test that the error markers are removed for the following displays of an external link step with an error: either
+     * the dialog with the error is closed by canceling or by selecting a correct value and continuing, upon return to
+     * the error dialog, the error message and markers are now hidden.
+     */
+    public void testErrorIsHiddenOnNextDisplayOfExternalLink()
+    {
+        // for a web page
+        openLinkDialog(MENU_WEB_PAGE);
+        typeInInput("Web page address", "http://www.xwiki.org");
+        clickButtonWithText("Create Link");
+        // check that an error is present
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        // cancel everything
+        closeDialog();
+        // now open a new one
+        openLinkDialog(MENU_WEB_PAGE);
+        // check that the error is no longer there
+        assertElementNotPresent(LINK_ERROR_CLASS);
+        closeDialog();
+
+        // for an email
+        openLinkDialog(MENU_EMAIL_ADDRESS);
+        typeInInput("Email address", "xwiki@xwiki.com");
+        clickButtonWithText("Create Link");
+        // check that an error is present
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        // cancel everything
+        closeDialog();
+        // now open a new one
+        openLinkDialog(MENU_EMAIL_ADDRESS);
+        // check that the error is no longer there
+        assertElementNotPresent(LINK_ERROR_CLASS);
+        closeDialog();
+    }
+
+    /**
+     * Test that the error markers are removed for the following displays of an attachment link step with an error:
+     * either the dialog with the error is closed by canceling or by selecting a correct value and continuing, upon
+     * return to the error dialog, the error message and markers are now hidden.
+     */
+    public void testErrorIsHiddenOnNextDisplayOfAttachmentLink()
+    {
+        // test that no selection in the current page attachment generates an exception: edit a non-existent file link
+        setWikiContent("[[non-existent-attachment.png>>attach:non-existent-attachment.png]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xAttachmentsSelector");
+        // assert that no selection is in the list;
+        assertElementNotPresent("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, \"xListItem-selected\")]");
+        // try to hit select and wait for the validation message
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xAttachmentsSelector");
+        closeDialog();
+        openLinkDialog(MENU_LINK_EDIT);
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xAttachmentsSelector");
+        // get an error and then go to the next step to come back after
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xAttachmentsSelector");
+        // make a selection and check that on the previous button the current page selector dialog will no longer show
+        // an error
+        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xUploadPanel");
+        // now hit previous and check that the error is no longer there
+        clickButtonWithText("Previous");
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xAttachmentsSelector");
+        // FIXME: should check that the selection is the correct one (new page), but it's not
+        closeDialog();
+        resetContent();
+        // get an error at the upload step and check that it's hidden on next display
+        openLinkDialog(MENU_ATTACHMENT);
+        waitForStepToLoad("xAttachmentsSelector");
+        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xUploadPanel");
+        clickButtonWithText("Upload");
+        // get an error
+        assertFieldErrorIsPresentInStep("The file path was not set", "xFileUploadError", "xUploadPanel");
+        // back, next and the error should be gone
+        clickButtonWithText("Previous");
+        // FIXME: should not redo selection here, it should be preserved
+        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
+        clickButtonWithText("Select");
+        assertFieldErrorIsNotPresentInStep("xFileUploadError", "xUploadPanel");
+        // get the error again to check that closing it and re displaying this step makes it go away
+        clickButtonWithText("Upload");
+        assertFieldErrorIsPresentInStep("The file path was not set", "xFileUploadError", "xUploadPanel");
+        closeDialog();
+        // same and check the error is no longer present
+        openLinkDialog(MENU_ATTACHMENT);
+        waitForStepToLoad("xAttachmentsSelector");
+        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
+        clickButtonWithText("Select");
+        assertFieldErrorIsNotPresentInStep("xFileUploadError", "xUploadPanel");
+    }
+
+    /**
+     * Test that the error markers are removed for the following displays of a wiki page link step with an error: either
+     * the dialog with the error is closed by canceling or by selecting a correct value and continuing, upon return to
+     * the error dialog, the error message and markers are now hidden.
+     */
+    public void testErrorIsHiddenOnNextDisplayOfWikipageLink()
+    {
+        // 1/ get an error on the current page tab then select new page, next, previous => error is not displayed
+        // anymore, close. Open, get error again, close dialog. Open back, error not displayed anymore edit link to new
+        // page in new space, to be sure there's no selection in RecentChanges nor in Search
+        setWikiContent("[[new page>>NewSpace.NewPage]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab(RECENT_PAGES_TAB);
+        waitForStepToLoad("xPagesRecent");
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xPagesRecent");
+        getSelenium().click("//div[contains(@class, 'xPagesRecent')]//div[contains(@class, 'xNewPagePreview')]");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkToNewPage");
+        clickButtonWithText("Previous");
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xPagesRecent");
+        closeDialog();
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab(RECENT_PAGES_TAB);
+        waitForStepToLoad("xPagesRecent");
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xPagesRecent");
+        closeDialog();
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab(RECENT_PAGES_TAB);
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xPagesRecent");
+        closeDialog();
+        resetContent();
+
+        // TODO: 2/ should run the same scenario for the search page tab but
+
+        // 3/ get an error on the new page step, fix it, go to previous, next => error not displayed anymore. Get
+        // another error, go next, previous, error should not be there anymore. Get another error, close dialog. Open
+        // again, get there, the error should not be displayed.
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xPagesRecent");
+        assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkToNewPage");
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("The name of the new page was not set", "xPageNameError", "xLinkToNewPage");
+        clickButtonWithText("Previous");
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xPagesRecent");
+        assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
+        clickButtonWithText("Select");
+        // error not present on coming back from previous
+        assertFieldErrorIsNotPresentInStep("xPageNameError", "xLinkToNewPage");
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("The name of the new page was not set", "xPageNameError", "xLinkToNewPage");
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", "NewPage");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        clickButtonWithText("Previous");
+        // error not present when coming back from next
+        assertFieldErrorIsNotPresentInStep("xPageNameError", "xLinkToNewPage");
+        // check the content of the field
+        assertEquals("NewPage", getSelenium().getValue("//div[contains(@class, 'xLinkToNewPage')]//input"));
+        // get error again
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", "");
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("The name of the new page was not set", "xPageNameError", "xLinkToNewPage");
+        closeDialog();
+        // open again, check the error is not still there
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xPagesRecent");
+        assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
+        clickButtonWithText("Select");
+        // error not present when re-creating a link
+        assertFieldErrorIsNotPresentInStep("xPageNameError", "xLinkToNewPage");
+        closeDialog();
+        resetContent();
+
+        // 4/ get to the link config and get an error on the label -> previous, next, error should not be there anymore.
+        // close everything, open again, error should not be there anymore. get error, fix it, add the link, on new
+        // dialog error should not be there anymore
+        setWikiContent("[[the home>>Main.WebHome]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xExplorerPanel");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        typeInInput(LABEL_INPUT_TITLE, "");
+        clickButtonWithText("Create Link");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        // previous, next => error is not present
+        clickButtonWithText("Previous");
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xExplorerPanel");
+        clickButtonWithText("Select");
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xLinkConfig");
+        // error, again, to close this time
+        typeInInput(LABEL_INPUT_TITLE, "");
+        clickButtonWithText("Create Link");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        closeDialog();
+        // now again, check that the error is no longer there
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xExplorerPanel");
+        clickButtonWithText("Select");
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xLinkConfig");
+        // get an error
+        typeInInput(LABEL_INPUT_TITLE, "");
+        clickButtonWithText("Create Link");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        // now go ahead, edit the link
+        typeInInput(LABEL_INPUT_TITLE, "PageNew");
+        clickButtonWithText("Create Link");
+        // now open again, check error is not there anymore
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xExplorerPanel");
+        clickButtonWithText("Select");
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xLinkConfig");
+        closeDialog();
+
+        // 5/ get to the tree explorer, don't select any page, get an error. Fill in, next, previous -> error is hidden.
+        // Get error again, close. Open and error is hidden
+        setWikiContent("[[the blog>>Blog.WebHome]]");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xExplorerPanel");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Blog\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"WebHome\"]');");
+        typeInExplorerInput("");
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xExplorerPanel");
+        typeInExplorerInput("Blog.WebHome");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Blog\"]');");
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"WebHome\"]');");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        clickButtonWithText("Previous");
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xExplorerPanel");
+        typeInExplorerInput("");
+        clickButtonWithText("Select");
+        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xExplorerPanel");
+        closeDialog();
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xExplorerPanel");
+        closeDialog();
+    }
+
     protected void waitForStepToLoad(String name)
     {
         waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + name + "\")]');");
@@ -1490,5 +1720,30 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         assertTrue(isMenuEnabled(menuName));
         clickMenu(menuName);
         waitForDialogToLoad();
+    }
+
+    /**
+     * Tests that the specified error exists in the container within the specified step.
+     * 
+     * @param errorMessage the expected error message
+     * @param errorClass the error container class
+     * @param step the step in which the error should appear
+     */
+    public void assertFieldErrorIsPresentInStep(String errorMessage, String errorClass, String step)
+    {
+        waitForStepToLoad(step);
+        assertFieldErrorIsPresent(errorMessage, errorClass);
+    }
+
+    /**
+     * Tests that no error of the specified class is found in the specified step.
+     * 
+     * @param errorClass the class of the container
+     * @param step the step to check for errors
+     */
+    public void assertFieldErrorIsNotPresentInStep(String errorClass, String step)
+    {
+        waitForStepToLoad(step);
+        assertFieldErrorIsNotPresent(errorClass);
     }
 }

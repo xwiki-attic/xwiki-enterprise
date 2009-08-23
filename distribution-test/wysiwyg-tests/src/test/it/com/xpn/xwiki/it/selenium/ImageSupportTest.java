@@ -41,7 +41,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
     public static final String MENU_REMOVE_IMAGE = "Remove Image";
 
-    public static final String STEP_SELECTOR = "xSelectorStep";
+    public static final String STEP_SELECTOR = "xSelectorAggregatorStep";
 
     public static final String STEP_EXPLORER = "xImagesExplorer";
 
@@ -56,14 +56,22 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
     public static final String TAB_ALL_PAGES = "All pages";
 
     public static final String BUTTON_SELECT = "Select";
+    
+    public static final String BUTTON_UPLOAD = "Upload";    
 
     public static final String BUTTON_INSERT_IMAGE = "Insert Image";
+
+    public static final String BUTTON_PREVIOUS = "Previous";
 
     public static final String INPUT_WIDTH = "//div[contains(@class, \"xSizePanel\")]//input[1]";
 
     public static final String INPUT_HEIGHT = "//div[contains(@class, \"xSizePanel\")]//input[2]";
 
     public static final String INPUT_ALT = "//div[contains(@class, \"xAltPanel\")]//input";
+
+    public static final String IMAGE_ERROR_CLASS = "xImageParameterError";
+    
+    public static final String UPLOAD_ERROR_CLASS = "xFileUploadError";
 
     /**
      * Creates the test suite for this test class.
@@ -291,8 +299,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
 
         clickButtonWithText(BUTTON_SELECT);
 
-        assertTrue(getSelenium().isAlertPresent());
-        assertEquals("No image has been selected", getSelenium().getAlert());
+        assertFieldErrorIsPresent("No image has been selected", "xImageParameterError");
 
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
@@ -450,6 +457,81 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         assertWiki("[[[[image:RecentChanges@lquo.gif]]>>XWiki.Register]]");
+    }
+
+    /**
+     * Test that the validation errors in the image insert steps are hidden on the next display of the steps.
+     */
+    public void testErrorIsHiddenOnNextDisplay()
+    {
+        setWikiContent("[[image:xwiki:Main.RecentChanges@lquo.gif]]");
+        selectNode("XWE.body.firstChild.firstChild");
+        // 1/ get an error in the new image step, go next, previous, check it's not shown anymore
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_CURRENT_PAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertElementNotPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertFieldErrorIsPresent("No image has been selected", IMAGE_ERROR_CLASS);
+        // select the new image option
+        getSelenium().click(
+            "//*[contains(@class, '" + STEP_CURRENT_PAGE_SELECTOR + "')]//*[contains(@class, 'xNewImagePreview')]");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_UPLOAD);
+        clickButtonWithText(BUTTON_PREVIOUS);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_CURRENT_PAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertFieldErrorIsNotPresent(IMAGE_ERROR_CLASS);
+        closeDialog();
+
+        // 2/ get an error in the image dialog, close it and check it's not there anymore on next display
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_CURRENT_PAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertElementNotPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertFieldErrorIsPresent("No image has been selected", IMAGE_ERROR_CLASS);
+        closeDialog();
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_CURRENT_PAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertElementNotPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
+        assertFieldErrorIsNotPresent(IMAGE_ERROR_CLASS);
+        closeDialog();
+
+        resetContent();
+        // 3/ get an error in the file upload step and check that on previous, next is not displayed anymore
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertElementPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_UPLOAD);
+        clickButtonWithText(BUTTON_UPLOAD);
+        waitForStepToLoad(STEP_UPLOAD);
+        assertFieldErrorIsPresent("The file path was not set", UPLOAD_ERROR_CLASS);
+        clickButtonWithText(BUTTON_PREVIOUS);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_UPLOAD);
+        assertFieldErrorIsNotPresent(UPLOAD_ERROR_CLASS);
+        // get the error again, close, open and test that error is no longer there
+        clickButtonWithText(BUTTON_UPLOAD);
+        waitForStepToLoad(STEP_UPLOAD);
+        assertFieldErrorIsPresent("The file path was not set", UPLOAD_ERROR_CLASS);
+        closeDialog();
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        assertElementPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_UPLOAD);
+        assertFieldErrorIsNotPresent(UPLOAD_ERROR_CLASS);
+        closeDialog();
     }
 
     private void waitForStepToLoad(String stepClass)

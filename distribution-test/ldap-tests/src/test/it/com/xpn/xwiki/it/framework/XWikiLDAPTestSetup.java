@@ -19,10 +19,6 @@
  */
 package com.xpn.xwiki.it.framework;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Properties;
 
 import junit.framework.Test;
@@ -48,24 +44,9 @@ import org.xwiki.test.XWikiTestSetup;
 public class XWikiLDAPTestSetup extends XWikiTestSetup
 {
     /**
-     * The directory where is the instance of XWiki Enterprise used for theses tests.
-     */
-    public static final String EXECUTION_DIRECTORY = System.getProperty("xwikiExecutionDirectory");
-
-    /**
-     * The xwiki.cfg file used by the instance of XWiki Enterprise used for theses tests.
-     */
-    public static final String XWIKI_CFG_FILE = EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/xwiki.cfg";
-
-    /**
-     * The log4j.properties used by the instance of XWiki Enterprise used for theses tests.
-     */
-    public static final String XWIKI_LOG_FILE = EXECUTION_DIRECTORY + "/webapps/xwiki/WEB-INF/classes/log4j.properties";
-
-    /**
      * The xwiki.cfg properties modified for the test.
      */
-    public Properties CURRENTXWIKICONF;
+    public Properties currentXWikiConf;
 
     // ///
 
@@ -79,50 +60,40 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      */
     private Properties logProperties;
 
-    public XWikiLDAPTestSetup(Test test) throws IOException
+    public XWikiLDAPTestSetup(Test test) throws Exception
     {
         super(test);
 
         // Prepare xwiki.cfg properties
 
-        if (new File(XWIKI_CFG_FILE).exists()) {
-            FileInputStream fis = new FileInputStream(XWIKI_CFG_FILE);
-            this.initialXWikiConf = new Properties();
-            this.initialXWikiConf.load(fis);
-            fis.close();
+        this.initialXWikiConf = getXWikiExecutor().loadXWikiCfg();
+        this.currentXWikiConf = getXWikiExecutor().loadXWikiCfg();
 
-            fis = new FileInputStream(XWIKI_CFG_FILE);
-            CURRENTXWIKICONF = new Properties();
-            CURRENTXWIKICONF.load(fis);
-            fis.close();
-
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap", "1");
-            /*
-             * CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
-             * "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
-             */
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.server", LDAPTestSetup.LDAP_SERVER);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.base_DN", LDAPTestSetup.LDAP_BASEDN);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_DN", LDAPTestSetup.LDAP_BINDDN_CN);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.bind_pass", LDAPTestSetup.LDAP_BINDPASS_CN);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.fields_mapping", "name="
-                + LDAPTestSetup.LDAP_USERUID_FIELD
-                + ",last_name=sn,first_name=givenname,fullname=description,email=mail");
-            /*
-             * CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.XWikiAdminGroup=cn=HMS
-             * Lydia,ou=crews,ou=groups,o=sevenSeas");
-             */
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.user_group", LDAPTestSetup.HMSLYDIA_DN);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.exclude_group", LDAPTestSetup.EXCLUSIONGROUP_DN);
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.validate_password", "0");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.update_user", "1");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.trylocal", "1");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.mode_group_sync", "always");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl", "0");
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
-        }
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap", "1");
+        /*
+         * CURRENTXWIKICONF.setProperty("xwiki.authentication.authclass",
+         * "com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl");
+         */
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.server", LDAPTestSetup.LDAP_SERVER);
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.base_DN", LDAPTestSetup.LDAP_BASEDN);
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.bind_DN", LDAPTestSetup.LDAP_BINDDN_CN);
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.bind_pass", LDAPTestSetup.LDAP_BINDPASS_CN);
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD);
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.fields_mapping", "name="
+            + LDAPTestSetup.LDAP_USERUID_FIELD + ",last_name=sn,first_name=givenname,fullname=description,email=mail");
+        /*
+         * CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.XWikiAdminGroup=cn=HMS
+         * Lydia,ou=crews,ou=groups,o=sevenSeas");
+         */
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.groupcache_expiration", "1");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.user_group", LDAPTestSetup.HMSLYDIA_DN);
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.exclude_group", LDAPTestSetup.EXCLUSIONGROUP_DN);
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.validate_password", "0");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.update_user", "1");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.trylocal", "1");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.mode_group_sync", "always");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.ssl", "0");
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
 
         // Prepare log4j.properties properties
         this.logProperties = new Properties();
@@ -144,16 +115,10 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     @Override
     protected void setUp() throws Exception
     {
-        if (new File(XWIKI_CFG_FILE).exists()) {
-            CURRENTXWIKICONF.setProperty("xwiki.authentication.ldap.port", "" + LDAPTestSetup.getLDAPPort());
-            FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
-            CURRENTXWIKICONF.store(fos, null);
-            fos.close();
-        }
+        this.currentXWikiConf.setProperty("xwiki.authentication.ldap.port", "" + LDAPTestSetup.getLDAPPort());
+        getXWikiExecutor().saveXWikiCfg(this.currentXWikiConf);
 
-        FileOutputStream fos = new FileOutputStream(XWIKI_LOG_FILE);
-        this.logProperties.store(fos, null);
-        fos.close();
+        getXWikiExecutor().saveLog4JProperties(this.logProperties);
 
         super.setUp();
     }
@@ -168,10 +133,6 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     {
         super.tearDown();
 
-        if (new File(XWIKI_CFG_FILE).exists()) {
-            FileOutputStream fos = new FileOutputStream(XWIKI_CFG_FILE);
-            initialXWikiConf.store(fos, null);
-            fos.close();
-        }
+        getXWikiExecutor().saveXWikiCfg(this.initialXWikiConf);
     }
 }

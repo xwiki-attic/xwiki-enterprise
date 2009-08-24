@@ -17,18 +17,24 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rest.it;
+package com.xpn.xwiki.it.framework;
 
-public class TestConstants
+import org.xwiki.rest.it.framework.AbstractHttpTest;
+import org.xwiki.test.XWikiExecutor;
+
+/**
+ * Base class for REST based clustering integration test.
+ * 
+ * @version $Id$
+ */
+public abstract class AbstractClusterHttpTest extends AbstractHttpTest
 {
-    public static final String REST_API_ENTRYPOINT = "http://localhost:8080/xwiki/rest";
+    public void testRepresentation() throws Exception
+    {
+    }
 
-    public static final String INVALID_PAGE_XML = "invalidPage.xml";
-
-    public static final String TEST_SPACE_NAME = "Test";
-
-    public static final String TEST_PAGE_NAME = "Test";
-
-    public static final String TRANSLATIONS_PAGE_NAME = "Translations";
-
+    protected void switchXWiki(int index)
+    {
+        setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT) + index);
+    }
 }

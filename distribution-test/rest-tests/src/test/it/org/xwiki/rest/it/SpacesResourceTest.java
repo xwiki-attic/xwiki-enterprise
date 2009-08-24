@@ -19,11 +19,11 @@
  */
 package org.xwiki.rest.it;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.it.framework.AbstractHttpTest;
+import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -75,8 +75,7 @@ public class SpacesResourceTest extends AbstractHttpTest
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(String.format("%s?q=training", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                SpaceSearchResource.class).build(getWiki(), "Main")));
+            executeGet(String.format("%s?q=training", getUriBuilder(SpaceSearchResource.class).build(getWiki(), "Main")));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -85,8 +84,8 @@ public class SpacesResourceTest extends AbstractHttpTest
         assertEquals(0, searchResults.getSearchResults().size());
 
         getMethod =
-            executeGet(String.format("%s?q=training", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                WikiSearchResource.class).build(getWiki(), "Sandbox")));
+            executeGet(String.format("%s?q=training", getUriBuilder(WikiSearchResource.class).build(getWiki(),
+                "Sandbox")));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -104,8 +103,7 @@ public class SpacesResourceTest extends AbstractHttpTest
         TestUtils.banner("testSpaceAttachments()");
 
         GetMethod getMethod =
-            executeGet(String.format("%s", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                SpaceAttachmentsResource.class).build(getWiki(), "blog")));
+            executeGet(String.format("%s", getUriBuilder(SpaceAttachmentsResource.class).build(getWiki(), "blog")));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 

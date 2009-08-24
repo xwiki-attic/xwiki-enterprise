@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -40,6 +39,8 @@ import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.it.framework.AbstractHttpTest;
+import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
@@ -67,8 +68,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String content = "ATTACHMENT CONTENT";
 
         String attachmentUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME, attachmentName).toString();
+            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -93,8 +93,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String content = "ATTACHMENT CONTENT";
 
         String attachmentUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME, attachmentName).toString();
+            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -110,8 +109,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         TestUtils.banner("testGETAttachments()");
 
         String attachmentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME).toString();
+            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -127,8 +125,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         TestUtils.banner("testDELETEAttachment()");
 
         String attachmentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME).toString();
+            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -141,8 +138,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String attachmentName = attachments.getAttachments().get(0).getName();
 
         String attachmentUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME, attachmentName).toString();
+            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         DeleteMethod deleteMethod = executeDelete(attachmentUri, "Admin", "admin");
         TestUtils.printHttpMethodInfo(deleteMethod);
@@ -161,8 +157,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String content = "ATTACHMENT CONTENT";
 
         String attachmentUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME, attachmentName).toString();
+            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
         TestUtils.printHttpMethodInfo(putMethod);
@@ -196,8 +191,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
             String attachmentUri =
-                UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
-                    SPACE_NAME, PAGE_NAME, attachmentNames[i]).toString();
+                getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentNames[i]).toString();
 
             PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
             TestUtils.printHttpMethodInfo(putMethod);
@@ -215,8 +209,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
          */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
             String attachmentsUri =
-                UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsAtPageVersionResource.class)
-                    .build(getWiki(), SPACE_NAME, PAGE_NAME, pageVersions[i]).toString();
+                getUriBuilder(AttachmentsAtPageVersionResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME,
+                    pageVersions[i]).toString();
 
             GetMethod getMethod = executeGet(attachmentsUri);
             TestUtils.printHttpMethodInfo(getMethod);
@@ -266,8 +260,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_VERSIONS; i++) {
             String attachmentUri =
-                UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentResource.class).build(getWiki(),
-                    SPACE_NAME, PAGE_NAME, attachmentName).toString();
+                getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
             String content = String.format("CONTENT %d", i);
             PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
@@ -287,8 +280,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         }
 
         String attachmentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentHistoryResource.class).build(
-                getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
+            getUriBuilder(AttachmentHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -313,8 +305,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         final String content = "ATTACHMENT CONTENT";
 
         String attachmentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(AttachmentsResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME, attachmentName).toString();
+            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("Admin", "admin"));

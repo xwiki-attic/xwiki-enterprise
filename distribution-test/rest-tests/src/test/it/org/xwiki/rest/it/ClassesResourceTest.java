@@ -1,9 +1,9 @@
 package org.xwiki.rest.it;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.xwiki.rest.it.framework.AbstractHttpTest;
+import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Class;
 import org.xwiki.rest.model.jaxb.Classes;
 import org.xwiki.rest.model.jaxb.Property;
@@ -17,7 +17,7 @@ public class ClassesResourceTest extends AbstractHttpTest
         TestUtils.banner("testRepresentation()");
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ClassesResource.class).build(
+            executeGet(getUriBuilder(ClassesResource.class).build(
                 getWiki()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());

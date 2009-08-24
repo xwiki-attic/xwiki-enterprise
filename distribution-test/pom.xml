@@ -150,6 +150,10 @@
                 <value>${port}</value>
               </property>
               <property>
+                <name>xwikiStopPort</name>
+                <value>${stopport}</value>
+              </property>
+              <property>
                 <name>seleniumPort</name>
                 <value>${seleniumPort}</value>
               </property>
@@ -198,6 +202,7 @@
     -->
     <pattern>.*</pattern>
     <port>8080</port>
+    <stopport>8079</stopport>
     <seleniumPort>4444</seleniumPort>
   </properties>
   <profiles>
@@ -224,8 +229,8 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port}</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <profile>
@@ -236,8 +241,8 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port}</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <!-- This profile must come after the "mac" profile so that it overrides it when it's active.
@@ -261,8 +266,8 @@
     <profile>
       <id>macprofiler</id>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} profiler "${profilerPath}"</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}"</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <profile>
@@ -273,8 +278,8 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port}</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <!-- This profile must come after the "windows" profile so that it overrides it when it's active.
@@ -299,8 +304,8 @@
     <profile>
       <id>winprofiler</id>
       <properties>
-        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} profiler ${profilerPath}</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
   </profiles>
@@ -311,6 +316,7 @@
     <module>ldap-tests</module>
     <module>webdav-tests</module>
     <module>rest-tests</module>
+    <module>cluster-tests</module>
   </modules>
   <repositories>
     <repository>

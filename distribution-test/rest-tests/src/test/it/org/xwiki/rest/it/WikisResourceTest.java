@@ -19,11 +19,11 @@
  */
 package org.xwiki.rest.it;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.it.framework.AbstractHttpTest;
+import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -72,8 +72,7 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(String.format("%s?q=welcome", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                WikiSearchResource.class).build(getWiki())));
+            executeGet(String.format("%s?q=welcome", getUriBuilder(WikiSearchResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -86,8 +85,8 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?q=WebHome&scope=name", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT)
-                .path(WikiSearchResource.class).build(getWiki())));
+            executeGet(String.format("%s?q=WebHome&scope=name",
+                getUriBuilder(WikiSearchResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -100,8 +99,7 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?q=your&scope=title", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT)
-                .path(WikiSearchResource.class).build(getWiki())));
+            executeGet(String.format("%s?q=your&scope=title", getUriBuilder(WikiSearchResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -119,9 +117,7 @@ public class WikisResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testWikiPages()");
 
-        GetMethod getMethod =
-            executeGet(String.format("%s", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                WikiPagesResource.class).build(getWiki())));
+        GetMethod getMethod = executeGet(String.format("%s", getUriBuilder(WikiPagesResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -134,8 +130,7 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?name=WebHome", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                WikiPagesResource.class).build(getWiki())));
+            executeGet(String.format("%s?name=WebHome", getUriBuilder(WikiPagesResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -153,8 +148,7 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?name=WebHome&space=s", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT)
-                .path(WikiPagesResource.class).build(getWiki())));
+            executeGet(String.format("%s?name=WebHome&space=s", getUriBuilder(WikiPagesResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -178,8 +172,7 @@ public class WikisResourceTest extends AbstractHttpTest
         TestUtils.banner("testWikiAttachments()");
 
         GetMethod getMethod =
-            executeGet(String.format("%s", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                WikiAttachmentsResource.class).build(getWiki())));
+            executeGet(String.format("%s", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -192,8 +185,7 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?name=bl", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                WikiAttachmentsResource.class).build(getWiki())));
+            executeGet(String.format("%s?name=bl", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -206,8 +198,7 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?space=blog", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                WikiAttachmentsResource.class).build(getWiki())));
+            executeGet(String.format("%s?space=blog", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -220,8 +211,8 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?name=de&space=blog", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT)
-                .path(WikiAttachmentsResource.class).build(getWiki())));
+            executeGet(String.format("%s?name=de&space=blog", getUriBuilder(WikiAttachmentsResource.class).build(
+                getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 

@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.rest.it;
+package org.xwiki.rest.it.framework;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -44,9 +44,12 @@ import org.restlet.data.MediaType;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.LinkCollection;
 import org.xwiki.rest.model.jaxb.ObjectFactory;
+import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.Wikis;
+import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 import org.xwiki.test.AbstractXWikiComponentTestCase;
+import org.xwiki.test.XWikiExecutor;
 
 public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
 {
@@ -57,6 +60,8 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
     protected Unmarshaller unmarshaller;
 
     protected ObjectFactory objectFactory;
+
+    protected int port = Integer.valueOf(XWikiExecutor.DEFAULT_PORT);
 
     @Override
     protected void setUp() throws Exception
@@ -69,6 +74,11 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         unmarshaller = context.createUnmarshaller();
         objectFactory = new ObjectFactory();
 
+    }
+
+    public void setPort(int port)
+    {
+        this.port = port;
     }
 
     protected Link getFirstLinkByRelation(LinkCollection linkCollection, String relation)
@@ -103,9 +113,14 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return result;
     }
 
-    protected String getFullUri(Class resourceClass)
+    protected String getBaseURL()
     {
-        return String.format("%s%s", TestConstants.REST_API_ENTRYPOINT, UriBuilder.fromResource(resourceClass).build());
+        return "http://localhost:" + this.port + TestConstants.RELATIVE_REST_API_ENTRYPOINT;
+    }
+
+    protected String getFullUri(Class< ? > resourceClass)
+    {
+        return String.format("%s%s", getBaseURL(), UriBuilder.fromResource(resourceClass).build());
     }
 
     public abstract void testRepresentation() throws Exception;
@@ -325,5 +340,40 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
                 }
             }
         }
+    }
+
+    public UriBuilder getUriBuilder(Class< ? > resource)
+    {
+        return UriBuilder.fromUri(getBaseURL()).path(resource);
+    }
+
+    private Page getPage(String wikiName, String spaceName, String pageName) throws Exception
+    {
+        String uri = getUriBuilder(PageResource.class).build(wikiName, spaceName, pageName).toString();
+
+        GetMethod getMethod = executeGet(uri);
+        TestUtils.printHttpMethodInfo(getMethod);
+
+        return (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+    }
+
+    public String getPageContent(String wikiName, String spaceName, String pageName) throws Exception
+    {
+        Page page = getPage(wikiName, spaceName, pageName);
+
+        return page.getContent();
+    }
+
+    public int setPageContent(String wikiName, String spaceName, String pageName, String content) throws Exception
+    {
+        String uri = getUriBuilder(PageResource.class).build(wikiName, spaceName, pageName).toString();
+
+        PutMethod putMethod = executePut(uri, content, javax.ws.rs.core.MediaType.TEXT_PLAIN, "Admin", "admin");
+        TestUtils.printHttpMethodInfo(putMethod);
+
+        int code = putMethod.getStatusCode();
+        assertTrue("Failed to set page content", code == HttpStatus.SC_ACCEPTED || code == HttpStatus.SC_CREATED);
+
+        return code;
     }
 }

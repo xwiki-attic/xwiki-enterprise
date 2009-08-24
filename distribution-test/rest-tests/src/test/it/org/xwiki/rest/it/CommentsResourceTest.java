@@ -20,13 +20,14 @@
 package org.xwiki.rest.it;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.it.framework.AbstractHttpTest;
+import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Comment;
 import org.xwiki.rest.model.jaxb.Comments;
 import org.xwiki.rest.model.jaxb.History;
@@ -51,9 +52,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testCreateComments()");
 
-        String commentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -83,9 +82,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testCreateComments()");
 
-        String commentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -112,9 +109,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testGetComment()");
 
-        String commentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -132,8 +127,7 @@ public class CommentsResourceTest extends AbstractHttpTest
         TestUtils.banner("testCommentsAtPreviousVersions");
 
         String pageHistoryUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageHistoryResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME).toString();
+            getUriBuilder(PageHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
         TestUtils.printHttpMethodInfo(getMethod);
@@ -161,9 +155,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     {
         TestUtils.banner("testPOSTCommentFormUrlEncoded()");
 
-        String commentsUri =
-            UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(CommentsResource.class).build(getWiki(),
-                SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         TestUtils.printHttpMethodInfo(getMethod);

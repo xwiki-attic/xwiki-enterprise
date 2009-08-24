@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
@@ -14,6 +13,8 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.it.framework.AbstractHttpTest;
+import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.Object;
 import org.xwiki.rest.model.jaxb.ObjectSummary;
@@ -33,8 +34,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         super.setUp();
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
-                "Main", "WebHome").toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -47,8 +47,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
             object.setClassName("XWiki.TagClass");
 
             PostMethod postMethod =
-                executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
-                    getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
+                executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(),
+                    object, "Admin", "admin");
             TestUtils.printHttpMethodInfo(postMethod);
             assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
         }
@@ -60,8 +60,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         TestUtils.banner("testRepresentation()");
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
-                "Main", "WebHome").toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -98,8 +97,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         TestUtils.banner("testGETNotExistingObject()");
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", "NOTEXISTING", 0).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome", "NOTEXISTING", 0).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
@@ -130,8 +128,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         object.getProperties().add(property);
 
         PostMethod postMethod =
-            executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
-                getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
+            executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(), object,
+                "Admin", "admin");
         TestUtils.printHttpMethodInfo(postMethod);
         assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
@@ -140,8 +138,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertEquals(TAG_VALUE, getProperty(object, "tags").getValue());
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", object.getClassName(), object.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome", object.getClassName(),
+                object.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -163,8 +161,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         object.getProperties().add(property);
 
         PostMethod postMethod =
-            executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
-                getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
+            executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(), object,
+                "Admin", "admin");
         TestUtils.printHttpMethodInfo(postMethod);
         assertEquals(HttpStatus.SC_BAD_REQUEST, postMethod.getStatusCode());
 
@@ -184,8 +182,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         object.getProperties().add(property);
 
         PostMethod postMethod =
-            executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
-                getWiki(), "Main", "WebHome").toString(), object);
+            executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(), object);
         TestUtils.printHttpMethodInfo(postMethod);
         assertEquals(HttpStatus.SC_UNAUTHORIZED, postMethod.getStatusCode());
 
@@ -200,8 +197,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         Object objectToBePut = getObject("XWiki.TagClass");
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -209,9 +206,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         getProperty(objectSummary, "tags").setValue(TAG_VALUE);
 
         PutMethod putMethod =
-            executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
-                objectSummary, "Admin", "admin");
+            executePutXml(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBePut.getClassName(), objectToBePut.getNumber()).toString(), objectSummary, "Admin", "admin");
         TestUtils.printHttpMethodInfo(putMethod);
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
@@ -231,8 +227,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         Object objectToBePut = getObject("XWiki.TagClass");
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -241,16 +237,15 @@ public class ObjectsResourceTest extends AbstractHttpTest
         getProperty(object, "tags").setValue(TAG_VALUE);
 
         PutMethod putMethod =
-            executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
-                object);
+            executePutXml(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBePut.getClassName(), objectToBePut.getNumber()).toString(), object);
 
         TestUtils.printHttpMethodInfo(putMethod);
         assertEquals(HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
 
         getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -266,16 +261,14 @@ public class ObjectsResourceTest extends AbstractHttpTest
         Object objectToBeDeleted = getObject("XWiki.TagClass");
 
         DeleteMethod deleteMethod =
-            executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
-                .toString(), "Admin", "admin");
+            executeDelete(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString(), "Admin", "admin");
         TestUtils.printHttpMethodInfo(deleteMethod);
         assertEquals(HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
-                .toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
@@ -288,16 +281,14 @@ public class ObjectsResourceTest extends AbstractHttpTest
         Object objectToBeDeleted = getObject("XWiki.TagClass");
 
         DeleteMethod deleteMethod =
-            executeDelete(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
-                .toString());
+            executeDelete(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString());
         TestUtils.printHttpMethodInfo(deleteMethod);
         assertEquals(HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber())
-                .toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -310,8 +301,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         final String TAG_VALUE = UUID.randomUUID().toString();
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
-                "Main", "WebHome").toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -360,8 +350,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                currentObject.getClassName(), currentObject.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -379,8 +369,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         final String TAG_VALUE = UUID.randomUUID().toString();
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
-                "Main", "WebHome").toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -426,8 +415,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                currentObject.getClassName(), currentObject.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -441,8 +430,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
     private Object getObject(String className) throws Exception
     {
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
-                getWiki(), "Main", "WebHome").toString());
+            executeGet(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -470,8 +458,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         object.setClassName(className);
 
         PostMethod postMethod =
-            executePostXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
-                getWiki(), "Main", "WebHome").toString(), object, "Admin", "admin");
+            executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(), object,
+                "Admin", "admin");
         TestUtils.printHttpMethodInfo(postMethod);
         assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
@@ -489,8 +477,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         Object objectToBePut = getObject("XWiki.TagClass");
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -500,9 +488,9 @@ public class ObjectsResourceTest extends AbstractHttpTest
         nameValuePairs[0] = new NameValuePair("property#tags", TAG_VALUE);
 
         PostMethod postMethod =
-            executePostForm(String.format("%s?method=PUT", UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(
-                ObjectResource.class).build(getWiki(), "Main", "WebHome", objectToBePut.getClassName(),
-                objectToBePut.getNumber()).toString()), nameValuePairs, "Admin", "admin");
+            executePostForm(String.format("%s?method=PUT", getUriBuilder(ObjectResource.class).build(getWiki(), "Main",
+                "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString()), nameValuePairs,
+                "Admin", "admin");
 
         TestUtils.printHttpMethodInfo(postMethod);
         assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
@@ -525,8 +513,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         nameValuePairs[1] = new NameValuePair("property#tags", TAG_VALUE);
 
         PostMethod postMethod =
-            executePostForm(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectsResource.class).build(
-                getWiki(), "Main", "WebHome").toString(), nameValuePairs, "Admin", "admin");
+            executePostForm(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(),
+                nameValuePairs, "Admin", "admin");
         TestUtils.printHttpMethodInfo(postMethod);
         assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
@@ -535,8 +523,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertEquals(TAG_VALUE, getProperty(object, "tags").getValue());
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", object.getClassName(), object.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome", object.getClassName(),
+                object.getNumber()).toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -552,8 +540,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         final String TAG_VALUE = UUID.randomUUID().toString();
 
         GetMethod getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(getWiki(),
-                "Main", "WebHome").toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -604,8 +591,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         assertEquals(HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
         getMethod =
-            executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                getWiki(), "Main", "WebHome", currentObject.getClassName(), currentObject.getNumber()).toString());
+            executeGet(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                currentObject.getClassName(), currentObject.getNumber()).toString());
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         currentObject = (Object) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -629,15 +616,14 @@ public class ObjectsResourceTest extends AbstractHttpTest
             property.setValue(value);
 
             PutMethod putMethod =
-                executePutXml(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(ObjectResource.class).build(
-                    getWiki(), "Main", "WebHome", objectToBePut.getClassName(), objectToBePut.getNumber()).toString(),
-                    objectToBePut, "Admin", "admin");
+                executePutXml(getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
+                    objectToBePut.getClassName(), objectToBePut.getNumber()).toString(), objectToBePut, "Admin",
+                    "admin");
             TestUtils.printHttpMethodInfo(putMethod);
             assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
             GetMethod getMethod =
-                executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT).path(PageResource.class).build(
-                    getWiki(), "Main", "WebHome").toString());
+                executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
             TestUtils.printHttpMethodInfo(getMethod);
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -648,9 +634,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         for (String version : versionToValueMap.keySet()) {
             GetMethod getMethod =
-                executeGet(UriBuilder.fromUri(TestConstants.REST_API_ENTRYPOINT)
-                    .path(ObjectAtPageVersionResource.class).build(getWiki(), "Main", "WebHome", version,
-                        objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
+                executeGet(getUriBuilder(ObjectAtPageVersionResource.class).build(getWiki(), "Main", "WebHome",
+                    version, objectToBePut.getClassName(), objectToBePut.getNumber()).toString());
             TestUtils.printHttpMethodInfo(getMethod);
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 

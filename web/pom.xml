@@ -81,6 +81,11 @@
       <artifactId>xwiki-plugin-tag</artifactId>
       <version>${platform.tag.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.platform.plugins</groupId>
+      <artifactId>xwiki-plugin-activitystream</artifactId>
+      <version>${platform.activitystream.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -138,6 +143,7 @@
                     com.xpn.xwiki.plugin.jodatime.JodaTimePlugin,\
                     com.xpn.xwiki.plugin.scheduler.SchedulerPlugin,\
                     com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
+                    com.xpn.xwiki.plugin.activitystream.plugin.ActivityStreamPlugin, \
                     com.xpn.xwiki.plugin.watchlist.WatchListPlugin, \
                     com.xpn.xwiki.wysiwyg.server.plugin.WysiwygPlugin, \
                     com.xpn.xwiki.plugin.tag.TagPlugin

@@ -270,6 +270,10 @@ table.recentChanges {
   font-size: 0.8em;
 }
 
+.rcVersion .newVersion {
+  color: red;
+}
+
 ul.xlist li.xitem div.modifiedPage {
   float:left;
 }
@@ -580,7 +584,7 @@ $xwiki.ssx.use("Main.RecentChanges")
 #end
 #macro(displayRcVersion $version)
   #if($version == "1.1")
-    &lt;span class="rcVersion"&gt;(&lt;span style="color:red;"&gt;$msg.get("xe.recentchanges.entry.new")&lt;/span&gt;)&lt;/span&gt;
+    &lt;span class="rcVersion"&gt;(&lt;span class="newVersion"&gt;$msg.get("xe.recentchanges.entry.new")&lt;/span&gt;)&lt;/span&gt;
   #end
 #end
 ##

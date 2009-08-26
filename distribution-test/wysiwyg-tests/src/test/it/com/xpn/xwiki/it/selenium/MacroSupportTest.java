@@ -48,6 +48,10 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
     public static final String MENU_INSERT = "Insert Macro...";
 
+    public static final String MACRO_CATEGORY_SELECTOR = "//select[@title='Select a macro category']";
+
+    public static final String MACRO_LIVE_FILTER_SELECTOR = "//input[@title = 'Type to filter']";
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Integration tests for macro support inside the WYSIWYG editor.");
@@ -733,17 +737,15 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testDoubleClickToSelectMacroToInsert()
     {
-        clickMenu(MENU_MACRO);
-        clickMenu(MENU_INSERT);
-        waitForDialogToLoad();
+        openSelectMacroDialog();
 
         // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
         // removed just before the list of macros is displayed and the Selenium click command can interfere.
-        waitForCondition("selenium.isElementPresent(\"//div[@class = 'xListBox']//div[text() = 'Info Message']\");");
+        waitForMacroListItem("Info Message");
         // Each double click event should be preceded by a click event.
-        getSelenium().click("//div[@class = 'xListBox']//div[text() = 'Info Message']");
+        getSelenium().click(getMacroListItemLocator("Info Message"));
         // Fire the double click event.
-        getSelenium().doubleClick("//div[@class = 'xListBox']//div[text() = 'Info Message']");
+        getSelenium().doubleClick(getMacroListItemLocator("Info Message"));
         waitForDialogToLoad();
 
         // Fill the macro content.
@@ -759,15 +761,13 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void testPressEnterToSelectMacroToInsert()
     {
-        clickMenu(MENU_MACRO);
-        clickMenu(MENU_INSERT);
-        waitForDialogToLoad();
+        openSelectMacroDialog();
 
         // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
         // removed just before the list of macros is displayed and the Selenium click command can interfere.
-        waitForCondition("selenium.isElementPresent(\"//div[@class = 'xListBox']//div[text() = 'HTML']\");");
+        waitForMacroListItem("HTML");
         // Select a macro.
-        getSelenium().click("//div[@class = 'xListBox']//div[text() = 'HTML']");
+        getSelenium().click(getMacroListItemLocator("HTML"));
         // Press Enter to choose the selected macro.
         getSelenium().keyUp("//div[@class = 'xListBox']", "\\13");
         waitForDialogToLoad();
@@ -801,6 +801,250 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
 
         // Check the result.
         assertWiki("{{error}}x{{/error}}{{info}}z{{/info}}");
+    }
+
+    /**
+     * @see XWIKI-3437: List macros by category/library
+     */
+    public void testSelectMacroFromCategory()
+    {
+        openSelectMacroDialog();
+
+        // "All Macros" category should be selected by default.
+        assertEquals("All Macros", getSelectedMacroCategory());
+
+        // Make sure the "Code" and "Velocity" macros are present in "All Macros" category.
+        waitForMacroListItem("Code");
+        waitForMacroListItem("Velocity");
+
+        // "Velocity" shouldn't be in the "Formatting" category.
+        selectMacroCategory("Formatting");
+        waitForMacroListItem("Code");
+        assertElementNotPresent(getMacroListItemLocator("Velocity"));
+
+        // "Code" shouldn't be in the "Development" category.
+        selectMacroCategory("Development");
+        waitForMacroListItem("Velocity");
+        assertElementNotPresent(getMacroListItemLocator("Code"));
+
+        // Select the "Velocity" macro.
+        getSelenium().click(getMacroListItemLocator("Velocity"));
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        waitForDialogToLoad();
+
+        // Set the content field.
+        setFieldValue("pd-content-input", "$xwiki.version");
+        applyMacroChanges();
+
+        // Open the "Select Macro" dialog again to see if its state was preserved.
+        openSelectMacroDialog();
+        assertEquals("Development", getSelectedMacroCategory());
+        closeDialog();
+
+        // Check the result.
+        assertWiki("{{velocity}}$xwiki.version{{/velocity}}");
+    }
+
+    /**
+     * @see XWIKI-4206: Add the ability to search in the list of macros
+     */
+    public void testFilterMacrosFromCategory()
+    {
+        openSelectMacroDialog();
+
+        // Make sure the current category is "All Macros".
+        selectMacroCategory("All Macros");
+
+        // Check if "Velocity", "Footnote" and "Error Message" macros are present.
+        waitForMacroListItem("Velocity");
+        waitForMacroListItem("Footnote");
+        waitForMacroListItem("Error Message");
+
+        // Check if the filter can make a difference.
+        int expectedMacroCountAfterFilterAllMacros = getMacroListItemCount("note");
+        assertTrue(expectedMacroCountAfterFilterAllMacros < getMacroListItemCount());
+
+        // Filter the macros.
+        filterMacrosContaining("note");
+        waitForMacroListItem("Footnote");
+
+        // Check the number of macros.
+        assertEquals(expectedMacroCountAfterFilterAllMacros, getMacroListItemCount());
+
+        // Check what macros are present.
+        assertElementNotPresent(getMacroListItemLocator("Velocity"));
+        assertElementPresent(getMacroListItemLocator("Error Message"));
+
+        // Check if the filter is preserved when switching the category.
+        // Select the category of the "Footnote" macro.
+        selectMacroCategory("Content");
+        waitForMacroListItem("Footnote");
+        assertElementNotPresent(getMacroListItemLocator("Error Message"));
+        // Select the category of the "Error Message" macro.
+        selectMacroCategory("Formatting");
+        waitForMacroListItem("Error Message");
+        assertElementNotPresent(getMacroListItemLocator("Footnote"));
+
+        // Save the current macro list item count to be able to check if the filter state is preserved.
+        int previousMacroListItemCount = getMacroListItemCount();
+
+        // Select the "Error Message" macro.
+        getSelenium().click(getMacroListItemLocator("Error Message"));
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        waitForDialogToLoad();
+
+        // Set the content field.
+        setFieldValue("pd-content-input", "test");
+        applyMacroChanges();
+
+        // Open the "Select Macro" dialog again to see if the filter was preserved.
+        openSelectMacroDialog();
+        waitForMacroListItem("Error Message");
+        assertEquals("note", getMacroFilterValue());
+        assertEquals(previousMacroListItemCount, getMacroListItemCount());
+        assertEquals(previousMacroListItemCount, getMacroListItemCount("note"));
+        closeDialog();
+
+        // Check the result.
+        assertWiki("{{error}}test{{/error}}");
+    }
+
+    /**
+     * @see XWIKI-3434: Use the dialog wizard for insert macro UI
+     */
+    public void testReturnToSelectMacroStep()
+    {
+        openSelectMacroDialog();
+
+        // Filter the macros.
+        selectMacroCategory("Development");
+        filterMacrosContaining("script");
+
+        // Select the "Groovy" macro.
+        waitForMacroListItem("Groovy");
+        getSelenium().click(getMacroListItemLocator("Groovy"));
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        waitForDialogToLoad();
+
+        // Return to the "Select Macro" step.
+        getSelenium().click("//div[@class = 'xDialogContent']//button[text() = 'Previous']");
+        waitForDialogToLoad();
+
+        // Check if the state of the "Select Macro" dialog was preserved.
+        assertEquals("Development", getSelectedMacroCategory());
+        assertEquals("script", getMacroFilterValue());
+
+        // Select a different macro.
+        waitForMacroListItem("Velocity");
+        getSelenium().click(getMacroListItemLocator("Velocity"));
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        waitForDialogToLoad();
+
+        // Set the content field.
+        setFieldValue("pd-content-input", "$context.user");
+        applyMacroChanges();
+
+        // Check the result.
+        assertWiki("{{velocity}}$context.user{{/velocity}}");
+    }
+
+    /**
+     * Tests that the user can't move to the Edit Macro step without selection a macro first.
+     */
+    public void testValidateSelectMacroStep()
+    {
+        openSelectMacroDialog();
+        // Wait for the list of macros to be filled.
+        waitForMacroListItem("Velocity");
+        // Make sure no macro is selected.
+        assertFalse(isMacroListItemSelected());
+        // The validation message should be hidden.
+        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        // Try to move to the next step.
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        // Check if the validation message is visible.
+        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+
+        // The validation message should be hidden when we change the macro category.
+        selectMacroCategory("Navigation");
+        waitForMacroListItem("Table Of Contents");
+        // Make sure no macro is selected.
+        assertFalse(isMacroListItemSelected());
+        // The validation message should be hidden.
+        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        // Try to move to the next step.
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        // Check if the validation message is visible.
+        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+
+        // The validation message should be hidden when we filter the macros.
+        filterMacrosContaining("anchor");
+        waitForMacroListItem("Id");
+        // Make sure no macro is selected.
+        assertFalse(isMacroListItemSelected());
+        // The validation message should be hidden.
+        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        // Try to move to the next step.
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        // Check if the validation message is visible.
+        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+
+        // The validation message should be hidden when we cancel the dialog.
+        closeDialog();
+        openSelectMacroDialog();
+        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        // Make sure no macro is selected.
+        assertFalse(isMacroListItemSelected());
+        // Try to move to the next step.
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        // Check if the validation message is visible.
+        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+
+        // Finally select a macro.
+        getSelenium().click(getMacroListItemLocator("Id"));
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        waitForDialogToLoad();
+
+        // The validation message shouldn't be visible (we moved to the next step).
+        assertFieldErrorIsNotPresent("xMacroSelectorError");
+
+        // Set the name field.
+        setFieldValue("pd-name-input", "foo");
+        applyMacroChanges();
+
+        // Check the result.
+        assertWiki("{{id name=\"foo\"/}}");
+    }
+
+    /**
+     * Tests if the user can select from the previously inserted macros.
+     */
+    public void testSelectFromPreviouslyInsertedMacros()
+    {
+        openSelectMacroDialog();
+
+        // The "Previously Inserted Macros" category should be initially empty.
+        selectMacroCategory("Previously Inserted Macros");
+        assertEquals(0, getMacroListItemCount());
+
+        // Insert a macro to see if it appears under the "Previously Inserted Macros" category.
+        selectMacroCategory("All Macros");
+        waitForMacroListItem("HTML");
+        getSelenium().click(getMacroListItemLocator("HTML"));
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
+        waitForDialogToLoad();
+        setFieldValue("pd-content-input", "xwiki");
+        applyMacroChanges();
+
+        // Check if the inserted macro is listed under the "Previously Inserted Macros" category.
+        openSelectMacroDialog();
+        selectMacroCategory("Previously Inserted Macros");
+        waitForMacroListItem("HTML");
+        assertEquals(1, getMacroListItemCount());
+
+        // Close the dialog and check the result.
+        closeDialog();
+        assertWiki("{{html}}xwiki{{/html}}");
     }
 
     /**
@@ -901,16 +1145,12 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void insertMacro(String macroName)
     {
-        clickMenu(MENU_MACRO);
-        assertTrue(isMenuEnabled(MENU_INSERT));
-        clickMenu(MENU_INSERT);
-        waitForDialogToLoad();
+        openSelectMacroDialog();
 
         // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
         // removed just before the list of macros is displayed and the Selenium click command can interfere.
-        waitForCondition("selenium.isElementPresent(\"//div[@class = 'xListBox']//div[text() = '" + macroName
-            + "']\");");
-        getSelenium().click("//div[@class = 'xListBox']//div[text() = '" + macroName + "']");
+        waitForMacroListItem(macroName);
+        getSelenium().click(getMacroListItemLocator(macroName));
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialogToLoad();
     }
@@ -934,5 +1174,104 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
         clickMenu(MENU_MACRO);
         clickMenu(MENU_REFRESH);
         waitForRefresh();
+    }
+
+    /**
+     * Selects the specified macro category.
+     * 
+     * @param category the name of the macro category to select
+     */
+    public void selectMacroCategory(String category)
+    {
+        getSelenium().select(MACRO_CATEGORY_SELECTOR, category);
+    }
+
+    /**
+     * @return the selected macro category
+     */
+    public String getSelectedMacroCategory()
+    {
+        return getSelenium().getSelectedLabel(MACRO_CATEGORY_SELECTOR);
+    }
+
+    /**
+     * Waits for the specified macro to be displayed on the "Select Macro" dialog.
+     * 
+     * @param macroName the name of a macro
+     */
+    public void waitForMacroListItem(String macroName)
+    {
+        waitForCondition("selenium.isElementPresent(\"" + getMacroListItemLocator(macroName) + "\");");
+    }
+
+    /**
+     * @param macroName a macro name
+     * @return the selector for the specified macro in the list of macros from the "Select Macro" dialog
+     */
+    public String getMacroListItemLocator(String macroName)
+    {
+        return "//div[@class = 'xListBox']//div[text() = '" + macroName + "']";
+    }
+
+    /**
+     * @return the number of macro list items on the "Select Macro" dialog.
+     */
+    public int getMacroListItemCount()
+    {
+        return getSelenium().getXpathCount("//div[contains(@class, 'xListItem xMacro')]").intValue();
+    }
+
+    /**
+     * @param filter a text used to filter the macro list items
+     * @return the number of macro list items containing the specified text
+     */
+    public int getMacroListItemCount(String filter)
+    {
+        return getSelenium().getXpathCount(
+            "//div[contains(@class, 'xListItem xMacro') and contains(., '" + filter + "')]").intValue();
+    }
+
+    /**
+     * Sets the value of the live filter to the given string.
+     * 
+     * @param filter the value to set to the live macro filter
+     */
+    public void filterMacrosContaining(String filter)
+    {
+        // We dont't use getSelenium.focus(locator) because it uses the focus method when the target of the locator has
+        // it and in our case the target is a input element which has the focus method. The focus method has no effect
+        // if the browser window is not focused and the tests are usually running in background. We haven't found a way
+        // to call triggerEvent from the scope of runScript and thus we use getEval.
+        getSelenium().getEval(
+            "triggerEvent(selenium.browserbot.findElement(\"" + MACRO_LIVE_FILTER_SELECTOR + "\"), 'focus', false);");
+        getSelenium().typeKeys(MACRO_LIVE_FILTER_SELECTOR, filter);
+    }
+
+    /**
+     * @return the value of the live macro filter
+     */
+    public String getMacroFilterValue()
+    {
+        return getSelenium().getValue(MACRO_LIVE_FILTER_SELECTOR);
+    }
+
+    /**
+     * Opens the "Select Macro" dialog.
+     */
+    public void openSelectMacroDialog()
+    {
+        clickMenu(MENU_MACRO);
+        assertTrue(isMenuEnabled(MENU_INSERT));
+        clickMenu(MENU_INSERT);
+        waitForDialogToLoad();
+    }
+
+    /**
+     * @return {@code true} if there is a macro list item selected in the list of macros from the "Select Macro" dialog,
+     *         {@code false} otherwise
+     */
+    public boolean isMacroListItemSelected()
+    {
+        return isElementPresent("//div[contains(@class, 'xMacro') and contains(@class, 'xListItem-selected')]");
     }
 }

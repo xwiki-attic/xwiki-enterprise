@@ -906,7 +906,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForDialogToLoad()
     {
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")"
+        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBody\")"
             + " and not(contains(@class, \"loading\"))]')");
     }
 
@@ -956,7 +956,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void assertFieldErrorIsNotPresent(String errorClass)
     {
-        assertFalse(getSelenium().isVisible("//*[contains(@class, \"" + errorClass + "\")]"));
+        String errorLocator = "//*[contains(@class, \"" + errorClass + "\")]";
+        assertFalse(isElementPresent(errorLocator) && getSelenium().isVisible(errorLocator));
     }
 
     /**

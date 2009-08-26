@@ -916,11 +916,13 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Applies the changes from the edit macro dialog.
+     * Applies the changes from the edit macro dialog.<br/>
+     * NOTE: This method can be called after both edit and insert macro actions.
      */
     public void applyMacroChanges()
     {
-        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Apply']");
+        // The label of the finish button is "Apply" when we edit a macro and "Insert Macro" when we insert a macro.
+        getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Apply' or text() = 'Insert Macro']");
         waitForRefresh();
     }
 

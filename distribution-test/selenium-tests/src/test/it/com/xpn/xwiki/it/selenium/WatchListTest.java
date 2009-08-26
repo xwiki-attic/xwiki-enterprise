@@ -101,7 +101,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         // (default is every hour).
         open("Scheduler", "WebHome");
         clickLinkWithXPath("//a[text()='unschedule']");
-        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/WatchListJob1']");
+        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/WatchListDailyNotifier']");
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 * * * * ?");
         clickEditSaveAndView();
         clickLinkWithText("Back to the job list", true);
@@ -121,7 +121,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         assertTextPresent("TestWatchWholeSpace");
 
         // Ensure the frequency set is every hour so that Hourly job we've modified is used
-        getSelenium().select("XWiki.WatchListClass_0_interval", "label=hourly");
+        getSelenium().select("XWiki.WatchListClass_0_interval", "label=Scheduler.WatchListDailyNotifier");
         clickLinkWithXPath("//input[@value='Save']", true);
 
         // Wait for the email with a timeout
@@ -141,7 +141,6 @@ public class WatchListTest extends AbstractXWikiTestCase
 
         // XWIKI-2125
         // Verify that the Watchlist menu entry is not present if XWiki.WatchListManager does not exists
-        // We start by copying
         deletePage("XWiki", "WatchListManager");
         assertTextNotPresent("Manage your watchlist");
     }

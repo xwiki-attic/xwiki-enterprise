@@ -74,7 +74,7 @@ public class XWikiClusterTestSetup extends XWikiTestSetup
         log4JProperties.setProperty("log4j.appender.stdout.layout.ConversionPattern",
             "%d [%X{url}] [%t] %-5p %-30.30c{2} %x - %m %n");
         log4JProperties.setProperty("log4j.rootLogger", "warn, stdout");
-        log4JProperties.setProperty("log4j.logger.org.observation.remote", "debug");
+        log4JProperties.setProperty("log4j.logger.org.xwiki.observation.remote", "debug");
         executor.saveLog4JProperties(log4JProperties);
 
         String filename = channelName + ".xml";

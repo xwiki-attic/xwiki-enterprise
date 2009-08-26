@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>2.0-milestone-4</version>
   </parent>
   <artifactId>xwiki-enterprise-test-cluster</artifactId>
   <name>XWiki Products - Enterprise - Cluster Functional Tests</name>
@@ -152,10 +152,10 @@
             <phase>pre-integration-test</phase>
             <configuration>
               <tasks>
-                <copy overwrite="true" file="${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml" todir="${application.directory}/webapps/xwiki/WEB-INF"/>
-                <delete dir="${application.directory}/database"/>
+                <copy overwrite="true" file="${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml" todir="${application.directory}/webapps/xwiki/WEB-INF" />
+                <delete dir="${application.directory}/database" />
                 <copy todir="${application.directory}-1">
-                  <fileset dir="${application.directory}"/>
+                  <fileset dir="${application.directory}" />
                 </copy>
               </tasks>
             </configuration>

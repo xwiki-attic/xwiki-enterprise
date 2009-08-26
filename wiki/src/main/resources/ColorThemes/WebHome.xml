@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>ColorThemes</web>
+<name>WebHome</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>Main.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1251108485000</creationDate>
+<date>1251108485000</date>
+<contentUpdateDate>1251108485000</contentUpdateDate>
+<version>1.1</version>
+<title>Color Themes</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>== Existing Themes ==
+{{velocity}}
+* [[Default theme&gt;&gt;DefaultColorTheme]]
+* Variants
+#set($query = ", BaseObject as theme where doc.fullName=theme.name and theme.className='ColorThemes.ColorThemeClass' and doc.fullName&lt;&gt;'ColorThemes.ColorThemeTemplate' and doc.fullName&lt;&gt;'ColorThemes.DefaultColorTheme' order by doc.title")##
+#set($themeList = $xwiki.searchDocuments($query,0,0))##
+#foreach($theme in $themeList)##
+  #set($themeDoc = $xwiki.getDocument($theme))##
+  #set($themeName = $themeDoc.displayTitle)##
+  ** [[$themeName&gt;&gt;$themeDoc.fullName]]
+#end
+{{/velocity}}</content>
+</xwikidoc>

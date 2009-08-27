@@ -948,6 +948,17 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         assertTrue(getSelenium().isVisible(
             "//*[contains(@class, \"" + errorClass + "\") and . = \"" + errorMessage + "\"]"));
     }
+    
+    /**
+     * Asserts that the specified error message in a container with the specified class is not present.
+     * @param errorMessage the error message 
+     * @param errorClass the class of the error container
+     */
+    public void assertFieldErrorIsNotPresent(String errorMessage, String errorClass)
+    {
+        assertFalse(getSelenium().isVisible(
+            "//*[contains(@class, \"" + errorClass + "\") and . = \"" + errorMessage + "\"]"));
+    }    
 
     /**
      * Asserts that no message with the specified container class is present.

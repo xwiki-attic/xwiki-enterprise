@@ -412,7 +412,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkConfig");
         assertEquals("photos.png", getInputValue(LABEL_INPUT_TITLE));
         // check that the label is readonly
-        assertElementPresent("//input[@title=\"" + LABEL_INPUT_TITLE + "\" and @readonly=\"\"]");
+        assertElementPresent("//input[@title=\"" + LABEL_INPUT_TITLE + "\" and @disabled=\"\"]");
 
         clickButtonWithText("Create Link");
         waitForDialogToClose();
@@ -630,10 +630,17 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         // now create a link to a web page
         openLinkDialog(MENU_WEB_PAGE);
 
+        // test that initially 2 errors are displayed
+        clickButtonWithText("Create Link");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The web page address was not set", LINK_ERROR_CLASS, "xLinkToUrl");
+        
         typeInInput("Web page address", "http://www.xwiki.org");
         clickButtonWithText("Create Link");
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        // now the web page address error is no longer there
+        assertFieldErrorIsNotPresent("The web page address was not set", LINK_ERROR_CLASS);
 
         // fill in the label and create link
         typeInInput(LABEL_INPUT_TITLE, "xwiki");
@@ -651,11 +658,13 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The email address was not set", LINK_ERROR_CLASS, "xLinkToUrl");
 
         typeInInput(LABEL_INPUT_TITLE, "alice");
         clickButtonWithText("Create Link");
 
         assertFieldErrorIsPresentInStep("The email address was not set", LINK_ERROR_CLASS, "xLinkToUrl");
+        assertFieldErrorIsNotPresent("The label of the link cannot be empty", LINK_ERROR_CLASS);
 
         typeInInput("Email address", "alice@wonderla.nd");
         clickButtonWithText("Create Link");

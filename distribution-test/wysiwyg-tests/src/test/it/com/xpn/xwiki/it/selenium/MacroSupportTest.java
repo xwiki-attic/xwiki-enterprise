@@ -1210,7 +1210,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public String getMacroListItemLocator(String macroName)
     {
-        return "//div[@class = 'xListBox']//div[text() = '" + macroName + "']";
+        return "//div[contains(@class, 'xListBox')]//div[text() = '" + macroName + "']";
     }
 
     /**

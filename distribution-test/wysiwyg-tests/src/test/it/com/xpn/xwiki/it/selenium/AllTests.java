@@ -48,6 +48,7 @@ public class AllTests extends TestCase
         addTestCase(suite, SubmitSupportTest.class);
         addTestCase(suite, StandardFeaturesTest.class);
         addTestCase(suite, LineSupportTest.class);
+        addTestCase(suite, TableSupportTest.class);
         addTestCase(suite, LinkSupportTest.class);
         addTestCase(suite, ListSupportTest.class);
         addTestCase(suite, MacroSupportTest.class);

@@ -561,8 +561,13 @@ public class ListSupportTest extends AbstractWysiwygTestCase
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
      */
-    public void failingTestDotAtEndDoesNotDelete()
+    public void testDotAtEndDoesNotDelete()
     {
+        if (!isBrowserWindowFocused()) {
+            // We haven't found a way to run this test in background (it uses the native key press).
+            return;
+        }
+
         setWikiContent("* foo\n* bar");
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);

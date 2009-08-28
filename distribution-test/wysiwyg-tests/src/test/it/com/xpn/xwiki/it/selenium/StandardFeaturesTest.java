@@ -269,28 +269,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * The caret should be moved to the next or previous cell, depending on the Shift key.
-     * 
-     * @see XWIKI-3043: Prevent tab from moving focus from the new WYSIWYG editor
-     */
-    public void testTabInTableCell()
-    {
-        insertTable();
-        typeText("a");
-        // Shit+Tab should do nothing since we are in the first cell.
-        typeShiftTab();
-        typeText("b");
-        typeTab(3);
-        typeText("c");
-        // Tab should insert a new row since we are in the last cell.
-        typeTab();
-        typeText("d");
-        typeShiftTab(4);
-        typeText("e");
-        assertWiki("|=e ab|= \n| |c \n|d | ");
-    }
-
-    /**
      * @see XWIKI-2735: Clicking on the space between two lines hides the cursor
      */
     public void testEmptyLinesAreEditable()
@@ -428,54 +406,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickUnorderedListButton();
         clickHRButton();
         assertWiki("----");
-    }
-
-    /**
-     * @see XWIKI-3090: Cannot move cursor before table
-     * @see XWIKI-3089: Cannot move cursor after table
-     * @see XWIKI-3829: Use Control/Meta+Up/Down arrow keys to navigate before/after a table
-     */
-    public void testMoveCaretBeforeAndAfterTable()
-    {
-        setWikiContent("|=Space|=Page\n|Main|WebHome");
-
-        // Place the caret in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
-
-        // Move the caret before the table and type some text. This time using Control+Up.
-        getSelenium().controlKeyDown();
-        typeUpArrow();
-        getSelenium().controlKeyUp();
-        typeText("before");
-
-        // Place the caret again in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
-
-        // Move the caret before the table and type some text. This time using Meta+Up.
-        getSelenium().metaKeyDown();
-        typeUpArrow();
-        getSelenium().metaKeyUp();
-        typeText("up");
-
-        // Place the caret again in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
-
-        // Move the caret after the table and type some text. This time using Control+Down.
-        getSelenium().controlKeyDown();
-        typeDownArrow();
-        getSelenium().controlKeyUp();
-        typeText("after");
-
-        // Place the caret again in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
-
-        // Move the caret after the table and type some text. This time using Meta+Down.
-        getSelenium().metaKeyDown();
-        typeDownArrow();
-        getSelenium().metaKeyUp();
-        typeText("down");
-
-        assertWiki("before\n\nup\n\n|=Space|=Page\n|Main|WebHome\n\ndown\n\nafter");
     }
 
     /**
@@ -644,33 +574,5 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         open(location);
         focusRichTextArea();
         assertWiki("= s1 =\n\nabc\n\n= Section 2 =\n\nxyz");
-    }
-
-    /**
-     * @see XWIKI-4017: The close X button from the "Insert Table" dialog acts like the "Insert" button after a table
-     *      has been inserted.
-     */
-    public void testCancelInsertTable()
-    {
-        clickMenu("Table");
-        clickMenu("Insert Table...");
-        // Cancel the insert table operation.
-        closeDialog();
-
-        // Insert a default table this time.
-        insertTable();
-
-        // Move the caret after the table.
-        getSelenium().controlKeyDown();
-        typeDownArrow();
-        getSelenium().controlKeyUp();
-
-        clickMenu("Table");
-        clickMenu("Insert Table...");
-        // Cancel the insert table operation again.
-        closeDialog();
-
-        // Check the result.
-        assertWiki("|= |= \n| | \n");
     }
 }

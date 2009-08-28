@@ -1008,8 +1008,58 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void insertTable()
     {
+        openInsertTableDialog();
+        getSelenium().click("//button[text()=\"Insert Table\"]");
+    }
+
+    /**
+     * Opens the insert table dialog.
+     */
+    protected void openInsertTableDialog()
+    {
         clickMenu("Table");
         clickMenu("Insert Table...");
-        getSelenium().click("//button[text()=\"Insert\"]");
+        waitForDialogToLoad();
+    }
+
+    /**
+     * Focuses the specified element by triggering a focus event instead of calling its {@code focus()} method. This
+     * method manages to focus the specified element even if the browser window doesn't have the focus which happens
+     * when the tests are ran in background.
+     * 
+     * @param locator identifies the element to focus
+     */
+    protected void focus(String locator)
+    {
+        getSelenium().fireEvent(locator, "focus");
+    }
+
+    /**
+     * Use this method to detect if the tests are ran in background.<br/>
+     * NOTE: This method works <strong>only</strong> in edit mode (both Wiki and WYSIWYG) because it uses the title
+     * input to detect if the browser window is focused or not.
+     * 
+     * @return {@code true} if the browser window in which the tests are ran is focused, {@code false} otherwise
+     */
+    protected boolean isBrowserWindowFocused()
+    {
+        String titleLocator = "xwikidoctitleinput";
+        // Focus the title input so that it catches the native key press.
+        focus(titleLocator);
+        // Save the current value to be able to check if it changes with the key press and to be able to restore it.
+        String beforeValue = getSelenium().getValue(titleLocator);
+        // Make sure the text is not selected, otherwise it might be overwritten by the next key press.
+        getSelenium().setCursorPosition(titleLocator, "0");
+        // Type 0 (zero).
+        getSelenium().keyPressNative("48");
+        // Check if the input value has changed.
+        boolean focused = true;
+        if (beforeValue.equals(getSelenium().getValue(titleLocator))) {
+            focused = false;
+        }
+        // Restore the input value.
+        getSelenium().type(titleLocator, beforeValue);
+        // Return the result.
+        return focused;
     }
 }

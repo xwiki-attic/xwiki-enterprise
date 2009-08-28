@@ -1435,7 +1435,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
      * Test that choosing remove link when the caret is in an empty link (after hitting enter at the end of a line with
      * a link, for example), removes the empty link instead of putting the caret outside the link.
      */
-    public void failingTestUnlinkInEmptyLink()
+    public void testUnlinkInEmptyLink()
     {
         setWikiContent("http://www.xwiki.org");
         moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 20);

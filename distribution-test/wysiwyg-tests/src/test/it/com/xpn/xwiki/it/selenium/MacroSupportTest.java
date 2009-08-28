@@ -1238,12 +1238,7 @@ public class MacroSupportTest extends AbstractWysiwygTestCase
      */
     public void filterMacrosContaining(String filter)
     {
-        // We dont't use getSelenium.focus(locator) because it uses the focus method when the target of the locator has
-        // it and in our case the target is a input element which has the focus method. The focus method has no effect
-        // if the browser window is not focused and the tests are usually running in background. We haven't found a way
-        // to call triggerEvent from the scope of runScript and thus we use getEval.
-        getSelenium().getEval(
-            "triggerEvent(selenium.browserbot.findElement(\"" + MACRO_LIVE_FILTER_SELECTOR + "\"), 'focus', false);");
+        focus(MACRO_LIVE_FILTER_SELECTOR);
         getSelenium().typeKeys(MACRO_LIVE_FILTER_SELECTOR, filter);
     }
 

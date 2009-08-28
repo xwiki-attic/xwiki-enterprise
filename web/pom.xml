@@ -115,6 +115,7 @@
                 <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
               </resourceBundles>
               <properties>
+                <xwikiDbHbmDefaultExtraMappings>activitystream.hbm.xml</xwikiDbHbmDefaultExtraMappings>
                 <xwikiCfgPlugins>\
                     com.xpn.xwiki.monitor.api.MonitorPlugin,\
                     com.xpn.xwiki.plugin.skinx.JsSkinExtensionPlugin,\

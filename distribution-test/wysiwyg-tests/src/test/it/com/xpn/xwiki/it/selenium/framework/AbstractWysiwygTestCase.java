@@ -984,12 +984,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void focusRichTextArea()
     {
-        // We dont't use getSelenium.focus(locator) because it uses the focus method when the target of the locator has
-        // it and in our case the target is a window object which has the focus method. Moreover, the focus event
-        // doesn't propagate from an inner element to the host window, meaning we are forced to trigger the focus event
-        // on the window object. We haven't found a way to call triggerEvent from the scope of runScript and thus we use
-        // getEval.
-        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'focus', false);");        
+        // The focus event doesn't propagate from an inner element to the host window, meaning we are forced to trigger
+        // the focus event on the window object.
+        focus(getDOMLocator("defaultView"));
         // Wait till the rich text area enters design mode.
         waitForCondition("window." + getDOMLocator("defaultView") + ".getSelection().rangeCount > 0");
         // We have to trigger a tool bar update in order to enabled the tool bat buttons. Unfortunately, this also
@@ -1003,8 +1000,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void blurRichTextArea()
     {
-        // We haven't found a way to call triggerEvent from the scope of runScript and thus we use getEval.
-        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'blur', false);");
+        blur(getDOMLocator("defaultView"));
     }
 
     /**
@@ -1036,6 +1032,18 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     protected void focus(String locator)
     {
         getSelenium().fireEvent(locator, "focus");
+    }
+
+    /**
+     * Blurs the specified element by triggering a blur event instead of calling its {@code blur()} method. This method
+     * manages to blur the specified element even if the browser window doesn't have the focus which happens when the
+     * tests are ran in background.
+     * 
+     * @param locator identifies the element to blur
+     */
+    protected void blur(String locator)
+    {
+        getSelenium().fireEvent(locator, "blur");
     }
 
     /**

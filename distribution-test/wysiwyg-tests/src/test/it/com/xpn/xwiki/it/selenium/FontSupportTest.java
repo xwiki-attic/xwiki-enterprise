@@ -130,7 +130,7 @@ public class FontSupportTest extends AbstractWysiwygTestCase
     /**
      * Test if the font name for a cross paragraph selection is correctly detected.
      */
-    public void testDetectFontNameOnCroosParagraphSelection()
+    public void testDetectFontNameOnCrossParagraphSelection()
     {
         setWikiContent("(% style=\"font-family: courier new;\" %)\nabc\n\n(% style=\"font-family: times new roman;\" %)\nxyz");
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);

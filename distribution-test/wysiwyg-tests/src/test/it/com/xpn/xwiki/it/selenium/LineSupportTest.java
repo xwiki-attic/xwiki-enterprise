@@ -181,6 +181,9 @@ public class LineSupportTest extends AbstractWysiwygTestCase
 
         // Remove empty lines before paragraph
         // Create the paragraph.
+        // "Plain Text" is the default option and if the tool bar is not updated our change has no effect. Let's apply a
+        // different style and then the "Plain Text" one (this way we know for sure that the change event is triggered).
+        applyStyleTitle1();
         applyStylePlainText();
         // Insert two empty lines before.
         typeEnter(2);

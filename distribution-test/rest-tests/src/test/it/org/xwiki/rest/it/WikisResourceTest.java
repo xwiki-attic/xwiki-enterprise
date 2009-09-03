@@ -159,7 +159,7 @@ public class WikisResourceTest extends AbstractHttpTest
             System.out.format("* %s\n", pageSummary.getFullName());
         }
 
-        assertEquals(4, pages.getPageSummaries().size());
+        assertEquals(5, pages.getPageSummaries().size());
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);

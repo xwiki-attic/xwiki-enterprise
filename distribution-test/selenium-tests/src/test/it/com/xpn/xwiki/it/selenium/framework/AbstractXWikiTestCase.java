@@ -34,7 +34,7 @@ import com.thoughtworks.selenium.Selenium;
  * 
  * @version $Id$
  */
-public class AbstractXWikiTestCase extends TestCase implements SkinExecutor
+public abstract class AbstractXWikiTestCase extends TestCase implements SkinExecutor
 {
     public static final String DOC = "selenium.browserbot.getCurrentWindow().document.";
 

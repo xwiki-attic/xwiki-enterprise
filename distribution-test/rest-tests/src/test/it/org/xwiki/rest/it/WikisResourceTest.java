@@ -196,7 +196,7 @@ public class WikisResourceTest extends AbstractHttpTest
             System.out.format("* %s\n", attachment.getName());
         }
 
-        assertEquals(2, attachments.getAttachments().size());
+        assertEquals(3, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);

@@ -186,8 +186,6 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         String content = "ATTACHMENT CONTENT";
 
-        Map<String, String> parametersMap;
-
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
             String attachmentUri =
@@ -254,8 +252,6 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String attachmentName = String.format("%s.txt", UUID.randomUUID().toString());
 
         Map<String, String> versionToContentMap = new HashMap<String, String>();
-
-        Map<String, String> parametersMap;
 
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_VERSIONS; i++) {

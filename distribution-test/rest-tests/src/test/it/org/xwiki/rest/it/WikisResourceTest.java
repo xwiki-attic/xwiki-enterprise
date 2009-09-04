@@ -191,6 +191,11 @@ public class WikisResourceTest extends AbstractHttpTest
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
+        System.out.format("Attachments: %d\n", attachments.getAttachments().size());
+        for (Attachment attachment : attachments.getAttachments()) {
+            System.out.format("* %s\n", attachment.getName());
+        }
+
         assertEquals(2, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {

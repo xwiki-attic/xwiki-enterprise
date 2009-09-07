@@ -624,8 +624,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
             if (wait) {
-                waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xRichTextEditor\")"
-                    + " and not(contains(@class, \"loading\"))]')");
+                waitForCondition("window.document.getElementsByTagName('iframe')[0].previousSibling.className == 'xToolbar'");
             }
         }
     }

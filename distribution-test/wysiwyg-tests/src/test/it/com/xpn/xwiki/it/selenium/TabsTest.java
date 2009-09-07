@@ -78,7 +78,7 @@ public class TabsTest extends AbstractWysiwygTestCase
         switchToWysiwyg(false);
         switchToSource();
 
-        assertFalse(getFieldValue("content").contains("strong"));
+        assertFalse(getSourceText().contains("strong"));
     }
 
     /**
@@ -89,6 +89,24 @@ public class TabsTest extends AbstractWysiwygTestCase
         String content = "Visit [[XWiki>>http://www.xwiki.org]] and our [[blog>>Blog.WebHome]].";
         setWikiContent(content);
         switchToSource();
-        assertEquals(content, getFieldValue("content"));
+        assertSource(content);
+    }
+
+    /**
+     * @return the text from the source text area
+     */
+    private String getSourceText()
+    {
+        return getSelenium().getValue("//textarea[contains(@class, 'xPlainTextEditor')]");
+    }
+
+    /**
+     * Asserts that the source text area has the given value.
+     * 
+     * @param expectedSourceText the expected value of the source text area
+     */
+    private void assertSource(String expectedSourceText)
+    {
+        assertEquals(expectedSourceText, getSourceText());
     }
 }

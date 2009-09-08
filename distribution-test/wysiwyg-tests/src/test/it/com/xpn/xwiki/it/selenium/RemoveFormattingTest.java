@@ -30,13 +30,13 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class RemoveFormattingSupportTest extends AbstractWysiwygTestCase
+public class RemoveFormattingTest extends AbstractWysiwygTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite =
             new XWikiTestSuite("Functional tests for remove formatting support inside the WYSIWYG editor.");
-        suite.addTestSuite(RemoveFormattingSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(RemoveFormattingTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

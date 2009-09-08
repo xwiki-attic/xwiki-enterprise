@@ -31,7 +31,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class ImageSupportTest extends AbstractWysiwygTestCase
+public class ImageTest extends AbstractWysiwygTestCase
 {
     public static final String MENU_IMAGE = "Image";
 
@@ -81,7 +81,7 @@ public class ImageSupportTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests insert image feature");
-        suite.addTestSuite(ImageSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(ImageTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

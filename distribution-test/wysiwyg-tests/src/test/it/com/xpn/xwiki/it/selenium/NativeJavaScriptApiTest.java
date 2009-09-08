@@ -81,6 +81,10 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         setContent("<h1>Veni, <em>vidi</em>, vici<br/></h1>");
         switchToSource();
         assertEquals("= Veni, //vidi//, vici =", getSourceText("editor"));
+
+        // Type something in the plain text area and see if we get it.
+        getSelenium().typeKeys("//textarea[contains(@class, 'xPlainTextEditor')]", "x");
+        assertEquals("= Veni, //vidi//, vici =x", getSourceText("editor"));
     }
 
     /**

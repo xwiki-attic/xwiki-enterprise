@@ -30,12 +30,12 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class ColorSupportTest extends AbstractWysiwygTestCase
+public class ColorTest extends AbstractWysiwygTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Functional tests for color support inside the WYSIWYG editor.");
-        suite.addTestSuite(ColorSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(ColorTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

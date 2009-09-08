@@ -25,7 +25,7 @@ import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
-public class LinkSupportTest extends AbstractWysiwygTestCase
+public class LinkTest extends AbstractWysiwygTestCase
 {
     public static final String MENU_LINK = "Link";
 
@@ -63,7 +63,7 @@ public class LinkSupportTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests insert link feature");
-        suite.addTestSuite(LinkSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(LinkTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

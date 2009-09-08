@@ -30,12 +30,12 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class SubmitSupportTest extends AbstractWysiwygTestCase
+public class SubmitTest extends AbstractWysiwygTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Functional tests for the submit support inside the WYSIWYG editor.");
-        suite.addTestSuite(SubmitSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(SubmitTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

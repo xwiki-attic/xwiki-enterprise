@@ -30,12 +30,12 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class LineSupportTest extends AbstractWysiwygTestCase
+public class LineTest extends AbstractWysiwygTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Functional tests for line support inside the WYSIWYG editor.");
-        suite.addTestSuite(LineSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(LineTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

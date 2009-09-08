@@ -30,12 +30,12 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class AlignmentSupportTest extends AbstractWysiwygTestCase
+public class AlignmentTest extends AbstractWysiwygTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Functional tests for alignment support inside the WYSIWYG editor.");
-        suite.addTestSuite(AlignmentSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(AlignmentTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

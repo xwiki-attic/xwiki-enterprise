@@ -45,20 +45,21 @@ public class AllTests extends TestCase
     {
         TestSuite suite = new TestSuite();
 
-        addTestCase(suite, SubmitSupportTest.class);
+        addTestCase(suite, SubmitTest.class);
         addTestCase(suite, StandardFeaturesTest.class);
-        addTestCase(suite, LineSupportTest.class);
-        addTestCase(suite, TableSupportTest.class);
-        addTestCase(suite, LinkSupportTest.class);
-        addTestCase(suite, ListSupportTest.class);
-        addTestCase(suite, MacroSupportTest.class);
-        addTestCase(suite, ImageSupportTest.class);
+        addTestCase(suite, LineTest.class);
+        addTestCase(suite, TableTest.class);
+        addTestCase(suite, LinkTest.class);
+        addTestCase(suite, ListTest.class);
+        addTestCase(suite, MacroTest.class);
+        addTestCase(suite, ImageTest.class);
         addTestCase(suite, TabsTest.class);
         addTestCase(suite, NativeJavaScriptApiTest.class);
-        addTestCase(suite, ColorSupportTest.class);
-        addTestCase(suite, AlignmentSupportTest.class);
-        addTestCase(suite, RemoveFormattingSupportTest.class);
-        addTestCase(suite, FontSupportTest.class);
+        addTestCase(suite, ColorTest.class);
+        addTestCase(suite, AlignmentTest.class);
+        addTestCase(suite, RemoveFormattingTest.class);
+        addTestCase(suite, FontTest.class);
+        addTestCase(suite, CacheTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

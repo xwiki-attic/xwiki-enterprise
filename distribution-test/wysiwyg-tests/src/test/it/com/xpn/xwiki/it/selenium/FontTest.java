@@ -30,7 +30,7 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class FontSupportTest extends AbstractWysiwygTestCase
+public class FontTest extends AbstractWysiwygTestCase
 {
     /**
      * The XPath selector used to access the font size list box.
@@ -45,7 +45,7 @@ public class FontSupportTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Functional tests for font support inside the WYSIWYG editor.");
-        suite.addTestSuite(FontSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(FontTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

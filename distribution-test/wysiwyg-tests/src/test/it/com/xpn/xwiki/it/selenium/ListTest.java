@@ -34,12 +34,12 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  * 
  * @version $Id$
  */
-public class ListSupportTest extends AbstractWysiwygTestCase
+public class ListTest extends AbstractWysiwygTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests valid XHTML list support in the wysiwyg editor.");
-        suite.addTestSuite(ListSupportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(ListTest.class, AlbatrossSkinExecutor.class);
         return suite;
     }
 

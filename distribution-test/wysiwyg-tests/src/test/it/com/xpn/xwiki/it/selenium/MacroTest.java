@@ -571,7 +571,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertEquals("1", getSelenium().getEval("window." + getDOMLocator("getElementsByTagName('li')") + ".length"));
 
         // Check the XWiki syntax.
-        assertWiki("= Title 1 =\n\n{{toc/}}\n\n== Title 2 ==");
+        assertWiki("= Title 1 =\n\n{{toc start=\"2\"/}}\n\n== Title 2 ==");
     }
 
     /**

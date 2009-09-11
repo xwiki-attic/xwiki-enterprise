@@ -53,7 +53,13 @@ public class LinkTest extends AbstractWysiwygTestCase
 
     public static final String LABEL_INPUT_TITLE = "Type the label of the created link.";
 
-    public static final String LINK_ERROR_CLASS = "xLinkParameterError";
+    public static final String ERROR_MSG_CLASS = "xErrorMsg";
+
+    public static final String ITEMS_LIST = "//div[contains(@class, 'xListBox')]";
+
+    public static final String TREE_EXPLORER = "//div[contains(@class, 'xExplorer')]";
+
+    public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
 
     /**
      * Creates the test suite for this test class.
@@ -586,7 +592,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // try to create link without filling in the label
         clickButtonWithText("Create Link");
 
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkConfig");
 
         // fill in the label and create link
         typeInInput(LABEL_INPUT_TITLE, "foo");
@@ -616,7 +623,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
 
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkConfig");
 
         // fill in the label and create link
         typeInInput(LABEL_INPUT_TITLE, "foo");
@@ -632,15 +640,18 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // test that initially 2 errors are displayed
         clickButtonWithText("Create Link");
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
-        assertFieldErrorIsPresentInStep("The web page address was not set", LINK_ERROR_CLASS, "xLinkToUrl");
-        
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The web page address was not set", "//input[@title='Web page address']",
+            "xLinkToUrl");
+
         typeInInput("Web page address", "http://www.xwiki.org");
         clickButtonWithText("Create Link");
 
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkToUrl");
         // now the web page address error is no longer there
-        assertFieldErrorIsNotPresent("The web page address was not set", LINK_ERROR_CLASS);
+        assertFieldErrorIsNotPresent("The web page address was not set", "//input[@title='Web page address']");
 
         // fill in the label and create link
         typeInInput(LABEL_INPUT_TITLE, "xwiki");
@@ -657,14 +668,18 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Create Link");
 
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
-        assertFieldErrorIsPresentInStep("The email address was not set", LINK_ERROR_CLASS, "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The email address was not set", "//input[@title='Email address']",
+            "xLinkToUrl");
 
         typeInInput(LABEL_INPUT_TITLE, "alice");
         clickButtonWithText("Create Link");
 
-        assertFieldErrorIsPresentInStep("The email address was not set", LINK_ERROR_CLASS, "xLinkToUrl");
-        assertFieldErrorIsNotPresent("The label of the link cannot be empty", LINK_ERROR_CLASS);
+        assertFieldErrorIsPresentInStep("The email address was not set", "//input[@title='Email address']",
+            "xLinkToUrl");
+        assertFieldErrorIsNotPresent("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']");
 
         typeInInput("Email address", "alice@wonderla.nd");
         clickButtonWithText("Create Link");
@@ -856,7 +871,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Select");
 
-        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xExplorerPanel");
+        assertFieldErrorIsPresentInStep("No attachment was selected", TREE_EXPLORER, "xExplorerPanel");
 
         // type correct file reference
         typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
@@ -872,7 +887,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
 
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkConfig");
 
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
         clickButtonWithText("Create Link");
@@ -1365,14 +1381,15 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Select");
 
-        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xAttachmentsSelector");
+        assertFieldErrorIsPresentInStep("No attachment was selected", ITEMS_LIST, "xAttachmentsSelector");
 
         // select the new file option
         getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
         clickButtonWithText("Select");
         waitForStepToLoad("xUploadPanel");
+        assertFieldErrorIsNotPresentInStep("xUploadPanel");
         clickButtonWithText("Upload");
-        assertFieldErrorIsPresentInStep("The file path was not set", "xFileUploadError", "xUploadPanel");
+        assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
 
         closeDialog();
     }
@@ -1459,13 +1476,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeInInput("Web page address", "http://www.xwiki.org");
         clickButtonWithText("Create Link");
         // check that an error is present
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkToUrl");
         // cancel everything
         closeDialog();
         // now open a new one
         openLinkDialog(MENU_WEB_PAGE);
         // check that the error is no longer there
-        assertElementNotPresent(LINK_ERROR_CLASS);
+        assertElementNotPresent(ERROR_MSG_CLASS);
         closeDialog();
 
         // for an email
@@ -1473,13 +1491,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeInInput("Email address", "xwiki@xwiki.com");
         clickButtonWithText("Create Link");
         // check that an error is present
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkToUrl");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
+            + "']", "xLinkToUrl");
         // cancel everything
         closeDialog();
         // now open a new one
         openLinkDialog(MENU_EMAIL_ADDRESS);
         // check that the error is no longer there
-        assertElementNotPresent(LINK_ERROR_CLASS);
+        assertElementNotPresent(ERROR_MSG_CLASS);
         closeDialog();
     }
 
@@ -1499,13 +1518,13 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertElementNotPresent("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, \"xListItem-selected\")]");
         // try to hit select and wait for the validation message
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xAttachmentsSelector");
+        assertFieldErrorIsPresentInStep("No attachment was selected", ITEMS_LIST, "xAttachmentsSelector");
         closeDialog();
         openLinkDialog(MENU_LINK_EDIT);
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xAttachmentsSelector");
+        assertFieldErrorIsNotPresentInStep("xAttachmentsSelector");
         // get an error and then go to the next step to come back after
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No attachment was selected", LINK_ERROR_CLASS, "xAttachmentsSelector");
+        assertFieldErrorIsPresentInStep("No attachment was selected", ITEMS_LIST, "xAttachmentsSelector");
         // make a selection and check that on the previous button the current page selector dialog will no longer show
         // an error
         getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
@@ -1513,7 +1532,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xUploadPanel");
         // now hit previous and check that the error is no longer there
         clickButtonWithText("Previous");
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xAttachmentsSelector");
+        assertFieldErrorIsNotPresentInStep("xAttachmentsSelector");
         // FIXME: should check that the selection is the correct one (new page), but it's not
         closeDialog();
         resetContent();
@@ -1525,23 +1544,23 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xUploadPanel");
         clickButtonWithText("Upload");
         // get an error
-        assertFieldErrorIsPresentInStep("The file path was not set", "xFileUploadError", "xUploadPanel");
+        assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
         // back, next and the error should be gone
         clickButtonWithText("Previous");
         // FIXME: should not redo selection here, it should be preserved
         getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
         clickButtonWithText("Select");
-        assertFieldErrorIsNotPresentInStep("xFileUploadError", "xUploadPanel");
+        assertFieldErrorIsNotPresentInStep("xUploadPanel");
         // get the error again to check that closing it and re displaying this step makes it go away
         clickButtonWithText("Upload");
-        assertFieldErrorIsPresentInStep("The file path was not set", "xFileUploadError", "xUploadPanel");
+        assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
         closeDialog();
         // same and check the error is no longer present
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
         getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
         clickButtonWithText("Select");
-        assertFieldErrorIsNotPresentInStep("xFileUploadError", "xUploadPanel");
+        assertFieldErrorIsNotPresentInStep("xUploadPanel");
     }
 
     /**
@@ -1561,24 +1580,24 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(RECENT_PAGES_TAB);
         waitForStepToLoad("xPagesRecent");
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xPagesRecent");
+        assertFieldErrorIsPresentInStep("No page was selected", ITEMS_LIST, "xPagesRecent");
         getSelenium().click("//div[contains(@class, 'xPagesRecent')]//div[contains(@class, 'xNewPagePreview')]");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkToNewPage");
         clickButtonWithText("Previous");
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xPagesRecent");
+        assertFieldErrorIsNotPresentInStep("xPagesRecent");
         closeDialog();
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(RECENT_PAGES_TAB);
         waitForStepToLoad("xPagesRecent");
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xPagesRecent");
+        assertFieldErrorIsPresentInStep("No page was selected", ITEMS_LIST, "xPagesRecent");
         closeDialog();
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(RECENT_PAGES_TAB);
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xPagesRecent");
+        assertFieldErrorIsNotPresentInStep("xPagesRecent");
         closeDialog();
         resetContent();
 
@@ -1594,28 +1613,28 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkToNewPage");
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("The name of the new page was not set", "xPageNameError", "xLinkToNewPage");
+        assertFieldErrorIsPresentInStep("The name of the new page was not set", "//input", "xLinkToNewPage");
         clickButtonWithText("Previous");
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesRecent");
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
         clickButtonWithText("Select");
         // error not present on coming back from previous
-        assertFieldErrorIsNotPresentInStep("xPageNameError", "xLinkToNewPage");
+        assertFieldErrorIsNotPresentInStep("xLinkToNewPage");
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("The name of the new page was not set", "xPageNameError", "xLinkToNewPage");
+        assertFieldErrorIsPresentInStep("The name of the new page was not set", "//input", "xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", "NewPage");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");
         // error not present when coming back from next
-        assertFieldErrorIsNotPresentInStep("xPageNameError", "xLinkToNewPage");
+        assertFieldErrorIsNotPresentInStep("xLinkToNewPage");
         // check the content of the field
         assertEquals("NewPage", getSelenium().getValue("//div[contains(@class, 'xLinkToNewPage')]//input"));
         // get error again
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", "");
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("The name of the new page was not set", "xPageNameError", "xLinkToNewPage");
+        assertFieldErrorIsPresentInStep("The name of the new page was not set", "//input", "xLinkToNewPage");
         closeDialog();
         // open again, check the error is not still there
         openLinkDialog(MENU_WIKI_PAGE);
@@ -1624,7 +1643,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
         clickButtonWithText("Select");
         // error not present when re-creating a link
-        assertFieldErrorIsNotPresentInStep("xPageNameError", "xLinkToNewPage");
+        assertFieldErrorIsNotPresentInStep("xLinkToNewPage");
         closeDialog();
         resetContent();
 
@@ -1640,28 +1659,31 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "");
         clickButtonWithText("Create Link");
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[position() = 1]",
+            "xLinkConfig");
         // previous, next => error is not present
         clickButtonWithText("Previous");
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
         clickButtonWithText("Select");
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // error, again, to close this time
         typeInInput(LABEL_INPUT_TITLE, "");
         clickButtonWithText("Create Link");
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[position() = 1]",
+            "xLinkConfig");
         closeDialog();
         // now again, check that the error is no longer there
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
         clickButtonWithText("Select");
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // get an error
         typeInInput(LABEL_INPUT_TITLE, "");
         clickButtonWithText("Create Link");
-        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[position() = 1]",
+            "xLinkConfig");
         // now go ahead, edit the link
         typeInInput(LABEL_INPUT_TITLE, "PageNew");
         clickButtonWithText("Create Link");
@@ -1670,7 +1692,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
         clickButtonWithText("Select");
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xLinkConfig");
+        assertFieldErrorIsNotPresentInStep("xLinkConfig");
         closeDialog();
 
         // 5/ get to the tree explorer, don't select any page, get an error. Fill in, next, previous -> error is hidden.
@@ -1684,22 +1706,147 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"WebHome\"]');");
         typeInExplorerInput("");
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xExplorerPanel");
+        assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         typeInExplorerInput("Blog.WebHome");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Blog\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"WebHome\"]');");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xExplorerPanel");
+        assertFieldErrorIsNotPresentInStep("xExplorerPanel");
         typeInExplorerInput("");
         clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No page was selected", LINK_ERROR_CLASS, "xExplorerPanel");
+        assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         closeDialog();
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
-        assertFieldErrorIsNotPresentInStep(LINK_ERROR_CLASS, "xExplorerPanel");
+        assertFieldErrorIsNotPresentInStep("xExplorerPanel");
         closeDialog();
+    }
+
+    /**
+     * Test fast navigation for adding a link to an attachment: double click and enter in the list of attachments
+     * advance to the next step.
+     */
+    public void testFastNavigationToSelectAttachment()
+    {
+        // can't test but the current page attachment selector, the tree doesn't receive the click events
+        // double click
+        openLinkDialog(MENU_ATTACHMENT);
+        waitForStepToLoad("xAttachmentsSelector");
+        getSelenium().click("//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewFilePreview')]");
+        getSelenium().doubleClick("//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewFilePreview')]");
+        waitForStepToLoad("xUploadPanel");
+        closeDialog();
+
+        // enter
+        openLinkDialog(MENU_ATTACHMENT);
+        waitForStepToLoad("xAttachmentsSelector");
+        getSelenium().click("//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewFilePreview')]");
+        getSelenium().keyUp(ITEMS_LIST, "\\13");
+        waitForStepToLoad("xUploadPanel");
+        closeDialog();
+    }
+
+    /**
+     * Test fast navigation for adding a link to a recent page: double click and enter on a page advance to the next
+     * step.
+     */
+    public void testFastNavigationToSelectRecentPage()
+    {
+        // 1. link to existing page, double click
+        // make sure this page is saved so that the recent pages can load reference to it
+        clickEditSaveAndContinue();
+        String currentPage = "Main.WysiwygTest";
+        String label = "barfoo";
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xPagesRecent");
+        getSelenium()
+            .click(
+                "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + currentPage
+                    + "']");
+        getSelenium()
+            .doubleClick(
+                "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + currentPage
+                    + "']");
+        waitForStepToLoad("xLinkConfig");
+        typeInInput(LABEL_INPUT_TITLE, label);
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[" + label + ">>WysiwygTest]]");
+
+        resetContent();
+
+        // 2. link to new page in current space, with enter
+        String newPageName = "NewPage";
+        label = "foobar";
+
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xPagesRecent");
+        // select the current page
+        getSelenium().click("//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]");
+        getSelenium().keyUp(ITEMS_LIST, "\\13");
+        waitForStepToLoad("xLinkToNewPage");
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        typeInInput(LABEL_INPUT_TITLE, label);
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[" + label + ">>" + newPageName + "]]");
+    }
+
+    /**
+     * Test fast navigation for adding a link to a searched for page: double click and enter on a page advance to the
+     * next step.
+     */
+    public void testFastNavigationToSelectSearchedPage()
+    {
+        // 1. link to existing page, enter
+        String searchString = "welcome";
+        String expectedPage = "Main.WebHome";
+        String label = "foobar";
+
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab(SEARCH_TAB);
+        waitForStepToLoad("xPagesSearch");
+        typeInInput("Type a keyword to search for a wiki page", searchString);
+        clickButtonWithText("Search");
+        waitForStepToLoad("xPagesSearch");
+        getSelenium().click(
+            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + expectedPage
+                + "']");
+        getSelenium().keyUp(ITEMS_LIST, "\\13");
+        waitForStepToLoad("xLinkConfig");
+        typeInInput(LABEL_INPUT_TITLE, label);
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[" + label + ">>WebHome]]");
+
+        resetContent();
+        // 2. link to a new page, double click
+        String newPageName = "PageNew";
+        label = "barfoo";
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab(SEARCH_TAB);
+        waitForStepToLoad("xPagesSearch");
+        getSelenium().click("//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]");
+        getSelenium().doubleClick("//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]");
+        waitForStepToLoad("xLinkToNewPage");
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        typeInInput(LABEL_INPUT_TITLE, label);
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        assertWiki("[[" + label + ">>" + newPageName + "]]");
     }
 
     protected void waitForStepToLoad(String name)
@@ -1732,27 +1879,28 @@ public class LinkTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Tests that the specified error exists in the container within the specified step.
+     * In addition to {@link #assertFieldErrorIsPresent(String, String)}, this function does the checks in the specified
+     * step.
      * 
      * @param errorMessage the expected error message
-     * @param errorClass the error container class
+     * @param fieldXPathLocator the locator for the field in error
      * @param step the step in which the error should appear
+     * @see {@link #assertFieldErrorIsPresent(String, String)}
      */
-    public void assertFieldErrorIsPresentInStep(String errorMessage, String errorClass, String step)
+    public void assertFieldErrorIsPresentInStep(String errorMessage, String fieldXPathLocator, String step)
     {
         waitForStepToLoad(step);
-        assertFieldErrorIsPresent(errorMessage, errorClass);
+        assertFieldErrorIsPresent(errorMessage, fieldXPathLocator);
     }
 
     /**
-     * Tests that no error of the specified class is found in the specified step.
+     * In addition to {@link #assertFieldErrorIsNotPresent()}, this function does the checks in the specified step.
      * 
-     * @param errorClass the class of the container
      * @param step the step to check for errors
      */
-    public void assertFieldErrorIsNotPresentInStep(String errorClass, String step)
+    public void assertFieldErrorIsNotPresentInStep(String step)
     {
         waitForStepToLoad(step);
-        assertFieldErrorIsNotPresent(errorClass);
+        assertFieldErrorIsNotPresent();
     }
 }

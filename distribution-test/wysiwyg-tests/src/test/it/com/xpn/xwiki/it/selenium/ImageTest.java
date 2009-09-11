@@ -56,8 +56,8 @@ public class ImageTest extends AbstractWysiwygTestCase
     public static final String TAB_ALL_PAGES = "All pages";
 
     public static final String BUTTON_SELECT = "Select";
-    
-    public static final String BUTTON_UPLOAD = "Upload";    
+
+    public static final String BUTTON_UPLOAD = "Upload";
 
     public static final String BUTTON_INSERT_IMAGE = "Insert Image";
 
@@ -69,9 +69,11 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     public static final String INPUT_ALT = "//div[contains(@class, \"xAltPanel\")]//input";
 
-    public static final String IMAGE_ERROR_CLASS = "xImageParameterError";
-    
-    public static final String UPLOAD_ERROR_CLASS = "xFileUploadError";
+    public static final String IMAGES_LIST = "//div[contains(@class, 'xListBox')]";
+
+    public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
+
+    public static final String ERROR_MSG_CLASS = "xErrorMsg";
 
     /**
      * Creates the test suite for this test class.
@@ -272,6 +274,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText("Previous");
 
         waitForStepToLoad(STEP_EXPLORER);
+        // wait for the inner selector to load
+        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
+            + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
         assertImageSelected(imageSpace, imagePage, imageFile1);
 
         selectImage(imageSpace, imagePage, imageFile2);
@@ -299,7 +304,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         clickButtonWithText(BUTTON_SELECT);
 
-        assertFieldErrorIsPresent("No image has been selected", "xImageParameterError");
+        assertFieldErrorIsPresent("No image has been selected", IMAGES_LIST);
 
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
@@ -474,7 +479,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         assertElementNotPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
-        assertFieldErrorIsPresent("No image has been selected", IMAGE_ERROR_CLASS);
+        assertFieldErrorIsPresent("No image has been selected", IMAGES_LIST);
         // select the new image option
         getSelenium().click(
             "//*[contains(@class, '" + STEP_CURRENT_PAGE_SELECTOR + "')]//*[contains(@class, 'xNewImagePreview')]");
@@ -484,7 +489,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_CURRENT_PAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
-        assertFieldErrorIsNotPresent(IMAGE_ERROR_CLASS);
+        assertFieldErrorIsNotPresent();
         closeDialog();
 
         // 2/ get an error in the image dialog, close it and check it's not there anymore on next display
@@ -495,14 +500,14 @@ public class ImageTest extends AbstractWysiwygTestCase
         assertElementNotPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
-        assertFieldErrorIsPresent("No image has been selected", IMAGE_ERROR_CLASS);
+        assertFieldErrorIsPresent("No image has been selected", IMAGES_LIST);
         closeDialog();
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_CURRENT_PAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         assertElementNotPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
-        assertFieldErrorIsNotPresent(IMAGE_ERROR_CLASS);
+        assertFieldErrorIsNotPresent();
         closeDialog();
 
         resetContent();
@@ -514,23 +519,68 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_UPLOAD);
         clickButtonWithText(BUTTON_UPLOAD);
         waitForStepToLoad(STEP_UPLOAD);
-        assertFieldErrorIsPresent("The file path was not set", UPLOAD_ERROR_CLASS);
+        assertFieldErrorIsPresent("The file path was not set", FILE_UPLOAD_INPUT);
         clickButtonWithText(BUTTON_PREVIOUS);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_UPLOAD);
-        assertFieldErrorIsNotPresent(UPLOAD_ERROR_CLASS);
+        assertFieldErrorIsNotPresent();
         // get the error again, close, open and test that error is no longer there
         clickButtonWithText(BUTTON_UPLOAD);
         waitForStepToLoad(STEP_UPLOAD);
-        assertFieldErrorIsPresent("The file path was not set", UPLOAD_ERROR_CLASS);
+        assertFieldErrorIsPresent("The file path was not set", FILE_UPLOAD_INPUT);
         closeDialog();
         openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         assertElementPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_UPLOAD);
-        assertFieldErrorIsNotPresent(UPLOAD_ERROR_CLASS);
+        assertFieldErrorIsNotPresent();
+        closeDialog();
+    }
+
+    /**
+     * Tests fast navigation in the images list: double click and enter advance to the next step.
+     */
+    public void testFastNavigationToSelectImage()
+    {
+        // double click to select the new image option
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        // click first to make sure selection is set
+        getSelenium().click("//*[contains(@class, 'xListItem')]//*[contains(@class, 'xNewImagePreview')]");
+        getSelenium().doubleClick("//*[contains(@class, 'xListItem')]//*[contains(@class, 'xNewImagePreview')]");
+        waitForStepToLoad(STEP_UPLOAD);
+        closeDialog();
+
+        // enter to select the new image option
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
+        getSelenium().click("//div[contains(@class, \"xNewImagePreview\")]");
+        getSelenium().keyUp(IMAGES_LIST, "\\13");
+        waitForStepToLoad(STEP_UPLOAD);
+        closeDialog();
+
+        // double click to add an image from another page
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_ALL_PAGES);
+        selectLocation("XWiki", "AdminSheet");
+        getSelenium().click(getImageLocator("registration.png"));
+        getSelenium().doubleClick(getImageLocator("registration.png"));
+        waitForStepToLoad(STEP_CONFIG);
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+
+        assertWiki("[[image:XWiki.AdminSheet@registration.png]]");
+
+        // enter to test enter upload in all pages
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_ALL_PAGES);
+        selectLocation("XWiki", "AdminSheet");
+        getSelenium().click("//div[contains(@class, \"xNewImagePreview\")]");
+        getSelenium().keyUp(IMAGES_LIST, "\\13");
+        waitForStepToLoad(STEP_UPLOAD);
         closeDialog();
     }
 
@@ -541,6 +591,12 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     private void selectImage(String space, String page, String filename)
     {
+        selectLocation(space, page);
+        selectImage(filename);
+    }
+
+    private void selectLocation(String space, String page)
+    {
         String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
         waitForCondition("selenium.isElementPresent('" + imageSpaceSelector + "/option[@value=\"" + space + "\"]');");
         getSelenium().select(imageSpaceSelector, space);
@@ -550,15 +606,19 @@ public class ImageTest extends AbstractWysiwygTestCase
         getSelenium().select(imagePageSelector, page);
 
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
-
-        selectImage(filename);
+        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
+            + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
     }
 
     private void selectImage(String filename)
     {
-        String imageItem = "//div[@class=\"xImagesSelector\"]//img[@title=\"" + filename + "\"]";
-        waitForCondition("selenium.isElementPresent('" + imageItem + "');");
-        getSelenium().click(imageItem);
+        waitForCondition("selenium.isElementPresent('" + getImageLocator(filename) + "');");
+        getSelenium().click(getImageLocator(filename));
+    }
+
+    private String getImageLocator(String filename)
+    {
+        return "//div[@class=\"xImagesSelector\"]//img[@title=\"" + filename + "\"]";
     }
 
     private void assertImageSelected(String space, String page, String filename)

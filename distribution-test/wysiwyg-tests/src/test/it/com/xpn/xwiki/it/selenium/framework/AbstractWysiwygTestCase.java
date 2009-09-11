@@ -941,37 +941,44 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Asserts that the specified error message in a container with the specified error class is present.
+     * Asserts that the specified error message exists, and the element passed through its XPath locator is marked as in
+     * error.
      * 
      * @param errorMessage the expected error message
-     * @param errorClass the expected class of the error container
+     * @param fieldXPathLocator the XPath locator of the field which is in error
      */
-    public void assertFieldErrorIsPresent(String errorMessage, String errorClass)
+    public void assertFieldErrorIsPresent(String errorMessage, String fieldXPathLocator)
     {
-        assertTrue(getSelenium().isVisible(
-            "//*[contains(@class, \"" + errorClass + "\") and . = \"" + errorMessage + "\"]"));
+        // test that the error field is present through this method because the isVisible stops at first encouter of the
+        // matching element and fails if it's not visible. However, multiple matching elements might exist and we're
+        // interested in at least one of them visible
+        assertTrue(getSelenium().getXpathCount(
+            "//*[contains(@class, \"xErrorMsg\") and . = '" + errorMessage + "' and @style='']").intValue() > 0);
+        assertElementPresent(fieldXPathLocator + "[contains(@class, 'xErrorField')]");
     }
-    
-    /**
-     * Asserts that the specified error message in a container with the specified class is not present.
-     * @param errorMessage the error message 
-     * @param errorClass the class of the error container
-     */
-    public void assertFieldErrorIsNotPresent(String errorMessage, String errorClass)
-    {
-        assertFalse(getSelenium().isVisible(
-            "//*[contains(@class, \"" + errorClass + "\") and . = \"" + errorMessage + "\"]"));
-    }    
 
     /**
-     * Asserts that no message with the specified container class is present.
+     * Asserts that the specified error message does not exist and that the field passed through the XPath locator is
+     * not in error. Note that this function checks that the passed field is present, but without an error marker.
      * 
-     * @param errorClass the class of the error container
+     * @param errorMessage the error message
+     * @param fieldXPathLocator the XPath locator of the field to check that it's not in error
      */
-    public void assertFieldErrorIsNotPresent(String errorClass)
+    public void assertFieldErrorIsNotPresent(String errorMessage, String fieldXPathLocator)
     {
-        String errorLocator = "//*[contains(@class, \"" + errorClass + "\")]";
-        assertFalse(isElementPresent(errorLocator) && getSelenium().isVisible(errorLocator));
+        assertFalse(getSelenium().isVisible("//*[contains(@class, \"xErrorMsg\") and . = \"" + errorMessage + "\"]"));
+        assertTrue(isElementPresent(fieldXPathLocator + "[not(contains(@class, 'xFieldError'))]"));
+    }
+
+    /**
+     * Asserts that no error message or field marked as in error is present.
+     */
+    public void assertFieldErrorIsNotPresent()
+    {
+        // no error is visible
+        assertFalse(getSelenium().isVisible("//*[contains(@class, \"xErrorMsg\")]"));
+        // no field with error markers should be present
+        assertFalse(isElementPresent("//*[contains(@class, 'xFieldError')]"));
     }
 
     /**

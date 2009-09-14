@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>XWiki</web>
@@ -11,18 +11,20 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1181560077000</creationDate>
-<date>1222425967000</date>
-<contentUpdateDate>1222425967000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.index.tree')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/1.0</syntaxId>
-<content>## Smartclient
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}
+## Smartclient
 $xwiki.jsfx.use("js/smartclient/initsc.js", true)##
 $xwiki.jsfx.use("js/smartclient/modules/ISC_Core.js")##
 ## TODO: remove this line   
@@ -36,7 +38,8 @@ $xwiki.jsfx.use("js/smartclient/modules/ISC_DataBinding.js")##
 $xwiki.jsfx.use("js/smartclient/skins/Enterprise/load_skin.js")##
 ## XWikiExplorer
 $xwiki.jsfx.use("js/xwiki/xwikiexplorer/xwikiexplorer.js", true)##
-{pre}##
+{{/velocity}}
+{{html}}
 &lt;div id="XWEWrapper" style="height:300px;margin-right:20px;padding-bottom:30px;"&gt;&lt;/div&gt;
 &lt;script type="text/javascript"&gt;
 isc.XWETreeGrid.create({
@@ -57,5 +60,5 @@ isc.XWETreeGrid.create({
   displayAttachmentsOnTop: true // Display attachments before page children.
 }).draw();
 &lt;/script&gt;
-{/pre}
+{{/html}}
 </content></xwikidoc>

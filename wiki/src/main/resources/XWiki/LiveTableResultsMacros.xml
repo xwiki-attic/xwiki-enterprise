@@ -11,24 +11,22 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1240741979000</creationDate>
-<date>1245663399000</date>
-<contentUpdateDate>1245663399000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.livetable.resultsmacros')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/1.0</syntaxId>
+<syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>{pre}
-## do not remove the {pre} {/pre} which is there to make sure
-## calling this page from includeMacros won't add empty lines
-#**
-  * Macro to get the results of a grid data call
-  *#
+<content>{{velocity}}
+##
+## Macro to get the results of a grid data call
+##
 ##
 #macro(gridresult $className $collist)
  #gridresultwithfilter($className $collist "" "")
@@ -434,5 +432,5 @@
   #end
 #end
 ##
-{/pre}</content>
+{{velocity}}</content>
 </xwikidoc>

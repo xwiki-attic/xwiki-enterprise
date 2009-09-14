@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>Main</web>
@@ -11,16 +11,22 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1107121918000</creationDate>
-<date>1166177443000</date>
-<contentUpdateDate>1169801141000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.recentmembers')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
-<content>#set ($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='XWiki.XWikiUsers' order by doc.creationDate desc")
-&lt;div class="memberlist"&gt;
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}
+#set ($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='XWiki.XWikiUsers' order by doc.creationDate desc")
+(% class="memberlist" %)
+(((
 #foreach ($member in $xwiki.searchDocuments($sql,5,0))
 #set($discard = $map.clear())
 #set($memberdoc = $xwiki.getDocument($member))
@@ -28,19 +34,23 @@
 #set($company = $memberdoc.display("company","view",$memberobj))
 #set($city = $memberdoc.display("city","view",$memberobj))
 #set($country = $memberdoc.display("country","view",$memberobj))
-&lt;div class="vcard"&gt;
+(% class="vcard" %)
+(((
 #if($memberobj.avatar &amp;&amp; $memberobj.avatar.trim() != "")
-&lt;a href="$memberdoc.getURL()"&gt;
-&lt;img src="$memberdoc.getAttachmentURL($memberobj.avatar)" alt="$xwiki.getUserName($member, false)" width="48" class="photo"/&gt;&lt;/a&gt;
+[[[[image:${memberdoc.fullName}@${memberobj.avatar}||alt="$xwiki.getUserName($member, false)" width="48" class="photo"]]&gt;&gt;$memberdoc.fullName]]
 #else
+## Note that as soon as skin files can be displayed with [[image:]] this should be changed
+{{html}}
 &lt;img src="$xwiki.getSkinFile("noavatar.png")" alt="" width="48" class="nophoto"/&gt;
+{{/html}}
 #end
-1.1.1.1 &lt;a class="url fn" href="$memberdoc.getURL()"&gt;$xwiki.getUserName($member, false)&lt;/a&gt;
+==== [[$xwiki.getUserName($member, false)&gt;&gt;$memberdoc.fullName||class="url fn"]] ====
 #set($prev = false)
 #if($company &amp;&amp; !$company.trim().equals(""))${company}#set($prev = true)#end
 #if($city &amp;&amp; !$city.trim().equals(""))#if($prev), #end${city}#set($prev = true)#end
 #if($country &amp;&amp; !$country.trim().equals(""))#if($prev), #end$country#end
-&lt;/div&gt;
+)))
 #end
-&lt;/div&gt;</content>
+)))
+{{/velocity}}</content>
 </xwikidoc>

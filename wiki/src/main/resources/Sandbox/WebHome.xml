@@ -36,7 +36,7 @@
 
 {{info}}Don't worry about overwriting or losing stuff when editing the page, you can always roll back to the first version of the page from the "History" tab at the bottom of the page.{{/info}}
 
-If you want to give a look to the underlying wiki syntax, you can click on "Wiki code" in the "Show" menu or click on the "Source" tab when editing the page.
+If you want to give a look to the underlying [[XWiki Syntax&gt;&gt;XWiki.XWikiSyntax]], you can click on "Wiki code" in the "Show" menu or click on the "Source" tab when editing the page.
 
 Here are a number of test pages you can play with:
 
@@ -44,17 +44,19 @@ Here are a number of test pages you can play with:
 * [[Sandbox Test Page 2&gt;&gt;Sandbox.TestPage2]]
 * [[Sandbox Test Page 3&gt;&gt;Sandbox.TestPage3]]
 
-Below is a demonstration of the various items you can add to your wiki pages (headings, images, tables).
+Below is a demonstration of the [[XWiki Syntax&gt;&gt;XWiki.XWikiSyntax]] you can use in wiki pages (headings, images, tables). 
 
 == Headings ==
 
-XWiki offers 5 levels of headings. You can use them to structure your pages.
+XWiki offers 6 levels of headings. You can use them to structure your pages.
 
 === Level 3 Heading ===
 
 ==== Level 4 Heading 4 ====
 
 ===== Level 5 Heading 5 =====
+
+====== Level 6 Heading 6 ======
 
 == Styles ==
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>XWiki</web>
@@ -11,20 +11,20 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1240741932000</creationDate>
-<date>1241027875000</date>
-<contentUpdateDate>1241027875000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.livetable.results')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/1.0</syntaxId>
+<syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>#includeMacros("XWiki.LiveTableResultsMacros")
-{pre}
+<content>{{velocity}}
+{{include document="XWiki.LiveTableResultsMacros" /}}
 #gridresult($request.classname $request.collist.split(","))
-{/pre}
-</content></xwikidoc>
+{{/velocity}}</content>
+</xwikidoc>

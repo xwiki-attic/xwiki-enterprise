@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>Main</web>
@@ -11,17 +11,17 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1233334826000</creationDate>
-<date>1233339510000</date>
-<contentUpdateDate>1233339510000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.recentchanges')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/1.0</syntaxId>
+<syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
 <attachment>
 <filename>lquo.gif</filename>
@@ -371,41 +371,8 @@ ul.xlist li.over div.xshowonhover {
 <use>onDemand</use>
 </property>
 </object>
-<object>
-<class>
-<name>XWiki.TagClass</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<tags>
-<cache>0</cache>
-<displayType>input</displayType>
-<multiSelect>1</multiSelect>
-<name>tags</name>
-<number>1</number>
-<prettyName>Tags</prettyName>
-<relationalStorage>1</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<values></values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</tags>
-</class>
-<name>Main.RecentChanges</name>
-<number>0</number>
-<className>XWiki.TagClass</className>
-<guid>2fff107b-853c-432b-b07d-701a5efb16c2</guid>
-<property>
-<tags/>
-</property>
-</object>
-<content>## 
+<content>{{velocity}}
+##
 ## Recent changes.
 ##
 ## Optional parameters :
@@ -425,8 +392,8 @@ ul.xlist li.over div.xshowonhover {
 ##
 ##  - rcDocumentNames (Collection): The list of recentlyChanged documents, to reuse a previous search query. 
 ##
-$xwiki.jsx.use("Main.RecentChanges")
-$xwiki.ssx.use("Main.RecentChanges")
+$xwiki.jsx.use("Main.RecentChanges")##
+$xwiki.ssx.use("Main.RecentChanges")##
 #set($action = "$!request.getParameter('action')")
 ##
 ## Start execution timer
@@ -451,6 +418,8 @@ $xwiki.ssx.use("Main.RecentChanges")
   #set($rev2 = $listtool.get($revisions, $revMax))
   $response.sendRedirect($diffDoc.getURL("view", "viewer=changes&amp;rev1=${rev1}&amp;rev2=${rev2}"))
 #end
+## We have to use the HTML macro to avoid prints of multiple &amp;nbsp on macro calls.
+{{html}}
 ## Manage minor edits.
 #setVariableFromRequest($rcShowMinor "rcShowMinor" false)
 ## Manage show diff in items.
@@ -465,6 +434,7 @@ $xwiki.ssx.use("Main.RecentChanges")
 #setVariableFromRequest($rcSpace "rcSpace" [])
 ## Manage author criterion
 #setVariableFromRequest($rcAuthor "rcAuthor" [])
+{{/html}}
 ##
 ## Create a string containing one or more ? given the number of values in the passed list.
 ##
@@ -550,7 +520,7 @@ $xwiki.ssx.use("Main.RecentChanges")
 #end
 ##
 ## Attachments handling macro.
-## Retreive page's attachments and put those which upload matches the modification entry (author and timeframe)
+## Retrieve page's attachments and put those which upload matches the modification entry (author and timeframe)
 ## in the $rcAttachments List.
 ##
 #macro(handleAttachments $rcDoc $rcAuthor $rcDt)  
@@ -595,6 +565,7 @@ $xwiki.ssx.use("Main.RecentChanges")
 #set($previousAuthor = "")
 ## Get this very doc, useful when it is included from another one.
 #set($recentChangesDoc = $xwiki.getDocument("Main.RecentChanges"))
+{{html}}
 &lt;table class="recentChanges"&gt;
   &lt;tr class="recentChangesHeader"&gt;&lt;th&gt;$msg.get("xe.recentchanges.column.authoranddate")&lt;/th&gt;&lt;th&gt;$msg.get("xe.recentchanges.column.changes")&lt;/th&gt;&lt;/tr&gt;
   #foreach ($rcDocName in $rcDocumentNames)    
@@ -665,6 +636,7 @@ $xwiki.ssx.use("Main.RecentChanges")
   ## Close last row if any.
   #if($rcDocumentNames.size() &gt; 1)&lt;/ul&gt;&lt;/td&gt;&lt;/tr&gt;#end
 &lt;/table&gt;
+{{/html}}
 ##
 ## Rebuild URL query string
 ## Workaround until we fix $request.getQueryString()
@@ -680,28 +652,25 @@ $xwiki.ssx.use("Main.RecentChanges")
 ## Provide links to display minor edits and RSS feed.
 ##
 #if($xwiki.hasMinorEdit())
+  {{html}}
   &lt;p class="recentChangesMoreActions"&gt;
     #if($rcShowMinor)
-      &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", $queryString.replaceAll('rcShowMinor=true', ''))"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/zoom_out.gif")" alt="Hide minor icon"/&gt; $msg.get("xe.recentchanges.hideminor")&lt;/a&gt;
+      &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", $queryString.replaceAll('rcShowMinor=true', ''))"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/zoom_out.gif")" alt="Hide minor icon"/&gt;$msg.get("xe.recentchanges.hideminor")&lt;/a&gt;
     #else
-      &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "${queryString}&amp;amp;rcShowMinor=true")"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/zoom_in.gif")" alt="Show minor icon"/&gt; $msg.get("xe.recentchanges.showminor")&lt;/a&gt;
+      &lt;a href="$xwiki.getURL($tdoc.getFullName(), "view", "${queryString}&amp;amp;rcShowMinor=true")"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/zoom_in.gif")" alt="Show minor icon"/&gt;$msg.get("xe.recentchanges.showminor")&lt;/a&gt;
     #end
     #if($rcShowRss)
       #set($rssURL = "")
       #if($rcTag.size() &gt; 0)
         ## Temporary harcoded URL until we refactor our RSS feeds.
-        #set($rssURL = $xwiki.getURL("Main.TagsRss", "view", "xpage=rdf&amp;amp;tag=$listtool.get($rcTag, 0)"))        
+        #set($rssURL = $xwiki.getURL("Main.TagsRss", "view", "xpage=plain&amp;amp;outputSyntax=plain&amp;amp;tag=$listtool.get($rcTag, 0)"))        
       #else
         #set($rssURL = $xwiki.getURL('Main.WebRss', 'view', 'xpage=plain'))
       #end
-      &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt; $msg.get("xe.recentchanges.rssfeed")&lt;/a&gt;
+      &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.recentchanges.rssfeed")&lt;/a&gt;
     #end
   &lt;/p&gt;
+  {{/html}}
 #end
-##
-## Compute and display execution time.
-##
-#set($execEnd = $util.getDate())
-#set($execDuration = $execEnd.getTime() - $execStart.getTime())
-&lt;!-- Main.RecentChanges execution time: ${execDuration}ms --&gt;
-</content></xwikidoc>
+{{/velocity}}</content>
+</xwikidoc>

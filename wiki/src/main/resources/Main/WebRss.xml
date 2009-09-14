@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>Main</web>
@@ -11,18 +11,34 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1106311618000</creationDate>
-<date>1179577728000</date>
-<contentUpdateDate>1179577728000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.rss.pages.modified')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<content>#set ($sql = "where 1=1 order by doc.date desc")
-#set ($list = $xwiki.searchDocuments($sql , true, 20 , 0))
-#set ($baseurl =  "http://${request.serverName}")
-#set ($description = $msg.get("xe.rss.feed.description"))
-#includeForm("XWiki.WebRssCode")</content>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}
+## Backward compatibility redirect, if the RSS feed is called without the outputSyntax query argument, force it.
+#if ("$!request.xpage" == "plain" &amp;&amp; "$!request.outputSyntax" != "plain")
+  $response.sendRedirect($xwiki.getURL($doc.fullName, "view", "xpage=plain&amp;outputSyntax=plain"))
+#end
+#if ("$!request.xpage" == "plain" &amp;&amp; "$!request.outputSyntax" == "plain")
+  #set ($feed = $xwiki.feed.getWebFeed("where 1=1 order by doc.date desc", 20, 0, $util.getHashMap()))
+  #set ($feedURI = $xwiki.getDocument("Main.WebHome").getExternalURL("view"))
+  #set ($discard = $feed.setLink($feedURI))
+  #set ($discard = $feed.setUri($feedURI))
+  #set ($discard = $feed.setAuthor('XWiki'))
+  #set ($discard = $feed.setTitle($msg.get('xe.rss.feed.description', [$text])))
+  #set ($discard = $feed.setDescription($msg.get('xe.rss.global.description', [$text])))
+  #set ($discard = $feed.setLanguage($context.language))
+  #set ($discard = $feed.setCopyright($xwiki.getXWikiPreference('copyright')))
+  $xwiki.feed.getFeedOutput($feed, $xwiki.getXWikiPreference('feed_type', 'rss_2.0'))
+#end
+{{/velocity}}</content>
 </xwikidoc>

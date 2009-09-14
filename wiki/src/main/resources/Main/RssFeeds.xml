@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>Main</web>
@@ -11,24 +11,27 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1184166013000</creationDate>
-<date>1184255091000</date>
-<contentUpdateDate>1184255091000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.rss.feeds')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<content>1 $msg.get("xe.rss.feeds")
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}
+$msg.get('xe.rss.feeds.description')
+#set($blog = "[[$msg.get('xe.rss.blog')&gt;&gt;Blog.WebHome]]")
+#set($search = "[[Main.WebSearch]]")
+#set($tags = "[[Main.Tags]]")
 
-$msg.get("xe.rss.feeds.description")
-
-#set($blog = "[$msg.get('xe.rss.blog')&gt;Blog.WebHome]")
-#set($search = "[$msg.get('xe.rss.search')&gt;Main.WebSearch]")
-#set($tags = "[$msg.get('xe.rss.tags')&gt;Main.Tags]")
-* &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.pages.modified')" alt="$msg.get('xe.rss.pages.modified')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=rdf')"&gt;*$msg.get('xe.rss.global')*&lt;/a&gt; $msg.get('xe.rss.global.description')
-* &lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.blog.feed')" alt="$msg.get('xe.rss.blog.feed')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;*$msg.get('xe.rss.blog')*&lt;/a&gt; $msg.get("xe.rss.blog.description", [$blog])
-* &lt;a href="$xwiki.getURL('Main.WebSearch')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="WebSearch RSS Feed" alt="Web Search Feed"/&gt;&lt;/a&gt; *[$msg.get('xe.rss.search')&gt;Main.WebSearch]* $msg.get("xe.rss.search.description", [$search])
-* &lt;a href="$xwiki.getURL('Main.Tags')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.tags.feed')" alt="$msg.get('xe.rss.tags.feed')"/&gt;&lt;/a&gt; *[$msg.get('xe.rss.tags')&gt;Main.Tags]* $msg.get("xe.rss.tags.description", [$tags])
-</content></xwikidoc>
+* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.pages.modified')" alt="$msg.get('xe.rss.pages.modified')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=rdf')"&gt;$msg.get('xe.rss.global')&lt;/a&gt;&lt;/strong&gt; $msg.get('xe.rss.global.description'){{/html}}
+* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.blog.feed')" alt="$msg.get('xe.rss.blog.feed')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.blog')&lt;/a&gt;&lt;/strong&gt; $msg.get("xe.rss.blog.description", [$blog]){{/html}}
+* **[[$msg.get('xe.rss.search')&gt;&gt;Main.WebSearch]]** $msg.get("xe.rss.search.description", [$search])
+* **[[$msg.get('xe.rss.tags')&gt;&gt;Main.Tags]]** $msg.get("xe.rss.tags.description", [$tags])
+{{/velocity}}</content>
+</xwikidoc>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>Main</web>
@@ -11,20 +11,23 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1159568144000</creationDate>
-<date>1179995061000</date>
-<contentUpdateDate>1179995061000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title></title>
+<title>$msg.get('xe.space.index')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<content>1 $msg.get("xe.space.index")
-
-$msg.get("xe.space.index.description", [$doc.space])
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}
+$msg.get('xe.space.index.description', [$doc.space])
 
 #set ($sql = "where doc.space='$request.space' order by doc.name asc")
 #set ($list = $xwiki.searchDocuments($sql))
-#includeInContext("XWiki.Results")
+{{include document="XWiki.Results" /}}
+{{/velocity}}
 </content></xwikidoc>

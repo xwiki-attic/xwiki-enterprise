@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
 <web>Main</web>
@@ -11,23 +11,23 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1166007764000</creationDate>
-<date>1233340430000</date>
-<contentUpdateDate>1233340430000</contentUpdateDate>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title>Welcome to your wiki</title>
+<title>$msg.get('xe.home.title')</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/1.0</syntaxId>
+<syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>1 Welcome to your wiki
+<content>It's an easy-to-edit website that will help you work better together. This Wiki is made of //pages// sorted by //spaces//. You're currently in the **Main** space, looking at its home page (**WebHome**). 
 
-It's an easy-to-edit website that will help you work better together. This Wiki is made of ~~pages~~ sorted by ~~spaces~~. You're currently in the *Main* space, looking at its home page (*WebHome*). 
+{{velocity wiki="true"}}
+#if($hasEdit) You can use the [[Sandbox space&gt;&gt;Sandbox.WebHome]] to try out your wiki's features. #end
+{{/velocity}}
 
-#if($hasEdit) You can use the [Sandbox space&gt;Sandbox.WebHome] to try out your wiki's features. #end
-
-#includeInContext("Main.Dashboard")</content>
+{{include document="Main.Dashboard"/}}</content>
 </xwikidoc>

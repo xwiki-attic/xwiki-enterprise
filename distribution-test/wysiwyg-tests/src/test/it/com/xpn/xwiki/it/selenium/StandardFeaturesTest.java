@@ -575,4 +575,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         focusRichTextArea();
         assertWiki("= s1 =\n\nabc\n\n= Section 2 =\n\nxyz");
     }
+
+    /**
+     * @see XWIKI-4335: Typing ">" + text in wysiwyg returns a quote
+     */
+    public void testQuoteSyntaxIsEscaped()
+    {
+        typeText("> 1");
+        switchToSource();
+        switchToWysiwyg();
+        assertEquals("> 1", getEval("window.XWE.body.textContent"));
+    }
 }

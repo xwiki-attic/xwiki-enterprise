@@ -193,36 +193,33 @@ public class TableTest extends AbstractWysiwygTestCase
     {
         openInsertTableDialog();
         // Validation messages should not be present.
-        assertEquals(0, getSelenium().getXpathCount("//input[contains(@class, 'xFieldError')]"));
-        assertEquals(0, getSelenium().getXpathCount("//div[contains(@class, 'xTableInsertError') and @style = '']"));
+        assertFieldErrorIsNotPresent();
         // Enter invalid values.
         getSelenium().type(ROWS_SELECTOR, "");
         getSelenium().type(COLUMNS_SELECTOR, "0");
         // Try to submit.
         getSelenium().click("//button[text()=\"Insert Table\"]");
-        // Check if validation message are present.
-        assertEquals(2, getSelenium().getXpathCount("//input[contains(@class, 'xFieldError')]"));
-        assertEquals(2, getSelenium().getXpathCount("//div[contains(@class, 'xTableInsertError') and @style = '']"));
+        // Check that the first input is in error
+        assertFieldErrorIsPresent("Please enter a number greater than zero.", "//input[@title = 'Row count']");
+        // Check that the second input is in error
+        assertFieldErrorIsPresent("Please enter a number greater than zero.", "//input[@title = 'Column count']");
+        // Check that there are actually 2 error messages visible
+        assertEquals(2, getSelenium().getXpathCount("//div[contains(@class, 'xErrorMsg') and @style = '']"));
         // Fix the value of the first input.
         getSelenium().type(ROWS_SELECTOR, "1");
         // Try to submit again.
         getSelenium().click("//button[text()=\"Insert Table\"]");
-        // Check if the validation message is present.
-        assertEquals(1, getSelenium().getXpathCount("//input[contains(@class, 'xFieldError')]"));
-        assertEquals(1, getSelenium().getXpathCount("//div[contains(@class, 'xTableInsertError') and @style = '']"));
-        assertElementPresent("//input[@title = 'Column count' and contains(@class, 'xFieldError')]");
+        // Check if the validation message is present for the second field.
+        assertFieldErrorIsPresent("Please enter a number greater than zero.", "//input[@title = 'Column count']");
         // Cancel the dialog and open it again.
         closeDialog();
         openInsertTableDialog();
         // The previous validation message should not be present.
-        assertEquals(0, getSelenium().getXpathCount("//input[contains(@class, 'xFieldError')]"));
-        assertEquals(0, getSelenium().getXpathCount("//div[contains(@class, 'xTableInsertError') and @style = '']"));
+        assertFieldErrorIsNotPresent();
         // The dialog should have preserved its state so try to submit again.
         getSelenium().click("//button[text()=\"Insert Table\"]");
-        // Check if the validation message is present.
-        assertEquals(1, getSelenium().getXpathCount("//input[contains(@class, 'xFieldError')]"));
-        assertEquals(1, getSelenium().getXpathCount("//div[contains(@class, 'xTableInsertError') and @style = '']"));
-        assertElementPresent("//input[@title = 'Column count' and contains(@class, 'xFieldError')]");
+        // Check if the validation message is present for the second field.
+        assertFieldErrorIsPresent("Please enter a number greater than zero.", "//input[@title = 'Column count']");
         // Fix the error and submit.
         getSelenium().type(COLUMNS_SELECTOR, "1");
         getSelenium().click("//button[text()=\"Insert Table\"]");

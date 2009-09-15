@@ -51,6 +51,8 @@ public class MacroTest extends AbstractWysiwygTestCase
     public static final String MACRO_CATEGORY_SELECTOR = "//select[@title='Select a macro category']";
 
     public static final String MACRO_LIVE_FILTER_SELECTOR = "//input[@title = 'Type to filter']";
+    
+    public static final String MACRO_SELECTOR_LIST = "//div[contains(@class, 'xListBox')]";
 
     public static Test suite()
     {
@@ -959,11 +961,11 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Make sure no macro is selected.
         assertFalse(isMacroListItemSelected());
         // The validation message should be hidden.
-        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        assertFieldErrorIsNotPresent();
         // Try to move to the next step.
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         // Check if the validation message is visible.
-        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+        assertFieldErrorIsPresent("Please select a macro from the list below.", MACRO_SELECTOR_LIST);
 
         // The validation message should be hidden when we change the macro category.
         selectMacroCategory("Navigation");
@@ -971,11 +973,11 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Make sure no macro is selected.
         assertFalse(isMacroListItemSelected());
         // The validation message should be hidden.
-        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        assertFieldErrorIsNotPresent();
         // Try to move to the next step.
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         // Check if the validation message is visible.
-        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+        assertFieldErrorIsPresent("Please select a macro from the list below.", MACRO_SELECTOR_LIST);
 
         // The validation message should be hidden when we filter the macros.
         filterMacrosContaining("anchor");
@@ -983,22 +985,22 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Make sure no macro is selected.
         assertFalse(isMacroListItemSelected());
         // The validation message should be hidden.
-        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        assertFieldErrorIsNotPresent();
         // Try to move to the next step.
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         // Check if the validation message is visible.
-        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+        assertFieldErrorIsPresent("Please select a macro from the list below.", MACRO_SELECTOR_LIST);
 
         // The validation message should be hidden when we cancel the dialog.
         closeDialog();
         openSelectMacroDialog();
-        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        assertFieldErrorIsNotPresent();
         // Make sure no macro is selected.
         assertFalse(isMacroListItemSelected());
         // Try to move to the next step.
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         // Check if the validation message is visible.
-        assertFieldErrorIsPresent("Please select a macro from the list below.", "xMacroSelectorError");
+        assertFieldErrorIsPresent("Please select a macro from the list below.", MACRO_SELECTOR_LIST);
 
         // Finally select a macro.
         getSelenium().click(getMacroListItemLocator("Id"));
@@ -1006,7 +1008,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
 
         // The validation message shouldn't be visible (we moved to the next step).
-        assertFieldErrorIsNotPresent("xMacroSelectorError");
+        assertFieldErrorIsNotPresent();
 
         // Set the name field.
         setFieldValue("pd-name-input", "foo");

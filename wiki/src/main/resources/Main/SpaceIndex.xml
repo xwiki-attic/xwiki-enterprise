@@ -12,10 +12,10 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1253010039000</date>
+<contentUpdateDate>1253010039000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get('xe.space.index')</title>
+<title>Space Index</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -24,10 +24,19 @@
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
 <content>{{velocity}}
-$msg.get('xe.space.index.description', [$doc.space])
+#if("$!request.space" != "") #set($space=$request.space) #else #set($space = $doc.space) #end
+$msg.get('xe.space.index.description', [$space])
 
-#set ($sql = "where doc.space='$request.space' order by doc.name asc")
-#set ($list = $xwiki.searchDocuments($sql))
-{{include document="XWiki.Results" /}}
+#set($collist = ["doc.name","doc.date", "doc.author", "_actions"])
+#set($colprops = {
+                   "doc.name" : { "type" : "text" , "size" : 30, "link" : "view"}, 
+                   "doc.date" : { "type" : "date" },
+                   "doc.author" : { "type" : "text", "link" : "author"},
+                   "_actions" : {"actions": ["copy","delete","rename","rights"]}
+                 })
+#set($options = { "translationPrefix" : "xe.index.",
+                  "rowCount": 15,
+                  "extraParams" : "&amp;space=${space}" })
+#livetable("spaceindex" $collist $colprops $options)
 {{/velocity}}
 </content></xwikidoc>

@@ -12,10 +12,10 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1253017580000</date>
+<contentUpdateDate>1253017580000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get('xe.livetable.resultsmacros')</title>
+<title>Live Table Service Macros</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -109,11 +109,11 @@
     #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
     #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!filterwhere")  
   #else
-    #set($countSql = "$!fromSql $!filterfrom where 1=1 $!whereSql and $!filterwhere")
+    #set($countSql = "$!fromSql $!filterfrom where 1=1 $!whereSql $!filterwhere")
     #set($tagsMatchingFiltersFrom = "$!fromSql $!filterfrom")
-    #set($tagsMatchingFiltersWhere = "1=1 $!whereSql and $!filterwhere")
+    #set($tagsMatchingFiltersWhere = "1=1 $!whereSql $!filterwhere")
     #set($allMatchingTagsFrom = "$!filterfrom")
-    #set($allMatchingTagsWhere = "$!filterwhere")
+    #set($allMatchingTagsWhere = "1=1 $!filterwhere")
   #end
   #set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere))
   #set($allMatchingTags = $xwiki.tag.getTagCountForQuery($allMatchingTagsFrom, $allMatchingTagsWhere))
@@ -186,7 +186,7 @@
         "doc_rights_url" : "$rights",
         "doc_author_url" : "$xwiki.getURL($udoc.author)",
         "doc_date" : "${xwiki.formatDate($udoc.date)}",
-        "doc_title" : "${udoc.title}",
+        "doc_title" : "$xwiki.getXMLEncoded(${udoc.getDisplayTitle()})",
         "doc_author" : "${xwiki.getLocalUserName($udoc.author, false)}",
         "doc_creationDate" : "${xwiki.formatDate($udoc.creationDate)}",
         "doc_creator" : "${xwiki.getLocalUserName($udoc.creator, false)}"

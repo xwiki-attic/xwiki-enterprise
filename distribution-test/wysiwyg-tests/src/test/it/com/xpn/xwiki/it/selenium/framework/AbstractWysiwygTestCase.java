@@ -22,8 +22,6 @@ package com.xpn.xwiki.it.selenium.framework;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import com.thoughtworks.selenium.Selenium;
 
 /**
@@ -624,7 +622,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
             if (wait) {
-                waitForCondition("window.document.getElementsByTagName('iframe')[0].previousSibling.className == 'xToolbar'");
+                waitForCondition("!window.document.getElementsByTagName('iframe')[0].disabled");
             }
         }
     }
@@ -648,8 +646,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
             if (wait) {
-                waitForCondition("selenium.isElementPresent('//textarea[contains(@class, \"xPlainTextEditor\")"
-                    + " and not(contains(@class, \"loading\"))]')");
+                waitForCondition("selenium.isEditable('//textarea[contains(@class, \"xPlainTextEditor\")]')");
             }
         }
     }
@@ -707,7 +704,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void assertXHTML(String xhtml)
     {
         updateRichTextAreaFormField();
-        Assert.assertEquals(xhtml, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT));
+        assertEquals(xhtml, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT));
     }
 
     public void switchToWikiEditor()

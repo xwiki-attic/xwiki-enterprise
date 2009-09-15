@@ -194,16 +194,16 @@
           #if($colname.startsWith("doc."))
           #elseif($colname=="_action") ,
             #set($text = $msg.get("${request.transprefix}actiontext"))
-           "${colname}" : "${text}",
+           "${colname}" : "${text}"
           #elseif($colname=="_attachments") ,
             #grid_attachlist($udoc)
-            "${colname}" : "${attachlist}",
+            "${colname}" : "${attachlist}"
           #elseif($colname=="_avatar") ,
             #grid_avatar($udoc)
-            "${colname}" : "${avatar}",
+            "${colname}" : "${avatar}"
           #elseif($colname=="_images") ,
             #grid_photolist($udoc)
-            "${colname}" : "${photolist}",
+            "${colname}" : "${photolist}"
           #else ,
             #set($propClassName = "")
             #set($propClassName = $request.get("${colname}_class"))

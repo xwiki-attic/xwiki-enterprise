@@ -12,10 +12,10 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1253010149000</date>
+<contentUpdateDate>1253010149000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get('xe.index')</title>
+<title>Document Index</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -32,8 +32,7 @@
                    "doc.author" : { "type" : "text", "link" : "author"},
                    "_actions" : {"actions": ["copy","delete","rename","rights"]}
                  })
-#set($options = { "resultPage":"XWiki.Tableresults",
-                  "translationPrefix" : "xe.index.",
+#set($options = { "translationPrefix" : "xe.index.",
                   "rowCount": 15 })
 #livetable("alldocs" $collist $colprops $options)
 {{/velocity}}

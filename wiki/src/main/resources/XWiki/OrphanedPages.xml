@@ -15,7 +15,7 @@
 <date>1253012587000</date>
 <contentUpdateDate>1253012587000</contentUpdateDate>
 <version>1.1</version>
-<title>Orphaned Pages</title>
+<title>$msg.get("xe.index.orphaned")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>

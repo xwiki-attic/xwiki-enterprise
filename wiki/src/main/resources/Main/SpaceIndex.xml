@@ -15,7 +15,7 @@
 <date>1253010039000</date>
 <contentUpdateDate>1253010039000</contentUpdateDate>
 <version>1.1</version>
-<title>Space Index</title>
+<title>$msg.get("xe.space.index")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>

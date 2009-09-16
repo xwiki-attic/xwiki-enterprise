@@ -15,7 +15,7 @@
 <date>1253010149000</date>
 <contentUpdateDate>1253010149000</contentUpdateDate>
 <version>1.1</version>
-<title>Document Index</title>
+<title>$msg.get("xe.index")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>

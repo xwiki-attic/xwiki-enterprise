@@ -78,7 +78,8 @@ public class WikisResourceTest extends AbstractHttpTest
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertTrue(searchResults.getSearchResults().size() >= 1);
+        int resultSize = searchResults.getSearchResults().size();
+        assertTrue("Found " + resultSize + " result", resultSize >= 1);
 
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);

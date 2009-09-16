@@ -91,7 +91,8 @@ public class SpacesResourceTest extends AbstractHttpTest
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertTrue(searchResults.getSearchResults().size() >= 2);
+        int resultSize = searchResults.getSearchResults().size();
+        assertTrue("Found " + resultSize + " result", resultSize >= 2);
 
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);

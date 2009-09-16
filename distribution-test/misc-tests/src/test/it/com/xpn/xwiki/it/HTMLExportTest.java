@@ -19,18 +19,15 @@
  */
 package com.xpn.xwiki.it;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
-import org.apache.commons.io.IOUtils;
-
 import junit.framework.TestCase;
+
+import org.apache.commons.io.IOUtils;
 
 public class HTMLExportTest extends TestCase
 {
@@ -48,19 +45,17 @@ public class HTMLExportTest extends TestCase
         // We must read the full stream as otherwise if we close it before we've fully read it
         // then the server side will get a broken pipe since it's still trying to send data on it.
         while ((entry = zis.getNextEntry()) != null) {
-        	if (entry.getName().equals("xwiki.Main.WebHome.html")) {
-        		String content = IOUtils.toString(zis); 
-        		// Verify that the content was rendered properly
-        		assertTrue("Should have contained 'Welcome to your wiki'", 
-        			content.contains("Welcome to your wiki"));
-        		// Ensure that the translations have been rendered properly
-        		assertFalse("$msg should have been expanded", 
-        			content.contains("$msg"));
-        		found = true;
-        	} else {
-        		IOUtils.readLines(zis);
-        	}
-        	zis.closeEntry();
+            if (entry.getName().equals("xwiki.Main.WebHome.html")) {
+                String content = IOUtils.toString(zis);
+                // Verify that the content was rendered properly
+                assertTrue("Should have contained 'Welcome to your wiki'", content.contains("Welcome to your wiki"));
+                // Ensure that the translations have been rendered properly
+                assertFalse("$msg should have been expanded", content.contains("$msg"));
+                found = true;
+            } else {
+                IOUtils.readLines(zis);
+            }
+            zis.closeEntry();
         }
         assertTrue("Failed to find wiki.Main.WebHome.html entry", found);
         zis.close();

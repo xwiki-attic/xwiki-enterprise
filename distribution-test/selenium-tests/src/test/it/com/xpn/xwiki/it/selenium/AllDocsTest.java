@@ -135,7 +135,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         open("Main", "AllDocs");
         fillTableFilter("xpath=//input[@name='doc.name']", "Treeview");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rights']");
-        Assert.assertEquals("Editing Rights for Treeview", getTitle());
+        Assert.assertEquals("Editing Rights for Tree", getTitle());
     }
 
     /**

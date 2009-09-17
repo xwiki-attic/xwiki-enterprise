@@ -151,7 +151,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         assertIsRegisterPage();
     }
 
-    private void assertIsRegisterPage()
+    protected void assertIsRegisterPage()
     {
         // tests that the register form exists
         getTest().assertElementPresent("register");

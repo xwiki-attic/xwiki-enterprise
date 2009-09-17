@@ -26,7 +26,6 @@
 <content>{{velocity}}
 #if("$!request.space" != "") #set($space=$request.space) #else #set($space = $doc.space) #end
 $msg.get('xe.space.index.description', [$space])
-
 #set($collist = ["doc.name","doc.date", "doc.author", "_actions"])
 #set($colprops = {
                    "doc.name" : { "type" : "text" , "size" : 30, "link" : "view"}, 

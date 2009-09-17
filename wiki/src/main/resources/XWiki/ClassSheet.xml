@@ -12,10 +12,10 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1253198440000</date>
+<contentUpdateDate>1253198440000</contentUpdateDate>
 <version>1.1</version>
-<title>Class Sheet</title>
+<title>Default Class Sheet</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -26,8 +26,6 @@
 <content>{{velocity}}
 #if($doc.fullName == 'XWiki.ClassSheet')
   ## Viewing the sheet document itself
-  = Default Class Sheet =
-
   You can edit this document to change the default presentation of classes, or you can copy it to create a customized view just for one or several classes.
 #else
   #if("$!request.docName" != '')
@@ -39,81 +37,80 @@
       #stop
     #end
   #end
-#if($doc.name.endsWith('Class'))
-  #set($className = $doc.name.substring(0, $doc.name.lastIndexOf('Class')))
-#else
-  #set($className = $doc.name)
-#end
-#set($classSheetDoc = $xwiki.getDocument("${doc.space}.${className}Sheet"))
-## Before XWiki 2.0, the default class sheet was suffixed with "ClassSheet". Since 2.0, the suffix is just "Sheet".
-#if($xwiki.exists("${doc.space}.${className}ClassSheet"))
-  #set($classSheetDoc = $xwiki.getDocument("${doc.space}.${className}ClassSheet"))
-#else
+  #if($doc.name.endsWith('Class'))
+    #set($className = $doc.name.substring(0, $doc.name.lastIndexOf('Class')))
+  #else
+    #set($className = $doc.name)
+  #end
   #set($classSheetDoc = $xwiki.getDocument("${doc.space}.${className}Sheet"))
-#end
-## Before XWiki 2.0, the default class template was suffixed with "ClassTemplate". Since 2.0, the suffix is just "Template".
-#if($xwiki.exists("${doc.space}.${className}ClassTemplate"))
-  #set($classTemplateDoc = $xwiki.getDocument("${doc.space}.${className}ClassTemplate"))
-#else
-  #set($classTemplateDoc = $xwiki.getDocument("${doc.space}.${className}Template"))
-#end
-#set($classSheetExists = !($classSheetDoc.isNew()))
-#set($classTemplateExists = !($classTemplateDoc.isNew()))
-#if(!$defaultSpace)
-  #set($defaultSpace = 'Main')
-#end
-#if(!$defaultParent)
-  #set($defaultParent = ${doc.fullName})
-#end
-= Class: $className =
+  ## Before XWiki 2.0, the default class sheet was suffixed with "ClassSheet". Since 2.0, the suffix is just "Sheet".
+  #if($xwiki.exists("${doc.space}.${className}ClassSheet"))
+    #set($classSheetDoc = $xwiki.getDocument("${doc.space}.${className}ClassSheet"))
+  #else
+    #set($classSheetDoc = $xwiki.getDocument("${doc.space}.${className}Sheet"))
+  #end
+  ## Before XWiki 2.0, the default class template was suffixed with "ClassTemplate". Since 2.0, the suffix is just "Template".
+  #if($xwiki.exists("${doc.space}.${className}ClassTemplate"))
+    #set($classTemplateDoc = $xwiki.getDocument("${doc.space}.${className}ClassTemplate"))
+  #else
+    #set($classTemplateDoc = $xwiki.getDocument("${doc.space}.${className}Template"))
+  #end
+  #set($classSheetExists = !($classSheetDoc.isNew()))
+  #set($classTemplateExists = !($classTemplateDoc.isNew()))
+  #if(!$defaultSpace)
+    #set($defaultSpace = 'Main')
+  #end
+  #if(!$defaultParent)
+    #set($defaultParent = ${doc.fullName})
+  #end
+  = Class: $className =
 
-#if($doc.getxWikiClass().properties.size() == 0)
-{{warning}}The class does not have any properties yet. You can use the {{html}}&lt;a href="$doc.getURL('edit', 'editor=class')"&gt;class editor&lt;/a&gt;{{/html}} to define them.{{/warning}}
-
-#else
+  #if($doc.getxWikiClass().properties.size() == 0)
+    {{warning}}The class does not have any properties yet. You can use the {{html}}&lt;a href="$doc.getURL('edit', 'editor=class')"&gt;class editor&lt;/a&gt;{{/html}} to define them.{{/warning}}
+  #else
 Class properties:
-  #foreach($property in $doc.getxWikiClass().properties)
-    * $property.prettyName (${property.name}: $xwiki.metaclass.get($property.classType).prettyName)
+    #foreach($property in $doc.getxWikiClass().properties)
+      * $property.prettyName (${property.name}: $xwiki.metaclass.get($property.classType).prettyName)
+    #end
+    * //You can use the class editor to {{html}}&lt;a href="$doc.getURL('edit', 'editor=class')"&gt;add or modify the class properties&lt;/a&gt;{{/html}}.//
+
   #end
-  * //You can use the class editor to {{html}}&lt;a href="$doc.getURL('edit', 'editor=class')"&gt;add or modify the class properties&lt;/a&gt;{{/html}}.//
+  #if ($classSheetExists &amp;&amp; $classTemplateExists)
+    = Create a new document =
 
-#end
-#if ($classSheetExists &amp;&amp; $classTemplateExists)
-  == Create a new document ==
+    #if("$!targetDocName" != '' &amp;&amp; $xwiki.exists($targetDocName))
+      {{warning}}The target document already exists. Please choose a different name, or [[view the existing document&gt;&gt;$targetDocName]]{{/warning}}
+    #elseif("$!targetDocName" != '')
+      {{warning}}You don't have permission to create that document{{/warning}}
+    #end
 
-  #if("$!targetDocName" != '' &amp;&amp; $xwiki.exists($targetDocName))
-    {{warning}}The target document already exists. Please choose a different name, or [[view the existing document&gt;&gt;$targetDocName]]{{/warning}}
-  #elseif("$!targetDocName" != '')
-    {{warning}}You don't have permission to create that document{{/warning}}
-  #end
+    {{html}}
+      &lt;form action="" id="newdoc" method="post"&gt;
+        &lt;div&gt;
+          &lt;input type="hidden" name="parent" value="${defaultParent}"/&gt;
+          &lt;input type="hidden" name="template" value="${classTemplateDoc}"/&gt;
+          &lt;input type="hidden" name="sheet" value="1"/&gt;
+          Space: &lt;input type="text" name="spaceName" value="${defaultSpace}" size="8"/&gt;
+          Document: &lt;input type="text" name="docName" value="Document name" class="withTip"'/&gt;
+          &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create this document" class="button"/&gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+    {{/html}}
 
-  {{html}}
-    &lt;form action="" id="newdoc" method="post"&gt;
-      &lt;div&gt;
-        &lt;input type="hidden" name="parent" value="${defaultParent}"/&gt;
-        &lt;input type="hidden" name="template" value="${classTemplateDoc}"/&gt;
-        &lt;input type="hidden" name="sheet" value="1"/&gt;
-        Space: &lt;input type="text" name="spaceName" value="${defaultSpace}" size="8"/&gt;
-        Document: &lt;input type="text" name="docName" value="Document name" class="withTip"'/&gt;
-        &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create this document" class="button"/&gt;&lt;/span&gt;
-      &lt;/div&gt;
-    &lt;/form&gt;
-  {{/html}}
+    = Existing documents =
 
-  == Existing documents ==
-
-  #set($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='${doc.fullName}' and obj.name&lt;&gt;'${classTemplateDoc.fullName}'")
-  #foreach ($item in $xwiki.searchDocuments($sql))
-     * [[$item]]
-  #end
-#end ## class sheet and class template exist
-  == The class sheet ==
+    #set($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='${doc.fullName}' and obj.name&lt;&gt;'${classTemplateDoc.fullName}'")
+    #foreach ($item in $xwiki.searchDocuments($sql))
+      * [[$item]]
+    #end
+  #end ## class sheet and class template exist
+  = The class sheet =
 
   #if (!$classSheetExists || !$classTemplateExists)
     Before using this class you must first create the sheet and template for it. Follow the instructions below to do this.
   #end
 
-    {{info}}The //Sheet// allows to control the presentation of documents of this data type. You can use the default presentation, which enumerates all the available fields, or you can design your own presentation. You can also choose different presentations for the viewing and for the editing modes.{{/info}}
+  {{info}}The //Sheet// allows to control the presentation of documents of this data type. You can use the default presentation, which enumerates all the available fields, or you can design your own presentation. You can also choose different presentations for the viewing and for the editing modes.{{/info}}
 
   #if(!$classSheetExists)
     {{html}}
@@ -130,7 +127,7 @@ Class properties:
     [[View the sheet document (${classSheetDoc.fullName}) »&gt;&gt;${classSheetDoc.fullName}]]
   #end
 
-  == The class template ==
+  = The class template =
 
     {{info}}The //Template// is the document used as the model for documents of this data type. It will automatically contain a reference to the //Sheet// and an instance of your //Class//.{{/info}}
 

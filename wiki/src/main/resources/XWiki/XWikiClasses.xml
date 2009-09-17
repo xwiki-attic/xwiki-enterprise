@@ -15,7 +15,7 @@
 <date>1252454400000</date>
 <contentUpdateDate>1252454400000</contentUpdateDate>
 <version>1.1</version>
-<title>XWiki Classes</title>
+<title>Data types</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -37,11 +37,9 @@
   #end
 #end
 {{/velocity}}
-= Data types =
-
 This tool allows to define structured data types (classes) in your wiki. Please consult the [[developer's guide&gt;&gt;http://www.xwiki.org/xwiki/bin/view/DevGuide/WebHome]] to get familiar with the XWiki data model and the public APIs.
 
-== Templates for new data types ==
+= Templates for new data types =
 
 Here are the templates and sheets for creating new classes:
 
@@ -50,7 +48,7 @@ Here are the templates and sheets for creating new classes:
 * [[Default code for displaying class instances (objects)&gt;&gt;ObjectSheet]]
 * [[Document template for new objects&gt;&gt;ObjectTemplate]]
 
-== Create a new data type ==
+= Create a new data type =
 
 Choose a simple name, such as //Article//, //Book//, //Employee//. '//Class//' will be appended at the end automatically.
 
@@ -70,7 +68,7 @@ Choose a simple name, such as //Article//, //Book//, //Employee//. '//Class//' w
 &lt;/form&gt;
 {{/html}}{{/velocity}}
 
-== Data types defined in this wiki ==
+= Data types defined in this wiki =
 
 {{velocity}}
 ##

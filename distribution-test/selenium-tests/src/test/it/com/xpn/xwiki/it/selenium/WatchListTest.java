@@ -113,7 +113,7 @@ public class WatchListTest extends AbstractXWikiTestCase
 
         // Watch TestWatchWholeSpace
         createPage("TestWatchWholeSpace", "Test1", "TestWatchWholeSpace selenium");
-        clickLinkWithText("Watch space : TestWatchWholeSpace", false);
+        clickLinkWithText("Watch the current space", false);
 
         // Verify that the watched page & space are present in the watchlist manager
         clickLinkWithLocator("link=Manage your watchlist");

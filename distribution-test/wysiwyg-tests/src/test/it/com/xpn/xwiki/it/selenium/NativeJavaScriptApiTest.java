@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -35,7 +35,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests wysiwyg native JS API");
-        suite.addTestSuite(NativeJavaScriptApiTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(NativeJavaScriptApiTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

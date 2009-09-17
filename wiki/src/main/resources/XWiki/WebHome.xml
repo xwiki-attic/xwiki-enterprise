@@ -25,6 +25,6 @@
 <hidden>false</hidden>
 <content>{{velocity}}
 #set($administration = "[[$msg.get('xe.xwiki.administration')&gt;&gt;XWiki.XWikiPreferences]]")
-{{info}}$msg.get("xe.xwiki.administration.install", [$administration])){{/info}}
+{{info}}$msg.get("xe.xwiki.administration.install", [$administration]){{/info}}
 {{/velocity}}</content>
 </xwikidoc>

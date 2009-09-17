@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -37,7 +37,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the keyboard shortcuts feature of XWiki");
-        suite.addTestSuite(KeyboardShortcutsTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(KeyboardShortcutsTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

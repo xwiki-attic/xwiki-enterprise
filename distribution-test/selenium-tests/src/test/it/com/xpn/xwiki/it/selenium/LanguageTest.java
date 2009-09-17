@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -38,7 +38,7 @@ public class LanguageTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the ability to change the wiki language");
-        suite.addTestSuite(LanguageTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(LanguageTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

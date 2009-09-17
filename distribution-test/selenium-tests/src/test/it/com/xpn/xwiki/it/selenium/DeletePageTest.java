@@ -20,7 +20,7 @@
 package com.xpn.xwiki.it.selenium;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 import junit.framework.Test;
@@ -36,7 +36,7 @@ public class DeletePageTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify deletion of pages");
-        suite.addTestSuite(DeletePageTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(DeletePageTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

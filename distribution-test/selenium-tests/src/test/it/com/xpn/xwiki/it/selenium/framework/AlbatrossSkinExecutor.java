@@ -39,7 +39,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         this.test = test;
     }
 
-    private AbstractXWikiTestCase getTest()
+    protected AbstractXWikiTestCase getTest()
     {
         return this.test;
     }
@@ -137,7 +137,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         assertIsLoginPage();
     }
 
-    private void assertIsLoginPage()
+    protected void assertIsLoginPage()
     {
         getTest().assertElementPresent("loginForm");
         getTest().assertElementPresent("j_username");

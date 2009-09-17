@@ -24,7 +24,7 @@ import java.io.IOException;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -39,7 +39,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
-        suite.addTestSuite(WikiEditorTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(WikiEditorTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

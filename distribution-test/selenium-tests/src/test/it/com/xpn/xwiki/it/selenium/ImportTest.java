@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
@@ -38,7 +38,7 @@ public class ImportTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the XAR import feature");
-        suite.addTestSuite(ImportTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(ImportTest.class, ColibriSkinExecutor.class);
         //return suite;
         return new XWikiSeleniumTestSetup(suite);
     }

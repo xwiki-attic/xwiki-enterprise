@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -37,7 +37,7 @@ public class XObjectsTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the structured data features of XWiki");
-        suite.addTestSuite(XObjectsTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(XObjectsTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

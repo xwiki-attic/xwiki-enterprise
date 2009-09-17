@@ -20,7 +20,7 @@
 package com.xpn.xwiki.it.selenium;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 import junit.framework.Test;
 
@@ -29,7 +29,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Test the XWiki Panel Wizard");
-        suite.addTestSuite(PanelWizardTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(PanelWizardTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

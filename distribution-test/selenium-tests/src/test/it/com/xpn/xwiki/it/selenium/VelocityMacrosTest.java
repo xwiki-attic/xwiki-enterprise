@@ -27,7 +27,7 @@ import java.io.IOException;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -44,7 +44,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests Velocity Macros");
-        suite.addTestSuite(VelocityMacrosTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(VelocityMacrosTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

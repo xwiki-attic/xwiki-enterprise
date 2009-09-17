@@ -58,6 +58,30 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
      * {@inheritDoc}
      */
     @Override
+    public void login(String username, String password, boolean rememberme)
+    {
+        getTest().open("Main", "WebHome");
+
+        if (isAuthenticated()) {
+            logout();
+        }
+
+        clickLogin();
+
+        getTest().setFieldValue("j_username", username);
+        getTest().setFieldValue("j_password", password);
+        if (rememberme) {
+            getTest().checkField("rememberme");
+        }
+        getTest().submit();
+
+        Assert.assertTrue("User has not been authenticated", isAuthenticated());
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void logout()
     {
         Assert.assertTrue("User wasn't authenticated.", isAuthenticated());

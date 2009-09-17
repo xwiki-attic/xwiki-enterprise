@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 public class LinkTest extends AbstractWysiwygTestCase
@@ -69,7 +69,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests insert link feature");
-        suite.addTestSuite(LinkTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(LinkTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

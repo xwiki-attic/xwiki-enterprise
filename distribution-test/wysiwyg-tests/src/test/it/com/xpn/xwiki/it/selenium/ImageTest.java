@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -83,7 +83,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests insert image feature");
-        suite.addTestSuite(ImageTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(ImageTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

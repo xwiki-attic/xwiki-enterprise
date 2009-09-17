@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -35,7 +35,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Functional tests for the submit support inside the WYSIWYG editor.");
-        suite.addTestSuite(SubmitTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(SubmitTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

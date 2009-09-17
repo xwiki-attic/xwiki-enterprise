@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -36,7 +36,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     {
         XWikiTestSuite suite =
             new XWikiTestSuite("Functional tests for remove formatting support inside the WYSIWYG editor.");
-        suite.addTestSuite(RemoveFormattingTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(RemoveFormattingTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

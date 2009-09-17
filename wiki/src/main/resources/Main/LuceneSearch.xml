@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1253201513000</date>
+<contentUpdateDate>1253201513000</contentUpdateDate>
 <version>1.1</version>
 <title>#if("$!{request.text}"=="")$msg.get("xe.search.lucene")#else$msg.get("xe.search.lucene.results", [$request.text])#end</title>
 <template></template>
@@ -238,6 +238,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       #end
     #end
   #else
+
     {{error}}$msg.get('xe.search.plugin.notfound')){{/error}}
   #end
 #end
@@ -251,12 +252,17 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
     #if($doRebuild == "yes")
       #set($documentCount = $lucene.rebuildIndex())
       #if(${documentCount} &gt;= 0)
+        
         {{info}}$msg.get("xe.search.rebuild.started"){{/info}}
       #elseif(${documentCount} == -1)
+
         {{error}}$msg.get("xe.search.rebuild.rights"){{/error}}
+
       #elseif(${documentCount} == -2)
+
         {{error}}$msg.get("xe.search.rebuild.inprogress"){{/error}}
       #else
+
         {{error}}$msg.get("xe.search.rebuild.failed"){{/error}}
       #end
     #else ## !doRebuild
@@ -274,13 +280,17 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       #else
         #set($info2 = "")
     #end
-      {{info}}${info1}${info2}{{/info}}
-    #end ## doRebuild
-   #set($defaultSearch = "[[$msg.get('xe.search.default.engine')&gt;&gt;WebSearch?text=$utext]]") 
-   {{warning}}$msg.get('xe.search.lucene.experimental', [$defaultSearch]){{/warning}}
-  #else ## !lucene exists
+
+    {{info}}${info1}${info2}{{/info}}
+  #end ## doRebuild
+  #set($defaultSearch = "[[$msg.get('xe.search.default.engine')&gt;&gt;WebSearch?text=$utext]]") 
+
+  {{warning}}$msg.get('xe.search.lucene.experimental', [$defaultSearch]){{/warning}}
+
+#else ## !lucene exists
   #set($defaultSearch = "[[$msg.get('xe.search.default.engine')&gt;&gt;WebSearch?text=$utext]]")
-    {{warning}}$msg.get('xe.search.plugin.notenabled', [$defaultSearch]){{/warning}}
+
+  {{warning}}$msg.get('xe.search.plugin.notenabled', [$defaultSearch]){{/warning}}
   #end ## lucene exists
 #end ## !$rssmode
 {{/velocity}}</content>

@@ -239,6 +239,8 @@ XWiki.index.displayAttachmentEntry = function (row, i, table)
                   "callback" : "XWiki.index.displayAttachmentEntry", 
                   "translationPrefix" : "xe.index.attachments." })
 #livetable("allattachments" $collist $colprops $options)
+
+
 {{html clean="false"}}
 &lt;div id="inaccessibleDocsMessage" class="hidden"&gt; 
 #info($msg.get("rightsmanager.documentrequireviewrights"))

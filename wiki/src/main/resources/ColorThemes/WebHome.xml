@@ -23,7 +23,7 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>== Existing Themes ==
+<content>= Existing Themes =
 
 {{velocity}}
 * [[Default theme&gt;&gt;DefaultColorTheme]]

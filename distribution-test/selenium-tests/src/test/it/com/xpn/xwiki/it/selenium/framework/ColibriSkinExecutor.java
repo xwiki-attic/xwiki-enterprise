@@ -68,10 +68,21 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     /**
      * {@inheritDoc}
      */
+    @Override
     public void clickLogin()
     {
         getTest().clickLinkWithLocator("//div[@id='tmLogin']/a");
         assertIsLoginPage();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void clickRegister()
+    {
+        getTest().clickLinkWithLocator("//div[@id='tmRegister']/a");
+        assertIsRegisterPage();
     }
     
 }

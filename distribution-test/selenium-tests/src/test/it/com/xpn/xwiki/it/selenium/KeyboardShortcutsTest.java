@@ -78,11 +78,11 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         String viewURL = "/xwiki/bin/view/Sandbox/WebHome";
 
         // e : default edit wysiswyg
-        testShortcutFromResultingTitle(viewURL, "e", "Editing wysiwyg for Training Zone");
+        testShortcutFromResultingTitle(viewURL, "e", "Editing wysiwyg for Sandbox");
         // k : edit wiki
-        testShortcutFromResultingTitle(viewURL, "k", "Editing Wiki for Training Zone");
+        testShortcutFromResultingTitle(viewURL, "k", "Editing Wiki for Sandbox");
         // g : edit wysiwyg
-        testShortcutFromResultingTitle(viewURL, "g", "Editing wysiwyg for Training Zone");
+        testShortcutFromResultingTitle(viewURL, "g", "Editing wysiwyg for Sandbox");
         // f : edit inline
         testShortcutFromTextPresent(viewURL, "f", "Is minor edit:");
         // r : edit rights
@@ -92,7 +92,8 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // s : edit class
         testShortcutFromTextPresent(viewURL, "s", "No class is defined in this wiki document.");
         // d : code
-        testShortcutFromTextPresent(viewURL, "d", "Wiki source code of Training Zone");
+        // TODO: put this test back when 'view source code' will be available again.
+        // testShortcutFromTextPresent(viewURL, "d", "Wiki source code of Sandbox");
         // Delete : delete
         testShortcutFromTextPresent(viewURL, "\\46", "Are you sure you wish to move this document to the recycle bin");
         // F2 : rename

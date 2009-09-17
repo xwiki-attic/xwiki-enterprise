@@ -72,7 +72,7 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(String.format("%s?q=welcome", getUriBuilder(WikiSearchResource.class).build(getWiki())));
+            executeGet(String.format("%s?q=easy-to-edit", getUriBuilder(WikiSearchResource.class).build(getWiki())));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 

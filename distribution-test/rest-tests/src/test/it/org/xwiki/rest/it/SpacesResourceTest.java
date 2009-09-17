@@ -75,7 +75,7 @@ public class SpacesResourceTest extends AbstractHttpTest
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(String.format("%s?q=training", getUriBuilder(SpaceSearchResource.class).build(getWiki(), "Main")));
+            executeGet(String.format("%s?q=sandbox", getUriBuilder(SpaceSearchResource.class).build(getWiki(), "Main")));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 

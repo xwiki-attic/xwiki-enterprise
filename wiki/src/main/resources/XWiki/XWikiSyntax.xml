@@ -731,7 +731,7 @@ Next paragraph in the top-level document
 }}})))|(((
 |=Header 1|=Header 2|=Header 3
 |Cell One|(((
-= Embedded document
+{{html}}&lt;h1 id="HEmbeddeddocument"&gt;&lt;span&gt;Embedded document&lt;/span&gt;&lt;/h1&gt;{{/html}}
 
 Some embedded paragraph.
 

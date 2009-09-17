@@ -156,18 +156,18 @@ div#dashboardspacer {
             ##
             ## Wiki spaces and tags
             ##
-            == $msg.get("xe.dashboard.wiki.spaces") ==
+            = $msg.get("xe.dashboard.wiki.spaces") =
             {{include document="Main.Spaces"/}}
-            == $msg.get("xe.dashboard.wiki.tagcloud") ==
+            = $msg.get("xe.dashboard.wiki.tagcloud") =
             {{include document="XWiki.TagCloud"/}}
           #else
             ##
             ## Space documents and tags
             ##
-            == $msg.get("xe.dashboard.space.documents", [$doc.space]) ==
+            = $msg.get("xe.dashboard.space.documents", [$doc.space]) =
             #set ($docNames = $xwiki.getSpaceDocsName($doc.space))
             #displayDocumentList($docNames false $blacklistedSpaces) 
-            == $msg.get("xe.dashboard.wiki.tagcloud") ==
+            = $msg.get("xe.dashboard.wiki.tagcloud") =
             #set ($tagCloudSpace = $doc.space)
             {{include document="XWiki.TagCloud"/}}
 
@@ -185,9 +185,9 @@ div#dashboardspacer {
           ## Recent changes
           ##
           #if (!$isSpaceDashboard)
-            == $msg.get("xe.dashboard.wiki.recentchanges") ==
+            = $msg.get("xe.dashboard.wiki.recentchanges") =
           #else
-            == $msg.get("xe.dashboard.space.recentchanges", [$doc.space]) ==
+            = $msg.get("xe.dashboard.space.recentchanges", [$doc.space]) =
             ## Set variables to limit recent changes to the current space and 15 items.
             #set ($rcSpace = [$doc.space])
             #set ($rcChangesNb = 15)

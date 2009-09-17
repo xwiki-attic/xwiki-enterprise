@@ -20,7 +20,7 @@
 package com.xpn.xwiki.it.selenium;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 import junit.framework.Test;
@@ -36,7 +36,7 @@ public class VersionTest extends AbstractXWikiTestCase
     {
         XWikiTestSuite suite =
             new XWikiTestSuite("Verify versioning features of documents and attachments");
-        suite.addTestSuite(VersionTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(VersionTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

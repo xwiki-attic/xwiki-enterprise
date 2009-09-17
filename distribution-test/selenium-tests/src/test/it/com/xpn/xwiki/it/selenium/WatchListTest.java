@@ -24,7 +24,7 @@ import junit.framework.Test;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -39,7 +39,7 @@ public class WatchListTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the watchlist feature of XWiki");
-        suite.addTestSuite(WatchListTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(WatchListTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

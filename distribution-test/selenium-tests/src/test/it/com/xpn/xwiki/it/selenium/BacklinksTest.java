@@ -21,7 +21,7 @@ package com.xpn.xwiki.it.selenium;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import junit.framework.Test;
 
 /**
@@ -36,7 +36,7 @@ public class BacklinksTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the Backlinks feature");
-        suite.addTestSuite(BacklinksTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(BacklinksTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

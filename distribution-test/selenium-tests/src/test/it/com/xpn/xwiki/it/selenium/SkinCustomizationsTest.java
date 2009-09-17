@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -36,7 +36,7 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
     {
         XWikiTestSuite suite =
             new XWikiTestSuite("Verify the skin customization features " + "available in the Administration");
-        suite.addTestSuite(SkinCustomizationsTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(SkinCustomizationsTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

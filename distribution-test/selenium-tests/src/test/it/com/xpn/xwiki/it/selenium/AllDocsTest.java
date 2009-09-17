@@ -23,7 +23,7 @@ import junit.framework.Assert;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -36,7 +36,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the table view for AllDocs wiki document");
-        suite.addTestSuite(AllDocsTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(AllDocsTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

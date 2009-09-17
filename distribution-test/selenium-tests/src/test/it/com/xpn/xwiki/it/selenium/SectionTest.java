@@ -3,7 +3,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -16,7 +16,7 @@ public class SectionTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the document edit section feature");
-        suite.addTestSuite(SectionTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(SectionTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

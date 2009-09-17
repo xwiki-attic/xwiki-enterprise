@@ -22,7 +22,7 @@ package com.xpn.xwiki.it.selenium;
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
@@ -37,7 +37,7 @@ public class PanelsTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the XWiki Panel feature");
-        suite.addTestSuite(PanelsTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(PanelsTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

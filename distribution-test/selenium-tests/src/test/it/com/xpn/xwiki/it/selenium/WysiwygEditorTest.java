@@ -20,7 +20,7 @@
 package com.xpn.xwiki.it.selenium;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 import junit.framework.Test;
@@ -37,7 +37,7 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wysiwyg editor");
-        suite.addTestSuite(WysiwygEditorTest.class, AlbatrossSkinExecutor.class);
+        suite.addTestSuite(WysiwygEditorTest.class, ColibriSkinExecutor.class);
         return suite;
     }
 

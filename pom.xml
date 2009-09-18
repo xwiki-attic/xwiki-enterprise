@@ -54,8 +54,8 @@
     <platform.tool.jetty.version>1.16</platform.tool.jetty.version>
     <platform.tool.rootwebapp.version>1.2</platform.tool.rootwebapp.version>
     <platform.tool.packager.version>1.13</platform.tool.packager.version>
-    <platform.core.version>2.0-rc-2</platform.core.version>
-    <platform.web.version>2.0-rc-2</platform.web.version>
+    <platform.core.version>2.0-SNAPSHOT</platform.core.version>
+    <platform.web.version>2.0-SNAPSHOT</platform.web.version>
     <platform.panels.version>1.24</platform.panels.version>
     <platform.administration.version>1.16</platform.administration.version>
     <platform.scheduler.version>1.11</platform.scheduler.version>

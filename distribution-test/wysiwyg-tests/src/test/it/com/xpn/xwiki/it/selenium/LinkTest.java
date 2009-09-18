@@ -1161,9 +1161,9 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test adding a link to a page from the search tab.
      */
-    public void testAddLinkFromSearchedPage()
+    public void testCreateLinkToSearchedPage()
     {
-        String searchString = "welcome";
+        String searchString = "Main.WebHome";
         String expectedPage = "Main.WebHome";
         String label = "foobar";
 
@@ -1806,7 +1806,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testFastNavigationToSelectSearchedPage()
     {
         // 1. link to existing page, enter
-        String searchString = "welcome";
+        String searchString = "Main.WebHome";
         String expectedPage = "Main.WebHome";
         String label = "foobar";
 

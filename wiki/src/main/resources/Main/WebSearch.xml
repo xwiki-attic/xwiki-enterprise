@@ -155,7 +155,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       #set($rssURL = $xwiki.getURL($doc.fullName, 'view', "xpage=plain&amp;amp;outputSyntax=plain&amp;space=${selectedSpace}&amp;text=${utext}"))
     #end
     {{html}}
-      &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.search.rss", [$utext])&lt;/a&gt;
+      &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.search.rss", ["[$text]"])&lt;/a&gt;
     {{/html}}
     #set($luceneSearch = "[[Main.LuceneSearch?text=$!utext]]")
     {{info}}$msg.get('xe.search.lucene.try', [$luceneSearch]){{/info}}

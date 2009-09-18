@@ -265,7 +265,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
 
         {{error}}$msg.get("xe.search.rebuild.failed"){{/error}}
       #end
-    #else ## !doRebuild
+    #else## !doRebuild
       ## ---------------
       ## Queue &amp; rebuild option
       ## ---------------
@@ -282,16 +282,16 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
     #end
 
     {{info}}${info1}${info2}{{/info}}
-  #end ## doRebuild
-  #set($defaultSearch = "[[$msg.get('xe.search.default.engine')&gt;&gt;WebSearch?text=$utext]]") 
+  #end## doRebuild
+  #set($defaultSearch = "[[$msg.get('xe.search.default.engine')&gt;&gt;WebSearch?text=$utext]]")
 
   {{warning}}$msg.get('xe.search.lucene.experimental', [$defaultSearch]){{/warning}}
 
-#else ## !lucene exists
+#else## !lucene exists
   #set($defaultSearch = "[[$msg.get('xe.search.default.engine')&gt;&gt;WebSearch?text=$utext]]")
 
   {{warning}}$msg.get('xe.search.plugin.notenabled', [$defaultSearch]){{/warning}}
-  #end ## lucene exists
-#end ## !$rssmode
+  #end## lucene exists
+#end## !$rssmode
 {{/velocity}}</content>
 </xwikidoc>

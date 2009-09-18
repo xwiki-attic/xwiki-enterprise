@@ -74,8 +74,8 @@ public class SpacesResourceTest extends AbstractHttpTest
 
     public void testSearch() throws Exception
     {
-        GetMethod getMethod =
-            executeGet(String.format("%s?q=sandbox", getUriBuilder(SpaceSearchResource.class).build(getWiki(), "Main")));
+        GetMethod getMethod = executeGet(String.format("%s?q=somethingthatcannotpossiblyexist", 
+            getUriBuilder(SpaceSearchResource.class).build(getWiki(), "Main")));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -84,7 +84,7 @@ public class SpacesResourceTest extends AbstractHttpTest
         assertEquals(0, searchResults.getSearchResults().size());
 
         getMethod =
-            executeGet(String.format("%s?q=training", getUriBuilder(WikiSearchResource.class).build(getWiki(),
+            executeGet(String.format("%s?q=sandbox", getUriBuilder(WikiSearchResource.class).build(getWiki(),
                 "Sandbox")));
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());

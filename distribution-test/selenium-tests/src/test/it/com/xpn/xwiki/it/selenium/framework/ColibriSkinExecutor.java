@@ -48,7 +48,11 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     @Override
     public void loginAsAdmin()
     {
-        // First verify if the logged in user is not already the Administrator. That'll save us execution time.
+        if (!getTest().isElementPresent("//div[@id='tmActions']")) {
+            getTest().open("Main", "WebHome");
+        }
+        
+            // First verify if the logged in user is not already the Administrator. That'll save us execution time.
         if (!getTest().isElementPresent("//div[@id='tmUser']/a[contains(@href, '/xwiki/bin/view/XWiki/Admin')]")) {
             login("Admin", "admin", false);
         }

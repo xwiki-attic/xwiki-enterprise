@@ -267,7 +267,7 @@ ul.xlist li.over div.xshowonhover {
 </object>
 <content>{{velocity}}
 ##
-## List spaces wihtin the wiki.
+## List spaces within the wiki.
 ##
 $xwiki.ssx.use("Main.Spaces")##
 ##

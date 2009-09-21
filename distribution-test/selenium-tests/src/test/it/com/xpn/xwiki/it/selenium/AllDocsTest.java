@@ -56,8 +56,11 @@ public class AllDocsTest extends AbstractXWikiTestCase
      */
     public void testTableViewActions()
     {
-        // Validate absence of "Actions" column for users without administration rights.
+        // Validate absence of "Actions" column for users without administration rights and verify there are
+        // elements in the table
         open("Main", "AllDocs");
+        // We verify we have a least 3 pages displayed
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         if (isAuthenticated()) {
             logout();
         }
@@ -66,6 +69,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // Validate presence of "Actions" column in table view for administrator.
         loginAsAdmin();
         open("Main", "AllDocs");
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         assertElementPresent("//th[normalize-space(text())='Actions']");
 
         // Validate input suggest for Page field.
@@ -78,6 +82,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Validate input suggest for Space field.
         open("Main", "AllDocs");
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         getSelenium().typeKeys("xpath=//input[@name='doc.space']", "XWiki");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeview");
         assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
@@ -85,12 +90,14 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Validate input suggest for Last Author field.
         open("Main", "AllDocs");
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         getSelenium().typeKeys("xpath=//input[@name='doc.author']", "SomeUnknownAuthor");
         assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "");
         assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
 
         // Validate Copy link action.
         open("Main", "AllDocs");
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeview");
         assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
@@ -105,6 +112,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Validate Rename link action.
         open("Main", "AllDocs");
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "TreeviewCopy");
         assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rename']");
@@ -117,6 +125,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Validate Delete link action.
         open("Main", "AllDocs");
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "Treeviewcopyrenamed");
         assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='delete']");
@@ -129,6 +138,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Validate Rights link action.
         open("Main", "AllDocs");
+        assertAndWaitTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "Treeview");
         assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rights']");

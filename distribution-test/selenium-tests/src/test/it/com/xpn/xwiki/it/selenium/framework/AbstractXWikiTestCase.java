@@ -149,6 +149,15 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         }.wait("element [" + elementLocator + "] not found or doesn't have the value [" + expectedValue + "]");
     }
 
+    public void assertAndWaitTextContains(final String elementLocator, final String containsValue)
+    {
+        new Wait() {
+            public boolean until() {
+                return getSelenium().getText(elementLocator).indexOf(containsValue) > -1;
+            }
+        }.wait("element [" + elementLocator + "] not found or doesn't contain the value [" + containsValue + "]");
+    }
+
     public void assertTextNotPresent(String text)
     {
         assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));

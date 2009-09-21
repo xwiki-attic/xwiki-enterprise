@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import org.codehaus.plexus.util.StringInputStream;
 
 import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.Wait;
 
 /**
  * All XWiki Selenium tests must extend this class.
@@ -139,6 +140,15 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         assertTrue("[" + text + "] isn't present.", getSelenium().isTextPresent(text));
     }
 
+    public void assertAndWaitTextPresent(final String elementLocator, final String expectedValue)
+    {
+        new Wait() {
+            public boolean until() {
+                return getSelenium().getText(elementLocator).equals(expectedValue);
+            }
+        }.wait("element [" + elementLocator + "] not found or doesn't have the value [" + expectedValue + "]");
+    }
+
     public void assertTextNotPresent(String text)
     {
         assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));
@@ -149,6 +159,15 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         assertTrue("[" + elementLocator + "] isn't present.", isElementPresent(elementLocator));
     }
 
+    public void assertAndWaitForElement(final String elementLocator)
+    {
+        new Wait() {
+            public boolean until() {
+                return getSelenium().isElementPresent(elementLocator);
+            }
+        }.wait("element [" + elementLocator + "] not found");
+    }
+    
     public void assertElementNotPresent(String elementLocator)
     {
         assertFalse("[" + elementLocator + "] is present.", isElementPresent(elementLocator));

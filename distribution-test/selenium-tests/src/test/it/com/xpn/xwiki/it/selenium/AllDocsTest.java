@@ -40,22 +40,6 @@ public class AllDocsTest extends AbstractXWikiTestCase
         return suite;
     }
 
-    private void fillTableFilter(String field, String text)
-    {
-        getSelenium().typeKeys(field, text);
-        // setSpeed is used to avoid the error :
-        // selenium.browserbot.getCurrentWindow().document.getElementById("ajax-loader") has no properties
-        // which is not prevented by the following waitForCondition.
-        try {
-            getSelenium().setSpeed("200");
-            waitForCondition(DOC + "getElementById(\"alldocs-ajax-loader\") != null");
-            waitForCondition("typeof " + DOC + "getElementById(\"alldocs-ajax-loader\").style.display == 'string'");
-            waitForCondition(DOC + "getElementById(\"alldocs-ajax-loader\").style.display == \"none\"");
-        } finally {
-            getSelenium().setSpeed("0");
-        }
-    }
-
     /**
      * This method makes the following tests :
      * <ul>
@@ -85,55 +69,68 @@ public class AllDocsTest extends AbstractXWikiTestCase
         assertElementPresent("//th[normalize-space(text())='Actions']");
 
         // Validate input suggest for Page field.
-        fillTableFilter("xpath=//input[@name='doc.name']", "Treeview");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "Treeview");
+        // Note: We wait on the pagination result since it's the last element updated and it's done after the
+        // table rows have been updated so this allows us to wait on it. In the code below "1" represents the
+        // displayed pages.
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
 
         // Validate input suggest for Space field.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.space']", "XWiki");
-        fillTableFilter("xpath=//input[@name='doc.name']", "treeview");
+        getSelenium().typeKeys("xpath=//input[@name='doc.space']", "XWiki");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeview");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
 
         // Validate input suggest for Last Author field.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.author']", "SomeUnknownAuthor");
+        getSelenium().typeKeys("xpath=//input[@name='doc.author']", "SomeUnknownAuthor");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "");
         assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
 
         // Validate Copy link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.name']", "treeview");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeview");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
         clickLinkWithText("copy");
         setFieldValue("targetdoc", "New.TreeviewCopy");
         getSelenium().click("//input[@value='Copy']");
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.space']", "New");
-        fillTableFilter("xpath=//input[@name='doc.name']", "treeviewcopy");
+        getSelenium().typeKeys("xpath=//input[@name='doc.space']", "New");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeviewcopy");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopy']");
 
         // Validate Rename link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.name']", "TreeviewCopy");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "TreeviewCopy");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rename']");
         setFieldValue("newPageName", "TreeviewCopyRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.name']", "TreeviewCopyRenamed");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "TreeviewCopyRenamed");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopyRenamed']");
 
         // Validate Delete link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.name']", "Treeviewcopyrenamed");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "Treeviewcopyrenamed");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='delete']");
         clickLinkWithLocator("//input[@value='yes']");
         assertTextPresent("The document has been deleted.");
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.name']", "treeview");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeview");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopyRenamed']");
 
         // Validate Rights link action.
         open("Main", "AllDocs");
-        fillTableFilter("xpath=//input[@name='doc.name']", "Treeview");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "Treeview");
+        assertAndWaitTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rights']");
         Assert.assertEquals("Editing Rights for Tree", getTitle());
     }

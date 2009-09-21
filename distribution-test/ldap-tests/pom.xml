@@ -64,9 +64,11 @@
     <dependency>
       <groupId>org.seleniumhq.selenium.client-drivers</groupId>
       <artifactId>selenium-java-client-driver</artifactId>
-      <version>${selenium.version}</version>
-      <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+    </dependency> 
     <!-- Dependencies for LDAP unit tests -->
     <dependency>
       <groupId>org.apache.directory.server</groupId>
@@ -106,21 +108,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>selenium-maven-plugin</artifactId>
-        <version>1.0-beta-3</version>
-        <executions>
-          <execution>
-            <id>start-selenium</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start-server</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <background>true</background>
-          <multiWindow>true</multiWindow>
-          <port>4444</port>
-        </configuration>
       </plugin>
       <!-- Step 5: Start XWiki, Execute the tests and Stop XWiki -->
       <plugin>

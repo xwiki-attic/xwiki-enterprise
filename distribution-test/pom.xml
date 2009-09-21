@@ -215,11 +215,45 @@
             </systemProperties>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>selenium-maven-plugin</artifactId>
+          <version>1.0</version>
+          <executions>
+            <execution>
+              <id>start-selenium</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>start-server</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <background>true</background>
+            <multiWindow>true</multiWindow>
+            <port>4444</port>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.seleniumhq.selenium.client-drivers</groupId>
+        <artifactId>selenium-java-client-driver</artifactId>
+        <version>1.0.1</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-utils</artifactId>
+        <version>1.5.15</version>
+        <scope>test</scope>
+      </dependency> 
+    </dependencies>
+  </dependencyManagement>
   <properties>
-    <selenium.version>1.0-beta-2</selenium.version>
     <!-- This is to allow users to override this property on the command line to choose what
       test to run. For example to run only the DeletePageTest you would type:
       mvn install -DPattern=DeletePageTest
@@ -342,20 +376,4 @@
     <module>rest-tests</module>
     <module>cluster-tests</module>
   </modules>
-  <repositories>
-    <repository>
-      <id>openqa.org</id>
-      <name>Openqa Release Repository</name>
-      <url>http://archiva.openqa.org/repository/releases/</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>daily</updatePolicy>
-        <checksumPolicy>ignore</checksumPolicy>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-  </repositories>
 </project>

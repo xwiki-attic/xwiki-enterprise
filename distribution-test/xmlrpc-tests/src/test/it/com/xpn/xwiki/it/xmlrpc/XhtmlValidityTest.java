@@ -211,7 +211,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
             // errors += assertCssValid(page.getUrl());
         }
 
-        assertTrue(errors == 0);
+        assertTrue("Validation errors in " + fullPageName, errors == 0);
     }
 
     private boolean hasErrors(String output)

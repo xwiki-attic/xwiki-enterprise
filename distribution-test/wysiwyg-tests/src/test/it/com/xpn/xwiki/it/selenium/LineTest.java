@@ -252,11 +252,10 @@ public class LineTest extends AbstractWysiwygTestCase
         // thus we are forced to collapse the selection to the end.
         runScript("XWE.selection.collapseToEnd()");
         typeEnter();
-        typeText("xyz");
-        typeDelete();
+        typeText("xYz");
         assertXHTML("<!--startimage:XWiki.AdminSheet@photos.png-->"
             + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"
-            + "<!--stopimage--><p>xyz</p>");
+            + "<!--stopimage--><p>xYz<br class=\"spacer\"></p>");
     }
 
     /**

@@ -123,7 +123,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         typeText("x");
         assertEquals("x", getSourceText("editor"));
 
-        typeText("y");
+        typeText("Y");
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");
         focusRichTextArea();

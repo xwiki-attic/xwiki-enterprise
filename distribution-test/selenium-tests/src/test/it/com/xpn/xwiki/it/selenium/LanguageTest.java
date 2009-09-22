@@ -68,8 +68,8 @@ public class LanguageTest extends AbstractXWikiTestCase
             + "default = ($doc.defaultLanguage), tdoc = ($tdoc.language), " + "tdocdefault = ($tdoc.defaultLanguage)");
         clickEditSaveAndView();
 
-        assertEquals("context = (en), doc = (), default = (en), tdoc = (), tdocdefault = (en)", getSelenium().getText(
-            "xwikicontent"));
+        assertTrue("Invalid content", getSelenium().getText("xwikicontent").contains(
+            "context = (en), doc = (), default = (en), tdoc = (), tdocdefault = (en)"));
 
         openAdministrationPage();
         clickLinkWithText("General");
@@ -77,16 +77,17 @@ public class LanguageTest extends AbstractXWikiTestCase
         clickEditSaveAndContinue();
 
         open("Test", "LanguageTest");
-        assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
-        assertEquals("context = (fr), doc = (), default = (en), tdoc = (), tdocdefault = (en)", getSelenium().getText(
-            "xwikicontent"));
+        assertTrue("Header doesn't contain \"Quitter la session\"",
+            getSelenium().getBodyText().contains("Quitter la session"));
+        assertTrue("Invalid content", getSelenium().getText("xwikicontent").contains(
+            "context = (fr), doc = (), default = (en), tdoc = (), tdocdefault = (en)"));
     }
 
     public void testVerifyPassingLanguageInRequestHasNotEffectInMonoligualMode()
     {
-        open("Main", "WebHome", "language=fr");
+        open("Main", "WebHome", "view", "language=fr");
 
-        assertEquals("Log-out", getSelenium().getText("headerlogout"));
+        assertTrue("Header doesn't contain \"Log-out\"", getSelenium().getBodyText().contains("Log-out"));
     }
 
     public void testChangeLanguageInMultilingualModeUsingTheLanguageRequestParameter()
@@ -95,9 +96,10 @@ public class LanguageTest extends AbstractXWikiTestCase
         clickLinkWithText("General");
         getSelenium().select("XWiki.XWikiPreferences_0_multilingual", "value=1");
         clickEditSaveAndContinue();
-        open("/xwiki/bin/view/Main/?language=fr");
+        open("Main", "WebHome", "view", "language=fr");
 
-        assertEquals("Quitter la session", getSelenium().getText("headerlogout"));
+        assertTrue("Header doesn't contain \"Quitter la session\"",
+            getSelenium().getBodyText().contains("Quitter la session"));
     }
 
     private void setMonoLingualAndEnglish()
@@ -111,8 +113,7 @@ public class LanguageTest extends AbstractXWikiTestCase
 
         setFieldValue("XWiki.XWikiPreferences_0_default_language", "en");
         clickEditSaveAndContinue();
-        open("/xwiki/bin/view/Main/");
 
-        assertEquals("Log-out", getSelenium().getText("headerlogout"));
+        assertTrue("Header doesn't contain \"Log-out\"", getSelenium().getBodyText().contains("Log-out"));
     }
 }

@@ -40,7 +40,11 @@
     <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/</developerConnection>
     <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/</url>
   </scm>
-  <modules>        
+  <issueManagement>
+  	<system>jira</system>
+  	<url>http://jira.xwiki.org/jira/browse/XE</url>
+  </issueManagement>
+  <modules>
     <module>wiki</module>
     <module>database</module>
     <module>web</module>

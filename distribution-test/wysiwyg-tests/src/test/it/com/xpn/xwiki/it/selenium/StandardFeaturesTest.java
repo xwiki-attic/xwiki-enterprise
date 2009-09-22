@@ -257,15 +257,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeText("x");
         typeShiftEnter();
-        typeText("y");
+        typeText("Y");
         selectAllContent();
         clickUnorderedListButton();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
         typeTab();
-        assertXHTML("<ul><li>x<ul><li>y</li></ul></li></ul>");
+        assertXHTML("<ul><li>x<ul><li>Y</li></ul></li></ul>");
         typeShiftTab();
-        assertXHTML("<ul><li>x</li><li>y</li></ul>");
+        assertXHTML("<ul><li>x</li><li>Y</li></ul>");
     }
 
     /**
@@ -414,7 +414,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testInsertHRInsideParagraph()
     {
-        typeText("xy");
+        typeText("xY");
         applyStyleTitle1();
         applyStylePlainText();
 
@@ -435,7 +435,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // We have to assert the XHTML because the arrow keys don't move the caret so we can't test if the user can edit
         // the generated empty paragraphs. The fact that they contain a BR proves this.
-        assertXHTML("<p><br class=\"spacer\"></p><hr><p>x</p><hr><p>y</p><hr><p><br class=\"spacer\"></p>");
+        assertXHTML("<p><br class=\"spacer\"></p><hr><p>x</p><hr><p>Y</p><hr><p><br class=\"spacer\"></p>");
     }
 
     /**

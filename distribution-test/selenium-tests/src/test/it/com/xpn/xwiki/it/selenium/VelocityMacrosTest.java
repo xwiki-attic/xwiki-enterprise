@@ -20,8 +20,6 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 import junit.framework.Test;
@@ -37,8 +35,6 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class VelocityMacrosTest extends AbstractXWikiTestCase
 {
-    private static final String EXECUTION_DIRECTORY = System.getProperty("xwikiExecutionDirectory");
-    
     private static final String SYNTAX = "xwiki/1.0";
 
     public static Test suite()
@@ -100,25 +96,27 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
      */
     public void testUsingMacroInGetRenderedContent() throws IOException
     {
-        // Get default view.vm template content
-        File file = new File(EXECUTION_DIRECTORY + "/webapps/xwiki/templates/view.vm");
-        FileReader fileReader = new FileReader(file);
-        char[] fileContent = new char[(int) file.length()];
-        fileReader.read(fileContent);
-        String viewTemplate = String.copyValueOf(fileContent);
+        // Copy the default skin page to a new page to not impact other tests
+        deletePage("Test", "testUsingMacroInGetRenderedContentSkin");
+        open("XWiki", "DefaultSkin");
+        clickCopyPage();
+        setFieldValue("targetdoc", "Test.testUsingMacroInGetRenderedContentSkin");
+        getSelenium().click("//input[@value='Copy']");
 
         // Overwrite view template in custom skin to add macro definition
-        open("XWiki", "DefaultSkin", "edit", "editor=object");
-        setFieldValue("XWiki.XWikiSkins_0_view.vm", "#macro(testSkinObjectMacro)skin object macro content#end "
-            + viewTemplate);
+        open("Test", "testUsingMacroInGetRenderedContentSkin", "edit", "editor=object");
+        setFieldValue("XWiki.XWikiSkins_0_view.vm", "#macro(testSkinObjectMacro)skin object macro content#end"
+            + "\n$cdoc.getRenderedContent()");
         clickEditSaveAndContinue();
 
         // Create a wiki page which use use the defined macro
-        editInWikiEditor("Test", "VelocitySkinObjectMacrosUseMacro", SYNTAX);        
+        editInWikiEditor("Test", "testUsingMacroInGetRenderedContent", SYNTAX);
         setFieldValue("content", "#testSkinObjectMacro()");
-        clickEditSaveAndView();
+        clickEditSaveAndContinue();
 
         // Validate if the macros works
+        assertTextNotPresent("skin object macro content");
+        open("Test", "testUsingMacroInGetRenderedContent", "view", "skin=Test.testUsingMacroInGetRenderedContentSkin");
         assertTextPresent("skin object macro content");
     }
 }

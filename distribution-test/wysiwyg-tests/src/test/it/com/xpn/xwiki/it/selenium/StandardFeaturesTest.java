@@ -257,6 +257,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeText("x");
         typeShiftEnter();
+        // "y" (lower case only) is misinterpreted.
+        // See http://jira.openqa.org/browse/SIDE-309
+        // See http://jira.openqa.org/browse/SRC-385
         typeText("Y");
         selectAllContent();
         clickUnorderedListButton();
@@ -414,6 +417,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testInsertHRInsideParagraph()
     {
+        // "y" (lower case only) is misinterpreted.
+        // See http://jira.openqa.org/browse/SIDE-309
+        // See http://jira.openqa.org/browse/SRC-385
         typeText("xY");
         applyStyleTitle1();
         applyStylePlainText();

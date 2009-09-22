@@ -252,6 +252,9 @@ public class LineTest extends AbstractWysiwygTestCase
         // thus we are forced to collapse the selection to the end.
         runScript("XWE.selection.collapseToEnd()");
         typeEnter();
+        // "y" (lower case only) is misinterpreted.
+        // See http://jira.openqa.org/browse/SIDE-309
+        // See http://jira.openqa.org/browse/SRC-385
         typeText("xYz");
         assertXHTML("<!--startimage:XWiki.AdminSheet@photos.png-->"
             + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"

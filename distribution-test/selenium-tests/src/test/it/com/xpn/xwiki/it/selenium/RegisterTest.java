@@ -42,7 +42,6 @@ public class RegisterTest extends AbstractXWikiTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        open("Main", "WebHome");
 
         // Remove "JohnSmith" user if already exists
         loginAsAdmin();
@@ -52,13 +51,7 @@ public class RegisterTest extends AbstractXWikiTestCase
         logout();
 
         clickRegister();
-    }
-
-    public void tearDown() throws Exception
-    {
-        // Remove "JohnSmith" user if already exists
-        deletePage("XWiki", "JohnSmith");
-        super.tearDown();
+        fillFormWithJohnSmithValues();
     }
 
     private void fillFormWithJohnSmithValues()
@@ -73,7 +66,6 @@ public class RegisterTest extends AbstractXWikiTestCase
 
     public void testRegisterJohnSmith()
     {
-        fillFormWithJohnSmithValues();
         submit();
         assertTextPresent("Registration successful");
         clickLinkWithLocator("link=John Smith");
@@ -85,7 +77,6 @@ public class RegisterTest extends AbstractXWikiTestCase
 
     public void testRegisterExistingUser()
     {
-        fillFormWithJohnSmithValues();
         setFieldValue("xwikiname", "Admin");
         submit();
         assertTextPresent("User already exists.");
@@ -93,7 +84,6 @@ public class RegisterTest extends AbstractXWikiTestCase
 
     public void testRegisterWithTwoDifferentPasswords()
     {
-        fillFormWithJohnSmithValues();
         setFieldValue("register_password", "a");
         setFieldValue("register2_password", "b");
         submit();
@@ -102,7 +92,6 @@ public class RegisterTest extends AbstractXWikiTestCase
 
     public void testRegisterWithoutEnteringUserName()
     {
-        fillFormWithJohnSmithValues();
         setFieldValue("xwikiname", "");
         submit();
         assertTextPresent("Invalid username provided");
@@ -110,7 +99,6 @@ public class RegisterTest extends AbstractXWikiTestCase
 
     public void testRegisterWithoutEnteringPassword()
     {
-        fillFormWithJohnSmithValues();
         setFieldValue("register_password", "");
         setFieldValue("register2_password", "");
         submit();

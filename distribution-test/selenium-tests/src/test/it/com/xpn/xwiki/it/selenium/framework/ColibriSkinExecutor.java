@@ -41,7 +41,47 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     {
         return getTest().isElementPresent("tmUser");
     }
-    
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see SkinExecutor#clickShowComments() 
+     */
+    public void clickShowComments()
+    {
+        getTest().clickLinkWithLocator("//span[@id = 'commentsshortcut']/a", false);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowAttachments()
+     */
+    public void clickShowAttachments()
+    {
+        getTest().clickLinkWithLocator("//span[@id = 'attachmentsshortcut']/a", false);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowHistory()
+     */
+    public void clickShowHistory()
+    {
+        getTest().clickLinkWithLocator("//span[@id = 'historyshortcut']/a", false);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowInformation()
+     */
+    public void clickShowInformation()
+    {
+        getTest().clickLinkWithLocator("//span[@id = 'informationshortcut']/a", false);
+    }
+
     /**
      * {@inheritDoc}
      */

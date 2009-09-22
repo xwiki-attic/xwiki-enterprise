@@ -331,6 +331,26 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         getSkinExecutor().clickCopyPage();
     }
 
+    public void clickShowComments()
+    {
+        getSkinExecutor().clickShowComments();;
+    }
+
+    public void clickShowAttachments()
+    {
+        getSkinExecutor().clickShowAttachments();;
+    }
+
+    public void clickShowHistory()
+    {
+        getSkinExecutor().clickShowHistory();
+    }
+
+    public void clickShowInformation()
+    {
+        getSkinExecutor().clickShowInformation();
+    }
+
     public void clickEditPreview()
     {
         getSkinExecutor().clickEditPreview();

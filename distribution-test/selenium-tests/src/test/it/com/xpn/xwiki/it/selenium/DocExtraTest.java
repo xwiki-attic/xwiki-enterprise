@@ -53,30 +53,30 @@ public class DocExtraTest extends AbstractXWikiTestCase
     public void testDocExtraLoadingFromTabClicks()
     {
         open("Main", "WebHome");
-        int initialScrollY = Integer.parseInt(getSelenium().getEval("window.scrollX"));
+        int initialScrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
 
-        waitForCondition("selenium.isElementPresent(\"//a[@id='Attachmentslink']\")!=false;");
+        assertAndWaitForElement("//a[@id='Attachmentslink']");
         clickLinkWithXPath("//a[@id='Attachmentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("attachform");
-        int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollX"));
+        int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
-        waitForCondition("selenium.isElementPresent(\"//a[@id='Historylink']\")!=false;");
+        assertAndWaitForElement("//a[@id='Historylink']");
         clickLinkWithXPath("//a[@id='Historylink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("historyform");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
-        waitForCondition("selenium.isElementPresent(\"//a[@id='Informationlink']\")!=false;");
+        assertAndWaitForElement("//a[@id='Informationlink']");
         clickLinkWithXPath("//a[@id='Informationlink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
         assertTextPresent("Created");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
-        waitForCondition("selenium.isElementPresent(\"//a[@id='Commentslink']\")!=false;");
+        assertAndWaitForElement("//a[@id='Commentslink']");
         clickLinkWithXPath("//a[@id='Commentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("commentform");
@@ -158,35 +158,36 @@ public class DocExtraTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Test document extra presence after clicks on top menu links. This test also verify that the browser scrolls to
+     * Test document extra presence after clicks on links directing to the extra tabs (top menu for Toucan skin for
+     * example and shortcuts for Colibri skin for example). This test also verify that the browser scrolls to
      * the bottom of the page.
      */
-    public void testDocExtraLoadingFromTopMenuLinks()
+    public void testDocExtraLoadingFromLinks()
     {
         open("Main", "WebHome");
 
-        clickLinkWithXPath("//a[@id='tmShowAttachments']", false);
+        clickShowAttachments();
         waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("attachform");
         int scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
-        clickLinkWithXPath("//a[@id='tmShowHistory']", false);
+        clickShowHistory();
         waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("historyform");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
-        clickLinkWithXPath("//a[@id='tmShowInformation']", false);
+        clickShowInformation();
         waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
         assertTextPresent("Created");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));
         assertTrue(scrollY > 0);
         getSelenium().getEval("this.browserbot.getCurrentWindow().scroll(0,0);");
 
-        clickLinkWithXPath("//a[@id='tmShowComments']", false);
+        clickShowComments();
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("commentform");
         scrollY = Integer.parseInt(getSelenium().getEval("this.browserbot.getCurrentWindow().scrollY"));

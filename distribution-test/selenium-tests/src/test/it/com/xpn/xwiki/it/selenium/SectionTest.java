@@ -87,7 +87,6 @@ public class SectionTest extends AbstractXWikiTestCase
         assertTextPresent("Second section");
         assertTextPresent("Subsection");
         assertTextPresent("Third section");
-        deletePage("Test", "SectionEditing");
     }
 
     /**
@@ -96,7 +95,11 @@ public class SectionTest extends AbstractXWikiTestCase
     public void testSectionEditInWikiEditor_syntax20()
     {
         initXWiki20Env();
-        clickLinkWithLocator("//div[@id='xwikicontent']/span[2]/a"); // Edit the second section
+        // Since the section edit links are inserted with JS we need to ensure they've been generated
+        assertAndWaitForElement("//div[@id='xwikicontent']/span[2]/a");
+        // TODO: I don't understand why the following xpath expression doesn't work:
+        // clickLinkWithLocator("//div[@id='xwikicontent']/span/a[contains(@href, 'section=2']");
+        clickLinkWithLocator("//div[@id='xwikicontent']/span[2]/a"); // Edit the second editable section
         clickLinkWithText("Wiki");
         assertTextNotPresent("First section");
         assertTextPresent("Second section");
@@ -110,7 +113,11 @@ public class SectionTest extends AbstractXWikiTestCase
     public void testSectionEditInWysiwygEditor_syntax20()
     {
         initXWiki20Env();
-        clickLinkWithLocator("//div[@id='xwikicontent']/span[4]/a"); // Edit the last section
+        // Since the section edit links are inserted with JS we need to ensure they've been generated
+        assertAndWaitForElement("//div[@id='xwikicontent']/span[3]/a");
+        // TODO: I don't understand why the following xpath expression doesn't work:
+        // clickLinkWithLocator("//div[@id='xwikicontent']/span/a[contains(@href, 'section=3']");
+        clickLinkWithLocator("//div[@id='xwikicontent']/span[3]/a"); // Edit the last editable section
         assertTextNotPresent("First section");
         assertTextNotPresent("Second section");
         assertTextNotPresent("Subsection");
@@ -124,13 +131,15 @@ public class SectionTest extends AbstractXWikiTestCase
     public void testSectionSaveDoesNotOverrideTheWholeContent_syntax20()
     {
         initXWiki20Env();
-        clickLinkWithLocator("//div[@id='xwikicontent']/span[4]/a"); // Edit the last section
+        // Since the section edit links are inserted with JS we need to ensure they've been generated
+        assertAndWaitForElement("//div[@id='xwikicontent']/span[3]/a");
+        // TODO: I don't understand why the following xpath expression doesn't work:
+        // clickLinkWithLocator("//div[@id='xwikicontent']/span/a[contains(@href, 'section=3']");
+        clickLinkWithLocator("//div[@id='xwikicontent']/span[3]/a"); // Edit the last editable section
         clickLinkWithText("Wiki");
         clickEditSaveAndView();
         assertTextPresent("First section");
         assertTextPresent("Second section");
         assertTextPresent("Third section");
-        deletePage("Test", "SectionEditing20");
-        deletePage("Test", "SectionEditingIncluded");
     }
 }

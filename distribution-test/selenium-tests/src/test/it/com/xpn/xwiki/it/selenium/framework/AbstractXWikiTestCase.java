@@ -174,6 +174,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
             if (!(tempdir.endsWith("/") || tempdir.endsWith("\\"))) {
                 tempdir = tempdir + System.getProperty("file.separator");
             }
+            System.out.println("Directory where images are captured: " + tempdir);
             getSelenium().captureScreenshot(tempdir + this.getClass().getName() + "." + getName() + ".png");
             throw e;
         }

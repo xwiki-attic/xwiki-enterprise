@@ -24,6 +24,7 @@
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
 <content>{{include document="XWiki.LiveTableResultsMacros" /}}
+
 {{velocity}}
 #set($extra = "")
 #if("$!request.space" != "") #set($extra = "${extra} and doc.space = '$request.space'") #end

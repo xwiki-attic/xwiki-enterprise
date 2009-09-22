@@ -24,7 +24,7 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
-
+import junit.framework.AssertionFailedError;
 import org.codehaus.plexus.util.StringInputStream;
 
 import com.thoughtworks.selenium.Selenium;
@@ -165,7 +165,18 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void assertElementPresent(String elementLocator)
     {
-        assertTrue("[" + elementLocator + "] isn't present.", isElementPresent(elementLocator));
+        try {
+            assertTrue("[" + elementLocator + "] isn't present.", isElementPresent(elementLocator));
+        } catch (AssertionFailedError e) {
+            // TODO: This is temporary and just for testing right now. If it works it should be moved at a higher level
+            // in order to capture screenshot whenever a JUnit error appears.
+            String tempdir = System.getProperty("java.io.tmpdir");
+            if (!(tempdir.endsWith("/") || tempdir.endsWith("\\"))) {
+                tempdir = tempdir + System.getProperty("file.separator");
+            }
+            getSelenium().captureScreenshot(tempdir + this.getClass().getName() + "." + getName() + ".png");
+            throw e;
+        }
     }
 
     public void assertAndWaitForElement(final String elementLocator)

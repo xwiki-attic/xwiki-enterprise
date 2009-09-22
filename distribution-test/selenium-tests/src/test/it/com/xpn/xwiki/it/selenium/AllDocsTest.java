@@ -146,28 +146,6 @@ public class AllDocsTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Click on a node in the Treeview widget.
-     * 
-     * @param nodeId Id of the node to be clicked.
-     */
-    private void clickOnNode(String nodeId)
-    {
-
-        getSelenium().click("//img[@name='" + nodeId + "']");
-    }
-
-    /**
-     * Wait for the node with the given ID to load.
-     * 
-     * @param nodeId Id of the node to wait for.
-     */
-    private void waitForNodeToLoad(String nodeId)
-    {
-        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview.data.findById('" + nodeId
-            + "') != 'undefined'");
-    }
-
-    /**
      * Validate that space nodes are loaded by the Treeview widget.
      */
     public void testTreeViewInit()
@@ -229,5 +207,27 @@ public class AllDocsTest extends AbstractXWikiTestCase
         		"== 'lquo.gif'");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('anchor') == ''");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == 'Main.RecentChanges@lquo.gif'");
+    }
+
+    /**
+     * Click on a node in the Treeview widget.
+     *
+     * @param nodeId Id of the node to be clicked.
+     */
+    private void clickOnNode(String nodeId)
+    {
+
+        getSelenium().click("//img[@name='" + nodeId + "']");
+    }
+
+    /**
+     * Wait for the node with the given ID to load.
+     *
+     * @param nodeId Id of the node to wait for.
+     */
+    private void waitForNodeToLoad(String nodeId)
+    {
+        waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview.data.findById('" + nodeId
+            + "') != 'undefined'");
     }
 }

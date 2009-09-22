@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1253018155000</date>
-<contentUpdateDate>1253018155000</contentUpdateDate>
+<date>1253617301000</date>
+<contentUpdateDate>1253617301000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.livetable.results")</title>
 <template></template>
@@ -23,8 +23,8 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>{{velocity}}
-{{include document="XWiki.LiveTableResultsMacros" /}}
+<content>{{include document="XWiki.LiveTableResultsMacros" /}}
+{{velocity}}
 #set($extra = "")
 #if("$!request.space" != "") #set($extra = "${extra} and doc.space = '$request.space'") #end
 #if("$!request.orphaned" == "1") #set($extra = "${extra} and doc.parent='' and doc.name&lt;&gt;'WebHome'") #end

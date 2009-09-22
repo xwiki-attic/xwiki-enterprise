@@ -48,9 +48,9 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     @Override
     public void loginAsAdmin()
     {
-        // Verify if the login link is available and if not go to the home page to make it available
+        // Verify if the login or logout links are available and if not go to the home page to make it available
         // (for ex it's not available in edit mode)
-        if (!getTest().isElementPresent("//div[@id='tmLogin']/a")) {
+        if (!getTest().isElementPresent("//div[@id='tmLogin' or @id='tmLogout']/a")) {
             getTest().open("Main", "WebHome");
         }
         

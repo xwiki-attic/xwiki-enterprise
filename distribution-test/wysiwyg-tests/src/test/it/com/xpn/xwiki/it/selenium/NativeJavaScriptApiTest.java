@@ -123,6 +123,9 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         typeText("x");
         assertEquals("x", getSourceText("editor"));
 
+        // "y" (lower case only) is misinterpreted.
+        // See http://jira.openqa.org/browse/SIDE-309
+        // See http://jira.openqa.org/browse/SRC-385
         typeText("Y");
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");

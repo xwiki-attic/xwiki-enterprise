@@ -87,7 +87,7 @@ public class SchedulerTest extends AbstractXWikiTestCase
         clickLinkWithText("schedule");
 
         // Trigger Job
-        clickLinkWithXPath("trigger");
+        clickLinkWithText("trigger");
 
         // Pause Job
         clickLinkWithText("pause");

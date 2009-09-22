@@ -41,8 +41,8 @@
     <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/</url>
   </scm>
   <issueManagement>
-  	<system>jira</system>
-  	<url>http://jira.xwiki.org/jira/browse/XE</url>
+    <system>jira</system>
+    <url>http://jira.xwiki.org/jira/browse/XE</url>
   </issueManagement>
   <modules>
     <module>wiki</module>

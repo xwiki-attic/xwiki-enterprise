@@ -416,6 +416,9 @@ $xwiki.ssx.use("Main.RecentChanges")##
   #set($rev1 = $listtool.get($revisions, 0))
   #set($revMax = $revisions.size() - 1)
   #set($rev2 = $listtool.get($revisions, $revMax))
+  #if($rev2 != "1.1")
+    #set($rev2 = $xwiki.getDocument($diffDoc, $rev2).getPreviousVersion())
+  #end
   $response.sendRedirect($diffDoc.getURL("view", "viewer=changes&amp;rev1=${rev1}&amp;rev2=${rev2}"))
 #end
 ## We have to use the HTML macro to avoid prints of multiple &amp;nbsp on macro calls.
@@ -455,7 +458,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
   #if(!$xwiki.hasMinorEdit() || $rcShowMinor)
     #set ($hqlQuery = "where 1=1 order by doc.date desc")
   #else
-    #set ($hqlQuery = ", XWikiRCSNodeInfo as ni where doc.id=ni.id.docId and ni.id.version2=1 group by doc.space, doc.name order by max(ni.date) desc")
+    #set ($hqlQuery = ", XWikiRCSNodeInfo as ni where doc.id=ni.id.docId and ni.id.version2=1 #if(!$isAdvancedUser)and doc.author != 'superadmin'#end group by doc.space, doc.name order by max(ni.date) desc")
   #end
   ## Create space criterion.
   #if($rcSpace.size() &gt; 0)

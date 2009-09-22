@@ -35,97 +35,67 @@ public class SchedulerTest extends AbstractXWikiTestCase
     }
 
     @Override
-    public void setUp() throws Exception
+    protected void setUp() throws Exception
     {
         super.setUp();
         loginAsAdmin();
-        open("Scheduler", "WebHome");
-        if (!getSelenium().isTextPresent("Tester problem")) {
-            setFieldValue("title", "xyz");
-            clickLinkWithXPath("//input[@value='Add']");
-            setFieldValue("XWiki.SchedulerJobClass_0_jobName", "Tester problem");
-            setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem");
-            setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 10 15 2008");
-            clickEditSaveAndView();
-            clickLinkWithText("Back to the job list");
-            assertElementPresent("//td[text()='Tester problem']");
-        }
+        deletePage("Scheduler", "xyz");
     }
 
-    /**
-     * This method makes the following tests : <p/>
-     * <ul>
-     * <li>Opens the Scheduler for XWiki instance.</li>
-     * <li>Edits the task in top of the list.</li>
-     * <li>Modifies the form with details.</li>
-     * <li>Goes back to job list and check for the presence of the newly created job.</li>
-     * </ul>
-     */
-    public void testEditJob()
+    @Override
+    protected void tearDown()
     {
-        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/xyz']");
-        setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem2");
-        setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 10 15 2009");
+        deletePage("Scheduler", "xyz");
+    }
+
+    public void testJobActions()
+    {
+        // Create Job
+        open("Scheduler", "WebHome");
+        setFieldValue("title", "xyz");
+        clickLinkWithXPath("//input[@value='Add']");
+        setFieldValue("XWiki.SchedulerJobClass_0_jobName", "Tester problem");
+        setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem");
+        setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 15 10 ? * MON-FRI");
         clickEditSaveAndView();
         clickLinkWithText("Back to the job list");
         assertElementPresent("//td[text()='Tester problem']");
-    }
 
-    /**
-     * This method makes the following tests : <p/>
-     * <ul>
-     * <li>Opens the Scheduler for XWiki instance.</li>
-     * <li>Deletes the task in top of the list.</li>
-     * <li>Sends it to recycle bin then restores it.</li>
-     * <li>Goes back to job list.</li>
-     * </ul>
-     */
-    public void testRestoreJob()
-    {
+        // View Job
+        clickLinkWithXPath("//td/span/a[@href='/xwiki/bin/view/Scheduler/xyz']");
+        clickLinkWithText("Back to the job list");
+
+        // Edit Job
+        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/xyz']");
+        setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem2");
+        setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 0/5 14 * * ?");
+        clickEditSaveAndView();
+        clickLinkWithText("Back to the job list");
+        assertElementPresent("//td[text()='Tester problem']");
+
+        // Delete and Restore Job
         clickLinkWithXPath("//td/a[@href='/xwiki/bin/view/Scheduler/?do=delete&which=Scheduler.xyz']");
         clickLinkWithXPath("//input[@value='yes']");
-        clickLinkWithText("Job Scheduler");
+        open("Scheduler", "WebHome");
         assertElementNotPresent("//td[text()='Tester job']");
         open("Scheduler", "xyz", "view", "confirm=1");
         clickLinkWithText("Restore");
         clickLinkWithText("Back to the job list");
         assertElementPresent("//td[text()='Tester problem']");
-    }
 
-    public void testViewJob()
-    {
-        clickLinkWithXPath("//td/span/a[@href='/xwiki/bin/view/Scheduler/xyz']");
-        clickLinkWithText("Back to the job list");
-    }
-
-    public void testScheduleUnschedulePauseResumeJob()
-    {
-        clickLinkWithText("unschedule");
+        // Schedule Job
         clickLinkWithText("schedule");
-        clickLinkWithText("pause");
-        clickLinkWithText("resume");
-    }
 
-    /**
-     * This method makes the following tests : <p/>
-     * <ul>
-     * <li>Opens the Scheduler for XWiki instance.</li>
-     * <li>Deletes the task in top of the list.</li>
-     * <li>Sends it to recycle bin then deletes it forever.</li>
-     * </ul>
-     */
-    public void testDeleteJob()
-    {
-        clickLinkWithXPath("//td/a[@href='/xwiki/bin/view/Scheduler/?do=delete&which=Scheduler.xyz']");
-        clickLinkWithXPath("//input[@value='yes']");
-        clickLinkWithText("Job Scheduler");
-        assertElementNotPresent("//td[text()='Tester job']");
-        open("Scheduler", "xyz", "view", "confirm=1");
-        clickLinkWithXPath("//a[@onclick=\"if (confirm('This action is not reversible. "
-            + "Are you sure you wish to continue?')) {this.href += '&confirm=1'; return true;} return false;\"]");
-        assertTrue(getSelenium().getConfirmation().matches(
-            "^This action is not reversible\\. Are you sure you wish to continue[\\s\\S]$"));
-        open("Scheduler", "WebHome");
-        assertElementNotPresent("//td[text()='Tester problem']");
+        // Trigger Job
+        clickLinkWithXPath("trigger");
+
+        // Pause Job
+        clickLinkWithText("pause");
+
+        // Resume Job
+        clickLinkWithText("resume");
+
+        // Unschedule Job
+        clickLinkWithText("unschedule");
     }
 }

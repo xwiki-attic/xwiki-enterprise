@@ -55,7 +55,7 @@
                 <xwikiDbDialect>${xwiki.db.dialect}</xwikiDbDialect>
                 <xwikiDbHbmXwiki>${xwiki.db.hbm.xwiki}</xwikiDbHbmXwiki>
                 <xwikiDbHbmFeeds>${xwiki.db.hbm.feeds}</xwikiDbHbmFeeds>
-                <xwikiDbHbmDefaultExtraMappings>activitystream.hbm.xml</xwikiDbHbmDefaultExtraMappings>
+                <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
               </properties>
             </configuration>
           </execution>

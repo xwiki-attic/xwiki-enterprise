@@ -167,7 +167,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the basic feature for adding a link to a new page in a new space.
      * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3511
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3511">XWIKI-3511</a>
      */
     public void testCreateLinkToNewPageInNewSpace()
     {
@@ -931,7 +931,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that editing a link with custom parameters set from wiki syntax preserves the parameters of the link.
      * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3568
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3568">XWIKI-3568</a>
      */
     public void testEditLinkPreservesCustomParameters()
     {
@@ -988,8 +988,8 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that quotes in link tooltips are correctly escaped.
      * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3569
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3575
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3569">XWIKI-3569</a>
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3569">XWIKI-3575</a>
      */
     public void testQuoteInLinkTooltip()
     {
@@ -1267,7 +1267,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that a relative link is correctly edited.
      * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3676
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3676">XWIKI-3676</a>
      */
     public void testEditRelativeLink()
     {
@@ -1851,7 +1851,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
     protected void waitForStepToLoad(String name)
     {
-        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + name + "\")]');");
+        assertAndWaitForElement("//*[contains(@class, '" + name + "')]");
     }
 
     protected void typeInExplorerInput(String text)

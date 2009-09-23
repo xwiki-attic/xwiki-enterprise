@@ -27,13 +27,13 @@ import junit.framework.Test;
 
 /**
  * Tests the WYSIWYG editor (content edited in WYSIWYG mode).
- *
+ * 
  * @version $Id$
  */
 public class WysiwygEditorTest extends AbstractXWikiTestCase
 {
     private static final String SYNTAX = "xwiki/1.0";
-    
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wysiwyg editor");
@@ -104,13 +104,18 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
 
     public void testEscapedHtmlElement()
     {
-        typeInWysiwyg("http://\\<yourserver\\>:8080/something");
-        assertWikiTextGeneratedByWysiwyg("http://\\<yourserver\\>:8080/something");
+        // NOTE 1: Selenium has a problem with "y" character, so we need to use "Y" instead.
+        // NOTE 2: Selenium skips the first "/" character it finds in a string. So we need to append an
+        // extra "/" character to the first "/" sequence in a string.
+        typeInWysiwyg("http:///\\<Yourserver\\>:8080/something");
+        assertWikiTextGeneratedByWysiwyg("http://\\<Yourserver\\>:8080/something");
     }
 
     public void testHtmlElementIsRendered()
     {
-        typeInWysiwyg("<table><tr><td>hello</td></tr></table>");
+        // NOTE: Selenium skips the first "/" character it finds in a string. So we need to append an
+        // extra "/" character to the first "/" sequence in a string.
+        typeInWysiwyg("<table><tr><td>hello<//td></tr></table>");
         assertWikiTextGeneratedByWysiwyg("<table><tr><td>hello</td></tr></table>");
     }
 
@@ -121,7 +126,7 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
         typeEnterInWysiwyg();
         clickWysiwygIndentButton();
         typeInWysiwyg("level 2");
-        
+
         assertWikiTextGeneratedByWysiwyg("1. level 1\n11. level 2");
     }
 }

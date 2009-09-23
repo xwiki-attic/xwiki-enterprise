@@ -50,7 +50,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
     public void setUp() throws Exception
     {
         super.setUp();
-        open("/xwiki/bin/view/Main/");
+        open("Main", "WebHome");
 
         // Verify that the user isn't logged in
         if (isAuthenticated()) {
@@ -93,7 +93,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
 
         loginAsAdmin();
 
-        open("/xwiki/bin/edit/XWiki/XWikiPreferences?editor=object");
+        open("XWiki", "XWikiPreferences", "edit", "editor=object");
         setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_DN", LDAPTestSetup.HORATIOHORNBLOWER_DN);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_pass", LDAPTestSetup.HORATIOHORNBLOWER_PWD);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD_UID);
@@ -115,7 +115,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         // ///////////////////
         // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
 
-        open("/xwiki/bin/view/XWiki/XWikiAdminGroup");
+        open("XWiki", "XWikiAdminGroup");
 
         String userFullName = "XWiki." + LDAPTestSetup.WILLIAMBUSH_UID;
 
@@ -126,7 +126,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         // ///////////////////
         // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
 
-        open("/xwiki/bin/view/XWiki/XWikiAdminGroup");
+        open("XWiki", "XWikiAdminGroup");
         assertTextPresent("XWiki." + LDAPTestSetup.WILLIAMBUSH_UID);
 
         // ///////////////////

@@ -149,7 +149,7 @@
                     com.xpn.xwiki.wysiwyg.server.plugin.WysiwygPlugin, \
                     com.xpn.xwiki.plugin.tag.TagPlugin
                 </xwikiCfgPlugins>
-                <xwikiCfgDefaultSkin>toucan</xwikiCfgDefaultSkin>
+                <xwikiCfgDefaultSkin>colibri</xwikiCfgDefaultSkin>
                 <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>
                 <xwikiCfgAdditionalProperties>
 xwiki.work.dir=work

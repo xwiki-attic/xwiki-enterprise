@@ -64,6 +64,46 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().clickLinkWithLocator("//a[string() = 'Copy']");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowComments()
+     */
+    public void clickShowComments()
+    {
+        getTest().clickLinkWithLocator("//a[@id = 'tmShowComments']", false);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowAttachments()
+     */
+    public void clickShowAttachments()
+    {
+        getTest().clickLinkWithLocator("//a[@id = 'tmShowAttachments']", false);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowHistory()
+     */
+    public void clickShowHistory()
+    {
+        getTest().clickLinkWithLocator("//a[@id = 'tmShowHistory']", false);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowInformation() 
+     */
+    public void clickShowInformation()
+    {
+        getTest().clickLinkWithLocator("//a[@id = 'tmShowInformation']", false);
+    }
+
     public void clickEditPreview()
     {
         getTest().submit("xpath=//input[@name='formactionpreview' or @name='action_preview']");

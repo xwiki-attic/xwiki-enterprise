@@ -43,6 +43,26 @@ public interface SkinExecutor
     void clickCopyPage();
 
     /**
+     * Click on the Show comments button leading to showing comments for the current page.
+     */
+    void clickShowComments();
+
+    /**
+     * Click on the Show attachments button leading to showing attachments for the current page.
+     */
+    void clickShowAttachments();
+
+    /**
+     * Click on the Show history button leading to showing history for the current page.
+     */
+    void clickShowHistory();
+
+    /**
+     * Click on the Show information button leading to showing information for the current page.
+     */
+    void clickShowInformation();
+
+    /**
      * Click on the Preview button in Edit mode to preview the changed made to a page.
      */
     void clickEditPreview();

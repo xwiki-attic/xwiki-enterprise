@@ -24,7 +24,6 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
-
 import org.codehaus.plexus.util.StringInputStream;
 
 import com.thoughtworks.selenium.Selenium;

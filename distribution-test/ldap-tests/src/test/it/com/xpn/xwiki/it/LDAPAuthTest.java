@@ -73,26 +73,23 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
      */
     public void testLogAsLDAPUser()
     {
+        // ///////////////////
+        // Validate normal login
         login(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD, true);
 
         // ///////////////////
         // Validate exclusion group
-
         logout();
         clickLogin();
-
         setFieldValue("j_username", LDAPTestSetup.THOMASQUIST_CN);
         setFieldValue("j_password", LDAPTestSetup.THOMASQUIST_PWD);
         checkField("rememberme");
         submit();
-
         assertFalse(LDAPTestSetup.THOMASQUIST_CN + " user has been authenticated", isAuthenticated());
 
         // ///////////////////
         // Validate XE-136: log with LDAP user then search for provided user uid/pass
-
         loginAsAdmin();
-
         open("XWiki", "XWikiPreferences", "edit", "editor=object");
         setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_DN", LDAPTestSetup.HORATIOHORNBLOWER_DN);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_pass", LDAPTestSetup.HORATIOHORNBLOWER_PWD);
@@ -102,37 +99,22 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.XWikiPreferences_0_ldap_group_mapping",
             "XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas");
         clickEditSaveAndView();
-
         login(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.WILLIAMBUSH_PWD, true);
 
         // ///////////////////
         // Validate
         // - XWIKI-2205: case insensitive user uid
         // - XWIKI-2202: LDAP user update corrupt XWiki user page
-
         login(LDAPTestSetup.WILLIAMBUSH_UID_MIXED, LDAPTestSetup.WILLIAMBUSH_PWD, true);
 
         // ///////////////////
         // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
-
         open("XWiki", "XWikiAdminGroup");
-
-        String userFullName = "XWiki." + LDAPTestSetup.WILLIAMBUSH_UID;
-
-        waitForCondition("selenium.page().bodyText().indexOf('" + userFullName + "') != -1;");
-
-        assertTextPresent(userFullName);
-
-        // ///////////////////
-        // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
-
-        open("XWiki", "XWikiAdminGroup");
-        assertTextPresent("XWiki." + LDAPTestSetup.WILLIAMBUSH_UID);
+        assertAndWaitBodyContains("XWiki." + LDAPTestSetup.WILLIAMBUSH_UID);
 
         // ///////////////////
         // Validate
         // - XWIKI-2264: LDAP authentication does not support "." in login names
-
         login(LDAPTestSetup.USERWITHPOINTS_UID, LDAPTestSetup.USERWITHPOINTS_PWD, true);
     }
 }

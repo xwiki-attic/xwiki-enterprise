@@ -69,6 +69,15 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         return this.selenium;
     }
 
+    @Override
+    protected void setUp() throws Exception
+    {
+        super.setUp();
+
+        // Print test name for easier parsing of Selenium logs
+        System.out.println("Test: " + getName());    
+    }
+
     // Convenience methods wrapping Selenium
 
     public void open(String url)

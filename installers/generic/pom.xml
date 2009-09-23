@@ -88,7 +88,7 @@
                 <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
               </resourceBundles>
               <properties>
-                  <xwikiDbHbmDefaultExtraMappings>activitystream.hbm.xml</xwikiDbHbmDefaultExtraMappings>
+                  <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
                 </properties>
             </configuration>
           </execution>

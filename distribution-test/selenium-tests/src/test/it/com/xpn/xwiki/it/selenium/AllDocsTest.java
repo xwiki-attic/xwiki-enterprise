@@ -103,7 +103,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
         clickLinkWithText("copy");
         setFieldValue("targetdoc", "New.TreeviewCopy");
-        getSelenium().click("//input[@value='Copy']");
+        clickLinkWithLocator("//input[@value='Copy']");
         open("Main", "AllDocs");
         getSelenium().typeKeys("xpath=//input[@name='doc.space']", "New");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeviewcopy");

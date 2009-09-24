@@ -110,7 +110,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         // ///////////////////
         // Validate XWIKI-2201: LDAP group mapping defined in XWikiPreferences is not working
         open("XWiki", "XWikiAdminGroup");
-        assertAndWaitBodyContains("XWiki." + LDAPTestSetup.WILLIAMBUSH_UID);
+        waitForBodyContains("XWiki." + LDAPTestSetup.WILLIAMBUSH_UID);
 
         // ///////////////////
         // Validate

@@ -101,7 +101,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
         open("XWiki", "DefaultSkin");
         clickCopyPage();
         setFieldValue("targetdoc", "Test.testUsingMacroInGetRenderedContentSkin");
-        getSelenium().click("//input[@value='Copy']");
+        clickLinkWithLocator("//input[@value='Copy']");
 
         // Overwrite view template in custom skin to add macro definition
         open("Test", "testUsingMacroInGetRenderedContentSkin", "edit", "editor=object");

@@ -55,28 +55,28 @@ public class DocExtraTest extends AbstractXWikiTestCase
         open("Main", "WebHome");
         int initialScrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
 
-        assertAndWaitForElement("//a[@id='Attachmentslink']");
+        waitForElement("//a[@id='Attachmentslink']");
         clickLinkWithXPath("//a[@id='Attachmentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("attachform");
         int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
-        assertAndWaitForElement("//a[@id='Historylink']");
+        waitForElement("//a[@id='Historylink']");
         clickLinkWithXPath("//a[@id='Historylink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("historyform");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
-        assertAndWaitForElement("//a[@id='Informationlink']");
+        waitForElement("//a[@id='Informationlink']");
         clickLinkWithXPath("//a[@id='Informationlink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
         assertTextPresent("Created");
         scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
         assertEquals(initialScrollY, scrollY);
 
-        assertAndWaitForElement("//a[@id='Commentslink']");
+        waitForElement("//a[@id='Commentslink']");
         clickLinkWithXPath("//a[@id='Commentslink']", false);
         waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
         assertElementPresent("commentform");

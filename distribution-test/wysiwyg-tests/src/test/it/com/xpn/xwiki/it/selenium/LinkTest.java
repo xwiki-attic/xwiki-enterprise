@@ -1851,7 +1851,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
     protected void waitForStepToLoad(String name)
     {
-        assertAndWaitForElement("//*[contains(@class, '" + name + "')]");
+        waitForElement("//*[contains(@class, '" + name + "')]");
     }
 
     protected void typeInExplorerInput(String text)

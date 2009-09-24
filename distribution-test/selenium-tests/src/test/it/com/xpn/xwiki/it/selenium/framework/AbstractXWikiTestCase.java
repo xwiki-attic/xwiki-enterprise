@@ -148,33 +148,6 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         assertTrue("[" + text + "] isn't present.", getSelenium().isTextPresent(text));
     }
 
-    public void assertAndWaitTextPresent(final String elementLocator, final String expectedValue)
-    {
-        new Wait() {
-            public boolean until() {
-                return getSelenium().getText(elementLocator).equals(expectedValue);
-            }
-        }.wait("element [" + elementLocator + "] not found or doesn't have the value [" + expectedValue + "]");
-    }
-
-    public void assertAndWaitTextContains(final String elementLocator, final String containsValue)
-    {
-        new Wait() {
-            public boolean until() {
-                return getSelenium().getText(elementLocator).indexOf(containsValue) > -1;
-            }
-        }.wait("element [" + elementLocator + "] not found or doesn't contain the value [" + containsValue + "]");
-    }
-
-    public void assertAndWaitBodyContains(final String containsValue)
-    {
-        new Wait() {
-            public boolean until() {
-                return getSelenium().getBodyText().indexOf(containsValue) > -1;
-            }
-        }.wait("Body text doesn't contain the value [" + containsValue + "]");
-    }
-
     public void assertTextNotPresent(String text)
     {
         assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));
@@ -185,15 +158,6 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         assertTrue("[" + elementLocator + "] isn't present.", isElementPresent(elementLocator));
     }
 
-    public void assertAndWaitForElement(final String elementLocator)
-    {
-        new Wait() {
-            public boolean until() {
-                return getSelenium().isElementPresent(elementLocator);
-            }
-        }.wait("element [" + elementLocator + "] not found");
-    }
-    
     public void assertElementNotPresent(String elementLocator)
     {
         assertFalse("[" + elementLocator + "] is present.", isElementPresent(elementLocator));
@@ -316,6 +280,42 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         getSelenium().waitForCondition(condition, "" + WAIT_TIME);
     }
 
+    public void waitForTextPresent(final String elementLocator, final String expectedValue)
+    {
+        new Wait() {
+            public boolean until() {
+                return getSelenium().getText(elementLocator).equals(expectedValue);
+            }
+        }.wait("element [" + elementLocator + "] not found or doesn't have the value [" + expectedValue + "]");
+    }
+
+    public void waitForTextContains(final String elementLocator, final String containsValue)
+    {
+        new Wait() {
+            public boolean until() {
+                return getSelenium().getText(elementLocator).indexOf(containsValue) > -1;
+            }
+        }.wait("element [" + elementLocator + "] not found or doesn't contain the value [" + containsValue + "]");
+    }
+
+    public void waitForBodyContains(final String containsValue)
+    {
+        new Wait() {
+            public boolean until() {
+                return getSelenium().getBodyText().indexOf(containsValue) > -1;
+            }
+        }.wait("Body text doesn't contain the value [" + containsValue + "]");
+    }
+
+    public void waitForElement(final String elementLocator)
+    {
+        new Wait() {
+            public boolean until() {
+                return getSelenium().isElementPresent(elementLocator);
+            }
+        }.wait("element [" + elementLocator + "] not found");
+    }
+    
     /**
      * {@inheritDoc}
      * 

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.Wait;
 
 /**
  * All XWiki WYSIWYG tests must extend this class.
@@ -39,6 +40,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     private static final String WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='WYSIWYG']";
     
     private static final String WYSIWYG_LOCATOR_FOR_SOURCE_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='Source']";
+
+    /**
+     * Locates the text area used in the Source tab.
+     */
+    public static final String WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA =
+        "//textarea[contains(@class, 'xPlainTextEditor')]";
 
     /**
      * {@inheritDoc}
@@ -646,7 +653,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
             if (wait) {
-                waitForCondition("selenium.isEditable('//textarea[contains(@class, \"xPlainTextEditor\")]')");
+                new Wait()
+                {
+                    public boolean until()
+                    {
+                        return getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
+                    }
+                }.wait("Source text area is not editable!");
+                getSelenium().fireEvent(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "focus");
             }
         }
     }

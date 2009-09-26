@@ -87,7 +87,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         try {
             super.runBare();
         } catch (Throwable t) {
-            // ALl Selenium results are logged automatically by Selenium so just calling getHtmlSource is
+            // Selenium method execution results are logged automatically by Selenium so just calling getHtmlSource is
             // enough to have it in the logs.
             getSelenium().getHtmlSource();
             throw t;

@@ -217,8 +217,8 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      */
     protected String getSourceText(String editorName)
     {
-        getEval("window." + editorName + ".getSourceText(function(result){window.sourceText = result;})");
-        waitForCondition("typeof window.sourceText == 'string'");
+        getEval("\ntry{\n  window.sourceText = undefined;\n  window." + editorName + ".getSourceText(function(result) {\n    window.sourceText = (result || 'no value');\n  });\n  'request sent';\n} catch (e) {\n  e.message;\n}");
+        waitForCondition("typeof window.sourceText != 'undefined'");
         return getEval("window.sourceText");
     }
 }

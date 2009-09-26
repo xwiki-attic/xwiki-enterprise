@@ -93,11 +93,35 @@ public class TabsTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4392: Place the caret at the beginning of the content when swtching to WYSIWYG Source editor.
+     */
+    public void testCaretAtStartAfterSwitchToSourceTab()
+    {
+        typeText("2");
+        switchToSource();
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "1");
+        assertSource("12");
+    }
+
+    /**
+     * @see XWIKI-3965: Relative images are not displayed when switching from Source tab to Wysiwyg tab.
+     */
+    public void testContextDocumentIsPreserved()
+    {
+        // Uploading an image to the current document is difficult. Instead we use a context sensitive velocity script.
+        setWikiContent("{{velocity}}$doc.fullName{{/velocity}}");
+        String expected = getEval("window.XWE.body.textContent");
+        switchToSource();
+        switchToWysiwyg();
+        assertEquals(expected, getEval("window.XWE.body.textContent"));
+    }
+
+    /**
      * @return the text from the source text area
      */
     private String getSourceText()
     {
-        return getSelenium().getValue("//textarea[contains(@class, 'xPlainTextEditor')]");
+        return getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
     }
 
     /**

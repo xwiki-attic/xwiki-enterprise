@@ -212,6 +212,26 @@ public class CacheTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4162: When in edit mode (all editors) back/forward looses the content you have changed
+     */
+    public void testBackForwardCache()
+    {
+        // Write some text.
+        typeText("123");
+        // Go back.
+        getSelenium().goBack();
+        waitPage();
+        // Go forward.
+        // See http://jira.openqa.org/browse/SEL-543 (Simulate forward button in browser).
+        getSelenium().getEval("selenium.browserbot.goForward()");
+        waitPage();
+        // Make sure the rich text area is loaded.
+        focusRichTextArea();
+        // Assert the text content.
+        assertEquals("123", getEval("window.XWE.body.textContent"));
+    }
+
+    /**
      * Refreshes the current page by pressing the F5 key, which is not the same as calling {@code
      * getSelenium().refresh()}.
      */

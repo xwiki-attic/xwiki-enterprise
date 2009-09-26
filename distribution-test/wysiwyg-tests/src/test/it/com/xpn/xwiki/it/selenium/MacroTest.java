@@ -51,7 +51,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     public static final String MACRO_CATEGORY_SELECTOR = "//select[@title='Select a macro category']";
 
     public static final String MACRO_LIVE_FILTER_SELECTOR = "//input[@title = 'Type to filter']";
-    
+
     public static final String MACRO_SELECTOR_LIST = "//div[contains(@class, 'xListBox')]";
 
     public static Test suite()
@@ -1047,6 +1047,17 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Close the dialog and check the result.
         closeDialog();
         assertWiki("{{html}}xwiki{{/html}}");
+    }
+
+    /**
+     * @see XWIKI-4415: Context document not set when refreshing macros.
+     */
+    public void testRefreshContextSensitiveVelocity()
+    {
+        setWikiContent("{{velocity}}$doc.fullName{{/velocity}}");
+        String expected = getEval("window.XWE.body.textContent");
+        refreshMacros();
+        assertEquals(expected, getEval("window.XWE.body.textContent"));
     }
 
     /**

@@ -78,6 +78,22 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         System.out.println("Test: " + getName());    
     }
 
+    /**
+     * Capture test failures in order to output the HTML for easier debugging.
+     */
+    @Override
+    public void runBare() throws Throwable
+    {
+        try {
+            super.runBare();
+        } catch (Throwable t) {
+            // ALl Selenium results are logged automatically by Selenium so just calling getHtmlSource is
+            // enough to have it in the logs.
+            getSelenium().getHtmlSource();
+            throw t;
+        }
+    }
+
     // Convenience methods wrapping Selenium
 
     public void open(String url)

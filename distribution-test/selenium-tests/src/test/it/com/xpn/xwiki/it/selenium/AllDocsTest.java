@@ -102,31 +102,31 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
         clickLinkWithText("copy");
-        setFieldValue("targetdoc", "New.TreeviewCopy");
+        setFieldValue("targetdoc", "New.TreeviewNew");
         clickLinkWithLocator("//input[@value='Copy']");
         open("Main", "AllDocs");
         getSelenium().typeKeys("xpath=//input[@name='doc.space']", "New");
-        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeviewcopy");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeviewnew");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopy']");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewNew']");
 
         // Validate Rename link action.
         open("Main", "AllDocs");
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
-        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "TreeviewCopy");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "TreeviewNew");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rename']");
-        setFieldValue("newPageName", "TreeviewCopyRenamed");
+        setFieldValue("newPageName", "TreeviewNewRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
         open("Main", "AllDocs");
-        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "TreeviewCopyRenamed");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "TreeviewNewRenamed");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopyRenamed']");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewNewRenamed']");
 
         // Validate Delete link action.
         open("Main", "AllDocs");
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
-        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "Treeviewcopyrenamed");
+        getSelenium().typeKeys("xpath=//input[@name='doc.name']", "Treeviewnewrenamed");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='delete']");
         clickLinkWithLocator("//input[@value='yes']");
@@ -134,7 +134,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         open("Main", "AllDocs");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeview");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewCopyRenamed']");
+        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewNewRenamed']");
 
         // Validate Rights link action.
         open("Main", "AllDocs");

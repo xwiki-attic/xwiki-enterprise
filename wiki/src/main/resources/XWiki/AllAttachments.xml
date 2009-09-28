@@ -240,11 +240,9 @@ XWiki.index.displayAttachmentEntry = function (row, i, table)
                   "translationPrefix" : "xe.index.attachments." })
 #livetable("allattachments" $collist $colprops $options)
 
-
-{{html clean="false"}}
-&lt;div id="inaccessibleDocsMessage" class="hidden"&gt; 
-#info($msg.get("rightsmanager.documentrequireviewrights"))
-&lt;/div&gt;
-{{/html}}
+(% id="inaccessibleDocsMessage" class="hidden" %)
+(((
+{{info}}$msg.get("rightsmanager.documentrequireviewrights"){{/info}}
+)))
 {{/velocity}}</content>
 </xwikidoc>

@@ -32,8 +32,6 @@
 #set($memberdoc = $xwiki.getDocument($member))
 #set($memberobj = $memberdoc.getObject("XWiki.XWikiUsers"))
 #set($company = $memberdoc.display("company","view",$memberobj))
-#set($city = $memberdoc.display("city","view",$memberobj))
-#set($country = $memberdoc.display("country","view",$memberobj))
 (% class="vcard" %)
 (((
 #if($memberobj.avatar &amp;&amp; $memberobj.avatar.trim() != "")
@@ -47,8 +45,6 @@
 ==== [[$xwiki.getUserName($member, false)&gt;&gt;$memberdoc.fullName||class="url fn"]] ====
 #set($prev = false)
 #if($company &amp;&amp; !$company.trim().equals(""))${company}#set($prev = true)#end
-#if($city &amp;&amp; !$city.trim().equals(""))#if($prev), #end${city}#set($prev = true)#end
-#if($country &amp;&amp; !$country.trim().equals(""))#if($prev), #end$country#end
 )))
 #end
 )))

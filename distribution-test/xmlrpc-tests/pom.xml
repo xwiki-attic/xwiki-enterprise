@@ -41,6 +41,13 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-wiki</artifactId>
+      <version>${pom.version}</version>
+      <type>xar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>xmlunit</groupId>
       <artifactId>xmlunit</artifactId>
       <version>1.1</version>
@@ -56,12 +63,6 @@
       <groupId>xmlrpc</groupId>
       <artifactId>xmlrpc-client</artifactId>
       <version>3.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.w3c.css</groupId>
-      <artifactId>css-validator</artifactId>
-      <version>2.1-20070528</version>
       <scope>test</scope>
     </dependency>
     <dependency>

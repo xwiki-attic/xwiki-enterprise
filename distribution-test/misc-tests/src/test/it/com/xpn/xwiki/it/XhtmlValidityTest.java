@@ -222,6 +222,7 @@ public class XhtmlValidityTest extends TestCase
         }
 
         if (hasError) {
+            System.err.println("");
             System.err.println("Validated content:");
             System.err.println(new String(responseBody));
         }

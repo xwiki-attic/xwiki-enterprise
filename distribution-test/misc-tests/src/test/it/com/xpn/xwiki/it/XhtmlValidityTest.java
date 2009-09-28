@@ -222,8 +222,8 @@ public class XhtmlValidityTest extends TestCase
         }
 
         if (hasError) {
-            // System.err.println("Validated content:");
-            // System.err.println(new String(responseBody));
+            System.err.println("Validated content:");
+            System.err.println(new String(responseBody));
         }
 
         assertFalse("Validation errors in " + fullPageName, hasError);

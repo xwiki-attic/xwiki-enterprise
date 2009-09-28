@@ -340,6 +340,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         // unlink here should only move the caret out
         clickMenu(MENU_LINK_REMOVE);
+        focusRichTextArea();
         typeText(" which rox");
         assertWiki("this is [[" + linkLabel + ">>" + linkURL + "]] which rox");
 
@@ -1176,14 +1177,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         // perform a search
         typeInInput("Type a keyword to search for a wiki page", searchString);
         clickButtonWithText("Search");
-        // wait for the results
-        waitForStepToLoad("xPagesSearch");
-        // add link to Main.WebHome
+        String selectedPageLocator =
+            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='" + expectedPage + "']";
+        // wait for the element to load in the list
+        waitForElement(selectedPageLocator);
+        // check selection on the loaded list
 
         // select the current page
-        getSelenium().click(
-            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + expectedPage
-                + "']");
+        getSelenium().click(selectedPageLocator);
 
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -1816,10 +1817,13 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xPagesSearch");
         typeInInput("Type a keyword to search for a wiki page", searchString);
         clickButtonWithText("Search");
-        waitForStepToLoad("xPagesSearch");
-        getSelenium().click(
+        // wait for desired page to load
+        String selectedPageLocator =
             "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + expectedPage
-                + "']");
+                + "']";
+        // wait for the element to load in the list
+        waitForElement(selectedPageLocator);
+        getSelenium().click(selectedPageLocator);
         getSelenium().keyUp(ITEMS_LIST, "\\13");
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);

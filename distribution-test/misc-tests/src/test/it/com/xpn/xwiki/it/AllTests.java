@@ -26,9 +26,9 @@ import junit.framework.TestSuite;
 import org.xwiki.test.XWikiTestSetup;
 
 /**
- * A class listing all the Functional tests to execute. We need such a class (rather than
- * letting the JUnit Runner discover the different TestCases classes by itself) because we want to
- * start/stop XWiki before and after the tests start (but only once).
+ * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
+ * discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the tests
+ * start (but only once).
  * 
  * @version $Id$
  */
@@ -46,20 +46,22 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
+        addTest(suite, XhtmlValidityTest.suite(), XhtmlValidityTest.class);
+
         addTestCase(suite, PDFTest.class);
         addTestCase(suite, HTMLExportTest.class);
 
         return new XWikiTestSetup(suite);
     }
 
-    private static void addTestCase(TestSuite suite, Class testClass) throws Exception
+    private static void addTestCase(TestSuite suite, Class< ? > testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
             suite.addTest(new TestSuite(testClass));
         }
     }
 
-    private static void addTest(TestSuite suite, Test test, Class testClass) throws Exception
+    private static void addTest(TestSuite suite, Test test, Class< ? > testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
             suite.addTest(test);

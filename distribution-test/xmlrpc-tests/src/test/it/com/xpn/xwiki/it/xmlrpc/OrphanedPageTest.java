@@ -19,18 +19,28 @@
  */
 package com.xpn.xwiki.it.xmlrpc;
 
-import java.util.Iterator;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import org.codehaus.swizzle.confluence.Confluence;
 import org.codehaus.swizzle.confluence.Page;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import com.xpn.xwiki.plugin.packaging.Package;
 
 /**
  * Verifies that all pages in the default wiki have a parent
- *
+ * 
  * @version $Id$
  */
 public class OrphanedPageTest extends TestCase
@@ -50,26 +60,58 @@ public class OrphanedPageTest extends TestCase
     {
         TestSuite suite = new TestSuite();
 
-        String path =
-            System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
+        String path = System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
 
         String patternFilter = System.getProperty("documentsToTest");
 
-        List pageNames = XhtmlValidityTest.readXarContents(path, patternFilter);
-        Iterator it = pageNames.iterator();
-        while (it.hasNext()) {
-            suite.addTest(new OrphanedPageTest((String) it.next()));
+        List<String> pageNames = readXarContents(path, patternFilter);
+        for (String pageName : pageNames) {
+            suite.addTest(new OrphanedPageTest(pageName));
         }
 
         return suite;
+    }
+
+    public static List<String> readXarContents(String fileName, String patternFilter) throws Exception
+    {
+        FileInputStream fileIS = new FileInputStream(fileName);
+        ZipInputStream zipIS = new ZipInputStream(fileIS);
+
+        ZipEntry entry;
+        Document tocDoc = null;
+        while ((entry = zipIS.getNextEntry()) != null) {
+            if (entry.getName().compareTo(Package.DefaultPackageFileName) == 0) {
+                SAXReader reader = new SAXReader();
+                tocDoc = reader.read(zipIS);
+                break;
+            }
+        }
+
+        if (tocDoc == null) {
+            return Collections.emptyList();
+        }
+
+        List<String> result = new ArrayList<String>();
+
+        Element filesElement = tocDoc.getRootElement().element("files");
+        List<Element> fileElementList = filesElement.elements("file");
+        for (Element el : fileElementList) {
+            String docFullName = el.getStringValue();
+
+            if (patternFilter == null || docFullName.matches(patternFilter)) {
+                result.add(docFullName);
+            }
+        }
+
+        return result;
     }
 
     protected void setUp() throws Exception
     {
         super.setUp();
 
-        rpc = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
-        rpc.login("Admin", "admin");
+        this.rpc = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
+        this.rpc.login("Admin", "admin");
 
         // TODO Until we find a way to incrementally display the result of tests this stays
         System.out.println(getName());
@@ -77,7 +119,7 @@ public class OrphanedPageTest extends TestCase
 
     protected void tearDown() throws Exception
     {
-        rpc.logout();
+        this.rpc.logout();
 
         super.tearDown();
     }
@@ -89,7 +131,7 @@ public class OrphanedPageTest extends TestCase
 
     public void testPageIsOrphaned() throws Exception
     {
-        Page page = rpc.getPage(fullPageName);
+        Page page = this.rpc.getPage(fullPageName);
         assertTrue("Page " + page.getId() + " is orphaned!", isRoot(page) || hasParent(page));
     }
 

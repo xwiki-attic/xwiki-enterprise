@@ -17,15 +17,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it.xmlrpc;
+package com.xpn.xwiki.it;
 
-import com.xpn.xwiki.plugin.packaging.Package;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import org.apache.commons.codec.binary.Base64;
-import org.codehaus.swizzle.confluence.Confluence;
-import org.codehaus.swizzle.confluence.Page;
+import org.apache.commons.httpclient.Credentials;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -35,49 +53,23 @@ import org.w3c.css.css.StyleReportFactory;
 import org.w3c.css.css.StyleSheet;
 import org.w3c.css.util.ApplContext;
 import org.w3c.css.util.HTTPURL;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import com.xpn.xwiki.it.xhtml.XHTMLError;
+import com.xpn.xwiki.it.xhtml.XHTMLValidator;
+import com.xpn.xwiki.plugin.packaging.Package;
 
 /**
- * Verifies that all pages in the default wiki are valid XHTML documents using the Confluence XMLRPC
- * API.
- *
+ * Verifies that all pages in the default wiki are valid XHTML documents.
+ * 
  * @version $Id$
  */
-public class XhtmlValidityTest extends TestCase implements ErrorHandler
+public class XhtmlValidityTest extends TestCase
 {
     private String fullPageName;
 
-    private static Validator xv;
-
-    private Confluence rpc;
-
-    private int errors = 0;
-
     /**
-     * We save the stdout stream since we replace it with our own in order to verify that XWiki
-     * doesn't generated any error while validating documents and we fail the build if it does.
+     * We save the stdout stream since we replace it with our own in order to verify that XWiki doesn't generated any
+     * error while validating documents and we fail the build if it does.
      */
     private PrintStream stdout;
 
@@ -87,66 +79,68 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
     private ByteArrayOutputStream out;
 
     /**
-     * We save the stderr stream since we replace it with our own in order to verify that XWiki
-     * doesn't generated any error while validating documents and we fail the build if it does.
+     * We save the stderr stream since we replace it with our own in order to verify that XWiki doesn't generated any
+     * error while validating documents and we fail the build if it does.
      */
     private PrintStream stderr;
+
+    private HttpClient client;
+
+    private XHTMLValidator validator;
 
     /**
      * The new stderr stream we're using to replace the default console output.
      */
     private ByteArrayOutputStream err;
-    
-    public XhtmlValidityTest(String fullPageName)
+
+    public XhtmlValidityTest(String fullPageName, HttpClient client, XHTMLValidator validator)
     {
         super("testValidityOfDocument");
 
         this.fullPageName = fullPageName;
+        this.client = client;
+        this.validator = validator;
     }
 
     public static Test suite() throws Exception
     {
         TestSuite suite = new TestSuite();
 
-        String path =
-            System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
+        String path = System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
 
         String patternFilter = System.getProperty("documentsToTest");
 
-        List pageNames = readXarContents(path, patternFilter);
-        Iterator it = pageNames.iterator();
-        while (it.hasNext()) {
-            suite.addTest(new XhtmlValidityTest((String) it.next()));
-        }
+        XHTMLValidator validator = new XHTMLValidator();
+        HttpClient client = new HttpClient();
 
-        // Prepare validators only once, as this is a costly process
-        System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema",
-            "org.apache.xerces.jaxp.validation.XMLSchemaFactory");
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema xhtmlSchema = sf.newSchema(
-            XhtmlValidityTest.class.getClassLoader().getResource("xhtml1-strict.xsd"));
-        // Schema rssSchema = sf.newSchema(new File("rdf.xsd"));
-        xv = xhtmlSchema.newValidator();
-        
-        // rv = rssSchema.newValidator();
-        // rv.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
-        // "http://purl.org/dc/elements/1.1/ dc.xsd http://www.w3.org/1999/xhtml xhtml1-strict.xsd
-        // http://purl.org/rss/1.0/ rss.rdf");
+        Credentials defaultcreds = new UsernamePasswordCredentials("Admin", "admin");
+        client.getState().setCredentials(AuthScope.ANY, defaultcreds);
+
+        for (String pageName : readXarContents(path, patternFilter)) {
+            suite.addTest(new XhtmlValidityTest(pageName, client, validator));
+        }
 
         return suite;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see junit.framework.TestCase#getName()
+     */
     public String getName()
     {
         return "Validating " + fullPageName;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception
     {
         super.setUp();
-
-        rpc = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
-        rpc.login("Admin", "admin");
 
         // TODO Until we find a way to incrementally display the result of tests this stays
         System.out.println(getName());
@@ -161,6 +155,11 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         System.setErr(new PrintStream(this.err));
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see junit.framework.TestCase#tearDown()
+     */
     protected void tearDown() throws Exception
     {
         // Restore original stdout and stderr streams.
@@ -180,38 +179,54 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         assertFalse("Errors found in the stderr output", hasErrors(errput));
         assertFalse("Warnings found in the stderr output", hasWarnings(errput));
 
-        rpc.logout();
-
         super.tearDown();
     }
 
     public void testValidityOfDocument() throws Exception
     {
-        Page page = rpc.getPage(fullPageName);
-        String renderedContent = rpc.renderContent(page);
-        assertNotNull(renderedContent);
+        GetMethod method =
+            new GetMethod("http://127.0.0.1:8080/xwiki/bin/view/"
+                + URLEncoder.encode(this.fullPageName, "UTF-8").replace('.', '/'));
 
-        if (renderedContent.indexOf("<rdf:RDF") != -1) {
-            // Ignored for the moment, until we can validate using XMLSchema
-            // rv.setErrorHanndler(this);
-        } else {
-            xv.setErrorHandler(this);
+        method.setDoAuthentication(true);
+        method.setFollowRedirects(true);
+        method.addRequestHeader("Authorization", "Basic " + new String(Base64.encodeBase64("Admin:admin".getBytes())));
 
-            InputSource src =
-                new InputSource(new StringReader(completeXhtml(page.getTitle(), renderedContent)));
-            Source s = new SAXSource(src);
-            try {
-                xv.validate(s);
-            } catch (SAXParseException ex) {
-                System.err.println("Line " + ex.getLineNumber() + ", Column " + ex.getLineNumber() + " " + ex.getMessage());
-                System.err.println("Validated content:");
-                System.err.println(completeXhtml(page.getTitle(), renderedContent));
-                errors++;
-            }
-            // errors += assertCssValid(page.getUrl());
+        byte[] responseBody;
+
+        // Execute the method.
+        try {
+            int statusCode = this.client.executeMethod(method);
+
+            assertEquals("Method failed: " + method.getStatusLine(), HttpStatus.SC_OK, statusCode);
+
+            // Read the response body.
+            responseBody = method.getResponseBody();
+        } finally {
+            method.releaseConnection();
         }
 
-        assertTrue("Validation errors in " + fullPageName, errors == 0);
+        this.validator.validate(new ByteArrayInputStream(responseBody));
+        List<XHTMLError> errors = this.validator.getErrors();
+
+        boolean hasError = false;
+        for (XHTMLError error : errors) {
+            if (error.getType() == XHTMLError.Type.WARNING) {
+                System.out.println("Warning at " + error.getLine() + ":" + error.getColumn() + " " + error.getMessage());
+            } else {
+                System.err.println("Line " + error.getLine() + ", Column " + error.getColumn() + " "
+                    + error.getMessage());
+
+                hasError = true;
+            }
+        }
+
+        if (hasError) {
+            System.err.println("Validated content:");
+            System.err.println(new String(responseBody));
+        }
+
+        assertFalse("Validation errors in " + fullPageName, hasError);
     }
 
     private boolean hasErrors(String output)
@@ -224,7 +239,7 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         return output.indexOf("WARNING") >= 0 || output.indexOf("WARN") >= 0;
     }
 
-    public static List readXarContents(String fileName, String patternFilter) throws Exception
+    public static List<String> readXarContents(String fileName, String patternFilter) throws Exception
     {
         FileInputStream fileIS = new FileInputStream(fileName);
         ZipInputStream zipIS = new ZipInputStream(fileIS);
@@ -240,16 +255,14 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         }
 
         if (tocDoc == null) {
-            return new ArrayList();
+            return Collections.emptyList();
         }
 
-        List result = new ArrayList();
+        List<String> result = new ArrayList<String>();
 
         Element filesElement = tocDoc.getRootElement().element("files");
-        List fileElementList = filesElement.elements("file");
-        Iterator it = fileElementList.iterator();
-        while (it.hasNext()) {
-            Element el = (Element) it.next();
+        List<Element> fileElementList = filesElement.elements("file");
+        for (Element el : fileElementList) {
             String docFullName = el.getStringValue();
 
             if (patternFilter == null || docFullName.matches(patternFilter)) {
@@ -258,14 +271,6 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
         }
 
         return result;
-    }
-
-    private static String completeXhtml(String title, String content)
-    {
-        return "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
-            + "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n"
-            + "<head>\n" + "<title>" + title + "</title>\n" + "</head>\n" + "<body>\n<div>\n"
-            + content.replaceAll("&nbsp;", "&#160;") + "\n</div>\n</body>\n</html>";
     }
 
     private static int assertCssValid(String url) throws Exception
@@ -295,29 +300,13 @@ public class XhtmlValidityTest extends TestCase implements ErrorHandler
 
         styleSheet.findConflicts(ac); // this is bogus ?
 
-        StyleReport style =
-            StyleReportFactory.getStyleReport(ac, uri, styleSheet, output, warningLevel);
+        StyleReport style = StyleReportFactory.getStyleReport(ac, uri, styleSheet, output, warningLevel);
 
         int errors = styleSheet.getErrors().getErrorCount();
         if (errors > 0) {
             style.print(out);
         }
+
         return errors;
-    }
-
-    public void error(SAXParseException exception) throws SAXException
-    {
-        throw exception;
-    }
-
-    public void fatalError(SAXParseException exception) throws SAXException
-    {
-        throw exception;
-    }
-
-    public void warning(SAXParseException exception) throws SAXException
-    {
-        System.out.println("Warning at " + exception.getLineNumber() + ":" + exception.getColumnNumber() 
-            + " " + exception.getMessage());
     }
 }

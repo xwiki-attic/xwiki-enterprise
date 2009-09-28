@@ -35,6 +35,25 @@
   <description>XWiki Products - Enterprise - Misc. Functional Tests</description>
   <dependencies>
     <dependency>
+      <groupId>com.xpn.xwiki.platform</groupId>
+      <artifactId>xwiki-core</artifactId>
+      <version>${platform.core.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-wiki</artifactId>
+      <version>${pom.version}</version>
+      <type>xar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.w3c.css</groupId>
+      <artifactId>css-validator</artifactId>
+      <version>2.1-20070528</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
       <version>0.7.3</version>

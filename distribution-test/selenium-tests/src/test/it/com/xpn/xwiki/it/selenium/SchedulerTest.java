@@ -39,20 +39,20 @@ public class SchedulerTest extends AbstractXWikiTestCase
     {
         super.setUp();
         loginAsAdmin();
-        deletePage("Scheduler", "xyz");
+        deletePage("Scheduler", "SchedulerTestJob");
     }
 
     @Override
     protected void tearDown()
     {
-        deletePage("Scheduler", "xyz");
+        deletePage("Scheduler", "SchedulerTestJob");
     }
 
     public void testJobActions()
     {
         // Create Job
         open("Scheduler", "WebHome");
-        setFieldValue("title", "xyz");
+        setFieldValue("title", "SchedulerTestJob");
         clickLinkWithXPath("//input[@value='Add']");
         setFieldValue("XWiki.SchedulerJobClass_0_jobName", "Tester problem");
         setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem");
@@ -62,11 +62,11 @@ public class SchedulerTest extends AbstractXWikiTestCase
         assertElementPresent("//td[text()='Tester problem']");
 
         // View Job
-        clickLinkWithXPath("//td/span/a[@href='/xwiki/bin/view/Scheduler/xyz']");
+        clickLinkWithXPath("//td/span/a[@href='/xwiki/bin/view/Scheduler/SchedulerTestJob']");
         clickLinkWithText("Back to the job list");
 
         // Edit Job
-        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/xyz']");
+        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/SchedulerTestJob']");
         setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem2");
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 0/5 14 * * ?");
         clickEditSaveAndView();
@@ -74,11 +74,11 @@ public class SchedulerTest extends AbstractXWikiTestCase
         assertElementPresent("//td[text()='Tester problem']");
 
         // Delete and Restore Job
-        clickLinkWithXPath("//td/a[@href='/xwiki/bin/view/Scheduler/?do=delete&which=Scheduler.xyz']");
+        clickLinkWithXPath("//td/a[@href='/xwiki/bin/view/Scheduler/?do=delete&which=Scheduler.SchedulerTestJob']");
         clickLinkWithXPath("//input[@value='yes']");
         open("Scheduler", "WebHome");
         assertElementNotPresent("//td[text()='Tester job']");
-        open("Scheduler", "xyz", "view", "confirm=1");
+        open("Scheduler", "SchedulerTestJob", "view", "confirm=1");
         clickLinkWithText("Restore");
         clickLinkWithText("Back to the job list");
         assertElementPresent("//td[text()='Tester problem']");

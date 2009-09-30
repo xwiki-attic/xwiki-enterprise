@@ -447,8 +447,8 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentNoSublist()
     {
-        clickUnorderedListButton();
         typeText("foo");
+        clickUnorderedListButton();
         typeEnter();
         typeText("bar");
         assertXHTML("<ul><li>foo</li><li>bar<br class=\"spacer\"></li></ul>");
@@ -470,8 +470,9 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentUnderSublist()
     {
+        typeText("one");
         clickUnorderedListButton();
-        typeTextThenEnter("one");
+        typeEnter();
         typeTextThenEnter("two");
         typeTab();
         typeTextThenEnter("two plus one");
@@ -491,8 +492,8 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentOutdentWithSublist()
     {
+        typeText("foo");        
         clickUnorderedListButton();
-        typeText("foo");
         typeEnter();
         typeText("bar");
         clickIndentButton();
@@ -527,8 +528,9 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testOutdentOnFirstLevel()
     {
+        typeText("one");
         clickUnorderedListButton();
-        typeTextThenEnter("one");
+        typeEnter();
         typeTextThenEnter("two");
         typeTab();
         typeTextThenEnter("two plus one");

@@ -293,18 +293,22 @@ public class LineTest extends AbstractWysiwygTestCase
         insertTable();
 
         // Fill the table.
+        // Delete the non-breaking space that is found by default in empty table cells.
+        typeBackspace();
         typeText("ab");
         typeTab();
         typeText("cd");
+        // Delete the non-breaking space that is found by default in empty table cells.
+        typeDelete();
 
         // Make a cross table cell selection.
-        select("XWE.body.firstChild.rows[0].cells[0].lastChild", 1, "XWE.body.firstChild.rows[0].cells[1].firstChild",
+        select("XWE.body.firstChild.rows[0].cells[0].firstChild", 1, "XWE.body.firstChild.rows[0].cells[1].firstChild",
             1);
 
         // Press Enter.
         typeEnter();
         typeText("x");
-        assertWiki("|= a\nx|=d \n| | ");
+        assertWiki("|=a\nx|=d\n| | ");
     }
 
     /**

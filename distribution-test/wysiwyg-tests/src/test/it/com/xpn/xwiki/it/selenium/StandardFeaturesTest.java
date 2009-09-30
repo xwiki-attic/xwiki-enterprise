@@ -435,7 +435,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Insert HR at the end of the paragraph.
         clickHRButton();
 
-        // More the caret between x and Y.
+        // Move the caret between x and Y.
         moveCaret("XWE.body.firstChild.firstChild", 1);
 
         // Insert HR in the middle of the paragraph.

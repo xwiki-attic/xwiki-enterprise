@@ -56,13 +56,17 @@ public class TableTest extends AbstractWysiwygTestCase
         typeShiftTab();
         typeText("b");
         typeTab(3);
+        // Delete the non-breaking space that is found by default in empty table cells.
+        typeDelete();
         typeText("c");
         // Tab should insert a new row since we are in the last cell.
         typeTab();
+        // Delete the non-breaking space that is found by default in empty table cells.
+        typeDelete();
         typeText("d");
         typeShiftTab(4);
         typeText("e");
-        assertWiki("|=e ab|= \n| |c \n|d | ");
+        assertWiki("|=e ab|= \n| |c\n|d| ");
     }
 
     /**

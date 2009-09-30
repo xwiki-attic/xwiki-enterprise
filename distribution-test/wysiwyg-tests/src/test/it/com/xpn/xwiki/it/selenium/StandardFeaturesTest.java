@@ -107,9 +107,10 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Create a list with 3 items
         typeTextThenEnter("a");
         typeTextThenEnter("b");
-        typeText("c");
-        // If the caret is followed by a br tag, delete it. See XWIKI-2732.
-        typeDelete();
+        // We press Enter here to be sure there's no bogus BR after the typed text.
+        typeTextThenEnter("c");
+        // Delete the empty line which was created only to avoid bogus BRs. See XWIKI-2732.
+        typeBackspace();
         selectAllContent();
         clickUnorderedListButton();
         assertXHTML("<ul><li>a</li><li>b</li><li>c</li></ul>");
@@ -139,9 +140,10 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Create a list with 3 items
         typeTextThenEnter("a");
         typeTextThenEnter("b");
-        typeText("c");
-        // If the caret is followed by a br tag, delete it. See XWIKI-2732.
-        typeDelete();
+        // We press Enter here to be sure there's no bogus BR after the typed text.
+        typeTextThenEnter("c");
+        // Delete the empty line which was created only to avoid bogus BRs. See XWIKI-2732.
+        typeBackspace();
         selectAllContent();
         clickOrderedListButton();
         assertXHTML("<ol><li>a</li><li>b</li><li>c</li></ol>");
@@ -200,15 +202,21 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testHR()
     {
         clickHRButton();
+        // Create a heading and then delete it just to remove the bogus BR at the end.
+        applyStyleTitle1();
+        typeBackspace();
         // We don't switch to Wiki because we want to see if the Backspace works.
-        assertXHTML("<hr><br class=\"spacer\">");
+        assertXHTML("<hr>");
 
+        // Strange but we need to type Backspace twice although there's nothing else besides the horizontal ruler.
         typeBackspace(2);
         testEmptyWysiwyg();
 
         typeText("foobar");
-        typeDelete();
         applyStyleTitle1();
+        // Type Enter then Backspace to remove the bogus BR at the end.
+        typeEnter();
+        typeBackspace();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
         moveCaret("XWE.selection.getRangeAt(0).startContainer", 3);
         clickHRButton();
@@ -377,7 +385,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("ZZZ");
         getSelenium().metaKeyUp();
 
-        // Redo 2 steps
+        // Redo 2 steps.
         getSelenium().controlKeyDown();
         typeText("YY");
         getSelenium().controlKeyUp();
@@ -427,7 +435,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Insert HR at the end of the paragraph.
         clickHRButton();
 
-        // More the caret between x and y.
+        // More the caret between x and Y.
         moveCaret("XWE.body.firstChild.firstChild", 1);
 
         // Insert HR in the middle of the paragraph.

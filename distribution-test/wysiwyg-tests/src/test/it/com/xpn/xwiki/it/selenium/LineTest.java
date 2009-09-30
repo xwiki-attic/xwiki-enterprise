@@ -255,10 +255,13 @@ public class LineTest extends AbstractWysiwygTestCase
         // "y" (lower case only) is misinterpreted.
         // See http://jira.openqa.org/browse/SIDE-309
         // See http://jira.openqa.org/browse/SRC-385
-        typeText("xYz");
+        // Also we type Enter here to ensure there's no bogus BR at the end of the typed text.
+        typeTextThenEnter("xYz");
+        // Delete the empty line which was created only to prevent bogus BRs.
+        typeBackspace();
         assertXHTML("<!--startimage:XWiki.AdminSheet@photos.png-->"
             + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"
-            + "<!--stopimage--><p>xYz<br class=\"spacer\"></p>");
+            + "<!--stopimage--><p>xYz</p>");
     }
 
     /**

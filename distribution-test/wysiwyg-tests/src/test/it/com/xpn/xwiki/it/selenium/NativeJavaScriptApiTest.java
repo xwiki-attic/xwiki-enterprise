@@ -121,7 +121,6 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         focusRichTextArea();
 
         typeText("x");
-        getSelenium().getEval("window." + getDOMLocator("body.innerHTML"));
         assertEquals("x", getSourceText("editor"));
 
         // "y" (lower case only) is misinterpreted.
@@ -217,8 +216,8 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      */
     protected String getSourceText(String editorName)
     {
-        getEval("\ntry{\n  window.sourceText = undefined;\n  window." + editorName + ".getSourceText(function(result) {\n    window.sourceText = (result || 'no value');\n  });\n  'request sent';\n} catch (e) {\n  e.message;\n}");
-        waitForCondition("typeof window.sourceText != 'undefined'");
+        getEval("window." + editorName + ".getSourceText(function(result){window.sourceText = result;})");
+        waitForCondition("typeof window.sourceText == 'string'");
         return getEval("window.sourceText");
     }
 }

@@ -102,13 +102,12 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     public void testDetectKnownUnsupportedFontName()
     {
-        setWikiContent("(% style=\"font-family: symbol;\" %)\nabc");
+        setWikiContent("(% style=\"font-family: wingdings;\" %)\nabc");
         selectAllContent();
-        assertDetectedFontName("");
+        assertDetectedFontName("wingdings");
 
-        setWikiContent("(% style=\"font-family: symbol,sans-serif;\" %)\nabc");
+        setWikiContent("(% style=\"font-family: wingdings,helvetica;\" %)\nabc");
         selectAllContent();
-        // The default sans-serif font should be detected.
         assertDetectedFontName("helvetica");
     }
 
@@ -121,9 +120,8 @@ public class FontTest extends AbstractWysiwygTestCase
         selectAllContent();
         assertDetectedFontName("");
 
-        setWikiContent("(% style=\"font-family: unknown,sans-serif;\" %)\nabc");
+        setWikiContent("(% style=\"font-family: unknown,helvetica;\" %)\nabc");
         selectAllContent();
-        // The default sans-serif font should be detected.
         assertDetectedFontName("helvetica");
     }
 

@@ -603,10 +603,10 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertEquals("0", getSelenium().getEval(listItemCountExpression));
 
         // Let's fix the macro by separating it in an empty paragraph.
-        // Move the caret before the macro and press Enter twice to move it into a new paragraph.
+        // Move the caret before the macro and press Enter to move it into a new paragraph.
         moveCaret("XWE.body.firstChild.firstChild", 6);
         typeEnter();
-        // Move the caret after the macro and press Enter twice to move the following text in a new paragraph.
+        // Move the caret after the macro and press Enter to move the following text in a new paragraph.
         moveCaret("XWE.body.lastChild.lastChild", 0);
         typeEnter();
 

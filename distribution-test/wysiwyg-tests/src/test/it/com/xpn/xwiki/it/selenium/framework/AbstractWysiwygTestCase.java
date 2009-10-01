@@ -27,7 +27,7 @@ import com.thoughtworks.selenium.Wait;
 
 /**
  * All XWiki WYSIWYG tests must extend this class.
- *
+ * 
  * @version $Id$
  */
 public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
@@ -36,16 +36,15 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         "document.getElementsByTagName('iframe')[0].contentWindow.document.documentElement";
 
     private static final String WYSIWYG_LOCATOR_FOR_HTML_CONTENT = "content";
-    
+
     private static final String WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='WYSIWYG']";
-    
+
     private static final String WYSIWYG_LOCATOR_FOR_SOURCE_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='Source']";
 
     /**
      * Locates the text area used in the Source tab.
      */
-    public static final String WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA =
-        "//textarea[contains(@class, 'xPlainTextEditor')]";
+    public static final String WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA = "//textarea[contains(@class, 'xPlainTextEditor')]";
 
     /**
      * {@inheritDoc}
@@ -71,44 +70,33 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     protected void runScript(String script)
     {
-        initJavascriptEnv();
+        initJavaScriptEnv();
         getSelenium().runScript(script);
     }
 
     protected String getEval(String script)
     {
-        initJavascriptEnv();
+        initJavaScriptEnv();
         return getSelenium().getEval(script);
     }
 
-    protected void initJavascriptEnv()
+    protected void initJavaScriptEnv()
     {
-        if (!getSelenium().getEval("typeof window.XWE").equals("object")) {
-            getSelenium().runScript("var XWE = function() {\n" +
-                "  var iframe = window.document.getElementsByTagName('iframe')[0];\n" +
-                "  var iwnd = iframe.contentWindow;\n" +
-                "  var idoc = iwnd.document;\n" +
-                "  return {\n" +
-                "    document : idoc,\n" +
-                "    window : iwnd,\n" +
-                "    rootNode : idoc.documentElement,\n" +
-                "    body : idoc.body,\n" +
-                "    innerHTML : idoc.body.innerHTML,\t\t\n" +
-                "    selection : iwnd.getSelection(),\n" +
-                "    getRange : function() { \n" +
-                "      if (iwnd.getSelection().rangeCount > 0) {\n" +
-                "        return iwnd.getSelection().getRangeAt(0);\n" +
-                "      } else {\n" +
-                "        var range = idoc.createRange();\n" +
-                "        range.selectNodeContents(idoc.body);\n" +
-                "        iwnd.getSelection().addRange(range);\t\t\t\t\n" +
-                "        return range;\n" +
-                "      }\n" +
-                "    },\n" +
-                "    removeAllRanges : function() { iwnd.getSelection().removeAllRanges(); },\n" +
-                "    selectAll : function() { idoc.execCommand('selectall', false, null) },\n"+
-                "  };\n" +
-                "}();");
+        // Check if the XWE object is undefined or not up to date (due to a rich text area reload).
+        if (Boolean.valueOf(getSelenium().getEval(
+            "typeof window.XWE == 'undefined' || window.XWE.body != window." + getDOMLocator("body")))) {
+            StringBuffer script = new StringBuffer();
+            script.append("var XWE = function() {\n");
+            script.append("  var iwnd = window." + getDOMLocator("defaultView") + ";\n");
+            script.append("  var idoc = iwnd.document;\n");
+            script.append("  return {\n");
+            script.append("    document : idoc,\n");
+            script.append("    body : idoc.body,\n");
+            script.append("    selection : iwnd.getSelection(),\n");
+            script.append("    selectAll : function() { idoc.execCommand('selectall', false, null) }\n");
+            script.append("  };\n");
+            script.append("}();");
+            getSelenium().runScript(script.toString());
         }
     }
 
@@ -190,11 +178,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void selectElementContent(String tagName, int occurence)
     {
         selectElement(tagName, occurence, false);
-    }
-
-    public void resetSelection()
-    {
-        runScript("XWE.removeAllRanges();");
     }
 
     public void typeText(String text)
@@ -601,12 +584,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         getSelenium().keyDown("//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']", "\\27");
     }
-    
+
     /**
      * @return True if the tabs are enabled, false otherwise.
      */
     public boolean tabsEnabled()
-    {        
+    {
         return isElementPresent(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
     }
 
@@ -664,7 +647,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             }
         }
     }
-    
+
     /**
      * Types the specified text in the input specified by its title.
      * 
@@ -1100,10 +1083,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         Map<String, String> config = new HashMap<String, String>();
         config.put("wysiwyg.plugins", "submit line separator text valign list "
             + "indent history format symbol link image " + "table macro importer color justify font");
-        config.put("wysiwyg.toolbar", "bold italic underline strikethrough | subscript superscript | "
+        config.put("wysiwyg.toolbar", "bold italic underline strikethrough teletype | subscript superscript | "
             + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
-            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | link unlink | "
-            + "importer");
+            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | importer");
         updateXWikiPreferences(config);
     }
 

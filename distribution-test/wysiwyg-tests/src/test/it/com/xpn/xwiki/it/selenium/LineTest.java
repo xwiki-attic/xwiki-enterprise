@@ -364,7 +364,7 @@ public class LineTest extends AbstractWysiwygTestCase
         typeText("e");
 
         // Check the result.
-        assertWiki("* (((= a\nb =\n\nc\n\nd)))\n* e");
+        assertWiki("* (((\n= a\nb =\n\nc\n\nd\n)))\n* e");
     }
 
     /**

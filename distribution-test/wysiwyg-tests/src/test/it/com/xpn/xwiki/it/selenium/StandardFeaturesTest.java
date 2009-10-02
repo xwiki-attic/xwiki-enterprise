@@ -600,4 +600,19 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         assertEquals("> 1", getEval("window.XWE.body.textContent"));
     }
+
+    /**
+     * @see XWIKI: Problems removing italics from a definition.
+     */
+    public void testRemoveItalicsFromDefinition()
+    {
+        switchToSource();
+        setFieldValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "; term1\n: definition1\n:; term2\n:: definition2");
+        switchToWysiwyg();
+        selectNodeContents("XWE.document.getElementsByTagName('dd')[0].firstChild");
+        clickItalicsButton();
+        switchToSource();
+        assertEquals("; term1\n: (% style=\"font-style: normal;\" %)definition1(%%)\n:; term2\n:: definition2",
+            getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+    }
 }

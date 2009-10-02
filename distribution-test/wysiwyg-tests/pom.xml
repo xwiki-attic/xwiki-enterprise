@@ -86,7 +86,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <browser>*firefox</browser>
+        <browser>*firefox /home/marius/apps/firefox-3.5/firefox-bin</browser>
       </properties>
     </profile>
     <profile>

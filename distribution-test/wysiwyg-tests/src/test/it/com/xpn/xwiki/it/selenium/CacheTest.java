@@ -145,13 +145,13 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Type text and refresh the page.
         focusRichTextArea();
-        typeText("x");
+        typeText("2");
         refresh();
 
         // Type more text and check the result.
         focusRichTextArea();
-        typeText("y");
-        assertWiki("yx");
+        typeText("1");
+        assertWiki("12");
     }
 
     /**
@@ -169,15 +169,15 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Type text and refresh the page.
         switchToSource();
-        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "x");
+        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "1");
         refresh();
 
         // Type more text and check the result.
         switchToSource();
-        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "y");
+        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "2");
         // We need to switch to WYSIWYG tab because #assertWiki(String) is currently written to work from there.
         switchToWysiwyg();
-        assertWiki("xy");
+        assertWiki("12");
     }
 
     /**

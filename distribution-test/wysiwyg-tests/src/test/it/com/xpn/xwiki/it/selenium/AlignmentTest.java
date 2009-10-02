@@ -247,7 +247,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 2);
         clickAlignRightButton();
         assertTrue(isAlignRightDetected());
-        assertWiki("|((((% style=\"text-align: right;\" %)\nab\n\ncd)))|ef");
+        assertWiki("|(((\n(% style=\"text-align: right;\" %)\nab\n\ncd\n)))|ef");
 
         // Assert again the right alignment after coming back from the Wiki editor.
         assertTrue(isAlignRightDetected());

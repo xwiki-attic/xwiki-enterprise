@@ -203,15 +203,15 @@ public class ListTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
         assertXHTML("<ul><li>foo<div><p>bar</p>foar</div></li></ul>");
-        
+
         // now try to put the text up next to the other text
         resetContent();
-        
+
         setWikiContent("* foo(((bar\n* foar)))");
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
         typeDelete();
-        assertXHTML("<ul><li>foo<div><p>barfoar</p></div></li></ul>");        
+        assertXHTML("<ul><li>foo<div><p>barfoar</p></div></li></ul>");
     }
 
     public void testDeleteInEmbeddedDocumentList()
@@ -424,7 +424,7 @@ public class ListTest extends AbstractWysiwygTestCase
         select("XWE.body.firstChild.firstChild.firstChild", 2,
             "XWE.body.firstChild.firstChild.lastChild.lastChild.lastChild.firstChild.firstChild", 2);
         typeDelete();
-        assertXHTML("<ul><li>on<ul><li><br class=\"spacer\"><ul><li>ur</li><li>five</li></ul></li></ul></li></ul>");
+        assertXHTML("<ul><li>onur<ul><li><br class=\"spacer\"><ul><li>five</li></ul></li></ul></li></ul>");
     }
 
     /**
@@ -492,7 +492,7 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentOutdentWithSublist()
     {
-        typeText("foo");        
+        typeText("foo");
         clickUnorderedListButton();
         typeEnter();
         typeText("bar");
@@ -620,7 +620,7 @@ public class ListTest extends AbstractWysiwygTestCase
         clickUnorderedListButton();
         typeEnter();
         typeText("b");
-        assertWiki("|=(((*  a\n* b)))|= \n| | ");
+        assertWiki("|=(((\n*  a\n* b\n)))|= \n| | ");
     }
 
     /**
@@ -684,7 +684,8 @@ public class ListTest extends AbstractWysiwygTestCase
                 + "firstChild", 3);
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
-        assertWiki("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n*** one plus two\n** two\n* three)))\n| | ");
+        assertWiki("|(((\n* item 1\n* item 2\n)))"
+            + "|(((\n* one\n** one plus one\n*** one plus two\n** two\n* three\n)))\n| | ");
         select(
             "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
                 + "childNodes[1].firstChild", 0,
@@ -692,7 +693,8 @@ public class ListTest extends AbstractWysiwygTestCase
                 + "firstChild", 5);
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
-        assertWiki("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n*** one plus two\n* two\n\nthree)))\n| | ");
+        assertWiki("|(((\n* item 1\n* item 2\n)))"
+            + "|(((\n* one\n** one plus one\n*** one plus two\n* two\n\nthree\n)))\n| | ");
     }
 
     /**
@@ -709,7 +711,7 @@ public class ListTest extends AbstractWysiwygTestCase
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
         assertWiki("one\n\ntwo\n\nthree\n\n* three plus one\n\nfour\n\n"
-            + "(((before\n\n* inner five\n* inner five + 1\n\nafter)))\n\nsix");
+            + "(((\nbefore\n\n* inner five\n* inner five + 1\n\nafter\n)))\n\nsix");
     }
 
     /**
@@ -728,11 +730,20 @@ public class ListTest extends AbstractWysiwygTestCase
         typeBackspace();
         // expecting a single list item, with 2 headings
         assertXHTML("<ul><li><h1>ab</h1><h1>c</h1></li></ul>");
-        assertWiki("* (((= ab =\n\n= c =)))");
-        
-        resetContent();
-        
-        // now try to reunite two heading list items, with a backspace and a delete        
+        assertWiki("* (((\n= ab =\n\n= c =\n)))");
+    }
+
+    /**
+     * Tests that the headings in two list items can be merged by a backspace followed by a delete: only one backspace,
+     * as the previous test shows, is not enough because two items of the same type should not be automatically merged
+     * on backspace between list items, since it's not the desired behaviour for all types of elements.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
+     */
+    public void testBackspaceAndDeleteToMergeHeadingListItems()
+    {
+        // split the previous test in 2 so that this one can be marked as failing
+        // now try to reunite two heading list items, with a backspace and a delete
         typeText("abc");
         clickUnorderedListButton();
         applyStyleTitle1();
@@ -742,12 +753,11 @@ public class ListTest extends AbstractWysiwygTestCase
         typeDelete();
         // expecting a single list item, with 2 headings
         assertXHTML("<ul><li><h1>abc</h1></li></ul>");
-        assertWiki("* (((= abc =)))");        
+        assertWiki("* (((\n= abc =\n)))");
     }
-    
+
     /**
-     * Tests that a delete between two list items with headings inside moves the second heading in the first list
-     * item.
+     * Tests that a delete between two list items with headings inside moves the second heading in the first list item.
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
      */
@@ -762,23 +772,23 @@ public class ListTest extends AbstractWysiwygTestCase
         typeDelete();
         // expecting a single list item, with 2 headings
         assertXHTML("<ul><li><h1>cb</h1><h1>a</h1></li></ul>");
-        assertWiki("* (((= cb =\n\n= a =)))");
-        
+        assertWiki("* (((\n= cb =\n\n= a =\n)))");
+
         resetContent();
-        
-        // now try to reunite the two, with 2 deletes        
+
+        // now try to reunite the two, with 2 deletes
         typeText("cba");
         clickUnorderedListButton();
         applyStyleTitle1();
         moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeEnter();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);        
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeDelete();
         typeDelete();
         // expecting a single list item, with 2 headings
         assertXHTML("<ul><li><h1>cba</h1></li></ul>");
-        assertWiki("* (((= cba =)))");        
-    }    
+        assertWiki("* (((\n= cba =\n)))");
+    }
 
     /**
      * @return {@code true} if the current selection is inside an ordered list, {@code false} otherwise

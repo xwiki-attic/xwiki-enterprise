@@ -171,7 +171,10 @@ div#dashboardspacer {
             = $msg.get("xe.dashboard.space.documents", [$doc.space]) =
 
             #set ($docNames = $xwiki.getSpaceDocsName($doc.space))
-            #displayDocumentList($docNames false $blacklistedSpaces) 
+            {{html}}
+              #displayDocumentList($docNames false $blacklistedSpaces) 
+            {{/html}}
+
             = $msg.get("xe.dashboard.wiki.tagcloud") =
             #set ($tagCloudSpace = $doc.space)
 

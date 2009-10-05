@@ -149,9 +149,11 @@ public class ListTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test that delete at the end of a list preserves browser default behaviour: for firefox is to join the two lists.
+     * Test that delete at the end of a list preserves browser default behaviour: for firefox is to join the two lists. 
+     * <br />
+     * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      */
-    public void testDeleteInDifferentLists()
+    public void failingTestDeleteInDifferentLists()
     {
         setWikiContent("* foo\n\n* bar");
         // Set the selection at the end of the first item
@@ -187,9 +189,10 @@ public class ListTest extends AbstractWysiwygTestCase
 
     /**
      * Test that delete at the end of a list before another list in an embedded document (two lists on the second level)
-     * preserves default behaviour: for firefox is to join the two lists.
+     * preserves default behaviour: for firefox is to join the two lists. <br />
+     * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      */
-    public void testDeleteInEmbeddedDocumentDifferentLists()
+    public void failingTestDeleteInEmbeddedDocumentDifferentLists()
     {
         setWikiContent("* foo\n* bar (((\n1. foo 2\n* bar 2)))");
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild.firstChild", 5);
@@ -203,10 +206,13 @@ public class ListTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
         assertXHTML("<ul><li>foo<div><p>bar</p>foar</div></li></ul>");
+    }
 
-        // now try to put the text up next to the other text
-        resetContent();
-
+    /**
+     * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
+     */
+    public void failingTestBackspaceAndDeleteToMergeEmbeddedDocumentListAndParagraph()
+    {
         setWikiContent("* foo(((bar\n* foar)))");
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
@@ -214,7 +220,10 @@ public class ListTest extends AbstractWysiwygTestCase
         assertXHTML("<ul><li>foo<div><p>barfoar</p></div></li></ul>");
     }
 
-    public void testDeleteInEmbeddedDocumentList()
+    /**
+     * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
+     */
+    public void failingTestDeleteInEmbeddedDocumentList()
     {
         setWikiContent("* foo(((* bar\n\nfoar)))");
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild", 3);
@@ -369,9 +378,10 @@ public class ListTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test delete before text outside lists.
+     * Test delete before text outside lists. <br />
+     * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      */
-    public void testDeleteBeforeParagraph()
+    public void failingTestDeleteBeforeParagraph()
     {
         setWikiContent("* one\n* two\n\nFoobar");
 
@@ -736,11 +746,12 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Tests that the headings in two list items can be merged by a backspace followed by a delete: only one backspace,
      * as the previous test shows, is not enough because two items of the same type should not be automatically merged
-     * on backspace between list items, since it's not the desired behaviour for all types of elements.
+     * on backspace between list items, since it's not the desired behaviour for all types of elements. <br />
+     * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
      */
-    public void testBackspaceAndDeleteToMergeHeadingListItems()
+    public void failingTestBackspaceAndDeleteToMergeHeadingListItems()
     {
         // split the previous test in 2 so that this one can be marked as failing
         // now try to reunite two heading list items, with a backspace and a delete
@@ -757,11 +768,13 @@ public class ListTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Tests that a delete between two list items with headings inside moves the second heading in the first list item.
+     * Tests that a delete between two list items with headings inside moves the second heading in the first list item. 
+     * <br />
+     * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
      */
-    public void testDeleteBetweenHeadingListItems()
+    public void failingTestDeleteBetweenHeadingListItems()
     {
         typeText("cba");
         clickUnorderedListButton();

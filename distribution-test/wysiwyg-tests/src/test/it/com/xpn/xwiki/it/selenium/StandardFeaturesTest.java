@@ -628,4 +628,17 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToSource();
         assertEquals(multiLineVerbatimBlock, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
     }
+
+    /**
+     * @see XWIKI-4399: ((( ))) looses class or style definitions when you edit in WYSIWYG.
+     */
+    public void testGroupStyleIsPreserved()
+    {
+        switchToSource();
+        String styledGroup = "(% class=\"abc\" style=\"color: red;\" %)\n(((\ntext\n)))";
+        setFieldValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, styledGroup);
+        switchToWysiwyg();
+        switchToSource();
+        assertEquals(styledGroup, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+    }
 }

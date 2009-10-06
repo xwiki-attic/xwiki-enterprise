@@ -54,10 +54,31 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-
-        loginAsAdmin();
+ 
+        //TODO: this should be in a TestSetup, for the entire Wysiwyg suite
         enableAllEditingFeatures();
-        open("Main", "WysiwygTest", "edit", "editor=wiki");
+
+        // setup the test
+        setupLogin();
+        setupTestPage();
+    }
+
+    protected void setupLogin()
+    {
+        loginAsAdmin();
+    }
+
+    /**
+     * Helper method to setup the edit test page. Override to make specific page setup in subclasses.
+     */
+    protected void setupTestPage()
+    {
+        openPageForEditTest("Main", "WysiwygTest");
+    }
+
+    protected void openPageForEditTest(String space, String page)
+    {
+        open(space, page, "edit", "editor=wiki");
         // Reset the content of the test page.
         setFieldValue("content", "");
         clickEditSaveAndContinue();
@@ -1080,6 +1101,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     private void enableAllEditingFeatures()
     {
+        // login as admin and enable editing features.
+        loginAsAdmin();        
         Map<String, String> config = new HashMap<String, String>();
         config.put("wysiwyg.plugins", "submit line separator text valign list "
             + "indent history format symbol link image " + "table macro importer color justify font");

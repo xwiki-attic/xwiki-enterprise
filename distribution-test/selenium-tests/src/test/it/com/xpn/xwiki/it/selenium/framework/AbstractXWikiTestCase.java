@@ -25,6 +25,7 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
+
 import org.codehaus.plexus.util.StringInputStream;
 
 import com.thoughtworks.selenium.Selenium;
@@ -78,7 +79,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         super.setUp();
 
         // Print test name for easier parsing of Selenium logs
-        System.out.println("Test: " + getName());    
+        System.out.println("Test: " + getName());
     }
 
     /**
@@ -214,7 +215,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     {
         getSelenium().waitForPageToLoad(String.valueOf(nbMillisecond));
     }
-    
+
     public void createPage(String space, String page, String content)
     {
         createPage(space, page, content, null);
@@ -320,8 +321,10 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void waitForTextPresent(final String elementLocator, final String expectedValue)
     {
-        new Wait() {
-            public boolean until() {
+        new Wait()
+        {
+            public boolean until()
+            {
                 return getSelenium().getText(elementLocator).equals(expectedValue);
             }
         }.wait("element [" + elementLocator + "] not found or doesn't have the value [" + expectedValue + "]");
@@ -329,8 +332,10 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void waitForTextContains(final String elementLocator, final String containsValue)
     {
-        new Wait() {
-            public boolean until() {
+        new Wait()
+        {
+            public boolean until()
+            {
                 return getSelenium().getText(elementLocator).indexOf(containsValue) > -1;
             }
         }.wait("element [" + elementLocator + "] not found or doesn't contain the value [" + containsValue + "]");
@@ -338,8 +343,10 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void waitForBodyContains(final String containsValue)
     {
-        new Wait() {
-            public boolean until() {
+        new Wait()
+        {
+            public boolean until()
+            {
                 return getSelenium().getBodyText().indexOf(containsValue) > -1;
             }
         }.wait("Body text doesn't contain the value [" + containsValue + "]");
@@ -347,13 +354,15 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void waitForElement(final String elementLocator)
     {
-        new Wait() {
-            public boolean until() {
+        new Wait()
+        {
+            public boolean until()
+            {
                 return getSelenium().isElementPresent(elementLocator);
             }
         }.wait("element [" + elementLocator + "] not found");
     }
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -376,12 +385,12 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void clickShowComments()
     {
-        getSkinExecutor().clickShowComments();;
+        getSkinExecutor().clickShowComments();
     }
 
     public void clickShowAttachments()
     {
-        getSkinExecutor().clickShowAttachments();;
+        getSkinExecutor().clickShowAttachments();
     }
 
     public void clickShowHistory()
@@ -419,6 +428,19 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         return getSkinExecutor().isAuthenticated();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isAuthenticated(String username)
+    {
+        return getSkinExecutor().isAuthenticated(username);
+    }
+    
+    public boolean isAuthenticationMenuPresent()
+    {
+        return getSkinExecutor().isAuthenticationMenuPresent();
+    }
+
     public void logout()
     {
         getSkinExecutor().logout();
@@ -434,6 +456,54 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         getSkinExecutor().loginAsAdmin();
     }
 
+    /**
+     * If the user is not logged in already and if the specified user page exists, it is logged in. Otherwise the user
+     * is registered first and then the login is executed.
+     * 
+     * @param username the user name to login as. If the user is to be created, this will also be used as the user first
+     *            name while the user last name will be left blank
+     * @param password the password of the user
+     * @param rememberMe whether the login should be remembered or not
+     */
+    public void loginAndRegisterUser(String username, String password, boolean rememberMe)
+    {   
+        if (!isAuthenticationMenuPresent()) {
+            // navigate to the main page
+            open("Main", "WebHome");
+        }
+        
+        // if user is already authenticated, don't login
+        if (isAuthenticated(username)) {
+            return;
+        }        
+
+        // try to go to the user page 
+        open("XWiki", username);
+        // if user page doesn't exist, register the user first
+        boolean exists = !getSelenium().isTextPresent("The requested document could not be found.");
+        if (!exists) {
+            if (isAuthenticated()) {
+                logout();
+            }
+            clickRegister();
+            fillRegisterForm(username, "", username, password, "");
+            submit();
+            // assume registration was done successfully, otherwise the register test should fail too
+        }
+
+        login(username, password, rememberMe);
+    }
+
+    public void fillRegisterForm(String firstName, String lastName, String username, String password, String email)
+    {
+        setFieldValue("register_first_name", firstName);
+        setFieldValue("register_last_name", lastName);
+        setFieldValue("xwikiname", username);
+        setFieldValue("register_password", password);
+        setFieldValue("register2_password", password);
+        setFieldValue("register_email", email);
+    }
+
     public void clickLogin()
     {
         getSkinExecutor().clickLogin();
@@ -443,22 +513,22 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     {
         getSkinExecutor().clickRegister();
     }
-    
+
     public String getEditorSyntax()
     {
         return getSkinExecutor().getEditorSyntax();
     }
-    
+
     public void setEditorSyntax(String syntax)
     {
         getSkinExecutor().setEditorSyntax(syntax);
     }
-    
+
     public void editInWikiEditor(String space, String page)
     {
         getSkinExecutor().editInWikiEditor(space, page);
-    }    
-    
+    }
+
     public void editInWikiEditor(String space, String page, String syntax)
     {
         getSkinExecutor().editInWikiEditor(space, page, syntax);
@@ -466,12 +536,12 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void editInWysiwyg(String space, String page)
     {
-        getSkinExecutor().editInWysiwyg(space, page);                
+        getSkinExecutor().editInWysiwyg(space, page);
     }
-    
+
     public void editInWysiwyg(String space, String page, String syntax)
     {
-        getSkinExecutor().editInWysiwyg(space, page, syntax);                
+        getSkinExecutor().editInWysiwyg(space, page, syntax);
     }
 
     public void clearWysiwygContent()
@@ -579,7 +649,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     {
         getSkinExecutor().openAdministrationPage();
     }
-    
+
     public void openAdministrationSection(String section)
     {
         getSkinExecutor().openAdministrationSection(section);

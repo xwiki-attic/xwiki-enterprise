@@ -135,6 +135,22 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         return !getTest().isElementPresent("headerlogin") && !getTest().isElementPresent("headerregister");
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isAuthenticated(String username)
+    {
+        return getTest().isElementPresent("//a[@id='headeruser' and contains(@href, 'XWiki/" + username + "')]");
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isAuthenticationMenuPresent()
+    {
+        return getTest().isElementPresent("headerlogin") || getTest().isElementPresent("headerlogout");
+    }
 
     public void logout()
     {
@@ -166,7 +182,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     public void loginAsAdmin()
     {
         // First verify if the logged in user is not already the Administrator. That'll save us execution time.
-        if (!getTest().isElementPresent("//a[@id='headeruser' and contains(@href, 'XWiki/Admin')]")) {
+        if (!isAuthenticated("Admin")) {
             login("Admin", "admin", false);
         }
     }

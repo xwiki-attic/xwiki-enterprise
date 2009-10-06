@@ -88,6 +88,18 @@ public interface SkinExecutor
     boolean isAuthenticated();
 
     /**
+     * @param username the user to check if it's authenticated or not
+     * @return {@code true} if the user specified by {@code username} is authenticated already, {@code false} otherwise
+     */
+    boolean isAuthenticated(String username);
+
+    /**
+     * @return {@code true} if the menu with login actions is present (login, logout, register, etc), {@code false}
+     *         otherwise
+     */
+    boolean isAuthenticationMenuPresent();
+
+    /**
      * Logs out the current user.
      */
     void logout();
@@ -102,7 +114,7 @@ public interface SkinExecutor
     void login(String username, String password, boolean rememberme);
 
     /**
-     * Logs in the Admin user.
+     * Logs in the Admin user, if not already logged in.
      */
     void loginAsAdmin();
 
@@ -115,20 +127,19 @@ public interface SkinExecutor
      * Click on the Register button
      */
     void clickRegister();
-    
 
     /**
      * @return The syntax used by the editor, examples: "xwiki/1.0", "xwiki/2.0".
      */
     String getEditorSyntax();
-    
+
     /**
      * Set the syntax to use when editing a page.
      * 
      * @param syntax Syntax to use.
      */
     void setEditorSyntax(String syntax);
-    
+
     /**
      * Edit the passed space/page using the Wiki editor.
      * 
@@ -136,7 +147,7 @@ public interface SkinExecutor
      * @param page the page to edit
      */
     void editInWikiEditor(String space, String page);
-    
+
     /**
      * Edit the passed space/page using the Wiki editor.
      * 
@@ -155,7 +166,7 @@ public interface SkinExecutor
      * @param page the page to edit
      */
     void editInWysiwyg(String space, String page);
-    
+
     /**
      * Edit the passed space/page using the WYSIWYG editor.
      * 
@@ -163,7 +174,7 @@ public interface SkinExecutor
      * @param page the page to edit
      * @param syntax the syntax to use
      */
-    void editInWysiwyg(String space, String page, String syntax);    
+    void editInWysiwyg(String space, String page, String syntax);
 
     /**
      * Clears the content of the current page being edited in WYSIWYG mode
@@ -286,10 +297,10 @@ public interface SkinExecutor
      * Opens an administration section in the wiki administration application
      */
     void openAdministrationSection(String section);
-    
+
     /**
      * Press a key with optionnal keypress modifiers (Ctrl,Shift,etc)
-     *
+     * 
      * @param shortcut the key to press
      * @param withCtrlModifier press Ctrl during shortcut key press
      * @param withAltModifier press Alt during shortcut key press

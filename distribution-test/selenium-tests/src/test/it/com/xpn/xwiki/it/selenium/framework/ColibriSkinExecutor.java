@@ -32,7 +32,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     {
         super(test);
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -44,8 +44,27 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
 
     /**
      * {@inheritDoc}
-     *
-     * @see SkinExecutor#clickShowComments() 
+     */
+    @Override
+    public boolean isAuthenticated(String username)
+    {
+        return getTest().isElementPresent(
+            "//div[@id='tmUser']/a[contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAuthenticationMenuPresent()
+    {
+        return getTest().isElementPresent("//div[@id='tmLogin' or @id='tmLogout']/a");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#clickShowComments()
      */
     public void clickShowComments()
     {
@@ -54,7 +73,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowAttachments()
      */
     public void clickShowAttachments()
@@ -64,7 +83,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowHistory()
      */
     public void clickShowHistory()
@@ -74,7 +93,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
 
     /**
      * {@inheritDoc}
-     *
+     * 
      * @see com.xpn.xwiki.it.selenium.framework.SkinExecutor#clickShowInformation()
      */
     public void clickShowInformation()
@@ -90,16 +109,13 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     {
         // Verify if the login or logout links are available and if not go to the home page to make it available
         // (for ex it's not available in edit mode)
-        if (!getTest().isElementPresent("//div[@id='tmLogin' or @id='tmLogout']/a")) {
+        if (!isAuthenticationMenuPresent()) {
             getTest().open("Main", "WebHome");
         }
-        
-        // First verify if the logged in user is not already the Administrator. That'll save us execution time.
-        if (!getTest().isElementPresent("//div[@id='tmUser']/a[contains(@href, '/xwiki/bin/view/XWiki/Admin')]")) {
-            login("Admin", "admin", false);
-        }
+
+        super.loginAsAdmin();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -109,14 +125,14 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         // If the user is logged in then log out
         if (isAuthenticated()) {
             // If there's no logout button then navigate to the home page
-            if (!getTest().isElementPresent("//div[@id='tmLogout']/a")) {
+            if (!isAuthenticationMenuPresent()) {
                 getTest().open("Main", "WebHome");
             }
             logout();
         }
 
         // If there's no log-in button, navigate to the home page
-        if (!getTest().isElementPresent("//div[@id='tmLogin']/a")) {
+        if (!isAuthenticationMenuPresent()) {
             getTest().open("Main", "WebHome");
         }
         clickLogin();
@@ -130,7 +146,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
 
         Assert.assertTrue("User has not been authenticated", isAuthenticated());
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -141,7 +157,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         getTest().clickLinkWithLocator("//div[@id='tmLogout']/a");
         Assert.assertFalse("The user is still authenticated after a logout.", isAuthenticated());
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -151,7 +167,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         getTest().clickLinkWithLocator("//div[@id='tmLogin']/a");
         assertIsLoginPage();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -161,5 +177,4 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         getTest().clickLinkWithLocator("//div[@id='tmRegister']/a");
         assertIsRegisterPage();
     }
-    
 }

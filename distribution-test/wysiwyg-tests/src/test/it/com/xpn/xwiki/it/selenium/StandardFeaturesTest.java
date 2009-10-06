@@ -615,4 +615,17 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertEquals("; term1\n: (% style=\"font-style: normal;\" %)definition1(%%)\n:; term2\n:: definition2",
             getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
     }
+
+    /**
+     * @see XWIKI-4364: Verbatim blocks suffer corruption when previewed using the GWT editor
+     */
+    public void testMultiLineVerbatimBlock()
+    {
+        switchToSource();
+        String multiLineVerbatimBlock = "{{{\na verbatim block\nwhich is multiline\n}}}";
+        setFieldValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, multiLineVerbatimBlock);
+        switchToWysiwyg();
+        switchToSource();
+        assertEquals(multiLineVerbatimBlock, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+    }
 }

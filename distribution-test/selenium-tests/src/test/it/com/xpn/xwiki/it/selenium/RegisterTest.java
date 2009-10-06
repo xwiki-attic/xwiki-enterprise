@@ -56,12 +56,7 @@ public class RegisterTest extends AbstractXWikiTestCase
 
     private void fillFormWithJohnSmithValues()
     {
-        setFieldValue("register_first_name", "John");
-        setFieldValue("register_last_name", "Smith");
-        setFieldValue("xwikiname", "JohnSmith");
-        setFieldValue("register_password", "JohnSmith");
-        setFieldValue("register2_password", "JohnSmith");
-        setFieldValue("register_email", "JohnSmith@example.com");
+        fillRegisterForm("John", "Smith", "JohnSmith", "JohnSmith", "JohnSmith@example.com");
     }
 
     public void testRegisterJohnSmith()

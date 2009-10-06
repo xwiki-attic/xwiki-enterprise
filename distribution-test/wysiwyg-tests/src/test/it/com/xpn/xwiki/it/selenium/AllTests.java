@@ -60,6 +60,7 @@ public class AllTests extends TestCase
         addTestCase(suite, RemoveFormattingTest.class);
         addTestCase(suite, FontTest.class);
         addTestCase(suite, CacheTest.class);
+        addTestCase(suite, RegularUserTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }

@@ -1,0 +1,193 @@
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package com.xpn.xwiki.it.selenium;
+
+import junit.framework.Test;
+
+import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
+
+/**
+ * Test for the Wysiwyg editing features when editing as a regular user, not an admin.
+ */
+public class RegularUserTest extends AbstractWysiwygTestCase
+{
+    /**
+     * Creates the test suite for this test class.
+     * 
+     * @return the test suite corresponding to this class
+     */
+    public static Test suite()
+    {
+        XWikiTestSuite suite =
+            new XWikiTestSuite("Tests wysiwyg features editing as a regular user, instead of Admin.");
+        suite.addTestSuite(RegularUserTest.class, ColibriSkinExecutor.class);
+        return suite;
+    }
+
+    /**
+     * {@inheritDoc}. Override to login as a regular user (and create the user if necessary).
+     */
+    @Override
+    protected void setupLogin()
+    {
+        loginAndRegisterUser("Pokemon", "Pokemon", false);
+    }
+
+    @Override
+    protected void setupTestPage()
+    {
+        // use a different page than the admin page since there are lock issues otherwise (page remains locked by one
+        // user and cannot be edited by the other)
+        openPageForEditTest("Main", "WysiwygRegularUserTest");
+    }
+
+    /**
+     * Test that creating a link to a page, logged in as a regular user, does not show pages from the default
+     * blacklisted spaces in the results search.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-4412
+     */
+    public void testWikiLinkSearchedPageHidesBlacklistedSpaces()
+    {
+        openDialog("Link", "Wiki Page...");
+
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab("Search");
+        waitForStepToLoad("xPagesSearch");
+        // check the results list: Blog, Main and Sandbox are present
+        checkSpaceInSearchResults("Blog", true);
+        checkSpaceInSearchResults("Main", true);
+        checkSpaceInSearchResults("Sandbox", true);
+        // check the results list: ColorThemes, Panels, Scheduler, Stats, XWiki are not present
+        checkSpaceInSearchResults("ColorThemes", false);
+        checkSpaceInSearchResults("Panels", false);
+        checkSpaceInSearchResults("Scheduler", false);
+        checkSpaceInSearchResults("Stats", false);
+        checkSpaceInSearchResults("XWiki", false);
+
+        closeDialog();
+    }
+
+    /**
+     * Helper method to test if a space appears in the search results or not.
+     * 
+     * @param spaceName the name of the space to test whether it is returned among the search results or not
+     * @param present {@code true} if the space is expected in the search results, {@code false} otherwise
+     */
+    private void checkSpaceInSearchResults(String spaceName, boolean expected)
+    {
+        String spaceWebHome = spaceName + ".WebHome";
+        typeInInput("Type a keyword to search for a wiki page", spaceWebHome);
+        clickButtonWithText("Search");
+        String newPageSelector = "//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewPagePreview')]";
+        // wait for the list to load
+        waitForElement(newPageSelector);
+        // check if the desired element is there or not
+        String pageInListLocator =
+            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='" + spaceWebHome + "']";
+        if (expected) {
+            assertElementPresent(pageInListLocator);
+        } else {
+            assertElementNotPresent(pageInListLocator);
+        }
+    }
+
+    /**
+     * Test that upon selecting the wiki page to create a link to from all the pages in the wiki, with the tree
+     * explorer, the blacklisted spaces are not displayed to the regular user to choose from.
+     */
+    public void testWikiLinkAllPagesPageHidesBlacklistedSpaces()
+    {
+        String currentSpace = "Main";
+        String currentPage = "WysiwygRegularUserTest";
+        openDialog("Link", "Wiki Page...");
+
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab("All pages");
+        waitForStepToLoad("xExplorerPanel");
+        waitForElement("//td[contains(@class, \"cell\") and nobr=\"" + currentSpace + "\"]");
+        waitForElement("//td[contains(@class, \"cellSelected\") and " + "nobr=\"" + currentPage + "\"]");
+        // now tree is loaded check for the spaces in it
+        // FIXME: this is not very robust as it will return false positive when the space Blog, for example, doesn't
+        // appear but a page named "Blog" appears in the Main space. However there is no way we can address only space
+        // cells in the explorer tree
+        // check the spaces: Blog, Main and Sandbox are present
+        assertElementPresent("//td[contains(@class, \"cell\") and nobr=\"Blog\"]");
+        assertElementPresent("//td[contains(@class, \"cell\") and nobr=\"Main\"]");
+        assertElementPresent("//td[contains(@class, \"cell\") and nobr=\"Sandbox\"]");
+        // check the spaces: ColorThemes, Panels, Scheduler, Stats, XWiki are not present
+        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"ColorThemes\"]");
+        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"Panels\"]");
+        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"Scheduler\"]");
+        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"Stats\"]");
+        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"XWiki\"]");
+
+        closeDialog();
+    }
+
+    /**
+     * Test that upon selecting an image from all the images in the wiki, the blacklisted spaces are not listed in the
+     * space selector for the regular user to choose from.
+     */
+    public void testImageSelectorHidesBlacklistedSpaces()
+    {
+        String currentSpace = "Main";
+        openDialog("Image", "Insert Image...");
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab("All pages");
+        waitForStepToLoad("xImagesExplorer");
+
+        // wait for the current space to load in the selector to be sure the spaces list is loaded
+        waitForElement("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"" + currentSpace + "\"]");
+        // check the spaces: Blog, Main, Sandbox are present
+        assertElementPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Blog\"]");
+        assertElementPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Main\"]");
+        assertElementPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Sandbox\"]");
+        // check the spaces: ColorThemes, Panels, Scheduler, Stats, XWiki are not present
+        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"ColorThemes\"]");
+        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Panels\"]");
+        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Scheduler\"]");
+        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Stats\"]");
+        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"XWiki\"]");
+
+        closeDialog();
+    }
+
+    protected void waitForStepToLoad(String name)
+    {
+        waitForElement("//*[contains(@class, '" + name + "')]");
+    }
+
+    private void openDialog(String menuName, String menuItemName)
+    {
+        clickMenu(menuName);
+        assertTrue(isMenuEnabled(menuItemName));
+        clickMenu(menuItemName);
+        waitForDialogToLoad();
+    }
+
+    private void clickTab(String tabName)
+    {
+        String tabSelector = "//div[.='" + tabName + "']";
+        getSelenium().click(tabSelector);
+    }
+}

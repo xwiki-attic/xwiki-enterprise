@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Functional tests for the table support inside the WYSIWYG editor.
@@ -35,13 +31,6 @@ public class TableTest extends AbstractWysiwygTestCase
     public static final String ROWS_SELECTOR = "//input[@title = 'Row count']";
 
     public static final String COLUMNS_SELECTOR = "//input[@title = 'Column count']";
-
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Functional tests for the table support inside the WYSIWYG editor.");
-        suite.addTestSuite(TableTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
 
     /**
      * The caret should be moved to the next or previous cell, depending on the Shift key.

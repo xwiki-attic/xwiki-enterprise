@@ -19,30 +19,13 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Test for the Wysiwyg editing features when editing as a regular user, not an admin.
  */
 public class RegularUserTest extends AbstractWysiwygTestCase
 {
-    /**
-     * Creates the test suite for this test class.
-     * 
-     * @return the test suite corresponding to this class
-     */
-    public static Test suite()
-    {
-        XWikiTestSuite suite =
-            new XWikiTestSuite("Tests wysiwyg features editing as a regular user, instead of Admin.");
-        suite.addTestSuite(RegularUserTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
-
     /**
      * {@inheritDoc}. Override to login as a regular user (and create the user if necessary).
      */

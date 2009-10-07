@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 public class LinkTest extends AbstractWysiwygTestCase
 {
@@ -60,18 +56,6 @@ public class LinkTest extends AbstractWysiwygTestCase
     public static final String TREE_EXPLORER = "//div[contains(@class, 'xExplorer')]";
 
     public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
-
-    /**
-     * Creates the test suite for this test class.
-     * 
-     * @return the test suite corresponding to this class
-     */
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests insert link feature");
-        suite.addTestSuite(LinkTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
 
     /**
      * Test the basic feature for adding a link to an existing page.

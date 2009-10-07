@@ -19,15 +19,15 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import java.lang.reflect.Method;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import org.xwiki.test.XWikiTestSetup;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
+import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
+import com.xpn.xwiki.it.selenium.framework.WysiwygTestSetup;
+import com.xpn.xwiki.it.selenium.framework.WysiwygTestSuite;
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
 
 /**
@@ -43,7 +43,10 @@ public class AllTests extends TestCase
 
     public static Test suite() throws Exception
     {
-        TestSuite suite = new TestSuite();
+        // create a wysiwyg test suite for all the wysiwyg tests to be executed with the Colibri skin executor
+        // FIXME: the skin executor setting should be in a ColibriTestSetup, so that the provider for skin functions is
+        // injected at setup time, and can be changed by changing the decorator
+        WysiwygTestSuite suite = new WysiwygTestSuite("WYSIWYG Selenium Tests", ColibriSkinExecutor.class);
 
         addTestCase(suite, SubmitTest.class);
         addTestCase(suite, StandardFeaturesTest.class);
@@ -62,15 +65,14 @@ public class AllTests extends TestCase
         addTestCase(suite, CacheTest.class);
         addTestCase(suite, RegularUserTest.class);
 
-        return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
+        return new XWikiSeleniumTestSetup(new XWikiTestSetup(new WysiwygTestSetup(suite)));
     }
 
-    private static void addTestCase(TestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)
+    private static void addTestCase(WysiwygTestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)
         throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
-            Method method = testClass.getMethod("suite", (Class[]) null);
-            suite.addTest((Test) method.invoke(null, (Object[]) null));
+            suite.addTestSuite(testClass);
         }
     }
 }

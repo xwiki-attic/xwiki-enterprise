@@ -19,21 +19,10 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 public class TabsTest extends AbstractWysiwygTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests wysiwyg tabs");
-        suite.addTestSuite(TabsTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
-
     public void testMultipleClicksOnTheSameTab()
     {
         setContent("<strong>foo</strong>");

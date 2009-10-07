@@ -54,9 +54,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
- 
-        //TODO: this should be in a TestSetup, for the entire Wysiwyg suite
-        enableAllEditingFeatures();
 
         // setup the test
         setupLogin();
@@ -65,7 +62,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     protected void setupLogin()
     {
-        loginAsAdmin();
+        // nothing here, use the default login in the wysiwyg test setup
     }
 
     /**
@@ -1094,61 +1091,5 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().type(titleLocator, beforeValue);
         // Return the result.
         return focused;
-    }
-
-    /**
-     * Enables all editing features so they are accessible for testing.
-     */
-    private void enableAllEditingFeatures()
-    {
-        // login as admin and enable editing features.
-        loginAsAdmin();        
-        Map<String, String> config = new HashMap<String, String>();
-        config.put("wysiwyg.plugins", "submit line separator text valign list "
-            + "indent history format symbol link image " + "table macro importer color justify font");
-        config.put("wysiwyg.toolbar", "bold italic underline strikethrough teletype | subscript superscript | "
-            + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
-            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | importer");
-        updateXWikiPreferences(config);
-    }
-
-    /**
-     * Updates XWiki preferences based on the given configuration object. The key in the configuration is the name of a
-     * XWiki preference and the value is the new value for that preference.
-     * 
-     * @param config configuration object
-     */
-    private void updateXWikiPreferences(Map<String, String> config)
-    {
-        open("XWiki", "XWikiPreferences", "edit", "editor=object");
-        for (Map.Entry<String, String> entry : config.entrySet()) {
-            String propertyId = "XWiki.XWikiPreferences_0_" + entry.getKey();
-            if (!isElementPresent(propertyId)) {
-                addXWikiStringPreference(entry.getKey(), entry.getValue().length());
-            }
-            if (!entry.getValue().equals(getFieldValue(propertyId))) {
-                setFieldValue(propertyId, entry.getValue());
-                clickEditSaveAndContinue();
-            }
-        }
-    }
-
-    /**
-     * Adds a string property to the XWiki.XWikiPreferences class.
-     * 
-     * @param name the property name
-     * @param size the maximum size for the property value
-     */
-    private void addXWikiStringPreference(String name, int size)
-    {
-        String location = getSelenium().getLocation();
-        open("XWiki", "XWikiPreferences", "edit", "editor=class");
-        setFieldValue("propname", name);
-        getSelenium().select("proptype", "String");
-        getSelenium().click("//input[@value = 'Add Property']");
-        waitPage();
-        setFieldValue(name + "_size", String.valueOf(size));
-        clickEditSaveAndContinue();
-        getSelenium().open(location);
     }
 }

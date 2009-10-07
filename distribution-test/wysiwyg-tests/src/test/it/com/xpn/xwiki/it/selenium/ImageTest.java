@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Tests the image insert and edit plugin. For the moment, it does not test the upload new image feature, since it needs
@@ -74,18 +70,6 @@ public class ImageTest extends AbstractWysiwygTestCase
     public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
 
     public static final String ERROR_MSG_CLASS = "xErrorMsg";
-
-    /**
-     * Creates the test suite for this test class.
-     * 
-     * @return the test suite corresponding to this class
-     */
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests insert image feature");
-        suite.addTestSuite(ImageTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
 
     /**
      * Test adding an image from a page different from the current one.

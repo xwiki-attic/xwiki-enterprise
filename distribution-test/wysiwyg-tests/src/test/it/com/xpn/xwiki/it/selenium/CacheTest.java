@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Tests if the state of the WYSIWYG editor is preserved (cached) against the browser's Back button and the "soft" page
@@ -37,13 +33,6 @@ public class CacheTest extends AbstractWysiwygTestCase
      * Locates the source text area.
      */
     private static final String SOURCE_TEXT_AREA_LOCATOR = "//textarea[contains(@class, 'xPlainTextEditor')]";
-
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Functional tests for cache support inside the WYSIWYG editor.");
-        suite.addTestSuite(CacheTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
 
     /**
      * Test that the content of the rich text area is preserved when the user leaves the editing without saving and then

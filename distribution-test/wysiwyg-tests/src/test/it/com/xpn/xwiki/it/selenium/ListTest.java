@@ -21,11 +21,7 @@ package com.xpn.xwiki.it.selenium;
 
 import java.awt.event.KeyEvent;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Tests for the custom list support, to handle and generate valid XHTML lists in the wysiwyg. At the moment, this class
@@ -36,13 +32,6 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class ListTest extends AbstractWysiwygTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests valid XHTML list support in the wysiwyg editor.");
-        suite.addTestSuite(ListTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
-
     /**
      * @see XWIKI-2734: Cannot edit the outer list item. The test is not deeply relevant as we are positioning the range
      *      programatically. The correct test would prove that the caret can be positioned there with the keys.

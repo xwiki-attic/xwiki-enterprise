@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Functional tests for remove formatting support inside the WYSIWYG editor.
@@ -32,14 +28,6 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class RemoveFormattingTest extends AbstractWysiwygTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite =
-            new XWikiTestSuite("Functional tests for remove formatting support inside the WYSIWYG editor.");
-        suite.addTestSuite(RemoveFormattingTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
-
     /**
      * Tests if formatting markers are removed properly.
      */

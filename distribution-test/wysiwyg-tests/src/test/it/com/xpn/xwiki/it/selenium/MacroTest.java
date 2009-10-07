@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Integration tests for macro support inside the WYSIWYG editor.
@@ -53,13 +49,6 @@ public class MacroTest extends AbstractWysiwygTestCase
     public static final String MACRO_LIVE_FILTER_SELECTOR = "//input[@title = 'Type to filter']";
 
     public static final String MACRO_SELECTOR_LIST = "//div[contains(@class, 'xListBox')]";
-
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Integration tests for macro support inside the WYSIWYG editor.");
-        suite.addTestSuite(MacroTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
 
     /**
      * Tests that after deleting the last character before a macro the caret remains before the macro and not inside the

@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Functional tests for the native JavaScript API exposed by the WYSIWYG editor.
@@ -32,13 +28,6 @@ import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
  */
 public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests wysiwyg native JS API");
-        suite.addTestSuite(NativeJavaScriptApiTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
-
     /**
      * Functional tests for:
      * <ul>

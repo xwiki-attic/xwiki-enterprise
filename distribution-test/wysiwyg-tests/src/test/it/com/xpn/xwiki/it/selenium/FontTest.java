@@ -19,11 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
-import junit.framework.Test;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
 /**
  * Functional tests for font support inside the WYSIWYG editor.
@@ -41,13 +37,6 @@ public class FontTest extends AbstractWysiwygTestCase
      * The XPath selector used to access the font name list box.
      */
     private static final String FONT_NAME_SELECTOR = "//select[@title=\"Font Name\"]";
-
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Functional tests for font support inside the WYSIWYG editor.");
-        suite.addTestSuite(FontTest.class, ColibriSkinExecutor.class);
-        return suite;
-    }
 
     /**
      * Selects a plain text and applies a specific font size.

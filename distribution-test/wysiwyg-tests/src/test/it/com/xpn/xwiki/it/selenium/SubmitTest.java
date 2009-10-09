@@ -33,14 +33,15 @@ public class SubmitTest extends AbstractWysiwygTestCase
      */
     public void testSubmitAfterEditorIsLoadedAndHasFocus()
     {
-        clickLinkWithText("Wiki", true);
+        // Set the content without saving it.
+        clickLinkWithText("Wiki");
         setFieldValue("content", "a**b**c");
-        clickLinkWithText("WYSIWYG", true);
-        // Focus the editor after the page has finished loading.
-        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'focus', false);");
-        waitForCondition("window." + getDOMLocator("defaultView") + ".getSelection().rangeCount > 0");
+        clickLinkWithText("WYSIWYG");
+        waitForEditorToLoad();
+        // Focus the editor.
+        focus(getDOMLocator("defaultView"));
         // Switch back to Wiki editor and assert the content.
-        clickLinkWithText("Wiki", true);
+        clickLinkWithText("Wiki");
         assertEquals("a**b**c", getFieldValue("content"));
     }
 
@@ -49,12 +50,14 @@ public class SubmitTest extends AbstractWysiwygTestCase
      */
     public void testSubmitAfterEditorIsLoadedWithoutGainingFocus()
     {
-        clickLinkWithText("Wiki", true);
+        // Set the content without saving it.
+        clickLinkWithText("Wiki");
         setFieldValue("content", "1**2**3");
         // Switch to WYSIWYG editor but don't focus the rich text area.
-        clickLinkWithText("WYSIWYG", true);
+        clickLinkWithText("WYSIWYG");
+        waitForEditorToLoad();
         // Switch back to Wiki editor and assert the content.
-        clickLinkWithText("Wiki", true);
+        clickLinkWithText("Wiki");
         assertEquals("1**2**3", getFieldValue("content"));
     }
 
@@ -64,18 +67,14 @@ public class SubmitTest extends AbstractWysiwygTestCase
      */
     public void testSubmitAfterChangingContentWithFocus()
     {
-        // We go to the Wiki editor and come back to be sure we fully control how the WYSIWYG editor is loaded.
-        clickLinkWithText("Wiki", true);
-        clickLinkWithText("WYSIWYG", true);
-        // Focus the editor after the page has finished loading.
-        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'focus', false);");
-        waitForCondition("window." + getDOMLocator("defaultView") + ".getSelection().rangeCount > 0");
+        // Focus the editor.
+        focus(getDOMLocator("defaultView"));
         // Change the content of the rich text area.
-        runScript("XWE.body.innerHTML = 'x<em>y</em>z';");
+        setContent("x<em>y</em>z");
         // Blur the rich text area to save the new content.
-        getSelenium().getEval("triggerEvent(window." + getDOMLocator("defaultView") + ", 'blur', false);");
+        blur(getDOMLocator("defaultView"));
         // Switch back to Wiki editor and assert the content.
-        clickLinkWithText("Wiki", true);
+        clickLinkWithText("Wiki");
         assertEquals("x//y//z", getFieldValue("content"));
     }
 
@@ -85,17 +84,14 @@ public class SubmitTest extends AbstractWysiwygTestCase
      */
     public void testSubmitAfterChangingContentWithoutFocus()
     {
-        // We go to the Wiki editor and come back to be sure we fully control how the WYSIWYG editor is loaded.
-        clickLinkWithText("Wiki", true);
-        clickLinkWithText("WYSIWYG", true);
         // Focus the title input to be sure the rich text area doesn't have the focus when its content is changed.
         getSelenium().click("title");
         // Change the content of the rich text area when it doesn't have the focus.
-        runScript("XWE.body.innerHTML = 'u<tt>v</tt>w';");
+        setContent("u<tt>v</tt>w");
         // Save and view.
         clickEditSaveAndView();
         // Open the Wiki editor and assert the content.
-        clickLinkWithText("Wiki", true);
+        clickLinkWithText("Wiki");
         assertEquals("u##v##w", getFieldValue("content"));
     }
 }

@@ -25,70 +25,85 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 {
     public void testEmptyWysiwyg()
     {
-        assertWiki("");
+        switchToSource();
+        assertSourceText("");
     }
 
     public void testTypingAndDeletion()
     {
         String text = "foobar";
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText(text);
-        assertXHTML(text);
+        assertContent(text);
         typeBackspace(text.length());
         testEmptyWysiwyg();
     }
 
     public void testBold()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("foobar");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickBoldButton();
-        assertXHTML("<h5><strong>foobar</strong></h5>");
+        assertContent("<h5><strong>foobar</strong></h5>");
     }
 
     public void testItalics()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("foobar");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickItalicsButton();
-        assertXHTML("<h5><em>foobar</em></h5>");
+        assertContent("<h5><em>foobar</em></h5>");
     }
 
     public void testUnderline()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("foobar");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickUnderlineButton();
-        assertXHTML("<h5><ins>foobar</ins></h5>");
+        assertContent("<h5><ins>foobar</ins></h5>");
     }
 
     public void testStrikethrough()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("foobar");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickStrikethroughButton();
-        assertXHTML("<h5><del>foobar</del></h5>");
+        assertContent("<h5><del>foobar</del></h5>");
     }
 
     public void testSubscript()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("foobar");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickSubscriptButton();
-        assertXHTML("<h5><sub>foobar</sub></h5>");
+        assertContent("<h5><sub>foobar</sub></h5>");
     }
 
     public void testSuperscript()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("foobar");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickSuperscriptButton();
-        assertXHTML("<h5><sup>foobar</sup></h5>");
+        assertContent("<h5><sup>foobar</sup></h5>");
     }
 
     public void testUnorderedList()
@@ -102,11 +117,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeBackspace();
         selectAllContent();
         clickUnorderedListButton();
-        assertXHTML("<ul><li>a</li><li>b</li><li>c</li></ul>");
+        assertContent("<ul><li>a</li><li>b</li><li>c</li></ul>");
 
         // Undo
         clickUnorderedListButton();
-        assertXHTML("a<br>b<br>c");
+        assertContent("a<br>b<br>c");
 
         // Create a list with 1 item and delete it
         resetContent();
@@ -115,13 +130,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickUnorderedListButton();
         typeBackspace(2);
         testEmptyWysiwyg();
-
-        // Create a list with 1 item and delete the bullet
-        // FIXME : this should be working.
-        /*
-         * resetContent(); typeText("a"); selectAllContent(); clickUnorderedListButton(); resetSelection();
-         * typeLeftArrow(); typeBackspace(); assertXHTML("a");
-         */
     }
 
     public void testOrderedList()
@@ -135,11 +143,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeBackspace();
         selectAllContent();
         clickOrderedListButton();
-        assertXHTML("<ol><li>a</li><li>b</li><li>c</li></ol>");
+        assertContent("<ol><li>a</li><li>b</li><li>c</li></ol>");
 
         // Undo
         clickOrderedListButton();
-        assertXHTML("a<br>b<br>c");
+        assertContent("a<br>b<br>c");
 
         // Create a list with 1 item and delete it
         resetContent();
@@ -148,40 +156,35 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickOrderedListButton();
         typeBackspace(2);
         testEmptyWysiwyg();
-
-        // Create a list with 1 item and delete the bullet
-        // FIXME : this should be working.
-        /*
-         * resetContent(); typeText("a"); selectAllContent(); clickOrderedListButton(); resetSelection();
-         * typeLeftArrow(); typeBackspace(); assertXHTML("a");
-         */
     }
 
     public void testStyle()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("foobar");
         selectAllContent();
 
         applyStyleTitle1();
-        assertXHTML("<h1>foobar</h1>");
+        assertContent("<h1>foobar</h1>");
 
         applyStyleTitle2();
-        assertXHTML("<h2>foobar</h2>");
+        assertContent("<h2>foobar</h2>");
 
         applyStyleTitle3();
-        assertXHTML("<h3>foobar</h3>");
+        assertContent("<h3>foobar</h3>");
 
         applyStyleTitle4();
-        assertXHTML("<h4>foobar</h4>");
+        assertContent("<h4>foobar</h4>");
 
         applyStyleTitle5();
-        assertXHTML("<h5>foobar</h5>");
+        assertContent("<h5>foobar</h5>");
 
         applyStyleTitle6();
-        assertXHTML("<h6>foobar</h6>");
+        assertContent("<h6>foobar</h6>");
 
         applyStylePlainText();
-        assertXHTML("<p>foobar</p>");
+        assertContent("<p>foobar</p>");
     }
 
     /**
@@ -194,8 +197,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Create a heading and then delete it just to remove the bogus BR at the end.
         applyStyleTitle1();
         typeBackspace();
-        // We don't switch to Wiki because we want to see if the Backspace works.
-        assertXHTML("<hr>");
+        // We don't switch to source because we want to see if the Backspace works.
+        assertContent("<hr>");
 
         // Strange but we need to type Backspace twice although there's nothing else besides the horizontal ruler.
         typeBackspace(2);
@@ -207,9 +210,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeEnter();
         typeBackspace();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        moveCaret("XWE.selection.getRangeAt(0).startContainer", 3);
+        moveCaret("XWE.body.firstChild.firstChild", 3);
         clickHRButton();
-        assertXHTML("<h1>foo</h1><hr><h1>bar</h1>");
+        assertContent("<h1>foo</h1><hr><h1>bar</h1>");
     }
 
     /**
@@ -227,7 +230,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().click("//div[@title='registered sign']");
         clickSymbolButton();
         getSelenium().click("//div[@title='trade mark sign']");
-        assertWiki("\u00A9\u00AE\u2122");
+        switchToSource();
+        assertSourceText("\u00A9\u00AE\u2122");
     }
 
     /**
@@ -237,12 +241,14 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testTabDefault()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("a");
         typeTab();
         typeText("b");
         typeShiftTab();
         typeText("c");
-        assertXHTML("a&nbsp;&nbsp;&nbsp; bc");
+        assertContent("a&nbsp;&nbsp;&nbsp; bc");
     }
 
     /**
@@ -252,6 +258,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testTabInListItem()
     {
+        // Select all content to overwrite the bogus BR.
+        selectAllContent();
         typeText("x");
         typeShiftEnter();
         // "y" (lower case only) is misinterpreted.
@@ -263,9 +271,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
         typeTab();
-        assertXHTML("<ul><li>x<ul><li>Y</li></ul></li></ul>");
+        assertContent("<ul><li>x<ul><li>Y</li></ul></li></ul>");
         typeShiftTab();
-        assertXHTML("<ul><li>x</li><li>Y</li></ul>");
+        assertContent("<ul><li>x</li><li>Y</li></ul>");
     }
 
     /**
@@ -273,11 +281,13 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEmptyLinesAreEditable()
     {
-        setWikiContent("a\n\n\n\nb");
-        assertXHTML("<p>a</p><p><br class=\"spacer\"></p><p><br class=\"spacer\"></p><p>b</p>");
+        switchToSource();
+        setSourceText("a\n\n\n\nb");
+        switchToWysiwyg();
         // TODO: Since neither the down arrow key nor the click doesn't seem to move the caret we have to find another
         // way of placing the caret on the empty lines, without using the Range API.
-        // TODO: Assert by switching to Wiki editor to avoid hard-coding class="spacer".
+        // For the moment let's just test if the empty lines contain a BR.
+        assertContent("<p>a</p><p><br></p><p><br></p><p>b</p>");
     }
 
     /**
@@ -289,11 +299,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         String html = "<span class=\"wikiexternallink\"><a href=\"mailto:x@y.z\">xyz</a></span><!--stopwikilink-->";
         setContent(html);
         // Test to see if the HTML was accepted by the rich text area.
-        assertXHTML(html);
+        assertContent(html);
         // Let's see what happens when we save an continue.
         clickEditSaveAndContinue();
         // The user shouldn't loose his changes.
-        assertXHTML(html);
+        assertContent(html);
     }
 
     /**
@@ -305,7 +315,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeShiftEnter();
         typeText("b");
         typeShiftEnter();
-        assertWiki("a\nb\\\\");
+        switchToSource();
+        assertSourceText("a\nb\\\\");
     }
 
     /**
@@ -313,14 +324,17 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEmptyParagraphsGenerateEmptyLines()
     {
-        setWikiContent("(% style=\"color: blue; text-align: center;\" %)\nHello world");
+        switchToSource();
+        setSourceText("(% style=\"color: blue; text-align: center;\" %)\nHello world");
+        switchToWysiwyg();
 
         // Place the caret after "Hello ".
         moveCaret("XWE.body.firstChild.firstChild", 6);
 
         typeEnter(3);
 
-        assertWiki("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld");
+        switchToSource();
+        assertSourceText("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld");
     }
 
     /**
@@ -335,11 +349,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().click("//div[@title='copyright sign']");
         applyStyleTitle1();
         clickUndoButton(4);
-        assertXHTML("alice bob<br class=\"spacer\">");
+        assertContent("alice bob<br>");
         clickUndoButton(3);
-        assertXHTML("<br class=\"spacer\">");
+        assertContent("<br>");
         clickRedoButton(7);
-        assertXHTML("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br class=\"spacer\"></h1>");
+        assertContent("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br></h1>");
     }
 
     /**
@@ -379,7 +393,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("YY");
         getSelenium().controlKeyUp();
 
-        assertWiki("**//March//** 9th, 2009");
+        switchToSource();
+        assertSourceText("**//March//** 9th, 2009");
     }
 
     /**
@@ -392,7 +407,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickBoldButton();
         clickEditPreview();
         clickBackToEdit();
-        assertWiki("**x**");
+        switchToSource();
+        assertSourceText("**x**");
     }
 
     /**
@@ -405,7 +421,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         selectAllContent();
         clickUnorderedListButton();
         clickHRButton();
-        assertWiki("----");
+        switchToSource();
+        assertSourceText("----");
     }
 
     /**
@@ -436,9 +453,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Insert HR at the beginning of the paragraph.
         clickHRButton();
 
-        // We have to assert the XHTML because the arrow keys don't move the caret so we can't test if the user can edit
-        // the generated empty paragraphs. The fact that they contain a BR proves this.
-        assertXHTML("<p><br class=\"spacer\"></p><hr><p>x</p><hr><p>Y</p><hr><p><br class=\"spacer\"></p>");
+        // We have to assert the HTML content because the arrow keys don't move the caret so we can't test if the user
+        // can edit the generated empty paragraphs. The fact that they contain a BR proves this.
+        assertContent("<p><br></p><hr><p>x</p><hr><p>Y</p><hr><p><br></p>");
     }
 
     /**
@@ -446,9 +463,12 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testNewLinesAtTheEndOfListItemsArePreserved()
     {
-        String wikiText = "* \\\\\n** \\\\\n*** test1";
-        setWikiContent(wikiText);
-        assertWiki(wikiText);
+        String sourceText = "* \\\\\n** \\\\\n*** test1";
+        switchToSource();
+        setSourceText(sourceText);
+        switchToWysiwyg();
+        switchToSource();
+        assertSourceText(sourceText);
     }
 
     /**
@@ -475,7 +495,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testRemoveBoldStyleWhenTheStyleAttributeIsUsed()
     {
-        setWikiContent("hello (% style=\"font-weight: bold; font-family: monospace;\" %)vincent(%%) world");
+        switchToSource();
+        setSourceText("hello (% style=\"font-weight: bold; font-family: monospace;\" %)vincent(%%) world");
+        switchToWysiwyg();
 
         // Select the word in bold.
         selectNodeContents("XWE.body.firstChild.childNodes[1]");
@@ -486,7 +508,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertFalse(isBoldDetected());
 
         // Check the XWiki syntax.
-        assertWiki("hello (% style=\"font-weight: normal; font-family: monospace;\" %)vincent(%%) world");
+        switchToSource();
+        assertSourceText("hello (% style=\"font-weight: normal; font-family: monospace;\" %)vincent(%%) world");
     }
 
     /**
@@ -495,7 +518,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testRemoveBoldStyleWithinHeading()
     {
         // Insert a heading and make sure it has bold style.
-        setWikiContent("(% style=\"font-weight: bold;\" %)\n= Title 1 =");
+        switchToSource();
+        setSourceText("(% style=\"font-weight: bold;\" %)\n= Title 1 =");
+        switchToWysiwyg();
 
         // Select a part of the heading.
         select("XWE.body.firstChild.firstChild.firstChild", 3, "XWE.body.firstChild.firstChild.firstChild", 5);
@@ -506,7 +531,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertFalse(isBoldDetected());
 
         // Check the XWiki syntax.
-        assertWiki("(% style=\"font-weight: bold;\" %)\n= Tit(% style=\"font-weight: normal;\" %)le(%%) 1 =");
+        switchToSource();
+        assertSourceText("(% style=\"font-weight: bold;\" %)\n= Tit(% style=\"font-weight: normal;\" %)le(%%) 1 =");
     }
 
     /**
@@ -515,7 +541,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testRemoveUnderlineStyleFromALink()
     {
         // Insert a link to an email address.
-        setWikiContent("[[foo>>mailto:x@y.z||title=\"bar\"]]");
+        switchToSource();
+        setSourceText("[[foo>>mailto:x@y.z||title=\"bar\"]]");
+        switchToWysiwyg();
 
         // Select the text of the link.
         selectNode("XWE.body.getElementsByTagName('a')[0]");
@@ -528,7 +556,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertTrue(isUnderlineDetected());
 
         // Check the XWiki syntax.
-        assertWiki("[[foo>>mailto:x@y.z||style=\"text-decoration: none;\" title=\"bar\"]]");
+        switchToSource();
+        assertSourceText("[[foo>>mailto:x@y.z||style=\"text-decoration: none;\" title=\"bar\"]]");
     }
 
     /**
@@ -536,9 +565,18 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testToolBarIsUpdatedOnLoad()
     {
-        setWikiContent("**__abc__**");
+        clickLinkWithText("Wiki");
+        setFieldValue("content", "**__abc__**");
+        clickLinkWithText("WYSIWYG");
+        waitForEditorToLoad();
         assertTrue(isBoldDetected());
         assertTrue(isUnderlineDetected());
+
+        switchToSource();
+        setSourceText("**abc**");
+        switchToWysiwyg();
+        assertTrue(isBoldDetected());
+        assertFalse(isUnderlineDetected());
     }
 
     /**
@@ -547,9 +585,12 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testHTMLSpecialChars()
     {
         typeText("<\"'&#\"'>");
-        assertWiki("<\"'&#\"'>");
-        assertXHTML("<p>&lt;\"'&amp;#\"'&gt;</p>");
-        assertWiki("<\"'&#\"'>");
+        switchToSource();
+        assertSourceText("<\"'&#\"'>");
+        switchToWysiwyg();
+        assertContent("<p>&lt;\"'&amp;#\"'&gt;</p>");
+        switchToSource();
+        assertSourceText("<\"'&#\"'>");
     }
 
     /**
@@ -561,22 +602,25 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         String location = getSelenium().getLocation();
 
         // Create two sections.
-        switchToWikiEditor();
+        switchToSource();
+        // Set the content directly.
         setFieldValue("content", "= s1 =\n\nabc\n\n= s2 =\n\nxyz");
         clickEditSaveAndView();
 
         // Edit the second section.
         open(location + (location.indexOf('?') < 0 ? "?" : "") + "&section=2");
-        focusRichTextArea();
+        waitForEditorToLoad();
         typeDelete(2);
         typeText("Section 2");
-        assertWiki("= Section 2 =\n\nxyz");
+        switchToSource();
+        assertSourceText("= Section 2 =\n\nxyz");
         clickEditSaveAndView();
 
         // Check the content of the page.
         open(location);
-        focusRichTextArea();
-        assertWiki("= s1 =\n\nabc\n\n= Section 2 =\n\nxyz");
+        waitForEditorToLoad();
+        switchToSource();
+        assertSourceText("= s1 =\n\nabc\n\n= Section 2 =\n\nxyz");
     }
 
     /**
@@ -596,13 +640,12 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testRemoveItalicsFromDefinition()
     {
         switchToSource();
-        setFieldValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "; term1\n: definition1\n:; term2\n:: definition2");
+        setSourceText("; term1\n: definition1\n:; term2\n:: definition2");
         switchToWysiwyg();
         selectNodeContents("XWE.document.getElementsByTagName('dd')[0].firstChild");
         clickItalicsButton();
         switchToSource();
-        assertEquals("; term1\n: (% style=\"font-style: normal;\" %)definition1(%%)\n:; term2\n:: definition2",
-            getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+        assertSourceText("; term1\n: (% style=\"font-style: normal;\" %)definition1(%%)\n:; term2\n:: definition2");
     }
 
     /**
@@ -611,11 +654,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testMultiLineVerbatimBlock()
     {
         switchToSource();
-        String multiLineVerbatimBlock = "{{{\na verbatim block\nwhich is multiline\n}}}";
-        setFieldValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, multiLineVerbatimBlock);
+        String multiLineVerbatimBlock = "{{{a verbatim block\nwhich is multiline}}}";
+        setSourceText(multiLineVerbatimBlock);
         switchToWysiwyg();
         switchToSource();
-        assertEquals(multiLineVerbatimBlock, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+        assertSourceText(multiLineVerbatimBlock);
     }
 
     /**
@@ -625,9 +668,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         switchToSource();
         String styledGroup = "(% class=\"abc\" style=\"color: red;\" %)\n(((\ntext\n)))";
-        setFieldValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, styledGroup);
+        setSourceText(styledGroup);
         switchToWysiwyg();
         switchToSource();
-        assertEquals(styledGroup, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+        assertSourceText(styledGroup);
     }
 }

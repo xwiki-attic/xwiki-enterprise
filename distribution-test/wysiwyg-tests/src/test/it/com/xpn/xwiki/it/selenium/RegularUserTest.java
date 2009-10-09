@@ -30,17 +30,9 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      * {@inheritDoc}. Override to login as a regular user (and create the user if necessary).
      */
     @Override
-    protected void setupLogin()
+    protected void login()
     {
         loginAndRegisterUser("Pokemon", "Pokemon", false);
-    }
-
-    @Override
-    protected void setupTestPage()
-    {
-        // use a different page than the admin page since there are lock issues otherwise (page remains locked by one
-        // user and cannot be edited by the other)
-        openPageForEditTest("Main", "WysiwygRegularUserTest");
     }
 
     /**

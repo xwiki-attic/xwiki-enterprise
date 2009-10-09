@@ -19,6 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import com.thoughtworks.selenium.Wait;
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 
 /**
@@ -90,7 +91,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        assertWiki("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]]");
+        switchToSource();
+        assertSourceText("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]]");
     }
 
     /**
@@ -126,7 +128,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         assertEquals(imageFile, getSelenium().getValue(INPUT_ALT));
         clickButtonWithText(BUTTON_INSERT_IMAGE);
 
-        assertWiki("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]] blogging is cool");
+        switchToSource();
+        assertSourceText("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]] blogging is cool");
     }
 
     /**
@@ -161,9 +164,11 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         typeText("There is no parking on this wiki!");
 
-        assertWiki("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
+        switchToSource();
+        assertSourceText("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
             + "style=\"margin-right: auto; margin-left: auto; display: block;\" width=\"200\"]]"
             + "There is no parking on this wiki!");
+        switchToWysiwyg();
 
         // now edit
         selectNode("XWE.body.childNodes[1].firstChild");
@@ -179,7 +184,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         getSelenium().type(INPUT_WIDTH, "");
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
-        assertWiki("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
+
+        switchToSource();
+        assertSourceText("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
             + "style=\"margin-right: auto; margin-left: auto; display: block;\"]]There is no parking on this wiki!");
     }
 
@@ -195,7 +202,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String imageFile2 = "rquo.gif";
 
         openImageDialog(MENU_INSERT_IMAGE);
-        waitForStepToLoad(STEP_SELECTOR);
+        waitForStepSelector();
         // test that the default loaded view is the current page view
         assertElementPresent("//div[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]");
         // now switch view
@@ -234,7 +241,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        assertWiki("[[image:RecentChanges@lquo.gif]]Mmmh, cheese!" + "[[image:RecentChanges@rquo.gif]]");
+        switchToSource();
+        assertSourceText("[[image:Main.RecentChanges@lquo.gif]]Mmmh, cheese!" + "[[image:Main.RecentChanges@rquo.gif]]");
     }
 
     /**
@@ -269,7 +277,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
 
         // test that the correct image has been inserted
-        assertWiki("[[image:" + imagePage + "@" + imageFile2 + "]]");
+        switchToSource();
+        assertSourceText("[[image:" + imageSpace + "." + imagePage + "@" + imageFile2 + "]]");
     }
 
     /**
@@ -278,7 +287,9 @@ public class ImageTest extends AbstractWysiwygTestCase
     public void testValidationOnImageInsert()
     {
         // edit a page from a different page, and switch to current page to try to add. so, no image will be selected
-        setWikiContent("[[image:xwiki:XWiki.AdminSheet@registration.png]]");
+        switchToSource();
+        setSourceText("[[image:xwiki:XWiki.AdminSheet@registration.png]]");
+        switchToWysiwyg();
         selectNode("XWE.body.firstChild.firstChild");
         openImageDialog(MENU_EDIT_IMAGE);
 
@@ -304,19 +315,24 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testRemoveImage()
     {
-        setWikiContent("[[image:xwiki:Main.RecentChanges@lquo.gif]]Mmmh, cheese!"
+        switchToSource();
+        setSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]]Mmmh, cheese!"
             + "[[image:xwiki:Main.RecentChanges@rquo.gif]]");
+        switchToWysiwyg();
         selectNode("XWE.body.firstChild.childNodes[2]");
         clickMenu(MENU_IMAGE);
         assertTrue(isMenuEnabled(MENU_REMOVE_IMAGE));
         clickMenu(MENU_REMOVE_IMAGE);
 
-        assertWiki("[[image:xwiki:Main.RecentChanges@lquo.gif]]Mmmh, cheese!");
+        switchToSource();
+        assertSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]]Mmmh, cheese!");
+        switchToWysiwyg();
 
         selectNode("XWE.body.firstChild.firstChild");
         typeDelete();
 
-        assertWiki("Mmmh, cheese!");
+        switchToSource();
+        assertSourceText("Mmmh, cheese!");
     }
 
     /**
@@ -355,7 +371,9 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testEditImagePreservesFullReferences()
     {
-        setWikiContent("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
+        switchToSource();
+        setSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
+        switchToWysiwyg();
 
         // edit first image
         selectNode("XWE.body.firstChild.firstChild");
@@ -383,7 +401,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        assertWiki("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
+        switchToSource();
+        assertSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
     }
 
     /**
@@ -445,7 +464,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        assertWiki("[[[[image:RecentChanges@lquo.gif]]>>XWiki.Register]]");
+        switchToSource();
+        assertSourceText("[[[[image:RecentChanges@lquo.gif]]>>XWiki.Register]]");
     }
 
     /**
@@ -453,7 +473,9 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testErrorIsHiddenOnNextDisplay()
     {
-        setWikiContent("[[image:xwiki:Main.RecentChanges@lquo.gif]]");
+        switchToSource();
+        setSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]]");
+        switchToWysiwyg();
         selectNode("XWE.body.firstChild.firstChild");
         // 1/ get an error in the new image step, go next, previous, check it's not shown anymore
         openImageDialog(MENU_EDIT_IMAGE);
@@ -555,7 +577,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_CONFIG);
         clickButtonWithText(BUTTON_INSERT_IMAGE);
 
-        assertWiki("[[image:XWiki.AdminSheet@registration.png]]");
+        switchToSource();
+        setSourceText("[[image:XWiki.AdminSheet@registration.png]]");
+        switchToWysiwyg();
 
         // enter to test enter upload in all pages
         openImageDialog(MENU_INSERT_IMAGE);
@@ -651,5 +675,20 @@ public class ImageTest extends AbstractWysiwygTestCase
         assertTrue(isMenuEnabled(menuName));
         clickMenu(menuName);
         waitForDialogToLoad();
+    }
+
+    /**
+     * Wait for the step selector to load.
+     */
+    private void waitForStepSelector()
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return getSelenium().isElementPresent(
+                    "//table[contains(@class, 'xStepsTabs') and not(contains(@class, 'loading'))]");
+            }
+        }.wait("Step selector didn't load in a decent amount of time!");
     }
 }

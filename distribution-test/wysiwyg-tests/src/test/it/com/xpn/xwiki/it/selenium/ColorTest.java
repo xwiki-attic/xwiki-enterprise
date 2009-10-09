@@ -43,7 +43,9 @@ public class ColorTest extends AbstractWysiwygTestCase
         selectColor("rgb(255, 0, 0)");
 
         // Check the XWiki syntax.
-        assertWiki("a(% style=\"color: rgb(255, 0, 0);\" %)b(%%)c");
+        switchToSource();
+        assertSourceText("a(% style=\"color: rgb(255, 0, 0);\" %)b(%%)c");
+        switchToWysiwyg();
 
         // Place the caret after 'b' in order to check if the current color is detected.
         moveCaret("XWE.body.getElementsByTagName('span')[0].firstChild", 1);
@@ -69,7 +71,9 @@ public class ColorTest extends AbstractWysiwygTestCase
         selectColor("rgb(255, 0, 0)");
 
         // Check the XWiki syntax.
-        assertWiki("a(% style=\"background-color: rgb(255, 0, 0);\" %)b(%%)c");
+        switchToSource();
+        assertSourceText("a(% style=\"background-color: rgb(255, 0, 0);\" %)b(%%)c");
+        switchToWysiwyg();
 
         // Place the caret after 'b' in order to check if the current color is detected.
         moveCaret("XWE.body.getElementsByTagName('span')[0].firstChild", 1);
@@ -85,7 +89,9 @@ public class ColorTest extends AbstractWysiwygTestCase
      */
     public void testChangeTextAndBackgroudColor()
     {
-        setWikiContent("(% style=\"color: red; background-color:#777;\" %)\nfoo");
+        switchToSource();
+        setSourceText("(% style=\"color: red; background-color:#777;\" %)\nfoo");
+        switchToWysiwyg();
 
         // Select the text.
         selectNodeContents("XWE.body.firstChild");
@@ -98,7 +104,8 @@ public class ColorTest extends AbstractWysiwygTestCase
         clickBackgroundColorButton();
         selectColor("rgb(252, 229, 205)");
 
-        assertWiki("(% style=\"color: rgb(0, 255, 0); background-color: rgb(252, 229, 205);\" %)\nfoo");
+        switchToSource();
+        assertSourceText("(% style=\"color: rgb(0, 255, 0); background-color: rgb(252, 229, 205);\" %)\nfoo");
     }
 
     /**
@@ -119,7 +126,8 @@ public class ColorTest extends AbstractWysiwygTestCase
         clickBoldButton();
 
         // Check the XWiki syntax.
-        assertWiki("(% style=\"color: rgb(0, 0, 255);\" %)bar");
+        switchToSource();
+        assertSourceText("(% style=\"color: rgb(0, 0, 255);\" %)bar");
     }
 
     /**
@@ -148,7 +156,8 @@ public class ColorTest extends AbstractWysiwygTestCase
         selectColor("rgb(0, 255, 0)");
 
         // Check the XWiki syntax.
-        assertWiki("(% style=\"color: rgb(0, 255, 0);\" %)foo bar");
+        switchToSource();
+        assertSourceText("(% style=\"color: rgb(0, 255, 0);\" %)foo bar");
     }
 
     /**

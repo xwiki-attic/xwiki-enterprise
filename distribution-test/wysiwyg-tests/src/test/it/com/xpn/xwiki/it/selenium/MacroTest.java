@@ -56,10 +56,13 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testDeleteCharacterBeforeMacro()
     {
-        setWikiContent("a{{html}}b{{/html}}");
+        switchToSource();
+        setSourceText("a{{html}}b{{/html}}");
+        switchToWysiwyg();
         typeDelete();
         typeText("x");
-        assertWiki("x{{html}}b{{/html}}");
+        switchToSource();
+        assertSourceText("x{{html}}b{{/html}}");
     }
 
     /**
@@ -68,10 +71,13 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testHoldDeleteKeyBeforeMacro()
     {
-        setWikiContent("c{{html}}def{{/html}}g");
+        switchToSource();
+        setSourceText("c{{html}}def{{/html}}g");
+        switchToWysiwyg();
         typeDelete(2, true);
         typeText("x");
-        assertWiki("xg");
+        switchToSource();
+        assertSourceText("xg");
     }
 
     /**
@@ -80,12 +86,15 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterBeforeMacroAndPressBackspace()
     {
-        setWikiContent("g{{html}}h{{/html}}");
+        switchToSource();
+        setSourceText("g{{html}}h{{/html}}");
+        switchToWysiwyg();
         // Select the character preceding the macro.
         selectNode("XWE.body.firstChild.firstChild");
         typeBackspace();
         typeText("x");
-        assertWiki("x{{html}}h{{/html}}");
+        switchToSource();
+        assertSourceText("x{{html}}h{{/html}}");
     }
 
     /**
@@ -94,13 +103,16 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterBeforeMacroAndInsertSymbol()
     {
-        setWikiContent("i{{html}}j{{/html}}");
+        switchToSource();
+        setSourceText("i{{html}}j{{/html}}");
+        switchToWysiwyg();
         // Select the character preceding the macro.
         selectNode("XWE.body.firstChild.firstChild");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         typeText("x");
-        assertWiki("\u00A9x{{html}}j{{/html}}");
+        switchToSource();
+        assertSourceText("\u00A9x{{html}}j{{/html}}");
     }
 
     /**
@@ -108,12 +120,15 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testPressDeleteJustBeforeMacro()
     {
-        setWikiContent("j{{html}}k{{/html}}l");
+        switchToSource();
+        setSourceText("j{{html}}k{{/html}}l");
+        switchToWysiwyg();
         // Move the caret just before the macro.
         moveCaret("XWE.body.firstChild.firstChild", 1);
         typeDelete();
         typeText("x");
-        assertWiki("jxl");
+        switchToSource();
+        assertSourceText("jxl");
     }
 
     /**
@@ -122,12 +137,15 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testDeleteCharacterAfterMacro()
     {
-        setWikiContent("a{{html}}b{{/html}}c");
+        switchToSource();
+        setSourceText("a{{html}}b{{/html}}c");
+        switchToWysiwyg();
         // Move the caret at the end.
         moveCaret("XWE.body.firstChild.lastChild", 1);
         typeBackspace();
         typeText("x");
-        assertWiki("a{{html}}b{{/html}}x");
+        switchToSource();
+        assertSourceText("a{{html}}b{{/html}}x");
     }
 
     /**
@@ -136,12 +154,15 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testHoldBackspaceKeyAfterMacro()
     {
-        setWikiContent("c{{html}}def{{/html}}g");
+        switchToSource();
+        setSourceText("c{{html}}def{{/html}}g");
+        switchToWysiwyg();
         // Move the caret at the end.
         moveCaret("XWE.body.firstChild.lastChild", 1);
         typeBackspace(2, true);
         typeText("x");
-        assertWiki("cx");
+        switchToSource();
+        assertSourceText("cx");
     }
 
     /**
@@ -150,12 +171,15 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterAfterMacroAndPressDelete()
     {
-        setWikiContent("g{{html}}h{{/html}}i");
+        switchToSource();
+        setSourceText("g{{html}}h{{/html}}i");
+        switchToWysiwyg();
         // Select the character following the macro.
         selectNode("XWE.body.firstChild.lastChild");
         typeDelete();
         typeText("x");
-        assertWiki("g{{html}}h{{/html}}x");
+        switchToSource();
+        assertSourceText("g{{html}}h{{/html}}x");
     }
 
     /**
@@ -164,13 +188,16 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testSelectCharacterAfterMacroAndInsertSymbol()
     {
-        setWikiContent("i{{html}}j{{/html}}k");
+        switchToSource();
+        setSourceText("i{{html}}j{{/html}}k");
+        switchToWysiwyg();
         // Select the character following the macro.
         selectNode("XWE.body.firstChild.lastChild");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         typeText("x");
-        assertWiki("i{{html}}j{{/html}}\u00A9x");
+        switchToSource();
+        assertSourceText("i{{html}}j{{/html}}\u00A9x");
     }
 
     /**
@@ -178,12 +205,15 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testPressBackspaceJustAfterMacro()
     {
-        setWikiContent("k{{html}}l{{/html}}m");
+        switchToSource();
+        setSourceText("k{{html}}l{{/html}}m");
+        switchToWysiwyg();
         // Move the caret at the end.
         moveCaret("XWE.body.firstChild.lastChild", 0);
         typeBackspace();
         typeText("x");
-        assertWiki("kxm");
+        switchToSource();
+        assertSourceText("kxm");
     }
 
     /**
@@ -191,7 +221,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testUndoRedoWhenMacrosArePresent()
     {
-        setWikiContent("{{html}}pq{{/html}}");
+        switchToSource();
+        setSourceText("{{html}}pq{{/html}}");
+        switchToWysiwyg();
         // We have to manually place the caret to be sure it is before the macro. The caret is before the macro when the
         // browser window is focused but inside the macro when the tests run in background.
         moveCaret("XWE.body", 0);
@@ -199,7 +231,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         typeText("uv");
         clickUndoButton();
         clickRedoButton();
-        assertWiki("uv{{html}}pq{{/html}}");
+        switchToSource();
+        assertSourceText("uv{{html}}pq{{/html}}");
     }
 
     /**
@@ -207,10 +240,13 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testSelectAndDeleteMacro()
     {
-        setWikiContent("{{html}}<p>foo</p>{{/html}}\n\nbar");
+        switchToSource();
+        setSourceText("{{html}}<p>foo</p>{{/html}}\n\nbar");
+        switchToWysiwyg();
         getSelenium().clickAt(getDOMLocator("getElementsByTagName('button')[0]"), "0, 0");
         typeDelete();
-        assertWiki("bar");
+        switchToSource();
+        assertSourceText("bar");
     }
 
     /**
@@ -219,8 +255,11 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testWhiteSpacesInsideCodeMacroArePreserved()
     {
         String wikiText = "{{code}}\nfunction foo() {\n    alert('bar');\n}\n{{/code}}";
-        setWikiContent(wikiText);
-        assertWiki(wikiText);
+        switchToSource();
+        setSourceText(wikiText);
+        switchToWysiwyg();
+        switchToSource();
+        assertSourceText(wikiText);
     }
 
     /**
@@ -238,7 +277,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_EXPAND_ALL));
         closeMenuContaining(MENU_REFRESH);
 
-        setWikiContent("k\n\n{{html}}l{{/html}}\n\nm\n\n{{code}}n{{/code}}\n\no");
+        switchToSource();
+        setSourceText("k\n\n{{html}}l{{/html}}\n\nm\n\n{{code}}n{{/code}}\n\no");
+        switchToWysiwyg();
         clickMenu(MENU_MACRO);
         // By default all macros are expanded.
         assertTrue(isMenuEnabled(MENU_COLLAPSE_ALL));
@@ -282,7 +323,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testCollapseAndExpandSelectedMacros()
     {
-        setWikiContent("o\n\n{{html}}n{{/html}}\n\nm\n\n{{code}}l{{/code}}\n\nk");
+        switchToSource();
+        setSourceText("o\n\n{{html}}n{{/html}}\n\nm\n\n{{code}}l{{/code}}\n\nk");
+        switchToWysiwyg();
 
         // If no macro is selected then Expand and Collapse menu entries shouldn't be present.
         clickMenu(MENU_MACRO);
@@ -336,7 +379,9 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testClickToSelectMacroAndToggleCollapse()
     {
         // Let's use a macro without definition.
-        setWikiContent("{{foo}}bar{{/foo}}");
+        switchToSource();
+        setSourceText("{{foo}}bar{{/foo}}");
+        switchToWysiwyg();
 
         // By default macros are expanded. Let's check this.
         assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
@@ -361,12 +406,13 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testRefreshContentWithoutMacros()
     {
-        typeText("a b");
-        assertXHTML("a b<br class=\"spacer\">");
+        String text = "a b";
+        typeText(text);
+        assertEquals(text, getEval("window.XWE.body.textContent"));
 
         // If no macros are present then the refresh shoudn't affect too much the edited content.
         refreshMacros();
-        assertXHTML("<p>a b</p>");
+        assertEquals(text, getEval("window.XWE.body.textContent"));
     }
 
     /**
@@ -374,7 +420,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testRefreshMacros()
     {
-        setWikiContent("{{box}}p{{/box}}\n\n{{code}}q{{/code}}");
+        switchToSource();
+        setSourceText("{{box}}p{{/box}}\n\n{{code}}q{{/code}}");
+        switchToWysiwyg();
 
         // Collapse the second macro.
         assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
@@ -401,7 +449,10 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testRefreshTocMacro()
     {
-        setWikiContent("{{toc start=\"1\"/}}\n\n= Title 1\n\n== Title 2");
+        switchToSource();
+        setSourceText("{{toc start=\"1\"/}}\n\n= Title 1\n\n== Title 2");
+        switchToWysiwyg();
+
         // We should have two list items in the edited document.
         String listItemCountExpression = "window." + getDOMLocator("getElementsByTagName('li')") + ".length";
         assertEquals("2", getSelenium().getEval(listItemCountExpression));
@@ -424,7 +475,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testEditHTMLMacro()
     {
-        setWikiContent("{{html}}white{{/html}}");
+        switchToSource();
+        setSourceText("{{html}}white{{/html}}");
+        switchToWysiwyg();
         editMacro(0);
 
         // Change the content of the HTML macro.
@@ -437,7 +490,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Test if our changes have been applied.
-        assertWiki("{{html wiki=\"true\"}}black{{/html}}");
+        switchToSource();
+        assertSourceText("{{html wiki=\"true\"}}black{{/html}}");
+        switchToWysiwyg();
 
         // Edit again, this time using the default value for the Wiki parameter.
         editMacro(0);
@@ -451,7 +506,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Test if our changes have been applied. This time the Wiki parameter is missing from the output because it has
         // the default value.
-        assertWiki("{{html}}black{{/html}}");
+        switchToSource();
+        assertSourceText("{{html}}black{{/html}}");
     }
 
     /**
@@ -463,7 +519,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testEditMacroWithSpecialCharactersInParameterValues()
     {
-        setWikiContent("{{box title =  \"1~\"2|-|3=~~~\"4~~\" }}=~\"|-|~~{{/box}}");
+        switchToSource();
+        setSourceText("{{box title =  \"1~\"2|-|3=~~~\"4~~\" }}=~\"|-|~~{{/box}}");
+        switchToWysiwyg();
         editMacro(0);
 
         // Check if the content of the macro has the right value.
@@ -476,7 +534,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-title-input", "a\"b|-|c=~\"d~");
         applyMacroChanges();
 
-        assertWiki("{{box title=\"a~\"b|-|c=~~~\"d~~\"}}=~\"|-|~~{{/box}}");
+        switchToSource();
+        assertSourceText("{{box title=\"a~\"b|-|c=~~~\"d~~\"}}=~\"|-|~~{{/box}}");
     }
 
     /**
@@ -485,7 +544,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testEditUnregisteredMacro()
     {
-        setWikiContent("{{foo}}bar{{/foo}}");
+        switchToSource();
+        setSourceText("{{foo}}bar{{/foo}}");
+        switchToWysiwyg();
         editMacro(0);
 
         // Check if the dialog shows the error message
@@ -497,7 +558,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testUndoMacroEdit()
     {
-        setWikiContent("{{velocity}}$context.user{{/velocity}}");
+        switchToSource();
+        setSourceText("{{velocity}}$context.user{{/velocity}}");
+        switchToWysiwyg();
 
         // First edit.
         editMacro(0);
@@ -511,7 +574,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         clickUndoButton(2);
         clickRedoButton();
-        assertWiki("{{velocity}}$util.date{{/velocity}}");
+        switchToSource();
+        assertSourceText("{{velocity}}$util.date{{/velocity}}");
     }
 
     /**
@@ -528,7 +592,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-title-input", "Identity function");
         applyMacroChanges();
 
-        assertWiki("{{code title=\"Identity function\"}}function f(x) {\n  return x;\n}{{/code}}");
+        switchToSource();
+        assertSourceText("{{code title=\"Identity function\"}}function f(x) {\n  return x;\n}{{/code}}");
     }
 
     /**
@@ -562,7 +627,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertEquals("1", getSelenium().getEval("window." + getDOMLocator("getElementsByTagName('li')") + ".length"));
 
         // Check the XWiki syntax.
-        assertWiki("= Title 1 =\n\n{{toc start=\"2\"/}}\n\n== Title 2 ==");
+        switchToSource();
+        assertSourceText("= Title 1 =\n\n{{toc start=\"2\"/}}\n\n== Title 2 ==");
     }
 
     /**
@@ -606,7 +672,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertEquals("1", getSelenium().getEval(listItemCountExpression));
 
         // Check the XWiki syntax.
-        assertWiki("before\n\n{{html}}<ul><li>xwiki</li></ul>{{/html}}\n\nafter");
+        switchToSource();
+        assertSourceText("before\n\n{{html}}<ul><li>xwiki</li></ul>{{/html}}\n\nafter");
     }
 
     /**
@@ -624,8 +691,10 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the XWiki syntax.
-        assertWiki("{{code language=\"xml\"}}<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        switchToSource();
+        assertSourceText("{{code language=\"xml\"}}<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
             + "<!-- this is a test -->\n<test>123</test>{{/code}}");
+        switchToWysiwyg();
 
         // Edit the inserted macro.
         editMacro(0);
@@ -640,7 +709,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testDetectMacroParameterNamesIgnoringCase()
     {
-        setWikiContent("{{box CSSClaSS=\"foo\"}}bar{{/box}}");
+        switchToSource();
+        setSourceText("{{box CSSClaSS=\"foo\"}}bar{{/box}}");
+        switchToWysiwyg();
         // Edit the Box macro.
         editMacro(0);
         // See if the CSSClaSS parameter was correctly detected.
@@ -649,7 +720,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-cssClass-input", "xyz");
         applyMacroChanges();
         // Check the XWiki syntax.
-        assertWiki("{{box CSSClaSS=\"xyz\"}}bar{{/box}}");
+        switchToSource();
+        assertSourceText("{{box CSSClaSS=\"xyz\"}}bar{{/box}}");
     }
 
     /**
@@ -664,15 +736,21 @@ public class MacroTest extends AbstractWysiwygTestCase
         macros.append("{{code title=\"1|-|2\"}}{{/code}}");
 
         // Insert the macros.
-        setWikiContent(macros.toString());
+        switchToSource();
+        setSourceText(macros.toString());
+        switchToWysiwyg();
         // See if the macro syntax is left unchanged when the macros are not edited.
-        assertWiki(macros.toString());
+        switchToSource();
+        assertSourceText(macros.toString());
+        switchToWysiwyg();
 
         // Edit the first macro (the one without content and without arguments).
         editMacro(0);
         setFieldValue("pd-content-input", "|-|");
         applyMacroChanges();
-        assertWiki("{{code}}|-|{{/code}}{{code}}{{/code}}{{code title=\"1|-|2\"/}}{{code title=\"1|-|2\"}}{{/code}}");
+        switchToSource();
+        assertSourceText("{{code}}|-|{{/code}}{{code}}{{/code}}{{code title=\"1|-|2\"/}}{{code title=\"1|-|2\"}}{{/code}}");
+        switchToWysiwyg();
 
         // Edit the second macro (the one with empty content but without arguments).
         editMacro(1);
@@ -692,7 +770,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the result.
-        assertWiki("{{code}}|-|{{/code}}{{code title=\"|-|\"}}|-|{{/code}}"
+        switchToSource();
+        assertSourceText("{{code}}|-|{{/code}}{{code title=\"|-|\"}}|-|{{/code}}"
             + "{{code}}|-|{{/code}}{{code title=\"1|-|2\"}}|-|{{/code}}");
     }
 
@@ -707,20 +786,25 @@ public class MacroTest extends AbstractWysiwygTestCase
         content.append("{{toc start=\"2\"/}}\n\n");
         content.append("= Hello title 2 =\n\n");
         content.append("{{/html}}");
-        setWikiContent(content.toString());
+        switchToSource();
+        setSourceText(content.toString());
+        switchToWysiwyg();
 
         // Check if only one macro was detected (which should be the top level macro).
         assertEquals(1, getMacroCount());
 
         // Check if the top level macro was correctly detected.
         deleteMacro(0);
-        assertWiki("");
+        switchToSource();
+        assertSourceText("");
 
         // Reset the initial content.
-        setWikiContent(content.toString());
+        setSourceText(content.toString());
+        switchToWysiwyg();
 
         // Check if the nested macro is duplicated.
-        assertWiki(content.toString());
+        switchToSource();
+        assertSourceText(content.toString());
     }
 
     /**
@@ -744,7 +828,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the result.
-        assertWiki("{{info}}x{{/info}}");
+        switchToSource();
+        assertSourceText("{{info}}x{{/info}}");
     }
 
     /**
@@ -768,7 +853,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the result.
-        assertWiki("{{html}}a{{/html}}");
+        switchToSource();
+        assertSourceText("{{html}}a{{/html}}");
     }
 
     /**
@@ -777,7 +863,9 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testDoubleClickToEditMacro()
     {
         // Insert two macros.
-        setWikiContent("{{error}}x{{/error}}{{info}}y{{/info}}");
+        switchToSource();
+        setSourceText("{{error}}x{{/error}}{{info}}y{{/info}}");
+        switchToWysiwyg();
 
         // Double click to edit the second macro.
         // Each double click event should be preceded by a click event.
@@ -791,7 +879,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the result.
-        assertWiki("{{error}}x{{/error}}{{info}}z{{/info}}");
+        switchToSource();
+        assertSourceText("{{error}}x{{/error}}{{info}}z{{/info}}");
     }
 
     /**
@@ -833,7 +922,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         closeDialog();
 
         // Check the result.
-        assertWiki("{{velocity}}$xwiki.version{{/velocity}}");
+        switchToSource();
+        assertSourceText("{{velocity}}$xwiki.version{{/velocity}}");
     }
 
     /**
@@ -897,7 +987,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         closeDialog();
 
         // Check the result.
-        assertWiki("{{error}}test{{/error}}");
+        switchToSource();
+        assertSourceText("{{error}}test{{/error}}");
     }
 
     /**
@@ -936,7 +1027,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the result.
-        assertWiki("{{velocity}}$context.user{{/velocity}}");
+        switchToSource();
+        assertSourceText("{{velocity}}$context.user{{/velocity}}");
     }
 
     /**
@@ -1004,7 +1096,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the result.
-        assertWiki("{{id name=\"foo\"/}}");
+        switchToSource();
+        assertSourceText("{{id name=\"foo\"/}}");
     }
 
     /**
@@ -1035,7 +1128,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Close the dialog and check the result.
         closeDialog();
-        assertWiki("{{html}}xwiki{{/html}}");
+        switchToSource();
+        assertSourceText("{{html}}xwiki{{/html}}");
     }
 
     /**
@@ -1043,7 +1137,9 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testRefreshContextSensitiveVelocity()
     {
-        setWikiContent("{{velocity}}$doc.fullName{{/velocity}}");
+        switchToSource();
+        setSourceText("{{velocity}}$doc.fullName{{/velocity}}");
+        switchToWysiwyg();
         String expected = getEval("window.XWE.body.textContent");
         refreshMacros();
         assertEquals(expected, getEval("window.XWE.body.textContent"));
@@ -1087,15 +1183,6 @@ public class MacroTest extends AbstractWysiwygTestCase
     public String getMacroOutputLocator(int index)
     {
         return getMacroLocator(index) + ".childNodes[2]";
-    }
-
-    /**
-     * Waits for the edited content to be refreshed.
-     */
-    public void waitForRefresh()
-    {
-        waitForCondition("window.document.getElementsByTagName('iframe')[0].previousSibling.className == 'xToolbar'");
-        focusRichTextArea();
     }
 
     /**
@@ -1165,7 +1252,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     {
         // The label of the finish button is "Apply" when we edit a macro and "Insert Macro" when we insert a macro.
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Apply' or text() = 'Insert Macro']");
-        waitForRefresh();
+        waitForEditorToLoad();
     }
 
     /**
@@ -1175,7 +1262,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     {
         clickMenu(MENU_MACRO);
         clickMenu(MENU_REFRESH);
-        waitForRefresh();
+        waitForEditorToLoad();
     }
 
     /**

@@ -48,7 +48,8 @@ public class FontTest extends AbstractWysiwygTestCase
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         applyFontSize("24pt");
-        assertWiki("a(% style=\"font-size: 24pt;\" %)b(%%)c");
+        switchToSource();
+        assertSourceText("a(% style=\"font-size: 24pt;\" %)b(%%)c");
     }
 
     /**
@@ -59,7 +60,8 @@ public class FontTest extends AbstractWysiwygTestCase
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         applyFontName("georgia");
-        assertWiki("a(% style=\"font-family: georgia;\" %)b(%%)c");
+        switchToSource();
+        assertSourceText("a(% style=\"font-family: georgia;\" %)b(%%)c");
     }
 
     /**
@@ -71,7 +73,8 @@ public class FontTest extends AbstractWysiwygTestCase
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         applyFontName("arial");
         applyFontSize("18pt");
-        assertWiki("a(% style=\"font-family: arial; font-size: 18pt;\" %)b(%%)c");
+        switchToSource();
+        assertSourceText("a(% style=\"font-family: arial; font-size: 18pt;\" %)b(%%)c");
     }
 
     /**
@@ -79,7 +82,9 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     public void testDetectFont()
     {
-        setWikiContent("(% style=\"font-size: 24px; font-family: foo,verdana,sans-serif;\" %)\nabc");
+        switchToSource();
+        setSourceText("(% style=\"font-size: 24px; font-family: foo,verdana,sans-serif;\" %)\nabc");
+        switchToWysiwyg();
         selectAllContent();
         assertDetectedFontSize("18pt");
         assertDetectedFontName("verdana");
@@ -91,11 +96,15 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     public void testDetectKnownUnsupportedFontName()
     {
-        setWikiContent("(% style=\"font-family: wingdings;\" %)\nabc");
+        switchToSource();
+        setSourceText("(% style=\"font-family: wingdings;\" %)\nabc");
+        switchToWysiwyg();
         selectAllContent();
         assertDetectedFontName("wingdings");
 
-        setWikiContent("(% style=\"font-family: wingdings,helvetica;\" %)\nabc");
+        switchToSource();
+        setSourceText("(% style=\"font-family: wingdings,helvetica;\" %)\nabc");
+        switchToWysiwyg();
         selectAllContent();
         assertDetectedFontName("helvetica");
     }
@@ -105,11 +114,15 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     public void testDetectUnknownFontName()
     {
-        setWikiContent("(% style=\"font-family: unknown;\" %)\nabc");
+        switchToSource();
+        setSourceText("(% style=\"font-family: unknown;\" %)\nabc");
+        switchToWysiwyg();
         selectAllContent();
         assertDetectedFontName("");
 
-        setWikiContent("(% style=\"font-family: unknown,helvetica;\" %)\nabc");
+        switchToSource();
+        setSourceText("(% style=\"font-family: unknown,helvetica;\" %)\nabc");
+        switchToWysiwyg();
         selectAllContent();
         assertDetectedFontName("helvetica");
     }
@@ -119,7 +132,9 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     public void testDetectFontNameOnCrossParagraphSelection()
     {
-        setWikiContent("(% style=\"font-family: courier new;\" %)\nabc\n\n(% style=\"font-family: times new roman;\" %)\nxyz");
+        switchToSource();
+        setSourceText("(% style=\"font-family: courier new;\" %)\nabc\n\n(% style=\"font-family: times new roman;\" %)\nxyz");
+        switchToWysiwyg();
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
         assertDetectedFontName("courier new");
         moveCaret("XWE.body.getElementsByTagName('p')[1].firstChild", 1);

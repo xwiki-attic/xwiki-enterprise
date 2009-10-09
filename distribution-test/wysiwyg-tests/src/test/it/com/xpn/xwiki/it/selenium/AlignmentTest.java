@@ -35,24 +35,30 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     {
         clickAlignCenterButton();
         typeText("a");
-        assertWiki("(% style=\"text-align: center;\" %)\na");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: center;\" %)\na");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         typeText("a");
         clickAlignRightButton();
         typeText("b");
-        assertWiki("(% style=\"text-align: right;\" %)\nab");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: right;\" %)\nab");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         clickAlignFullButton();
         typeText("x");
-        assertWiki("(% style=\"text-align: justify;\" %)\naxc");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: justify;\" %)\naxc");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         typeText("a");
         typeShiftEnter();
@@ -60,7 +66,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         selectNode("XWE.body.childNodes[2]");
         clickAlignLeftButton();
         typeText("x");
-        assertWiki("(% style=\"text-align: left;\" %)\na\nx");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: left;\" %)\na\nx");
     }
 
     /**
@@ -73,40 +80,50 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         clickAlignCenterButton();
         typeText("a");
         assertTrue(isAlignCenterDetected());
-        assertWiki("(% style=\"text-align: center;\" %)\na");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: center;\" %)\na");
 
-        // Assert again the center alignment after coming back from the Wiki editor.
+        // Assert again the center alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignCenterDetected());
 
         typeText("b");
         typeShiftEnter();
         clickAlignRightButton();
         assertTrue(isAlignRightDetected());
-        assertWiki("(% style=\"text-align: right;\" %)\nb\na");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: right;\" %)\nb\na");
 
-        // Assert again the right alignment after coming back from the Wiki editor.
+        // Assert again the right alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignRightDetected());
 
         selectNode("XWE.body.firstChild.lastChild");
         clickAlignFullButton();
         typeText("c");
         assertTrue(isAlignFullDetected());
-        assertWiki("(% style=\"text-align: justify;\" %)\nb\nc");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: justify;\" %)\nb\nc");
 
-        // Assert again the full alignment after coming back from the Wiki editor.
+        // Assert again the full alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignFullDetected());
 
         // Remove the full alignment (toggle full alignment off).
         clickAlignFullButton();
         assertFalse(isAlignFullDetected());
-        assertWiki("b\nc");
+        switchToSource();
+        assertSourceText("b\nc");
+        switchToWysiwyg();
 
         typeText("x");
         clickAlignLeftButton();
         assertTrue(isAlignLeftDetected());
-        assertWiki("(% style=\"text-align: left;\" %)\nxb\nc");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: left;\" %)\nxb\nc");
 
-        // Assert again the left alignment after coming back from the Wiki editor.
+        // Assert again the left alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignLeftDetected());
     }
 
@@ -115,23 +132,31 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     public void testAlignTableCell()
     {
-        setWikiContent("|=a|=b\n|c|d");
+        switchToSource();
+        setSourceText("|=a|=b\n|c|d");
+        switchToWysiwyg();
         clickAlignRightButton();
         assertTrue(isAlignRightDetected());
-        assertWiki("|=(% style=\"text-align: right;\" %)a|=b\n|c|d");
+        switchToSource();
+        assertSourceText("|=(% style=\"text-align: right;\" %)a|=b\n|c|d");
 
-        // Assert again the right alignment after coming back from the Wiki editor.
+        // Assert again the right alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignRightDetected());
 
         typeTextThenEnter("x");
         clickAlignFullButton();
         assertTrue(isAlignFullDetected());
-        assertWiki("|=(% style=\"text-align: justify;\" %)x\na|=b\n|c|d");
+        switchToSource();
+        assertSourceText("|=(% style=\"text-align: justify;\" %)x\na|=b\n|c|d");
+        switchToWysiwyg();
 
         selectNodeContents("XWE.body.getElementsByTagName('td')[0]");
         clickAlignCenterButton();
         assertTrue(isAlignCenterDetected());
-        assertWiki("|=(% style=\"text-align: justify;\" %)x\na|=b\n|(% style=\"text-align: center;\" %)c|d");
+        switchToSource();
+        assertSourceText("|=(% style=\"text-align: justify;\" %)x\na|=b\n|(% style=\"text-align: center;\" %)c|d");
+        switchToWysiwyg();
 
         selectNodeContents("XWE.body.getElementsByTagName('td')[0]");
         assertTrue(isAlignCenterDetected());
@@ -142,7 +167,9 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     public void testAlignParagraphs()
     {
-        setWikiContent("ab\n\ncd");
+        switchToSource();
+        setSourceText("ab\n\ncd");
+        switchToWysiwyg();
 
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
         clickAlignCenterButton();
@@ -153,9 +180,11 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         assertFalse(isAlignCenterDetected());
         clickAlignRightButton();
         assertTrue(isAlignRightDetected());
-        assertWiki("(% style=\"text-align: right;\" %)\nab\n\n(% style=\"text-align: right;\" %)\ncd");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: right;\" %)\nab\n\n(% style=\"text-align: right;\" %)\ncd");
 
-        // Assert again the right alignment after coming back from the Wiki editor.
+        // Assert again the right alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignRightDetected());
 
         // Remove the right alignment (toggle off the 'Align right' button).
@@ -163,7 +192,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
             "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
         clickAlignRightButton();
         assertFalse(isAlignRightDetected());
-        assertWiki("ab\n\ncd");
+        switchToSource();
+        assertSourceText("ab\n\ncd");
     }
 
     /**
@@ -171,7 +201,9 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     public void testAlignTableCells()
     {
-        setWikiContent("|ab|cd");
+        switchToSource();
+        setSourceText("|ab|cd");
+        switchToWysiwyg();
 
         moveCaret("XWE.body.getElementsByTagName('td')[1].firstChild", 2);
         clickAlignRightButton();
@@ -182,9 +214,11 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         assertFalse(isAlignRightDetected());
         clickAlignCenterButton();
         assertTrue(isAlignCenterDetected());
-        assertWiki("|(% style=\"text-align: center;\" %)ab|(% style=\"text-align: center;\" %)cd");
+        switchToSource();
+        assertSourceText("|(% style=\"text-align: center;\" %)ab|(% style=\"text-align: center;\" %)cd");
 
-        // Assert again the center alignment after coming back from the Wiki editor.
+        // Assert again the center alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignCenterDetected());
 
         // Remove the center alignment (toggle off the 'Align center' button).
@@ -192,7 +226,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
             "XWE.body.getElementsByTagName('td')[1].firstChild", 2);
         clickAlignCenterButton();
         assertFalse(isAlignCenterDetected());
-        assertWiki("|ab|cd");
+        switchToSource();
+        assertSourceText("|ab|cd");
     }
 
     /**
@@ -200,7 +235,9 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     public void testSelectAndAlignParagraphAndTableCell()
     {
-        setWikiContent("ab\nxy\n\n|cd\n12|ef");
+        switchToSource();
+        setSourceText("ab\nxy\n\n|cd\n12|ef");
+        switchToWysiwyg();
 
         // Align the paragraph to the right.
         clickAlignRightButton();
@@ -212,9 +249,11 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         assertFalse(isAlignRightDetected());
         clickAlignFullButton();
         assertTrue(isAlignFullDetected());
-        assertWiki("(% style=\"text-align: justify;\" %)\nab\nxy\n\n|(% style=\"text-align: justify;\" %)cd\n12|ef");
+        switchToSource();
+        assertSourceText("(% style=\"text-align: justify;\" %)\nab\nxy\n\n|(% style=\"text-align: justify;\" %)cd\n12|ef");
 
-        // Assert again the full alignment after coming back from the Wiki editor.
+        // Assert again the full alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignFullDetected());
 
         // Remove the full alignment (toggle off the 'Align full' button).
@@ -222,7 +261,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
             "XWE.body.getElementsByTagName('td')[0].lastChild", 0);
         clickAlignFullButton();
         assertFalse(isAlignFullDetected());
-        assertWiki("ab\nxy\n\n|cd\n12|ef");
+        switchToSource();
+        assertSourceText("ab\nxy\n\n|cd\n12|ef");
     }
 
     /**
@@ -230,15 +270,19 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     public void testAlignParagraphInsideTableCell()
     {
-        setWikiContent("|(((ab\n\ncd)))|ef");
+        switchToSource();
+        setSourceText("|(((ab\n\ncd)))|ef");
+        switchToWysiwyg();
 
         // Place the caret inside the first paragraph from the first table cell.
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 2);
         clickAlignRightButton();
         assertTrue(isAlignRightDetected());
-        assertWiki("|(((\n(% style=\"text-align: right;\" %)\nab\n\ncd\n)))|ef");
+        switchToSource();
+        assertSourceText("|(((\n(% style=\"text-align: right;\" %)\nab\n\ncd\n)))|ef");
 
-        // Assert again the right alignment after coming back from the Wiki editor.
+        // Assert again the right alignment after coming back to WYSIWYG editor.
+        switchToWysiwyg();
         assertTrue(isAlignRightDetected());
     }
 

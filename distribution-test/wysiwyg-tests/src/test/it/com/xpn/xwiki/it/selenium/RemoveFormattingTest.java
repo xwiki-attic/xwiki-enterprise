@@ -33,10 +33,13 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
      */
     public void testRemoveFormattingMarkers()
     {
-        setWikiContent("==== **//__--abc--__//** ====");
+        switchToSource();
+        setSourceText("==== **//__--abc--__//** ====");
+        switchToWysiwyg();
         selectAllContent();
         clickRemoveFormattingButton();
-        assertWiki("==== abc ====");
+        switchToSource();
+        assertSourceText("==== abc ====");
     }
 
     /**
@@ -44,10 +47,13 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
      */
     public void testRemoveInlineStyle()
     {
-        setWikiContent("a(% style=\"color:red;\" %)b(% style=\"font-size:36pt;\" %)c(%%)d(%%)e");
+        switchToSource();
+        setSourceText("a(% style=\"color:red;\" %)b(% style=\"font-size:36pt;\" %)c(%%)d(%%)e");
+        switchToWysiwyg();
         selectAllContent();
         clickRemoveFormattingButton();
-        assertWiki("abcde");
+        switchToSource();
+        assertSourceText("abcde");
     }
 
     /**
@@ -55,11 +61,14 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
      */
     public void testRemoveFormattingFromCrossBlockSelection()
     {
-        setWikiContent("= a(% style=\"color:green\" %)b**cd**(%%)e =\n\nf(% style=\"font-size:36pt\" %)g//hi//(%%)j");
+        switchToSource();
+        setSourceText("= a(% style=\"color:green\" %)b**cd**(%%)e =\n\nf(% style=\"font-size:36pt\" %)g//hi//(%%)j");
+        switchToWysiwyg();
         select("XWE.body.getElementsByTagName('strong')[0].firstChild.firstChild", 1,
             "XWE.body.getElementsByTagName('em')[0].firstChild.firstChild", 1);
         clickRemoveFormattingButton();
-        assertWiki("= a(% style=\"color: green;\" %)b**c**(%%)de =\n\nfgh(% style=\"font-size: 36pt;\" %)//i//(%%)j");
+        switchToSource();
+        assertSourceText("= a(% style=\"color: green;\" %)b**c**(%%)de =\n\nfgh(% style=\"font-size: 36pt;\" %)//i//(%%)j");
     }
 
     /**
@@ -68,17 +77,22 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     public void testRemoveFormattingKeepsTheAnchorsIntact()
     {
         // Selection includes the anchor.
-        setWikiContent("a**b[[c//d//e>>http://www.xwiki.org]]f**g");
+        switchToSource();
+        setSourceText("a**b[[c//d//e>>http://www.xwiki.org]]f**g");
+        switchToWysiwyg();
         selectAllContent();
         clickRemoveFormattingButton();
-        assertWiki("ab[[cde>>http://www.xwiki.org]]fg");
+        switchToSource();
+        assertSourceText("ab[[cde>>http://www.xwiki.org]]fg");
 
         // Selection is included in the anchor.
-        setWikiContent("1**2[[3//456//7>>http://www.xwiki.org]]8**9");
+        setSourceText("1**2[[3//456//7>>http://www.xwiki.org]]8**9");
+        switchToWysiwyg();
         select(getDOMLocator("getElementsByTagName('em')[0].firstChild"), 1,
             getDOMLocator("getElementsByTagName('em')[0].firstChild"), 2);
         clickRemoveFormattingButton();
-        assertWiki("1**2**[[**3//4//**5**//6//7**>>http://www.xwiki.org]]**8**9");
+        switchToSource();
+        assertSourceText("1**2**[[**3//4//**5**//6//7**>>http://www.xwiki.org]]**8**9");
     }
 
     /**

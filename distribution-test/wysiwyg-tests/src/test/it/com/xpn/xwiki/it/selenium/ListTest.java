@@ -38,13 +38,15 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testEmptyListItemsEditable()
     {
-        setWikiContent("** rox");
+        switchToSource();
+        setSourceText("** rox");
+        switchToWysiwyg();
         // Check that a br is added in the parent list item so that it becomes editable
-        assertXHTML("<ul><li><br class=\"spacer\"><ul><li>rox</li></ul></li></ul>");
+        assertContent("<ul><li><br><ul><li>rox</li></ul></li></ul>");
         // Place the caret in the first list item
         moveCaret("XWE.body.firstChild.firstChild", 0);
         typeText("x");
-        assertXHTML("<ul><li>x<br class=\"spacer\"><ul><li>rox</li></ul></li></ul>");
+        assertContent("<ul><li>x<br><ul><li>rox</li></ul></li></ul>");
     }
 
     /**
@@ -54,14 +56,16 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testEnterBeforeSublist()
     {
-        setWikiContent("* x\n** rox");
+        switchToSource();
+        setSourceText("* x\n** rox");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
         typeEnter();
         // Check the created item is editable
-        assertXHTML("<ul><li>x</li><li><br class=\"spacer\"><ul><li>rox</li></ul></li></ul>");
+        assertContent("<ul><li>x</li><li><br><ul><li>rox</li></ul></li></ul>");
         moveCaret("XWE.body.firstChild.childNodes[1]", 0);
         typeText("w");
-        assertXHTML("<ul><li>x</li><li>w<br class=\"spacer\"><ul><li>rox</li></ul></li></ul>");
+        assertContent("<ul><li>x</li><li>w<br><ul><li>rox</li></ul></li></ul>");
     }
 
     /**
@@ -70,12 +74,14 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testEnterOnEntireList()
     {
-        setWikiContent("* foo\n* bar");
+        switchToSource();
+        setSourceText("* foo\n* bar");
+        switchToWysiwyg();
         // Set the selection around the list
         select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.lastChild.firstChild", 3);
         typeEnter();
         typeText("foobar");
-        assertXHTML("<p><br class=\"spacer\"></p>foobar");
+        assertContent("<p><br></p>foobar");
     }
 
     /**
@@ -83,16 +89,18 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testDeleteInsideItem()
     {
-        setWikiContent("* foo**bar**\n** far");
+        switchToSource();
+        setSourceText("* foo**bar**\n** far");
+        switchToWysiwyg();
         // Set the selection inside the foo text
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
         typeDelete();
-        assertXHTML("<ul><li>fo<strong>bar</strong><ul><li>far</li></ul></li></ul>");
+        assertContent("<ul><li>fo<strong>bar</strong><ul><li>far</li></ul></li></ul>");
 
         // set the selection just before the bold text but inside the text before
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 2);
         typeDelete();
-        assertXHTML("<ul><li>fo<strong>ar</strong><ul><li>far</li></ul></li></ul>");
+        assertContent("<ul><li>fo<strong>ar</strong><ul><li>far</li></ul></li></ul>");
     }
 
     /**
@@ -100,14 +108,16 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceInsideItem()
     {
-        setWikiContent("* foo\n** b//arf//ar");
+        switchToSource();
+        setSourceText("* foo\n** b//arf//ar");
+        switchToWysiwyg();
         // Set the selection in the "ar" text in the second list item
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.lastChild", 1);
         typeBackspace();
-        assertXHTML("<ul><li>foo<ul><li>b<em>arf</em>r</li></ul></li></ul>");
+        assertContent("<ul><li>foo<ul><li>b<em>arf</em>r</li></ul></li></ul>");
         // delete again, now it should delete inside the em
         typeBackspace();
-        assertXHTML("<ul><li>foo<ul><li>b<em>ar</em>r</li></ul></li></ul>");
+        assertContent("<ul><li>foo<ul><li>b<em>ar</em>r</li></ul></li></ul>");
     }
 
     /**
@@ -115,12 +125,13 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testDeleteInSameList()
     {
-        setWikiContent("* foo\n* bar");
+        switchToSource();
+        setSourceText("* foo\n* bar");
+        switchToWysiwyg();
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foobar</li></ul>");
-
+        assertContent("<ul><li>foobar</li></ul>");
     }
 
     /**
@@ -129,26 +140,28 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceInSameList()
     {
-        setWikiContent("* foo\n* bar");
+        switchToSource();
+        setSourceText("* foo\n* bar");
+        switchToWysiwyg();
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foobar</li></ul>");
-
+        assertContent("<ul><li>foobar</li></ul>");
     }
 
     /**
-     * Test that delete at the end of a list preserves browser default behaviour: for firefox is to join the two lists. 
-     * <br />
+     * Test that delete at the end of a list preserves browser default behaviour: for firefox is to join the two lists. <br />
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      */
     public void failingTestDeleteInDifferentLists()
     {
-        setWikiContent("* foo\n\n* bar");
+        switchToSource();
+        setSourceText("* foo\n\n* bar");
+        switchToWysiwyg();
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foo</li><li>bar</li></ul>");
+        assertContent("<ul><li>foo</li><li>bar</li></ul>");
     }
 
     /**
@@ -157,11 +170,13 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceInDifferentLists()
     {
-        setWikiContent("* foo\n\n* bar");
+        switchToSource();
+        setSourceText("* foo\n\n* bar");
+        switchToWysiwyg();
         // Set the selection at the end of the first item
         moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foo</li><li>bar</li></ul>");
+        assertContent("<ul><li>foo</li><li>bar</li></ul>");
     }
 
     /**
@@ -170,10 +185,12 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceInEmbeddedDocumentDifferentLists()
     {
-        setWikiContent("* foo\n* bar (((\n* foo 2\n1. bar 2)))");
+        switchToSource();
+        setSourceText("* foo\n* bar (((\n* foo 2\n1. bar 2)))");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foo</li><li>bar<div><ul><li>foo 2</li><li>bar 2</li></ul></div></li></ul>");
+        assertContent("<ul><li>foo</li><li>bar<div><ul><li>foo 2</li><li>bar 2</li></ul></div></li></ul>");
     }
 
     /**
@@ -183,18 +200,22 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void failingTestDeleteInEmbeddedDocumentDifferentLists()
     {
-        setWikiContent("* foo\n* bar (((\n1. foo 2\n* bar 2)))");
+        switchToSource();
+        setSourceText("* foo\n* bar (((\n1. foo 2\n* bar 2)))");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild.firstChild", 5);
         typeDelete();
-        assertXHTML("<ul><li>foo</li><li>bar<div><ol><li>foo 2</li><li>bar 2</li></ol></div></li></ul>");
+        assertContent("<ul><li>foo</li><li>bar<div><ol><li>foo 2</li><li>bar 2</li></ol></div></li></ul>");
     }
 
     public void testBackspaceInEmbeddedDocumentList()
     {
-        setWikiContent("* foo(((bar\n* foar)))");
+        switchToSource();
+        setSourceText("* foo(((bar\n* foar)))");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foo<div><p>bar</p>foar</div></li></ul>");
+        assertContent("<ul><li>foo<div><p>bar</p>foar</div></li></ul>");
     }
 
     /**
@@ -202,11 +223,13 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void failingTestBackspaceAndDeleteToMergeEmbeddedDocumentListAndParagraph()
     {
-        setWikiContent("* foo(((bar\n* foar)))");
+        switchToSource();
+        setSourceText("* foo(((bar\n* foar)))");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
         typeDelete();
-        assertXHTML("<ul><li>foo<div><p>barfoar</p></div></li></ul>");
+        assertContent("<ul><li>foo<div><p>barfoar</p></div></li></ul>");
     }
 
     /**
@@ -214,10 +237,12 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void failingTestDeleteInEmbeddedDocumentList()
     {
-        setWikiContent("* foo(((* bar\n\nfoar)))");
+        switchToSource();
+        setSourceText("* foo(((* bar\n\nfoar)))");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foo<div><ul><li>barfoar</li></ul></div></li></ul>");
+        assertContent("<ul><li>foo<div><ul><li>barfoar</li></ul></div></li></ul>");
     }
 
     /**
@@ -226,18 +251,22 @@ public class ListTest extends AbstractWysiwygTestCase
     public void testDeleteBeforeSublist()
     {
         // 1/ with only one item -> the sublist should be removed
-        setWikiContent("* foo\n** bar\n");
+        switchToSource();
+        setSourceText("* foo\n** bar\n");
+        switchToWysiwyg();
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foobar</li></ul>");
+        assertContent("<ul><li>foobar</li></ul>");
 
         // 2/ with more than one item -> only the first item should be moved to the list above
-        setWikiContent("* foo\n** bar\n** far");
+        switchToSource();
+        setSourceText("* foo\n** bar\n** far");
+        switchToWysiwyg();
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foobar<ul><li>far</li></ul></li></ul>");
+        assertContent("<ul><li>foobar<ul><li>far</li></ul></li></ul>");
     }
 
     /**
@@ -247,18 +276,22 @@ public class ListTest extends AbstractWysiwygTestCase
     public void testBackspaceBeginSublist()
     {
         // 1/ with only one item -> the sublist should be deleted
-        setWikiContent("* foo\n** bar\n");
+        switchToSource();
+        setSourceText("* foo\n** bar\n");
+        switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foobar</li></ul>");
+        assertContent("<ul><li>foobar</li></ul>");
 
         // 2/ with more than one item -> only the first item should be moved to the list above
-        setWikiContent("* foo\n** bar\n** far");
+        switchToSource();
+        setSourceText("* foo\n** bar\n** far");
+        switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foobar<ul><li>far</li></ul></li></ul>");
+        assertContent("<ul><li>foobar<ul><li>far</li></ul></li></ul>");
     }
 
     /**
@@ -267,11 +300,13 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testDeleteDecreasesLevelWithEmptyItem()
     {
-        setWikiContent("* foo\n*** bar\n");
+        switchToSource();
+        setSourceText("* foo\n*** bar\n");
+        switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foo<br class=\"spacer\"><ul><li>bar</li></ul></li></ul>");
+        assertContent("<ul><li>foo<br><ul><li>bar</li></ul></li></ul>");
     }
 
     /**
@@ -280,11 +315,13 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceDecreasesLevelWithEmptyItem()
     {
-        setWikiContent("* foo\n*** bar\n");
+        switchToSource();
+        setSourceText("* foo\n*** bar\n");
+        switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foo<br class=\"spacer\"><ul><li>bar</li></ul></li></ul>");
+        assertContent("<ul><li>foo<br><ul><li>bar</li></ul></li></ul>");
     }
 
     /**
@@ -295,11 +332,13 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testDeleteBeforePreviousLevelItem()
     {
-        setWikiContent("* foo\n** bar\n* bar minus one");
+        switchToSource();
+        setSourceText("* foo\n** bar\n* bar minus one");
+        switchToWysiwyg();
         // Set the selection at the end of "bar"
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>foo<ul><li>barbar minus one</li></ul></li></ul>");
+        assertContent("<ul><li>foo<ul><li>barbar minus one</li></ul></li></ul>");
     }
 
     /**
@@ -311,11 +350,13 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceAfterPreviousLevelItem()
     {
-        setWikiContent("* foo\n** bar\n* bar minus one");
+        switchToSource();
+        setSourceText("* foo\n** bar\n* bar minus one");
+        switchToWysiwyg();
         // Set the selection at the end of "bar"
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<ul><li>foo<ul><li>barbar minus one</li></ul></li></ul>");
+        assertContent("<ul><li>foo<ul><li>barbar minus one</li></ul></li></ul>");
     }
 
     /**
@@ -325,20 +366,22 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testDeleteAllTextInListItem()
     {
-        setWikiContent("* foo\n* b\n** ar");
+        switchToSource();
+        setSourceText("* foo\n* b\n** ar");
+        switchToWysiwyg();
 
         // Set the selection at the beginning of the text in the second list item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
         typeDelete();
         // test that the list structure is correct: two items one with a sublist
-        assertXHTML("<ul><li>foo</li><li><br class=\"spacer\"><ul><li>ar</li></ul></li></ul>");
+        assertContent("<ul><li>foo</li><li><br><ul><li>ar</li></ul></li></ul>");
         // type in the empty list item
         moveCaret("XWE.body.firstChild.lastChild", 0);
         typeText("bar");
-        assertXHTML("<ul><li>foo</li><li>bar<br class=\"spacer\"><ul><li>ar</li></ul></li></ul>");
+        assertContent("<ul><li>foo</li><li>bar<br><ul><li>ar</li></ul></li></ul>");
         // now delete, to test that it jumps the <br>
         typeDelete();
-        assertXHTML("<ul><li>foo</li><li>barar</li></ul>");
+        assertContent("<ul><li>foo</li><li>barar</li></ul>");
     }
 
     /**
@@ -348,22 +391,24 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceAllTextInListItem()
     {
-        setWikiContent("* foo\n* b\n** ar");
+        switchToSource();
+        setSourceText("* foo\n* b\n** ar");
+        switchToWysiwyg();
 
         // Set the selection at the end of the text in the second list item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 1);
         typeBackspace();
         // test that the list structure is correct: two items one with a sublist
-        assertXHTML("<ul><li>foo</li><li><br class=\"spacer\"><ul><li>ar</li></ul></li></ul>");
+        assertContent("<ul><li>foo</li><li><br><ul><li>ar</li></ul></li></ul>");
         // type in the empty list item
         moveCaret("XWE.body.firstChild.lastChild", 0);
         typeText("bar");
-        assertXHTML("<ul><li>foo</li><li>bar<br class=\"spacer\"><ul><li>ar</li></ul></li></ul>");
+        assertContent("<ul><li>foo</li><li>bar<br><ul><li>ar</li></ul></li></ul>");
         // Put the caret at the beginning of the sublist
         moveCaret("XWE.body.firstChild.lastChild.lastChild.firstChild.firstChild", 0);
         // now backspace, to test that it jumps the <br>
         typeBackspace();
-        assertXHTML("<ul><li>foo</li><li>barar</li></ul>");
+        assertContent("<ul><li>foo</li><li>barar</li></ul>");
     }
 
     /**
@@ -372,20 +417,24 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void failingTestDeleteBeforeParagraph()
     {
-        setWikiContent("* one\n* two\n\nFoobar");
+        switchToSource();
+        setSourceText("* one\n* two\n\nFoobar");
+        switchToWysiwyg();
 
         // Set the selection at the end of the "two" list item
         moveCaret("XWE.body.firstChild.lastChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>one</li><li>twoFoobar</li></ul>");
+        assertContent("<ul><li>one</li><li>twoFoobar</li></ul>");
 
         // now run the case with delete in a sublist
-        setWikiContent("* one\n** two\n\nFoobar");
+        switchToSource();
+        setSourceText("* one\n** two\n\nFoobar");
+        switchToWysiwyg();
 
         // Set the selection at the end of the "two" list item
         moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
         typeDelete();
-        assertXHTML("<ul><li>one<ul><li>twoFoobar</li></ul></li></ul>");
+        assertContent("<ul><li>one<ul><li>twoFoobar</li></ul></li></ul>");
     }
 
     /**
@@ -393,22 +442,26 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceAfterParagraph()
     {
-        setWikiContent("Foobar\n\n* one\n* two");
+        switchToSource();
+        setSourceText("Foobar\n\n* one\n* two");
+        switchToWysiwyg();
 
         // Set the selection at the beginning of the "one" list item
         moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<p>Foobarone</p><ul><li>two</li></ul>");
+        assertContent("<p>Foobarone</p><ul><li>two</li></ul>");
 
         // Now test the case when the list has a sublist, in which case FF keeps the sublist parent, as empty and
         // editable
         // Note that this behaves differently on Internet Explorer, unwrapping the sublist
-        setWikiContent("Foobar\n\n* one\n** two");
+        switchToSource();
+        setSourceText("Foobar\n\n* one\n** two");
+        switchToWysiwyg();
 
         // Set the selection at the beginning of the "one" list item
         moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
-        assertXHTML("<p>Foobarone</p><ul><li><br class=\"spacer\"><ul><li>two</li></ul></li></ul>");
+        assertContent("<p>Foobarone</p><ul><li><br><ul><li>two</li></ul></li></ul>");
     }
 
     /**
@@ -417,13 +470,15 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testDeleteSelectionPreserveSublists()
     {
-        setWikiContent("* one\n** two\n** three\n*** four\n*** five");
+        switchToSource();
+        setSourceText("* one\n** two\n** three\n*** four\n*** five");
+        switchToWysiwyg();
 
         // Set the selection starting in the one element and ending in the four element
         select("XWE.body.firstChild.firstChild.firstChild", 2,
             "XWE.body.firstChild.firstChild.lastChild.lastChild.lastChild.firstChild.firstChild", 2);
         typeDelete();
-        assertXHTML("<ul><li>onur<ul><li><br class=\"spacer\"><ul><li>five</li></ul></li></ul></li></ul>");
+        assertContent("<ul><li>onur<ul><li><br><ul><li>five</li></ul></li></ul></li></ul>");
     }
 
     /**
@@ -432,12 +487,14 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testDeleteSelectionDeletesEnclosedSublists()
     {
-        setWikiContent("* one\n** two\n** three\n*** four\n** five\n* six");
+        switchToSource();
+        setSourceText("* one\n** two\n** three\n*** four\n** five\n* six");
+        switchToWysiwyg();
 
         // Set the selection starting in the one element and ending in the six element
         select("XWE.body.firstChild.firstChild.firstChild", 2, "XWE.body.firstChild.lastChild.firstChild", 1);
         typeDelete();
-        assertXHTML("<ul><li>onix</li></ul>");
+        assertContent("<ul><li>onix</li></ul>");
     }
 
     /**
@@ -446,21 +503,24 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentNoSublist()
     {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
         typeText("foo");
         clickUnorderedListButton();
         typeEnter();
         typeText("bar");
-        assertXHTML("<ul><li>foo</li><li>bar<br class=\"spacer\"></li></ul>");
+        assertContent("<ul><li>foo</li><li>bar<br></li></ul>");
         clickIndentButton();
-        assertXHTML("<ul><li>foo<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
+        assertContent("<ul><li>foo<ul><li>bar<br></li></ul></li></ul>");
         // test that the indented item cannot be indented once more
         assertFalse(isIndentButtonEnabled());
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0);
         typeTab();
         // check that nothing happened
-        assertXHTML("<ul><li>foo<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
+        assertContent("<ul><li>foo<ul><li>bar<br></li></ul></li></ul>");
 
-        assertWiki("* foo\n** bar");
+        switchToSource();
+        assertSourceText("* foo\n** bar");
     }
 
     /**
@@ -469,6 +529,8 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentUnderSublist()
     {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
         typeText("one");
         clickUnorderedListButton();
         typeEnter();
@@ -478,9 +540,9 @@ public class ListTest extends AbstractWysiwygTestCase
         typeShiftTab();
         typeText("three");
         clickIndentButton();
-        assertXHTML("<ul><li>one</li><li>two<ul><li>two plus one</li>"
-            + "<li>three<br class=\"spacer\"></li></ul></li></ul>");
-        assertWiki("* one\n* two\n** two plus one\n** three");
+        assertContent("<ul><li>one</li><li>two<ul><li>two plus one</li><li>three<br></li></ul></li></ul>");
+        switchToSource();
+        assertSourceText("* one\n* two\n** two plus one\n** three");
     }
 
     /**
@@ -491,6 +553,8 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentOutdentWithSublist()
     {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
         typeText("foo");
         clickUnorderedListButton();
         typeEnter();
@@ -502,23 +566,26 @@ public class ListTest extends AbstractWysiwygTestCase
         typeText("one");
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         typeEnter();
-        assertXHTML("<ul><li>foo</li><li>one<ul><li>bar<br class=\"spacer\"></li></ul></li></ul>");
+        assertContent("<ul><li>foo</li><li>one<ul><li>bar<br></li></ul></li></ul>");
         // check that the list item is indentable, the list plugin is correctly recognizing lists (XWIKI-3061)
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
-        assertXHTML("<ul><li>foo<ul><li>one<ul><li>bar<br class=\"spacer\"></li></ul></li></ul></li></ul>");
-        assertWiki("* foo\n** one\n*** bar");
+        assertContent("<ul><li>foo<ul><li>one<ul><li>bar<br></li></ul></li></ul></li></ul>");
+        switchToSource();
+        assertSourceText("* foo\n** one\n*** bar");
+        switchToWysiwyg();
         // select second element "one"
         select("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0,
             "XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 3);
         // check that the list item is outdentable, the list plugin is correctly recognizing lists (XWIKI-3061)
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
-        assertXHTML("<ul><li>foo</li><li>one<ul><li>bar</li></ul></li></ul>");
+        assertContent("<ul><li>foo</li><li>one<ul><li>bar</li></ul></li></ul>");
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         clickOutdentButton();
-        assertXHTML("<ul><li>foo</li><li>one</li><li>bar</li></ul>");
-        assertWiki("* foo\n* one\n* bar");
+        assertContent("<ul><li>foo</li><li>one</li><li>bar</li></ul>");
+        switchToSource();
+        assertSourceText("* foo\n* one\n* bar");
     }
 
     /**
@@ -527,6 +594,8 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testOutdentOnFirstLevel()
     {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
         typeText("one");
         clickUnorderedListButton();
         typeEnter();
@@ -538,9 +607,9 @@ public class ListTest extends AbstractWysiwygTestCase
         // move caret at the beginning of the "two" item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
         typeShiftTab();
-        assertXHTML("<ul><li>one</li></ul><p>two</p><ul><li>two plus one</li><li>three"
-            + "<br class=\"spacer\"></li></ul>");
-        assertWiki("* one\n\ntwo\n\n* two plus one\n* three");
+        assertContent("<ul><li>one</li></ul><p>two</p><ul><li>two plus one</li><li>three<br></li></ul>");
+        switchToSource();
+        assertSourceText("* one\n\ntwo\n\n* two plus one\n* three");
     }
 
     /**
@@ -553,7 +622,7 @@ public class ListTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild.childNodes[3].childNodes[1].firstChild", 0);
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
-        assertXHTML("<ul><li>one<br>before<ul><li>two</li></ul></li><li>three<ul><li>four</li></ul>"
+        assertContent("<ul><li>one<br>before<ul><li>two</li></ul></li><li>three<ul><li>four</li></ul>"
             + "after</li></ul>");
     }
 
@@ -569,12 +638,14 @@ public class ListTest extends AbstractWysiwygTestCase
             return;
         }
 
-        setWikiContent("* foo\n* bar");
+        switchToSource();
+        setSourceText("* foo\n* bar");
+        switchToWysiwyg();
         // Set the selection at the end of the first item
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         // type the dot native, to make sure it goes through the browser's key handling code
         getSelenium().keyPressNative(Integer.toString(KeyEvent.VK_PERIOD));
-        assertXHTML("<ul><li>foo.</li><li>bar</li></ul>");
+        assertContent("<ul><li>foo.</li><li>bar</li></ul>");
     }
 
     /**
@@ -582,8 +653,10 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testListDetection()
     {
-        setWikiContent("before\n\n" + "* unordered list item\n*1. ordered sub-list item\n\n"
+        switchToSource();
+        setSourceText("before\n\n" + "* unordered list item\n*1. ordered sub-list item\n\n"
             + "1. ordered list item\n1*. unordered sub-list item");
+        switchToWysiwyg();
 
         // Outside lists
         moveCaret("XWE.body.firstChild.firstChild", 3);
@@ -619,7 +692,8 @@ public class ListTest extends AbstractWysiwygTestCase
         clickUnorderedListButton();
         typeEnter();
         typeText("b");
-        assertWiki("|=(((\n*  a\n* b\n)))|= \n| | ");
+        switchToSource();
+        assertSourceText("|=(((\n*  a\n* b\n)))|= \n| | ");
     }
 
     /**
@@ -627,11 +701,14 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentListFragment()
     {
-        setWikiContent("* one\n* two\n* three\n* three point one\n* three point two\n* three point three\n* four");
+        switchToSource();
+        setSourceText("* one\n* two\n* three\n* three point one\n* three point two\n* three point three\n* four");
+        switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[3].firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 17);
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
-        assertWiki("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
+        switchToSource();
+        assertSourceText("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
     }
 
     /**
@@ -641,7 +718,9 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentParentWithNoSublist()
     {
-        setWikiContent("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
+        switchToSource();
+        setSourceText("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
+        switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[2].firstChild", 5);
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
@@ -649,7 +728,8 @@ public class ListTest extends AbstractWysiwygTestCase
             "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[2].firstChild", 17);
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
-        assertWiki("* one\n* two\n** three\n** three point one\n** three point two\n** three point three\n* four");
+        switchToSource();
+        assertSourceText("* one\n* two\n** three\n** three point one\n** three point two\n** three point three\n* four");
     }
 
     /**
@@ -657,16 +737,21 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentItemWithSublistAndOutdent()
     {
-        setWikiContent("* one\n* two\n* three\n** foo\n** bar\n* four\n* four\n* five");
+        switchToSource();
+        setSourceText("* one\n* two\n* three\n** foo\n** bar\n* four\n* four\n* five");
+        switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[3].firstChild", 4);
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
-        assertWiki("* one\n* two\n** three\n*** foo\n*** bar\n** four\n* four\n* five");
+        switchToSource();
+        assertSourceText("* one\n* two\n** three\n*** foo\n*** bar\n** four\n* four\n* five");
+        switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0,
             "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[1].firstChild", 3);
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
-        assertWiki("* one\n* two\n* three\n** foo\n** bar\n** four\n* four\n* five");
+        switchToSource();
+        assertSourceText("* one\n* two\n* three\n** foo\n** bar\n** four\n* four\n* five");
     }
 
     /**
@@ -675,7 +760,9 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentOutdentInTableCell()
     {
-        setWikiContent("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n** one plus two\n* two\n* three)))\n| | ");
+        switchToSource();
+        setSourceText("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n** one plus two\n* two\n* three)))\n| | ");
+        switchToWysiwyg();
         select(
             "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
                 + "childNodes[1].firstChild", 0,
@@ -683,8 +770,10 @@ public class ListTest extends AbstractWysiwygTestCase
                 + "firstChild", 3);
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
-        assertWiki("|(((\n* item 1\n* item 2\n)))"
+        switchToSource();
+        assertSourceText("|(((\n* item 1\n* item 2\n)))"
             + "|(((\n* one\n** one plus one\n*** one plus two\n** two\n* three\n)))\n| | ");
+        switchToWysiwyg();
         select(
             "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
                 + "childNodes[1].firstChild", 0,
@@ -692,7 +781,8 @@ public class ListTest extends AbstractWysiwygTestCase
                 + "firstChild", 5);
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
-        assertWiki("|(((\n* item 1\n* item 2\n)))"
+        switchToSource();
+        assertSourceText("|(((\n* item 1\n* item 2\n)))"
             + "|(((\n* one\n** one plus one\n*** one plus two\n* two\n\nthree\n)))\n| | ");
     }
 
@@ -704,12 +794,15 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testOutdentFirstLevelPreservesLines()
     {
-        setWikiContent("* one\n* two\n* three\n** three plus one\n"
+        switchToSource();
+        setSourceText("* one\n* two\n* three\n** three plus one\n"
             + "* four\n* (((before\n* inner five\n* inner five + 1\n\nafter)))\n* six");
+        switchToWysiwyg();
         select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 3);
         assertTrue(isOutdentButtonEnabled());
         clickOutdentButton();
-        assertWiki("one\n\ntwo\n\nthree\n\n* three plus one\n\nfour\n\n"
+        switchToSource();
+        assertSourceText("one\n\ntwo\n\nthree\n\n* three plus one\n\nfour\n\n"
             + "(((\nbefore\n\n* inner five\n* inner five + 1\n\nafter\n)))\n\nsix");
     }
 
@@ -721,6 +814,8 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceBetweenHeadingListItems()
     {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
         typeText("abc");
         clickUnorderedListButton();
         applyStyleTitle1();
@@ -728,8 +823,9 @@ public class ListTest extends AbstractWysiwygTestCase
         typeEnter();
         typeBackspace();
         // expecting a single list item, with 2 headings
-        assertXHTML("<ul><li><h1>ab</h1><h1>c</h1></li></ul>");
-        assertWiki("* (((\n= ab =\n\n= c =\n)))");
+        assertContent("<ul><li><h1>ab</h1><h1>c</h1></li></ul>");
+        switchToSource();
+        assertSourceText("* (((\n= ab =\n\n= c =\n)))");
     }
 
     /**
@@ -752,13 +848,13 @@ public class ListTest extends AbstractWysiwygTestCase
         typeBackspace();
         typeDelete();
         // expecting a single list item, with 2 headings
-        assertXHTML("<ul><li><h1>abc</h1></li></ul>");
-        assertWiki("* (((\n= abc =\n)))");
+        assertContent("<ul><li><h1>abc</h1></li></ul>");
+        switchToSource();
+        assertSourceText("* (((\n= abc =\n)))");
     }
 
     /**
-     * Tests that a delete between two list items with headings inside moves the second heading in the first list item. 
-     * <br />
+     * Tests that a delete between two list items with headings inside moves the second heading in the first list item. <br />
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
@@ -773,10 +869,12 @@ public class ListTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeDelete();
         // expecting a single list item, with 2 headings
-        assertXHTML("<ul><li><h1>cb</h1><h1>a</h1></li></ul>");
-        assertWiki("* (((\n= cb =\n\n= a =\n)))");
+        assertContent("<ul><li><h1>cb</h1><h1>a</h1></li></ul>");
+        switchToSource();
+        assertSourceText("* (((\n= cb =\n\n= a =\n)))");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         // now try to reunite the two, with 2 deletes
         typeText("cba");
@@ -788,8 +886,9 @@ public class ListTest extends AbstractWysiwygTestCase
         typeDelete();
         typeDelete();
         // expecting a single list item, with 2 headings
-        assertXHTML("<ul><li><h1>cba</h1></li></ul>");
-        assertWiki("* (((\n= cba =\n)))");
+        assertContent("<ul><li><h1>cba</h1></li></ul>");
+        switchToSource();
+        assertSourceText("* (((\n= cba =\n)))");
     }
 
     /**

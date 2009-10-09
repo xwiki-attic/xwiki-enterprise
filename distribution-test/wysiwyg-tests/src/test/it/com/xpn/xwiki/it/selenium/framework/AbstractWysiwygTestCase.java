@@ -19,9 +19,6 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.Wait;
 
@@ -34,8 +31,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 {
     private static final String WYSIWYG_LOCATOR_FOR_KEY_EVENTS =
         "document.getElementsByTagName('iframe')[0].contentWindow.document.documentElement";
-
-    private static final String WYSIWYG_LOCATOR_FOR_HTML_CONTENT = "content";
 
     private static final String WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='WYSIWYG']";
 
@@ -55,35 +50,17 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         super.setUp();
 
-        // setup the test
-        setupLogin();
-        setupTestPage();
-    }
-
-    protected void setupLogin()
-    {
-        // nothing here, use the default login in the wysiwyg test setup
+        login();
+        open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
+        waitForEditorToLoad();
     }
 
     /**
-     * Helper method to setup the edit test page. Override to make specific page setup in subclasses.
+     * Logs in with the default user for this test case.
      */
-    protected void setupTestPage()
+    protected void login()
     {
-        openPageForEditTest("Main", "WysiwygTest");
-    }
-
-    protected void openPageForEditTest(String space, String page)
-    {
-        open(space, page, "edit", "editor=wiki");
-        // Reset the content of the test page.
-        setFieldValue("content", "");
-        clickEditSaveAndContinue();
-        // Load the WYSIWYG editor.
-        switchToWysiwygEditor();
-        // We select again all the content. In Firefox, the selection will include the annoying br tag. Further typing
-        // will overwrite it. See XWIKI-2732.
-        selectAllContent();
+        // Nothing here. Use the default login in the WYSIWYG test setup.
     }
 
     protected void runScript(String script)
@@ -118,10 +95,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         }
     }
 
+    /**
+     * Sets the content of the rich text area.
+     * 
+     * @param html the new content of the rich text area
+     */
     public void setContent(String html)
     {
         runScript("XWE.body.innerHTML = '" + html + "';");
-        updateRichTextAreaFormField();
+    }
+
+    /**
+     * @return the content of the rich text area
+     */
+    public String getContent()
+    {
+        return getEval("window.XWE.body.innerHTML");
     }
 
     /**
@@ -454,56 +443,20 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         pushToolBarButton("Insert Custom Character");
     }
 
-    public void clickInsertImageButton()
-    {
-        pushToolBarButton("Insert or edit image");
-    }
-
-    public void clickInsertLinkButton()
-    {
-        pushToolBarButton("Insert Link");
-    }
-
-    public void clickUnlinkButton()
-    {
-        pushToolBarButton("Remove Link");
-    }
-
     public void clickOfficeImporterButton()
     {
         pushToolBarButton("Import Office Content");
     }
 
-    public boolean isUnlinkButtonEnabled()
-    {
-        return isButtonEnabled("Remove Link");
-    }
-
-    public boolean isInsertLinkButtonEnabled()
-    {
-        return isButtonEnabled("Insert Link");
-
-    }
-
-    public void clickInsertTableButton()
-    {
-        pushToolBarButton("Insert Table");
-    }
-
     public void clickBackToEdit()
     {
         submit("//input[@type = 'submit' and @value = 'Back To Edit']");
-        focusRichTextArea();
+        waitForEditorToLoad();
     }
 
     public void applyStyle(String style)
     {
         getSelenium().select("//select[@title=\"Apply Style\"]", style);
-    }
-
-    public void applyStyleInLine()
-    {
-        applyStyle("Inline");
     }
 
     public void applyStylePlainText()
@@ -562,16 +515,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void pushToolBarButton(String title)
     {
         pushButton("//div[@title='" + title + "']");
-    }
-
-    /**
-     * Clicks the button with the specified title.
-     * 
-     * @param buttonTitle the value of the {@code title} attribute of the {@code button} element to click
-     */
-    public void clickButtonWithTitle(String buttonTitle)
-    {
-        getSelenium().click("//button[@title=\"" + buttonTitle + "\"]");
     }
 
     public void clickButtonWithText(String buttonText)
@@ -716,26 +659,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 + menuLabel + "']");
     }
 
-    public void assertXHTML(String xhtml)
+    /**
+     * Asserts that the rich text area has the expected inner HTML.
+     * 
+     * @param expectedHTML the expected inner HTML of the rich text area
+     */
+    public void assertContent(String expectedHTML)
     {
-        updateRichTextAreaFormField();
-        assertEquals(xhtml, getSelenium().getValue(WYSIWYG_LOCATOR_FOR_HTML_CONTENT));
-    }
-
-    public void switchToWikiEditor()
-    {
-        updateRichTextAreaFormField();
-        clickLinkWithText("Wiki", true);
-    }
-
-    public void switchToWysiwygEditor()
-    {
-        clickLinkWithText("WYSIWYG", true);
-        if (getSelenium().isConfirmationPresent()) {
-            assertEquals("Your content contains HTML or special code that might be lost in the WYSIWYG Editor."
-                + " Are you sure you want to switch editors?", getSelenium().getConfirmation());
-        }
-        focusRichTextArea();
+        assertEquals(expectedHTML, getContent());
     }
 
     /**
@@ -871,42 +802,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractXWikiTestCase#assertWikiTextGeneratedByWysiwyg(String)
-     */
-    public void assertWikiTextGeneratedByWysiwyg(String text)
-    {
-        switchToWikiEditor();
-        assertEquals(text, getFieldValue("content"));
-    }
-
-    /**
-     * Switches to the wiki editor and checks the content of the wiki edit area against the passed expected content. At
-     * the end, it the editor is switched back to wysiwyg.
-     * 
-     * @param expected the expected content of the wiki editor
-     */
-    public void assertWiki(String expected)
-    {
-        assertWikiTextGeneratedByWysiwyg(expected);
-        switchToWysiwygEditor();
-    }
-
-    /**
-     * Sets the passed wiki text as the editor content, leaving the wysiwyg editor active. To be used from the wysiwyg
-     * editor to set the text as wiki text.
-     * 
-     * @param wikiText the wiki text to set
-     */
-    public void setWikiContent(String wikiText)
-    {
-        switchToWikiEditor();
-        setFieldValue("content", wikiText);
-        switchToWysiwygEditor();
-    }
-
-    /**
      * Wait for a WYSIWYG dialog to close. The test checks for a {@code div} element with {@code xDialogBox} value of
      * {@code class} to not be present.
      */
@@ -1005,11 +900,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         // The focus event doesn't propagate from an inner element to the host window, meaning we are forced to trigger
         // the focus event on the window object.
         focus(getDOMLocator("defaultView"));
-        // Wait till the rich text area enters design mode.
-        waitForCondition("window." + getDOMLocator("defaultView") + ".getSelection().rangeCount > 0");
-        // We have to trigger a tool bar update in order to enabled the tool bat buttons. Unfortunately, this also
-        // triggers an update of the state of the tool bar widgets like toggle buttons or list boxes.
-        triggerToolbarUpdate();
     }
 
     /**
@@ -1091,5 +981,52 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().type(titleLocator, beforeValue);
         // Return the result.
         return focused;
+    }
+
+    /**
+     * @return the text from the source text area
+     */
+    protected String getSourceText()
+    {
+        // Note: We could use getSelenium().getValue() here. However getValue() is stripping spaces
+        // and some of our tests verify that there are leading spaces/empty lines.
+        return getSelenium().getEval(
+            "getInputValue(selenium.browserbot.findElement(\"" + WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA + "\"))");
+    }
+
+    /**
+     * Sets the value of the source text area.
+     * 
+     * @param sourceText the new value for the source text area
+     */
+    protected void setSourceText(String sourceText)
+    {
+        getSelenium().type(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, sourceText);
+    }
+
+    /**
+     * Asserts that the source text area has the given value.
+     * 
+     * @param expectedSourceText the expected value of the source text area
+     */
+    protected void assertSourceText(String expectedSourceText)
+    {
+        assertEquals(expectedSourceText, getSourceText());
+    }
+
+    /**
+     * Waits for the WYSIWYG editor to load.
+     */
+    protected void waitForEditorToLoad()
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return (getSelenium().isElementPresent(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA) && getSelenium()
+                    .isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA))
+                    || !getSelenium().isElementPresent("//div[@class = 'xRichTextEditor']//div[@class = 'loading']");
+            }
+        }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
     }
 }

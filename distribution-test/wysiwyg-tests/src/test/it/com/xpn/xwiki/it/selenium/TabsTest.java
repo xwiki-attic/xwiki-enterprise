@@ -28,7 +28,8 @@ public class TabsTest extends AbstractWysiwygTestCase
         setContent("<strong>foo</strong>");
         switchToWysiwyg(false);
         switchToWysiwyg();
-        assertWiki("**foo**");
+        switchToSource();
+        assertSourceText("**foo**");
     }
 
     /**
@@ -76,9 +77,11 @@ public class TabsTest extends AbstractWysiwygTestCase
     public void testLinksAreNotLostWhenSwitchingToSourceTab()
     {
         String content = "Visit [[XWiki>>http://www.xwiki.org]] and our [[blog>>Blog.WebHome]].";
-        setWikiContent(content);
         switchToSource();
-        assertSource(content);
+        setSourceText(content);
+        switchToWysiwyg();
+        switchToSource();
+        assertSourceText(content);
     }
 
     /**
@@ -89,7 +92,7 @@ public class TabsTest extends AbstractWysiwygTestCase
         typeText("2");
         switchToSource();
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "1");
-        assertSource("12");
+        assertSourceText("12");
     }
 
     /**
@@ -98,28 +101,13 @@ public class TabsTest extends AbstractWysiwygTestCase
     public void testContextDocumentIsPreserved()
     {
         // Uploading an image to the current document is difficult. Instead we use a context sensitive velocity script.
-        setWikiContent("{{velocity}}$doc.fullName{{/velocity}}");
+        clickLinkWithText("Wiki");
+        setFieldValue("content", "{{velocity}}$doc.fullName{{/velocity}}");
+        clickLinkWithText("WYSIWYG");
+        waitForEditorToLoad();
         String expected = getEval("window.XWE.body.textContent");
         switchToSource();
         switchToWysiwyg();
         assertEquals(expected, getEval("window.XWE.body.textContent"));
-    }
-
-    /**
-     * @return the text from the source text area
-     */
-    private String getSourceText()
-    {
-        return getSelenium().getValue(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
-    }
-
-    /**
-     * Asserts that the source text area has the given value.
-     * 
-     * @param expectedSourceText the expected value of the source text area
-     */
-    private void assertSource(String expectedSourceText)
-    {
-        assertEquals(expectedSourceText, getSourceText());
     }
 }

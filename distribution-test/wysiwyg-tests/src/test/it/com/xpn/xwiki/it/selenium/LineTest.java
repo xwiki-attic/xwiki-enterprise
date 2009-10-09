@@ -37,43 +37,54 @@ public class LineTest extends AbstractWysiwygTestCase
         typeText("a");
         typeShiftEnter();
         typeText("b");
-        assertWiki("a\nb");
+        switchToSource();
+        assertSourceText("a\nb");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         // Inside heading
         typeText("c");
         applyStyleTitle1();
         typeShiftEnter();
         typeText("d");
-        assertWiki("= c\nd =");
+        switchToSource();
+        assertSourceText("= c\nd =");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         // Inside list item
         typeText("e");
         clickUnorderedListButton();
         typeShiftEnter();
         typeText("f");
-        assertWiki("* e\nf");
+        switchToSource();
+        assertSourceText("* e\nf");
 
         // Inside table cell
-        setWikiContent("|h");
+        setSourceText("|h");
+        switchToWysiwyg();
         typeText("g");
         typeShiftEnter();
-        assertWiki("|g\nh");
+        switchToSource();
+        assertSourceText("|g\nh");
 
         // Inside table heading
-        setWikiContent("|=j");
+        setSourceText("|=j");
+        switchToWysiwyg();
         typeText("i");
         typeShiftEnter();
-        assertWiki("|=i\nj");
+        switchToSource();
+        assertSourceText("|=i\nj");
 
         // Inside paragraph
-        setWikiContent("l");
+        setSourceText("l");
+        switchToWysiwyg();
         typeText("k");
         typeShiftEnter();
-        assertWiki("k\nl");
+        switchToSource();
+        assertSourceText("k\nl");
     }
 
     /**
@@ -84,19 +95,24 @@ public class LineTest extends AbstractWysiwygTestCase
         // Under body
         typeTextThenEnter("a");
         typeText("b");
-        assertWiki("a\n\nb");
+        switchToSource();
+        assertSourceText("a\n\nb");
 
         // Inside paragraph
-        setWikiContent("d");
+        setSourceText("d");
+        switchToWysiwyg();
         typeTextThenEnter("c");
-        assertWiki("c\n\nd");
+        switchToSource();
+        assertSourceText("c\n\nd");
 
         // Inside heading
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
         applyStyleTitle2();
         typeTextThenEnter("e");
         typeText("f");
-        assertWiki("== e ==\n\nf");
+        switchToSource();
+        assertSourceText("== e ==\n\nf");
     }
 
     /**
@@ -109,23 +125,28 @@ public class LineTest extends AbstractWysiwygTestCase
         typeShiftEnter();
         typeEnter();
         typeText("b");
-        assertWiki("a\n\nb");
+        switchToSource();
+        assertSourceText("a\n\nb");
 
         // Inside paragraph
-        setWikiContent("d");
+        setSourceText("d");
+        switchToWysiwyg();
         typeText("c");
         typeShiftEnter();
         typeEnter();
-        assertWiki("c\n\nd");
+        switchToSource();
+        assertSourceText("c\n\nd");
 
         // Inside heading
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
         typeText("e");
         applyStyleTitle3();
         typeShiftEnter();
         typeEnter();
         typeText("f");
-        assertWiki("=== e ===\n\nf");
+        switchToSource();
+        assertSourceText("=== e ===\n\nf");
     }
 
     /**
@@ -139,15 +160,18 @@ public class LineTest extends AbstractWysiwygTestCase
         typeText("a");
         typeEnter(2);
         typeText("b");
-        assertWiki("a\n\n\nb");
+        switchToSource();
+        assertSourceText("a\n\n\nb");
 
         // Before heading
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
         typeTextThenEnter("c");
         applyStyleTitle4();
         typeEnter();
         typeText("d");
-        assertWiki("c\n\n\n==== d ====");
+        switchToSource();
+        assertSourceText("c\n\n\n==== d ====");
     }
 
     /**
@@ -166,20 +190,21 @@ public class LineTest extends AbstractWysiwygTestCase
         // Remove them.
         typeBackspace(2);
         // Check the result.
-        assertWiki("===== x =====");
+        switchToSource();
+        assertSourceText("===== x =====");
+        switchToWysiwyg();
 
         // Remove empty lines before paragraph
         // Create the paragraph.
-        // "Plain Text" is the default option and if the tool bar is not updated our change has no effect. Let's apply a
-        // different style and then the "Plain Text" one (this way we know for sure that the change event is triggered).
-        applyStyleTitle1();
+        triggerToolbarUpdate();
         applyStylePlainText();
         // Insert two empty lines before.
         typeEnter(2);
         // Remove them.
         typeBackspace(2);
         // Check the result.
-        assertWiki("x");
+        switchToSource();
+        assertSourceText("x");
     }
 
     /**
@@ -192,7 +217,8 @@ public class LineTest extends AbstractWysiwygTestCase
         applyStyleTitle1();
         typeEnter();
         typeText("x");
-        assertWiki("\n= foobar =\n\nx");
+        switchToSource();
+        assertSourceText("\n= foobar =\n\nx");
     }
 
     /**
@@ -203,7 +229,8 @@ public class LineTest extends AbstractWysiwygTestCase
         typeTextThenEnter("a");
         typeTextThenEnter("b");
         typeText("c");
-        assertWiki("a\n\nb\n\nc");
+        switchToSource();
+        assertSourceText("a\n\nb\n\nc");
     }
 
     /**
@@ -237,20 +264,24 @@ public class LineTest extends AbstractWysiwygTestCase
         clickButtonWithText("Insert Image");
         waitForDialogToClose();
 
+        // Make sure the editor is focused.
+        focus(getDOMLocator("defaultView"));
+
         // The inserted image should be selected. By pressing the right arrow key the caret is not moved after the image
         // thus we are forced to collapse the selection to the end.
         runScript("XWE.selection.collapseToEnd()");
+        // If the editor loses focus after pressing Enter then the next typed text won't be submitted.
         typeEnter();
         // "y" (lower case only) is misinterpreted.
         // See http://jira.openqa.org/browse/SIDE-309
         // See http://jira.openqa.org/browse/SRC-385
-        // Also we type Enter here to ensure there's no bogus BR at the end of the typed text.
-        typeTextThenEnter("xYz");
-        // Delete the empty line which was created only to prevent bogus BRs.
-        typeBackspace();
-        assertXHTML("<!--startimage:XWiki.AdminSheet@photos.png-->"
-            + "<img src=\"/xwiki/bin/download/XWiki/AdminSheet/photos.png\" alt=\"photos.png\">"
-            + "<!--stopimage--><p>xYz</p>");
+        typeText("xYz");
+
+        // Submit the changes. If the editor lost focus after pressing Enter then the next line has no effect.
+        blur(getDOMLocator("defaultView"));
+        clickLinkWithText("Wiki");
+        // Check the result.
+        assertEquals("[[image:XWiki.AdminSheet@photos.png]]\n\nxYz", getFieldValue("content"));
     }
 
     /**
@@ -270,7 +301,8 @@ public class LineTest extends AbstractWysiwygTestCase
 
         // Press Enter.
         typeEnter();
-        assertWiki("a\n\nd");
+        switchToSource();
+        assertSourceText("a\n\nd");
     }
 
     /**
@@ -297,7 +329,8 @@ public class LineTest extends AbstractWysiwygTestCase
         // Press Enter.
         typeEnter();
         typeText("x");
-        assertWiki("|=a\nx|=d\n| | ");
+        switchToSource();
+        assertSourceText("|=a\nx|=d\n| | ");
     }
 
     /**
@@ -307,7 +340,9 @@ public class LineTest extends AbstractWysiwygTestCase
     {
         typeText("header");
         applyStyleTitle1();
-        assertWiki("= header =");
+        switchToSource();
+        assertSourceText("= header =");
+        switchToWysiwyg();
 
         // Place the caret in the middle of the header.
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
@@ -324,7 +359,8 @@ public class LineTest extends AbstractWysiwygTestCase
         // See if the paragraph is detected.
         assertEquals("p", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
 
-        assertWiki("= hea# =\n\nder");
+        switchToSource();
+        assertSourceText("= hea# =\n\nder");
     }
 
     /**
@@ -353,7 +389,8 @@ public class LineTest extends AbstractWysiwygTestCase
         typeText("e");
 
         // Check the result.
-        assertWiki("* (((\n= a\nb =\n\nc\n\nd\n)))\n* e");
+        switchToSource();
+        assertSourceText("* (((\n= a\nb =\n\nc\n\nd\n)))\n* e");
     }
 
     /**
@@ -361,11 +398,13 @@ public class LineTest extends AbstractWysiwygTestCase
      */
     public void testEmptyHeadingsAreEditable()
     {
-        setWikiContent("before\n\n= =\n\nafter");
+        switchToSource();
+        setSourceText("before\n\n= =\n\nafter");
+        switchToWysiwyg();
         // We can't test if the caret can be placed inside the empty heading because the selection is not updated on
         // fake events. We can only check the generated HTML for a BR spacer that will allow the user to write text
         // inside the heading.
-        assertXHTML("<p>before</p><h1 id=\"H\"><span></span><br class=\"spacer\"></h1><p>after</p>");
+        assertContent("<p>before</p><h1 id=\"H\"><span></span><br></h1><p>after</p>");
     }
 
     /**
@@ -381,6 +420,6 @@ public class LineTest extends AbstractWysiwygTestCase
         typeEnter();
         typeText("x");
         // Check the result. The only way to test if the empty lines can be edited is to look for the BR spacers.
-        assertXHTML("<p><em></em><br class=\"spacer\"></p><p>x<strong></strong><br class=\"spacer\"></p>");
+        assertContent("<p><em></em><br></p><p>x<strong></strong><br></p>");
     }
 }

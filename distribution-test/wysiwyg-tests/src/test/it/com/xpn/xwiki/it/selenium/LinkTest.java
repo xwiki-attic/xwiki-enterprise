@@ -64,7 +64,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "foo";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
 
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
@@ -87,7 +87,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
     }
 
     /**
@@ -97,7 +98,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "foobar";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
@@ -117,7 +118,8 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + space + ".WebHome]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + space + ".WebHome]]");
     }
 
     /**
@@ -129,7 +131,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String space = "Main";
         String newPageName = "AliceInWonderwiki";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
@@ -145,7 +147,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + newPageName + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + space + "." + newPageName + "]]");
     }
 
     /**
@@ -159,7 +162,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String newSpace = "Bob";
         String newPage = "Cat";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
@@ -172,7 +175,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
     }
 
     /**
@@ -183,7 +187,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String linkLabel = "xwiki";
         String url = "http://www.xwiki.org";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
 
         openLinkDialog(MENU_WEB_PAGE);
         // ensure wizard step is loaded
@@ -192,7 +196,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + url + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + url + "]]");
     }
 
     /**
@@ -213,7 +218,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + newLabel + ">>" + url + "]]");
+        switchToSource();
+        assertSourceText("[[" + newLabel + ">>" + url + "]]");
     }
 
     /**
@@ -224,14 +230,15 @@ public class LinkTest extends AbstractWysiwygTestCase
         String linkLabel = "carol";
         String email = "mailto:carol@xwiki.org";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_EMAIL_ADDRESS);
 
         typeInInput("Email address", email);
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + email + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + email + "]]");
     }
 
     /**
@@ -247,10 +254,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeInInput("Email address", email);
         clickButtonWithText("Create Link");
         waitForDialogToClose();
-        // Note: the new line here because, although we remove initial <br> in the editor content by typing here after
-        // setUp selected all content, typing a space in the editor causes browser (FF) to add a <br> at the end,
-        // which we then select and add inside the anchor label.
-        assertWiki("[[" + linkLabel + "\n>>mailto:" + email + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>mailto:" + email + "]]");
     }
 
     /**
@@ -267,7 +272,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>http://" + linkURL + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>http://" + linkURL + "]]");
     }
 
     /**
@@ -275,6 +281,8 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkPreservesLabelFormatting()
     {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
         typeText("our");
         clickBoldButton();
         typeText("xwiki");
@@ -289,7 +297,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
 
         waitForDialogToClose();
-        assertWiki("[[our**xwiki**rox>>http://www.xwiki.org]]");
+        switchToSource();
+        assertSourceText("[[our**xwiki**rox>>http://www.xwiki.org]]");
     }
 
     /**
@@ -313,20 +322,17 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertXHTML("<p>this is <!--startwikilink:http://www.xwiki.com--><span class=\"wikiexternallink\">"
-            + "<a href=\"http://www.xwiki.com\">xwiki</a></span><!--stopwikilink--><br class=\"spacer\"></p>");
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 5);
-        // type things to trigger toolbar update
-        typeBackspace();
-        typeText("i");
+        triggerToolbarUpdate();
 
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         // unlink here should only move the caret out
         clickMenu(MENU_LINK_REMOVE);
-        focusRichTextArea();
         typeText(" which rox");
-        assertWiki("this is [[" + linkLabel + ">>" + linkURL + "]] which rox");
+        switchToSource();
+        assertSourceText("this is [[" + linkLabel + ">>" + linkURL + "]] which rox");
+        switchToWysiwyg();
 
         select("XWE.body.firstChild", 1, "XWE.body.firstChild.childNodes[1].firstChild", 5);
 
@@ -339,7 +345,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("this is [[" + linkLabel + ">>" + newLinkURL + "]] which rox");
+        switchToSource();
+        assertSourceText("this is [[" + linkLabel + ">>" + newLinkURL + "]] which rox");
     }
 
     /**
@@ -408,7 +415,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
+        switchToSource();
+        assertSourceText("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
+        switchToWysiwyg();
 
         // move caret at the end and type some more
         moveCaret("XWE.body.firstChild", 1);
@@ -441,7 +450,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[[[image:XWiki.AdminSheet@photos.png]]>>" + newPageName + "]] foo [[bar>>http://bar.myxwiki.org]]");
+        switchToSource();
+        assertSourceText("[[[[image:XWiki.AdminSheet@photos.png]]>>" + newSpaceName + "." + newPageName
+            + "]] foo [[bar>>http://bar.myxwiki.org]]");
     }
 
     /**
@@ -450,9 +461,11 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testDetectAndUnlinkSelectedAnchor()
     {
-        setWikiContent("foo [[bar>>http://xwiki.org]] [[far>>Main.WebHome]] [[alice>>Main.NewPage]] "
+        switchToSource();
+        setSourceText("foo [[bar>>http://xwiki.org]] [[far>>Main.WebHome]] [[alice>>Main.NewPage]] "
             + "[[carol>>mailto:carol@xwiki.org]] [[b**o**b>>http://xwiki.org]] blog webhome [[Blog.WebHome]] "
             + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
+        switchToWysiwyg();
 
         // put selection inside first text
         moveCaret("XWE.body.firstChild.firstChild", 2);
@@ -524,7 +537,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_WIKI_PAGE));
 
         closeMenuContaining(MENU_WEB_PAGE);
-        assertWiki("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
+        switchToSource();
+        assertSourceText("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
             + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
     }
 
@@ -534,7 +548,9 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditLinkInList()
     {
-        setWikiContent("* one\n* [[two>>http://www.xwiki.com]]\n** three");
+        switchToSource();
+        setSourceText("* one\n* [[two>>http://www.xwiki.com]]\n** three");
+        switchToWysiwyg();
 
         // now edit the link in the second list item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild.firstChild", 1);
@@ -550,7 +566,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("* one\n* [[two>>http://www.xwiki.org]]\n** three");
+        switchToSource();
+        assertSourceText("* one\n* [[two>>http://www.xwiki.org]]\n** three");
     }
 
     /**
@@ -586,10 +603,12 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForDialogToClose();
 
-        assertWiki("[[foo>>" + page + "]]");
+        switchToSource();
+        assertSourceText("[[foo>>" + space + "." + page + "]]");
 
         // clean up
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         // now try again with a new page link
         openLinkDialog(MENU_WIKI_PAGE);
@@ -615,10 +634,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeInInput(LABEL_INPUT_TITLE, "foo");
         clickButtonWithText("Create Link");
 
-        assertWiki("[[foo>>NewPage]]");
+        switchToSource();
+        assertSourceText("[[foo>>" + space + "." + page + "]]");
 
         // clean up
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         // now create a link to a web page
         openLinkDialog(MENU_WEB_PAGE);
@@ -643,10 +664,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[xwiki>>http://www.xwiki.org]]");
+        switchToSource();
+        assertSourceText("[[xwiki>>http://www.xwiki.org]]");
 
         // clean up
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         // now create a link to an email page
         openLinkDialog(MENU_EMAIL_ADDRESS);
@@ -671,7 +694,8 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForDialogToClose();
 
-        assertWiki("[[alice>>mailto:alice@wonderla.nd]]");
+        switchToSource();
+        assertSourceText("[[alice>>mailto:alice@wonderla.nd]]");
     }
 
     /**
@@ -684,7 +708,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeText("foo");
         typeEnter();
         typeText("bar");
-        assertXHTML("<p>foo</p><p>bar<br class=\"spacer\"></p>");
+        assertContent("<p>foo</p><p>bar<br></p>");
         select("XWE.body.firstChild.firstChild", 2, "XWE.body.childNodes[1].firstChild", 2);
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_WEB_PAGE));
@@ -703,7 +727,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "foo";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
 
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
@@ -749,7 +773,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + changedPage + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + changedSpace + "." + changedPage + "]]");
     }
 
     /**
@@ -759,7 +784,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "boo";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
 
         openLinkDialog(MENU_ATTACHMENT);
 
@@ -787,7 +812,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:" + attachPage + "@" + attachment + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
     }
 
     /**
@@ -827,7 +853,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:" + attachPage + "@" + attachment + "||title=\"" + linkTooltip + "\"]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment
+            + "||title=\"" + linkTooltip + "\"]]");
     }
 
     /**
@@ -881,7 +909,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for the link dialog to close
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>attach:" + attachPage + "@" + attachment + "]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
     }
 
     /**
@@ -889,7 +918,9 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditLinkToAttachment()
     {
-        setWikiContent("[[foobar>>attach:Main.RecentChanges@lquo.gif]]");
+        switchToSource();
+        setSourceText("[[foobar>>attach:Main.RecentChanges@lquo.gif]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
@@ -910,7 +941,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
+        switchToSource();
+        assertSourceText("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
     }
 
     /**
@@ -920,7 +952,9 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditLinkPreservesCustomParameters()
     {
-        setWikiContent("[[foobar>>Main.RecentChanges||class=\"foobarLink\"]]");
+        switchToSource();
+        setSourceText("[[foobar>>Main.RecentChanges||class=\"foobarLink\"]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
 
@@ -938,7 +972,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[barfoo>>Main.RecentChanges||class=\"foobarLink\" title=\"Foo and bar\"]]");
+        switchToSource();
+        assertSourceText("[[barfoo>>Main.RecentChanges||class=\"foobarLink\" title=\"Foo and bar\"]]");
     }
 
     /**
@@ -959,7 +994,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + url + "||rel=\"__blank\"]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + url + "||rel=\"__blank\"]]");
+        switchToWysiwyg();
 
         // now edit
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
@@ -983,7 +1020,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String tooltip = "our xwiki \"rox\"";
         String tooltipTitle = "Type the tooltip of the created link, which appears when mouse is over the link.";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_WEB_PAGE);
         // ensure wizard step is loaded
         waitForStepToLoad("xLinkToUrl");
@@ -992,7 +1029,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + linkLabel + ">>" + url + "||title=\"our xwiki ~\"rox~\"\"]]");
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + url + "||title=\"our xwiki ~\"rox~\"\"]]");
+        switchToWysiwyg();
 
         // now test the link is correctly parsed back
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
@@ -1007,15 +1046,11 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testDefaultWikipageExplorerSelection()
     {
-        // make sure we reload the current page, to check first display of the wikipage and attachment explorers
-        switchToWikiEditor();
-        switchToWysiwygEditor();
-
         // make sure this page is saved so that the tree can load the reference to it
         clickEditSaveAndContinue();
 
-        String currentSpace = "Main";
-        String currentPage = "WysiwygTest";
+        String currentSpace = this.getClass().getSimpleName();
+        String currentPage = getName();
 
         String newSpace = "XWiki";
         String newPage = "AdminSheet";
@@ -1068,7 +1103,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // make sure this page is saved so that the recent pages can load reference to it
         clickEditSaveAndContinue();
 
-        String currentPage = "Main.WysiwygTest";
+        String currentPage = this.getClass().getSimpleName() + "." + getName();
         String label = "barfoo";
 
         openLinkDialog(MENU_WIKI_PAGE);
@@ -1091,7 +1126,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>WysiwygTest]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + getName() + "]]");
     }
 
     /**
@@ -1119,7 +1155,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>" + newPageName + "]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + newPageName + "]]");
     }
 
     /**
@@ -1127,9 +1164,6 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testDefaultSearchSelection()
     {
-        switchToWikiEditor();
-        switchToWysiwygEditor();
-
         // check the wikipage link dialog
         openLinkDialog(MENU_WIKI_PAGE);
 
@@ -1176,7 +1210,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>WebHome]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + expectedPage + "]]");
     }
 
     /**
@@ -1205,7 +1240,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>" + newPageName + "]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + newPageName + "]]");
     }
 
     /**
@@ -1213,15 +1249,11 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testDefaultAttachmentSelectorSelection()
     {
-        // make sure we reload the current page, to check first display of the wikipage and attachment explorer
-        switchToWikiEditor();
-        switchToWysiwygEditor();
-
         // make sure this page is saved so that the tree can load the reference to it
         clickEditSaveAndContinue();
 
-        String currentSpace = "Main";
-        String currentPage = "WysiwygTest";
+        String currentSpace = this.getClass().getSimpleName();
+        String currentPage = getName();
 
         // check the wikipage link dialog
         openLinkDialog(MENU_ATTACHMENT);
@@ -1256,15 +1288,21 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditRelativeLink()
     {
+        // Edit a page in the Main space because we know pages that already exit there.
         String currentSpace = "Main";
+        open(currentSpace, getName(), "edit", "editor=wysiwyg");
+        waitForEditorToLoad();
+
         String pageToLinkTo = "Dashboard";
-        setWikiContent("[[the main page>>" + pageToLinkTo + "]]");
+        switchToSource();
+        setSourceText("[[the main page>>" + pageToLinkTo + "]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("Dashboard", getExplorerInputValue());
+        assertEquals(pageToLinkTo, getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
@@ -1276,7 +1314,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[the Dashboard>>" + pageToLinkTo + "]]");
+        switchToSource();
+        assertSourceText("[[the Dashboard>>" + pageToLinkTo + "]]");
     }
 
     /**
@@ -1284,16 +1323,22 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditRelativeLinkToAttachment()
     {
+        // Edit a page in the Main space because we know pages that already exit there and have attachments.
         String currentSpace = "Main";
+        open(currentSpace, getName(), "edit", "editor=wysiwyg");
+        waitForEditorToLoad();
+
         String pageToLinkTo = "RecentChanges";
         String fileToLinkTo = "lquo.gif";
 
-        setWikiContent("[[left quote>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
+        switchToSource();
+        setSourceText("[[left quote>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("RecentChanges@lquo.gif", getExplorerInputValue());
+        assertEquals(pageToLinkTo + "@" + fileToLinkTo, getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
@@ -1311,7 +1356,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
         // test that the position in the tree was preserved
-        assertEquals("RecentChanges@lquo.gif", getExplorerInputValue());
+        assertEquals(pageToLinkTo + "@" + fileToLinkTo, getExplorerInputValue());
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
             + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
@@ -1325,10 +1370,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[quote left>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
+        switchToSource();
+        assertSourceText("[[quote left>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
 
         // ensure this opens on the current page selector
-        setWikiContent("[[attach.png>>attach:attach.png]]");
+        setSourceText("[[attach.png>>attach:attach.png]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xAttachmentsSelector");
@@ -1346,7 +1393,9 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testValidationOnCurrentPageAttachmentsSelector()
     {
-        setWikiContent("[[left quote>>attach:Main.RecentChanges@rquo.gif]]");
+        switchToSource();
+        setSourceText("[[left quote>>attach:Main.RecentChanges@rquo.gif]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
@@ -1385,8 +1434,10 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditLinkPreservesFullReferences()
     {
-        setWikiContent("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
+        switchToSource();
+        setSourceText("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
             + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
+        switchToWysiwyg();
 
         // first link, a link to an existing page
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
@@ -1429,7 +1480,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
+        switchToSource();
+        assertSourceText("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
             + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
     }
 
@@ -1439,14 +1491,17 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testUnlinkInEmptyLink()
     {
-        setWikiContent("http://www.xwiki.org");
+        switchToSource();
+        setSourceText("http://www.xwiki.org");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 20);
         typeEnter();
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         clickMenu(MENU_LINK_REMOVE);
         typeText("foo");
-        assertWiki("http://www.xwiki.org\n\nfoo");
+        switchToSource();
+        assertSourceText("http://www.xwiki.org\n\nfoo");
     }
 
     /**
@@ -1495,7 +1550,9 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testErrorIsHiddenOnNextDisplayOfAttachmentLink()
     {
         // test that no selection in the current page attachment generates an exception: edit a non-existent file link
-        setWikiContent("[[non-existent-attachment.png>>attach:non-existent-attachment.png]]");
+        switchToSource();
+        setSourceText("[[non-existent-attachment.png>>attach:non-existent-attachment.png]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xAttachmentsSelector");
@@ -1558,7 +1615,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         // 1/ get an error on the current page tab then select new page, next, previous => error is not displayed
         // anymore, close. Open, get error again, close dialog. Open back, error not displayed anymore edit link to new
         // page in new space, to be sure there's no selection in RecentChanges nor in Search
-        setWikiContent("[[new page>>NewSpace.NewPage]]");
+        switchToSource();
+        setSourceText("[[new page>>NewSpace.NewPage]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
@@ -1635,7 +1694,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         // 4/ get to the link config and get an error on the label -> previous, next, error should not be there anymore.
         // close everything, open again, error should not be there anymore. get error, fix it, add the link, on new
         // dialog error should not be there anymore
-        setWikiContent("[[the home>>Main.WebHome]]");
+        switchToSource();
+        setSourceText("[[the home>>Main.WebHome]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
@@ -1682,7 +1743,9 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // 5/ get to the tree explorer, don't select any page, get an error. Fill in, next, previous -> error is hidden.
         // Get error again, close. Open and error is hidden
-        setWikiContent("[[the blog>>Blog.WebHome]]");
+        switchToSource();
+        setSourceText("[[the blog>>Blog.WebHome]]");
+        switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
@@ -1742,7 +1805,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // 1. link to existing page, double click
         // make sure this page is saved so that the recent pages can load reference to it
         clickEditSaveAndContinue();
-        String currentPage = "Main.WysiwygTest";
+        String currentPage = this.getClass().getSimpleName() + "." + getName();
         String label = "barfoo";
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xPagesRecent");
@@ -1759,9 +1822,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>WysiwygTest]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + getName() + "]]");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
 
         // 2. link to new page in current space, with enter
         String newPageName = "NewPage";
@@ -1781,7 +1846,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>" + newPageName + "]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + newPageName + "]]");
     }
 
     /**
@@ -1814,9 +1880,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>WebHome]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + expectedPage + "]]");
 
-        resetContent();
+        setSourceText("");
+        switchToWysiwyg();
         // 2. link to a new page, double click
         String newPageName = "PageNew";
         label = "barfoo";
@@ -1834,7 +1902,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        assertWiki("[[" + label + ">>" + newPageName + "]]");
+        switchToSource();
+        assertSourceText("[[" + label + ">>" + newPageName + "]]");
     }
 
     protected void waitForStepToLoad(String name)

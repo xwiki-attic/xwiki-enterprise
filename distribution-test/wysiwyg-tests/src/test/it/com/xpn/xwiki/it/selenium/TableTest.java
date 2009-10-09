@@ -55,7 +55,8 @@ public class TableTest extends AbstractWysiwygTestCase
         typeText("d");
         typeShiftTab(4);
         typeText("e");
-        assertWiki("|=e ab|= \n| |c\n|d| ");
+        switchToSource();
+        assertSourceText("|=e ab|= \n| |c\n|d| ");
     }
 
     /**
@@ -65,7 +66,9 @@ public class TableTest extends AbstractWysiwygTestCase
      */
     public void testMoveCaretBeforeAndAfterTable()
     {
-        setWikiContent("|=Space|=Page\n|Main|WebHome");
+        switchToSource();
+        setSourceText("|=Space|=Page\n|Main|WebHome");
+        switchToWysiwyg();
 
         // Place the caret in one of the table cells.
         moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
@@ -103,7 +106,8 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().metaKeyUp();
         typeText("down");
 
-        assertWiki("before\n\nup\n\n|=Space|=Page\n|Main|WebHome\n\ndown\n\nafter");
+        switchToSource();
+        assertSourceText("before\n\nup\n\n|=Space|=Page\n|Main|WebHome\n\ndown\n\nafter");
     }
 
     /**
@@ -129,7 +133,8 @@ public class TableTest extends AbstractWysiwygTestCase
         closeDialog();
 
         // Check the result.
-        assertWiki("|= |= \n| | \n");
+        switchToSource();
+        assertSourceText("|= |= \n| | \n");
     }
 
     /**
@@ -175,7 +180,8 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().keyUp(ROWS_SELECTOR, "\\13");
         // Check the result.
         waitForDialogToClose();
-        assertWiki("| ");
+        switchToSource();
+        assertSourceText("| ");
     }
 
     /**
@@ -218,6 +224,7 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().click("//button[text()=\"Insert Table\"]");
         waitForDialogToClose();
         // Check the result.
-        assertWiki("|= ");
+        switchToSource();
+        assertSourceText("|= ");
     }
 }

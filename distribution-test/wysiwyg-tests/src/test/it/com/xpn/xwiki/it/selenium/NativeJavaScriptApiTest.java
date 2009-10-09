@@ -81,7 +81,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      */
     public void testRelease()
     {
-        switchToWikiEditor();
+        switchToSource();
         StringBuffer content = new StringBuffer();
         content.append("{{velocity}}\n");
         content.append("{{html}}\n");
@@ -102,12 +102,13 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("</script>\n");
         content.append("{{/html}}\n");
         content.append("{{/velocity}}");
+        // Set the content directly.
         setFieldValue("content", content.toString());
         clickEditSaveAndView();
 
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");
-        focusRichTextArea();
+        waitForEditorToLoad();
 
         typeText("x");
         assertEquals("x", getSourceText("editor"));
@@ -118,7 +119,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         typeText("Y");
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");
-        focusRichTextArea();
+        waitForEditorToLoad();
 
         typeText("z");
         applyStyleTitle1();
@@ -142,7 +143,8 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
 
         // Go back to the previous location.
         open(location);
-        switchToWikiEditor();
+        waitForEditorToLoad();
+        switchToSource();
         // Load the WYSIWYG editor for a property that doesn't exist.
         StringBuffer content = new StringBuffer();
         content.append("{{velocity}}\n");
@@ -159,10 +161,12 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("</script>\n");
         content.append("{{/html}}\n");
         content.append("{{/velocity}}");
+        // Set the content directly.
         setFieldValue("content", content.toString());
         clickEditSaveAndView();
 
         waitForCondition("typeof window.editor == 'object'");
+        waitForEditorToLoad();
         // Check the WYSIWYG editor input value.
         assertEquals("", getSourceText("editor"));
     }
@@ -176,7 +180,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     protected void insertEditor(String name, String config)
     {
         // Insert the code that creates the editor.
-        switchToWikiEditor();
+        switchToSource();
         StringBuffer content = new StringBuffer();
         content.append("{{velocity}}\n");
         content.append("{{html}}\n");
@@ -192,11 +196,13 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("</script>\n");
         content.append("{{/html}}\n");
         content.append("{{/velocity}}");
+        // Set the content directly.
         setFieldValue("content", content.toString());
         clickEditSaveAndView();
 
         // Wait for the editor to be created.
         waitForCondition("typeof window." + name + " == 'object'");
+        waitForEditorToLoad();
     }
 
     /**

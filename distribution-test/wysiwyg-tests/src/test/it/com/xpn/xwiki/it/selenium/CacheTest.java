@@ -30,11 +30,6 @@ import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 public class CacheTest extends AbstractWysiwygTestCase
 {
     /**
-     * Locates the source text area.
-     */
-    private static final String SOURCE_TEXT_AREA_LOCATOR = "//textarea[contains(@class, 'xPlainTextEditor')]";
-
-    /**
      * Test that the content of the rich text area is preserved when the user leaves the editing without saving and then
      * comes back.
      */
@@ -45,7 +40,7 @@ public class CacheTest extends AbstractWysiwygTestCase
         clickEditCancelEdition();
         getSelenium().goBack();
         waitPage();
-        focusRichTextArea();
+        waitForEditorToLoad();
 
         // Type text and leave the editing by clicking on a link.
         typeText("2");
@@ -53,11 +48,12 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitPage();
         getSelenium().goBack();
         waitPage();
-        focusRichTextArea();
+        waitForEditorToLoad();
 
         // Check the result.
         typeText("3");
-        assertWiki("321");
+        switchToSource();
+        assertSourceText("321");
     }
 
     /**
@@ -69,25 +65,23 @@ public class CacheTest extends AbstractWysiwygTestCase
         switchToSource();
 
         // Type text and cancel edition.
-        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "a");
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "a");
         clickEditCancelEdition();
         getSelenium().goBack();
         waitPage();
-        switchToSource();
+        waitForEditorToLoad();
 
         // Type text and leave the editing by clicking on a link.
-        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "b");
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "b");
         getSelenium().click("//a[@title = 'Home']");
         waitPage();
         getSelenium().goBack();
         waitPage();
-        switchToSource();
+        waitForEditorToLoad();
 
         // Check the result.
-        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "c");
-        // We need to switch to WYSIWYG tab because #assertWiki(String) is currently written to work from there.
-        switchToWysiwyg();
-        assertWiki("abc");
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "c");
+        assertSourceText("abc");
     }
 
     /**
@@ -97,16 +91,17 @@ public class CacheTest extends AbstractWysiwygTestCase
     public void testPreserveSelectedEditorAgainstBackButton()
     {
         // The WYSIWYG editor should be initially active.
-        assertFalse(getSelenium().isEditable(SOURCE_TEXT_AREA_LOCATOR));
+        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
 
         // Switch to Source editor, cancel the edition and then come back.
         switchToSource();
         clickEditCancelEdition();
         getSelenium().goBack();
         waitPage();
+        waitForEditorToLoad();
 
         // The Source editor should be active now because it was selected before canceling the edition.
-        assertTrue(getSelenium().isEditable(SOURCE_TEXT_AREA_LOCATOR));
+        assertTrue(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
 
         // Switch to WYSIWYG editor, leave editing and then come back.
         switchToWysiwyg();
@@ -114,9 +109,10 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitPage();
         getSelenium().goBack();
         waitPage();
+        waitForEditorToLoad();
 
         // The WYSIWYG editor should be active now because it was selected before we left the edit mode.
-        assertFalse(getSelenium().isEditable(SOURCE_TEXT_AREA_LOCATOR));
+        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
     }
 
     /**
@@ -129,18 +125,14 @@ public class CacheTest extends AbstractWysiwygTestCase
             return;
         }
 
-        // Reload the page to be sure we don't have any post data on the session.
-        reload();
-
         // Type text and refresh the page.
-        focusRichTextArea();
         typeText("2");
         refresh();
 
         // Type more text and check the result.
-        focusRichTextArea();
         typeText("1");
-        assertWiki("12");
+        switchToSource();
+        assertSourceText("12");
     }
 
     /**
@@ -153,20 +145,15 @@ public class CacheTest extends AbstractWysiwygTestCase
             return;
         }
 
-        // Reload the page to be sure we don't have any post data on the session.
-        reload();
-
         // Type text and refresh the page.
         switchToSource();
-        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "1");
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "1");
         refresh();
 
         // Type more text and check the result.
         switchToSource();
-        getSelenium().typeKeys(SOURCE_TEXT_AREA_LOCATOR, "2");
-        // We need to switch to WYSIWYG tab because #assertWiki(String) is currently written to work from there.
-        switchToWysiwyg();
-        assertWiki("12");
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "2");
+        assertSourceText("12");
     }
 
     /**
@@ -179,25 +166,22 @@ public class CacheTest extends AbstractWysiwygTestCase
             return;
         }
 
-        // Reload the page to be sure we don't have any post data on the session.
-        reload();
-
         // The WYSIWYG editor should be initially active.
-        assertFalse(getSelenium().isEditable(SOURCE_TEXT_AREA_LOCATOR));
+        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
 
         // Switch to Source editor and refresh the page.
         switchToSource();
         refresh();
 
         // The Source editor should be active now because it was selected before the refresh.
-        assertTrue(getSelenium().isEditable(SOURCE_TEXT_AREA_LOCATOR));
+        assertTrue(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
 
         // Switch to WYSIWYG editor and refresh the page again.
         switchToWysiwyg();
         refresh();
 
         // The WYSIWYG editor should be active now because it was selected before the refresh.
-        assertFalse(getSelenium().isEditable(SOURCE_TEXT_AREA_LOCATOR));
+        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
     }
 
     /**
@@ -205,6 +189,10 @@ public class CacheTest extends AbstractWysiwygTestCase
      */
     public void testBackForwardCache()
     {
+        // Make sure we can go back.
+        clickEditCancelEdition();
+        clickLinkWithText("WYSIWYG");
+        waitForEditorToLoad();
         // Write some text.
         typeText("123");
         // Go back.
@@ -215,9 +203,9 @@ public class CacheTest extends AbstractWysiwygTestCase
         getSelenium().getEval("selenium.browserbot.goForward()");
         waitPage();
         // Make sure the rich text area is loaded.
-        focusRichTextArea();
+        waitForEditorToLoad();
         // Assert the text content.
-        assertEquals("123", getEval("window.XWE.body.textContent"));
+        assertEquals("123", getSelenium().getEval("window." + getDOMLocator("body.textContent")));
     }
 
     /**
@@ -232,14 +220,6 @@ public class CacheTest extends AbstractWysiwygTestCase
         getSelenium().keyPressNative("116");
         // Wait for the page to load.
         waitPage();
-    }
-
-    /**
-     * Reloads the current page. By calling this method you loose any POST data found on the browser session.
-     */
-    private void reload()
-    {
-        getSelenium().open(getSelenium().getLocation());
-        waitPage();
+        waitForEditorToLoad();
     }
 }

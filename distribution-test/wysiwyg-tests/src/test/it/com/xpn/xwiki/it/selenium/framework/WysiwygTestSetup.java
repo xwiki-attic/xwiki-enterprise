@@ -95,10 +95,10 @@ public class WysiwygTestSetup extends TestSetup
         helperTest.loginAsAdmin();
         Map<String, String> config = new HashMap<String, String>();
         config.put("wysiwyg.plugins", "submit line separator text valign list "
-            + "indent history format symbol link image " + "table macro importer color justify font");
+            + "indent history format symbol link image " + "table macro import color justify font");
         config.put("wysiwyg.toolbar", "bold italic underline strikethrough teletype | subscript superscript | "
             + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
-            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | importer");
+            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol");
         updateXWikiPreferences(config, helperTest);
     }
 

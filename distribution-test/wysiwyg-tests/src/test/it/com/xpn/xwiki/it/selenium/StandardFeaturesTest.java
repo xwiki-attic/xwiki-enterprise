@@ -654,7 +654,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testMultiLineVerbatimBlock()
     {
         switchToSource();
-        String multiLineVerbatimBlock = "{{{a verbatim block\nwhich is multiline}}}";
+        String multiLineVerbatimBlock = "{{{\na verbatim block\nwhich is multiline\n}}}";
         setSourceText(multiLineVerbatimBlock);
         switchToWysiwyg();
         switchToSource();

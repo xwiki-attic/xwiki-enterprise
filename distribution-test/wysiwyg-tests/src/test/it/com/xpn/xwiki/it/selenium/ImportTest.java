@@ -44,7 +44,26 @@ public class ImportTest extends AbstractWysiwygTestCase
         populateOfficeContentEditor("<p>Hello <font color=\"#ff0000\">World</font></p>");
         clickButtonWithText(IMPORT_BUTTON);
         waitForDialogToClose();
-        assertContent("\n\n<p>Hello <span style=\"color: rgb(255, 0, 0);\">World</span></p><br>");
+        switchToSource();
+        assertSourceText("Hello (% style=\"color: rgb(255, 0, 0);\" %)World");
+    }
+
+    /**
+     * @see XWIKI-3040: A rich text area on a dialog box looses its content if we move the dialog box
+     */
+    public void testPastedContentIsPreservedWhenDialogIsMoved()
+    {
+        openImportDialog(MENU_IMPORT_OFFICE_CONTENT);
+        // Put some content inside the rich text area of the office import dialog.
+        populateOfficeContentEditor("office");
+        // Move the dialog.
+        getSelenium().dragdrop("//div[@class='gwt-Label xDialogCaption']", "100, 100");
+        // Import the pasted content.
+        clickButtonWithText(IMPORT_BUTTON);
+        waitForDialogToClose();
+        // Check the result.
+        switchToSource();
+        assertSourceText("office");
     }
 
     private void openImportDialog(String menuItemName)

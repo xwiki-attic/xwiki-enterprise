@@ -472,25 +472,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @see XWIKI-3040: A rich text area on a dialog box looses its content if we move the dialog box
-     */
-    public void testDialogContentIsPreservedAfterBeingMoved()
-    {
-        clickOfficeImporterButton();
-        // Put some content inside the rich text area of the Office Imported dialog.
-        runScript("\nvar iframes = document.getElementsByTagName('iframe');\n"
-            + "for (var i = 0; i < iframes.length; i++) {\n" + "\tvar iframe = iframes[i];\n"
-            + "\tif (iframe.className == 'gwt-RichTextArea xImporterClipboardTabEditor') {\n"
-            + "\t\tiframe.contentWindow.document.body.innerHTML = 'office';\n" + "\t\tbreak;\n\t}\n}\n");
-        // Move the dialog.
-        getSelenium().dragdrop("//div[@class='gwt-Label xDialogCaption']", "100, 100");
-        // Test if the rich text area has the content we set.
-        assertEquals("office", getSelenium().getEval("window.iframe.contentWindow.document.body.innerHTML"));
-        // close the dialog
-        closeDialog();
-    }
-
-    /**
      * @see XWIKI-3194: Cannot remove just one text style when using the style attribute instead of formatting tags
      */
     public void testRemoveBoldStyleWhenTheStyleAttributeIsUsed()

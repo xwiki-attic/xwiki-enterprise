@@ -92,10 +92,13 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      */
     public void testWikiLinkAllPagesPageHidesBlacklistedSpaces()
     {
-        String currentSpace = "Main";
-        String currentPage = "WysiwygRegularUserTest";
-        openDialog("Link", "Wiki Page...");
+        String currentSpace = getClass().getSimpleName();
+        String currentPage = getName();
 
+        // Save the current page so that it appears in the tree.
+        clickEditSaveAndContinue();
+
+        openDialog("Link", "Wiki Page...");
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab("All pages");
         waitForStepToLoad("xExplorerPanel");
@@ -125,12 +128,15 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      */
     public void testImageSelectorHidesBlacklistedSpaces()
     {
-        String currentSpace = "Main";
+        String currentSpace = getClass().getSimpleName();
+
+        // Save the current page so that it appears in the tree.
+        clickEditSaveAndContinue();
+
         openDialog("Image", "Insert Image...");
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab("All pages");
         waitForStepToLoad("xImagesExplorer");
-
         // wait for the current space to load in the selector to be sure the spaces list is loaded
         waitForElement("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"" + currentSpace + "\"]");
         // check the spaces: Blog, Main, Sandbox are present

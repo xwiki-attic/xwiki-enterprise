@@ -19,6 +19,7 @@
  */
 package com.xpn.xwiki.it;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -224,7 +226,11 @@ public class XhtmlValidityTest extends TestCase
         if (hasError) {
             System.err.println("");
             System.err.println("Validated content:");
-            System.err.println(new String(responseBody));
+            BufferedReader reader = new BufferedReader(new StringReader(new String(responseBody)));
+            int index = 1;
+            for (String line = reader.readLine(); line != null; line = reader.readLine(), ++index) {
+                System.err.println(index + "\t" + line);
+            }
         }
 
         assertFalse("Validation errors in " + fullPageName, hasError);

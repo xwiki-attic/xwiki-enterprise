@@ -40,17 +40,11 @@ public class ImportTest extends AbstractWysiwygTestCase
      */
     public void testOfficePasteImport()
     {
-        // Do a normal copy / paste import operation.
-        resetContent();
         openImportDialog(MENU_IMPORT_OFFICE_CONTENT);
         populateOfficeContentEditor("<p>Hello <font color=\"#ff0000\">World</font></p>");
         clickButtonWithText(IMPORT_BUTTON);
         waitForDialogToClose();
-        assertEquals("<p>Hello <span style=\"color: rgb(255, 0, 0);\">World</span></p><br>", getContent().trim());
-
-        // TODO: need to add a test for copy / paste import operation with style filtering on.
-        // This seems difficult without adding a custom 'id' field for the 'filter styles' gwt checkbox so that it can
-        // be selected from selenium.
+        assertContent("\n\n<p>Hello <span style=\"color: rgb(255, 0, 0);\">World</span></p><br>");
     }
 
     private void openImportDialog(String menuItemName)
@@ -71,7 +65,7 @@ public class ImportTest extends AbstractWysiwygTestCase
         StringBuffer script = new StringBuffer();
         String locator = "//iframe[contains(@class, 'xImportOfficeContentEditor')]";
         script.append(String.format("var eframe = this.browserbot.findElement(\"%s\")", locator)).append("\n");
-        script.append("var rte = eframe.contentDocument.body;").append("\n");
+        script.append("var rte = eframe.contentWindow.document.body;").append("\n");
         script.append(String.format("rte.innerHTML = '%s';", innerHTML));
         getSelenium().getEval(script.toString());
     }

@@ -64,8 +64,7 @@ public class AllTests extends TestCase
         addTestCase(suite, UsersGroupsRightsManagementTest.class);
         addTestCase(suite, SkinCustomizationsTest.class);
         addTestCase(suite, XObjectsTest.class);
-        addTestCase(suite, VersionTest.class);
-        addTestCase(suite, WatchListTest.class);
+        addTestCase(suite, VersionTest.class);        
         addTestCase(suite, KeyboardShortcutsTest.class);
         addTestCase(suite, AllDocsTest.class);
         addTestCase(suite, UrlMiscTest.class);
@@ -75,6 +74,8 @@ public class AllTests extends TestCase
         addTestCase(suite, AdministrationTest.class);
         addTestCase(suite, LanguageTest.class);
         addTestCase(suite, SchedulerTest.class);
+        // Watchlist tests must be executed after scheduler tests since they rely on the scheduler.
+        addTestCase(suite, WatchListTest.class);
         addTestCase(suite, PanelWizardTest.class);
         addTestCase(suite, DocExtraTest.class);
         addTestCase(suite, PanelsTest.class);

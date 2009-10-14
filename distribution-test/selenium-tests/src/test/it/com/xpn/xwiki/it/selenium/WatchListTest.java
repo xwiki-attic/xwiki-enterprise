@@ -97,16 +97,6 @@ public class WatchListTest extends AbstractXWikiTestCase
         // Test if the watchlist manager document exists
         assertTrue("Page XWiki.WatchListManager doesn't exist", isExistingPage("XWiki", "WatchListManager"));
 
-        // Changing the Scheduler Hourly job so that watchlist checks for changes every minute for the test
-        // (default is every hour).
-        open("Scheduler", "WebHome");
-        clickLinkWithXPath("//a[text()='unschedule']");
-        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/WatchListDailyNotifier']");
-        setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 * * * * ?");
-        clickEditSaveAndView();
-        clickLinkWithText("Back to the job list", true);
-        clickLinkWithXPath("//a[text()='schedule']");
-
         // Watch Test.TestWatchThisPage
         createPage("Test", "TestWatchThisPage", "TestWatchThisPage selenium");
         clickLinkWithText("Watch this page", false);
@@ -123,6 +113,10 @@ public class WatchListTest extends AbstractXWikiTestCase
         // Ensure the frequency set is every hour so that Hourly job we've modified is used
         getSelenium().select("XWiki.WatchListClass_0_interval", "label=Scheduler.WatchListDailyNotifier");
         clickLinkWithXPath("//input[@value='Save']", true);
+        
+        // Trigger the notification
+        open("Scheduler", "WebHome");
+        clickLinkWithXPath("//a[text()='trigger']");
 
         // Wait for the email with a timeout
         this.greenMail.waitForIncomingEmail(70000, 1);

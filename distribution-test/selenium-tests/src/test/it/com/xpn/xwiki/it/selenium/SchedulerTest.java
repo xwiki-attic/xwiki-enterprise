@@ -59,7 +59,7 @@ public class SchedulerTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 15 10 ? * MON-FRI");
         clickEditSaveAndView();
         clickLinkWithText("Back to the job list");
-        assertElementPresent("//td[text()='Tester problem']");
+        waitForElement("//td[text()='Tester problem']");
 
         // View Job
         clickLinkWithXPath("//td/span/a[@href='/xwiki/bin/view/Scheduler/SchedulerTestJob']");
@@ -71,7 +71,7 @@ public class SchedulerTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 0/5 14 * * ?");
         clickEditSaveAndView();
         clickLinkWithText("Back to the job list");
-        assertElementPresent("//td[text()='Tester problem']");
+        waitForElement("//td[text()='Tester problem']");
 
         // Delete and Restore Job
         clickLinkWithXPath("//td/a[@href='/xwiki/bin/view/Scheduler/?do=delete&which=Scheduler.SchedulerTestJob']");
@@ -81,7 +81,7 @@ public class SchedulerTest extends AbstractXWikiTestCase
         open("Scheduler", "SchedulerTestJob", "view", "confirm=1");
         clickLinkWithText("Restore");
         clickLinkWithText("Back to the job list");
-        assertElementPresent("//td[text()='Tester problem']");
+        waitForElement("//td[text()='Tester problem']");
 
         // Schedule Job
         clickLinkWithText("schedule");

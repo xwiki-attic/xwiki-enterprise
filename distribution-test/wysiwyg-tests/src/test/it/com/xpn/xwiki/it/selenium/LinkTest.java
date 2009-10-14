@@ -249,7 +249,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String linkLabel = "joe le taxi";
         String email = "joe@xwiki.org";
         typeText(linkLabel);
-        selectAllContent();
+        selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_EMAIL_ADDRESS);
         typeInInput("Email address", email);
         clickButtonWithText("Create Link");
@@ -355,6 +355,9 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateAndEditLinkOnImage()
     {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
+
         // put everything in a paragraph as there are some whitespace trouble parsing outside the paragraph
         applyStyleTitle1();
         applyStylePlainText();

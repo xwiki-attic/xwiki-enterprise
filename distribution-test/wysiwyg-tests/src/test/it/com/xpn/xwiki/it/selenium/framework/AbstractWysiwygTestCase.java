@@ -42,6 +42,16 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public static final String WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA = "//textarea[contains(@class, 'xPlainTextEditor')]";
 
     /**
+     * The title of the indent tool bar button. This title is used in XPath locators to access the indent button.
+     */
+    public static final String INDENT_BUTTON_TITLE = "Increase Indent";
+
+    /**
+     * The title of the outdent tool bar button. This title is used in XPath locators to access the outdent button.
+     */
+    public static final String OUTDENT_BUTTON_TITLE = "Decrease Indent";
+
+    /**
      * {@inheritDoc}
      * 
      * @see AbstractXWikiTestCase#setUp()
@@ -361,22 +371,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickIndentButton()
     {
-        pushToolBarButton("Increase Indent");
+        pushToolBarButton(INDENT_BUTTON_TITLE);
     }
 
     public boolean isIndentButtonEnabled()
     {
-        return isButtonEnabled("Increase Indent");
+        return isPushButtonEnabled(INDENT_BUTTON_TITLE);
     }
 
     public void clickOutdentButton()
     {
-        pushToolBarButton("Decrease Indent");
+        pushToolBarButton(OUTDENT_BUTTON_TITLE);
     }
 
     public boolean isOutdentButtonEnabled()
     {
-        return isButtonEnabled("Decrease Indent");
+        return isPushButtonEnabled(OUTDENT_BUTTON_TITLE);
     }
 
     public void clickBoldButton()
@@ -629,10 +639,28 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         return getSelenium().getValue("//input[@title=\"" + inputTitle + "\"]");
     }
 
-    public boolean isButtonEnabled(String buttonTitle)
+    public boolean isPushButtonEnabled(String pushButtonTitle)
     {
         return getSelenium().isElementPresent(
-            "//div[@title='" + buttonTitle + "' and @class='gwt-PushButton gwt-PushButton-up']");
+            "//div[@title='" + pushButtonTitle + "' and @class='gwt-PushButton gwt-PushButton-up']");
+    }
+
+    /**
+     * Waits for the specified button have the specified state i.e. enabled or disabled.
+     * 
+     * @param pushButtonTitle identifies the button to wait for
+     * @param enabled {@code true} to wait for the specified button to become enabled, {@code false} to wait for it to
+     *            become disabled
+     */
+    public void waitForPushButton(final String pushButtonTitle, final boolean enabled)
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return enabled == isPushButtonEnabled(pushButtonTitle);
+            }
+        }.wait(pushButtonTitle + " button is not " + (enabled ? "enabled" : "disabled") + "!");
     }
 
     /**

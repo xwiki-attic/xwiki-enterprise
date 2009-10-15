@@ -59,43 +59,48 @@ public class SchedulerTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 15 10 ? * MON-FRI");
         clickEditSaveAndView();
         clickLinkWithText("Back to the job list");
-        assertElementPresent("//td[text()='Tester problem']");
+        waitForElement("//td[text()='Tester problem']");
 
         // View Job
-        clickLinkWithXPath("//td/span/a[@href='/xwiki/bin/view/Scheduler/SchedulerTestJob']");
+        clickJobAction("view");
         clickLinkWithText("Back to the job list");
 
         // Edit Job
-        clickLinkWithXPath("//a[@href='/xwiki/bin/inline/Scheduler/SchedulerTestJob']");
+        clickJobAction("Edit");
         setFieldValue("XWiki.SchedulerJobClass_0_jobDescription", "Tester problem2");
         setFieldValue("XWiki.SchedulerJobClass_0_cron", "0 0/5 14 * * ?");
         clickEditSaveAndView();
         clickLinkWithText("Back to the job list");
-        assertElementPresent("//td[text()='Tester problem']");
+        waitForElement("//td[text()='Tester problem']");
 
         // Delete and Restore Job
-        clickLinkWithXPath("//td/a[@href='/xwiki/bin/view/Scheduler/?do=delete&which=Scheduler.SchedulerTestJob']");
+        clickJobAction("delete");
         clickLinkWithXPath("//input[@value='yes']");
         open("Scheduler", "WebHome");
         assertElementNotPresent("//td[text()='Tester job']");
         open("Scheduler", "SchedulerTestJob", "view", "confirm=1");
         clickLinkWithText("Restore");
         clickLinkWithText("Back to the job list");
-        assertElementPresent("//td[text()='Tester problem']");
+        waitForElement("//td[text()='Tester problem']");
 
         // Schedule Job
-        clickLinkWithText("schedule");
+        clickJobAction("schedule");
 
         // Trigger Job
-        clickLinkWithText("trigger");
+        clickJobAction("trigger");
 
         // Pause Job
-        clickLinkWithText("pause");
+        clickJobAction("pause");
 
         // Resume Job
-        clickLinkWithText("resume");
+        clickJobAction("resume");
 
         // Unschedule Job
-        clickLinkWithText("unschedule");
+        clickJobAction("unschedule");
+    }
+
+    private void clickJobAction(String actionName)
+    {
+        clickLinkWithXPath("//tr/td[text()='Tester problem']/parent::tr//td/span/a[text()='" + actionName + "']");
     }
 }

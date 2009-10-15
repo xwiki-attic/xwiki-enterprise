@@ -577,8 +577,9 @@ public class ListTest extends AbstractWysiwygTestCase
         // select second element "one"
         select("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0,
             "XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 3);
-        // check that the list item is outdentable, the list plugin is correctly recognizing lists (XWIKI-3061)
-        assertTrue(isOutdentButtonEnabled());
+        // Check that the list item is outdentable i.e. the list plugin is correctly recognizing lists (XWIKI-3061).
+        // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
+        waitForPushButton(OUTDENT_BUTTON_TITLE, true);
         clickOutdentButton();
         assertContent("<ul><li>foo</li><li>one<ul><li>bar</li></ul></li></ul>");
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
@@ -620,7 +621,8 @@ public class ListTest extends AbstractWysiwygTestCase
     {
         setContent("<ul><li>one<br />before<ul><li>two</li><li>three</li><li>four</li></ul>after</li></ul>");
         moveCaret("XWE.body.firstChild.firstChild.childNodes[3].childNodes[1].firstChild", 0);
-        assertTrue(isOutdentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
+        waitForPushButton(OUTDENT_BUTTON_TITLE, true);
         clickOutdentButton();
         assertContent("<ul><li>one<br>before<ul><li>two</li></ul></li><li>three<ul><li>four</li></ul>"
             + "after</li></ul>");
@@ -705,7 +707,8 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* one\n* two\n* three\n* three point one\n* three point two\n* three point three\n* four");
         switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[3].firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 17);
-        assertTrue(isIndentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
+        waitForPushButton(INDENT_BUTTON_TITLE, true);
         clickIndentButton();
         switchToSource();
         assertSourceText("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
@@ -713,8 +716,9 @@ public class ListTest extends AbstractWysiwygTestCase
 
     /**
      * Test the usual use case about only indenting the parent one level further, without its sublist. This cannot be
-     * done in one because it is not a correct indent, from a semantic pov, but most users expect it to happen. The
-     * correct steps are to indent the parent and then outindent the sublist, which is the case tested by this function.
+     * done in one because it is not a correct indent, from a semantic point of view, but most users expect it to
+     * happen. The correct steps are to indent the parent and then outdent the sublist, which is the case tested by this
+     * function.
      */
     public void testIndentParentWithNoSublist()
     {
@@ -722,18 +726,20 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
         switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[2].firstChild", 5);
-        assertTrue(isIndentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
+        waitForPushButton(INDENT_BUTTON_TITLE, true);
         clickIndentButton();
         select("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].firstChild.firstChild", 0,
             "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[2].firstChild", 17);
-        assertTrue(isOutdentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
+        waitForPushButton(OUTDENT_BUTTON_TITLE, true);
         clickOutdentButton();
         switchToSource();
         assertSourceText("* one\n* two\n** three\n** three point one\n** three point two\n** three point three\n* four");
     }
 
     /**
-     * Tests indenting two items, amongst which one with a sublist and then outending the item with the sublist.
+     * Tests indenting two items, amongst which one with a sublist and then outdenting the item with the sublist.
      */
     public void testIndentItemWithSublistAndOutdent()
     {
@@ -741,14 +747,16 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* one\n* two\n* three\n** foo\n** bar\n* four\n* four\n* five");
         switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[3].firstChild", 4);
-        assertTrue(isIndentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
+        waitForPushButton(INDENT_BUTTON_TITLE, true);
         clickIndentButton();
         switchToSource();
         assertSourceText("* one\n* two\n** three\n*** foo\n*** bar\n** four\n* four\n* five");
         switchToWysiwyg();
         select("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0,
             "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[1].firstChild", 3);
-        assertTrue(isOutdentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
+        waitForPushButton(OUTDENT_BUTTON_TITLE, true);
         clickOutdentButton();
         switchToSource();
         assertSourceText("* one\n* two\n* three\n** foo\n** bar\n** four\n* four\n* five");
@@ -768,7 +776,8 @@ public class ListTest extends AbstractWysiwygTestCase
                 + "childNodes[1].firstChild", 0,
             "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
                 + "firstChild", 3);
-        assertTrue(isIndentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
+        waitForPushButton(INDENT_BUTTON_TITLE, true);
         clickIndentButton();
         switchToSource();
         assertSourceText("|(((\n* item 1\n* item 2\n)))"
@@ -779,7 +788,8 @@ public class ListTest extends AbstractWysiwygTestCase
                 + "childNodes[1].firstChild", 0,
             "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
                 + "firstChild", 5);
-        assertTrue(isOutdentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
+        waitForPushButton(OUTDENT_BUTTON_TITLE, true);
         clickOutdentButton();
         switchToSource();
         assertSourceText("|(((\n* item 1\n* item 2\n)))"
@@ -799,7 +809,8 @@ public class ListTest extends AbstractWysiwygTestCase
             + "* four\n* (((before\n* inner five\n* inner five + 1\n\nafter)))\n* six");
         switchToWysiwyg();
         select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 3);
-        assertTrue(isOutdentButtonEnabled());
+        // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
+        waitForPushButton(OUTDENT_BUTTON_TITLE, true);
         clickOutdentButton();
         switchToSource();
         assertSourceText("one\n\ntwo\n\nthree\n\n* three plus one\n\nfour\n\n"

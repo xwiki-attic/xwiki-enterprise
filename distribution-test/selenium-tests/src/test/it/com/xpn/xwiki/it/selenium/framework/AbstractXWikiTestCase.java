@@ -93,7 +93,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         try {
             runTest();
         } catch (Throwable running) {
-            exception= running;
+            exception = running;
             // Take screenshot before the tear down to ensure we take a picture of the real problem.
             takeScreenShot();
         } finally {

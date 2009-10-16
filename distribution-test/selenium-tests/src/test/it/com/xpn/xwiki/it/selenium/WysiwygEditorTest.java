@@ -63,12 +63,12 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
 
     public void testIndentation()
     {
-        typeInWysiwyg("Text");
-        typeEnterInWysiwyg();
         clickWysiwygIndentButton();
-        typeInWysiwyg("some indented text");
+        typeInWysiwyg("indented");
+        typeEnterInWysiwyg();
+        clickWysiwygOutdentButton();
 
-        assertWikiTextGeneratedByWysiwyg("Text\n<blockquote>\nsome indented text\n</blockquote>");
+        assertWikiTextGeneratedByWysiwyg("<blockquote>indented</blockquote>");
     }
 
     public void testLineFeed()

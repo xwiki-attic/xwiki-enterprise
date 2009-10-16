@@ -422,4 +422,21 @@ public class LineTest extends AbstractWysiwygTestCase
         // Check the result. The only way to test if the empty lines can be edited is to look for the BR spacers.
         assertContent("<p><em></em><br></p><p>x<strong></strong><br></p>");
     }
+
+    /**
+     * @see XWIKI-4193: When hitting Return at the end of the link the new line should not be a link.
+     * @see XWIKI-3802: It is impossible to continue adding content if there is a link object at the bottom of the page.
+     */
+    public void testEnterAtTheEndOfALink()
+    {
+        switchToSource();
+        setSourceText("This is a [[link>>http://www.xwiki.org]]");
+        switchToWysiwyg();
+        // Move the caret at the end of the link.
+        moveCaret("XWE.body.firstChild.lastChild.firstChild", 4);
+        typeEnter();
+        typeText("x");
+        switchToSource();
+        assertSourceText("This is a [[link>>http://www.xwiki.org]]\n\nx");
+    }
 }

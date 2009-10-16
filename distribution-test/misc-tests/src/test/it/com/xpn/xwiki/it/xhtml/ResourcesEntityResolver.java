@@ -45,7 +45,7 @@ class ResourcesEntityResolver implements EntityResolver
     {
         int index = systemId.lastIndexOf("/");
 
-        String dtd = ENTITIES_ROOT + "/" + (index != -1 ? systemId.substring(index) : systemId);
+        String dtd = ENTITIES_ROOT + (index != -1 ? systemId.substring(index) : "/" + systemId);
         InputStream stream = ResourcesEntityResolver.class.getResourceAsStream(dtd);
 
         return new InputSource(new InputStreamReader(stream));

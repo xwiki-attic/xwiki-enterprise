@@ -1489,22 +1489,28 @@ public class LinkTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test that choosing remove link when the caret is in an empty link (after hitting enter at the end of a line with
-     * a link, for example), removes the empty link instead of putting the caret outside the link.
+     * Tests that choosing remove link when the caret is inside an empty link removes the empty link instead of putting
+     * the caret outside the link.
      */
     public void testUnlinkInEmptyLink()
     {
         switchToSource();
-        setSourceText("http://www.xwiki.org");
+        // NOTE: The link label must be styled because otherwise the link is deleted when we delete its label.
+        setSourceText("[[**1**>>http://www.xwiki.org]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 20);
-        typeEnter();
+        // Move the caret at the start of the link.
+        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 0);
+        // Delete the link label.
+        typeDelete();
+        // We should have an empty link at this point.
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         clickMenu(MENU_LINK_REMOVE);
-        typeText("foo");
+        typeText("2");
+        // Check the result.
         switchToSource();
-        assertSourceText("http://www.xwiki.org\n\nfoo");
+        // NOTE: The style is lost but that's a small issue.
+        assertSourceText("2");
     }
 
     /**

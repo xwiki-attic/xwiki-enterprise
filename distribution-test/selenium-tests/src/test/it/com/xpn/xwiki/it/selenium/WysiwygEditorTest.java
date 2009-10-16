@@ -113,10 +113,9 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
 
     public void testHtmlElementIsRendered()
     {
-        // NOTE: Selenium skips the first "/" character it finds in a string. So we need to append an
-        // extra "/" character to the first "/" sequence in a string.
-        typeInWysiwyg("<table><tr><td>hello<//td></tr></table>");
-        assertWikiTextGeneratedByWysiwyg("<table><tr><td>hello</td></tr></table>");
+        // Test with any HTML.
+        typeInWysiwyg("<img src=\"whatever\">");
+        assertWikiTextGeneratedByWysiwyg("<img src=\"whatever\">");
     }
 
     public void testNestedOrderedList()

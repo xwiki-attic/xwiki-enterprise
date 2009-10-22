@@ -62,7 +62,7 @@
     <platform.activitystream.version>1.5-SNAPSHOT</platform.activitystream.version>              
     <platform.watchlist.version>1.23-SNAPSHOT</platform.watchlist.version>
     <platform.blog.version>1.15-SNAPSHOT</platform.blog.version>
-    <platform.jodatime.version>1.34-SNAPSHOT</platform.jodatime.version>
+    <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.statistics.version>1.6-SNAPSHOT</platform.statistics.version>
     <platform.plugin.mailsender.version>1.14-SNAPSHOT</platform.plugin.mailsender.version>
     <platform.plugin.lucene.version>1.12-SNAPSHOT</platform.plugin.lucene.version>

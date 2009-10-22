@@ -172,6 +172,22 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4519: Add the ability to execute commands on the rich text area from JavaScript.
+     */
+    public void testCommandManagerApi()
+    {
+        insertEditor("editor", "syntax: 'xwiki/2.0'");
+        typeText("x");
+        selectNodeContents("XWE.body.firstChild");
+        assertTrue(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isSupported('bold')")));
+        assertTrue(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isEnabled('bold')")));
+        assertFalse(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isExecuted('bold')")));
+        assertTrue(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().execute('bold')")));
+        assertTrue(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isExecuted('bold')")));
+        assertEquals("**x**", getSourceText("editor"));
+    }
+
+    /**
      * Inserts a WYSIWYG editor into the current page.
      * 
      * @param name the name of JavaScript variable to be used for accessing the editor

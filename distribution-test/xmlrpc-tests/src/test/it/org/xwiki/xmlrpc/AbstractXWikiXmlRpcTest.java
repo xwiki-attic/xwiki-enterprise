@@ -31,18 +31,24 @@ public class AbstractXWikiXmlRpcTest extends TestCase
 {
     protected XWikiXmlRpcClient rpc;
 
-    protected Random random;
+    protected Random random = new Random();
 
     public void setUp() throws Exception
     {
-        rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
-        rpc.login(TestConstants.USERNAME, TestConstants.PASSWORD);
-        random = new Random();
+        setUp(true);
+    }
+
+    public void setUp(boolean admin) throws Exception
+    {
+        this.rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
+        if (admin) {
+            this.rpc.login(TestConstants.USERNAME, TestConstants.PASSWORD);
+        }
     }
 
     public void tearDown() throws Exception
     {
-        rpc.logout();
-        rpc = null;
+        this.rpc.logout();
+        this.rpc = null;
     }
 }

@@ -23,6 +23,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.xwiki.test.XWikiTestSetup;
+import org.xwiki.xmlrpc.PagesTestWithGuest;
 
 /**
  * A class listing all the XMLRPC Functional tests to execute. We need such a class (rather than
@@ -50,6 +51,7 @@ public class AllTests extends TestCase
         addTestCase(suite, AttachmentsTest.class);
         addTestCase(suite, CommentsTest.class);
         addTestCase(suite, PagesTest.class);
+        addTestCase(suite, PagesTestWithGuest.class);
         addTestCase(suite, SpacesTest.class);
 
         addTestCase(suite, org.xwiki.xmlrpc.AttachmentsTest.class);

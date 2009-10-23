@@ -52,8 +52,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             page.setId(TestConstants.TEST_PAGE);
             page.setTitle("Test page");
             String content =
-                String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(), page
-                    .getVersion() + 1);
+                String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(),
+                    page.getVersion() + 1);
             page.setContent(content);
             this.rpc.storePage(page);
         }
@@ -65,8 +65,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             page.setId(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
             page.setTitle("Test page");
             String content =
-                String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(), page
-                    .getVersion() + 1);
+                String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(),
+                    page.getVersion() + 1);
             page.setContent(content);
             this.rpc.storePage(page);
         }
@@ -113,8 +113,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE);
 
         String content =
-            String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(), page
-                .getVersion() + 1);
+            String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(),
+                page.getVersion() + 1);
 
         page.setContent(content);
         XWikiPage storedPage = this.rpc.storePage(page);
@@ -140,8 +140,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
 
         TestUtils.banner("TEST: changeParentId()");
-        System.out.format("Setting page '%s' parent id to '%s'. Now: '%s'\n", pageSummary1.getId(), pageSummary2
-            .getId(), pageSummary1.getParentId());
+        System.out.format("Setting page '%s' parent id to '%s'. Now: '%s'\n", pageSummary1.getId(),
+            pageSummary2.getId(), pageSummary1.getParentId());
         XWikiPage page = this.rpc.getPage(pageSummary1.getId());
         assertNotSame(pageSummary2.getId(), page.getParentId());
 
@@ -167,8 +167,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         /* Add a translation in a fake language */
         String fakeLanguage = (String.format("%d", Math.abs(this.random.nextInt()))).substring(0, 4);
         String translatedContent =
-            String.format("This is the content in the '%s' language. (This will be version: %d)", fakeLanguage, page
-                .getVersion() + 1);
+            String.format("This is the content in the '%s' language. (This will be version: %d)", fakeLanguage,
+                page.getVersion() + 1);
         XWikiPage translatedPage = new XWikiPage();
 
         translatedPage.setId(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
@@ -290,8 +290,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
     public void testCreatePage() throws Exception
     {
         String pageId =
-            String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX, Math.abs(this.random
-                .nextInt()));
+            String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX,
+                Math.abs(this.random.nextInt()));
         String content = String.format("Modified by org.xwiki.xmlrpc @ %s (inital version)\n", new Date());
         XWikiPage page = null;
 
@@ -323,8 +323,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
     public void testCreatePageWithNullSpace() throws Exception
     {
         String pageId =
-            String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX, Math.abs(this.random
-                .nextInt()));
+            String.format("%s.%s-%d", TestConstants.TEST_SPACE, TestConstants.TEST_PREFIX,
+                Math.abs(this.random.nextInt()));
         String content = String.format("Modified by org.xwiki.xmlrpc @ %s (inital version)\n", new Date());
         XWikiPage page = null;
 
@@ -361,8 +361,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
 
         String pageId =
-            String.format("%s.%s-%d", TestConstants.SPACE_WITH_NO_ACCESS_RIGHTS, TestConstants.TEST_PREFIX, Math
-                .abs(this.random.nextInt()));
+            String.format("%s.%s-%d", TestConstants.SPACE_WITH_NO_ACCESS_RIGHTS, TestConstants.TEST_PREFIX,
+                Math.abs(this.random.nextInt()));
         String content = String.format("Modified by org.xwiki.xmlrpc @ %s\n", new Date());
         XWikiPage page = null;
 
@@ -465,14 +465,24 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         assertEquals(pageHistorySummary.getVersion(), page.getVersion());
         assertEquals(pageHistorySummary.getModifier(), page.getModifier());
     }
-    
+
     public void testRenderContent() throws Exception
     {
-        String html = this.rpc.renderContent(TestConstants.TEST_SPACE, TestConstants.TEST_PAGE, "");
         TestUtils.banner("TEST: renderContent()");
+
+        // Test rendering document content
+        String html = this.rpc.renderContent(TestConstants.TEST_SPACE, TestConstants.TEST_PAGE, "");
         System.out.format("Rendered content: '%s'\n", html);
 
         assertTrue(html.length() != 0);
+
+        // Test rendering provided content
+        html =
+            this.rpc.renderContent(TestConstants.TEST_SPACE, TestConstants.TEST_PAGE,
+                "{{groovy}}print 'programming'{{/groovy}}");
+        System.out.format("Rendered content: '%s'\n", html);
+
+        assertEquals("<p>programming</p>", html);
     }
 
     public void testRenamePage() throws Exception
@@ -682,8 +692,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         XWikiPage page = this.rpc.getPage(TestConstants.TEST_PAGE);
 
         String content =
-            String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(), page
-                .getVersion() + 1);
+            String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(),
+                page.getVersion() + 1);
 
         page.setContent(content);
         XWikiPage storedPage = this.rpc.storePage(page);

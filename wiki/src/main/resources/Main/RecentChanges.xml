@@ -544,13 +544,13 @@ $xwiki.ssx.use("Main.RecentChanges")##
   #if($author == "XWikiGuest")
     Guest
   #else    
-    #set($localUserName = $xwiki.getLocalUserName($author))
-    #if($localUserName == "")
-      ## localUserName can be empty when the page has been saved without specifying the author. 
+    #set($userName = $xwiki.getUserName($author))
+    #if($userName == "")
+      ## userName can be empty when the page has been saved without specifying the author. 
       ## We're printing a non-breaking space to ensure xhtml validity (ie: avoid empty paragraph).
       &amp;nbsp;      
     #else
-      $localUserName
+      $userName
     #end
   #end
   &lt;/span&gt;

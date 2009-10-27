@@ -654,4 +654,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToSource();
         assertSourceText(styledGroup);
     }
+
+    /**
+     * @see XWIKI-4529: XWiki velocity variables are undefined when the edited content is rendered.
+     */
+    public void testXWikiVarsAreDefined()
+    {
+        switchToSource();
+        setSourceText("{{velocity}}#if($hasEdit)1#{else}2#end{{/velocity}}");
+        switchToWysiwyg();
+        assertEquals("velocity1", getEval("window.XWE.body.textContent"));
+    }
 }

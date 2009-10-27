@@ -115,7 +115,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
-        Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         assertTrue(attachments.getAttachments().size() > 0);
     }
@@ -131,7 +131,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
-        Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         assertTrue(attachments.getAttachments().size() > 0);
 
@@ -195,7 +195,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             TestUtils.printHttpMethodInfo(putMethod);
             assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
-            Attachment attachment = (Attachment) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+            Attachment attachment = (Attachment) this.unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
             pageVersions[i] = attachment.getPageVersion();
 
             System.out.format("Attachment %s stored at page version %s\n", attachmentNames[i], pageVersions[i]);
@@ -214,7 +214,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             TestUtils.printHttpMethodInfo(getMethod);
             assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
-            Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+            Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
             /*
              * Check that all attachmentNames[0..i] are present in the list of attachments of page at version
@@ -267,7 +267,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 assertEquals(HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
             }
 
-            Attachment attachment = (Attachment) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+            Attachment attachment = (Attachment) this.unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
             System.out.format("Attachment %s stored at version %s: %s\n", attachmentName, attachment.getVersion(),
                 content);
@@ -282,7 +282,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(getMethod);
         assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
-        Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         for (Attachment attachment : attachments.getAttachments()) {
             getMethod = executeGet(getFirstLinkByRelation(attachment, Relations.ATTACHMENT_DATA).getHref());
@@ -319,7 +319,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         TestUtils.printHttpMethodInfo(postMethod);
         assertEquals(HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
-        Attachment attachment = (Attachment) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
+        this.unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
 
         Header location = postMethod.getResponseHeader("location");
 

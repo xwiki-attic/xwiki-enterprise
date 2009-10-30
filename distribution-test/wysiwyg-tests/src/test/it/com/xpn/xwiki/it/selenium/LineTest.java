@@ -439,4 +439,28 @@ public class LineTest extends AbstractWysiwygTestCase
         switchToSource();
         assertSourceText("This is a [[link>>http://www.xwiki.org]]\n\nx");
     }
+
+    /**
+     * @see XWIKI-3678: Justify not preserved when entering a new paragraph.
+     */
+    public void testTextAlignmentIsPreservedOnANewParagraph()
+    {
+        // Create a level one heading.
+        typeText("1");
+        applyStyleTitle1();
+        // Center the text.
+        pushToolBarButton("Centered");
+        // Create two paragraphs.
+        typeEnter();
+        typeTextThenEnter("2");
+        typeText("34");
+        // Split the last paragraph in half.
+        moveCaret("XWE.body.lastChild.firstChild", 1);
+        typeEnter();
+        // Check the result.
+        switchToSource();
+        assertSourceText("(% style=\"text-align: center;\" %)\n= 1 =\n\n"
+            + "(% style=\"text-align: center;\" %)\n2\n\n" + "(% style=\"text-align: center;\" %)\n3\n\n"
+            + "(% style=\"text-align: center;\" %)\n4");
+    }
 }

@@ -1146,6 +1146,32 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4541: Links are removed when a macro is collapsed and the editor looses focus.
+     */
+    public void testLinksArePreservedWhenMacroIsCollapsed()
+    {
+        switchToSource();
+        setSourceText("before\n\n{{velocity}}abc [[123>>http://www.xwiki.org]] xyz{{/velocity}}\n\nafter");
+        switchToWysiwyg();
+        // Make sure the rich text area is focused. We need to do this to be sure the blur event has any effect.
+        focusRichTextArea();
+        // Check if the link is present before collapsing the macro.
+        String linkCountExpression = "window." + getDOMLocator("getElementsByTagName('a').length");
+        assertEquals("1", getSelenium().getEval(linkCountExpression));
+        // Select the macro.
+        clickMacro(0);
+        // Collapse the macro.
+        clickMacro(0);
+        // Blur and focus again the rich text area.
+        blurRichTextArea();
+        focusRichTextArea();
+        // Expand the macro.
+        clickMacro(0);
+        // The link should have been preserved.
+        assertEquals("1", getSelenium().getEval(linkCountExpression));
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

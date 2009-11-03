@@ -320,24 +320,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @see XWIKI-2723: Empty paragraphs should not be displayed even if they have styles applied to them
-     */
-    public void testEmptyParagraphsGenerateEmptyLines()
-    {
-        switchToSource();
-        setSourceText("(% style=\"color: blue; text-align: center;\" %)\nHello world");
-        switchToWysiwyg();
-
-        // Place the caret after "Hello ".
-        moveCaret("XWE.body.firstChild.firstChild", 6);
-
-        typeEnter(3);
-
-        switchToSource();
-        assertSourceText("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\nworld");
-    }
-
-    /**
      * Basic integration test for the history mechanism.
      */
     public void testUndoRedo()

@@ -463,4 +463,23 @@ public class LineTest extends AbstractWysiwygTestCase
             + "(% style=\"text-align: center;\" %)\n2\n\n" + "(% style=\"text-align: center;\" %)\n3\n\n"
             + "(% style=\"text-align: center;\" %)\n4");
     }
+
+    /**
+     * @see XWIKI-2723: Empty paragraphs should not be displayed even if they have styles applied to them
+     */
+    public void testEmptyParagraphsGenerateEmptyLines()
+    {
+        switchToSource();
+        setSourceText("(% style=\"color: blue; text-align: center;\" %)\nHello world");
+        switchToWysiwyg();
+
+        // Place the caret after "Hello ".
+        moveCaret("XWE.body.firstChild.firstChild", 6);
+
+        typeEnter(3);
+
+        switchToSource();
+        assertSourceText("(% style=\"color: blue; text-align: center;\" %)\nHello\n\n\n\n"
+            + "(% style=\"text-align: center;\" %)\nworld");
+    }
 }

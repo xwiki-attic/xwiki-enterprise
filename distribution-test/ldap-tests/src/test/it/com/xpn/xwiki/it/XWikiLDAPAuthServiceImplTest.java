@@ -41,7 +41,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
     private static final String GROUP_XCLASS = "XWiki.XWikiGroups";
 
-    private XWikiLDAPAuthServiceImpl ldapAuth = new XWikiLDAPAuthServiceImpl();
+    private XWikiLDAPAuthServiceImpl ldapAuth;
 
     private CacheFactory cacheFactory = new CacheFactory()
     {
@@ -239,6 +239,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.properties.setProperty("xwiki.authentication.ldap.update_user", "1");
         this.properties.setProperty("xwiki.authentication.ldap.fields_mapping",
             "last_name=sn,first_name=givenName,fullname=cn,email=mail");
+
+        this.ldapAuth = new XWikiLDAPAuthServiceImpl();
     }
 
     private void assertAuthenticate(String login, String password, String storedDn) throws XWikiException

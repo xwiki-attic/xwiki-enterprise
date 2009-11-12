@@ -94,7 +94,7 @@ public class WysiwygTestSetup extends TestSetup
         // login as admin and enable editing features.
         helperTest.loginAsAdmin();
         Map<String, String> config = new HashMap<String, String>();
-        config.put("wysiwyg.plugins", "submit line separator text valign list "
+        config.put("wysiwyg.plugins", "submit line separator embed text valign list "
             + "indent history format symbol link image " + "table macro import color justify font");
         config.put("wysiwyg.toolbar", "bold italic underline strikethrough teletype | subscript superscript | "
             + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "

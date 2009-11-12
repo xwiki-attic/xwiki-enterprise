@@ -65,6 +65,7 @@ public class AllTests extends TestCase
         addTestCase(suite, CacheTest.class);
         addTestCase(suite, RegularUserTest.class);
         addTestCase(suite, ImportTest.class);
+        addTestCase(suite, EmbedTest.class);
 
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(new WysiwygTestSetup(suite)));
     }

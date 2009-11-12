@@ -570,7 +570,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 #set($recentChangesDoc = $xwiki.getDocument("Main.RecentChanges"))
 {{html clean="false"}}
 &lt;table class="recentChanges" summary="$msg.get('xe.recentchanges.summary')"&gt;
-  &lt;tr class="recentChangesHeader"&gt;&lt;th&gt;$msg.get("xe.recentchanges.column.authoranddate")&lt;/th&gt;&lt;th&gt;$msg.get("xe.recentchanges.column.changes")&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr class="recentChangesHeader"&gt;&lt;th scope="col"&gt;$msg.get("xe.recentchanges.column.authoranddate")&lt;/th&gt;&lt;th scope="col"&gt;$msg.get("xe.recentchanges.column.changes")&lt;/th&gt;&lt;/tr&gt;
   #foreach ($rcDocName in $rcDocumentNames)    
     #set($row = "")
     #set($rcAttachments = $util.arrayList)

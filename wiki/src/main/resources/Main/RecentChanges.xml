@@ -618,7 +618,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
           #else
             &lt;div class="modifiedPage"&gt;&lt;a href="$rcDoc.getURL()" title="$msg.get("xe.recentchanges.entry.page.tooltip", [$rcDoc.getVersion(), $xwiki.formatDate($rcDt.toDate())])"&gt;$xwiki.getXMLEncoded($rcDoc.getDisplayTitle())&lt;/a&gt; #displayRcVersion($rcDoc.getVersion())&lt;/div&gt; 
             #if($rcShowDiff)
-              &lt;div class="xshowonhover modifiedPageActions"&gt;&lt;a href="$goToDiffURL"&gt;$msg.get("xe.recentchanges.entry.page.seemodifications")&lt;/a&gt;&lt;/div&gt;
+              &lt;div class="xshowonhover modifiedPageActions"&gt;&lt;a href="$goToDiffURL" title="$msg.get('xe.recentchanges.entry.page.seemodifications.title', [$rcDoc.fullName])"&gt;$msg.get("xe.recentchanges.entry.page.seemodifications")&lt;/a&gt;&lt;/div&gt;
               ## If the author has uploaded attachments during the day in this page, display them.
               #if($rcAttachments.size() &gt; 0)              
                 &lt;div class="attachmentContainer" id="$modGUID"&gt;

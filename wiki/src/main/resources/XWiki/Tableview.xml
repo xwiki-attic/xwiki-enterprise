@@ -33,7 +33,8 @@
                    "_actions" : {"actions": ["copy","delete","rename","rights"]}
                  })
 #set($options = { "translationPrefix" : "xe.index.",
-                  "rowCount": 15 })
+                  "rowCount": 15,
+                  "description": "This table lists all the documents found on this wiki. The columns can be sorted and some can be filtered." })
 #livetable("alldocs" $collist $colprops $options)
 {{/velocity}}
 </content></xwikidoc>

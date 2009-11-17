@@ -603,12 +603,14 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testRemoveItalicsFromDefinition()
     {
         switchToSource();
-        setSourceText("; term1\n: definition1\n:; term2\n:: definition2");
+        // Make sure the definitions are displayed with italics to avoid depending on the current skin.
+        setSourceText("(% style=\"font-style: italic;\" %)\n(((\n; term1\n: definition1\n:; term2\n:: definition2\n)))");
         switchToWysiwyg();
         selectNodeContents("XWE.document.getElementsByTagName('dd')[0].firstChild");
         clickItalicsButton();
         switchToSource();
-        assertSourceText("; term1\n: (% style=\"font-style: normal;\" %)definition1(%%)\n:; term2\n:: definition2");
+        assertSourceText("(% style=\"font-style: italic;\" %)\n(((\n; term1\n"
+            + ": (% style=\"font-style: normal;\" %)definition1(%%)\n:; term2\n:: definition2\n)))");
     }
 
     /**

@@ -75,8 +75,14 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     public void testAlignParagraph()
     {
+        // Create the paragraph.
         applyStyleTitle1();
         applyStylePlainText();
+
+        // Check the default alignment.
+        boolean defaultAlignFull = isAlignFullDetected();
+
+        // Center text.
         clickAlignCenterButton();
         typeText("a");
         assertTrue(isAlignCenterDetected());
@@ -111,7 +117,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
 
         // Remove the full alignment (toggle full alignment off).
         clickAlignFullButton();
-        assertFalse(isAlignFullDetected());
+        // If paragraphs are justified by default then the "Justified" button remains toggled.
+        assertEquals(defaultAlignFull, isAlignFullDetected());
         switchToSource();
         assertSourceText("b\nc");
         switchToWysiwyg();

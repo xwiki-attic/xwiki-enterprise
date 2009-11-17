@@ -78,8 +78,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
 
         // Set the SMTP port to the default port used by Greenmail (3025)
-        open("XWiki", "XWikiPreferences", "admin");
-        clickLinkWithLocator("tmEditObjects", true);
+        open("XWiki", "XWikiPreferences", "edit", "editor=object");
         clickLinkWithXPath("//div[@id='xobject_XWiki.XWikiPreferences_0_title']", false);
         setFieldValue("XWiki.XWikiPreferences_0_smtp_port", "3025");
         clickEditSaveAndView();
@@ -99,14 +98,14 @@ public class WatchListTest extends AbstractXWikiTestCase
 
         // Watch Test.TestWatchThisPage
         createPage("Test", "TestWatchThisPage", "TestWatchThisPage selenium");
-        clickLinkWithText("Watch this page", false);
+        clickLinkWithText("Watch", false);
 
         // Watch TestWatchWholeSpace
         createPage("TestWatchWholeSpace", "Test1", "TestWatchWholeSpace selenium");
-        clickLinkWithText("Watch the current space", false);
+        clickLinkWithText("Watch space", false);
 
         // Verify that the watched page & space are present in the watchlist manager
-        clickLinkWithLocator("link=Manage your watchlist");
+        clickLinkWithLocator("link=Watchlist");
         assertTextPresent("TestWatchThisPage");
         assertTextPresent("TestWatchWholeSpace");
 
@@ -127,8 +126,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         assertTrue(messageFromXWiki.contains("TestWatchWholeSpace"));
 
         // Reset the SMTP port
-        open("XWiki", "XWikiPreferences", "admin");
-        clickLinkWithLocator("tmEditObjects", true);
+        open("XWiki", "XWikiPreferences", "edit", "editor=object");
         clickLinkWithXPath("//div[@id='xobject_XWiki.XWikiPreferences_0_title']", false);
         setFieldValue("XWiki.XWikiPreferences_0_smtp_port", "25");
         clickEditSaveAndView();

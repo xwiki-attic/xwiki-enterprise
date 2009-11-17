@@ -71,7 +71,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // Give "comment" page right to XWikiNewGroup on Test.TestCreateAndDeleteGroup page
         createPage("Test", "TestCreateAndDeleteGroup", "whatever");
-        clickLinkWithText("Page access rights");
+        clickLinkWithText("Access Rights");
         clickGroupsRadioButton();
         clickCommentRightsCheckbox("XWikiNewGroup", "allow");
 

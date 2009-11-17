@@ -173,7 +173,7 @@ public class ColorTest extends AbstractWysiwygTestCase
      */
     protected void clickBackgroundColorButton()
     {
-        pushToolBarButton("Background Color");
+        pushToolBarButton("Highlight Color");
     }
 
     /**

@@ -23,19 +23,19 @@
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.applications</groupId>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-scheduler</artifactId>
       <version>${platform.scheduler.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.applications</groupId>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-watchlist</artifactId>
       <version>${platform.watchlist.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.applications</groupId>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-statistics</artifactId>
       <version>${platform.statistics.version}</version>
       <type>xar</type>
@@ -47,13 +47,13 @@
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.applications</groupId>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-officeimporter</artifactId>
       <version>${platform.officeimporter.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.applications</groupId>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-webdav</artifactId>
       <version>${platform.webdav.version}</version>
       <type>xar</type>
@@ -65,7 +65,7 @@
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.applications</groupId>
+      <groupId>com.xpn.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-wiki-macro-bridge</artifactId>
       <version>${platform.wikimacrobridge.version}</version>
       <type>xar</type>

@@ -25,12 +25,12 @@
 <hidden>false</hidden>
 <content>{{velocity}}
 ## Backward compatibility redirect, if the RSS feed is called without the outputSyntax query argument, force it.
-#if ("$!request.xpage" == "plain" &amp;&amp; "$!request.outputSyntax" != "plain")
-  $response.sendRedirect($xwiki.getURL($doc.fullName, "view", "xpage=plain&amp;outputSyntax=plain"))
+#if (("$!request.xpage" == 'plain' || "$!request.xpage" == 'rdf') &amp;&amp; "$!request.outputSyntax" != 'plain')
+  $response.sendRedirect($xwiki.getURL($doc.fullName, 'view', 'xpage=plain&amp;outputSyntax=plain'))
 #end
-#if ("$!request.xpage" == "plain" &amp;&amp; "$!request.outputSyntax" == "plain")
-  #set ($feed = $xwiki.feed.getWebFeed("where 1=1 order by doc.date desc", 20, 0, $util.getHashMap()))
-  #set ($feedURI = $xwiki.getDocument("Main.WebHome").getExternalURL("view"))
+#if ("$!request.xpage" == 'plain' &amp;&amp; "$!request.outputSyntax" == 'plain')
+  #set ($feed = $xwiki.feed.getWebFeed('where 1=1 order by doc.date desc', 20, 0, $util.getHashMap()))
+  #set ($feedURI = $xwiki.getDocument('Main.WebHome').getExternalURL('view'))
   #set ($discard = $feed.setLink($feedURI))
   #set ($discard = $feed.setUri($feedURI))
   #set ($discard = $feed.setAuthor('XWiki'))

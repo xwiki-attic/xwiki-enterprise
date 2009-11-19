@@ -281,20 +281,20 @@ $xwiki.ssx.use("Main.Spaces")##
 ## Delete space if requested.
 ##
 #set($spaceToDelete = "$!request.getParameter('deleteSpace')")
-#if("$!spaceToDelete" != "" &amp;&amp; $xwiki.hasAdminRights())
+#if("$!spaceToDelete" != '' &amp;&amp; $xwiki.hasAdminRights())
   #foreach ($page in $xwiki.getSpaceDocsName($spaceToDelete))
     #set($discard = $xwiki.getDocument("${spaceToDelete}.${page}").delete())  
   #end
   {{info}}Space &amp;rdquo;${spaceToDelete}&amp;ldquo; deleted.{{/info}}
   #set($xredirect = "$!request.getParameter('xredirect')")
   ## Redirect to the previous page if requested.
-  #if("$!xredirect" != "")
+  #if("$!xredirect" != '')
     $response.sendRedirect($xredirect)
   #end
 #end
 #set($spaceList = $xwiki.getSpaces())
 ## Get this very doc, useful when it is included from another one.
-#set($spaceListDoc = $xwiki.getDocument("Main.Spaces"))  
+#set($spaceListDoc = $xwiki.getDocument('Main.Spaces'))  
 {{html wiki="true"}}
 &lt;ul class="xlist"&gt;
   ##
@@ -303,22 +303,22 @@ $xwiki.ssx.use("Main.Spaces")##
   #foreach($space in $spaceList)
     ## Display space only if the user has view right on space home and if the space is not blacklisted.
     ## $blacklistedSpaces is set in xwikivars.vm
-    #if($xwiki.hasAccessLevel("view", "${space}.WebHome") &amp;&amp; !$blacklistedSpaces.contains($space))
+    #if($xwiki.hasAccessLevel('view', "${space}.WebHome") &amp;&amp; !$blacklistedSpaces.contains($space))
       &lt;li class="xitem xunderline xhighlight space"&gt;
         &lt;div class="xitemcontainer"&gt;        
           &lt;div class="spSpaceName"&gt;[[${space}&gt;&gt;${space}.WebHome]]&lt;/div&gt;
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
-            &lt;a href="$xwiki.getURL("Main.SpaceIndex", "view", "space=${space}")" title="$msg.get("xe.spaces.action.index")"&gt;
-              &lt;img src="$xwiki.getSkinFile("icons/silk/book_open.gif")" alt="Space index icon"/&gt;
+            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=${space}")" title="$msg.get('xe.spaces.action.index')"&gt;
+              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.gif')" alt="Space index icon"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.
-            #if($xwiki.hasAccessLevel("admin", "${space}.XWikiPreferences"))  
-              &lt;a href="$xwiki.getURL("${space}.WebPreferences", "admin")" title="$msg.get("xe.spaces.action.admin")"&gt;
-                &lt;img src="$xwiki.getSkinFile("icons/silk/cog.gif")" alt="Administrate space icon"/&gt;
+            #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))  
+              &lt;a href="$xwiki.getURL("${space}.WebPreferences", 'admin')" title="$msg.get('xe.spaces.action.admin')"&gt;
+                &lt;img src="$xwiki.getSkinFile('icons/silk/cog.gif')" alt="Administrate space icon"/&gt;
               &lt;/a&gt;                  
-              ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='$spaceListDoc.getURL("view", "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()")'" title="$msg.get("xe.spaces.action.delete")"&gt;
-              ##  &lt;img src="$xwiki.getSkinFile("icons/silk/cross.gif")" alt="Delete space icon" /&gt;
+              ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='$spaceListDoc.getURL('view', "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()")'" title="$msg.get('xe.spaces.action.delete')"&gt;
+              ##  &lt;img src="$xwiki.getSkinFile('icons/silk/cross.gif')" alt="Delete space icon" /&gt;
               ##&lt;/a&gt;
             #end          
           &lt;/div&gt; 
@@ -333,16 +333,16 @@ $xwiki.ssx.use("Main.Spaces")##
   #if($xwiki.hasAdminRights())  
     &lt;li id="spSpaceCreateItem" class="xitem space"&gt;      
       &lt;div class="xitemcontainer"&gt;
-        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="#" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get("xe.spaces.createspace")&lt;/a&gt;&lt;/div&gt;
+        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space')" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;        
         &lt;div id="spSpaceCreateForm" class="hidden"&gt;
-          &lt;form method="post" action="$doc.getURL("view", "xpage=create")"&gt;
+          &lt;form method="post" action="$doc.getURL('view', 'xpage=create')"&gt;
             &lt;div&gt;
               &lt;input name="tocreate" type="hidden" value="space" /&gt;       
-              #set($newSpaceName = $msg.get("xe.spaces.createspace.defaultname"))
+              #set($newSpaceName = $msg.get('xe.spaces.createspace.defaultname'))
               &lt;label class="hidden" for="spSpaceCreateTextInput"&gt;$newSpaceName&lt;/label&gt;
               &lt;input id="spSpaceCreateTextInput" type="text" name="title" value="$newSpaceName" class="panelinput" onfocus="if(this.value=='$newSpaceName') this.value=''" onblur="if(this.value=='') this.value='$newSpaceName'" /&gt;        
-              &lt;input type="submit" value="$msg.get("xe.spaces.createspace.submit")" /&gt;
+              &lt;input type="submit" value="$msg.get('xe.spaces.createspace.submit')" /&gt;
             &lt;/div&gt;
           &lt;/form&gt;
         &lt;/div&gt;

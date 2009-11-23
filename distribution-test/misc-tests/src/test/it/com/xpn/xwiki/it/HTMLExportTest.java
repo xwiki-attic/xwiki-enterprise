@@ -49,7 +49,6 @@ public class HTMLExportTest extends TestCase
         // We must read the full stream as otherwise if we close it before we've fully read it
         // then the server side will get a broken pipe since it's still trying to send data on it.
         for (ZipEntry entry; (entry = zis.getNextEntry()) != null; zis.closeEntry()) {
-            System.out.println(entry.getName());
             if (entry.getName().equals("xwiki.Main.WebHome.html")) {
                 String content = IOUtils.toString(zis);
 

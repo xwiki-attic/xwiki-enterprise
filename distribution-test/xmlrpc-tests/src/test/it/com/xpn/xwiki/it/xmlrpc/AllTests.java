@@ -62,6 +62,7 @@ public class AllTests extends TestCase
         addTestCase(suite, org.xwiki.xmlrpc.XWikiClassesTest.class);
         addTestCase(suite, org.xwiki.xmlrpc.XWikiObjectsTest.class);
         addTestCase(suite, org.xwiki.xmlrpc.SearchTest.class);
+        addTestCase(suite, org.xwiki.xmlrpc.RenderingTest.class);
 
         return new XWikiTestSetup(suite);
     }

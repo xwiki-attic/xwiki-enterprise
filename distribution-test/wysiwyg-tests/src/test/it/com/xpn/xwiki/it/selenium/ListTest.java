@@ -581,10 +581,10 @@ public class ListTest extends AbstractWysiwygTestCase
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(OUTDENT_BUTTON_TITLE, true);
         clickOutdentButton();
-        assertContent("<ul><li>foo</li><li>one<ul><li>bar</li></ul></li></ul>");
+        assertContent("<ul><li>foo</li><li>one<ul><li>bar<br></li></ul></li></ul>");
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         clickOutdentButton();
-        assertContent("<ul><li>foo</li><li>one</li><li>bar</li></ul>");
+        assertContent("<ul><li>foo</li><li>one</li><li>bar<br></li></ul>");
         switchToSource();
         assertSourceText("* foo\n* one\n* bar");
     }

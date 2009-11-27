@@ -547,13 +547,18 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testHTMLSpecialChars()
     {
-        typeText("<\"'&#\"'>");
+        typeText("<\"'&#'\">");
         switchToSource();
-        assertSourceText("<\"'&#\"'>");
+        assertSourceText("<\"'&#'\">");
+
+        // Change the source to force a conversion.
+        setSourceText("<'\"&#\"'>");
         switchToWysiwyg();
-        assertContent("<p>&lt;\"'&amp;#\"'&gt;</p>");
+        assertContent("<p>&lt;'\"&amp;#\"'&gt;</p>");
+
+        applyStyleTitle1();
         switchToSource();
-        assertSourceText("<\"'&#\"'>");
+        assertSourceText("= <'\"&#\"'> =");
     }
 
     /**

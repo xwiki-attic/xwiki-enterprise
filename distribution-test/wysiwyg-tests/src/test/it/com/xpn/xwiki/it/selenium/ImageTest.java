@@ -171,7 +171,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // now edit
-        selectNode("XWE.body.childNodes[1].firstChild");
+        selectNode("XWE.body.getElementsByTagName('img')[0]");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the page is the right page

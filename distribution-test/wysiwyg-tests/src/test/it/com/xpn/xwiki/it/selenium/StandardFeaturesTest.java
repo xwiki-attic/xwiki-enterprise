@@ -203,6 +203,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Strange but we need to type Backspace twice although there's nothing else besides the horizontal ruler.
         typeBackspace(2);
         testEmptyWysiwyg();
+        switchToWysiwyg();
 
         typeText("foobar");
         applyStyleTitle1();

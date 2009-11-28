@@ -89,7 +89,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         // Check if the XWE object is undefined or not up to date (due to a rich text area reload).
         if (Boolean.valueOf(getSelenium().getEval(
-            "typeof window.XWE == 'undefined' || window.XWE.body != window." + getDOMLocator("body")))) {
+            "typeof window.XWE == 'undefined' || window.XWE.selection != window."
+                + getDOMLocator("defaultView.getSelection()")))) {
             StringBuffer script = new StringBuffer();
             script.append("var XWE = function() {\n");
             script.append("  var iwnd = window." + getDOMLocator("defaultView") + ";\n");
@@ -583,7 +584,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
             if (wait) {
-                waitForCondition("!window.document.getElementsByTagName('iframe')[0].disabled");
+                waitForCondition("window.document.getElementsByTagName('iframe')[0].__enabled");
             }
         }
     }

@@ -104,7 +104,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         assertTrue(isAlignRightDetected());
 
-        selectNode("XWE.body.firstChild.lastChild");
+        selectNode("XWE.body.firstChild.childNodes[2]");
         clickAlignFullButton();
         typeText("c");
         assertTrue(isAlignFullDetected());

@@ -345,7 +345,7 @@ public class LineTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Place the caret in the middle of the header.
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("XWE.body.firstChild.firstChild", 3);
 
         // Type some text to update the tool bar.
         typeText("#");

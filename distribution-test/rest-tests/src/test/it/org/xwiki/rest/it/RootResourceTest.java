@@ -23,20 +23,17 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.it.framework.AbstractHttpTest;
-import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.Xwiki;
 import org.xwiki.rest.resources.RootResource;
 
 public class RootResourceTest extends AbstractHttpTest
 {
+    @Override
     public void testRepresentation() throws Exception
     {
-        TestUtils.banner("testRepresentation()");
-
         GetMethod getMethod = executeGet(getFullUri(RootResource.class));
-        TestUtils.printHttpMethodInfo(getMethod);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Xwiki xwiki = (Xwiki) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 

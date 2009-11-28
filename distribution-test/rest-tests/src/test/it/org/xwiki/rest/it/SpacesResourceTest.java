@@ -23,7 +23,6 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.it.framework.AbstractHttpTest;
-import org.xwiki.rest.it.framework.TestUtils;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -40,13 +39,11 @@ import org.xwiki.rest.resources.wikis.WikisResource;
 
 public class SpacesResourceTest extends AbstractHttpTest
 {
+    @Override
     public void testRepresentation() throws Exception
     {
-        TestUtils.banner("testRepresentation()");
-
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
-        TestUtils.printHttpMethodInfo(getMethod);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertTrue(wikis.getWikis().size() > 0);
@@ -56,8 +53,7 @@ public class SpacesResourceTest extends AbstractHttpTest
         assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        TestUtils.printHttpMethodInfo(getMethod);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -74,20 +70,19 @@ public class SpacesResourceTest extends AbstractHttpTest
 
     public void testSearch() throws Exception
     {
-        GetMethod getMethod = executeGet(String.format("%s?q=somethingthatcannotpossiblyexist", 
-            getUriBuilder(SpaceSearchResource.class).build(getWiki(), "Main")));
-        TestUtils.printHttpMethodInfo(getMethod);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        GetMethod getMethod =
+            executeGet(String.format("%s?q=somethingthatcannotpossiblyexist", getUriBuilder(SpaceSearchResource.class)
+                .build(getWiki(), "Main")));
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         assertEquals(0, searchResults.getSearchResults().size());
 
         getMethod =
-            executeGet(String.format("%s?q=sandbox", getUriBuilder(WikiSearchResource.class).build(getWiki(),
-                "Sandbox")));
-        TestUtils.printHttpMethodInfo(getMethod);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+            executeGet(String.format("%s?q=sandbox", getUriBuilder(WikiSearchResource.class)
+                .build(getWiki(), "Sandbox")));
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
@@ -101,16 +96,13 @@ public class SpacesResourceTest extends AbstractHttpTest
 
     public void testAttachments() throws Exception
     {
-        TestUtils.banner("testSpaceAttachments()");
-
         GetMethod getMethod =
             executeGet(String.format("%s", getUriBuilder(SpaceAttachmentsResource.class).build(getWiki(), "blog")));
-        TestUtils.printHttpMethodInfo(getMethod);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(7, attachments.getAttachments().size());
+        assertEquals(getAttachmentsInfo(attachments), 7, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);

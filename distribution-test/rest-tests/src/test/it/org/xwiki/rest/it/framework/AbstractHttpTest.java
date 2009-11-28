@@ -30,8 +30,10 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
@@ -41,10 +43,14 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.restlet.data.MediaType;
+import org.xwiki.rest.model.jaxb.Attachment;
+import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.LinkCollection;
 import org.xwiki.rest.model.jaxb.ObjectFactory;
 import org.xwiki.rest.model.jaxb.Page;
+import org.xwiki.rest.model.jaxb.PageSummary;
+import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
@@ -315,11 +321,10 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return deleteMethod;
     }
 
-    public String getWiki() throws Exception
+    protected String getWiki() throws Exception
     {
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
-        TestUtils.printHttpMethodInfo(getMethod);
-        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         assertTrue(wikis.getWikis().size() > 0);
@@ -327,22 +332,19 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return wikis.getWikis().get(0).getName();
     }
 
-    public void checkLinks(LinkCollection linkCollection) throws Exception
+    protected void checkLinks(LinkCollection linkCollection) throws Exception
     {
-        System.out.format("Checking links...\n");
         if (linkCollection.getLinks() != null) {
             for (Link link : linkCollection.getLinks()) {
-                System.out.format("Relation '%s': ", link.getRel());
                 GetMethod getMethod = executeGet(link.getHref());
-                TestUtils.printHttpMethodInfo(getMethod);
                 if (getMethod.getStatusCode() != HttpStatus.SC_UNAUTHORIZED) {
-                    assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
+                    assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
                 }
             }
         }
     }
 
-    public UriBuilder getUriBuilder(Class< ? > resource)
+    protected UriBuilder getUriBuilder(Class< ? > resource)
     {
         return UriBuilder.fromUri(getBaseURL()).path(resource);
     }
@@ -352,28 +354,55 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         String uri = getUriBuilder(PageResource.class).build(wikiName, spaceName, pageName).toString();
 
         GetMethod getMethod = executeGet(uri);
-        TestUtils.printHttpMethodInfo(getMethod);
 
         return (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
     }
 
-    public String getPageContent(String wikiName, String spaceName, String pageName) throws Exception
+    protected String getPageContent(String wikiName, String spaceName, String pageName) throws Exception
     {
         Page page = getPage(wikiName, spaceName, pageName);
 
         return page.getContent();
     }
 
-    public int setPageContent(String wikiName, String spaceName, String pageName, String content) throws Exception
+    protected int setPageContent(String wikiName, String spaceName, String pageName, String content) throws Exception
     {
         String uri = getUriBuilder(PageResource.class).build(wikiName, spaceName, pageName).toString();
 
         PutMethod putMethod = executePut(uri, content, javax.ws.rs.core.MediaType.TEXT_PLAIN, "Admin", "admin");
-        TestUtils.printHttpMethodInfo(putMethod);
 
         int code = putMethod.getStatusCode();
-        assertTrue("Failed to set page content", code == HttpStatus.SC_ACCEPTED || code == HttpStatus.SC_CREATED);
+        assertTrue(String.format("Failed to set page content, %s", getHttpMethodInfo(putMethod)),
+            code == HttpStatus.SC_ACCEPTED || code == HttpStatus.SC_CREATED);
 
         return code;
+    }
+
+    protected String getHttpMethodInfo(HttpMethod method) throws URIException
+    {
+        return String.format("%s %s. Status: %d %s\n", method.getName(), method.getURI(), method.getStatusCode(),
+            method.getStatusText());
+    }
+
+    protected String getAttachmentsInfo(Attachments attachments)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append(String.format("Attachments: %d\n", attachments.getAttachments().size()));
+        for (Attachment attachment : attachments.getAttachments()) {
+            sb.append(String.format("* %s\n", attachment.getName()));
+        }
+
+        return sb.toString();
+    }
+
+    protected String getPagesInfo(Pages pages)
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append(String.format("Pages: %d\n", pages.getPageSummaries().size()));
+        for (PageSummary pageSummary : pages.getPageSummaries()) {
+            sb.append(String.format("* %s\n", pageSummary.getFullName()));
+        }
+
+        return sb.toString();
     }
 }

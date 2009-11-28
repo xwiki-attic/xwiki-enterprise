@@ -19,8 +19,6 @@
  */
 package com.xpn.xwiki.it;
 
-import org.xwiki.rest.it.framework.TestUtils;
-
 import com.xpn.xwiki.it.framework.AbstractClusterHttpTest;
 
 /**
@@ -32,8 +30,6 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
 {
     public void testDocumentCacheSync() throws Exception
     {
-        TestUtils.banner("testDocumentCacheSync()");
-
         // 1) edit a page on XWiki 0
 
         switchXWiki(0);

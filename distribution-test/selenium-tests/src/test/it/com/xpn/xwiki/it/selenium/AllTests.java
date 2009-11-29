@@ -64,7 +64,7 @@ public class AllTests extends TestCase
         addTestCase(suite, UsersGroupsRightsManagementTest.class);
         addTestCase(suite, SkinCustomizationsTest.class);
         addTestCase(suite, XObjectsTest.class);
-        addTestCase(suite, VersionTest.class);        
+        addTestCase(suite, VersionTest.class);
         addTestCase(suite, KeyboardShortcutsTest.class);
         addTestCase(suite, AllDocsTest.class);
         addTestCase(suite, UrlMiscTest.class);
@@ -81,10 +81,11 @@ public class AllTests extends TestCase
         addTestCase(suite, PanelsTest.class);
         addTestCase(suite, SectionTest.class);
         addTestCase(suite, ImportTest.class);
+        addTestCase(suite, InternationalizationTest.class);
         // TODO: fix the commented test so that it succeed on our CI server.
         // Note that the test has been tested and works well on several computers.
         // addTestCase(suite, XWikiJavaScriptComponentsTest.class);
-        
+
         return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
     }
 

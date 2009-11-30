@@ -373,6 +373,7 @@
     <module>selenium-tests</module>
     <module>ldap-tests</module>
     <module>webdav-tests</module>
+    <module>webstandards-tests</module>
     <module>rest-tests</module>
     <module>cluster-tests</module>
   </modules>

@@ -42,12 +42,13 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
 {
     private DutchWebGuidelinesValidator validator;
 
-    public DutchWebGuidelinesValidationTest(String fullPageName, HttpClient client, Validator validator) throws Exception
+    public DutchWebGuidelinesValidationTest(String fullPageName, HttpClient client, Validator validator)
+        throws Exception
     {
         super("testDocumentValidity");
 
-        this.validator = (DutchWebGuidelinesValidator) validator; 
-        
+        this.validator = (DutchWebGuidelinesValidator) validator;
+
         this.fullPageName = fullPageName;
         this.client = client;
     }
@@ -92,10 +93,10 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
 
         boolean hasError = false;
         for (ValidationError error : errors) {
-            if (error.getType() == ValidationError.Type.WARNING) {
-                System.out.println("WARNING " + error.getMessage());
-            } else {
-                System.err.println("ERROR " + error.getMessage());
+            
+            // We don't display warnings since we don't want them to fail the validation.
+            if (error.getType() != ValidationError.Type.WARNING) {
+                System.err.println(error);
                 hasError = true;
             }
         }

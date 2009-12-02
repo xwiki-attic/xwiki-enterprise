@@ -45,27 +45,38 @@ import com.xpn.xwiki.it.framework.AbstractValidationTest;
 public class XHTMLValidationTest extends AbstractValidationTest
 { 
     private XHTMLValidator validator = new XHTMLValidator();
+    
+    /**
+     * We save the stdout stream since we replace it with our own in order to verify that XWiki doesn't generated any
+     * error while validating documents and we fail the build if it does.
+     */
+    protected PrintStream stdout;
+
+    /**
+     * The new stdout stream we're using to replace the default console output.
+     */
+    protected ByteArrayOutputStream out;
+
+    /**
+     * We save the stderr stream since we replace it with our own in order to verify that XWiki doesn't generated any
+     * error while validating documents and we fail the build if it does.
+     */
+    protected PrintStream stderr;
+
+    /**
+     * The new stderr stream we're using to replace the default console output.
+     */
+    protected ByteArrayOutputStream err;
         
     public XHTMLValidationTest(String fullPageName, HttpClient client, Validator validator) throws Exception
     {
         super("testDocumentValidity");
 
-        this.validator = (XHTMLValidator) validator; 
-        
+        this.validator = (XHTMLValidator) validator;
         this.fullPageName = fullPageName;
         this.client = client;
     }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#getName()
-     */
-    public String getName()
-    {
-        return "Validating XHTML validity for: " + fullPageName;
-    }
-
+    
     /**
      * {@inheritDoc}
      * 
@@ -105,14 +116,24 @@ public class XHTMLValidationTest extends AbstractValidationTest
         System.err.print(errput);
 
         // Detect server-side error/warning messages from the stdout
-        assertFalse("Errors found in the stdout output", hasErrors(output));
-        assertFalse("Warnings found in the stdout output", hasWarnings(output));
+        assertFalse("Errors found in the stdout output", hasLogErrors(output));
+        assertFalse("Warnings found in the stdout output", hasLogWarnings(output));
 
         // Detect server-side error/warning messages from the stderr
-        assertFalse("Errors found in the stderr output", hasErrors(errput));
-        assertFalse("Warnings found in the stderr output", hasWarnings(errput));
+        assertFalse("Errors found in the stderr output", hasLogErrors(errput));
+        assertFalse("Warnings found in the stderr output", hasLogWarnings(errput));
 
         super.tearDown();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see junit.framework.TestCase#getName()
+     */
+    public String getName()
+    {
+        return "Validating XHTML validity for: " + fullPageName;
     }
 
     public void testDocumentValidity() throws Exception
@@ -142,14 +163,15 @@ public class XHTMLValidationTest extends AbstractValidationTest
         validator.setDocument(new ByteArrayInputStream(responseBody));
         List<ValidationError> errors = validator.validate();
 
+        StringBuffer message = new StringBuffer();
+        message.append("Validation errors in " + fullPageName);
         boolean hasError = false;
         for (ValidationError error : errors) {
             if (error.getType() == ValidationError.Type.WARNING) {
                 System.out.println("Warning at " + error.getLine() + ":" + error.getColumn() + " " + error.getMessage());
             } else {
-                System.err.println("Line " + error.getLine() + ", Column " + error.getColumn() + " "
-                    + error.getMessage());
-
+                message.append("\n" + error.toString() + " at line [" + error.getLine() + "] column [" 
+                    + error.getColumn() + "]");
                 hasError = true;
             }
         }
@@ -164,6 +186,16 @@ public class XHTMLValidationTest extends AbstractValidationTest
             }
         }
 
-        assertFalse("Validation errors in " + fullPageName, hasError);
+        assertFalse(message.toString(), hasError);
+    }
+    
+    protected boolean hasLogErrors(String output)
+    {
+        return output.indexOf("ERROR") >= 0 || output.indexOf("ERR") >= 0;
+    }
+
+    protected boolean hasLogWarnings(String output)
+    {
+        return output.indexOf("WARNING") >= 0 || output.indexOf("WARN") >= 0;
     }
 }

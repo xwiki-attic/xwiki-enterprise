@@ -21,7 +21,6 @@ package com.xpn.xwiki.it;
 
 import java.io.ByteArrayInputStream;
 import java.net.URLEncoder;
-import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
@@ -30,6 +29,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.validator.DutchWebGuidelinesValidator;
 import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
+import org.xwiki.validator.ValidationError.Type;
 
 import com.xpn.xwiki.it.framework.AbstractValidationTest;
 
@@ -48,7 +48,6 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
         super("testDocumentValidity");
 
         this.validator = (DutchWebGuidelinesValidator) validator;
-
         this.fullPageName = fullPageName;
         this.client = client;
     }
@@ -89,19 +88,18 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
 
         validator.setDocument((new ByteArrayInputStream(responseBody)));
         validator.validate();
-        List<ValidationError> errors = validator.getErrors();
-
-        boolean hasError = false;
-        for (ValidationError error : errors) {
-            
-            // We don't display warnings since we don't want them to fail the validation.
-            if (error.getType() != ValidationError.Type.WARNING) {
-                System.err.println(error);
-                hasError = true;
+               
+        StringBuffer message = new StringBuffer();
+        boolean isValid = true;
+        message.append("Validation errors in " + fullPageName);
+        for (ValidationError error : validator.getErrors()) {
+            if (error.getType() != Type.WARNING) {
+                isValid = false;
+                message.append(error);
             }
         }
 
-        assertFalse("Validation errors in " + fullPageName, hasError);
+        assertTrue(message.toString(), isValid);
     }
 
 }

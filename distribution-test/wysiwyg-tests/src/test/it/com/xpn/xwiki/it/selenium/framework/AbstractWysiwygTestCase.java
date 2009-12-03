@@ -584,7 +584,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         if (tabsEnabled()) {
             getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
             if (wait) {
-                waitForCondition("window.document.getElementsByTagName('iframe')[0].__enabled");
+                waitForCondition("!window.document.getElementsByTagName('iframe')[0].__disabled");
             }
         }
     }
@@ -1048,13 +1048,17 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void waitForEditorToLoad()
     {
+        final String sourceTabSelected = "//div[@class = 'gwt-TabBarItem gwt-TabBarItem-selected']/div[. = 'Source']";
+        final String richTextAreaLoader = "//div[@class = 'xRichTextEditor']//div[@class = 'loading']";
         new Wait()
         {
             public boolean until()
             {
-                return (getSelenium().isElementPresent(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA) && getSelenium()
-                    .isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA))
-                    || !getSelenium().isElementPresent("//div[@class = 'xRichTextEditor']//div[@class = 'loading']");
+                // Either the source tab is present and selected and the plain text area can be edited or the rich text
+                // area is not loading (with or without tabs).
+                return (getSelenium().isElementPresent(sourceTabSelected) && getSelenium().isEditable(
+                    WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA))
+                    || !getSelenium().isElementPresent(richTextAreaLoader);
             }
         }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
     }

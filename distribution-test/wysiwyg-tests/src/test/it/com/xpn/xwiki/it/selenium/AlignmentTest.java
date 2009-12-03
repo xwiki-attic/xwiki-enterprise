@@ -93,12 +93,12 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         assertTrue(isAlignCenterDetected());
 
-        typeText("b");
         typeShiftEnter();
+        typeText("b");
         clickAlignRightButton();
         assertTrue(isAlignRightDetected());
         switchToSource();
-        assertSourceText("(% style=\"text-align: right;\" %)\nb\na");
+        assertSourceText("(% style=\"text-align: right;\" %)\na\nb");
 
         // Assert again the right alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
@@ -109,7 +109,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         typeText("c");
         assertTrue(isAlignFullDetected());
         switchToSource();
-        assertSourceText("(% style=\"text-align: justify;\" %)\nb\nc");
+        assertSourceText("(% style=\"text-align: justify;\" %)\na\nc");
 
         // Assert again the full alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
@@ -120,14 +120,14 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         // If paragraphs are justified by default then the "Justified" button remains toggled.
         assertEquals(defaultAlignFull, isAlignFullDetected());
         switchToSource();
-        assertSourceText("b\nc");
+        assertSourceText("a\nc");
         switchToWysiwyg();
 
         typeText("x");
         clickAlignLeftButton();
         assertTrue(isAlignLeftDetected());
         switchToSource();
-        assertSourceText("(% style=\"text-align: left;\" %)\nxb\nc");
+        assertSourceText("(% style=\"text-align: left;\" %)\na\ncx");
 
         // Assert again the left alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();

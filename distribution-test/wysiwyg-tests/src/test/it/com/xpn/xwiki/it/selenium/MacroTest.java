@@ -1172,6 +1172,30 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4613: Macros that output STYLE tags inside the HTML body generate wiki syntax garbage.
+     */
+    public void testHTMLMacroWithStyleTag()
+    {
+        switchToSource();
+        StringBuffer sourceText = new StringBuffer();
+        sourceText.append("{{html clean=\"false\"}}\n");
+        sourceText.append("<style type=\"text/css\">\n");
+        sourceText.append(".test {\n");
+        sourceText.append("  color: red;\n");
+        sourceText.append("}\n");
+        sourceText.append("</style>\n");
+        sourceText.append("<div class=\"test\">This is a test.</div>\n");
+        sourceText.append("{{/html}}");
+        setSourceText(sourceText.toString());
+        switchToWysiwyg();
+        // Force re-rendering.
+        refreshMacros();
+        // Check the result.
+        switchToSource();
+        assertSourceText(sourceText.toString());
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

@@ -581,6 +581,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         setSourceText("[[image:XWiki.AdminSheet@registration.png]]");
         switchToWysiwyg();
 
+        // Reset the image selection.
+        moveCaret("XWE.body", 0);
+
         // enter to test enter upload in all pages
         openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);

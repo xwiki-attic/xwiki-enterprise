@@ -83,11 +83,6 @@
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-blog</artifactId>
-      <version>${platform.blog.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-activitystream</artifactId>
       <version>${platform.activitystream.version}</version>
     </dependency>
@@ -152,8 +147,7 @@
                     com.xpn.xwiki.plugin.activitystream.plugin.ActivityStreamPlugin, \
                     com.xpn.xwiki.plugin.watchlist.WatchListPlugin, \
                     com.xpn.xwiki.wysiwyg.server.plugin.WysiwygPlugin, \
-                    com.xpn.xwiki.plugin.tag.TagPlugin, \
-                    com.xpn.xwiki.plugin.blog.BlogPlugin
+                    com.xpn.xwiki.plugin.tag.TagPlugin
                 </xwikiCfgPlugins>
                 <xwikiCfgDefaultSkin>colibri</xwikiCfgDefaultSkin>
                 <xwikiCfgDefaultBaseSkin>albatross</xwikiCfgDefaultBaseSkin>

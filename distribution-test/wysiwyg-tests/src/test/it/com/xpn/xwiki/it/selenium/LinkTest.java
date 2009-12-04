@@ -1915,6 +1915,36 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertSourceText("[[" + label + ">>" + newPageName + "]]");
     }
 
+    /**
+     * Tests if an empty link is filtered.
+     */
+    public void testFilterEmptyLink()
+    {
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
+        typeText("ab");
+        // Select the text.
+        selectNodeContents("XWE.body.firstChild");
+        // Make it bold.
+        clickBoldButton();
+        // Make it a link to a web page.
+        openLinkDialog(MENU_WEB_PAGE);
+        // Ensure wizard step is loaded.
+        waitForStepToLoad("xLinkToUrl");
+        typeInInput("Web page address", "http://www.xwiki.org");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+        // Place the caret inside the text.
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        // Remove the bold style around the caret (not for the entire link).
+        clickBoldButton();
+        // The link must have been split in three.
+        assertEquals("3", getEval("window.XWE.body.getElementsByTagName('a').length"));
+        // Check the source text.
+        switchToSource();
+        assertSourceText("**[[a>>http://www.xwiki.org]][[b>>http://www.xwiki.org]]**");
+    }
+
     protected void waitForStepToLoad(String name)
     {
         waitForElement("//*[contains(@class, '" + name + "')]");

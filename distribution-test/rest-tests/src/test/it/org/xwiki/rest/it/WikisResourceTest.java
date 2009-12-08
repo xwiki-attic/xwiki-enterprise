@@ -166,37 +166,37 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?name=bl", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+            executeGet(String.format("%s?name=quo", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getAttachmentsInfo(attachments), 3, attachments.getAttachments().size());
+        assertEquals(getAttachmentsInfo(attachments), 2, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);
         }
 
         getMethod =
-            executeGet(String.format("%s?space=blog", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+            executeGet(String.format("%s?space=sandbox", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getAttachmentsInfo(attachments), 7, attachments.getAttachments().size());
+        assertEquals(getAttachmentsInfo(attachments), 1, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);
         }
 
         getMethod =
-            executeGet(String.format("%s?name=de&space=blog", getUriBuilder(WikiAttachmentsResource.class).build(
+            executeGet(String.format("%s?name=rq&space=Main", getUriBuilder(WikiAttachmentsResource.class).build(
                 getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getAttachmentsInfo(attachments), 3, attachments.getAttachments().size());
+        assertEquals(getAttachmentsInfo(attachments), 1, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);

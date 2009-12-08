@@ -73,7 +73,7 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
         String attachmentUri =
                 getUriBuilder(AttachmentResource.class).build(getWiki(), "Test", "AttachementCacheSync", "file.ext").toString();
         PutMethod putMethod = executePut(attachmentUri, "content", MediaType.TEXT_PLAIN, "Admin", "admin");
-        assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+        assertEquals(HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         // TODO: give some time to JGroups to send the message
 
@@ -84,7 +84,7 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
                 getUriBuilder(AttachmentsResource.class).build(getWiki(), "Test", "AttachementCacheSync").toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, getMethod.getStatusCode());
 
         boolean found = false;
 

@@ -95,7 +95,7 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
         for (ValidationError error : validator.getErrors()) {
             if (error.getType() != Type.WARNING) {
                 isValid = false;
-                message.append(error);
+                message.append("\n" + error);
             }
         }
 

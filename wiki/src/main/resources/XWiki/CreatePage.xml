@@ -40,10 +40,10 @@
 &lt;input type="hidden" name="tocreate" value="$tocreate"/&gt;
 #if($tocreate=="page")
 &lt;dl&gt;
-  &lt;dt&gt;$msg.get("spaceandname"):&lt;/dt&gt;
-  &lt;dd&gt;&lt;input type="text" name="title" value="${pweb}.Title" onfocus="if(this.value=='${pweb}.Title') this.value='${pweb}.'" onblur="if(this.value=='${pweb}.' || this.value=='') this.value='${pweb}.Title'"/&gt;&lt;/dd&gt;
-  &lt;dt&gt;$msg.get("parent"):&lt;/dt&gt;
-  &lt;dd&gt;&lt;input type="text" name="parent" value="$!parentdoc"/&gt;&lt;/dd&gt;
+&lt;dt&gt;&lt;label for="title"&gt;$msg.get("spaceandname")&lt;/label&gt;:&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="title" name="title" value="${pweb}.Title" onfocus="if(this.value=='${pweb}.Title') this.value='${pweb}.'" onblur="if(this.value=='${pweb}.' || this.value=='') this.value='${pweb}.Title'"/&gt;&lt;/dd&gt;
+&lt;dt&gt;&lt;label for="parent"&gt;$msg.get("parent")&lt;/label&gt;:&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="parent" name="parent" value="$!parentdoc"/&gt;&lt;/dd&gt;
 &lt;/dl&gt;
 #else
 $msg.get("xe.create.space.name"): &lt;input type="text" name="title"/&gt;

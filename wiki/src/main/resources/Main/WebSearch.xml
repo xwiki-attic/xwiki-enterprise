@@ -58,6 +58,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
 {{html}}
 &lt;form action="" id="searchBar"&gt;
     &lt;div class="centered"&gt;
+      &lt;label for="text" class="hidden"&gt;$msg.get('xe.search.query')&lt;/label&gt;
       &lt;input type="text" name="text" class="searchQuery #if($text == '') defaultText#end" #if($text == '') value="$msg.get('xe.search.bar.query.tip')" #else value="$xwiki.getXMLEncoded(${text})" #end title="$msg.get('xe.search.bar.query.title')"/&gt;
       #spaceselect($selectedSpace $spaces)
       &lt;input type="submit" class="searchButton" value="$msg.get('xe.search.bar.submit')" title="$msg.get('xe.search.bar.submit.title')"/&gt;

@@ -224,11 +224,22 @@
 <cache>long</cache>
 </property>
 <property>
-<code>.color-theme-category {
+<code>.left-categories {
+  float: left;
+  width: 48%;
+}
+
+.right-categories {
+  width: 48%;
+  margin-left: 50%;
+}
+
+.color-theme-category {
   border: 1px solid #999;
   margin: 8px 0px;
   padding: 8px;
 }
+
 .color-theme-category legend {
   font-size: 120%;
   background: #999;
@@ -276,7 +287,7 @@ $xwiki.jsfx.use('uicomponents/widgets/colorpicker/procolor.js', true)##
   &lt;/fieldset&gt;
 #end
 ##
-&lt;div style="width: 48%; float: left;"&gt;
+&lt;div class="left-categories"&gt;
 #displayThemeCategory(
    'General', 
    [
@@ -295,7 +306,7 @@ $xwiki.jsfx.use('uicomponents/widgets/colorpicker/procolor.js', true)##
    ]
 )
 &lt;/div&gt;
-&lt;div style="width: 48%; margin-left: 50%"&gt;
+&lt;div class="right-categories"&gt;
 #displayThemeCategory(
    'Menu', 
    [

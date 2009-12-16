@@ -26,12 +26,12 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.xwiki.validator.DutchWebGuidelinesValidator;
 import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
 import org.xwiki.validator.ValidationError.Type;
 
 import com.xpn.xwiki.it.framework.AbstractValidationTest;
+import com.xpn.xwiki.it.framework.CustomDutchWebGuidelinesValidator;
 
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents.
@@ -40,14 +40,14 @@ import com.xpn.xwiki.it.framework.AbstractValidationTest;
  */
 public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
 {
-    private DutchWebGuidelinesValidator validator;
+    private CustomDutchWebGuidelinesValidator validator;
 
     public DutchWebGuidelinesValidationTest(String fullPageName, HttpClient client, Validator validator)
         throws Exception
     {
         super("testDocumentValidity");
 
-        this.validator = (DutchWebGuidelinesValidator) validator;
+        this.validator = (CustomDutchWebGuidelinesValidator) validator;
         this.fullPageName = fullPageName;
         this.client = client;
     }

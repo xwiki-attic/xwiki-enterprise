@@ -47,9 +47,9 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
             NodeListIterable styledElements =
                 new NodeListIterable((NodeList) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.NODESET));
 
-            for (Node styledElement : styledElements) {                
+            for (Node styledElement : styledElements) {
                 assertTrue(Type.ERROR, "rpd9s1.attr", 
-                    getAttributeValue(styledElement, "style").matches("^background-color:\\s?#[0-9a-fA-F]{6};?$"));
+                    getAttributeValue(styledElement, "style").matches("^background-color:\\s?(#[0-9a-fA-F]{6})?;?$"));
             }
         } else {
             // Usage of the style attribute is strictly forbidden in the other spaces.

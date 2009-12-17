@@ -275,74 +275,76 @@ $xwiki.ssx.use('ColorThemes.ColorThemeSheet')##
 $xwiki.jsfx.use('uicomponents/widgets/colorpicker/procolor.js', true)##
 #set($obj = $doc.getObject('ColorThemes.ColorThemeClass'))
 ##
-#macro(displayThemeCategory $title $properties)
-  &lt;fieldset class='color-theme-category'&gt;
-    &lt;legend&gt;$title&lt;/legend&gt;
-    &lt;dl&gt;
-    #foreach($propName in $properties)
-      &lt;dt&gt;$doc.displayPrettyName($propName)&lt;/dt&gt;
-      &lt;dd&gt;#if ($context.action != 'inline')&lt;span class="color" style="background-color: $obj.getProperty($propName).value"&gt;#end$doc.display($obj.getProperty($propName).getName())#if ($context.action != 'inline')&lt;/span&gt;#end&lt;/dd&gt;
-    #end
-    &lt;/dl&gt;
-  &lt;/fieldset&gt;
+#if($obj)
+  #macro(displayThemeCategory $title $properties)
+    &lt;fieldset class='color-theme-category'&gt;
+      &lt;legend&gt;$title&lt;/legend&gt;
+      &lt;dl&gt;
+      #foreach($propName in $properties)
+        &lt;dt&gt;$doc.displayPrettyName($propName)&lt;/dt&gt;
+        &lt;dd&gt;#if ($context.action != 'inline')&lt;span class="color" style="background-color: $obj.getProperty($propName).value"&gt;#end$doc.display($obj.getProperty($propName).getName())#if ($context.action != 'inline')&lt;/span&gt;#end&lt;/dd&gt;
+      #end
+      &lt;/dl&gt;
+    &lt;/fieldset&gt;
+  #end
+  ##
+  &lt;div class="left-categories"&gt;
+  #displayThemeCategory(
+     'General', 
+     [
+       'pageBackgroundColor',
+       'pageBackgroundImage',
+       'pageBackgroundPosition',
+       'pageHeaderBackgroundColor',
+       'headerBackgroundImage',
+       'headerBackgroundPosition',
+       'pageContentBackgroundColor',
+       'textColor',
+       'textPrimaryColor',
+       'textSecondaryColor',
+       'linkColor',
+       'titleColor'
+     ]
+  )
+  &lt;/div&gt;
+  &lt;div class="right-categories"&gt;
+  #displayThemeCategory(
+     'Menu', 
+     [
+       'menuBackgroundColor',
+       'menuLinkColor',
+       'menuSelectedEntryBackgroundColor',
+       'menuSelectedEntryLinkColor'
+     ]
+  )
+
+  #displayThemeCategory(
+     'Panels', 
+     [
+       'panelBackgroundColor',
+       'panelTextColor',
+       'panelHeaderBackgroundColor',
+       'panelHeaderTextColor',
+       'panelCollapsedBackgroundColor',
+       'panelCollapsedTextColor'
+     ]
+  )
+
+  #displayThemeCategory(
+     'Other', 
+     [
+       'borderColor',
+       'backgroundSecondaryColor',
+       'highlightColor',
+       'buttonPrimaryTextColor',
+       'buttonPrimaryBackgroundColor',
+       'buttonSecondaryTextColor',
+       'buttonSecondaryBackgroundColor'
+     ]
+  )
+  &lt;/div&gt;
+  &lt;div class="clearfloats"&gt;&lt;/div&gt;
 #end
-##
-&lt;div class="left-categories"&gt;
-#displayThemeCategory(
-   'General', 
-   [
-     'pageBackgroundColor',
-     'pageBackgroundImage',
-     'pageBackgroundPosition',
-     'pageHeaderBackgroundColor',
-     'headerBackgroundImage',
-     'headerBackgroundPosition',
-     'pageContentBackgroundColor',
-     'textColor',
-     'textPrimaryColor',
-     'textSecondaryColor',
-     'linkColor',
-     'titleColor'
-   ]
-)
-&lt;/div&gt;
-&lt;div class="right-categories"&gt;
-#displayThemeCategory(
-   'Menu', 
-   [
-     'menuBackgroundColor',
-     'menuLinkColor',
-     'menuSelectedEntryBackgroundColor',
-     'menuSelectedEntryLinkColor'
-   ]
-)
-
-#displayThemeCategory(
-   'Panels', 
-   [
-     'panelBackgroundColor',
-     'panelTextColor',
-     'panelHeaderBackgroundColor',
-     'panelHeaderTextColor',
-     'panelCollapsedBackgroundColor',
-     'panelCollapsedTextColor'
-   ]
-)
-
-#displayThemeCategory(
-   'Other', 
-   [
-     'borderColor',
-     'backgroundSecondaryColor',
-     'highlightColor',
-     'buttonPrimaryTextColor',
-     'buttonPrimaryBackgroundColor',
-     'buttonSecondaryTextColor',
-     'buttonSecondaryBackgroundColor'
-   ]
-)
-&lt;/div&gt;
-&lt;div class="clearfloats"&gt;&lt;/div&gt;
 {{/html}}
 {{/velocity}}</content>
 </xwikidoc>

@@ -93,32 +93,21 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
     
     /**
      * CSS should be placed in linked files and not mixed with the HTML source code. XWiki exceptions: in the ColorTheme
-     * application we have to allow the use of inline styles for background colors, this is the only way to offer a
-     * preview of the themes colors. In XWiki.XWikiSyntax usage of style custom parameter is demonstrated.
+     * application we have to allow the use of inline styles, this is the only way to offer a preview of the themes 
+     * color. In XWiki.XWikiSyntax usage of style custom parameter is demonstrated.
      */
     @Override
     public void validateRpd9s1()
     {
         String exprString = "//*[@style]";
         
-        if (getMeta(SPACE_META).equals("ColorThemes")) {
-            // We allow usage of the style attribute to set background-color in the ColorThemes space.
-            NodeListIterable styledElements =
-                new NodeListIterable((NodeList) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.NODESET));
-
-            for (Node styledElement : styledElements) {
-                assertTrue(Type.ERROR, "rpd9s1.attr", 
-                    getAttributeValue(styledElement, "style").matches("^background-color:\\s?(#[0-9a-fA-F]{6})?;?$"));
-            }
-        } else if (isPage("XWiki.XWikiSyntax")) {
-            // Don't check.
-        } else {
+        if (!getMeta(SPACE_META).equals("ColorThemes") && !isPage("XWiki.XWikiSyntax")) {
             // Usage of the style attribute is strictly forbidden in the other spaces.
             assertFalse(Type.ERROR, "rpd9s1.attr", ((Boolean) evaluate(getElement(ELEM_BODY), exprString,
                 XPathConstants.BOOLEAN)));
         }
         
-        // <style> tags are forbidden.
+        // <style> tags are forbidden everywhere.
         assertFalse(Type.ERROR, "rpd9s1.tag",
             getChildren(getElement(ELEM_BODY), "style").getNodeList().getLength() > 0);
     }

@@ -39,16 +39,15 @@ $msg.get("xe.document.copying", [$sourcelink, $targetlink])
 #end
 {{html clean="false"}}
 &lt;form action=""&gt;
-&lt;table&gt;
-&lt;tr&gt;&lt;td&gt;$msg.get("xe.document.copy.source")&lt;/td&gt;
-&lt;td&gt;&lt;input type="text" name="sourcedoc" value="$!request.sourcedoc"  size="60"/&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;$msg.get("xe.document.copy.language")&lt;/td&gt;
-&lt;td&gt;&lt;input type="text" name="language" value="$!request.language" size="60" /&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;$msg.get("xe.document.copy.target")&lt;/td&gt;
-&lt;td&gt;&lt;input type="text" name="targetdoc" value="$!request.targetdoc" size="60" /&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;input type="submit" value="$msg.get('xe.document.copy.do')" /&gt;
-&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;label for="sourcedoc"&gt;$msg.get("xe.document.copy.source")&lt;/label&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="sourcedoc" name="sourcedoc" value="$!request.sourcedoc"  size="60"/&gt;&lt;/dd&gt;
+&lt;dt&gt;&lt;label for="language"&gt;$msg.get("xe.document.copy.language")&lt;/label&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="language" name="language" value="$!request.language" size="60" /&gt;&lt;/dd&gt;
+&lt;dt&gt;&lt;label for="targetdoc"&gt;$msg.get("xe.document.copy.target")&lt;/label&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="targetdoc" name="targetdoc" value="$!request.targetdoc" size="60" /&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;input type="submit" value="$msg.get('xe.document.copy.do')" /&gt;
 &lt;/form&gt;
 {{/html}}
 {{/velocity}}</content>

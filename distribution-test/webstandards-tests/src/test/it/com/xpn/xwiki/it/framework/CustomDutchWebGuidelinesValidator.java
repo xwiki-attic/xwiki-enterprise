@@ -21,6 +21,7 @@ package com.xpn.xwiki.it.framework;
 
 import javax.xml.xpath.XPathConstants;
 
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xwiki.validator.DutchWebGuidelinesValidator;
@@ -29,20 +30,78 @@ import org.xwiki.validator.framework.NodeListIterable;
 
 public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidator
 {
+    private static final String SPACE_META = "space";
+    
+    private static final String PAGE_META = "page";
+    
     /**
-     * CSS should be placed in linked files and not mixed with the HTML source code. XWiki exception: in the ColorTheme
+     * @param metaName name of the meta to get
+     * @return the value for the given meta
+     */
+    private String getMeta(String metaName)
+    {
+        String exprString = "//meta[@name='" + metaName + "']";
+        NodeList meta = (NodeList) evaluate(document, exprString, XPathConstants.NODESET);
+        
+        return getAttributeValue(meta.item(0), ATTR_CONTENT);
+    }
+    
+    /**
+     * @return true if the current page is the give page, false otherwise.
+     */
+    private boolean isPage(String pageName)
+    {
+        String space = StringUtils.substringBefore(pageName, ".");
+        String page = StringUtils.substringAfter(pageName, ".");
+        
+        return getMeta(SPACE_META).equals(space) && getMeta(PAGE_META).equals(page);  
+    }
+    
+    /**
+     * Use the p (paragraph) element to indicate paragraphs. Do not use the br (linebreak) element to separate
+     * paragraphs.
+     */
+    public void validateRpd3s4()
+    {
+        if (!isPage("XWiki.XWikiSyntax")) {
+            super.validateRpd3s4();
+        }
+    }
+
+    /**
+     * Avoid using the sup (superscript) and sub (subscript) element if possible. XWiki exception: wiki syntax
+     * allows using sub and sup tags, this usage is demonstrated in the Sandbox space and the XWiki.XWikiSyntax page.
+     */
+    public void validateRpd3s9()
+    {
+        if (!isPage("XWiki.XWikiSyntax") && !isPage("Sandbox.WebHome")) {
+            super.validateRpd3s9();
+        }
+    }
+    
+    /**
+     * Use ol (ordered list) and ul (unordered list) elements to indicate lists. XWiki exception: XWiki.XWikiSyntax 
+     * shows the wiki syntax to use to create lists, this syntax is precisely what's forbidden to use in the generated 
+     * html. 
+     */
+    public void validateRpd3s13()
+    {
+        if (!isPage("XWiki.XWikiSyntax")) {
+            super.validateRpd3s13();
+        }
+    }
+    
+    /**
+     * CSS should be placed in linked files and not mixed with the HTML source code. XWiki exceptions: in the ColorTheme
      * application we have to allow the use of inline styles for background colors, this is the only way to offer a
-     * preview of the themes colors.
+     * preview of the themes colors. In XWiki.XWikiSyntax usage of style custom parameter is demonstrated.
      */
     @Override
     public void validateRpd9s1()
     {
-        String exprString = "//meta[@name='space']";
-        NodeList spaceMetas = (NodeList) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.NODESET);
-
-        exprString = "//*[@style]";
+        String exprString = "//*[@style]";
         
-        if (getAttributeValue(spaceMetas.item(0), ATTR_CONTENT).equals("ColorThemes")) {
+        if (getMeta(SPACE_META).equals("ColorThemes")) {
             // We allow usage of the style attribute to set background-color in the ColorThemes space.
             NodeListIterable styledElements =
                 new NodeListIterable((NodeList) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.NODESET));
@@ -51,6 +110,8 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
                 assertTrue(Type.ERROR, "rpd9s1.attr", 
                     getAttributeValue(styledElement, "style").matches("^background-color:\\s?(#[0-9a-fA-F]{6})?;?$"));
             }
+        } else if (isPage("XWiki.XWikiSyntax")) {
+            // Don't check.
         } else {
             // Usage of the style attribute is strictly forbidden in the other spaces.
             assertFalse(Type.ERROR, "rpd9s1.attr", ((Boolean) evaluate(getElement(ELEM_BODY), exprString,
@@ -61,4 +122,31 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
         assertFalse(Type.ERROR, "rpd9s1.tag",
             getChildren(getElement(ELEM_BODY), "style").getNodeList().getLength() > 0);
     }
+    
+    /**
+     * Use the scope attribute to associate table labels (th cells) with columns or rows. XWiki exception: wiki syntax
+     * allows using table headers without scope, this usage is demonstrated in the Sandbox space and the 
+     * XWiki.XWikiSyntax page.
+     */
+    public void validateRpd11s4()
+    {
+        if (!isPage("XWiki.XWikiSyntax") && !isPage("Sandbox.WebHome")) {
+            super.validateRpd11s4();
+        }
+    }
+    
+    /**
+     * Use the headers and id attributes to associate table labels (th cells) with individual cells in complex tables.
+     * XWiki exception: wiki syntax allows using tables without headers, this usage is demonstrated in the Sandbox 
+     * space and the XWiki.XWikiSyntax page.
+     */
+    public void validateRpd11s5()
+    {
+        if (!isPage("XWiki.XWikiSyntax") && !isPage("Sandbox.WebHome")) {
+            super.validateRpd11s5();
+        }
+    }
+    
+    
+    
 }

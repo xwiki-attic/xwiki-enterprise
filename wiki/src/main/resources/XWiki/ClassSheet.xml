@@ -124,6 +124,14 @@ Class properties:
       &lt;/form&gt;
     {{/html}}
   #else
+    #if($classSheetExists &amp;&amp; !$classSheetDoc.getObject('XWiki.SheetClass'))
+      #set($xredirect = $request.getRequestURL())
+      #set($createUrl = $classSheetDoc.getURL('objectadd', "classname=XWiki.SheetClass&amp;xredirect=${xredirect}"))
+      {{warning}}
+        The sheet does not contain an object of type //XWiki.SheetClass//. To trigger the inline edit mode automatically, {{html}}&lt;a href="$createUrl"&gt;add a SheetClass object to the sheet »&lt;/a&gt;.{{/html}}
+      {{/warning}}
+
+    #end
     [[View the sheet document (${classSheetDoc.fullName}) »&gt;&gt;${classSheetDoc.fullName}]]
   #end
 

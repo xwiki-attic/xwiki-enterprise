@@ -65,15 +65,15 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Groups']");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Import']");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Export']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Panels']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Blog']");        
+        assertElementPresent("//ul[@id='admin-icons']/li[@class='Panels_PanelWizard']");
+        assertElementPresent("//ul[@id='admin-icons']/li[@class='Blog_Categories']");        
 
         // select space administration
         getSelenium().select("goto-select", "label=Main");
         waitPage();
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Presentation']");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Rights']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Panels']");
+        assertElementPresent("//ul[@id='admin-icons']/li[@class='Panels_PanelWizard']");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='General']");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Registration']");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Programming']");
@@ -81,7 +81,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Groups']");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Import']");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Export']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Blog']");        
+        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Blog_Categories']");        
     }
 
     /*
@@ -92,7 +92,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Delete the Blog.Categories page and test it's not present in the admin global menu anymore
         deletePage("Blog", "Categories");
         clickLinkWithText("Administer Wiki");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Blog']");
+        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Blog_Categories']");
         restorePage("Blog", "Categories");
     }
 

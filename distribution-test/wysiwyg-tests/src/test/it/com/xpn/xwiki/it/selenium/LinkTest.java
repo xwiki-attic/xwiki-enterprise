@@ -383,7 +383,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
 
-        String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"presentation.png\"]";
+        String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"photos.png\"]";
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
 
@@ -411,7 +411,7 @@ public class LinkTest extends AbstractWysiwygTestCase
             + "New page...\"]');");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
-        assertEquals("presentation.png", getInputValue(LABEL_INPUT_TITLE));
+        assertEquals("photos.png", getInputValue(LABEL_INPUT_TITLE));
         // check that the label is readonly
         assertElementPresent("//input[@title=\"" + LABEL_INPUT_TITLE + "\" and @disabled=\"\"]");
 
@@ -419,7 +419,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>Blog.Photos]]");
+        assertSourceText("[[[[image:XWiki.AdminSheet@photos.png]]>>Blog.Photos]]");
         switchToWysiwyg();
 
         // move caret at the end and type some more
@@ -454,7 +454,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>" + newSpaceName + "." + newPageName
+        assertSourceText("[[[[image:XWiki.AdminSheet@photos.png]]>>" + newSpaceName + "." + newPageName
             + "]] foo [[bar>>http://bar.myxwiki.org]]");
     }
 
@@ -467,7 +467,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("foo [[bar>>http://xwiki.org]] [[far>>Main.WebHome]] [[alice>>Main.NewPage]] "
             + "[[carol>>mailto:carol@xwiki.org]] [[b**o**b>>http://xwiki.org]] blog webhome [[Blog.WebHome]] "
-            + "[[image:XWiki.AdminSheet@presentation.png>>Blog.Photos]]");
+            + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
         switchToWysiwyg();
 
         // put selection inside first text
@@ -542,7 +542,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         closeMenuContaining(MENU_WEB_PAGE);
         switchToSource();
         assertSourceText("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
-            + "[[image:XWiki.AdminSheet@presentation.png>>Blog.Photos]]");
+            + "[[image:XWiki.AdminSheet@photos.png>>Blog.Photos]]");
     }
 
     /**
@@ -934,10 +934,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif"
             + "\"]');");
         // and edit it now
-        typeInExplorerInput("XWiki.AdminSheet@export.png");
+        typeInExplorerInput("XWiki.AdminSheet@photos.png");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"XWiki\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"AdminSheet\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"export.png"
+        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"photos.png"
             + "\"]');");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -945,7 +945,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[foobar>>attach:XWiki.AdminSheet@export.png]]");
+        assertSourceText("[[foobar>>attach:XWiki.AdminSheet@photos.png]]");
     }
 
     /**

@@ -256,7 +256,7 @@ public class LineTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('" + imagePageSelector + "/option[@value=\"" + imagePage + "\"]');");
         getSelenium().select(imagePageSelector, imagePage);
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
-        String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"import.png\"]";
+        String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"photos.png\"]";
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
         clickButtonWithText("Select");
@@ -281,7 +281,7 @@ public class LineTest extends AbstractWysiwygTestCase
         blur(getDOMLocator("defaultView"));
         clickLinkWithText("Wiki");
         // Check the result.
-        assertEquals("[[image:XWiki.AdminSheet@import.png]]\n\nxYz", getFieldValue("content"));
+        assertEquals("[[image:XWiki.AdminSheet@photos.png]]\n\nxYz", getFieldValue("content"));
     }
 
     /**

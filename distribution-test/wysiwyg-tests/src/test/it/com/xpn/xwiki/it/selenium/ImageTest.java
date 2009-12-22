@@ -79,7 +79,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     {
         String imageSpace = "XWiki";
         String imagePage = "AdminSheet";
-        String imageFile = "registration.png";
+        String imageFile = "photos.png";
         openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
@@ -100,9 +100,9 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testInsertAndEditImageFromAllPages()
     {
-        String imageSpace = "Blog";
-        String imagePage = "Categories";
-        String imageFile = "icon.png";
+        String imageSpace = "XWiki";
+        String imagePage = "AdminSheet";
+        String imageFile = "blog.png";
 
         openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);

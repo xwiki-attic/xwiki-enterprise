@@ -24,21 +24,22 @@
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
 <content>{{velocity}}
-#if((!$view) || ($view == ""))
-  #set($view = $request.getParameter("view"))
-  #if((!$view) || ($view == ""))
-    #set ($view = "index")
+#if("$!{view}" == '')
+  #set($view = $request.getParameter('view'))
+  #if("$!{view}" == '')
+    #set ($view = 'index')
   #end
+#end
+#macro(indexTab $tabname $idSuffix $translationKeySuffix)
+&lt;li id="xwiki${idSuffix}"#if($view == $tabname) class="active"#end&gt;&lt;a href="$doc.getURL('view', "view=${tabname}&amp;amp;$!param")"&gt;$msg.get("xe.index${translationKeySuffix}")&lt;/a&gt;&lt;/li&gt;
 #end
 {{html}}
 &lt;div class="floatcontainer"&gt;
 &lt;ul class="xwikitabbar"&gt;
-&lt;li id="xwikiindex"#if($view == "index") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=index&amp;amp;$!param")"&gt;$msg.get("xe.index")&lt;/a&gt;&lt;/li&gt;
-
-&lt;li id="xwikitreeview"#if($view == "tree") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=tree&amp;amp;$!param")"&gt;$msg.get("xe.index.tree")&lt;/a&gt;&lt;/li&gt;
-&lt;li id="xwikiorphansview"#if($view == "orphans") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=orphans&amp;amp;$!param")"&gt;$msg.get("xe.index.orphaned")&lt;/a&gt;&lt;/li&gt;
-&lt;li id="xwikiattachments"#if($view == "attachments") class="active"#end&gt;&lt;a href="$doc.getURL("view", "view=attachments&amp;amp;$!param")"&gt;$msg.get("xe.index.attachments")&lt;/a&gt;&lt;/li&gt;
-
+#indexTab('index',       'index',       '')
+#indexTab('tree',        'treeview',    '.tree')
+#indexTab('orphans',     'orphansview', '.orphaned')
+#indexTab('attachments', 'attachments', '.attachments')
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="xwikitabpanescontainer"&gt;
@@ -46,19 +47,19 @@
 ## ==============================================
 ## If view=index then displays the index of pages
 ## ==============================================
-#if ($view == "index")
+#if ($view == 'index')
 {{include document="XWiki.Tableview" /}}
-#elseif ($view == "tree")
+#elseif ($view == 'tree')
 ## ==============================================
 ## If view=tree then displays the treeview
 ## ==============================================
 {{include document="XWiki.Treeview" /}}
-#elseif ($view == "attachments")
+#elseif ($view == 'attachments')
 ## ==============================================
 ## If view=attachments then display attachments
 ## ==============================================
 {{include document="XWiki.AllAttachments" /}}
-#else
+#elseif ($view == 'orphans')
 ## ==============================================
 ## If view=orphans then display orphans
 ## ==============================================

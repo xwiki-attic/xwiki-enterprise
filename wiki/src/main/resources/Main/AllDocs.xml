@@ -40,6 +40,7 @@
 #indexTab('tree',        'treeview',    '.tree')
 #indexTab('orphans',     'orphansview', '.orphaned')
 #indexTab('attachments', 'attachments', '.attachments')
+#indexTab('deletedDocs', 'deletedDocs', '.recycleBin')
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="xwikitabpanescontainer"&gt;
@@ -64,6 +65,11 @@
 ## If view=orphans then display orphans
 ## ==============================================
 {{include document="XWiki.OrphanedPages" /}}
+#elseif ($view == 'deletedDocs')
+## ==============================================
+## If view=deletedDocs then display the recycle bin
+## ==============================================
+{{include document="XWiki.DeletedDocuments" /}}
 #end
 {{html}}
 &lt;/div&gt;

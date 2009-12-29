@@ -6,7 +6,7 @@
 <language></language>
 <defaultLanguage>fr</defaultLanguage>
 <translation>0</translation>
-<parent></parent>
+<parent>Main.AllDocs</parent>
 <creator>XWiki.XWikiTeam</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>

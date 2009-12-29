@@ -326,7 +326,7 @@ document.observe('dom:loaded', function() {
 <use>onDemand</use>
 </property>
 </object>
-<content>{{velocity}}
+<content>{{velocity}}##
 #set($dateFormat = 'yyyy MMMM d, HH:mm')
 #if($request.list)
 ## ============================================================================================
@@ -413,12 +413,14 @@ $xwiki.jsx.use('XWiki.DeletedDocuments', {'minify' : 'false'})##
     'ddoc.date'      : { 'type' : 'date', 'filterable' : false },
     'ddoc.deleter'   : { 'type' : 'text', 'size' : 10 },
     'actions'        : { 'type' : 'text', 'filterable' : false, 'sortable' : false }
-  })
+  })##
 #set($options = {
     'url'               : "$xwiki.getURL('XWiki.DeletedDocuments', 'view', 'list=1&amp;xpage=plain&amp;outputSyntax=plain')",
     'callback'          : 'XWiki.index.recycleBin.displayEntry',
     'translationPrefix' : 'xe.index.recycleBin.'
-  })
+  })##
+##
+##
 ##
 {{html wiki="true" clean="false"}}
 &lt;div class="hidden"&gt;
@@ -428,8 +430,15 @@ $xwiki.jsx.use('XWiki.DeletedDocuments', {'minify' : 'false'})##
 ##
 ##
 ##
+
 {{html wiki="true" clean="false"}}
 &lt;noscript&gt;
+  #set($deletedDocuments = $xwiki.search('select count(ddoc.id) from XWikiDeletedDocument as ddoc').get(0))
+  #if($deletedDocuments == 0)
+
+    {{info}}$msg.get('xe.index.recycleBin.empty'){{/info}}
+
+  #else
   #macro(displayDeletedDoc $id)
     #set($ddoc = $xwiki.getDeletedDocument('', '', "$id"))
     #set($originalDocument = $ddoc.getDocument())
@@ -480,6 +489,7 @@ $xwiki.jsx.use('XWiki.DeletedDocuments', {'minify' : 'false'})##
   &lt;/table&gt;
   #set($discard = $paginationParameters.put('position', 'bottom'))
   #pagination($paginationParameters)
+  #end ## deletedDocuments.size
 &lt;/noscript&gt;
 {{/html}}
 #end

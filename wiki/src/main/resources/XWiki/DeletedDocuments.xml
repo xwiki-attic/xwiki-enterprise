@@ -404,7 +404,7 @@ $xwiki.ssx.use('XWiki.DeletedDocuments')##
 #if(!$xwiki.hasProgrammingRights())
   {{warning}}This document requires programming rights and needs to be saved by an administrator of this Wiki{{/warning}}
 #end
-$xwiki.jsx.use('XWiki.DeletedDocuments', {'minify' : 'false'})##
+$xwiki.jsx.use('XWiki.DeletedDocuments')##
 ##
 #set($columns = ["ddoc.fullName", "ddoc.title", "ddoc.date", "ddoc.deleter", 'actions'])
 #set($columnProperties = {

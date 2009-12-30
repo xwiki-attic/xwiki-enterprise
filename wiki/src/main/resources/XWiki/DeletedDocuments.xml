@@ -328,78 +328,7 @@ document.observe('dom:loaded', function() {
 </object>
 <content>{{velocity}}##
 #set($dateFormat = 'yyyy MMMM d, HH:mm')
-#if($request.list)
-## ============================================================================================
-## This page is called from live table via Ajax with the argument xpage=plain. It returns a
-## set of results serialized in JSON.
-## @programming This service page needs to be saved by a user with the programming access level
-## to work as expected
-## ============================================================================================
-#if("$!{request.get('xpage')}" == 'plain')
-$response.setContentType('application/json')
-#set($offset = $util.parseInt($request.get('offset')))
-## offset starts from 0 in velocity and 1 in javascript
-#set($offset = $offset - 1)
-#set($limit = $util.parseInt($request.get('limit')))
-#set($docNameFilter = $request.get('ddoc.fullName'))
-#set($deleterFilter = $request.get('ddoc.deleter'))
-#set($sql = '')
-#if("$!{docNameFilter}" != '')
-  #set($sql = "and lower(ddoc.fullName) like '%${docNameFilter.trim().toLowerCase()}%' ")
-#end
-#if("$!{deleterFilter}" != '')
-  #set($sql = $sql + "and lower(ddoc.deleter) like '%${deleterFilter.trim().toLowerCase()}%' ")
-#end
-#if("$!{request.sort}" != '')
-  #set($order = $request.sort)
-#else
-  #set($order = 'ddoc.id')
-#end
-#if("$!{request.dir}" != '')
-  #set($dir = $request.dir)
-#else
-  #set($dir = 'asc')
-#end
-#set($selectSql = "select ddoc.id from XWikiDeletedDocument as ddoc where 1=1 " + $sql + " order by $order $dir")
-#set($countSql = "select count(*) from XWikiDeletedDocument as ddoc where 1=1 " + $sql)
-#set($items = $xwiki.search($selectSql, $limit, $offset))
-#set($totalItems = $xwiki.search($countSql).get(0))
-#set($returnedItems = $items.size())
-## ==============================================
-## json starts
-## ==============================================
-{
-"totalrows": $totalItems,
-"returnedrows": $returnedItems,
-"offset": ${request.get('offset')},
-"reqNo": ${request.reqNo},
-"rows": [
-#foreach($item in $items)
-  #set($ddoc = $xwiki.getDeletedDocument('', '', "$item"))
-  #if($velocityCount &gt; 1) , #end
-  {
-     #set($originalDocument = $ddoc.getDocument())
-     "fullname"  : "$originalDocument.fullName",
-     "title"  : "$originalDocument.displayTitle",
-     "url" : "$originalDocument.getURL('view', "viewer=recyclebin&amp;id=${item}")",
-     "originalUrl" : "$originalDocument.getURL()",
-     "canDelete" : $ddoc.canDelete(),
-     "deleteUrl" : "$originalDocument.getURL('delete', "id=${item}")",
-     "canRestore" : $ddoc.canUndelete(),
-     "alreadyExists" : !$xwiki.getDocument($ddoc.fullName).isNew(),
-     "restoreUrl" : "$originalDocument.getURL('undelete', "id=${item}")",
-     "date" : "$xwiki.formatDate($ddoc.date, $dateFormat)",
-     "deleter" : "$ddoc.deleter",
-     "deletername" : "$xwiki.getUserName($ddoc.deleter, false)",
-     "deleterurl" : "$xwiki.getURL($ddoc.deleter, 'view')"
-   }
-#end
-]}
-## ==============================================
-## json ended
-## ==============================================
-#end ## xpage=plain
-#else ## !request.list
+#if(!$request.list)
 $xwiki.ssx.use('XWiki.DeletedDocuments')##
 #if(!$xwiki.hasProgrammingRights())
   {{warning}}This document requires programming rights and needs to be saved by an administrator of this Wiki{{/warning}}
@@ -492,6 +421,77 @@ $xwiki.jsx.use('XWiki.DeletedDocuments')##
   #end ## deletedDocuments.size
 &lt;/noscript&gt;
 {{/html}}
+#else ## request.list
+## ============================================================================================
+## This page is called from live table via Ajax with the argument xpage=plain. It returns a
+## set of results serialized in JSON.
+## @programming This service page needs to be saved by a user with the programming access level
+## to work as expected
+## ============================================================================================
+#if("$!{request.get('xpage')}" == 'plain')
+$response.setContentType('application/json')
+#set($offset = $util.parseInt($request.get('offset')))
+## offset starts from 0 in velocity and 1 in javascript
+#set($offset = $offset - 1)
+#set($limit = $util.parseInt($request.get('limit')))
+#set($docNameFilter = $request.get('ddoc.fullName'))
+#set($deleterFilter = $request.get('ddoc.deleter'))
+#set($sql = '')
+#if("$!{docNameFilter}" != '')
+  #set($sql = "and lower(ddoc.fullName) like '%${docNameFilter.trim().toLowerCase()}%' ")
 #end
+#if("$!{deleterFilter}" != '')
+  #set($sql = $sql + "and lower(ddoc.deleter) like '%${deleterFilter.trim().toLowerCase()}%' ")
+#end
+#if("$!{request.sort}" != '')
+  #set($order = $request.sort)
+#else
+  #set($order = 'ddoc.id')
+#end
+#if("$!{request.dir}" != '')
+  #set($dir = $request.dir)
+#else
+  #set($dir = 'asc')
+#end
+#set($selectSql = "select ddoc.id from XWikiDeletedDocument as ddoc where 1=1 " + $sql + " order by $order $dir")
+#set($countSql = "select count(*) from XWikiDeletedDocument as ddoc where 1=1 " + $sql)
+#set($items = $xwiki.search($selectSql, $limit, $offset))
+#set($totalItems = $xwiki.search($countSql).get(0))
+#set($returnedItems = $items.size())
+## ==============================================
+## json starts
+## ==============================================
+{
+"totalrows": $totalItems,
+"returnedrows": $returnedItems,
+"offset": ${request.get('offset')},
+"reqNo": ${request.reqNo},
+"rows": [
+#foreach($item in $items)
+  #set($ddoc = $xwiki.getDeletedDocument('', '', "$item"))
+  #if($velocityCount &gt; 1) , #end
+  {
+     #set($originalDocument = $ddoc.getDocument())
+     "fullname"  : "$originalDocument.fullName",
+     "title"  : "$originalDocument.displayTitle",
+     "url" : "$originalDocument.getURL('view', "viewer=recyclebin&amp;id=${item}")",
+     "originalUrl" : "$originalDocument.getURL()",
+     "canDelete" : $ddoc.canDelete(),
+     "deleteUrl" : "$originalDocument.getURL('delete', "id=${item}")",
+     "canRestore" : $ddoc.canUndelete(),
+     "alreadyExists" : !$xwiki.getDocument($ddoc.fullName).isNew(),
+     "restoreUrl" : "$originalDocument.getURL('undelete', "id=${item}")",
+     "date" : "$xwiki.formatDate($ddoc.date, $dateFormat)",
+     "deleter" : "$ddoc.deleter",
+     "deletername" : "$xwiki.getUserName($ddoc.deleter, false)",
+     "deleterurl" : "$xwiki.getURL($ddoc.deleter, 'view')"
+   }
+#end
+]}
+## ==============================================
+## json ended
+## ==============================================
+#end ## xpage=plain
+#end ## reqlest.list
 {{/velocity}}</content>
 </xwikidoc>

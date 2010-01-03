@@ -301,8 +301,7 @@ document.observe('dom:loaded', function() {
   height: 16px;
   margin: 0 2px;
   float: left;
-  text-indent: 1000em;
-  line-height: 40em;
+  text-indent: -1000em;
   overflow: hidden;
   background: transparent no-repeat center center;
 }

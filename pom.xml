@@ -59,8 +59,8 @@
     <platform.tool.rootwebapp.version>1.3</platform.tool.rootwebapp.version>
     <platform.tool.packager.version>1.15</platform.tool.packager.version>
     <platform.tool.standards-validator.version>1.0</platform.tool.standards-validator.version>
-    <platform.core.version>2.1.1</platform.core.version>
-    <platform.web.version>2.1.1</platform.web.version>
+    <platform.core.version>2.1-SNAPSHOT</platform.core.version>
+    <platform.web.version>2.1-SNAPSHOT</platform.web.version>
     <!-- Panels 1.31 depends on core/web 2.2 -->
     <platform.panels.version>1.30</platform.panels.version>
     <!-- Administration 1.22 depends on core/web 2.2 -->

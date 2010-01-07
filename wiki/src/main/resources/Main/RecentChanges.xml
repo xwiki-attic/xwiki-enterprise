@@ -224,24 +224,27 @@ if (browser.isIE &amp;&amp; browser.versionMajor == 6 &amp;&amp; typeof XWiki.ie
 <cache>default</cache>
 </property>
 <property>
-<code>/* General table style */
+<code>#template('colorThemeInit.vm')
+/* General table style */
 
 table.recentChanges {
-  width: 100%;
+  border-collapse: separate;
   margin: 0 !important;
+  width: 100%;
 }
 
 .recentChangesDate {
-  font-size: 0.8em;
-  font-weight: bold;
+  font-size: .8em;
+  font-weight: 700;
 }
 
 .recentChangesLeft {
-  width: 20%;
+  background-color: $theme.backgroundSecondaryColor;
   border: 0 !important;
-  vertical-align: top !important;
   padding: 1em !important;
-  background-color: #efefef;
+  text-align: center;
+  vertical-align: top !important;
+  width: 20%;
 }
 
 .recentChangesLeft img {
@@ -251,23 +254,23 @@ table.recentChanges {
 .recentChangesRight {
   border: 0 !important;
   padding: 0 0 1em 0 !important;
-  width: 80%;
   vertical-align: top !important;
+  width: 80%;
 }
 
 .recentChangesHeader {
-  display:none;
+  display: none;
 }
 
 .recentChangesMoreActions {
-  text-align: right;
   margin: 0 !important;
+  text-align: right;
 }
 
 /* List styles */
 
 .rcVersion {
-  font-size: 0.8em;
+  font-size: .8em;
 }
 
 .rcVersion .newVersion {
@@ -275,48 +278,40 @@ table.recentChanges {
 }
 
 ul.xlist li.xitem div.modifiedPage {
-  float:left;
+  float: left;
 }
 
 ul.xlist li.xitem div.modifiedPageActions a.ajax {
-  color: #777;
+  color: $theme.textSecondaryColor;
   text-decoration: none;
 }
 
 /* Attachment lists */
 
 li.attachment {
-  border-bottom: 0;
-  padding-top: 0;
   background-image: url($xwiki.getSkinFile("icons/silk/attach.gif"));
   background-position: 2px 1px;
-  font-size: 0.9em;
-}
-
-li.attachment a {
-  text-decoration: none;
-}
-
-li.attachment:hover {
-  background-color: transparent;
+  border-bottom: 0;
+  font-size: .9em;
+  padding-top: 0;
 }
 
 /* Comments divs */
 
 div.commentQuote {
-  width: 22px;
-  height: 22px;
   background-repeat: no-repeat;
+  height: 22px;
+  width: 22px;
 }
 
 div.lQuo {
-  float:left; 
-  background-image:url($doc.getAttachmentURL("lquo.gif"));
+  background-image: url($doc.getAttachmentURL("lquo.gif"));
+  float: left;
 }
 
 div.rQuo {
-  float:right; 
-  background-image:url($doc.getAttachmentURL("rquo.gif"));
+  background-image: url("$doc.getAttachmentURL('rquo.gif')");
+  float: right;
 }
 
 div.comment {
@@ -326,39 +321,34 @@ div.comment {
 }
 
 div.commentContainer, div.attachmentContainer {
-  clear:both;
-  border-top: 1px dashed #efefef;
-  background-color: #fcfcfc;
+  border-top: 1px dashed $theme.borderColor;
+  clear: both;
   overflow: hidden;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding: .5em 0;
 }
 
 div.commentAdd {
+  font-size: .8em;
+  padding: 0 .5em 0 0;
   text-align: right;
-  font-size: 0.8em;
 }
 
-
-/* 
-** Hidden elements in lists that are show on hover 
-*/
+/*  Hidden elements in lists that are show on hover  */
 
 ul.xlist li.xitem div.xshowonhover {
-  float: right;
-  font-size: 0.8em;
-  padding: 0;
-  padding-right: 0.5em;
   display: none;
+  float: right;
+  font-size: .8em;
+  padding: 0 .5em 0 0;
 }
 
 ul.xlist li.xitem:hover div.xshowonhover {  
-  display:block;
+  display: block;
 }
 
 /* IE6 hack, see JSX */
 ul.xlist li.over div.xshowonhover {  
-  display:block;
+  display: block;
 }</code>
 </property>
 <property>

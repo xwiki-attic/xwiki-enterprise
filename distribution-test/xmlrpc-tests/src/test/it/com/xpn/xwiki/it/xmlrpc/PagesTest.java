@@ -137,6 +137,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         p.setSpace(this.spaceKey);
         p.setTitle(title);
         p.setContent(content1);
+        p.setParentId("xwiki:Main.WebHome");
         Page page1 = this.rpc.storePage(p);
 
         // modify the page
@@ -171,6 +172,7 @@ public class PagesTest extends AbstractXmlRpcTestCase
         assertEquals(page2.getModified(), p1.getModified());
         assertEquals(page2.getModifier(), p1.getModifier());
         assertEquals(page2.getParentId(), p1.getParentId());
+        
         assertEquals(page2.getSpace(), p1.getSpace());
         assertEquals(page2.getTitle(), p1.getTitle());
         // assertFalse(page2.getUrl().equals(p1.getUrl()));

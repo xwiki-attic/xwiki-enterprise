@@ -130,6 +130,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
     public void testChangeParentId() throws Exception
     {
+        // Find two pages where the second page isn't a child of the first page.
         List<XWikiPageSummary> pages = this.rpc.getPages(TestConstants.TEST_SPACE);
         XWikiPageSummary pageSummary1 = pages.get(0);
         XWikiPageSummary pageSummary2 = null;
@@ -150,7 +151,9 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         System.out.format("New page: %s\n", page);
 
-        assertEquals(pageSummary2.getId(), page.getParentId());
+        // Note: page ids are relative to the current wiki in the XMLRPC implementation. However parent id are
+        // absolute so we must add the wiki for the comparison.
+        assertEquals("xwiki:" + pageSummary2.getId(), page.getParentId());
     }
 
     public void testStoreNewPageTranslation() throws Exception

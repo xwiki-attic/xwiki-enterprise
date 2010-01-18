@@ -206,53 +206,47 @@ if (browser.isIE &amp;&amp; browser.versionMajor == 6 &amp;&amp; typeof XWiki.ie
 <cache>default</cache>
 </property>
 <property>
-<code>#spSpaceCreateItem {
+<code>#template('colorThemeInit.vm')
+#spSpaceCreateItem {
   background-image: url($xwiki.getSkinFile("icons/silk/folder_add.gif"));
 }
 
 ul.xlist li.space div.spSpaceName {
   float: left;
-  padding: 0;
-}
-
-ul.xlist li.space div.spSpaceActions {
-  line-height: 0;
-}
-
-.spSpaceCreate {
-  float:right;
 }
 
 #spSpaceCreateLabel a {
-  color: #555;
+  color: $theme.textSecondaryColor;
+  text-decoration: none;
 }
 
 #spSpaceCreateForm {
-  padding: 0.5em;
-  border-top: 1px dashed #efefef;
-  background-color: #fcfcfc;
-  overflow: hidden;
+  background-color: $theme.highlightColor;
+  border-top: 1px dashed $theme.borderColor;
+  padding: .5em 0;
 }
 
-/* 
-** Hidden elements in lists that are show on hover 
-*/
+/*  Hidden elements in lists that are show on hover  */
 
 ul.xlist li.xitem div.xshowonhover {
-  float: right;
-  font-size: 0.8em;
-  padding: 0;
-  padding-right: 0.5em;
   display: none;
+  float: right;
+  font-size: .8em;
+  padding: 0 .5em 0 0;
 }
 
 ul.xlist li.xitem:hover div.xshowonhover {  
-  display:block;
+  display: block;
 }
 
 /* IE6 hack, see JSX */
 ul.xlist li.over div.xshowonhover {  
-  display:block;
+  display: block;
+}
+
+ul.xlist li.xitem div.xshowonhover img{
+  float: right;
+  padding: 0 .2em;
 }</code>
 </property>
 <property>
@@ -342,7 +336,9 @@ $xwiki.ssx.use("Main.Spaces")##
               #set($newSpaceName = $msg.get('xe.spaces.createspace.defaultname'))
               &lt;label class="hidden" for="spSpaceCreateTextInput"&gt;$newSpaceName&lt;/label&gt;
               &lt;input id="spSpaceCreateTextInput" type="text" name="title" value="$newSpaceName" class="panelinput" onfocus="if(this.value=='$newSpaceName') this.value=''" onblur="if(this.value=='') this.value='$newSpaceName'" /&gt;        
-              &lt;input type="submit" value="$msg.get('xe.spaces.createspace.submit')" /&gt;
+              &lt;span class="buttonwrapper"&gt;
+                &lt;input type="submit" value="$msg.get('xe.spaces.createspace.submit')" class="button" /&gt;
+              &lt;/span&gt;
             &lt;/div&gt;
           &lt;/form&gt;
         &lt;/div&gt;

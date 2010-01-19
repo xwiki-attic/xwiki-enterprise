@@ -86,7 +86,7 @@
 <separators> ,|</separators>
 <size>1</size>
 <unmodifiable>0</unmodifiable>
-<values>onDemand=On demand|always=Always</values>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
@@ -98,25 +98,25 @@
 <cache>default</cache>
 </property>
 <property>
-<code>div#dashboardleft {
+<code>div.dashboardleft {
   float:left; 
   width: 44.9%;
 }
 
-div#dashboardleft div#dashboardleftcontent {
+div.dashboardleft div.dashboardleftcontent {
   padding-right:20px;
 }
 
-div#dashboardright {
+div.dashboardright {
   float:left; 
   width: 55.1%;
 }
 
-div#dashboardright div#dashboardrightcontent {
+div.dashboardright div.dashboardrightcontent {
   padding-left: 20px;
 }
 
-div#dashboardspacer {
+div.dashboardspacer {
   clear:both; 
   margin-bottom:40px;
 }</code>
@@ -143,14 +143,14 @@ div#dashboardspacer {
     #if ($doc.space != "Main")
       #set ($isSpaceDashboard = true)
     #end
-    (% id="dashboard" %)
+    (% class="dashboard" %)
     (((
-      (% id="dashboardleft" %)
+      (% class="dashboardleft" %)
       (((
         ##
         ## Left column.
         ##
-        (% id="dashboardleftcontent" %)
+        (% class="dashboardleftcontent" %)
         (((
           #if (!$isSpaceDashboard)
             ##
@@ -183,12 +183,12 @@ div#dashboardspacer {
           #end
         )))
       )))
-      (% id="dashboardright" %)
+      (% class="dashboardright" %)
       (((
         ##
         ## Right column
         ##
-        (% id="dashboardrightcontent" %)
+        (% class="dashboardrightcontent" %)
         (((
           ##
           ## Recent changes
@@ -206,7 +206,7 @@ div#dashboardspacer {
 
         )))
       )))
-      (% id="dashboardspacer" %)
+      (% class="dashboardspacer" %)
       (((~ )))
     )))
 {{/velocity}}</content>

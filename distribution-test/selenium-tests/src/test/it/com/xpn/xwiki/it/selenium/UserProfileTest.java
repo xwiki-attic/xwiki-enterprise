@@ -49,7 +49,7 @@ public class UserProfileTest extends AbstractXWikiTestCase
     public void testChangePasswordWithTwoDifferentPasswords()
     {
         open("XWiki", "Admin");
-        clickLinkWithText("Change your password");
+        clickLinkWithText("Change password");
         setFieldValue("xwikipassword", "p1");
         setFieldValue("xwikipassword2", "p2");
         clickLinkWithXPath("//input[@type='submit']", false);
@@ -60,7 +60,7 @@ public class UserProfileTest extends AbstractXWikiTestCase
     public void testChangePasswordWithoutEnteringPasswords()
     {
         open("XWiki", "Admin");
-        clickLinkWithText("Change your password");
+        clickLinkWithText("Change password");
         clickLinkWithXPath("//input[@type='submit']", false);
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The password cannot be empty.", getSelenium().getAlert());
@@ -76,47 +76,5 @@ public class UserProfileTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//input[@type='submit']", false);
         assertTrue(getSelenium().isAlertPresent());
         assertEquals("The password cannot be empty.", getSelenium().getAlert());
-    }
-
-    public void testSimpleAdvancedUsertype()
-    {
-        // Remove "JohnSmith" user if already exists
-        loginAsAdmin();
-        deletePage("XWiki", "JohnSmith");
-        // Ensure that the user isn't logged in
-        logout();
-
-        // Register new user "JohnSmith"
-        open("XWiki", "Register", "register", "register_first_name=John&register_last_name=Smith&xwikiname=JohnSmith"
-            + "&register_password=JohnSmith&register2_password=JohnSmith&register_email=JohnSmith@example.com"
-            + "&template=XWiki.XWikiUserTemplate&register=1");
-
-        // Login as "JohnSmith" and chech for the user type. Verify whether the Usertype Switch Link works.
-        login("JohnSmith", "JohnSmith", false);
-        open("XWiki", "JohnSmith");
-        assertTextPresent("Switch to Advanced edit mode");
-        getSelenium().click("link=Switch to Advanced edit mode");
-        getSelenium().waitForPageToLoad("10000");
-        getSelenium().click("link=Switch to Simple edit mode");
-        getSelenium().waitForPageToLoad("10000");
-        assertTextPresent("Switch to Advanced edit mode");
-        logout();
-
-        // Login as "Admin" and Verify whether usertype of "JohnSmith" is Simple.
-        loginAsAdmin();
-        open("XWiki", "JohnSmith");
-        assertTextPresent("Switch to Advanced edit mode");
-
-        // Switch Usertype of "JohnSmith" to Advanced.
-        getSelenium().click("link=Switch to Advanced edit mode");
-        getSelenium().waitForPageToLoad("10000");
-        assertTextPresent("Switch to Simple edit mode");
-        logout();
-
-        // Login as "JohnSmith" and verify whether the usertype is Advanced.
-        login("JohnSmith", "JohnSmith", false);
-        open("XWiki", "JohnSmith");
-        assertTextPresent("Switch to Simple edit mode");
-        logout();
     }
 }

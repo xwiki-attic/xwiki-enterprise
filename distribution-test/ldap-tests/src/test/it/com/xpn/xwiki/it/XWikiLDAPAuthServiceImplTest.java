@@ -497,7 +497,27 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
 
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+    }
+
+    public void testAuthenticateUserSyncWithEmptyMapping() throws XWikiException
+    {
         this.properties.remove("xwiki.authentication.ldap.fields_mapping");
+
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+    }
+
+    public void testAuthenticateUserSyncWithWrongMapping() throws XWikiException
+    {
+        this.properties.setProperty("xwiki.authentication.ldap.fields_mapping", "wrongfield=wrongfield");
+
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);

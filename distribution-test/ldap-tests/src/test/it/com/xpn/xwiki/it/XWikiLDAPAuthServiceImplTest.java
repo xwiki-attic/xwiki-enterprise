@@ -57,9 +57,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
     private Map<String, Map<String, XWikiDocument>> databases = new HashMap<String, Map<String, XWikiDocument>>();
 
-    private BaseClass userClass = new BaseClass();
+    private BaseClass userClass;
 
-    private BaseClass groupClass = new BaseClass();
+    private BaseClass groupClass;
 
     private Mock mockStore;
 
@@ -123,6 +123,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     public void setUp() throws Exception
     {
         super.setUp();
+
+        this.userClass = new BaseClass();
+        this.groupClass = new BaseClass();
 
         getContext().setDatabase(MAIN_WIKI_NAME);
         getContext().setMainXWiki(MAIN_WIKI_NAME);

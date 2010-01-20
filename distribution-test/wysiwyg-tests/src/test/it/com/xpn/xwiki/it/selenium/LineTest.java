@@ -351,13 +351,13 @@ public class LineTest extends AbstractWysiwygTestCase
         typeText("#");
 
         // See if the header is detected.
-        assertEquals("h1", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
+        waitForStyleDetected("Title 1");
 
         // Press enter to split the header and generate a paragraph.
         typeEnter();
 
         // See if the paragraph is detected.
-        assertEquals("p", getSelenium().getValue("//select[@title=\"Apply Style\"]"));
+        waitForStyleDetected("Plain text");
 
         switchToSource();
         assertSourceText("= hea# =\n\nder");

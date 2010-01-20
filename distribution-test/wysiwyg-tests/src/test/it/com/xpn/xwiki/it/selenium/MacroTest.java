@@ -19,6 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import com.thoughtworks.selenium.Wait;
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 
 /**
@@ -227,7 +228,6 @@ public class MacroTest extends AbstractWysiwygTestCase
         // We have to manually place the caret to be sure it is before the macro. The caret is before the macro when the
         // browser window is focused but inside the macro when the tests run in background.
         moveCaret("XWE.body", 0);
-        applyStylePlainText();
         typeText("uv");
         clickUndoButton();
         clickRedoButton();
@@ -308,8 +308,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Second click toggles between collapsed and expanded state.
         clickMacro(0);
         // Finally unselect the macro.
-        runScript("XWE.selection.collapseToEnd()");
-        triggerToolbarUpdate();
+        clearMacroSelection();
 
         // Now let's check the menu. Both Collapse All and Expand All menu items should be enabled.
         clickMenu(MENU_MACRO);
@@ -433,8 +432,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertFalse(getSelenium().isVisible(getMacroOutputLocator(1)));
 
         // Unselect the macro.
-        runScript("XWE.selection.collapseToEnd()");
-        triggerToolbarUpdate();
+        clearMacroSelection();
 
         // Refresh the content
         refreshMacros();
@@ -572,7 +570,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-content-input", "$xwiki.version");
         applyMacroChanges();
 
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         clickUndoButton(2);
+        waitForPushButton(TOOLBAR_BUTTON_REDO_TITLE, true);
         clickRedoButton();
         switchToSource();
         assertSourceText("{{velocity}}$util.date{{/velocity}}");
@@ -816,7 +816,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
         // removed just before the list of macros is displayed and the Selenium click command can interfere.
-        waitForMacroListItem("Info Message");
+        waitForMacroListItem("Info Message", true);
         // Each double click event should be preceded by a click event.
         getSelenium().click(getMacroListItemLocator("Info Message"));
         // Fire the double click event.
@@ -841,7 +841,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
         // removed just before the list of macros is displayed and the Selenium click command can interfere.
-        waitForMacroListItem("HTML");
+        waitForMacroListItem("HTML", true);
         // Select a macro.
         getSelenium().click(getMacroListItemLocator("HTML"));
         // Press Enter to choose the selected macro.
@@ -894,18 +894,18 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertEquals("All Macros", getSelectedMacroCategory());
 
         // Make sure the "Code" and "Velocity" macros are present in "All Macros" category.
-        waitForMacroListItem("Code");
-        waitForMacroListItem("Velocity");
+        waitForMacroListItem("Code", true);
+        waitForMacroListItem("Velocity", true);
 
         // "Velocity" shouldn't be in the "Formatting" category.
         selectMacroCategory("Formatting");
-        waitForMacroListItem("Code");
-        assertElementNotPresent(getMacroListItemLocator("Velocity"));
+        waitForMacroListItem("Code", true);
+        waitForMacroListItem("Velocity", false);
 
         // "Code" shouldn't be in the "Development" category.
         selectMacroCategory("Development");
-        waitForMacroListItem("Velocity");
-        assertElementNotPresent(getMacroListItemLocator("Code"));
+        waitForMacroListItem("Velocity", true);
+        waitForMacroListItem("Code", false);
 
         // Select the "Velocity" macro.
         getSelenium().click(getMacroListItemLocator("Velocity"));
@@ -937,9 +937,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         selectMacroCategory("All Macros");
 
         // Check if "Velocity", "Footnote" and "Error Message" macros are present.
-        waitForMacroListItem("Velocity");
-        waitForMacroListItem("Footnote");
-        waitForMacroListItem("Error Message");
+        waitForMacroListItem("Velocity", true);
+        waitForMacroListItem("Footnote", true);
+        waitForMacroListItem("Error Message", true);
 
         // Check if the filter can make a difference.
         int expectedMacroCountAfterFilterAllMacros = getMacroListItemCount("note");
@@ -947,24 +947,23 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Filter the macros.
         filterMacrosContaining("note");
-        waitForMacroListItem("Footnote");
+
+        // Check what macros are present.
+        waitForMacroListItem("Velocity", false);
+        waitForMacroListItem("Error Message", true);
 
         // Check the number of macros.
         assertEquals(expectedMacroCountAfterFilterAllMacros, getMacroListItemCount());
 
-        // Check what macros are present.
-        assertElementNotPresent(getMacroListItemLocator("Velocity"));
-        assertElementPresent(getMacroListItemLocator("Error Message"));
-
         // Check if the filter is preserved when switching the category.
         // Select the category of the "Footnote" macro.
         selectMacroCategory("Content");
-        waitForMacroListItem("Footnote");
-        assertElementNotPresent(getMacroListItemLocator("Error Message"));
+        waitForMacroListItem("Footnote", true);
+        waitForMacroListItem("Error Message", false);
         // Select the category of the "Error Message" macro.
         selectMacroCategory("Formatting");
-        waitForMacroListItem("Error Message");
-        assertElementNotPresent(getMacroListItemLocator("Footnote"));
+        waitForMacroListItem("Error Message", true);
+        waitForMacroListItem("Footnote", false);
 
         // Save the current macro list item count to be able to check if the filter state is preserved.
         int previousMacroListItemCount = getMacroListItemCount();
@@ -980,7 +979,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Open the "Select Macro" dialog again to see if the filter was preserved.
         openSelectMacroDialog();
-        waitForMacroListItem("Error Message");
+        waitForMacroListItem("Error Message", true);
         assertEquals("note", getMacroFilterValue());
         assertEquals(previousMacroListItemCount, getMacroListItemCount());
         assertEquals(previousMacroListItemCount, getMacroListItemCount("note"));
@@ -1003,7 +1002,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         filterMacrosContaining("script");
 
         // Select the "Groovy" macro.
-        waitForMacroListItem("Groovy");
+        waitForMacroListItem("Groovy", true);
         getSelenium().click(getMacroListItemLocator("Groovy"));
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialogToLoad();
@@ -1017,7 +1016,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertEquals("script", getMacroFilterValue());
 
         // Select a different macro.
-        waitForMacroListItem("Velocity");
+        waitForMacroListItem("Velocity", true);
         getSelenium().click(getMacroListItemLocator("Velocity"));
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialogToLoad();
@@ -1038,7 +1037,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     {
         openSelectMacroDialog();
         // Wait for the list of macros to be filled.
-        waitForMacroListItem("Velocity");
+        waitForMacroListItem("Velocity", true);
         // Make sure no macro is selected.
         assertFalse(isMacroListItemSelected());
         // The validation message should be hidden.
@@ -1050,7 +1049,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // The validation message should be hidden when we change the macro category.
         selectMacroCategory("Navigation");
-        waitForMacroListItem("Table Of Contents");
+        // Wait for the list of macros to be updated (Velocity macro shouldn't be present in the updated list).
+        waitForMacroListItem("Velocity", false);
         // Make sure no macro is selected.
         assertFalse(isMacroListItemSelected());
         // The validation message should be hidden.
@@ -1062,7 +1062,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // The validation message should be hidden when we filter the macros.
         filterMacrosContaining("anchor");
-        waitForMacroListItem("Id");
+        // Wait for the list of macros to be filtered. The ToC macro should be filtered out.
+        waitForMacroListItem("Table Of Contents", false);
         // Make sure no macro is selected.
         assertFalse(isMacroListItemSelected());
         // The validation message should be hidden.
@@ -1113,7 +1114,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Insert a macro to see if it appears under the "Previously Inserted Macros" category.
         selectMacroCategory("All Macros");
-        waitForMacroListItem("HTML");
+        waitForMacroListItem("HTML", true);
         getSelenium().click(getMacroListItemLocator("HTML"));
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialogToLoad();
@@ -1123,7 +1124,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Check if the inserted macro is listed under the "Previously Inserted Macros" category.
         openSelectMacroDialog();
         selectMacroCategory("Previously Inserted Macros");
-        waitForMacroListItem("HTML");
+        // Wait for the macro list to be updated. Velocity macro shouldn't be present among the previously used macros.
+        waitForMacroListItem("Velocity", false);
+        waitForMacroListItem("HTML", true);
         assertEquals(1, getMacroListItemCount());
 
         // Close the dialog and check the result.
@@ -1214,6 +1217,38 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @return the number of selected macros in the edited document
+     */
+    public int getSelectedMacroCount()
+    {
+        StringBuffer expression = new StringBuffer();
+        expression.append("var count = 0, buttons = window." + getDOMLocator("getElementsByTagName('button')") + ";\n");
+        expression.append("for(var i = 0; i < buttons.length; i++) {\n");
+        expression.append("  if (buttons[i].className.indexOf('macro-selected') >= 0) count++;\n");
+        expression.append("}\n");
+        expression.append("count");
+        return Integer.parseInt(getSelenium().getEval(expression.toString()));
+    }
+
+    /**
+     * Wait for the specified number of macros to be selected.
+     * 
+     * @param count the number of selected macros to wait for
+     */
+    public void waitForSelectedMacroCount(final int count)
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return count == getSelectedMacroCount();
+            }
+        }
+            .wait("The specified number of selected macros, " + count
+                + ", hasn't been reached in a decent amount of time");
+    }
+
+    /**
      * The macro place holder is shown when the macro is collapsed. In this state the output of the macro is hidden.
      * 
      * @param index the index of a macro inside the edited document
@@ -1288,7 +1323,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // We have to wait for the specified macro to be displayed on the dialog because the loading indicator is
         // removed just before the list of macros is displayed and the Selenium click command can interfere.
-        waitForMacroListItem(macroName);
+        waitForMacroListItem(macroName, true);
         getSelenium().click(getMacroListItemLocator(macroName));
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialogToLoad();
@@ -1334,13 +1369,21 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Waits for the specified macro to be displayed on the "Select Macro" dialog.
+     * Waits for the specified macro to be displayed or hidden on the "Select Macro" dialog.
      * 
      * @param macroName the name of a macro
+     * @param present {@code true} to wait for the specified macro to be present, {@code false} to wait for it to be
+     *            hidden
      */
-    public void waitForMacroListItem(String macroName)
+    public void waitForMacroListItem(final String macroName, final boolean present)
     {
-        waitForCondition("selenium.isElementPresent(\"" + getMacroListItemLocator(macroName) + "\");");
+        new Wait()
+        {
+            public boolean until()
+            {
+                return present == getSelenium().isElementPresent(getMacroListItemLocator(macroName));
+            }
+        }.wait("'" + macroName + "' macro is still " + (present ? "not" : "") + " present in the list.");
     }
 
     /**
@@ -1407,5 +1450,15 @@ public class MacroTest extends AbstractWysiwygTestCase
     public boolean isMacroListItemSelected()
     {
         return isElementPresent("//div[contains(@class, 'xMacro') and contains(@class, 'xListItem-selected')]");
+    }
+
+    /**
+     * Clears the macro selection. No macro should be selected after calling this method.
+     */
+    public void clearMacroSelection()
+    {
+        runScript("XWE.selection.collapseToEnd()");
+        triggerToolbarUpdate();
+        waitForSelectedMacroCount(0);
     }
 }

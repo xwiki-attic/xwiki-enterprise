@@ -19,6 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import com.thoughtworks.selenium.Wait;
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 
 /**
@@ -86,8 +87,8 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-size: 24px; font-family: foo,verdana,sans-serif;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        assertDetectedFontSize("18pt");
-        assertDetectedFontName("verdana");
+        waitForDetectedFontSize("18pt");
+        waitForDetectedFontName("verdana");
     }
 
     /**
@@ -100,13 +101,13 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-family: wingdings;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        assertDetectedFontName("wingdings");
+        waitForDetectedFontName("wingdings");
 
         switchToSource();
         setSourceText("(% style=\"font-family: wingdings,helvetica;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        assertDetectedFontName("helvetica");
+        waitForDetectedFontName("helvetica");
     }
 
     /**
@@ -118,13 +119,13 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-family: unknown;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        assertDetectedFontName("");
+        waitForDetectedFontName("");
 
         switchToSource();
         setSourceText("(% style=\"font-family: unknown,helvetica;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        assertDetectedFontName("helvetica");
+        waitForDetectedFontName("helvetica");
     }
 
     /**
@@ -136,12 +137,12 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-family: courier new;\" %)\nabc\n\n(% style=\"font-family: times new roman;\" %)\nxyz");
         switchToWysiwyg();
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
-        assertDetectedFontName("courier new");
+        waitForDetectedFontName("courier new");
         moveCaret("XWE.body.getElementsByTagName('p')[1].firstChild", 1);
-        assertDetectedFontName("times new roman");
+        waitForDetectedFontName("times new roman");
         select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
             "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
-        assertDetectedFontName("");
+        waitForDetectedFontName("");
     }
 
     /**
@@ -165,13 +166,20 @@ public class FontTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Asserts if the detected font size equals the expected font size.
+     * Waits for the editor to detect the font size of the current selection and asserts if the detected font size
+     * equals the expected font size.
      * 
      * @param expectedFontSize the expected font size
      */
-    protected void assertDetectedFontSize(String expectedFontSize)
+    protected void waitForDetectedFontSize(final String expectedFontSize)
     {
-        assertEquals(expectedFontSize, getSelenium().getValue(FONT_SIZE_SELECTOR));
+        new Wait()
+        {
+            public boolean until()
+            {
+                return expectedFontSize.equals(getSelenium().getValue(FONT_SIZE_SELECTOR));
+            }
+        }.wait("The detected font size doesn't match the expected font size, '" + expectedFontSize + "'.");
     }
 
     /**
@@ -179,8 +187,14 @@ public class FontTest extends AbstractWysiwygTestCase
      * 
      * @param expectedFontName the expected font name
      */
-    protected void assertDetectedFontName(String expectedFontName)
+    protected void waitForDetectedFontName(final String expectedFontName)
     {
-        assertEquals(expectedFontName, getSelenium().getValue(FONT_NAME_SELECTOR));
+        new Wait()
+        {
+            public boolean until()
+            {
+                return expectedFontName.equals(getSelenium().getValue(FONT_NAME_SELECTOR));
+            }
+        }.wait("The detected font name doesn't match the expected font name, '" + expectedFontName + "'.");
     }
 }

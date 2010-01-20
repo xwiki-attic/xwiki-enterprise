@@ -79,59 +79,61 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         applyStyleTitle1();
         applyStylePlainText();
 
+        // Wait for the tool bar to be updated.
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         // Check the default alignment.
-        boolean defaultAlignFull = isAlignFullDetected();
+        boolean defaultAlignFull = isToggleButtonDown("Justified");
 
         // Center text.
         clickAlignCenterButton();
         typeText("a");
-        assertTrue(isAlignCenterDetected());
+        waitForAlignCenterDetected(true);
         switchToSource();
         assertSourceText("(% style=\"text-align: center;\" %)\na");
 
         // Assert again the center alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignCenterDetected());
+        waitForAlignCenterDetected(true);
 
         typeShiftEnter();
         typeText("b");
         clickAlignRightButton();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
         switchToSource();
         assertSourceText("(% style=\"text-align: right;\" %)\na\nb");
 
         // Assert again the right alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
 
         selectNode("XWE.body.firstChild.childNodes[2]");
         clickAlignFullButton();
         typeText("c");
-        assertTrue(isAlignFullDetected());
+        waitForAlignFullDetected(true);
         switchToSource();
         assertSourceText("(% style=\"text-align: justify;\" %)\na\nc");
 
         // Assert again the full alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignFullDetected());
+        waitForAlignFullDetected(true);
 
         // Remove the full alignment (toggle full alignment off).
         clickAlignFullButton();
         // If paragraphs are justified by default then the "Justified" button remains toggled.
-        assertEquals(defaultAlignFull, isAlignFullDetected());
+        waitForAlignFullDetected(defaultAlignFull);
         switchToSource();
         assertSourceText("a\nc");
         switchToWysiwyg();
 
         typeText("x");
         clickAlignLeftButton();
-        assertTrue(isAlignLeftDetected());
+        waitForAlignLeftDetected(true);
         switchToSource();
         assertSourceText("(% style=\"text-align: left;\" %)\na\ncx");
 
         // Assert again the left alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignLeftDetected());
+        waitForAlignLeftDetected(true);
     }
 
     /**
@@ -143,30 +145,30 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         setSourceText("|=a|=b\n|c|d");
         switchToWysiwyg();
         clickAlignRightButton();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
         switchToSource();
         assertSourceText("|=(% style=\"text-align: right;\" %)a|=b\n|c|d");
 
         // Assert again the right alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
 
         typeTextThenEnter("x");
         clickAlignFullButton();
-        assertTrue(isAlignFullDetected());
+        waitForAlignFullDetected(true);
         switchToSource();
         assertSourceText("|=(% style=\"text-align: justify;\" %)x\na|=b\n|c|d");
         switchToWysiwyg();
 
         selectNodeContents("XWE.body.getElementsByTagName('td')[0]");
         clickAlignCenterButton();
-        assertTrue(isAlignCenterDetected());
+        waitForAlignCenterDetected(true);
         switchToSource();
         assertSourceText("|=(% style=\"text-align: justify;\" %)x\na|=b\n|(% style=\"text-align: center;\" %)c|d");
         switchToWysiwyg();
 
         selectNodeContents("XWE.body.getElementsByTagName('td')[0]");
-        assertTrue(isAlignCenterDetected());
+        waitForAlignCenterDetected(true);
     }
 
     /**
@@ -180,25 +182,25 @@ public class AlignmentTest extends AbstractWysiwygTestCase
 
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
         clickAlignCenterButton();
-        assertTrue(isAlignCenterDetected());
+        waitForAlignCenterDetected(true);
 
         select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
             "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
-        assertFalse(isAlignCenterDetected());
+        waitForAlignCenterDetected(false);
         clickAlignRightButton();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
         switchToSource();
         assertSourceText("(% style=\"text-align: right;\" %)\nab\n\n(% style=\"text-align: right;\" %)\ncd");
 
         // Assert again the right alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
 
         // Remove the right alignment (toggle off the 'Align right' button).
         select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
             "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
         clickAlignRightButton();
-        assertFalse(isAlignRightDetected());
+        waitForAlignRightDetected(false);
         switchToSource();
         assertSourceText("ab\n\ncd");
     }
@@ -214,25 +216,25 @@ public class AlignmentTest extends AbstractWysiwygTestCase
 
         moveCaret("XWE.body.getElementsByTagName('td')[1].firstChild", 2);
         clickAlignRightButton();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
 
         select("XWE.body.getElementsByTagName('td')[0].firstChild", 0,
             "XWE.body.getElementsByTagName('td')[1].firstChild", 1);
-        assertFalse(isAlignRightDetected());
+        waitForAlignRightDetected(false);
         clickAlignCenterButton();
-        assertTrue(isAlignCenterDetected());
+        waitForAlignCenterDetected(true);
         switchToSource();
         assertSourceText("|(% style=\"text-align: center;\" %)ab|(% style=\"text-align: center;\" %)cd");
 
         // Assert again the center alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignCenterDetected());
+        waitForAlignCenterDetected(true);
 
         // Remove the center alignment (toggle off the 'Align center' button).
         select("XWE.body.getElementsByTagName('td')[0].firstChild", 1,
             "XWE.body.getElementsByTagName('td')[1].firstChild", 2);
         clickAlignCenterButton();
-        assertFalse(isAlignCenterDetected());
+        waitForAlignCenterDetected(false);
         switchToSource();
         assertSourceText("|ab|cd");
     }
@@ -248,26 +250,26 @@ public class AlignmentTest extends AbstractWysiwygTestCase
 
         // Align the paragraph to the right.
         clickAlignRightButton();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
 
         // Select the paragraph and the first table cell and align them full.
         select("XWE.body.getElementsByTagName('p')[0].lastChild", 2,
             "XWE.body.getElementsByTagName('td')[0].firstChild", 0);
-        assertFalse(isAlignRightDetected());
+        waitForAlignRightDetected(false);
         clickAlignFullButton();
-        assertTrue(isAlignFullDetected());
+        waitForAlignFullDetected(true);
         switchToSource();
         assertSourceText("(% style=\"text-align: justify;\" %)\nab\nxy\n\n|(% style=\"text-align: justify;\" %)cd\n12|ef");
 
         // Assert again the full alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignFullDetected());
+        waitForAlignFullDetected(true);
 
         // Remove the full alignment (toggle off the 'Align full' button).
         select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
             "XWE.body.getElementsByTagName('td')[0].lastChild", 0);
         clickAlignFullButton();
-        assertFalse(isAlignFullDetected());
+        waitForAlignFullDetected(false);
         switchToSource();
         assertSourceText("ab\nxy\n\n|cd\n12|ef");
     }
@@ -284,13 +286,13 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         // Place the caret inside the first paragraph from the first table cell.
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 2);
         clickAlignRightButton();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
         switchToSource();
         assertSourceText("|(((\n(% style=\"text-align: right;\" %)\nab\n\ncd\n)))|ef");
 
         // Assert again the right alignment after coming back to WYSIWYG editor.
         switchToWysiwyg();
-        assertTrue(isAlignRightDetected());
+        waitForAlignRightDetected(true);
     }
 
     /**
@@ -326,42 +328,50 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @return {@code true} if the WYSIWYG editor detects the left alignment of the current selection, {@code false}
-     *         otherwise
+     * Waits for the left alignment toggle button to have the specified state.
+     * 
+     * @param detected {@code true} to wait till the left alignment is detected, {@code false} to wait till it is
+     *            undetected
      */
-    protected boolean isAlignLeftDetected()
+    protected void waitForAlignLeftDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Align Left");
+        waitForToggleButtonState("Align Left", detected);
     }
 
     /**
-     * @return {@code true} if the WYSIWYG editor detects the center alignment of the current selection, {@code false}
-     *         otherwise
+     * Waits for the centered alignment toggle button to have the specified state.
+     * 
+     * @param detected {@code true} to wait till the centered alignment is detected, {@code false} to wait till it is
+     *            undetected
      */
-    protected boolean isAlignCenterDetected()
+    protected void waitForAlignCenterDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Centered");
+        waitForToggleButtonState("Centered", detected);
     }
 
     /**
-     * @return {@code true} if the WYSIWYG editor detects the right alignment of the current selection, {@code false}
-     *         otherwise
+     * Waits for the right alignment toggle button to have the specified state.
+     * 
+     * @param detected {@code true} to wait till the right alignment is detected, {@code false} to wait till it is
+     *            undetected
      */
-    protected boolean isAlignRightDetected()
+    protected void waitForAlignRightDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Align Right");
+        waitForToggleButtonState("Align Right", detected);
     }
 
     /**
-     * @return {@code true} if the WYSIWYG editor detects the full alignment of the current selection, {@code false}
-     *         otherwise
+     * Waits for the justified alignment toggle button to have the specified state.
+     * 
+     * @param detected {@code true} to wait till the justified alignment is detected, {@code false} to wait till it is
+     *            undetected
      */
-    protected boolean isAlignFullDetected()
+    protected void waitForAlignFullDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        return isToggleButtonDown("Justified");
+        waitForToggleButtonState("Justified", detected);
     }
 }

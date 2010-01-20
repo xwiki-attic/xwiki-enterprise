@@ -467,11 +467,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // Select the word in bold.
         selectNodeContents("XWE.body.firstChild.childNodes[1]");
-        assertTrue(isBoldDetected());
+        waitForBoldDetected(true);
 
         // Remove the bold style.
         clickBoldButton();
-        assertFalse(isBoldDetected());
+        waitForBoldDetected(false);
 
         // Check the XWiki syntax.
         switchToSource();
@@ -490,11 +490,11 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // Select a part of the heading.
         select("XWE.body.firstChild.firstChild.firstChild", 3, "XWE.body.firstChild.firstChild.firstChild", 5);
-        assertTrue(isBoldDetected());
+        waitForBoldDetected(true);
 
         // Remove the bold style.
         clickBoldButton();
-        assertFalse(isBoldDetected());
+        waitForBoldDetected(false);
 
         // Check the XWiki syntax.
         switchToSource();
@@ -513,13 +513,13 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // Select the text of the link.
         selectNode("XWE.body.getElementsByTagName('a')[0]");
-        assertTrue(isUnderlineDetected());
+        waitForUnderlineDetected(true);
 
         // Try to remove the underline style.
         clickUnderlineButton();
         // The underline style is still present although we changed the value of the text-decoration property. I don't
         // think we can do something about this.
-        assertTrue(isUnderlineDetected());
+        waitForUnderlineDetected(true);
 
         // Check the XWiki syntax.
         switchToSource();
@@ -535,14 +535,14 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         setFieldValue("content", "**__abc__**");
         clickLinkWithText("WYSIWYG");
         waitForEditorToLoad();
-        assertTrue(isBoldDetected());
-        assertTrue(isUnderlineDetected());
+        waitForBoldDetected(true);
+        waitForUnderlineDetected(true);
 
         switchToSource();
         setSourceText("**abc**");
         switchToWysiwyg();
-        assertTrue(isBoldDetected());
-        assertFalse(isUnderlineDetected());
+        waitForBoldDetected(true);
+        waitForUnderlineDetected(false);
     }
 
     /**

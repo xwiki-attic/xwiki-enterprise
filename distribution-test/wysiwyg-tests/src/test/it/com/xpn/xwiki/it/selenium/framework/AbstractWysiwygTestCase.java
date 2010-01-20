@@ -44,12 +44,27 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     /**
      * The title of the indent tool bar button. This title is used in XPath locators to access the indent button.
      */
-    public static final String INDENT_BUTTON_TITLE = "Increase Indent";
+    public static final String TOOLBAR_BUTTON_INDENT_TITLE = "Increase Indent";
 
     /**
      * The title of the outdent tool bar button. This title is used in XPath locators to access the outdent button.
      */
-    public static final String OUTDENT_BUTTON_TITLE = "Decrease Indent";
+    public static final String TOOLBAR_BUTTON_OUTDENT_TITLE = "Decrease Indent";
+
+    /**
+     * The title of the undo tool bar button.
+     */
+    public static final String TOOLBAR_BUTTON_UNDO_TITLE = "Undo (CTRL+Z)";
+
+    /**
+     * The title of the redo tool bar button.
+     */
+    public static final String TOOLBAR_BUTTON_REDO_TITLE = "Redo (CTRL+Y)";
+
+    /**
+     * The locator for the tool bar list box used to change the style of the current selection.
+     */
+    public static final String TOOLBAR_SELECT_STYLE = "//select[@title=\"Apply Style\"]";
 
     /**
      * {@inheritDoc}
@@ -372,22 +387,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickIndentButton()
     {
-        pushToolBarButton(INDENT_BUTTON_TITLE);
+        pushToolBarButton(TOOLBAR_BUTTON_INDENT_TITLE);
     }
 
     public boolean isIndentButtonEnabled()
     {
-        return isPushButtonEnabled(INDENT_BUTTON_TITLE);
+        return isPushButtonEnabled(TOOLBAR_BUTTON_INDENT_TITLE);
     }
 
     public void clickOutdentButton()
     {
-        pushToolBarButton(OUTDENT_BUTTON_TITLE);
+        pushToolBarButton(TOOLBAR_BUTTON_OUTDENT_TITLE);
     }
 
     public boolean isOutdentButtonEnabled()
     {
-        return isPushButtonEnabled(OUTDENT_BUTTON_TITLE);
+        return isPushButtonEnabled(TOOLBAR_BUTTON_OUTDENT_TITLE);
     }
 
     public void clickBoldButton()
@@ -427,7 +442,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickUndoButton()
     {
-        pushToolBarButton("Undo (CTRL+Z)");
+        pushToolBarButton(TOOLBAR_BUTTON_UNDO_TITLE);
     }
 
     public void clickUndoButton(int count)
@@ -439,7 +454,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickRedoButton()
     {
-        pushToolBarButton("Redo (CTRL+Y)");
+        pushToolBarButton(TOOLBAR_BUTTON_REDO_TITLE);
     }
 
     public void clickRedoButton(int count)
@@ -465,9 +480,35 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         waitForEditorToLoad();
     }
 
-    public void applyStyle(String style)
+    public void applyStyle(final String style)
     {
-        getSelenium().select("//select[@title=\"Apply Style\"]", style);
+        // Wait for the tool bar to be updated.
+        new Wait()
+        {
+            public boolean until()
+            {
+                return Integer.valueOf(getSelenium().getSelectedIndex(TOOLBAR_SELECT_STYLE)) < 0
+                    || !style.equals(getSelenium().getSelectedLabel(TOOLBAR_SELECT_STYLE));
+            }
+        }.wait("The specified style, '" + style + "', is already applied!");
+        getSelenium().select(TOOLBAR_SELECT_STYLE, style);
+    }
+
+    /**
+     * Waits for the specified style to be detected.
+     * 
+     * @param style the expected style
+     */
+    public void waitForStyleDetected(final String style)
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return Integer.valueOf(getSelenium().getSelectedIndex(TOOLBAR_SELECT_STYLE)) >= 0
+                    && style.equals(getSelenium().getSelectedLabel(TOOLBAR_SELECT_STYLE));
+            }
+        }.wait("The specified style, '" + style + "', wasn't detected!");
     }
 
     public void applyStylePlainText()
@@ -545,6 +586,16 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().mouseOver(selector);
         // And then we click on it.
         getSelenium().click(selector);
+    }
+
+    /**
+     * Waits for the specified menu to be present.
+     * 
+     * @param menuLabel the menu label
+     */
+    public void waitForMenu(String menuLabel)
+    {
+        waitForElement("//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']");
     }
 
     /**
@@ -662,6 +713,24 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 return enabled == isPushButtonEnabled(pushButtonTitle);
             }
         }.wait(pushButtonTitle + " button is not " + (enabled ? "enabled" : "disabled") + "!");
+    }
+
+    /**
+     * Waits until the specified toggle button has the given state. This method is useful to wait until a toggle button
+     * from the tool bar is updated.
+     * 
+     * @param toggleButtonTitle the tool tip of a toggle button
+     * @param down {@code true} to wait until the specified toggle button is down, {@code false} to wait until it is up
+     */
+    public void waitForToggleButtonState(final String toggleButtonTitle, final boolean down)
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return down == isToggleButtonDown(toggleButtonTitle);
+            }
+        }.wait("The state of the '" + toggleButtonTitle + "' toggle button didn't change!");
     }
 
     /**
@@ -859,21 +928,21 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * @return {@code true} if the WYSIWYG editor detects the bold style on the current selection, {@code false}
-     *         otherwise
+     * Waits until the WYSIWYG editor detects the bold style on the current selection. The bold style is detected when
+     * the associated tool bar button is updated. The update is delayed to increase the typing speed.
      */
-    public boolean isBoldDetected()
+    public void waitForBoldDetected(boolean down)
     {
-        return isToggleButtonDown("Bold (CTRL+B)");
+        waitForToggleButtonState("Bold (CTRL+B)", down);
     }
 
     /**
-     * @return {@code true} if the WYSIWYG editor detects the underline style on the current selection, {@code false}
-     *         otherwise
+     * Waits until the WYSIWYG editor detects the underline style on the current selection. The underline style is
+     * detected when the associated tool bar button is updated. The update is delayed to increase the typing speed.
      */
-    public boolean isUnderlineDetected()
+    public void waitForUnderlineDetected(boolean down)
     {
-        return isToggleButtonDown("Underline (CTRL+U)");
+        waitForToggleButtonState("Underline (CTRL+U)", down);
     }
 
     /**

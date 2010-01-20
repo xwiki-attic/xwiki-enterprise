@@ -378,10 +378,10 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         return code;
     }
 
-    protected String getHttpMethodInfo(HttpMethod method) throws URIException
+    protected String getHttpMethodInfo(HttpMethod method) throws Exception
     {
-        return String.format("%s %s. Status: %d %s\n", method.getName(), method.getURI(), method.getStatusCode(),
-            method.getStatusText());
+        return String.format("\nName: %s\nURI: %s\nStatus code: %d\nStatus text: %s\nResponse:\n%s", method.getName(),
+            method.getURI(), method.getStatusCode(), method.getStatusText(), method.getResponseBodyAsString());
     }
 
     protected String getAttachmentsInfo(Attachments attachments)

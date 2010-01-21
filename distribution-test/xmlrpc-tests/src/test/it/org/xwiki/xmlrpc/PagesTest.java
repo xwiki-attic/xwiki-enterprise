@@ -151,8 +151,6 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         System.out.format("New page: %s\n", page);
 
-        // Note: page ids are relative to the current wiki in the XMLRPC implementation. However parent id are
-        // absolute so we must add the wiki for the comparison.
         assertEquals(pageSummary2.getId(), page.getParentId());
     }
 

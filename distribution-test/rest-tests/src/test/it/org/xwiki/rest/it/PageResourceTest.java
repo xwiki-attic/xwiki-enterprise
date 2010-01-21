@@ -187,8 +187,7 @@ public class PageResourceTest extends AbstractHttpTest
         assertEquals(CONTENT, modifiedPage.getContent());
         assertEquals(TITLE, modifiedPage.getTitle());
 
-        // Note: the returned parent reference is absolute since references returned from REST are absolute. 
-        assertEquals("xwiki:" + PARENT, modifiedPage.getParent());
+        assertEquals(PARENT, modifiedPage.getParent());
     }
 
     public void testPUTWithInvalidRepresentation() throws Exception

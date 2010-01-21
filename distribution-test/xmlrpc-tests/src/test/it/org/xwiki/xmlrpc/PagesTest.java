@@ -153,7 +153,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         // Note: page ids are relative to the current wiki in the XMLRPC implementation. However parent id are
         // absolute so we must add the wiki for the comparison.
-        assertEquals("xwiki:" + pageSummary2.getId(), page.getParentId());
+        assertEquals(pageSummary2.getId(), page.getParentId());
     }
 
     public void testStoreNewPageTranslation() throws Exception

@@ -60,9 +60,9 @@ public class FontTest extends AbstractWysiwygTestCase
     {
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
-        applyFontName("georgia");
+        applyFontName("Georgia");
         switchToSource();
-        assertSourceText("a(% style=\"font-family: georgia;\" %)b(%%)c");
+        assertSourceText("a(% style=\"font-family: Georgia;\" %)b(%%)c");
     }
 
     /**
@@ -72,10 +72,10 @@ public class FontTest extends AbstractWysiwygTestCase
     {
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
-        applyFontName("arial");
+        applyFontName("Arial");
         applyFontSize("18pt");
         switchToSource();
-        assertSourceText("a(% style=\"font-family: arial; font-size: 18pt;\" %)b(%%)c");
+        assertSourceText("a(% style=\"font-family: Arial; font-size: 18pt;\" %)b(%%)c");
     }
 
     /**
@@ -88,7 +88,7 @@ public class FontTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         selectAllContent();
         waitForDetectedFontSize("18pt");
-        waitForDetectedFontName("verdana");
+        waitForDetectedFontName("Verdana");
     }
 
     /**
@@ -101,13 +101,13 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-family: wingdings;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontName("wingdings");
+        waitForDetectedFontName("Wingdings");
 
         switchToSource();
         setSourceText("(% style=\"font-family: wingdings,helvetica;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontName("helvetica");
+        waitForDetectedFontName("Helvetica");
     }
 
     /**
@@ -119,13 +119,25 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-family: unknown;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontName("");
+        waitForDetectedFontName("unknown");
 
         switchToSource();
         setSourceText("(% style=\"font-family: unknown,helvetica;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontName("helvetica");
+        waitForDetectedFontName("Helvetica");
+    }
+
+    /**
+     * Detect a font size that is not listed.
+     */
+    public void testDetectUnlistedFontSize()
+    {
+        switchToSource();
+        setSourceText("(% style=\"font-size: 15.5px;\" %)\nabc");
+        switchToWysiwyg();
+        selectAllContent();
+        waitForDetectedFontSize("15.5px");
     }
 
     /**
@@ -137,9 +149,9 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-family: courier new;\" %)\nabc\n\n(% style=\"font-family: times new roman;\" %)\nxyz");
         switchToWysiwyg();
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
-        waitForDetectedFontName("courier new");
+        waitForDetectedFontName("Courier New");
         moveCaret("XWE.body.getElementsByTagName('p')[1].firstChild", 1);
-        waitForDetectedFontName("times new roman");
+        waitForDetectedFontName("Times New Roman");
         select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
             "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
         waitForDetectedFontName("");

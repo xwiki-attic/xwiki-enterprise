@@ -69,7 +69,7 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
         setFieldValue("j_password", "wrong password");
         submit();
 
-        assertTextPresent("Wrong password");
+        assertTextPresent("Invalid credentials");
     }
 
     public void testLogWithInvalidUsername()
@@ -78,7 +78,7 @@ public class LoginLogoutTest extends AbstractXWikiTestCase
         setFieldValue("j_password", "admin");
         submit();
 
-        assertTextPresent("Wrong user name");
+        assertTextPresent("Invalid credentials");
     }
 
     public void testLogout()

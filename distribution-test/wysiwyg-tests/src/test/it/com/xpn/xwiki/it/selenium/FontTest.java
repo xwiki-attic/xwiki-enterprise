@@ -134,10 +134,11 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testDetectUnlistedFontSize()
     {
         switchToSource();
-        setSourceText("(% style=\"font-size: 15.5px;\" %)\nabc");
+        // 22px is equivalent to 16pt. By default the font size list includes 14pt and 18pt but not 16pt.
+        setSourceText("(% style=\"font-size: 22px;\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontSize("15.5px");
+        waitForDetectedFontSize("22px");
     }
 
     /**

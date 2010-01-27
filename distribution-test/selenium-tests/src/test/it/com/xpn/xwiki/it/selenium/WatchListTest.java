@@ -56,13 +56,6 @@ public class WatchListTest extends AbstractXWikiTestCase
     {
         // Stop GreenMail test server
         this.greenMail.stop();
-
-        // Restore XWiki.WatchListManager from the trash since it's been deleted by the tests below.
-        open("XWiki", "WatchListManager");
-        if (isElementPresent("link=Restore")) {
-            clickLinkWithLocator("link=Restore");
-            assertTextPresent("Watchlist for Administrator");
-        }
     }
 
     public void testWatchThisPageAndWholeSpace() throws Exception
@@ -93,9 +86,6 @@ public class WatchListTest extends AbstractXWikiTestCase
         open("XWiki", "WatchListMessage", "edit", "editor=object");
         assertTextPresent("Mail 0:");
 
-        // Test if the watchlist manager document exists
-        assertTrue("Page XWiki.WatchListManager doesn't exist", isExistingPage("XWiki", "WatchListManager"));
-
         // Watch Test.TestWatchThisPage
         createPage("Test", "TestWatchThisPage", "TestWatchThisPage selenium");
         clickLinkWithText("Watch", false);
@@ -109,9 +99,15 @@ public class WatchListTest extends AbstractXWikiTestCase
         assertTextPresent("TestWatchThisPage");
         assertTextPresent("TestWatchWholeSpace");
 
+        // Click on the inline edit button
+        clickLinkWithLocator("xpath=//a[@id='tmEditInline']");
+
+        // Click the watchlist button because it forgets that we are at the watchlist, no new page loads so we don't wait.
+        clickLinkWithLocator("xpath=//li[@id='watchlistTab']/a", false);
+
         // Ensure the frequency set is every hour so that Hourly job we've modified is used
-        getSelenium().select("XWiki.WatchListClass_0_interval", "label=Scheduler.WatchListDailyNotifier");
-        clickLinkWithXPath("//input[@value='Save']", true);
+        getSelenium().select("XWiki.WatchListClass_0_interval", "value=Scheduler.WatchListDailyNotifier");
+        clickEditSaveAndView();
         
         // Trigger the notification
         open("Scheduler", "WebHome");
@@ -130,10 +126,5 @@ public class WatchListTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//div[@id='xobject_XWiki.XWikiPreferences_0_title']", false);
         setFieldValue("XWiki.XWikiPreferences_0_smtp_port", "25");
         clickEditSaveAndView();
-
-        // XWIKI-2125
-        // Verify that the Watchlist menu entry is not present if XWiki.WatchListManager does not exists
-        deletePage("XWiki", "WatchListManager");
-        assertTextNotPresent("Manage your watchlist");
     }
 }

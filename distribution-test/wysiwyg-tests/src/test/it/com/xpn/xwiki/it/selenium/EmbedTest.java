@@ -44,6 +44,8 @@ public class EmbedTest extends AbstractWysiwygTestCase
         setSourceText(sourceText);
         switchToWysiwyg();
         typeText("1 2");
+        // The tool bar is not updated right away. We have to wait for the undo push button to become enabled.
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         clickUndoButton(2);
         switchToSource();
         assertSourceText("1" + sourceText);

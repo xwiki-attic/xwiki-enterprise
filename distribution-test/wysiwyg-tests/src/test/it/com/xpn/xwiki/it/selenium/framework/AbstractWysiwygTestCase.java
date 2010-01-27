@@ -482,12 +482,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void applyStyle(final String style)
     {
-        // Wait for the tool bar to be updated.
+        // Wait until the given style is not selected (because the tool bar might not be updated).
         new Wait()
         {
             public boolean until()
             {
-                return Integer.valueOf(getSelenium().getSelectedIndex(TOOLBAR_SELECT_STYLE)) < 0
+                return !getSelenium().isSomethingSelected(TOOLBAR_SELECT_STYLE)
                     || !style.equals(getSelenium().getSelectedLabel(TOOLBAR_SELECT_STYLE));
             }
         }.wait("The specified style, '" + style + "', is already applied!");

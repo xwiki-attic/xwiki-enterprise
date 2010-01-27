@@ -118,7 +118,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         try {            
             editInWikiEditor("XWiki", "Admin");
             initialContent = getFieldValue("content");
-            typeInWiki("$context.setDisplayMode('edit')\n" + initialContent);
+            typeInWiki("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n" + initialContent);
             clickEditSaveAndView();
             assertElementPresent("XWiki.XWikiUsers_0_last_name");
         } finally {

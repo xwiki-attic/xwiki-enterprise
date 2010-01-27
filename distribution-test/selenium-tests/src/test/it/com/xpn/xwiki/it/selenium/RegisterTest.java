@@ -81,22 +81,25 @@ public class RegisterTest extends AbstractXWikiTestCase
     {
         setFieldValue("register_password", "a");
         setFieldValue("register2_password", "b");
-        submit();
-        assertTextPresent("Passwords are different or password is empty.");
+        clickLinkWithXPath("//input[@type='submit']", false);
+        waitForElement("xpath=//form[@id='register']/div/dl/dd[5]/span");
+        waitForTextPresent("xpath=//form[@id='register']/div/dl/dd[5]/span", "Your passwords aren't the same.");
     }
 
     public void testRegisterWithoutEnteringUserName()
     {
         setFieldValue("xwikiname", "");
-        submit();
-        assertTextPresent("Invalid username provided");
+        clickLinkWithXPath("//input[@type='submit']", false);
+        waitForElement("xpath=//form[@id='register']/div/dl/dd[3]/span");
+        waitForTextPresent("xpath=//form[@id='register']/div/dl/dd[3]/span", "This field is mandatory.");
     }
 
     public void testRegisterWithoutEnteringPassword()
     {
         setFieldValue("register_password", "");
         setFieldValue("register2_password", "");
-        submit();
-        assertTextPresent("Passwords are different or password is empty.");
+        clickLinkWithXPath("//input[@type='submit']", false);
+        waitForElement("xpath=//form[@id='register']/div/dl/dd[4]/span");
+        waitForTextPresent("xpath=//form[@id='register']/div/dl/dd[4]/span", "This field is mandatory.");
     }
 }

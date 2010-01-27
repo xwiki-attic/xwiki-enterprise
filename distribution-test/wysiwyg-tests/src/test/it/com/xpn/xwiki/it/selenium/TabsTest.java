@@ -382,6 +382,8 @@ public class TabsTest extends AbstractWysiwygTestCase
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "2");
         // Switch to WYSIWYG tab and undo the change.
         switchToWysiwyg();
+        // The tool bar is not updated right away. We have to wait for the undo push button to become enabled.
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         clickUndoButton();
         // Check the result.
         switchToSource();

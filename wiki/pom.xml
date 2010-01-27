@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>2.2-milestone-2</version>
+    <version>2.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-wiki</artifactId>
   <name>XWiki Products - Enterprise - Wiki</name>
@@ -53,7 +53,7 @@
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>com.xpn.xwiki.platform.applications</groupId>
+      <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-webdav</artifactId>
       <version>${platform.webdav.version}</version>
       <type>xar</type>

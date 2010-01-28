@@ -140,7 +140,7 @@
   "tags" : [
   #foreach($tag in $allMatchingTags.keySet())
     #if($velocityCount &gt; 1) , #end
-    {"tag": "$tag", "count": $allMatchingTags.get($tag)}
+    {"tag": "$xwiki.getXMLEncoded($tag)", "count": $allMatchingTags.get($tag)}
   #end
   ],
   "returnedrows": #if($returnedItems &lt; $limit) $returnedItems #else $limit #end,

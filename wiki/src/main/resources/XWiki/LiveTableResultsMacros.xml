@@ -133,14 +133,14 @@
   "matchingtags": {
   #foreach($tag in $tagsMatchingFilters.keySet())
     #if($velocityCount &gt; 1) , #end
-    #set($t=$tag.replaceAll('"',''))
+    #set($t=$tag.replaceAll('"','\\"'))
     "$t": {}
   #end
    },
   "tags" : [
   #foreach($tag in $allMatchingTags.keySet())
     #if($velocityCount &gt; 1) , #end
-    {"tag": "$xwiki.getXMLEncoded($tag)", "count": $allMatchingTags.get($tag)}
+    {"tag": "$tag.replaceAll("\"", "\\"")", "count": $allMatchingTags.get($tag)}
   #end
   ],
   "returnedrows": #if($returnedItems &lt; $limit) $returnedItems #else $limit #end,

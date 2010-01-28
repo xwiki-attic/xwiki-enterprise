@@ -357,7 +357,7 @@
     #set($picture = $picture.concat("' alt='$username' title='$username'/&gt;"))
     #set($profiledoc = $xwiki.getDocument($username))
     #if(!$profiledoc.isNew())
-      #set($profileobj = $profiledoc.getObject("XWikiUsers", 0))
+      #set($profileobj = $profiledoc.getObject("XWiki.XWikiUsers", 0))
       #if($profiledoc.attachmentList.size() != 0)
         #set($hasavatar = 0)
         #if($profileobj.avatar &amp;&amp; $profileobj.avatar != "")

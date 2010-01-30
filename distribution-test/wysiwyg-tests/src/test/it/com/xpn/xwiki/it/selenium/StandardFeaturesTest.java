@@ -333,10 +333,12 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         applyStyleTitle1();
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         clickUndoButton(4);
         assertContent("alice bob<br>");
         clickUndoButton(3);
         assertContent("<br>");
+        waitForPushButton(TOOLBAR_BUTTON_REDO_TITLE, true);
         clickRedoButton(7);
         assertContent("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br></h1>");
     }

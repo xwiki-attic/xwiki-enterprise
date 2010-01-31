@@ -46,32 +46,19 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         // Create a class with a property that has '_' in its name.
         open(spaceName.toString(), pageName.toString(), "edit", "editor=class");
         String propertyName = "my_1_property";
-        setFieldValue("propname", propertyName);
-        getSelenium().select("proptype", "TextArea");
-        getSelenium().click("//input[@value = 'Add Property']");
-        waitPage();
-        getSelenium().select(propertyName + "_editor", "Wysiwyg");
+        addWysiwygProperty(propertyName);
         clickEditSaveAndContinue();
 
         // Create an object of the previously created class.
         open(spaceName.toString(), pageName.toString(), "edit", "editor=object");
-        getSelenium().select("classname", pageName.toString());
-        getSelenium().click("//input[@value = 'Add Object from this Class']");
-        waitPage();
+        addObject(pageName.toString());
         String propertyValue = String.valueOf(new Date().getTime());
         setFieldValue(spaceName + "." + pageName + "_0_" + propertyName, propertyValue);
         clickEditSaveAndContinue();
 
         // Display the object.
         open(spaceName.toString(), pageName.toString(), "edit", "editor=wiki");
-        StringBuffer code = new StringBuffer();
-        code.append("{{velocity}}\n");
-        code.append("{{html wiki=true}}\n");
-        code.append("$doc.use(\"" + pageName + "\")\n");
-        code.append("$doc.display(\"" + propertyName + "\")\n");
-        code.append("{{/html}}\n");
-        code.append("{{velocity}}");
-        setFieldValue("content", code.toString());
+        setFieldValue("content", display(pageName.toString(), propertyName));
         clickEditSaveAndView();
         assertTextPresent(propertyValue);
 
@@ -85,5 +72,91 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         setContent(propertyValue);
         clickEditSaveAndView();
         assertTextPresent(propertyValue);
+    }
+
+    /**
+     * Tests if the initial content of the editor is taken from the template when creating a new document from a
+     * template.
+     * 
+     * @see XWIKI-4814: WYSIWYG does not preserve TextArea property values when creating a new document from a class
+     *      template
+     */
+    public void testEditorInitialContentWhenCreatingDocumentFromTemplate()
+    {
+        String spaceName = this.getClass().getSimpleName();
+        String pageName = getName();
+        String className = pageName + "Class";
+        String templateName = pageName + "Template";
+        String sheetName = pageName + "Sheet";
+        String propertyName = "myproperty";
+
+        // Create the class.
+        open(spaceName, className, "edit", "editor=class");
+        addWysiwygProperty(propertyName);
+        clickEditSaveAndContinue();
+
+        // Create the sheet.
+        open(spaceName, sheetName, "edit", "editor=wiki");
+        setFieldValue("content", display(className, propertyName));
+        clickEditSaveAndContinue();
+
+        // Create the template.
+        // Add the object.
+        open(spaceName, templateName, "edit", "editor=object");
+        addObject(className);
+        String propertyValue = String.valueOf(new Date().getTime());
+        setFieldValue(spaceName + "." + className + "_0_" + propertyName, propertyValue);
+        clickEditSaveAndContinue();
+        // Include the sheet.
+        open(spaceName, templateName, "edit", "editor=wiki");
+        setFieldValue("content", "{{include document=\"" + sheetName + "\"/}}");
+        clickEditSaveAndView();
+        assertTextPresent(propertyValue);
+
+        // Create a new page from template.
+        open(spaceName, pageName, "inline", "template=" + templateName);
+        waitForEditorToLoad();
+        assertEquals(propertyValue, getEval("window.XWE.body.textContent"));
+    }
+
+    /**
+     * Adds a {@code TextArea} property with the specified name and sets its preferred editor to WYSIWYG.
+     * 
+     * @param propertyName the name of the property to add
+     */
+    private void addWysiwygProperty(String propertyName)
+    {
+        setFieldValue("propname", propertyName);
+        getSelenium().select("proptype", "TextArea");
+        getSelenium().click("//input[@value = 'Add Property']");
+        waitPage();
+        getSelenium().select(propertyName + "_editor", "Wysiwyg");
+    }
+
+    /**
+     * Adds an object of the specified class to the current page.
+     * 
+     * @param className the class name
+     */
+    private void addObject(String className)
+    {
+        getSelenium().select("classname", className);
+        getSelenium().click("//input[@value = 'Add Object from this Class']");
+        waitPage();
+    }
+
+    /**
+     * @param className the name of a XWiki class
+     * @param propertyName which property of the specified class to display
+     * @return the code to display the specified property
+     */
+    private String display(String className, String propertyName)
+    {
+        StringBuffer code = new StringBuffer();
+        code.append("{{velocity}}\n");
+        code.append("$doc.use(\"" + className + "\")\n");
+        code.append("$doc.display(\"" + propertyName + "\")\n");
+        code.append("{{/velocity}}");
+        return code.toString();
     }
 }

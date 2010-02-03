@@ -539,6 +539,7 @@ public class ListTest extends AbstractWysiwygTestCase
         typeTextThenEnter("two plus one");
         typeShiftTab();
         typeText("three");
+        waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
         assertContent("<ul><li>one</li><li>two<ul><li>two plus one</li><li>three<br></li></ul></li></ul>");
         switchToSource();

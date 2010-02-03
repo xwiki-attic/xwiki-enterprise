@@ -659,4 +659,27 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         assertEquals("velocity1", getEval("window.XWE.body.textContent"));
     }
+
+    /**
+     * @see XWIKI-4665: Pressing Meta+G (Jump to page) in the WYSIWYG editor displays the popup inside the rich text
+     *      area.
+     */
+    public void testJavaScriptExtensionsAreNotIncludedInEditMode()
+    {
+        // Type some text to be sure the conversion is triggered when switching to source.
+        typeText("x");
+        // Type Meta+G to open the "Jump to page" dialog.
+        getSelenium().metaKeyDown();
+        typeText("g");
+        getSelenium().metaKeyUp();
+        // Switch to source and check the result.
+        switchToSource();
+        assertSourceText("x");
+        // Now check that the "Jump to page" feature works indeed.
+        assertElementNotPresent("//div[@class = 'xdialog-modal-container']");
+        getSelenium().metaKeyDown();
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "g");
+        getSelenium().metaKeyUp();
+        assertElementPresent("//div[@class = 'xdialog-modal-container']");
+    }
 }

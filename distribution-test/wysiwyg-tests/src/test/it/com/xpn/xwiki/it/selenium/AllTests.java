@@ -50,6 +50,7 @@ public class AllTests extends TestCase
 
         addTestCase(suite, SubmitTest.class);
         addTestCase(suite, StandardFeaturesTest.class);
+        addTestCase(suite, HistoryTest.class);
         addTestCase(suite, LineTest.class);
         addTestCase(suite, TableTest.class);
         addTestCase(suite, LinkTest.class);

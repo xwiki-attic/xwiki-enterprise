@@ -1106,7 +1106,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // make sure this page is saved so that the recent pages can load reference to it
         clickEditSaveAndContinue();
 
-        String currentPage = this.getClass().getSimpleName() + "." + getName();
+        String currentPage = "xwiki:" + getClass().getSimpleName() + "." + getName();
         String label = "barfoo";
 
         openLinkDialog(MENU_WIKI_PAGE);
@@ -1199,7 +1199,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeInInput("Type a keyword to search for a wiki page", searchString);
         clickButtonWithText("Search");
         String selectedPageLocator =
-            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='" + expectedPage + "']";
+            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='xwiki:" + expectedPage
+                + "']";
         // wait for the element to load in the list
         waitForElement(selectedPageLocator);
         // check selection on the loaded list
@@ -1814,7 +1815,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // 1. link to existing page, double click
         // make sure this page is saved so that the recent pages can load reference to it
         clickEditSaveAndContinue();
-        String currentPage = this.getClass().getSimpleName() + "." + getName();
+        String currentPage = "xwiki:" + this.getClass().getSimpleName() + "." + getName();
         String label = "barfoo";
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xPagesRecent");
@@ -1878,7 +1879,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Search");
         // wait for desired page to load
         String selectedPageLocator =
-            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + expectedPage
+            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='xwiki:" + expectedPage
                 + "']";
         // wait for the element to load in the list
         waitForElement(selectedPageLocator);

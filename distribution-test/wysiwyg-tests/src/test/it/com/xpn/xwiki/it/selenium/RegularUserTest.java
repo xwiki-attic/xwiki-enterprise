@@ -78,7 +78,8 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         waitForElement(newPageSelector);
         // check if the desired element is there or not
         String pageInListLocator =
-            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='" + spaceWebHome + "']";
+            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='xwiki:" + spaceWebHome
+                + "']";
         if (expected) {
             assertElementPresent(pageInListLocator);
         } else {

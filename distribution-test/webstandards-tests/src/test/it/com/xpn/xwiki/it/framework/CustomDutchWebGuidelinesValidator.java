@@ -94,14 +94,17 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
     /**
      * CSS should be placed in linked files and not mixed with the HTML source code. XWiki exceptions: in the ColorTheme
      * application we have to allow the use of inline styles, this is the only way to offer a preview of the themes 
-     * color. In XWiki.XWikiSyntax usage of style custom parameter is demonstrated.
+     * color. In XWiki.XWikiSyntax usage of style custom parameter is demonstrated. In Panels.PanelWizard and 
+     * XWiki.Treeview the use of JS libraries make the use of inline styles mandatory.
+     * 
      */
     @Override
     public void validateRpd9s1()
     {
         String exprString = "//*[@style]";
         
-        if (!getMeta(SPACE_META).equals("ColorThemes") && !isPage("XWiki.XWikiSyntax")) {
+        if (!getMeta(SPACE_META).equals("ColorThemes") && !isPage("XWiki.XWikiSyntax") 
+            && !isPage("Panels.PanelWizard") &&  !isPage("XWiki.Treeview")) {
             // Usage of the style attribute is strictly forbidden in the other spaces.
             assertFalse(Type.ERROR, "rpd9s1.attr", ((Boolean) evaluate(getElement(ELEM_BODY), exprString,
                 XPathConstants.BOOLEAN)));

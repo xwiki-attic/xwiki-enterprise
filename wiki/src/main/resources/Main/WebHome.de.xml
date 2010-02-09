@@ -11,9 +11,9 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1265726395000</creationDate>
-<date>1265726395000</date>
-<contentUpdateDate>1265726395000</contentUpdateDate>
+<creationDate>1265728321000</creationDate>
+<date>1265728321000</date>
+<contentUpdateDate>1265728321000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.home.title")</title>
 <template></template>
@@ -25,7 +25,9 @@
 <hidden>false</hidden>
 <content>XWiki ist eine leicht editierbare Web-Seite die Ihnen die Zusammenarbeit erleichtern wird. Dieses Wiki ist aus //Seiten// aufgebaut, die in //Spaces// gegliedert sind. Sie sind momentan im **Main**-Space und sehen dessen Startseite (**WebHome**).
 
-{{velocity wiki="true"}} #if($hasEdit) Im [[Sandbox-Space&gt;&gt;Sandbox.WebHome]] können Sie die Möglichkeiten von XWiki ausprobieren. #end {{/velocity}}
+{{velocity wiki="true"}}
+#if($hasEdit) Im [[Sandbox-Space&gt;&gt;Sandbox.WebHome]] können Sie die Möglichkeiten von XWiki ausprobieren. #end
+{{/velocity}}
 
 {{include document="Main.Dashboard"/}}</content>
 </xwikidoc>

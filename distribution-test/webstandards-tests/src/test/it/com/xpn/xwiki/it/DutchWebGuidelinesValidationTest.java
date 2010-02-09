@@ -86,6 +86,7 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
             method.releaseConnection();
         }
 
+        validator.setFullPageName(fullPageName);
         validator.setDocument((new ByteArrayInputStream(responseBody)));
         validator.validate();
                

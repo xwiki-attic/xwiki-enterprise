@@ -21,18 +21,25 @@ package com.xpn.xwiki.it.framework;
 
 import javax.xml.xpath.XPathConstants;
 
-import org.apache.commons.lang.StringUtils;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xwiki.validator.DutchWebGuidelinesValidator;
 import org.xwiki.validator.ValidationError.Type;
-import org.xwiki.validator.framework.NodeListIterable;
 
 public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidator
 {
     private static final String SPACE_META = "space";
     
-    private static final String PAGE_META = "page";
+    private String fullName = "";
+    
+    /**
+     * Set the fullName of the page being analyzed.
+     *  
+     * @param fullName fullName of the page
+     */
+    public void setFullPageName(String fullName) 
+    {
+        this.fullName = fullName;
+    }
     
     /**
      * @param metaName name of the meta to get
@@ -51,16 +58,14 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      */
     private boolean isPage(String pageName)
     {
-        String space = StringUtils.substringBefore(pageName, ".");
-        String page = StringUtils.substringAfter(pageName, ".");
-        
-        return getMeta(SPACE_META).equals(space) && getMeta(PAGE_META).equals(page);  
+        return pageName.equals(fullName);
     }
     
     /**
      * Use the p (paragraph) element to indicate paragraphs. Do not use the br (linebreak) element to separate
      * paragraphs.
      */
+    @Override
     public void validateRpd3s4()
     {
         if (!isPage("XWiki.XWikiSyntax")) {
@@ -72,6 +77,7 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      * Avoid using the sup (superscript) and sub (subscript) element if possible. XWiki exception: wiki syntax
      * allows using sub and sup tags, this usage is demonstrated in the Sandbox space and the XWiki.XWikiSyntax page.
      */
+    @Override
     public void validateRpd3s9()
     {
         if (!isPage("XWiki.XWikiSyntax") && !isPage("Sandbox.WebHome")) {
@@ -84,6 +90,7 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      * shows the wiki syntax to use to create lists, this syntax is precisely what's forbidden to use in the generated 
      * html. 
      */
+    @Override
     public void validateRpd3s13()
     {
         if (!isPage("XWiki.XWikiSyntax")) {
@@ -120,6 +127,7 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      * allows using table headers without scope, this usage is demonstrated in the Sandbox space and the 
      * XWiki.XWikiSyntax page.
      */
+    @Override
     public void validateRpd11s4()
     {
         if (!isPage("XWiki.XWikiSyntax") && !isPage("Sandbox.WebHome")) {
@@ -132,6 +140,7 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      * XWiki exception: wiki syntax allows using tables without headers, this usage is demonstrated in the Sandbox 
      * space and the XWiki.XWikiSyntax page.
      */
+    @Override
     public void validateRpd11s5()
     {
         if (!isPage("XWiki.XWikiSyntax") && !isPage("Sandbox.WebHome")) {

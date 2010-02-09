@@ -54,7 +54,7 @@ public class ImportTest extends AbstractXWikiTestCase
         
         this.openAdministrationSection("Import");
 
-        this.assertTextPresent("No attachments for this document");
+        this.assertTextPresent("No package is available for import");
     }
 
 }

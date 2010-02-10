@@ -682,4 +682,19 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().metaKeyUp();
         assertElementPresent("//div[@class = 'xdialog-modal-container']");
     }
+
+    /**
+     * @see XWIKI-4346: Cannot use the WYSIWYG editor in small screen after you have deleted all text in full screen
+     */
+    public void testEditInFullScreen()
+    {
+        typeText("123");
+        clickEditInFullScreen();
+        // The caret is placed at start (which means the selection is lost).
+        typeDelete(3);
+        clickExitFullScreen();
+        typeText("x");
+        switchToSource();
+        assertSourceText("x");
+    }
 }

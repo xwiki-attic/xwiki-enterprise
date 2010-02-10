@@ -1199,6 +1199,27 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4856: Charset errors on macro insertion
+     */
+    public void testMacroWithUnicodeCharacters()
+    {
+        // Insert a macro with Unicode characters.
+        switchToSource();
+        String sourceText = "before {{info}}\u0103\u0219\u021B\u00E2\u00EE\u00E9\u00E8{{/info}} after";
+        setSourceText(sourceText);
+        switchToWysiwyg();
+        // Do a round-trip to the server to re-parse and re-render the content.
+        refreshMacros();
+        // Check if the content is affected by undo operation.
+        typeText("1 2");
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
+        clickUndoButton(2);
+        // Check the result.
+        switchToSource();
+        assertSourceText("1" + sourceText);
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

@@ -108,7 +108,6 @@ public class WikisResourceTest extends AbstractHttpTest
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);
         }
-
     }
 
     public void testPages() throws Exception
@@ -130,7 +129,7 @@ public class WikisResourceTest extends AbstractHttpTest
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getPagesInfo(pages), 8, pages.getPageSummaries().size());
+        assertEquals(getPagesInfo(pages), 14, pages.getPageSummaries().size());
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);
@@ -143,12 +142,11 @@ public class WikisResourceTest extends AbstractHttpTest
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getPagesInfo(pages), 5, pages.getPageSummaries().size());
+        assertEquals(getPagesInfo(pages), 6, pages.getPageSummaries().size());
 
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             checkLinks(pageSummary);
         }
-
     }
 
     public void testAttachments() throws Exception
@@ -201,7 +199,5 @@ public class WikisResourceTest extends AbstractHttpTest
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);
         }
-
     }
-
 }

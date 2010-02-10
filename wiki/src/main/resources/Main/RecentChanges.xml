@@ -493,7 +493,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 ## 
 ## Prepare comments handling
 #set($commentsOrder = false)
-#if($xwiki.getWebPreferenceAsInt("commentsorder",1) == 0)
+#if($xwiki.getSpacePreferenceAsInt('commentsorder', 1) == 0)
   #set($commentsOrder = true)
 #end
 ##

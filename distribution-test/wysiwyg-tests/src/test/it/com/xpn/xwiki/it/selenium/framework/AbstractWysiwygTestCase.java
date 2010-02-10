@@ -1131,4 +1131,38 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             }
         }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
     }
+
+    /**
+     * Switches to full screen editing mode.
+     */
+    protected void clickEditInFullScreen()
+    {
+        getSelenium().click("//img[@title = 'Maximize']");
+        waitForElement("//div[@class = 'fullScreenWrapper']");
+    }
+
+    /**
+     * Exists full screen editing mode.
+     */
+    protected void clickExitFullScreen()
+    {
+        getSelenium().click("//input[@value = 'Exit full screen']");
+        waitForElementNotPresent("//div[@class = 'fullScreenWrapper']");
+    }
+
+    /**
+     * Waits until the specified element is not present.
+     * 
+     * @param locator specifies the element to wait for
+     */
+    protected void waitForElementNotPresent(final String locator)
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return !isElementPresent(locator);
+            }
+        }.wait("The specified element, " + locator + ", is still present!");
+    }
 }

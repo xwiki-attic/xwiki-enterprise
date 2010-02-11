@@ -647,14 +647,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * @return True if the tabs are enabled, false otherwise.
-     */
-    public boolean tabsEnabled()
-    {
-        return isElementPresent(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
-    }
-
-    /**
      * Switch the WYSIWYG editor by clicking on the "WYSIWYG" tab item and waits for the rich text area to be
      * initialized.
      */
@@ -670,14 +662,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void switchToWysiwyg(boolean wait)
     {
-        if (tabsEnabled()) {
-            getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
-            if (wait) {
-                waitForCondition("!window.document.getElementsByTagName('iframe')[0].__disabled");
-            }
-            // The rich text area is redisplayed (and possibly reloaded) so we have to invalidate the JavaScript API.
-            invalidateJavaScriptApi();
+        getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
+        if (wait) {
+            waitForCondition("!window.document.getElementsByTagName('iframe')[0].__disabled");
         }
+        // The rich text area is redisplayed (and possibly reloaded) so we have to invalidate the JavaScript API.
+        invalidateJavaScriptApi();
     }
 
     /**
@@ -696,18 +686,16 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void switchToSource(boolean wait)
     {
-        if (tabsEnabled()) {
-            getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
-            if (wait) {
-                new Wait()
+        getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
+        if (wait) {
+            new Wait()
+            {
+                public boolean until()
                 {
-                    public boolean until()
-                    {
-                        return getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
-                    }
-                }.wait("Source text area is not editable!");
-                getSelenium().fireEvent(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "focus");
-            }
+                    return getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
+                }
+            }.wait("Source text area is not editable!");
+            getSelenium().fireEvent(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "focus");
         }
     }
 

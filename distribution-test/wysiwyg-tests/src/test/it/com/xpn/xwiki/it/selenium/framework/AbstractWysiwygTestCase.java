@@ -106,25 +106,27 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     protected void runScript(String script)
     {
-        initJavaScriptEnv();
+        maybeInitializeJavaScriptApi();
         getSelenium().runScript(script);
     }
 
     protected String getEval(String script)
     {
-        initJavaScriptEnv();
+        maybeInitializeJavaScriptApi();
         return getSelenium().getEval(script);
     }
 
-    protected void initJavaScriptEnv()
+    /**
+     * Initializes the {@code XWE} object if it doesn't exist already. This object can be used to quickly access the
+     * edited document or the selection from JavaScript code when using {@link #getEval(String)} or
+     * {@link #runScript(String)} methods. Note that the {@code XWE} object caches some references and thus needs to be
+     * updated whenever those reference become obsolete. To force an update please call
+     * {@link #invalidateJavaScriptApi()}.
+     */
+    protected void maybeInitializeJavaScriptApi()
     {
-        // Check if the XWE object is undefined or not up to date (due to a rich text area reload or redisplay). Two
-        // types of inconsistencies can occur to the XWE object: (1) when the rich text area is reloaded, the edited
-        // document is rewritten so the reference to the document body becomes obsolete; (2) when the rich text area is
-        // redisplayed without being reloaded, the selection reference becomes obsolete.
-        if (Boolean.valueOf(getSelenium().getEval(
-            "typeof window.XWE == 'undefined' " + "|| window.XWE.body != window.XWE.document.body "
-                + "|| window.XWE.selection != window.XWE.document.defaultView.getSelection()"))) {
+        // Don't recreate the XWE object if it exists already, to speed up the tests.
+        if ("undefined".equals(getSelenium().getEval("typeof window.XWE"))) {
             StringBuffer script = new StringBuffer();
             script.append("var XWE = function() {\n");
             script.append("  var iwnd = window." + getDOMLocator("defaultView") + ";\n");
@@ -138,6 +140,23 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             script.append("}();");
             getSelenium().runScript(script.toString());
         }
+    }
+
+    /**
+     * Invalidates the JavaScript API previously initialized by {@link #maybeInitializeJavaScriptApi()}. This method
+     * must be called whenever one of the references cached by the {@code XWE} object becomes obsolete. There are three
+     * cases when this can happen:
+     * <ul>
+     * <li>The rich text area is replaced or renewed. In this case the reference to the edited document becomes
+     * obsolete.</li>
+     * <li>The rich text area is reloaded. In this case either the reference to the edited document or the reference to
+     * the edited document body becomes obsolete.</li>
+     * <li>The rich text area is redisplayed. In this case the reference to the selection object becomes obsolete.</li>
+     * </ul>
+     */
+    protected void invalidateJavaScriptApi()
+    {
+        getSelenium().runScript("window.XWE = undefined");
     }
 
     /**
@@ -656,6 +675,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             if (wait) {
                 waitForCondition("!window.document.getElementsByTagName('iframe')[0].__disabled");
             }
+            // The rich text area is redisplayed (and possibly reloaded) so we have to invalidate the JavaScript API.
+            invalidateJavaScriptApi();
         }
     }
 
@@ -1149,6 +1170,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                     || !getSelenium().isElementPresent(richTextAreaLoader);
             }
         }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
+        // The rich text area has been (re)loaded so we have to invalidate the JavaScript API.
+        invalidateJavaScriptApi();
     }
 
     /**

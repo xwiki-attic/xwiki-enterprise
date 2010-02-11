@@ -73,12 +73,19 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         String spaceWebHome = spaceName + ".WebHome";
         typeInInput("Type a keyword to search for a wiki page", spaceWebHome);
         clickButtonWithText("Search");
-        String newPageSelector = "//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewPagePreview')]";
-        // wait for the list to load
+        // We have to look for the new page selector inside the search panel because it is also present on the recent
+        // pages panel (which is hidden, but still present in DOM, while the search tab is selected).
+        String newPageSelector =
+            "//div[contains(@class, 'xPagesSearch')]" + "//div[contains(@class, 'xListItem')]"
+                + "//div[contains(@class, 'xNewPagePreview')]";
+        // Wait for the search results. The list is cleared (including the new page selector) as soon as we click the
+        // search button and is refilled when the search results are received. The new page selector is (re)added after
+        // the list is filled with the search results.
         waitForElement(newPageSelector);
-        // check if the desired element is there or not
+        // Check if the desired element is there or not, but look precisely inside the search panel.
         String pageInListLocator =
-            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='" + spaceWebHome + "']";
+            "//div[contains(@class, 'xPagesSearch')]" + "//div[contains(@class, 'xListItem')]"
+                + "//div[contains(@class, 'gwt-Label') and .='" + spaceWebHome + "']";
         if (expected) {
             assertElementPresent(pageInListLocator);
         } else {

@@ -81,6 +81,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
+     * {@inheritDoc}
+     * 
+     * @see AbstractXWikiTestCase#tearDown()
+     */
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+
+        // Make sure there is no interference between tests. When tests are executed at high speed it can happen that a
+        // test starts before the page used by the previous test unloads and there are cases when we want a test to
+        // start before its initial page finishes loading.
+        open("about:blank");
+        waitPage();
+    }
+
+    /**
      * Logs in with the default user for this test case.
      */
     protected void login()
@@ -102,10 +118,13 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     protected void initJavaScriptEnv()
     {
-        // Check if the XWE object is undefined or not up to date (due to a rich text area reload).
+        // Check if the XWE object is undefined or not up to date (due to a rich text area reload or redisplay). Two
+        // types of inconsistencies can occur to the XWE object: (1) when the rich text area is reloaded, the edited
+        // document is rewritten so the reference to the document body becomes obsolete; (2) when the rich text area is
+        // redisplayed without being reloaded, the selection reference becomes obsolete.
         if (Boolean.valueOf(getSelenium().getEval(
-            "typeof window.XWE == 'undefined' || window.XWE.selection != window."
-                + getDOMLocator("defaultView.getSelection()")))) {
+            "typeof window.XWE == 'undefined' " + "|| window.XWE.body != window.XWE.document.body "
+                + "|| window.XWE.selection != window.XWE.document.defaultView.getSelection()"))) {
             StringBuffer script = new StringBuffer();
             script.append("var XWE = function() {\n");
             script.append("  var iwnd = window." + getDOMLocator("defaultView") + ";\n");

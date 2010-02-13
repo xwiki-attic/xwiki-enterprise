@@ -66,7 +66,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Import']");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Export']");
         assertElementPresent("//ul[@id='admin-icons']/li[@class='Panels_PanelWizard']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Blog_Categories']");        
 
         // select space administration
         getSelenium().select("goto-select", "label=Main");
@@ -81,12 +80,11 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Groups']");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Import']");
         assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Export']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Blog_Categories']");        
     }
 
     /*
      * Test to see an application page is included only if that application exists
-     */    
+     */
     public void testApplicationSection()
     {
         // Delete the Blog.Categories page and test it's not present in the admin global menu anymore

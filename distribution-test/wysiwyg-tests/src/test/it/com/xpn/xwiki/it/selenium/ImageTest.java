@@ -181,7 +181,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         assertEquals("200", getSelenium().getValue(INPUT_WIDTH));
         assertEquals("No parking sign", getSelenium().getValue(INPUT_ALT));
         assertTrue(isAlignmentSelected("CENTER"));
+        // To reset the image size we have to leave both width and height empty.
         getSelenium().type(INPUT_WIDTH, "");
+        getSelenium().type(INPUT_HEIGHT, "");
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
@@ -593,6 +595,36 @@ public class ImageTest extends AbstractWysiwygTestCase
         getSelenium().keyUp(IMAGES_LIST, "\\13");
         waitForStepToLoad(STEP_UPLOAD);
         closeDialog();
+    }
+
+    /**
+     * @see XWIKI-3741: Editing an image removes existing unknown custom parameters.
+     */
+    public void testUneditableAttributesArePreserved()
+    {
+        // Insert an image with attribute that cannot be edited through the Edit Image wizard.
+        switchToSource();
+        setSourceText("[[image:XWiki.AdminSheet@general.png||id=\"foobar\" "
+            + "title=\"abc\" foo=\"bar\" style=\"margin-top:12px\"]]");
+        switchToWysiwyg();
+
+        // Select the image and edit it.
+        selectNode("XWE.body.firstChild.firstChild");
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_EXPLORER);
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+        getSelenium().type(INPUT_WIDTH, "75px");
+        getSelenium().type(INPUT_HEIGHT, "7.5em");
+        selectAlignment("RIGHT");
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+
+        // Check the result.
+        switchToSource();
+        assertSourceText("[[image:XWiki.AdminSheet@general.png||foo=\"bar\" id=\"foobar\" "
+            + "style=\"float: right; margin-left: 1em; height: 7.5em; margin-top: 12px;\" "
+            + "title=\"abc\" width=\"75px\"]]");
     }
 
     private void waitForStepToLoad(String stepClass)

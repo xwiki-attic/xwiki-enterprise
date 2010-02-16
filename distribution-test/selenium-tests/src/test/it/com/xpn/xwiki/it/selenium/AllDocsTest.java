@@ -210,17 +210,6 @@ public class AllDocsTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Click on a node in the Treeview widget.
-     *
-     * @param nodeId Id of the node to be clicked.
-     */
-    private void clickOnNode(String nodeId)
-    {
-
-        getSelenium().click("//img[@name='" + nodeId + "']");
-    }
-
-    /**
      * Wait for the node with the given ID to load.
      *
      * @param nodeId Id of the node to wait for.

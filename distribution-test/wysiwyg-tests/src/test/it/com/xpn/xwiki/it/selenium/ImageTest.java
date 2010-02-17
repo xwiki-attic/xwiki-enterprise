@@ -412,7 +412,7 @@ public class ImageTest extends AbstractWysiwygTestCase
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3784
      */
-    public void failingTestEditImageWithLink()
+    public void testEditImageWithLink()
     {
         // add all the image & link, otherwise it will not reproduce, it only reproduces if container is body
         openImageDialog(MENU_INSERT_IMAGE);
@@ -430,24 +430,24 @@ public class ImageTest extends AbstractWysiwygTestCase
         selectNode("XWE.body.firstChild");
 
         // add link around the image
-        clickMenu("Link");
-        clickMenu("Wiki Page...");
+        clickMenu(LinkTest.MENU_LINK);
+        clickMenu(LinkTest.MENU_WIKI_PAGE);
         waitForDialogToLoad();
         waitForStepToLoad(STEP_SELECTOR);
         // get the all pages tree
-        clickTab("All pages");
-        waitForStepToLoad("xExplorerPanel");
+        clickTab(TAB_ALL_PAGES);
+        waitForStepToLoad(LinkTest.STEP_EXPLORER);
 
-        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]/input", "XWiki.Register");
+        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", "XWiki.Register");
         // wait for the space to get selected
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + "XWiki" + "\"]');");
         waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
             + "New page...\"]');");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        assertEquals("registration.png", getInputValue("Label of the created link"));
+        assertEquals("registration.png", getInputValue(LinkTest.LABEL_INPUT_TITLE));
         // check that the label is readonly
-        assertElementPresent("//input[@title=\"Label of the created link\" and @readonly=\"\"]");
+        assertFalse(getSelenium().isEditable("//input[@title=\"" + LinkTest.LABEL_INPUT_TITLE + "\"]"));
 
         clickButtonWithText("Create Link");
         waitForDialogToClose();
@@ -467,7 +467,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:RecentChanges@lquo.gif]]>>XWiki.Register]]");
+        assertSourceText("[[[[image:Main.RecentChanges@lquo.gif]]>>XWiki.Register]]");
     }
 
     /**

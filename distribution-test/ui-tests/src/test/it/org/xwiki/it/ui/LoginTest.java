@@ -24,14 +24,14 @@ public class LoginTest
     @After
     public void tearDown()
     {
-//        this.driver.close();
+        this.driver.close();
     }
 
     @Test
     public void testLogin()
     {
-        driver.get("http://localhost:8080/xwiki/bin/view/Main/WebHome");
-        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+        this.driver.get("http://localhost:8080/xwiki/bin/view/Main/WebHome");
+        HomePage homePage = new HomePage(this.driver);
         LoginPage loginPage = homePage.clickLogin();
         loginPage.loginAsAdmin();
         // TODO: check that the user is logged in

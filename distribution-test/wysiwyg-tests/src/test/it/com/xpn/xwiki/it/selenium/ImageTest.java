@@ -21,6 +21,7 @@ package com.xpn.xwiki.it.selenium;
 
 import com.thoughtworks.selenium.Wait;
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
+import com.xpn.xwiki.it.selenium.framework.XWikiExplorer;
 
 /**
  * Tests the image insert and edit plugin. For the moment, it does not test the upload new image feature, since it needs
@@ -71,6 +72,11 @@ public class ImageTest extends AbstractWysiwygTestCase
     public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
 
     public static final String ERROR_MSG_CLASS = "xErrorMsg";
+
+    /**
+     * The object used to assert the state of the XWiki Explorer tree.
+     */
+    private final XWikiExplorer explorer = new XWikiExplorer(this);
 
     /**
      * Test adding an image from a page different from the current one.
@@ -438,11 +444,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(LinkTest.STEP_EXPLORER);
 
-        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", "XWiki.Register");
+        explorer.lookupEntity("XWiki.Register");
         // wait for the space to get selected
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + "XWiki" + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "New page...\"]');");
+        explorer.waitForPageSelected("XWiki", "New page...");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         assertEquals("registration.png", getInputValue(LinkTest.LABEL_INPUT_TITLE));

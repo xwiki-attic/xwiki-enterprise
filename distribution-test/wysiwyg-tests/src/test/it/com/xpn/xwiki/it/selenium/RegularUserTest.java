@@ -20,12 +20,18 @@
 package com.xpn.xwiki.it.selenium;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
+import com.xpn.xwiki.it.selenium.framework.XWikiExplorer;
 
 /**
  * Test for the Wysiwyg editing features when editing as a regular user, not an admin.
  */
 public class RegularUserTest extends AbstractWysiwygTestCase
 {
+    /**
+     * The object used to assert the state of the XWiki Explorer tree.
+     */
+    private final XWikiExplorer explorer = new XWikiExplorer(this);
+
     /**
      * {@inheritDoc}. Override to login as a regular user (and create the user if necessary).
      */
@@ -109,22 +115,21 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab("All pages");
         waitForStepToLoad("xExplorerPanel");
-        waitForElement("//td[contains(@class, \"cell\") and nobr=\"" + currentSpace + "\"]");
-        waitForElement("//td[contains(@class, \"cellSelected\") and " + "nobr=\"" + currentPage + "\"]");
+        explorer.waitForPageSelected(currentSpace, currentPage);
         // now tree is loaded check for the spaces in it
         // FIXME: this is not very robust as it will return false positive when the space Blog, for example, doesn't
         // appear but a page named "Blog" appears in the Main space. However there is no way we can address only space
         // cells in the explorer tree
         // check the spaces: Blog, Main and Sandbox are present
-        assertElementPresent("//td[contains(@class, \"cell\") and nobr=\"Blog\"]");
-        assertElementPresent("//td[contains(@class, \"cell\") and nobr=\"Main\"]");
-        assertElementPresent("//td[contains(@class, \"cell\") and nobr=\"Sandbox\"]");
+        assertTrue(explorer.isNodePresent("Blog"));
+        assertTrue(explorer.isNodePresent("Main"));
+        assertTrue(explorer.isNodePresent("Sandbox"));
         // check the spaces: ColorThemes, Panels, Scheduler, Stats, XWiki are not present
-        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"ColorThemes\"]");
-        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"Panels\"]");
-        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"Scheduler\"]");
-        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"Stats\"]");
-        assertElementNotPresent("//td[contains(@class, \"cell\") and nobr=\"XWiki\"]");
+        assertFalse(explorer.isNodePresent("ColorThemes"));
+        assertFalse(explorer.isNodePresent("Panels"));
+        assertFalse(explorer.isNodePresent("Scheduler"));
+        assertFalse(explorer.isNodePresent("Stats"));
+        assertFalse(explorer.isNodePresent("XWiki"));
 
         closeDialog();
     }

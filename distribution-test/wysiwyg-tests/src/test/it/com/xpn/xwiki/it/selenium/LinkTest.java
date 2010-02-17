@@ -20,6 +20,7 @@
 package com.xpn.xwiki.it.selenium;
 
 import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
+import com.xpn.xwiki.it.selenium.framework.XWikiExplorer;
 
 public class LinkTest extends AbstractWysiwygTestCase
 {
@@ -58,6 +59,11 @@ public class LinkTest extends AbstractWysiwygTestCase
     public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
 
     /**
+     * The object used to assert the state of the XWiki Explorer tree.
+     */
+    private final XWikiExplorer explorer = new XWikiExplorer(this);
+
+    /**
      * Test the basic feature for adding a link to an existing page.
      */
     public void testCreateLinkToExistingPage()
@@ -74,11 +80,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         String selectedSpace = "Blog";
         String selectedPage = "News";
 
-        typeInExplorerInput(selectedSpace + "." + selectedPage);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + selectedPage + "\"]');");
+        explorer.lookupEntity(selectedSpace + "." + selectedPage);
+        explorer.waitForPageSelected(selectedSpace, selectedPage);
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
@@ -105,11 +108,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_EXPLORER);
 
         String space = "Blog";
+        String page = "WebHome";
 
-        typeInExplorerInput(space + ".WebHome");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "WebHome\"]');");
+        explorer.lookupEntity(space + "." + page);
+        explorer.waitForPageSelected(space, page);
 
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
@@ -119,7 +121,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + space + ".WebHome]]");
+        assertSourceText("[[" + linkLabel + ">>" + space + "." + page + "]]");
     }
 
     /**
@@ -136,10 +138,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        typeInExplorerInput(space + "." + newPageName);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "New page...\"]');");
+        explorer.lookupEntity(space + "." + newPageName);
+        explorer.waitForPageSelected(space, "New page...");
 
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -167,7 +167,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        typeInExplorerInput(newSpace + "." + newPage);
+        explorer.lookupEntity(newSpace + "." + newPage);
 
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -403,12 +403,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        typeInExplorerInput(spaceName + "." + pageName);
+        explorer.lookupEntity(spaceName + "." + pageName);
         // wait for the space to get selected
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "New page...\"]');");
+        explorer.waitForPageSelected(spaceName, "New page...");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         assertEquals("presentation.png", getInputValue(LABEL_INPUT_TITLE));
@@ -437,17 +434,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         // check the explorer selection
-        assertEquals(spaceName + "." + pageName, getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + spaceName
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "New page...\"]');");
+        assertEquals(spaceName + "." + pageName, explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected(spaceName, "New page...");
 
-        typeInExplorerInput(newSpaceName + "." + newPageName);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + newSpaceName
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + newPageName
-            + "\"]');");
+        explorer.lookupEntity(newSpaceName + "." + newPageName);
+        explorer.waitForPageSelected(newSpaceName, newPageName);
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -588,10 +579,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         String space = "Main";
         String page = "WebHome";
 
-        typeInExplorerInput(space + "." + page);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + page
-            + "\"]');");
+        explorer.lookupEntity(space + "." + page);
+        explorer.waitForPageSelected(space, page);
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         // try to create link without filling in the label
@@ -622,10 +611,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         space = "Main";
         page = "NewPage";
 
-        typeInExplorerInput(space + "." + page);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + space + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "New page...\"]');");
+        explorer.lookupEntity(space + "." + page);
+        explorer.waitForPageSelected(space, "New page...");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -742,11 +729,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         String changedSpace = "Main";
         String changedPage = "RecentChanges";
 
-        typeInExplorerInput(selectedSpace + "." + selectedPage);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + selectedPage + "\"]');");
+        explorer.lookupEntity(selectedSpace + "." + selectedPage);
+        explorer.waitForPageSelected(selectedSpace, selectedPage);
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
@@ -756,18 +740,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for tree to load
         waitForStepToLoad("xExplorerPanel");
         // make sure input and selection in the tree reflect previously inserted values
-        assertEquals(selectedSpace + "." + selectedPage, getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + selectedSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + selectedPage + "\"]');");
+        assertEquals(selectedSpace + "." + selectedPage, explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected(selectedSpace, selectedPage);
 
         // and now change it
-        typeInExplorerInput(changedSpace + "." + changedPage);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + changedSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + changedPage
-            + "\"]');");
+        explorer.lookupEntity(changedSpace + "." + changedPage);
+        explorer.waitForPageSelected(changedSpace, changedPage);
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
@@ -799,13 +777,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         String attachPage = "RecentChanges";
         String attachment = "lquo.gif";
 
-        typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
-            + "\"]');");
+        explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
+        explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
 
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
@@ -836,13 +809,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         String attachPage = "RecentChanges";
         String attachment = "rquo.gif";
 
-        typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
-            + "\"]');");
+        explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
+        explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
 
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
@@ -879,24 +847,16 @@ public class LinkTest extends AbstractWysiwygTestCase
         String attachment = "lquo.gif";
 
         // get an error from not inserting the attachment name
-        typeInExplorerInput(attachSpace + "." + attachPage);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachPage
-            + "\"]');");
+        explorer.lookupEntity(attachSpace + "." + attachPage);
+        explorer.waitForPageSelected(attachSpace, attachPage);
 
         clickButtonWithText("Select");
 
         assertFieldErrorIsPresentInStep("No attachment was selected", TREE_EXPLORER, "xExplorerPanel");
 
         // type correct file reference
-        typeInExplorerInput(attachSpace + "." + attachPage + "@" + attachment);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + attachPage
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + attachment
-            + "\"]');");
+        explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
+        explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
 
         clickButtonWithText("Select");
         // make sure the existing page config parameters are loaded
@@ -928,17 +888,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("Main.RecentChanges@lquo.gif", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif"
-            + "\"]');");
+        assertEquals("Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
+        explorer.waitForAttachmentSelected("Main", "RecentChanges", "lquo.gif");
         // and edit it now
-        typeInExplorerInput("XWiki.AdminSheet@export.png");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"XWiki\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"AdminSheet\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"export.png"
-            + "\"]');");
+        explorer.lookupEntity("XWiki.AdminSheet@export.png");
+        explorer.waitForAttachmentSelected("XWiki", "AdminSheet", "export.png");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -963,10 +917,8 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("Main.RecentChanges", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and "
-            + "nobr=\"RecentChanges\"]');");
+        assertEquals("Main.RecentChanges", explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected("Main", "RecentChanges");
         // and edit it now
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -1074,15 +1026,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        assertEquals("xwiki:" + currentSpace + "." + currentPage, getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
-            + currentPage + "\"]');");
-        typeInExplorerInput(newSpace + "." + newPage);
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + newSpace + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"" + newPage
-            + "\"]');");
+        assertEquals("xwiki:" + currentSpace + "." + currentPage, explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected(currentSpace, currentPage);
+        explorer.lookupEntity(newSpace + "." + newPage);
+        explorer.waitForPageSelected(newSpace, newPage);
         closeDialog();
         waitForDialogToClose();
 
@@ -1090,10 +1037,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeText("poof");
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals(newSpace + "." + newPage, getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + newSpace + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
-            + newPage + "\"]');");
+        assertEquals(newSpace + "." + newPage, explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected(newSpace, newPage);
         closeDialog();
         waitForDialogToClose();
     }
@@ -1267,11 +1212,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
 
         clickTab(ALL_PAGES_TAB);
-        assertEquals("xwiki:" + currentSpace + "." + currentPage + "#Attachments", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
-            + currentPage + "\"]');");
+        assertEquals("xwiki:" + currentSpace + "." + currentPage + "#Attachments", explorer
+            .getSelectedEntityReference());
+        explorer.waitForPageSelected(currentSpace, currentPage);
         closeDialog();
         waitForDialogToClose();
 
@@ -1306,11 +1249,8 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals(pageToLinkTo, getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and " + "nobr=\""
-            + pageToLinkTo + "\"]');");
+        assertEquals(pageToLinkTo, explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected(currentSpace, pageToLinkTo);
         // and edit it now
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -1342,13 +1282,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals(pageToLinkTo + "@" + fileToLinkTo, getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + fileToLinkTo + "\"]');");
+        assertEquals(pageToLinkTo + "@" + fileToLinkTo, explorer.getSelectedEntityReference());
+        explorer.waitForAttachmentSelected(currentSpace, pageToLinkTo, fileToLinkTo);
 
         // check the current page step is correctly loaded when we switch to it
         clickTab(CURRENT_PAGE_TAB);
@@ -1360,13 +1295,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
         // test that the position in the tree was preserved
-        assertEquals(pageToLinkTo + "@" + fileToLinkTo, getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + currentSpace
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"" + pageToLinkTo
-            + "\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + fileToLinkTo + "\"]');");
+        assertEquals(pageToLinkTo + "@" + fileToLinkTo, explorer.getSelectedEntityReference());
+        explorer.waitForAttachmentSelected(currentSpace, pageToLinkTo, fileToLinkTo);
 
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -1403,13 +1333,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.RecentChanges@rquo.gif", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"rquo.gif\"]');");
+        assertEquals("Main.RecentChanges@rquo.gif", explorer.getSelectedEntityReference());
+        explorer.waitForAttachmentSelected("Main", "RecentChanges", "rquo.gif");
 
-        typeInExplorerInput("xwiki:Main.RecentChanges@lquo.gif");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif\"]');");
+        explorer.lookupEntity("xwiki:Main.RecentChanges@lquo.gif");
+        explorer.waitForNode("lquo.gif", true);
 
         clickTab(CURRENT_PAGE_TAB);
 
@@ -1448,10 +1376,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.RecentChanges", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") "
-            + "and nobr=\"RecentChanges\"]');");
+        assertEquals("Main.RecentChanges", explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected("Main", "RecentChanges");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -1461,10 +1387,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.childNodes[2].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.NewPage", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\""
-            + "New page...\"]');");
+        assertEquals("Main.NewPage", explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected("Main", "New page...");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -1474,11 +1398,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.childNodes[4].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.RecentChanges@lquo.gif", getExplorerInputValue());
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Main\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"RecentChanges\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"lquo.gif"
-            + "\"]');");
+        assertEquals("Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
+        explorer.waitForAttachmentSelected("Main", "RecentChanges", "lquo.gif");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -1760,19 +1681,17 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Blog\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"WebHome\"]');");
-        typeInExplorerInput("");
+        explorer.waitForPageSelected("Blog", "WebHome");
+        explorer.lookupEntity("");
         clickButtonWithText("Select");
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
-        typeInExplorerInput("Blog.WebHome");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cell\") and nobr=\"Blog\"]');");
-        waitForCondition("selenium.isElementPresent('//td[contains(@class, \"cellSelected\") and nobr=\"WebHome\"]');");
+        explorer.lookupEntity("Blog.WebHome");
+        explorer.waitForPageSelected("Blog", "WebHome");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");
         assertFieldErrorIsNotPresentInStep("xExplorerPanel");
-        typeInExplorerInput("");
+        explorer.lookupEntity("");
         clickButtonWithText("Select");
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         closeDialog();
@@ -1949,16 +1868,6 @@ public class LinkTest extends AbstractWysiwygTestCase
     protected void waitForStepToLoad(String name)
     {
         waitForElement("//*[contains(@class, '" + name + "')]");
-    }
-
-    protected void typeInExplorerInput(String text)
-    {
-        getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", text);
-    }
-
-    protected String getExplorerInputValue()
-    {
-        return getSelenium().getValue("//div[contains(@class, 'xExplorerPanel')]//input");
     }
 
     private void clickTab(String tabName)

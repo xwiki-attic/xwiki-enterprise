@@ -8,19 +8,15 @@ import org.openqa.selenium.support.FindBy;
 public class LoginPage extends BasePage
 {
     @FindBy(id = "j_username")
-    @CacheLookup
     private WebElement usernameText;
 
     @FindBy(id = "j_password")
-    @CacheLookup
     private WebElement passwordText;
 
     @FindBy(id = "rememberme")
-    @CacheLookup
     private WebElement rememberMeCheckbox;
 
     @FindBy(xpath = "//input[@type='submit' and @value='Log-in']")
-    @CacheLookup
     private WebElement submitButton;
 
     public LoginPage(WebDriver driver)
@@ -36,13 +32,14 @@ public class LoginPage extends BasePage
     public void loginAs(String username, String password, boolean rememberMe)
     {
         // In order to have good performance, don't log in again if the user is already logged-in.
-
-        this.usernameText.sendKeys(username);
-        this.passwordText.sendKeys(password);
-        if (rememberMe) {
-            this.rememberMeCheckbox.setSelected();
+        if (!isLoggedIn() || !getCurrentUser().equals(username)) {
+            this.usernameText.sendKeys(username);
+            this.passwordText.sendKeys(password);
+            if (rememberMe) {
+                this.rememberMeCheckbox.setSelected();
+            }
+            this.submitButton.click();
         }
-        this.submitButton.click();
     }
 
     public void loginAs(String username, String password)

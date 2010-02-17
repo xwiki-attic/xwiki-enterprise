@@ -7,6 +7,15 @@ public class HomePage extends BasePage
     public HomePage(WebDriver driver)
     {
         super(driver);
-        openPage("Main", "WebHome");
+    }
+
+    public void gotoHomePage()
+    {
+        gotoPage("Main", "WebHome");
+    }
+
+    public boolean isOnHomePage()
+    {
+        return isOnPage("Main", "WebHome");
     }
 }

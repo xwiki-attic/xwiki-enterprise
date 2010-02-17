@@ -12,19 +12,15 @@ import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 public class BasePage
 {
     @FindBy(xpath = "//div[@id='tmRegister']/a")
-    @CacheLookup
     private WebElement registerLink;
 
     @FindBy(xpath = "//div[@id='tmLogin']/a")
-    @CacheLookup
     private WebElement loginLink;
 
     @FindBy(xpath = "//div[@id='tmLogout']/a")
-    @CacheLookup
     private WebElement logoutLink;
 
     @FindBy(xpath = "//div[@id='tmUser']//a")
-    @CacheLookup
     private WebElement userLink;
 
     private WebDriver driver;
@@ -68,8 +64,23 @@ public class BasePage
         return new RegisterPage(getDriver());
     }
 
-    protected void openPage(String space, String page)
+    protected boolean isOnPage(String space, String page)
     {
-        getDriver().get("http://localhost:8080/xwiki/bin/view/" + space + "/" + page);
+        return getDriver().getCurrentUrl().equals(getURLForPage(space, page));
+    }
+
+    protected void gotoPage(String space, String page)
+    {
+        String url = getURLForPage(space, page);
+
+        // Verify if we're already on the correct page and if so don't do anything
+        if (!getDriver().getCurrentUrl().equals(url)) {
+            getDriver().get(url);
+        }
+    }
+
+    private String getURLForPage(String space, String page)
+    {
+        return "http://localhost:8080/xwiki/bin/view/" + space + "/" + page;
     }
 }

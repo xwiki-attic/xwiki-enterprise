@@ -26,12 +26,29 @@ public class LoginTest
     }
 
     @Test
-    public void testLogin()
+    public void testLoginLogout()
     {
         HomePage homePage = new HomePage(this.driver);
+        homePage.gotoHomePage();
+
+        // Make sure we log out if we're already logged in since we're testing the log in...
+        if (homePage.isLoggedIn()) {
+            homePage.clickLogout();
+        }
+
         LoginPage loginPage = homePage.clickLogin();
         loginPage.loginAsAdmin();
-        Assert.assertTrue(loginPage.isLoggedIn());
-        Assert.assertEquals("Administrator", loginPage.getCurrentUser());
+
+        // Verify that after logging in we're redirected to the page on which the login button was clicked, i.e. the
+        // home page here.
+        Assert.assertTrue(homePage.isOnHomePage());
+
+        Assert.assertTrue(homePage.isLoggedIn());
+        Assert.assertEquals("Administrator", homePage.getCurrentUser());
+
+        // Test Logout and verify we stay on the home page
+        homePage.clickLogout();
+        Assert.assertFalse(homePage.isLoggedIn());
+        Assert.assertTrue(homePage.isOnHomePage());
     }
 }

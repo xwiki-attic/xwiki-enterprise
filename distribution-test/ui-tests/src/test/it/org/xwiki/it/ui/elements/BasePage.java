@@ -1,5 +1,6 @@
 package org.xwiki.it.ui.elements;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -22,6 +23,10 @@ public class BasePage
     @CacheLookup
     private WebElement logoutLink;
 
+    @FindBy(xpath = "//div[@id='tmUser']//a")
+    @CacheLookup
+    private WebElement userLink;
+
     private WebDriver driver;
 
     public BasePage(WebDriver driver)
@@ -42,6 +47,16 @@ public class BasePage
         return new LoginPage(getDriver());
     }
 
+    public boolean isLoggedIn()
+    {
+        return !getDriver().findElements(By.id("tmUser")).isEmpty();
+    }
+
+    public String getCurrentUser()
+    {
+        return this.userLink.getText();
+    }
+
     public void clickLogout()
     {
         this.logoutLink.click();        
@@ -51,5 +66,10 @@ public class BasePage
     {
         this.registerLink.click();
         return new RegisterPage(getDriver());
+    }
+
+    protected void openPage(String space, String page)
+    {
+        getDriver().get("http://localhost:8080/xwiki/bin/view/" + space + "/" + page);
     }
 }

@@ -43,7 +43,7 @@ public class BasePage
         return new LoginPage(getDriver());
     }
 
-    public boolean isLoggedIn()
+    public boolean isAuthenticated()
     {
         return !getDriver().findElements(By.id("tmUser")).isEmpty();
     }

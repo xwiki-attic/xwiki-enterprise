@@ -32,7 +32,7 @@ public class LoginPage extends BasePage
     public void loginAs(String username, String password, boolean rememberMe)
     {
         // In order to have good performance, don't log in again if the user is already logged-in.
-        if (!isLoggedIn() || !getCurrentUser().equals(username)) {
+        if (!isAuthenticated() || !getCurrentUser().equals(username)) {
             this.usernameText.sendKeys(username);
             this.passwordText.sendKeys(password);
             if (rememberMe) {

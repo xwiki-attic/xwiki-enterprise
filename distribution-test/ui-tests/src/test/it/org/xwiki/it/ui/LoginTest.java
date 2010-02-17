@@ -13,29 +13,31 @@ public class LoginTest
 {
     private WebDriver driver;
 
+    private HomePage homePage;
+
     @Before
     public void setUp()
     {
-        this.driver = new FirefoxDriver();
+        driver = new FirefoxDriver();
+
+        homePage = new HomePage(driver);
+        homePage.gotoHomePage();
+
+        // Make sure we log out if we're already logged in since we're testing the log in...
+        if (homePage.isAuthenticated()) {
+            homePage.clickLogout();
+        }
     }
 
     @After
     public void tearDown()
     {
-        this.driver.close();
+        driver.close();
     }
 
     @Test
     public void testLoginLogout()
     {
-        HomePage homePage = new HomePage(this.driver);
-        homePage.gotoHomePage();
-
-        // Make sure we log out if we're already logged in since we're testing the log in...
-        if (homePage.isLoggedIn()) {
-            homePage.clickLogout();
-        }
-
         LoginPage loginPage = homePage.clickLogin();
         loginPage.loginAsAdmin();
 
@@ -43,12 +45,12 @@ public class LoginTest
         // home page here.
         Assert.assertTrue(homePage.isOnHomePage());
 
-        Assert.assertTrue(homePage.isLoggedIn());
+        Assert.assertTrue(homePage.isAuthenticated());
         Assert.assertEquals("Administrator", homePage.getCurrentUser());
 
         // Test Logout and verify we stay on the home page
         homePage.clickLogout();
-        Assert.assertFalse(homePage.isLoggedIn());
+        Assert.assertFalse(homePage.isAuthenticated());
         Assert.assertTrue(homePage.isOnHomePage());
     }
 }

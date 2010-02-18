@@ -98,6 +98,20 @@ public class XWikiExplorer
     }
 
     /**
+     * Waits for the attachments node of the specified page to be selected. The attachments node is the parent node for
+     * all the attachments of a page.
+     * 
+     * @param spaceName the space containing the page
+     * @param pageName the name of the page whose attachments node is selected
+     */
+    public void waitForAttachmentsSelected(String spaceName, String pageName)
+    {
+        waitForNode(spaceName, false);
+        waitForNode(pageName, false);
+        waitForNode("Attachments (" + pageName + ")", true);
+    }
+
+    /**
      * Types the given text in the input box below the tree. As a result the tree will lookup an entity among its nodes
      * (e.g. page, attachment) that matches the given reference.
      * 

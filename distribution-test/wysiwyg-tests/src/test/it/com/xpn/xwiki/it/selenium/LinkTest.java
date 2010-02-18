@@ -1214,7 +1214,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         assertEquals("xwiki:" + currentSpace + "." + currentPage + "#Attachments", explorer
             .getSelectedEntityReference());
-        explorer.waitForPageSelected(currentSpace, currentPage);
+        explorer.waitForAttachmentsSelected(currentSpace, currentPage);
         closeDialog();
         waitForDialogToClose();
 
@@ -1690,6 +1690,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");
+        // The previously selected page should still be selected.
+        explorer.waitForPageSelected("Blog", "WebHome");
         assertFieldErrorIsNotPresentInStep("xExplorerPanel");
         explorer.lookupEntity("");
         clickButtonWithText("Select");

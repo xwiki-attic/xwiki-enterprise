@@ -696,7 +696,7 @@ public class ListTest extends AbstractWysiwygTestCase
         typeEnter();
         typeText("b");
         switchToSource();
-        assertSourceText("|=(((\n*  a\n* b\n)))|= \n| | ");
+        assertSourceText("|=(((\n* a\n* b\n)))|= \n| | ");
     }
 
     /**

@@ -56,7 +56,7 @@ public class TableTest extends AbstractWysiwygTestCase
         typeShiftTab(4);
         typeText("e");
         switchToSource();
-        assertSourceText("|=e ab|= \n| |c\n|d| ");
+        assertSourceText("|=eab|= \n| |c\n|d| ");
     }
 
     /**

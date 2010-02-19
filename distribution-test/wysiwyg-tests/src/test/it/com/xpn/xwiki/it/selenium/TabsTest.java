@@ -166,8 +166,8 @@ public class TabsTest extends AbstractWysiwygTestCase
      */
     public void testSwitchToSourceWithHTMLChangesAndDontWait()
     {
-        setContent("<!--startmacro:code|-|language=\"java\"|-|\\npublic class Apple extends Fruit {\\n"
-            + "  public String getColor() {\\n    return Colors.RED;\\n  }\\n}\\n--><!--stopmacro-->");
+        setContent("<!--startmacro:code|-|language=\"java\"|-|public class Apple extends Fruit {\\n"
+            + "  public String getColor() {\\n    return Colors.RED;\\n  }\\n}--><!--stopmacro-->");
         // Switch to source tab but don't wait for the conversion result.
         switchToSource(false);
         // Switch back to WYSIWYG tab.
@@ -317,7 +317,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     public void testSwitchToWysiwygWithHTMLChangesAndDontWait()
     {
         switchToSource();
-        String sourceText = "before {{code language=\"java\"}}\nprivate static final long x = 1L;\n{{/code}}";
+        String sourceText = "before {{code language=\"java\"}}private static final long x = 1L;{{/code}}";
         setSourceText(sourceText);
         // Switch to WYSIWYG tab but don't wait for the rich text area to load.
         switchToWysiwyg(false);

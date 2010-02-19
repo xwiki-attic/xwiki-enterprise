@@ -660,12 +660,14 @@ $xwiki.ssx.use("Main.RecentChanges")##
     #end
     #if($rcShowRss)
       #set($rssURL = "")
+      #set($parameters = 'xpage=plain&amp;amp;outputSyntax=plain')
       #if($rcTag.size() &gt; 0)
-        ## Temporary harcoded URL until we refactor our RSS feeds.
-        #set($rssURL = $xwiki.getURL("Main.TagsRss", "view", "xpage=plain&amp;amp;outputSyntax=plain&amp;amp;tag=$listtool.get($rcTag, 0)"))        
-      #else
-        #set($rssURL = $xwiki.getURL('Main.WebRss', 'view', 'xpage=plain'))
+        #set($parameters = "${parameters}&amp;amp;tag=$listtool.get($rcTag, 0)")
       #end
+      #if($rcSpace.size() &gt; 0)
+        #set($parameters = "${parameters}&amp;amp;space=$listtool.get($rcSpace, 0)")
+      #end
+      #set($rssURL = $xwiki.getURL('Main.WebRss', 'view', $parameters))
       &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.recentchanges.rssfeed")&lt;/a&gt;
     #end
   &lt;/p&gt;

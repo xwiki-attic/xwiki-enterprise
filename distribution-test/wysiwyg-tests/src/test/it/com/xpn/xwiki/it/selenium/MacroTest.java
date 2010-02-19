@@ -489,7 +489,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Test if our changes have been applied.
         switchToSource();
-        assertSourceText("{{html wiki=\"true\"}}black{{/html}}");
+        assertSourceText("{{html wiki=\"true\"}}\nblack\n{{/html}}");
         switchToWysiwyg();
 
         // Edit again, this time using the default value for the Wiki parameter.
@@ -505,7 +505,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Test if our changes have been applied. This time the Wiki parameter is missing from the output because it has
         // the default value.
         switchToSource();
-        assertSourceText("{{html}}black{{/html}}");
+        assertSourceText("{{html}}\nblack\n{{/html}}");
     }
 
     /**
@@ -533,7 +533,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         switchToSource();
-        assertSourceText("{{box title=\"a~\"b|-|c=~~~\"d~~\"}}=~\"|-|~~{{/box}}");
+        assertSourceText("{{box title=\"a~\"b|-|c=~~~\"d~~\"}}\n=~\"|-|~~\n{{/box}}");
     }
 
     /**
@@ -575,7 +575,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         waitForPushButton(TOOLBAR_BUTTON_REDO_TITLE, true);
         clickRedoButton();
         switchToSource();
-        assertSourceText("{{velocity}}$util.date{{/velocity}}");
+        assertSourceText("{{velocity}}\n$util.date\n{{/velocity}}");
     }
 
     /**
@@ -593,7 +593,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         switchToSource();
-        assertSourceText("{{code title=\"Identity function\"}}function f(x) {\n  return x;\n}{{/code}}");
+        assertSourceText("{{code title=\"Identity function\"}}\nfunction f(x) {\n  return x;\n}\n{{/code}}");
     }
 
     /**
@@ -673,7 +673,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("before\n\n{{html}}<ul><li>xwiki</li></ul>{{/html}}\n\nafter");
+        assertSourceText("before\n\n{{html}}\n<ul><li>xwiki</li></ul>\n{{/html}}\n\nafter");
     }
 
     /**
@@ -692,8 +692,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("{{code language=\"xml\"}}<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-            + "<!-- this is a test -->\n<test>123</test>{{/code}}");
+        assertSourceText("{{code language=\"xml\"}}\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            + "<!-- this is a test -->\n<test>123</test>\n{{/code}}");
         switchToWysiwyg();
 
         // Edit the inserted macro.
@@ -721,7 +721,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("{{box CSSClaSS=\"xyz\"}}bar{{/box}}");
+        assertSourceText("{{box CSSClaSS=\"xyz\"}}\nbar\n{{/box}}");
     }
 
     /**
@@ -829,7 +829,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText("{{info}}x{{/info}}");
+        assertSourceText("{{info}}\nx\n{{/info}}");
     }
 
     /**
@@ -854,7 +854,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText("{{html}}a{{/html}}");
+        assertSourceText("{{html}}\na\n{{/html}}");
     }
 
     /**
@@ -923,7 +923,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText("{{velocity}}$xwiki.version{{/velocity}}");
+        assertSourceText("{{velocity}}\n$xwiki.version\n{{/velocity}}");
     }
 
     /**
@@ -987,7 +987,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText("{{error}}test{{/error}}");
+        assertSourceText("{{error}}\ntest\n{{/error}}");
     }
 
     /**
@@ -1027,7 +1027,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText("{{velocity}}$context.user{{/velocity}}");
+        assertSourceText("{{velocity}}\n$context.user\n{{/velocity}}");
     }
 
     /**
@@ -1132,7 +1132,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Close the dialog and check the result.
         closeDialog();
         switchToSource();
-        assertSourceText("{{html}}xwiki{{/html}}");
+        assertSourceText("{{html}}\nxwiki\n{{/html}}");
     }
 
     /**

@@ -35,12 +35,12 @@ public class EmbedTest extends AbstractWysiwygTestCase
     {
         switchToSource();
         String sourceText =
-            "before\n\n{{html}}<div><object width=\"480\" height=\"381\"><param name=\"movie\" "
+            "before\n\n{{html}}\n<div><object width=\"480\" height=\"381\"><param name=\"movie\" "
                 + "value=\"http://www.dailymotion.com/swf/x5wi6m_xwiki-repository-against-codeswarm_tech&related=1\"></param>"
                 + "<param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowScriptAccess\" value=\"always\"></param>"
                 + "<embed src=\"http://www.dailymotion.com/swf/x5wi6m_xwiki-repository-against-codeswarm_tech&related=1\" "
                 + "type=\"application/x-shockwave-flash\" width=\"480\" height=\"381\" allowFullScreen=\"true\" "
-                + "allowScriptAccess=\"always\"></embed></object></div>{{/html}}\n\nafter";
+                + "allowScriptAccess=\"always\"></embed></object></div>\n{{/html}}\n\nafter";
         setSourceText(sourceText);
         switchToWysiwyg();
         typeText("1 2");

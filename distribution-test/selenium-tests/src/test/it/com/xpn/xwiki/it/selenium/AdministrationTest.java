@@ -189,4 +189,448 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementNotPresent("leftPanels");
         assertElementNotPresent("//div[@class='panel expanded QuickLinks']");
     }
+
+    /*
+     * Test add configurable application to existing section.
+     *
+     * This test depends on the "Presentation" section existing.
+     * Tests: XWiki.Configurable
+     */
+    public void testAddConfigurableApplicationInExistingSection()
+    {
+        // Create the configurable for global admin.
+        createConfigurableApplication("Main", "TestConfigurable", "Presentation", true);
+        // Check it's available in global section.
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=Presentation");
+        assertConfigurationPresent("Main", "TestConfigurable");
+        // Check it's not available in space section.
+        open("Main", "WebPreferences", "admin", "editor=spaceadmin&section=Presentation");
+        assertConfigurationNotPresent("Main", "TestConfigurable");
+        // Switch application to non-global
+        open("Main", "TestConfigurable", "edit", "editor=object");
+        getSelenium().uncheck("XWiki.Configurable_0_configureGlobally");
+        clickEditSaveAndView();
+        // Check that it is available in space section.
+        open("Main", "WebPreferences", "admin", "editor=spaceadmin&section=Presentation");
+        assertConfigurationPresent("Main", "TestConfigurable");
+        // Check that it's not available in another space.
+        open("XWiki", "WebPreferences", "admin", "editor=spaceadmin&section=Presentation");
+        assertConfigurationNotPresent("Main", "TestConfigurable");
+        // Check that it's not available in global section.
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=Presentation");
+        assertConfigurationNotPresent("Main", "TestConfigurable");
+    }
+
+    /*
+     * Test add configurable application to a nonexistent section.
+     *
+     * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.
+     * Tests: XWiki.Configurable
+     */
+    public void testAddConfigurableApplicationInNonexistantSection()
+    {
+        String section = "HopingThereIsNoSectionByThisName";
+        // Create the configurable for global admin.
+        createConfigurableApplication("Main", "TestConfigurable", section, true);
+        // Check it's available in global section.
+        clickLinkWithText("Administer Wiki");
+        assertConfigurationIconPresent(section, null);
+        clickLinkWithText(section);
+        assertConfigurationPresent("Main", "TestConfigurable");
+        // Check that it's not available in space section.
+        open("Main", "WebPreferences", "admin");
+        // Assert there is no icon with the default image.
+        assertElementNotPresent("//ul[@id='admin-icons']/li/*/img"
+                                + "[@src='/xwiki/bin/download/XWiki/Configurable/DefaultAdminSectionIcon.png']");
+    }
+
+    /*
+     * Make sure some joker can't edit an application of he doesn't have permission.
+     *
+     * This test depends on the "Presentation" section existing.
+     * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.
+     * Tests: XWiki.Configurable
+     */
+    public void testConfigurationNotEditableWithoutPermission()
+    {
+        String nonExistingSection = "HopingThereIsNoSectionByThisName";
+        String existingSection = "Presentation";
+        // Create the configurable for global admin.
+        createConfigurableApplication("Main", "TestConfigurable", nonExistingSection, true);
+        loginAndRegisterUser("someJoker", "bentOnMalice", false);
+        loginAsAdmin();
+
+        // Add an XWikiRights object giving someJoker access.
+        open("XWiki", "XWikiPreferences", "edit", "editor=object");
+        setFieldValue("classname", "XWiki.XWikiRights");
+        submit("//input[@value='Add Object from this Class']");
+        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_levels']", "admin");
+        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_users']", "someJoker");
+        clickEditSaveAndView();
+
+        // Add an XWikiRights object to make sure someJoker has no edit access to Main.TestConfigurable
+        open("Main", "TestConfigurable", "edit", "editor=object");
+        setFieldValue("classname", "XWiki.XWikiRights");
+        submit("//input[@value='Add Object from this Class']");
+        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_levels']", "edit");
+        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_users']", "someJoker");
+        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_allow']", "Deny");
+        clickEditSaveAndView();
+
+        loginAndRegisterUser("someJoker", "bentOnMalice", false);
+        open("XWiki", "XWikiPreferences", "admin");
+        assertConfigurationIconPresent(nonExistingSection, null);
+
+        // Make sure the error message is displayed.
+        assertElementPresent("//ul[@id='admin-icons']/li[@class='"
+                             + nonExistingSection + "']/a/span[@class='errormessage']");
+
+        // If someJoker is clever enough to try the url of the section...
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + nonExistingSection);
+        assertConfigurationNotEditable("Main", "TestConfigurable");
+
+        // Now we'll make sure someJoker can't edit an application in an existing section
+        loginAsAdmin();
+        open("Main", "TestConfigurable", "edit", "editor=object");
+        setFieldValue("XWiki.Configurable_0_displayInSection", existingSection);
+        clickEditSaveAndView();
+        loginAndRegisterUser("someJoker", "bentOnMalice", false);
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + existingSection);
+        assertConfigurationNotEditable("Main", "TestConfigurable");
+    }
+
+    /*
+     * Fails if a user can create a Configurable application without having edit access to the configuration page
+     * (in this case: XWikiPreferences)
+     *
+     * Tests: XWiki.Configurable
+     */
+    public void testConfigurableCreatedByUnauthorizedWillNotExecute()
+    {
+        String nonExistingSection = "HopingThereIsNoSectionByThisName";
+        // Create the configurable for global admin.
+        loginAndRegisterUser("anotherJoker", "bentOnMalice", false);
+        createConfigurableApplication("Main", "TestConfigurable", nonExistingSection, true);
+        loginAsAdmin();
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + nonExistingSection);
+        assertConfigurationNotEditable("Main", "TestConfigurable");
+    }
+
+    /*
+     * Creates a document with 2 configurable objects, one gets configured globally in one section and displays
+     * 2 configuration fields, the other is configured in the space in another section and displays the other 2
+     * fields. Fails if they are not displayed as they should be.
+     *
+     * Tests: XWiki.Configurable
+     */
+    public void testApplicationConfiguredInMultipleSections()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+
+        createConfigurableApplication(space, page, "TestSection1", true);
+        open(space, page, "edit", "editor=object");
+        // Add a second configurable object.
+        setFieldValue("classname", "XWiki.Configurable");
+        submit("//input[@value='Add Object from this Class']");
+        setFieldValue("XWiki.Configurable_1_displayInSection", "TestSection2");
+        setFieldValue("XWiki.Configurable_1_heading", "Some Other Heading");
+        setFieldValue("XWiki.Configurable_1_configurationClass", space + "." + page);
+        getSelenium().uncheck("XWiki.Configurable_1_configureGlobally");
+        // Set propertiesToShow so that each config only shows half of the properties.
+        setFieldValue("XWiki.Configurable_1_propertiesToShow", "TextArea, Select");    
+        setFieldValue("XWiki.Configurable_0_propertiesToShow", "String, Boolean");
+        clickEditSaveAndView();
+
+        // Assert that half of the configuration shows up but not the other half.
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
+        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
+        // Fields
+        String fullName = space + "." + page;
+        String form = "//div[@id='admin-page-content']/form[@action='/xwiki/bin/save/" + space + "/" + page + "']";
+        assertElementPresent(form + "/fieldset/p[1]/label['String']");
+        assertElementPresent(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']");
+        assertElementPresent(form + "/fieldset/p[2]/label['Boolean']");
+        assertElementPresent(form + "/fieldset/p[2]/select[@name='" + fullName + "_0_Boolean']");
+        assertElementPresent(form + "/fieldset/input[@id='" + fullName + "_redirect']");
+        // xredirect
+        assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
+        // Save button
+        assertElementPresent(form + "/div/p/span/input[@type='submit'][@value='Save " + fullName + "']");
+        // Should not be here
+        assertElementNotPresent(form + "/fieldset/p/textarea[@name='" + fullName + "_0_TextArea']");
+        assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Select']");
+
+        // Now we go to where the other half of the configuration should be.
+        open("Main", "WebPreferences", "admin", "editor=spaceadmin&section=TestSection2");
+        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeOtherHeading']/span");
+        // Fields
+        assertElementPresent(form + "/fieldset/p[1]/label");
+        assertElementPresent(form + "/fieldset/p[1]/textarea[@name='" + fullName + "_0_TextArea']");
+        assertElementPresent(form + "/fieldset/p[2]/label");
+        assertElementPresent(form + "/fieldset/p[2]/select[@name='" + fullName + "_0_Select']");
+        assertElementPresent(form + "/fieldset/input[@id='" + fullName + "_redirect']");
+        // xredirect
+        assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
+        // Save button
+        assertElementPresent(form + "/div/p/span/input[@type='submit'][@value='Save " + fullName + "']");
+        // Should not be here
+        assertElementNotPresent(form + "/fieldset/p/input[@name='" + fullName + "_0_String']");
+        assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Boolean']");
+    }
+
+    /*
+     * If a value is specified for linkPrefix, then a link is generated with linkPrefix + prettyName of the property from
+     * the configuration class.
+     * linkPrefix = "http://www.xwiki.org/bin/view/Main/"
+     * property prettyName = "WebHome"
+     * generated link should equal "http://www.xwiki.org/bin/view/Main/WebHome"
+     *
+     * Tests: XWiki.Configurable
+     */
+    public void testLabelLinkGeneration()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        createConfigurableApplication(space, page, "TestSection3", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue("XWiki.Configurable_0_linkPrefix", "TheLinkPrefix");
+        clickEditSaveAndView();
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection3");
+        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixString']");
+        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixBoolean']");
+        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixTextArea']");
+        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixSelect']");
+    }
+
+    /*
+     * Fails unless XWiki.Configurable locks each page on view and unlocks any other configurable page.
+     * Also fails if codeToExecute is not being evaluated.
+     *
+     * Tests: XWiki.Configurable
+     */
+    public void testLockingAndUnlocking()
+    {
+        String space = "Main";
+        String page1 = "TestConfigurable";
+        String page2 = "TestConfigurable2";
+        String isThisPageLocked = "{{velocity}}Is This Page Locked $doc.getLocked(){{/velocity}}";
+        createConfigurableApplication(space, page1, "TestSection4", true);
+        createConfigurableApplication(space, page2, "TestSection5", true);
+        open(space, page1, "edit", "editor=wiki");
+        setFieldValue("content", isThisPageLocked);
+        clickEditSaveAndView();
+        open(space, page2, "edit", "editor=wiki");
+        setFieldValue("content", isThisPageLocked);
+        clickEditSaveAndView();
+
+        // Now we go to the documents and see which is locked.
+        // Clear any locks by visiting the main page.
+        open("XWiki", "XWikiPreferences", "admin");
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection4");
+
+        // We have to switch user context without logging out, logging out removes all locks.
+        open(space, page1, "view");
+        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
+        assertTextPresent("Is This Page Locked true");
+
+        open(space, page2, "view");
+        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
+        assertTextNotPresent("Is This Page Locked true");
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection5");
+
+        open(space, page1, "view");
+        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
+        assertTextNotPresent("Is This Page Locked true");
+
+        open(space, page2, "view");
+        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
+        assertTextPresent("Is This Page Locked true");
+    }
+
+    /*
+     * If CodeToExecute is defined in a configurable app, then it should be evaluated.
+     * Also header should be evaluated and not just printed.
+     * If XWiki.Configurable is saved with programming rights, it should resave itself so that it doesn't have them.
+     */
+    public void testCodeToExecutionAndAutoSandboxing()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        String codeToExecute = "#set($code = 's sh')"
+                             + "Thi${code}ould be displayed."
+                             + "#if($xcontext.hasProgrammingRights())"
+                             + "This should not be displayed."
+                             + "#end";
+        String heading = "#set($code = 'his sho')"
+                       + "T${code}uld also be displayed.";
+        createConfigurableApplication(space, page, "TestSection6", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue("XWiki.Configurable_0_codeToExecute", codeToExecute);
+        setFieldValue("XWiki.Configurable_0_heading", heading);
+        clickEditSaveAndView();
+
+        // Our admin will foolishly save XWiki.Configurable, giving it programming rights.
+        open("XWiki", "Configurable", "edit", "editor=wiki");
+
+        setFieldValue("content", getFieldValue("content")
+                      + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
+        clickEditSaveAndContinue();
+
+        // Now we look at the section for our configurable.
+        open("XWiki", "Configurable", "view", "editor=globaladmin&section=TestSection6");
+
+        assertTextPresent("This should be displayed.");
+        assertTextPresent("This should also be displayed.");
+        assertTextNotPresent("This should not be displayed.");
+        assertTextPresent("Has Programming permission: false");
+    }
+
+    /*
+     * Fails unless there is an administration icon for the section.
+     * Must be in the administration app first.
+     * Tests: XWiki.Configurable
+     */
+    public void assertConfigurationIconPresent(String section, String iconURL)
+    {
+        if(iconURL == null) {
+            iconURL = "/xwiki/bin/download/XWiki/Configurable/DefaultAdminSectionIcon.png";
+        }
+        assertElementPresent("//div[@id='admin-page-menu']/ul[@id='admin-icons']/li[@class='" + section + "']/a/img"
+                             + "[@src='" + iconURL + "']");
+    }
+
+    /*
+     * Fails if there is an administration icon for the named section.
+     * Must be in the administration app first.
+     * Tests: XWiki.Configurable
+     */
+    public void assertConfigurationIconNotPresent(String section)
+    {
+        assertElementNotPresent("//div[@id='admin-page-menu']/ul[@id='admin-icons']/li[@class='" + section + "']");
+    }
+
+    /*
+     * Will fail unless it detects a configuration of the type created by createConfigurableApplication.
+     * Tests: XWiki.Configurable
+     */
+    public void assertConfigurationPresent(String space, String page)
+    {
+        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
+        // Fields
+        String fullName = space + "." + page;
+        String form = "//div[@id='admin-page-content']/form[@action='/xwiki/bin/save/" + space + "/" + page + "']";
+        assertElementPresent(form + "/fieldset/p[1]/label");
+        assertElementPresent(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']");
+        assertElementPresent(form + "/fieldset/p[2]/label");
+        assertElementPresent(form + "/fieldset/p[2]/select[@name='" + fullName + "_0_Boolean']");
+        assertElementPresent(form + "/fieldset/p[3]/label");
+        assertElementPresent(form + "/fieldset/p[3]/textarea[@name='" + fullName + "_0_TextArea']");
+        assertElementPresent(form + "/fieldset/p[4]/label");
+        assertElementPresent(form + "/fieldset/p[4]/select[@name='" + fullName + "_0_Select']");
+        assertElementPresent(form + "/fieldset/input[@id='" + fullName + "_redirect']");
+        // xredirect
+        assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
+        // Save button
+        assertElementPresent(form + "/div/p/span/input[@type='submit'][@value='Save " + fullName + "']");
+    }
+
+    /*
+     * Will fail if it detects a configuration of the type created by createConfigurableApplication.
+     * Tests: XWiki.Configurable
+     */
+    public void assertConfigurationNotPresent(String space, String page)
+    {
+        assertElementNotPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementNotPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
+        assertConfigurationNotEditable(space, page);
+    }
+
+    public void assertConfigurationNotEditable(String space, String page)
+    {
+        assertElementNotPresent("//div[@id='admin-page-content']/form[@action='/xwiki/bin/save/"
+                                + space + "/" + page + "']");
+    }
+
+    /*
+     * Creates a new page with a configuration class with some simple fields
+     * then adds an object of class configurable and one of it's own class.
+     * Tests: XWiki.Configurable
+     */
+    public void createConfigurableApplication(String space, String page, String section, boolean global)
+    {
+        String storageSpace = "usedByAdministrationTest";
+        String storagePage = "CreateConfigurableApplication";
+
+        if(!tryToCopyPage(storageSpace, storagePage, space, page)) {
+            // Create the page with a simple configuration class.
+            createPage(space, page, "Test configurable application.", "xwiki/2.0");
+            open(space, page, "edit", "editor=class");
+            setFieldValue("propname", "String");
+            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StringClass");
+            submit("//input[@value='Add Property']");
+            setFieldValue("propname", "Boolean");
+            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.BooleanClass");
+            submit("//input[@value='Add Property']");
+            setFieldValue("propname", "TextArea");
+            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.TextAreaClass");
+            submit("//input[@value='Add Property']");
+            setFieldValue("propname", "Select");
+            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StaticListClass");
+            submit("//input[@value='Add Property']");
+
+            // Go to the object section.
+            open(space, page, "edit", "editor=object");
+
+            // Add a configurable object which points to the new class as the configuration class.
+            setFieldValue("classname", "XWiki.Configurable");
+            submit("//input[@value='Add Object from this Class']");
+            clickEditSaveAndView();
+
+            // Try to place it in the storage area.
+            tryToCopyPage(space, page, storageSpace, storagePage);
+        }
+
+        // Go to the object section.
+        open(space, page, "edit", "editor=object");
+
+        // Add an object of the new class.
+        setFieldValue("classname", space + "." + page);
+        submit("//input[@value='Add Object from this Class']");
+
+        setFieldValue("XWiki.Configurable_0_displayInSection", section);
+        setFieldValue("XWiki.Configurable_0_heading", "Some Heading");
+        setFieldValue("XWiki.Configurable_0_configurationClass", space + "." + page);
+        if (global == true) {
+            getSelenium().check("XWiki.Configurable_0_configureGlobally");
+        } else {
+            getSelenium().uncheck("XWiki.Configurable_0_configureGlobally");
+        }
+        // We won't set linkPrefix, propertiesToShow, codeToExecute, or iconAttachment.
+
+        clickEditSaveAndView();
+    }
+
+    /*
+     * This is used by createConfigurableApplication to store a copy of the default configurable to speed up making them.
+     */
+    public boolean tryToCopyPage(String fromSpace, String fromPage, String toSpace, String toPage)
+    {
+        if(!isExistingPage(fromSpace, fromPage)) {
+            return false;
+        }
+        open(fromSpace, fromPage);
+        clickCopyPage();
+
+        getSelenium().type("targetdoc", toSpace + "." + toPage);
+        clickLinkWithLocator("//input[@value='Copy']");
+
+        assertTextPresent("successfully copied to");
+        return isExistingPage(toSpace, toPage);
+    }
 }

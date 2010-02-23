@@ -795,7 +795,7 @@ java content
 |=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Result
 |&lt;b&gt;bold&lt;/b&gt;|{{{{{html}}&lt;b&gt;bold&lt;/b&gt;{{/html}}}}}|{{html}}&lt;b&gt;bold&lt;/b&gt;{{/html}}
 
-{{info}}In XWiki Syntax 2.0, by default the HTML macro understands wiki syntax. To prevent this, use {{{{{html wiki="false"}}}}}.{{/info}}
+{{info}}In XWiki Syntax 2.0, by default the HTML macro does not understands wiki syntax (other macros included since it's wiki syntax too). To enable it, use {{{{{html wiki="true"}}}}}.{{/info}}
 
 = Velocity/Groovy Scripts =
 

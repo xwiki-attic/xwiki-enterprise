@@ -172,7 +172,8 @@ div.dashboardspacer {
 
             #set ($docNames = $xwiki.getSpaceDocsName($doc.space))
             {{html}}
-              #displayDocumentList($docNames false $blacklistedSpaces) 
+              #displayDocumentList($docNames false []) 
+              ## Note: we pass an empty blacklistedSpaces list since we are used as a space dashboard, not a global dashboard
             {{/html}}
 
             = $msg.get("xe.dashboard.wiki.tagcloud") =

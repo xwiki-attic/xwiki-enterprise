@@ -471,10 +471,12 @@ $xwiki.ssx.use("Main.RecentChanges")##
     #createQueryParameters($rcAuthor $authorParameters)
     #set($discard = $criteria.put("doc.author in (${authorParameters})", $rcAuthor))
   #end
-  ## Exclude blacklisted spaces
-  #set($blacklistedSpacesParameters = "")
-  #createQueryParameters($blacklistedSpaces $blacklistedSpacesParameters)
-  #set($discard = $criteria.put("doc.space not in (${blacklistedSpacesParameters})", $blacklistedSpaces))
+  ## Exclude blacklisted spaces if displaying changes for a whole wiki
+  #if($rcSpace.size() == 0)
+    #set($blacklistedSpacesParameters = "")
+    #createQueryParameters($blacklistedSpaces $blacklistedSpacesParameters)
+    #set($discard = $criteria.put("doc.space not in (${blacklistedSpacesParameters})", $blacklistedSpaces))
+  #end
   #if($criteria.size() &gt; 0)
     ## If any, loop over criterias to add them to the query, then perform the query.
     #set($values = $util.getArrayList())       

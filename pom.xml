@@ -63,7 +63,7 @@
     <platform.core.version>2.3-SNAPSHOT</platform.core.version>
     <platform.web.version>2.3-SNAPSHOT</platform.web.version>
 
-    <platform.administration.version>1.27-SNAPSHOT</platform.administration.version>
+    <platform.administration.version>1.28-SNAPSHOT</platform.administration.version>
     <platform.activitystream.version>1.7-SNAPSHOT</platform.activitystream.version>
     <platform.blog.version>1.21-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>

@@ -137,7 +137,6 @@ public class PagesTest extends AbstractXmlRpcTestCase
         p.setSpace(this.spaceKey);
         p.setTitle(title);
         p.setContent(content1);
-        p.setParentId("xwiki:Main.WebHome");
         Page page1 = this.rpc.storePage(p);
 
         // modify the page

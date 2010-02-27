@@ -51,7 +51,21 @@ public class XWikiSeleniumTestSetup extends TestSetup
 
     protected void setUp() throws Exception
     {
-        this.selenium = new DefaultSelenium("localhost", SELENIUM_PORT, BROWSER, BASE_URL);
+        this.selenium = new DefaultSelenium("localhost", SELENIUM_PORT, BROWSER, BASE_URL) {
+            /**
+             * Selenium RC Java Client Driver has introduced a non-backward compatible change: open() nows checks
+             * for error code and throw an error if a non 200 is found. Since our XWiki pages return non 200 codes
+             * in some cases our tests now fail. See http://jira.openqa.org/browse/SEL-684
+             * What's strange is that the source code shows that a new open(String, String ignoreErrorCode) has been
+             * introduced (see http://bit.ly/cU58WO). However we don't get it in the released 1.0.2 version for
+             * some unknown reason.
+             */
+            // TODO: Remove this when Selenium fixes the problem.
+            @Override public void open(String url)
+            {
+                commandProcessor.doCommand("open", new String[] {url, "true"});
+            }
+        };
 
         // Sets the Selenium object in all tests
         for (AbstractXWikiTestCase test: getTests(getTest())) {

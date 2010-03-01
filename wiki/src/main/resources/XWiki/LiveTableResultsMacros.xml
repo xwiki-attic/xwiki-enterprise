@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1253017580000</date>
-<contentUpdateDate>1253017580000</contentUpdateDate>
+<date>1267453085000</date>
+<contentUpdateDate>1267453085000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.livetable.resultsmacros")</title>
 <template></template>
@@ -40,92 +40,91 @@
 ## This page is called from live grids via Ajax with the argument xpage=plain. It returns a
 ## set of results serialized in JSON.
 ## ============================================================================================
-#if ($request.get("xpage") &amp;&amp; $request.get("xpage") == "plain")
-  #set( $offset = $util.parseInt( $request.get( "offset" ) ) )
-  ## offset starts from 0 in velocity and 1 in javascript
-  #set( $off = $offset - 1 )
-  #set( $limit = $util.parseInt( $request.get( "limit" ) ) )
-  #set($tablelist = $util.arrayList)
+#set( $offset = $util.parseInt( $request.get( "offset" ) ) )
+## offset starts from 0 in velocity and 1 in javascript
+#set( $off = $offset - 1 )
+#set( $limit = $util.parseInt( $request.get( "limit" ) ) )
+#set($tablelist = $util.arrayList)
 
-  #set($whereSql = "")
-  ## 
-  ## Exclude Blacklisted spaces ($blacklistedSpaces is set in xwikivars.vm)
-  ##
-  #foreach ($blacklistedSpace in $blacklistedSpaces)
-    #set ($whereSql = "${whereSql} and doc.space &lt;&gt; '$blacklistedSpace'")
+#set($whereSql = "")
+## 
+## Exclude Blacklisted spaces ($blacklistedSpaces is set in xwikivars.vm)
+##
+#foreach ($blacklistedSpace in $blacklistedSpaces)
+  #set ($whereSql = "${whereSql} and doc.space &lt;&gt; '$blacklistedSpace'")
+#end
+
+#set($fromSql = "")
+#set($class = $xwiki.getDocument($className).getxWikiClass())
+
+#foreach($colname in $collist)
+#grid_addcolumn($colname)
+#end
+
+## tags
+#if($request.tag)
+  #set($fromSql = "${fromSql} , BaseObject as tobject, DBStringListProperty as tagprop")
+  #set($whereSql = "${whereSql} and tobject.className='XWiki.TagClass' and tobject.name=doc.fullName and tobject.id=tagprop.id.id and tagprop.id.name='tags' and (")
+  #foreach($tag in $request.getParameterValues("tag"))
+    #set($tag = $util.decodeURI($tag))
+    #if($velocityCount &gt; 1) #set($whereSql = "${whereSql} and ") #end
+    #set($whereSql = "${whereSql} '$tag' in elements(tagprop.list)")
   #end
+  #set($whereSql = "${whereSql} )")
+#end
 
-  #set($fromSql = "")
-  #set($class = $xwiki.getDocument($className).getxWikiClass())
-
-  #foreach($colname in $collist)
-  #grid_addcolumn($colname)
+## order
+#set($order="$!request.sort")
+#if($order!="")
+  #set($orderDirection = "$!request.dir")
+  #if($order=="description")
+    #set($tablealias = "dtable")
+  #else
+   #set($tablealias = $order)
   #end
-
-  ## tags
-  #if($request.tag)
-    #set($fromSql = "${fromSql} , BaseObject as tobject, DBStringListProperty as tagprop")
-    #set($whereSql = "${whereSql} and tobject.className='XWiki.TagClass' and tobject.name=doc.fullName and tobject.id=tagprop.id.id and tagprop.id.name='tags' and (")
-    #foreach($tag in $request.getParameterValues("tag"))
-      #set($tag = $util.decodeURI($tag))
-      #if($velocityCount &gt; 1) #set($whereSql = "${whereSql} and ") #end
-      #set($whereSql = "${whereSql} '$tag' in elements(tagprop.list)")
-    #end
-    #set($whereSql = "${whereSql} )")
-  #end
-
-  ## order
-  #set($order="$!request.sort")
-  #if($order!="")
-    #set($orderDirection = "$!request.dir")
-    #if($order=="description")
-      #set($tablealias = "dtable")
-    #else
-     #set($tablealias = $order)
-    #end
-    #if($order.startsWith("doc."))
-      #set($orderSql = " order by ${tablealias.replace('_','.')} ${orderDirection}")  
-    #elseif($tablelist.contains($tablealias))
-      #set($orderSql = " order by ${tablealias}.value ${orderDirection}")  
-    #elseif($order=="averagevote")
-      #grid_gettablename($order)
-      #set($fromSql = "${fromSql}, BaseObject as objratings, ${tableName} ${tablealias}")
-      #set($whereSql = "${whereSql} and doc.fullName=objratings.name and objratings.className='XWiki.AverageRatingsClass' and objratings.id=${tablealias}.id.id and ${tablealias}.name='${order}'")
-      #set($orderSql = " order by ${tablealias}.value ${orderDirection}")
-    #else
-      #set($multiselect = $class.get($order).getProperty("multiSelect").getValue())
-        #if("$multiselect"!="1")
-          #grid_gettablename($order)
-          #set($fromSql = "${fromSql}, ${tableName} ${tablealias}")
-          #set($whereSql = "${whereSql} and obj.id=${tablealias}.id.id and ${tablealias}.name='${order}'")  
-          #set($orderSql = " order by ${tablealias}.value ${orderDirection}")  
-        #end
+  #if($order.startsWith("doc."))
+    #set($orderSql = " order by ${tablealias.replace('_','.')} ${orderDirection}")  
+  #elseif($tablelist.contains($tablealias))
+    #set($orderSql = " order by ${tablealias}.value ${orderDirection}")  
+  #elseif($order=="averagevote")
+    #grid_gettablename($order)
+    #set($fromSql = "${fromSql}, BaseObject as objratings, ${tableName} ${tablealias}")
+    #set($whereSql = "${whereSql} and doc.fullName=objratings.name and objratings.className='XWiki.AverageRatingsClass' and objratings.id=${tablealias}.id.id and ${tablealias}.name='${order}'")
+    #set($orderSql = " order by ${tablealias}.value ${orderDirection}")
+  #else
+    #set($multiselect = $class.get($order).getProperty("multiSelect").getValue())
+      #if("$multiselect"!="1")
+        #grid_gettablename($order)
+        #set($fromSql = "${fromSql}, ${tableName} ${tablealias}")
+        #set($whereSql = "${whereSql} and obj.id=${tablealias}.id.id and ${tablealias}.name='${order}'")  
+        #set($orderSql = " order by ${tablealias}.value ${orderDirection}")  
       #end
     #end
- 
-  #if("$!className" != "")
-    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
-    #set($tagsMatchingFiltersFrom = ", BaseObject as obj $!fromSql $!filterfrom")
-    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
-    #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
-    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!filterwhere")  
-  #else
-    #set($countSql = "$!fromSql $!filterfrom where 1=1 $!whereSql $!filterwhere")
-    #set($tagsMatchingFiltersFrom = "$!fromSql $!filterfrom")
-    #set($tagsMatchingFiltersWhere = "1=1 $!whereSql $!filterwhere")
-    #set($allMatchingTagsFrom = "$!filterfrom")
-    #set($allMatchingTagsWhere = "1=1 $!filterwhere")
   #end
-  #set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere))
-  #set($allMatchingTags = $xwiki.tag.getTagCountForQuery($allMatchingTagsFrom, $allMatchingTagsWhere))
-  #set($sql = "$countSql $!{orderSql}")
-  #set($items = $xwiki.searchDocuments($sql, $limit, $off))
-  #set($totalItems = $xwiki.countDocuments($countSql))
-  #set($returnedItems = $items.size())
-  ## ==============================================
-  ## json starts
-  ## ==============================================
-  {
+ 
+#if("$!className" != "")
+  #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
+  #set($tagsMatchingFiltersFrom = ", BaseObject as obj $!fromSql $!filterfrom")
+  #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
+  #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
+  #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!filterwhere")  
+#else
+  #set($countSql = "$!fromSql $!filterfrom where 1=1 $!whereSql $!filterwhere")
+  #set($tagsMatchingFiltersFrom = "$!fromSql $!filterfrom")
+  #set($tagsMatchingFiltersWhere = "1=1 $!whereSql $!filterwhere")
+  #set($allMatchingTagsFrom = "$!filterfrom")
+  #set($allMatchingTagsWhere = "1=1 $!filterwhere")
+#end
+#set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere))
+#set($allMatchingTags = $xwiki.tag.getTagCountForQuery($allMatchingTagsFrom, $allMatchingTagsWhere))
+#set($sql = "$countSql $!{orderSql}")
+#set($items = $xwiki.searchDocuments($sql, $limit, $off))
+#set($totalItems = $xwiki.countDocuments($countSql))
+#set($returnedItems = $items.size())
+## ==============================================
+## json starts
+## ==============================================
+{
 #if("$!request.sql"=="1")
   "sql" : $sql,
   "countsql" : $countSql,
@@ -252,11 +251,10 @@
       #end
      }
     #end
-  ]}
-  ## ==============================================
-  ## json ended
-  ## ==============================================
-#end
+]}
+## ==============================================
+## json ended
+## ==============================================
 #end
 #macro(grid_gettablename $colname)
    #set($propClassName = "")

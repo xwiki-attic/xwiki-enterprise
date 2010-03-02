@@ -100,7 +100,6 @@
           <artifactId>maven-resources-plugin</artifactId>
           <executions>
             <execution>
-              <!--phase>process-test-resources</phase-->
               <goals>
                 <goal>testResources</goal>
               </goals>

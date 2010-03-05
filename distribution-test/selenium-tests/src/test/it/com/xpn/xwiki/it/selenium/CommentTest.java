@@ -235,6 +235,7 @@ public class CommentTest extends AbstractXWikiTestCase
 
     public void setCommentContent(String content)
     {
+        waitForElement("//textarea[@id='XWiki.XWikiComments_comment']");
         getSelenium().fireEvent("//textarea[@id='XWiki.XWikiComments_comment']", "focus");
         setFieldValue("//textarea[@id='XWiki.XWikiComments_comment']", content);
     }

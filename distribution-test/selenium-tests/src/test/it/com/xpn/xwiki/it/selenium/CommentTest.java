@@ -152,9 +152,8 @@ public class CommentTest extends AbstractXWikiTestCase
         waitForElement("//li/form/div/div/pre/textarea");
         setFieldValue("//li/form/div/div/pre/textarea", "This comment has been edited.");
         clickLinkWithLocator("//form/div/div/span/input[@name='action_save']", false);
-        // getElementsByClassName depends on firefox > 3.
-        waitForCondition("window.document.getElementsByClassName('xnotification xnotification-inprogress').length == 1");
-        waitForCondition("window.document.getElementsByClassName('xnotification xnotification-inprogress').length == 0");
+        waitForElement("//div[@class='xnotification-wrapper']/div[@class='xnotification xnotification-inprogress']");
+        waitForElement("//div[@class='xnotification-wrapper']/div[@class='xnotification xnotification-done']");
         assertTextPresent("This comment has been edited.");
     }
 

@@ -66,6 +66,7 @@ public class CommentTest extends AbstractXWikiTestCase
         if (!isAuthenticated()) {
             loginAsAdmin();
         }
+        open("CommentTest", "PageWithSomeComments");
         postComment("This is the first comment by Administrator.", null, true);
     }
 
@@ -128,6 +129,7 @@ public class CommentTest extends AbstractXWikiTestCase
         } else {
             loginAsAdmin();
         }
+        open("CommentTest", "PageWithSomeComments");
         if (!isElementPresent("//div[@class='commentcontent']/p")) {
             // Prepare a comment to reply to
             postComment("This is a comment for Admin to reply to.", null, true);

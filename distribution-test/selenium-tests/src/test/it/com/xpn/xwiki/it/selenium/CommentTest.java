@@ -28,7 +28,7 @@ import junit.framework.Test;
 /**
  * Tries to post comments on a page as various users and with various rights.
  *
- * @version $Id:$
+ * @version $Id$
  */
 public class CommentTest extends AbstractXWikiTestCase
 {
@@ -164,7 +164,7 @@ public class CommentTest extends AbstractXWikiTestCase
         if (!isAuthenticated()) {
             loginAsAdmin();
         }
-        removeEventListeners("input");
+        open("CommentTest", "PageWithSomeComments", "view", "xpage=xpart&vm=commentsinline.vm");
         postComment("This is the first comment by Administrator. With no js", null, true);
     }
 
@@ -174,7 +174,7 @@ public class CommentTest extends AbstractXWikiTestCase
             logout();
         }
         allowAnonymousCommenting();
-        removeEventListeners("input");
+        open("CommentTest", "PageWithSomeComments", "view", "xpage=xpart&vm=commentsinline.vm");
         postComment("This is the first comment by Anonymous. With no js", "John Anonymous Smith", true);
     }
 
@@ -214,6 +214,7 @@ public class CommentTest extends AbstractXWikiTestCase
         }
         clickPost();
         if (doubleCheck) {
+            waitForElement("//li[@class='reply']/div/div[@class='commentcontent']/p");
             assertTextPresent(comment);
             if (author != null) {
                 assertTextPresent(author);
@@ -223,6 +224,7 @@ public class CommentTest extends AbstractXWikiTestCase
 
     public void setCommentAuthor(String author)
     {
+        waitForElement("//input[@name='XWiki.XWikiComments_author']");
         getSelenium().fireEvent("//input[@name='XWiki.XWikiComments_author']", "focus");
         setFieldValue("//input[@name='XWiki.XWikiComments_author']", author);
     }
@@ -240,7 +242,7 @@ public class CommentTest extends AbstractXWikiTestCase
 
     public void clickPost()
     {
-        if (isCommentViewer()) {
+        if (getSelenium().getLocation().indexOf("xpage=xpart&vm=commentsinline.vm") != -1) {
             submit("//input[@type='submit'][@value='Add comment']");
         } else {
             String numComments = getSelenium().getText("//a[@id='Commentslink']/span");
@@ -251,22 +253,8 @@ public class CommentTest extends AbstractXWikiTestCase
         }
     }
 
-    public boolean isCommentViewer()
-    {
-        return (isElementPresent("//div[@id='document-title']/h1") 
-                && getSelenium().getText("//div[@id='document-title']/h1").indexOf("Comments on ") != -1);
-    }
-
     public boolean isCommentFormShown()
     {
         return isElementPresent("//form[@id='AddComment']/fieldset[@id='commentform']");
-    }
-
-    public void removeEventListeners(String tagName)
-    {
-        getSelenium().getEval("var elements = document.getElementsByTagName('" + tagName + "');"
-                            + "for(var x = 0; x < elements.length; x++) {"
-                            + "  Event.stopObserving(elements[x]);"
-                            + "}");
     }
 }

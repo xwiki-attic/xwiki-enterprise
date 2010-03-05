@@ -44,8 +44,8 @@ public class CommentTest extends AbstractXWikiTestCase
         super.setUp();
 
         // We start at localhost:4444/selenium-server... and isExistingPage reloads current location 
-        // so navigate to main page.
-        if (!isAuthenticationMenuPresent()) {
+        // so navigate to test page.
+        if (getSelenium().getLocation().indexOf(getUrl("CommentTest", "PageWithSomeComments")) == -1) {
             open("CommentTest", "PageWithSomeComments");
             if (getSelenium().getLocation().indexOf("xpage=xpart&vm=commentsinline.vm") == -1
                 && !isExistingPage("CommentTest", "PageWithSomeComments")) {
@@ -66,12 +66,6 @@ public class CommentTest extends AbstractXWikiTestCase
         if (!isAuthenticated()) {
             loginAsAdmin();
         }
-        open("CommentTest", "PageWithSomeComments", "view");
-
-        // See why hudson is behaving different than local
-        assertTextNotPresent("The requested document could not be found.");
-        waitForElement("//form[@id='AddComment']");
-
         postComment("This is the first comment by Administrator.", null, true);
     }
 

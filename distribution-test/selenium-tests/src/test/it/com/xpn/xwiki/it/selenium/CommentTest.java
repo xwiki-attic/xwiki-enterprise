@@ -66,7 +66,12 @@ public class CommentTest extends AbstractXWikiTestCase
         if (!isAuthenticated()) {
             loginAsAdmin();
         }
-        open("CommentTest", "PageWithSomeComments", "view", "viewer=comments");
+        open("CommentTest", "PageWithSomeComments", "view");
+
+        // See why hudson is behaving different than local
+        assertTextNotPresent("The requested document could not be found.");
+        waitForElement("//form[@id='AddComment']");
+
         postComment("This is the first comment by Administrator.", null, true);
     }
 

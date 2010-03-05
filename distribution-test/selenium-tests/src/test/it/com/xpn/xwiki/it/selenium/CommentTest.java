@@ -66,7 +66,7 @@ public class CommentTest extends AbstractXWikiTestCase
         if (!isAuthenticated()) {
             loginAsAdmin();
         }
-        open("CommentTest", "PageWithSomeComments");
+        open("CommentTest", "PageWithSomeComments", "view", "viewer=comments");
         postComment("This is the first comment by Administrator.", null, true);
     }
 

@@ -150,12 +150,10 @@ public class CommentTest extends AbstractXWikiTestCase
             postComment("This comment will be edited.", null, true);
         }
         clickLinkWithLocator("//a[@class='edit']", false);
-        waitForElement("//li/form/div/div/pre/textarea");
-        setFieldValue("//li/form/div/div/pre/textarea", "This comment has been edited.");
-        clickLinkWithLocator("//form/div/div/span/input[@name='action_save']", false);
-        waitForElement("//div[@class='xnotification-wrapper']/div[@class='xnotification xnotification-inprogress']");
-        waitForElement("//div[@class='xnotification-wrapper']/div[@class='xnotification xnotification-done']");
-        assertTextPresent("This comment has been edited.");
+        waitForElement("//li/form[@class='edit-xcomment']/div/div/pre/textarea");
+        setFieldValue("//li/form[@class='edit-xcomment']/div/div/pre/textarea", "This comment has been edited.");
+        clickLinkWithLocator("//form[@class='edit-xcomment']/div/div/span/input[@name='action_save']", false);
+        waitForTextPresent("//div[@class='commentcontent']/p", "This comment has been edited.");
     }
 
     public void testPostCommentAsAdminNoJs()

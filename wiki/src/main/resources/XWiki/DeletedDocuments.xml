@@ -4,10 +4,10 @@
 <web>XWiki</web>
 <name>DeletedDocuments</name>
 <language></language>
-<defaultLanguage>fr</defaultLanguage>
+<defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
 <parent>Main.AllDocs</parent>
-<creator>XWiki.XWikiTeam</creator>
+<creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
@@ -330,12 +330,12 @@ document.observe('dom:loaded', function() {
 </property>
 </object>
 <content>{{velocity}}##
+#if(!$xwiki.hasProgrammingRights())
+  {{warning}}This document requires programming rights and needs to be saved by an administrator of this Wiki{{/warning}}
+#else
 #set($dateFormat = 'yyyy MMMM d, HH:mm')
 #if(!$request.list)
 $xwiki.ssx.use('XWiki.DeletedDocuments')##
-#if(!$xwiki.hasProgrammingRights())
-  {{warning}}This document requires programming rights and needs to be saved by an administrator of this Wiki{{/warning}}
-#end
 $xwiki.jsx.use('XWiki.DeletedDocuments')##
 ##
 #set($columns = ["ddoc.fullName", "ddoc.title", "ddoc.date", "ddoc.deleter", 'actions'])
@@ -496,5 +496,6 @@ $response.setContentType('application/json')
 ## ==============================================
 #end ## xpage=plain
 #end ## request.list
+#end ## hasProgramR
 {{/velocity}}</content>
 </xwikidoc>

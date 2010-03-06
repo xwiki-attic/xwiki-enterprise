@@ -369,6 +369,7 @@
   <modules>
     <module>misc-tests</module>
     <module>xmlrpc-tests</module>
+    <module>ui-tests</module>
     <module>selenium-tests</module>
     <module>ldap-tests</module>
     <module>webdav-tests</module>

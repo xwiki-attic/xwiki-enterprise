@@ -4,11 +4,11 @@
 <web>XWiki</web>
 <name>DeletedAttachments</name>
 <language></language>
-<defaultLanguage>fr</defaultLanguage>
+<defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
 <parent>Main.AllDocs</parent>
-<creator>XWiki.XWikiTeam</creator>
-<author>XWiki.XWikiTeam</author>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1262178920000</creationDate>
@@ -314,12 +314,12 @@ document.observe('dom:loaded', function() {
 </property>
 </object>
 <content>{{velocity}}##
+#if(!$xwiki.hasProgrammingRights())
+  {{warning}}This document requires programming rights and needs to be saved by an administrator of this Wiki{{/warning}}
+#else
 #set($dateFormat = 'yyyy MMMM d, HH:mm')
 #if(!$request.list)
 $xwiki.ssx.use('XWiki.DeletedAttachments')##
-#if(!$xwiki.hasProgrammingRights())
-  {{warning}}This document requires programming rights and needs to be saved by an administrator of this Wiki{{/warning}}
-#end
 $xwiki.jsx.use('XWiki.DeletedAttachments', {'minify' : 'false'})##
 ##
 #set($columns = ['datt.filename', 'datt.docName', 'datt.date', 'datt.deleter', 'actions'])
@@ -480,5 +480,6 @@ $response.setContentType('application/json')
 ## ==============================================
 #end ## xpage=plain
 #end ## request.list
+#end ## hasProgramR
 {{/velocity}}</content>
 </xwikidoc>

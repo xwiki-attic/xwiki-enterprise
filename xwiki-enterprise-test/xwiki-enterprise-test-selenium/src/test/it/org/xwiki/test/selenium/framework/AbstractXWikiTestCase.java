@@ -47,6 +47,9 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     private Selenium selenium;
 
+    /** Cached secret token. TODO cache for each user. */
+    private static String secretToken = null;
+
     public void setSkinExecutor(SkinExecutor skinExecutor)
     {
         this.skinExecutor = skinExecutor;
@@ -796,5 +799,42 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void waitForLiveTable(String id)
     {
         waitForElement("//*[@id = '" + id + "-ajax-loader' and @class = 'xwiki-livetable-loader hidden']");
+    }
+
+    /**
+     * (Re)-cache the secret token used for CSRF protection. A user with edit rights on Main.WebHome must be logged in.
+     * This method must be called before {@link #getSecretToken()} is called and after each re-login.
+     * 
+     * @since 3.2M1
+     * @see #getSecretToken()
+     */
+    public void recacheSecretToken()
+    {
+        // the registration form uses secret token
+        open("XWiki", "Register", "register");
+        AbstractXWikiTestCase.secretToken = getSelenium().getValue("//input[@name='form_token']");
+        if (AbstractXWikiTestCase.secretToken == null || AbstractXWikiTestCase.secretToken.length() <= 0) {
+            // something is really wrong if this happens
+            System.out.println("Warning: Failed to cache anti-CSRF secret token, some tests might fail!");
+        }
+        // return to the previous page
+        getSelenium().goBack();
+    }
+
+    /**
+     * Get the secret token used for CSRF protection. Remember to call {@link #recacheSecretToken()} first.
+     * 
+     * @return anti-CSRF secret token, or empty string if the token is not cached
+     * @since 3.2M1
+     * @see #recacheSecretToken()
+     */
+    public String getSecretToken()
+    {
+        if (AbstractXWikiTestCase.secretToken == null) {
+            System.out.println("Warning: No cached anti-CSRF token found. "
+                + "Make sure to call recacheSecretToken() before getSecretToken(), otherwise this test might fail.");
+            return "";
+        }
+        return AbstractXWikiTestCase.secretToken;
     }
 }

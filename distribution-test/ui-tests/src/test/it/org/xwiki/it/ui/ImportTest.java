@@ -34,7 +34,7 @@ import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Test the Import XAR feature.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -43,6 +43,8 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     private static final String PACKAGE_WITHOUT_HISTORY = "Main.TestPage-no-history.xar";
 
     private static final String PACKAGE_WITH_HISTORY = "Main.TestPage-with-history.xar";
+
+    private static final String BACKUP_PACKAGE = "Main.TestPage-backup.xar";
 
     private AdministrationPage adminPage;
 
@@ -55,7 +57,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         // Delete Test Page we import from XAR to ensure to start with a predefined state.
         TestUtils.deletePage("Main", "TestPage", getDriver());
-        
+
         adminPage = new AdministrationPage(getDriver());
         adminPage.gotoAdministrationPage();
 
@@ -64,13 +66,12 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         // Remove our packages if they're there already, to ensure to start with a predefined state.
         if (importPage.isPackagePresent(PACKAGE_WITH_HISTORY)) {
             importPage.deletePackage(PACKAGE_WITH_HISTORY);
-            // TODO: Remove this when the delete doesn't redirect to the Admin home page any more (which is a bug)
-            importPage = adminPage.clickImportSection();
         }
         if (importPage.isPackagePresent(PACKAGE_WITHOUT_HISTORY)) {
             importPage.deletePackage(PACKAGE_WITHOUT_HISTORY);
-            // TODO: Remove this when the delete doesn't redirect to the Admin home page any more (which is a bug)
-            importPage = adminPage.clickImportSection();
+        }
+        if (importPage.isPackagePresent(BACKUP_PACKAGE)) {
+            importPage.deletePackage(BACKUP_PACKAGE);
         }
     }
 
@@ -78,10 +79,10 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     public void testImportWithHistory() throws IOException
     {
         URL fileUrl = this.getClass().getResource("/" + PACKAGE_WITH_HISTORY);
-        
+
         importPage.attachPackage(fileUrl);
         importPage.selectPackage(PACKAGE_WITH_HISTORY);
-        
+
         importPage.selectReplaceHistoryOption();
         importPage.importPackage();
 
@@ -93,7 +94,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("Imported from XAR", history.getCurrentVersionComment());
         Assert.assertTrue(history.hasVersionWithSummary("A new version of the document"));
     }
-    
+
     @Test
     public void testImportWithNewHistoryVersion() throws IOException
     {
@@ -110,5 +111,22 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         Assert.assertEquals("1.1", history.getCurrentVersion());
         Assert.assertEquals("Imported from XAR", history.getCurrentVersionComment());
+    }
+
+    @Test
+    public void testImportAsBackup() throws IOException
+    {
+        URL fileUrl = this.getClass().getResource("/" + BACKUP_PACKAGE);
+
+        importPage.attachPackage(fileUrl);
+        importPage.selectPackage(BACKUP_PACKAGE);
+
+        importPage.importPackage();
+
+        BasePage importedPage = importPage.clickImportedPage("Main.TestPage");
+
+        HistoryPane history = importedPage.openHistoryDocExtraPane();
+
+        Assert.assertEquals("XWiki.JohnDoe", history.getCurrentAuthor());
     }
 }

@@ -84,7 +84,6 @@ public class HistoryPane
             // in the first column
             return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[1]/a")).getText();
         }
-
     }
 
     public String getCurrentVersionComment()
@@ -99,6 +98,19 @@ public class HistoryPane
             // in the 4th column
             return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[4]")).getText();
         }
-
+    }
+    
+    public String getCurrentAuthor()
+    {
+        try {
+            // Try to find a radio button. This will mean there are several revisions in the table
+            // and we'll find the author written down in the 4th column
+            pane.findElement(By.xpath("//tr[2]/td/input"));
+            return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[4]/a")).getText();
+        } catch (NoSuchElementException e) {
+            // If we cound not find the radio button, there is less columns displayed and the version will be
+            // in the second column
+            return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[2]/a")).getText();
+        }       
     }
 }

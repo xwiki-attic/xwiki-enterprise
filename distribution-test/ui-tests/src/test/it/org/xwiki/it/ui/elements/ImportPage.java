@@ -49,9 +49,6 @@ public class ImportPage extends BasePage
     @FindBy(xpath="//input[@value='Import']")
     private WebElement importPackageLink;
 
-    @FindBy(xpath="//input[@name='historyStrategy' and @value='replace']")
-    private WebElement ReplaceHistoryLink;
-
     public ImportPage(WebDriver driver)
     {
         super(driver);

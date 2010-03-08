@@ -490,6 +490,50 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertTextPresent("Has Programming permission: false");
     }
 
+    /**
+     * Test functionality of the ForgotUsername page:
+     * <ul>
+     * <li>A user can be found using correct email</li>
+     * <li>No user is found using wrong email</li>
+     * <li>Email text is properly escaped</li>
+     * </ul>
+     */
+    public void testForgotUsername()
+    {
+        String space = "Test";
+        String page = "SQLTestPage";
+        String mail = "webmaster@xwiki.org"; // default Admin mail
+        String user = "Admin";
+        String badMail = "bad_mail@evil.com";
+
+        // Ensure there is a page we will try to find using HQL injection
+        editInWikiEditor(space, page);
+        setFieldValue("title", page);
+        setFieldValue("content", page);
+        clickEditSaveAndView();
+
+        // test that it finds the correct user
+        open("XWiki", "ForgotUsername");
+        setFieldValue("e", mail);
+        submit("//input[@type='submit']"); // there are no other buttons
+        assertTextNotPresent("No account is registered using this email address");
+        assertElementPresent("//div[@id='xwikicontent']//strong[text()='" + user + "']");
+
+        // test that bad mail results in no results
+        open("XWiki", "ForgotUsername");
+        setFieldValue("e", badMail);
+        submit("//input[@type='submit']"); // there are no other buttons
+        assertTextPresent("No account is registered using this email address");
+        assertElementNotPresent("//div[@id='xwikicontent']//strong[@value='" + user + "']");
+
+        // XWIKI-4920 test that the email is properly escaped
+        open("XWiki", "ForgotUsername");
+        setFieldValue("e", "a' synta\\'x error");
+        submit("//input[@type='submit']"); // there are no other buttons
+        assertTextPresent("No account is registered using this email address");
+        assertTextNotPresent("Error");
+    }
+
     /*
      * Fails unless there is an administration icon for the section.
      * Must be in the administration app first.

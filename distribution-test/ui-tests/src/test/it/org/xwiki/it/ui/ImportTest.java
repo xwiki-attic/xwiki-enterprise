@@ -127,6 +127,6 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
-        Assert.assertEquals("XWiki.JohnDoe", history.getCurrentAuthor());
+        Assert.assertEquals("JohnDoe", history.getCurrentAuthor());
     }
 }

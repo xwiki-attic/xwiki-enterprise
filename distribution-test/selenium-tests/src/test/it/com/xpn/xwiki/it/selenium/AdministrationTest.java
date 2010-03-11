@@ -194,7 +194,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * Test add configurable application to existing section.
      *
      * This test depends on the "Presentation" section existing.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void testAddConfigurableApplicationInExistingSection()
     {
@@ -208,7 +208,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationNotPresent("Main", "TestConfigurable");
         // Switch application to non-global
         open("Main", "TestConfigurable", "edit", "editor=object");
-        getSelenium().uncheck("XWiki.Configurable_0_configureGlobally");
+        getSelenium().uncheck("XWiki.ConfigurableClass_0_configureGlobally");
         clickEditSaveAndView();
         // Check that it is available in space section.
         open("Main", "WebPreferences", "admin", "editor=spaceadmin&section=Presentation");
@@ -225,7 +225,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * Test add configurable application to a nonexistent section.
      *
      * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void testAddConfigurableApplicationInNonexistantSection()
     {
@@ -241,7 +241,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open("Main", "WebPreferences", "admin");
         // Assert there is no icon with the default image.
         assertElementNotPresent("//ul[@id='admin-icons']/li/*/img"
-                                + "[@src='/xwiki/bin/download/XWiki/Configurable/DefaultAdminSectionIcon.png']");
+                                + "[@src='/xwiki/bin/download/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png']");
     }
 
     /*
@@ -249,7 +249,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      *
      * This test depends on the "Presentation" section existing.
      * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void testConfigurationNotEditableWithoutPermission()
     {
@@ -292,7 +292,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Now we'll make sure someJoker can't edit an application in an existing section
         loginAsAdmin();
         open("Main", "TestConfigurable", "edit", "editor=object");
-        setFieldValue("XWiki.Configurable_0_displayInSection", existingSection);
+        setFieldValue("XWiki.ConfigurableClass_0_displayInSection", existingSection);
         clickEditSaveAndView();
         loginAndRegisterUser("someJoker", "bentOnMalice", false);
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + existingSection);
@@ -303,7 +303,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * Fails if a user can create a Configurable application without having edit access to the configuration page
      * (in this case: XWikiPreferences)
      *
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void testConfigurableCreatedByUnauthorizedWillNotExecute()
     {
@@ -321,7 +321,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * 2 configuration fields, the other is configured in the space in another section and displays the other 2
      * fields. Fails if they are not displayed as they should be.
      *
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void testApplicationConfiguredInMultipleSections()
     {
@@ -331,15 +331,15 @@ public class AdministrationTest extends AbstractXWikiTestCase
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
         // Add a second configurable object.
-        setFieldValue("classname", "XWiki.Configurable");
+        setFieldValue("classname", "XWiki.ConfigurableClass");
         submit("//input[@value='Add Object from this Class']");
-        setFieldValue("XWiki.Configurable_1_displayInSection", "TestSection2");
-        setFieldValue("XWiki.Configurable_1_heading", "Some Other Heading");
-        setFieldValue("XWiki.Configurable_1_configurationClass", space + "." + page);
-        getSelenium().uncheck("XWiki.Configurable_1_configureGlobally");
+        setFieldValue("XWiki.ConfigurableClass_1_displayInSection", "TestSection2");
+        setFieldValue("XWiki.ConfigurableClass_1_heading", "Some Other Heading");
+        setFieldValue("XWiki.ConfigurableClass_1_configurationClass", space + "." + page);
+        getSelenium().uncheck("XWiki.ConfigurableClass_1_configureGlobally");
         // Set propertiesToShow so that each config only shows half of the properties.
-        setFieldValue("XWiki.Configurable_1_propertiesToShow", "TextArea, Select");    
-        setFieldValue("XWiki.Configurable_0_propertiesToShow", "String, Boolean");
+        setFieldValue("XWiki.ConfigurableClass_1_propertiesToShow", "TextArea, Select");    
+        setFieldValue("XWiki.ConfigurableClass_0_propertiesToShow", "String, Boolean");
         clickEditSaveAndView();
 
         // Assert that half of the configuration shows up but not the other half.
@@ -388,7 +388,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * property prettyName = "WebHome"
      * generated link should equal "http://www.xwiki.org/bin/view/Main/WebHome"
      *
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void testLabelLinkGeneration()
     {
@@ -396,7 +396,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         String page = "TestConfigurable";
         createConfigurableApplication(space, page, "TestSection3", true);
         open(space, page, "edit", "editor=object");
-        setFieldValue("XWiki.Configurable_0_linkPrefix", "TheLinkPrefix");
+        setFieldValue("XWiki.ConfigurableClass_0_linkPrefix", "TheLinkPrefix");
         clickEditSaveAndView();
 
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection3");
@@ -407,10 +407,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
     }
 
     /*
-     * Fails unless XWiki.Configurable locks each page on view and unlocks any other configurable page.
+     * Fails unless XWiki.ConfigurableClass locks each page on view and unlocks any other configurable page.
      * Also fails if codeToExecute is not being evaluated.
      *
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void testLockingAndUnlocking()
     {
@@ -455,7 +455,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     /*
      * If CodeToExecute is defined in a configurable app, then it should be evaluated.
      * Also header should be evaluated and not just printed.
-     * If XWiki.Configurable is saved with programming rights, it should resave itself so that it doesn't have them.
+     * If XWiki.ConfigurableClass is saved with programming rights, it should resave itself so that it doesn't have them.
      */
     public void testCodeToExecutionAndAutoSandboxing()
     {
@@ -470,19 +470,19 @@ public class AdministrationTest extends AbstractXWikiTestCase
                        + "T${code}uld also be displayed.";
         createConfigurableApplication(space, page, "TestSection6", true);
         open(space, page, "edit", "editor=object");
-        setFieldValue("XWiki.Configurable_0_codeToExecute", codeToExecute);
-        setFieldValue("XWiki.Configurable_0_heading", heading);
+        setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", codeToExecute);
+        setFieldValue("XWiki.ConfigurableClass_0_heading", heading);
         clickEditSaveAndView();
 
-        // Our admin will foolishly save XWiki.Configurable, giving it programming rights.
-        open("XWiki", "Configurable", "edit", "editor=wiki");
+        // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
+        open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
 
         setFieldValue("content", getFieldValue("content")
                       + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
         clickEditSaveAndContinue();
 
         // Now we look at the section for our configurable.
-        open("XWiki", "Configurable", "view", "editor=globaladmin&section=TestSection6");
+        open("XWiki", "ConfigurableClass", "view", "editor=globaladmin&section=TestSection6");
 
         assertTextPresent("This should be displayed.");
         assertTextPresent("This should also be displayed.");
@@ -537,12 +537,12 @@ public class AdministrationTest extends AbstractXWikiTestCase
     /*
      * Fails unless there is an administration icon for the section.
      * Must be in the administration app first.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void assertConfigurationIconPresent(String section, String iconURL)
     {
         if(iconURL == null) {
-            iconURL = "/xwiki/bin/download/XWiki/Configurable/DefaultAdminSectionIcon.png";
+            iconURL = "/xwiki/bin/download/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png";
         }
         assertElementPresent("//div[@id='admin-page-menu']/ul[@id='admin-icons']/li[@class='" + section + "']/a/img"
                              + "[@src='" + iconURL + "']");
@@ -551,7 +551,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     /*
      * Fails if there is an administration icon for the named section.
      * Must be in the administration app first.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void assertConfigurationIconNotPresent(String section)
     {
@@ -560,7 +560,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
     /*
      * Will fail unless it detects a configuration of the type created by createConfigurableApplication.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void assertConfigurationPresent(String space, String page)
     {
@@ -586,7 +586,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
     /*
      * Will fail if it detects a configuration of the type created by createConfigurableApplication.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void assertConfigurationNotPresent(String space, String page)
     {
@@ -604,7 +604,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     /*
      * Creates a new page with a configuration class with some simple fields
      * then adds an object of class configurable and one of it's own class.
-     * Tests: XWiki.Configurable
+     * Tests: XWiki.ConfigurableClass
      */
     public void createConfigurableApplication(String space, String page, String section, boolean global)
     {
@@ -632,7 +632,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
             open(space, page, "edit", "editor=object");
 
             // Add a configurable object which points to the new class as the configuration class.
-            setFieldValue("classname", "XWiki.Configurable");
+            setFieldValue("classname", "XWiki.ConfigurableClass");
             submit("//input[@value='Add Object from this Class']");
             clickEditSaveAndView();
 
@@ -647,13 +647,13 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("classname", space + "." + page);
         submit("//input[@value='Add Object from this Class']");
 
-        setFieldValue("XWiki.Configurable_0_displayInSection", section);
-        setFieldValue("XWiki.Configurable_0_heading", "Some Heading");
-        setFieldValue("XWiki.Configurable_0_configurationClass", space + "." + page);
+        setFieldValue("XWiki.ConfigurableClass_0_displayInSection", section);
+        setFieldValue("XWiki.ConfigurableClass_0_heading", "Some Heading");
+        setFieldValue("XWiki.ConfigurableClass_0_configurationClass", space + "." + page);
         if (global == true) {
-            getSelenium().check("XWiki.Configurable_0_configureGlobally");
+            getSelenium().check("XWiki.ConfigurableClass_0_configureGlobally");
         } else {
-            getSelenium().uncheck("XWiki.Configurable_0_configureGlobally");
+            getSelenium().uncheck("XWiki.ConfigurableClass_0_configureGlobally");
         }
         // We won't set linkPrefix, propertiesToShow, codeToExecute, or iconAttachment.
 

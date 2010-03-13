@@ -185,11 +185,11 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
                 return documentExists((String) invocation.parameterValues.get(0));
             }
         });
-        mockXWiki.stubs().method("getClass").will(new CustomStub("Implements XWiki.getClass")
+        mockXWiki.stubs().method("getXClass").will(new CustomStub("Implements XWiki.getClass")
         {
             public Object invoke(Invocation invocation) throws Throwable
             {
-                return getDocument((String) invocation.parameterValues.get(0)).getxWikiClass();
+                return getDocument((String) invocation.parameterValues.get(0)).getXClass();
             }
         });
         mockXWiki.stubs().method("search").will(returnValue(Collections.EMPTY_LIST));

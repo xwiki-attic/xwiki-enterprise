@@ -15,6 +15,8 @@ import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
 import org.xwiki.cache.internal.DefaultCache;
+import org.xwiki.model.reference.EntityReference;
+import org.xwiki.model.reference.EntityReferenceSerializer;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiException;
@@ -27,6 +29,7 @@ import com.xpn.xwiki.store.XWikiStoreInterface;
 import com.xpn.xwiki.user.api.XWikiGroupService;
 import com.xpn.xwiki.user.impl.LDAP.LDAPProfileXClass;
 import com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl;
+import com.xpn.xwiki.web.Utils;
 
 /**
  * Unit tests using embedded LDAP server (Apache DS). Theses test can be launched directly from JUnit plugin of EDI.
@@ -41,6 +44,11 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
     private static final String GROUP_XCLASS = "XWiki.XWikiGroups";
 
+    /**
+     * Used to convert a proper Document Reference to a string but without the wiki name.
+     */
+    private EntityReferenceSerializer<String> localEntityReferenceSerializer;
+    
     private XWikiLDAPAuthServiceImpl ldapAuth;
 
     private CacheFactory cacheFactory = new CacheFactory()
@@ -124,6 +132,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     {
         super.setUp();
 
+        this.localEntityReferenceSerializer = Utils.getComponent(
+                EntityReferenceSerializer.class, "local");
+        
         this.userClass = new BaseClass();
         this.groupClass = new BaseClass();
 
@@ -189,7 +200,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         {
             public Object invoke(Invocation invocation) throws Throwable
             {
-                return getDocument((String) invocation.parameterValues.get(0)).getXClass();
+                return getDocument(localEntityReferenceSerializer.serialize((EntityReference) invocation.parameterValues.get(0))).getXClass();
             }
         });
         mockXWiki.stubs().method("search").will(returnValue(Collections.EMPTY_LIST));

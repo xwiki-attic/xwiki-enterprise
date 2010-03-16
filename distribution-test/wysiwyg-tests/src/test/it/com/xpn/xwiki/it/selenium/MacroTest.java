@@ -1255,6 +1255,19 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-5013: HTML code visible when inserting velocity macro displaying a property
+     */
+    public void testInsertVelocityMacroDisplayingAProperty()
+    {
+        insertMacro("Velocity");
+        setFieldValue("pd-content-input",
+            "{{velocity}}$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\"){{/velocity}}");
+        applyMacroChanges();
+        // Check the displayed text.
+        assertEquals("velocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

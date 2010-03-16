@@ -1234,6 +1234,7 @@ public class MacroTest extends AbstractWysiwygTestCase
             setFieldValue("XWiki.WikiMacroClass_0_name", "Now");
             getSelenium().select("XWiki.WikiMacroClass_0_contentType", "No content");
             setFieldValue("XWiki.WikiMacroClass_0_code", "{{velocity}}$util.date{{/velocity}}");
+            clickEditSaveAndContinue();
             // Create the mandatory parameter.
             getSelenium().select("classname", "WikiMacroParameterClass");
             getSelenium().click("//input[@value = 'Add Object from this Class']");

@@ -156,8 +156,8 @@
   ## ==============================================
 {
   #if("$!request.sql" == '1')
-    "sql": $sql,
-    "countsql": $countSql,
+    "sql": "$escapetool.javascript($sql)",
+    "countsql": "$escapetool.javascript($countSql)",
   #end
   "totalrows": $totalItems,
   "matchingtags": {

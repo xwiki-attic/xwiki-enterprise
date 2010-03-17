@@ -197,7 +197,7 @@
         #set($editUrl = $itemDoc.getURL($itemDoc.defaultEditMode))
         #set($copyUrl = $xwiki.getURL('XWiki.CopyDocument', 'view', "sourcedoc=${util.encodeURI($fullname)}"))
         #set($deleteUrl = $itemDoc.getURL('delete'))
-        #set($renameUrl = $itemDoc.getURL('view', 'xpage=rename&amp;amp;step=1'))
+        #set($renameUrl = $itemDoc.getURL('view', 'xpage=rename&amp;step=1'))
         #set($rightsUrl = $itemDoc.getURL('edit', 'editor=rights'))
         "doc_name" : "$itemDoc.name",
         "doc_fullname" : "$fullname",

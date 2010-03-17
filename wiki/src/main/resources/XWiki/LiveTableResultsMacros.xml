@@ -318,8 +318,13 @@
     #set($tableName = 'LargeStringProperty')
   #elseif($propType == 'StaticListClass' || $propType == 'DBListClass' || $propType == 'DBTreeListClass')
     #set($multiSelect = $propClass.get($colname).getProperty('multiSelect').getValue())
+    #set($relationalStorage = $propClass.get($colname).getProperty('relationalStorage').getValue())
     #if($multiSelect == 1)
-      #set($tableName = 'DBStringListProperty')
+      #if($relationalStorage == 1)
+        #set($tableName = 'DBStringListProperty')
+      #else
+        #set($tableName = 'StringListProperty')
+      #end
     #else
       #set($tableName = 'StringProperty')
     #end
@@ -437,9 +442,15 @@
       #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and upper(${tableAlias}.value) like upper('%${filterValue}%')")
     #elseif($propType == 'StaticListClass' || $propType == 'DBListClass' || $propType == 'DBTreeListClass')
       #set($multiSelect = $propClass.get($colname).getProperty('multiSelect').getValue())
+      #set($relationalStorage = $propClass.get($colname).getProperty('relationalStorage').getValue())
       #if($multiSelect == 1)
-        #set($fromSql = "${fromSql}, DBStringListProperty ${tableAlias}")
-        #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and '${filterValue}' in elements(${tableAlias}.list)")
+        #if($relationalStorage == 1)
+          #set($fromSql = "${fromSql}, DBStringListProperty ${tableAlias}")
+          #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and '${filterValue}' in elements(${tableAlias}.list)")
+        #else
+          #set($fromSql = "${fromSql}, StringListProperty ${tableAlias}")
+          #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and upper(${tableAlias}.textValue) like upper('%${filterValue}%')")
+        #end
       #else
         #set($fromSql = "${fromSql}, StringProperty ${tableAlias}")
         #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and ${tableAlias}.value = '${filterValue}'")

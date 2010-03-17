@@ -163,14 +163,13 @@
   "matchingtags": {
   #foreach($tag in $tagsMatchingFilters.keySet())
     #if($velocityCount &gt; 1) , #end
-    #set($t=$tag.replaceAll('"','\\"'))
-    "$t": {}
+    "$escapetool.javascript($tag)": {}
   #end
   },
   "tags" : [
   #foreach($tag in $allMatchingTags.keySet())
     #if($velocityCount &gt; 1) , #end
-    {"tag": "$tag.replaceAll("\"", "\\"")", "count": $allMatchingTags.get($tag)}
+    {"tag": "$escapetool.javascript($tag)", "count": $allMatchingTags.get($tag)}
   #end
   ],
   "returnedrows": #if($returnedItems &lt; $limit) $returnedItems #else $limit #end,
@@ -183,11 +182,11 @@
      {
       "doc_viewable" : $viewable,
       #if(!$viewable)
-        "doc_fullname" : "${context.database}:${item}"
+        "doc_fullname" : "$escapetool.javascript(${context.database}):$escapetool.javascript(${item})"
       #else
         #set($itemDoc = $xwiki.getDocument($item))
         #set($fullname = "${itemDoc.wiki}:${itemDoc.space}.${itemDoc.name}")
-        #set($ok = $itemDoc.use($className))
+        #set($discard = $itemDoc.use($className))
         #set($itemUrl = $xwiki.getURL($item))
         #set($spaceUrl = $xwiki.getURL("${itemDoc.wiki}:${itemDoc.space}.WebHome"))
         #if($xwiki.isVirtualMode())
@@ -199,46 +198,46 @@
         #set($deleteUrl = $itemDoc.getURL('delete'))
         #set($renameUrl = $itemDoc.getURL('view', 'xpage=rename&amp;step=1'))
         #set($rightsUrl = $itemDoc.getURL('edit', 'editor=rights'))
-        "doc_name" : "$itemDoc.name",
-        "doc_fullname" : "$fullname",
-        "doc_space" : "${itemDoc.space}",
-        "doc_url" : "${itemUrl}",
-        "doc_space_url" : "${spaceUrl}",
+        "doc_name" : "$escapetool.javascript($itemDoc.name)",
+        "doc_fullname" : "$escapetool.javascript($fullname)",
+        "doc_space" : "$escapetool.javascript(${itemDoc.space})",
+        "doc_url" : "$escapetool.javascript(${itemUrl})",
+        "doc_space_url" : "$escapetool.javascript(${spaceUrl})",
         #if($xwiki.isVirtualMode())
-          "doc_wiki" : "$wiki",
-          "doc_wiki_url" : "$wikiUrl",
+          "doc_wiki" : "$escapetool.javascript($wiki)",
+          "doc_wiki_url" : "$escapetool.javascript($wikiUrl)",
         #end
         "doc_hasadmin"  : $xwiki.hasAdminRights(),
-        "doc_edit_url" : "$editUrl",
-        "doc_copy_url"   : "$copyUrl",
-        "doc_delete_url" : "$deleteUrl",
-        "doc_rename_url" : "$renameUrl",
-        "doc_rights_url" : "$rightsUrl",
-        "doc_author_url" : "$xwiki.getURL($itemDoc.author)",
-        "doc_date" : "${xwiki.formatDate($itemDoc.date)}",
-        "doc_title" : "$xwiki.getXMLEncoded(${itemDoc.getDisplayTitle()})",
-        "doc_author" : "${xwiki.getLocalUserName($itemDoc.author, false)}",
-        "doc_creationDate" : "${xwiki.formatDate($itemDoc.creationDate)}",
-        "doc_creator" : "${xwiki.getLocalUserName($itemDoc.creator, false)}"
+        "doc_edit_url" : "$escapetool.javascript($editUrl)",
+        "doc_copy_url"   : "$escapetool.javascript($copyUrl)",
+        "doc_delete_url" : "$escapetool.javascript($deleteUrl)",
+        "doc_rename_url" : "$escapetool.javascript($renameUrl)",
+        "doc_rights_url" : "$escapetool.javascript($rightsUrl)",
+        "doc_author_url" : "$escapetool.javascript($xwiki.getURL($itemDoc.author))",
+        "doc_date" : "$escapetool.javascript(${xwiki.formatDate($itemDoc.date)})",
+        "doc_title" : "$escapetool.javascript($xwiki.getXMLEncoded(${itemDoc.getDisplayTitle()}))",
+        "doc_author" : "$escapetool.javascript(${xwiki.getLocalUserName($itemDoc.author, false)})",
+        "doc_creationDate" : "$escapetool.javascript(${xwiki.formatDate($itemDoc.creationDate)})",
+        "doc_creator" : "$escapetool.javascript(${xwiki.getLocalUserName($itemDoc.creator, false)})"
         #foreach($colname in $collist)
           #if($colname.startsWith('doc.'))
           #elseif($colname == '_action') ,
             #set($text = $msg.get("${request.transprefix}actiontext"))
-           "${colname}" : "${text}"
+           "$escapetool.javascript(${colname})" : "$escapetool.javascript(${text})"
           #elseif($colname == '_attachments') ,
             #livetable_getAttachmentsList($itemDoc)
-            "${colname}" : "${attachlist}"
+            "$escapetool.javascript(${colname})" : "$escapetool.javascript(${attachlist})"
           #elseif($colname == '_avatar') ,
             #livetable_getAvatar($itemDoc)
-            "${colname}" : "${avatar}"
+            "$escapetool.javascript(${colname})" : "$escapetool.javascript(${avatar})"
           #elseif($colname == '_images') ,
             #livetable_getImagesList($itemDoc)
-            "${colname}" : "${imagesList}"
+            "$escapetool.javascript(${colname})" : "$escapetool.javascript(${imagesList})"
           #else ,
             #set($propClassName = "$!{request.get(${colname.concat('_class')})}")
             #if($propClassName != '')
               #set($propClass = $xwiki.getDocument($propClassName).getxWikiClass())
-              #set($ok = $itemDoc.use($propClassName))
+              #set($discard = $itemDoc.use($propClassName))
             #else
               #set($propClass = $class)
             #end
@@ -268,11 +267,11 @@
                 #set($fieldUrl = '')
               #end
             #end
-            "${colname}" : "${fieldDisplayValue}",
-            "${colname}_value" : "${fieldValue}",
-            "${colname}_url" : "${fieldUrl}"
+            "$escapetool.javascript(${colname})" : "$escapetool.javascript(${fieldDisplayValue})",
+            "$escapetool.javascript(${colname})_value" : "$escapetool.javascript(${fieldValue})",
+            "$escapetool.javascript(${colname})_url" : "$escapetool.javascript(${fieldUrl})"
             ## reset to the default class
-            #set($ok = $itemDoc.use($className))
+            #set($discard = $itemDoc.use($className))
           #end
         #end
       #end
@@ -427,7 +426,7 @@
   ##
   ## Filter values
   #if("$!filterValue" != '')
-    #set($ok = $tablelist.add($tableAlias))
+    #set($discard = $tablelist.add($tableAlias))
     #if($colname.startsWith('doc.'))
       #set($whereSql = "${whereSql} and upper(str(${colname.replace('_','.')})) like upper('%${filterValue}%')")
     #elseif($propType == 'NumberClass' || $propType == 'BooleanClass')

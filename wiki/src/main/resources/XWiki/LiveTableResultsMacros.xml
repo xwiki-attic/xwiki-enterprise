@@ -41,6 +41,9 @@
  * set of results serialized in JSON.
  *#
 #macro(gridresultwithfilter $className $collist $filterfrom $filterwhere)
+  #if("$!{request.xpage}" == 'plain')
+    $response.setContentType('application/json')
+  #end
   #set($offset = $util.parseInt($request.get('offset')))
   ## offset starts from 0 in velocity and 1 in javascript
   #set($offset = $offset - 1)

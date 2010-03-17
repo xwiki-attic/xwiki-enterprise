@@ -372,7 +372,7 @@
   #foreach ($attachment in $itemDoc.attachmentList)
     #if($attachment.isImage())
       #set($attachmentUrl = $itemDoc.getAttachmentURL($attachment.filename))
-      #set($imagesList = "${imagesList}&lt;img src='${attachmentUrl}' width='50'/&gt;&lt;br/&gt;")
+      #set($imagesList = "${imagesList}&lt;img src='${attachmentUrl}' alt='${attachment.filename}' width='50'/&gt;&lt;br/&gt;")
     #end
   #end
 #end

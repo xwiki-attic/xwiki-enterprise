@@ -22,7 +22,7 @@
 <comment></comment>
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
+<hidden>true</hidden>
 <class>
 <name>ColorThemes.ColorThemeClass</name>
 <customClass></customClass>
@@ -34,7 +34,7 @@
 <validationScript></validationScript>
 <backgroundSecondaryColor>
 <name>backgroundSecondaryColor</name>
-<number>29</number>
+<number>30</number>
 <picker>0</picker>
 <prettyName>Secondary background color (table headers, message boxes, administration boxes)</prettyName>
 <size>7</size>
@@ -56,7 +56,7 @@
 </borderColor>
 <buttonPrimaryBackgroundColor>
 <name>buttonPrimaryBackgroundColor</name>
-<number>26</number>
+<number>27</number>
 <picker>0</picker>
 <prettyName>Primary action button background color</prettyName>
 <size>7</size>
@@ -67,7 +67,7 @@
 </buttonPrimaryBackgroundColor>
 <buttonPrimaryTextColor>
 <name>buttonPrimaryTextColor</name>
-<number>25</number>
+<number>26</number>
 <picker>0</picker>
 <prettyName>Primary action button text color</prettyName>
 <size>7</size>
@@ -78,7 +78,7 @@
 </buttonPrimaryTextColor>
 <buttonSecondaryBackgroundColor>
 <name>buttonSecondaryBackgroundColor</name>
-<number>28</number>
+<number>29</number>
 <picker>0</picker>
 <prettyName>Secondary action button background color</prettyName>
 <size>7</size>
@@ -89,7 +89,7 @@
 </buttonSecondaryBackgroundColor>
 <buttonSecondaryTextColor>
 <name>buttonSecondaryTextColor</name>
-<number>27</number>
+<number>28</number>
 <picker>0</picker>
 <prettyName>Secondary action button text color</prettyName>
 <size>7</size>
@@ -100,7 +100,7 @@
 </buttonSecondaryTextColor>
 <headerBackgroundImage>
 <name>headerBackgroundImage</name>
-<number>12</number>
+<number>13</number>
 <picker>0</picker>
 <prettyName>Banner (header image - the name of an image attached to the theme document)</prettyName>
 <size>15</size>
@@ -111,7 +111,7 @@
 </headerBackgroundImage>
 <headerBackgroundPosition>
 <name>headerBackgroundPosition</name>
-<number>13</number>
+<number>14</number>
 <picker>0</picker>
 <prettyName>Banner position and repeat (CSS syntax, for example: "left center no-repeat")</prettyName>
 <size>30</size>
@@ -122,7 +122,7 @@
 </headerBackgroundPosition>
 <highlightColor>
 <name>highlightColor</name>
-<number>14</number>
+<number>15</number>
 <picker>0</picker>
 <prettyName>Background color for highlighted elements</prettyName>
 <size>7</size>
@@ -142,9 +142,20 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </linkColor>
+<logoImage>
+<name>logoImage</name>
+<number>11</number>
+<picker>0</picker>
+<prettyName>Logo (image displayed at the top left corner of the header - the name of an image attached to the theme document; if set, it has priority over the logo configured in the skin and the default logo)</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</logoImage>
 <menuBackgroundColor>
 <name>menuBackgroundColor</name>
-<number>15</number>
+<number>16</number>
 <picker>0</picker>
 <prettyName>Menu background color</prettyName>
 <size>7</size>
@@ -155,7 +166,7 @@
 </menuBackgroundColor>
 <menuLinkColor>
 <name>menuLinkColor</name>
-<number>16</number>
+<number>17</number>
 <picker>0</picker>
 <prettyName>Menu text color</prettyName>
 <size>7</size>
@@ -166,7 +177,7 @@
 </menuLinkColor>
 <menuSelectedEntryBackgroundColor>
 <name>menuSelectedEntryBackgroundColor</name>
-<number>17</number>
+<number>18</number>
 <picker>0</picker>
 <prettyName>Selected menu entry background color</prettyName>
 <size>7</size>
@@ -177,7 +188,7 @@
 </menuSelectedEntryBackgroundColor>
 <menuSelectedEntryLinkColor>
 <name>menuSelectedEntryLinkColor</name>
-<number>18</number>
+<number>19</number>
 <picker>0</picker>
 <prettyName>Selected menu entry text color</prettyName>
 <size>7</size>
@@ -232,7 +243,7 @@
 </pageContentBackgroundColor>
 <pageHeaderBackgroundColor>
 <name>pageHeaderBackgroundColor</name>
-<number>11</number>
+<number>12</number>
 <picker>0</picker>
 <prettyName>Page header background color</prettyName>
 <size>7</size>
@@ -243,7 +254,7 @@
 </pageHeaderBackgroundColor>
 <panelBackgroundColor>
 <name>panelBackgroundColor</name>
-<number>19</number>
+<number>20</number>
 <picker>0</picker>
 <prettyName>Panel background color</prettyName>
 <size>7</size>
@@ -254,7 +265,7 @@
 </panelBackgroundColor>
 <panelCollapsedBackgroundColor>
 <name>panelCollapsedBackgroundColor</name>
-<number>23</number>
+<number>24</number>
 <picker>0</picker>
 <prettyName>Collapsed panel background color</prettyName>
 <size>7</size>
@@ -265,7 +276,7 @@
 </panelCollapsedBackgroundColor>
 <panelCollapsedTextColor>
 <name>panelCollapsedTextColor</name>
-<number>24</number>
+<number>25</number>
 <picker>0</picker>
 <prettyName>Collapsed panel text color</prettyName>
 <size>7</size>
@@ -276,7 +287,7 @@
 </panelCollapsedTextColor>
 <panelHeaderBackgroundColor>
 <name>panelHeaderBackgroundColor</name>
-<number>21</number>
+<number>22</number>
 <picker>0</picker>
 <prettyName>Panel header background color</prettyName>
 <size>7</size>
@@ -287,7 +298,7 @@
 </panelHeaderBackgroundColor>
 <panelHeaderTextColor>
 <name>panelHeaderTextColor</name>
-<number>22</number>
+<number>23</number>
 <picker>0</picker>
 <prettyName>Panel header text color</prettyName>
 <size>7</size>
@@ -298,7 +309,7 @@
 </panelHeaderTextColor>
 <panelTextColor>
 <name>panelTextColor</name>
-<number>20</number>
+<number>21</number>
 <picker>0</picker>
 <prettyName>Panel text color</prettyName>
 <size>7</size>

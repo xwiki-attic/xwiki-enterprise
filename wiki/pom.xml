@@ -69,7 +69,13 @@
       <artifactId>xwiki-application-wiki-macro-bridge</artifactId>
       <version>${platform.wikimacrobridge.version}</version>
       <type>xar</type>
-    </dependency>    
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-annotations</artifactId>
+      <version>${platform.annotations.version}</version>
+      <type>xar</type>
+    </dependency>        
   </dependencies>
   <build>
     <extensions>

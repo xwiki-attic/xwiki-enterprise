@@ -43,114 +43,6 @@
 </attachment>
 <object>
 <class>
-<name>XWiki.JavaScriptExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>onDemand=On demand|always=Always</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>Main.RecentChanges</name>
-<number>0</number>
-<className>XWiki.JavaScriptExtension</className>
-<guid>6489836d-a0fc-49f0-8dec-d2fa5c889737</guid>
-<property>
-<cache>long</cache>
-</property>
-<property>
-<code>/*
-** Add pseudo-support for li:hover in IE6.
-*/
-ie6lihoverfix = function() {
-  var lists = document.getElementsByClassName("xlist");
-  for (i = 0; i &lt; lists.length; i++) {
-    listRoot = lists[i];
-    for (j = 0; j &lt; listRoot.childNodes.length; j++) {
-      var node = listRoot.childNodes[j];
-      if (node.nodeName=="LI") {
-        node.onmouseover=function() {
-          this.className+=" over";
-        }
-        node.onmouseout=function() {
-          this.className=this.className.replace(" over", "");
-        }
-      }
-    }
-  }
-}
-/*
-** Activate hack on load if browser is IE6 and if needed (some other applications may contain it).
-*/
-if (browser.isIE &amp;&amp; browser.versionMajor == 6 &amp;&amp; typeof XWiki.ie6lihoverfix == "undefined") {
-  Event.observe(window, "load", ie6lihoverfix);
-  XWiki.ie6lihoverfix = true;
-}
-</code></property><property><name></name></property><property><parse>0</parse>
-</property>
-<property>
-<use>onDemand</use>
-</property>
-</object>
-<object>
-<class>
 <name>XWiki.StyleSheetExtension</name>
 <customClass></customClass>
 <customMapping></customMapping>
@@ -342,12 +234,7 @@ ul.xlist li.xitem div.xshowonhover {
   padding: 0 .5em 0 0;
 }
 
-ul.xlist li.xitem:hover div.xshowonhover {  
-  display: block;
-}
-
-/* IE6 hack, see JSX */
-ul.xlist li.over div.xshowonhover {  
+ul.xlist li.xitem:hover div.xshowonhover {
   display: block;
 }</code>
 </property>

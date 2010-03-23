@@ -339,20 +339,20 @@ $xwiki.ssx.use($doc.fullName)
   #if("$!currentTheme" == '')
     #set($currentTheme = 'ColorThemes.DefaultColorTheme')
   #end
-  === $msg.get('xe.themes.current') ===
+  == $msg.get('xe.themes.current') ==
   #displayTheme($currentTheme)
   &lt;div class="clearfloats"&gt;&lt;/div&gt;
   #set($query = ", BaseObject as theme where doc.fullName=theme.name and theme.className='ColorThemes.ColorThemeClass' and doc.fullName&lt;&gt;'ColorThemes.ColorThemeTemplate' and doc.fullName&lt;&gt;'$currentTheme' and doc.fullName&lt;&gt;'ColorThemes.ColorThemeSheet' order by doc.title")
   #set($themeList = $xwiki.searchDocuments($query, 0, 0))
   #if($themeList.size() &gt; 0)
-    === $msg.get('xe.themes.others') ===
+    == $msg.get('xe.themes.others') ==
   #end
   #if(!$isGuest)
   &lt;form action="$doc.getURL()" method="post"&gt;
   &lt;div class="x-theme-create"&gt;
     &lt;input type="hidden" name="xaction" value="create"/&gt;
     &lt;label for="newThemeName" class="hidden"&gt;$msg.get('xe.themes.create.nameLabel')&lt;/label&gt;
-    &lt;input type="text" name="newThemeName" value="$msg.get('xe.themes.create.nameTip')" class="withTip"/&gt;
+    &lt;input type="text" name="newThemeName" id="newThemeName" value="$msg.get('xe.themes.create.nameTip')" class="withTip"/&gt;
     &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.themes.create')" class="button"/&gt;&lt;/span&gt;
   &lt;/div&gt;
   &lt;/form&gt;

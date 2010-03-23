@@ -29,7 +29,7 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.3M1
  */
-public class LoginPage extends BasePage
+public class LoginPage extends ViewPage
 {
     @FindBy(id = "j_username")
     private WebElement usernameText;

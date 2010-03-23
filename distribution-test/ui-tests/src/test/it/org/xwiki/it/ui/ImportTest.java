@@ -26,9 +26,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.it.ui.elements.AdministrationPage;
-import org.xwiki.it.ui.elements.BasePage;
 import org.xwiki.it.ui.elements.HistoryPane;
 import org.xwiki.it.ui.elements.ImportPage;
+import org.xwiki.it.ui.elements.ViewPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.it.ui.framework.TestUtils;
 
@@ -86,7 +86,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         importPage.selectReplaceHistoryOption();
         importPage.importPackage();
 
-        BasePage importedPage = importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = importPage.clickImportedPage("Main.TestPage");
 
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
@@ -105,7 +105,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         importPage.importPackage();
 
-        BasePage importedPage = importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = importPage.clickImportedPage("Main.TestPage");
 
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
@@ -123,7 +123,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         importPage.importPackage();
 
-        BasePage importedPage = importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = importPage.clickImportedPage("Main.TestPage");
 
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 

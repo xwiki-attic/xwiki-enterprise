@@ -32,7 +32,6 @@ import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Represents the common actions possible on all Pages.
@@ -42,18 +41,6 @@ import org.xwiki.it.ui.framework.TestUtils;
  */
 public class BasePage
 {
-    @FindBys({@FindBy(id = "tmRegister"), @FindBy(tagName = "a")})
-    private WebElement registerLink;
-
-    @FindBys({@FindBy(id = "tmLogin"), @FindBy(tagName = "a")})
-    private WebElement loginLink;
-
-    @FindBys({@FindBy(id = "tmLogout"), @FindBy(tagName = "a")})
-    private WebElement logoutLink;
-
-    @FindBys({@FindBy(id = "tmUser"), @FindBy(tagName = "a")})
-    private WebElement userLink;
-
     private WebDriver driver;
 
     public BasePage(WebDriver driver)
@@ -68,6 +55,21 @@ public class BasePage
         return this.driver;
     }
 
+    public String getPageTitle()
+    {
+        return getDriver().getTitle();
+    }
+
+    public String getPageURL()
+    {
+        return getDriver().getCurrentUrl();
+    }
+
+    public String getMetaDataValue(String metaName)
+    {
+        return getDriver().findElement(By.xpath("//meta[@name='" + metaName + "']")).getAttribute("content");
+    }
+    
     public void waitUntilElementIsVisible(final By locator)
     {
         this.waitUntilElementIsVisible(locator, 10);
@@ -84,78 +86,6 @@ public class BasePage
                 return element.isDisplayed() ? element : null;
             }
         });
-    }
-
-    /**
-     * Logs in the Admin user (move to the home page if the current page has no log in link).
-     */
-    public void loginAsAdmin()
-    {
-        if (!isAuthenticated()) {
-            // If there's no login link then go to the home page
-            if (!hasLoginLink()) {
-                HomePage homePage = new HomePage(getDriver());
-                homePage.gotoHomePage();
-            }
-            clickLogin().loginAsAdmin();
-        }
-    }
-
-    public boolean hasLoginLink()
-    {
-        // Note that we cannot test if the loginLink field is accessible since we're using an AjaxElementLocatorFactory
-        // and thus it would wait 15 seconds before considering it's not accessible.
-        return !getDriver().findElements(By.id("tmLogin")).isEmpty();
-    }
-
-    public LoginPage clickLogin()
-    {
-        this.loginLink.click();
-        return new LoginPage(getDriver());
-    }
-
-    public boolean isAuthenticated()
-    {
-        // Note that we cannot test if the userLink field is accessible since we're using an AjaxElementLocatorFactory
-        // and thus it would wait 15 seconds before considering it's not accessible.
-        return !getDriver().findElements(By.id("tmUser")).isEmpty();
-    }
-
-    public String getCurrentUser()
-    {
-        return this.userLink.getText();
-    }
-
-    public void clickLogout()
-    {
-        this.logoutLink.click();
-    }
-
-    public RegisterPage clickRegister()
-    {
-        this.registerLink.click();
-        return new RegisterPage(getDriver());
-    }
-
-    // TODO: I don't think we should go through the menus, it's probably faster to to as deletePage() does 
-    public void deleteCurrentPage()
-    {
-        getDriver().findElement(By.partialLinkText("More actions")).click();
-        getDriver().findElement(By.linkText("Delete")).click();
-
-        getDriver().findElement(By.xpath("//input[@value='yes']")).click();
-
-        // Purge from trash bin
-        makeConfirmDialogSilent(); // temporary, see #makeConfirmDialogSilent
-        getDriver().findElement(By.partialLinkText("Delete")).click();
-    }
-
-    public HistoryPane openHistoryDocExtraPane()
-    {
-        this.getDriver().findElement(By.id("Historylink")).click();
-        this.waitUntilElementIsVisible(By.id("historycontent"));
-
-        return new HistoryPane(driver);
     }
 
     /**

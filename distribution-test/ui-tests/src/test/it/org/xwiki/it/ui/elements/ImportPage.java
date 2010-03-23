@@ -35,7 +35,7 @@ import org.xwiki.it.ui.framework.TestUtils;
  * @version $Id$
  * @since 2.3M1
  */
-public class ImportPage extends BasePage
+public class ImportPage extends ViewPage
 {
     @FindBy(id = "packagelistcontainer")
     private WebElement packageList;
@@ -100,10 +100,10 @@ public class ImportPage extends BasePage
         this.waitUntilElementIsVisible(By.cssSelector("div#packagecontainer div.infomessage"));
     }
 
-    public BasePage clickImportedPage(String pageName)
+    public ViewPage clickImportedPage(String pageName)
     {
         getDriver().findElement(By.linkText(pageName)).click();
-        return new BasePage(getDriver());
+        return new ViewPage(getDriver());
     }
 
     public void selectReplaceHistoryOption()

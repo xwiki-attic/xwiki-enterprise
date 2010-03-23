@@ -22,33 +22,31 @@ package org.xwiki.it.ui.elements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
- * Represents the actions possible on the main Administration Page.
+ * Represents the actions possible on the Create Page template page.
  *
  * @version $Id$
  * @since 2.3M1
  */
-public class AdministrationPage extends ViewPage
+public class CreatePagePage extends ViewPage
 {
-    @FindBy(xpath = "//li[@class='Import']/a/span/img")
-    WebElement importLink;
+    @FindBy(id = "space")
+    private WebElement spaceTextField;
 
-    public AdministrationPage(WebDriver driver)
+    @FindBy(id = "page")
+    private WebElement pageTextField;
+
+    public CreatePagePage(WebDriver driver)
     {
         super(driver);
     }
-    
-    public void gotoAdministrationPage()
-    {
-        TestUtils.gotoPage("XWiki", "XWikiPreferences", "admin", getDriver());
-    }
 
-    public ImportPage clickImportSection()
+    public WYSIWYGEditPage createPage(String spaceValue, String pageValue)
     {
-        this.importLink.click();
-        return new ImportPage(getDriver());
+        this.spaceTextField.sendKeys(spaceValue);
+        this.pageTextField.sendKeys(pageValue);
+        this.pageTextField.submit();
+        return new WYSIWYGEditPage(getDriver());
     }
-
 }

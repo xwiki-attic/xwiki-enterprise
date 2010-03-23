@@ -28,7 +28,7 @@ import org.xwiki.it.ui.framework.TestUtils;
  * @version $Id$
  * @since 2.3M1
  */
-public class HomePage extends BasePage
+public class HomePage extends ViewPage
 {
     public HomePage(WebDriver driver)
     {

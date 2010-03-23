@@ -22,33 +22,34 @@ package org.xwiki.it.ui.elements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
- * Represents the actions possible on the main Administration Page.
+ * Represents the actions possible in WYSIWYG edit mode.
  *
  * @version $Id$
  * @since 2.3M1
  */
-public class AdministrationPage extends ViewPage
+public class WYSIWYGEditPage extends BasePage
 {
-    @FindBy(xpath = "//li[@class='Import']/a/span/img")
-    WebElement importLink;
+    @FindBy(id = "xwikidoctitleinput")
+    private WebElement titleField;
 
-    public AdministrationPage(WebDriver driver)
+    @FindBy(name = "action_save")
+    private WebElement saveAndViewSubmit;
+
+    public WYSIWYGEditPage(WebDriver driver)
     {
         super(driver);
     }
-    
-    public void gotoAdministrationPage()
+
+    public String getDocumentTitle()
     {
-        TestUtils.gotoPage("XWiki", "XWikiPreferences", "admin", getDriver());
+        return this.titleField.getValue();
     }
 
-    public ImportPage clickImportSection()
+    public ViewPage save()
     {
-        this.importLink.click();
-        return new ImportPage(getDriver());
+        this.saveAndViewSubmit.submit();
+        return new ViewPage(getDriver());
     }
-
 }

@@ -27,7 +27,7 @@ import org.openqa.selenium.WebDriver;
  * @version $Id$
  * @since 2.3M1
  */
-public class RegisterPage extends BasePage
+public class RegisterPage extends ViewPage
 {
     public RegisterPage(WebDriver driver)
     {

@@ -183,7 +183,6 @@ XWiki.editors.ColorThemeWizard = Class.create({
     // Generated from the $elementStylingPropertyMap defined in WizardPropertyMapping
     var cssProp;
     #foreach($element in $elementStylingPropertyMap.keySet())
-      $$(this.classPrefix + '$element').each(function(item){ item._x_marker = '$element'; });
       this.propertyMap['$element'] = new Object();
       this.propertyMap['$element'].cssProperties = new Array();
       #foreach($cssProp in $elementStylingPropertyMap.get($element).keySet())
@@ -201,88 +200,84 @@ XWiki.editors.ColorThemeWizard = Class.create({
     $$(this.classPrefix + 'picker-noscript').each(function(item){ item.hide(); });
     // TODO: make sure all elements that must be hidden have this class!
   },
+  fastUp : function(element, className) {
+    while (element != document.documentElement) {
+      if (element.hasClassName(className)) {
+        break;
+      }
+      element = element.up();
+    }
+    return element;
+  },
+  fastDown : function(element, className) {
+    var i, l;
+    var classNameMatcher = new RegExp("(^|\\s)" + className + "(\\s|$)");
+
+    for (i = 0, l = element.childNodes.length; i &lt; l; ++i) {
+      if (element.childNodes[i].nodeType == 1 &amp;&amp; classNameMatcher.test(element.childNodes[i].className)) {
+        return element.childNodes[i];
+      }
+    }
+  },
+  getMainClassName : function(element) {
+    return element.className.substring(0, element.className.indexOf(' '));
+  },
+  getMarker : function(element) {
+    return element.className.substring(this.classPrefix.length - 1, element.className.indexOf(' '));
+  },
   redefineActivation : function() {
-    // Some browsers have a hard time understanding :hover...
-    // Also, whatever:hover has some limitations which make the following code necessary.
-    if (Prototype.Browser.IE) {
-       $$(this.triggerSelector).each(function(item) {
-         var parent = item.up(this.editableGroupSelector);
-         parent.observe('mouseover', function(event) {
-             item.style['display'] = 'block';
-         });
-         parent.observe('mouseout', function(event) {
-             // Do nothing if:
-             // - the picker is visible
-             // - the mouse is just moving on different children of the same element
-             if (item.down(this.pickerSelector).style['display'] == 'none' &amp;&amp;
-                 (!event.toElement ||
-                   !($(event.toElement).descendantOf(parent) || event.toElement == parent)
-                 )
-                ) {
-               item.style['display'] = '';
-             }
-         }.bindAsEventListener(this));
-       }.bind(this));
+    if (!$('body').hasClassName('inlinebody')) {
+      return;
     }
 
     // Make sure only one trigger is visible at a time;
     // Hide the triggers of the containers of the topmost hovered element
-    if ($('body').hasClassName('inlinebody')) {
-      $$(this.editableGroupSelector).each(function(item){
-        item.observe('mouseover', function(event){
-          var cleanClassPrefix = this.classPrefix.substring(1);
-          var triggerID = cleanClassPrefix + item._x_marker + '-trigger';
-          var trigger = $(triggerID);
-          if (event._x_processed) {
-            if(item.down(".colorthemewizard-trigger").down(".colorthemewizard-picker").style.display != 'block') {
-              item.addClassName(cleanClassPrefix + item._x_marker + '-unhover');
-            }
-          } else {
-            item.removeClassName(cleanClassPrefix + item._x_marker + '-unhover');
-            event._x_processed = true;
+    $$(this.editableGroupSelector).each(function(group){
+      group.observe('mouseover', function(event){
+        var cleanClassPrefix = this.getMainClassName(group);
+        var triggerID = cleanClassPrefix + '-trigger';
+        var trigger = $(triggerID);
+        if (this.fastUp(Event.element(event), this.editableGroupSelector.substring(1)) == group) {
+          group.removeClassName(cleanClassPrefix + '-unhover');
+        } else {
+          if(this.fastDown(this.fastDown(group, "colorthemewizard-trigger"), "colorthemewizard-picker").style.display != 'block') {
+            group.addClassName(cleanClassPrefix + '-unhover');
           }
-        }.bindAsEventListener(this));
-      }.bind(this));
-    }
-
-    // To override the no-script activation css rule (hover), hide the pickers from the inline style;
-    $$(this.pickerSelector).each(function(item) {
-      item.style['display'] = 'none';
-    });
-
-    // Enable "tooltips"
-    $$(this.triggerSelector).each(function(item){
-      item.observe('mouseover', function(event) {
-        if (item.down(this.pickerSelector).style['display'] == 'none') {
-          item.down(this.tipSelector).style['display'] = 'block';
         }
       }.bindAsEventListener(this));
-      item.observe('mouseout', function(event) {
-         if (item.down(this.pickerSelector).style['display'] != 'none' ||
-           (!event.toElement ||
-              !($(event.toElement).descendantOf(parent) || event.toElement == parent)
-           )
-         ) {
-           item.down(this.tipSelector).style['display'] = '';
-         }
-       }.bindAsEventListener(this));
-    }.bind(this));
 
-    $$(this.triggerSelector).each(function(item) {
+      // Enable "tooltips"
+      var trigger = $(this.fastDown(group, this.triggerSelector.substring(1)));
+      trigger.observe('mouseover', function(event) {
+        if (this.fastDown(trigger, this.pickerSelector.substring(1)).style['display'] == 'none') {
+          this.fastDown(trigger, this.tipSelector.substring(1)).style['display'] = 'block';
+        }
+      }.bindAsEventListener(this));
+      trigger.observe('mouseout', function(event) {
+        if (this.fastDown(trigger, this.pickerSelector.substring(1)).style['display'] != 'none' ||
+          (!event.toElement ||
+             !($(event.toElement).descendantOf(parent) || event.toElement == parent)
+          )
+        ) {
+          this.fastDown(trigger, this.tipSelector.substring(1)).style['display'] = '';
+        }
+      }.bindAsEventListener(this));
       // Display pickers when clicking on the triggers
-      item.observe('click', this.displayPicker.bindAsEventListener(this, item));
+      trigger.observe('click', this.displayPicker.bindAsEventListener(this, trigger));
       // Hide pickers when pressing 'Esc'
       if (Prototype.Browser.IE || Prototype.Browser.WebKit) {
-        shortcut.add('Esc', this.hidePicker.bindAsEventListener(this, item), {type: 'keyup'});
+        shortcut.add('Esc', this.hidePicker.bindAsEventListener(this, trigger), {type: 'keyup'});
       } else {
-        shortcut.add('Esc', this.hidePicker.bindAsEventListener(this, item), {type: 'keypress'});
+        shortcut.add('Esc', this.hidePicker.bindAsEventListener(this, trigger), {type: 'keypress'});
       }
-    }.bind(this));
-    // Create close buttons for each picker
-    $$(this.pickerSelector).each(function(item) {
+
+      // Create close buttons for each picker
+      var picker = $(this.fastDown(trigger, this.pickerSelector.substring(1)));
       var closeButton = new Element('div', {'class' : 'close-button', 'title' : 'Close'}).update('X');
-      item.insert({top: closeButton});
-      closeButton.observe('click', this.hidePicker.bindAsEventListener(this, closeButton.up(this.triggerSelector)));
+      picker.insert({top: closeButton});
+      closeButton.observe('click', this.hidePicker.bindAsEventListener(this, this.fastUp(closeButton, this.triggerSelector.substring(1))));
+      // To override the no-script activation css rule (hover), hide the pickers from the inline style;
+      picker.style['display'] = 'none';
     }.bind(this));
   },
   displayPicker : function(event, trigger) {
@@ -295,16 +290,16 @@ XWiki.editors.ColorThemeWizard = Class.create({
     }.bind(this));
     trigger.addClassName(this.visibleTriggerSelector.substring(1));
     // Keep the trigger and the picker
-    trigger.down(this.pickerSelector).style['display'] = 'block';
+    this.fastDown(trigger, this.pickerSelector.substring(1)).style['display'] = 'block';
     // Hide tooltip
-    trigger.down(this.tipSelector).style['display'] = '';
+    this.fastDown(trigger, this.tipSelector.substring(1)).style['display'] = '';
   },
   hidePicker : function(event, trigger) {
     if (event) {
       Event.stop(event);
     }
     trigger.removeClassName(this.visibleTriggerSelector.substring(1));
-    trigger.down(this.pickerSelector).style['display'] = 'none';
+    this.fastDown(trigger, this.pickerSelector.substring(1)).style['display'] = 'none';
 
     // Reset undo button values to the ones prior to the picker display
     trigger.select('input[type=text]').each(function(input) {
@@ -323,10 +318,21 @@ XWiki.editors.ColorThemeWizard = Class.create({
   },
   attachChangeListeners : function() {
     var monitoredEvents = ['keyup', 'keypress', 'procolor:changed', 'procolor:closed'];
-    monitoredEvents.each(function(monitoredEvent) {
-      $$(this.maquetteSelector + ' input[type=text]').each(function(item) {
+    $$(this.maquetteSelector + ' input[type=text]').each(function(item) {
+      monitoredEvents.each(function(monitoredEvent) {
         item.observe(monitoredEvent, this.inputValueChanged.bindAsEventListener(this, item));
       }.bind(this));
+      // Create undo buttons
+      item._x_undoButton = new Element('button', {'class' : 'undo', 'title' : 'Undo'}).update('Undo');
+      item._x_undoButton._x_input = item;
+      item._x_undoButton._x_value = item.value;
+      item._x_undoButton.style.visibility = "hidden";
+      item.insert({after : item._x_undoButton})
+      item._x_undoButton.observe('click', function(event){
+        item.value = item._x_undoButton._x_value;
+        this.inputValueChanged(null, item);
+        item._x_undoButton.style.visibility = "hidden";
+      }.bindAsEventListener(this));
     }.bind(this));
 
     // Listen to clicks on the form reset button and recompute the style on reset
@@ -335,28 +341,14 @@ XWiki.editors.ColorThemeWizard = Class.create({
     //     Instead, listen to click on the reset buton, stop the event, call form.reset()
     //     and then update the styles from the maquette.
 
-    $$('input[type=reset]').each(function(btn){
-      btn.observe('click', function(event){
+    $$('input[type=reset]').each(function(btn) {
+      btn.observe('click', function(event) {
         event.stop();
         btn.form.reset();
-        $$(this.maquetteSelector + ', ' + this.maquetteSelector + ' *').each(function(item){
+        $$(this.maquetteSelector + ', ' + this.maquetteSelector + ' *').each(function(item) {
           this.refreshStyle(item);
         }.bind(this));
       }.bindAsEventListener(this));
-    }.bind(this));
-
-    // Create undo buttons
-    $$(this.maquetteSelector + ' input[type=text]').each(function(item){
-       item._x_undoButton = new Element('button', {'class' : 'undo', 'title' : 'Undo'}).update('Undo');
-       item._x_undoButton._x_input = item;
-       item._x_undoButton._x_value = item.value;
-       item._x_undoButton.style.visibility = "hidden";
-       item.insert({after : item._x_undoButton})
-       item._x_undoButton.observe('click', function(event){
-         item.value = item._x_undoButton._x_value;
-         this.inputValueChanged(null, item);
-         item._x_undoButton.style.visibility = "hidden";
-       }.bindAsEventListener(this));
     }.bind(this));
   },
   retrievePropertyName : function(inputName) {
@@ -382,10 +374,10 @@ XWiki.editors.ColorThemeWizard = Class.create({
     input._x_undoButton.style.visibility = "visible";
   },
   refreshStyle : function(item) {
-    if (item._x_marker &amp;&amp; this.propertyMap[item._x_marker]) {
-      this.propertyMap[item._x_marker].cssProperties.each(function(prop) {
+    if (this.propertyMap[this.getMarker(item)]) {
+      this.propertyMap[this.getMarker(item)].cssProperties.each(function(prop) {
         var value = '';
-        this.propertyMap[item._x_marker][prop].each(function(themeProp) {
+        this.propertyMap[this.getMarker(item)][prop].each(function(themeProp) {
           var input = $(this.inputNamePrefix + themeProp);
           var propvalue = '';
           if (input) {

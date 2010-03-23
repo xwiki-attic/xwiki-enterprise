@@ -145,7 +145,7 @@ public class ViewPage extends BasePage
     
     private void hoverOverMenu(String menuId)
     {
-        // We need to hover over the Wiki menu so that the "Create Space" menu entry is visible before we can click on
+        // We need to hover over the Wiki menu so that the a menu entry is visible before we can click on
         // it. The normal way to implement it is to do something like this:
         //
         // @FindBy(id = "tmWiki")

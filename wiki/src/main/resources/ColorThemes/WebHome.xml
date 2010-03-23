@@ -278,7 +278,7 @@ $xwiki.ssx.use($doc.fullName)
     &lt;div class="x-demo-top-menu" style="background-color: $theme.menuBackgroundColor"&gt; &lt;/div&gt;
     &lt;div class="x-demo-header" style="background-color: $theme.pageHeaderBackgroundColor"&gt; &lt;/div&gt;
     &lt;div class="x-demo-page-content" style="background-color: $theme.pageContentBackgroundColor"&gt;
-      &lt;div class="x-demo-title" style="background-color: $theme.titleColor" border-color: $theme.borderColor"&gt; &lt;/div&gt;
+      &lt;div class="x-demo-title" style="background-color: $theme.titleColor; border-color: $theme.borderColor"&gt; &lt;/div&gt;
       &lt;div class="x-demo-text1" style="background-color: $theme.textColor"&gt;&lt;/div&gt;
       &lt;div class="x-demo-text2" style="background-color: $theme.textColor"&gt;&lt;/div&gt;
       &lt;div class="x-demo-text3" style="background-color: $theme.textColor"&gt;&lt;/div&gt;

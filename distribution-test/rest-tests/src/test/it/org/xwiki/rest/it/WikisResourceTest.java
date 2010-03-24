@@ -146,7 +146,8 @@ public class WikisResourceTest extends AbstractHttpTest
             assertTrue(pageSummary.getFullName().endsWith(".WebHome"));
             checkLinks(pageSummary);
         }
-        assertEquals("Some WebHome pages were not found!", expectedWebHomes.size(), foundCounter);
+        // Note: since we can have translations, the number of found pages can be greater than the expected size.
+        assertTrue("Some WebHome pages were not found!", foundCounter >= expectedWebHomes.size());
 
         // Get all pages having a document name that contains "WebHome" and a space with an "s" in its name.
         getMethod =

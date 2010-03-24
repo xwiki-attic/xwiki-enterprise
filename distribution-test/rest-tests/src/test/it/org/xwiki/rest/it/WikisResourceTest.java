@@ -37,6 +37,9 @@ import org.xwiki.rest.resources.wikis.WikiPagesResource;
 import org.xwiki.rest.resources.wikis.WikiSearchResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class WikisResourceTest extends AbstractHttpTest
 {
     @Override
@@ -112,6 +115,7 @@ public class WikisResourceTest extends AbstractHttpTest
 
     public void testPages() throws Exception
     {
+        // Get all pages
         GetMethod getMethod = executeGet(String.format("%s", getUriBuilder(WikiPagesResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -123,18 +127,28 @@ public class WikisResourceTest extends AbstractHttpTest
             checkLinks(pageSummary);
         }
 
+        // Get all pages having a document name that contains "WebHome" (for all spaces)
         getMethod =
             executeGet(String.format("%s?name=WebHome", getUriBuilder(WikiPagesResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getPagesInfo(pages), 14, pages.getPageSummaries().size());
-
+        List<PageSummary> pageSummaries = pages.getPageSummaries();
+        assertTrue(pageSummaries.size() > 0);
+        // Verify that some WebHomes we expect are found.
+        int foundCounter = 0;
+        List<String> expectedWebHomes = Arrays.asList("Main.WebHome", "Sandbox.WebHome", "XWiki.WebHome");
         for (PageSummary pageSummary : pages.getPageSummaries()) {
+            if (expectedWebHomes.contains(pageSummary.getFullName())) {
+                foundCounter++;
+            }
+            assertTrue(pageSummary.getFullName().endsWith(".WebHome"));
             checkLinks(pageSummary);
         }
+        assertEquals("Some WebHome pages were not found!", expectedWebHomes.size(), foundCounter);
 
+        // Get all pages having a document name that contains "WebHome" and a space with an "s" in its name.
         getMethod =
             executeGet(String
                 .format("%s?name=WebHome&space=s", getUriBuilder(WikiPagesResource.class).build(getWiki())));

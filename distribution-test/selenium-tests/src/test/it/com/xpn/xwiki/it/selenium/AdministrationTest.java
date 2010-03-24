@@ -364,7 +364,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // Now we go to where the other half of the configuration should be.
         open("Main", "WebPreferences", "admin", "editor=spaceadmin&section=TestSection2");
-        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + "." + page + ":']/span");
         assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeOtherHeading']/span");
         // Fields
         assertElementPresent(form + "/fieldset/p[1]/label");

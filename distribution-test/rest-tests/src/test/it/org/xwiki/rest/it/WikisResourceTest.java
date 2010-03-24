@@ -157,11 +157,21 @@ public class WikisResourceTest extends AbstractHttpTest
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getPagesInfo(pages), 6, pages.getPageSummaries().size());
-
+        pageSummaries = pages.getPageSummaries();
+        assertTrue(pageSummaries.size() > 0);
+        // Verify that some WebHomes we expect are found.
+        foundCounter = 0;
+        expectedWebHomes = Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
+            "Scheduler.WebHome", "Sandbox.WebHome");
         for (PageSummary pageSummary : pages.getPageSummaries()) {
+            if (expectedWebHomes.contains(pageSummary.getFullName())) {
+                foundCounter++;
+            }
+            assertTrue(pageSummary.getFullName().endsWith(".WebHome"));
             checkLinks(pageSummary);
         }
+        // Note: since we can have translations, the number of found pages can be greater than the expected size.
+        assertTrue("Some WebHome pages were not found!", foundCounter >= expectedWebHomes.size());
     }
 
     public void testAttachments() throws Exception

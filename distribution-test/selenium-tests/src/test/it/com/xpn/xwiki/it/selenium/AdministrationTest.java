@@ -344,7 +344,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // Assert that half of the configuration shows up but not the other half.
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
-        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + "." + page + ":']/span");
         assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
         // Fields
         String fullName = space + "." + page;
@@ -564,7 +564,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void assertConfigurationPresent(String space, String page)
     {
-        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + "." + page + ":']/span");
         assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
         // Fields
         String fullName = space + "." + page;
@@ -590,7 +590,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void assertConfigurationNotPresent(String space, String page)
     {
-        assertElementNotPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + page + "']/span");
+        assertElementNotPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + "." + page + ":']/span");
         assertElementNotPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
         assertConfigurationNotEditable(space, page);
     }

@@ -5,7 +5,7 @@
 <name>XWikiSyntax</name>
 <language>sv</language>
 <defaultLanguage>en</defaultLanguage>
-<translation>0</translation>
+<translation>1</translation>
 <parent>XWiki.WebHome</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>

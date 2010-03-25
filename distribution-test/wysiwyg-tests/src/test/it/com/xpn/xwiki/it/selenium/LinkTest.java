@@ -1867,6 +1867,19 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertSourceText("**[[a>>http://www.xwiki.org]][[b>>http://www.xwiki.org]]**");
     }
 
+    /**
+     * @see XWIKI-4536: wiki pages can no longer be edited when there are links to Wiki pages within a section heading
+     */
+    public void testPreviewHeadingContainingLinkWithNoLabel()
+    {
+        switchToSource();
+        setSourceText("= x [[y]] =");
+        switchToWysiwyg();
+        clickEditPreview();
+        assertElementNotPresent("//div[@class = 'errormessage']");
+        clickBackToEdit();
+    }
+
     protected void waitForStepToLoad(String name)
     {
         waitForElement("//*[contains(@class, '" + name + "')]");

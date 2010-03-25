@@ -635,4 +635,21 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToSource();
         assertSourceText("x");
     }
+
+    /**
+     * @see XWIKI-5036: WYSIWYG editor doesn't display when creating a document named #"&§-_\
+     */
+    public void testEditPageWithSpecialSymbolsInName()
+    {
+        clickEditCancelEdition();
+        clickLinkWithLocator("tmCreatePage");
+        waitPage();
+        setFieldValue("page", "#\"&§-_\\");
+        getSelenium().click("//input[@value = 'Create']");
+        waitPage();
+        waitForEditorToLoad();
+        typeText("This is a test");
+        clickEditPreview();
+        assertTextPresent("This is a test");
+    }
 }

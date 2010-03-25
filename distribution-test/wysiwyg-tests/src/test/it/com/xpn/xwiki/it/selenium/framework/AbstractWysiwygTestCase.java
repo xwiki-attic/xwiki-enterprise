@@ -1146,7 +1146,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     protected void waitForEditorToLoad()
     {
         final String sourceTabSelected = "//div[@class = 'gwt-TabBarItem gwt-TabBarItem-selected']/div[. = 'Source']";
-        final String richTextAreaLoader = "//div[@class = 'xRichTextEditor']//div[@class = 'loading']";
+        final String richTextArea = "//div[@class = 'xRichTextEditor']";
+        final String richTextAreaLoader = richTextArea + "//div[@class = 'loading']";
         new Wait()
         {
             public boolean until()
@@ -1155,7 +1156,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 // area is not loading (with or without tabs).
                 return (getSelenium().isElementPresent(sourceTabSelected) && getSelenium().isEditable(
                     WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA))
-                    || !getSelenium().isElementPresent(richTextAreaLoader);
+                    || (getSelenium().isElementPresent(richTextArea) && !getSelenium().isElementPresent(
+                        richTextAreaLoader));
             }
         }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
         // The rich text area has been (re)loaded so we have to invalidate the JavaScript API.

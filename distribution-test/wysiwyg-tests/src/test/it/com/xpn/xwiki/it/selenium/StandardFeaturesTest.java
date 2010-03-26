@@ -644,7 +644,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickEditCancelEdition();
         clickLinkWithLocator("tmCreatePage");
         waitPage();
-        setFieldValue("page", "#\"&§-_\\");
+        setFieldValue("page", "#\"&\u00A7-_\\");
         getSelenium().click("//input[@value = 'Create']");
         waitPage();
         waitForEditorToLoad();

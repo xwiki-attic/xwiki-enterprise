@@ -1,5 +1,8 @@
 package org.xwiki.it.ui.framework;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -75,5 +78,20 @@ public class TestUtils
     public static void deletePage(String space, String page, WebDriver driver)
     {
         TestUtils.gotoPage(space, page, "delete", "confirm=1", driver);
+    }
+
+    /**
+     * URL-escapes given string.
+     * 
+     * @param s
+     */
+    public static String escapeURL(String s)
+    {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // should not happen
+            throw new RuntimeException(e);
+        }
     }
 }

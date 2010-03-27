@@ -21,6 +21,7 @@ package org.xwiki.it.ui.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -86,6 +87,56 @@ public class BasePage
                 return element.isDisplayed() ? element : null;
             }
         });
+    }
+
+    public void waitUntilElementDisappears(final By locator)
+    {
+        waitUntilElementDisappears(locator, 10);
+    }
+
+    /**
+     * Waits until the given element is either hidden or deleted.
+     * 
+     * @param locator
+     * @param timeout
+     */
+    public void waitUntilElementDisappears(final By locator, int timeout)
+    {
+        Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
+        wait.until(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
+            {
+                try {
+                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                    return Boolean.valueOf(!element.isDisplayed());
+                } catch (NotFoundException e) {
+                    return Boolean.TRUE;
+                }
+            }
+        });
+    }
+
+    /**
+     * Shows hidden elements, as if they would be shown on hover.
+     * 
+     * Currently implemented using JavaScript. Will throw a {@link RuntimeException} if the web driver
+     * does not support JavaScript or JavaScript is disabled.
+     * 
+     * @param locator  locator used to find the element, in case multiple elements are found, the first is used
+     */
+    public void makeElementVisible(By locator)
+    {
+        // RenderedWebElement.hover() don't seem to work, workarounded using JavaScript call
+        if (!(getDriver() instanceof JavascriptExecutor)) {
+            throw new RuntimeException("Currently used web driver (" + getDriver().getClass()
+                + ") does not support JavaScript execution");
+        }
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        if (!js.isJavascriptEnabled()) {
+            throw new RuntimeException("JavaScript is disabled");
+        }
+        js.executeScript("arguments[0].style.visibility='visible'", getDriver().findElement(locator));
     }
 
     /**

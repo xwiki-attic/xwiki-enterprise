@@ -443,6 +443,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
     &lt;span class="rcVersion"&gt;(&lt;span class="newVersion"&gt;$msg.get("xe.recentchanges.entry.new")&lt;/span&gt;)&lt;/span&gt;
   #end
 #end
+
 ##
 ## Display the recent changes list.
 ##  

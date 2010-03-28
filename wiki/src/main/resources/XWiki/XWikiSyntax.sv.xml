@@ -567,6 +567,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
+
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
@@ -588,6 +589,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
+
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
@@ -740,6 +742,7 @@ Det finns även två typer av makron i XWiki syntax 2.0:
 {{/html}}{{/velocity}}
 }}}
 {{info}}HTML-makrot måste användas i detta exempel eftersom ###info##-makrot genererar innehåll på HTML-format.{{/info}}
+
 {{info}}Med början i XE 2.0 bör man istället använda &lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5Bmedelandemakrot%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[medelandemakrot&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;] för att implementera detta exempel.{{/info}}
 )))
 |Radeox-makron/XWiki-makron|((({{{

@@ -582,6 +582,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
+
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;

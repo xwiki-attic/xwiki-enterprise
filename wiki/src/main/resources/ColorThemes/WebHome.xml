@@ -330,6 +330,7 @@ $xwiki.ssx.use($doc.fullName)
 ##
 ##
 {{/velocity}}
+
 {{velocity}}
 #if("$!request.theme" != '')
   {{info}}$msg.get('xe.themes.themeSet', [$xwiki.getDocument($request.theme).displayTitle]){{/info}}

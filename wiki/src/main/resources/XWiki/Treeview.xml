@@ -61,5 +61,4 @@ isc.XWETreeGrid.create({
   displayAttachmentsOnTop: true // Display attachments before page children.
 }).draw();
 &lt;/script&gt;
-{{/html}}
-</content></xwikidoc>
+{{/html}}</content></xwikidoc>

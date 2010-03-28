@@ -37,5 +37,4 @@ $msg.get('xe.space.index.description', [$space])
                   "rowCount": 15,
                   "extraParams" : "&amp;space=${space}" })
 #livetable("spaceindex" $collist $colprops $options)
-{{/velocity}}
-</content></xwikidoc>
+{{/velocity}}</content></xwikidoc>

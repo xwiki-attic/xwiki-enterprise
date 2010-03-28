@@ -343,9 +343,7 @@ $xwiki.jsx.use('XWiki.DeletedAttachments', {'minify' : 'false'})##
 #livetable('attachmentTrash' $columns $columnProperties $options)
 &lt;/div&gt;
 {{/html}}
-##
-##
-##
+
 {{html wiki="true" clean="false"}}
 &lt;noscript&gt;
   #set($deletedAttachments = $xwiki.search('select count(datt.id) from DeletedAttachment as datt').get(0))

@@ -1066,5 +1066,4 @@
 <users>Main.XWikiGuest</users>
 </property>
 </object>
-<content>{{include document="XWiki.AdminSheet" /}}
-</content></xwikidoc>
+<content>{{include document="XWiki.AdminSheet" /}}</content></xwikidoc>

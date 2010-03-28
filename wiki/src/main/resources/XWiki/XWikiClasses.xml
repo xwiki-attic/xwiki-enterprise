@@ -84,5 +84,4 @@ Choose a simple name, such as //Article//, //Book//, //Employee//. '//Class//' w
     #end
     : [[$classdoc.name&gt;&gt;$classdoc.fullName]]
 #end
-{{/velocity}}
-</content></xwikidoc>
+{{/velocity}}</content></xwikidoc>

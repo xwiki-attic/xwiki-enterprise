@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>XWiki</web>
 <name>DeletedAttachments</name>
@@ -313,7 +312,7 @@ document.observe('dom:loaded', function() {
 <use>onDemand</use>
 </property>
 </object>
-<content>{{velocity}}##
+<content>{{velocity}}
 #if(!$xwiki.hasProgrammingRights())
   {{warning}}This document requires programming rights and needs to be saved by an administrator of this Wiki{{/warning}}
 #else
@@ -346,6 +345,7 @@ $xwiki.jsx.use('XWiki.DeletedAttachments', {'minify' : 'false'})##
 
 {{html wiki="true" clean="false"}}
 &lt;noscript&gt;
+
   #set($deletedAttachments = $xwiki.search('select count(datt.id) from DeletedAttachment as datt').get(0))
   #if($deletedAttachments == 0)
 
@@ -398,7 +398,7 @@ $xwiki.jsx.use('XWiki.DeletedAttachments', {'minify' : 'false'})##
   #pagination($paginationParameters)
   #end ## deletedAttachments != 0
 &lt;/noscript&gt;
-{{/html}}
+{{/html}}##
 #else ## request.list
 ## ============================================================================================
 ## This page is called from live table via Ajax with the argument xpage=plain. It returns a
@@ -476,8 +476,7 @@ $response.setContentType('application/json')
 ## ==============================================
 ## json ended
 ## ==============================================
-#end ## xpage=plain
-#end ## request.list
-#end ## hasProgramR
-{{/velocity}}</content>
-</xwikidoc>
+#end## xpage=plain
+#end## request.list
+#end## hasProgramR
+{{/velocity}}</content></xwikidoc>

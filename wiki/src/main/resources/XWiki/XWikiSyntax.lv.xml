@@ -98,14 +98,12 @@ Centrēta rindkopa ar zilu tekstu
 {{html}}
 &lt;!-- Note: replace this with wiki syntax when http://jira.xwiki.org/jira/browse/XWIKI-4358 is implemented --&gt;
 &lt;h1 id="Hlevel1"&gt;&lt;span&gt;1. līmenis&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;h2 id="Hlevel2"&gt;&lt;span&gt;2. līmenis&lt;/span&gt;&lt;/h2&gt;&lt;h3 id="Hlevel3"&gt;&lt;span&gt;3. līmenis&lt;/span&gt;&lt;/h3&gt;&lt;h4 id="Hlevel4"&gt;&lt;span&gt;4. līmenis&lt;/span&gt;&lt;/h4&gt;&lt;h5 id="Hlevel5"&gt;&lt;span&gt;5. līmenis&lt;/span&gt;&lt;/h5&gt;&lt;h6 id="Hlevel6"&gt;&lt;span&gt;6. līmenis&lt;/span&gt;&lt;/h6&gt;
-{{/html}}
-)))
+{{/html}})))
 |Virsraksts ar parametriem |&lt;h1&gt;&lt;span style="color:blue"&gt;virsraksts&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}
 ~= virsraksts =|(((
 {{html}}
 &lt;h1 id="Hheader" style="color:blue"&gt;&lt;span&gt;virsraksts&lt;/span&gt;&lt;/h1&gt;
-{{/html}}
-)))
+{{/html}})))
 |Virsraksts ar viki sintaksi|1.1.1 Virsraksts ar *treknrakstu*|{{{=== Virsraksts ar **treknrakstu** ===}}}|(((
 === Virsraksts ar **treknrakstu** ===
 )))
@@ -543,8 +541,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 &lt;td&gt;Šūna 22&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
-{{/html}}
-}}}
+{{/html}}}}}
 )))|(((
 {{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
@@ -566,8 +563,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 &lt;td&gt;Šūna 22&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
-{{/html}}
-)))
+{{/html}})))
 
 = Attēli =
 
@@ -738,8 +734,7 @@ Arī XWiki 2.0 sintaksē var iekļaut divu veidu makrosus:
 {{{
 {{velocity}}{{html}}
 #info("Kāds teksts")
-{{/html}}{{/velocity}}
-}}}
+{{/html}}{{/velocity}}}}}
 
 {{info}}###info## makross tiek iekļauts html makrosā, jo info makross atgriež HTML saturu.{{/info}}
 

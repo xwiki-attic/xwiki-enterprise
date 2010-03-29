@@ -141,5 +141,5 @@ This macro allows you to draw users’ attention to a specific piece of informat
 
 This macro automatically generates a table of contents of your wiki page based on headings:
 
-{{toc/}} </content>
+{{toc/}}</content>
 </xwikidoc>

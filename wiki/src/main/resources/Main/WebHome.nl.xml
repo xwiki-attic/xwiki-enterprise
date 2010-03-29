@@ -23,6 +23,11 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>1 Welkom op je Wiki. Het is een eenvoudig te bewerken website om beter samen te werken. Deze wiki is opgebouwd uit ~~pagina's~~, gegroepeerd in ~~werkruimtes(spaces)~~. Op dit moment ben je in de *Main* werkruimte, en bekijk je de startpagina (*WebHome*) van deze werkruimte. #if($hasedit) Je kunt de [Oefenruimte&gt;Sandbox.WebHome] gebruiken om de mogelijkheden van deze wiki uit te proberen. #end
-#includeInContext("Main.Dashboard")</content>
+<content>Het is een eenvoudig te bewerken website om beter samen te werken. Deze wiki is opgebouwd uit //pagina's//, gegroepeerd in //werkruimtes(spaces)//. Op dit moment ben je in de **Main** werkruimte, en bekijk je de startpagina (**WebHome**) van deze werkruimte. 
+
+{{velocity}}
+#if($hasedit) Je kunt de [[Oefenruimte&gt;&gt;Sandbox.WebHome]] gebruiken om de mogelijkheden van deze wiki uit te proberen. #end
+{{/velocity}}
+
+{{include document="Main.Dashboard"/}}</content>
 </xwikidoc>

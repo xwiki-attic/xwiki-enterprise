@@ -23,5 +23,11 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>1 Bun venit pe wiki-ul dumneavostră Acesta este un sit web ușor de folosit care vă asigură o colaborare eficientă. Wiki-ul conține ~~pagini~~ ordonate după ~~spațiul~~ din care fac parte. Aceasta este prima pagină (*WebHome*) din  spațiul *Main*. #if($hasEdit) Puteți utiliza [zona de Antrenament&gt;Sandbox.WebHome] pentru a vă familiariza cu funcționalitățile wiki-ului dumneavoastră. #end #includeInContext("Main.Dashboard") </content>
+<content>Acesta este un sit web ușor de folosit pentru a colabora eficient. Wiki-ul conține //pagini// ordonate după //spațiul// din care fac parte. Aceasta este prima pagină (**WebHome**) din  spațiul **Main**. 
+
+{{velocity}}
+#if($hasEdit) Puteți utiliza [[zona de Antrenament&gt;&gt;Sandbox.WebHome]] pentru a vă familiariza cu funcționalitățile wiki-ului dumneavoastră. #end
+{{/velocity}}
+
+{{include document="Main.Dashboard"/}}</content>
 </xwikidoc>

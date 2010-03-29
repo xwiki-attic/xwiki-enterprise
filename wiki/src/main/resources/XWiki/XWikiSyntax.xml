@@ -124,13 +124,11 @@ In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 
 {{html}}
 &lt;!-- Note: replace this with wiki syntax when http://jira.xwiki.org/jira/browse/XWIKI-4358 is implemented --&gt;
 &lt;h1 id="Hlevel1"&gt;&lt;span&gt;level 1&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;h2 id="Hlevel2"&gt;&lt;span&gt;level 2&lt;/span&gt;&lt;/h2&gt;&lt;h3 id="Hlevel3"&gt;&lt;span&gt;level 3&lt;/span&gt;&lt;/h3&gt;&lt;h4 id="Hlevel4"&gt;&lt;span&gt;level 4&lt;/span&gt;&lt;/h4&gt;&lt;h5 id="Hlevel5"&gt;&lt;span&gt;level 5&lt;/span&gt;&lt;/h5&gt;&lt;h6 id="Hlevel6"&gt;&lt;span&gt;level 6&lt;/span&gt;&lt;/h6&gt;
-{{/html}}
-)))
+{{/html}})))
 |Parametrized headers|&lt;h1&gt;&lt;span style="color:blue"&gt;header&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}\\= header =|(((
 {{html}}
 &lt;h1 id="Hheader" style="color:blue"&gt;&lt;span&gt;header&lt;/span&gt;&lt;/h1&gt;
-{{/html}}
-)))
+{{/html}})))
 |Headers with wiki syntax|1.1.1 Header with *bold*|{{{=== Header with **bold** ===}}}|(((=== Header with **bold** ===)))
 
 = Text Formatting =
@@ -608,8 +606,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
    &lt;td&gt;Cell22&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{{/html}}
-}}})))|(((
+{{/html}}}}})))|(((
 {{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
@@ -630,8 +627,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
    &lt;td&gt;Cell22&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{{/html}}
-)))
+{{/html}})))
 
 = Images =
 
@@ -775,8 +771,7 @@ There are also 2 kinds of macros in XWiki Syntax 2.0:
 |Velocity Macro|((({{{#info("Some text")}}})))|((({{{
 {{velocity}}{{html}}
 #info("some text")
-{{/html}}{{/velocity}}
-}}}
+{{/html}}{{/velocity}}}}}
 {{info}}We're using the HTML macro in the example since the ###info## macro returns HTML content.{{/info}}
 
 {{info}}Starting with XE 2.0 you should use the [[Message Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/MessageMacro]] to implement this example.{{/info}}

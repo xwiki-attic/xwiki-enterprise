@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>XWiki</web>
 <name>DeletedDocuments</name>
@@ -423,7 +422,7 @@ $xwiki.jsx.use('XWiki.DeletedDocuments')##
   #pagination($paginationParameters)
   #end ## deletedDocuments.size
 &lt;/noscript&gt;
-{{/html}}
+{{/html}}##
 #else ## request.list
 ## ============================================================================================
 ## This page is called from live table via Ajax with the argument xpage=plain. It returns a
@@ -494,8 +493,7 @@ $response.setContentType('application/json')
 ## ==============================================
 ## json ended
 ## ==============================================
-#end ## xpage=plain
-#end ## request.list
-#end ## hasProgramR
-{{/velocity}}</content>
-</xwikidoc>
+#end## xpage=plain
+#end## request.list
+#end## hasProgramR
+{{/velocity}}</content></xwikidoc>

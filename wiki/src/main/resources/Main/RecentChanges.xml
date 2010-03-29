@@ -541,6 +541,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 ## Provide links to display minor edits and RSS feed.
 ##
 #if($xwiki.hasMinorEdit())
+
   {{html}}
   &lt;p class="recentChangesMoreActions"&gt;
     #if($rcShowMinor)

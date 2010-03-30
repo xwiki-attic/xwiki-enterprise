@@ -49,17 +49,23 @@ public class AttachmentsTest extends AbstractXWikiXmlRpcTest
     public void testAddAttachment() throws Exception
     {
         String attachmentName = String.format("test_attachment_%d.png", random.nextInt());
-        byte[] data = (new String("This is a test").getBytes());
+        byte[] data = ("Data for " + attachmentName).getBytes();
+
         Attachment attachment = new Attachment();
         attachment.setPageId(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
         attachment.setFileName(attachmentName);
+
         attachment = rpc.addAttachment(0, attachment, data);
 
         TestUtils.banner("TEST: addAttachment()");
         System.out.format("%s\n", attachment);
 
-        assertEquals(attachmentName, attachment.getFileName());
-        assertTrue(Integer.parseInt(attachment.getFileSize()) == data.length);
+        // We can't assert the file name because it can be transformed (e.g. some characters could be removed).
+        assertEquals(data.length, Integer.parseInt(attachment.getFileSize()));
+
+        // Let's see if the attachment was properly added.
+        assertEquals(new String(data), new String(rpc.getAttachmentData(attachment.getPageId(), attachment
+            .getFileName(), "1.1")));
     }
 
     public void testGetAttachments() throws Exception

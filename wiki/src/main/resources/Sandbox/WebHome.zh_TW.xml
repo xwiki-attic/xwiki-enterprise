@@ -55,12 +55,12 @@ XWiki 提供六階層標題，你可以使用它們來組織你的頁面。
 
 Basic styles are supported in XWiki:
 
-* **Text in Bold**
-* //Text in Italics//
-* __Text in Underline__
-* --Text in Strikethrough--
-* Text in ,,subscript,,
-* Text in ^^superscript^^
+* **粗體字**
+* //斜體字//
+* __底線文字__
+* --刪除線文字--
+* 文字 ,,下標,,
+* 文字 ^^上標^^
 
 = 列表 =
 
@@ -141,5 +141,5 @@ This macro allows you to draw users’ attention to a specific piece of informat
 
 This macro automatically generates a table of contents of your wiki page based on headings:
 
-{{toc/}}</content>
+{{toc/}} </content>
 </xwikidoc>

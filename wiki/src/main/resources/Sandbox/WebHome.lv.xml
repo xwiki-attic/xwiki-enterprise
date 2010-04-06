@@ -23,7 +23,7 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>Smilšu kaste ir viki vieta, kuru jūs varat brīvi mainīt. Jūs šeit varat mācīties un mēģināt. Jūs varat pārbaudīt, kā notiek dokumentu rediģēšana, un kā var veidot jaunas lapas. Lai sāktu, spiediet **Rediģēt**! {{info}}Neuztraucieties par satura zaudēšanu šajā lapā, jo jūs vienmēr varat atritināt saturu uz iepriekšējo versiju, "Vēsture" cilnī lapas apakšā.{{/info}} Ja vēlaties izpētīt [[XWiki sintaksi&gt;&gt;XWiki.XWikiSyntax]], aktivizējiet izvēlni "Rādīt" "Viki kodu", vai izvēlieties "Kods" cilni, lapas rediģēšanas režīmā.
+<content>Smilšu kaste ir viki vieta, kuru jūs varat brīvi mainīt. Jūs šeit varat mācīties un mēģināt. Jūs varat pārbaudīt, kā tiek rediģēti esošie dokumenti, un kā var veidot jaunas lapas. Lai sāktu, spiediet **Rediģēt**! {{info}}Neuztraucieties par satura zaudēšanu šajā lapā, jo jūs vienmēr varat atritināt saturu uz iepriekšējo versiju, "Vēsture" cilnē lapas apakšā.{{/info}} Ja vēlaties izpētīt [[XWiki sintaksi&gt;&gt;XWiki.XWikiSyntax]], aktivizējiet izvēlni "Rādīt" "Viki kodu", vai izvēlieties "Kods" cilni, lapas rediģēšanas režīmā.
 
 Tālāk ir vairākas lapas ar kurām jūs varat darboties:
 * [[1. testa lapa&gt;&gt;Sandbox.TestPage1]]
@@ -119,4 +119,5 @@ Sekojošais makross parāda tekstu brīdinājuma ziņojuma rāmī:
 
 Šis makross automātiski izveido lapas satura rādītāju, izmantojot lapā saliktos virsrakstus:
 
-{{toc/}}</content></xwikidoc>
+{{toc/}}
+</content></xwikidoc>

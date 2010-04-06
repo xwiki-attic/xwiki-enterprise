@@ -142,5 +142,5 @@ Questa Macro consente di attirare l'attenzione del lettore:
 
 Questa Macro genera automaticamente l'indice della pagina in base ai livelli dei titoli:
 
-{{toc/}}</content>
+{{toc/}} </content>
 </xwikidoc>

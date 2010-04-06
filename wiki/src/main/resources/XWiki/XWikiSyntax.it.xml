@@ -100,12 +100,14 @@ Paragrafo centrato e blu
 {{html}}
 &lt;!-- Note: replace this with wiki syntax when http://jira.xwiki.org/jira/browse/XWIKI-4358 is implemented --&gt;
 &lt;h1 id="Hlevel1"&gt;&lt;span&gt;livello 1&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;h2 id="Hlevel2"&gt;&lt;span&gt;livello 2&lt;/span&gt;&lt;/h2&gt;&lt;h3 id="Hlevel3"&gt;&lt;span&gt;livello 3&lt;/span&gt;&lt;/h3&gt;&lt;h4 id="Hlevel4"&gt;&lt;span&gt;livello 4&lt;/span&gt;&lt;/h4&gt;&lt;h5 id="Hlevel5"&gt;&lt;span&gt;livello 5&lt;/span&gt;&lt;/h5&gt;&lt;h6 id="Hlevel6"&gt;&lt;span&gt;livello 6&lt;/span&gt;&lt;/h6&gt;
-{{/html}})))
+{{/html}}
+)))
 |Titoli con Parametri|&lt;h1&gt;&lt;span style="color:blue"&gt;titolo&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}
 ~= titolo =|(((
 {{html}}
 &lt;h1 id="Hheader" style="color:blue"&gt;&lt;span&gt;titolo&lt;/span&gt;&lt;/h1&gt;
-{{/html}})))
+{{/html}}
+)))
 |Titoli con sintassi wiki|1.1.1 Titolo con *grassetto*|{{{=== Titolo con **grassetto** ===}}}|(((
 === Titolo con **grassetto** ===
 )))
@@ -580,7 +582,6 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
-
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
@@ -618,7 +619,8 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
    &lt;td&gt;Cella22&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{{/html}})))
+{{/html}}
+)))
 
 = Immagini =
 

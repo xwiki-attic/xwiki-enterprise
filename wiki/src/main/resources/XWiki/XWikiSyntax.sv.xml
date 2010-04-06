@@ -81,11 +81,13 @@ I XWiki syntax 2.0 nyradstecken är signifikanta, vilket inte är fallet i XWiki
 {{html}}
 &lt;!-- Note: replace this with wiki syntax when http://jira.xwiki.org/jira/browse/XWIKI-4358 is implemented --&gt;
 &lt;h1 id="Hlevel1"&gt;&lt;span&gt;nivå 1&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;h2 id="Hlevel2"&gt;&lt;span&gt;nivå 2&lt;/span&gt;&lt;/h2&gt;&lt;h3 id="Hlevel3"&gt;&lt;span&gt;nivå 3&lt;/span&gt;&lt;/h3&gt;&lt;h4 id="Hlevel4"&gt;&lt;span&gt;nivå 4&lt;/span&gt;&lt;/h4&gt;&lt;h5 id="Hlevel5"&gt;&lt;span&gt;nivå 5&lt;/span&gt;&lt;/h5&gt;&lt;h6 id="Hlevel6"&gt;&lt;span&gt;nivå 6&lt;/span&gt;&lt;/h6&gt;
-{{/html}})))
+{{/html}}
+)))
 |Parametriserade rubriker|&lt;h1&gt;&lt;span style="color:blue"&gt;rubrik&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}\\= rubrik =|(((
 {{html}}
 &lt;h1 id="Hheader" style="color:blue"&gt;&lt;span&gt;rubrik&lt;/span&gt;&lt;/h1&gt;
-{{/html}})))
+{{/html}}
+)))
 |Rubriker med wikisyntax|1.1.1 Rubrik med *fetstil*|{{{=== Rubrik med **fetstil** ===}}}|(((=== Rubrik med **fetstil** ===)))
 
 = Textformatering =
@@ -565,7 +567,6 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
-
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
@@ -581,12 +582,12 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
    &lt;td&gt;Cell22&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{{/html}}}}})))|(((
+{{/html}}
+}}})))|(((
 {{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
-
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
@@ -602,7 +603,8 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
    &lt;td&gt;Cell22&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-{{/html}})))
+{{/html}}
+)))
 
 = Bilder =
 
@@ -735,9 +737,9 @@ Det finns även två typer av makron i XWiki syntax 2.0:
 |Velocity-makro|((({{{#info("Lite text")}}})))|((({{{
 {{velocity}}{{html}}
 #info("Lite text")
-{{/html}}{{/velocity}}}}}
+{{/html}}{{/velocity}}
+}}}
 {{info}}HTML-makrot måste användas i detta exempel eftersom ###info##-makrot genererar innehåll på HTML-format.{{/info}}
-
 {{info}}Med början i XE 2.0 bör man istället använda &lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5Bmedelandemakrot%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[medelandemakrot&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;] för att implementera detta exempel.{{/info}}
 )))
 |Radeox-makron/XWiki-makron|((({{{

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Main</web>
 <name>LuceneSearch</name>
@@ -11,10 +10,10 @@
 <author>XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1253201513000</date>
-<contentUpdateDate>1253201513000</contentUpdateDate>
-<version>1.1</version>
+<creationDate>1252450800000</creationDate>
+<date>1270815111000</date>
+<contentUpdateDate>1270815111000</contentUpdateDate>
+<version>6.1</version>
 <title>#if("$!{request.text}"=="")$msg.get("xe.search.lucene")#else$msg.get("xe.search.lucene.results", [$request.text])#end</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -23,6 +22,40 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.TagClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<tags>
+<cache>0</cache>
+<displayType>input</displayType>
+<multiSelect>1</multiSelect>
+<name>tags</name>
+<number>1</number>
+<prettyName>Tags</prettyName>
+<relationalStorage>1</relationalStorage>
+<separator>|</separator>
+<separators>|,</separators>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<values></values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</tags>
+</class>
+<name>Main.LuceneSearch</name>
+<number>0</number>
+<className>XWiki.TagClass</className>
+<guid>12c6a48d-b264-4f58-832e-c6cdb5806b6f</guid>
+<property>
+<tags/>
+</property>
+</object>
 <content>{{velocity}}
 $xwiki.jsfx.use("uicomponents/search/search.js", true)##
 $xwiki.ssfx.use("uicomponents/search/search.css", true)##
@@ -178,6 +211,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       ## -----------------
       #if(!$rssmode)
         #set($paginationParameters = {'url' : $doc.getURL('view', "text=${query}&amp;amp;space=${selectedSpace}"), 'totalItems' : $searchresults.getHitcount(), 'defaultItemsPerPage' : $defaultItemsPerPage, 'position': 'top'})
+
         {{html}}
           #pagination($paginationParameters)
         {{/html}}
@@ -215,6 +249,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       #else
         #set ($list = $results)
         #set ($isScored = true)
+
         {{include document="XWiki.Results"/}}
       #end
       ## -----------------
@@ -222,6 +257,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
       ## -----------------
       #if(!$rssmode)
         #set($paginationParameters.position = 'bottom')
+
         {{html}}
           #pagination($paginationParameters)
         {{/html}}
@@ -233,6 +269,7 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
         #else
           #set($rssURL = $xwiki.getURL($doc.fullName, 'view', "xpage=rdf&amp;space=${selectedSpace}&amp;text=${utext}"))
         #end
+
         {{html}}
           &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.search.rss", ["[$query]"])&lt;/a&gt;
         {{/html}}
@@ -294,5 +331,4 @@ $xwiki.ssfx.use("uicomponents/search/search.css", true)##
   {{warning}}$msg.get('xe.search.plugin.notenabled', [$defaultSearch]){{/warning}}
   #end## lucene exists
 #end## !$rssmode
-{{/velocity}}</content>
-</xwikidoc>
+{{/velocity}}</content></xwikidoc>

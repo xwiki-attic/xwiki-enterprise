@@ -283,6 +283,9 @@ XWiki.editors.ColorThemeWizard = Class.create({
   displayPicker : function(event, trigger) {
     if (event) {
       Event.stop(event);
+      if (event.element() != trigger) {
+        return;
+      }
     }
     // First hide open pickers
     $$(this.visibleTriggerSelector).each(function(item){

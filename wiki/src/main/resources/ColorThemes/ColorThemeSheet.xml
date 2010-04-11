@@ -433,13 +433,13 @@ document.observe('dom:loaded', function(){
   /** Force ProColor to fire an event when changing the input value */
   if (ProColor) {
     ProColor.prototype.options.onChanged = function(t, evtname) {
-      Event.fire(t.input, 'procolor:changed');
+      Event.fire(t.input || t, 'procolor:changed');
     };
     ProColor.prototype.options.onClosed = function(t, evtname) {
-      Event.fire(t.input, 'procolor:closed');
+      Event.fire(t.input || t, 'procolor:closed');
     };
     ProColor.prototype.options.onCancelClick = function(t, evtname) {
-      Event.fire(t.input, 'procolor:closed');
+      Event.fire(t.input || t, 'procolor:closed');
     };
   }
 

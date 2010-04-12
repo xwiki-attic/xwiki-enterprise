@@ -344,7 +344,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // Assert that half of the configuration shows up but not the other half.
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
-        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + "." + page + ":']/span");
         assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
         // Fields
         String fullName = space + "." + page;
@@ -357,14 +356,13 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit'][@value='Save " + fullName + "']");
+        assertElementPresent(form + "/div/p/span/input[@type='submit']");
         // Should not be here
         assertElementNotPresent(form + "/fieldset/p/textarea[@name='" + fullName + "_0_TextArea']");
         assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Select']");
 
         // Now we go to where the other half of the configuration should be.
         open("Main", "WebPreferences", "admin", "editor=spaceadmin&section=TestSection2");
-        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + "." + page + ":']/span");
         assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeOtherHeading']/span");
         // Fields
         assertElementPresent(form + "/fieldset/p[1]/label");
@@ -375,7 +373,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit'][@value='Save " + fullName + "']");
+        assertElementPresent(form + "/div/p/span/input[@type='submit']");
         // Should not be here
         assertElementNotPresent(form + "/fieldset/p/input[@name='" + fullName + "_0_String']");
         assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Boolean']");
@@ -564,7 +562,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void assertConfigurationPresent(String space, String page)
     {
-        assertElementPresent("//div[@id='admin-page-content']/h1[@id='HCustomize" + space + "." + page + ":']/span");
         assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeHeading']/span");
         // Fields
         String fullName = space + "." + page;
@@ -581,7 +578,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit'][@value='Save " + fullName + "']");
+        assertElementPresent(form + "/div/p/span/input[@type='submit']");
     }
 
     /*

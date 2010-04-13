@@ -23,11 +23,11 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>Questo \u00E8 un sito web facile da modificare che vi aiuter\u00E0 a lavorare meglio assieme. Questo wiki \u00E8 formato da //pagine// ordinate in //spazi//. Attualmente state usando lo spazio **Main** e state guardando la sua home page (**WebHome**).  
+<content>Questo è un sito web facile da modificare che vi aiuterà a lavorare meglio assieme. Questo wiki è formato da //pagine// ordinate in //spazi//. Attualmente state usando lo spazio **Main** e state guardando la sua home page (**WebHome**).  
 
 
 {{velocity}}
-#if($hasEdit)Si pu\u00F2 usare lo  [[Spazio Sandbox&gt;&gt;Sandbox.WebHome]] per scoprire e provare tutte le caratteristiche del wiki.#end
+#if($hasEdit)Si può usare lo  [[Spazio Sandbox&gt;&gt;Sandbox.WebHome]] per scoprire e provare tutte le caratteristiche del wiki.#end
 {{/velocity}}
 
 {{include document="Main.Dashboard"/}} 	</content>

@@ -428,12 +428,12 @@ Jauna rinda
 {{{[[image:Vieta2.Lapa2@attels.png&gt;&gt;Vieta1.Lapa1]]}}}
 
 {{info}}Saišu nosaukumos ir atļauta viki sintakse{{/info}}
-)))|[[image:attels.png&gt;&gt;Main.WebHome]]|[[image:attels.png&gt;&gt;Main.WebHome]]
+)))|[[image:img.png&gt;&gt;Main.WebHome]]|[[image:img.png&gt;&gt;Main.WebHome]]
 |Saite uz pielikumu|(((
 {{info}}Skatīt papildu informāciju par [[//Attach// makrosu&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]].{{/info}}
 
-{{{{attach:text|file=attels.png}}}}
-)))|{{{[[text&gt;&gt;attach:attels.png]]}}}|[[text&gt;&gt;attach:attels.png]]|[[text&gt;&gt;attach:attels.png]]
+{{{{attach:pielikums|file=attels.png}}}}
+)))|{{{[[pielikums&gt;&gt;attach:attels.png]]}}}|[[pielikums&gt;&gt;attach:img.png]]|[[pielikums&gt;&gt;attach:img.png]]
 
 == XWiki 1.0 saišu sintakse ==
 
@@ -746,10 +746,9 @@ Arī XWiki 2.0 sintaksē var iekļaut divu veidu makrosus:
 )))
 |Radeox makross/XWiki makross|(((
 {{{
-
+{code:java}
 java kods
-
-
+{code}
 }}}
 )))|(((
 {{{

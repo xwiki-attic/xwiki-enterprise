@@ -3,7 +3,7 @@
 <xwikidoc>
 <web>Main</web>
 <name>WebHome</name>
-<language>ca</language>
+<language>es</language>
 <defaultLanguage>en</defaultLanguage>
 <translation>1</translation>
 <parent></parent>
@@ -23,11 +23,11 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>Aquest és un lloc web d'edició senzilla, que a la vegada us ajudarà a treballar millor. Aquesta Wiki està feta de //pàgines// ordenades amb //espais//. Actualment esteu en l'espai **Main**, observant la seva pàgina d'inici (**WebHome**).
+<content>Este es un sitio web fácil de editar que les ayudará a trabajar mejor juntos. Este Wiki está compuesto de //páginas// organizadas en //espacios//. Usted está actualmente en el espacio principal (**Main**), viendo la página inicial (**WebHome**).
 
-{{velocity wiki="true"}}
-#if($hasEdit) Podeu utilitzar l'[[espai del calaix&gt;&gt;Sandbox.WebHome]] per a provar les característiques de la vostra wiki. #end
+{{velocity}}
+#if($hasEdit)Puede utilizar la [[zona de pruebas&gt;&gt;Sandbox.WebHome]] para probar las características del wiki.#end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}}</content>
+{{include document="Main.Dashboard"/}} </content>
 </xwikidoc>

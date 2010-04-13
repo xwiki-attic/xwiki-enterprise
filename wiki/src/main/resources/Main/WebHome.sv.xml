@@ -25,7 +25,7 @@
 <hidden>false</hidden>
 <content>En wiki är en webbplats som är enkel att redigera och som förenklar samarbete. Den här wikin är indelad i olika //rum// vilka är uppbyggda av //sidor//. Du befinner dig för tillfället i rummet som heter **Main**, vilket är wikins huvudrum, och detta är huvudsidan för wikin (**WebHome**).
 
-{{velocity wiki="true"}}
+{{velocity}}
 #if($hasEdit) Du kan använda [[träningszonen&gt;&gt;Sandbox.WebHome]] för att prova wikifunktionerna. #end
 {{/velocity}}
 

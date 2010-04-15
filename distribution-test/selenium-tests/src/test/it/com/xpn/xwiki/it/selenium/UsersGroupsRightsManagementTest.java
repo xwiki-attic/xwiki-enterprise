@@ -205,7 +205,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         waitForLightbox("Add user to group");
         setFieldValue("groupSuggest", "XWiki.XWikiAllGroup");
         clickLinkWithLocator("addNewGroup", false);
-        String xpathPrefix = "//div[@id='lb-content']/div/table/tbody/tr/td/table/tbody/tr";
+        String xpathPrefix = "//div[@id='lb-content']/div/div/table/tbody/tr/td/table/tbody/tr";
         String adminGroupXPath = xpathPrefix + "/td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/XWikiAllGroup']";
         // this xpath expression is fragile, but we have to start as up as the lightbox does, because
         // the same table with same ids and classes is already displayed in the Preferences page

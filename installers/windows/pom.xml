@@ -27,10 +27,10 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>2.3-SNAPSHOT</version>
+    <version>2.3-rc-1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-windows</artifactId>
-  <version>2.3-SNAPSHOT</version>
+  <version>2.3-rc-1</version>
   <name>XWiki Products - Enterprise - Installers - Windows</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Installers - Windows</description>

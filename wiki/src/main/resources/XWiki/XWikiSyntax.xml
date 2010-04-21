@@ -85,7 +85,7 @@ XWiki Syntax v2.0 corrects some errors or ambiguous syntax entered by the user a
 |Two standalone elements not separated by 2 new lines|{{{| table cell}}}\\{{{* list item}}}|{{{| table cell}}}\\\\{{{* list item}}}
 |Two standalone elements not separated by 2 new lines|{{{paragraph}}}\\{{{----}}}\\{{{paragraph}}}|{{{paragraph}}}\\\\{{{----}}}\\\\{{{paragraph}}}
 |Ignored new line at beginning of document|&lt;new line at beginning of document&gt;\\paragraph|paragraph
-|Not closed header syntax|{{{=== header}}}|{{{=== header ===}}}
+|Not closed heading syntax|{{{=== heading}}}|{{{=== heading ===}}}
 
 = Paragraphs =
 
@@ -102,11 +102,11 @@ In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 
 |Two paragraphs|Paragraph one\\\\Paragraph two|Paragraph one\\\\Paragraph two|Paragraph one\\\\Paragraph two|Paragraph one\\\\Paragraph two
 |Parametrized paragraph|&lt;p style="text-align:center;color:blue"&gt;Centered and blue paragraph&lt;/p&gt;|{{{(% style="text-align:center;color:blue" %)}}}\\Centered and blue paragraph|(% style="text-align:center;color:blue" %)\\Centered and blue paragraph|(% style="text-align:center;color:blue" %)\\Centered and blue paragraph
 
-= Headers =
+= Headings =
 
 (% style="width:100%" %)
 |=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Result
-|Standard headers|(((
+|Standard headings|(((
 1 level 1
 1.1 level 2
 1.1.1 level 3
@@ -125,11 +125,11 @@ In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 
 &lt;!-- Note: replace this with wiki syntax when http://jira.xwiki.org/jira/browse/XWIKI-4358 is implemented --&gt;
 &lt;h1 id="Hlevel1"&gt;&lt;span&gt;level 1&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;h2 id="Hlevel2"&gt;&lt;span&gt;level 2&lt;/span&gt;&lt;/h2&gt;&lt;h3 id="Hlevel3"&gt;&lt;span&gt;level 3&lt;/span&gt;&lt;/h3&gt;&lt;h4 id="Hlevel4"&gt;&lt;span&gt;level 4&lt;/span&gt;&lt;/h4&gt;&lt;h5 id="Hlevel5"&gt;&lt;span&gt;level 5&lt;/span&gt;&lt;/h5&gt;&lt;h6 id="Hlevel6"&gt;&lt;span&gt;level 6&lt;/span&gt;&lt;/h6&gt;
 {{/html}})))
-|Parametrized headers|&lt;h1&gt;&lt;span style="color:blue"&gt;header&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}\\= header =|(((
+|Parametrized headings|&lt;h1&gt;&lt;span style="color:blue"&gt;heading&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}\\= heading =|(((
 {{html}}
-&lt;h1 id="Hheader" style="color:blue"&gt;&lt;span&gt;header&lt;/span&gt;&lt;/h1&gt;
+&lt;h1 id="Hheading" style="color:blue"&gt;&lt;span&gt;heading&lt;/span&gt;&lt;/h1&gt;
 {{/html}})))
-|Headers with wiki syntax|1.1.1 Header with *bold*|{{{=== Header with **bold** ===}}}|(((=== Header with **bold** ===)))
+|Headings with wiki syntax|1.1.1 Heading with *bold*|{{{=== Heading with **bold** ===}}}|(((=== Heading with **bold** ===)))
 
 = Text Formatting =
 
@@ -829,12 +829,12 @@ With XWiki Syntax 2.0 it's possible to pass parameters to the different syntax e
 (% style="width:100%" %)
 |=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Generated XHTML
 |((({{{
-&lt;h1 class="myClass" style="myStyle" id="myId"&gt;header&lt;/h1&gt;
+&lt;h1 class="myClass" style="myStyle" id="myId"&gt;heading&lt;/h1&gt;
 }}})))|((({{{
 (% class="myClass" style="myStyle" id="myId" %)
-= header =
+= heading =
 }}})))|((({{{
-&lt;h1 class="myClass" style="myStyle" id="myId"&gt;header&lt;/h1&gt;
+&lt;h1 class="myClass" style="myStyle" id="myId"&gt;heading&lt;/h1&gt;
 }}})))
 
 {{id name="syntaxes"/}}

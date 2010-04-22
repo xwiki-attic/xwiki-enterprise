@@ -293,7 +293,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         openUsersPage();
         clickLinkWithText("Add new user", false);
-        waitForElement("//input[@id='register_first_name']");
+        waitForElement("register_first_name");
         setFieldValue("register_first_name", fname);
         setFieldValue("register_last_name", lname);
         setFieldValue("xwikiname", login);

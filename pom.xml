@@ -63,7 +63,7 @@
     <platform.core.version>2.4-SNAPSHOT</platform.core.version>
     <platform.web.version>2.4-SNAPSHOT</platform.web.version>
 
-    <platform.administration.version>1.33-SNAPSHOT</platform.administration.version>
+    <platform.administration.version>1.34-SNAPSHOT</platform.administration.version>
     <platform.activitystream.version>1.7-SNAPSHOT</platform.activitystream.version>
     <platform.blog.version>1.22-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
@@ -78,7 +78,7 @@
     <platform.watchlist.version>1.28-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>
     <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>
-    <platform.annotations.version>1.3-SNAPSHOT</platform.annotations.version>
+    <platform.annotations.version>1.4-SNAPSHOT</platform.annotations.version>
   </properties>
   <profiles>
     <profile>

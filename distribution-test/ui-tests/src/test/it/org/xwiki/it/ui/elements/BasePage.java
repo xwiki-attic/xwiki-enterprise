@@ -70,21 +70,74 @@ public class BasePage
     {
         return getDriver().findElement(By.xpath("//meta[@name='" + metaName + "']")).getAttribute("content");
     }
-    
+
+    /**
+     * Wait until the element given by the locator is displayed. Give up after 10 seconds.
+     *
+     * @param locator the locator for the element to look for.
+     */    
     public void waitUntilElementIsVisible(final By locator)
     {
         this.waitUntilElementIsVisible(locator, 10);
     }
 
+    /**
+     * Wait until the element given by the locator is displayed.
+     *
+     * @param locator the locator for the element to look for.
+     * @param timeout how long to wait in seconds before giving up.
+     */
     public void waitUntilElementIsVisible(final By locator, int timeout)
+    {
+        waitUntilElementsAreVisible(new By[] {locator}, timeout, true);
+    }
+
+    /**
+     * Wait until one or all of a array of element locators are displayed.
+     *
+     * @param locators the array of element locators to look for.
+     * @param all if true then don't return until all elements are found. Otherwise return after finding one.
+     */
+    public void waitUntilElementsAreVisible(final By[] locators, final boolean all)
+    {
+        waitUntilElementsAreVisible(locators, 10, all);
+    }
+
+    /**
+     * Wait until one or all of a array of element locators are displayed.
+     *
+     * @param locators the array of element locators to look for.
+     * @param timeout how long to wait in seconds before giving up.
+     * @param all if true then don't return until all elements are found. Otherwise return after finding one.
+     */
+    public void waitUntilElementsAreVisible(final By[] locators, int timeout, final boolean all)
     {
         Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
         wait.until(new ExpectedCondition<WebElement>()
         {
             public WebElement apply(WebDriver driver)
             {
-                RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
-                return element.isDisplayed() ? element : null;
+                RenderedWebElement element = null;
+                for (int i = 0; i < locators.length; i++) {
+                    try {
+                        element = (RenderedWebElement) driver.findElement(locators[i]);
+                    } catch (NotFoundException e) {
+                        // This exception is caught by WebDriverWait
+                        // but it returns null which is not necessarily what we want.
+                        if (all) {
+                            return null;
+                        }
+                        continue;
+                    }
+                    if (element.isDisplayed()) {
+                        if (!all) {
+                            return element;
+                        }
+                    } else if (all) {
+                        return null;
+                    }
+                }
+                return element;
             }
         });
     }

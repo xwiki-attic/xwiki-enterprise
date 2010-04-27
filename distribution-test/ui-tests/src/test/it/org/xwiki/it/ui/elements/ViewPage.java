@@ -19,6 +19,8 @@
  */
 package org.xwiki.it.ui.elements;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -52,6 +54,9 @@ public class ViewPage extends BasePage
     @FindBy(id = "tmCreateSpace")
     private WebElement createSpaceMenuLink;
 
+    @FindBy(id= "tmAdminWiki")
+    private WebElement administorWikiMenuLink;
+
     public ViewPage(WebDriver driver)
     {
         super(driver);
@@ -63,12 +68,16 @@ public class ViewPage extends BasePage
     public void loginAsAdmin()
     {
         if (!isAuthenticated()) {
-            // If there's no login link then go to the home page
+            // If there's no login link then go to the home page.
             if (!hasLoginLink()) {
+                String thisPage = getPageURL();
                 HomePage homePage = new HomePage(getDriver());
                 homePage.gotoHomePage();
+                clickLogin().loginAsAdmin();
+                getDriver().get(thisPage);
+            } else {
+                clickLogin().loginAsAdmin();
             }
-            clickLogin().loginAsAdmin();
         }
     }
 
@@ -122,6 +131,13 @@ public class ViewPage extends BasePage
         return new CreateSpacePage(getDriver());
     }
 
+    public AdministrationPage administorWiki()
+    {
+        hoverOverMenu("tmWiki");
+        this.administorWikiMenuLink.click();
+        return new AdministrationPage(getDriver());
+    }
+
     // TODO: I don't think we should go through the menus, it's probably faster to to as deletePage() does
     public void deleteCurrentPage()
     {
@@ -141,6 +157,19 @@ public class ViewPage extends BasePage
         this.waitUntilElementIsVisible(By.id("historycontent"));
 
         return new HistoryPane(getDriver());
+    }
+
+    /** @return does this page exist. */
+    public boolean exists()
+    {
+        List<WebElement> messages = getDriver().findElements(By.className("xwikimessage"));
+        for (WebElement message : messages) {
+            if (message.getText().equals("The requested document could not be found.")
+                || message.getText().equals("The document has been deleted.")) {
+                return false;
+            }
+        }
+        return true;
     }
     
     private void hoverOverMenu(String menuId)

@@ -22,6 +22,7 @@ package org.xwiki.it.ui.framework;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
+import org.xwiki.test.XWikiExecutor;
 
 /**
  * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it. 
@@ -31,20 +32,30 @@ import org.openqa.selenium.WebDriver;
  */
 public class AbstractTest
 {
+    private static XWikiExecutor executor;
+
     @BeforeClass
-    public static void init()
+    public static void init() throws Exception
     {
+        if (!Boolean.parseBoolean(System.getProperty("xwiki.alltests"))) {
+            // Start XE
+            executor = new XWikiExecutor(0);
+            executor.start();
+        }
+
         if (TestUtils.getDriver() == null) {
             TestUtils.initDriver();
         }
     }
 
     @AfterClass
-    public static void shutdown()
+    public static void shutdown() throws Exception
     {
         // Only close if we're not part of the AllTests test suite
         if (!Boolean.parseBoolean(System.getProperty("xwiki.alltests"))) {
             TestUtils.closeDriver();
+            // Stop XE
+            executor.stop();
         }
     }
 

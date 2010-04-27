@@ -19,53 +19,38 @@
  */
 package org.xwiki.it.ui.elements;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.TestUtils;
+
+
+import org.xwiki.it.ui.elements.RegisterPage;
+import org.xwiki.it.ui.elements.BasePage;
+import org.xwiki.it.ui.elements.AdministrationPage;
 
 /**
- * Represents the actions possible on the main Administration Page.
- *
+ * Test the Admin->Users->AddNewUser feature.
+ * 
  * @version $Id$
- * @since 2.3M1
+ * @since 2.4M1
  */
-public class AdministrationPage extends ViewPage
+public class UsersPage extends BasePage
 {
-    @FindBy(xpath = "//li[@class='Import']/a/span/img")
-    WebElement importLink;
+    @FindBy(id = "addNewUser")
+    private WebElement addNewUserButton;
 
-    @FindBy(xpath = "//li[@class='Registration']/a/span/img")
-    WebElement registrationLink;
-
-    @FindBy(xpath = "//li[@class='Users']/a/span/img")
-    WebElement usersLink;
-
-    public AdministrationPage(WebDriver driver)
+    public UsersPage(WebDriver driver)
     {
         super(driver);
     }
-    
-    public void gotoAdministrationPage()
-    {
-        TestUtils.gotoPage("XWiki", "XWikiPreferences", "admin", getDriver());
-    }
 
-    public ImportPage clickImportSection()
+    public RegisterPage clickAddNewUser()
     {
-        this.importLink.click();
-        return new ImportPage(getDriver());
-    }
-
-    public AdminSectionPage clickRegistrationSection()
-    {
-        this.registrationLink.click();
-        return new AdminSectionPage(getDriver());
-    }
-
-    public UsersPage clickUsersSection()
-    {
-        this.usersLink.click();
-        return new UsersPage(getDriver());
+        this.addNewUserButton.click();
+        RegisterPage rp = new LightBoxRegisterPage(getDriver());
+        return rp;
     }
 }

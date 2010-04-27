@@ -30,20 +30,22 @@ import org.xwiki.it.ui.framework.TestUtils;
  * @version $Id$
  * @since 2.3M1
  */
-public class AdministrationPage extends ViewPage
+public class AdminSectionPage extends AdministrationPage
 {
-    @FindBy(xpath = "//li[@class='Import']/a/span/img")
-    WebElement importLink;
+    @FindBy(xpath = "//div[@id='admin-page-content']/div/p/span/input[@type='submit']")
+    private WebElement saveButton;
 
-    @FindBy(xpath = "//li[@class='Registration']/a/span/img")
-    WebElement registrationLink;
+    // The admin-page-content div is being treated as a form since it may contain multiple forms and we want to be able
+    // to access elements in them all.
+    @FindBy(xpath = "//div[@id='admin-page-content']")
+    private WebElement formElement;
 
-    @FindBy(xpath = "//li[@class='Users']/a/span/img")
-    WebElement usersLink;
+    private FormPage form;
 
-    public AdministrationPage(WebDriver driver)
+    public AdminSectionPage(WebDriver driver)
     {
         super(driver);
+        this.form = new FormPage(formElement, driver);
     }
     
     public void gotoAdministrationPage()
@@ -51,21 +53,13 @@ public class AdministrationPage extends ViewPage
         TestUtils.gotoPage("XWiki", "XWikiPreferences", "admin", getDriver());
     }
 
-    public ImportPage clickImportSection()
+    public void clickSave()
     {
-        this.importLink.click();
-        return new ImportPage(getDriver());
+        saveButton.click();
     }
 
-    public AdminSectionPage clickRegistrationSection()
+    public FormPage getForm()
     {
-        this.registrationLink.click();
-        return new AdminSectionPage(getDriver());
-    }
-
-    public UsersPage clickUsersSection()
-    {
-        this.usersLink.click();
-        return new UsersPage(getDriver());
+        return form;
     }
 }

@@ -160,8 +160,8 @@ Class properties:
 
     #end
     [[View the template document (${classTemplateDoc.fullName}) »&gt;&gt;${classTemplateDoc.fullName}]]
-
   #end
+
 #end ## doc == XWiki.ClassSheet
 {{/velocity}}</content>
 </xwikidoc>

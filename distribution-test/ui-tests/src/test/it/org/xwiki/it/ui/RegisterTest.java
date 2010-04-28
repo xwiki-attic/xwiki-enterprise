@@ -125,6 +125,15 @@ public class RegisterTest extends AbstractTest
         Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is mandatory."));
     }
 
+
+    @Test
+    public void testRegisterEmptyUserName()
+    {
+        registerPage.fillRegisterForm(null, null, "", null, null, null);
+        Assert.assertFalse(validateAndRegister());
+        Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is mandatory."));
+    }
+
     @Test
     public void testRegisterInvalidEmail()
     {

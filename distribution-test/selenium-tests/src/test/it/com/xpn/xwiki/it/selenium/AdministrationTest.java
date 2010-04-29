@@ -237,6 +237,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationIconPresent(section, null);
         clickLinkWithText(section);
         assertConfigurationPresent("Main", "TestConfigurable");
+        // Make sure javascript adds a save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Check that it's not available in space section.
         open("Main", "WebPreferences", "admin");
         // Assert there is no icon with the default image.
@@ -470,6 +472,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open(space, page, "edit", "editor=object");
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", codeToExecute);
         setFieldValue("XWiki.ConfigurableClass_0_heading", heading);
+        setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
         clickEditSaveAndView();
 
         // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
@@ -486,6 +489,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertTextPresent("This should also be displayed.");
         assertTextNotPresent("This should not be displayed.");
         assertTextPresent("Has Programming permission: false");
+        // Make sure javascript has not added a Save button.
+        assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
     }
 
     /**

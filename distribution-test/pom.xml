@@ -226,6 +226,16 @@
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=wiki
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=object
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=class
+                  /xwiki/bin/edit/XWiki/XWikiPreferences?editor=rights
+                  /xwiki/bin/view/XWiki/Admin?category=preferences
+                  /xwiki/bin/view/XWiki/Admin?category=watchlist
+                  /xwiki/bin/view/Main/?xpage=createdocument&amp;tocreate=page
+                  /xwiki/bin/view/Main/?xpage=createdocument&amp;tocreate=space
+                  /xwiki/bin/view/Main/?viewer=comments
+                  /xwiki/bin/view/Main/?viewer=information
+                  /xwiki/bin/view/Main/?viewer=attachments
+                  /xwiki/bin/view/Main/?viewer=history
+                  /xwiki/bin/register/XWiki/Register
                 </value>
               </property>
               <!-- Used only in office importer tests -->

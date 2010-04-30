@@ -207,7 +207,7 @@
                 <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${pom.version}/xwiki-enterprise-wiki-${pom.version}.xar</value>
               </property>
               <property>
-                <name>urlsToTest</name>
+                <name>urlsToTestAsAdmin</name>
                 <value>
                   /xwiki/bin/admin/XWiki/XWikiPreferences
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=General

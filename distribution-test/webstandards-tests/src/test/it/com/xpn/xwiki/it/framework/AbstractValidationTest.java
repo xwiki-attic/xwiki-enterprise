@@ -119,20 +119,36 @@ public class AbstractValidationTest extends TestCase
     {
         TestSuite suite = new TestSuite();
 
-        HttpClient client = new HttpClient();
+        HttpClient adminClient = new HttpClient();
         Credentials defaultcreds = new UsernamePasswordCredentials("Admin", "admin");
-        client.getState().setCredentials(AuthScope.ANY, defaultcreds);
+        adminClient.getState().setCredentials(AuthScope.ANY, defaultcreds);
 
-        addURLs(validationTest, validator, suite, client);
-        addXarFiles(validationTest, validator, suite, client);
+        addURLsForAdmin(validationTest, validator, suite, adminClient);
+        addXarFiles(validationTest, validator, suite, adminClient);
+
+        HttpClient guestClient = new HttpClient();
+
+        addURLsForGuest(validationTest, validator, suite, guestClient);
 
         return suite;
     }
 
-    public static void addURLs(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
+    public static void addURLsForAdmin(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
         TestSuite suite, HttpClient client) throws Exception
     {
-        String urlsToTest = System.getProperty("urlsToTest");
+        addURLs("urlsToTestAsAdmin", validationTest, validator, suite, client);
+    }
+
+    public static void addURLsForGuest(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
+        TestSuite suite, HttpClient client) throws Exception
+    {
+        addURLs("urlsToTestAsGuest", validationTest, validator, suite, client);
+    }
+
+    public static void addURLs(String property, Class< ? extends AbstractValidationTest> validationTest,
+        Validator validator, TestSuite suite, HttpClient client) throws Exception
+    {
+        String urlsToTest = System.getProperty(property);
 
         for (String url : urlsToTest.split("\\s")) {
             if (StringUtils.isNotEmpty(url)) {

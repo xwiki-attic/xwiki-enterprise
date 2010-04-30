@@ -43,9 +43,9 @@ import com.xpn.xwiki.it.framework.AbstractValidationTest;
  * @version $Id$
  */
 public class XHTMLValidationTest extends AbstractValidationTest
-{ 
+{
     private XHTMLValidator validator = new XHTMLValidator();
-    
+
     /**
      * We save the stdout stream since we replace it with our own in order to verify that XWiki doesn't generated any
      * error while validating documents and we fail the build if it does.
@@ -67,7 +67,7 @@ public class XHTMLValidationTest extends AbstractValidationTest
      * The new stderr stream we're using to replace the default console output.
      */
     protected ByteArrayOutputStream err;
-        
+
     public XHTMLValidationTest(String fullPageName, HttpClient client, Validator validator) throws Exception
     {
         super("testDocumentValidity");
@@ -76,7 +76,7 @@ public class XHTMLValidationTest extends AbstractValidationTest
         this.fullPageName = fullPageName;
         this.client = client;
     }
-    
+
     /**
      * {@inheritDoc}
      * 
@@ -168,9 +168,10 @@ public class XHTMLValidationTest extends AbstractValidationTest
         boolean hasError = false;
         for (ValidationError error : errors) {
             if (error.getType() == ValidationError.Type.WARNING) {
-                System.out.println("Warning at " + error.getLine() + ":" + error.getColumn() + " " + error.getMessage());
+                System.out
+                    .println("Warning at " + error.getLine() + ":" + error.getColumn() + " " + error.getMessage());
             } else {
-                message.append("\n" + error.toString() + " at line [" + error.getLine() + "] column [" 
+                message.append("\n" + error.toString() + " at line [" + error.getLine() + "] column ["
                     + error.getColumn() + "]");
                 hasError = true;
             }
@@ -188,7 +189,7 @@ public class XHTMLValidationTest extends AbstractValidationTest
 
         assertFalse(message.toString(), hasError);
     }
-    
+
     protected boolean hasLogErrors(String output)
     {
         return output.indexOf("ERROR") >= 0 || output.indexOf("ERR") >= 0;

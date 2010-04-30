@@ -20,18 +20,16 @@
 package com.xpn.xwiki.it;
 
 import java.io.ByteArrayInputStream;
-import java.net.URLEncoder;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
 import org.xwiki.validator.ValidationError.Type;
 
 import com.xpn.xwiki.it.framework.AbstractValidationTest;
 import com.xpn.xwiki.it.framework.CustomDutchWebGuidelinesValidator;
+import com.xpn.xwiki.it.framework.DocumentReferenceTarget;
+import com.xpn.xwiki.it.framework.Target;
 
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents.
@@ -42,14 +40,11 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
 {
     private CustomDutchWebGuidelinesValidator validator;
 
-    public DutchWebGuidelinesValidationTest(String fullPageName, HttpClient client, Validator validator)
-        throws Exception
+    public DutchWebGuidelinesValidationTest(Target target, HttpClient client, Validator validator) throws Exception
     {
-        super("testDocumentValidity");
+        super("testDocumentValidity", target, client);
 
         this.validator = (CustomDutchWebGuidelinesValidator) validator;
-        this.fullPageName = fullPageName;
-        this.client = client;
     }
 
     /**
@@ -59,41 +54,23 @@ public class DutchWebGuidelinesValidationTest extends AbstractValidationTest
      */
     public String getName()
     {
-        return "Validating Dutch Web Guidelines Validity for: " + fullPageName;
+        return "Validating Dutch Web Guidelines Validity for: " + this.target.getName();
     }
 
     public void testDocumentValidity() throws Exception
     {
-        GetMethod method =
-            new GetMethod("http://127.0.0.1:8080/xwiki/bin/view/"
-                + URLEncoder.encode(this.fullPageName, "UTF-8").replace('.', '/'));
+        byte[] responseBody = getResponseBody();
 
-        method.setDoAuthentication(true);
-        method.setFollowRedirects(true);
-        method.addRequestHeader("Authorization", "Basic " + new String(Base64.encodeBase64("Admin:admin".getBytes())));
-
-        byte[] responseBody;
-
-        // Execute the method.
-        try {
-            int statusCode = this.client.executeMethod(method);
-
-            assertEquals("Method failed: " + method.getStatusLine(), HttpStatus.SC_OK, statusCode);
-
-            // Read the response body.
-            responseBody = method.getResponseBody();
-        } finally {
-            method.releaseConnection();
+        if (this.target instanceof DocumentReferenceTarget) {
+            this.validator.setDocumentReference(((DocumentReferenceTarget) this.target).getDocumentReference());
         }
+        this.validator.setDocument((new ByteArrayInputStream(responseBody)));
+        this.validator.validate();
 
-        validator.setFullPageName(fullPageName);
-        validator.setDocument((new ByteArrayInputStream(responseBody)));
-        validator.validate();
-               
         StringBuffer message = new StringBuffer();
         boolean isValid = true;
-        message.append("Validation errors in " + fullPageName);
-        for (ValidationError error : validator.getErrors()) {
+        message.append("Validation errors in " + this.target.getName());
+        for (ValidationError error : this.validator.getErrors()) {
             if (error.getType() != Type.WARNING) {
                 isValid = false;
                 message.append("\n" + error);

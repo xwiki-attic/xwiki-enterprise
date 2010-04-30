@@ -201,10 +201,32 @@
                 <name>browser</name>
                 <value>${browser}</value>
               </property>
-              <!-- Used only in xml-rpc tests -->
+              <!-- Used only in webstandards tests -->
               <property>
                 <name>pathToXWikiXar</name>
                 <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${pom.version}/xwiki-enterprise-wiki-${pom.version}.xar</value>
+              </property>
+              <property>
+                <name>urlsToTest</name>
+                <value>
+                  /xwiki/bin/admin/XWiki/XWikiPreferences
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=General
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Presentation
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Registration
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Programming
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Rights
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Users
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Groups
+                  /xwiki/bin/import/XWiki/Import?editor=globaladmin&amp;section=Import
+                  /xwiki/bin/export/XWiki/Export?editor=globaladmin&amp;section=Export
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Panels.PanelWizard
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=XWiki.OfficeImporterAdmin
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Annotations
+                  /xwiki/bin/edit/XWiki/XWikiPreferences?editor=wysiwyg
+                  /xwiki/bin/edit/XWiki/XWikiPreferences?editor=wiki
+                  /xwiki/bin/edit/XWiki/XWikiPreferences?editor=object
+                  /xwiki/bin/edit/XWiki/XWikiPreferences?editor=class
+                </value>
               </property>
               <!-- Used only in office importer tests -->
               <property>

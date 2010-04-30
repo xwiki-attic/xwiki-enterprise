@@ -24,18 +24,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
-import java.net.URLEncoder;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
 import org.xwiki.validator.XHTMLValidator;
 
 import com.xpn.xwiki.it.framework.AbstractValidationTest;
+import com.xpn.xwiki.it.framework.Target;
 
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents.
@@ -68,13 +65,11 @@ public class XHTMLValidationTest extends AbstractValidationTest
      */
     protected ByteArrayOutputStream err;
 
-    public XHTMLValidationTest(String fullPageName, HttpClient client, Validator validator) throws Exception
+    public XHTMLValidationTest(Target target, HttpClient client, Validator validator) throws Exception
     {
-        super("testDocumentValidity");
+        super("testDocumentValidity", target, client);
 
         this.validator = (XHTMLValidator) validator;
-        this.fullPageName = fullPageName;
-        this.client = client;
     }
 
     /**
@@ -133,38 +128,18 @@ public class XHTMLValidationTest extends AbstractValidationTest
      */
     public String getName()
     {
-        return "Validating XHTML validity for: " + fullPageName;
+        return "Validating XHTML validity for: " + this.target.getName();
     }
 
     public void testDocumentValidity() throws Exception
     {
-        GetMethod method =
-            new GetMethod("http://127.0.0.1:8080/xwiki/bin/view/"
-                + URLEncoder.encode(this.fullPageName, "UTF-8").replace('.', '/'));
+        byte[] responseBody = getResponseBody();
 
-        method.setDoAuthentication(true);
-        method.setFollowRedirects(true);
-        method.addRequestHeader("Authorization", "Basic " + new String(Base64.encodeBase64("Admin:admin".getBytes())));
-
-        byte[] responseBody;
-
-        // Execute the method.
-        try {
-            int statusCode = this.client.executeMethod(method);
-
-            assertEquals("Method failed: " + method.getStatusLine(), HttpStatus.SC_OK, statusCode);
-
-            // Read the response body.
-            responseBody = method.getResponseBody();
-        } finally {
-            method.releaseConnection();
-        }
-
-        validator.setDocument(new ByteArrayInputStream(responseBody));
-        List<ValidationError> errors = validator.validate();
+        this.validator.setDocument(new ByteArrayInputStream(responseBody));
+        List<ValidationError> errors = this.validator.validate();
 
         StringBuffer message = new StringBuffer();
-        message.append("Validation errors in " + fullPageName);
+        message.append("Validation errors in " + this.target.getName());
         boolean hasError = false;
         for (ValidationError error : errors) {
             if (error.getType() == ValidationError.Type.WARNING) {

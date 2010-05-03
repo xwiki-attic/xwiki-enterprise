@@ -74,6 +74,7 @@
     <platform.officeimporter.version>1.15-SNAPSHOT</platform.officeimporter.version>
     <platform.plugin.skinx.version>1.14-SNAPSHOT</platform.plugin.skinx.version>
     <platform.statistics.version>1.8-SNAPSHOT</platform.statistics.version>
+    <platform.search.version>1.0-SNAPSHOT</platform.search.version>
     <platform.tag.version>1.12-SNAPSHOT</platform.tag.version>
     <platform.watchlist.version>1.28-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>

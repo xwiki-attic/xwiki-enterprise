@@ -248,14 +248,6 @@
             #end
             #set($fieldValue = "$!itemDoc.getValue($colname)")
             #set($fieldDisplayValue = "$!itemDoc.display($colname, 'view')")
-            ## we need to transform carriage returns to &lt;br /&gt;
-            #if($propType == 'TextAreaClass')
-              #set($fieldValue = $fieldValue.replaceAll('\r', '').replaceAll('\n', '&lt;br /&gt;'))
-              #set($fieldDisplayValue = $fieldDisplayValue.replaceAll('\r', '').replaceAll('\n','&lt;br /&gt;'))
-            #else
-              #set($fieldValue = $fieldValue.replaceAll('\r|\n', ''))
-              #set($fieldDisplayValue = $fieldDisplayValue.replaceAll('\r|\n', ''))
-            #end
             #if($fieldDisplayValue == '')
               #set($fieldDisplayValue = $msg.get("${request.transprefix}emptyvalue"))
             #end

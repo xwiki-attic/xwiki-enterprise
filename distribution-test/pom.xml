@@ -222,6 +222,7 @@
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Panels.PanelWizard
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=XWiki.OfficeImporterAdmin
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Annotations
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Search
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=wysiwyg
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=wiki
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=object

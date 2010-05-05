@@ -61,7 +61,7 @@ public class RegisterTest extends AbstractTest
             homePage.loginAsAdmin();
             AdministrationPage adminPage = homePage.administorWiki();
             AdminSectionPage registrationAdminSection = adminPage.clickRegistrationSection();
-            registrationAdminSection.getForm().setFieldValue(By.name("XWiki.Registration_1_liveValidation_enabled"),
+            registrationAdminSection.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
                                                              Boolean.valueOf(useLiveValidation()).toString());
             registrationAdminSection.clickSave();
             if (x > 2) {

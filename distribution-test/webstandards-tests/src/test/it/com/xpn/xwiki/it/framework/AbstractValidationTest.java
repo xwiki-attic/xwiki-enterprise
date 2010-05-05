@@ -150,10 +150,12 @@ public class AbstractValidationTest extends TestCase
     {
         String urlsToTest = System.getProperty(property);
 
-        for (String url : urlsToTest.split("\\s")) {
-            if (StringUtils.isNotEmpty(url)) {
-                suite.addTest(validationTest.getConstructor(Target.class, HttpClient.class, Validator.class)
-                    .newInstance(new URLPathTarget(url), client, validator));
+        if (urlsToTest != null) {
+            for (String url : urlsToTest.split("\\s")) {
+                if (StringUtils.isNotEmpty(url)) {
+                    suite.addTest(validationTest.getConstructor(Target.class, HttpClient.class, Validator.class)
+                        .newInstance(new URLPathTarget(url), client, validator));
+                }
             }
         }
     }

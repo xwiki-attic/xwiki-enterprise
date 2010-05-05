@@ -31,7 +31,7 @@ import org.openqa.selenium.By;
 /**
  * Represents a Form.
  *
- * @version $Id:$
+ * @version $Id$
  * @since 2.4M1
  */
 public class FormPage extends BasePage

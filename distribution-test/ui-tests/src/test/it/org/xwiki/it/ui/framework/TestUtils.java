@@ -41,7 +41,7 @@ public class TestUtils
 
     public static void gotoPage(String space, String page, String action, WebDriver driver)
     {
-        gotoPage(space, page, "view", null, driver);
+        gotoPage(space, page, action, null, driver);
     }
 
     public static void gotoPage(String space, String page, String action, String queryString, WebDriver driver)

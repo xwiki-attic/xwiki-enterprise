@@ -25,6 +25,7 @@ import junit.framework.TestSuite;
 
 import org.xwiki.test.XWikiTestSetup;
 import org.xwiki.validator.XHTMLValidator;
+import org.xwiki.validator.XWikiValidator;
 
 import com.xpn.xwiki.it.framework.CustomDutchWebGuidelinesValidator;
 
@@ -50,11 +51,17 @@ public class AllTests extends TestCase
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
         XHTMLValidator xhtmlValidator = new XHTMLValidator();
-        addTest(suite, XHTMLValidationTest.suite(XHTMLValidationTest.class, xhtmlValidator), XHTMLValidationTest.class);
-        CustomDutchWebGuidelinesValidator DWGValidator = new CustomDutchWebGuidelinesValidator();
-        addTest(suite, DutchWebGuidelinesValidationTest.suite(DutchWebGuidelinesValidationTest.class, DWGValidator), 
-            DutchWebGuidelinesValidationTest.class);
-        
+        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xhtmlValidator),
+            DefaultValidationTest.class);
+
+        CustomDutchWebGuidelinesValidator dwgValidator = new CustomDutchWebGuidelinesValidator();
+        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, dwgValidator),
+            DefaultValidationTest.class);
+
+        XWikiValidator xwikiValidator = new XWikiValidator();
+        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xwikiValidator),
+            DefaultValidationTest.class);
+
         return new XWikiTestSetup(suite);
     }
 

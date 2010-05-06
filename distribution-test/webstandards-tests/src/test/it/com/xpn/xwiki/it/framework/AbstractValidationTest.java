@@ -20,7 +20,6 @@
 package com.xpn.xwiki.it.framework;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -59,14 +58,17 @@ public class AbstractValidationTest extends TestCase
 
     protected Target target;
 
+    protected String credentials;
+
     private static final EntityReferenceResolver<String> RESOLVER = new DefaultStringEntityReferenceResolver();
 
-    public AbstractValidationTest(String name, Target target, HttpClient client)
+    public AbstractValidationTest(String name, Target target, HttpClient client, String credentials)
     {
         super(name);
 
         this.target = target;
         this.client = client;
+        this.credentials = credentials;
     }
 
     protected GetMethod createGetMethod() throws UnsupportedEncodingException
@@ -93,13 +95,17 @@ public class AbstractValidationTest extends TestCase
         return getMethod;
     }
 
-    protected byte[] getResponseBody() throws IOException
+    protected GetMethod getResponse() throws Exception
     {
         GetMethod method = createGetMethod();
 
-        method.setDoAuthentication(true);
         method.setFollowRedirects(true);
-        method.addRequestHeader("Authorization", "Basic " + new String(Base64.encodeBase64("Admin:admin".getBytes())));
+
+        if (this.credentials != null) {
+            method.setDoAuthentication(true);
+            method.addRequestHeader("Authorization", "Basic "
+                + new String(Base64.encodeBase64(this.credentials.getBytes())));
+        }
 
         // Execute the method.
         try {
@@ -107,6 +113,20 @@ public class AbstractValidationTest extends TestCase
 
             assertEquals("Method failed: " + method.getStatusLine(), HttpStatus.SC_OK, statusCode);
 
+            // Read the response body.
+            return method;
+        } catch (Exception e) {
+            method.releaseConnection();
+
+            throw e;
+        }
+    }
+
+    protected byte[] getResponseBody() throws Exception
+    {
+        GetMethod method = getResponse();
+
+        try {
             // Read the response body.
             return method.getResponseBody();
         } finally {
@@ -136,25 +156,25 @@ public class AbstractValidationTest extends TestCase
     public static void addURLsForAdmin(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
         TestSuite suite, HttpClient client) throws Exception
     {
-        addURLs("urlsToTestAsAdmin", validationTest, validator, suite, client);
+        addURLs("urlsToTestAsAdmin", validationTest, validator, suite, client, "Admin:admin");
     }
 
     public static void addURLsForGuest(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
         TestSuite suite, HttpClient client) throws Exception
     {
-        addURLs("urlsToTestAsGuest", validationTest, validator, suite, client);
+        addURLs("urlsToTestAsGuest", validationTest, validator, suite, client, null);
     }
 
     public static void addURLs(String property, Class< ? extends AbstractValidationTest> validationTest,
-        Validator validator, TestSuite suite, HttpClient client) throws Exception
+        Validator validator, TestSuite suite, HttpClient client, String credentials) throws Exception
     {
         String urlsToTest = System.getProperty(property);
 
         if (urlsToTest != null) {
             for (String url : urlsToTest.split("\\s")) {
                 if (StringUtils.isNotEmpty(url)) {
-                    suite.addTest(validationTest.getConstructor(Target.class, HttpClient.class, Validator.class)
-                        .newInstance(new URLPathTarget(url), client, validator));
+                    suite.addTest(validationTest.getConstructor(Target.class, HttpClient.class, Validator.class,
+                        String.class).newInstance(new URLPathTarget(url), client, validator, credentials));
                 }
             }
         }
@@ -167,8 +187,8 @@ public class AbstractValidationTest extends TestCase
         String patternFilter = System.getProperty("documentsToTest");
 
         for (DocumentReference documentReference : readXarContents(path, patternFilter)) {
-            suite.addTest(validationTest.getConstructor(Target.class, HttpClient.class, Validator.class).newInstance(
-                new DocumentReferenceTarget(documentReference), client, validator));
+            suite.addTest(validationTest.getConstructor(Target.class, HttpClient.class, Validator.class, String.class)
+                .newInstance(new DocumentReferenceTarget(documentReference), client, validator, "Admin:admin"));
         }
     }
 

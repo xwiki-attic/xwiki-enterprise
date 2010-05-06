@@ -29,7 +29,6 @@ import java.util.List;
 import org.apache.commons.httpclient.HttpClient;
 import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
-import org.xwiki.validator.XHTMLValidator;
 
 import com.xpn.xwiki.it.framework.AbstractValidationTest;
 import com.xpn.xwiki.it.framework.Target;
@@ -39,9 +38,9 @@ import com.xpn.xwiki.it.framework.Target;
  * 
  * @version $Id$
  */
-public class XHTMLValidationTest extends AbstractValidationTest
+public class DefaultValidationTest extends AbstractValidationTest
 {
-    private XHTMLValidator validator = new XHTMLValidator();
+    private Validator validator;
 
     /**
      * We save the stdout stream since we replace it with our own in order to verify that XWiki doesn't generated any
@@ -65,11 +64,12 @@ public class XHTMLValidationTest extends AbstractValidationTest
      */
     protected ByteArrayOutputStream err;
 
-    public XHTMLValidationTest(Target target, HttpClient client, Validator validator) throws Exception
+    public DefaultValidationTest(Target target, HttpClient client, Validator validator, String credentials)
+        throws Exception
     {
-        super("testDocumentValidity", target, client);
+        super("testDocumentValidity", target, client, credentials);
 
-        this.validator = (XHTMLValidator) validator;
+        this.validator = validator;
     }
 
     /**
@@ -128,7 +128,7 @@ public class XHTMLValidationTest extends AbstractValidationTest
      */
     public String getName()
     {
-        return "Validating XHTML validity for: " + this.target.getName();
+        return "Validating " + this.validator.getName() + " validity for: " + this.target.getName();
     }
 
     public void testDocumentValidity() throws Exception
@@ -143,8 +143,12 @@ public class XHTMLValidationTest extends AbstractValidationTest
         boolean hasError = false;
         for (ValidationError error : errors) {
             if (error.getType() == ValidationError.Type.WARNING) {
-                System.out
-                    .println("Warning at " + error.getLine() + ":" + error.getColumn() + " " + error.getMessage());
+                if (error.getLine() >= 0) {
+                    System.out.println("Warning at " + error.getLine() + ":" + error.getColumn() + " "
+                        + error.getMessage());
+                } else {
+                    System.out.println("Warning " + error.getMessage());
+                }
             } else {
                 message.append("\n" + error.toString() + " at line [" + error.getLine() + "] column ["
                     + error.getColumn() + "]");

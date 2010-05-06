@@ -3,17 +3,39 @@ package org.xwiki.it.ui.framework;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
  * Helper methods for testing, not related to a specific Page Object.
- *
- * @version $Id$ 
+ * 
+ * @version $Id$
  * @since 2.3M1
  */
 public class TestUtils
 {
+    public static enum XWIKI_ACTIONS
+    {
+        admin,
+        cancel,
+        commentadd,
+        deleteversions,
+        edit,
+        inline,
+        lock,
+        objectadd,
+        objectremove,
+        preview,
+        propadd,
+        propupdate,
+        rollback,
+        save,
+        saveandcontinue,
+        view
+    }
+
     private static final String URL_PREFIX = "http://localhost:8080/xwiki/bin/";
 
     private static WebDriver driver;
@@ -33,7 +55,7 @@ public class TestUtils
         driver.close();
         driver = null;
     }
-    
+
     public static void gotoPage(String space, String page, WebDriver driver)
     {
         gotoPage(space, page, "view", driver);
@@ -61,8 +83,12 @@ public class TestUtils
 
     public static String getURLForPage(String space, String page, String action, String queryString)
     {
-        return URL_PREFIX + action + "/" + space + "/" + page
-            + (queryString == null ? "" : "?" + queryString);
+        return URL_PREFIX + action + "/" + space + "/" + page + (queryString == null ? "" : "?" + queryString);
+    }
+
+    public static String getCurrentAction()
+    {
+        return StringUtils.substringBetween(driver.getCurrentUrl(), "/xwiki/bin/", "/");
     }
 
     public static boolean isOnPage(String space, String page, String action, WebDriver driver)
@@ -78,6 +104,16 @@ public class TestUtils
     public static void deletePage(String space, String page, WebDriver driver)
     {
         TestUtils.gotoPage(space, page, "delete", "confirm=1", driver);
+    }
+
+    public static boolean isNewPage(String space, String page)
+    {
+        String previousURL = driver.getCurrentUrl();
+        gotoPage(space, page, driver);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        Boolean result = (Boolean) js.executeScript("return XWiki.docisnew");
+        driver.navigate().to(previousURL);
+        return result;
     }
 
     /**

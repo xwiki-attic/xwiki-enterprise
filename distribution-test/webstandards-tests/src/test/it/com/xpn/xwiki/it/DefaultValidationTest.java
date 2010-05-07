@@ -150,8 +150,13 @@ public class DefaultValidationTest extends AbstractValidationTest
                     System.out.println("Warning " + error.getMessage());
                 }
             } else {
-                message.append("\n" + error.toString() + " at line [" + error.getLine() + "] column ["
-                    + error.getColumn() + "]");
+                if (error.getLine() >= 0) {
+                    message.append("\n" + error.toString() + " at line [" + error.getLine() + "] column ["
+                        + error.getColumn() + "]");
+                } else {
+                    message.append("\n" + error.toString());
+                }
+
                 hasError = true;
             }
         }

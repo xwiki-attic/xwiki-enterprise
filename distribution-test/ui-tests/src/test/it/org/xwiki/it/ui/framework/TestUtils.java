@@ -2,6 +2,8 @@ package org.xwiki.it.ui.framework;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -89,6 +91,19 @@ public class TestUtils
     public static String getCurrentAction()
     {
         return StringUtils.substringBetween(driver.getCurrentUrl(), "/xwiki/bin/", "/");
+    }
+
+    public static String getQueryParameterValue(String parameter)
+    {
+        String url = driver.getCurrentUrl();
+        Pattern pattern = Pattern.compile(".*(\\?|&)" + parameter + "=([^&]*)");
+        Matcher matcher = pattern.matcher(url);
+
+        if (matcher.matches()) {
+            return matcher.group(2);
+        }
+
+        return StringUtils.EMPTY;
     }
 
     public static boolean isOnPage(String space, String page, String action, WebDriver driver)

@@ -34,7 +34,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Represents the common actions possible on all Pages.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -71,9 +71,9 @@ public class BasePage
 
     /**
      * Wait until the element given by the locator is displayed. Give up after 10 seconds.
-     *
+     * 
      * @param locator the locator for the element to look for.
-     */    
+     */
     public void waitUntilElementIsVisible(final By locator)
     {
         this.waitUntilElementIsVisible(locator, 10);
@@ -81,7 +81,7 @@ public class BasePage
 
     /**
      * Wait until the element given by the locator is displayed.
-     *
+     * 
      * @param locator the locator for the element to look for.
      * @param timeout how long to wait in seconds before giving up.
      */
@@ -92,7 +92,7 @@ public class BasePage
 
     /**
      * Wait until one or all of a array of element locators are displayed.
-     *
+     * 
      * @param locators the array of element locators to look for.
      * @param all if true then don't return until all elements are found. Otherwise return after finding one.
      */
@@ -103,7 +103,7 @@ public class BasePage
 
     /**
      * Wait until one or all of a array of element locators are displayed.
-     *
+     * 
      * @param locators the array of element locators to look for.
      * @param timeout how long to wait in seconds before giving up.
      * @param all if true then don't return until all elements are found. Otherwise return after finding one.
@@ -169,12 +169,10 @@ public class BasePage
     }
 
     /**
-     * Shows hidden elements, as if they would be shown on hover.
+     * Shows hidden elements, as if they would be shown on hover. Currently implemented using JavaScript. Will throw a
+     * {@link RuntimeException} if the web driver does not support JavaScript or JavaScript is disabled.
      * 
-     * Currently implemented using JavaScript. Will throw a {@link RuntimeException} if the web driver
-     * does not support JavaScript or JavaScript is disabled.
-     * 
-     * @param locator  locator used to find the element, in case multiple elements are found, the first is used
+     * @param locator locator used to find the element, in case multiple elements are found, the first is used
      */
     public void makeElementVisible(By locator)
     {
@@ -202,5 +200,135 @@ public class BasePage
     protected void makeConfirmDialogSilent()
     {
         ((JavascriptExecutor) driver).executeScript("window.confirm = function() { return true; }");
+    }
+
+    /**
+     * @return true if we are currently logged in, false otherwise
+     */
+    public boolean isAuthenticated()
+    {
+        // Note that we cannot test if the userLink field is accessible since we're using an AjaxElementLocatorFactory
+        // and thus it would wait 15 seconds before considering it's not accessible.
+        return !getDriver().findElements(By.id("tmUser")).isEmpty();
+    }
+
+    /**
+     * Determine if the current page is a new document.
+     * 
+     * @return true if the document is new, false otherwise
+     */
+    public boolean isNewDocument()
+    {
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        return (Boolean) js.executeScript("return XWiki.docisnew");
+    }
+
+    /**
+     * Emulate mouse over on a top menu entry.
+     * 
+     * @param menuId Menu to emulate the mouse over on
+     */
+    protected void hoverOverMenu(String menuId)
+    {
+        // We need to hover over the Wiki menu so that the a menu entry is visible before we can click on
+        // it. The normal way to implement it is to do something like this:
+        //
+        // @FindBy(id = "tmWiki")
+        // private WebElement spaceMenuDiv;
+        // ...
+        // ((RenderedWebElement) spaceMenuDiv).hover();
+        //
+        // However it seems that currently Native Events don't work in FF 3.5+ versions and it seems to be only working
+        // on Windows. Thus for now we have to simulate the hover using JavaSCript.
+        //
+        // In addition there's a second bug where a WebElement retrieved using a @FindBy annotation cannot be used
+        // as a parameter to JavascriptExecutor.executeScript().
+        // See http://code.google.com/p/selenium/issues/detail?id=256
+        // Thus FTM we have to use getDriver().findElement().
+
+        if (getDriver() instanceof JavascriptExecutor) {
+            JavascriptExecutor js = (JavascriptExecutor) getDriver();
+            WebElement spaceMenuDiv = getDriver().findElement(By.id(menuId));
+            js.executeScript("showsubmenu(arguments[0])", spaceMenuDiv);
+        } else {
+            throw new RuntimeException("This test only works with a Javascript-enabled Selenium2 Driver");
+        }
+    }
+
+    /**
+     * Perform a click on a "content menu" top entry.
+     * 
+     * @param id The id of the entry to follow
+     */
+    protected void clickContentMenuTopEntry(String id)
+    {
+        getDriver().findElement(By.xpath("//div[@id='" + id + "']/span[1]/a/strong")).click();
+    }
+
+    /**
+     * Perform a click on a "content menu" sub-menu entry.
+     * 
+     * @param id The id of the entry to follow
+     */
+    protected void clickContentMenuEditSubMenuEntry(String id)
+    {
+        hoverOverMenu("tmEdit");
+        getDriver().findElement(By.xpath("//a[@id='" + id + "']")).click();
+    }
+
+    /**
+     * Performs a click on the "edit" entry of the content menu.
+     */
+    public void clickEdit()
+    {
+        clickContentMenuTopEntry("tmEdit");
+    }
+
+    /**
+     * Performs a click on the "edit wiki" entry of the content menu.
+     */
+    public void clickEditWiki()
+    {
+        clickContentMenuEditSubMenuEntry("tmEditWiki");
+    }
+
+    /**
+     * Performs a click on the "edit wysiwyg" entry of the content menu.
+     */
+    public void clickEditWysiwyg()
+    {
+        clickContentMenuEditSubMenuEntry("tmEditWysiwyg");
+    }
+
+    /**
+     * Performs a click on the "edit inline" entry of the content menu.
+     */
+    public void clickEditInline()
+    {
+        clickContentMenuEditSubMenuEntry("tmEditInline");
+    }
+
+    /**
+     * Performs a click on the "edit acces rights" entry of the content menu.
+     */
+    public void clickEditRights()
+    {
+        clickContentMenuEditSubMenuEntry("tmEditRights");
+    }
+
+    /**
+     * Performs a click on the "edit objects" entry of the content menu.
+     */
+    public void clickEditObjects()
+    {
+        clickContentMenuEditSubMenuEntry("tmEditObjects");
+    }
+
+    /**
+     * Performs a click on the "edit class" entry of the content menu.
+     */
+    public void clickEditClass()
+    {
+        clickContentMenuEditSubMenuEntry("tmEditClass");
     }
 }

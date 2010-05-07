@@ -22,7 +22,6 @@ package org.xwiki.it.ui.elements;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,22 +29,22 @@ import org.openqa.selenium.support.FindBys;
 
 /**
  * Represents the common actions possible on all Pages when using the "view" action.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
 public class ViewPage extends BasePage
 {
-    @FindBys({@FindBy(id = "tmRegister"), @FindBy(tagName = "a")})
+    @FindBys( {@FindBy(id = "tmRegister"), @FindBy(tagName = "a")})
     private WebElement registerLink;
 
-    @FindBys({@FindBy(id = "tmLogin"), @FindBy(tagName = "a")})
+    @FindBys( {@FindBy(id = "tmLogin"), @FindBy(tagName = "a")})
     private WebElement loginLink;
 
-    @FindBys({@FindBy(id = "tmLogout"), @FindBy(tagName = "a")})
+    @FindBys( {@FindBy(id = "tmLogout"), @FindBy(tagName = "a")})
     private WebElement logoutLink;
 
-    @FindBys({@FindBy(id = "tmUser"), @FindBy(tagName = "a")})
+    @FindBys( {@FindBy(id = "tmUser"), @FindBy(tagName = "a")})
     private WebElement userLink;
 
     @FindBy(id = "tmCreatePage")
@@ -54,7 +53,7 @@ public class ViewPage extends BasePage
     @FindBy(id = "tmCreateSpace")
     private WebElement createSpaceMenuLink;
 
-    @FindBy(id= "tmAdminWiki")
+    @FindBy(id = "tmAdminWiki")
     private WebElement administorWikiMenuLink;
 
     public ViewPage(WebDriver driver)
@@ -92,13 +91,6 @@ public class ViewPage extends BasePage
     {
         this.loginLink.click();
         return new LoginPage(getDriver());
-    }
-
-    public boolean isAuthenticated()
-    {
-        // Note that we cannot test if the userLink field is accessible since we're using an AjaxElementLocatorFactory
-        // and thus it would wait 15 seconds before considering it's not accessible.
-        return !getDriver().findElements(By.id("tmUser")).isEmpty();
     }
 
     public String getCurrentUser()
@@ -171,31 +163,4 @@ public class ViewPage extends BasePage
         }
         return true;
     }
-    
-    private void hoverOverMenu(String menuId)
-    {
-        // We need to hover over the Wiki menu so that the a menu entry is visible before we can click on
-        // it. The normal way to implement it is to do something like this:
-        //
-        // @FindBy(id = "tmWiki")
-        // private WebElement spaceMenuDiv;
-        // ...
-        // ((RenderedWebElement) spaceMenuDiv).hover();
-        //
-        // However it seems that currently Native Events don't work in FF 3.5+ versions and it seems to be only working
-        // on Windows. Thus for now we have to simulate the hover using JavaSCript.
-        //
-        // In addition there's a second bug where a WebElement retrieved using a @FindBy annotation cannot be used
-        // as a parameter to JavascriptExecutor.executeScript().
-        // See http://code.google.com/p/selenium/issues/detail?id=256
-        // Thus FTM we have to use getDriver().findElement().
-
-        if (getDriver() instanceof JavascriptExecutor) {
-           JavascriptExecutor js = (JavascriptExecutor) getDriver();
-           WebElement spaceMenuDiv = getDriver().findElement(By.id(menuId));
-           js.executeScript("showsubmenu(arguments[0])", spaceMenuDiv);
-        } else {
-            throw new RuntimeException("This test only works with a Javascript-enabled Selenium2 Driver");
-        }
-    }    
 }

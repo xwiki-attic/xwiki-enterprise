@@ -382,6 +382,32 @@ public class AdministrationTest extends AbstractXWikiTestCase
     }
 
     /*
+     * Make sure html macros and pre tags are not being stripped 
+     * @see: http://jira.xwiki.org/jira/browse/XAADMINISTRATION-141
+     *
+     * Tests: XWiki.ConfigurableClass
+     */
+    public void testNotStrippingHtmlMacros()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        String test = "{{html}} <pre> {{html clean=\"false\"}} </pre> {{/html}}";
+
+        String fullName = space + "." + page;
+        String form = "//div[@id='admin-page-content']/form[@action='/xwiki/bin/save/" + space + "/" + page + "']";
+
+        createConfigurableApplication(space, page, "TestSection1", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue(fullName + "_0_TextArea", test);
+        setFieldValue(fullName + "_0_String", test);
+        clickEditSaveAndView();
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
+        waitForTextPresent(form + "/fieldset/p[3]/textarea[@name='" + fullName + "_0_TextArea']", test);
+        waitForTextPresent(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']", test);
+    }
+
+    /*
      * If a value is specified for linkPrefix, then a link is generated with linkPrefix + prettyName of the property from
      * the configuration class.
      * linkPrefix = "http://www.xwiki.org/bin/view/Main/"

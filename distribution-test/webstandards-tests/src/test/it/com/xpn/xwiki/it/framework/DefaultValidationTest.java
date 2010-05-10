@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it;
+package com.xpn.xwiki.it.framework;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -30,8 +30,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
 
-import com.xpn.xwiki.it.framework.AbstractValidationTest;
-import com.xpn.xwiki.it.framework.Target;
 
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents.

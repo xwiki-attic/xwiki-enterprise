@@ -24,10 +24,12 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.xwiki.test.XWikiTestSetup;
+import org.xwiki.validator.RSSValidator;
 import org.xwiki.validator.XHTMLValidator;
 import org.xwiki.validator.XWikiValidator;
 
 import com.xpn.xwiki.it.framework.CustomDutchWebGuidelinesValidator;
+import com.xpn.xwiki.it.framework.DefaultValidationTest;
 
 /**
  * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
@@ -57,6 +59,9 @@ public class AllTests extends TestCase
         CustomDutchWebGuidelinesValidator dwgValidator = new CustomDutchWebGuidelinesValidator();
         addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, dwgValidator),
             DefaultValidationTest.class);
+
+        RSSValidator rssValidator = new RSSValidator();
+        addTest(suite, RSSValidationTest.suite(RSSValidationTest.class, rssValidator), RSSValidationTest.class);
 
         XWikiValidator xwikiValidator = new XWikiValidator();
         addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xwikiValidator),

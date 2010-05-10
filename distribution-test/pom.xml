@@ -250,6 +250,25 @@
                   /xwiki/bin/view/Main/AllDocs?view=deletedAttachments
                 </value>
               </property>
+              <property>
+                <name>urlsToTestAsGuest</name>
+                <value>
+                </value>
+              </property>
+              <property>
+                <name>rssUrlsToTestAsAdmin</name>
+                <value>
+                  /xwiki/bin/view/Main/WebSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                  /xwiki/bin/view/Main/LuceneSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                </value>
+              </property>
+              <property>
+                <name>rssUrlsToTestAsGuest</name>
+                <value>
+                  /xwiki/bin/view/Main/WebSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                  /xwiki/bin/view/Main/LuceneSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                </value>
+              </property>
               <!-- Used only in office importer tests -->
               <property>
                 <name>openOfficeExecutable</name>

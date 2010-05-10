@@ -153,19 +153,19 @@ public class AbstractValidationTest extends TestCase
         return suite;
     }
 
-    public static void addURLsForAdmin(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
+    protected static void addURLsForAdmin(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
         TestSuite suite, HttpClient client) throws Exception
     {
         addURLs("urlsToTestAsAdmin", validationTest, validator, suite, client, "Admin:admin");
     }
 
-    public static void addURLsForGuest(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
+    protected static void addURLsForGuest(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
         TestSuite suite, HttpClient client) throws Exception
     {
         addURLs("urlsToTestAsGuest", validationTest, validator, suite, client, null);
     }
 
-    public static void addURLs(String property, Class< ? extends AbstractValidationTest> validationTest,
+    protected static void addURLs(String property, Class< ? extends AbstractValidationTest> validationTest,
         Validator validator, TestSuite suite, HttpClient client, String credentials) throws Exception
     {
         String urlsToTest = System.getProperty(property);
@@ -180,7 +180,7 @@ public class AbstractValidationTest extends TestCase
         }
     }
 
-    public static void addXarFiles(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
+    protected static void addXarFiles(Class< ? extends AbstractValidationTest> validationTest, Validator validator,
         TestSuite suite, HttpClient client) throws Exception
     {
         String path = System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
@@ -192,7 +192,7 @@ public class AbstractValidationTest extends TestCase
         }
     }
 
-    public static List<DocumentReference> readXarContents(String fileName, String patternFilter) throws Exception
+    protected static List<DocumentReference> readXarContents(String fileName, String patternFilter) throws Exception
     {
         FileInputStream fileIS = new FileInputStream(fileName);
         ZipInputStream zipIS = new ZipInputStream(fileIS);

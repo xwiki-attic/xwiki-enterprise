@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>XWiki</web>
 <name>Results</name>
@@ -12,8 +11,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1272990081000</date>
+<contentUpdateDate>1272990081000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.search.results")</title>
 <template></template>
@@ -132,5 +131,4 @@
   #end ## foreach item
 &lt;/div&gt; ## searchResults
 {{/html}}
-{{/velocity}}</content>
-</xwikidoc>
+{{/velocity}}</content></xwikidoc>

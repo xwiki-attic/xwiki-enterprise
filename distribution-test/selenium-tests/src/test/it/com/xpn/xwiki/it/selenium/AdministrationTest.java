@@ -237,6 +237,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationIconPresent(section, null);
         clickLinkWithText(section);
         assertConfigurationPresent("Main", "TestConfigurable");
+        // Make sure javascript adds a save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Check that it's not available in space section.
         open("Main", "WebPreferences", "admin");
         // Assert there is no icon with the default image.
@@ -356,7 +358,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        //assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // Javascript injects a save button outside of the form and removes the default save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Should not be here
         assertElementNotPresent(form + "/fieldset/p/textarea[@name='" + fullName + "_0_TextArea']");
         assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Select']");
@@ -373,10 +377,39 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        //assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // Javascript injects a save button outside of the form and removes the default save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Should not be here
         assertElementNotPresent(form + "/fieldset/p/input[@name='" + fullName + "_0_String']");
         assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Boolean']");
+    }
+
+    /*
+     * Make sure html macros and pre tags are not being stripped 
+     * @see: http://jira.xwiki.org/jira/browse/XAADMINISTRATION-141
+     *
+     * Tests: XWiki.ConfigurableClass
+     */
+    public void testNotStrippingHtmlMacros()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        String test = "{{html}} <pre> {{html clean=\"false\"}} </pre> {{/html}}";
+
+        String fullName = space + "." + page;
+        String form = "//div[@id='admin-page-content']/form[@action='/xwiki/bin/save/" + space + "/" + page + "']";
+
+        createConfigurableApplication(space, page, "TestSection1", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue(fullName + "_0_TextArea", test);
+        setFieldValue(fullName + "_0_String", test);
+        clickEditSaveAndView();
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
+        waitForTextPresent(form + "/fieldset/p[3]/textarea[@name='" + fullName + "_0_TextArea']", test);
+        // Getting content from an input field required getValue and not getText
+        assertTrue(getSelenium().getValue(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']").equals(test));
     }
 
     /*
@@ -470,6 +503,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open(space, page, "edit", "editor=object");
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", codeToExecute);
         setFieldValue("XWiki.ConfigurableClass_0_heading", heading);
+        setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
         clickEditSaveAndView();
 
         // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
@@ -486,6 +520,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertTextPresent("This should also be displayed.");
         assertTextNotPresent("This should not be displayed.");
         assertTextPresent("Has Programming permission: false");
+        // Make sure javascript has not added a Save button.
+        assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
     }
 
     /**
@@ -578,7 +614,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // Javascript injects a save button outside of the form and removes the default save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
     }
 
     /*

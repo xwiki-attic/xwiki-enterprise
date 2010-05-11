@@ -157,8 +157,9 @@ public class RegisterTest extends AbstractXWikiTestCase
                 getSelenium().uncheck("//input[@name='XWiki.Registration_0_liveValidation_enabled'][@type='checkbox']");
             }
             // Copied from AlbatrossSkinExecutor.clickEditSaveAndContinue() 
-            // because we have to click a specific saveAndContinue button.
-            submit("//input[@value='Save XWiki.RegistrationConfig'][@name='action_saveandcontinue']", false);
+            // because we have to click a specific save button.
+            waitForElement("//input[@value='Save']");
+            submit("//input[@value='Save']", false);
             waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
                              + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");
             // Ensure that the user isn't logged in

@@ -152,9 +152,9 @@ public class RegisterTest extends AbstractXWikiTestCase
             loginAsAdmin();
             open("XWiki", "XWikiPreferences", "admin", "section=Registration&editor=globaladmin");
             if (useLiveValidation == true) {
-                getSelenium().check("//input[@name='XWiki.Registration_1_liveValidation_enabled'][@type='checkbox']");
+                getSelenium().check("//input[@name='XWiki.Registration_0_liveValidation_enabled'][@type='checkbox']");
             } else {
-                getSelenium().uncheck("//input[@name='XWiki.Registration_1_liveValidation_enabled'][@type='checkbox']");
+                getSelenium().uncheck("//input[@name='XWiki.Registration_0_liveValidation_enabled'][@type='checkbox']");
             }
             // Copied from AlbatrossSkinExecutor.clickEditSaveAndContinue() 
             // because we have to click a specific saveAndContinue button.

@@ -408,7 +408,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
         waitForTextPresent(form + "/fieldset/p[3]/textarea[@name='" + fullName + "_0_TextArea']", test);
-        waitForTextPresent(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']", test);
+        // Getting content from an input field required getValue and not getText
+        assertTrue(getSelenium().getValue(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']").equals(test));
     }
 
     /*

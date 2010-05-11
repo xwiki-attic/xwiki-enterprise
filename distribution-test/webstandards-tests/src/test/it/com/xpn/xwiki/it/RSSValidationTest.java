@@ -73,7 +73,7 @@ public class RSSValidationTest extends AbstractValidationTest
     public RSSValidationTest(Target target, HttpClient client, Validator validator, String credentials)
         throws Exception
     {
-        super("testDocumentRSSValidity", target, client, credentials);
+        super("testDocumentValidity", target, client, credentials);
 
         this.validator = validator;
     }

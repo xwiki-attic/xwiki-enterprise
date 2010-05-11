@@ -358,7 +358,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        //assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // Javascript injects a save button outside of the form and removes the default save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Should not be here
         assertElementNotPresent(form + "/fieldset/p/textarea[@name='" + fullName + "_0_TextArea']");
         assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Select']");
@@ -375,7 +377,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        //assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // Javascript injects a save button outside of the form and removes the default save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Should not be here
         assertElementNotPresent(form + "/fieldset/p/input[@name='" + fullName + "_0_String']");
         assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Boolean']");
@@ -609,7 +613,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // Javascript injects a save button outside of the form and removes the default save button.
+        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
     }
 
     /*

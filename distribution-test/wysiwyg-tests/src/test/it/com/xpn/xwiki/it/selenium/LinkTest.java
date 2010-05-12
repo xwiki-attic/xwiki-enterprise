@@ -58,6 +58,24 @@ public class LinkTest extends AbstractWysiwygTestCase
 
     public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
 
+    public static final String PAGE_LOCATION = "Located in xwiki \u00BB %s \u00BB %s";
+
+    public static final String NEW_PAGE_FROM_SEARCH_LOCATOR =
+        "//div[contains(@class, 'xPagesSearch')]"
+            + "//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]";
+
+    public static final String NEW_ATTACHMENT =
+        "//div[@class = 'xAttachmentsSelector']" + "//div[contains(@class, \"xListItem\")]"
+            + "/div[contains(@class, \"xNewFilePreview\")]";
+
+    public static final String NEW_ATTACHMENT_SELECTED =
+        "//div[@class = 'xAttachmentsSelector']" + "//div[contains(@class, \"xListItem-selected\")]"
+            + "/div[contains(@class, \"xNewFilePreview\")]";
+
+    public static final String ABSOLUTE_DOCUMENT_REFERENCE = "xwiki:%s.%s";
+
+    public static final String ABSOLUTE_ATTACHMENT_REFERENCE = ABSOLUTE_DOCUMENT_REFERENCE + "@%s";
+
     /**
      * The object used to assert the state of the XWiki Explorer tree.
      */
@@ -370,16 +388,15 @@ public class LinkTest extends AbstractWysiwygTestCase
         // switch to "all pages" tab
         clickTab(ALL_PAGES_TAB);
 
-        String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
         String imageSpace = "XWiki";
-        waitForCondition("selenium.isElementPresent('" + imageSpaceSelector + "/option[@value=\"" + imageSpace
+        waitForCondition("selenium.isElementPresent('" + ImageTest.SPACE_SELECTOR + "/option[@value=\"" + imageSpace
             + "\"]');");
-        getSelenium().select(imageSpaceSelector, imageSpace);
+        getSelenium().select(ImageTest.SPACE_SELECTOR, imageSpace);
 
-        String imagePageSelector = "//div[@class=\"xPageChooser\"]//select[3]";
         String imagePage = "AdminSheet";
-        waitForCondition("selenium.isElementPresent('" + imagePageSelector + "/option[@value=\"" + imagePage + "\"]');");
-        getSelenium().select(imagePageSelector, imagePage);
+        waitForCondition("selenium.isElementPresent('" + ImageTest.PAGE_SELECTOR + "/option[@value=\"" + imagePage
+            + "\"]');");
+        getSelenium().select(ImageTest.PAGE_SELECTOR, imagePage);
 
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
 
@@ -434,7 +451,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         // check the explorer selection
-        assertEquals(spaceName + "." + pageName, explorer.getSelectedEntityReference());
+        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, spaceName, pageName), explorer
+            .getSelectedEntityReference());
         explorer.waitForPageSelected(spaceName, "New page...");
 
         explorer.lookupEntity(newSpaceName + "." + newPageName);
@@ -740,7 +758,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         // wait for tree to load
         waitForStepToLoad("xExplorerPanel");
         // make sure input and selection in the tree reflect previously inserted values
-        assertEquals(selectedSpace + "." + selectedPage, explorer.getSelectedEntityReference());
+        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, selectedSpace, selectedPage), explorer
+            .getSelectedEntityReference());
         explorer.waitForPageSelected(selectedSpace, selectedPage);
 
         // and now change it
@@ -888,7 +907,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
+        assertEquals("xwiki:Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected("Main", "RecentChanges", "lquo.gif");
         // and edit it now
         explorer.lookupEntity("XWiki.AdminSheet@export.png");
@@ -917,7 +936,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("Main.RecentChanges", explorer.getSelectedEntityReference());
+        assertEquals("xwiki:Main.RecentChanges", explorer.getSelectedEntityReference());
         explorer.waitForPageSelected("Main", "RecentChanges");
         // and edit it now
         clickButtonWithText("Select");
@@ -1019,14 +1038,17 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertElementPresent("//div[contains(@class, 'gwt-TabBarItem-selected')]/div[.='" + RECENT_PAGES_TAB + "']");
 
         waitForStepToLoad("xPagesSelector");
-        // test that the selected element is the new page element
-        assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
+        // Test that the selected element is the edited page.
+        assertElementPresent("//div[contains(@class, 'xPagesRecent')]"
+            + "//div[contains(@class, 'xListItem-selected')]//div[. = '"
+            + String.format(PAGE_LOCATION, currentSpace, currentPage) + "']");
 
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        assertEquals("xwiki:" + currentSpace + "." + currentPage, explorer.getSelectedEntityReference());
+        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, currentSpace, currentPage), explorer
+            .getSelectedEntityReference());
         explorer.waitForPageSelected(currentSpace, currentPage);
         explorer.lookupEntity(newSpace + "." + newPage);
         explorer.waitForPageSelected(newSpace, newPage);
@@ -1051,25 +1073,17 @@ public class LinkTest extends AbstractWysiwygTestCase
         // make sure this page is saved so that the recent pages can load reference to it
         clickEditSaveAndContinue();
 
-        String currentPage = "xwiki:" + getClass().getSimpleName() + "." + getName();
-        String label = "barfoo";
-
         openLinkDialog(MENU_WIKI_PAGE);
-
-        // check the recent changes selection
+        // The tab with the recently modified pages should be selected.
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesSelector");
-        // test that the selected element is the new page element
-        assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
-
-        // select the current page
-        getSelenium()
-            .click(
-                "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + currentPage
-                    + "']");
-
+        // The currently edited page should be selected.
+        assertElementPresent("//div[contains(@class, 'xPagesRecent')]"
+            + "//div[contains(@class, 'xListItem-selected')]//div[. = '"
+            + String.format(PAGE_LOCATION, getClass().getSimpleName(), getName()) + "']");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
+        String label = "barfoo";
         typeInInput(LABEL_INPUT_TITLE, label);
         clickButtonWithText("Create Link");
         waitForDialogToClose();
@@ -1130,8 +1144,6 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToSearchedPage()
     {
-        String searchString = "Main.WebHome";
-        String expectedPage = "Main.WebHome";
         String label = "foobar";
 
         // check the wikipage link dialog
@@ -1141,11 +1153,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
         // perform a search
-        typeInInput("Type a keyword to search for a wiki page", searchString);
+        typeInInput("Type a keyword to search for a wiki page", "Main.WebHome");
         clickButtonWithText("Search");
         String selectedPageLocator =
-            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='xwiki:" + expectedPage
-                + "']";
+            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='"
+                + String.format(PAGE_LOCATION, "Main", "WebHome") + "']";
         // wait for the element to load in the list
         waitForElement(selectedPageLocator);
         // check selection on the loaded list
@@ -1160,7 +1172,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + expectedPage + "]]");
+        assertSourceText("[[" + label + ">>Main.WebHome]]");
     }
 
     /**
@@ -1209,7 +1221,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad("xAttachmentsSelector");
         // test that there is a "new attachment" option
-        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
+        assertElementPresent(NEW_ATTACHMENT);
 
         clickTab(ALL_PAGES_TAB);
         assertEquals("xwiki:" + currentSpace + "." + currentPage + "#Attachments", explorer
@@ -1223,7 +1235,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
         // test that there is a "new attachment" option
-        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
+        assertElementPresent(NEW_ATTACHMENT);
         closeDialog();
         waitForDialogToClose();
     }
@@ -1249,7 +1261,8 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals(pageToLinkTo, explorer.getSelectedEntityReference());
+        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, currentSpace, pageToLinkTo), explorer
+            .getSelectedEntityReference());
         explorer.waitForPageSelected(currentSpace, pageToLinkTo);
         // and edit it now
         clickButtonWithText("Select");
@@ -1282,20 +1295,22 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals(pageToLinkTo + "@" + fileToLinkTo, explorer.getSelectedEntityReference());
+        String attachmentReference =
+            String.format(ABSOLUTE_ATTACHMENT_REFERENCE, currentSpace, pageToLinkTo, fileToLinkTo);
+        assertEquals(attachmentReference, explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected(currentSpace, pageToLinkTo, fileToLinkTo);
 
         // check the current page step is correctly loaded when we switch to it
         clickTab(CURRENT_PAGE_TAB);
         waitForStepToLoad("xAttachmentsSelector");
         // test that there is a "new attachment" option
-        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
+        assertElementPresent(NEW_ATTACHMENT);
 
         // switch back to the tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
         // test that the position in the tree was preserved
-        assertEquals(pageToLinkTo + "@" + fileToLinkTo, explorer.getSelectedEntityReference());
+        assertEquals(attachmentReference, explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected(currentSpace, pageToLinkTo, fileToLinkTo);
 
         clickButtonWithText("Select");
@@ -1313,10 +1328,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xAttachmentsSelector");
-        // make sure no option is selected
-        assertElementNotPresent("//div[contains(@class, \"xListItem-selected\")]");
-        // test that there is a "new attachment" option
-        assertElementPresent("//div[contains(@class, \"xNewFilePreview\")]");
+        // The option for uploading a new attachment should be selected.
+        assertElementPresent(NEW_ATTACHMENT_SELECTED);
         closeDialog();
         waitForDialogToClose();
     }
@@ -1333,7 +1346,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.RecentChanges@rquo.gif", explorer.getSelectedEntityReference());
+        assertEquals(String.format(ABSOLUTE_ATTACHMENT_REFERENCE, "Main", "RecentChanges", "rquo.gif"), explorer
+            .getSelectedEntityReference());
         explorer.waitForAttachmentSelected("Main", "RecentChanges", "rquo.gif");
 
         explorer.lookupEntity("xwiki:Main.RecentChanges@lquo.gif");
@@ -1342,15 +1356,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(CURRENT_PAGE_TAB);
 
         waitForStepToLoad("xAttachmentsSelector");
-        // make sure no option is selected
-        assertElementNotPresent("//div[contains(@class, \"xListItem-selected\")]");
-
-        clickButtonWithText("Select");
-
-        assertFieldErrorIsPresentInStep("No attachment was selected", ITEMS_LIST, "xAttachmentsSelector");
-
-        // select the new file option
-        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
+        // The option to upload a new attachment should be selected.
+        assertElementPresent(NEW_ATTACHMENT_SELECTED);
         clickButtonWithText("Select");
         waitForStepToLoad("xUploadPanel");
         assertFieldErrorIsNotPresentInStep("xUploadPanel");
@@ -1366,39 +1373,44 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditLinkPreservesFullReferences()
     {
+        // Edit a page in the Main space because we know pages that already exit there and have attachments.
+        open("Main", getName(), "edit", "editor=wysiwyg");
+        waitForEditorToLoad();
+
         switchToSource();
+        // Insert links to resources from the same space, using full references.
         setSourceText("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
             + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
         switchToWysiwyg();
 
-        // first link, a link to an existing page
+        // Edit first link, a link to an existing page.
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.RecentChanges", explorer.getSelectedEntityReference());
+        assertEquals("xwiki:Main.RecentChanges", explorer.getSelectedEntityReference());
         explorer.waitForPageSelected("Main", "RecentChanges");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        // second link, a link to a new page
+        // Edit second link, a link to a new page.
         moveCaret("XWE.body.firstChild.childNodes[2].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.NewPage", explorer.getSelectedEntityReference());
+        assertEquals("xwiki:Main.NewPage", explorer.getSelectedEntityReference());
         explorer.waitForPageSelected("Main", "New page...");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        // third link, a link to an existing file
+        // Edit third link, a link to an existing file.
         moveCaret("XWE.body.firstChild.childNodes[4].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
+        assertEquals("xwiki:Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected("Main", "RecentChanges", "lquo.gif");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -1480,58 +1492,27 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testErrorIsHiddenOnNextDisplayOfAttachmentLink()
     {
-        // test that no selection in the current page attachment generates an exception: edit a non-existent file link
-        switchToSource();
-        setSourceText("[[non-existent-attachment.png>>attach:non-existent-attachment.png]]");
-        switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
-        openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xAttachmentsSelector");
-        // assert that no selection is in the list;
-        assertElementNotPresent("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, \"xListItem-selected\")]");
-        // try to hit select and wait for the validation message
-        clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No attachment was selected", ITEMS_LIST, "xAttachmentsSelector");
-        closeDialog();
-        openLinkDialog(MENU_LINK_EDIT);
-        assertFieldErrorIsNotPresentInStep("xAttachmentsSelector");
-        // get an error and then go to the next step to come back after
-        clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No attachment was selected", ITEMS_LIST, "xAttachmentsSelector");
-        // make a selection and check that on the previous button the current page selector dialog will no longer show
-        // an error
-        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
-        clickButtonWithText("Select");
-        waitForStepToLoad("xUploadPanel");
-        // now hit previous and check that the error is no longer there
-        clickButtonWithText("Previous");
-        assertFieldErrorIsNotPresentInStep("xAttachmentsSelector");
-        // FIXME: should check that the selection is the correct one (new page), but it's not
-        closeDialog();
-        resetContent();
-        // get an error at the upload step and check that it's hidden on next display
+        // Get an error at the upload step and check that it's hidden on next display.
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
-        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
+        // The option to upload a new attachment should be selected.
+        assertElementPresent(NEW_ATTACHMENT_SELECTED);
         clickButtonWithText("Select");
         waitForStepToLoad("xUploadPanel");
+        // Click the upload button without selecting a file.
         clickButtonWithText("Upload");
-        // get an error
         assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
-        // back, next and the error should be gone
+        // Go to the previous step and come back: the error should be gone.
         clickButtonWithText("Previous");
-        // FIXME: should not redo selection here, it should be preserved
-        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
         clickButtonWithText("Select");
         assertFieldErrorIsNotPresentInStep("xUploadPanel");
-        // get the error again to check that closing it and re displaying this step makes it go away
+        // Get the error again to check that closing it and displaying this step again makes it go away.
         clickButtonWithText("Upload");
         assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
         closeDialog();
-        // same and check the error is no longer present
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
-        getSelenium().click("//div[@class=\"xAttachmentsSelector\"]//div[contains(@class, 'xNewFilePreview')]");
+        assertElementPresent(NEW_ATTACHMENT_SELECTED);
         clickButtonWithText("Select");
         assertFieldErrorIsNotPresentInStep("xUploadPanel");
     }
@@ -1543,42 +1524,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testErrorIsHiddenOnNextDisplayOfWikipageLink()
     {
-        // 1/ get an error on the current page tab then select new page, next, previous => error is not displayed
-        // anymore, close. Open, get error again, close dialog. Open back, error not displayed anymore edit link to new
-        // page in new space, to be sure there's no selection in RecentChanges nor in Search
-        switchToSource();
-        setSourceText("[[new page>>NewSpace.NewPage]]");
-        switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
-        openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        clickTab(RECENT_PAGES_TAB);
-        waitForStepToLoad("xPagesRecent");
-        clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No page was selected", ITEMS_LIST, "xPagesRecent");
-        getSelenium().click("//div[contains(@class, 'xPagesRecent')]//div[contains(@class, 'xNewPagePreview')]");
-        clickButtonWithText("Select");
-        waitForStepToLoad("xLinkToNewPage");
-        clickButtonWithText("Previous");
-        assertFieldErrorIsNotPresentInStep("xPagesRecent");
-        closeDialog();
-        openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        clickTab(RECENT_PAGES_TAB);
-        waitForStepToLoad("xPagesRecent");
-        clickButtonWithText("Select");
-        assertFieldErrorIsPresentInStep("No page was selected", ITEMS_LIST, "xPagesRecent");
-        closeDialog();
-        openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        clickTab(RECENT_PAGES_TAB);
-        assertFieldErrorIsNotPresentInStep("xPagesRecent");
-        closeDialog();
-        resetContent();
-
-        // TODO: 2/ should run the same scenario for the search page tab but
-
-        // 3/ get an error on the new page step, fix it, go to previous, next => error not displayed anymore. Get
+        // 1/ get an error on the new page step, fix it, go to previous, next => error not displayed anymore. Get
         // another error, go next, previous, error should not be there anymore. Get another error, close dialog. Open
         // again, get there, the error should not be displayed.
         openLinkDialog(MENU_WIKI_PAGE);
@@ -1622,7 +1568,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         closeDialog();
         resetContent();
 
-        // 4/ get to the link config and get an error on the label -> previous, next, error should not be there anymore.
+        // 2/ get to the link config and get an error on the label -> previous, next, error should not be there anymore.
         // close everything, open again, error should not be there anymore. get error, fix it, add the link, on new
         // dialog error should not be there anymore
         switchToSource();
@@ -1713,15 +1659,15 @@ public class LinkTest extends AbstractWysiwygTestCase
         // double click
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
-        getSelenium().click("//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewFilePreview')]");
-        getSelenium().doubleClick("//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewFilePreview')]");
+        getSelenium().click(NEW_ATTACHMENT);
+        getSelenium().doubleClick(NEW_ATTACHMENT);
         waitForStepToLoad("xUploadPanel");
         closeDialog();
 
         // enter
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
-        getSelenium().click("//div[contains(@class, 'xListItem')]//div[contains(@class, 'xNewFilePreview')]");
+        getSelenium().click(NEW_ATTACHMENT);
         getSelenium().keyUp(ITEMS_LIST, "\\13");
         waitForStepToLoad("xUploadPanel");
         closeDialog();
@@ -1736,18 +1682,16 @@ public class LinkTest extends AbstractWysiwygTestCase
         // 1. link to existing page, double click
         // make sure this page is saved so that the recent pages can load reference to it
         clickEditSaveAndContinue();
-        String currentPage = "xwiki:" + this.getClass().getSimpleName() + "." + getName();
+        String currentPageLocation = String.format(PAGE_LOCATION, this.getClass().getSimpleName(), getName());
         String label = "barfoo";
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xPagesRecent");
-        getSelenium()
-            .click(
-                "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + currentPage
-                    + "']");
-        getSelenium()
-            .doubleClick(
-                "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='" + currentPage
-                    + "']");
+        getSelenium().click(
+            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='"
+                + currentPageLocation + "']");
+        getSelenium().doubleClick(
+            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='"
+                + currentPageLocation + "']");
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
         clickButtonWithText("Create Link");
@@ -1788,20 +1732,18 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testFastNavigationToSelectSearchedPage()
     {
         // 1. link to existing page, enter
-        String searchString = "Main.WebHome";
-        String expectedPage = "Main.WebHome";
         String label = "foobar";
 
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
-        typeInInput("Type a keyword to search for a wiki page", searchString);
+        typeInInput("Type a keyword to search for a wiki page", "Main.WebHome");
         clickButtonWithText("Search");
         // wait for desired page to load
         String selectedPageLocator =
-            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='xwiki:" + expectedPage
-                + "']";
+            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='"
+                + String.format(PAGE_LOCATION, "Main", "WebHome") + "']";
         // wait for the element to load in the list
         waitForElement(selectedPageLocator);
         getSelenium().click(selectedPageLocator);
@@ -1812,7 +1754,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + expectedPage + "]]");
+        assertSourceText("[[" + label + ">>Main.WebHome]]");
 
         setSourceText("");
         switchToWysiwyg();
@@ -1823,8 +1765,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
-        getSelenium().click("//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]");
-        getSelenium().doubleClick("//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]");
+        getSelenium().click(NEW_PAGE_FROM_SEARCH_LOCATOR);
+        getSelenium().doubleClick(NEW_PAGE_FROM_SEARCH_LOCATOR);
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
         clickButtonWithText("Select");

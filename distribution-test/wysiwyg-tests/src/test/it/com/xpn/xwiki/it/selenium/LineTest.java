@@ -246,15 +246,14 @@ public class LineTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//*[contains(@class, \"xSelectorAggregatorStep\")]');");
         // click the 'All pages' tab
         getSelenium().click("//div[.='All pages']");
-        String imageSpaceSelector = "//div[@class=\"xPageChooser\"]//select[2]";
         String imageSpace = "XWiki";
-        waitForCondition("selenium.isElementPresent('" + imageSpaceSelector + "/option[@value=\"" + imageSpace
+        waitForCondition("selenium.isElementPresent('" + ImageTest.SPACE_SELECTOR + "/option[@value=\"" + imageSpace
             + "\"]');");
-        getSelenium().select(imageSpaceSelector, imageSpace);
-        String imagePageSelector = "//div[@class=\"xPageChooser\"]//select[3]";
+        getSelenium().select(ImageTest.SPACE_SELECTOR, imageSpace);
         String imagePage = "AdminSheet";
-        waitForCondition("selenium.isElementPresent('" + imagePageSelector + "/option[@value=\"" + imagePage + "\"]');");
-        getSelenium().select(imagePageSelector, imagePage);
+        waitForCondition("selenium.isElementPresent('" + ImageTest.PAGE_SELECTOR + "/option[@value=\"" + imagePage
+            + "\"]');");
+        getSelenium().select(ImageTest.PAGE_SELECTOR, imagePage);
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
         String imageSelector = "//div[@class=\"xImagesSelector\"]//img[@title=\"import.png\"]";
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");

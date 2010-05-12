@@ -76,8 +76,7 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      */
     private void checkSpaceInSearchResults(String spaceName, boolean expected)
     {
-        String spaceWebHome = spaceName + ".WebHome";
-        typeInInput("Type a keyword to search for a wiki page", spaceWebHome);
+        typeInInput("Type a keyword to search for a wiki page", spaceName + ".WebHome");
         clickButtonWithText("Search");
         // We have to look for the new page selector inside the search panel because it is also present on the recent
         // pages panel (which is hidden, but still present in DOM, while the search tab is selected).
@@ -90,8 +89,8 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         waitForElement(newPageSelector);
         // Check if the desired element is there or not, but look precisely inside the search panel.
         String pageInListLocator =
-            "//div[contains(@class, 'xPagesSearch')]" + "//div[contains(@class, 'xListItem')]"
-                + "//div[contains(@class, 'gwt-Label') and .='xwiki:" + spaceWebHome + "']";
+            "//div[contains(@class, 'xPagesSearch')]" + "//div[contains(@class, 'xListItem')]" + "//div[. = '"
+                + String.format(LinkTest.PAGE_LOCATION, spaceName, "WebHome") + "']";
         if (expected) {
             assertElementPresent(pageInListLocator);
         } else {
@@ -150,17 +149,17 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         clickTab("All pages");
         waitForStepToLoad("xImagesExplorer");
         // wait for the current space to load in the selector to be sure the spaces list is loaded
-        waitForElement("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"" + currentSpace + "\"]");
+        waitForElement(ImageTest.SPACE_SELECTOR + "/option[@value=\"" + currentSpace + "\"]");
         // check the spaces: Blog, Main, Sandbox are present
-        assertElementPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Blog\"]");
-        assertElementPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Main\"]");
-        assertElementPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Sandbox\"]");
+        assertElementPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"Blog\"]");
+        assertElementPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"Main\"]");
+        assertElementPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"Sandbox\"]");
         // check the spaces: ColorThemes, Panels, Scheduler, Stats, XWiki are not present
-        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"ColorThemes\"]");
-        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Panels\"]");
-        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Scheduler\"]");
-        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"Stats\"]");
-        assertElementNotPresent("//div[@class=\"xPageChooser\"]//select[2]/option[@value=\"XWiki\"]");
+        assertElementNotPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"ColorThemes\"]");
+        assertElementNotPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"Panels\"]");
+        assertElementNotPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"Scheduler\"]");
+        assertElementNotPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"Stats\"]");
+        assertElementNotPresent(ImageTest.SPACE_SELECTOR + "/option[@value=\"XWiki\"]");
 
         closeDialog();
     }

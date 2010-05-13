@@ -1197,4 +1197,48 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             }
         }.wait("The specified element, " + locator + ", is still present!");
     }
+
+    /**
+     * Copies the specified page to the target page.
+     * 
+     * @param spaceName the name of the space containing the page to be copied
+     * @param pageName the name of the page to be copied
+     * @param targetPageFullName the full name of the target page
+     */
+    protected void copyPage(String spaceName, String pageName, String targetPageFullName)
+    {
+        open(spaceName, pageName);
+        clickCopyPage();
+        getSelenium().type("targetdoc", targetPageFullName);
+        clickLinkWithLocator("//input[@value='Copy']");
+        assertTextPresent("successfully copied to");
+    }
+
+    /**
+     * Creates a page in the specified space, with the specified name.
+     * <p>
+     * NOTE: We overwrite the method from the base class because it creates the new page using the URL and thus requires
+     * special characters in space and page name to be escaped. We use instead the create page form.
+     * 
+     * @param spaceName the name of the space where to create the page
+     * @param pageName the name of the page to create
+     * @param content the content of the new page
+     * @see AbstractXWikiTestCase#createPage(String, String, String)
+     */
+    public void createPage(String spaceName, String pageName, String content)
+    {
+        clickLinkWithText("Create Page");
+        getSelenium().type("space", spaceName);
+        getSelenium().type("page", pageName);
+        clickLinkWithLocator("//input[@value='Create']");
+        String location = getSelenium().getLocation();
+        if (location.endsWith("?xpage=docalreadyexists")) {
+            open(location.substring(0, location.length() - 23));
+            clickLinkWithText("WYSIWYG");
+        }
+        waitForEditorToLoad();
+        switchToSource();
+        setSourceText(content);
+        clickEditSaveAndView();
+    }
 }

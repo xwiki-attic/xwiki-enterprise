@@ -1822,6 +1822,92 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickBackToEdit();
     }
 
+    /**
+     * Creates a link to a recently modified page that has special characters in its name.
+     */
+    public void testCreateLinkToRecentlyModifiedPageWithSpecialCharactersInName()
+    {
+        // Create a page with special characters in its name.
+        String spaceName = this.getClass().getSimpleName() + ":s.t@u?v=w&x=y#z";
+        String escapedSpaceName = spaceName.replaceAll("([\\:\\.])", "\\\\$1");
+        String pageName = getName() + ":a.b@c?d=e&f=g#h";
+        String escapedPageName = pageName.replace(".", "\\.");
+        String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
+        String linkReference = pageFullName.replaceAll("([@\\?\\#])", "\\\\$1");
+        clickEditCancelEdition();
+        createPage(spaceName, pageName, "");
+
+        // Come back to the edited page.
+        open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
+        waitForEditorToLoad();
+
+        // Create a link to the created page.
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xPagesSelector");
+        String createdPageLocator =
+            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='"
+                + String.format(PAGE_LOCATION, spaceName, pageName) + "']";
+        waitForElement(createdPageLocator);
+        getSelenium().click(createdPageLocator);
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        String label = "Label";
+        typeInInput(LABEL_INPUT_TITLE, label);
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        // Check the result.
+        switchToSource();
+        assertSourceText(String.format("[[%s>>%s]]", label, linkReference));
+        switchToWysiwyg();
+
+        // Edit the created link.
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        clickTab(RECENT_PAGES_TAB);
+        waitForStepToLoad("xPagesSelector");
+        waitForElement("//div[contains(@class, 'xListItem-selected')]//div[. = '"
+            + String.format(PAGE_LOCATION, spaceName, pageName) + "']");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        // Change the link to open in new window.
+        getSelenium().check("//div[contains(@class, 'xLinkConfig')]//span[contains(@class, 'gwt-CheckBox')]/input");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        // Check the result.
+        switchToSource();
+        assertSourceText(String.format("[[%s>>%s||rel=\"__blank\"]]", label, linkReference));
+    }
+
+    /**
+     * Creates a link to a new page that has special characters in its name.
+     */
+    public void testCreateLinkToNewPageWithSpecialCharactersInName()
+    {
+        String pageName = getName() + ":a.b@c?d=e&f=g#h";
+        String escapedPageName = pageName.replace(".", "\\.");
+        String linkReference = escapedPageName.replaceAll("([@\\?\\#])", "\\\\$1");
+        String label = "Label";
+
+        openLinkDialog(MENU_WIKI_PAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xPagesSelector");
+        waitForElement("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkToNewPage");
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", pageName);
+        clickButtonWithText("Select");
+        waitForStepToLoad("xLinkConfig");
+        typeInInput(LABEL_INPUT_TITLE, label);
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        switchToSource();
+        assertSourceText(String.format("[[%s>>%s]]", label, linkReference));
+    }
+
     protected void waitForStepToLoad(String name)
     {
         waitForElement("//*[contains(@class, '" + name + "')]");

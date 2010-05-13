@@ -592,6 +592,56 @@ public class ImageTest extends AbstractWysiwygTestCase
             + "title=\"abc\" width=\"75px\"]]");
     }
 
+    /**
+     * Tests that images attached to pages with special characters in their names are properly inserted.
+     */
+    public void testInsertImageFromPageWithSpecialCharactersInName()
+    {
+        // Create a page with special characters in its name by copying a page with image attachments.
+        String spaceName = this.getClass().getSimpleName() + ":x.y@z";
+        String escapedSpaceName = spaceName.replaceAll("([\\:\\.])", "\\\\$1");
+        String pageName = getName() + ":a.b@c";
+        String escapedPageName = pageName.replace(".", "\\.");
+        String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
+        copyPage("Main", "RecentChanges", pageFullName);
+
+        // Come back to the edited page.
+        open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
+        waitForEditorToLoad();
+
+        // Insert an image from the created page.
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_ALL_PAGES);
+        selectLocation(spaceName, pageName);
+        getSelenium().click(getImageLocator("rquo.gif"));
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+
+        // Check the result.
+        switchToSource();
+        assertSourceText(String.format("[[image:%s@rquo.gif||alt=\"rquo.gif\"]]", pageFullName));
+        switchToWysiwyg();
+
+        // Edit the inserted image.
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        waitForStepToLoad(STEP_EXPLORER);
+        assertImageSelected(spaceName, pageName, "rquo.gif");
+        selectImage(spaceName, pageName, "lquo.gif");
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+        getSelenium().type(INPUT_ALT, "");
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+
+        // Check the result.
+        switchToSource();
+        assertSourceText(String.format("[[image:%s@lquo.gif||alt=\"lquo.gif\"]]", pageFullName));
+    }
+
     private void waitForStepToLoad(String stepClass)
     {
         waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + stepClass + "\")]');");

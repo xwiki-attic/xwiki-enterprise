@@ -79,23 +79,23 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
     {
         saveVelocity(includeTemplate("../../"));
         Assert.assertTrue("root directory",
-            getDriver().findElement(By.id("xwikicontent")).getText().isEmpty());
+            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
 
         saveVelocity(includeTemplate("asdfasdf"));
         Assert.assertTrue("not existing template",
-            getDriver().findElement(By.id("xwikicontent")).getText().isEmpty());
+            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
 
         saveVelocity(includeTemplate("../redirect"));
         Assert.assertTrue("file in the parent directory",
-            getDriver().findElement(By.id("xwikicontent")).getText().isEmpty());
+            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
 
         saveVelocity(includeTemplate("../WEB-INF/version.properties"));
         Assert.assertTrue("file in the wrong directory",
-            getDriver().findElement(By.id("xwikicontent")).getText().isEmpty());
+            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
 
         saveVelocity(includeTemplate("/chw/../../WEB-INF/../WEB-INF/lib/../version.properties"));
         Assert.assertTrue("file in the wrong directory, not normalized path",
-            getDriver().findElement(By.id("xwikicontent")).getText().isEmpty());
+            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
     }
 
     /**

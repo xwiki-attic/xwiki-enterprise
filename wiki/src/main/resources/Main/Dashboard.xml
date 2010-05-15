@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1273951506000</date>
+<contentUpdateDate>1273951506000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.dashboard.wiki")</title>
 <template></template>
@@ -170,12 +170,23 @@ div.dashboardspacer {
             ##
             = $msg.get("xe.dashboard.space.documents", [$doc.space]) =
 
-            #set ($docNames = $xwiki.getSpaceDocsName($doc.space))
+            #set($limit = 100) ## Maximum number of documents we display in the space dashboard list
+            #set($docNames = $xwiki.searchDocuments("where doc.space='${doc.space}' order by doc.creationDate desc", $limit, 0))
             {{html}}
               #displayDocumentList($docNames false []) 
               ## Note: we pass an empty blacklistedSpaces list since we are used as a space dashboard, not a global dashboard
             {{/html}}
 
+            #if($docNames.size() == $limit)
+              #set($docCount = $xwiki.countDocuments("where doc.space='${doc.space}'"))
+              #set($remaining = $mathtool.sub($docCount, $limit))
+              #if($remaining &gt; 0)
+              (% class="documentListMore" %) (((
+              // $msg.get('xe.dashboard.space.remainingDocumentsInSpace', [$remaining, $doc.space])
+                 [[$msg.get('xe.dashboard.space.visitSpaceIndex')&gt;&gt;Main.SpaceIndex?space=$doc.space]] //
+              )))
+              #end
+            #end
             = $msg.get("xe.dashboard.wiki.tagcloud") =
             #set ($tagCloudSpace = $doc.space)
 

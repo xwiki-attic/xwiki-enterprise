@@ -170,7 +170,8 @@ public class RSSValidationTest extends AbstractValidationTest
      */
     public String getName()
     {
-        return "Validating " + this.validator.getName() + " validity for: " + this.target.getName();
+        return "Validating " + this.validator.getName() + " validity for: " + this.target.getName() + " executed "
+            + (credentials == null ? "as guest" : "with credentials " + credentials);
     }
 
     public void testDocumentValidity() throws Exception

@@ -30,7 +30,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
 
-
 /**
  * Verifies that all pages in the default wiki are valid XHTML documents.
  * 
@@ -126,7 +125,8 @@ public class DefaultValidationTest extends AbstractValidationTest
      */
     public String getName()
     {
-        return "Validating " + this.validator.getName() + " validity for: " + this.target.getName();
+        return "Validating " + this.validator.getName() + " validity for: " + this.target.getName() + " executed "
+            + (credentials == null ? "as guest" : "with credentials " + credentials);
     }
 
     public void testDocumentValidity() throws Exception

@@ -262,7 +262,7 @@ public class BasePage
      */
     protected void clickContentMenuTopEntry(String id)
     {
-        getDriver().findElement(By.xpath("//div[@id='" + id + "']/span[1]/a/strong")).click();
+        getDriver().findElement(By.xpath("//div[@id='" + id + "']//strong")).click();
     }
 
     /**

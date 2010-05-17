@@ -21,26 +21,49 @@ package org.xwiki.it.ui;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
+import org.openqa.selenium.WebDriver;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.it.ui.framework.TestUtils;
 
-
 /**
  * Test various character escaping bugs.
+ * <p>
+ * NOTE: {@link WebDriver#getPageSource()} XML-escapes the output in some cases, but not inside HTML comments
  * 
  * @version $Id$
  * @since 2.4M1
  */
-public class EscapeTest extends AbstractAdminAuthenticatedTest {
+public class EscapeTest extends AbstractAdminAuthenticatedTest
+{
+    /** XML significant characters */
+    private final String XML_CHARS = "<>'&\"";
 
     @Test
     public void testEditReflectedXSS()
     {
         // tests for XWIKI-4758, XML symbols should be escaped
-        String page = "<>'?&\"";
+        String page = "<!-- " + this.XML_CHARS + " -->";
         TestUtils.gotoPage("Main", TestUtils.escapeURL(page), "edit", getDriver());
-        Assert.assertTrue(getDriver().getPageSource().indexOf(page) < 0);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(this.XML_CHARS) < 0);
+    }
+
+    @Test
+    public void testErrorTraceEscaping()
+    {
+        // tests for XWIKI-5170, XML symbols in the error trace should be escaped
+        String rev = "</pre><!-- " + this.XML_CHARS + " -->";
+        TestUtils.gotoPage("Main", "WebHome", "viewrev", "rev=" + TestUtils.escapeURL(rev), getDriver());
+        Assert.assertTrue(getDriver().getPageSource().indexOf(this.XML_CHARS) < 0);
+    }
+
+    /**
+     * Go to a working page after each test run to prevent failures in {@link #setUp()}
+     */
+    @After
+    public void tearDown()
+    {
+        TestUtils.gotoPage("Main", "WebHome", getDriver());
     }
 }
-

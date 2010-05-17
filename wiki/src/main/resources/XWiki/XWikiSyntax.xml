@@ -502,10 +502,14 @@ In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 
 {{{[[image:Space2.Page2@img.png&gt;&gt;Space1.Page1]]}}}
 {{info}}Wiki syntax is supported inside link labels{{/info}}
 )))|[[image:img.png&gt;&gt;Main.WebHome]]|[[image:img.png&gt;&gt;Main.WebHome]]
-|Link to attachment|(((
+|Link to an attachment in the current page|(((
 {{info}}See [[Attach Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]] for details{{/info}}
 {{{{attach:text|file=img.png}}}}
 )))|{{{[[text&gt;&gt;attach:img.png]]}}}|[[text&gt;&gt;attach:img.png]]|[[text&gt;&gt;attach:img.png]]
+|Link to an attachment in a different page|(((
+{{info}}See [[Attach Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]] for details{{/info}}
+{{{{attach:text|document=Space.Page|file=img.png}}}}
+)))|{{{[[text&gt;&gt;attach:Space.Page@img.png]]}}}|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]
 
 == XWiki Syntax 1.0 Link Specification ==
 

@@ -38,24 +38,40 @@ import org.xwiki.it.ui.framework.TestUtils;
 public class EscapeTest extends AbstractAdminAuthenticatedTest
 {
     /** XML significant characters */
-    private final String XML_CHARS = "<>'&\"";
+    private static final String XML_CHARS = "<>'&\"";
 
     @Test
     public void testEditReflectedXSS()
     {
         // tests for XWIKI-4758, XML symbols should be escaped
-        String page = "<!-- " + this.XML_CHARS + " -->";
+        String page = "<!-- " + XML_CHARS + " -->";
         TestUtils.gotoPage("Main", TestUtils.escapeURL(page), "edit", getDriver());
-        Assert.assertTrue(getDriver().getPageSource().indexOf(this.XML_CHARS) < 0);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
     @Test
     public void testErrorTraceEscaping()
     {
         // tests for XWIKI-5170, XML symbols in the error trace should be escaped
-        String rev = "</pre><!-- " + this.XML_CHARS + " -->";
+        String rev = "</pre><!-- " + XML_CHARS + " -->";
         TestUtils.gotoPage("Main", "WebHome", "viewrev", "rev=" + TestUtils.escapeURL(rev), getDriver());
-        Assert.assertTrue(getDriver().getPageSource().indexOf(this.XML_CHARS) < 0);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
+    @Test
+    public void testEditorEscaping()
+    {
+        // tests for XWIKI-5164, XML symbols in editor parameter should be escaped
+        String str = "\"<!-- " + XML_CHARS + " -->";
+
+        TestUtils.gotoPage("Main", "Page", "edit", "editor=" + TestUtils.escapeURL(str), getDriver());
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+
+        TestUtils.gotoPage("Main", "Page", "edit", "editor=wysiwyg&section=" + TestUtils.escapeURL(str), getDriver());
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+
+        TestUtils.gotoPage("Main", "Page", "edit", "editor=wiki&x-maximized=" + TestUtils.escapeURL(str), getDriver());
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
     /**

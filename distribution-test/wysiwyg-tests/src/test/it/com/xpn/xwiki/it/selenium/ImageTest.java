@@ -176,7 +176,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         switchToSource();
         assertSourceText("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
-            + "style=\"margin-right: auto; margin-left: auto; display: block;\" width=\"200\"]]"
+            + "style=\"display: block; margin-left: auto; margin-right: auto;\" width=\"200\"]]"
             + "There is no parking on this wiki!");
         switchToWysiwyg();
 
@@ -199,7 +199,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         switchToSource();
         assertSourceText("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
-            + "style=\"margin-right: auto; margin-left: auto; display: block;\"]]There is no parking on this wiki!");
+            + "style=\"display: block; margin-left: auto; margin-right: auto;\"]]There is no parking on this wiki!");
     }
 
     /**
@@ -588,8 +588,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         // Check the result.
         switchToSource();
         assertSourceText("[[image:XWiki.AdminSheet@general.png||foo=\"bar\" id=\"foobar\" "
-            + "style=\"float: right; margin-left: 1em; height: 7.5em; margin-top: 12px;\" "
-            + "title=\"abc\" width=\"75px\"]]");
+            + "style=\"margin-top: 12px; height: 7.5em; float: right;\" title=\"abc\" width=\"75px\"]]");
     }
 
     /**
@@ -640,6 +639,39 @@ public class ImageTest extends AbstractWysiwygTestCase
         // Check the result.
         switchToSource();
         assertSourceText(String.format("[[image:%s@lquo.gif||alt=\"lquo.gif\"]]", pageFullName));
+    }
+
+    /**
+     * Tests if the edited image is selected when the image selector wizard step is opened.
+     */
+    public void testEditedImageIsSelected()
+    {
+        // Insert two different images.
+        switchToSource();
+        setSourceText("image:XWiki.AdminSheet@users.png\n\nimage:XWiki.AdminSheet@general.png");
+        switchToWysiwyg();
+
+        // Edit the first image and check if it is selected in the image selector wizard step.
+        selectNode("XWE.body.getElementsByTagName('img')[0]");
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        waitForStepToLoad(STEP_EXPLORER);
+        assertImageSelected("XWiki", "AdminSheet", "users.png");
+        closeDialog();
+
+        // Edit the second image and check if it is selected in the image selector wizard step.
+        selectNode("XWE.body.getElementsByTagName('img')[1]");
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        waitForStepToLoad(STEP_EXPLORER);
+        assertImageSelected("XWiki", "AdminSheet", "general.png");
+
+        // Select a different image and refresh the image list to see if the edited image is reselected.
+        selectImage("presentation.png");
+        getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
+        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
+            + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
+        waitForElement(getImageLocator("general.png"));
     }
 
     private void waitForStepToLoad(String stepClass)

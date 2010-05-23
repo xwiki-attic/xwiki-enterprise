@@ -192,9 +192,9 @@ XWiki.index.trash.attachments.confirmDelete = function(event, table, rowIdx) {
  * The livetable is hidden when javascript is disabled, so that an alternative &lt;noscript&gt; table is displayed.
  * Re-display it when the document loads and Javascript is available.
  */
-document.observe('dom:loaded', function() {
+document.observe('xwiki:dom:loaded', function() {
   if ($('attachmentTrash')) {
-    $('attachmentTrash').up().removeClassName('hidden');
+    $('attachmentTrash').up('.hidden').removeClassName('hidden');
   }
 });</code>
 </property>

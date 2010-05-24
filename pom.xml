@@ -73,7 +73,8 @@
     <platform.panels.version>1.36-SNAPSHOT</platform.panels.version>
     <platform.scheduler.version>1.19-SNAPSHOT</platform.scheduler.version>
     <platform.officeimporter.version>1.15-SNAPSHOT</platform.officeimporter.version>
-    <platform.plugin.skinx.version>1.14-SNAPSHOT</platform.plugin.skinx.version>
+    <!-- SkinX plugin 1.14 is incompatible with XE 2.3 (defered scripts) -->
+    <platform.plugin.skinx.version>1.13</platform.plugin.skinx.version>
     <platform.statistics.version>1.8-SNAPSHOT</platform.statistics.version>
     <platform.tag.version>1.12-SNAPSHOT</platform.tag.version>
     <platform.watchlist.version>1.28-SNAPSHOT</platform.watchlist.version>

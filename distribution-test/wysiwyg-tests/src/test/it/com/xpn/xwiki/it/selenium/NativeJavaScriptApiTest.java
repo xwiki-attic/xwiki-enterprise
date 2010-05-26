@@ -151,12 +151,10 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("{{html}}\n");
         // xyz is not a property of the XWiki.TagClass.
         content.append("<textarea id=\"XWiki.TagClass_0_xyz\"></textarea>\n");
-        content.append("#wysiwyg_import(false)\n");
-        content.append("#wysiwyg_inputProperty($xwiki.getDocument('Test.Alice') 'XWiki.TagClass_0_xyz')\n");
-        content.append("#wysiwyg_storeConfig('cfg' $xwiki.getDocument('Test.Alice') 'XWiki.TagClass_0_xyz' false)\n");
+        content.append("#wysiwyg_editProperty($xwiki.getDocument('Test.Alice') 'XWiki.TagClass_0_xyz' false)\n");
         content.append("<script type=\"text/javascript\">\n");
-        content.append("Wysiwyg.onModuleLoad(function() {\n");
-        content.append("    window.editor = new WysiwygEditor(cfg);\n");
+        content.append("document.observe('xwiki:wysiwyg:created', function(event) {\n");
+        content.append("    window.editor = event.memo.instance;\n");
         content.append("});\n");
         content.append("</script>\n");
         content.append("{{/html}}\n");

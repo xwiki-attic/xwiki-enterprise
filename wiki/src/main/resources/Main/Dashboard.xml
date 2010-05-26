@@ -170,7 +170,7 @@ div.dashboardspacer {
             ##
             = $msg.get("xe.dashboard.space.documents", [$doc.space]) =
 
-            #set($limit = 100) ## Maximum number of documents we display in the space dashboard list
+            #set($limit = 100)## Maximum number of documents we display in the space dashboard list
             #set($docNames = $xwiki.searchDocuments("where doc.space='${doc.space}' order by doc.creationDate desc", $limit, 0))
             {{html}}
               #displayDocumentList($docNames false []) 

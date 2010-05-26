@@ -439,6 +439,13 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_CONFIG);
         // clear the alt text
         getSelenium().type(INPUT_ALT, "");
+        // We need to reset the image size because we changed the image source and the previous size will be compared
+        // either with the old image if the new image hasn't been loaded yet or with the new image if it was previously
+        // loaded. In the first case the size didn't change so it doesn't appear in the wiki syntax. In the second case
+        // the new image has a different size so the old size (if not changed) must be explicitly set in the wiki
+        // syntax.
+        getSelenium().type(INPUT_WIDTH, "");
+        getSelenium().type(INPUT_HEIGHT, "");
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 

@@ -258,14 +258,14 @@
               <property>
                 <name>rssUrlsToTestAsAdmin</name>
                 <value>
-                  /xwiki/bin/view/Main/WebSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                  /xwiki/bin/view/Main/DatabaseSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
                   /xwiki/bin/view/Main/LuceneSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
                 </value>
               </property>
               <property>
                 <name>rssUrlsToTestAsGuest</name>
                 <value>
-                  /xwiki/bin/view/Main/WebSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                  /xwiki/bin/view/Main/DatabaseSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
                   /xwiki/bin/view/Main/LuceneSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
                 </value>
               </property>

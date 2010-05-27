@@ -78,7 +78,7 @@ public class ImportPage extends ViewPage
 
     public void deletePackage(String packageName)
     {
-        List<WebElement> packages = packageList.findElements(By.cssSelector("div.package"));
+        List<WebElement> packages = packageList.findElements(By.xpath("//ul[@class='xlist']/li/div"));
         for (WebElement pack : packages) {
             try {
                 pack.findElement(By.partialLinkText(packageName));
@@ -97,11 +97,12 @@ public class ImportPage extends ViewPage
         // Click submit
         importPackageLink.click();
         // Wait for the "Import successful message"
-        this.waitUntilElementIsVisible(By.cssSelector("div#packagecontainer div.infomessage"));
+        this.waitUntilElementIsVisible(By.xpath("//div[@id='packagecontainer']/div[@class='infomessage']"));
     }
 
     public ViewPage clickImportedPage(String pageName)
     {
+        this.waitUntilElementIsVisible(By.linkText(pageName));
         getDriver().findElement(By.linkText(pageName)).click();
         return new ViewPage(getDriver());
     }

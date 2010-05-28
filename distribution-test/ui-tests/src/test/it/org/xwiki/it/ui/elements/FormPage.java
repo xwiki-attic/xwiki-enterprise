@@ -34,13 +34,20 @@ import org.openqa.selenium.By;
  * @version $Id$
  * @since 2.4M1
  */
-public class FormPage extends BasePage
+public class FormPage extends BaseElement
 {
     private final WebElement form;
 
+    /** @driver isn't used. */
+    @Deprecated
     public FormPage(WebElement form, WebDriver driver)
     {
-        super(driver);
+        this(form);
+    }
+
+    public FormPage(WebElement form)
+    {
+        super();
         this.form = form;
     }
 
@@ -58,7 +65,15 @@ public class FormPage extends BasePage
     public void fillFieldsByElements(Map<WebElement, String> valuesByElements)
     {
         for (WebElement el : valuesByElements.keySet()) {
-            setFieldValue(el, valuesByElements.get(el));
+            try {
+                setFieldValue(el, valuesByElements.get(el));
+            } catch (Exception e) {
+                throw new WebDriverException("Couldn't set field \""
+                                             + el.getAttribute("name")
+                                             + "\" to value \""
+                                             + valuesByElements.get(el)
+                                             + "\"", e);
+            }
         }
     }
 
@@ -69,10 +84,10 @@ public class FormPage extends BasePage
 
     public void setFieldValue(WebElement fieldElement, String value)
     {
-        if (!fieldElement.getTagName().equals("input") && !fieldElement.getTagName().equals("textbox")) {
-            throw new WebDriverException("You can only fill in input and textbox elements.");
+        if (!fieldElement.getTagName().equals("input") && !fieldElement.getTagName().equals("textarea")) {
+            throw new WebDriverException("You can only fill in input and textarea elements.");
         }
-        if (fieldElement.getAttribute("type").equals("checkbox")) {
+        if ("checkbox".equals(fieldElement.getAttribute("type"))) {
             setCheckBox(fieldElement, value.equals("true"));
         } else {
             fieldElement.clear();            

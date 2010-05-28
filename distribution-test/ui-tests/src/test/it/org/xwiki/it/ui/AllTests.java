@@ -23,8 +23,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.RunWith;
-import org.xwiki.it.ui.framework.TestUtils;
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.it.ui.framework.PersistentTestContext;
+import org.xwiki.it.ui.framework.AbstractTest;
 
 /**
  * Runs all functional tests found in the classpath.
@@ -35,27 +35,19 @@ import org.xwiki.test.XWikiExecutor;
 @RunWith(ClasspathSuite.class)
 public class AllTests
 {
-    private static XWikiExecutor executor;
+    /** Because junit disallows any references which persist between tests, there is a context which is static. */
+    private static PersistentTestContext context;
 
     @BeforeClass
     public static void init() throws Exception
     {
-        // We set a system property in order to specify we're running in a test suite so that
-        // AbstractTest.shutdown() doesn't close the WebDriver when a Test finishes (so that we reuse the same
-        // driver instance for all tests in this suite).
-        System.setProperty("xwiki.alltests", "true");
-
-        // Start XE
-        executor = new XWikiExecutor(0);
-        executor.start();
+        context = new PersistentTestContext();
+        AbstractTest.setContext(context.getUnstoppable());
     }
 
     @AfterClass
     public static void shutdown() throws Exception
     {
-        TestUtils.closeDriver();
-
-        // Stop XE
-        executor.stop();
+        context.shutdown();
     }
 }

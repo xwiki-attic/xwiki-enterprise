@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
  * Helper methods for testing, not related to a specific Page Object.
@@ -18,6 +17,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  */
 public class TestUtils
 {
+    private static PersistentTestContext context;
+
     public static enum XWIKI_ACTIONS
     {
         admin,
@@ -38,24 +39,16 @@ public class TestUtils
         view
     }
 
+    static void setContext(PersistentTestContext context)
+    {
+        TestUtils.context = context;
+    }
+
     private static final String URL_PREFIX = "http://localhost:8080/xwiki/bin/";
 
-    private static WebDriver driver;
-
-    public static void initDriver()
+    private static WebDriver getDriver()
     {
-        driver = new FirefoxDriver();
-    }
-
-    public static WebDriver getDriver()
-    {
-        return driver;
-    }
-
-    public static void closeDriver()
-    {
-        driver.close();
-        driver = null;
+        return context.getDriver();
     }
 
     public static void gotoPage(String space, String page, WebDriver driver)
@@ -90,12 +83,12 @@ public class TestUtils
 
     public static String getCurrentAction()
     {
-        return StringUtils.substringBetween(driver.getCurrentUrl(), "/xwiki/bin/", "/");
+        return StringUtils.substringBetween(getDriver().getCurrentUrl(), "/xwiki/bin/", "/");
     }
 
     public static String getQueryParameterValue(String parameter)
     {
-        String url = driver.getCurrentUrl();
+        String url = getDriver().getCurrentUrl();
         Pattern pattern = Pattern.compile(".*(\\?|&)" + parameter + "=([^&]*)");
         Matcher matcher = pattern.matcher(url);
 
@@ -123,11 +116,11 @@ public class TestUtils
 
     public static boolean isNewPage(String space, String page)
     {
-        String previousURL = driver.getCurrentUrl();
-        gotoPage(space, page, driver);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String previousURL = getDriver().getCurrentUrl();
+        gotoPage(space, page, getDriver());
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
         Boolean result = (Boolean) js.executeScript("return XWiki.docisnew");
-        driver.navigate().to(previousURL);
+        getDriver().navigate().to(previousURL);
         return result;
     }
 

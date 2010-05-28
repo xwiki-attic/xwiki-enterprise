@@ -21,53 +21,57 @@ package org.xwiki.it.ui.framework;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.xwiki.test.XWikiExecutor;
 
-import org.xwiki.it.ui.elements.BaseElement;
+import org.xwiki.it.ui.elements.BasePage;
 
 /**
- * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it. 
+ * This is a container for holding all of the information which should persist throughout all of the tests.
  *
  * @version $Id$
- * @since 2.3M1
+ * @since TODO
  */
-public class AbstractTest
+public class PersistentTestContext
 {
-    private static PersistentTestContext context;
+    /** This starts and stops the wiki engine. */
+    private XWikiExecutor executor;
 
-    /** Used so that AllTests can set the persistent test context. */
-    public static void setContext(PersistentTestContext context)
+    private WebDriver driver;
+
+    public PersistentTestContext() throws Exception
     {
-        if (AbstractTest.context == null) {
-            AbstractTest.context = context;
-        }
+        this.executor = new XWikiExecutor(0);
+        executor.start();
+        this.driver = new FirefoxDriver();
     }
 
-    protected PersistentTestContext getContext()
+    public PersistentTestContext(PersistentTestContext toClone)
     {
-        return context;
+        this.executor = toClone.executor;
+        this.driver = toClone.driver;
     }
 
-    @BeforeClass
-    public static void init() throws Exception
+    public void shutdown() throws Exception
     {
-        // This will not be null if we are in the middle of allTests
-        if (context == null) {
-            context = new PersistentTestContext();
-        }
-        BaseElement.setContext(context);
-        TestUtils.setContext(context);
-    }
-
-    @AfterClass
-    public static void shutdown() throws Exception
-    {
-        context.shutdown();
+        driver.close();
+        executor.stop();
     }
 
     public WebDriver getDriver()
     {
-        return context.getDriver();
+        return this.driver;
+    }
+
+    public PersistentTestContext getUnstoppable()
+    {
+        return new PersistentTestContext(this)
+        {
+            public void shutdown()
+            {
+                // Do nothing, that's why it's unstoppable.
+            }
+        };
     }
 }

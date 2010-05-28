@@ -222,7 +222,7 @@ $xwiki.ssx.use("Main.Spaces")##
               &lt;input name="tocreate" type="hidden" value="space" /&gt;       
               #set($newSpaceName = $msg.get('xe.spaces.createspace.defaultname'))
               &lt;label class="hidden" for="spSpaceCreateTextInput"&gt;$newSpaceName&lt;/label&gt;
-              &lt;input id="spSpaceCreateTextInput" type="text" name="title" value="$newSpaceName" class="panelinput" onfocus="if(this.value=='$newSpaceName') this.value=''" onblur="if(this.value=='') this.value='$newSpaceName'" /&gt;        
+              &lt;input id="spSpaceCreateTextInput" type="text" name="space" value="$newSpaceName" class="panelinput" onfocus="if(this.value=='$newSpaceName') this.value=''" onblur="if(this.value=='') this.value='$newSpaceName'" /&gt;        
               &lt;span class="buttonwrapper"&gt;
                 &lt;input type="submit" value="$msg.get('xe.spaces.createspace.submit')" class="button" /&gt;
               &lt;/span&gt;

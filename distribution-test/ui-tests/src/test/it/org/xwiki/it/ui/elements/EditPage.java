@@ -43,11 +43,6 @@ public class EditPage extends BasePage
     @FindBy(name = "action_cancel")
     private WebElement cancel;
 
-    public EditPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public void clickPreview()
     {
         preview.click();

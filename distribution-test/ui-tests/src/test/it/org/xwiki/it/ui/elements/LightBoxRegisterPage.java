@@ -38,14 +38,9 @@ public class LightBoxRegisterPage extends RegisterPage
     @FindBy(xpath = "//div/form[@id='register']/div/span[1]/input[@value='Save']")
     private WebElement submitButton;
 
-    public LightBoxRegisterPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public void gotoRegisterPage()
     {
-        HomePage homePage = new HomePage(getDriver());
+        HomePage homePage = new HomePage();
         homePage.gotoHomePage();
 
         homePage.loginAsAdmin();

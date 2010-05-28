@@ -56,7 +56,7 @@ public class RegisterTest extends AbstractTest
         // Switch LiveValidation on or off as needed.
         int x = 0;
         while (registerPage.liveValidationEnabled() != useLiveValidation()) {
-            HomePage homePage = new HomePage(getDriver());
+            HomePage homePage = new HomePage();
             homePage.gotoHomePage();
             homePage.loginAsAdmin();
             AdministrationPage adminPage = homePage.administorWiki();
@@ -76,7 +76,7 @@ public class RegisterTest extends AbstractTest
     /** To put the registration page someplace else, subclass this class and change this method. */
     protected RegisterPage getRegisterPage()
     {
-        return new RegisterPage(getDriver());
+        return new RegisterPage();
     }
 
     /** To test without javascript validation, subclass this class and change this method. */
@@ -166,7 +166,7 @@ public class RegisterTest extends AbstractTest
     /** Deletes specified user if it exists, leaves the driver on undefined page. */
     private void deleteUser(String userName)
     {
-        ViewPage vp = new ViewPage(getDriver());
+        ViewPage vp = new ViewPage();
         TestUtils.gotoPage("XWiki", userName, getDriver());
         if (vp.exists()) {
             vp.loginAsAdmin();

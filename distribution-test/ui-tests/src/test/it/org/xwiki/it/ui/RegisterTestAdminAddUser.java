@@ -39,12 +39,12 @@ public class RegisterTestAdminAddUser extends RegisterTest
 {
     protected RegisterPage getRegisterPage()
     {
-        return new LightBoxRegisterPage(getDriver());
+        return new LightBoxRegisterPage();
     }
 
     protected void tryToLogin(String username, String password)
     {
-        HomePage homePage = new HomePage(getDriver());
+        HomePage homePage = new HomePage();
         homePage.gotoHomePage();
         homePage.clickLogout();
         LoginPage loginPage = homePage.clickLogin();

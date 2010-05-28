@@ -36,7 +36,7 @@ public class AbstractAdminAuthenticatedTest extends AbstractTest
     @Before
     public void setUp()
     {
-        homePage = new HomePage(getDriver());
+        homePage = new HomePage();
         homePage.loginAsAdmin();
     }
 }

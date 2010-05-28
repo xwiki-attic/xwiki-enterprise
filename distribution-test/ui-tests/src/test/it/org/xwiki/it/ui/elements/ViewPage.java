@@ -56,18 +56,6 @@ public class ViewPage extends BasePage
     @FindBy(id = "tmAdminWiki")
     private WebElement administorWikiMenuLink;
 
-    /** @driver isn't used. */
-    @Deprecated
-    public ViewPage(WebDriver driver)
-    {
-        this();
-    }
-
-    public ViewPage()
-    {
-        super();
-    }
-
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
      */
@@ -77,7 +65,7 @@ public class ViewPage extends BasePage
             // If there's no login link then go to the home page.
             if (!hasLoginLink()) {
                 String thisPage = getPageURL();
-                HomePage homePage = new HomePage(getDriver());
+                HomePage homePage = new HomePage();
                 homePage.gotoHomePage();
                 clickLogin().loginAsAdmin();
                 getDriver().get(thisPage);
@@ -97,7 +85,7 @@ public class ViewPage extends BasePage
     public LoginPage clickLogin()
     {
         this.loginLink.click();
-        return new LoginPage(getDriver());
+        return new LoginPage();
     }
 
     public String getCurrentUser()
@@ -113,28 +101,28 @@ public class ViewPage extends BasePage
     public RegisterPage clickRegister()
     {
         this.registerLink.click();
-        return new RegisterPage(getDriver());
+        return new RegisterPage();
     }
 
     public CreatePagePage createPage()
     {
         hoverOverMenu("tmSpace");
         this.createPageMenuLink.click();
-        return new CreatePagePage(getDriver());
+        return new CreatePagePage();
     }
 
     public CreateSpacePage createSpace()
     {
         hoverOverMenu("tmWiki");
         this.createSpaceMenuLink.click();
-        return new CreateSpacePage(getDriver());
+        return new CreateSpacePage();
     }
 
     public AdministrationPage administorWiki()
     {
         hoverOverMenu("tmWiki");
         this.administorWikiMenuLink.click();
-        return new AdministrationPage(getDriver());
+        return new AdministrationPage();
     }
 
     // TODO: I don't think we should go through the menus, it's probably faster to to as deletePage() does
@@ -155,7 +143,7 @@ public class ViewPage extends BasePage
         this.getDriver().findElement(By.id("Historylink")).click();
         this.waitUntilElementIsVisible(By.id("historycontent"));
 
-        return new HistoryPane(getDriver());
+        return new HistoryPane();
     }
 
     /** @return does this page exist. */

@@ -43,11 +43,6 @@ public class InlinePage extends ViewPage
     @FindBy(name = "action_cancel")
     private WebElement cancel;
 
-    public InlinePage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public void clickPreview()
     {
         preview.click();

@@ -26,7 +26,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 import org.xwiki.it.ui.elements.RegisterPage;
 import org.xwiki.it.ui.elements.BasePage;
 import org.xwiki.it.ui.elements.AdministrationPage;
@@ -42,15 +41,10 @@ public class UsersPage extends BasePage
     @FindBy(id = "addNewUser")
     private WebElement addNewUserButton;
 
-    public UsersPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public RegisterPage clickAddNewUser()
     {
         this.addNewUserButton.click();
-        RegisterPage rp = new LightBoxRegisterPage(getDriver());
+        RegisterPage rp = new LightBoxRegisterPage();
         return rp;
     }
 }

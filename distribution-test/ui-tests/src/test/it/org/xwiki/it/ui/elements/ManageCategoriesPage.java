@@ -25,14 +25,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.TestUtils;
 
-
 /**
  * Represents blog category management page.
  * 
- * @version 
- * @since 
+ * @version $Id$
+ * @since 2.3M1
  */
-public class ManageCategoriesPage extends BasePage {
+public class ManageCategoriesPage extends BasePage
+{
     @FindBy(xpath = "//li/span[@class='blog-add-category-label']/a")
     private WebElement addCategoryLink;
 
@@ -47,17 +47,6 @@ public class ManageCategoriesPage extends BasePage {
 
     @FindBy(xpath = "//form[@class='category-rename-form']//input[@type='submit']")
     private WebElement renameButton;
-
-
-    /**
-     * Create new ManageCategoriesPage
-     * 
-     * @param driver
-     */
-    public ManageCategoriesPage(WebDriver driver)
-    {
-        super(driver);
-    }
 
     public void gotoManageCategoriesPage()
     {
@@ -170,4 +159,3 @@ public class ManageCategoriesPage extends BasePage {
             + TestUtils.escapeURL(name) + "')]");
     }
 }
-

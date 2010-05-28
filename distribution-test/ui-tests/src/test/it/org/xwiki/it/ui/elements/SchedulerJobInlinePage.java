@@ -12,11 +12,6 @@ import org.openqa.selenium.WebDriver;
  */
 public class SchedulerJobInlinePage extends InlinePage
 {
-    public SchedulerJobInlinePage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public boolean isQuartzDocumentationReferenced()
     {
         return getDriver().findElement(By.partialLinkText("official quartz scheduler documentation")) != null;

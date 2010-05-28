@@ -36,9 +36,9 @@ import org.xwiki.it.ui.elements.BasePage;
 public class PersistentTestContext
 {
     /** This starts and stops the wiki engine. */
-    private XWikiExecutor executor;
+    private final XWikiExecutor executor;
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public PersistentTestContext() throws Exception
     {

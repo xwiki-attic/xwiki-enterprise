@@ -33,11 +33,11 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     {
         TestUtils.gotoPage("Scheduler", "WatchListDailyNotifier", getDriver());
 
-        ViewPage page = new ViewPage(getDriver());
+        ViewPage page = new ViewPage();
         Assert.assertTrue(page.exists());
         page.clickEdit();
 
-        SchedulerJobInlinePage inlineJob = new SchedulerJobInlinePage(getDriver());
+        SchedulerJobInlinePage inlineJob = new SchedulerJobInlinePage();
         // The edit sheet of scheduler jobs points to Quartz documentation/
         // Make sure this documentation is referenced to prove we are indeed in inline edit mode.
         Assert.assertTrue(inlineJob.isQuartzDocumentationReferenced());

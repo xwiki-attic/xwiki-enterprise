@@ -45,12 +45,6 @@ public class WikiEditPage extends EditPage
     @FindBy(name = "comment")
     private WebElement commentInput;
 
-
-    public WikiEditPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     /**
      * Set the <code>title</code> of the page
      * 

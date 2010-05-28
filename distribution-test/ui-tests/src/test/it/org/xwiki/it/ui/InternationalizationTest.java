@@ -53,7 +53,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreateNonAsciiSpace()
     {
-        HomePage homePage = new HomePage(getDriver());
+        HomePage homePage = new HomePage();
         homePage.gotoHomePage();
 
         CreateSpacePage createSpacePage = homePage.createSpace();
@@ -76,7 +76,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreateNonAsciiPage()
     {
-        HomePage homePage = new HomePage(getDriver());
+        HomePage homePage = new HomePage();
         homePage.gotoHomePage();
 
         CreatePagePage createPagePage = homePage.createPage();

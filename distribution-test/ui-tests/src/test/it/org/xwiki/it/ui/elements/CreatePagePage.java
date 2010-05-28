@@ -37,16 +37,11 @@ public class CreatePagePage extends ViewPage
     @FindBy(id = "page")
     private WebElement pageTextField;
 
-    public CreatePagePage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public WYSIWYGEditPage createPage(String spaceValue, String pageValue)
     {
         this.spaceTextField.sendKeys(spaceValue);
         this.pageTextField.sendKeys(pageValue);
         this.pageTextField.submit();
-        return new WYSIWYGEditPage(getDriver());
+        return new WYSIWYGEditPage();
     }
 }

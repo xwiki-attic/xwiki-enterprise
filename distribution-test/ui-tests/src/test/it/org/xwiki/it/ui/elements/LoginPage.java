@@ -46,11 +46,6 @@ public class LoginPage extends ViewPage
     @FindBy(xpath = "//div[@class='errormessage']")
     private WebElement loginErrorDiv;
 
-    public LoginPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public void loginAsAdmin()
     {
         loginAs("Admin", "admin", true);        

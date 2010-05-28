@@ -46,7 +46,7 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
 
-        editPage = new WikiEditPage(getDriver());
+        editPage = new WikiEditPage();
     }
 
     /**

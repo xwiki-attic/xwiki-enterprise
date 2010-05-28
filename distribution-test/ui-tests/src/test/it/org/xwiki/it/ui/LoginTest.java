@@ -39,7 +39,7 @@ public class LoginTest extends AbstractTest
     @Before
     public void setUp()
     {
-        homePage = new HomePage(getDriver());
+        homePage = new HomePage();
         homePage.gotoHomePage();
 
         // Make sure we log out if we're already logged in since we're testing the log in...

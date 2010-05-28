@@ -34,18 +34,10 @@ import org.openqa.selenium.support.PageFactory;
  * @version $Id$
  * @since 2.3M1
  */
-public class HistoryPane
+public class HistoryPane extends BaseElement
 {
-    private WebDriver driver;
-
     @FindBy(id = "Historypane")
     private WebElement pane;
-
-    public HistoryPane(WebDriver driver)
-    {
-        this.driver = driver;
-        PageFactory.initElements(this.driver, this);
-    }
 
     public boolean hasVersionWithSummary(String summary)
     {

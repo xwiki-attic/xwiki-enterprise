@@ -47,11 +47,6 @@ public class RegisterPage extends ViewPage
 
     private FormElement form;
 
-    public RegisterPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     /** To put the registration page someplace else, subclass this class and change this method. */
     public boolean isOnRegisterPage()
     {
@@ -67,7 +62,7 @@ public class RegisterPage extends ViewPage
     /** To put the registration page someplace else, subclass this class and change this method. */
     public void gotoRegisterPage()
     {
-        HomePage homePage = new HomePage(getDriver());
+        HomePage homePage = new HomePage();
         homePage.gotoHomePage();
 
         if (homePage.isAuthenticated()) {

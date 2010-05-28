@@ -48,7 +48,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest {
     {
         super.setUp();
 
-        categoriesPage = new ManageCategoriesPage(getDriver());
+        categoriesPage = new ManageCategoriesPage();
 
         // clean up
         TestUtils.deletePage("Blog", WORD_CATEGORY, getDriver());

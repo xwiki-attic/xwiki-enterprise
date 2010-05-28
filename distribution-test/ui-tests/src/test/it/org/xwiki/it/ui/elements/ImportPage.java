@@ -49,11 +49,6 @@ public class ImportPage extends ViewPage
     @FindBy(xpath="//input[@value='Import']")
     private WebElement importPackageLink;
 
-    public ImportPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public void gotoImportPage()
     {
         TestUtils.gotoPage("XWiki", "Import", "import", "editor=globaladmin&section=Import", getDriver());     
@@ -104,7 +99,7 @@ public class ImportPage extends ViewPage
     {
         this.waitUntilElementIsVisible(By.linkText(pageName));
         getDriver().findElement(By.linkText(pageName)).click();
-        return new ViewPage(getDriver());
+        return new ViewPage();
     }
 
     public void selectReplaceHistoryOption()

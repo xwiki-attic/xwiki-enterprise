@@ -42,18 +42,6 @@ public class BasePage extends BaseElement
 {
     private final String baseURL = "http://localhost:8080/xwiki/bin/";
 
-    /** don't bother passing the driver, it's taken care of. */
-    @Deprecated
-    public BasePage(WebDriver driver)
-    {
-        this();
-    }
-
-    public BasePage()
-    {
-        super();
-    }
-
     public String getPageTitle()
     {
         return getDriver().getTitle();

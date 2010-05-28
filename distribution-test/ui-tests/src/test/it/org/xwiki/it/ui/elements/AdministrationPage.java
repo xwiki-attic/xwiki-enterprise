@@ -40,18 +40,6 @@ public class AdministrationPage extends ViewPage
 
     @FindBy(xpath = "//li[@class='Users']/a/span/img")
     WebElement usersLink;
-
-    /** Use AdministrationPage() instead */
-    @Deprecated
-    public AdministrationPage(WebDriver driver)
-    {
-        this();
-    }
-
-    public AdministrationPage()
-    {
-        super();
-    }
     
     public void gotoAdministrationPage()
     {
@@ -61,7 +49,7 @@ public class AdministrationPage extends ViewPage
     public ImportPage clickImportSection()
     {
         this.importLink.click();
-        return new ImportPage(getDriver());
+        return new ImportPage();
     }
 
     public AdminSectionPage clickRegistrationSection()
@@ -73,6 +61,6 @@ public class AdministrationPage extends ViewPage
     public UsersPage clickUsersSection()
     {
         this.usersLink.click();
-        return new UsersPage(getDriver());
+        return new UsersPage();
     }
 }

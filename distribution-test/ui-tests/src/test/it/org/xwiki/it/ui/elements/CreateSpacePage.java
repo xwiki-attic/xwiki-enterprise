@@ -34,15 +34,10 @@ public class CreateSpacePage extends ViewPage
     @FindBy(id = "space")
     private WebElement spaceTextField;
 
-    public CreateSpacePage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public WYSIWYGEditPage createSpace(String spaceValue)
     {
         this.spaceTextField.sendKeys(spaceValue);
         this.spaceTextField.submit();
-        return new WYSIWYGEditPage(getDriver());
+        return new WYSIWYGEditPage();
     }
 }

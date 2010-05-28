@@ -30,11 +30,6 @@ import org.xwiki.it.ui.framework.TestUtils;
  */
 public class HomePage extends ViewPage
 {
-    public HomePage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public void gotoHomePage()
     {
         TestUtils.gotoPage("Main", "WebHome", getDriver());

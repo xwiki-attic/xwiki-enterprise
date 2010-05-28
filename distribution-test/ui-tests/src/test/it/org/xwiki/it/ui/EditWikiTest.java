@@ -44,7 +44,7 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
     public void setUp()
     {
         super.setUp();
-        this.editPage = new WikiEditPage(getDriver());
+        this.editPage = new WikiEditPage();
         TestUtils.deletePage("Test", "EditWikiTest", getDriver());
     }
 

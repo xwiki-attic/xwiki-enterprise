@@ -37,11 +37,6 @@ public class WYSIWYGEditPage extends BasePage
     @FindBy(name = "action_save")
     private WebElement saveAndViewSubmit;
 
-    public WYSIWYGEditPage(WebDriver driver)
-    {
-        super(driver);
-    }
-
     public String getDocumentTitle()
     {
         return this.titleField.getValue();
@@ -50,6 +45,6 @@ public class WYSIWYGEditPage extends BasePage
     public ViewPage save()
     {
         this.saveAndViewSubmit.submit();
-        return new ViewPage(getDriver());
+        return new ViewPage();
     }
 }

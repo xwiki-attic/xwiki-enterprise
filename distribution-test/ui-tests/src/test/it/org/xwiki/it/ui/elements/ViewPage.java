@@ -56,9 +56,16 @@ public class ViewPage extends BasePage
     @FindBy(id = "tmAdminWiki")
     private WebElement administorWikiMenuLink;
 
+    /** @driver isn't used. */
+    @Deprecated
     public ViewPage(WebDriver driver)
     {
-        super(driver);
+        this();
+    }
+
+    public ViewPage()
+    {
+        super();
     }
 
     /**

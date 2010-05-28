@@ -40,12 +40,11 @@ public class AdminSectionPage extends AdministrationPage
     @FindBy(xpath = "//div[@id='admin-page-content']")
     private WebElement formElement;
 
-    private FormPage form;
+    private FormElement form;
 
-    public AdminSectionPage(WebDriver driver)
+    public AdminSectionPage()
     {
-        super(driver);
-        this.form = new FormPage(formElement, driver);
+        this.form = new FormElement(formElement);
     }
     
     public void gotoAdministrationPage()
@@ -58,7 +57,7 @@ public class AdminSectionPage extends AdministrationPage
         saveButton.click();
     }
 
-    public FormPage getForm()
+    public FormElement getForm()
     {
         return form;
     }

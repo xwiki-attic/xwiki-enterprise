@@ -34,18 +34,11 @@ import org.openqa.selenium.By;
  * @version $Id$
  * @since 2.3M1
  */
-public class FormPage extends BaseElement
+public class FormElement extends BaseElement
 {
     private final WebElement form;
 
-    /** @driver isn't used. */
-    @Deprecated
-    public FormPage(WebElement form, WebDriver driver)
-    {
-        this(form);
-    }
-
-    public FormPage(WebElement form)
+    public FormElement(WebElement form)
     {
         super();
         this.form = form;

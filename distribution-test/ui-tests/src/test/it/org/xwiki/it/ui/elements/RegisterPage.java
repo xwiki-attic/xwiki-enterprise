@@ -45,7 +45,7 @@ public class RegisterPage extends ViewPage
     @FindBy(xpath = "//form[@id='register']/div/span/input[@type='submit']")
     private WebElement submitButton;
 
-    private FormPage form;
+    private FormElement form;
 
     public RegisterPage(WebDriver driver)
     {
@@ -57,7 +57,7 @@ public class RegisterPage extends ViewPage
     {
         if (registerFormElement != null && !getDriver().findElements(By.name("register_password")).isEmpty()) {
             if (form == null) {
-                form = new FormPage(registerFormElement, getDriver());
+                form = new FormElement(registerFormElement);
             }
             return true;
         }
@@ -75,7 +75,7 @@ public class RegisterPage extends ViewPage
         }
 
         homePage.clickRegister();
-        form = new FormPage(registerFormElement, getDriver());
+        form = new FormElement(registerFormElement);
     }
 
     public void fillInJohnSmithValues()

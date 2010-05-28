@@ -33,7 +33,7 @@ import org.xwiki.it.ui.elements.LightBoxRegisterPage;
  * Test the Admin->Users->AddNewUser feature.
  * 
  * @version $Id$
- * @since 2.4M1
+ * @since 2.3M1
  */
 public class RegisterTestAdminAddUser extends RegisterTest
 {

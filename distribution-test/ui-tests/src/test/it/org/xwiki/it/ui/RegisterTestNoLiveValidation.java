@@ -23,7 +23,7 @@ package org.xwiki.it.ui;
  * Test the user registration feature without javascript field validation.
  * 
  * @version $Id$
- * @since 2.4M1
+ * @since 2.3M1
  */
 public class RegisterTestNoLiveValidation extends RegisterTest
 {

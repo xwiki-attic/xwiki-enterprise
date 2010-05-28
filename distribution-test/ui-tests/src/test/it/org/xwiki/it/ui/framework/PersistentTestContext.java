@@ -31,7 +31,7 @@ import org.xwiki.it.ui.elements.BasePage;
  * This is a container for holding all of the information which should persist throughout all of the tests.
  *
  * @version $Id$
- * @since TODO
+ * @since 2.4M1
  */
 public class PersistentTestContext
 {

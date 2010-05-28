@@ -64,6 +64,10 @@ public class PersistentTestContext
         return this.driver;
     }
 
+    /**
+     * Get a clone of this context which cannot be stopped by calling shutdown.
+     * this is needed so that individual tests don't shutdown when AllTests ware being run.
+     */
     public PersistentTestContext getUnstoppable()
     {
         return new PersistentTestContext(this)

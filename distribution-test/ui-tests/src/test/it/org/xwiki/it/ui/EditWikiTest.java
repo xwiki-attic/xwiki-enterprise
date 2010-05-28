@@ -36,7 +36,7 @@ import org.xwiki.it.ui.framework.TestUtils;
  */
 public class EditWikiTest extends AbstractAdminAuthenticatedTest
 {
-    /** Page used for testing: Main.WikiEditTest */
+    /** Page used for testing: Main.EditWikiTest */
     private WikiEditPage editPage;
 
     @Before
@@ -56,7 +56,7 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
 
     /** Test that save and continue saves as a minor version. */
     @Test
-    public void testSaveAndContinueIsMinorEdit()
+    public void testSaveAndContinueSavesAsMinorEdit()
     {
         this.editPage.switchToEdit("Test", "EditWikiTest");
         Assert.assertTrue(this.editPage.isNewDocument());

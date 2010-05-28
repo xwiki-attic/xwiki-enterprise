@@ -1,3 +1,22 @@
+/*
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.xwiki.it.ui.framework;
 
 import java.io.UnsupportedEncodingException;
@@ -11,59 +30,32 @@ import org.openqa.selenium.WebDriver;
 
 /**
  * Helper methods for testing, not related to a specific Page Object.
+ * @deprecated These functions should be moved into objects where they make sense. 
+ *             If a Util class is needed it should be instanciated.
  * 
  * @version $Id$
  * @since 2.3M1
  */
+@Deprecated
 public class TestUtils
 {
-    private static PersistentTestContext context;
-
-    public static enum XWIKI_ACTIONS
-    {
-        admin,
-        cancel,
-        commentadd,
-        deleteversions,
-        edit,
-        inline,
-        lock,
-        objectadd,
-        objectremove,
-        preview,
-        propadd,
-        propupdate,
-        rollback,
-        save,
-        saveandcontinue,
-        view
-    }
-
-    static void setContext(PersistentTestContext context)
-    {
-        TestUtils.context = context;
-    }
-
-    private static final String URL_PREFIX = "http://localhost:8080/xwiki/bin/";
-
-    private static WebDriver getDriver()
-    {
-        return context.getDriver();
-    }
-
+    @Deprecated
     public static void gotoPage(String space, String page, WebDriver driver)
     {
         gotoPage(space, page, "view", driver);
     }
 
+    @Deprecated
     public static void gotoPage(String space, String page, String action, WebDriver driver)
     {
         gotoPage(space, page, action, null, driver);
     }
 
+    @Deprecated
     public static void gotoPage(String space, String page, String action, String queryString, WebDriver driver)
     {
-        String url = getURLForPage(space, page, action, queryString);
+        String url = "http://localhost:8080/xwiki/bin/" + action + "/" + space + "/" + page
+                     + (queryString == null ? "" : "?" + queryString);
 
         // Verify if we're already on the correct page and if so don't do anything
         if (!driver.getCurrentUrl().equals(url)) {
@@ -71,57 +63,10 @@ public class TestUtils
         }
     }
 
-    public static String getURLForPage(String space, String page, String action)
-    {
-        return getURLForPage(space, page, action, null);
-    }
-
-    public static String getURLForPage(String space, String page, String action, String queryString)
-    {
-        return URL_PREFIX + action + "/" + space + "/" + page + (queryString == null ? "" : "?" + queryString);
-    }
-
-    public static String getCurrentAction()
-    {
-        return StringUtils.substringBetween(getDriver().getCurrentUrl(), "/xwiki/bin/", "/");
-    }
-
-    public static String getQueryParameterValue(String parameter)
-    {
-        String url = getDriver().getCurrentUrl();
-        Pattern pattern = Pattern.compile(".*(\\?|&)" + parameter + "=([^&]*)");
-        Matcher matcher = pattern.matcher(url);
-
-        if (matcher.matches()) {
-            return matcher.group(2);
-        }
-
-        return StringUtils.EMPTY;
-    }
-
-    public static boolean isOnPage(String space, String page, String action, WebDriver driver)
-    {
-        return driver.getCurrentUrl().equals(getURLForPage(space, page, action));
-    }
-
-    public static boolean isOnPage(String space, String page, WebDriver driver)
-    {
-        return isOnPage(space, page, "view", driver);
-    }
-
+    @Deprecated
     public static void deletePage(String space, String page, WebDriver driver)
     {
         TestUtils.gotoPage(space, page, "delete", "confirm=1", driver);
-    }
-
-    public static boolean isNewPage(String space, String page)
-    {
-        String previousURL = getDriver().getCurrentUrl();
-        gotoPage(space, page, getDriver());
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        Boolean result = (Boolean) js.executeScript("return XWiki.docisnew");
-        getDriver().navigate().to(previousURL);
-        return result;
     }
 
     /**
@@ -129,6 +74,7 @@ public class TestUtils
      * 
      * @param s
      */
+    @Deprecated
     public static String escapeURL(String s)
     {
         try {

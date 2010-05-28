@@ -57,7 +57,6 @@ public class AbstractTest
             context = new PersistentTestContext();
         }
         BaseElement.setContext(context);
-        TestUtils.setContext(context);
     }
 
     @AfterClass

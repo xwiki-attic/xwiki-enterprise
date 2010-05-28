@@ -37,6 +37,6 @@ public class HomePage extends ViewPage
 
     public boolean isOnHomePage()
     {
-        return TestUtils.isOnPage("Main", "WebHome", getDriver());
+        return getDriver().getCurrentUrl().equals(getURL("Main", "WebHome"));
     }
 }

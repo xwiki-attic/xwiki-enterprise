@@ -43,6 +43,8 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     public static final String STEP_EXPLORER = "xImagesExplorer";
 
+    public static final String STEP_EXTERNAL_IMAGE = "xExternalImage";
+
     public static final String STEP_CONFIG = "xImageConfig";
 
     public static final String STEP_CURRENT_PAGE_SELECTOR = "xImagesSelector";
@@ -52,6 +54,8 @@ public class ImageTest extends AbstractWysiwygTestCase
     public static final String TAB_CURRENT_PAGE = "Current page";
 
     public static final String TAB_ALL_PAGES = "All pages";
+
+    public static final String TAB_EXTERNAL_IMAGE = "External";
 
     public static final String BUTTON_SELECT = "Select";
 
@@ -70,6 +74,8 @@ public class ImageTest extends AbstractWysiwygTestCase
     public static final String IMAGES_LIST = "//div[contains(@class, 'xListBox')]";
 
     public static final String FILE_UPLOAD_INPUT = "//input[contains(@class, 'gwt-FileUpload')]";
+
+    public static final String INPUT_EXTERNAL_IMAGE_LOCATION = "//input[@title = 'Image location']";
 
     public static final String ERROR_MSG_CLASS = "xErrorMsg";
 
@@ -679,6 +685,81 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
             + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
         waitForElement(getImageLocator("general.png"));
+    }
+
+    /**
+     * Tests if an external image can be inserted.
+     */
+    public void testInsertExternalImage()
+    {
+        openImageDialog(MENU_INSERT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        clickTab(TAB_EXTERNAL_IMAGE);
+        waitForStepToLoad(STEP_EXTERNAL_IMAGE);
+
+        // Try to move to the next step without setting the image location.
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_EXTERNAL_IMAGE);
+        assertFieldErrorIsPresent("Please specify the image location.", INPUT_EXTERNAL_IMAGE_LOCATION);
+
+        // Set the image URL and insert the image.
+        String imageURL = "http://www.xwiki.org/xwiki/skins/toucan/logo.png";
+        getSelenium().type(INPUT_EXTERNAL_IMAGE_LOCATION, imageURL);
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+
+        // The alternative text should be set by default to the image URL.
+        assertEquals(imageURL, getSelenium().getValue(INPUT_ALT));
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+
+        // Check the result.
+        switchToSource();
+        assertSourceText(String.format("[[image:%s]]", imageURL));
+    }
+
+    /**
+     * Tests if an external image can be selected.
+     */
+    public void testEditExternalImage()
+    {
+        // Insert an external image.
+        switchToSource();
+        String imageURL = "http://www.xwiki.org/xwiki/skins/toucan/logo.png";
+        String alternativeText = "xyz";
+        setSourceText(String.format("[[image:%s||alt=\"%s\" title=\"abc\"]]", imageURL, alternativeText));
+        switchToWysiwyg();
+
+        // Edit the external image and change its location.
+        selectNode("XWE.body.getElementsByTagName('img')[0]");
+        openImageDialog(MENU_EDIT_IMAGE);
+        waitForStepToLoad(STEP_SELECTOR);
+        // The step to select an external image should be selected by default.
+        waitForStepToLoad(STEP_EXTERNAL_IMAGE);
+        assertEquals(imageURL, getSelenium().getValue(INPUT_EXTERNAL_IMAGE_LOCATION));
+
+        // Change the image location.
+        clickTab(TAB_ALL_PAGES);
+        waitForStepToLoad(STEP_EXPLORER);
+        String spaceName = "Main";
+        String pageName = "RecentChanges";
+        String fileName = "rquo.gif";
+        selectLocation(spaceName, pageName);
+        getSelenium().click(getImageLocator(fileName));
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad(STEP_CONFIG);
+
+        // Check if the alternative text was preserved.
+        assertEquals(alternativeText, getSelenium().getValue(INPUT_ALT));
+        // Reset the alternative text.
+        getSelenium().type(INPUT_ALT, "");
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
+        waitForDialogToClose();
+
+        // Check the result.
+        switchToSource();
+        // The title attribute must be preserved.
+        assertSourceText(String.format("[[image:%s.%s@%s||title=\"abc\"]]", spaceName, pageName, fileName));
     }
 
     private void waitForStepToLoad(String stepClass)

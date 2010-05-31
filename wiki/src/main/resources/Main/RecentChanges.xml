@@ -370,7 +370,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
     #foreach($criterion in $criteria.keySet())
       #if($criteria.get($criterion).size() &gt; 0)        
         #set($hqlQuery = $hqlQuery.replaceAll("where", "where ${criterion} and"))
-        #set($discard = $values.addAll($criteria.get($criterion)))
+        #set($discard = $values.addAll(0, $criteria.get($criterion)))
       #end
     #end
     #set($rcDocumentNames = $xwiki.searchDocuments($hqlQuery, $rcChangesNb, 0, $values))

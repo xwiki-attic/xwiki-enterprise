@@ -21,18 +21,14 @@ package org.xwiki.it.ui.framework;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 /**
  * Helper methods for testing, not related to a specific Page Object.
- * @deprecated These functions should be moved into objects where they make sense. 
- *             If a Util class is needed it should be instanciated.
  * 
+ * @deprecated These functions should be moved into objects where they make sense. If a Util class is needed it should
+ *             be instanciated.
  * @version $Id$
  * @since 2.3M1
  */
@@ -54,8 +50,9 @@ public class TestUtils
     @Deprecated
     public static void gotoPage(String space, String page, String action, String queryString, WebDriver driver)
     {
-        String url = "http://localhost:8080/xwiki/bin/" + action + "/" + space + "/" + page
-                     + (queryString == null ? "" : "?" + queryString);
+        String url =
+            "http://localhost:8080/xwiki/bin/" + action + "/" + space + "/" + page
+                + (queryString == null ? "" : "?" + queryString);
 
         // Verify if we're already on the correct page and if so don't do anything
         if (!driver.getCurrentUrl().equals(url)) {

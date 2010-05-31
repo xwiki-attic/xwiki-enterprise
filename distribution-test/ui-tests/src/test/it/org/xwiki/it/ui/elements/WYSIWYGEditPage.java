@@ -19,13 +19,12 @@
  */
 package org.xwiki.it.ui.elements;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * Represents the actions possible in WYSIWYG edit mode.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */

@@ -28,7 +28,7 @@ import org.xwiki.it.ui.framework.AbstractTest;
 
 /**
  * Test the Login feature.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */

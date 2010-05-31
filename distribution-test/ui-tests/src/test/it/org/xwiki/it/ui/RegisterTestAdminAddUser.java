@@ -20,14 +20,10 @@
 package org.xwiki.it.ui;
 
 import org.junit.Assert;
-import org.junit.Test;
-
-import org.xwiki.it.ui.elements.RegisterPage;
 import org.xwiki.it.ui.elements.HomePage;
-import org.xwiki.it.ui.elements.LoginPage;
-import org.xwiki.it.ui.elements.AdministrationPage;
-import org.xwiki.it.ui.elements.UsersPage;
 import org.xwiki.it.ui.elements.LightBoxRegisterPage;
+import org.xwiki.it.ui.elements.LoginPage;
+import org.xwiki.it.ui.elements.RegisterPage;
 
 /**
  * Test the Admin->Users->AddNewUser feature.

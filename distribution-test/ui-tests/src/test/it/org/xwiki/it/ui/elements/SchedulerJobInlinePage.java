@@ -1,7 +1,6 @@
 package org.xwiki.it.ui.elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Represents a scheduler job edited in inline mode.

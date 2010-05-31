@@ -24,14 +24,13 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Represents the actions possible on the Administration Import Page.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -40,18 +39,18 @@ public class ImportPage extends ViewPage
     @FindBy(id = "packagelistcontainer")
     private WebElement packageList;
 
-    @FindBy(id="xwikiuploadfile")
+    @FindBy(id = "xwikiuploadfile")
     private WebElement uploadFileInputField;
 
-    @FindBy(xpath="//input[@type='submit']")
+    @FindBy(xpath = "//input[@type='submit']")
     private WebElement uploadFileSubmit;
 
-    @FindBy(xpath="//input[@value='Import']")
+    @FindBy(xpath = "//input[@value='Import']")
     private WebElement importPackageLink;
 
     public void gotoImportPage()
     {
-        TestUtils.gotoPage("XWiki", "Import", "import", "editor=globaladmin&section=Import", getDriver());     
+        TestUtils.gotoPage("XWiki", "Import", "import", "editor=globaladmin&section=Import", getDriver());
     }
 
     public void attachPackage(URL file)

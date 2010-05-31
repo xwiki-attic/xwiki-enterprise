@@ -27,7 +27,6 @@ import org.openqa.selenium.By;
 import org.xwiki.it.ui.elements.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
-
 /**
  * Test template handling
  * 
@@ -38,7 +37,6 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
 {
     /** Page used for testing: Main.TemplateTest */
     private WikiEditPage editPage;
-
 
     @Before
     @Override
@@ -78,24 +76,23 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
     public void testWrongTemplate()
     {
         saveVelocity(includeTemplate("../../"));
-        Assert.assertTrue("root directory",
-            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
+        Assert.assertTrue("root directory", getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
 
         saveVelocity(includeTemplate("asdfasdf"));
         Assert.assertTrue("not existing template",
             getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
 
         saveVelocity(includeTemplate("../redirect"));
-        Assert.assertTrue("file in the parent directory",
-            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
+        Assert.assertTrue("file in the parent directory", getDriver().findElement(By.id("xwikicontent")).getText()
+            .length() == 0);
 
         saveVelocity(includeTemplate("../WEB-INF/version.properties"));
-        Assert.assertTrue("file in the wrong directory",
-            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
+        Assert.assertTrue("file in the wrong directory", getDriver().findElement(By.id("xwikicontent")).getText()
+            .length() == 0);
 
         saveVelocity(includeTemplate("/chw/../../WEB-INF/../WEB-INF/lib/../version.properties"));
-        Assert.assertTrue("file in the wrong directory, not normalized path",
-            getDriver().findElement(By.id("xwikicontent")).getText().length() == 0);
+        Assert.assertTrue("file in the wrong directory, not normalized path", getDriver().findElement(
+            By.id("xwikicontent")).getText().length() == 0);
     }
 
     /**
@@ -107,8 +104,8 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * Save a page with given velocity code and switch to view. Encloses <code>code</code>
-     * into the {{velocity}} macro and optionally also {{html}} macro.
+     * Save a page with given velocity code and switch to view. Encloses <code>code</code> into the {{velocity}} macro
+     * and optionally also {{html}} macro.
      * 
      * @param code velocity code to save
      * @param html additionally enclose <code>code</code> in {{html}} if true

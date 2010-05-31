@@ -23,14 +23,12 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 /**
  * Represents the actions possible on the History Pane at the bottom of a page.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -46,8 +44,7 @@ public class HistoryPane extends BaseElement
         try {
             pane.findElement(By.xpath("//tr[2]/td/input"));
             commentVersionXpath = "//td[6]";
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             commentVersionXpath = "//td[4]";
         }
         for (WebElement tableEntry : tableEntries) {
@@ -56,8 +53,7 @@ public class HistoryPane extends BaseElement
                 if (cell.getText().trim().contentEquals(summary)) {
                     return true;
                 }
-            }
-            catch (NoSuchElementException e) {
+            } catch (NoSuchElementException e) {
                 // Ignore, better luck next time.
             }
         }
@@ -91,7 +87,7 @@ public class HistoryPane extends BaseElement
             return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[4]")).getText();
         }
     }
-    
+
     public String getCurrentAuthor()
     {
         try {
@@ -103,6 +99,6 @@ public class HistoryPane extends BaseElement
             // If we cound not find the radio button, there is less columns displayed and the version will be
             // in the second column
             return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[2]")).getText();
-        }       
+        }
     }
 }

@@ -19,21 +19,18 @@
  */
 package org.xwiki.it.ui.elements;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-
-import org.xwiki.it.ui.framework.TestUtils;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * Represents the actions possible on the Registration Page
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -78,12 +75,8 @@ public class RegisterPage extends ViewPage
         fillRegisterForm("John", "Smith", "JohnSmith", "WeakPassword", "WeakPassword", "johnsmith@xwiki.org");
     }
 
-    public void fillRegisterForm(final String firstName,
-                                 final String lastName,
-                                 final String username,
-                                 final String password,
-                                 final String confirmPassword,
-                                 final String email)
+    public void fillRegisterForm(final String firstName, final String lastName, final String username,
+        final String password, final String confirmPassword, final String email)
     {
         checkAtRegisterPage();
         Map map = new HashMap();
@@ -113,7 +106,7 @@ public class RegisterPage extends ViewPage
     {
         checkAtRegisterPage();
         submitButton.click();
-        
+
         List<WebElement> infos = getDriver().findElements(By.className("infomessage"));
         for (WebElement info : infos) {
             if (info.getText().indexOf("Registration successful.") != -1) {
@@ -145,7 +138,7 @@ public class RegisterPage extends ViewPage
         return !getDriver().findElements(By.xpath("/html/body/div/div/div[3]/div/div/div/div/div/script")).isEmpty();
     }
 
-    /** Try to make LiveValidation validate the forms. Focus on an unvalidated field (register_first_name)*/
+    /** Try to make LiveValidation validate the forms. Focus on an unvalidated field (register_first_name) */
     public void triggerLiveValidation()
     {
         // Click on all of the validated fields to prevent "Passwords don't match" sticking -> flickering test.

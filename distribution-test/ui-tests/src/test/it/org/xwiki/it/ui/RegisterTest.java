@@ -22,16 +22,14 @@ package org.xwiki.it.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
-
-import org.xwiki.it.ui.elements.RegisterPage;
-import org.xwiki.it.ui.elements.ViewPage;
+import org.xwiki.it.ui.elements.AdminSectionPage;
+import org.xwiki.it.ui.elements.AdministrationPage;
 import org.xwiki.it.ui.elements.HomePage;
 import org.xwiki.it.ui.elements.LoginPage;
-import org.xwiki.it.ui.elements.AdministrationPage;
-import org.xwiki.it.ui.elements.AdminSectionPage;
+import org.xwiki.it.ui.elements.RegisterPage;
+import org.xwiki.it.ui.elements.ViewPage;
 import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.TestUtils;
 
@@ -62,7 +60,7 @@ public class RegisterTest extends AbstractTest
             AdministrationPage adminPage = homePage.administorWiki();
             AdminSectionPage registrationAdminSection = adminPage.clickRegistrationSection();
             registrationAdminSection.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
-                                                             Boolean.valueOf(useLiveValidation()).toString());
+                Boolean.valueOf(useLiveValidation()).toString());
             registrationAdminSection.clickSave();
             if (x > 2) {
                 throw new WebDriverException("Unable to set useLiveValidation to " + useLiveValidation());
@@ -142,12 +140,10 @@ public class RegisterTest extends AbstractTest
         Assert.assertTrue(registerPage.validationFailureMessagesInclude("Please give a valid email address."));
     }
 
-    /** 
-     * If LiveValidation is enabled then it will check that there are no failures with that.
-     * If no failures then hits register button, it then asserts that hitting thr register
-     * button did not reveal any failures not caught by LiveValidation.
-     *
-     * If LiveValidation is disabled then just hits the register button.
+    /**
+     * If LiveValidation is enabled then it will check that there are no failures with that. If no failures then hits
+     * register button, it then asserts that hitting thr register button did not reveal any failures not caught by
+     * LiveValidation. If LiveValidation is disabled then just hits the register button.
      */
     protected boolean validateAndRegister()
     {

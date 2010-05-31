@@ -19,18 +19,16 @@
  */
 package org.xwiki.it.ui.elements;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 
 /**
  * Represents a Form.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -54,18 +52,14 @@ public class FormElement extends BaseElement
         fillFieldsByElements(valuesByElements);
     }
 
-
     public void fillFieldsByElements(Map<WebElement, String> valuesByElements)
     {
         for (WebElement el : valuesByElements.keySet()) {
             try {
                 setFieldValue(el, valuesByElements.get(el));
             } catch (Exception e) {
-                throw new WebDriverException("Couldn't set field \""
-                                             + el.getAttribute("name")
-                                             + "\" to value \""
-                                             + valuesByElements.get(el)
-                                             + "\"", e);
+                throw new WebDriverException("Couldn't set field \"" + el.getAttribute("name") + "\" to value \""
+                    + valuesByElements.get(el) + "\"", e);
             }
         }
     }
@@ -83,7 +77,7 @@ public class FormElement extends BaseElement
         if ("checkbox".equals(fieldElement.getAttribute("type"))) {
             setCheckBox(fieldElement, value.equals("true"));
         } else {
-            fieldElement.clear();            
+            fieldElement.clear();
             fieldElement.sendKeys(value);
         }
     }
@@ -94,8 +88,8 @@ public class FormElement extends BaseElement
         while (checkBoxElement.isSelected() != checked) {
             checkBoxElement.toggle();
             if (x == 100) {
-                throw new WebDriverException("Unable to set checkbox at "
-                                             + checkBoxElement.getAttribute("name") + " to " + checked);
+                throw new WebDriverException("Unable to set checkbox at " + checkBoxElement.getAttribute("name")
+                    + " to " + checked);
             }
             x++;
         }

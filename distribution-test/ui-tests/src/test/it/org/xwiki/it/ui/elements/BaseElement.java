@@ -31,8 +31,6 @@ import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.PersistentTestContext;
 
 /**

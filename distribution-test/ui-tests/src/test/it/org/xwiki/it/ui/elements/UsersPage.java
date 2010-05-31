@@ -19,16 +19,8 @@
  */
 package org.xwiki.it.ui.elements;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import org.xwiki.it.ui.elements.RegisterPage;
-import org.xwiki.it.ui.elements.BasePage;
-import org.xwiki.it.ui.elements.AdministrationPage;
 
 /**
  * Test the Admin->Users->AddNewUser feature.

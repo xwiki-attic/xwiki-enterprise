@@ -19,13 +19,12 @@
  */
 package org.xwiki.it.ui.elements;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * Represents the actions possible on the Login page.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -48,7 +47,7 @@ public class LoginPage extends ViewPage
 
     public void loginAsAdmin()
     {
-        loginAs("Admin", "admin", true);        
+        loginAs("Admin", "admin", true);
     }
 
     public void loginAs(String username, String password, boolean rememberMe)

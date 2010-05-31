@@ -27,14 +27,14 @@ import org.xwiki.it.ui.elements.ManageCategoriesPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.it.ui.framework.TestUtils;
 
-
 /**
  * Test Blog categories. Tested features: add, rename, delete.
  * 
  * @version $Id$
  * @since 2.3M2
  */
-public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest {
+public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
+{
     private ManageCategoriesPage categoriesPage;
 
     private static final String WORD_CATEGORY = "SomeCategory";
@@ -134,8 +134,8 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest {
     /**
      * Helper method that renames a category and checks for success
      * 
-     * @param fromName  source name, must exist
-     * @param toName    target name, must not exist
+     * @param fromName source name, must exist
+     * @param toName target name, must not exist
      */
     private void categoryRename(String fromName, String toName)
     {
@@ -151,7 +151,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest {
     /**
      * Helper method that removes a category and checks for success
      * 
-     * @param name  category name, must exist
+     * @param name category name, must exist
      */
     private void categoryRemove(String name)
     {
@@ -162,4 +162,3 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest {
         Assert.assertFalse(categoriesPage.isCategoryPresent(name));
     }
 }
-

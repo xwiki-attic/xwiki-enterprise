@@ -20,7 +20,6 @@
 package org.xwiki.it.ui.elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.TestUtils;
@@ -86,13 +85,13 @@ public class ManageCategoriesPage extends BasePage
     /**
      * Delete a category by name.
      * 
-     * @param name  category name, must exist
+     * @param name category name, must exist
      */
     public void deleteCategory(String name)
     {
         // click delete button
-        By deletePath = By.xpath("//a[@class='tool delete' and contains(@href, '"
-            + TestUtils.escapeURL(name) + "')]/img");
+        By deletePath =
+            By.xpath("//a[@class='tool delete' and contains(@href, '" + TestUtils.escapeURL(name) + "')]/img");
         hoverCategoryItem(name);
         waitUntilElementIsVisible(deletePath);
         getDriver().findElement(deletePath).click();
@@ -106,14 +105,14 @@ public class ManageCategoriesPage extends BasePage
     /**
      * Rename an existing category.
      * 
-     * @param fromName  source category name, must exist
-     * @param toName    target category name, must not exist
+     * @param fromName source category name, must exist
+     * @param toName target category name, must not exist
      */
     public void renameCategory(String fromName, String toName)
     {
         // show the rename form
-        By renamePath = By.xpath("//a[@class='tool rename' and contains(@href, '"
-            + TestUtils.escapeURL(fromName) + "')]/img");
+        By renamePath =
+            By.xpath("//a[@class='tool rename' and contains(@href, '" + TestUtils.escapeURL(fromName) + "')]/img");
         hoverCategoryItem(fromName);
         waitUntilElementIsVisible(renamePath);
         getDriver().findElement(renamePath).click();
@@ -128,7 +127,7 @@ public class ManageCategoriesPage extends BasePage
     /**
      * Check if the given category is present in the categories tree
      * 
-     * @param name  category name
+     * @param name category name
      */
     public boolean isCategoryPresent(String name)
     {
@@ -136,26 +135,26 @@ public class ManageCategoriesPage extends BasePage
     }
 
     /**
-     * Since the toolbox (with rename, add subcategory and delete buttons) is hidden by default,
-     * we need to hover it before any interaction, otherwise Selenium will complain.
+     * Since the toolbox (with rename, add subcategory and delete buttons) is hidden by default, we need to hover it
+     * before any interaction, otherwise Selenium will complain.
      * 
-     * @param name  category name, must exist
+     * @param name category name, must exist
      */
     private void hoverCategoryItem(String name)
     {
-        By locator = By.xpath("//a[@class='tool delete' and contains(@href, '"
-            + TestUtils.escapeURL(name) + "')]/ancestor::span[@class='blog-category-tools']");
+        By locator =
+            By.xpath("//a[@class='tool delete' and contains(@href, '" + TestUtils.escapeURL(name)
+                + "')]/ancestor::span[@class='blog-category-tools']");
         makeElementVisible(locator);
     }
 
     /**
      * Return a xpath locator for the given category. Not guaranteed to find exactly one occurrence
      * 
-     * @param name  category name
+     * @param name category name
      */
     private By categoryLocator(String name)
     {
-        return By.xpath("//span[@class='blog-category']//a[contains(@href, '"
-            + TestUtils.escapeURL(name) + "')]");
+        return By.xpath("//span[@class='blog-category']//a[contains(@href, '" + TestUtils.escapeURL(name) + "')]");
     }
 }

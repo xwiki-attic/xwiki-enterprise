@@ -19,17 +19,13 @@
  */
 package org.xwiki.it.ui.framework;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.xwiki.test.XWikiExecutor;
 
-import org.xwiki.it.ui.elements.BasePage;
-
 /**
  * This is a container for holding all of the information which should persist throughout all of the tests.
- *
+ * 
  * @version $Id$
  * @since 2.4M1
  */
@@ -65,8 +61,8 @@ public class PersistentTestContext
     }
 
     /**
-     * Get a clone of this context which cannot be stopped by calling shutdown.
-     * this is needed so that individual tests don't shutdown when AllTests ware being run.
+     * Get a clone of this context which cannot be stopped by calling shutdown. this is needed so that individual tests
+     * don't shutdown when AllTests ware being run.
      */
     public PersistentTestContext getUnstoppable()
     {

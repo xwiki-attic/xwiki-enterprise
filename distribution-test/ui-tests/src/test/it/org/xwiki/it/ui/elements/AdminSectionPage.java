@@ -19,14 +19,13 @@
  */
 package org.xwiki.it.ui.elements;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Represents the actions possible on the main Administration Page.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -46,7 +45,7 @@ public class AdminSectionPage extends AdministrationPage
     {
         this.form = new FormElement(formElement);
     }
-    
+
     public void gotoAdministrationPage()
     {
         TestUtils.gotoPage("XWiki", "XWikiPreferences", "admin", getDriver());

@@ -19,17 +19,13 @@
  */
 package org.xwiki.it.ui.elements;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * Represents a registertion page in a lightbox
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -55,18 +51,13 @@ public class LightBoxRegisterPage extends RegisterPage
     public boolean register()
     {
         submitButton.click();
-        
-        waitUntilElementsAreVisible(
-            new By[] {By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"),
-                      By.xpath("//dd/span[@class='LV_validation_message LV_invalid']")
-            },
-            false
-        );
+
+        waitUntilElementsAreVisible(new By[] {
+        By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"),
+        By.xpath("//dd/span[@class='LV_validation_message LV_invalid']")}, false);
 
         return !getDriver()
-                .findElements(
-                  By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"))
-                    .isEmpty();
+            .findElements(By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']")).isEmpty();
     }
 
     public boolean liveValidationEnabled()

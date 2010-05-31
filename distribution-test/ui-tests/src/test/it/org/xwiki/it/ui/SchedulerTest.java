@@ -31,7 +31,7 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testSchedulerJobDefaultEditMode()
     {
-        TestUtils.gotoPage("Scheduler", "WatchListDailyNotifier", getDriver());
+        getUtil().gotoPage("Scheduler", "WatchListDailyNotifier");
 
         ViewPage page = new ViewPage();
         Assert.assertTrue(page.exists());

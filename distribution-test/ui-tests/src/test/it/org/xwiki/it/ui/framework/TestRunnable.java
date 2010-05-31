@@ -17,39 +17,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.elements;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+package org.xwiki.it.ui.framework;
 
 /**
- * Represents a registertion page in a lightbox
- * 
+ * Extend this for actions to pass to TestUtils#doAsGuest
+ *
  * @version $Id$
- * @since 2.3M1
+ * @since 2.4M1
  */
-public class LightBoxRegisterPage extends RegisterPage
+public abstract class TestRunnable extends AbstractTest implements Runnable
 {
-    @FindBy(xpath = "//div/form[@id='register']/div/span[1]/input[@value='Save']")
-    private WebElement submitButton;
-
-    public void gotoPage()
-    {
-        UsersPage usersPage = new UsersPage();
-        usersPage.gotoPage();
-
-        usersPage.clickAddNewUser();
-        waitUntilElementIsVisible(By.id("register_first_name"));
-    }
-
-    public void clickRegister()
-    {
-        submitButton.click();
-    }
-
-    public boolean liveValidationEnabled()
-    {
-        return !getDriver().findElements(By.xpath("//div[@id='lb']/div[@id='lb-content']/script[3]")).isEmpty();
-    }
 }

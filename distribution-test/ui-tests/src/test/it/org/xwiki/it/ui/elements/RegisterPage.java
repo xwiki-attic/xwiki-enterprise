@@ -34,7 +34,7 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.3M1
  */
-public class RegisterPage extends ViewPage
+public class RegisterPage extends BasePage
 {
     @FindBy(id = "register")
     private WebElement registerFormElement;
@@ -45,29 +45,9 @@ public class RegisterPage extends ViewPage
     private FormElement form;
 
     /** To put the registration page someplace else, subclass this class and change this method. */
-    public boolean isOnRegisterPage()
+    public void gotoPage()
     {
-        if (registerFormElement != null && !getDriver().findElements(By.name("register_password")).isEmpty()) {
-            if (form == null) {
-                form = new FormElement(registerFormElement);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /** To put the registration page someplace else, subclass this class and change this method. */
-    public void gotoRegisterPage()
-    {
-        HomePage homePage = new HomePage();
-        homePage.gotoHomePage();
-
-        if (homePage.isAuthenticated()) {
-            homePage.clickLogout();
-        }
-
-        homePage.clickRegister();
-        form = new FormElement(registerFormElement);
+        getUtil().gotoPage("XWiki", "Register", "register");
     }
 
     public void fillInJohnSmithValues()
@@ -78,7 +58,6 @@ public class RegisterPage extends ViewPage
     public void fillRegisterForm(final String firstName, final String lastName, final String username,
         final String password, final String confirmPassword, final String email)
     {
-        checkAtRegisterPage();
         Map map = new HashMap();
         if (firstName != null) {
             map.put("register_first_name", firstName);
@@ -98,22 +77,20 @@ public class RegisterPage extends ViewPage
         if (email != null) {
             map.put("register_email", email);
         }
-        form.fillFieldsByName(map);
+        getForm().fillFieldsByName(map);
     }
 
-    /** @return true if registration is successful, false if user couldn't be registered. */
-    public boolean register()
+    private FormElement getForm()
     {
-        checkAtRegisterPage();
-        submitButton.click();
-
-        List<WebElement> infos = getDriver().findElements(By.className("infomessage"));
-        for (WebElement info : infos) {
-            if (info.getText().indexOf("Registration successful.") != -1) {
-                return true;
-            }
+        if (form == null) {
+            form = new FormElement(registerFormElement);
         }
-        return false;
+        return form;
+    }
+
+    public void clickRegister()
+    {
+        submitButton.click();
     }
 
     /** @return a list of WebElements representing validation failure messages. Use after calling register() */
@@ -148,12 +125,5 @@ public class RegisterPage extends ViewPage
         registerFormElement.findElement(By.name("xwikiname")).click();
 
         registerFormElement.findElement(By.name("register_first_name")).click();
-    }
-
-    private void checkAtRegisterPage()
-    {
-        if (!isOnRegisterPage()) {
-            throw new WebDriverException("Must go to the registration page before using it's functions.");
-        }
     }
 }

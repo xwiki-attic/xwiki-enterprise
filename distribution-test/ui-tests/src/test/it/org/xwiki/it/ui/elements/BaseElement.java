@@ -31,6 +31,7 @@ import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.xwiki.it.ui.framework.TestUtils;
 import org.xwiki.it.ui.framework.PersistentTestContext;
 
 /**
@@ -46,9 +47,7 @@ public class BaseElement
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)
     {
-        if (BaseElement.context == null) {
-            BaseElement.context = context;
-        }
+        BaseElement.context = context;
     }
 
     public BaseElement()
@@ -60,6 +59,14 @@ public class BaseElement
     protected WebDriver getDriver()
     {
         return context.getDriver();
+    }
+
+    /**
+     * @return Utility class with functions not specific to any test or element.
+     */
+    protected TestUtils getUtil()
+    {
+        return context.getUtil();
     }
 
     /**

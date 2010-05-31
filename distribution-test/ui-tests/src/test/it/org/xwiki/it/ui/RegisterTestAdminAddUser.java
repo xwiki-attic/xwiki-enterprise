@@ -19,7 +19,8 @@
  */
 package org.xwiki.it.ui;
 
-import org.junit.Assert;
+import org.openqa.selenium.By;
+
 import org.xwiki.it.ui.elements.HomePage;
 import org.xwiki.it.ui.elements.LightBoxRegisterPage;
 import org.xwiki.it.ui.elements.LoginPage;
@@ -33,18 +34,30 @@ import org.xwiki.it.ui.elements.RegisterPage;
  */
 public class RegisterTestAdminAddUser extends RegisterTest
 {
+    protected void switchUser()
+    {
+        getUtil().loginAsAdmin();
+    }
+
     protected RegisterPage getRegisterPage()
     {
         return new LightBoxRegisterPage();
     }
 
-    protected void tryToLogin(String username, String password)
+    protected boolean tryToRegister()
     {
-        HomePage homePage = new HomePage();
-        homePage.gotoHomePage();
-        homePage.clickLogout();
-        LoginPage loginPage = homePage.clickLogin();
-        loginPage.loginAs(username, password);
-        Assert.assertTrue(registerPage.isAuthenticated());
+        registerPage.clickRegister();
+
+        registerPage.waitUntilElementsAreVisible(
+            new By[] {By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"),
+                      By.xpath("//dd/span[@class='LV_validation_message LV_invalid']")
+            },
+            false
+        );
+
+        return !getDriver()
+                .findElements(
+                  By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"))
+                    .isEmpty();
     }
 }

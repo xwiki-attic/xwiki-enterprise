@@ -19,6 +19,8 @@
  */
 package org.xwiki.it.ui.elements;
 
+import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -31,31 +33,15 @@ import org.openqa.selenium.WebElement;
  */
 public class BasePage extends BaseElement
 {
-    private final String baseURL = "http://localhost:8080/xwiki/bin/";
-
     public String getPageTitle()
     {
         return getDriver().getTitle();
     }
 
+    // TODO I think this should be in the AbstractTest instead -cjdelisle
     public String getPageURL()
     {
         return getDriver().getCurrentUrl();
-    }
-
-    public String getURL(String space, String page)
-    {
-        return getURL(space, page, "view", null);
-    }
-
-    public String getURL(String space, String page, String action)
-    {
-        return getURL(space, page, action, null);
-    }
-
-    public String getURL(String space, String page, String action, String queryString)
-    {
-        return baseURL + action + "/" + space + "/" + page + (queryString == null ? "" : "?" + queryString);
     }
 
     public String getMetaDataValue(String metaName)
@@ -107,13 +93,25 @@ public class BasePage extends BaseElement
         // See http://code.google.com/p/selenium/issues/detail?id=256
         // Thus FTM we have to use getDriver().findElement().
 
-        if (getDriver() instanceof JavascriptExecutor) {
-            JavascriptExecutor js = (JavascriptExecutor) getDriver();
-            WebElement spaceMenuDiv = getDriver().findElement(By.id(menuId));
-            js.executeScript("showsubmenu(arguments[0])", spaceMenuDiv);
-        } else {
+        WebElement spaceMenuDiv = getDriver().findElement(By.id(menuId));
+        executeScript("showsubmenu(arguments[0])", spaceMenuDiv);
+    }
+
+    /**
+     * Run javascript and return the result.
+     *
+     * @param script The source of the script to run.
+     * @param arguments Arguments to pass to the script. Will be made available to the script 
+     *                  through a variable called "arguments".
+     * @return Response from the script, One of Boolean, Long, String, List or WebElement. Or null.
+     * @see http://webdriver.googlecode.com/svn/javadoc/org/openqa/selenium/JavascriptExecutor.html#executeScript
+     */
+    public Object executeScript(String script, Object... arguments)
+    {
+        if (!(getDriver() instanceof JavascriptExecutor)) {
             throw new RuntimeException("This test only works with a Javascript-enabled Selenium2 Driver");
         }
+        return ((JavascriptExecutor) getDriver()).executeScript(script, arguments);
     }
 
     /**

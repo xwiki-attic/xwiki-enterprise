@@ -34,14 +34,21 @@ public class HomePage extends ViewPage
      */
     private final SpacesPane spacesPane = new SpacesPane();
 
+    public void gotoPage()
+    {
+        getUtil().gotoPage("Main", "WebHome");
+    }
+
+    /** use gotoPage */
+    @Deprecated
     public void gotoHomePage()
     {
-        TestUtils.gotoPage("Main", "WebHome", getDriver());
+        gotoPage();
     }
 
     public boolean isOnHomePage()
     {
-        return getDriver().getCurrentUrl().equals(getURL("Main", "WebHome"));
+        return getDriver().getCurrentUrl().equals(getUtil().getURL("Main", "WebHome"));
     }
 
     /**

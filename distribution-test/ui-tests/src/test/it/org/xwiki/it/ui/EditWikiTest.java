@@ -45,13 +45,13 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
         this.editPage = new WikiEditPage();
-        TestUtils.deletePage("Test", "EditWikiTest", getDriver());
+        getUtil().deletePage("Test", "EditWikiTest");
     }
 
     @After
     public void cleanUp()
     {
-        TestUtils.deletePage("Test", "EditWikiTest", getDriver());
+        getUtil().deletePage("Test", "EditWikiTest");
     }
 
     /** Test that save and continue saves as a minor version. */

@@ -19,12 +19,15 @@
  */
 package org.xwiki.it.ui.framework;
 
+import java.lang.ClassNotFoundException;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import org.openqa.selenium.WebDriver;
 
 import org.xwiki.it.ui.elements.BaseElement;
+import org.xwiki.it.ui.elements.HomePage;
 
 /**
  * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it. 
@@ -39,14 +42,9 @@ public class AbstractTest
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)
     {
-        if (AbstractTest.context == null) {
-            AbstractTest.context = context;
-        }
-    }
-
-    protected PersistentTestContext getContext()
-    {
-        return context;
+        AbstractTest.context = context;
+        BaseElement.setContext(context);
+        context.getUtil().setContext(context);
     }
 
     @BeforeClass
@@ -54,9 +52,8 @@ public class AbstractTest
     {
         // This will not be null if we are in the middle of allTests
         if (context == null) {
-            context = new PersistentTestContext();
+            setContext(new PersistentTestContext());
         }
-        BaseElement.setContext(context);
     }
 
     @AfterClass
@@ -65,8 +62,16 @@ public class AbstractTest
         context.shutdown();
     }
 
-    public WebDriver getDriver()
+    protected WebDriver getDriver()
     {
         return context.getDriver();
+    }
+
+    /**
+     * @return Utility class with functions not specific to any test or element.
+     */
+    protected TestUtils getUtil()
+    {
+        return context.getUtil();
     }
 }

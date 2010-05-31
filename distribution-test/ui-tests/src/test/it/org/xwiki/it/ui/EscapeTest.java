@@ -45,7 +45,7 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
     {
         // tests for XWIKI-4758, XML symbols should be escaped
         String page = "<!-- " + XML_CHARS + " -->";
-        TestUtils.gotoPage("Main", TestUtils.escapeURL(page), "edit", getDriver());
+        getUtil().gotoPage("Main", getUtil().escapeURL(page), "edit");
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
@@ -54,7 +54,7 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
     {
         // tests for XWIKI-5170, XML symbols in the error trace should be escaped
         String rev = "</pre><!-- " + XML_CHARS + " -->";
-        TestUtils.gotoPage("Main", "WebHome", "viewrev", "rev=" + TestUtils.escapeURL(rev), getDriver());
+        getUtil().gotoPage("Main", "WebHome", "viewrev", "rev=" + getUtil().escapeURL(rev));
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
@@ -64,13 +64,13 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         // tests for XWIKI-5164, XML symbols in editor parameter should be escaped
         String str = "\"<!-- " + XML_CHARS + " -->";
 
-        TestUtils.gotoPage("Main", "Page", "edit", "editor=" + TestUtils.escapeURL(str), getDriver());
+        getUtil().gotoPage("Main", "Page", "edit", "editor=" + getUtil().escapeURL(str));
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
 
-        TestUtils.gotoPage("Main", "Page", "edit", "editor=wysiwyg&section=" + TestUtils.escapeURL(str), getDriver());
+        getUtil().gotoPage("Main", "Page", "edit", "editor=wysiwyg&section=" + getUtil().escapeURL(str));
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
 
-        TestUtils.gotoPage("Main", "Page", "edit", "editor=wiki&x-maximized=" + TestUtils.escapeURL(str), getDriver());
+        getUtil().gotoPage("Main", "Page", "edit", "editor=wiki&x-maximized=" + getUtil().escapeURL(str));
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
@@ -80,6 +80,6 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
     @After
     public void tearDown()
     {
-        TestUtils.gotoPage("Main", "WebHome", getDriver());
+        getUtil().gotoPage("Main", "WebHome");
     }
 }

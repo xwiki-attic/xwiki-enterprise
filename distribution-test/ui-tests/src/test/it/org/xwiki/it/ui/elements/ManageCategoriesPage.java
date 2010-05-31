@@ -49,7 +49,7 @@ public class ManageCategoriesPage extends BasePage
 
     public void gotoManageCategoriesPage()
     {
-        TestUtils.gotoPage("Blog", "ManageCategories", "view", getDriver());
+        getUtil().gotoPage("Blog", "ManageCategories", "view");
     }
 
     /**
@@ -91,7 +91,7 @@ public class ManageCategoriesPage extends BasePage
     {
         // click delete button
         By deletePath =
-            By.xpath("//a[@class='tool delete' and contains(@href, '" + TestUtils.escapeURL(name) + "')]/img");
+            By.xpath("//a[@class='tool delete' and contains(@href, '" + getUtil().escapeURL(name) + "')]/img");
         hoverCategoryItem(name);
         waitUntilElementIsVisible(deletePath);
         getDriver().findElement(deletePath).click();
@@ -112,7 +112,7 @@ public class ManageCategoriesPage extends BasePage
     {
         // show the rename form
         By renamePath =
-            By.xpath("//a[@class='tool rename' and contains(@href, '" + TestUtils.escapeURL(fromName) + "')]/img");
+            By.xpath("//a[@class='tool rename' and contains(@href, '" + getUtil().escapeURL(fromName) + "')]/img");
         hoverCategoryItem(fromName);
         waitUntilElementIsVisible(renamePath);
         getDriver().findElement(renamePath).click();
@@ -143,7 +143,7 @@ public class ManageCategoriesPage extends BasePage
     private void hoverCategoryItem(String name)
     {
         By locator =
-            By.xpath("//a[@class='tool delete' and contains(@href, '" + TestUtils.escapeURL(name)
+            By.xpath("//a[@class='tool delete' and contains(@href, '" + getUtil().escapeURL(name)
                 + "')]/ancestor::span[@class='blog-category-tools']");
         makeElementVisible(locator);
     }
@@ -155,6 +155,6 @@ public class ManageCategoriesPage extends BasePage
      */
     private By categoryLocator(String name)
     {
-        return By.xpath("//span[@class='blog-category']//a[contains(@href, '" + TestUtils.escapeURL(name) + "')]");
+        return By.xpath("//span[@class='blog-category']//a[contains(@href, '" + getUtil().escapeURL(name) + "')]");
     }
 }

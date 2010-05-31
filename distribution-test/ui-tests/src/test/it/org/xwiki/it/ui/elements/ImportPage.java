@@ -50,7 +50,7 @@ public class ImportPage extends ViewPage
 
     public void gotoImportPage()
     {
-        TestUtils.gotoPage("XWiki", "Import", "import", "editor=globaladmin&section=Import", getDriver());
+        getUtil().gotoPage("XWiki", "Import", "import", "editor=globaladmin&section=Import");     
     }
 
     public void attachPackage(URL file)

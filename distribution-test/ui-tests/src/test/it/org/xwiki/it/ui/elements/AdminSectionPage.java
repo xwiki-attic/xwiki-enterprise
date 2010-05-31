@@ -37,18 +37,18 @@ public class AdminSectionPage extends AdministrationPage
     // The admin-page-content div is being treated as a form since it may contain multiple forms and we want to be able
     // to access elements in them all.
     @FindBy(xpath = "//div[@id='admin-page-content']")
-    private WebElement formElement;
+    private WebElement form;
 
-    private FormElement form;
+    private final String section;
 
-    public AdminSectionPage()
+    public AdminSectionPage(String section)
     {
-        this.form = new FormElement(formElement);
+        this.section = section;
     }
 
-    public void gotoAdministrationPage()
+    public void gotoPage()
     {
-        TestUtils.gotoPage("XWiki", "XWikiPreferences", "admin", getDriver());
+        getUtil().gotoPage("XWiki", "XWikiPreferences", "admin", "section=" + section);
     }
 
     public void clickSave()
@@ -58,6 +58,6 @@ public class AdminSectionPage extends AdministrationPage
 
     public FormElement getForm()
     {
-        return form;
+        return new FormElement(form);
     }
 }

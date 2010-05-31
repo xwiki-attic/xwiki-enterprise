@@ -42,7 +42,12 @@ public class AdministrationPage extends ViewPage
 
     public void gotoAdministrationPage()
     {
-        TestUtils.gotoPage("XWiki", "XWikiPreferences", "admin", getDriver());
+        gotoPage();
+    }
+
+    public void gotoPage()
+    {
+        getUtil().gotoPage("XWiki", "XWikiPreferences", "admin");
     }
 
     public ImportPage clickImportSection()
@@ -54,7 +59,7 @@ public class AdministrationPage extends ViewPage
     public AdminSectionPage clickRegistrationSection()
     {
         this.registrationLink.click();
-        return new AdminSectionPage();
+        return new AdminSectionPage("register");
     }
 
     public UsersPage clickUsersSection()

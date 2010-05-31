@@ -19,60 +19,185 @@
  */
 package org.xwiki.it.ui.framework;
 
+import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.Cookie;
+
 
 /**
  * Helper methods for testing, not related to a specific Page Object.
+ * Also made available to tests classes.
  * 
- * @deprecated These functions should be moved into objects where they make sense. If a Util class is needed it should
- *             be instanciated.
  * @version $Id$
  * @since 2.3M1
  */
-@Deprecated
 public class TestUtils
 {
-    @Deprecated
-    public static void gotoPage(String space, String page, WebDriver driver)
+    private static PersistentTestContext context;
+
+    /** Used so that AllTests can set the persistent test context. */
+    public static void setContext(PersistentTestContext context)
     {
-        gotoPage(space, page, "view", driver);
+        TestUtils.context = context;
     }
 
-    @Deprecated
-    public static void gotoPage(String space, String page, String action, WebDriver driver)
+    protected WebDriver getDriver()
     {
-        gotoPage(space, page, action, null, driver);
+        return context.getDriver();
     }
 
-    @Deprecated
-    public static void gotoPage(String space, String page, String action, String queryString, WebDriver driver)
-    {
-        String url =
-            "http://localhost:8080/xwiki/bin/" + action + "/" + space + "/" + page
-                + (queryString == null ? "" : "?" + queryString);
+    private final String baseURL = "http://localhost:8080/xwiki/bin/";
 
-        // Verify if we're already on the correct page and if so don't do anything
-        if (!driver.getCurrentUrl().equals(url)) {
-            driver.get(url);
+    /** Do an action as guest then switch back to being whatever user you were before. */
+    public void doAsGuest(Runnable runnable)
+    {
+        WebDriver.Options options = getDriver().manage();
+        Set<Cookie> cookies = options.getCookies();
+
+        // Delete cookies thus becoming guest.
+        options.deleteAllCookies();
+
+        runnable.run();
+
+        // Delete whatever cookies might have accumulated while running.
+        options.deleteAllCookies();
+
+        for (Cookie cookie : cookies) {
+            options.addCookie(cookie);
         }
     }
 
-    @Deprecated
-    public static void deletePage(String space, String page, WebDriver driver)
+    public void logout()
     {
-        TestUtils.gotoPage(space, page, "delete", "confirm=1", driver);
+        gotoPage("XWiki", "XWikiLogin", "logout");
+    }
+
+    public void loginAsAdmin()
+    {
+        loginAs("Admin", "admin");
+    }
+
+    public void loginAs(final String username, final String password)
+    {
+        loginAndGotoPage(username, password, "");
+    }
+
+    public void loginAsAdminAndGotoPage(final String pageURL)
+    {
+        loginAndGotoPage("Admin", "admin", pageURL);
+    }
+
+    public void loginAndGotoPage(final String username, final String password, final String pageURL)
+    {
+        Map<String, String> parameters = new HashMap<String, String>(){{
+            put("j_username", username);
+            put("j_password", password);
+            if (pageURL != null && pageURL.length() > 0) {
+                put("xredirect", pageURL);
+            }
+        }};
+        gotoPage("XWiki", "XWikiLogin", "loginsubmit", parameters);
+    }
+
+    public void gotoPage(String space, String page)
+    {
+        gotoPage(space, page, "view");
+    }
+
+    public void gotoPage(String space, String page, String action)
+    {
+        gotoPage(space, page, action, "");
+    }
+
+    public void gotoPage(String space, String page, String action, Map<String, String> queryParameters)
+    {
+        getDriver().get(getURL(space, page, action, queryParameters));
+    }
+
+    public void gotoPage(String space, String page, String action, String queryString)
+    {
+        getDriver().get(getURL(space, page, action, queryString));
+    }
+
+    public void deletePage(String space, String page)
+    {
+        gotoPage(space, page, "delete", "confirm=1");
+    }
+
+    /** 
+     * Get the URL to view a page.
+     *
+     * @param space the space in which the page resides.
+     * @param page the name of the page.
+     */
+    public String getURL(String space, String page)
+    {
+        return getURL(space, page, "view");
+    }
+
+    /** 
+     * Get the URL of an action on a page.
+     *
+     * @param space the space in which the page resides.
+     * @param page the name of the page.
+     * @param action the action to do on the page.
+     */
+    public String getURL(String space, String page, String action)
+    {
+        return getURL(space, page, action, "");
+    }
+
+    /** 
+     * Get the URL of an action on a page with a specified query string.
+     *
+     * @param space the space in which the page resides.
+     * @param page the name of the page.
+     * @param action the action to do on the page.
+     * @param queryString the query string to pass in the URL.
+     */
+    public String getURL(String space, String page, String action, String queryString)
+    {
+        return baseURL + action + "/" + space + "/" + page
+               + ((queryString == null || queryString.length() < 1) ? "" : "?" + queryString);
+    }
+
+    /** 
+     * Get the URL of an action on a page with specified parameters.
+     * If you need to pass multiple parameters with the same key, this function will not work.
+     *
+     * @param space the space in which the page resides.
+     * @param page the name of the page.
+     * @param action the action to do on the page.
+     * @param queryParameters the parameters to pass in the URL, these will be automatically URL encoded.
+     */
+    public String getURL(String space, String page, String action, Map<String, String> queryParameters)
+    {
+        String queryString = "";
+        for (String key : queryParameters.keySet()) {
+            queryString += escapeURL(key) + "=" + escapeURL(queryParameters.get(key)) + "&";
+        }
+        return getURL(space, page, action, queryString);
     }
 
     /**
-     * URL-escapes given string.
+     * Encodes a given string so that it may be used as a URL component.
+     * Compatable with javascript decodeURIComponent though more strict than encodeURIComponent
+     *
+     * All characters except [a-zA-Z0-9], '.', '-', '*', '_' are converted to hexadecimal
+     * spaces are substituted by '+'
      * 
      * @param s
      */
-    @Deprecated
-    public static String escapeURL(String s)
+    public String escapeURL(String s)
     {
         try {
             return URLEncoder.encode(s, "UTF-8");

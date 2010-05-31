@@ -95,6 +95,6 @@ public class WikiEditPage extends EditPage
      */
     public void switchToEdit(String space, String page)
     {
-        TestUtils.gotoPage(space, page, "edit", "editor=wiki", getDriver());
+        getUtil().gotoPage(space, page, "edit", "editor=wiki");
     }
 }

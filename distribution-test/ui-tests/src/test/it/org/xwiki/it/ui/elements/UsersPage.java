@@ -33,6 +33,11 @@ public class UsersPage extends BasePage
     @FindBy(id = "addNewUser")
     private WebElement addNewUserButton;
 
+    public void gotoPage()
+    {
+        getUtil().gotoPage("XWiki", "XWikiPreferences", "admin", "section=Users");
+    }
+
     public RegisterPage clickAddNewUser()
     {
         this.addNewUserButton.click();

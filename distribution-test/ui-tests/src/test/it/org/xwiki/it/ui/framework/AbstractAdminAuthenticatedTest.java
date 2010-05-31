@@ -20,7 +20,6 @@
 package org.xwiki.it.ui.framework;
 
 import org.junit.Before;
-import org.xwiki.it.ui.elements.HomePage;
 import org.xwiki.it.ui.framework.AbstractTest;
 
 /**
@@ -31,12 +30,9 @@ import org.xwiki.it.ui.framework.AbstractTest;
  */
 public class AbstractAdminAuthenticatedTest extends AbstractTest
 {
-    private HomePage homePage;
-
     @Before
     public void setUp()
     {
-        homePage = new HomePage();
-        homePage.loginAsAdmin();
+        getUtil().loginAsAdmin();
     }
 }

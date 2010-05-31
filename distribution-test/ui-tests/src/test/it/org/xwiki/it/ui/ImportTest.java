@@ -56,7 +56,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         // Delete Test Page we import from XAR to ensure to start with a predefined state.
-        TestUtils.deletePage("Main", "TestPage", getDriver());
+        getUtil().deletePage("Main", "TestPage");
 
         adminPage = new AdministrationPage();
         adminPage.gotoAdministrationPage();

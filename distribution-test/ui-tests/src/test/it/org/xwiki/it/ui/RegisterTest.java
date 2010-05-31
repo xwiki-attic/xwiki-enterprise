@@ -19,10 +19,13 @@
  */
 package org.xwiki.it.ui;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
 import org.xwiki.it.ui.elements.AdminSectionPage;
 import org.xwiki.it.ui.elements.AdministrationPage;
@@ -32,6 +35,7 @@ import org.xwiki.it.ui.elements.RegisterPage;
 import org.xwiki.it.ui.elements.ViewPage;
 import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.TestUtils;
+import org.xwiki.it.ui.framework.TestRunnable;
 
 /**
  * Test the user registration feature.
@@ -49,16 +53,15 @@ public class RegisterTest extends AbstractTest
         registerPage = getRegisterPage();
 
         deleteUser("JohnSmith");
-        registerPage.gotoRegisterPage();
+        switchUser();
+        registerPage.gotoPage();
 
         // Switch LiveValidation on or off as needed.
         int x = 0;
         while (registerPage.liveValidationEnabled() != useLiveValidation()) {
-            HomePage homePage = new HomePage();
-            homePage.gotoHomePage();
-            homePage.loginAsAdmin();
-            AdministrationPage adminPage = homePage.administorWiki();
-            AdminSectionPage registrationAdminSection = adminPage.clickRegistrationSection();
+            AdminSectionPage registrationAdminSection = new AdminSectionPage("Registration");
+            getUtil().loginAsAdmin();
+            registrationAdminSection.gotoPage();
             registrationAdminSection.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
                 Boolean.valueOf(useLiveValidation()).toString());
             registrationAdminSection.clickSave();
@@ -66,9 +69,16 @@ public class RegisterTest extends AbstractTest
                 throw new WebDriverException("Unable to set useLiveValidation to " + useLiveValidation());
             }
             x++;
-            registerPage.gotoRegisterPage();
+            registerPage.gotoPage();
         }
         registerPage.fillInJohnSmithValues();
+    }
+
+    /** Become the user needed for the test. Guest for RegisterTest. */
+    protected void switchUser()
+    {
+        // Fast Logout.
+        getDriver().manage().deleteAllCookies();
     }
 
     /** To put the registration page someplace else, subclass this class and change this method. */
@@ -95,7 +105,7 @@ public class RegisterTest extends AbstractTest
     {
         registerPage.fillRegisterForm(null, null, "Admin", null, null, null);
         // Can't use validateAndRegister here because user existance is not checked by LiveValidation.
-        Assert.assertFalse(registerPage.register());
+        Assert.assertFalse(tryToRegister());
         Assert.assertTrue(registerPage.validationFailureMessagesInclude("User already exists."));
     }
 
@@ -152,29 +162,48 @@ public class RegisterTest extends AbstractTest
             if (!registerPage.getValidationFailureMessages().isEmpty()) {
                 return false;
             }
-            boolean result = registerPage.register();
+            boolean result = tryToRegister();
+
+            // Failure on this line indicated that LiveValidation did not tell us in advance that the input was bad.
             Assert.assertTrue(registerPage.getValidationFailureMessages().isEmpty());
+
             return result;
         }
-        return registerPage.register();
+        return tryToRegister();
+    }
+
+    protected boolean tryToRegister()
+    {
+        registerPage.clickRegister();
+        
+        List<WebElement> infos = getDriver().findElements(By.className("infomessage"));
+        for (WebElement info : infos) {
+            if (info.getText().contains("Registration successful.")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Deletes specified user if it exists, leaves the driver on undefined page. */
-    private void deleteUser(String userName)
+    private void deleteUser(final String userName)
     {
         ViewPage vp = new ViewPage();
-        TestUtils.gotoPage("XWiki", userName, getDriver());
+        getUtil().gotoPage("XWiki", userName);
         if (vp.exists()) {
-            vp.loginAsAdmin();
-            TestUtils.deletePage("XWiki", userName, getDriver());
-            vp.clickLogout();
+            getUtil().doAsGuest(new TestRunnable(){
+                public void run()
+                {
+                    getUtil().loginAsAdminAndGotoPage(getUtil().getURL("XWiki", userName, "delete", "confirm=1"));
+                }
+            });
         }
     }
 
     protected void tryToLogin(String username, String password)
     {
-        LoginPage loginPage = registerPage.clickLogin();
-        loginPage.loginAs(username, password);
+        getUtil().logout();
+        getUtil().loginAs(username, password);
         Assert.assertTrue(registerPage.isAuthenticated());
     }
 }

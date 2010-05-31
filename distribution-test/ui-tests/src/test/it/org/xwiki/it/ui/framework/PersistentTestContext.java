@@ -36,6 +36,9 @@ public class PersistentTestContext
 
     private final WebDriver driver;
 
+    /** Utility methods which should be available to tests and to pages. */
+    private final TestUtils util = new TestUtils();
+
     public PersistentTestContext() throws Exception
     {
         this.executor = new XWikiExecutor(0);
@@ -49,15 +52,23 @@ public class PersistentTestContext
         this.driver = toClone.driver;
     }
 
+    public WebDriver getDriver()
+    {
+        return this.driver;
+    }
+
+    /**
+     * @return Utility class with functions not specific to any test or element.
+     */
+    public TestUtils getUtil()
+    {
+        return this.util;
+    }
+
     public void shutdown() throws Exception
     {
         driver.close();
         executor.stop();
-    }
-
-    public WebDriver getDriver()
-    {
-        return this.driver;
     }
 
     /**

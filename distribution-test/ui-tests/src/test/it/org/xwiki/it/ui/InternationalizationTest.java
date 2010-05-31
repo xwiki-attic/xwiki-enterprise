@@ -43,8 +43,8 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
 
-        TestUtils.deletePage("\u0219", "WebHome", getDriver());
-        TestUtils.deletePage("Main", "\u0219", getDriver());
+        getUtil().deletePage("\u0219", "WebHome");
+        getUtil().deletePage("Main", "\u0219");
     }
 
     /**

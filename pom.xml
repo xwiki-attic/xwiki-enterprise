@@ -70,7 +70,8 @@
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.plugin.lucene.version>1.18-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.mailsender.version>1.15-SNAPSHOT</platform.plugin.mailsender.version>
-    <platform.panels.version>1.36-SNAPSHOT</platform.panels.version>
+    <!-- Panels app 1.36 is incompatible with XE 2.3 (missing search panel) -->
+    <platform.panels.version>1.35-SNAPSHOT</platform.panels.version>
     <platform.scheduler.version>1.19-SNAPSHOT</platform.scheduler.version>
     <platform.officeimporter.version>1.15-SNAPSHOT</platform.officeimporter.version>
     <!-- SkinX plugin 1.14 is incompatible with XE 2.3 (defered scripts) -->

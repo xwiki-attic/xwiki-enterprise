@@ -29,7 +29,7 @@ import org.xwiki.it.ui.framework.TestUtils;
  * @version $Id$
  * @since 2.3M1
  */
-public class AdminSectionPage extends AdministrationPage
+public class AdminSectionPage extends ViewPage
 {
     @FindBy(xpath = "//div[@id='admin-page-content']/div/p/span/input[@type='submit']")
     private WebElement saveButton;

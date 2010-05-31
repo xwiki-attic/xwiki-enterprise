@@ -53,7 +53,7 @@ public class ViewPage extends BasePage
     private WebElement createSpaceMenuLink;
 
     @FindBy(id = "tmAdminWiki")
-    private WebElement administorWikiMenuLink;
+    private WebElement administerWikiMenuLink;
 
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
@@ -117,10 +117,10 @@ public class ViewPage extends BasePage
         return new CreateSpacePage();
     }
 
-    public AdministrationPage administorWiki()
+    public AdministrationPage administerWiki()
     {
         hoverOverMenu("tmWiki");
-        this.administorWikiMenuLink.click();
+        this.administerWikiMenuLink.click();
         return new AdministrationPage();
     }
 

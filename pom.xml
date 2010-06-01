@@ -69,7 +69,7 @@
     <platform.blog.version>1.21</platform.blog.version>
     <platform.jodatime.version>1.3</platform.jodatime.version>
     <platform.plugin.lucene.version>1.18</platform.plugin.lucene.version>
-    <platform.plugin.mailsender.version>1.15-SNAPSHOT</platform.plugin.mailsender.version>
+    <platform.plugin.mailsender.version>1.14</platform.plugin.mailsender.version>
     <!-- Panels app 1.36 is incompatible with XE 2.3 (missing search panel) -->
     <platform.panels.version>1.35.1</platform.panels.version>
     <platform.scheduler.version>1.19</platform.scheduler.version>

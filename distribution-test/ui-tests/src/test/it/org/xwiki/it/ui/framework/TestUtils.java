@@ -32,7 +32,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.Cookie;
 
-
 /**
  * Helper methods for testing, not related to a specific Page Object.
  * Also made available to tests classes.

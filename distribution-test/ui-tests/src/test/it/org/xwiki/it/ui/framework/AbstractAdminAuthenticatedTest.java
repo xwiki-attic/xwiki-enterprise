@@ -20,7 +20,6 @@
 package org.xwiki.it.ui.framework;
 
 import org.junit.Before;
-import org.xwiki.it.ui.framework.AbstractTest;
 
 /**
  * Helper class to be extended by tests requiring an Admin user logged in.

@@ -19,15 +19,12 @@
  */
 package org.xwiki.it.ui.framework;
 
-import java.lang.ClassNotFoundException;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import org.openqa.selenium.WebDriver;
 
 import org.xwiki.it.ui.elements.BaseElement;
-import org.xwiki.it.ui.elements.HomePage;
 
 /**
  * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it. 

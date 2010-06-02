@@ -21,7 +21,6 @@ package org.xwiki.it.ui.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Represents the actions possible on the main Administration Page.

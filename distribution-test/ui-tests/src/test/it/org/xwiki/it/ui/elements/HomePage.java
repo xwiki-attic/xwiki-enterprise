@@ -19,8 +19,6 @@
  */
 package org.xwiki.it.ui.elements;
 
-import org.xwiki.it.ui.framework.TestUtils;
-
 /**
  * Represents the actions possible on the Home Page.
  * 

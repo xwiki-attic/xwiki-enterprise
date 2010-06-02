@@ -186,6 +186,62 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Tests the WYSIWYG events are fired properly.
+     */
+    public void testEvents()
+    {
+        // Insert the code that creates the editor.
+        switchToSource();
+        StringBuffer content = new StringBuffer();
+        content.append("{{velocity}}\n");
+        content.append("{{html}}\n");
+        content.append("#wysiwyg_import(false)\n");
+        content.append("<div id=\"log\"></div>\n");
+        content.append("<textarea id=\"editor\"></textarea>\n");
+        content.append("<script type=\"text/javascript\">\n");
+        content.append("['created', 'loaded', 'showingSource', 'showSource',"
+            + " 'showingWysiwyg', 'showWysiwyg'].each(function(actionName) {\n");
+        content.append("  document.observe('xwiki:wysiwyg:' + actionName, function(event) {\n");
+        content.append("    if (!window.editor || event.memo.instance == window.editor) {\n");
+        content.append("      $('log').appendChild(document.createTextNode(event.eventName + ' '));\n");
+        content.append("    }\n");
+        content.append("  });\n");
+        content.append("});\n");
+        content.append("Wysiwyg.onModuleLoad(function() {\n");
+        content.append("  editor = new WysiwygEditor({\n");
+        content.append("    hookId: 'editor',\n");
+        content.append("    syntax: 'xwiki/2.0',\n");
+        String inputURL =
+            getUrl(this.getClass().getSimpleName(), "_" + getName(), "edit", "xpage=wysiwyginput&render=true&key=abcd");
+        content.append("    inputURL: '" + inputURL + "',\n");
+        content.append("    displayTabs: true,\n");
+        content.append("    defaultEditor: 'wysiwyg'\n");
+        content.append("  });\n");
+        content.append("});\n");
+        content.append("</script>\n");
+        content.append("{{/html}}\n");
+        content.append("{{/velocity}}");
+        // Set the content directly.
+        setFieldValue("content", content.toString());
+        clickEditSaveAndView();
+
+        // Wait for the editor to be created.
+        waitForCondition("typeof window.editor == 'object'");
+        waitForEditorToLoad();
+
+        // Switch to source tab and back.
+        typeText("1");
+        switchToSource();
+        setSourceText("2");
+        switchToWysiwyg();
+
+        // Check the log.
+        assertEquals("xwiki:wysiwyg:created xwiki:wysiwyg:loaded xwiki:wysiwyg:showingSource"
+            + " xwiki:wysiwyg:showSource xwiki:wysiwyg:showingWysiwyg xwiki:wysiwyg:showWysiwyg ", getSelenium()
+            .getEval("window.document.getElementById('log').innerHTML"));
+    }
+
+    /**
      * Inserts a WYSIWYG editor into the current page.
      * 
      * @param name the name of JavaScript variable to be used for accessing the editor

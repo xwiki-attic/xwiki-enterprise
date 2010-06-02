@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.it.ui.elements.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Test wiki editing.

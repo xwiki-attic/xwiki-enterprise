@@ -39,11 +39,6 @@ public class AdministrationPage extends ViewPage
     @FindBy(xpath = "//li[@class='Users']/a/span/img")
     WebElement usersLink;
 
-    public void gotoAdministrationPage()
-    {
-        gotoPage();
-    }
-
     public void gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin");

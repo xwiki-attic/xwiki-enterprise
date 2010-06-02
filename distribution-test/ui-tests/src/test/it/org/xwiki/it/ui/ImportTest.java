@@ -59,7 +59,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         getUtil().deletePage("Main", "TestPage");
 
         adminPage = new AdministrationPage();
-        adminPage.gotoAdministrationPage();
+        adminPage.gotoPage();
 
         importPage = adminPage.clickImportSection();
 

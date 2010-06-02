@@ -21,9 +21,7 @@ package org.xwiki.it.ui;
 
 import org.openqa.selenium.By;
 
-import org.xwiki.it.ui.elements.HomePage;
 import org.xwiki.it.ui.elements.LightBoxRegisterPage;
-import org.xwiki.it.ui.elements.LoginPage;
 import org.xwiki.it.ui.elements.RegisterPage;
 
 /**

@@ -65,7 +65,7 @@ public class ViewPage extends BasePage
             if (!hasLoginLink()) {
                 String thisPage = getPageURL();
                 HomePage homePage = new HomePage();
-                homePage.gotoHomePage();
+                homePage.gotoPage();
                 clickLogin().loginAsAdmin();
                 getDriver().get(thisPage);
             } else {

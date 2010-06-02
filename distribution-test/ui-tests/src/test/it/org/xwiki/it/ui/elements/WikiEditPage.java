@@ -21,7 +21,6 @@ package org.xwiki.it.ui.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Represents the common actions possible on all Pages when using the "edit" action with "wiki" editor

@@ -28,7 +28,6 @@ import org.xwiki.it.ui.elements.HomePage;
 import org.xwiki.it.ui.elements.ViewPage;
 import org.xwiki.it.ui.elements.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Validates the support for non-ASCII characters.
@@ -38,6 +37,8 @@ import org.xwiki.it.ui.framework.TestUtils;
  */
 public class InternationalizationTest extends AbstractAdminAuthenticatedTest
 {
+    private HomePage homePage;
+
     @Before
     public void setUp()
     {
@@ -45,6 +46,9 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
 
         getUtil().deletePage("\u0219", "WebHome");
         getUtil().deletePage("Main", "\u0219");
+
+        this.homePage = new HomePage();
+        this.homePage.gotoPage();
     }
 
     /**
@@ -53,10 +57,8 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreateNonAsciiSpace()
     {
-        HomePage homePage = new HomePage();
-        homePage.gotoHomePage();
 
-        CreateSpacePage createSpacePage = homePage.createSpace();
+        CreateSpacePage createSpacePage = this.homePage.createSpace();
         WYSIWYGEditPage editPage = createSpacePage.createSpace("\u0219");
 
         // Verify the title field
@@ -76,10 +78,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreateNonAsciiPage()
     {
-        HomePage homePage = new HomePage();
-        homePage.gotoHomePage();
-
-        CreatePagePage createPagePage = homePage.createPage();
+        CreatePagePage createPagePage = this.homePage.createPage();
         WYSIWYGEditPage editPage = createPagePage.createPage("Main", "\u0219");
 
         // Verify the title field

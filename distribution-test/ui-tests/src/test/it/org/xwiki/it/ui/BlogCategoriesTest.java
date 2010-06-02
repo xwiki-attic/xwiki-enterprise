@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.it.ui.elements.ManageCategoriesPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Test Blog categories. Tested features: add, rename, delete.
@@ -123,7 +122,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
      */
     private void categoryAdd(String name)
     {
-        categoriesPage.gotoManageCategoriesPage();
+        categoriesPage.gotoPage();
         Assert.assertFalse(categoriesPage.isCategoryPresent(name));
 
         categoriesPage.clickAddCategory();
@@ -139,7 +138,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
      */
     private void categoryRename(String fromName, String toName)
     {
-        categoriesPage.gotoManageCategoriesPage();
+        categoriesPage.gotoPage();
         Assert.assertTrue(categoriesPage.isCategoryPresent(fromName));
         Assert.assertFalse(categoriesPage.isCategoryPresent(toName));
 
@@ -155,7 +154,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
      */
     private void categoryRemove(String name)
     {
-        categoriesPage.gotoManageCategoriesPage();
+        categoriesPage.gotoPage();
         Assert.assertTrue(categoriesPage.isCategoryPresent(name));
 
         categoriesPage.deleteCategory(name);

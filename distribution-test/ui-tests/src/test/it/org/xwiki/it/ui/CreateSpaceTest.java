@@ -48,7 +48,7 @@ public class CreateSpaceTest extends AbstractAdminAuthenticatedTest
     public void testCreateSpaceFromHomePage()
     {
         HomePage homePage = new HomePage();
-        homePage.gotoHomePage();
+        homePage.gotoPage();
         String spaceName = testName.getMethodName();
         WYSIWYGEditPage editPage = homePage.getSpacesPane().createSpace(spaceName);
         Assert.assertEquals(spaceName, editPage.getDocumentTitle());

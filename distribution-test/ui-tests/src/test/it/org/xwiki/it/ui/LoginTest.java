@@ -40,7 +40,7 @@ public class LoginTest extends AbstractTest
     public void setUp()
     {
         homePage = new HomePage();
-        homePage.gotoHomePage();
+        homePage.gotoPage();
 
         // Make sure we log out if we're already logged in since we're testing the log in...
         if (homePage.isAuthenticated()) {

@@ -28,7 +28,7 @@ import org.xwiki.it.ui.elements.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**
- * Test template handling
+ * Test template handling.
  * 
  * @version $Id$
  * @since 2.4M1

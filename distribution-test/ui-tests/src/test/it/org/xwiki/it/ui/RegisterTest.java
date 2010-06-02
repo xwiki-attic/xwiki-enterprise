@@ -28,13 +28,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
 import org.xwiki.it.ui.elements.AdminSectionPage;
-import org.xwiki.it.ui.elements.AdministrationPage;
-import org.xwiki.it.ui.elements.HomePage;
-import org.xwiki.it.ui.elements.LoginPage;
 import org.xwiki.it.ui.elements.RegisterPage;
 import org.xwiki.it.ui.elements.ViewPage;
 import org.xwiki.it.ui.framework.AbstractTest;
-import org.xwiki.it.ui.framework.TestUtils;
 import org.xwiki.it.ui.framework.TestRunnable;
 
 /**

@@ -25,7 +25,7 @@ import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.TestUtils;
 
 /**
- * Represents blog category management page.
+ * Represents Blog category management page.
  * 
  * @version $Id$
  * @since 2.3M1
@@ -47,7 +47,7 @@ public class ManageCategoriesPage extends BasePage
     @FindBy(xpath = "//form[@class='category-rename-form']//input[@type='submit']")
     private WebElement renameButton;
 
-    public void gotoManageCategoriesPage()
+    public void gotoPage()
     {
         getUtil().gotoPage("Blog", "ManageCategories", "view");
     }

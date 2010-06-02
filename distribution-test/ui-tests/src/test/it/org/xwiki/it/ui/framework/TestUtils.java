@@ -19,18 +19,17 @@
  */
 package org.xwiki.it.ui.framework;
 
+import java.util.List;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebElement;
 
 /**
  * Helper methods for testing, not related to a specific Page Object.
@@ -87,7 +86,7 @@ public class TestUtils
 
     public void loginAs(final String username, final String password)
     {
-        loginAndGotoPage(username, password, "");
+        loginAndGotoPage(username, password, null);
     }
 
     public void loginAsAdminAndGotoPage(final String pageURL)
@@ -97,14 +96,34 @@ public class TestUtils
 
     public void loginAndGotoPage(final String username, final String password, final String pageURL)
     {
-        Map<String, String> parameters = new HashMap<String, String>(){{
-            put("j_username", username);
-            put("j_password", password);
-            if (pageURL != null && pageURL.length() > 0) {
-                put("xredirect", pageURL);
-            }
-        }};
-        gotoPage("XWiki", "XWikiLogin", "loginsubmit", parameters);
+        // Only log in if the user is not already logged in. This is to speed up tests so that each test doesn't have
+        // to log in again if already logged with the right user.
+        if (!username.equals(getLoggedInUserName())) {
+            Map<String, String> parameters = new HashMap<String, String>(){{
+                put("j_username", username);
+                put("j_password", password);
+                if (pageURL != null && pageURL.length() > 0) {
+                    put("xredirect", pageURL);
+                }
+            }};
+            gotoPage("XWiki", "XWikiLogin", "loginsubmit", parameters);
+        }
+    }
+
+    public String getLoggedInUserName()
+    {
+        String loggedInUserName = null;
+        List<WebElement> elements = getDriver().findElements(By.xpath("//div[@id='tmUser']/span/a"));
+        if (!elements.isEmpty()) {
+            String href = elements.get(0).getAttribute("href");
+            loggedInUserName = href.substring(href.lastIndexOf("/") + 1);
+        }
+        return loggedInUserName;
+    }
+
+    public boolean isAuthenticated()
+    {
+        return !getDriver().findElements(By.id("tmUser")).isEmpty();
     }
 
     public void gotoPage(String space, String page)
@@ -124,7 +143,11 @@ public class TestUtils
 
     public void gotoPage(String space, String page, String action, String queryString)
     {
-        getDriver().get(getURL(space, page, action, queryString));
+        // Only navigate if the current URL is different from the one to go to, in order to improve performances.
+        String url = getURL(space, page, action, queryString);
+        if (!getDriver().getCurrentUrl().equals(url)) {
+            getDriver().get(url);
+        }
     }
 
     public void deletePage(String space, String page)

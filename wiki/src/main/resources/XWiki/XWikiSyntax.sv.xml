@@ -112,6 +112,7 @@ Nytt i XWiki syntax 2.0 jämfört med XWiki syntax 1.0:
 = Horisontell linje =
 
 {{info}}En linje består av minst fyra bindestreck.{{/info}}
+
 {{info}}Notera skillnaden mot Creole där exakt fyra bindestreck krävs.{{/info}}
 
 (% style="width:100%" %)
@@ -567,6 +568,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
+
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
@@ -588,6 +590,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
+
 {{html}}
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
@@ -628,31 +631,31 @@ I XWiki syntax 1.0 [[Pre-makrot&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macr
 
 (% style="width:100%" %)
 |=Formateringstyp|=XWiki syntax 1.0|=XWiki syntax 2.0|=Resultat i XWiki syntax 1.0|=Resultat i XWiki syntax 2.0
-|Ej formaterad text inuti formaterad text|{{{Lite *[ej renderat]* innehåll}}}|{{{Lite {{{&lt;strong&gt;*&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5Bej+renderat?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[ej renderat&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]*&lt;/strong&gt;}}} innehåll}}}|Lite {{{&lt;strong&gt;&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/ej+renderat?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;ej renderat&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;&lt;/strong&gt;}}} innehåll|lite {{{&lt;strong&gt;*&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5Bej+renderat?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[ej renderat&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]*&lt;/strong&gt;}}} innehåll
+|Ej formaterad text inuti formaterad text|{{{Lite {pre}*[ej renderat]*{/pre} innehåll}}}|{{{Lite {{{**[[ej renderat]]**}}} innehåll}}}|Lite {{{*[ej renderat]*}}} innehåll|lite {{{**[[ej renderat]]**}}} innehåll
 |Block av ej formaterad text|((({{{
-
+{pre}
 flerradigt
 *ej renderat*
 innehåll
-
+{/pre}
 }}}
-{{info}}Man kan även använda &lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5BKodmakrot%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[Kodmakrot&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;], me det visar sitt inehåll i en box, om inget annat anges.{{/info}}
+{{info}}Man kan även använda [[kodmakrot&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/CodeMacro]], men det visar sitt inehåll i en box, om inget annat anges.{{/info}}
 )))|((({{{
 {{{
 flerradigt
-&lt;strong&gt;*ej renderat*&lt;/strong&gt;
+**ej renderat**
 innehåll
 }}}
 }}})))|((({{{
 flerradigt
-&lt;strong&gt;ej renderat&lt;/strong&gt;
+*ej renderat*
 innehåll
 }}})))|((({{{
 flerradigt
-&lt;strong&gt;*ej renderat*&lt;/strong&gt;
+**ej renderat**
 innehåll
-}}})))&lt;p/&gt;
-= Citering =&lt;p/&gt;
+}}})))
+= Citering =
 (% style="width:100%" %)
 |=Formateringstyp|=XWiki syntax 1.0|=XWiki syntax 2.0|=Resultat
 |Citat|(((
@@ -678,16 +681,21 @@ Jag sade ok
 &gt; Anna sade detta
 &gt;&gt; Lina svarade detta
 Jag sade ok
-)))&lt;p/&gt;
-= Gruppering =&lt;p/&gt;
-Gruppering kan användas för att infoga kompexa element i löpande text. Exempelvis för att infoga ett dokument i löpande text, eller komplexa element inuti listor eller tabellceller.  Gruppering markeras med följande syntaktiska symboler: ##{{{(((...)))}}}##.  En gruppering kan innehålla en annan gruppering.&lt;p/&gt;
+)))
+
+= Gruppering =
+
+Gruppering kan användas för att infoga kompexa element i löpande text. Exempelvis för att infoga ett dokument i löpande text, eller komplexa element inuti listor eller tabellceller.  Gruppering markeras med följande syntaktiska symboler: ##{{{(((...)))}}}##.  En gruppering kan innehålla en annan gruppering.
+
 (% style="width:100%" %)
 |=XWiki syntax 1.0|=XWiki syntax 2.0|=Resultat
 |{{info}}XWiki syntax 1.0 saknar grupperingsmöjligheter.  Man måste använda sig av HTML för att åstadkomma motsvarande resultat.{{/info}}|((({{{
 |=Titel 1|=Titel 2|=Titel 3
 |Cell ett|(((
-= Inbäddat dokument&lt;p/&gt;
-Ett inbäddat stycke&lt;p/&gt;
+= Inbäddat dokument
+
+Ett inbäddat stycke
+
 &lt;ul class="star"&gt;
 &lt;li&gt;listelement ett&lt;/li&gt;
 &lt;li&gt;listelement två&lt;ul class="star"&gt;
@@ -695,13 +703,16 @@ Ett inbäddat stycke&lt;p/&gt;
 &lt;li&gt;underelement 2&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-))) | Cell tre&lt;p/&gt;
+))) | Cell tre
+
 Fortsättningen på toppnivådokumentet
 }}})))|(((
 |=Titel 1|=Titel 2|=Titel 3
 |Cell ett|(((
-{{html}}&lt;h1 id="HEmbeddeddocument"&gt;&lt;span&gt;Inbäddat dokument&lt;/span&gt;&lt;/h1&gt;{{/html}}&lt;p/&gt;
-Ett inbäddat stycke&lt;p/&gt;
+{{html}}&lt;h1 id="HEmbeddeddocument"&gt;&lt;span&gt;Inbäddat dokument&lt;/span&gt;&lt;/h1&gt;{{/html}}
+
+Ett inbäddat stycke
+
 &lt;ul class="star"&gt;
 &lt;li&gt;listelement ett&lt;/li&gt;
 &lt;li&gt;listelement två&lt;ul class="star"&gt;
@@ -709,29 +720,38 @@ Ett inbäddat stycke&lt;p/&gt;
 &lt;li&gt;underelement 2&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-))) | Cell tre&lt;p/&gt;
+))) | Cell tre
+
 Fortsättningen på toppnivådokumentet
-)))&lt;p/&gt;
-= Kontrollsekvenser för wikisymboler =&lt;p/&gt;
+)))
+
+= Kontrollsekvenser för wikisymboler =
+
 (% style="width:100%" %)
 |=Formateringstyp|=XWiki syntax 1.0|=XWiki syntax 2.0|=Resultat XWiki syntax 1.0|=Resultat XWiki syntax 2.0
-|Kontrollsekvens för enstaka tecken|{{{Detta är inte en [länk]}}}|(((
-{{{Detta är inte en ~&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%7E%5Bl%C3%A4nk%7E?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;~[länk~&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;~]}}}
-{{info}}För att generera ett &lt;em&gt;-tecken avnänd två ~~-tecken: ~~&lt;/em&gt;{{/info}}
-)))|{{{Detta är inte en &lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/l%C3%A4nk?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;länk&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;}}}|{{{Detta är inte en &lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5Bl%C3%A4nk?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[länk&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]}}}&lt;p/&gt;
-= Makron =&lt;p/&gt;
+|Kontrollsekvens för enstaka tecken|{{{Detta är inte en \[länk\]}}}|(((
+{{{Detta är inte en ~[[länk~]]}}}
+
+{{info}}För att generera ett ~~-tecken avnänd två ~~-tecken: {{{~~}}} {{/info}}
+
+)))|Detta är inte en [länk]|Detta är inte en ~[[länk~]]
+
+= Makron =
+
 Det finns två typder av makron i XWiki syntax 1.0:
-&lt;ul class="star"&gt;
-&lt;li&gt;Velocity-makron, vilka anropas med syntaxen ###makronamn(parameter1 … parameterN##.&lt;/li&gt;
-&lt;li&gt;Radeox-makron, vilka anropas med syntaxen ##{makronamn:parameter1=värde1|...|parameterN=värdeN##.&lt;/li&gt;
-&lt;/ul&gt;
+
+* Velocity-makron, vilka anropas med syntaxen {{{#makronamn(parameter1 … parameterN)}}}.
+* Radeox-makron, vilka anropas med syntaxen {{{ {makronamn:parameter1=värde1|...|parameterN=värdeN} }}}.
+
 Det finns även två typer av makron i XWiki syntax 2.0:
-&lt;ul class="star"&gt;
-&lt;li&gt;Velocity-makron, vilka anropas med syntaxen ###makronamn(parameter1 … parameterN)## inuti XWiki-makrot "velocity".&lt;/li&gt;
-&lt;li&gt;XWiki-makron, vilka anropas med syntaxen ##{{{{{makronamn parameter1="värde1" … parameterN="värdeN"}}}}}##.&lt;/li&gt;
-&lt;/ul&gt;
-{{info}}Radeox-makron kan ej användas i XWiki syntax 2.0 och har därför skrivits om som XWiki-makron.{{/info}}&lt;p/&gt;
-{{info}}En fullständig lista över tillgängliga makron finns på &lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5Bmakroreferenssidan%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[makroreferenssidan&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;].{{/info}}&lt;p/&gt;
+
+* Velocity-makron, vilka anropas med syntaxen {{{#makronamn(parameter1 … parameterN)}}} inuti XWiki-makrot "velocity".
+* XWiki-makron, vilka anropas med syntaxen {{{{{makronamn parameter1="värde1" … parameterN="värdeN"}}}}}.
+
+{{info}}Radeox-makron kan ej användas i XWiki syntax 2.0 och har därför skrivits om som XWiki-makron.{{/info}}
+
+{{info}}En fullständig lista över tillgängliga makron finns på [[makroreferenssidan&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/]].{{/info}}
+
 (% style="width:100%" %)
 |=Formateringstyp|=XWiki syntax 1.0|=XWiki syntax 2.0
 |Velocity-makro|((({{{#info("Lite text")}}})))|((({{{
@@ -739,7 +759,9 @@ Det finns även två typer av makron i XWiki syntax 2.0:
 #info("Lite text")
 {{/html}}{{/velocity}}
 }}}
+
 {{info}}HTML-makrot måste användas i detta exempel eftersom ###info##-makrot genererar innehåll på HTML-format.{{/info}}
+
 {{info}}Med början i XE 2.0 bör man istället använda &lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5Bmedelandemakrot%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[medelandemakrot&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;] för att implementera detta exempel.{{/info}}
 )))
 |Radeox-makron/XWiki-makron|((({{{
@@ -748,15 +770,22 @@ Det finns även två typer av makron i XWiki syntax 2.0:
 {{code language="java"}}
 javakod
 {{/code}}
-}}})))&lt;p/&gt;
-= HTML =&lt;p/&gt;
-{{info}}I XWiki syntax 2.0 HTML eller XHTML måste anges inuti HTML-makrot.  I XWiki syntax 1.0 är det möjligt att ange HTML direkt i texten.{{/info}}&lt;p/&gt;
+}}})))
+
+= HTML =
+
+{{info}}I XWiki syntax 2.0 HTML eller XHTML måste anges inuti HTML-makrot.  I XWiki syntax 1.0 är det möjligt att ange HTML direkt i texten.{{/info}}
+
 (% style="width:100%" %)
 |=XWiki syntax 1.0|=XWiki syntax 2.0|=Resultat
-|&lt;b&gt;fetstil&lt;/b&gt;|{{{{{html}}&lt;b&gt;fetstil&lt;/b&gt;{{/html}}}}}|{{html}}&lt;b&gt;fetstil&lt;/b&gt;{{/html}}&lt;p/&gt;
-{{info}}I XWiki syntax 2.0, tolkas wikisyntax även inuti HTML-makrot om inget annat angivits.  Ange {{{{{html wiki="false"}}}}} för att förhindra detta.{{/info}}&lt;p/&gt;
-= Velocity/Groovy-skript =&lt;p/&gt;
-{{info}}In XWiki syntax 1.0 är det möjligt att ange Velocity-skript var som helst på en wikisida.  Detta medför problem då en användar oavsiktligen matar in Velocity-kod.  Dessutom renderas sidor som ej innehåller Velocity-kod långsammare än nödvändigt.  Det medför även andra tekniska begränsningar.  Således måste Velocity-skript avgränsas med hjälp av ##velocity##-makrot i XWiki syntax 2.0.  Detsamma gäller för Groovy-skript som måste anges med hjälp av ##groovy##-makrot.{{/info}}&lt;p/&gt;
+|&lt;b&gt;fetstil&lt;/b&gt;|{{{{{html}}&lt;b&gt;fetstil&lt;/b&gt;{{/html}}}}}|{{html}}&lt;b&gt;fetstil&lt;/b&gt;{{/html}}
+
+{{info}}I XWiki syntax 2.0, tolkas wikisyntax även inuti HTML-makrot om inget annat angivits.  Ange {{{{{html wiki="false"}}}}} för att förhindra detta.{{/info}}
+
+= Velocity/Groovy-skript =
+
+{{info}}In XWiki syntax 1.0 är det möjligt att ange Velocity-skript var som helst på en wikisida.  Detta medför problem då en användar oavsiktligen matar in Velocity-kod.  Dessutom renderas sidor som ej innehåller Velocity-kod långsammare än nödvändigt.  Det medför även andra tekniska begränsningar.  Således måste Velocity-skript avgränsas med hjälp av ##velocity##-makrot i XWiki syntax 2.0.  Detsamma gäller för Groovy-skript som måste anges med hjälp av ##groovy##-makrot.{{/info}}
+
 (% style="width:100%" %)
 |=Formateringstyp|=XWiki syntax 1.0|=XWiki syntax 2.0
 |Velocity-skript|((({{{
@@ -774,9 +803,12 @@ def var = "något värde"
 {{groovy}}
 def var = "något värde"
 {{/groovy}}
-}}})))&lt;p/&gt;
-= Parametrar =&lt;p/&gt;
-Med xWiki syntax 2.0 är det möjligt att ange parametrar till syntaktiska element och textblock.  Detta används exempelvis för att ändra stil på elementen.  Det går att ange nyckel/värde-par så att XHTML-renderaren infogar motsvarande attribut i den underliggande XHTML-representationen av syntaxelementen.  I XWiki syntax 1.0 finns det ingen syntax för att ange parametrar utan XHTML-koden måste matas in direkt såsom illustreras nedan.&lt;p/&gt;
+}}})))
+
+= Parametrar =
+
+Med xWiki syntax 2.0 är det möjligt att ange parametrar till syntaktiska element och textblock.  Detta används exempelvis för att ändra stil på elementen.  Det går att ange nyckel/värde-par så att XHTML-renderaren infogar motsvarande attribut i den underliggande XHTML-representationen av syntaxelementen.  I XWiki syntax 1.0 finns det ingen syntax för att ange parametrar utan XHTML-koden måste matas in direkt såsom illustreras nedan.
+
 (% style="width:100%" %)
 |=XWiki syntax 1.0|=XWiki syntax 2.0|=Genererad XHTML
 |((({{{
@@ -786,17 +818,19 @@ Med xWiki syntax 2.0 är det möjligt att ange parametrar till syntaktiska eleme
 = rubrik =
 }}})))|((({{{
 &lt;h1 class="myClass" style="myStyle" id="myId"&gt;rubrik&lt;/h1&gt;
-}}})))&lt;p/&gt;
+}}})))
+
 {{id name="syntaxes"/}}
-= Andra syntaxer =&lt;p/&gt;
+= Andra syntaxer =
+
 Följande syntaxer finns implementerade i XWiki enterprise 1.6 och senare:
-&lt;ul class="star"&gt;
-&lt;li&gt;&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5BJSPWiki%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[JSPWiki&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]&lt;/li&gt;
-&lt;li&gt;&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5BMediaWiki%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[Media Wiki&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]&lt;/li&gt;
-&lt;li&gt;&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5BConfluence%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[Confluence&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]&lt;/li&gt;
-&lt;li&gt;&lt;a class="wikicreatelink" href="/xwiki/bin/edit/XE/%5BTWiki%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;[TWiki&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]&lt;/li&gt;
-&lt;li&gt;&lt;a class="wikicreatelink" href="/xwiki/bin/edit/%5BCreole+1/0%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;0&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]&lt;/li&gt;
-&lt;li&gt;&lt;a class="wikicreatelink" href="/xwiki/bin/edit/%5BXHTML+1/0%26%2362%3B%26?parent=XE.XEXWikiXWikiSyntax_951530617_content_sv"&gt;&lt;span class="wikicreatelinktext"&gt;0&gt;&amp;&lt;/span&gt;&lt;span class="wikicreatelinkqm"&gt;?&lt;/span&gt;&lt;/a&gt;]&lt;/li&gt;
-&lt;/ul&gt;
-{{warning}}Implementationen för dessa syntaxer är ej kompletta ännu.  Länkar fungerar exempelvis inte alltid som förväntat.  Vi måste även bestämma om syntaxerna skall utökas för att stödja XWiki-specifik funktionalitet såsom möjligheten att länka till en annan virtuell wiki.{{/warning}}</content>
-</xwikidoc>
+
+* [[JSPWiki&gt;&gt;http://www.jspwiki.org/wiki/TextFormattingRules]]
+* [[MediaWiki&gt;&gt;http://en.wikipedia.org/wiki/Help:Editing]]
+* [[Confluence&gt;&gt;http://confluence.atlassian.com/display/CONF20/Confluence+Notation+Guide+Overview]]
+* [[TWiki&gt;&gt;http://twiki.org/cgi-bin/view/TWiki/WikiSyntax]]
+* [[Creole 1.0&gt;&gt;http://www.wikicreole.org/wiki/Creole1.0]]
+* [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
+
+{{warning}}Implementationen för dessa syntaxer är ej kompletta ännu.  Länkar fungerar exempelvis inte alltid som förväntat.  Vi måste även bestämma om syntaxerna skall utökas för att stödja XWiki-specifik funktionalitet såsom möjligheten att länka till en annan virtuell wiki.{{/warning}}
+</content></xwikidoc>

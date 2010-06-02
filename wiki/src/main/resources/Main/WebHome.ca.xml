@@ -25,7 +25,7 @@
 <hidden>false</hidden>
 <content>Aquest és un lloc web d'edició senzilla, que a la vegada us ajudarà a treballar millor. Aquesta Wiki està feta de //pàgines// ordenades amb //espais//. Actualment esteu en l'espai **Main**, observant la seva pàgina d'inici (**WebHome**).
 
-{{velocity wiki="true"}}
+{{velocity}}
 #if($hasEdit) Podeu utilitzar l'[[espai del calaix&gt;&gt;Sandbox.WebHome]] per a provar les característiques de la vostra wiki. #end
 {{/velocity}}
 

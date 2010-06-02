@@ -110,7 +110,7 @@ public class TestUtils
         }
     }
 
-    public String getLoggedInUserName()
+    private String getLoggedInUserName()
     {
         String loggedInUserName = null;
         List<WebElement> elements = getDriver().findElements(By.xpath("//div[@id='tmUser']/span/a"));

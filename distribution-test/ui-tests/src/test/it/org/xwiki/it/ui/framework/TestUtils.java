@@ -121,11 +121,6 @@ public class TestUtils
         return loggedInUserName;
     }
 
-    public boolean isAuthenticated()
-    {
-        return !getDriver().findElements(By.id("tmUser")).isEmpty();
-    }
-
     public void gotoPage(String space, String page)
     {
         gotoPage(space, page, "view");

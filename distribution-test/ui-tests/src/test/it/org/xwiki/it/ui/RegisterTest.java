@@ -160,8 +160,8 @@ public class RegisterTest extends AbstractTest
             }
             boolean result = tryToRegister();
 
-            // Failure on this line indicated that LiveValidation did not tell us in advance that the input was bad.
-            Assert.assertTrue(registerPage.getValidationFailureMessages().isEmpty());
+            Assert.assertTrue("LiveValidation did not show a failure message but clicking on the register button did.",
+                              registerPage.getValidationFailureMessages().isEmpty());
 
             return result;
         }

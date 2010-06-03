@@ -79,7 +79,7 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         // XWIKI-5205
         String test = getUtil().escapeURL("\"><pre><!-- " + XML_CHARS + " --></pre>");
         
-        getUtil().gotoPage("Main", test, "view", "xpage=contentview", getDriver());
+        getUtil().gotoPage("Main", test, "view", "xpage=contentview");
         Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
     }
 

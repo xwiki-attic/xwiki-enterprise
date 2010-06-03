@@ -23,14 +23,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Collections;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.TimeoutException;
 /**
  * Helper methods for testing, not related to a specific Page Object.
  * Also made available to tests classes.
@@ -55,22 +62,19 @@ public class TestUtils
 
     private final String baseURL = "http://localhost:8080/xwiki/bin/";
 
-    /** Do an action as guest then switch back to being whatever user you were before. */
-    public void doAsGuest(Runnable runnable)
+    public Session getSession()
+    {
+        return this.new Session(getDriver().manage().getCookies());
+    }
+
+    public void setSession(Session session)
     {
         WebDriver.Options options = getDriver().manage();
-        Set<Cookie> cookies = options.getCookies();
-
-        // Delete cookies thus becoming guest.
         options.deleteAllCookies();
-
-        runnable.run();
-
-        // Delete whatever cookies might have accumulated while running.
-        options.deleteAllCookies();
-
-        for (Cookie cookie : cookies) {
-            options.addCookie(cookie);
+        if (session != null) {
+            for (Cookie cookie : session.getCookies()) {
+                options.addCookie(cookie);
+            }
         }
     }
 
@@ -94,19 +98,44 @@ public class TestUtils
         loginAndGotoPage("Admin", "admin", pageURL);
     }
 
+    /**
+     * Establish a predictable state for the tests.
+     * After successful completion of this function, you are guarenteed to be logged in as the given user
+     * and on the page passed in pageURL.
+     *
+     * @param username the name of the user to log in as.
+     * @param password the password for the user to log in.
+     * @param pageURL the URL of the page to go to after logging in. If pageURL is empty (null or "") then
+     *                the resulting page location is undefined.
+     */
     public void loginAndGotoPage(final String username, final String password, final String pageURL)
     {
-        // Only log in if the user is not already logged in. This is to speed up tests so that each test doesn't have
-        // to log in again if already logged with the right user.
-        if (!username.equals(getLoggedInUserName())) {
-            Map<String, String> parameters = new HashMap<String, String>(){{
-                put("j_username", username);
-                put("j_password", password);
-                if (pageURL != null && pageURL.length() > 0) {
-                    put("xredirect", pageURL);
-                }
-            }};
-            gotoPage("XWiki", "XWikiLogin", "loginsubmit", parameters);
+        Map<String, String> parameters = new HashMap<String, String>(){{
+            put("j_username", username);
+            put("j_password", password);
+            if (pageURL != null && pageURL.length() > 0) {
+                put("xredirect", pageURL);
+            }
+        }};
+        gotoPage("XWiki", "XWikiLogin", "loginsubmit", parameters);
+
+        if (pageURL != null && pageURL.length() > 0) {
+            final String pageURI = pageURL.replaceAll("\\?.*", "");
+            try {
+                Wait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
+                wait.until(new ExpectedCondition<Boolean>()
+                {
+                    public Boolean apply(WebDriver driver)
+                    {
+                        return getDriver().getCurrentUrl().contains(pageURI)
+                               && username.equals(getLoggedInUserName());
+                    }
+                });
+            } catch (TimeoutException e) {
+                throw new WebDriverException("Failed to go to the page: " + pageURL + "\nCurrent page is "
+                                                 + getDriver().getCurrentUrl() + "\nThe URL opened to log in was: "
+                                                     + getURL("XWiki", "XWikiLogin", "loginsubmit", parameters));
+            }
         }
     }
 
@@ -119,6 +148,45 @@ public class TestUtils
             loggedInUserName = href.substring(href.lastIndexOf("/") + 1);
         }
         return loggedInUserName;
+    }
+
+    public void registerLoginAndGotoPage(final String username, final String password, final String pageURL)
+    {
+        String registerURL = getURL("XWiki", "Register", "register", new HashMap<String, String>(){{
+            put("register", "1");
+            put("xwikiname", username);
+            put("register_password", password);
+            put("register2_password", password);
+            put("register_email", "");
+            put("xredirect", getURL("XWiki", "XWikiLogin", "loginsubmit", new HashMap<String, String>(){{
+                put("j_username", username);
+                put("j_password", password);
+                if (pageURL != null && pageURL.length() > 0) {
+                    put("xredirect", pageURL);
+                }
+            }}));
+        }});
+
+        getDriver().get(registerURL);
+
+        if (pageURL != null && pageURL.length() > 0) {
+            final String pageURI = pageURL.replaceAll("\\?.*", "");
+            try {
+                Wait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
+                wait.until(new ExpectedCondition<Boolean>()
+                {
+                    public Boolean apply(WebDriver driver)
+                    {
+                        return getDriver().getCurrentUrl().contains(pageURI)
+                               && username.equals(getLoggedInUserName());
+                    }
+                });
+            } catch (TimeoutException e) {
+                throw new WebDriverException("Failed to go to the page: " + pageURL + "\nCurrent page is "
+                                                 + getDriver().getCurrentUrl() + "\nThe URL opened to register was: "
+                                                     + registerURL);
+            }
+        }
     }
 
     public void gotoPage(String space, String page)
@@ -221,6 +289,27 @@ public class TestUtils
         } catch (UnsupportedEncodingException e) {
             // should not happen
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This class represents all cookies stored in the browser.
+     * Use with getSession() and setSession()
+     */
+    public class Session
+    {
+        private final Set<Cookie> cookies;
+
+        private Session(final Set<Cookie> cookies)
+        {
+            this.cookies = Collections.unmodifiableSet(new HashSet<Cookie>(){{
+                addAll(cookies);
+            }});
+        }
+
+        private Set<Cookie> getCookies()
+        {
+            return cookies;
         }
     }
 }

@@ -30,7 +30,7 @@ import org.openqa.selenium.support.FindBy;
  */
 public class AdminSectionPage extends ViewPage
 {
-    @FindBy(xpath = "//div[@id='admin-page-content']/div/p/span/input[@type='submit']")
+    @FindBy(xpath = "//input[@type='submit'][@value='Save']")
     private WebElement saveButton;
 
     // The admin-page-content div is being treated as a form since it may contain multiple forms and we want to be able

@@ -31,7 +31,7 @@ import org.xwiki.it.ui.elements.AdminSectionPage;
 import org.xwiki.it.ui.elements.RegisterPage;
 import org.xwiki.it.ui.elements.ViewPage;
 import org.xwiki.it.ui.framework.AbstractTest;
-import org.xwiki.it.ui.framework.TestRunnable;
+import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Test the user registration feature.
@@ -187,12 +187,10 @@ public class RegisterTest extends AbstractTest
         ViewPage vp = new ViewPage();
         getUtil().gotoPage("XWiki", userName);
         if (vp.exists()) {
-            getUtil().doAsGuest(new TestRunnable(){
-                public void run()
-                {
-                    getUtil().loginAsAdminAndGotoPage(getUtil().getURL("XWiki", userName, "delete", "confirm=1"));
-                }
-            });
+            TestUtils.Session s = getUtil().getSession();
+            getUtil().setSession(null);
+            getUtil().loginAsAdminAndGotoPage(getUtil().getURL("XWiki", userName, "delete", "confirm=1"));
+            getUtil().setSession(s);
         }
     }
 

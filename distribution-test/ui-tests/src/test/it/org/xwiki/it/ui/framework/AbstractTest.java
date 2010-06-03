@@ -34,7 +34,7 @@ import org.xwiki.it.ui.elements.BaseElement;
  */
 public class AbstractTest
 {
-    private static PersistentTestContext context;
+    protected static PersistentTestContext context;
 
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)

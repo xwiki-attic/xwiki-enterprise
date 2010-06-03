@@ -30,7 +30,6 @@ import org.xwiki.it.ui.elements.HistoryPane;
 import org.xwiki.it.ui.elements.ImportPage;
 import org.xwiki.it.ui.elements.ViewPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Test the Import XAR feature.

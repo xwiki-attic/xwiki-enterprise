@@ -52,13 +52,15 @@ public class InlinePage extends ViewPage
         saveandcontinue.click();
     }
 
-    public void clickSaveAndView()
+    public ViewPage clickSaveAndView()
     {
         save.click();
+        return new ViewPage();
     }
 
-    public void clickCancel()
+    public ViewPage clickCancel()
     {
         cancel.click();
+        return new ViewPage();
     }
 }

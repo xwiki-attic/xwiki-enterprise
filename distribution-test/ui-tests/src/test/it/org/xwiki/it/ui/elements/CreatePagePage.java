@@ -19,6 +19,9 @@
  */
 package org.xwiki.it.ui.elements;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -36,11 +39,65 @@ public class CreatePagePage extends ViewPage
     @FindBy(id = "page")
     private WebElement pageTextField;
 
+    public String getSpace()
+    {
+        return spaceTextField.getValue();
+    }
+
+    public void setSpace(String space)
+    {
+        this.spaceTextField.clear();
+        this.spaceTextField.sendKeys(space);
+    }
+
+    public String getPage()
+    {
+        return pageTextField.getValue();
+    }
+
+    public void setPage(String page)
+    {
+        this.pageTextField.clear();
+        this.pageTextField.sendKeys(page);
+    }
+
+    public boolean areTemplatesAvailable()
+    {
+        List<WebElement> templates = getDriver().findElements(By.name("template"));
+        // When there's no template available a hidden input with a blank value remains.
+        return templates.size() > 1;
+    }
+
+    public void setTemplate(String template)
+    {
+        List<WebElement> templates = getDriver().findElements(By.name("template"));
+        for (WebElement templateInput : templates) {
+            if (templateInput.getValue().equals(template)) {
+                templateInput.setSelected();
+            }
+        }
+
+    }
+
+    public void clickCreate()
+    {
+        this.pageTextField.submit();
+    }
+
     public WYSIWYGEditPage createPage(String spaceValue, String pageValue)
     {
-        this.spaceTextField.sendKeys(spaceValue);
-        this.pageTextField.sendKeys(pageValue);
-        this.pageTextField.submit();
+        setSpace(spaceValue);
+        setPage(pageValue);
+        clickCreate();
+        return new WYSIWYGEditPage();
+    }
+
+    public WYSIWYGEditPage createPageFromTemplate(String spaceValue, String pageValue, String templateValue)
+    {
+        setSpace(spaceValue);
+        setPage(pageValue);
+        setTemplate(templateValue);
+        clickCreate();
         return new WYSIWYGEditPage();
     }
 }

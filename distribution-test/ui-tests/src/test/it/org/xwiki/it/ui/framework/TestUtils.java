@@ -38,6 +38,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.TimeoutException;
+import org.xwiki.it.ui.elements.ViewPage;
 /**
  * Helper methods for testing, not related to a specific Page Object.
  * Also made available to tests classes.
@@ -189,9 +190,10 @@ public class TestUtils
         }
     }
 
-    public void gotoPage(String space, String page)
+    public ViewPage gotoPage(String space, String page)
     {
         gotoPage(space, page, "view");
+        return new ViewPage();
     }
 
     public void gotoPage(String space, String page, String action)

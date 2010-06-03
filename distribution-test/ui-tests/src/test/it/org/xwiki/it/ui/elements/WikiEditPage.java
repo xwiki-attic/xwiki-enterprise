@@ -41,6 +41,15 @@ public class WikiEditPage extends EditPage
 
     @FindBy(name = "comment")
     private WebElement commentInput;
+    
+    /**
+     * Get the <code>title</code> of the page
+     * 
+     */
+    public String getTitle()
+    {
+        return titleInput.getValue();
+    }
 
     /**
      * Set the <code>title</code> of the page
@@ -51,6 +60,15 @@ public class WikiEditPage extends EditPage
     {
         titleInput.clear();
         titleInput.sendKeys(title);
+    }
+    
+    /**
+     * Get the <code>content</code> of the page
+     * 
+     */
+    public String getContent()
+    {
+        return contentText.getText();
     }
 
     /**

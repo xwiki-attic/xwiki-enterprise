@@ -144,25 +144,28 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit wiki" entry of the content menu.
      */
-    public void clickEditWiki()
+    public WikiEditPage clickEditWiki()
     {
         clickContentMenuEditSubMenuEntry("tmEditWiki");
+        return new WikiEditPage();
     }
 
     /**
      * Performs a click on the "edit wysiwyg" entry of the content menu.
      */
-    public void clickEditWysiwyg()
+    public WYSIWYGEditPage clickEditWysiwyg()
     {
         clickContentMenuEditSubMenuEntry("tmEditWysiwyg");
+        return new WYSIWYGEditPage();
     }
 
     /**
      * Performs a click on the "edit inline" entry of the content menu.
      */
-    public void clickEditInline()
+    public InlinePage clickEditInline()
     {
         clickContentMenuEditSubMenuEntry("tmEditInline");
+        return new InlinePage();
     }
 
     /**

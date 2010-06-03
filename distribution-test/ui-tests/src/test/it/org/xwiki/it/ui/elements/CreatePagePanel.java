@@ -46,15 +46,9 @@ public class CreatePagePanel extends ViewPage
     @FindBy(xpath = "//input[@type = 'text' and @name = 'page']")
     private WebElement pageNameTextField;
 
-    /**
-     * Navigates to the Panels.NewPage page, if not already there, and creates a new object to control it.
-     */
-    public CreatePagePanel()
+    public void gotoPage()
     {
-        String createPagePanelURL = getUtil().getURL("Panels", "NewPage");
-        if (!getDriver().getCurrentUrl().equals(createPagePanelURL)) {
-            getDriver().get(createPagePanelURL);
-        }
+        getUtil().gotoPage("Panels", "NewPage");
     }
 
     /**

@@ -23,13 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.selenesedriver.FindElement;
 import org.xwiki.it.ui.elements.AdminTemplatesPage;
 import org.xwiki.it.ui.elements.CreatePagePage;
 import org.xwiki.it.ui.elements.CreatePagePanel;
@@ -58,35 +56,25 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      */
     public static final String TEMPLATE_NAME = "MyTemplate";
     
-    @Before
-    public void setUp()
-    {
-        super.setUp();
-        
-        String space = this.getClass().getSimpleName();
-        getUtil().deletePage(space, testName.getMethodName());
-        getUtil().deletePage(space, TEMPLATE_NAME);
-        getUtil().deletePage(space, TEMPLATE_NAME + "Provider");
-        getUtil().deletePage(space, TEMPLATE_NAME + "Instance");       
-        getUtil().gotoPage("Main", "WebHome");
-    }
-
     /**
      * Tests if a new page can be created using the create page panel.
      */
     @Test
     public void testCreatePageFromPanel()
     {
+        CreatePagePanel createPagePanel = new CreatePagePanel();
+        createPagePanel.gotoPage();
+
         String spaceName = this.getClass().getSimpleName();
         String pageName = testName.getMethodName();
-     
-        CreatePagePanel createPagePanel = new CreatePagePanel();
+
         WYSIWYGEditPage editPage = createPagePanel.createPage(spaceName, pageName);
+
         Assert.assertEquals(pageName, editPage.getDocumentTitle());
         Assert.assertEquals(pageName, editPage.getMetaDataValue("page"));
         Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
     }
-    
+
     /**
      * Tests if a new page can be created from a template.
      */
@@ -94,6 +82,12 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
     public void testCreatePageFromTemplate()
     {
         String space = this.getClass().getSimpleName();
+        getUtil().deletePage(space, testName.getMethodName());
+        getUtil().deletePage(space, TEMPLATE_NAME);
+        getUtil().deletePage(space, TEMPLATE_NAME + "Provider");
+        getUtil().deletePage(space, TEMPLATE_NAME + "Instance");
+        getUtil().gotoPage("Main", "WebHome");
+
         String templateContent = "My Template Content";
         String templateTitle = "My Template Title";
         String templateFullName = space + "." + TEMPLATE_NAME;

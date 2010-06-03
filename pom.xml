@@ -52,8 +52,9 @@
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
-    <platform.tool.configuration.version>1.40-SNAPSHOT</platform.tool.configuration.version>
-    <platform.tool.jetty.version>1.18-SNAPSHOT</platform.tool.jetty.version>
+    <!--1.41 contains Core 2.4 specific configuration -->
+    <platform.tool.configuration.version>1.40</platform.tool.configuration.version>
+    <platform.tool.jetty.version>1.19-SNAPSHOT</platform.tool.jetty.version>
     <platform.tool.packager.version>1.16-SNAPSHOT</platform.tool.packager.version>
     <platform.tool.rootwebapp.version>1.4-SNAPSHOT</platform.tool.rootwebapp.version>
     <!--standards-validator tool 1.2 is not compatible with 2.3 branch anymore -->
@@ -76,7 +77,7 @@
     <platform.officeimporter.version>1.16-SNAPSHOT</platform.officeimporter.version>
     <!-- SkinX plugin 1.14 is incompatible with XE 2.3 (defered scripts) -->
     <platform.plugin.skinx.version>1.13</platform.plugin.skinx.version>
-    <platform.statistics.version>1.8-SNAPSHOT</platform.statistics.version>
+    <platform.statistics.version>1.9-SNAPSHOT</platform.statistics.version>
     <platform.tag.version>1.12-SNAPSHOT</platform.tag.version>
     <platform.watchlist.version>1.29-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>

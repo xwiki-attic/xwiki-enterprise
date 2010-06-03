@@ -42,7 +42,7 @@ public class CreateSpaceTest extends AbstractAdminAuthenticatedTest
     public final TestName testName = new TestName();
 
     /**
-     * Tests if a new space can be created from the home page.
+     * Tests if a new space can be created from the home page's Space dashboard.
      */
     @Test
     public void testCreateSpaceFromHomePage()
@@ -51,7 +51,12 @@ public class CreateSpaceTest extends AbstractAdminAuthenticatedTest
         homePage.gotoPage();
         String spaceName = testName.getMethodName();
         WYSIWYGEditPage editPage = homePage.getSpacesPane().createSpace(spaceName);
+
+        // Verify that space creation uses the space name as the space home page's title
         Assert.assertEquals(spaceName, editPage.getDocumentTitle());
+
+        // Verify that the space created is correct by looking at the generate metadata in the HTML header
+        // (they contain the space name amongst other data).
         Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
     }
 }

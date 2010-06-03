@@ -73,6 +73,16 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
+    @Test
+    public void testContentView()
+    {
+        // XWIKI-5205
+        String test = getUtil().escapeURL("\"><pre><!-- " + XML_CHARS + " --></pre>");
+        
+        getUtil().gotoPage("Main", test, "view", "xpage=contentview", getDriver());
+        Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
     /**
      * Go to a working page after each test run to prevent failures in {@link #setUp()}
      */

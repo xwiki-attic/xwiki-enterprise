@@ -19,43 +19,16 @@
  */
 package org.xwiki.it.ui;
 
-import org.openqa.selenium.By;
-
-import org.xwiki.it.ui.elements.LightBoxRegisterPage;
-import org.xwiki.it.ui.elements.RegisterPage;
-
 /**
- * Test the Admin->Users->AddNewUser feature.
+ * Test the user registration feature without javascript field validation.
  * 
  * @version $Id$
  * @since 2.3M1
  */
-public class RegisterTestAdminAddUser extends RegisterTest
+public class RegisterWithoutLiveValidationTest extends RegisterTest
 {
-    protected void switchUser()
+    protected boolean useLiveValidation()
     {
-        getUtil().loginAsAdmin();
-    }
-
-    protected RegisterPage getRegisterPage()
-    {
-        return new LightBoxRegisterPage();
-    }
-
-    protected boolean tryToRegister()
-    {
-        registerPage.clickRegister();
-
-        registerPage.waitUntilElementsAreVisible(
-            new By[] {By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"),
-                      By.xpath("//dd/span[@class='LV_validation_message LV_invalid']")
-            },
-            false
-        );
-
-        return !getDriver()
-                .findElements(
-                  By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"))
-                    .isEmpty();
+        return false;
     }
 }

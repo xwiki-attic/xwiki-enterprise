@@ -51,6 +51,7 @@ public class SpacesPane extends BaseElement
     public WYSIWYGEditPage createSpace(String spaceName)
     {
         spaceCreateFormToggleSwitch.click();
+        this.spaceNameTextField.clear();
         this.spaceNameTextField.sendKeys(spaceName);
         this.spaceNameTextField.submit();
         return new WYSIWYGEditPage();

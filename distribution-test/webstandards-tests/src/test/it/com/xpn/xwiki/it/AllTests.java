@@ -28,7 +28,6 @@ import org.xwiki.validator.RSSValidator;
 import org.xwiki.validator.XHTMLValidator;
 import org.xwiki.validator.XWikiValidator;
 
-import com.xpn.xwiki.it.framework.CustomDutchWebGuidelinesValidator;
 import com.xpn.xwiki.it.framework.DefaultValidationTest;
 
 /**
@@ -52,21 +51,25 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
-        XHTMLValidator xhtmlValidator = new XHTMLValidator();
+        /*XHTMLValidator xhtmlValidator = new XHTMLValidator();
         addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xhtmlValidator),
             DefaultValidationTest.class);
 
         CustomDutchWebGuidelinesValidator dwgValidator = new CustomDutchWebGuidelinesValidator();
-        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, dwgValidator),
-            DefaultValidationTest.class);
+        addTest(suite, CustomDutchWebGuidelinesValidationTest.suite(CustomDutchWebGuidelinesValidationTest.class,
+            dwgValidator), DefaultValidationTest.class);
 
         RSSValidator rssValidator = new RSSValidator();
         addTest(suite, RSSValidationTest.suite(RSSValidationTest.class, rssValidator), RSSValidationTest.class);
 
         XWikiValidator xwikiValidator = new XWikiValidator();
         addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xwikiValidator),
-            DefaultValidationTest.class);
+            DefaultValidationTest.class);*/
 
+        CustomDutchWebGuidelinesValidator dwgValidator = new CustomDutchWebGuidelinesValidator();
+        addTest(suite, CustomDutchWebGuidelinesValidationTest.suite(CustomDutchWebGuidelinesValidationTest.class,
+            dwgValidator), DefaultValidationTest.class);
+        
         return new XWikiTestSetup(suite);
     }
 

@@ -17,29 +17,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it.framework;
+package com.xpn.xwiki.it;
 
 import javax.xml.xpath.XPathConstants;
 
 import org.w3c.dom.NodeList;
-import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.validator.DutchWebGuidelinesValidator;
 import org.xwiki.validator.ValidationError.Type;
+
+import com.xpn.xwiki.it.framework.DocumentReferenceTarget;
 
 public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidator
 {
     private static final String SPACE_META = "space";
 
-    private DocumentReference documentReference;
+    private DocumentReferenceTarget documentReferenceTarget;
 
     /**
      * Set the reference of the page being analyzed.
      * 
      * @param DocumentReference document reference of the page
      */
-    public void setDocumentReference(DocumentReference documentReference)
+    public void setDocumentReferenceTarget(DocumentReferenceTarget documentReferenceTarget)
     {
-        this.documentReference = documentReference;
+        this.documentReferenceTarget = documentReferenceTarget;
     }
 
     /**
@@ -59,8 +60,9 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      */
     private boolean isPage(String space, String page)
     {
-        return this.documentReference != null && this.documentReference.getName().equals(page)
-            && this.documentReference.getLastSpaceReference().getName().equals(space);
+        return this.documentReferenceTarget != null
+            && this.documentReferenceTarget.getDocumentReference().getName().equals(page)
+            && this.documentReferenceTarget.getDocumentReference().getLastSpaceReference().getName().equals(space);
     }
 
     /**

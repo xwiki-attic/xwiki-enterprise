@@ -143,12 +143,12 @@ public class AbstractValidationTest extends TestCase
         Credentials defaultcreds = new UsernamePasswordCredentials("Admin", "admin");
         adminClient.getState().setCredentials(AuthScope.ANY, defaultcreds);
 
-        addURLsForAdmin(validationTest, validator, suite, adminClient);
         addXarFiles(validationTest, validator, suite, adminClient);
+        //addURLsForAdmin(validationTest, validator, suite, adminClient);
 
         HttpClient guestClient = new HttpClient();
 
-        addURLsForGuest(validationTest, validator, suite, guestClient);
+        //addURLsForGuest(validationTest, validator, suite, guestClient);
 
         return suite;
     }
@@ -187,8 +187,10 @@ public class AbstractValidationTest extends TestCase
         String patternFilter = System.getProperty("documentsToTest");
 
         for (DocumentReference documentReference : readXarContents(path, patternFilter)) {
+            if (documentReference.getName().equals("XWikiSyntax")) {
             suite.addTest(validationTest.getConstructor(Target.class, HttpClient.class, Validator.class, String.class)
                 .newInstance(new DocumentReferenceTarget(documentReference), client, validator, "Admin:admin"));
+            }
         }
     }
 

@@ -37,7 +37,7 @@ import org.xwiki.validator.Validator;
  */
 public class DefaultValidationTest extends AbstractValidationTest
 {
-    private Validator validator;
+    protected Validator validator;
 
     /**
      * We save the stdout stream since we replace it with our own in order to verify that XWiki doesn't generated any

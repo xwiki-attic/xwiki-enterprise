@@ -415,7 +415,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("hello (% style=\"font-weight: normal; font-family: monospace;\" %)vincent(%%) world");
+        assertSourceText("hello (% style=\"font-family: monospace; font-weight: normal\" %)vincent(%%) world");
     }
 
     /**
@@ -641,7 +641,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testEditPageWithSpecialSymbolsInName()
     {
-        clickEditCancelEdition();
+        open("Main", "WebHome");
         clickLinkWithLocator("tmCreatePage");
         waitPage();
         setFieldValue("page", "#\"&\u00A7-_\\");

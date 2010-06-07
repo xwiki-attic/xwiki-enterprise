@@ -35,6 +35,8 @@ public class ImportTest extends AbstractWysiwygTestCase
 
     public static final String IMPORT_BUTTON = "Import";
 
+    public static final String FILTER_STYLES = "//div[@class = 'xDialogBody']//input[@type = 'checkbox']";
+
     /**
      * Test importing office content with copy / paste import wizard step.
      */
@@ -42,10 +44,11 @@ public class ImportTest extends AbstractWysiwygTestCase
     {
         openImportDialog(MENU_IMPORT_OFFICE_CONTENT);
         populateOfficeContentEditor("<p>Hello <font color=\"#ff0000\">World</font></p>");
+        getSelenium().uncheck(FILTER_STYLES);
         clickButtonWithText(IMPORT_BUTTON);
         waitForDialogToClose();
         switchToSource();
-        assertSourceText("Hello (% style=\"color: rgb(255, 0, 0);\" %)World");
+        assertSourceText("Hello (% style=\"color: rgb(255, 0, 0)\" %)World");
     }
 
     /**

@@ -56,8 +56,8 @@ public class RegisterTest extends AbstractTest
         int x = 0;
         while (registerPage.liveValidationEnabled() != useLiveValidation()) {
             AdminSectionPage registrationAdminSection = new AdminSectionPage("Registration");
-            getUtil().loginAsAdmin();
-            registrationAdminSection.gotoPage();
+            getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(registrationAdminSection.getURL()));
+            getUtil().assertOnPage(registrationAdminSection.getURL());
             registrationAdminSection.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
                 Boolean.valueOf(useLiveValidation()).toString());
             registrationAdminSection.clickSave();
@@ -74,7 +74,7 @@ public class RegisterTest extends AbstractTest
     protected void switchUser()
     {
         // Fast Logout.
-        getDriver().manage().deleteAllCookies();
+        getUtil().setSession(null);
     }
 
     /** To put the registration page someplace else, subclass this class and change this method. */
@@ -184,20 +184,17 @@ public class RegisterTest extends AbstractTest
     /** Deletes specified user if it exists, leaves the driver on undefined page. */
     private void deleteUser(final String userName)
     {
-        ViewPage vp = new ViewPage();
-        getUtil().gotoPage("XWiki", userName);
-        if (vp.exists()) {
-            TestUtils.Session s = getUtil().getSession();
-            getUtil().setSession(null);
-            getUtil().loginAsAdminAndGotoPage(getUtil().getURL("XWiki", userName, "delete", "confirm=1"));
-            getUtil().setSession(s);
-        }
+        TestUtils.Session s = getUtil().getSession();
+        getUtil().setSession(null);
+        getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToDeletePage("XWiki", userName)));
+        getUtil().setSession(s);
     }
 
     protected void tryToLogin(String username, String password)
     {
-        getUtil().logout();
-        getUtil().loginAs(username, password);
+        // Fast logout.
+        getUtil().setSession(null);
+        getDriver().get(getUtil().getURLToLoginAs(username, password));
         Assert.assertTrue(registerPage.isAuthenticated());
     }
 }

@@ -47,7 +47,12 @@ public class AdminSectionPage extends ViewPage
 
     public void gotoPage()
     {
-        getUtil().gotoPage("XWiki", "XWikiPreferences", "admin", "section=" + section);
+        getDriver().get(getURL());
+    }
+
+    public String getURL()
+    {
+        return getUtil().getURL("XWiki", "XWikiPreferences", "admin", "section=" + section);
     }
 
     public void clickSave()

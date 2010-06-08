@@ -19,6 +19,8 @@
  */
 package org.xwiki.it.ui.framework;
 
+import org.junit.Assert;
+
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
@@ -79,37 +81,40 @@ public class TestUtils
         }
     }
 
-    public void logout()
+    /**
+     * Consider using setSession(null) because it will drop the cookies which is faster than invoking a logout action.
+     */
+    public String getURLToLogout()
     {
-        gotoPage("XWiki", "XWikiLogin", "logout");
+        return getURL("XWiki", "XWikiLogin", "logout");
     }
 
-    public void loginAsAdmin()
+    public String getURLToLoginAsAdmin()
     {
-        loginAs("Admin", "admin");
+        return getURLToLoginAs("Admin", "admin");
     }
 
-    public void loginAs(final String username, final String password)
+    public String getURLToLoginAs(final String username, final String password)
     {
-        loginAndGotoPage(username, password, null);
-    }
-
-    public void loginAsAdminAndGotoPage(final String pageURL)
-    {
-        loginAndGotoPage("Admin", "admin", pageURL);
+        return getURLToLoginAndGotoPage(username, password, null);
     }
 
     /**
-     * Establish a predictable state for the tests.
-     * After successful completion of this function, you are guarenteed to be logged in as the given user
-     * and on the page passed in pageURL.
-     *
+     * @param pageURL the URL of the page to go to after logging in.
+     * @return URL to accomplish login and goto.
+     */
+    public String getURLToLoginAsAdminAndGotoPage(final String pageURL)
+    {
+        return getURLToLoginAndGotoPage("Admin", "admin", pageURL);
+    }
+
+    /**
      * @param username the name of the user to log in as.
      * @param password the password for the user to log in.
-     * @param pageURL the URL of the page to go to after logging in. If pageURL is empty (null or "") then
-     *                the resulting page location is undefined.
+     * @param pageURL the URL of the page to go to after logging in.
+     * @return URL to accomplish login and goto.
      */
-    public void loginAndGotoPage(final String username, final String password, final String pageURL)
+    public String getURLToLoginAndGotoPage(final String username, final String password, final String pageURL)
     {
         Map<String, String> parameters = new HashMap<String, String>(){{
             put("j_username", username);
@@ -118,29 +123,32 @@ public class TestUtils
                 put("xredirect", pageURL);
             }
         }};
-        gotoPage("XWiki", "XWikiLogin", "loginsubmit", parameters);
+        return getURL("XWiki", "XWikiLogin", "loginsubmit", parameters);
+    }
 
-        if (pageURL != null && pageURL.length() > 0) {
-            final String pageURI = pageURL.replaceAll("\\?.*", "");
-            try {
-                Wait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
-                wait.until(new ExpectedCondition<Boolean>()
+    /**
+     * After successful completion of this function, you are guarenteed to be logged in as the given user
+     * and on the page passed in pageURL.
+     * @param pageURL
+     */
+    public void assertOnPage(final String pageURL)
+    {
+        final String pageURI = pageURL.replaceAll("\\?.*", "");
+        try {
+            Wait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
+            wait.until(new ExpectedCondition<Boolean>()
+            {
+                public Boolean apply(WebDriver driver)
                 {
-                    public Boolean apply(WebDriver driver)
-                    {
-                        return getDriver().getCurrentUrl().contains(pageURI)
-                               && username.equals(getLoggedInUserName());
-                    }
-                });
-            } catch (TimeoutException e) {
-                throw new WebDriverException("Failed to go to the page: " + pageURL + "\nCurrent page is "
-                                                 + getDriver().getCurrentUrl() + "\nThe URL opened to log in was: "
-                                                     + getURL("XWiki", "XWikiLogin", "loginsubmit", parameters));
-            }
+                    return getDriver().getCurrentUrl().contains(pageURI);
+                }
+            });
+        } catch (TimeoutException e) {
+            Assert.fail("Failed to go to the page: " + pageURL + "\nCurrent page is " + getDriver().getCurrentUrl());
         }
     }
 
-    private String getLoggedInUserName()
+    public String getLoggedInUserName()
     {
         String loggedInUserName = null;
         List<WebElement> elements = getDriver().findElements(By.xpath("//div[@id='tmUser']/span/a"));
@@ -167,27 +175,7 @@ public class TestUtils
                 }
             }}));
         }});
-
         getDriver().get(registerURL);
-
-        if (pageURL != null && pageURL.length() > 0) {
-            final String pageURI = pageURL.replaceAll("\\?.*", "");
-            try {
-                Wait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
-                wait.until(new ExpectedCondition<Boolean>()
-                {
-                    public Boolean apply(WebDriver driver)
-                    {
-                        return getDriver().getCurrentUrl().contains(pageURI)
-                               && username.equals(getLoggedInUserName());
-                    }
-                });
-            } catch (TimeoutException e) {
-                throw new WebDriverException("Failed to go to the page: " + pageURL + "\nCurrent page is "
-                                                 + getDriver().getCurrentUrl() + "\nThe URL opened to register was: "
-                                                     + registerURL);
-            }
-        }
     }
 
     public ViewPage gotoPage(String space, String page)
@@ -215,9 +203,14 @@ public class TestUtils
         }
     }
 
+    public String getURLToDeletePage(String space, String page)
+    {
+        return getURL(space, page, "delete", "confirm=1");
+    }
+
     public void deletePage(String space, String page)
     {
-        gotoPage(space, page, "delete", "confirm=1");
+        getDriver().get(getURLToDeletePage(space, page));
     }
 
     /** 

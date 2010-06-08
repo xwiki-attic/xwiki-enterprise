@@ -35,7 +35,7 @@ public class RegisterFromAdministrationTest extends RegisterTest
 {
     protected void switchUser()
     {
-        getUtil().loginAsAdmin();
+        getDriver().get(getUtil().getURLToLoginAsAdmin());
     }
 
     protected RegisterPage getRegisterPage()

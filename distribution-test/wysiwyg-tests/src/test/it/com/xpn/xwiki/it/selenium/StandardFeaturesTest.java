@@ -402,7 +402,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testRemoveBoldStyleWhenTheStyleAttributeIsUsed()
     {
         switchToSource();
-        setSourceText("hello (% style=\"font-weight: bold; font-family: monospace;\" %)vincent(%%) world");
+        setSourceText("hello (% style=\"font-family: monospace; font-weight: bold;\" %)vincent(%%) world");
         switchToWysiwyg();
 
         // Select the word in bold.
@@ -415,7 +415,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("hello (% style=\"font-family: monospace; font-weight: normal\" %)vincent(%%) world");
+        assertSourceText("hello (% style=\"font-family: monospace; font-weight: normal;\" %)vincent(%%) world");
     }
 
     /**
@@ -651,5 +651,19 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("This is a test");
         clickEditPreview();
         assertTextPresent("This is a test");
+    }
+
+    /**
+     * @see XWIKI-5250: Merge nested custom styles like font and color before save
+     */
+    public void testNestedCustomInlineStyles()
+    {
+        setContent("<p>ab<span style=\"color: red\">cd<span style=\"background-color: yellow\">ef</span>gh</span>"
+            + "ij<span style=\"font-family: monospace\">kl<span style=\"font-size: 24pt\">mn</span>op</span>rs</p>");
+        switchToSource();
+        assertSourceText("ab(% style=\"color: red;\" %)cd(% style=\"background-color: yellow;"
+            + " color: red\" %)ef(% style=\"color: red\" %)gh(%%)"
+            + "ij(% style=\"font-family: monospace;\" %)kl(% style=\"font-family: monospace;"
+            + " font-size: 24pt\" %)mn(% style=\"font-family: monospace\" %)op(%%)rs");
     }
 }

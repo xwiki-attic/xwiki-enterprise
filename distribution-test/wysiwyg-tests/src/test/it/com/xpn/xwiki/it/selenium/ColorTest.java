@@ -44,7 +44,7 @@ public class ColorTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("a(% style=\"color: rgb(255, 0, 0)\" %)b(%%)c");
+        assertSourceText("a(% style=\"color: rgb(255, 0, 0);\" %)b(%%)c");
         switchToWysiwyg();
 
         // Place the caret after 'b' in order to check if the current color is detected.
@@ -72,7 +72,7 @@ public class ColorTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("a(% style=\"background-color: rgb(255, 0, 0)\" %)b(%%)c");
+        assertSourceText("a(% style=\"background-color: rgb(255, 0, 0);\" %)b(%%)c");
         switchToWysiwyg();
 
         // Place the caret after 'b' in order to check if the current color is detected.
@@ -127,7 +127,7 @@ public class ColorTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("(% style=\"color: rgb(0, 0, 255)\" %)bar");
+        assertSourceText("(% style=\"color: rgb(0, 0, 255);\" %)bar");
     }
 
     /**
@@ -157,7 +157,7 @@ public class ColorTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("(% style=\"color: rgb(0, 255, 0)\" %)foo bar");
+        assertSourceText("(% style=\"color: rgb(0, 255, 0);\" %)foo bar");
     }
 
     /**

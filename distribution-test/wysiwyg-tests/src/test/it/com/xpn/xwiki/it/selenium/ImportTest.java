@@ -48,7 +48,7 @@ public class ImportTest extends AbstractWysiwygTestCase
         clickButtonWithText(IMPORT_BUTTON);
         waitForDialogToClose();
         switchToSource();
-        assertSourceText("Hello (% style=\"color: rgb(255, 0, 0)\" %)World");
+        assertSourceText("Hello (% style=\"color: rgb(255, 0, 0);\" %)World");
     }
 
     /**

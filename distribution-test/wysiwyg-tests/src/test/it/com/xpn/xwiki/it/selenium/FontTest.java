@@ -50,7 +50,7 @@ public class FontTest extends AbstractWysiwygTestCase
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         applyFontSize("24pt");
         switchToSource();
-        assertSourceText("a(% style=\"font-size: 24pt\" %)b(%%)c");
+        assertSourceText("a(% style=\"font-size: 24pt;\" %)b(%%)c");
     }
 
     /**
@@ -62,7 +62,7 @@ public class FontTest extends AbstractWysiwygTestCase
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         applyFontName("Georgia");
         switchToSource();
-        assertSourceText("a(% style=\"font-family: Georgia\" %)b(%%)c");
+        assertSourceText("a(% style=\"font-family: Georgia;\" %)b(%%)c");
     }
 
     /**
@@ -75,7 +75,7 @@ public class FontTest extends AbstractWysiwygTestCase
         applyFontName("Arial");
         applyFontSize("18pt");
         switchToSource();
-        assertSourceText("a(% style=\"font-family: Arial; font-size: 18pt\" %)b(%%)c");
+        assertSourceText("a(% style=\"font-family: Arial; font-size: 18pt;\" %)b(%%)c");
     }
 
     /**

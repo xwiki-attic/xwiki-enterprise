@@ -231,8 +231,8 @@
                   /xwiki/bin/inline/Panels/QuickLinks
                   /xwiki/bin/view/XWiki/Admin?category=preferences
                   /xwiki/bin/view/XWiki/Admin?category=watchlist
-                  /xwiki/bin/view/Main/?xpage=createdocument&amp;tocreate=page
-                  /xwiki/bin/view/Main/?xpage=createdocument&amp;tocreate=space
+                  /xwiki/bin/create/Main/?tocreate=page
+                  /xwiki/bin/create/Main/?tocreate=space
                   /xwiki/bin/view/Main/?xpage=rename&amp;step=1
                   /xwiki/bin/view/Main/?xpage=copy
                   /xwiki/bin/view/Main/?xpage=print

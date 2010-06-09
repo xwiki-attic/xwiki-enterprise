@@ -46,6 +46,8 @@ import org.xwiki.it.ui.elements.TableElement;
 import org.xwiki.it.ui.elements.InspectInvitationsPage;
 import org.xwiki.it.ui.elements.InvitationGuestActionsPage;
 import org.xwiki.it.ui.elements.RegisterPage;
+import org.xwiki.it.ui.elements.EditObjectsPage;
+import org.xwiki.it.ui.elements.FormElement;
 
 import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.TestUtils;
@@ -95,32 +97,6 @@ public class InvitationTest extends AbstractTest
 
         senderPage.gotoPage();
         senderPage.fillInDefaultValues();
-    }
-
-    @Test
-    public void testSendMailToSingleAddress() throws Exception
-    {
-        try {
-            startGreenMail();
-            InvitationSenderPage.InvitationSentPage sent = getSenderPage().send();
-
-            // Prove that the message was sent.
-            getGreenMail().waitForIncomingEmail(10000, 1);
-            MimeMessage[] messages = getGreenMail().getReceivedMessages();
-            Map<String, String> message = getMessageContent(messages[0]);
-            Assert.assertTrue(message.get("recipient").contains("user@localhost.localdomain"));
-            assertMessageValid(message);
-
-            // Check that the page has the table and the message.
-            Assert.assertTrue(sent.getMessageBoxContent().contains("Your message has been sent."));
-            TableElement table = sent.getTable();
-            Assert.assertTrue(table.numberOfRows() == 2);
-            Assert.assertTrue(table.numberOfColumns() == 3);
-            Assert.assertTrue(table.getRow(1).get(1).getText().contains("user@localhost.localdomain"));
-            Assert.assertTrue(table.getRow(1).get(2).getText().contains("Pending"));
-        } finally {
-            stopGreenMail();
-        }
     }
 
     @Test
@@ -379,7 +355,10 @@ public class InvitationTest extends AbstractTest
 
     /**
      * This test proves that:
-     * 1. 
+     * 1. The accept invitation link sent in the email will work.
+     * 2. A user can accept an invitation and be directed to the registration form and can register and login.
+     * 3. An invitation once accepted cannot be accepted again nor declined.
+     * 4. An invitation once accepted can still be reported as spam.
      */
     @Test
     public void testAcceptInvitation() throws Exception
@@ -426,6 +405,64 @@ public class InvitationTest extends AbstractTest
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             Assert.assertTrue("After the invitation was accepted it now cannot be reported as spam.",
                                   guestPage.getMessage().equals(""));
+        } finally {
+            stopGreenMail();
+            getUtil().setSession(admin);
+        }
+    }
+
+    /**
+     * This test proves that:
+     * 1. A guest cannot register if register permission is removed from XWikiPreferences.
+     * 2. Upon recieving an email invitation the guest can register even without register premission.
+     */
+    @Test
+    public void testAcceptInvitationToClosedWiki() throws Exception
+    {
+        TestUtils.Session admin = getUtil().getSession();
+        try {
+            // First we ban anon from registering.
+            EditObjectsPage eop = new EditObjectsPage();
+            getDriver().get(eop.getURL("XWiki", "XWikiPreferences"));
+
+            eop.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
+                .getSelectElement(By.name("XWiki.XWikiGlobalRights_2_levels")).unSelect("register");
+
+            eop.clickSaveAndContinue();
+            // now prove anon cannot register
+            getUtil().setSession(null);
+            new RegisterPage().gotoPage();
+            getUtil().assertOnPage(getUtil().getURL("XWiki", "XWikiLogin", "login"));
+
+            // Now we try sending and accepting an invitation.
+            getUtil().setSession(admin);
+            getSenderPage().gotoPage();
+            senderPage.fillInDefaultValues();
+
+            startGreenMail();
+            getSenderPage().send();
+            getGreenMail().waitForIncomingEmail(10000, 1);
+            MimeMessage[] messages = getGreenMail().getReceivedMessages();
+            String htmlMessage = getMessageContent(messages[0]).get("htmlPart");
+            Assert.assertTrue("New invitation is not listed as pending in the footer.",
+                getSenderPage().getFooter().myPendingInvitations() == 1);
+            // Now switch to guest.
+            getUtil().setSession(null);
+
+            InvitationGuestActionsPage guestPage = 
+                new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+            Assert.assertTrue("There was an error message when accepting the invitation message:\n"
+                              + guestPage.getMessage(), 
+                                  guestPage.getMessage().equals(""));
+            // Register a new user.
+            RegisterPage rp = new RegisterPage();
+            rp.fillRegisterForm(null, null, "AnotherInvitedMember", "WeakPassword", "WeakPassword", null);
+            rp.clickRegister();
+            Assert.assertTrue("There were failure messages when registering.",
+                                  rp.getValidationFailureMessages().isEmpty());
+            getDriver().get(getUtil().getURLToLoginAs("AnotherInvitedMember", "WeakPassword"));
+
+            Assert.assertTrue("Failed to log user in after registering from invitation.", rp.isAuthenticated());
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);

@@ -19,8 +19,11 @@
  */
 package org.xwiki.it.ui.elements;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
@@ -93,6 +96,86 @@ public class FormElement extends BaseElement
             }
             x++;
         }
+    }
 
+    public SelectElement getSelectElement(By by)
+    {
+        return this.new SelectElement(form.findElement(by));
+    }
+
+    public class SelectElement extends BaseElement
+    {
+        private final WebElement select;
+
+        private Map<String, WebElement> optionsByValue;
+
+        public SelectElement(WebElement select)
+        {
+            if (!select.getTagName().toLowerCase().equals("select")) {
+                throw new WebDriverException("Can only create a select element from a webelement of tag name select.");
+            }
+            this.select = select;
+        }
+
+        public Set<String> getOptions()
+        {
+            return getOptionsByValue().keySet();
+        }
+
+        private Map<String, WebElement> getOptionsByValue()
+        {
+            if (optionsByValue != null) {
+                return optionsByValue;
+            }
+            List<WebElement> elements = select.findElements(By.tagName("option"));
+            optionsByValue = new HashMap<String, WebElement>((int) (elements.size() / 0.75));
+            for (WebElement el : elements) {
+                optionsByValue.put(el.getAttribute("value"), el);
+            }
+            return optionsByValue;
+        }
+
+        public void select(List<String> valuesToSelect)
+        {
+            if (valuesToSelect.size() > 1 && select.getAttribute("multiple") != "multiple") {
+                throw new WebDriverException("Cannot select multiple elements in drop down menu.");
+            }
+            Map<String, WebElement> optionsByValue = getOptionsByValue();
+            if (!optionsByValue.keySet().containsAll(valuesToSelect)) {
+                throw new WebDriverException("Select Element(s): " + optionsByValue.keySet().retainAll(valuesToSelect) 
+                                             + " not found.");
+            }
+            for (String label : valuesToSelect) {
+                optionsByValue.get(label).setSelected();
+            }
+        }
+
+        public void select(final String value)
+        {
+            select(new ArrayList<String>(){{
+                add(value);
+            }});
+        }
+
+        public void unSelect(List<String> valuesToUnSelect)
+        {
+            Map<String, WebElement> optionsByValue = getOptionsByValue();
+            if (!optionsByValue.keySet().containsAll(valuesToUnSelect)) {
+                throw new WebDriverException("Select Element(s) to unselect: "
+                                             + optionsByValue.keySet().retainAll(valuesToUnSelect) + " not found.");
+            }
+            for (String label : valuesToUnSelect) {
+                if(optionsByValue.get(label).isSelected()) {
+                    optionsByValue.get(label).toggle();
+                }
+            }
+        }
+
+        public void unSelect(final String value)
+        {
+            unSelect(new ArrayList<String>(){{
+                add(value);
+            }});
+        }
     }
 }

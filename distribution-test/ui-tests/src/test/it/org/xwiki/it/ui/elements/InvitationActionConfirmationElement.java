@@ -27,7 +27,7 @@ import org.openqa.selenium.WebElement;
  * Represents the actions possible on the confirmation dialog for the invitation appliaction.
  *
  * @version $Id$
- * @since TODO:
+ * @since 2.4M2
  */
 public class InvitationActionConfirmationElement extends BaseElement
 {

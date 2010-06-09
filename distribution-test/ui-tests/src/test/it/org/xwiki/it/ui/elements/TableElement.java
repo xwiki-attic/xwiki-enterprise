@@ -25,13 +25,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
 
-//import org.openqa.selenium.WebDriverException;
-
 /**
  * Represents the actions possible on a static table.
  *
  * @version $Id$
- * @since TODO:
+ * @since 2.4M2
  */
 public class TableElement extends BaseElement
 {

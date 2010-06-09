@@ -36,7 +36,7 @@ import org.xwiki.it.ui.framework.TestUtils;
  * view an old sent message.
  *
  * @version $Id$
- * @since TODO:
+ * @since 2.4M2
  */
 public class InvitationMessageDisplayElement extends BaseElement
 {

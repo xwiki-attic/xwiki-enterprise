@@ -29,7 +29,7 @@ import org.openqa.selenium.WebElement;
  * Represents the actions possible by guests on the invitation application.
  *
  * @version $Id$
- * @since TODO:
+ * @since 2.4M2
  */
 public class InvitationGuestActionsPage extends BasePage
 {

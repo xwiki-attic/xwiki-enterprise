@@ -33,7 +33,7 @@ import org.openqa.selenium.WebDriverException;
  * Represents the actions possible when inspecting invitations.
  *
  * @version $Id$
- * @since TODO:
+ * @since 2.4M2
  */
 public abstract class InspectInvitationsPage extends BasePage
 {

@@ -32,7 +32,7 @@ import org.openqa.selenium.WebDriverException;
  * Represents the actions possible on the invitation sender page.
  *
  * @version $Id$
- * @since TODO:
+ * @since 2.4M2
  */
 public class InvitationFooterElement extends BaseElement
 {

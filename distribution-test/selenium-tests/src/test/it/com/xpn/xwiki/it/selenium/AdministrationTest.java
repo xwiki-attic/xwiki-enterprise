@@ -524,6 +524,57 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
     }
 
+    /*
+     * Proves that ConfigurationClass#codeToExecute is not rendered inline even if there is no
+     * custom configuration class and the on;y content is custom content.
+     * Tests: XWiki.ConfigurableClass
+     */
+    public void testCodeToExecuteNotInlineIfNoConfigurationClass()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        String test = "{{html}} <div> <p> hello </p> </div> {{/html}}";
+
+        open(space, page, "delete", "confirm=1");
+        createConfigurableApplication(space, page, "TestSection1", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
+        setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
+        clickEditSaveAndView();
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
+        assertElementNotPresent("//span[@class='xwikirenderingerror']");
+    }
+
+    /*
+     * Proves that ConfigurationClass#codeToExecute is not rendered inline whether it's at the top of the
+     * form or inside of the form.
+     * Tests: XWiki.ConfigurableClass
+     */
+    public void testCodeToExecuteNotInline()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        String test = "{{html}} <div> <p> hello </p> </div> {{/html}}";
+
+        createConfigurableApplication(space, page, "TestSection1", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue("classname", "XWiki.ConfigurableClass");
+        submit("//input[@value='Add Object from this Class']");
+        setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
+        setFieldValue("XWiki.ConfigurableClass_0_propertiesToShow", "String, Boolean");
+
+        setFieldValue("XWiki.ConfigurableClass_1_displayInSection", "TestSection1");
+        setFieldValue("XWiki.ConfigurableClass_1_configurationClass", space + "." + page);
+        setFieldValue("XWiki.ConfigurableClass_1_propertiesToShow", "TextArea, Select");
+        setFieldValue("XWiki.ConfigurableClass_1_codeToExecute", test);
+        getSelenium().check("XWiki.ConfigurableClass_1_configureGlobally");
+        clickEditSaveAndView();
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
+        assertElementNotPresent("//span[@class='xwikirenderingerror']");
+    }
+
     /**
      * Test functionality of the ForgotUsername page:
      * <ul>

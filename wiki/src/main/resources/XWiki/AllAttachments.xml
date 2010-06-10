@@ -109,30 +109,30 @@ if (typeof XWiki.index == "undefined") {
 }
 
 var mimetypes = {
-   "image/svg" : { "src" :"$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" :"SVG", "title":"SVG" } ,
-   "application/svg+xml": { "src" :"$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" :"SVG", "title":"SVG" } ,
-   "text/plain" : { "src" : "$xwiki.getSkinFile('mimetypes/txt.png')", "alt": "Text", "title" : "Text" } ,
-   "text/html" : { "src" : "$xwiki.getSkinFile('mimetypes/html.png')", "alt": "HTML", "title" : "HTML" },
-   "text/css" : {"src" : "$xwiki.getSkinFile('mimetypes/url.png')", "alt": "CSS", "title": "CSS"},
-   "application/xml" : {"src" : "$xwiki.getSkinFile('mimetypes/xml.png')", "alt":"CSS", "title": "CSS"},
-   "application/pdf" : {"src" : "$xwiki.getSkinFile('mimetypes/pdf.png')", "alt": "PDF", "title" : "PDF"},
-   "application/postscript": {"src" :"$xwiki.getSkinFile('mimetypes/ps.png')", "alt" :"PS", "title" : "PS" },
-   "application/msword": {"src":"$xwiki.getSkinFile('mimetypes/word.png')", "alt":"Word", "title": "Word"},
-   "application/powerpoint": {"src":"$xwiki.getSkinFile('mimetypes/ppt.png')", "alt": "PPT", "title": "PPT"},
-   "application/x-shockwave-flash" : {"src": "$xwiki.getSkinFile('mimetypes/swf.png')", "alt":"SWF", "title": "SWF"},
-   "application/x-tar" : {"src": "$xwiki.getSkinFile('mimetypes/tar.png')", "alt" : "TAR", "title" : "TAR"},
-   "application/zip" : {"src":"$xwiki.getSkinFile('mimetypes/zip1.png')", "alt": "ZIP", "title" : "ZIP"},
-   "application/x-gzip" : {"src":"$xwiki.getSkinFile('mimetypes/tar_gz.png')", "alt":"GZ", "title": "GZ"},
-   "application/java-archive" : {"src" : "$xwiki.getSkinFile('mimetypes/jar.png')", "alt": "JAR", "title": "JAR"}
+  "image/svg"                     : { "src" : "$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" : "SVG",  "title" : "SVG" },
+  "application/svg+xml"           : { "src" : "$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" : "SVG",  "title" : "SVG" },
+  "text/plain"                    : { "src" : "$xwiki.getSkinFile('mimetypes/txt.png')",       "alt" : "Text", "title" : "Text"},
+  "text/html"                     : { "src" : "$xwiki.getSkinFile('mimetypes/html.png')",      "alt" : "HTML", "title" : "HTML"},
+  "text/css"                      : { "src" : "$xwiki.getSkinFile('mimetypes/url.png')",       "alt" : "CSS",  "title" : "CSS" },
+  "application/xml"               : { "src" : "$xwiki.getSkinFile('mimetypes/xml.png')",       "alt" : "CSS",  "title" : "CSS" },
+  "application/pdf"               : { "src" : "$xwiki.getSkinFile('mimetypes/pdf.png')",       "alt" : "PDF",  "title" : "PDF" },
+  "application/postscript"        : { "src" : "$xwiki.getSkinFile('mimetypes/ps.png')",        "alt" : "PS",   "title" : "PS"  },
+  "application/msword"            : { "src" : "$xwiki.getSkinFile('mimetypes/word.png')",      "alt" : "Word", "title" : "Word"},
+  "application/powerpoint"        : { "src" : "$xwiki.getSkinFile('mimetypes/ppt.png')",       "alt" : "PPT",  "title" : "PPT" },
+  "application/x-shockwave-flash" : { "src" : "$xwiki.getSkinFile('mimetypes/swf.png')",       "alt" : "SWF",  "title" : "SWF" },
+  "application/x-tar"             : { "src" : "$xwiki.getSkinFile('mimetypes/tar.png')",       "alt" : "TAR",  "title" : "TAR" },
+  "application/zip"               : { "src" : "$xwiki.getSkinFile('mimetypes/zip1.png')",      "alt" : "ZIP",  "title" : "ZIP" },
+  "application/x-gzip"            : { "src" : "$xwiki.getSkinFile('mimetypes/tar_gz.png')",    "alt" : "GZ",   "title" : "GZ"  },
+  "application/java-archive"      : { "src" : "$xwiki.getSkinFile('mimetypes/jar.png')",       "alt" : "JAR",  "title" : "JAR" }
 };
 
-
+/**
+ * JavasScript equivalent of the #mimetype macro.
+ * Returns a 20px * 20px image (as an element) corresponding to the passed mimetype.
+ * First lookup if the type is in the mimetypes object above, then handles some other cases (starts/end with, etc.)
+ * This function should be cleaned at the same time the mimetype images and macro are.
+ */
 function getMimeTypeImage(type) {
-// JavasScript equivalent of the #mimetype macro.
-// Returns and 20px * 20px image (as an element) corresponding to the passed mimetype.
-// First lookup if the type is in the mimetypes object above, then handles some other cases (starts/end with, etc.)
-// This function should be cleaned at the same time the mimetype images and macro are.
-
   var image = undefined;
   if (mimetypes[type]) {
     image = new Element('img',{'src':mimetypes[type].src,'alt':mimetypes[type].alt,'title':mimetypes[type].title});
@@ -177,11 +177,9 @@ function getMimeTypeImage(type) {
   return image;
 }
 
-XWiki.index.displayAttachmentEntry = function (row, i, table)
-{
+XWiki.index.displayAttachmentEntry = function (row, i, table) {
   var inaccessibleDocs = false;
-  if(row.acclev == true)
-  {
+  if(row.acclev == true) {
     var fileLink = new Element('a', {'href' : row.fileurl}).update(row.filename);
     var tr = new Element('tr').update(new Element('td').update(fileLink));
     var pageLink = new Element('a', {'href' : row.url}).update(row.page);
@@ -216,7 +214,6 @@ XWiki.index.displayAttachmentEntry = function (row, i, table)
 }
 
 })();
-
 </code></property><property><name></name></property><property><parse>1</parse>
 </property>
 <property>
@@ -224,7 +221,7 @@ XWiki.index.displayAttachmentEntry = function (row, i, table)
 </property>
 </object>
 <content>{{velocity}}
-#set($ok = $xwiki.jsx.use("XWiki.AllAttachments"))
+#set($ok = $xwiki.jsx.use('XWiki.AllAttachments'))
 ##
 #set($collist = ["filename", "doc.name","doc.space", "doc.date", "doc.author", "type"])
 #set($colprops = {
@@ -238,7 +235,7 @@ XWiki.index.displayAttachmentEntry = function (row, i, table)
 #set($options = { "url":"$xwiki.getURL('XWiki.AllAttachmentsResults')?xpage=plain&amp;outputSyntax=plain",
                   "callback" : "XWiki.index.displayAttachmentEntry", 
                   "translationPrefix" : "xe.index.attachments." })
-#livetable("allattachments" $collist $colprops $options)
+#livetable('allattachments' $collist $colprops $options)
 
 (% id="inaccessibleDocsMessage" class="hidden" %)
 (((

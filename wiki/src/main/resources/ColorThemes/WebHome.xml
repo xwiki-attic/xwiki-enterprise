@@ -334,6 +334,7 @@ $xwiki.ssx.use($doc.fullName)
 {{velocity}}
 #if("$!request.theme" != '')
   {{info}}$msg.get('xe.themes.themeSet', [$xwiki.getDocument($request.theme).displayTitle]){{/info}}
+
 #end
 {{html wiki="true"}}
   #set($currentTheme = $xwiki.getDocument('XWiki.XWikiPreferences').getObject('XWiki.XWikiPreferences').getProperty('colorTheme').value)

@@ -66,6 +66,12 @@ public class InvitationGuestActionsPage extends BasePage
         }
     }
 
+    // Constructor for when the page is manually accessed.
+    public InvitationGuestActionsPage()
+    {
+        confirm = new InvitationActionConfirmationElement();
+    }
+
     /** This will fail if the action is accept because the user is redirected to a RegisterPage. */
     public void setMemo(String memo)
     {

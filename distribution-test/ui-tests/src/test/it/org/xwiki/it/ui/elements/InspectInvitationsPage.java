@@ -92,6 +92,8 @@ public abstract class InspectInvitationsPage extends BasePage
 
         public void notSpam(String message);
 
+        public InvitationActionConfirmationElement cancel();
+
         public String getStatusAndMemo();
 
         public TableElement clickMessageHistory();
@@ -123,6 +125,11 @@ public abstract class InspectInvitationsPage extends BasePage
                 return super.clickMessageHistory();
             }
 
+            public InvitationActionConfirmationElement cancel()
+            {
+                throw new WebDriverException("Invitation cannot be canceled as an admin");
+            }
+
             public void notSpam(String message)
             {
                 notSpamButton.click();
@@ -139,8 +146,8 @@ public abstract class InspectInvitationsPage extends BasePage
 
     public static class AsUser extends InspectInvitationsPage
     {
-        @FindBy(xpath = "//div[@id='invitation-footer']//a[@href='/xwiki/bin/view/Invitation/InvitationMembersActions?inspect=all']")
-        private WebElement cancelButton;
+        @FindBy(name = "doAction_cancel")
+        protected WebElement cancelButton;
 
         public OneMessage getMessageWhere(String column, String value)
         {
@@ -161,6 +168,12 @@ public abstract class InspectInvitationsPage extends BasePage
             public TableElement clickMessageHistory()
             {
                 return super.clickMessageHistory();
+            }
+
+            public InvitationActionConfirmationElement cancel()
+            {
+                cancelButton.click();
+                return new InvitationActionConfirmationElement();
             }
 
             public void notSpam(String message)

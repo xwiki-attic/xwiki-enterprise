@@ -48,12 +48,13 @@ import org.xwiki.it.ui.elements.InvitationGuestActionsPage;
 import org.xwiki.it.ui.elements.RegisterPage;
 import org.xwiki.it.ui.elements.EditObjectsPage;
 import org.xwiki.it.ui.elements.FormElement;
+import org.xwiki.it.ui.elements.InvitationActionConfirmationElement;
 
 import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.TestUtils;
 
 /**
- * Test the user registration feature.
+ * Tests invitation application.
  * 
  * @version $Id$
  * @since 2.4M2
@@ -97,6 +98,45 @@ public class InvitationTest extends AbstractTest
 
         senderPage.gotoPage();
         senderPage.fillInDefaultValues();
+    }
+
+    @Test
+    public void testGuestActionsOnNonexistantMessage() throws Exception
+    {
+        TestUtils.Session s = getUtil().getSession();
+        try {
+            getUtil().setSession(null);
+            InvitationGuestActionsPage guestPage = new InvitationGuestActionsPage();
+
+            // Try to accept nonexistent message.
+            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view", 
+                                                "doAction_accept&messageID=12345"));
+            Assert.assertTrue("Guests able to accept nonexistent invitation", guestPage.getMessage() != null);
+            Assert.assertTrue("Guests trying to accept nonexistent invitation get wrong error message\nMessage: "
+                              + guestPage.getMessage(),
+                guestPage.getMessage().equals("No message was found by that ID, maybe it was deleted "
+                                              + "accidentally or the system is experiencing problems."));
+
+            // Try to decline nonexistent message.
+            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view", 
+                                                "doAction_decline&messageID=12345"));
+            Assert.assertTrue("Guests able to decline nonexistent invitation", guestPage.getMessage() != null);
+            Assert.assertTrue("Guests trying to decline nonexistent invitation get wrong error message\nMessage: "
+                              + guestPage.getMessage(),
+                guestPage.getMessage().equals("No invitation was found by the given ID. It might have been deleted or "
+                                              + "maybe the system is experiencing difficulties."));
+
+            // Try to report nonexistent message.
+            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view", 
+                                                "doAction_report&messageID=12345"));
+            Assert.assertTrue("Guests able to report nonexistent invitation as spam", guestPage.getMessage() != null);
+            Assert.assertTrue("Guests trying to report nonexistent invitation as spam get incorrect message\nMessage: "
+                              + guestPage.getMessage(),                                
+                guestPage.getMessage().equals("There was no message found by the given ID. Maybe an administrator "
+                                              + "deleted the message from our system."));
+        } finally {
+            getUtil().setSession(s);
+        }
     }
 
     @Test
@@ -463,6 +503,75 @@ public class InvitationTest extends AbstractTest
             getDriver().get(getUtil().getURLToLoginAs("AnotherInvitedMember", "WeakPassword"));
 
             Assert.assertTrue("Failed to log user in after registering from invitation.", rp.isAuthenticated());
+        } finally {
+            stopGreenMail();
+            getUtil().setSession(admin);
+        }
+    }
+
+    /**
+     * This test proves that:
+     * 1. A user can cancel an invitation after sending it, leaving a message for the recipient should they try to 
+     *    accept.
+     * 2. A canceled invitation cannot be accepted and the guest will see an explaination with the message left when
+     *    the sender canceled.
+     * 3. A canceled invitation cannot be declined, the guest gets the sender's note.
+     * 4. A canceled invitation can still be reported as spam.
+     */
+    @Test
+    public void testCancelInvitation() throws Exception
+    {
+        TestUtils.Session admin = getUtil().getSession();
+        try {
+            startGreenMail();
+            getSenderPage().send();
+            getGreenMail().waitForIncomingEmail(10000, 1);
+            MimeMessage[] messages = getGreenMail().getReceivedMessages();
+            String htmlMessage = getMessageContent(messages[0]).get("htmlPart");
+            Assert.assertTrue("New invitation is not listed as pending in the footer.",
+                getSenderPage().getFooter().myPendingInvitations() == 1);
+
+            InspectInvitationsPage.OneMessage message = getSenderPage().getFooter().inspectMyInvitations()
+                .getMessageWhere("Subject", "Admin has invited you to join localhost This is a subject line.");
+
+            InvitationActionConfirmationElement confirm = message.cancel();
+
+            Assert.assertTrue("Confirmation field for canceling invitation has wrong label",
+                confirm.getLabel().equals("Leave a message in case the invitee(s) try to register."));
+
+            confirm.setMemo("Sorry, wrong email address.");
+            confirm.confirm();
+//TODO Prove that the correct info message is displayed.
+
+            // Now switch to guest.
+            getUtil().setSession(null);
+
+            String commonPart = "\nAdministrator left you this message when canceling the invitation.\n"
+                              + "Sorry, wrong email address.";
+
+            // Prove that invitation cannot be accepted
+            InvitationGuestActionsPage guestPage = 
+                new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+            Assert.assertFalse("Guest was able to accept a message which had been canceled.",
+                guestPage.getMessage().equals(""));
+            Assert.assertTrue("Guest attempting to accept invitation was not given message that was canceled.",
+                guestPage.getMessage().equals("We're sorry but this invitation has been canceled." + commonPart));
+
+            // Prove that invitation cannot be declined
+            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
+            Assert.assertFalse("Guest was able to decline a message which had been canceled.",
+                guestPage.getMessage().equals(""));
+            Assert.assertTrue("Guest attempting to decline invitation was not given message that was canceled.",
+                guestPage.getMessage().equals("This invitation has been canceled and thus cannot be declined." 
+                                              + commonPart));
+
+            // Prove that the message report spam page still shows up.
+            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
+            Assert.assertTrue("Guest was not able to report canceled invitation as spam",
+                guestPage.getMessage().equals(""));
+            guestPage.setMemo("Canceled message is spam.");
+            Assert.assertTrue(guestPage.confirm().equals("Your report has been logged and the situation will "
+                                + "be investigated as soon as possible, we apologize for the inconvenience."));
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);

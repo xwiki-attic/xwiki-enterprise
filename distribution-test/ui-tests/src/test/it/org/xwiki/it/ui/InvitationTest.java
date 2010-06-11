@@ -212,10 +212,16 @@ public class InvitationTest extends AbstractTest
         }
     }
 
+    /** 
+     * This test proves that:
+     * 1. Non administrators trying to send to multiple email addresses without permission will get an error message.
+     *    and said mail will not be sent.
+     * 2. After permission is granted sending to multiple users will work and message will say mail was sent.
+     */
     @Test
     public void testUnpermittedUserCannotSendToMultipleAddresses() throws Exception
     {
-        TestUtils.Session s = getUtil().getSession();
+        TestUtils.Session admin = getUtil().getSession();
         try {
             getUtil().setSession(null);
             getUtil().registerLoginAndGotoPage("NonMailAdminUser", "WeakPassword", getSenderPage().getURL());
@@ -224,19 +230,41 @@ public class InvitationTest extends AbstractTest
             InvitationSenderPage.InvitationSentPage sent = getSenderPage().send();
             getGreenMail().waitForIncomingEmail(2000, 2);
             MimeMessage[] messages = getGreenMail().getReceivedMessages();
-            Assert.assertTrue(messages.length == 0);
+            Assert.assertTrue("Messages were recieved when they shouldn't have been sent!", messages.length == 0);
+            Assert.assertTrue("User was not shown the correct error message.",
+                sent.getMessageBoxContent().equals("Your message couldn't be sent because there were no valid email "
+                                                   + "addresses to send to."));
+            stopGreenMail();
 
-            Assert.assertFalse("It says the message was sent even though it wasn't",
-                getDriver().getPageSource().contains("Your message has been sent."));
+            // Become admin and allow users to send to multiple.
+            TestUtils.Session nonAdmin = getUtil().getSession();
+            getUtil().setSession(admin);
+            AdminSectionPage config = new AdminSectionPage("Invitation");
+            config.gotoPage();
+            config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
+                                                 + "usersMaySendToMultiple"), "true");
+            config.clickSave();
+            getUtil().setSession(nonAdmin);
+
+            // Prove that the user can now send to multiple recipients.
+            startGreenMail();
+            getSenderPage().gotoPage();
+            getSenderPage().fillForm("user@localhost.localdomain anotheruser@localhost.localdomain", null, null);
+            sent = getSenderPage().send();
+            getGreenMail().waitForIncomingEmail(10000, 2);
+            messages = getGreenMail().getReceivedMessages();
+            Assert.assertTrue("Non admins cannot send mail to even with permission", messages.length == 2);
+            Assert.assertTrue("User was not given the message that their mail was sent.",
+                sent.getMessageBoxContent().equals("Your message has been sent."));
         } finally {
             stopGreenMail();
-            getUtil().setSession(s);
+            getUtil().setSession(admin);
             getUtil().deletePage("XWiki", "NonMailAdminUser");
         }
     }
 
     /** 
-     * This test prooves that:
+     * This test proves that:
      * 1. Guests (mail recipients) can report spam.
      * 2. After a spam report, a user's mail privilege is suspended.
      * 3. An admin will see a message telling him that a spam report was made.
@@ -322,7 +350,7 @@ public class InvitationTest extends AbstractTest
     }
 
     /** 
-     * This test prooves that:
+     * This test proves that:
      * 1. A guest can decline an invitation.
      * 2. The message status changes and the footer reflects this.
      * 3. The sender can see the info box seeing the guest's reason for declining.
@@ -540,8 +568,8 @@ public class InvitationTest extends AbstractTest
                 confirm.getLabel().equals("Leave a message in case the invitee(s) try to register."));
 
             confirm.setMemo("Sorry, wrong email address.");
-            confirm.confirm();
-//TODO Prove that the correct info message is displayed.
+            Assert.assertTrue("User not shown the correct message after confirming cancellation of invitation.",
+                confirm.confirm().equals("Invitation successfully canceled."));
 
             // Now switch to guest.
             getUtil().setSession(null);

@@ -53,7 +53,7 @@ public class InvitationSenderPage extends BasePage
 
     public void gotoPage()
     {
-//while(2 != 3){try{Thread.sleep(10000);}catch(Exception e){}}
+//try{while(true){Thread.sleep(10000);}}catch(Exception e){}
         getDriver().get(getURL());
     }
 
@@ -128,7 +128,7 @@ public class InvitationSenderPage extends BasePage
     /** This page represents the invitation app after the send button has been pressed. */
     public class InvitationSentPage extends BasePage
     {
-        @FindBy(xpath = "//div[@class='invitation']/div[@class='box infomessage']")
+        @FindBy(id = "invitation-action-message")
         private WebElement messageBox;
 
         @FindBy(xpath = "//div[@class='invitation']/table")

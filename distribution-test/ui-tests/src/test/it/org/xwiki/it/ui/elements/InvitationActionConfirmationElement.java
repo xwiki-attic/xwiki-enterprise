@@ -44,8 +44,10 @@ public class InvitationActionConfirmationElement extends BaseElement
         return actionConfirm.findElements(By.tagName("label")).get(0).getText();
     }
 
-    public void confirm()
+    /** Returns the message given after clicking confirm. */
+    public String confirm()
     {
         actionConfirm.findElements(By.className("button")).get(0).click();
+        return getDriver().findElement(By.id("invitation-action-message")).getText();
     }
 }

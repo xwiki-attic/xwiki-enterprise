@@ -80,6 +80,7 @@
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>
     <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>
     <platform.annotations.version>1.5-SNAPSHOT</platform.annotations.version>
+    <platform.invitation.version>1.0-SNAPSHOT</platform.invitation.version>
   </properties>
   <profiles>
     <profile>

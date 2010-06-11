@@ -59,7 +59,6 @@ import org.xwiki.it.ui.framework.TestUtils;
  * @version $Id$
  * @since 2.4M2
  */
-@Ignore("Invitation Application is still in sandbox and is not available to test.")
 public class InvitationTest extends AbstractTest
 {
     private static boolean initialized;

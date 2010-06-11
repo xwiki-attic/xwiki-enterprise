@@ -81,6 +81,12 @@
       <artifactId>xwiki-application-annotations</artifactId>
       <version>${platform.annotations.version}</version>
       <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-invitation</artifactId>
+      <version>${platform.invitation.version}</version>
+      <type>xar</type>
     </dependency>        
   </dependencies>
   <build>

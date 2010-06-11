@@ -91,7 +91,7 @@ public class InvitationTest extends AbstractTest
             config = new AdminSectionPage("Programming");
             config.gotoPage();
             config.getForm().setFieldValue(By.id("XWiki.XWikiPreferences_0_documentBundles"), 
-                                           "Invitation.InvitationLanguagePack");
+                                           "Invitation.InvitationDocumentBundle");
             config.clickSave();
             initialized = true;
         }
@@ -329,14 +329,23 @@ public class InvitationTest extends AbstractTest
             InspectInvitationsPage inspectPage = getSenderPage().getFooter().inspectAllInvitations();
             InspectInvitationsPage.OneMessage inspect = 
                 inspectPage.getMessageWhere("Subject", "spam has invited you to join localhost");
-
+//try{while(true){Thread.sleep(10000);}}catch(Exception e){}
             // Prove that the memo left by spam reported is shown.
-            Assert.assertTrue("The message by the spam reporter is not shown to the admin.",
-                                  inspect.getStatusAndMemo().equals("Reported as spam with message: It's the email"
-                                                                    + " lottery, they have taken over your server!"));
-            // Return their sending privilege.
-            inspect.notSpam("Actually the email lottery is quite legitiment.");
+            String expectedMessage = "Reported as spam with message: It's the email lottery, they have taken over "
+                                   + "your server!";
+            Assert.assertTrue("The message by the spam reporter is not shown to the admin.\nExpecting:"
+                              + expectedMessage + "\n      Got:" + inspect.getStatusAndMemo(),
+                                  inspect.getStatusAndMemo().equals(expectedMessage));
 
+            String memo = "Actually the email lottery is quite legitimate.";
+            String expectedSuccessMessage = "Invitation successfully marked as not spam. Log entry: " + memo;
+            // Return their sending privilege.
+            String successMessage = inspect.notSpam("Actually the email lottery is quite legitimate.");
+
+            // Make sure the output is correct.
+            Assert.assertTrue("Admin got incorrect message after marking invitation as not spam\nExpecting:"
+                              + expectedSuccessMessage + "\n      Got:" + successMessage,
+                              expectedSuccessMessage.equals(successMessage));
             // Switch back to spammer
             getUtil().setSession(spammer);
             getSenderPage().gotoPage();

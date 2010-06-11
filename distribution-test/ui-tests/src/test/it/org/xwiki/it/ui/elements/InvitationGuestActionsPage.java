@@ -80,7 +80,7 @@ public class InvitationGuestActionsPage extends BasePage
 
     public String getMessage()
     {
-        List<WebElement> elements = getDriver().findElements(By.id("guest-action-message"));
+        List<WebElement> elements = getDriver().findElements(By.id("invitation-action-message"));
         if (elements.size() > 0) {
             return elements.get(0).getText();
         }
@@ -93,6 +93,6 @@ public class InvitationGuestActionsPage extends BasePage
     public String confirm()
     {
         confirm.confirm();
-        return getDriver().findElement(By.id("guest-action-message")).getText();
+        return getDriver().findElement(By.id("invitation-action-message")).getText();
     }
 }

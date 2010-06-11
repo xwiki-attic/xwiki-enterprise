@@ -90,7 +90,8 @@ public abstract class InspectInvitationsPage extends BasePage
     {
         public InvitationMessageDisplayElement getMessage();
 
-        public void notSpam(String message);
+        /** Returns the message telling the user that they successfully set the status to not spam */
+        public String notSpam(String message);
 
         public InvitationActionConfirmationElement cancel();
 
@@ -130,7 +131,7 @@ public abstract class InspectInvitationsPage extends BasePage
                 throw new WebDriverException("Invitation cannot be canceled as an admin");
             }
 
-            public void notSpam(String message)
+            public String notSpam(String message)
             {
                 notSpamButton.click();
                 InvitationActionConfirmationElement confirm = new InvitationActionConfirmationElement();
@@ -139,7 +140,7 @@ public abstract class InspectInvitationsPage extends BasePage
                     throw new WebDriverException("Not on 'not spam' confirm page, message says: " + confirm.getLabel());
                 }
                 confirm.setMemo(message);
-                confirm.confirm();
+                return confirm.confirm();
             }
         }
     }
@@ -176,7 +177,7 @@ public abstract class InspectInvitationsPage extends BasePage
                 return new InvitationActionConfirmationElement();
             }
 
-            public void notSpam(String message)
+            public String notSpam(String message)
             {
                 throw new WebDriverException("Function only possible for admin.");
             }

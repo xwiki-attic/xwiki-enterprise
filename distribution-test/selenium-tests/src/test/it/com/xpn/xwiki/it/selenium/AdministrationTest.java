@@ -509,19 +509,27 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
         open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
 
-        setFieldValue("content", getFieldValue("content")
-                      + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
-        clickEditSaveAndContinue();
+        // Since we modify ConfigurableClass, we must modify it back after to prevent polluting further tests.
+        String originalContent = getFieldValue("content");
+        try {
+            setFieldValue("content", getFieldValue("content")
+                          + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
+            clickEditSaveAndContinue();
 
-        // Now we look at the section for our configurable.
-        open("XWiki", "ConfigurableClass", "view", "editor=globaladmin&section=TestSection6");
+            // Now we look at the section for our configurable.
+            open("XWiki", "ConfigurableClass", "view", "editor=globaladmin&section=TestSection6");
 
-        assertTextPresent("This should be displayed.");
-        assertTextPresent("This should also be displayed.");
-        assertTextNotPresent("This should not be displayed.");
-        assertTextPresent("Has Programming permission: false");
-        // Make sure javascript has not added a Save button.
-        assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
+            assertTextPresent("This should be displayed.");
+            assertTextPresent("This should also be displayed.");
+            assertTextNotPresent("This should not be displayed.");
+            assertTextPresent("Has Programming permission: false");
+            // Make sure javascript has not added a Save button.
+            assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
+        } finally {
+            open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
+            setFieldValue("content", originalContent);
+            clickEditSaveAndContinue();
+        }
     }
 
     /*

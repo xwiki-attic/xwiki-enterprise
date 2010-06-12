@@ -328,7 +328,6 @@ public class InvitationTest extends AbstractTest
             InspectInvitationsPage inspectPage = getSenderPage().getFooter().inspectAllInvitations();
             InspectInvitationsPage.OneMessage inspect = 
                 inspectPage.getMessageWhere("Subject", "spam has invited you to join localhost");
-//try{while(true){Thread.sleep(10000);}}catch(Exception e){}
             // Prove that the memo left by spam reported is shown.
             String expectedMessage = "Reported as spam with message: It's the email lottery, they have taken over "
                                    + "your server!";
@@ -542,6 +541,15 @@ public class InvitationTest extends AbstractTest
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
+
+            // Better open the wiki back up again.
+            EditObjectsPage eop = new EditObjectsPage();
+            getDriver().get(eop.getURL("XWiki", "XWikiPreferences"));
+
+            eop.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
+                .getSelectElement(By.name("XWiki.XWikiGlobalRights_2_levels")).select("register");
+
+            eop.clickSaveAndContinue();
         }
     }
 

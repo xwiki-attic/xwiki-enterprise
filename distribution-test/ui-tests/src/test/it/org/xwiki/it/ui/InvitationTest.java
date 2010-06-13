@@ -160,7 +160,7 @@ public class InvitationTest extends AbstractTest
                 messageA.get("recipient").equals(messageB.get("recipient")));
 
             // No guarentee which message will come in first.
-            if (messageB.get("recipient").contains("user@localhost.localdomain")) {
+            if (messageA.get("recipient").contains("anotheruser@localhost.localdomain")) {
                 Map<String, String> temp = messageB;
                 messageB = messageA;
                 messageA = temp;

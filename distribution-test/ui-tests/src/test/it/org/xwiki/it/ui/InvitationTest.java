@@ -148,10 +148,33 @@ public class InvitationTest extends AbstractTest
             getGreenMail().waitForIncomingEmail(10000, 2);
             MimeMessage[] messages = getGreenMail().getReceivedMessages();
 
+            Assert.assertTrue("wrong number of messages", messages.length == 2);
+
+            // Corrispond to message a and b
+            int a = 1, b = 2;
+
             Map<String, String> messageA = getMessageContent(messages[0]);
             Map<String, String> messageB = getMessageContent(messages[1]);
-            Assert.assertTrue(messageA.get("recipient").contains("user@localhost.localdomain"));
-            Assert.assertTrue(messageB.get("recipient").contains("anotheruser@localhost.localdomain"));
+
+            Assert.assertFalse("Both messages are going to the same recipient",
+                messageA.get("recipient").equals(messageB.get("recipient")));
+
+            // No guarentee which message will come in first.
+            if (messageB.get("recipient").contains("user@localhost.localdomain")) {
+                Map<String, String> temp = messageB;
+                messageB = messageA;
+                messageA = temp;
+                b = 1;
+                a = 2;
+            }
+
+            Assert.assertTrue("Wrong recipient name.\nExpecting:user@localhost.localdomain\n      Got:"
+                              + messageA.get("recipient"),
+                messageA.get("recipient").contains("user@localhost.localdomain"));
+
+            Assert.assertTrue("Wrong recipient name.\nExpecting:anotheruser@localhost.localdomain\n      Got:"
+                              + messageB.get("recipient"),
+                messageB.get("recipient").contains("anotheruser@localhost.localdomain"));
 
             assertMessageValid(messageA);
             assertMessageValid(messageB);
@@ -161,10 +184,10 @@ public class InvitationTest extends AbstractTest
             TableElement table = sent.getTable();
             Assert.assertTrue(table.numberOfRows() == 3);
             Assert.assertTrue(table.numberOfColumns() == 3);
-            Assert.assertTrue(table.getRow(1).get(1).getText().contains("user@localhost.localdomain"));
-            Assert.assertTrue(table.getRow(1).get(2).getText().contains("Pending"));
-            Assert.assertTrue(table.getRow(2).get(1).getText().contains("anotheruser@localhost.localdomain"));
-            Assert.assertTrue(table.getRow(2).get(2).getText().contains("Pending"));
+            Assert.assertTrue(table.getRow(a).get(1).getText().contains("user@localhost.localdomain"));
+            Assert.assertTrue(table.getRow(a).get(2).getText().contains("Pending"));
+            Assert.assertTrue(table.getRow(b).get(1).getText().contains("anotheruser@localhost.localdomain"));
+            Assert.assertTrue(table.getRow(b).get(2).getText().contains("Pending"));
         } finally {
             stopGreenMail();
         }
@@ -619,6 +642,41 @@ public class InvitationTest extends AbstractTest
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
+        }
+    }
+
+    /**
+     * This test proves that:
+     * 1. A user cannot send to the same address multiple (8000) times which would be very annoying for the recipient.
+     */
+    @Test
+    public void testSendManyToOneAddress() throws Exception
+    {
+        TestUtils.Session admin = getUtil().getSession();
+        try {
+            // Allow users to send to multiple.
+            AdminSectionPage config = new AdminSectionPage("Invitation");
+            config.gotoPage();
+            config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
+                                                 + "usersMaySendToMultiple"), "true");
+            config.clickSave();
+
+            // Now switch to a wizeguy user
+            getUtil().setSession(null);
+            getUtil().registerLoginAndGotoPage("tr0ll", "StrongPassword", getSenderPage().getURL());
+
+            startGreenMail();
+            getSenderPage().fillForm("user@localhost.localdomain user@localhost.localdomain "
+                                     + "user@localhost.localdomain user@localhost.localdomain", null, null);
+            getSenderPage().send();
+            getGreenMail().waitForIncomingEmail(10000, 1);
+            MimeMessage[] messages = getGreenMail().getReceivedMessages();
+            Assert.assertTrue("One user is able to send multiple messages to the same poor recipient.",
+                              messages.length == 1);
+        } finally {
+            stopGreenMail();
+            getUtil().setSession(admin);
+            getUtil().deletePage("XWiki", "tr0ll");
         }
     }
 

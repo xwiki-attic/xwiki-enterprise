@@ -85,13 +85,6 @@ public class InvitationTest extends AbstractTest
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_smtp_port"), 
                                            "3025");
             config.clickSave();
-
-            // Setup language pack
-            config = new AdminSectionPage("Programming");
-            config.gotoPage();
-            config.getForm().setFieldValue(By.id("XWiki.XWikiPreferences_0_documentBundles"), 
-                                           "Invitation.InvitationDocumentBundle");
-            config.clickSave();
             initialized = true;
         }
 

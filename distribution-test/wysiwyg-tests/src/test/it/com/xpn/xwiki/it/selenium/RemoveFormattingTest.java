@@ -64,8 +64,8 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("= a(% style=\"color:green\" %)b**cd**(%%)e =\n\nf(% style=\"font-size:36pt\" %)g//hi//(%%)j");
         switchToWysiwyg();
-        select("XWE.body.getElementsByTagName('strong')[0].firstChild.firstChild", 1,
-            "XWE.body.getElementsByTagName('em')[0].firstChild.firstChild", 1);
+        select("XWE.body.getElementsByTagName('strong')[0].firstChild", 1,
+            "XWE.body.getElementsByTagName('em')[0].firstChild", 1);
         clickRemoveFormattingButton();
         switchToSource();
         assertSourceText("= a(% style=\"color: green;\" %)b**c**(%%)de =\n\nfgh(% style=\"font-size: 36pt;\" %)//i//(%%)j");

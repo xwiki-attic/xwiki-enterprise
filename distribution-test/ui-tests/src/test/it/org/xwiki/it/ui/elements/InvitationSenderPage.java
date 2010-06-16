@@ -53,7 +53,6 @@ public class InvitationSenderPage extends BasePage
 
     public void gotoPage()
     {
-//try{while(true){Thread.sleep(10000);}}catch(Exception e){}
         getDriver().get(getURL());
     }
 
@@ -131,7 +130,7 @@ public class InvitationSenderPage extends BasePage
         @FindBy(id = "invitation-action-message")
         private WebElement messageBox;
 
-        @FindBy(xpath = "//div[@class='invitation']/table")
+        @FindBy(xpath = "//div[@class='message-table']/table")
         private WebElement table;
 
         @FindBy(xpath = "//div[@class='invitation']/div[@class='invitation invitation-preview']")

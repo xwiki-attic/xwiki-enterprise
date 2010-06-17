@@ -1260,8 +1260,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testInsertVelocityMacroDisplayingAProperty()
     {
         insertMacro("Velocity");
-        setFieldValue("pd-content-input",
-            "{{velocity}}$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\"){{/velocity}}");
+        setFieldValue("pd-content-input", "$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\")");
         applyMacroChanges();
         // Check the displayed text.
         assertEquals("velocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));

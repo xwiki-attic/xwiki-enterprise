@@ -98,7 +98,8 @@ public class WysiwygTestSetup extends TestSetup
             + "indent history format symbol link image " + "table macro import color justify font");
         config.put("wysiwyg.toolbar", "bold italic underline strikethrough teletype | subscript superscript | "
             + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
-            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol");
+            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | "
+            + " paste | macro:velocity");
         updateXWikiPreferences(config, helperTest);
     }
 

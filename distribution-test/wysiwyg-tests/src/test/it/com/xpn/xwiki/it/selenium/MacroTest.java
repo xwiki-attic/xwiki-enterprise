@@ -1267,6 +1267,21 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Tests that a macro can be inserted by clicking the associated tool bar button.
+     */
+    public void testInsertMacroFromToolBar()
+    {
+        // The tool bar button for inserting the velocity macro has been added in WysiwygTestSetup.
+        clickInsertMacroButton("velocity");
+        waitForDialogToLoad();
+        setFieldValue("pd-content-input", "$xwiki.version");
+        applyMacroChanges();
+        // Check if the macro was correctly inserted.
+        switchToSource();
+        assertSourceText("{{velocity}}\n$xwiki.version\n{{/velocity}}");
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */
@@ -1528,5 +1543,15 @@ public class MacroTest extends AbstractWysiwygTestCase
         runScript("XWE.selection.collapseToEnd()");
         triggerToolbarUpdate();
         waitForSelectedMacroCount(0);
+    }
+
+    /**
+     * Clicks the tool bar button corresponding to the specified macro.
+     * 
+     * @param macroId a macro identifier
+     */
+    public void clickInsertMacroButton(String macroId)
+    {
+        pushToolBarButton(String.format("Insert %s macro", macroId));
     }
 }

@@ -78,7 +78,8 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Verify that a Macro defined in a document is not visible from another document.
+     * Verify that a Macro defined in a document is not visible from another document (using XWiki Syntax 1.0).
+     * Note that for XWiki Syntax 2.0 this is verified in a unit test in the Velocity Macro module.
      */
     public void testMacrosAreLocal()
     {

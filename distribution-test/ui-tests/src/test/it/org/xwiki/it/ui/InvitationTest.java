@@ -601,12 +601,12 @@ public class InvitationTest extends AbstractTest
 
             confirm.setMemo("Sorry, wrong email address.");
             Assert.assertTrue("User not shown the correct message after confirming cancellation of invitation.",
-                confirm.confirm().equals("Invitation successfully canceled."));
+                confirm.confirm().equals("Invitation successfully rescinded."));
 
             // Now switch to guest.
             getUtil().setSession(null);
 
-            String commonPart = "\nAdministrator left you this message when canceling the invitation.\n"
+            String commonPart = "\nAdministrator left you this message when rescinding the invitation.\n"
                               + "Sorry, wrong email address.";
 
             // Prove that invitation cannot be accepted
@@ -615,14 +615,14 @@ public class InvitationTest extends AbstractTest
             Assert.assertFalse("Guest was able to accept a message which had been canceled.",
                 guestPage.getMessage().equals(""));
             Assert.assertTrue("Guest attempting to accept invitation was not given message that was canceled.",
-                guestPage.getMessage().equals("We're sorry but this invitation has been canceled." + commonPart));
+                guestPage.getMessage().equals("We're sorry but this invitation has been rescinded." + commonPart));
 
             // Prove that invitation cannot be declined
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertFalse("Guest was able to decline a message which had been canceled.",
                 guestPage.getMessage().equals(""));
             Assert.assertTrue("Guest attempting to decline invitation was not given message that was canceled.",
-                guestPage.getMessage().equals("This invitation has been canceled and thus cannot be declined." 
+                guestPage.getMessage().equals("This invitation has been rescinded and thus cannot be declined." 
                                               + commonPart));
 
             // Prove that the message report spam page still shows up.

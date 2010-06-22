@@ -38,7 +38,7 @@ import org.xwiki.it.ui.framework.elements.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**
- * Tests page creation using the page creation template.
+ * Tests page creation using a Template Provider and a Template.
  * 
  * @version $Id$
  * @since 2.4M1
@@ -134,7 +134,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         createPagePage.clickCreate();
         Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
         
-        // Verify there's no template available in the Main space
+        // Verify the template we have removed is no longer available.
         ViewPage home = getUtil().gotoPage("Main", "WebHome");
         createPagePage = home.createPage();
         Assert.assertFalse(createPagePage.areTemplatesAvailable());

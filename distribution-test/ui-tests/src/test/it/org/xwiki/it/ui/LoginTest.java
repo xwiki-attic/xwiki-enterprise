@@ -22,8 +22,8 @@ package org.xwiki.it.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.it.ui.elements.HomePage;
-import org.xwiki.it.ui.elements.LoginPage;
+import org.xwiki.it.ui.framework.elements.LoginPage;
+import org.xwiki.it.ui.xe.elements.HomePage;
 import org.xwiki.it.ui.framework.AbstractTest;
 
 /**

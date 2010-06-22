@@ -69,8 +69,8 @@
           <execution>
             <configuration>
               <includes>
-                <include>**/elements/*.class</include>
-                <include>**/framework/*.class</include>
+                <include>**/elements/**/*.class</include>
+                <include>**/framework/**/*.class</include>
               </includes>
             </configuration>
           </execution>

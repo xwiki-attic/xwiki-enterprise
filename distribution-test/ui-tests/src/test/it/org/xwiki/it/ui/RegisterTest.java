@@ -27,9 +27,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.it.ui.elements.AdminSectionPage;
-import org.xwiki.it.ui.elements.RegisterPage;
-import org.xwiki.it.ui.elements.ViewPage;
+import org.xwiki.it.ui.administration.elements.AdminSectionPage;
+import org.xwiki.it.ui.framework.elements.RegisterPage;
 import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.TestUtils;
 

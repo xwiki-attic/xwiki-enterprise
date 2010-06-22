@@ -28,17 +28,17 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.it.ui.elements.AdminTemplatesPage;
-import org.xwiki.it.ui.elements.CreatePagePage;
-import org.xwiki.it.ui.elements.CreatePagePanel;
-import org.xwiki.it.ui.elements.TemplateProviderInlinePage;
-import org.xwiki.it.ui.elements.ViewPage;
-import org.xwiki.it.ui.elements.WYSIWYGEditPage;
-import org.xwiki.it.ui.elements.WikiEditPage;
+import org.xwiki.it.ui.administration.elements.AdminTemplatesPage;
+import org.xwiki.it.ui.framework.elements.CreatePagePage;
+import org.xwiki.it.ui.panels.elements.NewPagePanel;
+import org.xwiki.it.ui.administration.elements.TemplateProviderInlinePage;
+import org.xwiki.it.ui.framework.elements.ViewPage;
+import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**
- * Tests different ways of creating a new page.
+ * Tests page creation using the page creation template.
  * 
  * @version $Id$
  * @since 2.4M1
@@ -56,25 +56,6 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      */
     public static final String TEMPLATE_NAME = "MyTemplate";
     
-    /**
-     * Tests if a new page can be created using the create page panel.
-     */
-    @Test
-    public void testCreatePageFromPanel()
-    {
-        CreatePagePanel createPagePanel = new CreatePagePanel();
-        createPagePanel.gotoPage();
-
-        String spaceName = this.getClass().getSimpleName();
-        String pageName = testName.getMethodName();
-
-        WYSIWYGEditPage editPage = createPagePanel.createPage(spaceName, pageName);
-
-        Assert.assertEquals(pageName, editPage.getDocumentTitle());
-        Assert.assertEquals(pageName, editPage.getMetaDataValue("page"));
-        Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
-    }
-
     /**
      * Tests if a new page can be created from a template.
      */

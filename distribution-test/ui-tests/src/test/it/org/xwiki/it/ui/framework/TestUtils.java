@@ -32,7 +32,6 @@ import java.net.URLEncoder;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
 
@@ -40,7 +39,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.TimeoutException;
-import org.xwiki.it.ui.elements.ViewPage;
+import org.xwiki.it.ui.framework.elements.ViewPage;
+
 /**
  * Helper methods for testing, not related to a specific Page Object.
  * Also made available to tests classes.

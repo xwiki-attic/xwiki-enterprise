@@ -36,11 +36,12 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
 {
     private ManageCategoriesPage categoriesPage;
 
-    private static final String WORD_CATEGORY = "SomeCategory";
+    /**
+     * We make sure to have spaces and special chars to ensure categories can be named with any char.
+     */
+    private static final String CATEGORY = "The \"Do\"s & Don'ts";
 
-    private static final String SPACE_CATEGORY = "Another Category";
-
-    private static final String SPECIAL_CATEGORY = "The \"Do\"s & Don'ts";
+    private static final String CATEGORY_RENAME = "New \"categor'y\"";
 
     @Before
     public void setUp()
@@ -50,69 +51,16 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
         categoriesPage = new ManageCategoriesPage();
 
         // clean up
-        getUtil().deletePage("Blog", WORD_CATEGORY);
-        getUtil().deletePage("Blog", SPACE_CATEGORY);
-        getUtil().deletePage("Blog", SPECIAL_CATEGORY);
+        getUtil().deletePage("Blog", CATEGORY);
+        getUtil().deletePage("Blog", CATEGORY_RENAME);
     }
 
     @Test
-    public void testCategoryAdd()
+    public void testCategoryAddRenameRemove()
     {
-        categoryAdd(WORD_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryRename()
-    {
-        categoryAdd(WORD_CATEGORY);
-        categoryRename(WORD_CATEGORY, SPACE_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryRemove()
-    {
-        categoryAdd(WORD_CATEGORY);
-        categoryRemove(WORD_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryAddSpace()
-    {
-        categoryAdd(SPACE_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryRenameSpace()
-    {
-        categoryAdd(SPACE_CATEGORY);
-        categoryRename(SPACE_CATEGORY, SPECIAL_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryRemoveSpace()
-    {
-        categoryAdd(SPACE_CATEGORY);
-        categoryRemove(SPACE_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryAddSpecial()
-    {
-        categoryAdd(SPECIAL_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryRenameSpecial()
-    {
-        categoryAdd(SPECIAL_CATEGORY);
-        categoryRename(SPECIAL_CATEGORY, WORD_CATEGORY);
-    }
-
-    @Test
-    public void testCategoryRemoveSpecial()
-    {
-        categoryAdd(SPECIAL_CATEGORY);
-        categoryRemove(SPECIAL_CATEGORY);
+        categoryAdd(CATEGORY);
+        categoryRename(CATEGORY, CATEGORY_RENAME);
+        categoryRemove(CATEGORY_RENAME);
     }
 
     /**

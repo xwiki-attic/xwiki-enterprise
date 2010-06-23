@@ -99,7 +99,7 @@ public class AbstractValidationTest extends TestCase
     {
         GetMethod method = createGetMethod();
 
-        method.setFollowRedirects(false);
+        method.setFollowRedirects(true);
 
         if (this.credentials != null) {
             method.setDoAuthentication(true);

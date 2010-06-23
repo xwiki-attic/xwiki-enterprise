@@ -130,6 +130,18 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().submit("xpath=//input[@name='formactionsave' or @name='action_save' or @name='action_propupdate']");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see SkinExecutor#clickEditAddProperty()
+     */
+    public void clickEditAddProperty()
+    {
+        getTest().getSelenium().click("//input[@value = 'Add']");
+        getTest().waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
+            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
+    }
+
     public boolean isAuthenticated()
     {
         return !getTest().isElementPresent("headerlogin") && !getTest().isElementPresent("headerregister");

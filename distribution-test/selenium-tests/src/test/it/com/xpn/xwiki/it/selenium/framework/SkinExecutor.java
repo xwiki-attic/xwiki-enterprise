@@ -83,6 +83,12 @@ public interface SkinExecutor
     void clickEditSaveAndView();
 
     /**
+     * Clicks on the add property button in the class editor. As a result the specified property is added to the edited
+     * class and the class is saved. This method waits for the class to be saved.
+     */
+    void clickEditAddProperty();
+
+    /**
      * @return true if there's a user logged in or false otherwise
      */
     boolean isAuthenticated();

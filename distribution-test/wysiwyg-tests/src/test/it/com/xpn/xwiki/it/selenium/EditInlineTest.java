@@ -128,8 +128,7 @@ public class EditInlineTest extends AbstractWysiwygTestCase
     {
         setFieldValue("propname", propertyName);
         getSelenium().select("proptype", "TextArea");
-        getSelenium().click("//input[@value = 'Add Property']");
-        waitPage();
+        clickEditAddProperty();
         getSelenium().select(propertyName + "_editor", "Wysiwyg");
     }
 

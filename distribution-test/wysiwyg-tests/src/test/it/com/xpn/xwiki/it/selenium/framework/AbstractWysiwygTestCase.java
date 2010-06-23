@@ -1241,4 +1241,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         setSourceText(content);
         clickEditSaveAndView();
     }
+
+    /**
+     * Clicks the add property button in the class editor.
+     */
+    public void clickEditAddProperty()
+    {
+        getSelenium().click("//input[@value = 'Add']");
+        waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
+            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
+    }
 }

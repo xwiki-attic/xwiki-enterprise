@@ -116,7 +116,7 @@ public class WysiwygTestSetup extends TestSetup
         for (Map.Entry<String, String> entry : config.entrySet()) {
             String propertyId = "XWiki.XWikiPreferences_0_" + entry.getKey();
             if (!helperTest.isElementPresent(propertyId)) {
-                addXWikiStringPreference(entry.getKey(), entry.getValue().length(), helperTest);
+                addXWikiStringPreference(entry.getKey(), helperTest);
             }
             if (!entry.getValue().equals(helperTest.getFieldValue(propertyId))) {
                 helperTest.setFieldValue(propertyId, entry.getValue());
@@ -129,19 +129,17 @@ public class WysiwygTestSetup extends TestSetup
      * Adds a string property to the XWiki.XWikiPreferences class.
      * 
      * @param name the property name
-     * @param size the maximum size for the property value
      * @param helperTest helper {@link AbstractXWikiTestCase} instance whose API to use to do the setup
      */
-    private void addXWikiStringPreference(String name, int size, AbstractXWikiTestCase helperTest)
+    private void addXWikiStringPreference(String name, AbstractXWikiTestCase helperTest)
     {
         String location = helperTest.getSelenium().getLocation();
         helperTest.open("XWiki", "XWikiPreferences", "edit", "editor=class");
         helperTest.setFieldValue("propname", name);
         helperTest.getSelenium().select("proptype", "String");
-        helperTest.getSelenium().click("//input[@value = 'Add Property']");
-        helperTest.waitPage();
-        helperTest.setFieldValue(name + "_size", String.valueOf(size));
-        helperTest.clickEditSaveAndContinue();
+        helperTest.getSelenium().click("//input[@value = 'Add']");
+        helperTest.waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
+            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
         helperTest.getSelenium().open(location);
     }
 }

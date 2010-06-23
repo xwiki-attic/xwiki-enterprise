@@ -142,6 +142,18 @@ public class AlbatrossSkinExecutor implements SkinExecutor
             + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @see SkinExecutor#clickEditAddObject()
+     */
+    public void clickEditAddObject()
+    {
+        getTest().getSelenium().click("//input[@value = 'Add']");
+        getTest().waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
+            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Object created')");
+    }
+
     public boolean isAuthenticated()
     {
         return !getTest().isElementPresent("headerlogin") && !getTest().isElementPresent("headerregister");

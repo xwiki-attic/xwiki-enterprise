@@ -446,6 +446,15 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         getSkinExecutor().clickEditAddProperty();
     }
 
+    /**
+     * Clicks on the add object button in the object editor. As a result an object of the specified class is added to
+     * the edited document and the document is saved. This method waits for the document to be saved.
+     */
+    public void clickEditAddObject()
+    {
+        getSkinExecutor().clickEditAddObject();
+    }
+
     public boolean isAuthenticated()
     {
         return getSkinExecutor().isAuthenticated();

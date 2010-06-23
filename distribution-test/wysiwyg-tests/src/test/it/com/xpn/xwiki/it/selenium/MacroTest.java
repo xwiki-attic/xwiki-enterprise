@@ -1228,8 +1228,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         if (!isElementPresent("xclass_XWiki.WikiMacroClass")) {
             // Create the macro.
             getSelenium().select("classname", "WikiMacroClass");
-            getSelenium().click("//input[@value = 'Add Object from this Class']");
-            waitPage();
+            clickEditAddObject();
             setFieldValue("XWiki.WikiMacroClass_0_id", "now");
             setFieldValue("XWiki.WikiMacroClass_0_name", "Now");
             getSelenium().select("XWiki.WikiMacroClass_0_contentType", "No content");
@@ -1237,8 +1236,7 @@ public class MacroTest extends AbstractWysiwygTestCase
             clickEditSaveAndContinue();
             // Create the mandatory parameter.
             getSelenium().select("classname", "WikiMacroParameterClass");
-            getSelenium().click("//input[@value = 'Add Object from this Class']");
-            waitPage();
+            clickEditAddObject();
             setFieldValue("XWiki.WikiMacroParameterClass_0_name", "format");
             getSelenium().select("XWiki.WikiMacroParameterClass_0_mandatory", "Yes");
             setFieldValue("XWiki.WikiMacroParameterClass_0_defaultValue", "yyyy.MM.dd");

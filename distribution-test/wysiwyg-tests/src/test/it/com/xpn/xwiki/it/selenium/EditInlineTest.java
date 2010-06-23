@@ -140,8 +140,7 @@ public class EditInlineTest extends AbstractWysiwygTestCase
     private void addObject(String className)
     {
         getSelenium().select("classname", className);
-        getSelenium().click("//input[@value = 'Add Object from this Class']");
-        waitPage();
+        clickEditAddObject();
     }
 
     /**

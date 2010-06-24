@@ -19,6 +19,7 @@
  */
 package org.xwiki.it.ui.framework.elements;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -50,6 +51,9 @@ public class EditPage extends BasePage
     public void clickSaveAndContinue()
     {
         saveandcontinue.click();
+
+        // Wait until the page is really saved
+        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Saved']"));
     }
 
     public ViewPage clickSaveAndView()

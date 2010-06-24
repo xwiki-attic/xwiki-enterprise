@@ -147,7 +147,7 @@ public class RegisterTest extends AbstractTest
 
     /**
      * If LiveValidation is enabled then it will check that there are no failures with that. If no failures then hits
-     * register button, it then asserts that hitting thr register button did not reveal any failures not caught by
+     * register button, it then asserts that hitting the register button did not reveal any failures not caught by
      * LiveValidation. If LiveValidation is disabled then just hits the register button.
      */
     protected boolean validateAndRegister()

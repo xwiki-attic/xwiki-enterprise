@@ -190,7 +190,7 @@ $xwiki.ssx.use("Main.Spaces")##
           &lt;div class="spSpaceName"&gt;[[${space}&gt;&gt;${space}.WebHome]]&lt;/div&gt;
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
-            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=${space}")" title="$msg.get('xe.spaces.action.index')"&gt;
+            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$msg.get('xe.spaces.action.index')"&gt;
               &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.gif')" alt="Space index icon"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.

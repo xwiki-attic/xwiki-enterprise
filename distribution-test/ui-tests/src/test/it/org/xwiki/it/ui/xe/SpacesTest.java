@@ -23,17 +23,19 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.xwiki.it.ui.framework.elements.WikiEditPage;
 import org.xwiki.it.ui.xe.elements.HomePage;
 import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.it.ui.xe.elements.SpaceIndexPage;
 
 /**
- * Tests space creation using the Space Dashboard.
+ * Tests the Space Dashboard.
  * 
  * @version $Id$
  * @since 2.4M1
  */
-public class CreateSpaceTest extends AbstractAdminAuthenticatedTest
+public class SpacesTest extends AbstractAdminAuthenticatedTest
 {
     /**
      * The object used to access the name of the current test.
@@ -42,10 +44,10 @@ public class CreateSpaceTest extends AbstractAdminAuthenticatedTest
     public final TestName testName = new TestName();
 
     /**
-     * Tests if a new space can be created from the home page's Space dashboard.
+     * Tests if a new space can be created from the Space dashboard.
      */
     @Test
-    public void testCreateSpaceFromHomePage()
+    public void testCreateSpace()
     {
         HomePage homePage = new HomePage();
         homePage.gotoPage();
@@ -58,5 +60,28 @@ public class CreateSpaceTest extends AbstractAdminAuthenticatedTest
         // Verify that the space created is correct by looking at the generate metadata in the HTML header
         // (they contain the space name amongst other data).
         Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
+    }
+
+    @Test
+    public void testLinkToSpaceIndexWhenSpecialCharacterInSpaceName()
+    {
+        String spaceName = testName.getMethodName() + "&";
+        // Make sure the space WebHome page doesn't exist.
+        getUtil().deletePage(spaceName, "WebHome");
+
+        // Create Space with a URL-reserved  character in the Space name.
+        WikiEditPage editPage = new WikiEditPage();
+        editPage.switchToEdit(spaceName, "WebHome");
+        editPage.setContent("Content");
+        editPage.clickSaveAndView();
+
+        // Navigate to the Home Page and click on the SpaceIndex.
+        HomePage homePage = new HomePage();
+        homePage.gotoPage();
+        SpaceIndexPage spaceIndexPage = homePage.getSpacesPane().clickSpaceIndex(spaceName); 
+
+        // TODO: Improve the following test by asserting the content of the Livetable in the SpaceIndexPage
+        Assert.assertEquals(getUtil().getURL("Main", "SpaceIndex", "view", "space=" + getUtil().escapeURL(spaceName)),
+            getDriver().getCurrentUrl()); 
     }
 }

@@ -176,7 +176,17 @@ public class BaseElement
      */
     public void makeElementVisible(By locator)
     {
+        makeElementVisible(this.getDriver().findElement(locator));
+    }
+
+    public void makeElementVisible(WebElement element)
+    {
         // RenderedWebElement.hover() don't seem to work, workarounded using JavaScript call
+        executeJavascript("arguments[0].style.visibility='visible'", element);
+    }
+
+    public void executeJavascript(String javascript, WebElement element)
+    {
         if (!(this.getDriver() instanceof JavascriptExecutor)) {
             throw new RuntimeException("Currently used web driver (" + this.getDriver().getClass()
                 + ") does not support JavaScript execution");
@@ -185,7 +195,7 @@ public class BaseElement
         if (!js.isJavascriptEnabled()) {
             throw new RuntimeException("JavaScript is disabled");
         }
-        js.executeScript("arguments[0].style.visibility='visible'", this.getDriver().findElement(locator));
+        js.executeScript(javascript, element);
     }
 
     /**

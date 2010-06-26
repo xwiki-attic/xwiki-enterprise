@@ -19,10 +19,13 @@
  */
 package org.xwiki.it.ui.xe.elements;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.elements.BaseElement;
 import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+
+import java.util.List;
 
 /**
  * Represents the part of the home page that lists the existing spaces and allows the user to create a new space.
@@ -52,10 +55,34 @@ public class SpacesPane extends BaseElement
      */
     public WYSIWYGEditPage createSpace(String spaceName)
     {
-        spaceCreateFormToggleSwitch.click();
+        this.spaceCreateFormToggleSwitch.click();
         this.spaceNameTextField.clear();
         this.spaceNameTextField.sendKeys(spaceName);
         this.spaceNameTextField.submit();
         return new WYSIWYGEditPage();
+    }
+
+    public SpaceIndexPage clickSpaceIndex(String spaceName)
+    {
+        String escapedSpaceName = getUtil().escapeURL(spaceName);
+
+        // Start by finding all li elements with 'xitem' class
+        for (WebElement liElement : getDriver().findElements(By.xpath("//li[contains(@class, 'xitem')]"))) {
+            List<WebElement> elements =
+                liElement.findElements(By.xpath("//a[contains(@href, 'SpaceIndex?space=" + escapedSpaceName + "')]"));
+            if (!elements.isEmpty()) {
+
+                // Make sure we hover before we click since the link is hidden by default.
+                // TODO: However since I wasn't able to perform a hover, I'm cheating by removing the class
+                // attribute that makes the element hidden.
+                executeJavascript("arguments[0].setAttribute('class', '')", liElement);
+
+                // Click
+                elements.get(0).click();
+                return new SpaceIndexPage();
+            }
+        }
+
+        throw new RuntimeException("Was unable to click on space index for [" + spaceName + "]");
     }
 }

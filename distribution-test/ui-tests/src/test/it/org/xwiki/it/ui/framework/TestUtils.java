@@ -246,7 +246,7 @@ public class TestUtils
      */
     public String getURL(String space, String page, String action, String queryString)
     {
-        return baseURL + action + "/" + space + "/" + page
+        return baseURL + action + "/" + escapeURL(space) + "/" + escapeURL(page)
                + ((queryString == null || queryString.length() < 1) ? "" : "?" + queryString);
     }
 

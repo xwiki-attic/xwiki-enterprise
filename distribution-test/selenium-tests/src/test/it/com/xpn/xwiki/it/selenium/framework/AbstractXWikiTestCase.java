@@ -377,6 +377,13 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         }.wait("element [" + elementLocator + "] not found");
     }
 
+    public void clickButtonAndContinue(String locator)
+    {
+        waitForCondition("window.document.getElementsByClassName('xnotification-done')[0] == null");
+        submit(locator, false);
+        waitForCondition("window.document.getElementsByClassName('xnotification-done')[0] != null");
+    }
+
     /**
      * {@inheritDoc}
      * 

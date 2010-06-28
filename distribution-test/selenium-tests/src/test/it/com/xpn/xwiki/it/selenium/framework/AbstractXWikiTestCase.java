@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
 /**
@@ -340,7 +341,8 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
             {
                 return getSelenium().getText(elementLocator).equals(expectedValue);
             }
-        }.wait("element [" + elementLocator + "] not found or doesn't have the value [" + expectedValue + "]");
+        }.wait(getSelenium().isElementPresent(elementLocator) ? "Element [" + elementLocator + "] not found"
+            : "Element [" + elementLocator + "] found but it doesn't have the expected value [" + expectedValue + "]");
     }
 
     public void waitForTextContains(final String elementLocator, final String containsValue)

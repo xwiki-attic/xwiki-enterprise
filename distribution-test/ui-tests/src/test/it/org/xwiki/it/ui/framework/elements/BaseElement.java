@@ -29,6 +29,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.pagefactory.ElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.TimeoutException;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.it.ui.framework.TestUtils;
@@ -111,33 +112,44 @@ public class BaseElement
     public void waitUntilElementsAreVisible(final By[] locators, int timeout, final boolean all)
     {
         Wait<WebDriver> wait = new WebDriverWait(this.getDriver(), timeout);
-        wait.until(new ExpectedCondition<WebElement>()
-        {
-            public WebElement apply(WebDriver driver)
+        try {
+            wait.until(new ExpectedCondition<WebElement>()
             {
-                RenderedWebElement element = null;
-                for (int i = 0; i < locators.length; i++) {
-                    try {
-                        element = (RenderedWebElement) driver.findElement(locators[i]);
-                    } catch (NotFoundException e) {
-                        // This exception is caught by WebDriverWait
-                        // but it returns null which is not necessarily what we want.
-                        if (all) {
+                public WebElement apply(WebDriver driver)
+                {
+                    RenderedWebElement element = null;
+                    for (int i = 0; i < locators.length; i++) {
+                        try {
+                            element = (RenderedWebElement) driver.findElement(locators[i]);
+                        } catch (NotFoundException e) {
+                            // This exception is caught by WebDriverWait
+                            // but it returns null which is not necessarily what we want.
+                            if (all) {
+                                return null;
+                            }
+                            continue;
+                        }
+                        if (element.isDisplayed()) {
+                            if (!all) {
+                                return element;
+                            }
+                        } else if (all) {
                             return null;
                         }
-                        continue;
                     }
-                    if (element.isDisplayed()) {
-                        if (!all) {
-                            return element;
-                        }
-                    } else if (all) {
-                        return null;
-                    }
+                    return element;
                 }
-                return element;
+            });
+        } catch (TimeoutException e) {
+            StringBuffer sb = new StringBuffer("Failed to find the following locators: [\n");
+            for (By by : locators) {
+                sb.append(by).append("\n");
             }
-        });
+            sb.append("] in the source [\n");
+            sb.append(getDriver().getPageSource());
+            sb.append("\n]");
+            throw new TimeoutException(sb.toString(), e);
+        }
     }
 
     public void waitUntilElementDisappears(final By locator)

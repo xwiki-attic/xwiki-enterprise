@@ -19,31 +19,56 @@
  */
 package org.xwiki.it.ui.framework.elements;
 
-import java.util.Set;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.By;
+import org.openqa.selenium.support.FindBy;
 
 /**
- * Represents the common actions possible editing objects on a page.
- * 
+ * Represents the common actions possible on all Pages when using the "edit" action with the "object" editor.
+ *
  * @version $Id$
  * @since 2.4M2
  */
-public class EditObjectsPage extends EditPage
+public class ObjectEditPage extends EditPage
 {
+    @FindBy(id ="update")
+    private WebElement objectForm;
+
+    @FindBy(id = "classname")
+    private WebElement classNameField;
+
+    @FindBy(name = "action_objectadd")
+    private WebElement classNameSubmit;
+
+    private FormElement form;
+
+    public FormElement addObject(String className)
+    {
+        getForm().setFieldValue(this.classNameField, className);
+        this.classNameSubmit.click();
+
+        // Make sure we wait for the element to appear since there's no page refresh.
+        waitUntilElementIsVisible(By.id("xclass_" + className));
+
+        List<FormElement> objects = getObjectsOfClass(className);
+        return objects.get(objects.size() - 1);
+    }
+
+    private FormElement getForm()
+    {
+        if (this.form == null) {
+            this.form = new FormElement(this.objectForm);
+        }
+        return this.form;
+    }
+
     public String getURL(String space, String page)
     {
         return getUtil().getURL(space, page, "edit", "editor=object");
-    }
-
-    public void clickPreview()
-    {
-        throw new WebDriverException("Preview not available in object editor");
     }
 
     /** className will look something like "XWiki.XWikiRights" */
@@ -65,53 +90,8 @@ public class EditObjectsPage extends EditPage
         return forms;
     }
 
-    /** 
-     * Adding an object is easy, you simply say:
-     * page.getAddPanel().selectClass("XWiki.XWikiRights").clickAdd();
-     */
-    public AddObjectPanel getAddPanel()
+    public void switchToEdit(String space, String page)
     {
-        return this.new AddObjectPanel();
+        getUtil().gotoPage(space, page, "edit", "editor=object");
     }
-
-    public class AddObjectPanel
-    {
-        private WebElement form;
-
-        private FormElement.SelectElement classSelector;
-
-        private WebElement getForm()
-        {
-            if (form == null) {
-                form = getDriver().findElement(By.id("objectadd"));
-            }
-            return form;
-        }
-
-        private FormElement.SelectElement getClassSelector()
-        {
-            if (classSelector == null) {
-                classSelector = new FormElement(getForm()).getSelectElement(By.name("classname"));
-            }
-            return classSelector;
-        }
-
-        public AddObjectPanel selectClass(String name)
-        {
-            getClassSelector().select(name);
-            return this;
-        }
-
-        public Set<String> getOptions()
-        {
-            return getClassSelector().getOptions();
-        }
-
-        public void clickAdd()
-        {
-            getForm().findElement(By.className("button")).click();
-        }
-    }
-
-
 }

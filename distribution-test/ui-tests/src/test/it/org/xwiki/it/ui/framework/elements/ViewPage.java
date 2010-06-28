@@ -57,6 +57,9 @@ public class ViewPage extends BasePage
     @FindBy(id = "tmAdminWiki")
     private WebElement administerWikiMenuLink;
 
+    @FindBy(id = "xwikicontent")
+    private WebElement content;
+
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
      */
@@ -158,5 +161,14 @@ public class ViewPage extends BasePage
             }
         }
         return true;
+    }
+
+    /**
+     * @return the page's main content
+     * @since 2.4M2
+     */
+    public String getContent()
+    {
+        return this.content.getText();
     }
 }

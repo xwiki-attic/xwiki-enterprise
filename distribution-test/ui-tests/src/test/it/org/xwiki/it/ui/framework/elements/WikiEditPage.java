@@ -28,7 +28,7 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.4M1
  */
-public class WikiEditPage extends EditPage
+public class WikiEditPage extends PreviewableEditPage
 {
     @FindBy(id = "xwikidoctitleinput")
     private WebElement titleInput;

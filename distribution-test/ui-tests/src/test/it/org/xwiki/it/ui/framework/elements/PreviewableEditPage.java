@@ -23,27 +23,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Represents the actions possible in WYSIWYG edit mode.
- * 
+ * Edit page with a preview button.
+ *
  * @version $Id$
- * @since 2.3M1
+ * @since 2.4M2
  */
-public class WYSIWYGEditPage extends PreviewableEditPage
+public class PreviewableEditPage extends EditPage
 {
-    @FindBy(id = "xwikidoctitleinput")
-    private WebElement titleField;
+    @FindBy(name = "action_preview")
+    private WebElement preview;
 
-    @FindBy(name = "action_save")
-    private WebElement saveAndViewSubmit;
-
-    public String getDocumentTitle()
+    public void clickPreview()
     {
-        return this.titleField.getValue();
-    }
-
-    public ViewPage save()
-    {
-        this.saveAndViewSubmit.submit();
-        return new ViewPage();
+        preview.click();
     }
 }

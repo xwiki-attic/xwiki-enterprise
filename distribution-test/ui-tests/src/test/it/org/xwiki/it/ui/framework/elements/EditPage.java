@@ -31,9 +31,6 @@ import org.openqa.selenium.support.FindBy;
  */
 public class EditPage extends BasePage
 {
-    @FindBy(name = "action_preview")
-    private WebElement preview;
-
     @FindBy(name = "action_saveandcontinue")
     private WebElement saveandcontinue;
 
@@ -42,11 +39,6 @@ public class EditPage extends BasePage
 
     @FindBy(name = "action_cancel")
     private WebElement cancel;
-
-    public void clickPreview()
-    {
-        preview.click();
-    }
 
     public void clickSaveAndContinue()
     {

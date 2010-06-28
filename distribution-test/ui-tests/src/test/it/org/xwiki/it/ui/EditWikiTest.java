@@ -35,7 +35,7 @@ import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
  */
 public class EditWikiTest extends AbstractAdminAuthenticatedTest
 {
-    /** Page used for testing: Main.EditWikiTest */
+    /** Page used for testing: Test.EditWikiTest */
     private WikiEditPage editPage;
 
     @Before
@@ -44,12 +44,6 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
         this.editPage = new WikiEditPage();
-        getUtil().deletePage("Test", "EditWikiTest");
-    }
-
-    @After
-    public void cleanUp()
-    {
         getUtil().deletePage("Test", "EditWikiTest");
     }
 

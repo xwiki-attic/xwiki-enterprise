@@ -179,16 +179,18 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit objects" entry of the content menu.
      */
-    public void clickEditObjects()
+    public ObjectEditPage clickEditObjects()
     {
-        clickContentMenuEditSubMenuEntry("tmEditObjects");
+        clickContentMenuEditSubMenuEntry("tmEditObject");
+        return new ObjectEditPage();
     }
 
     /**
      * Performs a click on the "edit class" entry of the content menu.
      */
-    public void clickEditClass()
+    public ClassEditPage clickEditClass()
     {
         clickContentMenuEditSubMenuEntry("tmEditClass");
+        return new ClassEditPage();
     }
 }

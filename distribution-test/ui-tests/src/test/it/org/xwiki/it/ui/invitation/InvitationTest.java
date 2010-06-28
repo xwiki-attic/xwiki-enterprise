@@ -37,6 +37,7 @@ import com.icegreen.greenmail.util.GreenMail;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.it.ui.administration.elements.AdminSectionPage;
+import org.xwiki.it.ui.framework.elements.ObjectEditPage;
 import org.xwiki.it.ui.invitation.elements.InvitationSenderPage;
 import org.xwiki.it.ui.invitation.elements.InvitationMessageDisplayElement;
 import org.xwiki.it.ui.framework.elements.TableElement;
@@ -44,7 +45,6 @@ import org.xwiki.it.ui.invitation.elements.InspectInvitationsPage;
 import org.xwiki.it.ui.invitation.elements.InvitationActionConfirmationElement;
 import org.xwiki.it.ui.invitation.elements.InvitationGuestActionsPage;
 import org.xwiki.it.ui.framework.elements.RegisterPage;
-import org.xwiki.it.ui.framework.elements.EditObjectsPage;
 import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.TestUtils;
 
@@ -508,13 +508,13 @@ public class InvitationTest extends AbstractTest
         TestUtils.Session admin = getUtil().getSession();
         try {
             // First we ban anon from registering.
-            EditObjectsPage eop = new EditObjectsPage();
-            getDriver().get(eop.getURL("XWiki", "XWikiPreferences"));
+            ObjectEditPage oep = new ObjectEditPage();
+            getDriver().get(oep.getURL("XWiki", "XWikiPreferences"));
 
-            eop.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
+            oep.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
                 .getSelectElement(By.name("XWiki.XWikiGlobalRights_2_levels")).unSelect("register");
 
-            eop.clickSaveAndContinue();
+            oep.clickSaveAndContinue();
             // now prove anon cannot register
             getUtil().setSession(null);
             new RegisterPage().gotoPage();
@@ -554,13 +554,13 @@ public class InvitationTest extends AbstractTest
             getUtil().setSession(admin);
 
             // Better open the wiki back up again.
-            EditObjectsPage eop = new EditObjectsPage();
-            getDriver().get(eop.getURL("XWiki", "XWikiPreferences"));
+            ObjectEditPage oep = new ObjectEditPage();
+            getDriver().get(oep.getURL("XWiki", "XWikiPreferences"));
 
-            eop.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
+            oep.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
                 .getSelectElement(By.name("XWiki.XWikiGlobalRights_2_levels")).select("register");
 
-            eop.clickSaveAndContinue();
+            oep.clickSaveAndContinue();
         }
     }
 

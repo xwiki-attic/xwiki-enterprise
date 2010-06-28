@@ -19,31 +19,33 @@
  */
 package org.xwiki.it.ui.framework.elements;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
 
 /**
- * Represents the actions possible in WYSIWYG edit mode.
+ * Represents a DatabaseListClass property form.
  * 
  * @version $Id$
- * @since 2.3M1
+ * @since 2.4M2
  */
-public class WYSIWYGEditPage extends PreviewableEditPage
+public class DatabaseListClassEditElement extends BaseElement
 {
-    @FindBy(id = "xwikidoctitleinput")
-    private WebElement titleField;
+    private String propertyName;
 
-    @FindBy(name = "action_save")
-    private WebElement saveAndViewSubmit;
+    private FormElement form;
 
-    public String getDocumentTitle()
+    public DatabaseListClassEditElement(FormElement form, String propertyName)
     {
-        return this.titleField.getValue();
+        this.form = form;
+        this.propertyName = propertyName;
     }
 
-    public ViewPage save()
+    public void setHibernateQuery(String value)
     {
-        this.saveAndViewSubmit.submit();
-        return new ViewPage();
+        this.form.setFieldValue(By.id(this.propertyName + "_sql"), value);
+    }
+
+    public void isMultiSelect(boolean isMultiSelect)
+    {
+        this.form.setFieldValue(By.id(this.propertyName + "_multiSelect"), isMultiSelect ? "true" : "false");
     }
 }

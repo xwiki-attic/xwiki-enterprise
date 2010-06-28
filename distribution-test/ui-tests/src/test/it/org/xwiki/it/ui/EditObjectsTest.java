@@ -59,25 +59,25 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         cep.addProperty("prop", "com.xpn.xwiki.objects.classes.DBListClass");
         cep.getDatabaseListClassEditElement("prop").setHibernateQuery(
             "select doc.fullName from XWikiDocument doc where doc.space = 'Test'");
-        ViewPage vp = cep.clickSaveAndView();
+        cep.clickSaveAndView();
 
         // Create a second page to hold the Object and set its content
         WikiEditPage wep = new WikiEditPage();
         wep.switchToEdit("Test", "EditObjectsTestObject");
         wep.setContent("this is the content");
-        vp = wep.clickSaveAndView();
+        ViewPage vp = wep.clickSaveAndView();
 
         // Add an object of the class created and set the value to be the test page
         ObjectEditPage oep = vp.clickEditObjects();
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "Test.EditObjectsTestClass");
-        vp = oep.clickSaveAndView();
+        oep.clickSaveAndView();
 
         // Set multiselect to true
         cep = new ClassEditPage();
         cep.switchToEdit("Test", "EditObjectsTestClass");
         cep.getDatabaseListClassEditElement("prop").isMultiSelect(true);
-        vp = cep.clickSaveAndView();
+        cep.clickSaveAndView();
 
         // Select a second document in the DB list select field.
         oep = new ObjectEditPage();

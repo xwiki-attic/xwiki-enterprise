@@ -48,32 +48,6 @@ public class XObjectsTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Tests that XWIKI-1621 remains fixed.
-     */
-    public void testChangeMultiselectProperty()
-    {
-        open("Main", "Class", "edit", "editor=class");
-        setFieldValue("propname", "prop");
-        setFieldValue("proptype", "com.xpn.xwiki.objects.classes.DBListClass");
-        clickButtonAndContinue("//input[@name='action_propadd']");
-        setFieldValue("prop_sql", "select doc.fullName from XWikiDocument doc");
-        clickEditSaveAndView();
-        createPage("Main", "Object", "this is the content", SYNTAX);
-        open("Main", "Object", "edit", "editor=object");
-        setFieldValue("classname", "Main.Class");
-        clickButtonAndContinue("//input[@name='action_objectadd']");
-        setFieldValue("Main.Class_0_prop", "Main.Class");
-        clickEditSaveAndView();
-        open("Main", "Class", "edit", "editor=class");
-        setFieldValue("prop_multiSelect", "1");
-        clickEditSaveAndView();
-        open("Main", "Object", "edit", "editor=object");
-        setFieldValue("Main.Class_0_prop", "Main.Object");
-        clickEditSaveAndView();
-        assertTextPresent("this is the content");
-    }
-
-    /**
      * Tests that XWIKI-2214 remains fixed.
      */
     public void testChangeNumberType()

@@ -23,7 +23,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.elements.BaseElement;
-import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 
 import java.util.List;
 

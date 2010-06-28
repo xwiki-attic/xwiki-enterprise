@@ -5,7 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.it.ui.panels.elements.NewPagePanel;
 
 /**

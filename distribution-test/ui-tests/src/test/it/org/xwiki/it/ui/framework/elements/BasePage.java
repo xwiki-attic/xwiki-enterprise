@@ -22,6 +22,10 @@ package org.xwiki.it.ui.framework.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.xwiki.it.ui.framework.elements.editor.ClassEditPage;
+import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 
 /**
  * Represents the common actions possible on all Pages.

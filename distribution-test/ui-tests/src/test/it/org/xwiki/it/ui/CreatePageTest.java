@@ -30,11 +30,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.it.ui.administration.elements.AdminTemplatesPage;
 import org.xwiki.it.ui.framework.elements.CreatePagePage;
-import org.xwiki.it.ui.panels.elements.NewPagePanel;
+import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.it.ui.administration.elements.TemplateProviderInlinePage;
 import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
-import org.xwiki.it.ui.framework.elements.WikiEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**

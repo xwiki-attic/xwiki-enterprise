@@ -17,24 +17,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements;
+package org.xwiki.it.ui.framework.elements.editor;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
+import org.xwiki.it.ui.framework.elements.BaseElement;
+import org.xwiki.it.ui.framework.elements.FormElement;
 
 /**
- * Edit page with a preview button.
- *
+ * Represents a DatabaseListClass property form.
+ * 
  * @version $Id$
  * @since 2.4M2
  */
-public class PreviewableEditPage extends EditPage
+public class DatabaseListClassEditElement extends BaseElement
 {
-    @FindBy(name = "action_preview")
-    private WebElement preview;
+    private String propertyName;
 
-    public void clickPreview()
+    private FormElement form;
+
+    public DatabaseListClassEditElement(FormElement form, String propertyName)
     {
-        preview.click();
+        this.form = form;
+        this.propertyName = propertyName;
+    }
+
+    public void setHibernateQuery(String value)
+    {
+        this.form.setFieldValue(By.id(this.propertyName + "_sql"), value);
+    }
+
+    public void isMultiSelect(boolean isMultiSelect)
+    {
+        this.form.setFieldValue(By.id(this.propertyName + "_multiSelect"), isMultiSelect ? "true" : "false");
     }
 }

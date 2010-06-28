@@ -37,7 +37,7 @@ import com.icegreen.greenmail.util.GreenMail;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.it.ui.administration.elements.AdminSectionPage;
-import org.xwiki.it.ui.framework.elements.ObjectEditPage;
+import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
 import org.xwiki.it.ui.invitation.elements.InvitationSenderPage;
 import org.xwiki.it.ui.invitation.elements.InvitationMessageDisplayElement;
 import org.xwiki.it.ui.framework.elements.TableElement;

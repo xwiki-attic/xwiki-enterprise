@@ -22,7 +22,7 @@ package org.xwiki.it.ui.panels.elements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 
 /**
  * Represents the NewPage panel.

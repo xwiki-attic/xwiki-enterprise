@@ -17,27 +17,48 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements;
+package org.xwiki.it.ui.framework.elements.editor;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.BasePage;
+import org.xwiki.it.ui.framework.elements.ViewPage;
 
 /**
- * Represents the actions possible on the Create Space template page.
+ * Represents the common actions possible on all Pages when using the "edit" action.
  * 
  * @version $Id$
- * @since 2.3M1
+ * @since 2.4M1
  */
-public class CreateSpacePage extends ViewPage
+public class EditPage extends BasePage
 {
-    @FindBy(id = "space")
-    private WebElement spaceTextField;
+    @FindBy(name = "action_saveandcontinue")
+    private WebElement saveandcontinue;
 
-    public WYSIWYGEditPage createSpace(String spaceValue)
+    @FindBy(name = "action_save")
+    private WebElement save;
+
+    @FindBy(name = "action_cancel")
+    private WebElement cancel;
+
+    public void clickSaveAndContinue()
     {
-        this.spaceTextField.sendKeys(spaceValue);
-        this.spaceTextField.submit();
-        return new WYSIWYGEditPage();
+        saveandcontinue.click();
+
+        // Wait until the page is really saved
+        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Saved']"));
+    }
+
+    public ViewPage clickSaveAndView()
+    {
+        save.click();
+        return new ViewPage();
+    }
+
+    public ViewPage clickCancel()
+    {
+        cancel.click();
+        return new ViewPage();
     }
 }

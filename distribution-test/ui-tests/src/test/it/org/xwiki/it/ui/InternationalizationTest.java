@@ -26,7 +26,7 @@ import org.xwiki.it.ui.framework.elements.CreatePagePage;
 import org.xwiki.it.ui.framework.elements.CreateSpacePage;
 import org.xwiki.it.ui.xe.elements.HomePage;
 import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**

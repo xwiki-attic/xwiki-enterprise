@@ -24,8 +24,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 
 /**
  * Represents the actions possible on the Create Page template page.

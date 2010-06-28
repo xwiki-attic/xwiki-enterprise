@@ -23,9 +23,9 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import org.xwiki.it.ui.framework.elements.WikiEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.it.ui.xe.elements.HomePage;
-import org.xwiki.it.ui.framework.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.it.ui.xe.elements.SpaceIndexPage;
 

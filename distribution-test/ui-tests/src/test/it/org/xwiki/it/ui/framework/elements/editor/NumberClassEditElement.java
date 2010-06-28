@@ -17,35 +17,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements;
+package org.xwiki.it.ui.framework.elements.editor;
 
 import org.openqa.selenium.By;
+import org.xwiki.it.ui.framework.elements.BaseElement;
+import org.xwiki.it.ui.framework.elements.FormElement;
 
 /**
- * Represents a DatabaseListClass property form.
- * 
+ * Represents a NumberClass property form.
+ *
  * @version $Id$
  * @since 2.4M2
  */
-public class DatabaseListClassEditElement extends BaseElement
+public class NumberClassEditElement extends BaseElement
 {
     private String propertyName;
 
     private FormElement form;
 
-    public DatabaseListClassEditElement(FormElement form, String propertyName)
+    public NumberClassEditElement(FormElement form, String propertyName)
     {
         this.form = form;
         this.propertyName = propertyName;
     }
 
-    public void setHibernateQuery(String value)
+    public void setNumberType(String value)
     {
-        this.form.setFieldValue(By.id(this.propertyName + "_sql"), value);
-    }
-
-    public void isMultiSelect(boolean isMultiSelect)
-    {
-        this.form.setFieldValue(By.id(this.propertyName + "_multiSelect"), isMultiSelect ? "true" : "false");
+        this.form.setFieldValue(By.id(this.propertyName + "_numberType"), value);
     }
 }

@@ -17,11 +17,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements;
+package org.xwiki.it.ui.framework.elements.editor;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.xwiki.it.ui.framework.elements.BasePage;
+import org.xwiki.it.ui.framework.elements.FormElement;
+import org.xwiki.it.ui.framework.elements.ViewPage;
 
 /**
  * Represents the common actions possible on all Pages when using the "edit" action with the "class" editor.
@@ -88,6 +91,15 @@ public class ClassEditPage extends BasePage
         waitUntilElementIsVisible(locator);
         getDriver().findElement(locator).click();        
         return new DatabaseListClassEditElement(getForm(), propertyName);
+    }
+
+    public NumberClassEditElement getNumberClassEditElement(String propertyName)
+    {
+        // Make the element visible before returning it
+        By locator = By.id("xproperty_" + propertyName + "_title");
+        waitUntilElementIsVisible(locator);
+        getDriver().findElement(locator).click();
+        return new NumberClassEditElement(getForm(), propertyName);
     }
 
     public void clickSaveAndContinue()

@@ -24,11 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.ClassEditPage;
+import org.xwiki.it.ui.framework.elements.editor.ClassEditPage;
 import org.xwiki.it.ui.framework.elements.FormElement;
-import org.xwiki.it.ui.framework.elements.ObjectEditPage;
+import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
 import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.elements.WikiEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 
 /**
  * Test XObject editing.
@@ -87,5 +87,66 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         vp = oep.clickSaveAndView();
 
         Assert.assertEquals("this is the content", vp.getContent());
+    }
+
+    /**
+     * Tests that XWIKI-2214 remains fixed.
+     */
+    @Test
+    public void testChangeNumberType()
+    {
+        // Create class page
+        WikiEditPage wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestClass");
+        wep.setContent("this is the content");
+        ViewPage vp = wep.clickSaveAndView();
+
+        // Add class
+        ClassEditPage cep = vp.clickEditClass();
+        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.NumberClass");
+        cep.getNumberClassEditElement("prop").setNumberType("integer");
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Create object page
+        wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep.setContent("this is the content: {{velocity}}$doc.display('prop'){{/velocity}}");
+        vp = wep.clickSaveAndView();
+
+        // Add object
+        ObjectEditPage oep = vp.clickEditObjects();
+        FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
+        objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "3");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: 3", vp.getContent());
+
+        // Change number to double type
+        cep = new ClassEditPage();
+        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep.getNumberClassEditElement("prop").setNumberType("double");
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Verify conversion
+        oep = new ObjectEditPage();
+        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
+            By.id("Test.EditObjectsTestClass_0_prop"), "2.5");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: 2.5", vp.getContent());
+
+        // Change number to long type
+        cep = new ClassEditPage();
+        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep.getNumberClassEditElement("prop").setNumberType("long");
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Verify conversion
+        oep = new ObjectEditPage();
+        oep.switchToEdit("Test", "EditObjectsTestObject");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: 2", vp.getContent());
     }
 }

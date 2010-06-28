@@ -17,46 +17,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements;
+package org.xwiki.it.ui.framework.elements.editor;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.xwiki.it.ui.framework.elements.editor.EditPage;
 
 /**
- * Represents the common actions possible on all Pages when using the "edit" action.
- * 
+ * Edit page with a preview button.
+ *
  * @version $Id$
- * @since 2.4M1
+ * @since 2.4M2
  */
-public class EditPage extends BasePage
+public class PreviewableEditPage extends EditPage
 {
-    @FindBy(name = "action_saveandcontinue")
-    private WebElement saveandcontinue;
+    @FindBy(name = "action_preview")
+    private WebElement preview;
 
-    @FindBy(name = "action_save")
-    private WebElement save;
-
-    @FindBy(name = "action_cancel")
-    private WebElement cancel;
-
-    public void clickSaveAndContinue()
+    public void clickPreview()
     {
-        saveandcontinue.click();
-
-        // Wait until the page is really saved
-        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Saved']"));
-    }
-
-    public ViewPage clickSaveAndView()
-    {
-        save.click();
-        return new ViewPage();
-    }
-
-    public ViewPage clickCancel()
-    {
-        cancel.click();
-        return new ViewPage();
+        preview.click();
     }
 }

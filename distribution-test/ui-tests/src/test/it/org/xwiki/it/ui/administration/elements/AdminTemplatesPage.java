@@ -36,7 +36,7 @@ public class AdminTemplatesPage extends AdminSectionPage
     @FindBy(id = "page")
     private WebElement pageInput;
     
-    @FindBy(xpath = "//input[@id='createTemplateProvider']")
+    @FindBy(id = "createTemplateProvider")
     private WebElement createButton;
     
     public AdminTemplatesPage()

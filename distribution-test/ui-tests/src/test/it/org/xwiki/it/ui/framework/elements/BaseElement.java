@@ -52,7 +52,7 @@ public class BaseElement
 
     public BaseElement()
     {
-        ElementLocatorFactory finder = new AjaxElementLocatorFactory(this.getDriver(), 15);
+        ElementLocatorFactory finder = new AjaxElementLocatorFactory(this.getDriver(), getUtil().getTimeout());
         PageFactory.initElements(finder, this);
     }
 
@@ -70,13 +70,13 @@ public class BaseElement
     }
 
     /**
-     * Wait until the element given by the locator is displayed. Give up after 10 seconds.
+     * Wait until the element given by the locator is displayed. Give up after timeout seconds.
      * 
      * @param locator the locator for the element to look for.
      */
     public void waitUntilElementIsVisible(final By locator)
     {
-        this.waitUntilElementIsVisible(locator, 10);
+        this.waitUntilElementIsVisible(locator, getUtil().getTimeout());
     }
 
     /**
@@ -98,7 +98,7 @@ public class BaseElement
      */
     public void waitUntilElementsAreVisible(final By[] locators, final boolean all)
     {
-        waitUntilElementsAreVisible(locators, 10, all);
+        waitUntilElementsAreVisible(locators, getUtil().getTimeout(), all);
     }
 
     /**
@@ -142,7 +142,7 @@ public class BaseElement
 
     public void waitUntilElementDisappears(final By locator)
     {
-        waitUntilElementDisappears(locator, 10);
+        waitUntilElementDisappears(locator, getUtil().getTimeout());
     }
 
     /**

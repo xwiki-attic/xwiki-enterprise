@@ -52,6 +52,8 @@ public class TestUtils
 {
     private static PersistentTestContext context;
 
+    private int timeout;
+    
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)
     {
@@ -135,7 +137,7 @@ public class TestUtils
     {
         final String pageURI = pageURL.replaceAll("\\?.*", "");
         try {
-            Wait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
+            Wait<WebDriver> wait = new WebDriverWait(getDriver(), getTimeout());
             wait.until(new ExpectedCondition<Boolean>()
             {
                 public Boolean apply(WebDriver driver)
@@ -306,5 +308,18 @@ public class TestUtils
         {
             return cookies;
         }
+    }
+
+    public int getTimeout()
+    {
+        return this.timeout;
+    }
+
+    /**
+     * @param timeout the number of seconds after which we consider the action to have failed
+     */
+    public void setTimeout(int timeout)
+    {
+        this.timeout = timeout;
     }
 }

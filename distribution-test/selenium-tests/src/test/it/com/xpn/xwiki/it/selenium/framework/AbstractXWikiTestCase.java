@@ -19,14 +19,13 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Map.Entry;
 
 import junit.framework.TestCase;
-
-import org.codehaus.plexus.util.StringInputStream;
 
 import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.Wait;
@@ -725,7 +724,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void setXWikiConfiguration(String configuration) throws IOException
     {
         Properties properties = new Properties();
-        properties.load(new StringInputStream(configuration));
+        properties.load(new ByteArrayInputStream(configuration.getBytes()));
         StringBuffer sb = new StringBuffer();
 
         // Since we don't have access to the XWiki object from Selenium tests and since we don't want to restart XWiki

@@ -54,7 +54,7 @@ public class ValidationTest extends AbstractXWikiTestCase
         open("Main", "ValidatedClass", "edit", "editor=class");
         setFieldValue("propname", "prop");
         setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StringClass");
-        submit("//input[@value='Add Property']");
+        clickButtonAndContinue("//input[@name='action_propadd']");
         setFieldValue("prop_validationRegExp", "/^[0-4][0-2]$/");
         setFieldValue("prop_validationMessage", "invalid value for prop");
         clickEditSaveAndView();
@@ -62,7 +62,7 @@ public class ValidationTest extends AbstractXWikiTestCase
             "value: $doc.display('prop')\n\n#foreach($e in $context.validationStatus.errors)$e #end", SYNTAX);
         open("Main", "ValidatedObject", "edit", "editor=object");
         setFieldValue("classname", "Main.ValidatedClass");
-        submit("//input[@value='Add Object from this Class']");
+        clickButtonAndContinue("//input[@name='action_objectadd']");
         setFieldValue("Main.ValidatedClass_0_prop", "22");
         clickEditSaveAndView();
         open("Main", "ValidatedObject", "save", "xvalidate=1");

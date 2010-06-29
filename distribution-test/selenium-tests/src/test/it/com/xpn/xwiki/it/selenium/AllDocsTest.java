@@ -83,7 +83,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // Validate input suggest for Space field.
         open("Main", "AllDocs");
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
-        getSelenium().typeKeys("xpath=//input[@name='doc.space']", "XWiki");
+        getSelenium().type("xpath=//input[@name='doc.space']", "XWiki");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeview");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");

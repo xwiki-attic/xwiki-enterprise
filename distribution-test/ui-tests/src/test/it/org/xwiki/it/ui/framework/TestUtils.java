@@ -52,7 +52,11 @@ public class TestUtils
 {
     private static PersistentTestContext context;
 
-    private int timeout;
+    /**
+     * How long to wait before failing a test because an element cannot be found.
+     * Can be overridden with setTimeout.
+     */
+    private int timeout = 10;
     
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)

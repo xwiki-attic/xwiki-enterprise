@@ -197,7 +197,7 @@ public class BaseElement
         executeJavascript("arguments[0].style.visibility='visible'", element);
     }
 
-    public void executeJavascript(String javascript, WebElement element)
+    public Object executeJavascript(String javascript, Object... arguments)
     {
         if (!(this.getDriver() instanceof JavascriptExecutor)) {
             throw new RuntimeException("Currently used web driver (" + this.getDriver().getClass()
@@ -207,7 +207,7 @@ public class BaseElement
         if (!js.isJavascriptEnabled()) {
             throw new RuntimeException("JavaScript is disabled");
         }
-        js.executeScript(javascript, element);
+        return js.executeScript(javascript, arguments);
     }
 
     /**

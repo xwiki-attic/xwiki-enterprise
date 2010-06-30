@@ -48,7 +48,9 @@ public class AllDocsTest extends AbstractAdminAuthenticatedTest
         page.loginAsAdmin();
 
         // Test 2: Verify filtering works by filtering on the document name
+        // TODO: the line below fails from time to time. Fix it.
         livetable = page.clickIndexTab();
+        // TODO: it seems that it doesn't work sometimes. Fix it.
         livetable.filterColumn("xwiki-livetable-alldocs-filter-1", "Treeview");
     }
 }

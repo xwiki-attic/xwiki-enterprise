@@ -21,7 +21,9 @@ package org.xwiki.it.ui.framework.elements;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.TimeoutException;
 
@@ -39,6 +41,9 @@ public class LiveTableElement extends BaseElement
     {
         super();
         this.livetableId = livetableId;
+
+        Assert.assertTrue("Invalid state, the livetable shouldn't be in a displayed state",
+            getDriver().findElements(By.id("uitest-livetable-status")).size() == 0);
 
         // Register a Javascript event observation since we need to know when the livetable has finished displaying
         // all its data before we can perform assertions and that livetable sends an event when it has done so.
@@ -77,7 +82,8 @@ public class LiveTableElement extends BaseElement
                 break;
             }
         }
-        throw new TimeoutException("Livetable isn't ready after the timeout has expired");
+        throw new TimeoutException("Livetable isn't ready after the timeout has expired. Source ["
+            + getDriver().getPageSource() + "]");
     }
 
     public boolean hasColumn(String columnTitle)
@@ -93,14 +99,8 @@ public class LiveTableElement extends BaseElement
         // Reset the livetable status since the filtering will cause a reload
         executeJavascript("$('uitest-livetable-status').remove();");
         WebElement element = getDriver().findElement(By.id(inputId));
-        // Try to force sendKeys to be taken into account by doing it in 3 steps:
-        // - clear
-        // - sendKeys
-        // - click
-        // TODO: it seems that it doesn't work sometimes. Fix it.
-        element.clear();
-        element.sendKeys(filterValue);
-        element.click();
+        // Since the livetable waits for a Key UP event, send it.
+        element.sendKeys(filterValue, Keys.UP);
         waitUntilReady();
     }
 }

@@ -99,8 +99,7 @@ public class LiveTableElement extends BaseElement
         // Reset the livetable status since the filtering will cause a reload
         executeJavascript("$('uitest-livetable-status').remove();");
         WebElement element = getDriver().findElement(By.id(inputId));
-        // Since the livetable waits for a Key UP event, send it.
-        element.sendKeys(filterValue, Keys.UP);
+        element.sendKeys(filterValue);
         waitUntilReady();
     }
 }

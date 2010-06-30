@@ -32,7 +32,7 @@ import org.xwiki.it.ui.framework.elements.ViewPage;
  */
 public class AllDocsPage extends ViewPage
 {
-    @FindBy(id = "xwikiindex")
+    @FindBy(xpath = "//li[@id='xwikiindex']/a")
     private WebElement indexTab;
 
     public void gotoPage()
@@ -42,10 +42,9 @@ public class AllDocsPage extends ViewPage
 
     public LiveTableElement clickIndexTab()
     {
-        // Create the livetable element first since it registers a listener for livetable js events and we need to
-        // be sure our listener is registered before the livetable loads.
-        LiveTableElement lt = new LiveTableElement("alldocs");
         this.indexTab.click();
+        // TODO: there's a risk that the LT has finished displaying before the next line
+        LiveTableElement lt = new LiveTableElement("alldocs");
         lt.waitUntilReady();
         return lt;
     }

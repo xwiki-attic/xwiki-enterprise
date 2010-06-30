@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>XWiki</web>
+<name>CopyDocument</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>XWiki.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
+<version>1.1</version>
+<title>$msg.get("xe.document.copy")</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}
+#set($sourcedoc = "$!request.sourcedoc")
+#set($targetdoc = "$!request.targetdoc")
+#if("$!request.language" != "")
+  #set($language = $request.language)
+#end
+#set($sourcewiki = $context.database)
+#set($targetwiki = $context.database)
+#if("$!targetdoc" != "")
+#set($sourcelink = "[[$sourcewiki:$sourcedoc#if($language)($language)#end&gt;&gt;$sourcewiki:$sourcedoc#if($language)?language=$language#end]]")
+#set($targetlink = "[[$targetwiki:$targetdoc&gt;&gt;$targetwiki:$targetdoc#if($language)?language=$language#end]]")
+#set($ok = $xwiki.xWiki.copyDocument($sourcedoc, $targetdoc, $sourcewiki, $targetwiki, $language, false, $context.context))
+$msg.get("xe.document.copying", [$sourcelink, $targetlink])
+#end
+{{html clean="false"}}
+&lt;form action=""&gt;
+&lt;div class="plainmessage"&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;label for="sourcedoc"&gt;$msg.get("xe.document.copy.source")&lt;/label&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="sourcedoc" name="sourcedoc" value="$!request.sourcedoc"  size="60"/&gt;&lt;/dd&gt;
+&lt;dt&gt;&lt;label for="language"&gt;$msg.get("xe.document.copy.language")&lt;/label&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="language" name="language" value="$!request.language" size="60" /&gt;&lt;/dd&gt;
+&lt;dt&gt;&lt;label for="targetdoc"&gt;$msg.get("xe.document.copy.target")&lt;/label&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;input type="text" id="targetdoc" name="targetdoc" value="$!request.targetdoc" size="60" /&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;input type="submit" value="$msg.get('xe.document.copy.do')" /&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+{{/html}}
+{{/velocity}}</content>
+</xwikidoc>

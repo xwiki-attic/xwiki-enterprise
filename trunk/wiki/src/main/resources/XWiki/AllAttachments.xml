@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>XWiki</web>
+<name>AllAttachments</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent>Main.AllDocs</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
+<version>1.1</version>
+<title>$msg.get("xe.index.attachments")</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>onDemand=On demand|always=Always</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.AllAttachments</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>9ad0f248-6336-4543-ae2b-fd41dda77be4</guid>
+<property>
+<cache>default</cache>
+</property>
+<property>
+<code>(function(){
+
+if (typeof XWiki == "undefined") {
+   XWiki = new Object();
+}
+
+if (typeof XWiki.index == "undefined") {
+   XWiki.index = new Object();
+}
+
+var mimetypes = {
+  "image/svg"                     : { "src" : "$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" : "SVG",  "title" : "SVG" },
+  "application/svg+xml"           : { "src" : "$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" : "SVG",  "title" : "SVG" },
+  "text/plain"                    : { "src" : "$xwiki.getSkinFile('mimetypes/txt.png')",       "alt" : "Text", "title" : "Text"},
+  "text/html"                     : { "src" : "$xwiki.getSkinFile('mimetypes/html.png')",      "alt" : "HTML", "title" : "HTML"},
+  "text/css"                      : { "src" : "$xwiki.getSkinFile('mimetypes/url.png')",       "alt" : "CSS",  "title" : "CSS" },
+  "application/xml"               : { "src" : "$xwiki.getSkinFile('mimetypes/xml.png')",       "alt" : "CSS",  "title" : "CSS" },
+  "application/pdf"               : { "src" : "$xwiki.getSkinFile('mimetypes/pdf.png')",       "alt" : "PDF",  "title" : "PDF" },
+  "application/postscript"        : { "src" : "$xwiki.getSkinFile('mimetypes/ps.png')",        "alt" : "PS",   "title" : "PS"  },
+  "application/msword"            : { "src" : "$xwiki.getSkinFile('mimetypes/word.png')",      "alt" : "Word", "title" : "Word"},
+  "application/powerpoint"        : { "src" : "$xwiki.getSkinFile('mimetypes/ppt.png')",       "alt" : "PPT",  "title" : "PPT" },
+  "application/x-shockwave-flash" : { "src" : "$xwiki.getSkinFile('mimetypes/swf.png')",       "alt" : "SWF",  "title" : "SWF" },
+  "application/x-tar"             : { "src" : "$xwiki.getSkinFile('mimetypes/tar.png')",       "alt" : "TAR",  "title" : "TAR" },
+  "application/zip"               : { "src" : "$xwiki.getSkinFile('mimetypes/zip1.png')",      "alt" : "ZIP",  "title" : "ZIP" },
+  "application/x-gzip"            : { "src" : "$xwiki.getSkinFile('mimetypes/tar_gz.png')",    "alt" : "GZ",   "title" : "GZ"  },
+  "application/java-archive"      : { "src" : "$xwiki.getSkinFile('mimetypes/jar.png')",       "alt" : "JAR",  "title" : "JAR" }
+};
+
+/**
+ * JavasScript equivalent of the #mimetype macro.
+ * Returns a 20px * 20px image (as an element) corresponding to the passed mimetype.
+ * First lookup if the type is in the mimetypes object above, then handles some other cases (starts/end with, etc.)
+ * This function should be cleaned at the same time the mimetype images and macro are.
+ */
+function getMimeTypeImage(type) {
+  var image = undefined;
+  if (mimetypes[type]) {
+    image = new Element('img',{'src':mimetypes[type].src,'alt':mimetypes[type].alt,'title':mimetypes[type].title});
+  }
+  else if(type.match(/^image\//)) {
+    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/jpg.png')", 'alt':"Image", 'title': "Image"});
+  }
+  else if(type.match(/^text\//)) {
+    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/txt.png')", 'alt':"Text", 'title': "Text"});
+  }
+  else if(type.match(/^audio\//)){
+    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/wav.png')", 'alt':"Audio", 'title': "Audio"});
+  }
+  else if(type.match(/^video\//)){
+    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/video.png')", 'alt':"Video", 'title': "Video"});
+  }
+  else if(type=="application/octet-stream") {
+    if (type.match(/\.xls$/)) {
+      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/excel.png')", 'alt':"XLS", 'title': "XLS"});
+    }
+    else if (type.match(/\.bz$/)) {
+      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/tar_bz.png')", 'alt':"BZ", 'title': "BZ"});
+    }
+    else if (type.match(/\.tgz$/)) {
+      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/tar_gz.png')", 'alt':"GZ", 'title': "GZ"});
+    }
+    else if (type.match(/\.rar$/)) {
+      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/zip1.png')", 'alt':"RAR", 'title': "RAR"});
+    }
+    else if (type.match(/\.(odt|odp|odf|ods|sxw|stw)$/)) {
+      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/openoffice.png')", 'alt':"OOo", 'title': "OOo"});
+    }
+  } 
+  else if (type.match(/^application\//)) {
+    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/exec.png')", 'alt':"Application", 'title': "Application"});
+  }
+  if (typeof image == "undefined") {
+    image = new Element('img', {'src': "$xwiki.getSkinFile('mimetypes/bin.png')", 'alt':"BIN", 'title': "BIN"});
+  }
+  image.style.width = '20px';
+  image.style.height = '20px';
+  return image;
+}
+
+XWiki.index.displayAttachmentEntry = function (row, i, table) {
+  var inaccessibleDocs = false;
+  if(row.acclev == true) {
+    var fileLink = new Element('a', {'href' : row.fileurl}).update(row.filename);
+    var tr = new Element('tr').update(new Element('td').update(fileLink));
+    var pageLink = new Element('a', {'href' : row.url}).update(row.page);
+    tr.appendChild(new Element('td', {'class' : 'pagename'}).update(pageLink));
+    var spaceLink = new Element('a', {'href' : row.spaceurl}).update(row.space);
+    tr.appendChild(new Element('td', {'class' : 'spacename'}).update(spaceLink));
+    tr.appendChild(new Element('td').update(row.date));
+    var aa = new Element('a', {'href' : row.authorurl}).update(row.authorname);
+    tr.appendChild(new Element('td').update(aa));
+    var type = new Element('td').update(getMimeTypeImage(row.type));
+    tr.appendChild(type);
+    return tr;
+  } else {
+    var tr = new Element('tr');
+    var page = row.fullname;
+
+    var td1 = new Element('td').update("unavailable");
+    var td2 = new Element('td', {'class' : 'pagename'}).update(page + "*");
+    var td3 = new Element('td').update(" ");
+    var td4 = new Element('td').update(" ");
+    var td5 = new Element('td').update(" ");
+    var td6 = new Element('td').update(" ");
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    tr.appendChild(td5);
+    tr.appendChild(td6);
+    $('inaccessibleDocsMessage').removeClassName('hidden');
+    return tr;
+  }
+}
+
+})();
+</code></property><property><name></name></property><property><parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<content>{{velocity}}
+#set($ok = $xwiki.jsx.use('XWiki.AllAttachments'))
+##
+#set($collist = ["filename", "doc.name","doc.space", "doc.date", "doc.author", "type"])
+#set($colprops = {
+                   "filename"  : { "type" : "text" , "size" : 10 }, 
+                   "doc.name"  : { "type" : "text" , "size" : 10 },
+                   "doc.space" : { "type" : "text" , "size" : 10 },
+                   "doc.date"  : { "type" : "date" , "size" : 10, "filterable":false},
+                   "doc.author": { "type" : "text" , "size" : 10 },
+                   "type" : {"sortable": false}
+                 })
+#set($options = { "url":"$xwiki.getURL('XWiki.AllAttachmentsResults')?xpage=plain&amp;outputSyntax=plain",
+                  "callback" : "XWiki.index.displayAttachmentEntry", 
+                  "translationPrefix" : "xe.index.attachments." })
+#livetable('allattachments' $collist $colprops $options)
+
+(% id="inaccessibleDocsMessage" class="hidden" %)
+(((
+{{info}}$msg.get("rightsmanager.documentrequireviewrights"){{/info}}
+)))
+{{/velocity}}</content>
+</xwikidoc>

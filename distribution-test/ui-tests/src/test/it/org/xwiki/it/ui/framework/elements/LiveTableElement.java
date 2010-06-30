@@ -59,6 +59,10 @@ public class LiveTableElement extends BaseElement
         return ready;
     }
 
+    /**
+     * Wait till the livetable has finished displaying all its rows (so that we can then assert the livetable content
+     * without running the risk that the rows have not been updated yet).
+     */
     public void waitUntilReady()
     {
         long t1 = System.currentTimeMillis();
@@ -74,6 +78,14 @@ public class LiveTableElement extends BaseElement
             }
         }
         throw new TimeoutException("Livetable isn't ready after the timeout has expired");
+    }
+
+    public boolean hasColumn(String columnTitle)
+    {
+        List<WebElement> elements = getDriver().findElements(By.xpath(
+            "//th[contains(@class, 'xwiki-livetable-display-header-text') and normalize-space(text()) = '"
+                + columnTitle + "']"));
+        return elements.size() > 0;
     }
 
     public void filterColumn(String inputId, String filterValue)

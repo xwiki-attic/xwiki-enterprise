@@ -67,10 +67,11 @@
 
     <!-- Administration app 1.35 is incompatible with XE 2.3 (new document templates feature) -->
     <platform.administration.version>1.34</platform.administration.version>
+    <platform.annotations.version>1.6-SNAPSHOT</platform.annotations.version>
     <platform.activitystream.version>1.7-SNAPSHOT</platform.activitystream.version>
-    <platform.blog.version>1.22-SNAPSHOT</platform.blog.version>
+    <platform.blog.version>1.23-SNAPSHOT</platform.blog.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
-    <platform.plugin.lucene.version>1.19-SNAPSHOT</platform.plugin.lucene.version>
+    <platform.plugin.lucene.version>1.20-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.mailsender.version>1.15-SNAPSHOT</platform.plugin.mailsender.version>
     <!-- Panels app 1.36 is incompatible with XE 2.3 (missing search panel) -->
     <platform.panels.version>1.35</platform.panels.version>
@@ -83,7 +84,6 @@
     <platform.watchlist.version>1.29-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>
     <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>
-    <platform.annotations.version>1.5-SNAPSHOT</platform.annotations.version>
   </properties>
   <profiles>
     <profile>

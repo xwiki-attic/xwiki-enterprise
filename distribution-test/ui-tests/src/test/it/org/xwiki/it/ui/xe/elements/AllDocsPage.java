@@ -42,8 +42,10 @@ public class AllDocsPage extends ViewPage
 
     public LiveTableElement clickIndexTab()
     {
-        this.indexTab.click();
+        // Create the livetable element first since it registers a listener for livetable js events and we need to
+        // be sure our listener is registered before the livetable loads.
         LiveTableElement lt = new LiveTableElement("alldocs");
+        this.indexTab.click();
         lt.waitUntilReady();
         return lt;
     }

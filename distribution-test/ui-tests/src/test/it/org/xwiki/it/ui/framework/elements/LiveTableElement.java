@@ -90,6 +90,17 @@ public class LiveTableElement extends BaseElement
 
     public void filterColumn(String inputId, String filterValue)
     {
-        // TODO
+        // Reset the livetable status since the filtering will cause a reload
+        executeJavascript("$('uitest-livetable-status').remove();");
+        WebElement element = getDriver().findElement(By.id(inputId));
+        // Try to force sendKeys to be taken into account by doing it in 3 steps:
+        // - clear
+        // - sendKeys
+        // - click
+        // TODO: it seems that it doesn't work sometimes. Fix it.
+        element.clear();
+        element.sendKeys(filterValue);
+        element.click();
+        waitUntilReady();
     }
 }

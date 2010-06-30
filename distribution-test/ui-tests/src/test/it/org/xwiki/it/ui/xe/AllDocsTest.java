@@ -43,7 +43,12 @@ public class AllDocsTest extends AbstractAdminAuthenticatedTest
         LiveTableElement livetable = page.clickIndexTab();
         Assert.assertTrue("No Actions column found", livetable.hasColumn("Actions"));
         page.clickLogout();
+        livetable = page.clickIndexTab();
         Assert.assertFalse("Actions column found", livetable.hasColumn("Actions"));
         page.loginAsAdmin();
+
+        // Test 2: Verify filtering works by filtering on the document name
+        livetable = page.clickIndexTab();
+        livetable.filterColumn("xwiki-livetable-alldocs-filter-1", "Treeview");
     }
 }

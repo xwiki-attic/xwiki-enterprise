@@ -43,8 +43,12 @@ public class AllDocsPage extends ViewPage
     public LiveTableElement clickIndexTab()
     {
         this.indexTab.click();
-        // TODO: there's a risk that the LT has finished displaying before the next line
         LiveTableElement lt = new LiveTableElement("alldocs");
+
+        // Since there's a risk that the livetbale has finished dislaying before the listener
+        // (defined in LiveTableElement's constructor) has been set up, we force a livetable refresh.
+        executeJavascript("livetable.clearCache();livetable.showRows(livetable.currentOffset, livetable.limit);");
+
         lt.waitUntilReady();
         return lt;
     }

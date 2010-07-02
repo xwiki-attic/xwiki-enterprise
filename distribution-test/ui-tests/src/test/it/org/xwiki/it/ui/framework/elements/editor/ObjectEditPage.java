@@ -54,13 +54,36 @@ public class ObjectEditPage extends EditPage
     public FormElement addObject(String className)
     {
         getForm().setFieldValue(this.classNameField, className);
+
+        final By objectsLocator = By.cssSelector("[id='xclass_" + className + "'] .xobject");
+        final int initialObjectCount = getDriver().findElements(objectsLocator).size();
         this.classNameSubmit.click();
 
         // Make sure we wait for the element to appear since there's no page refresh.
-        waitUntilElementIsVisible(By.id("xclass_" + className));
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), getUtil().getTimeout());
+        wait.until(new ExpectedCondition<Boolean>()
+                    {
+            public Boolean apply(WebDriver driver)
+                        {
+                return Boolean.valueOf(driver.findElements(objectsLocator).size() > initialObjectCount);
+            }
+        });
 
         List<FormElement> objects = getObjectsOfClass(className);
         return objects.get(objects.size() - 1);
+    }
+
+    public void deleteObject(String className, int index)
+    {
+        final By objectLocator = By.id("xobject_" + className + "_" + index);
+        final WebElement objectContainer = getDriver().findElement(objectLocator);
+        WebElement deleteLink = objectContainer.findElement(By.className("delete"));
+        deleteLink.click();
+
+        // Expect a confirmation box
+        waitUntilElementIsVisible(By.className("xdialog-box-confirmation"));
+        getDriver().findElement(By.cssSelector(".xdialog-box-confirmation input[value='Yes']")).click();
+        waitUntilElementDisappears(objectLocator);
     }
 
     private FormElement getForm()

@@ -24,6 +24,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.it.ui.framework.elements.FormElement;
 import org.xwiki.it.ui.framework.elements.ViewPage;
@@ -154,12 +158,8 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testObjectAddAndRemove()
     {
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
-        wep.setContent("this is the content");
-        ViewPage vp = wep.clickSaveAndView();
-
-        ObjectEditPage oep = vp.clickEditObjects();
+        ObjectEditPage oep = new ObjectEditPage();
+        oep.switchToEdit("Test", "EditObjectsTestObject");
         FormElement object = oep.addObject("XWiki.XWikiUsers");
         object.setFieldValue(By.id("XWiki.XWikiUsers_0_first_name"), "John");
 
@@ -179,5 +179,24 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(1, oep.getObjectsOfClass("XWiki.XWikiUsers").size());
         object = oep.getObjectsOfClass("XWiki.XWikiUsers").get(0);
         Assert.assertEquals("John", object.getFieldValue(By.id("XWiki.XWikiUsers_0_first_name")));
+    }
+
+    @Test
+    public void testInlineObjectAddButton()
+    {
+        ObjectEditPage oep = new ObjectEditPage();
+        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep.addObject("XWiki.XWikiUsers");
+
+        getDriver().findElement(By.cssSelector("[id='add_xobject_XWiki.XWikiUsers'] .xobject-add-control")).click();
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), getUtil().getTimeout());
+        wait.until(new ExpectedCondition<Boolean>()
+                    {
+            public Boolean apply(WebDriver driver)
+                        {
+                return Boolean.valueOf(driver.findElements(By.cssSelector("[id='xclass_XWiki.XWikiUsers'] .xobject"))
+                    .size() == 2);
+            }
+        });
     }
 }

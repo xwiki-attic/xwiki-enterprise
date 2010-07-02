@@ -22,9 +22,11 @@ package org.xwiki.it.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.it.ui.administration.elements.AdministrationPage;
+import org.xwiki.it.ui.administration.elements.GlobalRightsPage;
+import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.elements.LoginPage;
 import org.xwiki.it.ui.xe.elements.HomePage;
-import org.xwiki.it.ui.framework.AbstractTest;
 
 /**
  * Test the Login feature.
@@ -81,5 +83,35 @@ public class LoginTest extends AbstractTest
         LoginPage loginPage = this.homePage.clickLogin();
         loginPage.loginAs("non existent user", "admin");
         Assert.assertTrue(loginPage.hasInvalidCredentialsErrorMessage());
+    }
+
+    @Test
+    public void testRedirectBackAfterLogin()
+    {
+        try {
+            LoginPage loginPage = this.homePage.clickLogin();
+            loginPage.loginAsAdmin();
+
+            AdministrationPage admin = new AdministrationPage();
+            admin.gotoPage();
+            GlobalRightsPage rights = admin.clickGlobalRightsSection();
+            rights.forceAuthenticatedView();
+
+            getUtil().gotoPage("Blog", "Categories");
+            loginPage.clickLogout();
+            getDriver().manage().deleteAllCookies();
+            loginPage.loginAsAdmin();
+            // We use startsWith since the URL contains a jsessionid and a srid.
+            Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL("Blog", "Categories")));
+        } finally {
+            AdministrationPage admin = new AdministrationPage();
+            admin.gotoPage();
+            if (!admin.isAuthenticated()) {
+                admin.clickLogin().loginAsAdmin();
+                admin.gotoPage();
+            }
+            GlobalRightsPage rights = admin.clickGlobalRightsSection();
+            rights.unforceAuthenticatedView();
+        }
     }
 }

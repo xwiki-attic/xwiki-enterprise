@@ -114,9 +114,9 @@ public class BaseElement
         Wait<WebDriver> wait = new WebDriverWait(this.getDriver(), timeout);
         try {
             wait.until(new ExpectedCondition<WebElement>()
-            {
+                            {
                 public WebElement apply(WebDriver driver)
-                {
+                                {
                     RenderedWebElement element = null;
                     for (int i = 0; i < locators.length; i++) {
                         try {
@@ -167,9 +167,9 @@ public class BaseElement
     {
         Wait<WebDriver> wait = new WebDriverWait(this.getDriver(), timeout);
         wait.until(new ExpectedCondition<Boolean>()
-        {
+                    {
             public Boolean apply(WebDriver driver)
-            {
+                        {
                 try {
                     RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
                     return Boolean.valueOf(!element.isDisplayed());
@@ -195,6 +195,45 @@ public class BaseElement
     {
         // RenderedWebElement.hover() don't seem to work, workarounded using JavaScript call
         executeJavascript("arguments[0].style.visibility='visible'", element);
+    }
+
+    /**
+     * Waits until the given element has a certain value for an attribute.
+     * 
+     * @param locator the element to wait on
+     * @param attributeName the name of the attribute to check
+     * @param expectedValue the attribute value to wait for
+     */
+    public void waitUntilElementHasAttributeValue(final By locator, final String attributeName,
+        final String expectedValue)
+    {
+        waitUntilElementHasAttributeValue(locator, attributeName, expectedValue, 10);
+    }
+
+    /**
+     * Waits until the given element has a certain value for an attribute.
+     * 
+     * @param locator the element to wait on
+     * @param attributeName the name of the attribute to check
+     * @param expectedValue the attribute value to wait for
+     * @param timeout the maximum number of seconds to wait
+     */
+    public void waitUntilElementHasAttributeValue(final By locator, final String attributeName,
+        final String expectedValue, int timeout)
+    {
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), timeout);
+        wait.until(new ExpectedCondition<Boolean>()
+                    {
+            public Boolean apply(WebDriver driver)
+                        {
+                try {
+                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                    return Boolean.valueOf(expectedValue.equals(element.getAttribute(attributeName)));
+                } catch (NotFoundException e) {
+                    return Boolean.TRUE;
+                }
+            }
+        });
     }
 
     public Object executeJavascript(String javascript, Object... arguments)

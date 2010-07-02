@@ -32,8 +32,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.TimeoutException;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xwiki.it.ui.framework.TestUtils;
 import org.xwiki.it.ui.framework.PersistentTestContext;
+import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Represents all elements which include web pages as well as parts of web pages.

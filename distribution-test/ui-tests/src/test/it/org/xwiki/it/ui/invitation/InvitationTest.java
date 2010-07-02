@@ -19,34 +19,33 @@
  */
 package org.xwiki.it.ui.invitation;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+
+import javax.mail.Address;
+import javax.mail.BodyPart;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeMessage;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.mail.internet.MimeMessage;
-import javax.mail.Multipart;
-import javax.mail.Address;
-import javax.mail.BodyPart;
-
-import com.icegreen.greenmail.util.GreenMail;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.it.ui.administration.elements.AdminSectionPage;
-import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
-import org.xwiki.it.ui.invitation.elements.InvitationSenderPage;
-import org.xwiki.it.ui.invitation.elements.InvitationMessageDisplayElement;
+import org.xwiki.it.ui.framework.AbstractTest;
+import org.xwiki.it.ui.framework.TestUtils;
+import org.xwiki.it.ui.framework.elements.RegisterPage;
 import org.xwiki.it.ui.framework.elements.TableElement;
+import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
 import org.xwiki.it.ui.invitation.elements.InspectInvitationsPage;
 import org.xwiki.it.ui.invitation.elements.InvitationActionConfirmationElement;
 import org.xwiki.it.ui.invitation.elements.InvitationGuestActionsPage;
-import org.xwiki.it.ui.framework.elements.RegisterPage;
-import org.xwiki.it.ui.framework.AbstractTest;
-import org.xwiki.it.ui.framework.TestUtils;
+import org.xwiki.it.ui.invitation.elements.InvitationMessageDisplayElement;
+import org.xwiki.it.ui.invitation.elements.InvitationSenderPage;
+
+import com.icegreen.greenmail.util.GreenMail;
 
 /**
  * Tests invitation application.
@@ -67,24 +66,24 @@ public class InvitationTest extends AbstractTest
     {
         // Login as admin and delete existing messages.
         getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(
-                            getUtil().getURLToDeletePage("Invitation", "InvitationMessages")));
+            getUtil().getURLToDeletePage("Invitation", "InvitationMessages")));
 
-        senderPage = newSenderPage();
+        this.senderPage = newSenderPage();
 
         if (!initialized) {
             // We have to go to sender page before any config shows up.
-            senderPage.gotoPage();
+            this.senderPage.gotoPage();
             // Set port to 3025
             AdminSectionPage config = new AdminSectionPage("Invitation");
             config.gotoPage();
-            config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_smtp_port"), 
-                                           "3025");
+            config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_smtp_port"),
+                "3025");
             config.clickSave();
             initialized = true;
         }
 
-        senderPage.gotoPage();
-        senderPage.fillInDefaultValues();
+        this.senderPage.gotoPage();
+        this.senderPage.fillInDefaultValues();
     }
 
     @Test
@@ -96,31 +95,31 @@ public class InvitationTest extends AbstractTest
             InvitationGuestActionsPage guestPage = new InvitationGuestActionsPage();
 
             // Try to accept nonexistent message.
-            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view", 
-                                                "doAction_accept&messageID=12345"));
+            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view",
+                "doAction_accept&messageID=12345"));
             Assert.assertTrue("Guests able to accept nonexistent invitation", guestPage.getMessage() != null);
             Assert.assertTrue("Guests trying to accept nonexistent invitation get wrong error message\nMessage: "
-                              + guestPage.getMessage(),
+                + guestPage.getMessage(),
                 guestPage.getMessage().equals("No message was found by that ID, maybe it was deleted "
-                                              + "accidentally or the system is experiencing problems."));
+                + "accidentally or the system is experiencing problems."));
 
             // Try to decline nonexistent message.
-            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view", 
-                                                "doAction_decline&messageID=12345"));
+            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view",
+                "doAction_decline&messageID=12345"));
             Assert.assertTrue("Guests able to decline nonexistent invitation", guestPage.getMessage() != null);
             Assert.assertTrue("Guests trying to decline nonexistent invitation get wrong error message\nMessage: "
-                              + guestPage.getMessage(),
+                + guestPage.getMessage(),
                 guestPage.getMessage().equals("No invitation was found by the given ID. It might have been deleted or "
-                                              + "maybe the system is experiencing difficulties."));
+                + "maybe the system is experiencing difficulties."));
 
             // Try to report nonexistent message.
-            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view", 
-                                                "doAction_report&messageID=12345"));
+            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view",
+                "doAction_report&messageID=12345"));
             Assert.assertTrue("Guests able to report nonexistent invitation as spam", guestPage.getMessage() != null);
             Assert.assertTrue("Guests trying to report nonexistent invitation as spam get incorrect message\nMessage: "
-                              + guestPage.getMessage(),                                
+                + guestPage.getMessage(),
                 guestPage.getMessage().equals("There was no message found by the given ID. Maybe an administrator "
-                                              + "deleted the message from our system."));
+                + "deleted the message from our system."));
         } finally {
             getUtil().setSession(s);
         }
@@ -138,7 +137,7 @@ public class InvitationTest extends AbstractTest
 
             Assert.assertTrue("wrong number of messages", messages.length == 2);
 
-            // Corrispond to message a and b
+            // Correspond to messages a and b
             int a = 1, b = 2;
 
             Map<String, String> messageA = getMessageContent(messages[0]);
@@ -157,11 +156,11 @@ public class InvitationTest extends AbstractTest
             }
 
             Assert.assertTrue("Wrong recipient name.\nExpecting:user@localhost.localdomain\n      Got:"
-                              + messageA.get("recipient"),
+                + messageA.get("recipient"),
                 messageA.get("recipient").contains("user@localhost.localdomain"));
 
             Assert.assertTrue("Wrong recipient name.\nExpecting:anotheruser@localhost.localdomain\n      Got:"
-                              + messageB.get("recipient"),
+                + messageB.get("recipient"),
                 messageB.get("recipient").contains("anotheruser@localhost.localdomain"));
 
             assertMessageValid(messageA);
@@ -222,11 +221,10 @@ public class InvitationTest extends AbstractTest
         }
     }
 
-    /** 
-     * This test proves that:
-     * 1. Non administrators trying to send to multiple email addresses without permission will get an error message.
-     *    and said mail will not be sent.
-     * 2. After permission is granted sending to multiple users will work and message will say mail was sent.
+    /**
+     * This test proves that: 1. Non administrators trying to send to multiple email addresses without permission will
+     * get an error message. and said mail will not be sent. 2. After permission is granted sending to multiple users
+     * will work and message will say mail was sent.
      */
     @Test
     public void testUnpermittedUserCannotSendToMultipleAddresses() throws Exception
@@ -243,7 +241,7 @@ public class InvitationTest extends AbstractTest
             Assert.assertTrue("Messages were recieved when they shouldn't have been sent!", messages.length == 0);
             Assert.assertTrue("User was not shown the correct error message.",
                 sent.getMessageBoxContent().equals("Your message couldn't be sent because there were no valid email "
-                                                   + "addresses to send to."));
+                + "addresses to send to."));
             stopGreenMail();
 
             // Become admin and allow users to send to multiple.
@@ -252,7 +250,7 @@ public class InvitationTest extends AbstractTest
             AdminSectionPage config = new AdminSectionPage("Invitation");
             config.gotoPage();
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
-                                                 + "usersMaySendToMultiple"), "true");
+                + "usersMaySendToMultiple"), "true");
             config.clickSave();
             getUtil().setSession(nonAdmin);
 
@@ -288,8 +286,8 @@ public class InvitationTest extends AbstractTest
             getUtil().setSession(null);
             getUtil().registerLoginAndGotoPage("spam", "andEggs", getSenderPage().getURL());
             startGreenMail();
-            getSenderPage().fillForm("undisclosed-recipients@localhost.localdomain", null, 
-                                     "You have won the email lottery!");
+            getSenderPage().fillForm("undisclosed-recipients@localhost.localdomain", null,
+                "You have won the email lottery!");
             getSenderPage().send();
             getGreenMail().waitForIncomingEmail(10000, 1);
             MimeMessage[] messages = getGreenMail().getReceivedMessages();
@@ -303,7 +301,7 @@ public class InvitationTest extends AbstractTest
             TestUtils.Session spammer = getUtil().getSession();
             getUtil().setSession(null);
 
-            InvitationGuestActionsPage guestPage = 
+            InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             guestPage.setMemo("It's the email lottery, they have taken over your server!");
             guestPage.confirm();
@@ -313,12 +311,12 @@ public class InvitationTest extends AbstractTest
             // Prove that a reported message cannot be accepted (which would clear the "reported" status)
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After a message is reported a user can accept it, clearing the spam report",
-               guestPage.getMessage().equals("This invitation has been reported as spam and is no longer valid."));
+                guestPage.getMessage().equals("This invitation has been reported as spam and is no longer valid."));
             // Prove that a reported message cannot be declined
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertTrue("After a message is reported a user can decline it, clearing the spam report",
-                                  guestPage.getMessage().equals("This invitation has already been reported as "
-                                                                + "spam and thus cannot be declined."));
+                guestPage.getMessage().equals("This invitation has already been reported as "
+                + "spam and thus cannot be declined."));
             // Switch to admin
             getUtil().setSession(admin);
             // Go to invitation sender.
@@ -334,17 +332,17 @@ public class InvitationTest extends AbstractTest
             getUtil().setSession(admin);
             getSenderPage().gotoPage();
             Assert.assertTrue("No warning in footer that a message is reported as spam",
-                              getSenderPage().getFooter().spamReports() == 1);
+                getSenderPage().getFooter().spamReports() == 1);
             // View spam message.
             InspectInvitationsPage inspectPage = getSenderPage().getFooter().inspectAllInvitations();
-            InspectInvitationsPage.OneMessage inspect = 
+            InspectInvitationsPage.OneMessage inspect =
                 inspectPage.getMessageWhere("Subject", "spam has invited you to join localhost");
             // Prove that the memo left by spam reported is shown.
             String expectedMessage = "Reported as spam with message: It's the email lottery, they have taken over "
-                                   + "your server!";
+                + "your server!";
             Assert.assertTrue("The message by the spam reporter is not shown to the admin.\nExpecting:"
-                              + expectedMessage + "\n      Got:" + inspect.getStatusAndMemo(),
-                                  inspect.getStatusAndMemo().equals(expectedMessage));
+                + expectedMessage + "\n      Got:" + inspect.getStatusAndMemo(),
+                inspect.getStatusAndMemo().equals(expectedMessage));
 
             String memo = "Actually the email lottery is quite legitimate.";
             String expectedSuccessMessage = "Invitation successfully marked as not spam. Log entry: " + memo;
@@ -353,12 +351,12 @@ public class InvitationTest extends AbstractTest
 
             // Make sure the output is correct.
             Assert.assertTrue("Admin got incorrect message after marking invitation as not spam\nExpecting:"
-                              + expectedSuccessMessage + "\n      Got:" + successMessage,
-                              expectedSuccessMessage.equals(successMessage));
+                + expectedSuccessMessage + "\n      Got:" + successMessage,
+                expectedSuccessMessage.equals(successMessage));
             // Switch back to spammer
             getUtil().setSession(spammer);
             getSenderPage().gotoPage();
-            Assert.assertFalse("User permission to send not returned by admin action.", 
+            Assert.assertFalse("User permission to send not returned by admin action.",
                 getSenderPage().userIsSpammer());
         } finally {
             stopGreenMail();
@@ -390,7 +388,7 @@ public class InvitationTest extends AbstractTest
             // Now switch to guest.
             getUtil().setSession(null);
 
-            InvitationGuestActionsPage guestPage = 
+            InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             guestPage.setMemo("I'm not interested thank you.");
             guestPage.confirm();
@@ -405,34 +403,34 @@ public class InvitationTest extends AbstractTest
 
             // View declined invitation.
             InspectInvitationsPage inspectPage = getSenderPage().getFooter().inspectMyInvitations();
-            InspectInvitationsPage.OneMessage inspect = 
+            InspectInvitationsPage.OneMessage inspect =
                 inspectPage.getMessageWhere("Status", "Declined");
 
-            Assert.assertTrue("Not showing message box to say the invitation has been declined", 
+            Assert.assertTrue("Not showing message box to say the invitation has been declined",
                 inspect.getStatusAndMemo().equals("Declined with message: I'm not interested thank you."));
 
             // Insure the message history table is correct.
             TableElement messageHistoryTable = inspect.clickMessageHistory();
             List<WebElement> row2 = messageHistoryTable.getRow(2);
             Assert.assertTrue("Message history table not showing correctly.",
-                              row2.get(0).getText().equals("Declined"));
+                row2.get(0).getText().equals("Declined"));
             Assert.assertTrue("Message history table not showing correctly.",
-                              row2.get(2).getText().equals("I'm not interested thank you."));
+                row2.get(2).getText().equals("I'm not interested thank you."));
 
-            //Make sure a guest can't accept the invitation now.
+            // Make sure a guest can't accept the invitation now.
             getUtil().setSession(null);
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After a message is declined a user can still accept it!",
-               guestPage.getMessage().equals("This invitation has been declined and cannot be accepted now."));
+                guestPage.getMessage().equals("This invitation has been declined and cannot be accepted now."));
             // Try to decline the invitation.
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertTrue("User was allowed to decline an invitation twice.",
-                                  guestPage.getMessage().equals("This invitation has already been declined and "
-                                                                + "cannot be declined again."));
+                guestPage.getMessage().equals("This invitation has already been declined and "
+                + "cannot be declined again."));
             // Prove that the message can still be reported as spam
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             Assert.assertTrue("After the invitation was declined it now cannot be reported as spam.",
-                                  guestPage.getMessage().equals(""));
+                guestPage.getMessage().equals(""));
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
@@ -461,17 +459,17 @@ public class InvitationTest extends AbstractTest
             // Now switch to guest.
             getUtil().setSession(null);
 
-            InvitationGuestActionsPage guestPage = 
+            InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("There was an error message when accepting the invitation message:\n"
-                              + guestPage.getMessage(), 
-                                  guestPage.getMessage().equals(""));
+                + guestPage.getMessage(),
+                guestPage.getMessage().equals(""));
             // Register a new user.
             RegisterPage rp = new RegisterPage();
             rp.fillRegisterForm(null, null, "InvitedMember", "WeakPassword", "WeakPassword", null);
             rp.clickRegister();
             Assert.assertTrue("There were failure messages when registering.",
-                                  rp.getValidationFailureMessages().isEmpty());
+                rp.getValidationFailureMessages().isEmpty());
             getDriver().get(getUtil().getURLToLoginAs("InvitedMember", "WeakPassword"));
 
             Assert.assertTrue("Failed to log user in after registering from invitation.", rp.isAuthenticated());
@@ -480,17 +478,17 @@ public class InvitationTest extends AbstractTest
             getUtil().setSession(null);
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After the invitation was accepted a user was allowed to accept it again.",
-                                  guestPage.getMessage().equals("This invitation has already been accepted and the "
-                                                                + "offer is no longer valid."));
+                guestPage.getMessage().equals("This invitation has already been accepted and the "
+                + "offer is no longer valid."));
             // Try to decline the invitation.
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertTrue("After the invitation was accepted a user was allowed to decline it.",
-                                  guestPage.getMessage().equals("This invitation has already been accepted and "
-                                                                + "now cannot be declined."));
+                guestPage.getMessage().equals("This invitation has already been accepted and "
+                + "now cannot be declined."));
             // Prove that the message can still be reported as spam
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             Assert.assertTrue("After the invitation was accepted it now cannot be reported as spam.",
-                                  guestPage.getMessage().equals(""));
+                guestPage.getMessage().equals(""));
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
@@ -523,7 +521,7 @@ public class InvitationTest extends AbstractTest
             // Now we try sending and accepting an invitation.
             getUtil().setSession(admin);
             getSenderPage().gotoPage();
-            senderPage.fillInDefaultValues();
+            this.senderPage.fillInDefaultValues();
 
             startGreenMail();
             getSenderPage().send();
@@ -535,17 +533,17 @@ public class InvitationTest extends AbstractTest
             // Now switch to guest.
             getUtil().setSession(null);
 
-            InvitationGuestActionsPage guestPage = 
+            InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("There was an error message when accepting the invitation message:\n"
-                              + guestPage.getMessage(), 
-                                  guestPage.getMessage().equals(""));
+                + guestPage.getMessage(),
+                guestPage.getMessage().equals(""));
             // Register a new user.
             RegisterPage rp = new RegisterPage();
             rp.fillRegisterForm(null, null, "AnotherInvitedMember", "WeakPassword", "WeakPassword", null);
             rp.clickRegister();
             Assert.assertTrue("There were failure messages when registering.",
-                                  rp.getValidationFailureMessages().isEmpty());
+                rp.getValidationFailureMessages().isEmpty());
             getDriver().get(getUtil().getURLToLoginAs("AnotherInvitedMember", "WeakPassword"));
 
             Assert.assertTrue("Failed to log user in after registering from invitation.", rp.isAuthenticated());
@@ -602,10 +600,10 @@ public class InvitationTest extends AbstractTest
             getUtil().setSession(null);
 
             String commonPart = "\nAdministrator left you this message when rescinding the invitation.\n"
-                              + "Sorry, wrong email address.";
+                + "Sorry, wrong email address.";
 
             // Prove that invitation cannot be accepted
-            InvitationGuestActionsPage guestPage = 
+            InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertFalse("Guest was able to accept a message which had been canceled.",
                 guestPage.getMessage().equals(""));
@@ -617,8 +615,8 @@ public class InvitationTest extends AbstractTest
             Assert.assertFalse("Guest was able to decline a message which had been canceled.",
                 guestPage.getMessage().equals(""));
             Assert.assertTrue("Guest attempting to decline invitation was not given message that was canceled.",
-                guestPage.getMessage().equals("This invitation has been rescinded and thus cannot be declined." 
-                                              + commonPart));
+                guestPage.getMessage().equals("This invitation has been rescinded and thus cannot be declined."
+                + commonPart));
 
             // Prove that the message report spam page still shows up.
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
@@ -626,7 +624,7 @@ public class InvitationTest extends AbstractTest
                 guestPage.getMessage().equals(""));
             guestPage.setMemo("Canceled message is spam.");
             Assert.assertTrue(guestPage.confirm().equals("Your report has been logged and the situation will "
-                                + "be investigated as soon as possible, we apologize for the inconvenience."));
+                + "be investigated as soon as possible, we apologize for the inconvenience."));
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
@@ -646,7 +644,7 @@ public class InvitationTest extends AbstractTest
             AdminSectionPage config = new AdminSectionPage("Invitation");
             config.gotoPage();
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
-                                                 + "usersMaySendToMultiple"), "true");
+                + "usersMaySendToMultiple"), "true");
             config.clickSave();
 
             // Now switch to a wizeguy user
@@ -655,12 +653,12 @@ public class InvitationTest extends AbstractTest
 
             startGreenMail();
             getSenderPage().fillForm("user@localhost.localdomain user@localhost.localdomain "
-                                     + "user@localhost.localdomain user@localhost.localdomain", null, null);
+                + "user@localhost.localdomain user@localhost.localdomain", null, null);
             getSenderPage().send();
             getGreenMail().waitForIncomingEmail(10000, 1);
             MimeMessage[] messages = getGreenMail().getReceivedMessages();
             Assert.assertTrue("One user is able to send multiple messages to the same poor recipient.",
-                              messages.length == 1);
+                messages.length == 1);
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
@@ -710,13 +708,13 @@ public class InvitationTest extends AbstractTest
     protected BodyPart getPart(Multipart messageContent, String mimeType) throws Exception
     {
         for (int i = 0; i < messageContent.getCount(); i++) {
-            BodyPart part = (BodyPart) messageContent.getBodyPart(i);
+            BodyPart part = messageContent.getBodyPart(i);
 
             if (part.isMimeType(mimeType)) {
                 return part;
             }
-            
-            if (part.isMimeType("multipart/related") 
+
+            if (part.isMimeType("multipart/related")
                 || part.isMimeType("multipart/alternative")
                 || part.isMimeType("multipart/mixed")) {
                 BodyPart out = getPart((Multipart) part.getContent(), mimeType);
@@ -748,6 +746,6 @@ public class InvitationTest extends AbstractTest
 
     protected InvitationSenderPage getSenderPage()
     {
-        return senderPage;
+        return this.senderPage;
     }
 }

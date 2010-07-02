@@ -19,11 +19,11 @@
  */
 package org.xwiki.it.ui.framework.elements;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
@@ -78,8 +78,8 @@ public class FormElement extends BaseElement
             setCheckBox(fieldElement, value.equals("true"));
         } else if ("select".equals(fieldElement.getTagName())) {
             // TODO: Should we do this? (don't seem to work)
-            //SelectElement select = new SelectElement(fieldElement);
-            //select.select(value);
+            // SelectElement select = new SelectElement(fieldElement);
+            // select.select(value);
             List<WebElement> allOptions = fieldElement.findElements(By.tagName("option"));
             for (WebElement option : allOptions) {
                 if (value.equals(option.getValue())) {
@@ -107,7 +107,7 @@ public class FormElement extends BaseElement
 
     public SelectElement getSelectElement(By by)
     {
-        return this.new SelectElement(form.findElement(by));
+        return this.new SelectElement(this.form.findElement(by));
     }
 
     public class SelectElement extends BaseElement
@@ -131,26 +131,26 @@ public class FormElement extends BaseElement
 
         private Map<String, WebElement> getOptionsByValue()
         {
-            if (optionsByValue != null) {
-                return optionsByValue;
+            if (this.optionsByValue != null) {
+                return this.optionsByValue;
             }
-            List<WebElement> elements = select.findElements(By.tagName("option"));
-            optionsByValue = new HashMap<String, WebElement>((int) (elements.size() / 0.75));
+            List<WebElement> elements = this.select.findElements(By.tagName("option"));
+            this.optionsByValue = new HashMap<String, WebElement>((int) (elements.size() / 0.75));
             for (WebElement el : elements) {
-                optionsByValue.put(el.getAttribute("value"), el);
+                this.optionsByValue.put(el.getAttribute("value"), el);
             }
-            return optionsByValue;
+            return this.optionsByValue;
         }
 
         public void select(List<String> valuesToSelect)
         {
-            if (valuesToSelect.size() > 1 && select.getAttribute("multiple") != "multiple") {
+            if (valuesToSelect.size() > 1 && this.select.getAttribute("multiple") != "multiple") {
                 throw new WebDriverException("Cannot select multiple elements in drop down menu.");
             }
             Map<String, WebElement> optionsByValue = getOptionsByValue();
             if (!optionsByValue.keySet().containsAll(valuesToSelect)) {
-                throw new WebDriverException("Select Element(s): " + optionsByValue.keySet().retainAll(valuesToSelect) 
-                                             + " not found.");
+                throw new WebDriverException("Select Element(s): " + optionsByValue.keySet().retainAll(valuesToSelect)
+                    + " not found.");
             }
             for (String label : valuesToSelect) {
                 optionsByValue.get(label).setSelected();
@@ -159,9 +159,12 @@ public class FormElement extends BaseElement
 
         public void select(final String value)
         {
-            select(new ArrayList<String>(){{
-                add(value);
-            }});
+            select(new ArrayList<String>()
+            {
+                {
+                    add(value);
+                }
+            });
         }
 
         public void unSelect(List<String> valuesToUnSelect)
@@ -169,10 +172,10 @@ public class FormElement extends BaseElement
             Map<String, WebElement> optionsByValue = getOptionsByValue();
             if (!optionsByValue.keySet().containsAll(valuesToUnSelect)) {
                 throw new WebDriverException("Select Element(s) to unselect: "
-                                             + optionsByValue.keySet().retainAll(valuesToUnSelect) + " not found.");
+                    + optionsByValue.keySet().retainAll(valuesToUnSelect) + " not found.");
             }
             for (String label : valuesToUnSelect) {
-                if(optionsByValue.get(label).isSelected()) {
+                if (optionsByValue.get(label).isSelected()) {
                     optionsByValue.get(label).toggle();
                 }
             }
@@ -180,9 +183,12 @@ public class FormElement extends BaseElement
 
         public void unSelect(final String value)
         {
-            unSelect(new ArrayList<String>(){{
-                add(value);
-            }});
+            unSelect(new ArrayList<String>()
+            {
+                {
+                    add(value);
+                }
+            });
         }
     }
 }

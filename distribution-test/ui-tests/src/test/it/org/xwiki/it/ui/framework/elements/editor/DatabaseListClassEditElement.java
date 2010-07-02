@@ -46,7 +46,7 @@ public class DatabaseListClassEditElement extends BaseElement
         this.form.setFieldValue(By.id(this.propertyName + "_sql"), value);
     }
 
-    public void isMultiSelect(boolean isMultiSelect)
+    public void setMultiSelect(boolean isMultiSelect)
     {
         this.form.setFieldValue(By.id(this.propertyName + "_multiSelect"), isMultiSelect ? "true" : "false");
     }

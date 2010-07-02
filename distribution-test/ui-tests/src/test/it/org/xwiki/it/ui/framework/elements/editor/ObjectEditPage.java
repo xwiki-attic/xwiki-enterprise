@@ -24,20 +24,23 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.RenderedWebElement;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.it.ui.framework.elements.FormElement;
-import org.xwiki.it.ui.framework.elements.editor.EditPage;
 
 /**
  * Represents the common actions possible on all Pages when using the "edit" action with the "object" editor.
- *
+ * 
  * @version $Id$
  * @since 2.4M2
  */
 public class ObjectEditPage extends EditPage
 {
-    @FindBy(id ="update")
+    @FindBy(id = "update")
     private WebElement objectForm;
 
     @FindBy(id = "classname")
@@ -77,9 +80,9 @@ public class ObjectEditPage extends EditPage
     public List<FormElement> getObjectsOfClass(String className)
     {
         List<WebElement> titles = getDriver().findElement(By.id("xclass_" + className))
-                                        .findElements(By.className("xobject-title"));
+            .findElements(By.className("xobject-title"));
         List<WebElement> elements = getDriver().findElement(By.id("xclass_" + className))
-                                        .findElements(By.className("xobject-content"));
+            .findElements(By.className("xobject-content"));
         List<FormElement> forms = new ArrayList<FormElement>(elements.size());
         for (int i = 0; i < elements.size(); i++) {
             WebElement element = elements.get(i);

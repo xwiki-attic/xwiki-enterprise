@@ -21,18 +21,19 @@ package org.xwiki.it.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.editor.ClassEditPage;
 import org.xwiki.it.ui.framework.elements.FormElement;
-import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
 import org.xwiki.it.ui.framework.elements.ViewPage;
+import org.xwiki.it.ui.framework.elements.editor.ClassEditPage;
+import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
 import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 
 /**
  * Test XObject editing.
- *
+ * 
  * @version $Id$
  * @since 2.4M2
  */
@@ -76,7 +77,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         // Set multiselect to true
         cep = new ClassEditPage();
         cep.switchToEdit("Test", "EditObjectsTestClass");
-        cep.getDatabaseListClassEditElement("prop").isMultiSelect(true);
+        cep.getDatabaseListClassEditElement("prop").setMultiSelect(true);
         cep.clickSaveAndView();
 
         // Select a second document in the DB list select field.

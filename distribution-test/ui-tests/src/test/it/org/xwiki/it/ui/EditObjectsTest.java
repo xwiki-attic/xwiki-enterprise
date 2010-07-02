@@ -150,4 +150,34 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         vp = oep.clickSaveAndView();
         Assert.assertEquals("this is the content: 2", vp.getContent());
     }
+
+    @Test
+    public void testObjectAddAndRemove()
+    {
+        WikiEditPage wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep.setContent("this is the content");
+        ViewPage vp = wep.clickSaveAndView();
+
+        ObjectEditPage oep = vp.clickEditObjects();
+        FormElement object = oep.addObject("XWiki.XWikiUsers");
+        object.setFieldValue(By.id("XWiki.XWikiUsers_0_first_name"), "John");
+
+        // Add another object
+        FormElement object2 = oep.addObject("XWiki.XWikiUsers");
+
+        // Check that the unsaved value from the first object wasn't lost
+        Assert.assertEquals("John", object.getFieldValue(By.id("XWiki.XWikiUsers_0_first_name")));
+        // Check that the value from the second object is unset
+        Assert.assertEquals("", object2.getFieldValue(By.id("XWiki.XWikiUsers_1_first_name")));
+
+        // Delete the second object
+        oep.deleteObject("XWiki.XWikiUsers", 1);
+
+        // Let's save the form and check that changes were persisted.
+        oep = oep.clickSaveAndView().clickEditObjects();
+        Assert.assertEquals(1, oep.getObjectsOfClass("XWiki.XWikiUsers").size());
+        object = oep.getObjectsOfClass("XWiki.XWikiUsers").get(0);
+        Assert.assertEquals("John", object.getFieldValue(By.id("XWiki.XWikiUsers_0_first_name")));
+    }
 }

@@ -63,6 +63,21 @@ public class ClassEditPage extends BasePage
         getForm().setFieldValue(this.propertyNameField, propertyName);
         getForm().setFieldValue(this.propertyTypeField, propertyType);
         this.propertySubmit.click();
+        // Make sure we wait for the element to appear since there's no page refresh.
+        waitUntilElementIsVisible(By.id("xproperty_" + propertyName));
+    }
+
+    public void deleteProperty(String propertyName)
+    {
+        final By propertyLocator = By.id("xproperty_" + propertyName);
+        final WebElement propertyContainer = getDriver().findElement(propertyLocator);
+        WebElement deleteLink = propertyContainer.findElement(By.className("delete"));
+        deleteLink.click();
+
+        // Expect a confirmation box
+        waitUntilElementIsVisible(By.className("xdialog-box-confirmation"));
+        getDriver().findElement(By.cssSelector(".xdialog-box-confirmation input[value='Yes']")).click();
+        waitUntilElementDisappears(propertyLocator);
     }
 
     private FormElement getForm()

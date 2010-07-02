@@ -86,6 +86,12 @@ public class ObjectEditPage extends EditPage
         waitUntilElementDisappears(objectLocator);
     }
 
+    public void removeAllDeprecatedProperties()
+    {
+        getDriver().findElement(By.className("syncAllProperties")).click();
+        waitUntilElementDisappears(By.className("deprecatedProperties"));
+    }
+
     private FormElement getForm()
     {
         if (this.form == null) {

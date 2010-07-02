@@ -28,7 +28,7 @@ import org.xwiki.it.ui.framework.elements.ViewPage;
 
 /**
  * Represents the common actions possible on all Pages when using the "edit" action with the "class" editor.
- *
+ * 
  * @version $Id$
  * @since 2.4M2
  */
@@ -44,7 +44,7 @@ public class ClassEditPage extends BasePage
     @FindBy(name = "action_cancel")
     private WebElement cancel;
 
-    @FindBy(id ="propupdate")
+    @FindBy(id = "propupdate")
     private WebElement propertyForm;
 
     @FindBy(id = "propname")
@@ -75,7 +75,7 @@ public class ClassEditPage extends BasePage
 
     /**
      * Start editing the page using the Class editor.
-     *
+     * 
      * @param space
      * @param page
      */
@@ -89,7 +89,7 @@ public class ClassEditPage extends BasePage
         // Make the element visible before returning it
         By locator = By.id("xproperty_" + propertyName + "_title");
         waitUntilElementIsVisible(locator);
-        getDriver().findElement(locator).click();        
+        getDriver().findElement(locator).click();
         return new DatabaseListClassEditElement(getForm(), propertyName);
     }
 

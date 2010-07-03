@@ -32,7 +32,7 @@ import org.xwiki.it.ui.framework.elements.ViewPage;
  */
 public class AdminSectionPage extends ViewPage
 {
-    @FindBy(xpath = "//input[@type='submit'][@value='Save']")
+    @FindBy(xpath = "//input[@type='submit'][@name='formactionsac']")
     private WebElement saveButton;
 
     // The admin-page-content div is being treated as a form since it may contain multiple forms and we want to be able

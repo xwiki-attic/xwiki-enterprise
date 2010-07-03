@@ -47,7 +47,7 @@ public class FormElement extends BaseElement
 
     public void fillFieldsByName(Map<String, String> valuesByNames)
     {
-        Map valuesByElements = new HashMap<WebElement, String>((int) (valuesByNames.size() / 0.75));
+        Map<WebElement, String> valuesByElements = new HashMap<WebElement, String>((int) (valuesByNames.size() / 0.75));
 
         for (String name : valuesByNames.keySet()) {
             valuesByElements.put(this.form.findElement(By.name(name)), valuesByNames.get(name));
@@ -95,6 +95,11 @@ public class FormElement extends BaseElement
             fieldElement.clear();
             fieldElement.sendKeys(value);
         }
+    }
+
+    public void setCheckBox(By findElementBy, boolean checked)
+    {
+        setCheckBox(form.findElement(findElementBy), checked);
     }
 
     public void setCheckBox(WebElement checkBoxElement, boolean checked)

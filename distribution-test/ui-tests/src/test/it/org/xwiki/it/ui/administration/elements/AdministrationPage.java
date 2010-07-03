@@ -31,6 +31,9 @@ import org.xwiki.it.ui.framework.elements.ViewPage;
  */
 public class AdministrationPage extends ViewPage
 {
+    @FindBy(xpath = "//li[@class='General']/a/span/img")
+    WebElement generalLink;
+
     @FindBy(xpath = "//li[@class='Import']/a/span/img")
     WebElement importLink;
 
@@ -46,6 +49,12 @@ public class AdministrationPage extends ViewPage
     public void gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin");
+    }
+
+    public AdminSectionPage clickGeneralSection()
+    {
+        this.generalLink.click();
+        return new AdminSectionPage("General");
     }
 
     public ImportPage clickImportSection()

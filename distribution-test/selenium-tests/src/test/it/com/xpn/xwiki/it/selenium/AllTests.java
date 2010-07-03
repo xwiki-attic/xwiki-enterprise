@@ -70,7 +70,6 @@ public class AllTests extends TestCase
         addTestCase(suite, ValidationTest.class);
         addTestCase(suite, CopyPageTest.class);
         addTestCase(suite, AdministrationTest.class);
-        addTestCase(suite, LanguageTest.class);
         addTestCase(suite, SchedulerTest.class);
         // Watchlist tests must be executed after scheduler tests since they rely on the scheduler.
         addTestCase(suite, WatchListTest.class);

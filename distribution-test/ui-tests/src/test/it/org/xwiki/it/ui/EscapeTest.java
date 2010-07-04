@@ -101,6 +101,34 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
     }
 
+    @Test
+    public void testAdminEditor()
+    {
+        // XWIKI-5190
+        String test = getUtil().escapeURL("\"<!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage("XWiki", "AdminSheet", "admin", "editor=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+
+        // same page after redirect
+        getUtil().gotoPage("Main", "WebHome", "view", "xpage=admin&editor=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
+    @Test
+    public void testAdminSection()
+    {
+        // XWIKI-5190
+        String test = getUtil().escapeURL("\"<!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage("XWiki", "AdminSheet", "admin", "section=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+
+        // same page after redirect
+        getUtil().gotoPage("Main", "WebHome", "view", "xpage=admin&section=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
     /**
      * Go to a working page after each test run to prevent failures in {@link #setUp()}
      */

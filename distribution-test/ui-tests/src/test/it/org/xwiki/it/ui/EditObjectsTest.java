@@ -23,10 +23,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.it.ui.framework.elements.FormElement;
 import org.xwiki.it.ui.framework.elements.ViewPage;
@@ -186,16 +182,6 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         ObjectEditPage oep = new ObjectEditPage();
         oep.switchToEdit("Test", "EditObjectsTestObject");
         oep.addObject("XWiki.XWikiUsers");
-
-        getDriver().findElement(By.cssSelector("[id='add_xobject_XWiki.XWikiUsers'] .xobject-add-control")).click();
-        Wait<WebDriver> wait = new WebDriverWait(getDriver(), getUtil().getTimeout());
-        wait.until(new ExpectedCondition<Boolean>()
-                    {
-            public Boolean apply(WebDriver driver)
-                        {
-                return Boolean.valueOf(driver.findElements(By.cssSelector("[id='xclass_XWiki.XWikiUsers'] .xobject"))
-                    .size() == 2);
-            }
-        });
+        oep.addObjectFromInlineLink("XWiki.XWikiUsers");
     }
 }

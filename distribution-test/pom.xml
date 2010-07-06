@@ -241,7 +241,6 @@
                   /xwiki/bin/view/Main/?viewer=history
                   /xwiki/bin/delete/Main/
                   /xwiki/bin/register/XWiki/Register
-                  /xwiki/bin/view/Main/AllDocs?view=tree
                   /xwiki/bin/view/Main/AllDocs?view=orphans
                   /xwiki/bin/view/Main/AllDocs?view=attachments
                   /xwiki/bin/view/Main/AllDocs?view=deletedDocs

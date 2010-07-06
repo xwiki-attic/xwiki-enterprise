@@ -26,21 +26,22 @@ import org.xwiki.validator.DutchWebGuidelinesValidator;
 import org.xwiki.validator.ValidationError.Type;
 
 import com.xpn.xwiki.it.framework.DocumentReferenceTarget;
+import com.xpn.xwiki.it.framework.Target;
 
 public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidator
 {
     private static final String SPACE_META = "space";
 
-    private DocumentReferenceTarget documentReferenceTarget;
+    private Target target;
 
     /**
-     * Set the reference of the page being analyzed.
+     * Set the target being analyzed.
      * 
-     * @param DocumentReference document reference of the page
+     * @param target the target
      */
-    public void setDocumentReferenceTarget(DocumentReferenceTarget documentReferenceTarget)
+    public void setTarget(Target target)
     {
-        this.documentReferenceTarget = documentReferenceTarget;
+        this.target = target;
     }
 
     /**
@@ -60,9 +61,19 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      */
     private boolean isPage(String space, String page)
     {
-        return this.documentReferenceTarget != null
-            && this.documentReferenceTarget.getDocumentReference().getName().equals(page)
-            && this.documentReferenceTarget.getDocumentReference().getLastSpaceReference().getName().equals(space);
+        boolean isPage;
+
+        if (target instanceof DocumentReferenceTarget) {
+            DocumentReferenceTarget documentReferenceTarget = (DocumentReferenceTarget) target;
+
+            isPage =
+                documentReferenceTarget.getDocumentReference().getName().equals(page)
+                    && documentReferenceTarget.getDocumentReference().getLastSpaceReference().getName().equals(space);
+        } else {
+            isPage = false;
+        }
+
+        return isPage;
     }
 
     /**
@@ -116,8 +127,8 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
         if (!getMeta(SPACE_META).equals("ColorThemes") && !isPage("XWiki", "XWikiSyntax")
             && !isPage("Panels", "PanelWizard") && !isPage("XWiki", "Treeview")) {
             // Usage of the style attribute is strictly forbidden in the other spaces.
-            assertFalse(Type.ERROR, "rpd9s1.attr", ((Boolean) evaluate(getElement(ELEM_BODY), exprString,
-                XPathConstants.BOOLEAN)));
+            assertFalse(Type.ERROR, "rpd9s1.attr",
+                ((Boolean) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.BOOLEAN)));
         }
 
         // <style> tags are forbidden everywhere.

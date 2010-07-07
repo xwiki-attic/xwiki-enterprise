@@ -125,7 +125,7 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
         String exprString = "//*[@style]";
 
         if (!getMeta(SPACE_META).equals("ColorThemes") && !isPage("XWiki", "XWikiSyntax")
-            && !isPage("Panels", "PanelWizard") && !isPage("XWiki", "Treeview")) {
+            && !isPage("Panels", "PanelWizard") && !isPage("XWiki", "Treeview") && !isPage("Invitation", "WebHome")) {
             // Usage of the style attribute is strictly forbidden in the other spaces.
             assertFalse(Type.ERROR, "rpd9s1.attr",
                 ((Boolean) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.BOOLEAN)));

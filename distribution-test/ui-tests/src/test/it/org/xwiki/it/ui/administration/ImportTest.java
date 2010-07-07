@@ -77,7 +77,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testImportWithHistory() throws IOException
     {
-        URL fileUrl = this.getClass().getResource("/" + PACKAGE_WITH_HISTORY);
+        URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITH_HISTORY);
 
         importPage.attachPackage(fileUrl);
         importPage.selectPackage(PACKAGE_WITH_HISTORY);
@@ -97,7 +97,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testImportWithNewHistoryVersion() throws IOException
     {
-        URL fileUrl = this.getClass().getResource("/" + PACKAGE_WITHOUT_HISTORY);
+        URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITHOUT_HISTORY);
 
         importPage.attachPackage(fileUrl);
         importPage.selectPackage(PACKAGE_WITHOUT_HISTORY);
@@ -115,7 +115,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testImportAsBackup() throws IOException
     {
-        URL fileUrl = this.getClass().getResource("/" + BACKUP_PACKAGE);
+        URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);
 
         importPage.attachPackage(fileUrl);
         importPage.selectPackage(BACKUP_PACKAGE);

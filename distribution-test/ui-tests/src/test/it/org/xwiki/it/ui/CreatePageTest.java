@@ -35,6 +35,7 @@ import org.xwiki.it.ui.administration.elements.TemplateProviderInlinePage;
 import org.xwiki.it.ui.framework.elements.ViewPage;
 import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.it.ui.xe.elements.HomePage;
 
 /**
  * Tests page creation using a Template Provider and a Template.
@@ -66,15 +67,15 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         getUtil().deletePage(space, TEMPLATE_NAME);
         getUtil().deletePage(space, TEMPLATE_NAME + "Provider");
         getUtil().deletePage(space, TEMPLATE_NAME + "Instance");
-        getUtil().gotoPage("Main", "WebHome");
 
         String templateContent = "My Template Content";
         String templateTitle = "My Template Title";
         String templateFullName = space + "." + TEMPLATE_NAME;
         
         // Create a template
-        ViewPage currentPage = new ViewPage();
-        CreatePagePage createPagePage = currentPage.createPage();
+        HomePage homePage = new HomePage();
+        homePage.gotoPage();
+        CreatePagePage createPagePage = homePage.createPage();
         WYSIWYGEditPage editWysiwygTemplatePage = createPagePage.createPage(space, TEMPLATE_NAME);
         editWysiwygTemplatePage.clickSaveAndView();
         WikiEditPage editTemplatePage = editWysiwygTemplatePage.clickEditWiki();
@@ -134,8 +135,8 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
         
         // Verify the template we have removed is no longer available.
-        ViewPage home = getUtil().gotoPage("Main", "WebHome");
-        createPagePage = home.createPage();
+        homePage.gotoPage();
+        createPagePage = homePage.createPage();
         Assert.assertFalse(createPagePage.areTemplatesAvailable());
     }
 }

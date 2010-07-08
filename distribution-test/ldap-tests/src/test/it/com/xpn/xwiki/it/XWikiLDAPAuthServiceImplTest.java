@@ -15,6 +15,7 @@ import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
 import org.xwiki.cache.internal.DefaultCache;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 
@@ -100,6 +101,18 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         XWikiDocument document = new XWikiDocument();
         document.setFullName(documentFullName);
 
+        return getDocument(document);
+    }
+    
+    private XWikiDocument getDocument(DocumentReference documentReference) throws XWikiException
+    {
+        XWikiDocument document = new XWikiDocument(documentReference);
+
+        return getDocument(document);
+    }
+    
+    private XWikiDocument getDocument(XWikiDocument document) throws XWikiException
+    {
         Map<String, XWikiDocument> docs = getDocuments(document.getDatabase(), false);
 
         if (docs.containsKey(document.getFullName())) {
@@ -177,7 +190,13 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         {
             public Object invoke(Invocation invocation) throws Throwable
             {
-                return getDocument((String) invocation.parameterValues.get(0));
+                Object document = invocation.parameterValues.get(0);
+                
+                if (document instanceof String) {
+                    return getDocument((String) document);
+                } else {
+                    return getDocument((DocumentReference) document);
+                }
             }
         });
         mockXWiki.stubs().method("saveDocument").will(new CustomStub("Implements XWiki.saveDocument")
@@ -274,10 +293,10 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         Principal principal = this.ldapAuth.authenticate(login, password, getContext());
 
         // Check that authentication return a valid Principal
-        assertNotNull(principal);
+        assertNotNull("Authentication failed", principal);
 
         // Check that the returned Principal has the good name
-        assertEquals(xwikiUserName, principal.getName());
+        assertEquals("Wrong returned principal", xwikiUserName, principal.getName());
 
         XWikiDocument userProfile = getDocument(xwikiUserName);
 

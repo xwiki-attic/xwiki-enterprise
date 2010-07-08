@@ -86,11 +86,11 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // f : edit inline
         testShortcutFromTextPresent(viewURL, "f", "Is minor edit:");
         // r : edit rights
-        testShortcutFromTextPresent(viewURL, "r", "Welcome to the rights editor");
+        testShortcutFromTextPresent(viewURL, "r", "Editing rights of");
         // o : edit objects
-        testShortcutFromTextPresent(viewURL, "o", "Welcome to the objects editor");
+        testShortcutFromTextPresent(viewURL, "o", "Editing objects of");
         // s : edit class
-        testShortcutFromTextPresent(viewURL, "s", "No class is defined in this wiki document.");
+        testShortcutFromTextPresent(viewURL, "s", "Editing class");
         // d : code
         // TODO: put this test back when 'view source code' will be available again.
         // testShortcutFromTextPresent(viewURL, "d", "Wiki source code of Sandbox");

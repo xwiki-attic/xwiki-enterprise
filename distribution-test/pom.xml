@@ -27,10 +27,9 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>2.4-milestone-1</version>
+    <version>2.4-rc-1</version>
   </parent>
   <artifactId>xwiki-enterprise-test</artifactId>
-  <version>2.4-milestone-1</version>
   <name>XWiki Products - Enterprise - Functional Tests</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Functional Tests</description>
@@ -217,12 +216,11 @@
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Rights
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Users
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Groups
-                  /xwiki/bin/import/XWiki/Import?editor=globaladmin&amp;section=Import
-                  /xwiki/bin/export/XWiki/Export?editor=globaladmin&amp;section=Export
-                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Panels.PanelWizard
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=XWiki.OfficeImporterAdmin
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Annotations
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Search
+                  /xwiki/bin/import/XWiki/Import?editor=globaladmin&amp;section=Import
+                  /xwiki/bin/export/XWiki/Export?editor=globaladmin&amp;section=Export
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=wysiwyg
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=wiki
                   /xwiki/bin/edit/XWiki/XWikiPreferences?editor=object
@@ -231,8 +229,8 @@
                   /xwiki/bin/inline/Panels/QuickLinks
                   /xwiki/bin/view/XWiki/Admin?category=preferences
                   /xwiki/bin/view/XWiki/Admin?category=watchlist
-                  /xwiki/bin/view/Main/?xpage=createdocument&amp;tocreate=page
-                  /xwiki/bin/view/Main/?xpage=createdocument&amp;tocreate=space
+                  /xwiki/bin/create/Main/?tocreate=page
+                  /xwiki/bin/create/Main/?tocreate=space
                   /xwiki/bin/view/Main/?xpage=rename&amp;step=1
                   /xwiki/bin/view/Main/?xpage=copy
                   /xwiki/bin/view/Main/?xpage=print
@@ -243,7 +241,6 @@
                   /xwiki/bin/view/Main/?viewer=history
                   /xwiki/bin/delete/Main/
                   /xwiki/bin/register/XWiki/Register
-                  /xwiki/bin/view/Main/AllDocs?view=tree
                   /xwiki/bin/view/Main/AllDocs?view=orphans
                   /xwiki/bin/view/Main/AllDocs?view=attachments
                   /xwiki/bin/view/Main/AllDocs?view=deletedDocs

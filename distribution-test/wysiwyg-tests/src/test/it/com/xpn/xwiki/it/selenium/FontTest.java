@@ -84,7 +84,7 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testDetectFont()
     {
         switchToSource();
-        setSourceText("(% style=\"font-size: 24px; font-family: foo,verdana,sans-serif;\" %)\nabc");
+        setSourceText("(% style=\"font-size: 24px; font-family: foo,verdana,sans-serif\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
         waitForDetectedFontSize("18pt");
@@ -98,13 +98,13 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testDetectKnownUnsupportedFontName()
     {
         switchToSource();
-        setSourceText("(% style=\"font-family: wingdings;\" %)\nabc");
+        setSourceText("(% style=\"font-family: wingdings\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
         waitForDetectedFontName("Wingdings");
 
         switchToSource();
-        setSourceText("(% style=\"font-family: wingdings,helvetica;\" %)\nabc");
+        setSourceText("(% style=\"font-family: wingdings,helvetica\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
         waitForDetectedFontName("Helvetica");
@@ -116,13 +116,13 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testDetectUnknownFontName()
     {
         switchToSource();
-        setSourceText("(% style=\"font-family: unknown;\" %)\nabc");
+        setSourceText("(% style=\"font-family: unknown\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
         waitForDetectedFontName("unknown");
 
         switchToSource();
-        setSourceText("(% style=\"font-family: unknown,helvetica;\" %)\nabc");
+        setSourceText("(% style=\"font-family: unknown,helvetica\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
         waitForDetectedFontName("Helvetica");
@@ -135,7 +135,7 @@ public class FontTest extends AbstractWysiwygTestCase
     {
         switchToSource();
         // 22px is equivalent to 16pt. By default the font size list includes 14pt and 18pt but not 16pt.
-        setSourceText("(% style=\"font-size: 22px;\" %)\nabc");
+        setSourceText("(% style=\"font-size: 22px\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
         waitForDetectedFontSize("22px");
@@ -147,7 +147,7 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testDetectFontNameOnCrossParagraphSelection()
     {
         switchToSource();
-        setSourceText("(% style=\"font-family: courier new;\" %)\nabc\n\n(% style=\"font-family: times new roman;\" %)\nxyz");
+        setSourceText("(% style=\"font-family: courier new\" %)\nabc\n\n(% style=\"font-family: times new roman\" %)\nxyz");
         switchToWysiwyg();
         moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
         waitForDetectedFontName("Courier New");

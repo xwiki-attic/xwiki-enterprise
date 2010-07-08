@@ -24,7 +24,7 @@ import org.junit.BeforeClass;
 
 import org.openqa.selenium.WebDriver;
 
-import org.xwiki.it.ui.elements.BaseElement;
+import org.xwiki.it.ui.framework.elements.BaseElement;
 
 /**
  * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it. 
@@ -34,7 +34,7 @@ import org.xwiki.it.ui.elements.BaseElement;
  */
 public class AbstractTest
 {
-    private static PersistentTestContext context;
+    protected static PersistentTestContext context;
 
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)

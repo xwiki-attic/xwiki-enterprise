@@ -51,34 +51,34 @@ public class WysiwygTestSetup extends TestSetup
     protected void setUp() throws Exception
     {
         super.setUp();
-        // get the first xwiki test to do the setup with its provided API
-        AbstractXWikiTestCase firstXWikiTest = getFirstXWikiTest(getTest());
+        // Get the first WYSIWYG test to do the setup with its provided API.
+        AbstractWysiwygTestCase firstXWikiTest = getFirstWysiwygTest(getTest());
 
         if (firstXWikiTest == null) {
             return;
         }
 
-        // set up the WYSIWYG tests using the first XWiki Test case for selenium and skin executor API
+        // Set up the WYSIWYG tests using the first WYSIWYG Test case for Selenium and skin executor API.
         enableAllEditingFeatures(firstXWikiTest);
     }
 
     /**
-     * @return the first {@link AbstractXWikiTestCase} (in a suite) wrapped by this decorator
+     * @return the first {@link AbstractWysiwygTestCase} (in a suite) wrapped by this decorator
      */
-    private AbstractXWikiTestCase getFirstXWikiTest(Test test)
+    private AbstractWysiwygTestCase getFirstWysiwygTest(Test test)
     {
         if (test instanceof TestSuite) {
             if (((TestSuite) test).tests().hasMoreElements()) {
-                // normally this should be the first one
+                // Normally this should be the first one.
                 Test currentTest = ((TestSuite) test).tests().nextElement();
-                if (currentTest instanceof AbstractXWikiTestCase) {
-                    return (AbstractXWikiTestCase) currentTest;
+                if (currentTest instanceof AbstractWysiwygTestCase) {
+                    return (AbstractWysiwygTestCase) currentTest;
                 }
             }
         } else if (test instanceof TestSetup) {
-            return getFirstXWikiTest(((TestSetup) test).getTest());
-        } else if (test instanceof AbstractXWikiTestCase) {
-            return (AbstractXWikiTestCase) test;
+            return getFirstWysiwygTest(((TestSetup) test).getTest());
+        } else if (test instanceof AbstractWysiwygTestCase) {
+            return (AbstractWysiwygTestCase) test;
         }
 
         return null;
@@ -87,9 +87,9 @@ public class WysiwygTestSetup extends TestSetup
     /**
      * Enables all editing features so they are accessible for testing.
      * 
-     * @param helperTest helper {@link AbstractXWikiTestCase} instance whose API to use to do the setup
+     * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
      */
-    private void enableAllEditingFeatures(AbstractXWikiTestCase helperTest)
+    private void enableAllEditingFeatures(AbstractWysiwygTestCase helperTest)
     {
         // login as admin and enable editing features.
         helperTest.loginAsAdmin();
@@ -98,7 +98,8 @@ public class WysiwygTestSetup extends TestSetup
             + "indent history format symbol link image " + "table macro import color justify font");
         config.put("wysiwyg.toolbar", "bold italic underline strikethrough teletype | subscript superscript | "
             + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
-            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol");
+            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | "
+            + " paste | macro:velocity");
         updateXWikiPreferences(config, helperTest);
     }
 
@@ -107,15 +108,15 @@ public class WysiwygTestSetup extends TestSetup
      * XWiki preference and the value is the new value for that preference.
      * 
      * @param config configuration object
-     * @param helperTest helper {@link AbstractXWikiTestCase} instance whose API to use to do the setup
+     * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
      */
-    private void updateXWikiPreferences(Map<String, String> config, AbstractXWikiTestCase helperTest)
+    private void updateXWikiPreferences(Map<String, String> config, AbstractWysiwygTestCase helperTest)
     {
         helperTest.open("XWiki", "XWikiPreferences", "edit", "editor=object");
         for (Map.Entry<String, String> entry : config.entrySet()) {
             String propertyId = "XWiki.XWikiPreferences_0_" + entry.getKey();
             if (!helperTest.isElementPresent(propertyId)) {
-                addXWikiStringPreference(entry.getKey(), entry.getValue().length(), helperTest);
+                addXWikiStringPreference(entry.getKey(), helperTest);
             }
             if (!entry.getValue().equals(helperTest.getFieldValue(propertyId))) {
                 helperTest.setFieldValue(propertyId, entry.getValue());
@@ -128,19 +129,15 @@ public class WysiwygTestSetup extends TestSetup
      * Adds a string property to the XWiki.XWikiPreferences class.
      * 
      * @param name the property name
-     * @param size the maximum size for the property value
-     * @param helperTest helper {@link AbstractXWikiTestCase} instance whose API to use to do the setup
+     * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
      */
-    private void addXWikiStringPreference(String name, int size, AbstractXWikiTestCase helperTest)
+    private void addXWikiStringPreference(String name, AbstractWysiwygTestCase helperTest)
     {
         String location = helperTest.getSelenium().getLocation();
         helperTest.open("XWiki", "XWikiPreferences", "edit", "editor=class");
         helperTest.setFieldValue("propname", name);
         helperTest.getSelenium().select("proptype", "String");
-        helperTest.getSelenium().click("//input[@value = 'Add Property']");
-        helperTest.waitPage();
-        helperTest.setFieldValue(name + "_size", String.valueOf(size));
-        helperTest.clickEditSaveAndContinue();
+        helperTest.clickEditAddProperty();
         helperTest.getSelenium().open(location);
     }
 }

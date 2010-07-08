@@ -22,9 +22,11 @@ package org.xwiki.it.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.it.ui.elements.HomePage;
-import org.xwiki.it.ui.elements.LoginPage;
+import org.xwiki.it.ui.administration.elements.AdministrationPage;
+import org.xwiki.it.ui.administration.elements.GlobalRightsPage;
 import org.xwiki.it.ui.framework.AbstractTest;
+import org.xwiki.it.ui.framework.elements.LoginPage;
+import org.xwiki.it.ui.xe.elements.HomePage;
 
 /**
  * Test the Login feature.
@@ -39,38 +41,38 @@ public class LoginTest extends AbstractTest
     @Before
     public void setUp()
     {
-        homePage = new HomePage();
-        homePage.gotoPage();
+        this.homePage = new HomePage();
+        this.homePage.gotoPage();
 
         // Make sure we log out if we're already logged in since we're testing the log in...
-        if (homePage.isAuthenticated()) {
-            homePage.clickLogout();
+        if (this.homePage.isAuthenticated()) {
+            this.homePage.clickLogout();
         }
     }
 
     @Test
     public void testLoginLogout()
     {
-        LoginPage loginPage = homePage.clickLogin();
+        LoginPage loginPage = this.homePage.clickLogin();
         loginPage.loginAsAdmin();
 
         // Verify that after logging in we're redirected to the page on which the login button was clicked, i.e. the
         // home page here.
-        Assert.assertTrue(homePage.isOnHomePage());
+        Assert.assertTrue(this.homePage.isOnHomePage());
 
-        Assert.assertTrue(homePage.isAuthenticated());
-        Assert.assertEquals("Administrator", homePage.getCurrentUser());
+        Assert.assertTrue(this.homePage.isAuthenticated());
+        Assert.assertEquals("Administrator", this.homePage.getCurrentUser());
 
         // Test Logout and verify we stay on the home page
-        homePage.clickLogout();
-        Assert.assertFalse(homePage.isAuthenticated());
-        Assert.assertTrue(homePage.isOnHomePage());
+        this.homePage.clickLogout();
+        Assert.assertFalse(this.homePage.isAuthenticated());
+        Assert.assertTrue(this.homePage.isOnHomePage());
     }
 
     @Test
     public void testLoginWithInvalidCredentials()
     {
-        LoginPage loginPage = homePage.clickLogin();
+        LoginPage loginPage = this.homePage.clickLogin();
         loginPage.loginAs("Admin", "wrong password");
         Assert.assertTrue(loginPage.hasInvalidCredentialsErrorMessage());
     }
@@ -78,8 +80,38 @@ public class LoginTest extends AbstractTest
     @Test
     public void testLoginWithInvalidUsername()
     {
-        LoginPage loginPage = homePage.clickLogin();
+        LoginPage loginPage = this.homePage.clickLogin();
         loginPage.loginAs("non existent user", "admin");
         Assert.assertTrue(loginPage.hasInvalidCredentialsErrorMessage());
+    }
+
+    @Test
+    public void testRedirectBackAfterLogin()
+    {
+        try {
+            LoginPage loginPage = this.homePage.clickLogin();
+            loginPage.loginAsAdmin();
+
+            AdministrationPage admin = new AdministrationPage();
+            admin.gotoPage();
+            GlobalRightsPage rights = admin.clickGlobalRightsSection();
+            rights.forceAuthenticatedView();
+
+            getUtil().gotoPage("Blog", "Categories");
+            loginPage.clickLogout();
+            getDriver().manage().deleteAllCookies();
+            loginPage.loginAsAdmin();
+            // We use startsWith since the URL contains a jsessionid and a srid.
+            Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL("Blog", "Categories")));
+        } finally {
+            AdministrationPage admin = new AdministrationPage();
+            admin.gotoPage();
+            if (!admin.isAuthenticated()) {
+                admin.clickLogin().loginAsAdmin();
+                admin.gotoPage();
+            }
+            GlobalRightsPage rights = admin.clickGlobalRightsSection();
+            rights.unforceAuthenticatedView();
+        }
     }
 }

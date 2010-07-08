@@ -32,6 +32,8 @@ public class AbstractAdminAuthenticatedTest extends AbstractTest
     @Before
     public void setUp()
     {
-        getUtil().loginAsAdmin();
+        if (getUtil().getLoggedInUserName() != "Admin") {
+            getDriver().get(getUtil().getURLToLoginAsAdmin());
+        }
     }
 }

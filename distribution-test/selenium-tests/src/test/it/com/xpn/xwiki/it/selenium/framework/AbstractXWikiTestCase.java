@@ -19,6 +19,7 @@
  */
 package com.xpn.xwiki.it.selenium.framework;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -26,9 +27,8 @@ import java.util.Map.Entry;
 
 import junit.framework.TestCase;
 
-import org.codehaus.plexus.util.StringInputStream;
-
 import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
 /**
@@ -341,7 +341,8 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
             {
                 return getSelenium().getText(elementLocator).equals(expectedValue);
             }
-        }.wait("element [" + elementLocator + "] not found or doesn't have the value [" + expectedValue + "]");
+        }.wait(getSelenium().isElementPresent(elementLocator) ? "Element [" + elementLocator + "] not found"
+            : "Element [" + elementLocator + "] found but it doesn't have the expected value [" + expectedValue + "]");
     }
 
     public void waitForTextContains(final String elementLocator, final String containsValue)
@@ -352,7 +353,9 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
             {
                 return getSelenium().getText(elementLocator).indexOf(containsValue) > -1;
             }
-        }.wait("element [" + elementLocator + "] not found or doesn't contain the value [" + containsValue + "]");
+        }.wait(getSelenium().isElementPresent(elementLocator) ? "Element [" + elementLocator + "] not found"
+            : "Element [" + elementLocator + "] found but it doesn't contain the expected value [" + containsValue
+            + "]");
     }
 
     public void waitForBodyContains(final String containsValue)
@@ -375,6 +378,13 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
                 return getSelenium().isElementPresent(elementLocator);
             }
         }.wait("element [" + elementLocator + "] not found");
+    }
+
+    public void clickButtonAndContinue(String locator)
+    {
+        waitForCondition("window.document.getElementsByClassName('xnotification-done')[0] == null");
+        submit(locator, false);
+        waitForCondition("window.document.getElementsByClassName('xnotification-done')[0] != null");
     }
 
     /**
@@ -435,6 +445,24 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void clickEditSaveAndView()
     {
         getSkinExecutor().clickEditSaveAndView();
+    }
+
+    /**
+     * Clicks on the add property button in the class editor. As a result the specified property is added to the edited
+     * class and the class is saved. This method waits for the class to be saved.
+     */
+    public void clickEditAddProperty()
+    {
+        getSkinExecutor().clickEditAddProperty();
+    }
+
+    /**
+     * Clicks on the add object button in the object editor. As a result an object of the specified class is added to
+     * the edited document and the document is saved. This method waits for the document to be saved.
+     */
+    public void clickEditAddObject()
+    {
+        getSkinExecutor().clickEditAddObject();
     }
 
     public boolean isAuthenticated()
@@ -700,7 +728,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void setXWikiConfiguration(String configuration) throws IOException
     {
         Properties properties = new Properties();
-        properties.load(new StringInputStream(configuration));
+        properties.load(new ByteArrayInputStream(configuration.getBytes()));
         StringBuffer sb = new StringBuffer();
 
         // Since we don't have access to the XWiki object from Selenium tests and since we don't want to restart XWiki

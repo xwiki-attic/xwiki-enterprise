@@ -1228,8 +1228,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         if (!isElementPresent("xclass_XWiki.WikiMacroClass")) {
             // Create the macro.
             getSelenium().select("classname", "WikiMacroClass");
-            getSelenium().click("//input[@value = 'Add Object from this Class']");
-            waitPage();
+            clickEditAddObject();
             setFieldValue("XWiki.WikiMacroClass_0_id", "now");
             setFieldValue("XWiki.WikiMacroClass_0_name", "Now");
             getSelenium().select("XWiki.WikiMacroClass_0_contentType", "No content");
@@ -1237,8 +1236,7 @@ public class MacroTest extends AbstractWysiwygTestCase
             clickEditSaveAndContinue();
             // Create the mandatory parameter.
             getSelenium().select("classname", "WikiMacroParameterClass");
-            getSelenium().click("//input[@value = 'Add Object from this Class']");
-            waitPage();
+            clickEditAddObject();
             setFieldValue("XWiki.WikiMacroParameterClass_0_name", "format");
             getSelenium().select("XWiki.WikiMacroParameterClass_0_mandatory", "Yes");
             setFieldValue("XWiki.WikiMacroParameterClass_0_defaultValue", "yyyy.MM.dd");
@@ -1260,11 +1258,25 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testInsertVelocityMacroDisplayingAProperty()
     {
         insertMacro("Velocity");
-        setFieldValue("pd-content-input",
-            "{{velocity}}$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\"){{/velocity}}");
+        setFieldValue("pd-content-input", "$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\")");
         applyMacroChanges();
         // Check the displayed text.
         assertEquals("velocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));
+    }
+
+    /**
+     * Tests that a macro can be inserted by clicking the associated tool bar button.
+     */
+    public void testInsertMacroFromToolBar()
+    {
+        // The tool bar button for inserting the velocity macro has been added in WysiwygTestSetup.
+        clickInsertMacroButton("velocity");
+        waitForDialogToLoad();
+        setFieldValue("pd-content-input", "$xwiki.version");
+        applyMacroChanges();
+        // Check if the macro was correctly inserted.
+        switchToSource();
+        assertSourceText("{{velocity}}\n$xwiki.version\n{{/velocity}}");
     }
 
     /**
@@ -1529,5 +1541,15 @@ public class MacroTest extends AbstractWysiwygTestCase
         runScript("XWE.selection.collapseToEnd()");
         triggerToolbarUpdate();
         waitForSelectedMacroCount(0);
+    }
+
+    /**
+     * Clicks the tool bar button corresponding to the specified macro.
+     * 
+     * @param macroId a macro identifier
+     */
+    public void clickInsertMacroButton(String macroId)
+    {
+        pushToolBarButton(String.format("Insert %s macro", macroId));
     }
 }

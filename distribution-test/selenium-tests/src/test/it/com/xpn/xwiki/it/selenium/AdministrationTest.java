@@ -265,7 +265,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Add an XWikiRights object giving someJoker access.
         open("XWiki", "XWikiPreferences", "edit", "editor=object");
         setFieldValue("classname", "XWiki.XWikiRights");
-        submit("//input[@value='Add Object from this Class']");
+        clickButtonAndContinue("//input[@name='action_objectadd']");
         getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_levels']", "admin");
         getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_users']", "someJoker");
         clickEditSaveAndView();
@@ -273,7 +273,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Add an XWikiRights object to make sure someJoker has no edit access to Main.TestConfigurable
         open("Main", "TestConfigurable", "edit", "editor=object");
         setFieldValue("classname", "XWiki.XWikiRights");
-        submit("//input[@value='Add Object from this Class']");
+        clickButtonAndContinue("//input[@name='action_objectadd']");
         getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_levels']", "edit");
         getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_users']", "someJoker");
         getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_allow']", "Deny");
@@ -334,7 +334,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open(space, page, "edit", "editor=object");
         // Add a second configurable object.
         setFieldValue("classname", "XWiki.ConfigurableClass");
-        submit("//input[@value='Add Object from this Class']");
+        clickButtonAndContinue("//input[@name='action_objectadd']");
         setFieldValue("XWiki.ConfigurableClass_1_displayInSection", "TestSection2");
         setFieldValue("XWiki.ConfigurableClass_1_heading", "Some Other Heading");
         setFieldValue("XWiki.ConfigurableClass_1_configurationClass", space + "." + page);
@@ -509,19 +509,78 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
         open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
 
-        setFieldValue("content", getFieldValue("content")
-                      + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
-        clickEditSaveAndContinue();
+        // Since we modify ConfigurableClass, we must modify it back after to prevent polluting further tests.
+        String originalContent = getFieldValue("content");
+        try {
+            setFieldValue("content", getFieldValue("content")
+                          + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
+            clickEditSaveAndContinue();
 
-        // Now we look at the section for our configurable.
-        open("XWiki", "ConfigurableClass", "view", "editor=globaladmin&section=TestSection6");
+            // Now we look at the section for our configurable.
+            open("XWiki", "ConfigurableClass", "view", "editor=globaladmin&section=TestSection6");
 
-        assertTextPresent("This should be displayed.");
-        assertTextPresent("This should also be displayed.");
-        assertTextNotPresent("This should not be displayed.");
-        assertTextPresent("Has Programming permission: false");
-        // Make sure javascript has not added a Save button.
-        assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
+            assertTextPresent("This should be displayed.");
+            assertTextPresent("This should also be displayed.");
+            assertTextNotPresent("This should not be displayed.");
+            assertTextPresent("Has Programming permission: false");
+            // Make sure javascript has not added a Save button.
+            assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
+        } finally {
+            open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
+            setFieldValue("content", originalContent);
+            clickEditSaveAndContinue();
+        }
+    }
+
+    /*
+     * Proves that ConfigurationClass#codeToExecute is not rendered inline even if there is no
+     * custom configuration class and the on;y content is custom content.
+     * Tests: XWiki.ConfigurableClass
+     */
+    public void testCodeToExecuteNotInlineIfNoConfigurationClass()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        String test = "{{html}} <div> <p> hello </p> </div> {{/html}}";
+
+        open(space, page, "delete", "confirm=1");
+        createConfigurableApplication(space, page, "TestSection1", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
+        setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
+        clickEditSaveAndView();
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
+        assertElementNotPresent("//span[@class='xwikirenderingerror']");
+    }
+
+    /*
+     * Proves that ConfigurationClass#codeToExecute is not rendered inline whether it's at the top of the
+     * form or inside of the form.
+     * Tests: XWiki.ConfigurableClass
+     */
+    public void testCodeToExecuteNotInline()
+    {
+        String space = "Main";
+        String page = "TestConfigurable";
+        String test = "{{html}} <div> <p> hello </p> </div> {{/html}}";
+
+        createConfigurableApplication(space, page, "TestSection1", true);
+        open(space, page, "edit", "editor=object");
+        setFieldValue("classname", "XWiki.ConfigurableClass");
+        clickButtonAndContinue("//input[@name='action_objectadd']");
+        setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
+        setFieldValue("XWiki.ConfigurableClass_0_propertiesToShow", "String, Boolean");
+
+        setFieldValue("XWiki.ConfigurableClass_1_displayInSection", "TestSection1");
+        setFieldValue("XWiki.ConfigurableClass_1_configurationClass", space + "." + page);
+        setFieldValue("XWiki.ConfigurableClass_1_propertiesToShow", "TextArea, Select");
+        setFieldValue("XWiki.ConfigurableClass_1_codeToExecute", test);
+        getSelenium().check("XWiki.ConfigurableClass_1_configureGlobally");
+        clickEditSaveAndView();
+
+        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
+        assertElementNotPresent("//span[@class='xwikirenderingerror']");
     }
 
     /**
@@ -652,23 +711,23 @@ public class AdministrationTest extends AbstractXWikiTestCase
             open(space, page, "edit", "editor=class");
             setFieldValue("propname", "String");
             setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StringClass");
-            submit("//input[@value='Add Property']");
+            clickButtonAndContinue("//input[@name='action_propadd']");
             setFieldValue("propname", "Boolean");
             setFieldValue("proptype", "com.xpn.xwiki.objects.classes.BooleanClass");
-            submit("//input[@value='Add Property']");
+            clickButtonAndContinue("//input[@name='action_propadd']");
             setFieldValue("propname", "TextArea");
             setFieldValue("proptype", "com.xpn.xwiki.objects.classes.TextAreaClass");
-            submit("//input[@value='Add Property']");
+            clickButtonAndContinue("//input[@name='action_propadd']");
             setFieldValue("propname", "Select");
             setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StaticListClass");
-            submit("//input[@value='Add Property']");
+            clickButtonAndContinue("//input[@name='action_propadd']");
 
             // Go to the object section.
             open(space, page, "edit", "editor=object");
 
             // Add a configurable object which points to the new class as the configuration class.
             setFieldValue("classname", "XWiki.ConfigurableClass");
-            submit("//input[@value='Add Object from this Class']");
+            clickButtonAndContinue("//input[@name='action_objectadd']");
             clickEditSaveAndView();
 
             // Try to place it in the storage area.
@@ -680,7 +739,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // Add an object of the new class.
         setFieldValue("classname", space + "." + page);
-        submit("//input[@value='Add Object from this Class']");
+        clickButtonAndContinue("//input[@name='action_objectadd']");
 
         setFieldValue("XWiki.ConfigurableClass_0_displayInSection", section);
         setFieldValue("XWiki.ConfigurableClass_0_heading", "Some Heading");

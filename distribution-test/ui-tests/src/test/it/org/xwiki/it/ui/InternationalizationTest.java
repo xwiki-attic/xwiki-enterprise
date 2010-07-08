@@ -22,11 +22,11 @@ package org.xwiki.it.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.it.ui.elements.CreatePagePage;
-import org.xwiki.it.ui.elements.CreateSpacePage;
-import org.xwiki.it.ui.elements.HomePage;
-import org.xwiki.it.ui.elements.ViewPage;
-import org.xwiki.it.ui.elements.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.CreatePagePage;
+import org.xwiki.it.ui.framework.elements.CreateSpacePage;
+import org.xwiki.it.ui.xe.elements.HomePage;
+import org.xwiki.it.ui.framework.elements.ViewPage;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**

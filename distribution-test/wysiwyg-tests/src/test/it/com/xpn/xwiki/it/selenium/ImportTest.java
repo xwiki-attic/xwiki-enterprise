@@ -29,19 +29,18 @@ import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
  */
 public class ImportTest extends AbstractWysiwygTestCase
 {
-    public static final String MENU_IMPORT = "Import";
-
-    public static final String MENU_IMPORT_OFFICE_CONTENT = "Office Content (Copy / Paste)";
-
     public static final String IMPORT_BUTTON = "Import";
 
+    public static final String FILTER_STYLES = "//div[@class = 'xDialogBody']//input[@type = 'checkbox']";
+
     /**
-     * Test importing office content with copy / paste import wizard step.
+     * Test that the paste wizard works.
      */
-    public void testOfficePasteImport()
+    public void testPasteFromClipboard()
     {
-        openImportDialog(MENU_IMPORT_OFFICE_CONTENT);
+        clickPasteButton();
         populateOfficeContentEditor("<p>Hello <font color=\"#ff0000\">World</font></p>");
+        getSelenium().uncheck(FILTER_STYLES);
         clickButtonWithText(IMPORT_BUTTON);
         waitForDialogToClose();
         switchToSource();
@@ -53,7 +52,7 @@ public class ImportTest extends AbstractWysiwygTestCase
      */
     public void testPastedContentIsPreservedWhenDialogIsMoved()
     {
-        openImportDialog(MENU_IMPORT_OFFICE_CONTENT);
+        clickPasteButton();
         // Put some content inside the rich text area of the office import dialog.
         populateOfficeContentEditor("office");
         // Move the dialog.
@@ -66,12 +65,12 @@ public class ImportTest extends AbstractWysiwygTestCase
         assertSourceText("office");
     }
 
-    private void openImportDialog(String menuItemName)
+    /**
+     * Click the paste button on the tool bar.
+     */
+    protected void clickPasteButton()
     {
-        clickMenu(MENU_IMPORT);
-        assertTrue(isMenuEnabled(menuItemName));
-        clickMenu(menuItemName);
-        waitForDialogToLoad();
+        pushToolBarButton("Paste");
     }
 
     /**

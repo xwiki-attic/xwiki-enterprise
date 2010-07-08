@@ -143,8 +143,8 @@ public class AbstractValidationTest extends TestCase
         Credentials defaultcreds = new UsernamePasswordCredentials("Admin", "admin");
         adminClient.getState().setCredentials(AuthScope.ANY, defaultcreds);
 
-        addURLsForAdmin(validationTest, validator, suite, adminClient);
         addXarFiles(validationTest, validator, suite, adminClient);
+        addURLsForAdmin(validationTest, validator, suite, adminClient);
 
         HttpClient guestClient = new HttpClient();
 

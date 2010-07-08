@@ -28,7 +28,6 @@ import org.xwiki.validator.RSSValidator;
 import org.xwiki.validator.XHTMLValidator;
 import org.xwiki.validator.XWikiValidator;
 
-import com.xpn.xwiki.it.framework.CustomDutchWebGuidelinesValidator;
 import com.xpn.xwiki.it.framework.DefaultValidationTest;
 
 /**
@@ -57,8 +56,8 @@ public class AllTests extends TestCase
             DefaultValidationTest.class);
 
         CustomDutchWebGuidelinesValidator dwgValidator = new CustomDutchWebGuidelinesValidator();
-        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, dwgValidator),
-            DefaultValidationTest.class);
+        addTest(suite, CustomDutchWebGuidelinesValidationTest.suite(CustomDutchWebGuidelinesValidationTest.class,
+            dwgValidator), DefaultValidationTest.class);
 
         RSSValidator rssValidator = new RSSValidator();
         addTest(suite, RSSValidationTest.suite(RSSValidationTest.class, rssValidator), RSSValidationTest.class);
@@ -66,7 +65,7 @@ public class AllTests extends TestCase
         XWikiValidator xwikiValidator = new XWikiValidator();
         addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xwikiValidator),
             DefaultValidationTest.class);
-
+        
         return new XWikiTestSetup(suite);
     }
 

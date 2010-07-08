@@ -73,6 +73,62 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
+    @Test
+    public void testContentView()
+    {
+        // XWIKI-5205
+        String test = getUtil().escapeURL("\"><pre><!-- " + XML_CHARS + " --></pre>");
+        
+        getUtil().gotoPage("Main", test, "view", "xpage=contentview");
+        Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
+    @Test
+    public void testMenuViewPlain()
+    {
+        // XWIKI-5209
+        String space = getUtil().escapeURL("<!-- " + XML_CHARS + " -->");
+        getUtil().gotoPage(space, "Test");
+        Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
+    @Test
+    public void testMenuViewLink()
+    {
+        // XWIKI-5209
+        String space = getUtil().escapeURL("\"><pre><!-- " + XML_CHARS + " --></pre>");
+        getUtil().gotoPage(space, "Test");
+        Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
+    @Test
+    public void testAdminEditor()
+    {
+        // XWIKI-5190
+        String test = getUtil().escapeURL("\"<!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage("XWiki", "AdminSheet", "admin", "editor=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+
+        // same page after redirect
+        getUtil().gotoPage("Main", "WebHome", "view", "xpage=admin&editor=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
+    @Test
+    public void testAdminSection()
+    {
+        // XWIKI-5190
+        String test = getUtil().escapeURL("\"<!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage("XWiki", "AdminSheet", "admin", "section=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+
+        // same page after redirect
+        getUtil().gotoPage("Main", "WebHome", "view", "xpage=admin&section=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
     /**
      * Go to a working page after each test run to prevent failures in {@link #setUp()}
      */

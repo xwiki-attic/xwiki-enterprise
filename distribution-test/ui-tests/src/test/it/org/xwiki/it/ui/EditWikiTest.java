@@ -21,10 +21,9 @@ package org.xwiki.it.ui;
 
 import junit.framework.Assert;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.it.ui.elements.WikiEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**
@@ -35,7 +34,7 @@ import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
  */
 public class EditWikiTest extends AbstractAdminAuthenticatedTest
 {
-    /** Page used for testing: Main.EditWikiTest */
+    /** Page used for testing: Test.EditWikiTest */
     private WikiEditPage editPage;
 
     @Before
@@ -44,12 +43,6 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
         this.editPage = new WikiEditPage();
-        getUtil().deletePage("Test", "EditWikiTest");
-    }
-
-    @After
-    public void cleanUp()
-    {
         getUtil().deletePage("Test", "EditWikiTest");
     }
 

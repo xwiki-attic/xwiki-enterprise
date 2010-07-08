@@ -19,10 +19,14 @@
  */
 package org.xwiki.it.ui.framework;
 
+import org.junit.Assert;
+
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Collections;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -30,6 +34,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.TimeoutException;
+import org.xwiki.it.ui.framework.elements.ViewPage;
 
 /**
  * Helper methods for testing, not related to a specific Page Object.
@@ -42,6 +52,12 @@ public class TestUtils
 {
     private static PersistentTestContext context;
 
+    /**
+     * How long to wait before failing a test because an element cannot be found.
+     * Can be overridden with setTimeout.
+     */
+    private int timeout = 10;
+    
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)
     {
@@ -55,62 +71,90 @@ public class TestUtils
 
     private final String baseURL = "http://localhost:8080/xwiki/bin/";
 
-    /** Do an action as guest then switch back to being whatever user you were before. */
-    public void doAsGuest(Runnable runnable)
+    public Session getSession()
+    {
+        return this.new Session(getDriver().manage().getCookies());
+    }
+
+    public void setSession(Session session)
     {
         WebDriver.Options options = getDriver().manage();
-        Set<Cookie> cookies = options.getCookies();
-
-        // Delete cookies thus becoming guest.
         options.deleteAllCookies();
-
-        runnable.run();
-
-        // Delete whatever cookies might have accumulated while running.
-        options.deleteAllCookies();
-
-        for (Cookie cookie : cookies) {
-            options.addCookie(cookie);
+        if (session != null) {
+            for (Cookie cookie : session.getCookies()) {
+                options.addCookie(cookie);
+            }
         }
     }
 
-    public void logout()
+    /**
+     * Consider using setSession(null) because it will drop the cookies which is faster than invoking a logout action.
+     */
+    public String getURLToLogout()
     {
-        gotoPage("XWiki", "XWikiLogin", "logout");
+        return getURL("XWiki", "XWikiLogin", "logout");
     }
 
-    public void loginAsAdmin()
+    public String getURLToLoginAsAdmin()
     {
-        loginAs("Admin", "admin");
+        return getURLToLoginAs("Admin", "admin");
     }
 
-    public void loginAs(final String username, final String password)
+    public String getURLToLoginAs(final String username, final String password)
     {
-        loginAndGotoPage(username, password, null);
+        return getURLToLoginAndGotoPage(username, password, null);
     }
 
-    public void loginAsAdminAndGotoPage(final String pageURL)
+    /**
+     * @param pageURL the URL of the page to go to after logging in.
+     * @return URL to accomplish login and goto.
+     */
+    public String getURLToLoginAsAdminAndGotoPage(final String pageURL)
     {
-        loginAndGotoPage("Admin", "admin", pageURL);
+        return getURLToLoginAndGotoPage("Admin", "admin", pageURL);
     }
 
-    public void loginAndGotoPage(final String username, final String password, final String pageURL)
+    /**
+     * @param username the name of the user to log in as.
+     * @param password the password for the user to log in.
+     * @param pageURL the URL of the page to go to after logging in.
+     * @return URL to accomplish login and goto.
+     */
+    public String getURLToLoginAndGotoPage(final String username, final String password, final String pageURL)
     {
-        // Only log in if the user is not already logged in. This is to speed up tests so that each test doesn't have
-        // to log in again if already logged with the right user.
-        if (!username.equals(getLoggedInUserName())) {
-            Map<String, String> parameters = new HashMap<String, String>(){{
-                put("j_username", username);
-                put("j_password", password);
-                if (pageURL != null && pageURL.length() > 0) {
-                    put("xredirect", pageURL);
+        Map<String, String> parameters = new HashMap<String, String>(){{
+            put("j_username", username);
+            put("j_password", password);
+            if (pageURL != null && pageURL.length() > 0) {
+                put("xredirect", pageURL);
+            }
+        }};
+        return getURL("XWiki", "XWikiLogin", "loginsubmit", parameters);
+    }
+
+    /**
+     * After successful completion of this function, you are guarenteed to be logged in as the given user
+     * and on the page passed in pageURL.
+     * @param pageURL
+     */
+    public void assertOnPage(final String pageURL)
+    {
+        final String pageURI = pageURL.replaceAll("\\?.*", "");
+        try {
+            Wait<WebDriver> wait = new WebDriverWait(getDriver(), getTimeout());
+            wait.until(new ExpectedCondition<Boolean>()
+            {
+                public Boolean apply(WebDriver driver)
+                {
+                    return getDriver().getCurrentUrl().contains(pageURI);
                 }
-            }};
-            gotoPage("XWiki", "XWikiLogin", "loginsubmit", parameters);
+            });
+        } catch (TimeoutException e) {
+            Assert.fail("Failed to go to the page: " + pageURL + "\nCurrent page is " + getDriver().getCurrentUrl());
         }
     }
 
-    private String getLoggedInUserName()
+    public String getLoggedInUserName()
     {
         String loggedInUserName = null;
         List<WebElement> elements = getDriver().findElements(By.xpath("//div[@id='tmUser']/span/a"));
@@ -121,9 +165,29 @@ public class TestUtils
         return loggedInUserName;
     }
 
-    public void gotoPage(String space, String page)
+    public void registerLoginAndGotoPage(final String username, final String password, final String pageURL)
+    {
+        String registerURL = getURL("XWiki", "Register", "register", new HashMap<String, String>(){{
+            put("register", "1");
+            put("xwikiname", username);
+            put("register_password", password);
+            put("register2_password", password);
+            put("register_email", "");
+            put("xredirect", getURL("XWiki", "XWikiLogin", "loginsubmit", new HashMap<String, String>(){{
+                put("j_username", username);
+                put("j_password", password);
+                if (pageURL != null && pageURL.length() > 0) {
+                    put("xredirect", pageURL);
+                }
+            }}));
+        }});
+        getDriver().get(registerURL);
+    }
+
+    public ViewPage gotoPage(String space, String page)
     {
         gotoPage(space, page, "view");
+        return new ViewPage();
     }
 
     public void gotoPage(String space, String page, String action)
@@ -145,9 +209,14 @@ public class TestUtils
         }
     }
 
+    public String getURLToDeletePage(String space, String page)
+    {
+        return getURL(space, page, "delete", "confirm=1");
+    }
+
     public void deletePage(String space, String page)
     {
-        gotoPage(space, page, "delete", "confirm=1");
+        getDriver().get(getURLToDeletePage(space, page));
     }
 
     /** 
@@ -183,7 +252,7 @@ public class TestUtils
      */
     public String getURL(String space, String page, String action, String queryString)
     {
-        return baseURL + action + "/" + space + "/" + page
+        return baseURL + action + "/" + escapeURL(space) + "/" + escapeURL(page)
                + ((queryString == null || queryString.length() < 1) ? "" : "?" + queryString);
     }
 
@@ -222,5 +291,39 @@ public class TestUtils
             // should not happen
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * This class represents all cookies stored in the browser.
+     * Use with getSession() and setSession()
+     */
+    public class Session
+    {
+        private final Set<Cookie> cookies;
+
+        private Session(final Set<Cookie> cookies)
+        {
+            this.cookies = Collections.unmodifiableSet(new HashSet<Cookie>(){{
+                addAll(cookies);
+            }});
+        }
+
+        private Set<Cookie> getCookies()
+        {
+            return cookies;
+        }
+    }
+
+    public int getTimeout()
+    {
+        return this.timeout;
+    }
+
+    /**
+     * @param timeout the number of seconds after which we consider the action to have failed
+     */
+    public void setTimeout(int timeout)
+    {
+        this.timeout = timeout;
     }
 }

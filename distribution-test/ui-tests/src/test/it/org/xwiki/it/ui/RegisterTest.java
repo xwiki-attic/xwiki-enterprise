@@ -27,11 +27,10 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.it.ui.elements.AdminSectionPage;
-import org.xwiki.it.ui.elements.RegisterPage;
-import org.xwiki.it.ui.elements.ViewPage;
+import org.xwiki.it.ui.administration.elements.AdminSectionPage;
+import org.xwiki.it.ui.framework.elements.RegisterPage;
 import org.xwiki.it.ui.framework.AbstractTest;
-import org.xwiki.it.ui.framework.TestRunnable;
+import org.xwiki.it.ui.framework.TestUtils;
 
 /**
  * Test the user registration feature.
@@ -56,8 +55,8 @@ public class RegisterTest extends AbstractTest
         int x = 0;
         while (registerPage.liveValidationEnabled() != useLiveValidation()) {
             AdminSectionPage registrationAdminSection = new AdminSectionPage("Registration");
-            getUtil().loginAsAdmin();
-            registrationAdminSection.gotoPage();
+            getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(registrationAdminSection.getURL()));
+            getUtil().assertOnPage(registrationAdminSection.getURL());
             registrationAdminSection.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
                 Boolean.valueOf(useLiveValidation()).toString());
             registrationAdminSection.clickSave();
@@ -74,7 +73,7 @@ public class RegisterTest extends AbstractTest
     protected void switchUser()
     {
         // Fast Logout.
-        getDriver().manage().deleteAllCookies();
+        getUtil().setSession(null);
     }
 
     /** To put the registration page someplace else, subclass this class and change this method. */
@@ -148,7 +147,7 @@ public class RegisterTest extends AbstractTest
 
     /**
      * If LiveValidation is enabled then it will check that there are no failures with that. If no failures then hits
-     * register button, it then asserts that hitting thr register button did not reveal any failures not caught by
+     * register button, it then asserts that hitting the register button did not reveal any failures not caught by
      * LiveValidation. If LiveValidation is disabled then just hits the register button.
      */
     protected boolean validateAndRegister()
@@ -160,8 +159,8 @@ public class RegisterTest extends AbstractTest
             }
             boolean result = tryToRegister();
 
-            // Failure on this line indicated that LiveValidation did not tell us in advance that the input was bad.
-            Assert.assertTrue(registerPage.getValidationFailureMessages().isEmpty());
+            Assert.assertTrue("LiveValidation did not show a failure message but clicking on the register button did.",
+                              registerPage.getValidationFailureMessages().isEmpty());
 
             return result;
         }
@@ -184,22 +183,17 @@ public class RegisterTest extends AbstractTest
     /** Deletes specified user if it exists, leaves the driver on undefined page. */
     private void deleteUser(final String userName)
     {
-        ViewPage vp = new ViewPage();
-        getUtil().gotoPage("XWiki", userName);
-        if (vp.exists()) {
-            getUtil().doAsGuest(new TestRunnable(){
-                public void run()
-                {
-                    getUtil().loginAsAdminAndGotoPage(getUtil().getURL("XWiki", userName, "delete", "confirm=1"));
-                }
-            });
-        }
+        TestUtils.Session s = getUtil().getSession();
+        getUtil().setSession(null);
+        getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToDeletePage("XWiki", userName)));
+        getUtil().setSession(s);
     }
 
     protected void tryToLogin(String username, String password)
     {
-        getUtil().logout();
-        getUtil().loginAs(username, password);
+        // Fast logout.
+        getUtil().setSession(null);
+        getDriver().get(getUtil().getURLToLoginAs(username, password));
         Assert.assertTrue(registerPage.isAuthenticated());
     }
 }

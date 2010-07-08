@@ -35,6 +35,6 @@ $msg.get('xe.space.index.description', [$space])
                  })
 #set($options = { "translationPrefix" : "xe.index.",
                   "rowCount": 15,
-                  "extraParams" : "&amp;space=${space}" })
+                  "extraParams" : "&amp;space=$escapetool.url($space)" })
 #livetable("spaceindex" $collist $colprops $options)
 {{/velocity}}</content></xwikidoc>

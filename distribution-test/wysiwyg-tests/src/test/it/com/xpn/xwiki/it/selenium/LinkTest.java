@@ -1834,7 +1834,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String escapedPageName = pageName.replace(".", "\\.");
         String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
         String linkReference = pageFullName.replaceAll("([@\\?\\#])", "\\\\$1");
-        clickEditCancelEdition();
+        open("Main", "WebHome");
         createPage(spaceName, pageName, "");
 
         // Come back to the edited page.

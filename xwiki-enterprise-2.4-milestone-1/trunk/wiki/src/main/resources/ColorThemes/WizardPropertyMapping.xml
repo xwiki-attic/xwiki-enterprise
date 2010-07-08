@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>ColorThemes</web>
+<name>WizardPropertyMapping</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>1</translation>
+<parent>ColorThemes.ColorThemeSheet</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1262108187000</creationDate>
+<date>1262108187000</date>
+<contentUpdateDate>1262108187000</contentUpdateDate>
+<version>1.1</version>
+<title>Color theme wizard property mapping</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>true</hidden>
+<content>{{velocity output="false"}}
+##
+##
+## Map maquette elements to the list of theme properties they are affected by.
+##
+## {Layout element -&gt; {CSS property -&gt; [Color theme properties]}}
+##
+#set($elementStylingPropertyMap = {
+  'page'            : {'background': ['pageBackgroundColor', 'pageBackgroundImage', 'pageBackgroundPosition'], 'color': ['textColor']},
+  'mainmenu'        : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
+  'contentmenu'     : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
+  'header'          : {'background': ['pageHeaderBackgroundColor', 'headerBackgroundImage', 'headerBackgroundPosition']},
+  'panelheader'     : {'background': ['panelHeaderBackgroundColor'], 'color': ['panelHeaderTextColor'], 'border-color': ['borderColor']},
+  'panelcontents'   : {'background': ['panelBackgroundColor'], 'color': ['panelTextColor']},
+  'collapsedpanel'  : {'background': ['panelCollapsedBackgroundColor'], 'color': ['panelCollapsedTextColor']},
+  'content'         : {'background': ['pageContentBackgroundColor'], 'color': ['textColor']},
+  'title'           : {'color': ['titleColor'], 'border-color': ['borderColor']},
+  'link'            : {'color': ['linkColor']},
+  'info'            : {'color': ['textPrimaryColor']},
+  'details'         : {'color': ['textSecondaryColor']},
+  'highlight'       : {'background': ['highlightColor']},
+  'table'           : {'border-color': ['borderColor']},
+  'th'              : {'background': ['backgroundSecondaryColor'], 'border-color': ['borderColor']},
+  'td'              : {'border-color': ['borderColor']},
+  'message'         : {'background': ['backgroundSecondaryColor'], 'border-color': ['borderColor']},
+  'button'          : {'background': ['buttonPrimaryBackgroundColor'], 'color': ['buttonPrimaryTextColor']},
+  'secondaryButton' : {'background': ['buttonSecondaryBackgroundColor'], 'color': ['buttonSecondaryTextColor']},
+  'tabshead'        : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
+  'tabentryactive'  : {'background': ['pageContentBackgroundColor'], 'color': ['menuSelectedEntryLinkColor']},
+  'tabdetails'      : {'color': ['textSecondaryColor']},
+  'tabscontent'     : {'background': ['pageContentBackgroundColor'], 'color': ['textColor']}
+})
+##
+##
+## Map maquette elements to the list of theme properties they display when configured.
+## Each color theme property must appear EXACTLY ONCE in the whole map.
+##
+## {Layout element -&gt; [Color theme properties]}
+##
+#set($elementPropertyMap = {
+  'page'               : ['pageBackgroundColor', 'pageBackgroundImage', 'pageBackgroundPosition'],
+  'mainmenu'           : ['menuBackgroundColor', 'menuLinkColor', 'menuSelectedEntryLinkColor'],
+  'headerbox'          : ['logoImage', 'pageHeaderBackgroundColor', 'headerBackgroundImage', 'headerBackgroundPosition'],
+  'panelheader'        : ['panelHeaderBackgroundColor', 'panelHeaderTextColor'],
+  'panelcontents'      : ['panelBackgroundColor', 'panelTextColor'],
+  'collapsedpanel'     : ['panelCollapsedBackgroundColor', 'panelCollapsedTextColor'],
+  'content'            : ['pageContentBackgroundColor'],
+  'textlink'           : ['textColor', 'linkColor'],
+  'titlebox'           : ['titleColor'],
+  'info'               : ['textPrimaryColor'],
+  'details'            : ['textSecondaryColor'],
+  'highlight'          : ['highlightColor'],
+  'boxes'              : ['backgroundSecondaryColor', 'borderColor'],
+  'buttonbox'          : ['buttonPrimaryBackgroundColor', 'buttonPrimaryTextColor'],
+  'secondaryButtonbox' : ['buttonSecondaryBackgroundColor', 'buttonSecondaryTextColor']
+})
+{{/velocity}}</content>
+</xwikidoc>

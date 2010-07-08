@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise-database</artifactId>
+    <version>2.4-milestone-1</version>
+  </parent>
+  <artifactId>xwiki-enterprise-database-mysql</artifactId>
+  <version>2.4-milestone-1</version>
+  <name>XWiki Products - Enterprise - Database - MySQL</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Database - MySQL</description>
+  <build>
+    <plugins>
+      <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
+           plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+      </plugin>
+      <!-- Step 2: Expand the XAR file -->
+      <plugin>
+        <groupId>org.xwiki.platform.tools</groupId>
+        <artifactId>xwiki-xar-plugin</artifactId>
+      </plugin>
+      <!-- Step 3: Import the XAR content into the Database -->
+      <plugin>
+        <groupId>org.xwiki.platform.tools</groupId>
+        <artifactId>xwiki-packager-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

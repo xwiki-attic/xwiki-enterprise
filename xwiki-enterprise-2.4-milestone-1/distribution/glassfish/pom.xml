@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise</artifactId>
+    <version>2.4-milestone-1</version>
+  </parent>
+  <artifactId>xwiki-enterprise-glassfish</artifactId>
+  <name>XWiki Products - Enterprise - Distribution - GlassFish</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Distribution - GlassFish</description>
+  <properties>
+    <glassfish.database.folder>glassfish/domains/domain1/database</glassfish.database.folder>
+    <glassfish.war.folder>glassfish/domains/domain1/autodeploy</glassfish.war.folder>
+  </properties>
+  <repositories>
+    <repository>
+      <id>glassfish-repository</id>
+      <name>Java.net Repository for Glassfish</name>
+      <url>http://download.java.net/maven/glassfish</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <!--
+        back up glassfish maven repository in case the 'glassfish-repository' goes down 
+      -->
+      <id>glassfish-repository-wsinterop</id>
+      <name>Java.net Repository for Glassfish</name>
+      <url>http://maven.dyndns.org/glassfish/</url>
+      <snapshots>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${pom.version}</version>
+      <type>war</type>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.distributions</groupId>
+      <artifactId>web</artifactId>
+      <version>3.0-Prelude-b28b</version>
+      <type>zip</type>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>org.glassfish.distributions</groupId>
+          <artifactId>nucleus</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.glassfish.external</groupId>
+          <artifactId>javadb</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.enterprise</groupId>
+          <artifactId>hk2</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.enterprise</groupId>
+          <artifactId>hk2</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.glassfish.web</groupId>
+          <artifactId>webtier-all</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.security</groupId>
+            <artifactId>security-all</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admin</groupId>
+            <artifactId>cli-optional</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.scripting</groupId>
+            <artifactId>jruby-all</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.jdbc.jdbc-ra.jdbc-ra-distribution</groupId>
+            <artifactId>jdbc-ra</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.connectors</groupId>
+           <artifactId>gf-connectors-connector</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.connectors</groupId>
+           <artifactId>connectors-runtime</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.connectors</groupId>
+           <artifactId>work-management</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.transaction</groupId>
+           <artifactId>jta</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.persistence</groupId>
+           <artifactId>jpa-connector</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.persistence</groupId>
+           <artifactId>eclipselink-wrapper</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.deployment</groupId>
+           <artifactId>deployment-client</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.common</groupId>
+            <artifactId>amx-impl</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.registration</groupId>
+           <artifactId>registration-impl</artifactId>
+       </exclusion>
+       <exclusion>
+           <groupId>org.glassfish.registration</groupId>
+           <artifactId>glassfish-registration</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.api</groupId>
+           <artifactId>dtds</artifactId>
+        </exclusion>
+        <exclusion>
+           <groupId>org.glassfish.api</groupId>
+           <artifactId>schemas</artifactId>
+        </exclusion>
+         <exclusion>
+            <groupId>org.glassfish.flashlight</groupId>
+            <artifactId>flashlight-framework</artifactId>
+        </exclusion>
+         <exclusion>
+            <groupId>org.glassfish.flashlight</groupId>
+            <artifactId>flashlight-agent</artifactId>
+        </exclusion>
+         <exclusion>
+            <groupId>org.glassfish.jdbc</groupId>
+            <artifactId>jdbc-admin</artifactId>
+        </exclusion>
+         <exclusion>
+            <groupId>org.glassfish.external</groupId>
+            <artifactId>ant</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>console-plugin-service</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>dataprovider</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>com.sun.jsftemplating</groupId>
+            <artifactId>jsftemplating</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>console-common</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>console-security-plugin</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>console-jdbc-plugin</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>console-updatecenter-plugin</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>console-web-plugin</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>console-branding-plugin</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish.admingui</groupId>
+            <artifactId>dist-fragment</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.activation</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+  <profiles>
+    <profile>
+      <id>derby</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>derby</module>
+      </modules>
+    </profile>
+  </profiles>
+</project>

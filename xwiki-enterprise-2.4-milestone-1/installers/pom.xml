@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise-parent</artifactId>
+    <version>2.4-milestone-1</version>
+  </parent>
+  <artifactId>xwiki-enterprise-installers</artifactId>
+  <version>2.4-milestone-1</version>
+  <name>XWiki Products - Enterprise - Installers - Parent POM</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Installers - Parent POM</description>
+  <!-- The SCM configuration is commented since Subversion 1.5. Starting with this version the usage of release:branch on 
+       enterprise is prevented by: http://subversion.tigris.org/issues/show_bug.cgi?id=3119. If we keep the SCM configuration 
+       uncommented this file will be commited before branching and will make the branching fail due to the bug above -->
+  <!-- We need to specify SCM information since this module's name doesn't match its artifactId and if this module is checked-out
+       by itself (for example by Continuum) it'll have wrong SCM information computed. -->
+  <!-- scm>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk/installers</url>
+  </scm -->
+  <modules>
+    <module>generic</module>
+    <module>windows</module>
+  </modules>
+</project>

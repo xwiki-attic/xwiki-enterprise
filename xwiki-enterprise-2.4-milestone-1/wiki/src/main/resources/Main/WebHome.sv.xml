@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>Main</web>
+<name>WebHome</name>
+<language>sv</language>
+<defaultLanguage>en</defaultLanguage>
+<translation>1</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
+<version>1.1</version>
+<title>$msg.get("xe.home.title")</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>En wiki är en webbplats som är enkel att redigera och som förenklar samarbete. Den här wikin är indelad i olika //rum// vilka är uppbyggda av //sidor//. Du befinner dig för tillfället i rummet som heter **Main**, vilket är wikins huvudrum, och detta är huvudsidan för wikin (**WebHome**).
+
+{{velocity}}
+#if($hasEdit) Du kan använda [[träningszonen&gt;&gt;Sandbox.WebHome]] för att prova wikifunktionerna. #end
+{{/velocity}}
+
+{{include document="Main.Dashboard"/}}</content>
+</xwikidoc>

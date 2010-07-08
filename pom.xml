@@ -36,9 +36,9 @@
   <version>2.4-SNAPSHOT</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-2.4-milestone-1</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-2.4-milestone-1</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-2.4-milestone-1</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/trunk</url>
   </scm>
   <issueManagement>
     <system>jira</system>

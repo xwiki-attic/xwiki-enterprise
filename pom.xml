@@ -78,7 +78,7 @@
     <platform.scheduler.version>1.19</platform.scheduler.version>
     <platform.officeimporter.version>1.15</platform.officeimporter.version>
     <!-- SkinX plugin 1.14 is incompatible with XE 2.3 (defered scripts) -->
-    <platform.plugin.skinx.version>1.13</platform.plugin.skinx.version>
+    <platform.plugin.skinx.version>1.13.1</platform.plugin.skinx.version>
     <platform.statistics.version>1.8</platform.statistics.version>
     <platform.tag.version>1.11</platform.tag.version>
     <!-- Watchlist plugin 1.29 introduces new features -->

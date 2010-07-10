@@ -129,6 +129,19 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
+    @Test
+    public void testAttachmentsInline()
+    {
+        // XWIKI-5191
+        // the trick with HTML comment doesn't help here for some reason, need to produce correct HTML
+        String chars = "\">asdf&nbsp;fdsa</a><a href=\"";
+        String test = getUtil().escapeURL(chars);
+
+        // need a page with attachments, Sandbox has an image attached by default
+        getUtil().gotoPage("Sandbox", "WebHome", "view", "viewer=attachments&xredirect=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(chars) < 0);
+    }
+
     /**
      * Go to a working page after each test run to prevent failures in {@link #setUp()}
      */

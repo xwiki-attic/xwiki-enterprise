@@ -23,7 +23,9 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.xwiki.it.ui.elements.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**
@@ -38,6 +40,9 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
 {
     /** XML significant characters */
     private static final String XML_CHARS = "<>'&\"";
+
+    /** Important SQL characters */
+    private static final String SQL_CHARS = "'\\;";
 
     @Test
     public void testEditReflectedXSS()
@@ -140,6 +145,70 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         // need a page with attachments, Sandbox has an image attached by default
         getUtil().gotoPage("Sandbox", "WebHome", "view", "viewer=attachments&xredirect=" + test);
         Assert.assertTrue(getDriver().getPageSource().indexOf(chars) < 0);
+    }
+
+    @Test
+    public void testBrowseWysiwygSQL()
+    {
+        // XWIKI-5193
+        String test = getUtil().escapeURL(SQL_CHARS);
+        getUtil().gotoPage("Main", "Test", "view", "xpage=browsewysiwyg&text=" + test);
+        Assert.assertTrue(getDriver().findElements(By.xpath("//pre[@class='xwikierror']")).isEmpty());
+        Assert.assertTrue(getDriver().getPageSource().indexOf(SQL_CHARS) < 0);
+    }
+
+    @Test
+    public void testBrowseWysiwygPage()
+    {
+        // XWIKI-5193
+        String test = "<!-- " + XML_CHARS + " -->";
+        createPage("Main", test, test, "Bla bla");
+
+        getUtil().gotoPage("Main", "Test", "view", "xpage=browsewysiwyg");
+        Assert.assertTrue(getDriver().getPageSource().indexOf(test) < 0);
+    }
+
+    @Test
+    public void testBrowseWysiwygPageLink()
+    {
+        // XWIKI-5193
+        // the trick with HTML comment doesn't help here for some reason, need to produce correct HTML
+        String test = "\">asdf&nbsp;fdsa<img onclick=\"'";
+        createPage("Main", test, test, "Bla bla");
+
+        getUtil().gotoPage("Main", "Test", "view", "xpage=browsewysiwyg");
+        Assert.assertTrue(getDriver().getPageSource().indexOf(test) < 0);
+    }
+
+    @Test
+    public void testBrowseWysiwygSpace()
+    {
+        // XWIKI-5193
+        String test = getUtil().escapeURL("bla\"<!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage(test, "Test", "view", "xpage=browsewysiwyg");
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
+    /**
+     * Create a page with the given data if it does not exist and navigate to home page
+     * 
+     * @param space
+     * @param page
+     * @param title
+     * @param content
+     */
+    private void createPage(String space, String page, String title, String content)
+    {
+        WikiEditPage testPage = new WikiEditPage();
+        testPage.switchToEdit(space, page);
+        if (!testPage.isNewDocument()) {
+            return;
+        }
+        testPage.setTitle(title);
+        testPage.setContent(content);
+        testPage.clickSaveAndContinue();
+        getUtil().gotoPage("Main", "WebHome");
     }
 
     /**

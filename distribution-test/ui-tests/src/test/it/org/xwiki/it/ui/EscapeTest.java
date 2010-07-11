@@ -236,6 +236,26 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
+    @Test
+    public void testLoginRedirect()
+    {
+        String test = getUtil().escapeURL("bla\"<!-- " + XML_CHARS + " -->");
+        getUtil().setSession(null);
+
+        getUtil().gotoPage("XWiki", "XWikiLogin", "login", "xredirect=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
+    @Test
+    public void testLoginSrid()
+    {
+        String test = getUtil().escapeURL("bla\"<!-- " + XML_CHARS + " -->");
+        getUtil().setSession(null);
+
+        getUtil().gotoPage("XWiki", "XWikiLogin", "login", "srid=" + test);
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
     /**
      * Create a page with the given data if it does not exist and navigate to home page
      * 

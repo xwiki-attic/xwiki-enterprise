@@ -201,6 +201,41 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
     }
 
+    @Test
+    public void testSearchWysiwygSQL()
+    {
+        // XWIKI-5344
+        String test = getUtil().escapeURL(SQL_CHARS);
+        getUtil().gotoPage("Main", "Test", "view", "xpage=searchwysiwyg&space=" + test);
+        Assert.assertTrue(getDriver().findElements(By.xpath("//pre[@class='xwikierror']")).isEmpty());
+        Assert.assertTrue(getDriver().getPageSource().indexOf(SQL_CHARS) < 0);
+        getUtil().gotoPage("Main", "Test", "view", "xpage=searchwysiwyg&page=" + test);
+        Assert.assertTrue(getDriver().findElements(By.xpath("//pre[@class='xwikierror']")).isEmpty());
+        Assert.assertTrue(getDriver().getPageSource().indexOf(SQL_CHARS) < 0);
+    }
+
+    @Test
+    public void testSearchWysiwygPageLink()
+    {
+        // XWIKI-5344
+        // the trick with HTML comment doesn't help here for some reason, need to produce correct HTML
+        String test = "\">asdf&nbsp;fdsa<img onclick=\"'";
+        createPage("Main", test, test, "Bla bla");
+
+        getUtil().gotoPage("Main", "Test", "view", "xpage=searchwysiwyg");
+        Assert.assertTrue(getDriver().getPageSource().indexOf(test) < 0);
+    }
+
+    @Test
+    public void testSearchWysiwygSpace()
+    {
+        // XWIKI-5344
+        String test = getUtil().escapeURL("bla\"<!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage(test, "Test", "view", "xpage=searchwysiwyg");
+        Assert.assertTrue(getDriver().getPageSource().indexOf(XML_CHARS) < 0);
+    }
+
     /**
      * Create a page with the given data if it does not exist and navigate to home page
      * 

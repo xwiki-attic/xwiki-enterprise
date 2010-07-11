@@ -169,6 +169,17 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    public void testWysiwygRecentViewsPage()
+    {
+        // XWIKI-5193
+        String test = "<!-- " + XML_CHARS + " -->";
+        createPage("Main", test, test, "Bla bla");
+
+        getUtil().gotoPage("Main", "Test", "view", "xpage=recentdocwysiwyg");
+        Assert.assertTrue(getDriver().getPageSource().indexOf(test) < 0);
+    }
+
+    @Test
     public void testBrowseWysiwygPageLink()
     {
         // XWIKI-5193

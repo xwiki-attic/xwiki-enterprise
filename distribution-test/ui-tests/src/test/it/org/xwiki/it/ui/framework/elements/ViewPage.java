@@ -142,6 +142,20 @@ public class ViewPage extends BasePage
         getDriver().findElement(By.partialLinkText("Delete")).click();
     }
 
+    /**
+     * Opens the comments tab.
+     * 
+     * @return element for controlling the comments tab
+     * @since 2.4
+     */
+    public CommentsPane openCommentsDocExtraPane()
+    {
+        this.getDriver().findElement(By.id("Commentslink")).click();
+        this.waitUntilElementIsVisible(By.id("commentscontent"));
+
+        return new CommentsPane();
+    }
+
     public HistoryPane openHistoryDocExtraPane()
     {
         this.getDriver().findElement(By.id("Historylink")).click();

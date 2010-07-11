@@ -207,7 +207,7 @@ public class BaseElement
     public void waitUntilElementHasAttributeValue(final By locator, final String attributeName,
         final String expectedValue)
     {
-        waitUntilElementHasAttributeValue(locator, attributeName, expectedValue, 10);
+        waitUntilElementHasAttributeValue(locator, attributeName, expectedValue, getUtil().getTimeout());
     }
 
     /**
@@ -232,6 +232,39 @@ public class BaseElement
                 } catch (NotFoundException e) {
                     return Boolean.TRUE;
                 }
+            }
+        });
+    }
+
+    /**
+     * Waits until the given element has a certain value as its inner text.
+     * 
+     * @param locator the element to wait on
+     * @param expectedValue the content value to wait for
+     * @since 2.4
+     */
+    public void waitUntilElementHasTextContent(final By locator, final String expectedValue)
+    {
+        this.waitUntilElementHasTextContent(locator, expectedValue, getUtil().getTimeout());
+    }
+
+    /**
+     * Waits until the given element has a certain value as its inner text.
+     * 
+     * @param locator the element to wait on
+     * @param expectedValue the content value to wait for
+     * @param timeout the maximum number of seconds to wait
+     * @since 2.4
+     */
+    public void waitUntilElementHasTextContent(final By locator, final String expectedValue, int timeout)
+    {
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), timeout);
+        wait.until(new ExpectedCondition<Boolean>()
+                    {
+            public Boolean apply(WebDriver driver)
+                        {
+                RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                return Boolean.valueOf(expectedValue.equals(element.getText()));
             }
         });
     }

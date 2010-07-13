@@ -277,6 +277,16 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         getUtil().gotoPage("Main", "WebHome");
     }
 
+    @Test
+    public void testChangesAll()
+    {
+        // XWIKI-5204
+        String test = getUtil().escapeURL("\"><pre><!-- " + XML_CHARS + " --></pre>");
+
+        getUtil().gotoPage("Main", "WebHome", "view", "xpage=changesall&type=" + test);
+        Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
     /**
      * Go to a working page after each test run to prevent failures in {@link #setUp()}
      */

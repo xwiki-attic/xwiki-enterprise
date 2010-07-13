@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.it.ui.framework.elements.ViewPage;
 import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 
 /**
@@ -285,6 +286,24 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
 
         getUtil().gotoPage("Main", "WebHome", "view", "xpage=changesall&type=" + test);
         Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
+    @Test
+    public void testVersionSummary()
+    {
+        try {
+            String test = "<!-- " + XML_CHARS + " -->";
+            WikiEditPage e = getUtil().gotoPage("Test", "TestVersionSummary").clickEditWiki();
+            e.setEditComment(test);
+            ViewPage p = e.clickSaveAndView();
+            // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
+            // will race for completion. Let's wait for comments first.
+            p.openCommentsDocExtraPane();
+            // getCurrentVersionComment returns the text content, so an actual XML comment will not be included
+            Assert.assertEquals(test, p.openHistoryDocExtraPane().getCurrentVersionComment());
+        } finally {
+            getUtil().deletePage("Test", "TestVersionSummary");
+        }
     }
 
     /**

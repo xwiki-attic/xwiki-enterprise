@@ -259,7 +259,7 @@
                 #set($fieldUrl = '')
               #end
             #end
-            "$escapetool.javascript(${colname})" : "$escapetool.javascript(${fieldDisplayValue})",
+            "$escapetool.javascript(${colname})" : "$escapetool.javascript($fieldDisplayValue.replaceFirst($regextool.quote('{{html clean="false" wiki="false"}}'), '').replaceAll("$regextool.quote('{{/html}}')$", ''))",
             "$escapetool.javascript(${colname})_value" : "$escapetool.javascript(${fieldValue})",
             "$escapetool.javascript(${colname})_url" : "$escapetool.javascript(${fieldUrl})"
             ## reset to the default class

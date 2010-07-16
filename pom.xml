@@ -63,7 +63,7 @@
     <platform.core.version>2.4-SNAPSHOT</platform.core.version>
     <platform.web.version>2.4-SNAPSHOT</platform.web.version>
 
-    <platform.administration.version>1.36</platform.administration.version>
+    <platform.administration.version>1.37-SNAPSHOT</platform.administration.version>
     <platform.annotations.version>1.5</platform.annotations.version>
     <platform.activitystream.version>1.6</platform.activitystream.version>
     <platform.blog.version>1.22</platform.blog.version>

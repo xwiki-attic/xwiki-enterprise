@@ -26,10 +26,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.it.ui.administration.elements.AdministrationPage;
-import org.xwiki.it.ui.framework.elements.HistoryPane;
 import org.xwiki.it.ui.administration.elements.ImportPage;
-import org.xwiki.it.ui.framework.elements.ViewPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.it.ui.framework.elements.HistoryPane;
+import org.xwiki.it.ui.framework.elements.ViewPage;
 
 /**
  * Test the Import XAR feature.
@@ -49,6 +49,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
     private ImportPage importPage;
 
+    @Override
     @Before
     public void setUp()
     {
@@ -57,20 +58,20 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         // Delete Test Page we import from XAR to ensure to start with a predefined state.
         getUtil().deletePage("Main", "TestPage");
 
-        adminPage = new AdministrationPage();
-        adminPage.gotoPage();
+        this.adminPage = new AdministrationPage();
+        this.adminPage.gotoPage();
 
-        importPage = adminPage.clickImportSection();
+        this.importPage = this.adminPage.clickImportSection();
 
         // Remove our packages if they're there already, to ensure to start with a predefined state.
-        if (importPage.isPackagePresent(PACKAGE_WITH_HISTORY)) {
-            importPage.deletePackage(PACKAGE_WITH_HISTORY);
+        if (this.importPage.isPackagePresent(PACKAGE_WITH_HISTORY)) {
+            this.importPage.deletePackage(PACKAGE_WITH_HISTORY);
         }
-        if (importPage.isPackagePresent(PACKAGE_WITHOUT_HISTORY)) {
-            importPage.deletePackage(PACKAGE_WITHOUT_HISTORY);
+        if (this.importPage.isPackagePresent(PACKAGE_WITHOUT_HISTORY)) {
+            this.importPage.deletePackage(PACKAGE_WITHOUT_HISTORY);
         }
-        if (importPage.isPackagePresent(BACKUP_PACKAGE)) {
-            importPage.deletePackage(BACKUP_PACKAGE);
+        if (this.importPage.isPackagePresent(BACKUP_PACKAGE)) {
+            this.importPage.deletePackage(BACKUP_PACKAGE);
         }
     }
 
@@ -79,13 +80,13 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITH_HISTORY);
 
-        importPage.attachPackage(fileUrl);
-        importPage.selectPackage(PACKAGE_WITH_HISTORY);
+        this.importPage.attachPackage(fileUrl);
+        this.importPage.selectPackage(PACKAGE_WITH_HISTORY);
 
-        importPage.selectReplaceHistoryOption();
-        importPage.importPackage();
+        this.importPage.selectReplaceHistoryOption();
+        this.importPage.importPackage();
 
-        ViewPage importedPage = importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
 
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
@@ -99,12 +100,12 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITHOUT_HISTORY);
 
-        importPage.attachPackage(fileUrl);
-        importPage.selectPackage(PACKAGE_WITHOUT_HISTORY);
+        this.importPage.attachPackage(fileUrl);
+        this.importPage.selectPackage(PACKAGE_WITHOUT_HISTORY);
 
-        importPage.importPackage();
+        this.importPage.importPackage();
 
-        ViewPage importedPage = importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
 
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
@@ -117,12 +118,12 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     {
         URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);
 
-        importPage.attachPackage(fileUrl);
-        importPage.selectPackage(BACKUP_PACKAGE);
+        this.importPage.attachPackage(fileUrl);
+        this.importPage.selectPackage(BACKUP_PACKAGE);
 
-        importPage.importPackage();
+        this.importPage.importPackage();
 
-        ViewPage importedPage = importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
 
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 

@@ -88,6 +88,9 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
 
+        // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
+        // will race for completion. Let's wait for comments first.
+        importedPage.openCommentsDocExtraPane();
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("4.1", history.getCurrentVersion());
@@ -107,6 +110,9 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
 
+        // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
+        // will race for completion. Let's wait for comments first.
+        importedPage.openCommentsDocExtraPane();
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("1.1", history.getCurrentVersion());
@@ -125,6 +131,9 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
 
+        // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
+        // will race for completion. Let's wait for comments first.
+        importedPage.openCommentsDocExtraPane();
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("JohnDoe", history.getCurrentAuthor());

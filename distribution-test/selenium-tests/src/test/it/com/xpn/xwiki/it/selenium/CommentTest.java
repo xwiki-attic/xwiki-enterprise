@@ -119,13 +119,13 @@ public class CommentTest extends AbstractXWikiTestCase
         if (!isAuthenticated()) {
             loginAsAdmin();
         }
+        open("CommentTest", "PageWithSomeComments");
         // If there is a reply, recreate the page to get rid of it.
         if (isElementPresent("//li[@class='reply']/div/ul/li[@class='reply']/div/div[@class='commentcontent']/p")) {
             // LoginAsAdmin returns before the page is completely loaded so put it below isElementPresent
             createPage("CommentTest", "PageWithSomeComments",
                 "This page is here to test comment functionality.", "xwiki/2.0");
         }
-        open("CommentTest", "PageWithSomeComments");
         if (!isElementPresent("//div[@class='commentcontent']/p")) {
             // Prepare a comment to reply to
             postComment("This is a comment for Admin to reply to.", null, true);

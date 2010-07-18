@@ -48,7 +48,7 @@
     <module>wiki</module>
     <module>database</module>
     <module>web</module>
-    <module>distribution</module>    
+    <module>distribution</module>
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->

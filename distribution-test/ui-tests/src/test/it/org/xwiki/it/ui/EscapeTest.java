@@ -306,6 +306,24 @@ public class EscapeTest extends AbstractAdminAuthenticatedTest
         }
     }
 
+    @Test
+    public void testImported()
+    {
+        String test = getUtil().escapeURL("<!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage("Main", "WebHome", "view", "xpage=imported&name=" + test);
+        Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
+    @Test
+    public void testEditActions()
+    {
+        String test = getUtil().escapeURL("\"><!-- " + XML_CHARS + " -->");
+
+        getUtil().gotoPage("Main", "WebHome", "edit", "editor=wiki&comment=" + test);
+        Assert.assertFalse(getDriver().getPageSource().contains(XML_CHARS));
+    }
+
     /**
      * Go to a working page after each test run to prevent failures in {@link #setUp()}
      */

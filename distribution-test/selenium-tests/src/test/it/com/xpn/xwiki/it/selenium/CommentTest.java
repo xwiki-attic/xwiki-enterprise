@@ -19,15 +19,15 @@
  */
 package com.xpn.xwiki.it.selenium;
 
+import junit.framework.Test;
+
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
-
 /**
  * Tries to post comments on a page as various users and with various rights.
- *
+ * 
  * @version $Id$
  */
 public class CommentTest extends AbstractXWikiTestCase
@@ -39,11 +39,12 @@ public class CommentTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
 
-        // We start at localhost:4444/selenium-server... and isExistingPage reloads current location 
+        // We start at localhost:4444/selenium-server... and isExistingPage reloads current location
         // so navigate to test page.
         if (getSelenium().getLocation().indexOf(getUrl("CommentTest", "PageWithSomeComments")) == -1) {
             open("CommentTest", "PageWithSomeComments");
@@ -51,12 +52,11 @@ public class CommentTest extends AbstractXWikiTestCase
                 && !isExistingPage("CommentTest", "PageWithSomeComments")) {
                 loginAsAdmin();
                 createPage("CommentTest", "PageWithSomeComments",
-                           "This page is here to test comment functionality.", "xwiki/2.0");
+                    "This page is here to test comment functionality.", "xwiki/2.0");
                 logout();
             }
         }
     }
-
 
     /* The Tests */
 
@@ -87,7 +87,7 @@ public class CommentTest extends AbstractXWikiTestCase
         if (isElementPresent("//li[@class='reply']/div/ul/li[@class='reply']/div/div[@class='commentcontent']/p")) {
             loginAsAdmin();
             createPage("CommentTest", "PageWithSomeComments",
-                       "This page is here to test comment functionality.", "xwiki/2.0");
+                "This page is here to test comment functionality.", "xwiki/2.0");
             logout();
         }
         allowAnonymousCommenting();
@@ -122,11 +122,8 @@ public class CommentTest extends AbstractXWikiTestCase
         // If there is a reply, recreate the page to get rid of it.
         if (isElementPresent("//li[@class='reply']/div/ul/li[@class='reply']/div/div[@class='commentcontent']/p")) {
             // LoginAsAdmin returns before the page is completely loaded so put it below isElementPresent
-            loginAsAdmin();
             createPage("CommentTest", "PageWithSomeComments",
-                       "This page is here to test comment functionality.", "xwiki/2.0");
-        } else {
-            loginAsAdmin();
+                "This page is here to test comment functionality.", "xwiki/2.0");
         }
         open("CommentTest", "PageWithSomeComments");
         if (!isElementPresent("//div[@class='commentcontent']/p")) {
@@ -188,17 +185,17 @@ public class CommentTest extends AbstractXWikiTestCase
             checkField("//*[@id='uorgu']");
 
             if (isElementPresent("//tr[@id='unregistered']/td[@id='tdcomment']/img"
-                               + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/none.png']")) {
+                + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/none.png']")) {
                 getSelenium().click("//tr[@id='unregistered']/td[@id='tdcomment']/img");
             } else if (isElementPresent("//tr[@id='unregistered']/td[@id='tdcomment']/img"
-                                      + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/deny.png']")) {
+                + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/deny.png']")) {
                 getSelenium().click("//tr[@id='unregistered']/td[@id='tdcomment']/img");
                 waitForElement("//tr[@id='unregistered']/td[@id='tdcomment']/img"
-                             + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/none.png']");
+                    + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/none.png']");
                 getSelenium().click("//tr[@id='unregistered']/td[@id='tdcomment']/img");
             }
             waitForElement("//tr[@id='unregistered']/td[@id='tdcomment']/img"
-                         + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/allow.png']");
+                + "[@src='/xwiki/resources/js/xwiki/usersandgroups/img/allow.png']");
             open("CommentTest", "PageWithSomeComments");
             logout();
         }
@@ -247,7 +244,7 @@ public class CommentTest extends AbstractXWikiTestCase
             String numComments = getSelenium().getText("//a[@id='Commentslink']/span");
             submit("//input[@type='submit'][@value='Add comment']", false);
             waitForCondition("window.document.getElementById('Commentslink').childNodes[1].childNodes[0].data != '"
-                             + numComments + "'");
+                + numComments + "'");
 
         }
     }

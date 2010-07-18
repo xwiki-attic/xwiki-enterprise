@@ -48,7 +48,7 @@ $msg.get("xe.document.copying", [$sourcelink, $targetlink])
 &lt;dt&gt;&lt;label for="targetdoc"&gt;$msg.get("xe.document.copy.target")&lt;/label&gt;&lt;/dt&gt;
 &lt;dd&gt;&lt;input type="text" id="targetdoc" name="targetdoc" value="$!request.targetdoc" size="60" /&gt;&lt;/dd&gt;
 &lt;/dl&gt;
-&lt;input type="submit" value="$msg.get('xe.document.copy.do')" /&gt;
+&lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.document.copy.do')" class="button" /&gt;&lt;/span&gt;
 &lt;/div&gt;
 &lt;/form&gt;
 {{/html}}

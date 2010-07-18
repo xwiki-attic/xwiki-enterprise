@@ -23,6 +23,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.RenderedWebElement;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -174,6 +175,9 @@ public class BaseElement
                     RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
                     return Boolean.valueOf(!element.isDisplayed());
                 } catch (NotFoundException e) {
+                    return Boolean.TRUE;
+                } catch (StaleElementReferenceException e) {
+                    // The element was removed from DOM in the meantime
                     return Boolean.TRUE;
                 }
             }

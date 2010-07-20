@@ -19,19 +19,19 @@
  */
 package org.xwiki.it.ui.invitation.elements;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.elements.BasePage;
 import org.xwiki.it.ui.framework.elements.FormElement;
 import org.xwiki.it.ui.framework.elements.TableElement;
 
 /**
  * Represents the actions possible on the invitation sender page.
- *
+ * 
  * @version $Id$
  * @since 2.4M2
  */
@@ -84,7 +84,7 @@ public class InvitationSenderPage extends BasePage
                          final String subjectLine,
                          final String messageBody)
     {
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<String, String>();
         if (recipients != null) {
             map.put("recipients", recipients);
         }
@@ -99,26 +99,26 @@ public class InvitationSenderPage extends BasePage
 
     public InvitationSentPage send()
     {
-        sendButton.click();
+        this.sendButton.click();
         return this.new InvitationSentPage();
     }
 
     public InvitationMessageDisplayElement preview()
     {
-        previewButton.click();
+        this.previewButton.click();
 
-        if (previewElement == null) {
-            previewElement = new InvitationMessageDisplayElement(preview);
+        if (this.previewElement == null) {
+            this.previewElement = new InvitationMessageDisplayElement(this.preview);
         }
-        return previewElement;
+        return this.previewElement;
     }
 
     public FormElement getForm()
     {
-        if (formElement == null) {
-            formElement = new FormElement(form);
+        if (this.formElement == null) {
+            this.formElement = new FormElement(this.form);
         }
-        return formElement;
+        return this.formElement;
     }
 
     public InvitationFooterElement getFooter()
@@ -140,12 +140,12 @@ public class InvitationSenderPage extends BasePage
 
         public String getMessageBoxContent()
         {
-            return messageBox.getText();
+            return this.messageBox.getText();
         }
 
         public TableElement getTable()
         {
-            return new TableElement(table);
+            return new TableElement(this.table);
         }
     }
 }

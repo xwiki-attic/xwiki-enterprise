@@ -403,8 +403,7 @@ public class InvitationTest extends AbstractTest
 
             // View declined invitation.
             InspectInvitationsPage inspectPage = getSenderPage().getFooter().inspectMyInvitations();
-            InspectInvitationsPage.OneMessage inspect =
-                inspectPage.getMessageWhere("Status", "Declined");
+            InspectInvitationsPage.OneMessage inspect = inspectPage.getMessageWhere("Status", "Declined");
 
             Assert.assertTrue("Not showing message box to say the invitation has been declined",
                 inspect.getStatusAndMemo().equals("Declined with message: I'm not interested thank you."));

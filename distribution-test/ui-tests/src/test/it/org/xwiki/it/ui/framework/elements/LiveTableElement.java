@@ -72,6 +72,7 @@ public class LiveTableElement extends BaseElement
         long t1 = System.currentTimeMillis();
         while ((System.currentTimeMillis() - t1 < getUtil().getTimeout() * 1000L)) {
             if (isReady()) {
+                clearStatus();
                 return;
             }
             try {
@@ -89,16 +90,22 @@ public class LiveTableElement extends BaseElement
     {
         List<WebElement> elements = getDriver().findElements(By.xpath(
             "//th[contains(@class, 'xwiki-livetable-display-header-text') and normalize-space(text()) = '"
-                + columnTitle + "']"));
+            + columnTitle + "']"));
         return elements.size() > 0;
     }
 
     public void filterColumn(String inputId, String filterValue)
     {
         // Reset the livetable status since the filtering will cause a reload
-        executeJavascript("$('uitest-livetable-status').remove();");
+        clearStatus();
         WebElement element = getDriver().findElement(By.id(inputId));
         element.sendKeys(filterValue);
         waitUntilReady();
+    }
+
+    /** Drop the element that signals that the livetable finished loading. */
+    private void clearStatus()
+    {
+        executeJavascript("if ($('uitest-livetable-status')) $('uitest-livetable-status').remove();");
     }
 }

@@ -24,6 +24,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.xwiki.it.ui.framework.elements.editor.ClassEditPage;
 import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
+import org.xwiki.it.ui.framework.elements.editor.RightsEditPage;
 import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 
@@ -176,9 +177,10 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit acces rights" entry of the content menu.
      */
-    public void clickEditRights()
+    public RightsEditPage clickEditRights()
     {
         clickContentMenuEditSubMenuEntry("tmEditRights");
+        return new RightsEditPage();
     }
 
     /**

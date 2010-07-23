@@ -33,6 +33,9 @@ public class WikiEditPage extends PreviewableEditPage
     @FindBy(id = "xwikidoctitleinput")
     private WebElement titleInput;
 
+    @FindBy(name = "parent")
+    private WebElement parentInput;
+
     @FindBy(id = "content")
     private WebElement contentText;
 
@@ -61,9 +64,25 @@ public class WikiEditPage extends PreviewableEditPage
         this.titleInput.sendKeys(title);
     }
 
+    /** @return the value of the parent field. */
+    public String getParent()
+    {
+        return this.parentInput.getValue();
+    }
+
+    /**
+     * Set the {@code parent} of the page
+     * 
+     * @param the value for the new parent to set
+     */
+    public void setParent(String parent)
+    {
+        this.parentInput.clear();
+        this.parentInput.sendKeys(parent);
+    }
+
     /**
      * Get the <code>content</code> of the page
-     * 
      */
     public String getContent()
     {

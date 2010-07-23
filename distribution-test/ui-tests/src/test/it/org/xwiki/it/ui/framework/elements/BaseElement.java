@@ -234,7 +234,10 @@ public class BaseElement
                     RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
                     return Boolean.valueOf(expectedValue.equals(element.getAttribute(attributeName)));
                 } catch (NotFoundException e) {
-                    return Boolean.TRUE;
+                    return Boolean.FALSE;
+                } catch (StaleElementReferenceException e) {
+                    // The element was removed from DOM in the meantime
+                    return Boolean.FALSE;
                 }
             }
         });

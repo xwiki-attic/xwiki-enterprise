@@ -60,6 +60,9 @@ public class ViewPage extends BasePage
     @FindBy(id = "xwikicontent")
     private WebElement content;
 
+    @FindBy(id = "hierarchy")
+    private WebElement hierarchy;
+
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
      */
@@ -175,6 +178,12 @@ public class ViewPage extends BasePage
             }
         }
         return true;
+    }
+
+    /** @return the hierarchy container. */
+    public WebElement getHierarchy()
+    {
+        return this.hierarchy;
     }
 
     /**

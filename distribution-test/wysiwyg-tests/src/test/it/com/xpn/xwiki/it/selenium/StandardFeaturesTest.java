@@ -26,9 +26,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testEmptyWysiwyg()
     {
         switchToSource();
-        // NOTE: The new line character is there because the content of a new XWiki document is "\n" instead of "".
-        // See XWIKI-4640: New XWiki 2.0 pages contain a new line character
-        assertSourceText("\n");
+        assertSourceText("");
     }
 
     public void testTypingAndDeletion()

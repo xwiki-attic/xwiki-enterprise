@@ -81,9 +81,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Check the result.
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "c");
-        // NOTE: The new line character is there because the content of a new XWiki document is "\n" instead of "".
-        // See XWIKI-4640: New XWiki 2.0 pages contain a new line character
-        assertSourceText("a\nbc");
+        assertSourceText("abc");
     }
 
     /**
@@ -155,9 +153,7 @@ public class CacheTest extends AbstractWysiwygTestCase
         // Type more text and check the result.
         switchToSource();
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "2");
-        // NOTE: The new line character is there because the content of a new XWiki document is "\n" instead of "".
-        // See XWIKI-4640: New XWiki 2.0 pages contain a new line character
-        assertSourceText("1\n2");
+        assertSourceText("12");
     }
 
     /**

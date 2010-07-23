@@ -101,12 +101,13 @@ public class BasePage extends BaseElement
 
     /**
      * Run javascript and return the result.
-     *
+     * 
      * @param script The source of the script to run.
-     * @param arguments Arguments to pass to the script. Will be made available to the script 
-     *                  through a variable called "arguments".
+     * @param arguments Arguments to pass to the script. Will be made available to the script through a variable called
+     *            "arguments".
      * @return Response from the script, One of Boolean, Long, String, List or WebElement. Or null.
-     * @see <a href="http://webdriver.googlecode.com/svn/javadoc/org/openqa/selenium/JavascriptExecutor.html#executeScript">JavascriptExecutor</a>
+     * @see <a
+     *      href="http://webdriver.googlecode.com/svn/javadoc/org/openqa/selenium/JavascriptExecutor.html#executeScript">JavascriptExecutor</a>
      */
     public Object executeScript(String script, Object... arguments)
     {

@@ -23,13 +23,12 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.TimeoutException;
 
 /**
  * Represents the actions possible on a livetable.
- *
+ * 
  * @version $Id$
  * @since 2.4M2
  */
@@ -71,7 +70,7 @@ public class LiveTableElement extends BaseElement
     public void waitUntilReady()
     {
         long t1 = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - t1 < getUtil().getTimeout()*1000L)) {
+        while ((System.currentTimeMillis() - t1 < getUtil().getTimeout() * 1000L)) {
             if (isReady()) {
                 return;
             }

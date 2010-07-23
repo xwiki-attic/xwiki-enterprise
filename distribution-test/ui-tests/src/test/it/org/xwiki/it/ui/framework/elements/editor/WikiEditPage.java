@@ -21,7 +21,6 @@ package org.xwiki.it.ui.framework.elements.editor;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.editor.PreviewableEditPage;
 
 /**
  * Represents the common actions possible on all Pages when using the "edit" action with "wiki" editor
@@ -42,14 +41,13 @@ public class WikiEditPage extends PreviewableEditPage
 
     @FindBy(name = "comment")
     private WebElement commentInput;
-    
+
     /**
      * Get the <code>title</code> of the page
-     * 
      */
     public String getTitle()
     {
-        return titleInput.getValue();
+        return this.titleInput.getValue();
     }
 
     /**
@@ -59,17 +57,17 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public void setTitle(String title)
     {
-        titleInput.clear();
-        titleInput.sendKeys(title);
+        this.titleInput.clear();
+        this.titleInput.sendKeys(title);
     }
-    
+
     /**
      * Get the <code>content</code> of the page
      * 
      */
     public String getContent()
     {
-        return contentText.getText();
+        return this.contentText.getText();
     }
 
     /**
@@ -79,8 +77,8 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public void setContent(String content)
     {
-        contentText.clear();
-        contentText.sendKeys(content);
+        this.contentText.clear();
+        this.contentText.sendKeys(content);
     }
 
     /**
@@ -90,8 +88,9 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public void setMinorEdit(boolean value)
     {
-        if (minorEditCheckBox.isSelected() != value)
-            minorEditCheckBox.toggle();
+        if (this.minorEditCheckBox.isSelected() != value) {
+            this.minorEditCheckBox.toggle();
+        }
     }
 
     /**
@@ -101,8 +100,8 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public void setEditComment(String comment)
     {
-        commentInput.clear();
-        commentInput.sendKeys(comment);
+        this.commentInput.clear();
+        this.commentInput.sendKeys(comment);
     }
 
     /**

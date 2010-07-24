@@ -122,6 +122,7 @@
                     com.xpn.xwiki.plugin.skinx.JsSkinFileExtensionPlugin,\
                     com.xpn.xwiki.plugin.skinx.CssSkinExtensionPlugin,\
                     com.xpn.xwiki.plugin.skinx.CssSkinFileExtensionPlugin,\
+                    com.xpn.xwiki.plugin.skinx.LinkExtensionPlugin,\
                     com.xpn.xwiki.plugin.feed.FeedPlugin,\
                     com.xpn.xwiki.plugin.ldap.LDAPPlugin,\
                     com.xpn.xwiki.plugin.google.GooglePlugin,\

@@ -29,6 +29,7 @@
   $response.sendRedirect($xwiki.getURL($doc.fullName, 'view', 'xpage=plain&amp;outputSyntax=plain'))
 #end
 #if ("$!request.xpage" == 'plain' &amp;&amp; "$!request.outputSyntax" == 'plain')
+  $response.setContentType('application/rss+xml')
   #if("$!{request.space}" == '')
     ## RSS feed for a single space
     #set ($request = 'where 1=1 order by doc.date desc')

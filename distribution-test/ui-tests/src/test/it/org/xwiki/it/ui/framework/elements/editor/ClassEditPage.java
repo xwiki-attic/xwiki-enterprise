@@ -20,6 +20,7 @@
 package org.xwiki.it.ui.framework.elements.editor;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.elements.BasePage;
@@ -58,13 +59,21 @@ public class ClassEditPage extends BasePage
 
     private FormElement form;
 
-    public void addProperty(String propertyName, String propertyType)
+    public boolean addProperty(String propertyName, String propertyType)
     {
         getForm().setFieldValue(this.propertyNameField, propertyName);
         getForm().setFieldValue(this.propertyTypeField, propertyType);
         this.propertySubmit.click();
         // Make sure we wait for the element to appear since there's no page refresh.
-        waitUntilElementIsVisible(By.id("xproperty_" + propertyName));
+        By[] locators = new By[2];
+        locators[0] = By.id("xproperty_" + propertyName);
+        locators[1] = By.className("xnotification-error");
+        waitUntilElementsAreVisible(locators, false);
+        try {
+            return getDriver().findElement(locators[0]) != null;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
     }
 
     public void deleteProperty(String propertyName)

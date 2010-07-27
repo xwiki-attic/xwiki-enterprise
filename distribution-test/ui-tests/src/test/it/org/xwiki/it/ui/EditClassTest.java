@@ -115,4 +115,13 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
         vp = oep.clickSaveAndView();
         Assert.assertEquals("this is the content: /testing value 2/", vp.getContent());
     }
+
+    @Test
+    public void addInvalidProperty()
+    {
+        ClassEditPage cep = new ClassEditPage();
+        cep.switchToEdit("Test", "EditObjectsTestClass");
+        Assert.assertFalse(cep.addProperty("a<b c", "com.xpn.xwiki.objects.classes.StringClass"));
+        Assert.assertFalse(getDriver().getPageSource().contains("xwikimessage"));
+    }
 }

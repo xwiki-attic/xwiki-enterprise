@@ -63,19 +63,19 @@
     <platform.core.version>2.5-SNAPSHOT</platform.core.version>
     <platform.web.version>2.5-SNAPSHOT</platform.web.version>
 
-    <platform.administration.version>1.37-SNAPSHOT</platform.administration.version>
-    <platform.annotations.version>1.6-SNAPSHOT</platform.annotations.version>
+    <platform.administration.version>1.38-SNAPSHOT</platform.administration.version>
+    <platform.annotations.version>1.7-SNAPSHOT</platform.annotations.version>
     <platform.activitystream.version>1.7-SNAPSHOT</platform.activitystream.version>
     <platform.blog.version>1.23-SNAPSHOT</platform.blog.version>
-    <platform.invitation.version>1.1-SNAPSHOT</platform.invitation.version>
+    <platform.invitation.version>1.2-SNAPSHOT</platform.invitation.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.plugin.lucene.version>1.20-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.mailsender.version>1.15-SNAPSHOT</platform.plugin.mailsender.version>
     <platform.panels.version>1.38-SNAPSHOT</platform.panels.version>
     <platform.scheduler.version>1.20-SNAPSHOT</platform.scheduler.version>
     <platform.officeimporter.version>1.16-SNAPSHOT</platform.officeimporter.version>
-    <platform.plugin.skinx.version>1.17-SNAPSHOT</platform.plugin.skinx.version>
-    <platform.statistics.version>1.9-SNAPSHOT</platform.statistics.version>
+    <platform.plugin.skinx.version>1.18-SNAPSHOT</platform.plugin.skinx.version>
+    <platform.statistics.version>1.10-SNAPSHOT</platform.statistics.version>
     <platform.search.version>1.2-SNAPSHOT</platform.search.version>
     <platform.tag.version>1.12-SNAPSHOT</platform.tag.version>
     <platform.watchlist.version>1.30-SNAPSHOT</platform.watchlist.version>

@@ -120,6 +120,10 @@ public class CommentTest extends AbstractXWikiTestCase
             loginAsAdmin();
         }
         open("CommentTest", "PageWithSomeComments");
+
+        // Wait until comments load though ajax mechanism.
+        waitForElement("//div[@id='_comments']/form[@id='AddComment']/fieldset[@id='commentform']");
+
         // If there is a reply, recreate the page to get rid of it.
         if (isElementPresent("//li[@class='reply']/div/ul/li[@class='reply']/div/div[@class='commentcontent']/p")) {
             // LoginAsAdmin returns before the page is completely loaded so put it below isElementPresent

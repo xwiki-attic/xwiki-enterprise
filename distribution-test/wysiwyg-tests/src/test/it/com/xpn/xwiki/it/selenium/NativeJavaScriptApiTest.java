@@ -242,6 +242,28 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Tests if the configuration parameters for a WYSIWYG editor instance are accessible through the JavaScript API.
+     */
+    public void testAccessConfigurationParameters()
+    {
+        String hookId = "XWiki.ArticleClass_0_description";
+        insertEditor(hookId, "syntax: 'xwiki/2.0',\nxyz: 'abc'");
+        assertEquals("abc", getSelenium().getEval("window['" + hookId + "'].getParameter('xyz')"));
+        assertEquals("3", getSelenium().getEval("window['" + hookId + "'].getParameterNames().length"));
+    }
+
+    /**
+     * Tests that we can get a reference to a WYSIWYG editor instance by knowing its hookId.
+     */
+    public void testAccessWysiwygEditorInstanceByHookId()
+    {
+        String hookId = "XWiki.ArticleClass_0_description";
+        insertEditor(hookId, "syntax: 'xwiki/2.0'");
+        assertEquals(hookId, getSelenium().getEval(
+            "window.Wysiwyg.getInstance('" + hookId + "').getParameter('hookId')"));
+    }
+
+    /**
      * Inserts a WYSIWYG editor into the current page.
      * 
      * @param name the name of JavaScript variable to be used for accessing the editor
@@ -258,7 +280,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("<textarea id=\"" + name + "\"></textarea>\n");
         content.append("<script type=\"text/javascript\">\n");
         content.append("Wysiwyg.onModuleLoad(function() {\n");
-        content.append("  " + name + " = new WysiwygEditor({\n");
+        content.append("  window['" + name + "'] = new WysiwygEditor({\n");
         content.append("    hookId: '" + name + "',\n");
         content.append("    " + config + "\n");
         content.append("  });\n");
@@ -271,7 +293,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         clickEditSaveAndView();
 
         // Wait for the editor to be created.
-        waitForCondition("typeof window." + name + " == 'object'");
+        waitForCondition("typeof window['" + name + "'] == 'object'");
         waitForEditorToLoad();
     }
 
@@ -281,7 +303,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      */
     protected String getSourceText(String editorName)
     {
-        getEval("window." + editorName + ".getSourceText(function(result){window.sourceText = result;})");
+        getEval("window['" + editorName + "'].getSourceText(function(result){window.sourceText = result;})");
         waitForCondition("typeof window.sourceText == 'string'");
         return getEval("window.sourceText");
     }

@@ -20,14 +20,14 @@
 package org.xwiki.it.ui.invitation.elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.xwiki.it.ui.framework.elements.BaseElement;
 
 /**
  * Represents the actions possible on the invitation sender page.
- *
+ * 
  * @version $Id$
  * @since 2.4M2
  */
@@ -35,9 +35,6 @@ public class InvitationFooterElement extends BaseElement
 {
     @FindBy(id = "invitation-footer")
     private WebElement footer;
-
-    @FindBy(id = "HTools")
-    private WebElement toolsHeader;
 
     @FindBy(xpath = "//div[@id='invitation-footer']//a[@href='/xwiki/bin/view/Invitation/InvitationMemberActions?inspect=all']")
     private WebElement inspectAll;
@@ -47,12 +44,12 @@ public class InvitationFooterElement extends BaseElement
 
     public boolean isAdmin()
     {
-        return !footer.findElements(By.id("HAdministrativeTools")).isEmpty();
+        return !this.footer.findElements(By.id("HAdministrativeTools")).isEmpty();
     }
 
     public InspectInvitationsPage inspectMyInvitations()
     {
-        inspectAll.click();
+        this.inspectAll.click();
         return new InspectInvitationsPage.AsUser();
     }
 
@@ -61,25 +58,25 @@ public class InvitationFooterElement extends BaseElement
         if (!isAdmin()) {
             throw new WebDriverException("Inspection as admin impossible because user is not admin.");
         }
-        inspectAllAsAdmin.click();
+        this.inspectAllAsAdmin.click();
         return new InspectInvitationsPage.AsAdmin();
     }
 
     public int myPendingInvitations()
     {
-        if (footer.findElements(By.id("my-pending-invitations")).size() == 0) {
+        if (this.footer.findElements(By.id("my-pending-invitations")).size() == 0) {
             return 0;
         }
-        String message = footer.findElements(By.id("my-pending-invitations")).get(0).getText().trim();
+        String message = this.footer.findElements(By.id("my-pending-invitations")).get(0).getText().trim();
         return Integer.parseInt(message.substring(0, message.indexOf(" pending")));
     }
 
     public int spamReports()
     {
-        if (footer.findElements(By.id("spam-reports")).size() == 0) {
+        if (this.footer.findElements(By.id("spam-reports")).size() == 0) {
             return 0;
         }
-        String message = footer.findElements(By.id("spam-reports")).get(0).getText().trim();
+        String message = this.footer.findElements(By.id("spam-reports")).get(0).getText().trim();
         return Integer.parseInt(message.substring(0, message.indexOf(" reported as spam")));
     }
 }

@@ -21,14 +21,12 @@ package org.xwiki.it.ui.framework;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
 import org.openqa.selenium.WebDriver;
-
 import org.xwiki.it.ui.framework.elements.BaseElement;
 
 /**
- * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it. 
- *
+ * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it.
+ * 
  * @version $Id$
  * @since 2.3M1
  */
@@ -41,7 +39,7 @@ public class AbstractTest
     {
         AbstractTest.context = context;
         BaseElement.setContext(context);
-        context.getUtil().setContext(context);
+        TestUtils.setContext(context);
     }
 
     @BeforeClass

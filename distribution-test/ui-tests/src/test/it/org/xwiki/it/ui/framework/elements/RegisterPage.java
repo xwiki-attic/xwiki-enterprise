@@ -26,8 +26,6 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.BasePage;
-import org.xwiki.it.ui.framework.elements.FormElement;
 
 /**
  * Represents the actions possible on the Registration Page
@@ -59,7 +57,7 @@ public class RegisterPage extends BasePage
     public void fillRegisterForm(final String firstName, final String lastName, final String username,
         final String password, final String confirmPassword, final String email)
     {
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<String, String>();
         if (firstName != null) {
             map.put("register_first_name", firstName);
         }
@@ -83,15 +81,15 @@ public class RegisterPage extends BasePage
 
     private FormElement getForm()
     {
-        if (form == null) {
-            form = new FormElement(registerFormElement);
+        if (this.form == null) {
+            this.form = new FormElement(this.registerFormElement);
         }
-        return form;
+        return this.form;
     }
 
     public void clickRegister()
     {
-        submitButton.click();
+        this.submitButton.click();
     }
 
     /** @return a list of WebElements representing validation failure messages. Use after calling register() */
@@ -121,10 +119,10 @@ public class RegisterPage extends BasePage
     {
         // Click on all of the validated fields to prevent "Passwords don't match" sticking -> flickering test.
         // The right solution is to have a better way to fire LiveValidation without excessive js.
-        registerFormElement.findElement(By.name("register2_password")).click();
-        registerFormElement.findElement(By.name("register_password")).click();
-        registerFormElement.findElement(By.name("xwikiname")).click();
+        this.registerFormElement.findElement(By.name("register2_password")).click();
+        this.registerFormElement.findElement(By.name("register_password")).click();
+        this.registerFormElement.findElement(By.name("xwikiname")).click();
 
-        registerFormElement.findElement(By.name("register_first_name")).click();
+        this.registerFormElement.findElement(By.name("register_first_name")).click();
     }
 }

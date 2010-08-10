@@ -65,10 +65,10 @@ public class InvitationSenderPage extends BasePage
 
     public boolean userIsSpammer()
     {
-        for(WebElement error : getDriver().findElements(By.id("invitation-permission-error"))) {
-            if (error.getText().equals("A message which you sent was reported as spam and your privilege to send mail has"
-                                       + " been suspended pending investigation, we apologize for the inconvenience."))
-            {
+        for (WebElement error : getDriver().findElements(By.id("invitation-permission-error"))) {
+            if (error.getText().equals(
+                "A message which you sent was reported as spam and your privilege to send mail has"
+                    + " been suspended pending investigation, we apologize for the inconvenience.")) {
                 return true;
             }
         }
@@ -81,8 +81,8 @@ public class InvitationSenderPage extends BasePage
     }
 
     public void fillForm(final String recipients,
-                         final String subjectLine,
-                         final String messageBody)
+        final String subjectLine,
+        final String messageBody)
     {
         Map<String, String> map = new HashMap<String, String>();
         if (recipients != null) {
@@ -134,9 +134,6 @@ public class InvitationSenderPage extends BasePage
 
         @FindBy(xpath = "//div[@class='message-table']/table")
         private WebElement table;
-
-        @FindBy(xpath = "//div[@class='invitation']/div[@class='invitation invitation-preview']")
-        private WebElement preview;
 
         public String getMessageBoxContent()
         {

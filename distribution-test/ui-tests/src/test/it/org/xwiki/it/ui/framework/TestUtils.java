@@ -19,31 +19,28 @@
  */
 package org.xwiki.it.ui.framework;
 
-import org.junit.Assert;
-
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Collections;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.TimeoutException;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.TimeoutException;
 import org.xwiki.it.ui.framework.elements.ViewPage;
 
 /**
- * Helper methods for testing, not related to a specific Page Object.
- * Also made available to tests classes.
+ * Helper methods for testing, not related to a specific Page Object. Also made available to tests classes.
  * 
  * @version $Id$
  * @since 2.3M1
@@ -53,11 +50,10 @@ public class TestUtils
     private static PersistentTestContext context;
 
     /**
-     * How long to wait before failing a test because an element cannot be found.
-     * Can be overridden with setTimeout.
+     * How long to wait before failing a test because an element cannot be found. Can be overridden with setTimeout.
      */
     private int timeout = 10;
-    
+
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)
     {
@@ -133,8 +129,9 @@ public class TestUtils
     }
 
     /**
-     * After successful completion of this function, you are guarenteed to be logged in as the given user
-     * and on the page passed in pageURL.
+     * After successful completion of this function, you are guarenteed to be logged in as the given user and on the
+     * page passed in pageURL.
+     * 
      * @param pageURL
      */
     public void assertOnPage(final String pageURL)
@@ -173,13 +170,7 @@ public class TestUtils
             put("register_password", password);
             put("register2_password", password);
             put("register_email", "");
-            put("xredirect", getURL("XWiki", "XWikiLogin", "loginsubmit", new HashMap<String, String>(){{
-                put("j_username", username);
-                put("j_password", password);
-                if (pageURL != null && pageURL.length() > 0) {
-                    put("xredirect", pageURL);
-                }
-            }}));
+            put("xredirect", getURLToLoginAndGotoPage(username, password, pageURL));
         }});
         getDriver().get(registerURL);
     }
@@ -219,9 +210,9 @@ public class TestUtils
         getDriver().get(getURLToDeletePage(space, page));
     }
 
-    /** 
+    /**
      * Get the URL to view a page.
-     *
+     * 
      * @param space the space in which the page resides.
      * @param page the name of the page.
      */
@@ -230,9 +221,9 @@ public class TestUtils
         return getURL(space, page, "view");
     }
 
-    /** 
+    /**
      * Get the URL of an action on a page.
-     *
+     * 
      * @param space the space in which the page resides.
      * @param page the name of the page.
      * @param action the action to do on the page.
@@ -242,9 +233,9 @@ public class TestUtils
         return getURL(space, page, action, "");
     }
 
-    /** 
+    /**
      * Get the URL of an action on a page with a specified query string.
-     *
+     * 
      * @param space the space in which the page resides.
      * @param page the name of the page.
      * @param action the action to do on the page.
@@ -252,14 +243,14 @@ public class TestUtils
      */
     public String getURL(String space, String page, String action, String queryString)
     {
-        return baseURL + action + "/" + escapeURL(space) + "/" + escapeURL(page)
-               + ((queryString == null || queryString.length() < 1) ? "" : "?" + queryString);
+        return this.baseURL + action + "/" + escapeURL(space) + "/" + escapeURL(page)
+            + ((queryString == null || queryString.length() < 1) ? "" : "?" + queryString);
     }
 
-    /** 
-     * Get the URL of an action on a page with specified parameters.
-     * If you need to pass multiple parameters with the same key, this function will not work.
-     *
+    /**
+     * Get the URL of an action on a page with specified parameters. If you need to pass multiple parameters with the
+     * same key, this function will not work.
+     * 
      * @param space the space in which the page resides.
      * @param page the name of the page.
      * @param action the action to do on the page.
@@ -275,11 +266,9 @@ public class TestUtils
     }
 
     /**
-     * Encodes a given string so that it may be used as a URL component.
-     * Compatable with javascript decodeURIComponent though more strict than encodeURIComponent
-     *
-     * All characters except [a-zA-Z0-9], '.', '-', '*', '_' are converted to hexadecimal
-     * spaces are substituted by '+'
+     * Encodes a given string so that it may be used as a URL component. Compatable with javascript decodeURIComponent,
+     * though more strict than encodeURIComponent: all characters except [a-zA-Z0-9], '.', '-', '*', '_' are converted
+     * to hexadecimal, and spaces are substituted by '+'.
      * 
      * @param s
      */
@@ -294,8 +283,7 @@ public class TestUtils
     }
 
     /**
-     * This class represents all cookies stored in the browser.
-     * Use with getSession() and setSession()
+     * This class represents all cookies stored in the browser. Use with getSession() and setSession()
      */
     public class Session
     {
@@ -310,7 +298,7 @@ public class TestUtils
 
         private Set<Cookie> getCookies()
         {
-            return cookies;
+            return this.cookies;
         }
     }
 

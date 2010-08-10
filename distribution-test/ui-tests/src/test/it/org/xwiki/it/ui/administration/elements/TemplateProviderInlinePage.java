@@ -35,9 +35,6 @@ import org.xwiki.it.ui.framework.elements.InlinePage;
  */
 public class TemplateProviderInlinePage extends InlinePage
 {
-    @FindBy(name = "title")
-    private WebElement nameInput;
-
     @FindBy(name = "XWiki.TemplateProviderClass_0_template")
     private WebElement templateInput;
 
@@ -46,24 +43,24 @@ public class TemplateProviderInlinePage extends InlinePage
 
     public String getTemplateName()
     {
-        return templateNameInput.getValue();
+        return this.templateNameInput.getValue();
     }
 
     public void setTemplateName(String value)
     {
-        templateNameInput.clear();
-        templateNameInput.sendKeys(value);
+        this.templateNameInput.clear();
+        this.templateNameInput.sendKeys(value);
     }
 
     public String getTemplate()
     {
-        return templateInput.getValue();
+        return this.templateInput.getValue();
     }
 
     public void setTemplate(String value)
     {
-        templateInput.clear();
-        templateInput.sendKeys(value);
+        this.templateInput.clear();
+        this.templateInput.sendKeys(value);
     }
 
     private List<WebElement> getSpacesInput()

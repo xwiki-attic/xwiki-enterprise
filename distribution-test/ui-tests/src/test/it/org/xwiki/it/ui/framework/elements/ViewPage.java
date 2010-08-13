@@ -113,14 +113,14 @@ public class ViewPage extends BasePage
 
     public CreatePagePage createPage()
     {
-        hoverOverMenu("tmSpace");
+        hoverOverMenu("tmCreate");
         this.createPageMenuLink.click();
         return new CreatePagePage();
     }
 
     public CreateSpacePage createSpace()
     {
-        hoverOverMenu("tmWiki");
+        hoverOverMenu("tmCreate");
         this.createSpaceMenuLink.click();
         return new CreateSpacePage();
     }

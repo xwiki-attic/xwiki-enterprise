@@ -88,7 +88,7 @@ public class WatchListTest extends AbstractXWikiTestCase
 
         // Watch Test.TestWatchThisPage
         createPage("Test", "TestWatchThisPage", "TestWatchThisPage selenium");
-        clickLinkWithText("Watch", false);
+        clickLinkWithText("Watch Page", false);
 
         // Watch TestWatchWholeSpace
         createPage("TestWatchWholeSpace", "Test1", "TestWatchWholeSpace selenium");

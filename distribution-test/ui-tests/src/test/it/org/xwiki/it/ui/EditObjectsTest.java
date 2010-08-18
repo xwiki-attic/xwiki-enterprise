@@ -21,6 +21,7 @@ package org.xwiki.it.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
@@ -28,6 +29,7 @@ import org.xwiki.it.ui.framework.elements.FormElement;
 import org.xwiki.it.ui.framework.elements.ViewPage;
 import org.xwiki.it.ui.framework.elements.editor.ClassEditPage;
 import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
+import org.xwiki.it.ui.framework.elements.editor.StaticListClassEditElement;
 import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 
 /**
@@ -148,6 +150,58 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         oep.switchToEdit("Test", "EditObjectsTestObject");
         vp = oep.clickSaveAndView();
         Assert.assertEquals("this is the content: 2", vp.getContent());
+    }
+
+    /**
+     * Prove that a list can be changed from relational storage to plain storage and back without database corruption.
+     * XWIKI-299 test
+     * @Ignored because it's failing.
+     */
+    @Ignore
+    @Test
+    public void testChangeListMultipleSelect()
+    {
+        // Create class page
+        WikiEditPage wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestClass");
+        wep.setContent("this is the content");
+        ViewPage vp = wep.clickSaveAndView();
+
+        // Add class
+        ClassEditPage cep = vp.clickEditClass();
+        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StaticListClass");
+        StaticListClassEditElement slcee = cep.getStaticListClassEditElement("prop");
+        slcee.setMultiSelect(false);
+        slcee.setValues("choice 1|choice 2|choice 3|choice 4|choice 5");
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Create object page
+        wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep.setContent("this is the content: {{velocity}}$doc.display('prop'){{/velocity}}");
+        vp = wep.clickSaveAndView();
+
+        // Add object
+        ObjectEditPage oep = vp.clickEditObjects();
+        FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
+        objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "choice 3");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: choice 3", vp.getContent());
+
+        // Change list to a multiple select.
+        cep = new ClassEditPage();
+        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep.getStaticListClassEditElement("prop").setMultiSelect(true);
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Verify conversion
+        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
+            By.id("Test.EditObjectsTestClass_0_prop"), "choice 3|choice 4");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: choice 3 choice 4", vp.getContent());
     }
 
     @Test

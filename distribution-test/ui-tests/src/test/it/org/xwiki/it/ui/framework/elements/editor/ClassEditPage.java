@@ -117,6 +117,15 @@ public class ClassEditPage extends BasePage
         return new DatabaseListClassEditElement(getForm(), propertyName);
     }
 
+    public StaticListClassEditElement getStaticListClassEditElement(String propertyName)
+    {
+        // Make the element visible before returning it
+        By locator = By.id("xproperty_" + propertyName + "_title");
+        waitUntilElementIsVisible(locator);
+        getDriver().findElement(locator).click();
+        return new StaticListClassEditElement(getForm(), propertyName);
+    }
+
     public NumberClassEditElement getNumberClassEditElement(String propertyName)
     {
         // Make the element visible before returning it

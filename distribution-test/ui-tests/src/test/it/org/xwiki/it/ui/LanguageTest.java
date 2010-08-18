@@ -26,6 +26,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import org.xwiki.it.ui.administration.elements.AdminSectionPage;
 import org.xwiki.it.ui.administration.elements.AdministrationPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
@@ -127,6 +129,35 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
         test = getUtil().escapeURL("'><!-- " + chars + " --><script src='");
         getUtil().gotoPage("Main", "Test", "view", "language=" + test);
         Assert.assertTrue(getDriver().getPageSource().indexOf(chars) < 0);
+    }
+
+    @Test
+    public void testHeaderCorrectLanguage()
+    {
+        setMultilingualAndEnglish();
+
+        getUtil().gotoPage("Main", "Test");
+        checkLanguageTagsArePresent("en");
+
+        getUtil().gotoPage("Main", "Test", "view", "language=fr");
+        checkLanguageTagsArePresent("fr");
+    }
+
+    /**
+     * Assert that the given <code>language</code> is present in various attributes and tags on the page
+     * 
+     * @param language the language to use, should be a valid language, e.g. "en"
+     */
+    private void checkLanguageTagsArePresent(String language)
+    {
+        WebElement html = getDriver().findElement(By.tagName("html"));
+        Assert.assertEquals(language, html.getAttribute("lang"));
+        Assert.assertEquals(language, html.getAttribute("xml:lang"));
+
+        String content = getDriver().getPageSource();
+        Assert.assertTrue(content.contains("<meta name=\"gwt:property\" content=\"locale=" + language + "\">"));
+        Assert.assertTrue(content.contains("<meta name=\"language\" content=\"" + language + "\">"));
+        Assert.assertTrue(content.contains("language=" + language));
     }
 
     /**

@@ -26,7 +26,7 @@ import org.xwiki.it.ui.framework.elements.FormElement;
 /**
  * Represents a StaticListClass property form.
  * 
- * @version $Id:$
+ * @version $Id$
  * @since 2.4M2
  */
 public class StaticListClassEditElement extends BaseElement
@@ -34,6 +34,27 @@ public class StaticListClassEditElement extends BaseElement
     private final String propertyName;
 
     private final FormElement form;
+
+    /** The display type for inputting to setDisplayType. */
+    public enum DisplayType
+    {
+        INPUT("input"),
+        SELECT("select"),
+        RADIO("radio"),
+        CHECKBOX("checkbox");
+
+        private final String id;
+
+        private DisplayType(final String id)
+        {
+            this.id = id;
+        }
+
+        public String toString()
+        {
+            return this.id;
+        }
+    }
 
     public StaticListClassEditElement(FormElement form, String propertyName)
     {
@@ -49,6 +70,11 @@ public class StaticListClassEditElement extends BaseElement
     public void setMultiSelect(boolean isMultiSelect)
     {
         this.form.setFieldValue(By.id(this.propertyName + "_multiSelect"), isMultiSelect ? "true" : "false");
+    }
+
+    public void setDisplayType(DisplayType type)
+    {
+        this.form.setFieldValue(By.id(this.propertyName + "_displayType"), type.toString());
     }
 
     public void setRelationalStorage(boolean isRelationalStorage)

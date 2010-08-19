@@ -204,6 +204,70 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("this is the content: choice 3 choice 4", vp.getContent());
     }
 
+    /**
+     * Prove that a list can be changed from relational storage to plain storage and back without database corruption.
+     * XWIKI-1621: Changing parameters of list properties fails
+     */
+    @Test
+    public void testChangeListTypeRelationalStorage()
+    {
+        // Create class page
+        WikiEditPage wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestClass");
+        wep.setContent("this is the content");
+        ViewPage vp = wep.clickSaveAndView();
+
+        // Add class
+        ClassEditPage cep = vp.clickEditClass();
+        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StaticListClass");
+        StaticListClassEditElement slcee = cep.getStaticListClassEditElement("prop");
+        slcee.setMultiSelect(true);
+        slcee.setDisplayType(StaticListClassEditElement.DisplayType.INPUT);
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Create object page
+        wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep.setContent("this is the content: {{velocity}}$doc.display('prop'){{/velocity}}");
+        vp = wep.clickSaveAndView();
+
+        // Add object
+        ObjectEditPage oep = vp.clickEditObjects();
+        FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
+        objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "this|that|other");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: this that other", vp.getContent());
+
+        // Change list to relational storage.
+        cep = new ClassEditPage();
+        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep.getStaticListClassEditElement("prop").setRelationalStorage(true);
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Make sure we can still edit the object.
+        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
+            By.id("Test.EditObjectsTestClass_0_prop"), "this|other");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: this other", vp.getContent());
+
+        // Change list to non-relational storage.
+        cep = new ClassEditPage();
+        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep.getStaticListClassEditElement("prop").setRelationalStorage(false);
+        vp = cep.clickSaveAndView();
+        Assert.assertEquals("this is the content", vp.getContent());
+
+        // Make sure we can still edit the object.
+        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
+            By.id("Test.EditObjectsTestClass_0_prop"), "that|other");
+        vp = oep.clickSaveAndView();
+        Assert.assertEquals("this is the content: that other", vp.getContent());
+    }
+
     @Test
     public void testObjectAddAndRemove()
     {

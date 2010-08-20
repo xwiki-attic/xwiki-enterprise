@@ -41,6 +41,20 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-wiki</artifactId>
+      <version>${pom.version}</version>
+      <type>xar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${pom.version}</version>
+      <type>war</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.platform.tools</groupId>
       <artifactId>xwiki-standards-validator</artifactId>
       <version>${platform.tool.standards-validator.version}</version>

@@ -200,11 +200,77 @@
                 <name>browser</name>
                 <value>${browser}</value>
               </property>
-              <!-- Used only in webstandards tests -->
+              <!-- Used only in escaping tests -->
+              <property>
+                <name>filesProduceNoOutput</name><!-- NOTE: Only affects automatic tests -->
+                <!-- list of file names -->
+                <value>
+                    skins/albatross/macros.vm
+                    skins/colibri/editmodes.vm
+                    skins/colibri/editpanelsvars.vm
+                    skins/toucan/editmodes.vm
+                    skins/toucan/editpanelsvars.vm
+                    templates/adduorg.vm
+                    templates/colorThemeInit.vm
+                    templates/contentmenu.vm <!-- empty placeholder -->
+                    templates/deprecatedVars.vm
+                    templates/editpanelsvars.vm
+                    templates/fakeleftpanels.vm
+                    templates/fakerightpanels.vm
+                    templates/frequentlyUsedDocs.vm
+                    templates/layoutExtraVars.vm <!-- empty placeholder -->
+                    templates/layoutvars.vm
+                    templates/macros.vm
+                    templates/shortcuts.vm <!-- empty placeholder -->
+                    templates/skinvariables.vm
+                    templates/xwikivars.vm
+                </value>
+              </property>
+              <property>
+                <name>patternExcludeFiles</name><!-- NOTE: Only affects automatic tests -->
+                <!-- list of regex patterns -->
+                <value>
+                  <!-- TODO Files that must be tested manually
+                    -->
+                    Blog/Publisher\.xml <!-- expects xredirect to be a valid URL -->
+                    Panels/CreatePanel\.xml <!-- returns status 409 (Conflict) -->
+                    templates/changemyavatar\.vm <!-- target page must be user page -->
+                    templates/createinline\.vm <!-- expects xredirect to be a valid URL -->
+                    templates/direct\.vm <!-- deprecated and quite useless -->
+                    templates/leftpanels\.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
+                    templates/login\.vm <!-- expects xredirect to be a valid URL -->
+                    templates/passwd\.vm <!-- must be tested on a user document, otherwise returns status 400 -->
+                    templates/plain\.vm <!-- need raw=1 -->
+                    templates/recyclebinlist\.vm <!-- page must have been deleted before -->
+                    templates/rendercontent\.vm <!-- page must exist, otherwise empty -->
+                    templates/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->
+                    templates/textarea_wysiwyg\.vm <!-- probably need to set default editor to wysiwyg -->
+                  <!-- False positives
+                    -->
+                    templates/accessdenied\.vm <!-- simply returns 403 -->
+                    templates/ad\.vm <!-- not used, needs special configuration -->
+                    templates/analytics\.vm <!-- commented out -->
+                    templates/attach\.vm <!-- only redirects to attachments.vm -->
+                    templates/deleteversionsconfirm\.vm <!-- needs both rev1 and rev2, otherwise returns 400 (Bad Request) -->
+                    templates/docalreadyexists\.vm <!-- returns 409 and shows an error message -->
+                    templates/get\.vm <!-- just renders the page content using rendercontent.vm -->
+                    templates/templatedoesnotexist\.vm <!-- returns 400 and shows an error message -->
+                    templates/textarea_text\.vm <!-- empty, not used any more -->
+                    templates/watch\.vm <!-- expects xredirect to be a valid URL, does not display anything -->
+                    templates/wysiwyg\.vm <!-- redirects to editwysiwyg.vm, recursive redirection error with some parameters -->
+                    templates/xpart\.vm <!-- avoid recursive include -->
+                </value>
+              </property>
+              <property>
+                <name>pathToXWikiWar</name>
+                <value>com/xpn/xwiki/products/xwiki-enterprise-web/${pom.version}/xwiki-enterprise-web-${pom.version}.war</value>
+              </property>
+              <!-- Used in webstandards tests and escaping tests -->
               <property>
                 <name>pathToXWikiXar</name>
                 <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${pom.version}/xwiki-enterprise-wiki-${pom.version}.xar</value>
               </property>
+              <!-- Used only in webstandards tests -->
               <property>
                 <name>urlsToTestAsAdmin</name>
                 <value>
@@ -436,5 +502,6 @@
     <module>webstandards-tests</module>
     <module>rest-tests</module>
     <module>cluster-tests</module>
+    <module>escaping-tests</module>
   </modules>
 </project>

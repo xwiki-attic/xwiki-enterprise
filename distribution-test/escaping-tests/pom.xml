@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xpn.xwiki.products</groupId>
+    <artifactId>xwiki-enterprise-test</artifactId>
+    <version>2.5-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-enterprise-test-escaping</artifactId>
+  <name>XWiki Products - Enterprise - Escaping Functional Tests</name>
+  <packaging>pom</packaging>
+  <description>XWiki Products - Enterprise - Escaping Functional Tests</description>
+  <dependencies>
+    <dependency>
+      <groupId>cpsuite</groupId>
+      <artifactId>cpsuite</artifactId>
+      <version>1.2.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform.tools</groupId>
+      <artifactId>xwiki-standards-validator</artifactId>
+      <version>${platform.tool.standards-validator.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Step 1: Compile the JUnit Tests and copy test resources files -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+      <!-- Step 2: Create jar containing integration tests which will be installed -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <!-- Step 3: Unpack the application -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <!-- Step 4: Start XWiki, Execute the tests and Stop XWiki -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration> 
+          <!-- Display report on screen when all tests are completed -->  
+          <useFile>false</useFile>
+          <reportFormat>plain</reportFormat>
+          <!-- FIXME these properties must be moved to ../pom.xml -->
+          <systemProperties>
+              <!-- Used only in escaping tests -->
+              <property>
+                <name>filesProduceNoOutput</name><!-- NOTE: Only affects automatic tests -->
+                <!-- list of file names -->
+                <value>
+                    skins/albatross/macros.vm
+                    skins/colibri/editmodes.vm
+                    skins/colibri/editpanelsvars.vm
+                    skins/toucan/editmodes.vm
+                    skins/toucan/editpanelsvars.vm
+                    templates/adduorg.vm
+                    templates/colorThemeInit.vm
+                    templates/contentmenu.vm <!-- empty placeholder -->
+                    templates/deprecatedVars.vm
+                    templates/editpanelsvars.vm
+                    templates/fakeleftpanels.vm
+                    templates/fakerightpanels.vm
+                    templates/frequentlyUsedDocs.vm
+                    templates/layoutExtraVars.vm <!-- empty placeholder -->
+                    templates/layoutvars.vm
+                    templates/macros.vm
+                    templates/shortcuts.vm <!-- empty placeholder -->
+                    templates/skinvariables.vm
+                    templates/xwikivars.vm
+                </value>
+              </property>
+              <property>
+                <name>patternExcludeFiles</name><!-- NOTE: Only affects automatic tests -->
+                <!-- list of regex patterns -->
+                <value>
+                  <!-- TODO Files that must be tested manually
+                    -->
+                    Blog/Publisher\.xml <!-- expects xredirect to be a valid URL -->
+                    Panels/CreatePanel\.xml <!-- returns status 409 (Conflict) -->
+                    templates/changemyavatar\.vm <!-- target page must be user page -->
+                    templates/createinline\.vm <!-- expects xredirect to be a valid URL -->
+                    templates/direct\.vm <!-- deprecated and quite useless -->
+                    templates/leftpanels\.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
+                    templates/login\.vm <!-- expects xredirect to be a valid URL -->
+                    templates/passwd\.vm <!-- must be tested on a user document, otherwise returns status 400 -->
+                    templates/plain\.vm <!-- need raw=1 -->
+                    templates/recyclebinlist\.vm <!-- page must have been deleted before -->
+                    templates/rendercontent\.vm <!-- page must exist, otherwise empty -->
+                    templates/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->
+                    templates/textarea_wysiwyg\.vm <!-- probably need to set default editor to wysiwyg -->
+                  <!-- False positives
+                    -->
+                    templates/accessdenied\.vm <!-- simply returns 403 -->
+                    templates/ad\.vm <!-- not used, needs special configuration -->
+                    templates/analytics\.vm <!-- commented out -->
+                    templates/attach\.vm <!-- only redirects to attachments.vm -->
+                    templates/deleteversionsconfirm\.vm <!-- needs both rev1 and rev2, otherwise returns 400 (Bad Request) -->
+                    templates/docalreadyexists\.vm <!-- returns 409 and shows an error message -->
+                    templates/get\.vm <!-- just renders the page content using rendercontent.vm -->
+                    templates/templatedoesnotexist\.vm <!-- returns 400 and shows an error message -->
+                    templates/textarea_text\.vm <!-- empty, not used any more -->
+                    templates/watch\.vm <!-- expects xredirect to be a valid URL, does not display anything -->
+                    templates/wysiwyg\.vm <!-- redirects to editwysiwyg.vm, recursive redirection error with some parameters -->
+                    templates/xpart\.vm <!-- avoid recursive include -->
+                </value>
+              </property>
+              <property>
+                <name>pathToXWikiWar</name>
+                <value>com/xpn/xwiki/products/xwiki-enterprise-web/${pom.version}/xwiki-enterprise-web-${pom.version}.war</value>
+              </property>
+              <!-- Used in webstandards tests and escaping tests -->
+              <property>
+                <name>pathToXWikiXar</name>
+                <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${pom.version}/xwiki-enterprise-wiki-${pom.version}.xar</value>
+              </property>
+              <!-- FIXME remove once moved to parent pom.xml (duplicated) -->
+              <property>
+                <name>pattern</name>
+                <value>${pattern}</value>
+              </property>
+              <property>
+                <name>xwikiPort</name>
+                <value>${port}</value>
+              </property>
+              <property>
+                <name>xwikiStopPort</name>
+                <value>${stopport}</value>
+              </property>
+              <property>
+                <name>seleniumPort</name>
+                <value>${seleniumPort}</value>
+              </property>
+               <property>
+                <name>xwikiExecutionDirectory</name>
+                <value>${basedir}/target/xwiki-enterprise-jetty-${xwiki.db}-${pom.version}</value>
+              </property>
+              <property>
+                <name>xwikiExecutionStartCommand</name>
+                <value>${xwikiExecutionStartCommand}</value>
+              </property>
+              <property>
+                <name>xwikiExecutionStopCommand</name>
+                <value>${xwikiExecutionStopCommand}</value>
+              </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

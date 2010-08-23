@@ -36,7 +36,7 @@ import org.xwiki.validator.Validator;
  * test input string (see {@link #getTestString()}).
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public class XMLEscapingValidator implements Validator
 {

@@ -50,7 +50,7 @@ import org.xwiki.validator.ValidationError;
  * </ul></p>
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 @RunWith(ArchiveSuite.class)
 public class TemplateTest extends AbstractVelocityEscapingTest

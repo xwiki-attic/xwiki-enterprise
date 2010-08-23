@@ -31,7 +31,7 @@ import org.junit.runners.model.InitializationError;
  * test suite.
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public class FileTestRunner extends BlockJUnit4ClassRunner
 {

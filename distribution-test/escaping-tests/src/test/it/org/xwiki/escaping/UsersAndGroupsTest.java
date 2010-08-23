@@ -33,7 +33,7 @@ import org.xwiki.escaping.framework.XMLEscapingValidator;
  * Manual tests for user and group name escaping. Creates a test group and user for the test run.
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public class UsersAndGroupsTest extends AbstractManualTest
 {

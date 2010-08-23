@@ -36,7 +36,7 @@ import org.xwiki.escaping.framework.XMLEscapingValidator;
  * automatic test builder.
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public class ManualTemplateTest extends AbstractManualTest
 {

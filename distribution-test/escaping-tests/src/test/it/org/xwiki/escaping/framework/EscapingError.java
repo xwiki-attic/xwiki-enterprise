@@ -28,7 +28,7 @@ import org.xwiki.validator.ValidationError;
  * Error thrown in various escaping tests. Can handle a list of validation errors.
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public class EscapingError extends AssertionError
 {

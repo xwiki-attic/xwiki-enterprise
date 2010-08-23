@@ -39,7 +39,7 @@ import org.xwiki.escaping.framework.XMLEscapingValidator;
  * - sometimes, templates need the document to be in syntax 1.0
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 @RunWith(ClasspathSuite.class)
 public class AllTests

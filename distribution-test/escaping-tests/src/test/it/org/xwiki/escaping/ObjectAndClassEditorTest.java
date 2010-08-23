@@ -33,7 +33,7 @@ import org.xwiki.escaping.framework.XMLEscapingValidator;
  * names.
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public class ObjectAndClassEditorTest extends AbstractManualTest
 {

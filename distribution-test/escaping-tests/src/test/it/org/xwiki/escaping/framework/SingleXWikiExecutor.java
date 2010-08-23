@@ -28,7 +28,7 @@ import org.xwiki.test.XWikiExecutor;
  * last call respectively.
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public final class SingleXWikiExecutor extends XWikiExecutor
 {

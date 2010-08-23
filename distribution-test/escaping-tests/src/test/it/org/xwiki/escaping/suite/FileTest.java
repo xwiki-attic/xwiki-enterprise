@@ -37,7 +37,7 @@ import java.io.Reader;
  * initialization phase.</p>
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public interface FileTest
 {

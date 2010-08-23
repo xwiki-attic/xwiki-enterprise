@@ -44,7 +44,7 @@ import org.junit.Assume;
  * -Dpattern=regex maven command line option.</p>
  * 
  * @version $Id$
- * @since 2.5
+ * @since 2.5M1
  */
 public abstract class AbstractManualTest extends AbstractEscapingTest
 {

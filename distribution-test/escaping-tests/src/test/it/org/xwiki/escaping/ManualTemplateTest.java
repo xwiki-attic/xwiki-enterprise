@@ -60,16 +60,23 @@ public class ManualTemplateTest extends AbstractManualTest
         AbstractEscapingTest.setMultiLanguageMode(false);
     }
 
-    // already covered
-    // XWIKI-5205
-    // XWIKI-5209
-    // XWIKI-5193 (space)
-    // XWIKI-5344 (space)
-    // XWIKI-5204
-    // testImported()
+    @Test
+    public void testVersionSummary()
+    {
+        String space = "Test";
+        String page = "TestVersionSummary";
+        // create a page with test string in the edit comment
+        String url = createUrl("save", space, page, params(kv("title", "Test"),
+                                                           kv("content", "Test"),
+                                                           test("comment"),
+                                                           kv("action_save", "Save+%26+View")));
+        AbstractEscapingTest.getUrlContent(url);
+        // schedule for deletion
+        deleteAfterwards(space, page);
 
-    // too complicated to cover
-    // testVersionSummary()
+        // test the history pane
+        checkUnderEscaping(createUrl(null, space, page, params(kv("viewer", "history"))), "Version summary");
+    }
 
     @Test
     public void testEditReflectedXSS()

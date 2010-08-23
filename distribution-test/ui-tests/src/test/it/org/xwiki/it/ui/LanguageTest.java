@@ -19,15 +19,12 @@
  */
 package org.xwiki.it.ui;
 
-import java.io.UnsupportedEncodingException;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import org.xwiki.it.ui.administration.elements.AdminSectionPage;
 import org.xwiki.it.ui.administration.elements.AdministrationPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
@@ -110,25 +107,6 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
         Assert.assertTrue("Header doesn't contain \"Quitter la session\"", isPageInFrench());
-    }
-
-    @Test
-    public void testUnescapedLanguageInLinks() throws UnsupportedEncodingException
-    {
-        setMultilingualAndEnglish();
-
-        // XSKINX-36
-        String chars = "<>'&"; // no ", since it breaks output elsewhere
-        // Since getPageSource returns a cleaned-up version of the source, and not the real HTML source, we must pass
-        // something that doesn't break HTML validity; try breaking CSS links
-        String test = getUtil().escapeURL("'/><!-- " + chars + " --><link href='");
-        getUtil().gotoPage("Main", "Test", "view", "language=" + test);
-        Assert.assertTrue(getDriver().getPageSource().indexOf(chars) < 0);
-
-        // Also try breaking script links
-        test = getUtil().escapeURL("'><!-- " + chars + " --><script src='");
-        getUtil().gotoPage("Main", "Test", "view", "language=" + test);
-        Assert.assertTrue(getDriver().getPageSource().indexOf(chars) < 0);
     }
 
     @Test

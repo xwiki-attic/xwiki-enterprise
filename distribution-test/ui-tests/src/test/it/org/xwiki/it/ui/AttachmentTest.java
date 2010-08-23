@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -37,7 +36,7 @@ import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 /**
  * Test saving and downloading of attachments.
  * 
- * @version $Id:$
+ * @version $Id$
  * @since 2.5M1
  */
 public class AttachmentTest extends AbstractAdminAuthenticatedTest
@@ -67,7 +66,6 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
      * @Ignored because the bug isn't fixed yet.
      */
     @Test
-    @Ignore
     public void testDocumentAddAttachment()
     {
         final String filename = "littleAttachment.txt";
@@ -101,7 +99,6 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
      * @Ignored because the bug isn't fixed yet.
      */
     @Test
-    @Ignore
     public void testDocumentAddTwoAttachments()
     {
         final String filename1 = "attach1.txt";

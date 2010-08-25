@@ -31,7 +31,7 @@ import org.xwiki.it.ui.framework.elements.BaseElement;
 /**
  * Represents the actions possible on the Attachment Pane at the bottom of a page.
  * 
- * @version $Id:$
+ * @version $Id$
  * @since 2.5M1
  */
 public class AttachmentsPane extends BaseElement

@@ -26,6 +26,7 @@ import org.xwiki.it.ui.administration.elements.AdministrationPage;
 import org.xwiki.it.ui.administration.elements.GlobalRightsPage;
 import org.xwiki.it.ui.framework.AbstractTest;
 import org.xwiki.it.ui.framework.elements.LoginPage;
+import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.it.ui.xe.elements.HomePage;
 
 /**
@@ -113,5 +114,32 @@ public class LoginTest extends AbstractTest
             GlobalRightsPage rights = admin.clickGlobalRightsSection();
             rights.unforceAuthenticatedView();
         }
+    }
+
+    @Test
+    public void testRedirectPreservesPOSTParameters() throws InterruptedException
+    {
+        String test = "Test string " + System.currentTimeMillis();
+        final String space = "Main";
+        final String page = "POSTTest";
+        LoginPage loginPage = this.homePage.clickLogin();
+        loginPage.loginAsAdmin();
+        // start editing a page
+        WikiEditPage editPage = new WikiEditPage();
+        editPage.switchToEdit(space, page);
+        editPage.setTitle(test);
+        editPage.setContent(test);
+        // emulate expired session: delete the cookies
+        getDriver().manage().deleteAllCookies();
+        // try to save
+        editPage.clickSaveAndView();
+        // we should have been redirected to login
+        Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL("XWiki", "XWikiLogin", "login")));
+        loginPage.loginAsAdmin();
+        // we should have been redirected back to view, and the page should have been saved
+        Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL(space, page)));
+        editPage.switchToEdit(space, page);
+        Assert.assertEquals(test, editPage.getTitle());
+        Assert.assertEquals(test, editPage.getContent());
     }
 }

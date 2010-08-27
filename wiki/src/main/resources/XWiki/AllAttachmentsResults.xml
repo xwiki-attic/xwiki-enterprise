@@ -40,11 +40,10 @@
   #set ($space = $request.get('doc.space'))
   #set ($filename = $request.filename)
   #set ($formatDate = 'yyyy MMMM dd, HH:mm')
+  #set ($sql = '')
   #if ($title)
     #set ($title = $title.trim().toLowerCase())
-    #set ($sql = "and lower(doc.fullName) like '%${title}%' ")
-  #else
-    #set ($sql = "and lower(doc.fullName) &lt;&gt; '' ")
+    #set ($sql = $sql + "and lower(doc.fullName) like '%${title}%' ")
   #end
   #if ($author)
     #set ($author = $author.trim().toLowerCase())

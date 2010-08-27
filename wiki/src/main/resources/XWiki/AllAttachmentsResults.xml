@@ -43,7 +43,7 @@
   #set ($sql = '')
   #if ($title)
     #set ($title = $title.trim().toLowerCase())
-    #set ($sql = $sql + "and lower(doc.fullName) like '%${title}%' ")
+    #set ($sql = $sql + "and lower(doc.name) like '%${title}%' ")
   #end
   #if ($author)
     #set ($author = $author.trim().toLowerCase())

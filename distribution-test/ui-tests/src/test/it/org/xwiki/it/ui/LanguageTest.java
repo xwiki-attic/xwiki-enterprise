@@ -114,7 +114,8 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     {
         setMultilingualAndEnglish();
 
-        getUtil().gotoPage("Main", "Test");
+        // if we don't use language=default, the value stored in cookies is used, which might be wrong
+        getUtil().gotoPage("Main", "Test", "view", "language=default");
         checkLanguageTagsArePresent("en");
 
         getUtil().gotoPage("Main", "Test", "view", "language=fr");

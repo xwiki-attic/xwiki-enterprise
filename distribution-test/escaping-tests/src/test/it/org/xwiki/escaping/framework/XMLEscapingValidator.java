@@ -110,12 +110,12 @@ public class XMLEscapingValidator implements Validator
         for (String line : document) {
             int idx = 0;
             while ((idx = line.indexOf(TEST_APOS, idx)) >= 0) {
-                errors.add(new ValidationError(Type.FATAL, lineNr, idx, "Unescaped apostrophe character"));
+                errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped apostrophe character"));
                 idx++;
             }
             idx = 0;
             while ((idx = line.indexOf(TEST_QUOT, idx)) >= 0) {
-                errors.add(new ValidationError(Type.FATAL, lineNr, idx, "Unescaped quote character"));
+                errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped quote character"));
                 idx++;
             }
             // TODO also check <> and \ for JavaScript

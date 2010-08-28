@@ -233,7 +233,6 @@
                   <!-- TODO Files that must be tested manually
                     -->
                     Blog/Publisher\.xml <!-- expects xredirect to be a valid URL -->
-                    Panels/CreatePanel\.xml <!-- returns status 409 (Conflict) -->
                     templates/changemyavatar\.vm <!-- target page must be user page -->
                     templates/createinline\.vm <!-- expects xredirect to be a valid URL -->
                     templates/direct\.vm <!-- deprecated and quite useless -->

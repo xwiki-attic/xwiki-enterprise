@@ -267,6 +267,10 @@ public abstract class AbstractEscapingTest implements FileTest
                     // do not fail on 401 (unauthorized), used in some tests
                     System.out.println("WARNING, Ignoring status 401 (unauthorized) for URL: " + url);
                     break;
+                case HttpStatus.SC_CONFLICT:
+                    // do not fail on 409 (conflict), used in some templates
+                    System.out.println("WARNING, Ignoring status 409 (conflict) for URL: " + url);
+                    break;
                 case HttpStatus.SC_NOT_FOUND:
                     // ignore 404 (the page is still rendered)
                     break;

@@ -57,7 +57,7 @@ public class FileTestRunner extends BlockJUnit4ClassRunner
     @Override
     protected Object createTest() throws Exception
     {
-        return test;
+        return this.test;
     }
 
     /**
@@ -67,7 +67,7 @@ public class FileTestRunner extends BlockJUnit4ClassRunner
     @Override
     protected String getName()
     {
-        return test.toString();
+        return this.test.toString();
     }
 
     /**
@@ -77,7 +77,7 @@ public class FileTestRunner extends BlockJUnit4ClassRunner
     @Override
     protected String testName(FrameworkMethod method)
     {
-        return String.format("%-60s  %s", test.toString(), method.getName());
+        return String.format("%-60s  %s", this.test.toString(), method.getName());
     }
 }
 

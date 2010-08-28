@@ -158,10 +158,10 @@ public class TemplateTest extends AbstractVelocityEscapingTest
      */
     protected String createUrl(String space, String page, String parameter, String value)
     {
-        String template = name.replaceAll("^.+/", "");
+        String template = this.name.replaceAll("^.+/", "");
         String skin = "default";
-        if (name.startsWith("skins")) {
-            skin = name.replaceFirst("^\\w+/", "").replaceAll("/.+$", "");
+        if (this.name.startsWith("skins")) {
+            skin = this.name.replaceFirst("^\\w+/", "").replaceAll("/.+$", "");
         }
         HashMap<String, String> parameters = new HashMap<String, String>();
         parameters.put("skin", skin);

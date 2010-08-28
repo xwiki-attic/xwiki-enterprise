@@ -165,7 +165,7 @@ public class ArchiveSuite extends ParentRunner<Runner>
     @Override
     protected List<Runner> getChildren()
     {
-        return runners;
+        return this.runners;
     }
 
     /**
@@ -195,10 +195,10 @@ public class ArchiveSuite extends ParentRunner<Runner>
     @Override
     protected String getName()
     {
-        String fileName = archivePath;
-        int idx = archivePath.lastIndexOf("/");
-        if (idx >= 0 && idx < archivePath.length() - 2) {
-            fileName = archivePath.substring(idx + 1);
+        String fileName = this.archivePath;
+        int idx = this.archivePath.lastIndexOf("/");
+        if (idx >= 0 && idx < this.archivePath.length() - 2) {
+            fileName = this.archivePath.substring(idx + 1);
         }
         return getClass().getSimpleName() + "(" + fileName + ")\n";
     }

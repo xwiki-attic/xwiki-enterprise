@@ -100,29 +100,29 @@ public class XMLEscapingValidator implements Validator
     public List<ValidationError> validate()
     {
         clear();
-        if (document.size() == 0 && !shouldBeEmpty) {
-            errors.add(new ValidationError(Type.WARNING, 0, 0, "Unexpected empty response"));
+        if (this.document.size() == 0 && !this.shouldBeEmpty) {
+            this.errors.add(new ValidationError(Type.WARNING, 0, 0, "Unexpected empty response"));
         }
-        if (document.size() > 0 && shouldBeEmpty) {
-            errors.add(new ValidationError(Type.WARNING, 0, 0, "Unexpected non-empty content"));
+        if (this.document.size() > 0 && this.shouldBeEmpty) {
+            this.errors.add(new ValidationError(Type.WARNING, 0, 0, "Unexpected non-empty content"));
         }
         int lineNr = 1;
-        for (String line : document) {
+        for (String line : this.document) {
             int idx = 0;
             while ((idx = line.indexOf(TEST_APOS, idx)) >= 0) {
-                errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped apostrophe character"));
+                this.errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped apostrophe character"));
                 idx++;
             }
             idx = 0;
             while ((idx = line.indexOf(TEST_QUOT, idx)) >= 0) {
-                errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped quote character"));
+                this.errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped quote character"));
                 idx++;
             }
             // TODO also check <> and \ for JavaScript
             // TODO check for overescaping
             lineNr++;
         }
-        return errors;
+        return this.errors;
     }
 
     /**
@@ -131,7 +131,7 @@ public class XMLEscapingValidator implements Validator
      */
     public List<ValidationError> getErrors()
     {
-        return errors;
+        return this.errors;
     }
 
     /**
@@ -140,7 +140,7 @@ public class XMLEscapingValidator implements Validator
      */
     public void clear()
     {
-        errors = new ArrayList<ValidationError>();
+        this.errors = new ArrayList<ValidationError>();
     }
 
     /**

@@ -109,7 +109,7 @@ public abstract class AbstractEscapingTest implements FileTest
      */
     protected AbstractEscapingTest(Pattern fileNameMatcher)
     {
-        namePattern = fileNameMatcher;
+        this.namePattern = fileNameMatcher;
     }
 
     /**
@@ -178,7 +178,7 @@ public abstract class AbstractEscapingTest implements FileTest
      */
     protected boolean fileNameMatches(String fileName)
     {
-        return namePattern != null && namePattern.matcher(fileName).matches();
+        return this.namePattern != null && this.namePattern.matcher(fileName).matches();
     }
 
     /**
@@ -337,7 +337,7 @@ public abstract class AbstractEscapingTest implements FileTest
     @Override
     public String toString()
     {
-        return name + (shouldProduceOutput ? " " : " (NO OUTPUT) ") + userInput;
+        return this.name + (this.shouldProduceOutput ? " " : " (NO OUTPUT) ") + this.userInput;
     }
 
     /**
@@ -352,7 +352,7 @@ public abstract class AbstractEscapingTest implements FileTest
         System.out.println("Testing URL: " + url);
 
         InputStream content = AbstractEscapingTest.getUrlContent(url);
-        String where = "  Template: " + name + "\n  URL: " + url;
+        String where = "  Template: " + this.name + "\n  URL: " + url;
         Assert.assertNotNull("Response is null\n" + where, content);
         XMLEscapingValidator validator = new XMLEscapingValidator();
         validator.setShouldBeEmpty(!this.shouldProduceOutput);
@@ -361,7 +361,7 @@ public abstract class AbstractEscapingTest implements FileTest
             return validator.validate();
         } catch (EscapingError error) {
             // most probably false positive, generate an error instead of failing the test
-            throw new RuntimeException(EscapingError.formatMessage(error.getMessage(), name, url, null));
+            throw new RuntimeException(EscapingError.formatMessage(error.getMessage(), this.name, url, null));
         }
     }
 
@@ -377,7 +377,7 @@ public abstract class AbstractEscapingTest implements FileTest
     {
         List<ValidationError> errors = getUnderEscapingErrors(url);
         if (!errors.isEmpty()) {
-            throw new EscapingError("Escaping test for " + description + " failed.", name, url, errors);
+            throw new EscapingError("Escaping test for " + description + " failed.", this.name, url, errors);
         }
     }
 

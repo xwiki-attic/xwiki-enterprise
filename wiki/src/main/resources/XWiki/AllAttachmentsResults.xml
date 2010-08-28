@@ -40,48 +40,55 @@
   #set ($space = $request.get('doc.space'))
   #set ($filename = $request.filename)
   #set ($formatDate = 'yyyy MMMM dd, HH:mm')
-  #set ($sql = '')
+  #set ($query = '')
+  #set ($queryParameters = [])
   #if ($title)
     #set ($title = $title.trim().toLowerCase())
-    #set ($sql = $sql + "and lower(doc.name) like '%${title}%' ")
+    #set ($query = $query + " and lower(doc.name) like ?")
+    #set ($discard = $queryParameters.add("%${title}%"))
   #end
   #if ($author)
     #set ($author = $author.trim().toLowerCase())
-    #set ($sql = $sql + "and lower(attach.author) like '%${author}%' ")
+    #set ($query = $query + " and lower(attach.author) like ?")
+    #set ($discard = $queryParameters.add("%${author}%"))
   #end
   #if ($filename)
     #set ($filename = $filename.trim().toLowerCase())
-    #set ($sql = $sql + "and lower(attach.filename) like '%${filename}%' ")
+    #set ($query = $query + " and lower(attach.filename) like ?")
+    #set ($discard = $queryParameters.add("%${filename}%"))
   #end
   #if ($space)
     #set ($space = $space.trim().toLowerCase())
-    #set ($sql = $sql + "and lower(doc.space) like '%${space}%' ")
+    #set ($query = $query + " and lower(doc.space) like ?")
+    #set ($discard = $queryParameters.add("%${space}%"))
   #end
   ##
   ## Exclude Blacklisted spaces ($blacklistedSpaces is set in xwikivars.vm)
   ##
   #foreach ($blacklistedSpace in $blacklistedSpaces)
-    #set ($sql = "${sql} and doc.space &lt;&gt; '$blacklistedSpace'")
+    #set ($query = "${query} and doc.space &lt;&gt; ?")
+    #set ($discard = $queryParameters.add($blacklistedSpace))
   #end
   #if ("$!request.sort" != '')
-    #set ($order = $request.sort)
+    #set ($order = $escapetool.sql($request.sort))
   #else
     #set ($order = 'attach.filename')
   #end
   #if ($order == 'filename')
     #set ($order = 'attach.filename')
   #end
-  #if ("$!request.dir" != '')
-    #set ($dir = $request.dir)
+  #if ("$!request.dir" == 'desc')
+    #set ($dir = 'desc')
   #else
     #set ($dir = 'asc')
   #end
   ##
   ## Compute the final query
   ##
-  #set ($sql = "select doc.fullName, attach from XWikiDocument as doc, XWikiAttachment as attach where attach.docId=doc.id " + $sql + " order by $order $dir")
-  #set ($items = $xwiki.search($sql, $limit, $off))
-  #set ($totalItems = $xwiki.search($sql).size())
+  #set ($countQuery = "select count(*) from XWikiDocument as doc, XWikiAttachment as attach where attach.docId=doc.id" + $query)
+  #set ($query = "select doc.fullName, attach from XWikiDocument as doc, XWikiAttachment as attach where attach.docId=doc.id" + $query + " order by $order $dir")
+  #set ($items = $xwiki.search($query, $limit, $off, $queryParameters))
+  #set ($totalItems = $xwiki.search($countQuery, 0, 0, $queryParameters).get(0))
   #set ($returnedItems = $items.size())
   ## ==============================================
   ## json starts

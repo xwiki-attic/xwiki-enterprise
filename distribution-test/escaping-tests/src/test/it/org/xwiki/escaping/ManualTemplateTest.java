@@ -303,6 +303,44 @@ public class ManualTemplateTest extends AbstractManualTest
     }
 
     @Test
+    public void testRenameExistingTarget()
+    {
+        skipIfIgnored("templates/rename.vm");
+
+        // create the source and the target
+        String space = "Test";
+        String page = "RenameTest";
+        createPage(space, page, "Title", "Content");
+        createPage(XMLEscapingValidator.getTestString(), XMLEscapingValidator.getTestString(), "Title", "Content");
+
+        String url = createUrl(null, space, page, params(template("rename"), kv("step", "2"), test("newSpaceName"),
+            test("newPageName")));
+        checkUnderEscaping(url, "XWIKI-5442");
+    }
+
+    @Test
+    public void testRenameSuccess()
+    {
+        skipIfIgnored("templates/rename.vm");
+
+        // create the source
+        String space = "Test";
+        String page = "RenameTest";
+        createPage(space, page, "Title", "Content");
+
+        String testTarget = "Target" + XMLEscapingValidator.getTestString();
+        // FIXME workaround for a bug in link parser, XWIKI-5443
+        testTarget = testTarget.replaceAll(">", "");
+
+        // schedule target for deletion
+        deleteAfterwards(testTarget, testTarget);
+
+        String url = createUrl(null, space, page, params(template("rename"), kv("step", "2"),
+            kv("newSpaceName", testTarget), kv("newPageName", testTarget)));
+        checkUnderEscaping(url, "XWIKI-5442");
+    }
+
+    @Test
     public void testDelete()
     {
         skipIfIgnored("templates/delete.vm");

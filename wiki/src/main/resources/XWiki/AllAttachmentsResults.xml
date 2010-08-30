@@ -65,12 +65,15 @@
   ##
   ## Exclude Blacklisted spaces ($blacklistedSpaces is set in xwikivars.vm)
   ##
-  #foreach ($blacklistedSpace in $blacklistedSpaces)
-    #set ($query = "${query} and doc.space &lt;&gt; ?")
-    #set ($discard = $queryParameters.add($blacklistedSpace))
+  #if (!$hasAdmin)
+    #foreach ($blacklistedSpace in $blacklistedSpaces)
+      #set ($query = "${query} and doc.space &lt;&gt; ?")
+      #set ($discard = $queryParameters.add($blacklistedSpace))
+    #end
   #end
-  #if ("$!request.sort" != '')
-    #set ($order = $escapetool.sql($request.sort))
+  #set ($validSortOptions = ['filename', 'doc.name', 'doc.space', 'doc.date', 'doc.author'])
+  #if($validSortOptions.contains($request.sort))
+    #set ($order = $request.sort)
   #else
     #set ($order = 'attach.filename')
   #end
@@ -97,35 +100,30 @@
 "totalrows": $totalItems,
 "returnedrows": #if($returnedItems &lt; $limit) $returnedItems #else $limit #end,
 "offset": $offset,
-"reqNo": $request.reqNo,
+"reqNo": $util.parseInt($request.reqNo),
 "rows": [
 #foreach ($item in $items)
-  #foreach ($element in $item)
-    #if ($velocityCount == 1)
-      #set ($docName = $element)
-      #set ($hasAccess = $xwiki.hasAccessLevel('view', $context.user, $docName))
-    #else
-      #set ($attachment = $element)
-    #end
-  #end
+  #set ($docName = $item.get(0))
+  #set ($hasAccess = $xwiki.hasAccessLevel('view', $context.user, $docName))
+  #set ($attachment = $item.get(1))
   #if ($velocityCount &gt; 1) , #end
-  { "acclev"    : $hasAccess,
+  { "acclev" : $hasAccess,
   #if ($hasAccess)
     #set ($document = $xwiki.getDocument($docName))
-    "page" : "$document.name",
-    "space" : "$document.space",
-    "fullname" : "$document.fullName",
-    "filename" : "$attachment.filename",
+    "page" : "$escapetool.javascript($document.name)",
+    "space" : "$escapetool.javascript($document.space)",
+    "fullname" : "$escapetool.javascript($document.fullName)",
+    "filename" : "$escapetool.javascript($attachment.filename)",
     "fileurl" : "$document.getAttachmentURL($attachment.filename)",
     "url" : "$document.getURL('view')",
-    "spaceurl" : '$xwiki.getURL("${document.space}.WebHome","view")',
-    "date" : "$xwiki.formatDate($attachment.date,$formatDate)",
-    "author" : "$attachment.author",
-    "authorname" : "$xwiki.getDocument($attachment.author).name",
-    "authorurl" : "$xwiki.getURL($attachment.author,'view')",
-    "type" : "$attachment.getMimeType($context.context)"
+    "spaceurl" : '$xwiki.getURL("${document.space}.WebHome")',
+    "date" : "$xwiki.formatDate($attachment.date, $formatDate)",
+    "author" : "$!escapetool.javascript($attachment.author)",
+    "authorname" : "$!escapetool.javascript($xwiki.getDocument($attachment.author).name)",
+    "authorurl" : "$xwiki.getURL($attachment.author)",
+    "type" : "$!escapetool.javascript($attachment.getMimeType($context.context))"
   #else
-    "fullname": "$docName"
+    "fullname": "$escapetool.javascript($docName)"
   #end
   }
 #end

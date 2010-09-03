@@ -296,10 +296,13 @@ public class BaseElement
      * /merge/common/test/java/org/openqa/selenium/AlertsTest.java The aim is : <code>
      * Alert alert = this.getDriver().switchTo().alert();
      * alert.accept();
-     * </code> Until then, the following hack does override the confirm method in Javascript to always return true.
+     * </code> Until then, the following hack does override the confirm method in Javascript to return the given value.
+     * 
+     * @param {@code true} to accept the confirmation dialog, {@code false} to cancel it
      */
-    protected void makeConfirmDialogSilent()
+    public void makeConfirmDialogSilent(boolean accept)
     {
-        ((JavascriptExecutor) this.getDriver()).executeScript("window.confirm = function() { return true; }");
+        String script = String.format("window.confirm = function() { return %s; }", accept);
+        ((JavascriptExecutor) this.getDriver()).executeScript(script);
     }
 }

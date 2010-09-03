@@ -76,7 +76,7 @@ public class ImportPage extends ViewPage
         for (WebElement pack : packages) {
             try {
                 pack.findElement(By.partialLinkText(packageName));
-                makeConfirmDialogSilent(); // temporary, see BasePage#makeConfirmDialogSilent
+                makeConfirmDialogSilent(true); // temporary, see BaseElement#makeConfirmDialogSilent
                 pack.findElement(By.xpath("//div/span/a[@class='deletelink']")).click();
                 return;
             } catch (NoSuchElementException e) {

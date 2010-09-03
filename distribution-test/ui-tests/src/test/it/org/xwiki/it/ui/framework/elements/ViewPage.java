@@ -141,7 +141,7 @@ public class ViewPage extends BasePage
         getDriver().findElement(By.xpath("//input[@value='yes']")).click();
 
         // Purge from trash bin
-        makeConfirmDialogSilent(); // temporary, see #makeConfirmDialogSilent
+        makeConfirmDialogSilent(true); // temporary, see #makeConfirmDialogSilent
         getDriver().findElement(By.partialLinkText("Delete")).click();
     }
 

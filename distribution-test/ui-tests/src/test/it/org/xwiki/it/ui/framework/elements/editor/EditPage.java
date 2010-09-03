@@ -19,6 +19,9 @@
  */
 package org.xwiki.it.ui.framework.elements.editor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,6 +36,64 @@ import org.xwiki.it.ui.framework.elements.ViewPage;
  */
 public class EditPage extends BasePage
 {
+    /**
+     * Enumerates the available editors.
+     */
+    public static enum Editor
+    {
+        WYSIWYG("WYSIWYG"),
+        WIKI("Wiki"),
+        RIGHTS("Access Rights"),
+        OBJECT("Objects"),
+        CLASS("Class");
+
+        /**
+         * The mapping between pretty names and editors.
+         */
+        private static final Map<String, Editor> BY_PRETTY_NAME = new HashMap<String, Editor>();
+
+        static {
+            // NOTE: We cannot refer to a static enum field within the initializer because enums are initialized before
+            // any static initializers are run so we are forced to use a static block to build the map.
+            for (Editor editor : values()) {
+                BY_PRETTY_NAME.put(editor.getPrettyName(), editor);
+            }
+        }
+
+        /**
+         * The string used to display the name of the editor on the edit menu.
+         */
+        private final String prettyName;
+
+        /**
+         * Defines a new editor with the given pretty name.
+         * 
+         * @param prettyName the string used to display the name of the editor on the edit menu
+         */
+        Editor(String prettyName)
+        {
+            this.prettyName = prettyName;
+        }
+
+        /**
+         * @return the string used to display the name of the editor on the edit menu
+         */
+        public String getPrettyName()
+        {
+            return prettyName;
+        }
+
+        /**
+         * @param prettyName the string used to display the name of the editor on the edit menu
+         * @return the editor corresponding to the given pretty name, {@code null} if no editor matches the given pretty
+         *         name
+         */
+        public static Editor byPrettyName(String prettyName)
+        {
+            return BY_PRETTY_NAME.get(prettyName);
+        }
+    }
+
     @FindBy(name = "action_saveandcontinue")
     private WebElement saveandcontinue;
 
@@ -41,6 +102,9 @@ public class EditPage extends BasePage
 
     @FindBy(name = "action_cancel")
     private WebElement cancel;
+
+    @FindBy(xpath = "//*[@id = 'tmCurrentEditor']//*[@class = 'tme hastype']")
+    private WebElement selectedEditMenuItem;
 
     public void clickSaveAndContinue()
     {
@@ -60,5 +124,28 @@ public class EditPage extends BasePage
     {
         cancel.click();
         return new ViewPage();
+    }
+
+    /**
+     * @return the editor being used on this page
+     */
+    public Editor getEditor()
+    {
+        return Editor.valueOf(selectedEditMenuItem.getText().toUpperCase());
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Overwrite in order to change the behavior of {@code clickEditXXX} methods in edit mode so that they switch from
+     * the current editor to the specified one.
+     * 
+     * @see BasePage#clickContentMenuEditSubMenuEntry(String)
+     */
+    @Override
+    protected void clickContentMenuEditSubMenuEntry(String id)
+    {
+        hoverOverMenu("tmCurrentEditor");
+        getDriver().findElement(By.xpath("//a[@id='" + id + "']")).click();
     }
 }

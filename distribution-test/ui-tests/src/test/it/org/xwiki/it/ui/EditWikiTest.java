@@ -23,8 +23,10 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.it.ui.framework.elements.editor.EditPage.Editor;
 
 /**
  * Test wiki editing.
@@ -63,5 +65,23 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
         this.editPage.clickSaveAndContinue();
         this.editPage.clickCancel();
         Assert.assertEquals("1.2", this.editPage.getMetaDataValue("version"));
+    }
+
+    /**
+     * Tests that the warning about loosing some of the page content when switching to the WYSIWYG editor is not
+     * displayed if the page syntax is xwiki/2.0.
+     */
+    @Test
+    public void testSwitchToWysiwygWithAdvancedContent()
+    {
+        editPage.switchToEdit("Test", "EditWikiTest");
+        // Place some HTML in the page content.
+        editPage.setContent("{{html}}<hr/>{{/html}}");
+        // If we are asked to confirm the editor switch then we choose to remain on the wiki editor.
+        editPage.makeConfirmDialogSilent(false);
+        // Switch to WYSIWYG editor.
+        WYSIWYGEditPage wysiwygEditPage = editPage.clickEditWysiwyg();
+        // Check that we are indeed in WYSIWYG edit mode.
+        Assert.assertEquals(Editor.WYSIWYG, wysiwygEditPage.getEditor());
     }
 }

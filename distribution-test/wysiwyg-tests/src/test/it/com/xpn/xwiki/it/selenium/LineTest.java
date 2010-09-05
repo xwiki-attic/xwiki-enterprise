@@ -278,7 +278,7 @@ public class LineTest extends AbstractWysiwygTestCase
 
         // Submit the changes. If the editor lost focus after pressing Enter then the next line has no effect.
         blur(getDOMLocator("defaultView"));
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         // Check the result.
         assertEquals("[[image:XWiki.AdminSheet@import.png]]\n\nxYz", getFieldValue("content"));
     }

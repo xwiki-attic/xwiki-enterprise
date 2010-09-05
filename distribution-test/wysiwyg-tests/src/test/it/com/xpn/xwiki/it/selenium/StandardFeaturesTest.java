@@ -469,9 +469,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testToolBarIsUpdatedOnLoad()
     {
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         setFieldValue("content", "**__abc__**");
-        clickLinkWithText("WYSIWYG");
+        clickEditPageInWysiwyg();
         waitForEditorToLoad();
         waitForBoldDetected(true);
         waitForUnderlineDetected(true);

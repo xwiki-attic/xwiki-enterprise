@@ -34,14 +34,14 @@ public class SubmitTest extends AbstractWysiwygTestCase
     public void testSubmitAfterEditorIsLoadedAndHasFocus()
     {
         // Set the content without saving it.
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         setFieldValue("content", "a**b**c");
-        clickLinkWithText("WYSIWYG");
+        clickEditPageInWysiwyg();
         waitForEditorToLoad();
         // Focus the editor.
         focus(getDOMLocator("defaultView"));
         // Switch back to Wiki editor and assert the content.
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("a**b**c", getFieldValue("content"));
     }
 
@@ -51,13 +51,13 @@ public class SubmitTest extends AbstractWysiwygTestCase
     public void testSubmitAfterEditorIsLoadedWithoutGainingFocus()
     {
         // Set the content without saving it.
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         setFieldValue("content", "1**2**3");
         // Switch to WYSIWYG editor but don't focus the rich text area.
-        clickLinkWithText("WYSIWYG");
+        clickEditPageInWysiwyg();
         waitForEditorToLoad();
         // Switch back to Wiki editor and assert the content.
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("1**2**3", getFieldValue("content"));
     }
 
@@ -74,7 +74,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
         // Blur the rich text area to save the new content.
         blur(getDOMLocator("defaultView"));
         // Switch back to Wiki editor and assert the content.
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("x//y//z", getFieldValue("content"));
     }
 
@@ -91,7 +91,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
         // Save and view.
         clickEditSaveAndView();
         // Open the Wiki editor and assert the content.
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("u##v##w", getFieldValue("content"));
     }
 }

@@ -1227,14 +1227,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void createPage(String spaceName, String pageName, String content)
     {
-        clickLinkWithText("Create Page");
+        clickLinkWithLocator("tmCreatePage");
         getSelenium().type("space", spaceName);
         getSelenium().type("page", pageName);
         clickLinkWithLocator("//input[@value='Create']");
         String location = getSelenium().getLocation();
         if (location.endsWith("?xpage=docalreadyexists")) {
             open(location.substring(0, location.length() - 23));
-            clickLinkWithText("WYSIWYG");
+            clickEditPageInWysiwyg();
         }
         waitForEditorToLoad();
         switchToSource();

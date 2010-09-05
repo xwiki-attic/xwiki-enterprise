@@ -93,9 +93,9 @@ public class TabsTest extends AbstractWysiwygTestCase
     public void testContextDocumentIsPreserved()
     {
         // Uploading an image to the current document is difficult. Instead we use a context sensitive velocity script.
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         setFieldValue("content", "{{velocity}}$doc.fullName{{/velocity}}");
-        clickLinkWithText("WYSIWYG");
+        clickEditPageInWysiwyg();
         waitForEditorToLoad();
         String expected = getEval("window.XWE.body.textContent");
         switchToSource();

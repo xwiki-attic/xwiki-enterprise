@@ -28,7 +28,6 @@ import java.util.Map.Entry;
 import junit.framework.TestCase;
 
 import com.thoughtworks.selenium.Selenium;
-import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
 /**
@@ -395,6 +394,26 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void clickEditPage()
     {
         getSkinExecutor().clickEditPage();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#clickEditPageInWikiSyntaxEditor()
+     */
+    public void clickEditPageInWikiSyntaxEditor()
+    {
+        getSkinExecutor().clickEditPageInWikiSyntaxEditor();
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#clickEditPageInWysiwyg()
+     */
+    public void clickEditPageInWysiwyg()
+    {
+        getSkinExecutor().clickEditPageInWysiwyg();
     }
 
     public void clickDeletePage()

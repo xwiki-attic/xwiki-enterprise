@@ -177,4 +177,28 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         getTest().clickLinkWithLocator("//div[@id='tmRegister']/a");
         assertIsRegisterPage();
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AlbatrossSkinExecutor#clickEditPageInWikiSyntaxEditor()
+     */
+    @Override
+    public void clickEditPageInWikiSyntaxEditor()
+    {
+        // Colibri skin uses the same id for the edit Wiki link in view and edit modes.
+        getTest().clickLinkWithLocator("tmEditWiki");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see AlbatrossSkinExecutor#clickEditPageInWysiwyg()
+     */
+    @Override
+    public void clickEditPageInWysiwyg()
+    {
+        // Colibri skin uses the same id for the edit WYSIWYG link in view and edit modes.
+        getTest().clickLinkWithLocator("tmEditWysiwyg");
+    }
 }

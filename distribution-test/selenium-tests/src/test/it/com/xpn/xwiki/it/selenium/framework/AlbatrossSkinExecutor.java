@@ -54,6 +54,28 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().clickLinkWithLocator("//a[string() = 'Edit']");
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#clickEditPageInWikiSyntaxEditor()
+     */
+    public void clickEditPageInWikiSyntaxEditor()
+    {
+        // In order for this method to work both in view and edit modes we have to locate the link by its text.
+        getTest().clickLinkWithText("Wiki");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#clickEditPageInWysiwyg()
+     */
+    public void clickEditPageInWysiwyg()
+    {
+        // In order for this method to work both in view and edit modes we have to locate the link by its text.
+        getTest().clickLinkWithText("WYSIWYG");
+    }
+
     public void clickDeletePage()
     {
         getTest().clickLinkWithLocator("//a[string() = 'Delete']");

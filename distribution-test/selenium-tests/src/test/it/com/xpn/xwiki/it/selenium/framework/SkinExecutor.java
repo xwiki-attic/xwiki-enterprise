@@ -33,6 +33,20 @@ public interface SkinExecutor
     void clickEditPage();
 
     /**
+     * Clicks on the link that leads to the wiki edit mode for the current page.
+     * 
+     * @since 2.5M1
+     */
+    void clickEditPageInWikiSyntaxEditor();
+
+    /**
+     * Clicks on the link that leads to the WYSIWYG edit mode for the current page.
+     * 
+     * @since 2.5M1
+     */
+    void clickEditPageInWysiwyg();
+
+    /**
      * Click on the Delete button leading to the page for deleting the current page.
      */
     void clickDeletePage();

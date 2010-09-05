@@ -118,6 +118,17 @@ public class XMLEscapingValidator implements Validator
                 this.errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped quote character"));
                 idx++;
             }
+            if ((idx = line.indexOf("Error while parsing velocity page")) >= 0) {
+                this.errors.add(new ValidationError(Type.WARNING, lineNr, idx,
+                    "Parse error in the response. The template was not evaluated correctly."));
+            }
+            if ((idx = line.indexOf("org.xwiki.rendering.macro.MacroExecutionException")) >= 0) {
+                this.errors.add(new ValidationError(Type.WARNING, lineNr, idx,
+                    "Macro execution exception in the response."));
+            }
+            if ((idx = line.indexOf("Wrapped Exception: unexpected char:")) >= 0) {
+                this.errors.add(new ValidationError(Type.WARNING, lineNr, idx, "Possible SQL error trace."));
+            }
             // TODO also check <> and \ for JavaScript
             // TODO check for overescaping
             lineNr++;

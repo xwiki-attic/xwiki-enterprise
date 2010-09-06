@@ -374,7 +374,7 @@ $xwiki.jsx.use('XWiki.DeletedDocuments')##
     #set($ddoc = $xwiki.getDeletedDocument('', '', "$id"))
     #set($originalDocument = $ddoc.getDocument())
     &lt;tr&gt;
-      &lt;td&gt;&lt;a href="$originalDocument.getURL('view', "viewer=recyclebin&amp;id=${id}")"&gt;$ddoc.fullName&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;a href="$originalDocument.getURL('view', "viewer=recyclebin&amp;amp;id=${id}")"&gt;$ddoc.fullName&lt;/a&gt;&lt;/td&gt;
       &lt;td&gt;$originalDocument.displayTitle&lt;/td&gt;
       &lt;td&gt;$xwiki.formatDate($ddoc.getDate(), $dateFormat)&lt;/td&gt;
       &lt;td&gt;$xwiki.getLocalUserName($ddoc.getDeleter())&lt;/td&gt;

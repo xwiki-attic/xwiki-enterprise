@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -166,7 +167,8 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
 
         /* Add a translation in a fake language */
-        String fakeLanguage = (String.format("%d", Math.abs(this.random.nextInt()))).substring(0, 4);
+        String[] languages = Locale.getISOLanguages();
+        String fakeLanguage = languages[random.nextInt(languages.length)]; 
         String translatedContent =
             String.format("This is the content in the '%s' language. (This will be version: %d)", fakeLanguage,
                 page.getVersion() + 1);

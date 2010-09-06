@@ -19,6 +19,8 @@
  */
 package org.xwiki.rest.it;
 
+import java.util.Locale;
+
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -222,7 +224,8 @@ public class PageResourceTest extends AbstractHttpTest
 
     public void testPUTTranslation() throws Exception
     {
-        final String languageId = String.format("%d", random.nextLong());
+        String[] languages = Locale.getISOLanguages();
+        final String languageId = languages[random.nextInt(languages.length)]; 
 
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME, "Translations");
 

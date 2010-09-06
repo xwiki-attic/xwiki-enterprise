@@ -251,10 +251,13 @@
                     templates/analytics\.vm <!-- commented out -->
                     templates/attach\.vm <!-- only redirects to attachments.vm -->
                     templates/deleteversionsconfirm\.vm <!-- needs both rev1 and rev2, otherwise returns 400 (Bad Request) -->
+                    templates/deletegroupmember\.vm <!-- does not produce any output, expects "fullname" to be a valid user name -->
                     templates/docalreadyexists\.vm <!-- returns 409 and shows an error message -->
                     templates/get\.vm <!-- just renders the page content using rendercontent.vm -->
+                    templates/recyclebin\.vm <!-- output only comes from contentview.vm and docextra.vm parameter "id" must be an integer -->
                     templates/templatedoesnotexist\.vm <!-- returns 400 and shows an error message -->
                     templates/textarea_text\.vm <!-- empty, not used any more -->
+                    templates/titlevars\.vm <!-- needs defined $renderedContent, already tested with editinline.vm and contentview.vm -->
                     templates/watch\.vm <!-- expects xredirect to be a valid URL, does not display anything -->
                     templates/wysiwyg\.vm <!-- redirects to editwysiwyg.vm, recursive redirection error with some parameters -->
                     templates/xml\.vm <!-- correctly XML-escapes content (escapes &lt; and &gt; but not " and ' in tags) -->

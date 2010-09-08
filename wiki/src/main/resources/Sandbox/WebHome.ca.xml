@@ -23,19 +23,19 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>El calaix és una part de la vostra wiki que podeu modificar lliurement. Es tracta de deixar-vos practicar l'edició. Podreu descobrir com treballa l'edició de pàgines i crear-n'hi de noves. Simplement clicant al damunt de **Edit** per a començar!
+<content>El calaix és una part de la vostra wiki que podeu modificar lliurement. Es tracta de deixar-vos practicar l'edició. Podreu descobrir com treballa l'edició de pàgines i crear-n'hi de noves. Per a començar simplement cliqueu al damunt d' **Editar**!
 
-{{info}}No us preocupeu de sobreescriure o de perdre coses quant editeu la pàgina, podeu retrocedir sempre a la primera versió de la pàgina des de la pestanya "Històric" de la part inferior de la pàgina.{{/info}}
+{{info}}No us preocupeu de sobreescriure o de perdre coses quant editeu la pàgina, sempre podreu retrocedir a la primera versió de la pàgina des de la pestanya "Històric" que es troba en la part inferior de la pàgina.{{/info}}
 
-Si voleu donar un cop d'ull a la base de la [[sintaxi de XWiki&gt;&gt;XWiki.XWikiSyntax]], podeu clicar al "Codi Wiki" en el menú "Mostrar" o bé clicar a la pertanya "Font" quant esteu editant la pàgina.
+Si voleu podeu donar un cop d'ull a la base de la [[sintaxi d'XWiki&gt;&gt;XWiki.XWikiSyntax]], també podeu clicar a "Codi Wiki" del menú "Mostrar" o bé quan esteu editant la pàgina podeu clicar a la pertanya "Codi".
 
-Aguí hi han un grapat de pàgines de proves amb les quals podeu jugar:
+Aguí hi han un grapat de pàgines de proves amb les quals podeu jugar-hi:
 
 * [[Pàgina de proves 1&gt;&gt;Sandbox.TestPage1]]
 * [[Pàgina de proves 2&gt;&gt;Sandbox.TestPage2]]
 * [[Pàgina de proves 3&gt;&gt;Sandbox.TestPage3]]
 
-A continuació hi ha una demostració de la [[sintaxi de XWiki&gt;&gt;XWiki.XWikiSyntax]] podeu utilitzar en pàgines de la wiki (encapçalaments, imatges, taules).
+A continuació hi ha una demostració de la [[sintaxi d'XWiki&gt;&gt;XWiki.XWikiSyntax]] que podeu utilitzar en pàgines de la wiki (encapçalaments, imatges, taules).
 
 = Encapçalaments =
 
@@ -55,7 +55,7 @@ XWiki ofereix 6 nivells d'encapçalaments. Els podeu utilitzar per a estructurar
 
 Estils bàsics que estan suportats en la XWiki:
 
-* **Rext en negreta**
+* **Text en negreta**
 * //Text en cursiva//
 * __Text subratllat__
 * --Text tatxat--
@@ -129,7 +129,7 @@ també podeu inserir imatges en les vostres pàgines de la wiki:
 
 = Macros =
 
-Les macros us permeten que el contingut de la wiki es vegi millor, i afegir característiques addicionals a la vostra wiki. Aquí hi han 2 exemples de com es poden utilitzar les macros en pàgines de la wiki:
+Les macros us permeten que es vegi millor el contingut de la wiki, i afegir característiques addicionals a la vostra wiki. Aquí hi han 2 exemples de com es poden utilitzar les macros en pàgines de la wiki:
 
 == Macro d'advertència ==
 
@@ -139,7 +139,7 @@ Aquesta macro us permet cridar l'atenció als usuaris amb trossos d'informació:
 
 == Taula de continguts ==
 
-Aquesta macro genera automàticament la taula de continguts de la vostra pàgina wiki basada amb encapçalaments:
+Aquesta macro genera automàticament la taula de continguts basada amb encapçalaments de la vostra pàgina wiki:
 
 {{toc/}}</content>
 </xwikidoc>

@@ -358,5 +358,49 @@ public class ManualTemplateTest extends AbstractManualTest
         checkUnderEscaping(createUrl("view", null, null, params(template("deleteversionsconfirm"), test("rev1"),
             test("rev2"))), "XWIKI-5238");
     }
+
+    @Test
+    public void testSuggestHibquery() throws IOException
+    {
+        skipIfIgnored("templates/suggest.vm");
+        // tests the first if-case, needs an object with a custom sql query
+        testSuggest("AnnotationCode.AnnotationConfig", "annotationClass", "Hibquery");
+    }
+
+    @Test
+    public void testSuggestDBTree() throws IOException
+    {
+        skipIfIgnored("templates/suggest.vm");
+        // tests properties of DBList type
+        testSuggest("Blog.BlogPostClass", "category", "DBTree");
+    }
+
+    @Test
+    public void testSuggestStaticList() throws IOException
+    {
+        skipIfIgnored("templates/suggest.vm");
+        // tests properties of StringList type
+        testSuggest("XWiki.ConfigurableClass", "propertiesToShow", "StaticList");
+    }
+
+    /**
+     * Test suggest template.
+     * 
+     * @param classname class name to use
+     * @param fieldname field name to use
+     * @param description test description
+     * @throws IOException can be thrown when the test fails
+     */
+    private void testSuggest(String classname, String fieldname, String description) throws IOException
+    {
+        String[] tested = new String[] {"firCol", "input"};
+        for (String parameter : tested) {
+            String url = createUrl("view", "Main", null, params(template("suggest"),
+                kv("classname", classname), kv("fieldname", fieldname),
+                kv("secCol", "doc.fullName';"), test(parameter)));
+            checkUnderEscaping(url, "XWIKI-5450: " + description + " (\"" + parameter + "\")");
+            checkForErrorTrace(url);
+        }
+    }
 }
 

@@ -234,12 +234,14 @@
                     -->
                     Blog/Publisher\.xml <!-- expects xredirect to be a valid URL -->
                     templates/changemyavatar\.vm <!-- target page must be user page -->
+                    templates/comments2\.vm <!-- needs a page with comments -->
                     templates/createinline\.vm <!-- expects xredirect to be a valid URL -->
                     templates/direct\.vm <!-- deprecated and quite useless -->
                     templates/leftpanels\.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
                     templates/login\.vm <!-- expects xredirect to be a valid URL -->
                     templates/passwd\.vm <!-- must be tested on a user document, otherwise returns status 400 -->
                     templates/plain\.vm <!-- need raw=1 -->
+                    templates/plaincode\.vm <!-- needs an existing page with custom content -->
                     templates/recyclebinlist\.vm <!-- page must have been deleted before -->
                     templates/rendercontent\.vm <!-- page must exist, otherwise empty -->
                     templates/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->

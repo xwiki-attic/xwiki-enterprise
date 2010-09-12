@@ -77,7 +77,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         homePage.gotoPage();
         CreatePagePage createPagePage = homePage.createPage();
         WYSIWYGEditPage editWysiwygTemplatePage = createPagePage.createPage(space, TEMPLATE_NAME);
-        editWysiwygTemplatePage.clickSaveAndView();
+        editWysiwygTemplatePage.clickSaveAndContinue();
         WikiEditPage editTemplatePage = editWysiwygTemplatePage.clickEditWiki();
         editTemplatePage.setTitle(templateTitle);
         editTemplatePage.setContent(templateContent);

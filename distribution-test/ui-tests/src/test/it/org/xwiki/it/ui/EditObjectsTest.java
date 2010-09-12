@@ -21,7 +21,6 @@ package org.xwiki.it.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
@@ -155,9 +154,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     /**
      * Prove that a list can be changed from relational storage to plain storage and back without database corruption.
      * XWIKI-299 test
-     * @Ignored because it's failing.
      */
-    @Ignore
     @Test
     public void testChangeListMultipleSelect()
     {
@@ -199,7 +196,9 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         // Verify conversion
         oep.switchToEdit("Test", "EditObjectsTestObject");
         oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
-            By.id("Test.EditObjectsTestClass_0_prop"), "choice 3|choice 4");
+            By.id("Test.EditObjectsTestClass_0_prop"), "choice 3");
+        oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
+            By.id("Test.EditObjectsTestClass_0_prop"), "choice 4");
         vp = oep.clickSaveAndView();
         Assert.assertEquals("this is the content: choice 3 choice 4", vp.getContent());
     }

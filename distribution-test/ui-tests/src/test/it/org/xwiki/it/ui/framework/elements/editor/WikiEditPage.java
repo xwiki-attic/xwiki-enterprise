@@ -19,6 +19,8 @@
  */
 package org.xwiki.it.ui.framework.elements.editor;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -35,6 +37,9 @@ public class WikiEditPage extends PreviewableEditPage
 
     @FindBy(name = "parent")
     private WebElement parentInput;
+
+    @FindBy(id = "editParentTrigger")
+    private WebElement editParentTrigger;
 
     @FindBy(id = "content")
     private WebElement contentText;
@@ -77,6 +82,11 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public void setParent(String parent)
     {
+        // Without this, the following cast fails with a ClassCastException
+        this.parentInput = this.getDriver().findElement(By.name("parent"));
+        if (!((RenderedWebElement) this.parentInput).isDisplayed()) {
+            this.editParentTrigger.click();
+        }
         this.parentInput.clear();
         this.parentInput.sendKeys(parent);
     }

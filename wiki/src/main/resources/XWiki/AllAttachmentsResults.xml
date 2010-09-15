@@ -56,7 +56,7 @@
   #set($space = $space.trim().toLowerCase())
   #set($sql = $sql + "and lower(doc.space) like '%${space}%' ")
 #end
-## 
+##
 ## Exclude Blacklisted spaces ($blacklistedSpaces is set in xwikivars.vm)
 ##
 #foreach ($blacklistedSpace in $blacklistedSpaces)
@@ -80,15 +80,15 @@
 "rows": [
 #foreach($item in $items)
   #foreach($element in $item)
-    #if($velocityCount==1) 
-      #set($docName=$element) 
-      #set($hasAccess = $xwiki.hasAccessLevel("view", $context.user, $docName)) 
-    #else 
-      #set($attachment=$element) 
+    #if($velocityCount==1)
+      #set($docName=$element)
+      #set($hasAccess = $xwiki.hasAccessLevel("view", $context.user, $docName))
+    #else
+      #set($attachment=$element)
     #end
-  #end  
+  #end
   #if($velocityCount &gt; 1) , #end
-  {  "acclev"    : $hasAccess,     
+  {  "acclev"    : $hasAccess,
      #if($hasAccess)
      #set($document = $xwiki.getDocument($docName))
      "page"  : "$document.name",
@@ -106,7 +106,7 @@
      #else
      "fullname": "$docName"
      #end
-   }  
+   }
 #end
 ]}
 ## ==============================================

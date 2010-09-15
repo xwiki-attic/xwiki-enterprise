@@ -48,11 +48,11 @@
     <module>wiki</module>
     <module>database</module>
     <module>web</module>
-    <module>distribution</module>    
+    <module>distribution</module>
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
-    <platform.tool.configuration.version>1.43-SNAPSHOT</platform.tool.configuration.version>
+    <platform.tool.configuration.version>1.44-SNAPSHOT</platform.tool.configuration.version>
     <platform.tool.jetty.version>1.19-SNAPSHOT</platform.tool.jetty.version>
     <platform.tool.packager.version>1.16-SNAPSHOT</platform.tool.packager.version>
     <platform.tool.rootwebapp.version>1.4-SNAPSHOT</platform.tool.rootwebapp.version>
@@ -66,19 +66,19 @@
     <platform.administration.version>1.38-SNAPSHOT</platform.administration.version>
     <platform.annotations.version>1.7-SNAPSHOT</platform.annotations.version>
     <platform.activitystream.version>1.7-SNAPSHOT</platform.activitystream.version>
-    <platform.blog.version>1.23-SNAPSHOT</platform.blog.version>
+    <platform.blog.version>1.24-SNAPSHOT</platform.blog.version>
     <platform.invitation.version>1.2-SNAPSHOT</platform.invitation.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
-    <platform.plugin.lucene.version>1.20-SNAPSHOT</platform.plugin.lucene.version>
+    <platform.plugin.lucene.version>1.21-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.mailsender.version>1.15-SNAPSHOT</platform.plugin.mailsender.version>
-    <platform.panels.version>1.38-SNAPSHOT</platform.panels.version>
+    <platform.panels.version>1.38</platform.panels.version> <!-- Not compatible with 1.39+ -->
     <platform.scheduler.version>1.20-SNAPSHOT</platform.scheduler.version>
     <platform.officeimporter.version>1.16-SNAPSHOT</platform.officeimporter.version>
-    <platform.plugin.skinx.version>1.18-SNAPSHOT</platform.plugin.skinx.version>
+    <platform.plugin.skinx.version>1.19-SNAPSHOT</platform.plugin.skinx.version>
     <platform.statistics.version>1.10-SNAPSHOT</platform.statistics.version>
     <platform.search.version>1.2-SNAPSHOT</platform.search.version>
-    <platform.tag.version>1.12-SNAPSHOT</platform.tag.version>
-    <platform.watchlist.version>1.30-SNAPSHOT</platform.watchlist.version>
+    <platform.tag.version>1.13-SNAPSHOT</platform.tag.version>
+    <platform.watchlist.version>1.31-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>
     <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>
   </properties>

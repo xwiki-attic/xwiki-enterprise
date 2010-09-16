@@ -88,9 +88,10 @@ public class LiveTableElement extends BaseElement
 
     public boolean hasColumn(String columnTitle)
     {
-        List<WebElement> elements = getDriver().findElements(By.xpath(
-            "//th[contains(@class, 'xwiki-livetable-display-header-text') and normalize-space(text()) = '"
-            + columnTitle + "']"));
+        List<WebElement> elements =
+            getDriver().findElements(
+                By.xpath("//th[contains(@class, 'xwiki-livetable-display-header-text') and normalize-space(.) = '"
+                    + columnTitle + "']"));
         return elements.size() > 0;
     }
 

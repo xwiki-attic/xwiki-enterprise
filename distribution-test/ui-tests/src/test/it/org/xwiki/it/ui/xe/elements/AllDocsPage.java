@@ -26,7 +26,7 @@ import org.xwiki.it.ui.framework.elements.ViewPage;
 
 /**
  * Represents the actions possible on the AllDocs Page.
- *
+ * 
  * @version $Id$
  * @since 2.4M2
  */
@@ -34,6 +34,9 @@ public class AllDocsPage extends ViewPage
 {
     @FindBy(xpath = "//li[@id='xwikiindex']/a")
     private WebElement indexTab;
+
+    @FindBy(xpath = "//li[@id='xwikiattachments']/a")
+    private WebElement attachmentsTab;
 
     public void gotoPage()
     {
@@ -46,6 +49,19 @@ public class AllDocsPage extends ViewPage
         LiveTableElement lt = new LiveTableElement("alldocs");
 
         // Since there's a risk that the livetable has finished dislaying before the listener
+        // (defined in LiveTableElement's constructor) has been set up, we force a livetable refresh.
+        executeJavascript("livetable.clearCache();livetable.showRows(livetable.currentOffset, livetable.limit);");
+
+        lt.waitUntilReady();
+        return lt;
+    }
+
+    public LiveTableElement clickAttachmentsTab()
+    {
+        this.attachmentsTab.click();
+        LiveTableElement lt = new LiveTableElement("allattachments");
+
+        // Since there's a risk that the livetbale has finished dislaying before the listener
         // (defined in LiveTableElement's constructor) has been set up, we force a livetable refresh.
         executeJavascript("livetable.clearCache();livetable.showRows(livetable.currentOffset, livetable.limit);");
 

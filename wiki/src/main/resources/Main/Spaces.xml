@@ -166,7 +166,7 @@ $xwiki.ssx.use("Main.Spaces")##
   #foreach ($page in $xwiki.getSpaceDocsName($spaceToDelete))
     #set($discard = $xwiki.getDocument("${spaceToDelete}.${page}").delete())  
   #end
-  {{info}}Space &amp;rdquo;${spaceToDelete}&amp;ldquo; deleted.{{/info}}
+  {{info}}$msg.get('xe.spaces.deleteSpace.deleted', [${spaceToDelete}]){{/info}}
   #set($xredirect = "$!request.getParameter('xredirect')")
   ## Redirect to the previous page if requested.
   #if("$!xredirect" != '')
@@ -191,18 +191,18 @@ $xwiki.ssx.use("Main.Spaces")##
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
             &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$msg.get('xe.spaces.action.index')"&gt;
-              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.gif')" alt="Space index icon"/&gt;
+              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.gif')" alt="$msg.get('xe.spaces.action.index.alt')"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.
             #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))  
               &lt;a href="$xwiki.getURL("${space}.WebPreferences", 'admin')" title="$msg.get('xe.spaces.action.admin')"&gt;
-                &lt;img src="$xwiki.getSkinFile('icons/silk/cog.gif')" alt="Administrate space icon"/&gt;
-              &lt;/a&gt;                  
+                &lt;img src="$xwiki.getSkinFile('icons/silk/cog.gif')" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
+              &lt;/a&gt;
               ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='$spaceListDoc.getURL('view', "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()")'" title="$msg.get('xe.spaces.action.delete')"&gt;
-              ##  &lt;img src="$xwiki.getSkinFile('icons/silk/cross.gif')" alt="Delete space icon" /&gt;
-              ##&lt;/a&gt;
-            #end          
-          &lt;/div&gt; 
+              ##   &lt;img src="$xwiki.getSkinFile('icons/silk/cross.gif')" alt="$msg.get('xe.spaces.action.delete.alt')" /&gt;
+              ## &lt;/a&gt;
+            #end
+          &lt;/div&gt;
           &lt;div class="xspacer"&gt;&amp;nbsp;&lt;/div&gt;
         &lt;/div&gt;   
       &lt;/li&gt;

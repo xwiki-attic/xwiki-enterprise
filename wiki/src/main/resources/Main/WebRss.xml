@@ -31,11 +31,11 @@
 #if ("$!request.xpage" == 'plain' &amp;&amp; "$!request.outputSyntax" == 'plain')
   $response.setContentType('application/rss+xml')
   #if("$!{request.space}" == '')
-    ## RSS feed for a single space
+    ## RSS feed for the whole wiki
     #set ($request = 'where 1=1 order by doc.date desc')
     #set ($description = $msg.get('xe.rss.feed.description'))
   #else
-    ## RSS feed for the whole wiki
+    ## RSS feed for a single space
     #set ($request = "where doc.space='${request.space}' order by doc.date desc")
     #set ($description = $msg.get('xe.rss.space.description', [$request.space]))
   #end

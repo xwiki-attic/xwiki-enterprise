@@ -637,7 +637,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         if(iconURL == null) {
             iconURL = "/xwiki/bin/download/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png";
         }
-        assertElementPresent("//div[@id='admin-page-menu']/ul[@id='admin-icons']/li[@class='" + section + "']/a/img"
+        assertElementPresent("//div[@id='admin-page-menu']/ul[@id='admin-icons']/li[@class='" + section + "']/a/span/img"
                              + "[@src='" + iconURL + "']");
     }
 

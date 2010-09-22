@@ -253,7 +253,7 @@
 </property>
 </object>
 <content>{{velocity output="false"}}
-#if("$!request.xaction" == 'setTheme' &amp;&amp; "$!request.theme" != '' &amp;&amp; $hasAdmin)
+#if("$!request.xaction" == 'setTheme' &amp;&amp; "$!request.theme" != '' &amp;&amp; $hasAdmin &amp;&amp; ${services.csrf.isTokenValid("$!{request.getParameter('form_token')}")})
   #set($preferencesDoc = $xwiki.getDocument('XWiki.XWikiPreferences'))
   #set($preferencesObj = $preferencesDoc.getObject('XWiki.XWikiPreferences'))
   $preferencesObj.set('colorTheme', $request.theme)
@@ -261,7 +261,7 @@
   ## Redirect without xaction, so that refreshing doesn't set the same theme again.
   $response.sendRedirect($doc.getURL('view', "theme=$request.theme"))
   #stop
-#elseif("$!request.xaction" == 'create' &amp;&amp; "$!request.newThemeName" != '')
+#elseif("$!request.xaction" == 'create' &amp;&amp; "$!request.newThemeName" != '' &amp;&amp; ${services.csrf.isTokenValid("$!{request.getParameter('form_token')}")})
   $response.sendRedirect($xwiki.getDocument('ColorThemes', $request.newThemeName).getURL('inline', 'template=ColorThemes.ColorThemeTemplate'))
   #stop
 #end
@@ -317,7 +317,7 @@ $xwiki.ssx.use($doc.fullName)
       &lt;span class="theme-info"&gt;$msg.get('core.footer.creation', [$xwiki.getUserName($themeDoc.creator), $xwiki.formatDate($themeDoc.creationDate)])&lt;/span&gt;
       #if($hasAdmin &amp;&amp; !$isCurrentTheme)
         &lt;div class="x-theme-set" id="$themeDoc.fullName"&gt;
-          &lt;a href="$doc.getURL('view', "xaction=setTheme&amp;theme=${themeDoc.fullName}")" class="use-theme"&gt;$msg.get('xe.themes.useTheme')&lt;/a&gt;
+          &lt;a href="$doc.getURL('view', "xaction=setTheme&amp;theme=${themeDoc.fullName}&amp;form_token=$!{services.csrf.getToken()}")" class="use-theme"&gt;$msg.get('xe.themes.useTheme')&lt;/a&gt;
         &lt;/div&gt;
       #end
     {{/html}}
@@ -351,6 +351,7 @@ $xwiki.ssx.use($doc.fullName)
   #if(!$isGuest)
   &lt;form action="$doc.getURL()" method="post"&gt;
   &lt;div class="x-theme-create"&gt;
+    &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
     &lt;input type="hidden" name="xaction" value="create"/&gt;
     &lt;label for="newThemeName" class="hidden"&gt;$msg.get('xe.themes.create.nameLabel')&lt;/label&gt;
     &lt;input type="text" name="newThemeName" id="newThemeName" value="$msg.get('xe.themes.create.nameTip')" class="withTip"/&gt;

@@ -162,7 +162,7 @@ $xwiki.ssx.use('Main.Spaces')##
 ## Delete space if requested.
 ##
 #set($spaceToDelete = "$!request.getParameter('deleteSpace')")
-#if($spaceToDelete != '' &amp;&amp; $xwiki.hasAdminRights())
+#if($spaceToDelete != '' &amp;&amp; $xwiki.hasAdminRights() &amp;&amp; ${services.csrf.isTokenValid("$!{request.getParameter('form_token')}")})
   #foreach ($page in $xwiki.getSpaceDocsName($spaceToDelete))
     #set($discard = $xwiki.getDocument("${spaceToDelete}.${page}").delete())
   #end
@@ -199,7 +199,7 @@ $xwiki.ssx.use('Main.Spaces')##
               &lt;a href="$xwiki.getURL("${space}.WebPreferences", 'admin')" title="$msg.get('xe.spaces.action.admin')"&gt;
                 &lt;img src="$xwiki.getSkinFile('icons/silk/cog.gif')" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
               &lt;/a&gt;
-              ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='$spaceListDoc.getURL('view', "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()")'" title="$msg.get('xe.spaces.action.delete')"&gt;
+              ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='$spaceListDoc.getURL('view', "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()&amp;amp;form_token=$!{services.csrf.getToken()}")'" title="$msg.get('xe.spaces.action.delete')"&gt;
               ##   &lt;img src="$xwiki.getSkinFile('icons/silk/cross.gif')" alt="$msg.get('xe.spaces.action.delete.alt')" /&gt;
               ## &lt;/a&gt;
             #end

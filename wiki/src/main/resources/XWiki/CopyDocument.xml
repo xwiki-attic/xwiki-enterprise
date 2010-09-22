@@ -31,7 +31,7 @@
 #end
 #set($sourcewiki = $context.database)
 #set($targetwiki = $context.database)
-#if("$!targetdoc" != "")
+#if("$!targetdoc" != "" &amp;&amp; ${services.csrf.isTokenValid("$!{request.getParameter('form_token')}")})
 #set($sourcelink = "[[$sourcewiki:$sourcedoc#if($language)($language)#end&gt;&gt;$sourcewiki:$sourcedoc#if($language)?language=$language#end]]")
 #set($targetlink = "[[$targetwiki:$targetdoc&gt;&gt;$targetwiki:$targetdoc#if($language)?language=$language#end]]")
 #set($ok = $xwiki.xWiki.copyDocument($sourcedoc, $targetdoc, $sourcewiki, $targetwiki, $language, false, $context.context))
@@ -40,6 +40,7 @@ $msg.get("xe.document.copying", [$sourcelink, $targetlink])
 {{html clean="false"}}
 &lt;form action=""&gt;
 &lt;div class="plainmessage"&gt;
+&lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
 &lt;dl&gt;
 &lt;dt&gt;&lt;label for="sourcedoc"&gt;$msg.get("xe.document.copy.source")&lt;/label&gt;&lt;/dt&gt;
 &lt;dd&gt;&lt;input type="text" id="sourcedoc" name="sourcedoc" value="$!request.sourcedoc"  size="60"/&gt;&lt;/dd&gt;

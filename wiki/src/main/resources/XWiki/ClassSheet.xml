@@ -87,6 +87,7 @@ Class properties:
     {{html}}
       &lt;form action="" id="newdoc" method="post"&gt;
         &lt;div&gt;
+          &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
           &lt;input type="hidden" name="parent" value="${defaultParent}"/&gt;
           &lt;input type="hidden" name="template" value="${classTemplateDoc}"/&gt;
           &lt;input type="hidden" name="sheet" value="1"/&gt;
@@ -116,6 +117,7 @@ Class properties:
     {{html}}
       &lt;form action="$classSheetDoc.getURL('save', 'editor=wiki')" method="post"&gt;
         &lt;div&gt;
+          &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
           &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
           &lt;input type="hidden" name="xredirect" value="${doc.URL}"/&gt;
           &lt;input type="hidden" name="content" value="$xwiki.getFormEncoded($xwiki.getDocument('XWiki.ObjectSheet').getContent().replaceAll('XWiki.MyClass', $doc.fullName))"/&gt;
@@ -126,7 +128,7 @@ Class properties:
   #else
     #if($classSheetExists &amp;&amp; !$classSheetDoc.getObject('XWiki.SheetClass'))
       #set($xredirect = $request.getRequestURL())
-      #set($createUrl = $classSheetDoc.getURL('objectadd', "classname=XWiki.SheetClass&amp;xredirect=${xredirect}"))
+      #set($createUrl = $classSheetDoc.getURL('objectadd', "classname=XWiki.SheetClass&amp;xredirect=${xredirect}&amp;form_token=$!{services.csrf.getToken()}"))
       {{warning}}
         The sheet does not contain an object of type //XWiki.SheetClass//. To trigger the inline edit mode automatically, {{html}}&lt;a href="$createUrl"&gt;add a SheetClass object to the sheet »&lt;/a&gt;.{{/html}}
       {{/warning}}
@@ -143,6 +145,7 @@ Class properties:
     {{html}}
       &lt;form action="$classTemplateDoc.getURL('save', 'editor=wiki')" method="post"&gt;
         &lt;div&gt;
+          &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
           &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
           &lt;input type="hidden" name="xredirect" value="${doc.URL}"/&gt;
           &lt;input type="hidden" name="content" value="$xwiki.getFormEncoded($xwiki.getDocument('XWiki.ObjectTemplate').getContent().replaceAll('XWiki.MySheet', $classSheetDoc.fullName))"/&gt;
@@ -153,7 +156,7 @@ Class properties:
   #else
     #if($classTemplateExists &amp;&amp; !$classTemplateDoc.getObject(${doc.fullName}))
       #set($xredirect = $request.getRequestURL())
-      #set($createUrl = $classTemplateDoc.getURL('objectadd', "classname=${doc.fullName}&amp;amp;xredirect=${xredirect}"))
+      #set($createUrl = $classTemplateDoc.getURL('objectadd', "classname=${doc.fullName}&amp;amp;xredirect=${xredirect}&amp;amp;form_token=$!{services.csrf.getToken()}"))
       {{warning}}
         The template does not contain an object of type //${className}Class//. {{html}}&lt;a href="$createUrl"&gt;Add a ${className} object to the template »&lt;/a&gt;.{{/html}}
       {{/warning}}

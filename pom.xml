@@ -70,7 +70,7 @@
     <platform.invitation.version>1.1</platform.invitation.version>
     <platform.jodatime.version>1.3</platform.jodatime.version>
     <platform.plugin.lucene.version>1.20</platform.plugin.lucene.version>
-    <platform.plugin.mailsender.version>1.16</platform.plugin.mailsender.version>
+    <platform.plugin.mailsender.version>1.14</platform.plugin.mailsender.version>
     <!-- Not compatible with 1.39+ -->
     <platform.panels.version>1.38</platform.panels.version>
     <platform.scheduler.version>1.19</platform.scheduler.version>

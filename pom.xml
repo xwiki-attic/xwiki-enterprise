@@ -33,12 +33,12 @@
   <artifactId>xwiki-enterprise-parent</artifactId>
   <packaging>pom</packaging>
   <name>XWiki Products - Enterprise - Parent POM</name>
-  <version>2.4-SNAPSHOT</version>
+  <version>2.4.2</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/branches/xwiki-enterprise-2.4</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/branches/xwiki-enterprise-2.4</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/branches/xwiki-enterprise-2.4</url>
+    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-2.4.2</connection>
+    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-2.4.2</developerConnection>
+    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/tags/xwiki-enterprise-2.4.2</url>
   </scm>
   <issueManagement>
     <system>jira</system>

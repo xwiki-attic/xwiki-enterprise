@@ -87,7 +87,13 @@
       <artifactId>xwiki-application-invitation</artifactId>
       <version>${platform.invitation.version}</version>
       <type>xar</type>
-    </dependency>        
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform.applications</groupId>
+      <artifactId>xwiki-application-extension</artifactId>
+      <version>${platform.extension.version}</version>
+      <type>xar</type>
+    </dependency>  
   </dependencies>
   <build>
     <extensions>

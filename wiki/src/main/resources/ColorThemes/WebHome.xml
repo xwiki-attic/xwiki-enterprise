@@ -259,7 +259,7 @@
   $preferencesObj.set('colorTheme', $request.theme)
   $preferencesDoc.save()
   ## Redirect without xaction, so that refreshing doesn't set the same theme again.
-  $response.sendRedirect($doc.getURL('view', "theme=$request.theme"))
+  $response.sendRedirect($doc.getURL('view', "theme=$escapetool.url($request.theme)"))
   #stop
 #elseif("$!request.xaction" == 'create' &amp;&amp; "$!request.newThemeName" != '' &amp;&amp; ${services.csrf.isTokenValid("$!{request.getParameter('form_token')}")})
   $response.sendRedirect($xwiki.getDocument('ColorThemes', $request.newThemeName).getURL('inline', 'template=ColorThemes.ColorThemeTemplate'))

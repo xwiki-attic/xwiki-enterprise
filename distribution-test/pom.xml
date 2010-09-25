@@ -264,6 +264,7 @@
                     templates/wysiwyg\.vm <!-- redirects to editwysiwyg.vm, recursive redirection error with some parameters -->
                     templates/xml\.vm <!-- correctly XML-escapes content (escapes &lt; and &gt; but not " and ' in tags) -->
                     templates/xpart\.vm <!-- avoid recursive include -->
+                    ColorThemes/WebHome\.xml <!-- correctly XML-escapes parameters (escapes &lt; and &gt; but not " and ' in tags) -->
                 </value>
               </property>
               <property>

@@ -191,16 +191,16 @@ $xwiki.ssx.use('Main.Spaces')##
           &lt;div class="spSpaceName"&gt;[[${space}&gt;&gt;${space}.WebHome]]&lt;/div&gt;
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
-            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$msg.get('xe.spaces.action.index')"&gt;
-              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.gif')" alt="$msg.get('xe.spaces.action.index.alt')"/&gt;
+            &lt;a href="{{html wiki="false"}}$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)"){{/html}}" title="$msg.get('xe.spaces.action.index')"&gt;
+              &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/book_open.gif'){{/html}}" alt="$msg.get('xe.spaces.action.index.alt')"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.
             #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))
-              &lt;a href="$xwiki.getURL("${space}.WebPreferences", 'admin')" title="$msg.get('xe.spaces.action.admin')"&gt;
-                &lt;img src="$xwiki.getSkinFile('icons/silk/cog.gif')" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
+              &lt;a href="{{html wiki="false"}}$xwiki.getURL("${space}.WebPreferences", 'admin'){{/html}}" title="$msg.get('xe.spaces.action.admin')"&gt;
+                &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/cog.gif'){{/html}}" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
               &lt;/a&gt;
-              ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='$spaceListDoc.getURL('view', "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()&amp;amp;form_token=$!{services.csrf.getToken()}")'" title="$msg.get('xe.spaces.action.delete')"&gt;
-              ##   &lt;img src="$xwiki.getSkinFile('icons/silk/cross.gif')" alt="$msg.get('xe.spaces.action.delete.alt')" /&gt;
+              ## &lt;a href="#" onclick="confirm('ALL THE PAGES WITHIN THE SPACE &amp;ldquo;${space}&amp;rdquo; WILL BE DELETED, are you sure that you want to continue ?'); this.href='{{html wiki="false"}}$spaceListDoc.getURL('view', "deleteSpace=${space}&amp;amp;xredirect=$doc.getExternalURL()&amp;amp;form_token=$!{services.csrf.getToken()}"){{/html}}'" title="$msg.get('xe.spaces.action.delete')"&gt;
+              ##   &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/cross.gif'){{/html}}" alt="$msg.get('xe.spaces.action.delete.alt')" /&gt;
               ## &lt;/a&gt;
             #end
           &lt;/div&gt;
@@ -215,10 +215,10 @@ $xwiki.ssx.use('Main.Spaces')##
   #if($xwiki.hasAdminRights())
     &lt;li id="spSpaceCreateItem" class="xitem space"&gt;
       &lt;div class="xitemcontainer"&gt;
-        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space')" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
+        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="{{html wiki="false"}}$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space'){{/html}}" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;
         &lt;div id="spSpaceCreateForm" class="hidden"&gt;
-          &lt;form method="post" action="$doc.getURL('view', 'xpage=create')"&gt;
+          &lt;form method="post" action="{{html wiki="false"}}$doc.getURL('view', 'xpage=create'){{/html}}"&gt;
             &lt;div&gt;
               &lt;input name="tocreate" type="hidden" value="space" /&gt;
               #set($newSpaceName = $escapetool.xml($msg.get('xe.spaces.createspace.defaultname')))

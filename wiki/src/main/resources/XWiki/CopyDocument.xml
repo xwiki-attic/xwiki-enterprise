@@ -32,8 +32,8 @@
 #set($sourcewiki = $context.database)
 #set($targetwiki = $context.database)
 #if("$!targetdoc" != "" &amp;&amp; ${services.csrf.isTokenValid("$!{request.getParameter('form_token')}")})
-#set($sourcelink = "[[$sourcewiki:$sourcedoc#if($language)($language)#end&gt;&gt;$sourcewiki:$sourcedoc#if($language)?language=$language#end]]")
-#set($targetlink = "[[$targetwiki:$targetdoc&gt;&gt;$targetwiki:$targetdoc#if($language)?language=$language#end]]")
+#set($sourcelink = "[[$sourcewiki:$sourcedoc#if($language)($language)#end&gt;&gt;$sourcewiki:$sourcedoc#if($language)?language=$escapetool.url($language)#end]]")
+#set($targetlink = "[[$targetwiki:$targetdoc&gt;&gt;$targetwiki:$targetdoc#if($language)?language=$escapetool.url($language)#end]]")
 #set($ok = $xwiki.xWiki.copyDocument($sourcedoc, $targetdoc, $sourcewiki, $targetwiki, $language, false, $context.context))
 $msg.get("xe.document.copying", [$sourcelink, $targetlink])
 #end
@@ -43,11 +43,11 @@ $msg.get("xe.document.copying", [$sourcelink, $targetlink])
 &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
 &lt;dl&gt;
 &lt;dt&gt;&lt;label for="sourcedoc"&gt;$msg.get("xe.document.copy.source")&lt;/label&gt;&lt;/dt&gt;
-&lt;dd&gt;&lt;input type="text" id="sourcedoc" name="sourcedoc" value="$!request.sourcedoc"  size="60"/&gt;&lt;/dd&gt;
+&lt;dd&gt;&lt;input type="text" id="sourcedoc" name="sourcedoc" value="$!{escapetool.xml($request.sourcedoc)}"  size="60"/&gt;&lt;/dd&gt;
 &lt;dt&gt;&lt;label for="language"&gt;$msg.get("xe.document.copy.language")&lt;/label&gt;&lt;/dt&gt;
-&lt;dd&gt;&lt;input type="text" id="language" name="language" value="$!request.language" size="60" /&gt;&lt;/dd&gt;
+&lt;dd&gt;&lt;input type="text" id="language" name="language" value="$!{escapetool.xml($request.language)}" size="60" /&gt;&lt;/dd&gt;
 &lt;dt&gt;&lt;label for="targetdoc"&gt;$msg.get("xe.document.copy.target")&lt;/label&gt;&lt;/dt&gt;
-&lt;dd&gt;&lt;input type="text" id="targetdoc" name="targetdoc" value="$!request.targetdoc" size="60" /&gt;&lt;/dd&gt;
+&lt;dd&gt;&lt;input type="text" id="targetdoc" name="targetdoc" value="$!{escapetool.xml($request.targetdoc)}" size="60" /&gt;&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.document.copy.do')" class="button" /&gt;&lt;/span&gt;
 &lt;/div&gt;

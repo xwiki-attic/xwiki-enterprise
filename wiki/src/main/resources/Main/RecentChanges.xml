@@ -140,7 +140,12 @@ table.recentChanges {
 }
 
 .recentChangesLeft img {
-  height: 60px;
+  max-height: 50px;
+  max-width: 50px;
+}
+/* IE6 doesn't understand max-* */
+* html .recentChangesLeft img {
+  width: 50px;
 }
 
 .recentChangesRight {
@@ -422,7 +427,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 ## 
 ##
 #macro(displayRcAuthor $author)
-  #useravatar($author)
+  #mediumUserAvatar($author)
   &lt;br/&gt;&lt;span class="recentChangesAuthor"&gt;
   #if($author == "XWikiGuest")
     Guest

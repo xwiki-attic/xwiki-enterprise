@@ -552,4 +552,20 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
+    
+    public void testAuthenticateWhenLDAPDNChanged() throws XWikiException
+    {
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        XWikiDocument userProfile = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
+        BaseObject ldapProfileObj = userProfile.getObject(LDAPProfileXClass.LDAP_XCLASS);
+        ldapProfileObj.setStringValue(LDAPProfileXClass.LDAP_XFIELD_DN, "oldDN");
+        
+        this.mockStore.stubs().method("searchDocuments").will(
+            returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
+
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+    }
 }

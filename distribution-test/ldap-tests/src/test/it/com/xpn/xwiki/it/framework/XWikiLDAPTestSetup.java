@@ -103,8 +103,8 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         this.logProperties.setProperty("log4j.appender.stdout.layout.ConversionPattern",
             "%d [%X{url}] [%t] %-5p %-30.30c{2} %x - %m %n");
         this.logProperties.setProperty("log4j.rootLogger", "warn, stdout");
-        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.plugin.ldap", "debug");
-        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.user.impl.LDAP", "debug");
+        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.plugin.ldap", "trace");
+        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.user.impl.LDAP", "trace");
     }
 
     /**

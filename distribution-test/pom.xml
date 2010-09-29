@@ -262,9 +262,7 @@
                     templates/titlevars\.vm <!-- needs defined $renderedContent, already tested with editinline.vm and contentview.vm -->
                     templates/watch\.vm <!-- expects xredirect to be a valid URL, does not display anything -->
                     templates/wysiwyg\.vm <!-- redirects to editwysiwyg.vm, recursive redirection error with some parameters -->
-                    templates/xml\.vm <!-- correctly XML-escapes content (escapes &lt; and &gt; but not " and ' in tags) -->
                     templates/xpart\.vm <!-- avoid recursive include -->
-                    ColorThemes/WebHome\.xml <!-- correctly XML-escapes parameters (escapes &lt; and &gt; but not " and ' in tags) -->
                 </value>
               </property>
               <property>

@@ -49,6 +49,18 @@ public class XMLEscapingValidator implements Validator
     /** Test for unescaped quote. */
     private static final String TEST_QUOT = "aaa\"bbb";
 
+    /** Test for unescaped tag start. */
+    private static final String TEST_LT = "ddd<eee";
+
+    /** Test for unescaped tag end. */
+    private static final String TEST_GT = "ccc>ddd";
+
+    /** JavaScript-escaped TEST_APOS. */
+    private static final String TEST_JS_APOS = "bbb\\'ccc";
+
+    /** JavaScript-escaped TEST_QUOT. */
+    private static final String TEST_JS_QUOT = "aaa\\\"bbb";
+
     /** Expect an empty or non-empty document. */
     private boolean shouldBeEmpty = false;
 
@@ -108,16 +120,11 @@ public class XMLEscapingValidator implements Validator
         }
         int lineNr = 1;
         for (String line : this.document) {
-            int idx = 0;
-            while ((idx = line.indexOf(TEST_APOS, idx)) >= 0) {
-                this.errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped apostrophe character"));
-                idx++;
-            }
-            idx = 0;
-            while ((idx = line.indexOf(TEST_QUOT, idx)) >= 0) {
-                this.errors.add(new ValidationError(Type.ERROR, lineNr, idx, "Unescaped quote character"));
-                idx++;
-            }
+            checkStringDelimiters(line, lineNr);
+            checkTagDelimiter(line, lineNr, TEST_LT, "Unescaped < character");
+            checkTagDelimiter(line, lineNr, TEST_GT, "Unescaped > character");
+
+            int idx;
             if ((idx = line.indexOf("Error while parsing velocity page")) >= 0) {
                 this.errors.add(new ValidationError(Type.WARNING, lineNr, idx,
                     "Parse error in the response. The template was not evaluated correctly."));
@@ -129,11 +136,86 @@ public class XMLEscapingValidator implements Validator
             if ((idx = line.indexOf("Wrapped Exception: unexpected char:")) >= 0) {
                 this.errors.add(new ValidationError(Type.WARNING, lineNr, idx, "Possible SQL error trace."));
             }
-            // TODO also check <> and \ for JavaScript
+            // TODO also check \ for JavaScript
             // TODO check for overescaping
             lineNr++;
         }
         return this.errors;
+    }
+
+    /**
+     * Check whether < and > are properly escaped. Attempts to avoid false positives caused by JavaScript escaping.
+     * Found problems are added to the internal list of escaping errors.
+     * 
+     * @param line the line to check
+     * @param lineNr line number reported on failures
+     * @param testMatch the test string to search for, e.g. TEST_LT
+     * @param errorMessage error message to use on failures
+     */
+    private void checkTagDelimiter(String line, int lineNr, String testMatch, String errorMessage)
+    {
+        // NOTE this method produces false NEGATIVES if JavaScript escaping is used where XML/URL escaping is needed
+        int idx = 0;
+        while ((idx = line.indexOf(testMatch, idx)) >= 0) {
+            // avoid false positives caused by JavaScript escaping
+            if (!isJavascriptEscaped(line, testMatch, idx)) {
+                this.errors.add(new ValidationError(Type.ERROR, lineNr, idx, errorMessage));
+            }
+            idx++;
+        }
+    }
+
+    /**
+     * Check whether quote and apostrophe are properly escaped. Attempts to avoid false positives caused by XML escaping
+     * inside tags (where only <, > and & are escaped). Found problems are added to the internal list of escaping errors.
+     * 
+     * @param line the line to check
+     * @param lineNr line number reported on failures
+     */
+    private void checkStringDelimiters(String line, int lineNr)
+    {
+        // NOTE this method produces false NEGATIVES if XML-tag escaping method is used inside tag attributes (unlikely)
+        final int offset = INPUT_STRING.indexOf(TEST_APOS) - INPUT_STRING.indexOf(TEST_QUOT);
+        int idx = 0;
+        while ((idx = line.indexOf(TEST_APOS, idx)) >= 0) {
+            // ignore if quote was not escaped either
+            int expected_idx = idx - offset;
+            if (expected_idx < 0 || line.indexOf(TEST_QUOT, expected_idx) != expected_idx) {
+                this.errors.add(new ValidationError(Type.WARNING, lineNr, idx, "Unescaped ' character"));
+            }
+            idx++;
+        }
+        idx = 0;
+        while ((idx = line.indexOf(TEST_QUOT, idx)) >= 0) {
+            // ignore if apostrophe was not escaped either
+            int expected_idx = idx + offset;
+            if (expected_idx < 0 || line.indexOf(TEST_APOS, expected_idx) != expected_idx) {
+                this.errors.add(new ValidationError(Type.WARNING, lineNr, idx, "Unescaped \" character"));
+            }
+            idx++;
+        }
+    }
+
+    /**
+     * Check if the matched test string appears to be JavaScript-escaped. Checks whether both ' and " appearing in the
+     * test string right before index are JavaScript-escaped. Used to avoid false positives in {@link #validate()}.
+     * 
+     * @param line the line where the string was matched
+     * @param match substring of the test string that was matched, e.g. TEST_APOS
+     * @param index position where the match was found in line, as reported by {@link String#indexOf(String, int)}
+     * @return true if the found input string is JavaScript-escaped, false otherwise
+     */
+    private boolean isJavascriptEscaped(String line, String match, int index)
+    {
+        int offset = INPUT_STRING.indexOf(match);
+        if (index < 0 || offset < 0) {
+            return false;
+        }
+        // JavaScript-escaping adds 2 characters
+        offset += 2;
+        int pos_apos = line.indexOf(TEST_JS_APOS, index - offset);
+        int pos_quot = line.indexOf(TEST_JS_QUOT, index - offset);
+        return (pos_apos >= 0 && pos_apos < index && pos_quot >= 0 && pos_quot < index);
     }
 
     /**

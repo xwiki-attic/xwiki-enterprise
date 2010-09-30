@@ -82,6 +82,10 @@
     <platform.watchlist.version>1.31-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>
     <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>
+
+    <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
+         the build take longer than needed (since it downloads the previous versions). -->
+    <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
   <profiles>
     <profile>

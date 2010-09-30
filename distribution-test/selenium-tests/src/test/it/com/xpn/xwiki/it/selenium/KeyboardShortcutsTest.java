@@ -84,7 +84,7 @@ public class KeyboardShortcutsTest extends AbstractXWikiTestCase
         // g : edit wysiwyg
         testShortcutFromResultingTitle(viewURL, "g", "Editing wysiwyg for Sandbox");
         // f : edit inline
-        testShortcutFromTextPresent(viewURL, "f", "Is minor edit:");
+        testShortcutFromTextPresent(viewURL, "f", "Is minor edit");
         // r : edit rights
         testShortcutFromTextPresent(viewURL, "r", "Editing rights of");
         // o : edit objects

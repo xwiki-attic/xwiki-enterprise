@@ -30,10 +30,10 @@ public class PreferencesPage extends ViewPage
     @FindBy(xpath = "//a[@href='/xwiki/bin/inline/XWiki/Admin?category=preferences']")
     private WebElement editPreferences;
 
-    @FindBy(xpath = "//div[@class='userPreferences']/dl[2]/dd")
+    @FindBy(xpath = "//div[@class='userPreferences']/dl[2]/dd[2]")
     private WebElement userType;
 
-    @FindBy(xpath = "//div[@class='userPreferences']/dl[1]/dd")
+    @FindBy(xpath = "//div[@class='userPreferences']/dl[2]/dd[1]")
     private WebElement defaultEditorToUse;
 
     @FindBy(xpath = "//a[@id='changePassword']")

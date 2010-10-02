@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>2.5-milestone-2</version>
+    <version>2.5-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-ui</artifactId>
   <name>XWiki Products - Enterprise - Functional UI Tests</name>

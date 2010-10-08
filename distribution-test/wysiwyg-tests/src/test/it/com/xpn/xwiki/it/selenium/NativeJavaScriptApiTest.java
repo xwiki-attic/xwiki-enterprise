@@ -211,8 +211,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("  editor = new WysiwygEditor({\n");
         content.append("    hookId: 'editor',\n");
         content.append("    syntax: 'xwiki/2.0',\n");
-        String inputURL =
-            getUrl(this.getClass().getSimpleName(), "_" + getName(), "edit", "xpage=wysiwyginput&render=true&key=abcd");
+        String inputURL = getUrl(this.getClass().getSimpleName(), "_" + getName(), "edit", "xpage=wysiwyginput");
         content.append("    inputURL: '" + inputURL + "',\n");
         content.append("    displayTabs: true,\n");
         content.append("    defaultEditor: 'wysiwyg'\n");
@@ -236,7 +235,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Check the log.
-        assertEquals("xwiki:wysiwyg:created xwiki:wysiwyg:loaded xwiki:wysiwyg:showingSource"
+        assertEquals("xwiki:wysiwyg:created xwiki:wysiwyg:loaded xwiki:wysiwyg:showWysiwyg xwiki:wysiwyg:showingSource"
             + " xwiki:wysiwyg:showSource xwiki:wysiwyg:showingWysiwyg xwiki:wysiwyg:showWysiwyg ", getSelenium()
             .getEval("window.document.getElementById('log').innerHTML"));
     }

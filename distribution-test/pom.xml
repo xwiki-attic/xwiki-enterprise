@@ -238,6 +238,7 @@
                     templates/createinline\.vm <!-- expects xredirect to be a valid URL -->
                     templates/leftpanels\.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
                     templates/login\.vm <!-- expects xredirect to be a valid URL -->
+                    templates/office\.vm <!-- expects attachment to be a valid attachment -->
                     templates/passwd\.vm <!-- must be tested on a user document, otherwise returns status 400 -->
                     templates/plain\.vm <!-- need raw=1 -->
                     templates/recyclebinlist\.vm <!-- page must have been deleted before -->

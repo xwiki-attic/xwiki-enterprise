@@ -634,7 +634,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText(String.format("[[image:%s@rquo.gif||alt=\"rquo.gif\"]]", pageFullName));
+        assertSourceText(String.format("[[image:%s@rquo.gif]]", pageFullName));
         switchToWysiwyg();
 
         // Edit the inserted image.
@@ -651,7 +651,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText(String.format("[[image:%s@lquo.gif||alt=\"lquo.gif\"]]", pageFullName));
+        assertSourceText(String.format("[[image:%s@lquo.gif]]", pageFullName));
     }
 
     /**

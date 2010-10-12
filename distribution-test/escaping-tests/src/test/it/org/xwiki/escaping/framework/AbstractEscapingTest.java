@@ -370,8 +370,6 @@ public abstract class AbstractEscapingTest implements FileTest
      *
      * @param url URL used in the test
      * @param description description of the test
-     * 
-     * @see #checkUnderEscaping(String, String, List)
      */
     protected void checkUnderEscaping(String url, String description)
     {

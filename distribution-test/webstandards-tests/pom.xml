@@ -43,7 +43,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>
       <artifactId>xwiki-enterprise-wiki</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
       <type>xar</type>
       <scope>test</scope>
     </dependency>

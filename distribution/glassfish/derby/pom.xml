@@ -46,7 +46,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.products</groupId>
       <artifactId>xwiki-enterprise-database-derby</artifactId>
-      <version>${pom.version}</version>
+      <version>${project.version}</version>
       <type>zip</type>
       <optional>true</optional>
     </dependency>
@@ -95,7 +95,7 @@
               <goal>single</goal>
             </goals>
             <configuration>
-              <finalName>xwiki-enterprise-${pom.version}</finalName>
+              <finalName>xwiki-enterprise-${project.version}</finalName>
               <attach>false</attach>
               <descriptors>
                 <descriptor>src/assemble/xwiki-war.xml</descriptor>

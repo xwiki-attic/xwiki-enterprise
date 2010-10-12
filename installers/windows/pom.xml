@@ -95,7 +95,7 @@
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise-installer-generic</artifactId>
-                  <version>${pom.version}</version>
+                  <version>${project.version}</version>
                   <classifier>standard</classifier>
                 </artifactItem>
               </artifactItems>
@@ -160,7 +160,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>${project.build.directory}/${pom.artifactId}-${pom.version}.exe</file>
+                  <file>${project.build.directory}/${pom.artifactId}-${project.version}.exe</file>
                   <type>exe</type>
                 </artifact>
               </artifacts>

@@ -127,7 +127,7 @@
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise-web</artifactId>
-                  <version>${pom.version}</version>
+                  <version>${project.version}</version>
                   <type>war</type>
                   <outputDirectory>${xwiki.container}/webapps/xwiki</outputDirectory>
                   <!-- Exclude default Hibernate config file since we're instead using one with the
@@ -144,7 +144,7 @@
                 <artifactItem>
                   <groupId>com.xpn.xwiki.products</groupId>
                   <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-                  <version>${pom.version}</version>
+                  <version>${project.version}</version>
                   <type>zip</type>
                   <outputDirectory>${xwiki.database}</outputDirectory>
                 </artifactItem>

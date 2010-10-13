@@ -381,8 +381,8 @@
  * Generate the HTML code for a user avatar, with a fixed 50px width.
  *#
 #macro(livetable_getAvatar $itemDoc)
-  #set($avatar = "#useravatar($itemDoc.fullName)")
-  #set($avatar = $avatar.replaceAll('\r|\n', '').replaceAll(' alt=', ' width="50" alt='))
+  #set ($avatar = "#mediumUserAvatar($itemDoc.fullName)")
+  #set ($avatar = $avatar.trim())
 #end
 
 #**

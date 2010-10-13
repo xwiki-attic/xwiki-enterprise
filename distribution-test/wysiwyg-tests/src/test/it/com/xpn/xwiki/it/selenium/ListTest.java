@@ -510,6 +510,9 @@ public class ListTest extends AbstractWysiwygTestCase
         typeEnter();
         typeText("bar");
         assertContent("<ul><li>foo</li><li>bar<br></li></ul>");
+        // The indent tool bar button is disabled when the caret is not inside a list. We have to wait for the indent
+        // tool bar button to become enabled because the tool bar is updated with delay.
+        waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
         assertContent("<ul><li>foo<ul><li>bar<br></li></ul></li></ul>");
         // test that the indented item cannot be indented once more
@@ -560,6 +563,9 @@ public class ListTest extends AbstractWysiwygTestCase
         clickUnorderedListButton();
         typeEnter();
         typeText("bar");
+        // The indent tool bar button is disabled when the caret is not inside a list. We have to wait for the indent
+        // tool bar button to become enabled because the tool bar is updated with delay.
+        waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
         // move to the end of the foo element, hit enter, tab and type. Should create a new list item, parent of the bar
         // sublist, tab should indent and type should add content

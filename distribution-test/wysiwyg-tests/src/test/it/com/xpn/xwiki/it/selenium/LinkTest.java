@@ -256,7 +256,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + email + "]]");
+        assertSourceText("[[" + linkLabel + ">>mailto:" + email + "]]");
     }
 
     /**

@@ -246,7 +246,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testCreateLinkToEmailAddress()
     {
         String linkLabel = "carol";
-        String email = "mailto:carol@xwiki.org";
+        String email = "carol@xwiki.org";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_EMAIL_ADDRESS);
@@ -257,23 +257,6 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         switchToSource();
         assertSourceText("[[" + linkLabel + ">>" + email + "]]");
-    }
-
-    /**
-     * Test adding a link to an email address but not without specifying the mailto: protocol.
-     */
-    public void testCreateLinkToEmailAddressWithoutMailto()
-    {
-        String linkLabel = "joe le taxi";
-        String email = "joe@xwiki.org";
-        typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
-        openLinkDialog(MENU_EMAIL_ADDRESS);
-        typeInInput("Email address", email);
-        clickButtonWithText("Create Link");
-        waitForDialogToClose();
-        switchToSource();
-        assertSourceText("[[" + linkLabel + ">>mailto:" + email + "]]");
     }
 
     /**

@@ -29,6 +29,26 @@ import com.xpn.xwiki.it.selenium.framework.AbstractWysiwygTestCase;
 public class AlignmentTest extends AbstractWysiwygTestCase
 {
     /**
+     * The title of the tool bar button used to align text to the left.
+     */
+    public static final String TOOLBAR_BUTTON_ALIGN_LEFT_TITLE = "Align Left";
+
+    /**
+     * The title of the tool bar button used to center the text.
+     */
+    public static final String TOOLBAR_BUTTON_ALIGN_CENTER_TITLE = "Centered";
+
+    /**
+     * The title of the tool bar button used to align text to the right.
+     */
+    public static final String TOOLBAR_BUTTON_ALIGN_RIGHT_TITLE = "Align Right";
+
+    /**
+     * The title of the tool bar button used to justify text.
+     */
+    public static final String TOOLBAR_BUTTON_ALIGN_FULL_TITLE = "Justified";
+
+    /**
      * Tests if the text directly under body can be aligned.
      */
     public void testAlignBody()
@@ -42,6 +62,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         typeText("a");
+        // Wait for the tool bar to be updated, otherwise clicking on the toggle button has no effect.
+        waitForToggleButton(TOOLBAR_BUTTON_ALIGN_RIGHT_TITLE, true);
         clickAlignRightButton();
         typeText("b");
         switchToSource();
@@ -52,6 +74,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
 
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        // Wait for the tool bar to be updated, otherwise clicking on the toggle button has no effect.
+        waitForToggleButton(TOOLBAR_BUTTON_ALIGN_FULL_TITLE, true);
         clickAlignFullButton();
         typeText("x");
         switchToSource();
@@ -64,6 +88,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         typeShiftEnter();
         typeText("b");
         selectNode("XWE.body.childNodes[2]");
+        // Wait for the tool bar to be updated, otherwise clicking on the toggle button has no effect.
+        waitForToggleButton(TOOLBAR_BUTTON_ALIGN_LEFT_TITLE, true);
         clickAlignLeftButton();
         typeText("x");
         switchToSource();
@@ -82,7 +108,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         // Wait for the tool bar to be updated.
         waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         // Check the default alignment.
-        boolean defaultAlignFull = isToggleButtonDown("Justified");
+        boolean defaultAlignFull = isToggleButtonDown(TOOLBAR_BUTTON_ALIGN_FULL_TITLE);
 
         // Center text.
         clickAlignCenterButton();
@@ -300,7 +326,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignLeftButton()
     {
-        pushToolBarButton("Align Left");
+        pushToolBarButton(TOOLBAR_BUTTON_ALIGN_LEFT_TITLE);
     }
 
     /**
@@ -308,7 +334,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignCenterButton()
     {
-        pushToolBarButton("Centered");
+        pushToolBarButton(TOOLBAR_BUTTON_ALIGN_CENTER_TITLE);
     }
 
     /**
@@ -316,7 +342,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignRightButton()
     {
-        pushToolBarButton("Align Right");
+        pushToolBarButton(TOOLBAR_BUTTON_ALIGN_RIGHT_TITLE);
     }
 
     /**
@@ -324,7 +350,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
      */
     protected void clickAlignFullButton()
     {
-        pushToolBarButton("Justified");
+        pushToolBarButton(TOOLBAR_BUTTON_ALIGN_FULL_TITLE);
     }
 
     /**
@@ -336,7 +362,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     protected void waitForAlignLeftDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        waitForToggleButtonState("Align Left", detected);
+        waitForToggleButtonState(TOOLBAR_BUTTON_ALIGN_LEFT_TITLE, detected);
     }
 
     /**
@@ -348,7 +374,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     protected void waitForAlignCenterDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        waitForToggleButtonState("Centered", detected);
+        waitForToggleButtonState(TOOLBAR_BUTTON_ALIGN_CENTER_TITLE, detected);
     }
 
     /**
@@ -360,7 +386,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     protected void waitForAlignRightDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        waitForToggleButtonState("Align Right", detected);
+        waitForToggleButtonState(TOOLBAR_BUTTON_ALIGN_RIGHT_TITLE, detected);
     }
 
     /**
@@ -372,6 +398,6 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     protected void waitForAlignFullDetected(boolean detected)
     {
         triggerToolbarUpdate();
-        waitForToggleButtonState("Justified", detected);
+        waitForToggleButtonState(TOOLBAR_BUTTON_ALIGN_FULL_TITLE, detected);
     }
 }

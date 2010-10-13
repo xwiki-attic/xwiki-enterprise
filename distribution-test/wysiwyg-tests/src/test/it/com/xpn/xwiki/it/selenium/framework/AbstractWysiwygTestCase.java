@@ -726,7 +726,18 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Waits for the specified button have the specified state i.e. enabled or disabled.
+     * @param toggleButtonTitle the tool tip of a toggle button from the WYSIWYG tool bar
+     * @return {@code true} if the specified toggle button is enabled, {@code false} otherwise
+     */
+    public boolean isToggleButtonEnabled(String toggleButtonTitle)
+    {
+        return getSelenium().isElementPresent(
+            "//div[@title='" + toggleButtonTitle
+                + "' and contains(@class, 'gwt-ToggleButton') and not(contains(@class, '-disabled'))]");
+    }
+
+    /**
+     * Waits for the specified push button to have the specified state i.e. enabled or disabled.
      * 
      * @param pushButtonTitle identifies the button to wait for
      * @param enabled {@code true} to wait for the specified button to become enabled, {@code false} to wait for it to
@@ -741,6 +752,24 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 return enabled == isPushButtonEnabled(pushButtonTitle);
             }
         }.wait(pushButtonTitle + " button is not " + (enabled ? "enabled" : "disabled") + "!");
+    }
+
+    /**
+     * Waits for the specified toggle button be enabled or disabled, based on the given state parameter.
+     * 
+     * @param toggleButtonTitle identifies the button to wait for
+     * @param enabled {@code true} to wait for the specified toggle button to become enabled, {@code false} to wait for
+     *            it to become disabled
+     */
+    public void waitForToggleButton(final String toggleButtonTitle, final boolean enabled)
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return enabled == isToggleButtonEnabled(toggleButtonTitle);
+            }
+        }.wait(toggleButtonTitle + " button is not " + (enabled ? "enabled" : "disabled") + "!");
     }
 
     /**

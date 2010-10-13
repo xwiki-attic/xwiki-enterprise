@@ -36,10 +36,10 @@ public class PreferencesEditPage extends EditPage
 
     private static final String EDITOR_TEXT = "Text";
 
-    @FindBy(xpath = "//div[@class='userPreferences']/dl[1]/dd/pre/select")
+    @FindBy(xpath = "//select[@id='XWiki.XWikiUsers_0_editor']")
     private WebElement defaultEditor;
 
-    @FindBy(xpath = "//div[@class='userPreferences']/dl[2]/dd/pre/select")
+    @FindBy(xpath = "//select[@id='XWiki.XWikiUsers_0_usertype']")
     private WebElement userType;
 
     public void setSimpleUserType()

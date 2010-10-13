@@ -12,9 +12,9 @@ import org.xwiki.it.ui.panels.elements.NewPagePanel;
  * Test page creation using the NewPage Panel.
  *
  * @version $Id$
- * @since 2.4M1
+ * @since 2.5RC1
  */
-public class CreatePageTest extends AbstractAdminAuthenticatedTest
+public class NewPagePanelTest extends AbstractAdminAuthenticatedTest
 {
     /**
      * The object used to access the name of the current test.

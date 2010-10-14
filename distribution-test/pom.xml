@@ -483,6 +483,18 @@
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
+    <profile>
+      <!-- Make sure we add the Clover JAR to the test classpath since instrumented code will need it -->
+      <id>clover</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.cenqua.clover</groupId>
+          <artifactId>clover</artifactId>
+          <version>3.0.2</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
   <modules>
     <module>misc-tests</module>

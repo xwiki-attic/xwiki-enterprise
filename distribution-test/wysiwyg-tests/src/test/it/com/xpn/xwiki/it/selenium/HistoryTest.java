@@ -77,11 +77,17 @@ public class HistoryTest extends AbstractWysiwygTestCase
         getSelenium().controlKeyUp();
 
         // Undo last 3 steps.
+        // The undo tool bar button is initially disabled because no action has been taken on the edited document. We
+        // have to wait for it to become enabled because the tool bar is updated with delay after each edit action.
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         getSelenium().metaKeyDown();
         typeText("ZZZ");
         getSelenium().metaKeyUp();
 
         // Redo 2 steps.
+        // We have to wait for the redo tool bar button to become enabled because the tool bar is updated with delay
+        // after an undo operation.
+        waitForPushButton(TOOLBAR_BUTTON_REDO_TITLE, true);
         getSelenium().controlKeyDown();
         typeText("YY");
         getSelenium().controlKeyUp();

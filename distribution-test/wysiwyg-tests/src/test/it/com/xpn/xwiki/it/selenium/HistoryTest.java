@@ -107,6 +107,9 @@ public class HistoryTest extends AbstractWysiwygTestCase
         typeText("c");
         typeText("vvvv");
         getSelenium().controlKeyUp();
+        // The undo tool bar button is initially disabled because no action has been taken on the edited document. We
+        // have to wait for it to become enabled because the tool bar is updated with delay after each edit action.
+        waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         clickUndoButton();
         switchToSource();
         assertSourceText("qqq");

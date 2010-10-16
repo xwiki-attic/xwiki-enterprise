@@ -110,5 +110,18 @@
         <version>${platform.tool.xar-plugin.version}</version>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <!-- Exclude from being Clovered since it doesn't bring interesting information and causes
+               problems with the XAR plugin since Clover generates files in target/classes that conflicts -->
+          <groupId>com.atlassian.maven.plugins</groupId>
+          <artifactId>maven-clover2-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>  
 </project>

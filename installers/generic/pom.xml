@@ -40,6 +40,34 @@
       <version>${izpack.compiler.version}</version>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform.tools</groupId>
+      <artifactId>xwiki-jetty-resources</artifactId>
+      <version>${platform.tool.jetty.version}</version>
+      <type>zip</type>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform.tools</groupId>
+      <artifactId>xwiki-rootwebapp</artifactId>
+      <version>${platform.tool.rootwebapp.version}</version>
+      <type>war</type>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.xpn.xwiki.products</groupId>
+      <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
   <build>
     <resources>

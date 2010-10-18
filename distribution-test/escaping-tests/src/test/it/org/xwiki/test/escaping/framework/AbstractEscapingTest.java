@@ -18,7 +18,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.xwiki.escaping.framework;
+package org.xwiki.test.escaping.framework;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -43,7 +43,7 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.xwiki.escaping.suite.FileTest;
+import org.xwiki.test.escaping.suite.FileTest;
 import org.xwiki.validator.ValidationError;
 
 /**
@@ -155,7 +155,7 @@ public abstract class AbstractEscapingTest implements FileTest
      * The implementation for escaping tests checks if the given file name matches the supported name pattern and parses
      * the file.
      * 
-     * @see org.xwiki.escaping.suite.FileTest#initialize(java.lang.String, java.io.Reader)
+     * @see org.xwiki.test.escaping.suite.FileTest#initialize(java.lang.String, java.io.Reader)
      */
     public boolean initialize(String name, final Reader reader)
     {

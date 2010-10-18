@@ -17,16 +17,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.escaping;
+package org.xwiki.test.escaping;
 
 import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.xwiki.escaping.framework.AbstractEscapingTest;
-import org.xwiki.escaping.framework.AbstractManualTest;
-import org.xwiki.escaping.framework.XMLEscapingValidator;
+import org.xwiki.test.escaping.framework.AbstractEscapingTest;
+import org.xwiki.test.escaping.framework.AbstractManualTest;
+import org.xwiki.test.escaping.framework.XMLEscapingValidator;
 
 
 /**

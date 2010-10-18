@@ -17,14 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.escaping;
+package org.xwiki.test.escaping;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.RunWith;
-import org.xwiki.escaping.framework.SingleXWikiExecutor;
-import org.xwiki.escaping.framework.XMLEscapingValidator;
+import org.xwiki.test.escaping.framework.SingleXWikiExecutor;
 
 /**
  * Parent test suite that runs all functional escaping tests. Starts XWiki server before other tests
@@ -35,7 +34,8 @@ import org.xwiki.escaping.framework.XMLEscapingValidator;
  * - add over-escaping test
  * - test for escaping of action
  * - need to test comments*.vm on a page with comments
- * - create the space and page named {@link XMLEscapingValidator#getTestString()} before running space/page tests
+ * - create the space and page named {@link org.xwiki.test.escaping.framework.XMLEscapingValidator#getTestString()}
+ *   before running space/page tests
  * - sometimes, templates need the document to be in syntax 1.0
  * 
  * @version $Id$

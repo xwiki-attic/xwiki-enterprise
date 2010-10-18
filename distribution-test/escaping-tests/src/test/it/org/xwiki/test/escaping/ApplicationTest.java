@@ -17,8 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
-package org.xwiki.escaping;
+package org.xwiki.test.escaping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,50 +27,47 @@ import java.util.regex.Pattern;
 import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.xwiki.escaping.framework.AbstractEscapingTest;
-import org.xwiki.escaping.framework.AbstractVelocityEscapingTest;
-import org.xwiki.escaping.framework.EscapingError;
-import org.xwiki.escaping.framework.SingleXWikiExecutor;
-import org.xwiki.escaping.framework.XMLEscapingValidator;
-import org.xwiki.escaping.suite.ArchiveSuite;
-import org.xwiki.escaping.suite.ArchiveSuite.AfterSuite;
-import org.xwiki.escaping.suite.ArchiveSuite.ArchivePathGetter;
-import org.xwiki.escaping.suite.ArchiveSuite.BeforeSuite;
+import org.xwiki.test.escaping.framework.AbstractEscapingTest;
+import org.xwiki.test.escaping.framework.AbstractVelocityEscapingTest;
+import org.xwiki.test.escaping.framework.EscapingError;
+import org.xwiki.test.escaping.framework.SingleXWikiExecutor;
+import org.xwiki.test.escaping.framework.XMLEscapingValidator;
+import org.xwiki.test.escaping.suite.ArchiveSuite;
 import org.xwiki.validator.ValidationError;
 
 
 /**
- * Runs automatically generated escaping tests for all velocity templates found in XWiki Enterprise WAR file.
+ * Runs automatically generated escaping tests for all XWiki documents found in XWiki Enterprise XAR file.
  * <p>
  * The following configuration properties are supported (set in maven):
  * <ul>
  * <li>localRepository: Path to maven repository, where XWiki files can be found</li>
- * <li>pathToXWikiWar: Used to read all templates</li>
+ * <li>pathToXWikiXar: Used to read all documents</li>
  * </ul></p>
  * 
  * @version $Id$
  * @since 2.5M1
  */
 @RunWith(ArchiveSuite.class)
-public class TemplateTest extends AbstractVelocityEscapingTest
+public class ApplicationTest extends AbstractVelocityEscapingTest
 {
     /**
      * Get the path to the archive from system properties defined in the maven build configuration.
      * 
-     * @return local path to the WAR archive to use
+     * @return local path to the XAR archive to use
      */
-    @ArchivePathGetter
+    @ArchiveSuite.ArchivePathGetter
     public static String getArchivePath()
     {
-        return System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiWar");
+        return System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
     }
 
     /**
-     * Start XWiki server if needed and switch to multi-language mode.
+     * Initialize the test.
      * 
      * @throws Exception on errors
      */
-    @BeforeSuite
+    @ArchiveSuite.BeforeSuite
     public static void init() throws Exception
     {
         SingleXWikiExecutor.getExecutor().start();
@@ -81,11 +77,11 @@ public class TemplateTest extends AbstractVelocityEscapingTest
     }
 
     /**
-     * Switch back to single language mode and stop XWiki server if no longer needed.
+     * Clean up.
      * 
      * @throws Exception on errors
      */
-    @AfterSuite
+    @ArchiveSuite.AfterSuite
     public static void shutdown() throws Exception
     {
         // restore single language mode
@@ -95,47 +91,41 @@ public class TemplateTest extends AbstractVelocityEscapingTest
     }
 
     /**
-     * Create new TemplateTest for all *.vm files.
+     * Create new ApplicationTest for all *.xml files in subdirectories.
      */
-    public TemplateTest()
+    public ApplicationTest()
     {
-        super(Pattern.compile(".*\\.vm"));
+        super(Pattern.compile(".+/.+\\.xml"));
     }
 
     /**
-     * Test escaping of the space name.
+     * Test escaping of all found parameters for colibri.
      */
     @Test
-    public void testSpaceEscaping()
+    public void testParametersInColibri()
     {
-        // space name
-        String url = createUrl(XMLEscapingValidator.getTestString(), null, null, "");
-        checkUnderEscaping(url, "space name");
+        // NOTE: results in other skins seem to be the same
+        testParameterEscaping("colibri");
     }
 
     /**
-     * Test escaping of the page name.
+     * Run the tests for all parameters for given skin.
+     * 
+     * @param skin skin to use
      */
-    @Test
-    public void testPageEscaping()
-    {
-        // page name
-        String url = createUrl("Main", XMLEscapingValidator.getTestString(), null, "");
-        checkUnderEscaping(url, "page name");
-    }
-
-    /**
-     * Test escaping of all found parameters.
-     */
-    @Test
-    public void testParameterEscaping()
+    private void testParameterEscaping(String skin)
     {
         // skip the test if there are no parameters to test
         Assume.assumeTrue(!this.userInput.isEmpty());
 
+        String space = this.name.replaceAll("/.+$", "");
+        String page = this.name.replaceAll("^.+/", "").replaceAll("\\..+$", "");
+
+        // all found parameters
+        // TODO need to also consider parameters from page header templates bound to variables
         List<EscapingError> errors = new ArrayList<EscapingError>();
         for (String parameter : this.userInput) {
-            String url = createUrl("Main", null, parameter, XMLEscapingValidator.getTestString());
+            String url = createUrl(space, page, parameter, XMLEscapingValidator.getTestString(), skin);
             List<ValidationError> val_errors = getUnderEscapingErrors(url);
             if (!val_errors.isEmpty()) {
                 errors.add(new EscapingError("* Parameter: \"" + parameter + "\"", this.name, url, val_errors));
@@ -147,31 +137,21 @@ public class TemplateTest extends AbstractVelocityEscapingTest
     }
 
     /**
-     * Create a target URL from given parameters, adding the template name.
+     * Convenience method to create the target URL with one parameter.
      * 
-     * @param space space name to use, "Main" is used if null
-     * @param page page name to use, "WebHome" is used if null
+     * @param space space name to use
+     * @param page page name to use
      * @param parameter parameter name to add, omitted if null or empty string
      * @param value parameter value, empty string is used if null
+     * @param skin skin name to use
      * @return the resulting absolute URL
      * @see #createUrl(String, String, String, java.util.Map)
      */
-    protected String createUrl(String space, String page, String parameter, String value)
+    protected String createUrl(String space, String page, String parameter, String value, String skin)
     {
-        String template = this.name.replaceAll("^.+/", "");
-        String skin = "default";
-        if (this.name.startsWith("skins")) {
-            skin = this.name.replaceFirst("^\\w+/", "").replaceAll("/.+$", "");
-        }
         HashMap<String, String> parameters = new HashMap<String, String>();
-        parameters.put("skin", skin);
-        if ("xpart".equals(parameter)) {
-            // xpart=something must be tested differently
-            parameters.put("xpage", template).replaceAll("\\.\\w+$", "");
-        } else {
-            // this variant initializes some commonly used variables
-            parameters.put("xpage", "xpart");
-            parameters.put("vm", template);
+        if (skin != null) {
+            parameters.put("skin", skin);
         }
         if (parameter != null) {
             parameters.put(parameter, value);

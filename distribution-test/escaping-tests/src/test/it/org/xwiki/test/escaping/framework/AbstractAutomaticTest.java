@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.escaping.framework;
+package org.xwiki.test.escaping.framework;
 
 import java.util.regex.Pattern;
 
@@ -48,7 +48,7 @@ public abstract class AbstractAutomaticTest extends AbstractEscapingTest
      * 
      * @param fileName file name to check
      * @return true if the file is expected to produce some output when requested from the server, false otherwise
-     * @see org.xwiki.escaping.framework.AbstractEscapingTest#isOutputProducingFile(java.lang.String)
+     * @see AbstractEscapingTest#isOutputProducingFile(java.lang.String)
      */
     @Override
     protected boolean isOutputProducingFile(String fileName)
@@ -69,7 +69,7 @@ public abstract class AbstractAutomaticTest extends AbstractEscapingTest
      * 
      * @param fileName file name to check
      * @return true if the file should be excluded, false otherwise
-     * @see org.xwiki.escaping.framework.AbstractEscapingTest#isExcludedFile(java.lang.String)
+     * @see AbstractEscapingTest#isExcludedFile(java.lang.String)
      */
     @Override
     protected boolean isExcludedFile(String fileName)

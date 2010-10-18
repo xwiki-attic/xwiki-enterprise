@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.escaping.framework;
+package org.xwiki.test.escaping.framework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
      * 
      * Parsing should not be needed in manual tests, we return an empty set.
      * 
-     * @see org.xwiki.escaping.framework.AbstractEscapingTest#parse(java.io.Reader)
+     * @see AbstractEscapingTest#parse(java.io.Reader)
      */
     @Override
     protected Set<String> parse(Reader reader)
@@ -87,7 +87,7 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
      * @param fileName file name to check
      * @return true if the file should be excluded, false otherwise
      * @see AbstractAutomaticTest#isExcludedFile(String)
-     * @see org.xwiki.escaping.framework.AbstractEscapingTest#isExcludedFile(java.lang.String)
+     * @see AbstractEscapingTest#isExcludedFile(java.lang.String)
      */
     @Override
     protected boolean isExcludedFile(String fileName)
@@ -103,7 +103,7 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
      * @param fileName file name to check
      * @return true if the file is expected to produce some output when requested from the server, false otherwise
      * @see AbstractAutomaticTest#isOutputProducingFile(String)
-     * @see org.xwiki.escaping.framework.AbstractEscapingTest#isOutputProducingFile(java.lang.String)
+     * @see AbstractEscapingTest#isOutputProducingFile(java.lang.String)
      */
     @Override
     protected boolean isOutputProducingFile(String fileName)

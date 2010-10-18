@@ -33,7 +33,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.products:xwiki-enterprise-web</include>
+        <include>org.xwiki.enterprise:xwiki-enterprise-web</include>
       </includes>
       <outputDirectory>webapps/xwiki</outputDirectory>
       <unpack>true</unpack>
@@ -108,7 +108,7 @@
            not specified -->
       <outputFileNameMapping></outputFileNameMapping>
       <includes>
-        <include>com.xpn.xwiki.products:xwiki-enterprise-database-${xwiki.db}</include>
+        <include>org.xwiki.enterprise:xwiki-enterprise-database-${xwiki.db}</include>
       </includes>
       <outputDirectory>/database</outputDirectory>
       <unpack>true</unpack>

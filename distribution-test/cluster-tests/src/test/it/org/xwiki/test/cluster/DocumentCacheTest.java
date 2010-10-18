@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it;
+package org.xwiki.test.cluster;
 
 import javax.ws.rs.core.MediaType;
 
@@ -29,7 +29,7 @@ import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
 
-import com.xpn.xwiki.it.framework.AbstractClusterHttpTest;
+import org.xwiki.test.cluster.framework.AbstractClusterHttpTest;
 
 /**
  * Verify the document cache update based on distributed events.

@@ -110,7 +110,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * {@inheritDoc}
      * 
-     * @see com.xpn.xwiki.test.XWikiTestSetup#setUp()
+     * @see org.xwiki.test.XWikiTestSetup#setUp()
      */
     @Override
     protected void setUp() throws Exception
@@ -126,7 +126,7 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
     /**
      * {@inheritDoc}
      * 
-     * @see com.xpn.xwiki.test.XWikiTestSetup#tearDown()
+     * @see org.xwiki.test.XWikiTestSetup#tearDown()
      */
     @Override
     protected void tearDown() throws Exception

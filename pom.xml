@@ -64,22 +64,29 @@
     <platform.core.version>${project.version}</platform.core.version>
     <platform.web.version>${project.version}</platform.web.version>
 
-    <platform.administration.version>1.40-SNAPSHOT</platform.administration.version>
+    <!-- Not compatible with 1.40+ -->
+    <platform.administration.version>1.39</platform.administration.version>
     <platform.annotations.version>1.7-SNAPSHOT</platform.annotations.version>
     <platform.activitystream.version>1.7-SNAPSHOT</platform.activitystream.version>
-    <platform.blog.version>1.24-SNAPSHOT</platform.blog.version>
-    <platform.invitation.version>1.2-SNAPSHOT</platform.invitation.version>
+    <!-- Not compatible with 1.24+ -->
+    <platform.blog.version>1.23</platform.blog.version>
+    <!-- Not compatible with 1.2+ -->
+    <platform.invitation.version>1.1</platform.invitation.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
     <platform.plugin.lucene.version>1.21-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.mailsender.version>1.15-SNAPSHOT</platform.plugin.mailsender.version>
     <!-- Not compatible with 1.38+ -->
     <platform.panels.version>1.37</platform.panels.version>
-    <platform.scheduler.version>1.20-SNAPSHOT</platform.scheduler.version>
-    <platform.officeimporter.version>1.16-SNAPSHOT</platform.officeimporter.version>
+    <!-- Not compatible with 1.20+ -->
+    <platform.scheduler.version>1.19</platform.scheduler.version>
+    <!-- Not compatible with 1.16+ -->
+    <platform.officeimporter.version>1.15</platform.officeimporter.version>
     <platform.plugin.skinx.version>1.19-SNAPSHOT</platform.plugin.skinx.version>
     <platform.statistics.version>1.10-SNAPSHOT</platform.statistics.version>
-    <platform.search.version>1.4-SNAPSHOT</platform.search.version>
-    <platform.tag.version>1.13-SNAPSHOT</platform.tag.version>
+    <!-- Not compatible with 1.4+ -->
+    <platform.search.version>1.3</platform.search.version>
+    <!-- Not compatible with 1.13+ -->
+    <platform.tag.version>1.12</platform.tag.version>
     <platform.watchlist.version>1.31-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>
     <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>

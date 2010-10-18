@@ -17,18 +17,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.officeimporter.it.selenium;
+package org.xwiki.test.officeimporter;
 
 import java.lang.reflect.Method;
-
-import org.xwiki.officeimporter.it.selenium.framework.XWikiOfficeImporterTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 import com.xpn.xwiki.it.selenium.framework.XWikiSeleniumTestSetup;
-import com.xpn.xwiki.test.XWikiTestSetup;
+import org.xwiki.test.XWikiTestSetup;
+import org.xwiki.test.officeimporter.framework.XWikiOfficeImporterTestSetup;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit

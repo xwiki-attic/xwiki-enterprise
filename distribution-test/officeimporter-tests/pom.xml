@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>2.4-SNAPSHOT</version>
+    <version>2.6-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-officeimporter</artifactId>
   <name>XWiki Products - Enterprise - Functional Office Importer Selenium Tests</name>
@@ -37,7 +37,6 @@
     <dependency>
       <groupId>org.seleniumhq.selenium.client-drivers</groupId>
       <artifactId>selenium-java-client-driver</artifactId>
-      <version>${selenium.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -74,27 +73,12 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>selenium-maven-plugin</artifactId>
-        <version>1.0-beta-3</version>
-        <executions>
-          <execution>
-            <id>start-selenium</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start-server</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <background>true</background>
-          <multiWindow>true</multiWindow>
-          <port>4444</port>
-        </configuration>
       </plugin>
-      <!-- Step 6: Start OpenOffice, XWiki, Execute the tests and Stop XWiki (OpenOffice will be terminated) -->
+      <!-- Step 6: Start OpenOffice, XWiki, Execute the tests and Stop XWiki, OpenOffice -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>      
+      </plugin>
     </plugins>
   </build>
   <profiles>

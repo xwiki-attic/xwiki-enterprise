@@ -17,14 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.officeimporter.it.selenium;
-
-import org.xwiki.officeimporter.it.selenium.framework.AbstractOfficeImporterTestCase;
+package org.xwiki.test.officeimporter;
 
 import junit.framework.Test;
 
 import com.xpn.xwiki.it.selenium.framework.AlbatrossSkinExecutor;
 import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
+import org.xwiki.test.officeimporter.framework.AbstractOfficeImporterTestCase;
 
 /**
  * A test for importing standard office document formats.

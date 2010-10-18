@@ -29,7 +29,7 @@
     <artifactId>xwiki</artifactId>
     <version>36-SNAPSHOT</version>
   </parent>
-  <groupId>com.xpn.xwiki.products</groupId>
+  <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise-parent</artifactId>
   <packaging>pom</packaging>
   <name>XWiki Products - Enterprise - Parent POM</name>

@@ -17,24 +17,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.cluster.framework;
+package org.xwiki.test.rest;
 
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.xwiki.rest.Relations;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.Xwiki;
+import org.xwiki.rest.resources.RootResource;
 
-/**
- * Base class for REST based clustering integration test.
- * 
- * @version $Id$
- */
-public abstract class AbstractClusterHttpTest extends AbstractHttpTest
+public class RootResourceTest extends AbstractHttpTest
 {
+    @Override
     public void testRepresentation() throws Exception
     {
-    }
+        GetMethod getMethod = executeGet(getFullUri(RootResource.class));
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
-    protected void switchXWiki(int index)
-    {
-        setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT) + index);
+        Xwiki xwiki = (Xwiki) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        Link link = getFirstLinkByRelation(xwiki, Relations.WIKIS);
+        assertNotNull(link);
+
+        link = getFirstLinkByRelation(xwiki, Relations.SYNTAXES);
+        assertNotNull(link);
+
+        // link = xwikiRoot.getFirstLinkByRelation(Relations.WADL);
+        // assertNotNull(link);
+
+        checkLinks(xwiki);
     }
 }

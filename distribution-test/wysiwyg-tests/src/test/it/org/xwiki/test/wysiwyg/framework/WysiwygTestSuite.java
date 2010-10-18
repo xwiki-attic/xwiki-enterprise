@@ -17,24 +17,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.cluster.framework;
+package org.xwiki.test.wysiwyg.framework;
 
-import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.XWikiExecutor;
+import junit.framework.TestCase;
+import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
 /**
- * Base class for REST based clustering integration test.
+ * Test suite to compose together multiple tests using the same default skin executor.
  * 
  * @version $Id$
  */
-public abstract class AbstractClusterHttpTest extends AbstractHttpTest
+public class WysiwygTestSuite extends XWikiTestSuite
 {
-    public void testRepresentation() throws Exception
+    private final Class <?> skinExecutorClass;
+    
+    public WysiwygTestSuite(String name, Class< ? > skinExecutorClass)
     {
+        super(name);
+        this.skinExecutorClass = skinExecutorClass;
     }
-
-    protected void switchXWiki(int index)
+    
+    public void addTestSuite(Class< ? extends TestCase> testClass)
     {
-        setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT) + index);
+        super.addTestSuite(testClass, skinExecutorClass);
     }
 }

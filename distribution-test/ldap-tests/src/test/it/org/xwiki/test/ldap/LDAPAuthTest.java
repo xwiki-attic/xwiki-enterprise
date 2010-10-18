@@ -22,9 +22,9 @@ package org.xwiki.test.ldap;
 import junit.framework.Test;
 
 import org.xwiki.test.ldap.framework.LDAPTestSetup;
-import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
-import com.xpn.xwiki.it.selenium.framework.ColibriSkinExecutor;
-import com.xpn.xwiki.it.selenium.framework.XWikiTestSuite;
+import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
+import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
 /**
  * Verify the LDAP login and logout features.
@@ -44,7 +44,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
     /**
      * {@inheritDoc}
      * 
-     * @see com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase#setUp()
+     * @see org.xwiki.test.selenium.framework.AbstractXWikiTestCase#setUp()
      */
     @Override
     public void setUp() throws Exception

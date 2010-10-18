@@ -17,17 +17,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ldap;
-
-import java.lang.reflect.Method;
-
-import org.xwiki.test.ldap.framework.LDAPTestSetup;
-import org.xwiki.test.ldap.framework.XWikiLDAPTestSetup;
-import org.xwiki.test.selenium.framework.XWikiSeleniumTestSetup;
+package org.xwiki.test.webstandards;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.xwiki.test.XWikiTestSetup;
+import org.xwiki.validator.RSSValidator;
+import org.xwiki.validator.XHTMLValidator;
+import org.xwiki.validator.XWikiValidator;
+
+import org.xwiki.test.webstandards.framework.DefaultValidationTest;
 
 /**
  * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
@@ -38,15 +39,8 @@ import junit.framework.TestSuite;
  */
 public class AllTests extends TestCase
 {
-    /**
-     * The pattern to filter the tests to launch.
-     */
     private static final String PATTERN = ".*" + System.getProperty("pattern", "");
 
-    /**
-     * @return the test suite.
-     * @throws Exception error when creation the tests suite.
-     */
     public static Test suite() throws Exception
     {
         TestSuite suite = new TestSuite();
@@ -57,33 +51,28 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
-        // Unit tests
-        addTestCase(suite, XWikiLDAPUtilsTest.class);
-        addTestCase(suite, XWikiLDAPConnectionTest.class);
-        addTestCase(suite, XWikiLDAPAuthServiceImplTest.class);
+        XHTMLValidator xhtmlValidator = new XHTMLValidator();
+        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xhtmlValidator),
+            DefaultValidationTest.class);
 
-        // Selenium tests
-        TestSuite seleniumSuite = new TestSuite();
+        CustomDutchWebGuidelinesValidator dwgValidator = new CustomDutchWebGuidelinesValidator();
+        addTest(suite, CustomDutchWebGuidelinesValidationTest.suite(CustomDutchWebGuidelinesValidationTest.class,
+            dwgValidator), DefaultValidationTest.class);
 
-        addTestCaseSuite(seleniumSuite, LDAPAuthTest.class);
+        RSSValidator rssValidator = new RSSValidator();
+        addTest(suite, RSSValidationTest.suite(RSSValidationTest.class, rssValidator), RSSValidationTest.class);
 
-        suite.addTest(new XWikiSeleniumTestSetup(new XWikiLDAPTestSetup(seleniumSuite)));
-
-        return new LDAPTestSetup(suite);
+        XWikiValidator xwikiValidator = new XWikiValidator();
+        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xwikiValidator),
+            DefaultValidationTest.class);
+        
+        return new XWikiTestSetup(suite);
     }
 
-    private static void addTestCase(TestSuite suite, Class< ? > testClass) throws Exception
+    private static void addTest(TestSuite suite, Test test, Class< ? > testClass) throws Exception
     {
         if (testClass.getName().matches(PATTERN)) {
-            suite.addTest(new TestSuite(testClass));
-        }
-    }
-
-    private static void addTestCaseSuite(TestSuite suite, Class< ? > testClass) throws Exception
-    {
-        if (testClass.getName().matches(PATTERN)) {
-            Method method = testClass.getMethod("suite");
-            suite.addTest((Test) method.invoke(null));
+            suite.addTest(test);
         }
     }
 }

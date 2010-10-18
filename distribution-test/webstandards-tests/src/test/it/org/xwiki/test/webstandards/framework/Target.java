@@ -17,24 +17,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.cluster.framework;
+package org.xwiki.test.webstandards.framework;
 
-import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.XWikiExecutor;
-
-/**
- * Base class for REST based clustering integration test.
- * 
- * @version $Id$
- */
-public abstract class AbstractClusterHttpTest extends AbstractHttpTest
+public interface Target
 {
-    public void testRepresentation() throws Exception
-    {
-    }
-
-    protected void switchXWiki(int index)
-    {
-        setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT) + index);
-    }
+    String getName();
 }

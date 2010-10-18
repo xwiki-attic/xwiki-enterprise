@@ -17,24 +17,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.cluster.framework;
+package org.xwiki.test.selenium;
 
-import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.XWikiExecutor;
+import junit.framework.Test;
+
+import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
+import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
 /**
- * Base class for REST based clustering integration test.
+ * Tests different URL features/bugs.
  * 
  * @version $Id$
  */
-public abstract class AbstractClusterHttpTest extends AbstractHttpTest
+public class UrlMiscTest extends AbstractXWikiTestCase
 {
-    public void testRepresentation() throws Exception
+    public static Test suite()
     {
+        XWikiTestSuite suite = new XWikiTestSuite("Tests different URL features/bugs");
+        suite.addTestSuite(UrlMiscTest.class, ColibriSkinExecutor.class);
+        return suite;
     }
 
-    protected void switchXWiki(int index)
+    protected void setUp() throws Exception
     {
-        setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT) + index);
+        super.setUp();
+        loginAsAdmin();
+    }
+
+    public void testSimpleBinUrlDoesNotThrowException()
+    {
+        open("/xwiki/bin");
+        assertTextPresent("Welcome to your wiki");
     }
 }

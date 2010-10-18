@@ -17,24 +17,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.cluster.framework;
+package org.xwiki.test.webstandards;
 
-import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.XWikiExecutor;
+import org.apache.commons.httpclient.HttpClient;
+import org.xwiki.test.webstandards.framework.DefaultValidationTest;
+import org.xwiki.validator.Validator;
 
-/**
- * Base class for REST based clustering integration test.
- * 
- * @version $Id$
- */
-public abstract class AbstractClusterHttpTest extends AbstractHttpTest
+import org.xwiki.test.webstandards.framework.Target;
+
+public class CustomDutchWebGuidelinesValidationTest extends DefaultValidationTest
 {
-    public void testRepresentation() throws Exception
+    public CustomDutchWebGuidelinesValidationTest(Target target, HttpClient client, Validator validator,
+        String credentials) throws Exception
     {
+        super(target, client, validator, credentials);
     }
 
-    protected void switchXWiki(int index)
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xwiki.test.webstandards.framework.DefaultValidationTest#testDocumentValidity()
+     */
+    @Override
+    public void testDocumentValidity() throws Exception
     {
-        setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT) + index);
+        ((CustomDutchWebGuidelinesValidator) this.validator).setTarget(this.target);
+
+        super.testDocumentValidity();
     }
 }

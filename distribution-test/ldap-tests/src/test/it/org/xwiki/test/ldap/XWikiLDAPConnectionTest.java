@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it;
+package org.xwiki.test.ldap;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.it.framework.AbstractLDAPTestCase;
-import com.xpn.xwiki.it.framework.LDAPTestSetup;
+import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
+import org.xwiki.test.ldap.framework.LDAPTestSetup;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPException;
 

@@ -1,4 +1,4 @@
-package com.xpn.xwiki.it;
+package org.xwiki.test.ldap;
 
 import java.security.Principal;
 import java.util.Collections;
@@ -22,8 +22,8 @@ import org.xwiki.model.reference.EntityReferenceSerializer;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
-import com.xpn.xwiki.it.framework.AbstractLDAPTestCase;
-import com.xpn.xwiki.it.framework.LDAPTestSetup;
+import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
+import org.xwiki.test.ldap.framework.LDAPTestSetup;
 import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.classes.BaseClass;
 import com.xpn.xwiki.store.XWikiStoreInterface;
@@ -138,7 +138,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     /**
      * {@inheritDoc}
      * 
-     * @see com.xpn.xwiki.it.framework.AbstractLDAPTestCase#setUp()
+     * @see org.xwiki.test.ldap.framework.AbstractLDAPTestCase#setUp()
      */
     @Override
     public void setUp() throws Exception

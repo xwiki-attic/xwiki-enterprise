@@ -255,12 +255,12 @@
               </property>
               <property>
                 <name>pathToXWikiWar</name>
-                <value>com/xpn/xwiki/products/xwiki-enterprise-web/${project.version}/xwiki-enterprise-web-${project.version}.war</value>
+                <value>org/xwiki/enterprise/xwiki-enterprise-web/${project.version}/xwiki-enterprise-web-${project.version}.war</value>
               </property>
               <!-- Used in webstandards tests and escaping tests -->
               <property>
                 <name>pathToXWikiXar</name>
-                <value>com/xpn/xwiki/products/xwiki-enterprise-wiki/${project.version}/xwiki-enterprise-wiki-${project.version}.xar</value>
+                <value>org/xwiki/enterprise/xwiki-enterprise-wiki/${project.version}/xwiki-enterprise-wiki-${project.version}.xar</value>
               </property>
               <!-- Used only in webstandards tests -->
               <property>

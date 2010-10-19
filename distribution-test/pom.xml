@@ -404,7 +404,9 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
+        <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
+             http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -416,7 +418,9 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
+        <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
+             http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -441,7 +445,9 @@
     <profile>
       <id>macprofiler</id>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}"</xwikiExecutionStartCommand>
+        <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
+             http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
+        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}" -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -453,7 +459,9 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport}</xwikiExecutionStartCommand>
+        <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
+             http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
+        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -479,7 +487,9 @@
     <profile>
       <id>winprofiler</id>
       <properties>
-        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath}</xwikiExecutionStartCommand>
+        <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
+             http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
+        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>

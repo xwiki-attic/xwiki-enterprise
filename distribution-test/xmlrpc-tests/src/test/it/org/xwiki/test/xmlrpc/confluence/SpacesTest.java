@@ -17,14 +17,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it.xmlrpc;
+package org.xwiki.test.xmlrpc.confluence;
 
 import java.util.List;
 import java.util.Random;
 
 import org.codehaus.swizzle.confluence.Space;
 import org.codehaus.swizzle.confluence.SpaceSummary;
-import com.xpn.xwiki.it.xmlrpc.framework.AbstractXmlRpcTestCase;
+import org.xwiki.test.xmlrpc.confluence.framework.AbstractXmlRpcTestCase;
 
 public class SpacesTest extends AbstractXmlRpcTestCase
 {

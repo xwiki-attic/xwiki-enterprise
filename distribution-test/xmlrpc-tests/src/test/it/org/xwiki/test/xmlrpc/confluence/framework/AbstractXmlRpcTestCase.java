@@ -17,38 +17,39 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.xmlrpc;
+package org.xwiki.test.xmlrpc.confluence.framework;
 
-/**
- * @version $Id$
- */
-public class TestUtils
+import org.codehaus.swizzle.confluence.Confluence;
+import org.custommonkey.xmlunit.XMLTestCase;
+
+public abstract class AbstractXmlRpcTestCase extends XMLTestCase
 {
-    public static void banner(String message)
+    protected Confluence rpc; // xml-rpc proxy
+    
+    public AbstractXmlRpcTestCase()
     {
-        banner(message, 80);
+        super();
     }
 
-    public static void banner(String message, int size)
+    public AbstractXmlRpcTestCase(String name)
     {
-        System.out.println();
+        super(name);
+    }
 
-        for (int i = 0; i < size; i++) {
-            System.out.print("*");
-        }
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        
+        rpc  = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
+             //= new SwizzleXWikiClient("http://127.0.0.1:9090/rpc/xmlrpc");
+        rpc.login("Admin", "admin");
+           // rpc.login("admin", "admin");
+    }
 
-        System.out.format("\n* %s ", message);
-
-        for (int i = 0; i < (size - message.length() - 3); i++) {
-            System.out.print("*");
-        }
-
-        System.out.println();
-
-        for (int i = 0; i < size; i++) {
-            System.out.print("*");
-        }
-
-        System.out.println();
+    public void tearDown() throws Exception
+    {
+        rpc.logout();
+        
+        super.tearDown();
     }
 }

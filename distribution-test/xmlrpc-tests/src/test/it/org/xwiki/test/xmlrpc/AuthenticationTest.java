@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.xmlrpc;
+package org.xwiki.test.xmlrpc;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.ServerInfo;
 import org.codehaus.swizzle.confluence.SpaceSummary;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
 import org.xwiki.xmlrpc.model.XWikiPage;
 
 /**

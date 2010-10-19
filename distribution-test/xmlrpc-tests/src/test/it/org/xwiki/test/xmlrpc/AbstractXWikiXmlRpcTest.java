@@ -17,39 +17,38 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it.xmlrpc.framework;
+package org.xwiki.test.xmlrpc;
 
-import org.codehaus.swizzle.confluence.Confluence;
-import org.custommonkey.xmlunit.XMLTestCase;
+import java.util.Random;
 
-public abstract class AbstractXmlRpcTestCase extends XMLTestCase
+import junit.framework.TestCase;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+/**
+ * @version $Id$
+ */
+public class AbstractXWikiXmlRpcTest extends TestCase
 {
-    protected Confluence rpc; // xml-rpc proxy
-    
-    public AbstractXmlRpcTestCase()
-    {
-        super();
-    }
+    protected XWikiXmlRpcClient rpc;
 
-    public AbstractXmlRpcTestCase(String name)
-    {
-        super(name);
-    }
+    protected Random random = new Random();
 
     public void setUp() throws Exception
     {
-        super.setUp();
-        
-        rpc  = new Confluence("http://127.0.0.1:8080/xwiki/xmlrpc");
-             //= new SwizzleXWikiClient("http://127.0.0.1:9090/rpc/xmlrpc");
-        rpc.login("Admin", "admin");
-           // rpc.login("admin", "admin");
+        setUp(true);
+    }
+
+    public void setUp(boolean admin) throws Exception
+    {
+        this.rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
+        if (admin) {
+            this.rpc.login(TestConstants.USERNAME, TestConstants.PASSWORD);
+        }
     }
 
     public void tearDown() throws Exception
     {
-        rpc.logout();
-        
-        super.tearDown();
+        this.rpc.logout();
+        this.rpc = null;
     }
 }

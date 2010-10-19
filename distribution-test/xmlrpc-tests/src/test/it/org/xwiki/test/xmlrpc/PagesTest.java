@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.xmlrpc;
+package org.xwiki.test.xmlrpc;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import junit.framework.Assert;
 
 import org.codehaus.swizzle.confluence.PageSummary;
 import org.codehaus.swizzle.confluence.SpaceSummary;
@@ -385,7 +383,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
 
         try {
             this.rpc.storePage(page);
-            Assert.fail();
+            fail();
         } catch (Exception e) {
         }
     }

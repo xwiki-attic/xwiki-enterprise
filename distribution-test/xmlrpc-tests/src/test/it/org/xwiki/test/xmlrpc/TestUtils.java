@@ -17,37 +17,38 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.xmlrpc;
-
-import java.util.Random;
-
-import junit.framework.TestCase;
+package org.xwiki.test.xmlrpc;
 
 /**
  * @version $Id$
  */
-public class AbstractXWikiXmlRpcTest extends TestCase
+public class TestUtils
 {
-    protected XWikiXmlRpcClient rpc;
-
-    protected Random random = new Random();
-
-    public void setUp() throws Exception
+    public static void banner(String message)
     {
-        setUp(true);
+        banner(message, 80);
     }
 
-    public void setUp(boolean admin) throws Exception
+    public static void banner(String message, int size)
     {
-        this.rpc = new XWikiXmlRpcClient(TestConstants.ENDPOINT);
-        if (admin) {
-            this.rpc.login(TestConstants.USERNAME, TestConstants.PASSWORD);
+        System.out.println();
+
+        for (int i = 0; i < size; i++) {
+            System.out.print("*");
         }
-    }
 
-    public void tearDown() throws Exception
-    {
-        this.rpc.logout();
-        this.rpc = null;
+        System.out.format("\n* %s ", message);
+
+        for (int i = 0; i < (size - message.length() - 3); i++) {
+            System.out.print("*");
+        }
+
+        System.out.println();
+
+        for (int i = 0; i < size; i++) {
+            System.out.print("*");
+        }
+
+        System.out.println();
     }
 }

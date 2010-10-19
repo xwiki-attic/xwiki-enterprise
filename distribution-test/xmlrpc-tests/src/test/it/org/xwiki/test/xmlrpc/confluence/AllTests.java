@@ -17,13 +17,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xpn.xwiki.it.xmlrpc;
+package org.xwiki.test.xmlrpc.confluence;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.xwiki.test.XWikiTestSetup;
-import org.xwiki.xmlrpc.PagesTestWithGuest;
+import org.xwiki.test.xmlrpc.*;
+import org.xwiki.test.xmlrpc.AttachmentsTest;
+import org.xwiki.test.xmlrpc.PagesTest;
+import org.xwiki.test.xmlrpc.PagesTestWithGuest;
+import org.xwiki.test.xmlrpc.SpacesTest;
 
 /**
  * A class listing all the XMLRPC Functional tests to execute. We need such a class (rather than
@@ -54,15 +58,15 @@ public class AllTests extends TestCase
         addTestCase(suite, PagesTestWithGuest.class);
         addTestCase(suite, SpacesTest.class);
 
-        addTestCase(suite, org.xwiki.xmlrpc.AttachmentsTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.AuthenticationTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.CommentsTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.PagesTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.SpacesTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.XWikiClassesTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.XWikiObjectsTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.SearchTest.class);
-        addTestCase(suite, org.xwiki.xmlrpc.RenderingTest.class);
+        addTestCase(suite, AttachmentsTest.class);
+        addTestCase(suite, AuthenticationTest.class);
+        addTestCase(suite, org.xwiki.test.xmlrpc.CommentsTest.class);
+        addTestCase(suite, PagesTest.class);
+        addTestCase(suite, SpacesTest.class);
+        addTestCase(suite, XWikiClassesTest.class);
+        addTestCase(suite, XWikiObjectsTest.class);
+        addTestCase(suite, SearchTest.class);
+        addTestCase(suite, RenderingTest.class);
 
         return new XWikiTestSetup(suite);
     }

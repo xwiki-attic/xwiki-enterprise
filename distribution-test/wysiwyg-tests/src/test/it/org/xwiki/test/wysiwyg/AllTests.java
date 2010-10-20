@@ -23,13 +23,11 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 
 import org.xwiki.test.XWikiTestSetup;
-
-import org.xwiki.test.selenium.CacheTest;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.XWikiSeleniumTestSetup;
 import org.xwiki.test.wysiwyg.framework.WysiwygTestSetup;
 import org.xwiki.test.wysiwyg.framework.WysiwygTestSuite;
-import org.xwiki.test.selenium.framework.XWikiSeleniumTestSetup;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit
@@ -66,7 +64,7 @@ public class AllTests extends TestCase
         addTestCase(suite, FontTest.class);
         addTestCase(suite, CacheTest.class);
         addTestCase(suite, RegularUserTest.class);
-        addTestCase(suite, org.xwiki.test.selenium.ImportTest.class);
+        addTestCase(suite, ImportTest.class);
         addTestCase(suite, EmbedTest.class);
         addTestCase(suite, EditInlineTest.class);
 

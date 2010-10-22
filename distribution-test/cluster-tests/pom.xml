@@ -27,7 +27,7 @@
   <parent>
     <groupId>com.xpn.xwiki.products</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>2.4-SNAPSHOT</version>
+    <version>2.4.4</version>
   </parent>
   <artifactId>xwiki-enterprise-test-cluster</artifactId>
   <name>XWiki Products - Enterprise - Cluster Functional Tests</name>

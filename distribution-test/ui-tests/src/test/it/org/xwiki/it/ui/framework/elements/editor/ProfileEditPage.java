@@ -93,8 +93,9 @@ public class ProfileEditPage extends EditPage
 
     public void setUserAbout(String userAbout)
     {
-        waitUntilElementIsVisible(By.xpath("//dl[1]//dd[4]//iframe"));
-        getDriver().switchTo().frame(1);
+        waitUntilElementIsVisible(By.xpath("//dl[1]/dd[4]//iframe"));
+        executeJavascript("Wysiwyg.getInstance('XWiki.XWikiUsers_0_comment').getRichTextArea().id = 'wysiwyg_comment';");
+        getDriver().switchTo().frame("wysiwyg_comment");
         WebElement editorBody = getDriver().findElement(By.id("body"));
 
         executeJavascript("document.body.innerHTML =''");
@@ -138,7 +139,9 @@ public class ProfileEditPage extends EditPage
     public void setUserAddress(String userAddress)
     {
         waitUntilElementIsVisible(By.xpath("//dl[2]/dd[3]//iframe"));
-        getDriver().switchTo().frame(2);
+        executeJavascript("Wysiwyg.getInstance('XWiki.XWikiUsers_0_address').getRichTextArea().id = 'wysiwyg_address';");
+        getDriver().switchTo().frame("wysiwyg_address");
+
         WebElement editorBody = getDriver().findElement(By.id("body"));
         executeJavascript("document.body.innerHTML =''");
         editorBody.sendKeys(userAddress);

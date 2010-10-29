@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.panels.elements;
+package org.xwiki.test.ui.panels.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
 
 /**
  * Represents the NewPage panel.

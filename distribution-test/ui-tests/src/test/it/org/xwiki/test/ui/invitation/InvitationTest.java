@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.invitation;
+package org.xwiki.test.ui.invitation;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,17 +33,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.it.ui.administration.elements.AdminSectionPage;
-import org.xwiki.it.ui.framework.AbstractTest;
-import org.xwiki.it.ui.framework.TestUtils;
-import org.xwiki.it.ui.framework.elements.RegisterPage;
-import org.xwiki.it.ui.framework.elements.TableElement;
-import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
-import org.xwiki.it.ui.invitation.elements.InspectInvitationsPage;
-import org.xwiki.it.ui.invitation.elements.InvitationActionConfirmationElement;
-import org.xwiki.it.ui.invitation.elements.InvitationGuestActionsPage;
-import org.xwiki.it.ui.invitation.elements.InvitationMessageDisplayElement;
-import org.xwiki.it.ui.invitation.elements.InvitationSenderPage;
+import org.xwiki.test.ui.administration.elements.AdminSectionPage;
+import org.xwiki.test.ui.framework.AbstractTest;
+import org.xwiki.test.ui.framework.TestUtils;
+import org.xwiki.test.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.framework.elements.TableElement;
+import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
+import org.xwiki.test.ui.invitation.elements.InspectInvitationsPage;
+import org.xwiki.test.ui.invitation.elements.InvitationActionConfirmationElement;
+import org.xwiki.test.ui.invitation.elements.InvitationGuestActionsPage;
+import org.xwiki.test.ui.invitation.elements.InvitationMessageDisplayElement;
+import org.xwiki.test.ui.invitation.elements.InvitationSenderPage;
 
 import com.icegreen.greenmail.util.GreenMail;
 

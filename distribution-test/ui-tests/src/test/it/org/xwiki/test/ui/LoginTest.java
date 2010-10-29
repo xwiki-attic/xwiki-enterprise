@@ -17,17 +17,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui;
+package org.xwiki.test.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.it.ui.administration.elements.AdministrationPage;
-import org.xwiki.it.ui.administration.elements.GlobalRightsPage;
-import org.xwiki.it.ui.framework.AbstractTest;
-import org.xwiki.it.ui.framework.elements.LoginPage;
-import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.it.ui.xe.elements.HomePage;
+import org.xwiki.test.ui.administration.elements.AdministrationPage;
+import org.xwiki.test.ui.administration.elements.GlobalRightsPage;
+import org.xwiki.test.ui.framework.AbstractTest;
+import org.xwiki.test.ui.framework.elements.LoginPage;
+import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Test the Login feature.

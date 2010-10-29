@@ -17,14 +17,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui;
+package org.xwiki.test.ui;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.RunWith;
-import org.xwiki.it.ui.framework.PersistentTestContext;
-import org.xwiki.it.ui.framework.AbstractTest;
+import org.xwiki.test.ui.framework.PersistentTestContext;
+import org.xwiki.test.ui.framework.AbstractTest;
 
 /**
  * Runs all functional tests found in the classpath.

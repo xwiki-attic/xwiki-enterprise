@@ -17,16 +17,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements;
+package org.xwiki.test.ui.framework.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.xwiki.it.ui.framework.elements.editor.ClassEditPage;
-import org.xwiki.it.ui.framework.elements.editor.ObjectEditPage;
-import org.xwiki.it.ui.framework.elements.editor.RightsEditPage;
-import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.ui.framework.elements.editor.ClassEditPage;
+import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
+import org.xwiki.test.ui.framework.elements.editor.RightsEditPage;
+import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 
 /**
  * Represents the common actions possible on all Pages.

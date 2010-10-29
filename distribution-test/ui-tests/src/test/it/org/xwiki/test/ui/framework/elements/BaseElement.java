@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements;
+package org.xwiki.test.ui.framework.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -33,8 +33,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.TimeoutException;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xwiki.it.ui.framework.PersistentTestContext;
-import org.xwiki.it.ui.framework.TestUtils;
+import org.xwiki.test.ui.framework.PersistentTestContext;
+import org.xwiki.test.ui.framework.TestUtils;
 
 /**
  * Represents all elements which include web pages as well as parts of web pages.

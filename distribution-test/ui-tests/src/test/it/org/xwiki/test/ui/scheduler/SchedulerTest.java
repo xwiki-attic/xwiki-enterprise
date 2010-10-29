@@ -17,13 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.scheduler;
+package org.xwiki.test.ui.scheduler;
 
 import junit.framework.Assert;
 import org.junit.Test;
-import org.xwiki.it.ui.scheduler.elements.SchedulerJobInlinePage;
-import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.scheduler.elements.SchedulerJobInlinePage;
+import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**
  * Tests Scheduler application features.

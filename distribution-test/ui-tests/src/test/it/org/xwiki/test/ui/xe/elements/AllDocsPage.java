@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.xe.elements;
+package org.xwiki.test.ui.xe.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.LiveTableElement;
-import org.xwiki.it.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.LiveTableElement;
+import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
  * Represents the actions possible on the AllDocs Page.

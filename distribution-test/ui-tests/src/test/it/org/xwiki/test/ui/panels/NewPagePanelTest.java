@@ -1,12 +1,12 @@
-package org.xwiki.it.ui.panels;
+package org.xwiki.test.ui.panels;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.it.ui.panels.elements.NewPagePanel;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.panels.elements.NewPagePanel;
 
 /**
  * Test page creation using the NewPage Panel.

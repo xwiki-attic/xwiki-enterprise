@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.administration.elements;
+package org.xwiki.test.ui.administration.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.BasePage;
-import org.xwiki.it.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.framework.elements.BasePage;
+import org.xwiki.test.ui.framework.elements.RegisterPage;
 
 /**
  * Test the Admin->Users->AddNewUser feature.

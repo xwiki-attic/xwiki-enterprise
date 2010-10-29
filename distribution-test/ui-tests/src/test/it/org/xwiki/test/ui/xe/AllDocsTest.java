@@ -17,13 +17,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.xe;
+package org.xwiki.test.ui.xe;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.LiveTableElement;
-import org.xwiki.it.ui.xe.elements.AllDocsPage;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.LiveTableElement;
+import org.xwiki.test.ui.xe.elements.AllDocsPage;
 
 /**
  * Tests for the AllDocs page.

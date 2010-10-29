@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui;
+package org.xwiki.test.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +28,14 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.it.ui.administration.elements.AdminTemplatesPage;
-import org.xwiki.it.ui.administration.elements.TemplateProviderInlinePage;
-import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.CreatePagePage;
-import org.xwiki.it.ui.framework.elements.ViewPage;
-import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.it.ui.xe.elements.HomePage;
+import org.xwiki.test.ui.administration.elements.AdminTemplatesPage;
+import org.xwiki.test.ui.administration.elements.TemplateProviderInlinePage;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.CreatePagePage;
+import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Tests page creation using a Template Provider and a Template.

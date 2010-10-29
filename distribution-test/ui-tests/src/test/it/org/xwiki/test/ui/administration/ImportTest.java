@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.administration;
+package org.xwiki.test.ui.administration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,11 +25,11 @@ import java.net.URL;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.it.ui.administration.elements.AdministrationPage;
-import org.xwiki.it.ui.administration.elements.ImportPage;
-import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.HistoryPane;
-import org.xwiki.it.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.administration.elements.AdministrationPage;
+import org.xwiki.test.ui.administration.elements.ImportPage;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.HistoryPane;
+import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
  * Test the Import XAR feature.

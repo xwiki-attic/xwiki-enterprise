@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui;
+package org.xwiki.test.ui;
 
 import junit.framework.Assert;
 
@@ -25,14 +25,14 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.RenderedWebElement;
-import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.PreferencesPage;
-import org.xwiki.it.ui.framework.elements.ProfilePage;
-import org.xwiki.it.ui.framework.elements.editor.ChangeAvatarPage;
-import org.xwiki.it.ui.framework.elements.editor.ChangePasswordPage;
-import org.xwiki.it.ui.framework.elements.editor.PreferencesEditPage;
-import org.xwiki.it.ui.framework.elements.editor.ProfileEditPage;
-import org.xwiki.it.ui.xe.elements.HomePage;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.PreferencesPage;
+import org.xwiki.test.ui.framework.elements.ProfilePage;
+import org.xwiki.test.ui.framework.elements.editor.ChangeAvatarPage;
+import org.xwiki.test.ui.framework.elements.editor.ChangePasswordPage;
+import org.xwiki.test.ui.framework.elements.editor.PreferencesEditPage;
+import org.xwiki.test.ui.framework.elements.editor.ProfileEditPage;
+import org.xwiki.test.ui.xe.elements.HomePage;
 
 public class UserProfileTest extends AbstractAdminAuthenticatedTest
 {

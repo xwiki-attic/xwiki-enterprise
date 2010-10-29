@@ -17,11 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements.editor;
+package org.xwiki.test.ui.framework.elements.editor;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.it.ui.framework.elements.editor.EditPage;
+import org.xwiki.test.ui.framework.elements.editor.EditPage;
 
 /**
  * Edit page with a preview button.

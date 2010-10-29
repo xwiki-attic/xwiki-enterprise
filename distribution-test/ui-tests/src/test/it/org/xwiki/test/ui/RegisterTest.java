@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui;
+package org.xwiki.test.ui;
 
 import java.util.List;
 
@@ -27,10 +27,10 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.it.ui.administration.elements.AdminSectionPage;
-import org.xwiki.it.ui.framework.elements.RegisterPage;
-import org.xwiki.it.ui.framework.AbstractTest;
-import org.xwiki.it.ui.framework.TestUtils;
+import org.xwiki.test.ui.administration.elements.AdminSectionPage;
+import org.xwiki.test.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.framework.AbstractTest;
+import org.xwiki.test.ui.framework.TestUtils;
 
 /**
  * Test the user registration feature.

@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework;
+package org.xwiki.test.ui.framework;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -37,7 +37,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.TimeoutException;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xwiki.it.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
  * Helper methods for testing, not related to a specific Page Object. Also made available to tests classes.

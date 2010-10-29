@@ -17,12 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.administration;
+package org.xwiki.test.ui.administration;
 
 import org.openqa.selenium.By;
-import org.xwiki.it.ui.RegisterTest;
-import org.xwiki.it.ui.administration.elements.LightBoxRegisterPage;
-import org.xwiki.it.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.RegisterTest;
+import org.xwiki.test.ui.administration.elements.LightBoxRegisterPage;
+import org.xwiki.test.ui.framework.elements.RegisterPage;
 
 /**
  * Test the Admin->Users->AddNewUser feature by executing the same tests as in RegisterTest but from

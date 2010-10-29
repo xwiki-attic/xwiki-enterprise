@@ -17,16 +17,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.xe;
+package org.xwiki.test.ui.xe;
 
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import org.xwiki.it.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.it.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.it.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.it.ui.xe.elements.HomePage;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Tests the Space Dashboard.

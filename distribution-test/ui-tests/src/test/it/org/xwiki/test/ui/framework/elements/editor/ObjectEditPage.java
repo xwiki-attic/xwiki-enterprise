@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.framework.elements.editor;
+package org.xwiki.test.ui.framework.elements.editor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xwiki.it.ui.framework.elements.FormElement;
+import org.xwiki.test.ui.framework.elements.FormElement;
 
 /**
  * Represents the common actions possible on all Pages when using the "edit" action with the "object" editor.

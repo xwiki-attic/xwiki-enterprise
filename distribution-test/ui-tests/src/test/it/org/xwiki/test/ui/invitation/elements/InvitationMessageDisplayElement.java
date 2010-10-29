@@ -17,14 +17,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.it.ui.invitation.elements;
+package org.xwiki.test.ui.invitation.elements;
 
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.it.ui.framework.elements.BaseElement;
+import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
  * Represents the actions possible on the section of a page which allows the user to previw an unsent message or

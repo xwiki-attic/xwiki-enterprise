@@ -65,6 +65,8 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
      * This test proves that when an attachment is saved using Document.addAttachment and then Document.save()
      * the attachment is actually persisted to the database.
      * TODO: How can this be made into a unit test?
+     * Answer: Just verify that the store interface method for saving the attachment has been called using an
+     * expectation. And only have only *one* functional test to prove that the store save attachment method works.
      */
     @Test
     public void testDocumentAddAttachment()

@@ -21,7 +21,7 @@
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/1.0</syntaxId>
+<syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
 <object>
 <class>
@@ -1061,5 +1061,5 @@
 <className>XWiki.XWikiPreferences</className>
 <guid>aa06a1fd-a6db-436c-9b35-eba43dbeeb6d</guid>
 </object>
-<content>#includeForm("XWiki.AdminSheet")</content>
+<content>{{include document="XWiki.AdminSheet"/}}</content>
 </xwikidoc>

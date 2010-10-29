@@ -78,7 +78,7 @@ public class WikiEditPage extends PreviewableEditPage
     /**
      * Set the {@code parent} of the page
      * 
-     * @param the value for the new parent to set
+     * @param parent the value for the new parent to set
      */
     public void setParent(String parent)
     {

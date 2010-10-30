@@ -133,9 +133,11 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(language, html.getAttribute("lang"));
         Assert.assertEquals(language, html.getAttribute("xml:lang"));
 
+        ViewPage vp = new ViewPage();
+        Assert.assertEquals("locale=" + language, vp.getMetaDataValue("gwt:property"));
+        Assert.assertEquals(language, vp.getMetaDataValue("language"));
+
         String content = getDriver().getPageSource();
-        Assert.assertTrue(content.contains("<meta name=\"gwt:property\" content=\"locale=" + language + "\">"));
-        Assert.assertTrue(content.contains("<meta name=\"language\" content=\"" + language + "\">"));
         Assert.assertTrue(content.contains("language=" + language));
     }
 

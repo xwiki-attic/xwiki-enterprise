@@ -53,7 +53,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         this.adminPage = new AdministrationPage();
-        setMonoLingualAndEnglish();
+        setLanguageSettings(false,  "en");
     }
 
     /**
@@ -62,7 +62,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     @After
     public void tearDown()
     {
-        setMonoLingualAndEnglish();
+        setLanguageSettings(false,  "en");
     }
 
     @Test
@@ -103,7 +103,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testChangeLanguageInMultilingualModeUsingTheLanguageRequestParameter()
     {
-        setMultilingualAndEnglish();
+        setLanguageSettings(true,  "en");
 
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
         Assert.assertTrue("Header doesn't contain \"Quitter la session\"", isPageInFrench());
@@ -112,7 +112,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testHeaderCorrectLanguage()
     {
-        setMultilingualAndEnglish();
+        setLanguageSettings(true,  "en");
 
         // if we don't use language=default, the value stored in cookies is used, which might be wrong
         getUtil().gotoPage("Main", "Test", "view", "language=default");
@@ -156,35 +156,12 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
             "Quitter la session");
     }
 
-    /**
-     * Switch to the administration page, go to the "General" section, set wiki to monolingual mode and set the default
-     * language to "en"
-     */
-    private void setMonoLingualAndEnglish()
+    private void setLanguageSettings(boolean isMultiLingual, String defaultLanguages)
     {
         this.adminPage.gotoPage();
         AdminSectionPage general = this.adminPage.clickGeneralSection();
-        FormElement form = general.getForm();
-        form.getSelectElement(By.id("XWiki.XWikiPreferences_0_multilingual")).select("0");
-        form.setFieldValue(By.id("XWiki.XWikiPreferences_0_default_language"), "en");
+        general.setMultiLingual(isMultiLingual);
+        general.setDefaultLanguages(defaultLanguages);
         general.clickSave();
-
-        Assert.assertTrue("Not logged in", this.adminPage.isAuthenticated());
-    }
-
-    /**
-     * Switch to the administration page, go to the "General" section, enable multilingual mode and set the default
-     * language to "en"
-     */
-    private void setMultilingualAndEnglish()
-    {
-        this.adminPage.gotoPage();
-        AdminSectionPage general = this.adminPage.clickGeneralSection();
-        FormElement form = general.getForm();
-        form.getSelectElement(By.id("XWiki.XWikiPreferences_0_multilingual")).select("1");
-        form.setFieldValue(By.id("XWiki.XWikiPreferences_0_default_language"), "en");
-        general.clickSave();
-
-        Assert.assertTrue("Not logged in", this.adminPage.isAuthenticated());
     }
 }

@@ -21,6 +21,7 @@ package org.xwiki.test.ui.administration.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.xwiki.test.ui.framework.elements.FormElement;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 
@@ -40,6 +41,12 @@ public class AdminSectionPage extends ViewPage
     @FindBy(xpath = "//div[@id='admin-page-content']")
     private WebElement form;
 
+    @FindBy(id = "XWiki.XWikiPreferences_0_multilingual")
+    private WebElement multiLingualSelect;
+
+    @FindBy(id = "XWiki.XWikiPreferences_0_default_language")
+    private WebElement defaultLanguagesField;
+
     private final String section;
 
     public AdminSectionPage(String section)
@@ -57,9 +64,25 @@ public class AdminSectionPage extends ViewPage
         return getUtil().getURL("XWiki", "XWikiPreferences", "admin", "section=" + section);
     }
 
+    public void setMultiLingual(boolean isMultiLingual)
+    {
+        Select select = new Select(this.multiLingualSelect);
+        if (isMultiLingual) {
+            select.selectByIndex(1);
+        } else {
+            select.selectByIndex(2);
+        }
+    }
+
+    public void setDefaultLanguages(String defaultLanguages)
+    {
+        this.defaultLanguagesField.clear();
+        this.defaultLanguagesField.sendKeys(defaultLanguages);
+    }
+
     public void clickSave()
     {
-        saveButton.click();
+        this.saveButton.click();
     }
 
     public FormElement getForm()

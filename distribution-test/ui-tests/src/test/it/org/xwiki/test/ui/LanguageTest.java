@@ -82,8 +82,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
         // Change default language to "fr"
         this.adminPage.gotoPage();
         AdminSectionPage general = this.adminPage.clickGeneralSection();
-        FormElement form = general.getForm();
-        form.setFieldValue(By.id("XWiki.XWikiPreferences_0_default_language"), "fr");
+        general.setDefaultLanguages("fr");
         general.clickSave();
 
         // Now language must be "fr"

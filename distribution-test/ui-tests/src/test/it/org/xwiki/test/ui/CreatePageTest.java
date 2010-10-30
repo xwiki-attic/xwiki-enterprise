@@ -73,12 +73,8 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         String templateFullName = space + "." + TEMPLATE_NAME;
 
         // Create a template
-        HomePage homePage = new HomePage();
-        homePage.gotoPage();
-        CreatePagePage createPagePage = homePage.createPage();
-        WYSIWYGEditPage editWysiwygTemplatePage = createPagePage.createPage(space, TEMPLATE_NAME);
-        editWysiwygTemplatePage.clickSaveAndContinue();
-        WikiEditPage editTemplatePage = editWysiwygTemplatePage.clickEditWiki();
+        WikiEditPage editTemplatePage = new WikiEditPage();
+        editTemplatePage.switchToEdit(space, TEMPLATE_NAME);
         editTemplatePage.setTitle(templateTitle);
         editTemplatePage.setContent(templateContent);
         editTemplatePage.clickSaveAndView();
@@ -93,7 +89,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         ViewPage templateProviderView = templateProviderInline.clickSaveAndView();
 
         // Create the new document from template
-        createPagePage = templateProviderView.createPage();
+        CreatePagePage createPagePage = templateProviderView.createPage();
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
             createPagePage.createPageFromTemplate(space, templateInstanceName, templateFullName);
@@ -135,6 +131,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
 
         // Verify the template we have removed is no longer available.
+        HomePage homePage = new HomePage();
         homePage.gotoPage();
         createPagePage = homePage.createPage();
         Assert.assertFalse(createPagePage.areTemplatesAvailable());

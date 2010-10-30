@@ -28,6 +28,7 @@ import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * Represents a Form.
@@ -82,15 +83,8 @@ public class FormElement extends BaseElement
         if ("checkbox".equals(fieldElement.getAttribute("type"))) {
             setCheckBox(fieldElement, value.equals("true"));
         } else if ("select".equals(fieldElement.getTagName())) {
-            // TODO: Should we do this? (don't seem to work)
-            // SelectElement select = new SelectElement(fieldElement);
-            // select.select(value);
-            List<WebElement> allOptions = fieldElement.findElements(By.tagName("option"));
-            for (WebElement option : allOptions) {
-                if (value.equals(option.getValue())) {
-                    option.setSelected();
-                }
-            }
+            Select select = new Select(fieldElement);
+            select.selectByValue(value);
         } else {
             fieldElement.clear();
             fieldElement.sendKeys(value);

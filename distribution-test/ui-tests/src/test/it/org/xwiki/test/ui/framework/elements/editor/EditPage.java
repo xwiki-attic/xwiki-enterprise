@@ -140,12 +140,16 @@ public class EditPage extends BasePage
 
     /**
      * @return the syntax if of the page
+     * @since 2.6RC1
      */
     public String getSyntaxId()
     {
         return this.syntaxIdSelect.getValue();
     }
 
+    /**
+     * @since 2.6RC1
+     */
     public void setSyntaxId(String syntaxId)
     {
         Select select = new Select(this.syntaxIdSelect);

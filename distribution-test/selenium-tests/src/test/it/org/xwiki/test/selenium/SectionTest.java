@@ -47,20 +47,6 @@ public class SectionTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Verify edit section is working in wiki editor (xwiki/1.0). XWIKI-174 : Sectional editing.
-     */
-    public void testSectionEditInWikiEditor()
-    {
-        initXWiki10Env();
-        clickLinkWithLocator("//div[@id='xwikicontent']/span[2]/a"); // Edit the second section
-        clickLinkWithText("Wiki");
-        assertTextNotPresent("First section");
-        assertTextPresent("Second section");
-        assertTextPresent("Subsection");
-        assertTextNotPresent("Third section");
-    }
-
-    /**
      * Verify edit section is working in wysiwyg editor (xwiki/1.0). XWIKI-174 : Sectional editing.
      */
     public void testSectionEditInWysiwygEditor()

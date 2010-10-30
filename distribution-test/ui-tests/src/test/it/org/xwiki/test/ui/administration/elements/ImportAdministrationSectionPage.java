@@ -34,7 +34,7 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  * @version $Id$
  * @since 2.3M1
  */
-public class ImportPage extends ViewPage
+public class ImportAdministrationSectionPage extends ViewPage
 {
     @FindBy(id = "packagelistcontainer")
     private WebElement packageList;

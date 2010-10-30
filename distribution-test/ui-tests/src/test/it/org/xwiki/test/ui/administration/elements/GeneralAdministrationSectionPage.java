@@ -22,46 +22,24 @@ package org.xwiki.test.ui.administration.elements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.xwiki.test.ui.framework.elements.FormElement;
-import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
- * Represents the actions possible on the main Administration Page.
- * 
+ * Represents the actions possible on the General Administration Page.
+ *
  * @version $Id$
- * @since 2.3M1
+ * @since 2.6RC1
  */
-public class AdminSectionPage extends ViewPage
+public class GeneralAdministrationSectionPage extends AdministrationSectionPage
 {
-    @FindBy(xpath = "//input[@type='submit'][@name='formactionsac']")
-    private WebElement saveButton;
-
-    // The admin-page-content div is being treated as a form since it may contain multiple forms and we want to be able
-    // to access elements in them all.
-    @FindBy(xpath = "//div[@id='admin-page-content']")
-    private WebElement form;
-
     @FindBy(id = "XWiki.XWikiPreferences_0_multilingual")
     private WebElement multiLingualSelect;
 
     @FindBy(id = "XWiki.XWikiPreferences_0_default_language")
     private WebElement defaultLanguagesField;
 
-    private final String section;
-
-    public AdminSectionPage(String section)
+    public GeneralAdministrationSectionPage()
     {
-        this.section = section;
-    }
-
-    public void gotoPage()
-    {
-        getDriver().get(getURL());
-    }
-
-    public String getURL()
-    {
-        return getUtil().getURL("XWiki", "XWikiPreferences", "admin", "section=" + section);
+        super("General");
     }
 
     public void setMultiLingual(boolean isMultiLingual)
@@ -78,15 +56,5 @@ public class AdminSectionPage extends ViewPage
     {
         this.defaultLanguagesField.clear();
         this.defaultLanguagesField.sendKeys(defaultLanguages);
-    }
-
-    public void clickSave()
-    {
-        this.saveButton.click();
-    }
-
-    public FormElement getForm()
-    {
-        return new FormElement(form);
     }
 }

@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
-import org.xwiki.test.ui.administration.elements.GlobalRightsPage;
+import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.elements.LoginPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
@@ -95,8 +95,8 @@ public class LoginTest extends AbstractTest
 
             AdministrationPage admin = new AdministrationPage();
             admin.gotoPage();
-            GlobalRightsPage rights = admin.clickGlobalRightsSection();
-            rights.forceAuthenticatedView();
+            GlobalRightsAdministrationSectionPage sectionPage = admin.clickGlobalRightsSection();
+            sectionPage.forceAuthenticatedView();
 
             getUtil().gotoPage("Blog", "Categories");
             loginPage.clickLogout();
@@ -111,8 +111,8 @@ public class LoginTest extends AbstractTest
                 admin.clickLogin().loginAsAdmin();
                 admin.gotoPage();
             }
-            GlobalRightsPage rights = admin.clickGlobalRightsSection();
-            rights.unforceAuthenticatedView();
+            GlobalRightsAdministrationSectionPage sectionPage = admin.clickGlobalRightsSection();
+            sectionPage.unforceAuthenticatedView();
         }
     }
 

@@ -29,9 +29,9 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.4RC1
  */
-public class GlobalRightsPage extends AdminSectionPage
+public class GlobalRightsAdministrationSectionPage extends AdministrationSectionPage
 {
-    public GlobalRightsPage()
+    public GlobalRightsAdministrationSectionPage()
     {
         super("Rights");
     }

@@ -28,7 +28,7 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.4M2
  */
-public class AdminTemplatesPage extends AdminSectionPage
+public class TemplatesAdministrationSectionPage extends AdministrationSectionPage
 {    
     @FindBy(id = "space")
     private WebElement spaceInput;
@@ -39,7 +39,7 @@ public class AdminTemplatesPage extends AdminSectionPage
     @FindBy(id = "createTemplateProvider")
     private WebElement createButton;
     
-    public AdminTemplatesPage()
+    public TemplatesAdministrationSectionPage()
     {
         super("Templates");
     }

@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.test.ui.administration.elements.AdminSectionPage;
+import org.xwiki.test.ui.administration.elements.AdministrationSectionPage;
 import org.xwiki.test.ui.framework.elements.RegisterPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.TestUtils;
@@ -54,12 +54,12 @@ public class RegisterTest extends AbstractTest
         // Switch LiveValidation on or off as needed.
         int x = 0;
         while (registerPage.liveValidationEnabled() != useLiveValidation()) {
-            AdminSectionPage registrationAdminSection = new AdminSectionPage("Registration");
-            getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(registrationAdminSection.getURL()));
-            getUtil().assertOnPage(registrationAdminSection.getURL());
-            registrationAdminSection.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
+            AdministrationSectionPage sectionPage = new AdministrationSectionPage("Registration");
+            getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(sectionPage.getURL()));
+            getUtil().assertOnPage(sectionPage.getURL());
+            sectionPage.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
                 Boolean.valueOf(useLiveValidation()).toString());
-            registrationAdminSection.clickSave();
+            sectionPage.clickSave();
             if (x > 2) {
                 throw new WebDriverException("Unable to set useLiveValidation to " + useLiveValidation());
             }

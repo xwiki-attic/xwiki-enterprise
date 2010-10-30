@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
-import org.xwiki.test.ui.administration.elements.ImportPage;
+import org.xwiki.test.ui.administration.elements.ImportAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.HistoryPane;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -47,7 +47,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
     private AdministrationPage adminPage;
 
-    private ImportPage importPage;
+    private ImportAdministrationSectionPage sectionPage;
 
     @Override
     @Before
@@ -61,17 +61,17 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         this.adminPage = new AdministrationPage();
         this.adminPage.gotoPage();
 
-        this.importPage = this.adminPage.clickImportSection();
+        this.sectionPage = this.adminPage.clickImportSection();
 
         // Remove our packages if they're there already, to ensure to start with a predefined state.
-        if (this.importPage.isPackagePresent(PACKAGE_WITH_HISTORY)) {
-            this.importPage.deletePackage(PACKAGE_WITH_HISTORY);
+        if (this.sectionPage.isPackagePresent(PACKAGE_WITH_HISTORY)) {
+            this.sectionPage.deletePackage(PACKAGE_WITH_HISTORY);
         }
-        if (this.importPage.isPackagePresent(PACKAGE_WITHOUT_HISTORY)) {
-            this.importPage.deletePackage(PACKAGE_WITHOUT_HISTORY);
+        if (this.sectionPage.isPackagePresent(PACKAGE_WITHOUT_HISTORY)) {
+            this.sectionPage.deletePackage(PACKAGE_WITHOUT_HISTORY);
         }
-        if (this.importPage.isPackagePresent(BACKUP_PACKAGE)) {
-            this.importPage.deletePackage(BACKUP_PACKAGE);
+        if (this.sectionPage.isPackagePresent(BACKUP_PACKAGE)) {
+            this.sectionPage.deletePackage(BACKUP_PACKAGE);
         }
     }
 
@@ -80,13 +80,13 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITH_HISTORY);
 
-        this.importPage.attachPackage(fileUrl);
-        this.importPage.selectPackage(PACKAGE_WITH_HISTORY);
+        this.sectionPage.attachPackage(fileUrl);
+        this.sectionPage.selectPackage(PACKAGE_WITH_HISTORY);
 
-        this.importPage.selectReplaceHistoryOption();
-        this.importPage.importPackage();
+        this.sectionPage.selectReplaceHistoryOption();
+        this.sectionPage.importPackage();
 
-        ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = this.sectionPage.clickImportedPage("Main.TestPage");
 
         // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
         // will race for completion. Let's wait for comments first.
@@ -103,12 +103,12 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITHOUT_HISTORY);
 
-        this.importPage.attachPackage(fileUrl);
-        this.importPage.selectPackage(PACKAGE_WITHOUT_HISTORY);
+        this.sectionPage.attachPackage(fileUrl);
+        this.sectionPage.selectPackage(PACKAGE_WITHOUT_HISTORY);
 
-        this.importPage.importPackage();
+        this.sectionPage.importPackage();
 
-        ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = this.sectionPage.clickImportedPage("Main.TestPage");
 
         // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
         // will race for completion. Let's wait for comments first.
@@ -124,12 +124,12 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     {
         URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);
 
-        this.importPage.attachPackage(fileUrl);
-        this.importPage.selectPackage(BACKUP_PACKAGE);
+        this.sectionPage.attachPackage(fileUrl);
+        this.sectionPage.selectPackage(BACKUP_PACKAGE);
 
-        this.importPage.importPackage();
+        this.sectionPage.importPackage();
 
-        ViewPage importedPage = this.importPage.clickImportedPage("Main.TestPage");
+        ViewPage importedPage = this.sectionPage.clickImportedPage("Main.TestPage");
 
         // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
         // will race for completion. Let's wait for comments first.

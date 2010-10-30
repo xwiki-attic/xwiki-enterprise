@@ -33,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.administration.elements.AdminSectionPage;
+import org.xwiki.test.ui.administration.elements.AdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.TestUtils;
 import org.xwiki.test.ui.framework.elements.RegisterPage;
@@ -74,7 +74,7 @@ public class InvitationTest extends AbstractTest
             // We have to go to sender page before any config shows up.
             this.senderPage.gotoPage();
             // Set port to 3025
-            AdminSectionPage config = new AdminSectionPage("Invitation");
+            AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
             config.gotoPage();
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_smtp_port"),
                 "3025");
@@ -247,7 +247,7 @@ public class InvitationTest extends AbstractTest
             // Become admin and allow users to send to multiple.
             TestUtils.Session nonAdmin = getUtil().getSession();
             getUtil().setSession(admin);
-            AdminSectionPage config = new AdminSectionPage("Invitation");
+            AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
             config.gotoPage();
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
                 + "usersMaySendToMultiple"), "true");
@@ -640,7 +640,7 @@ public class InvitationTest extends AbstractTest
         TestUtils.Session admin = getUtil().getSession();
         try {
             // Allow users to send to multiple.
-            AdminSectionPage config = new AdminSectionPage("Invitation");
+            AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
             config.gotoPage();
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
                 + "usersMaySendToMultiple"), "true");

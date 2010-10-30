@@ -21,23 +21,22 @@ package org.xwiki.test.ui.administration.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.BasePage;
 import org.xwiki.test.ui.framework.elements.RegisterPage;
 
 /**
- * Test the Admin->Users->AddNewUser feature.
- * 
+ * Represents the actions possible on the Users Administration Page.
+ *
  * @version $Id$
  * @since 2.4M1
  */
-public class UsersPage extends BasePage
+public class UsersAdministrationSectionPage extends AdministrationSectionPage
 {
     @FindBy(id = "addNewUser")
     private WebElement addNewUserButton;
 
-    public void gotoPage()
+    public UsersAdministrationSectionPage()
     {
-        getUtil().gotoPage("XWiki", "XWikiPreferences", "admin", "section=Users");
+        super("Users");
     }
 
     public RegisterPage clickAddNewUser()

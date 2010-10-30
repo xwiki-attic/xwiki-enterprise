@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.administration.elements.AdminTemplatesPage;
+import org.xwiki.test.ui.administration.elements.TemplatesAdministrationSectionPage;
 import org.xwiki.test.ui.administration.elements.TemplateProviderInlinePage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.CreatePagePage;
@@ -84,10 +84,10 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         editTemplatePage.clickSaveAndView();
 
         // Create the template provider
-        AdminTemplatesPage adminTemplatesPage = new AdminTemplatesPage();
-        adminTemplatesPage.gotoPage();
+        TemplatesAdministrationSectionPage sectionPage = new TemplatesAdministrationSectionPage();
+        sectionPage.gotoPage();
         TemplateProviderInlinePage templateProviderInline =
-            adminTemplatesPage.createTemplateProvider(space, TEMPLATE_NAME + "Provider");
+            sectionPage.createTemplateProvider(space, TEMPLATE_NAME + "Provider");
         templateProviderInline.setTemplateName("My Template");
         templateProviderInline.setTemplate(templateFullName);
         ViewPage templateProviderView = templateProviderInline.clickSaveAndView();

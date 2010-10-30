@@ -51,33 +51,33 @@ public class AdministrationPage extends ViewPage
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin");
     }
 
-    public AdminSectionPage clickGeneralSection()
+    public GeneralAdministrationSectionPage clickGeneralSection()
     {
         this.generalLink.click();
-        return new AdminSectionPage("General");
+        return new GeneralAdministrationSectionPage();
     }
 
-    public ImportPage clickImportSection()
+    public ImportAdministrationSectionPage clickImportSection()
     {
         this.importLink.click();
-        return new ImportPage();
+        return new ImportAdministrationSectionPage();
     }
 
-    public AdminSectionPage clickRegistrationSection()
+    public AdministrationSectionPage clickRegistrationSection()
     {
         this.registrationLink.click();
-        return new AdminSectionPage("register");
+        return new AdministrationSectionPage("register");
     }
 
-    public UsersPage clickUsersSection()
+    public UsersAdministrationSectionPage clickUsersSection()
     {
         this.usersLink.click();
-        return new UsersPage();
+        return new UsersAdministrationSectionPage();
     }
 
-    public GlobalRightsPage clickGlobalRightsSection()
+    public GlobalRightsAdministrationSectionPage clickGlobalRightsSection()
     {
         this.rightsLink.click();
-        return new GlobalRightsPage();
+        return new GlobalRightsAdministrationSectionPage();
     }
 }

@@ -19,38 +19,51 @@
  */
 package org.xwiki.test.ui.administration.elements;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.framework.elements.FormElement;
+import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
- * Represents a registration page in a lightbox
+ * Represents common actions available in all Administration pages.
  * 
  * @version $Id$
  * @since 2.3M1
  */
-public class LightBoxRegisterPage extends RegisterPage
+public class AdministrationSectionPage extends ViewPage
 {
-    @FindBy(xpath = "//div/form[@id='register']/div/span[1]/input[@value='Save']")
-    private WebElement submitButton;
+    @FindBy(xpath = "//input[@type='submit'][@name='formactionsac']")
+    private WebElement saveButton;
+
+    // The admin-page-content div is being treated as a form since it may contain multiple forms and we want to be able
+    // to access elements in them all.
+    @FindBy(xpath = "//div[@id='admin-page-content']")
+    private WebElement form;
+
+    private final String section;
+
+    public AdministrationSectionPage(String section)
+    {
+        this.section = section;
+    }
 
     public void gotoPage()
     {
-        UsersAdministrationSectionPage sectionPage = new UsersAdministrationSectionPage();
-        sectionPage.gotoPage();
-
-        sectionPage.clickAddNewUser();
-        waitUntilElementIsVisible(By.id("register_first_name"));
+        getDriver().get(getURL());
     }
 
-    public void clickRegister()
+    public String getURL()
     {
-        submitButton.click();
+        return getUtil().getURL("XWiki", "XWikiPreferences", "admin", "section=" + section);
     }
 
-    public boolean liveValidationEnabled()
+    public void clickSave()
     {
-        return !getDriver().findElements(By.xpath("//div[@id='lb']/div[@id='lb-content']/script[3]")).isEmpty();
+        this.saveButton.click();
+    }
+
+    public FormElement getForm()
+    {
+        return new FormElement(form);
     }
 }

@@ -25,10 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.administration.elements.AdminSectionPage;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
+import org.xwiki.test.ui.administration.elements.GeneralAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.FormElement;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 
@@ -62,7 +61,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     @After
     public void tearDown()
     {
-        setLanguageSettings(false,  "en");
+        setLanguageSettings(false, "en");
     }
 
     @Test
@@ -81,9 +80,9 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 
         // Change default language to "fr"
         this.adminPage.gotoPage();
-        AdminSectionPage general = this.adminPage.clickGeneralSection();
-        general.setDefaultLanguages("fr");
-        general.clickSave();
+        GeneralAdministrationSectionPage sectionPage = this.adminPage.clickGeneralSection();
+        sectionPage.setDefaultLanguages("fr");
+        sectionPage.clickSave();
 
         // Now language must be "fr"
         vp = getUtil().gotoPage("Test", "LanguageTest");
@@ -102,7 +101,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testChangeLanguageInMultilingualModeUsingTheLanguageRequestParameter()
     {
-        setLanguageSettings(true,  "en");
+        setLanguageSettings(true, "en");
 
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
         Assert.assertTrue("Header doesn't contain \"Quitter la session\"", isPageInFrench());
@@ -111,7 +110,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testHeaderCorrectLanguage()
     {
-        setLanguageSettings(true,  "en");
+        setLanguageSettings(true, "en");
 
         // if we don't use language=default, the value stored in cookies is used, which might be wrong
         getUtil().gotoPage("Main", "Test", "view", "language=default");
@@ -160,9 +159,9 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     private void setLanguageSettings(boolean isMultiLingual, String defaultLanguages)
     {
         this.adminPage.gotoPage();
-        AdminSectionPage general = this.adminPage.clickGeneralSection();
-        general.setMultiLingual(isMultiLingual);
-        general.setDefaultLanguages(defaultLanguages);
-        general.clickSave();
+        GeneralAdministrationSectionPage sectionPage = this.adminPage.clickGeneralSection();
+        sectionPage.setMultiLingual(isMultiLingual);
+        sectionPage.setDefaultLanguages(defaultLanguages);
+        sectionPage.clickSave();
     }
 }

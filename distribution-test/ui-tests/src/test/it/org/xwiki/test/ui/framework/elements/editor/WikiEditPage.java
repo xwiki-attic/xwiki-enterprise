@@ -51,7 +51,7 @@ public class WikiEditPage extends PreviewableEditPage
     private WebElement commentInput;
 
     /**
-     * Get the <code>title</code> of the page
+     * Get the <code>title</code> of the page.
      */
     public String getTitle()
     {
@@ -59,9 +59,7 @@ public class WikiEditPage extends PreviewableEditPage
     }
 
     /**
-     * Set the <code>title</code> of the page
-     * 
-     * @param title
+     * Set the <code>title</code> of the page.
      */
     public void setTitle(String title)
     {
@@ -69,7 +67,9 @@ public class WikiEditPage extends PreviewableEditPage
         this.titleInput.sendKeys(title);
     }
 
-    /** @return the value of the parent field. */
+    /**
+     * @return the value of the parent field.
+     */
     public String getParent()
     {
         return this.parentInput.getValue();
@@ -92,7 +92,7 @@ public class WikiEditPage extends PreviewableEditPage
     }
 
     /**
-     * Get the <code>content</code> of the page
+     * Get the <code>content</code> of the page.
      */
     public String getContent()
     {
@@ -100,9 +100,7 @@ public class WikiEditPage extends PreviewableEditPage
     }
 
     /**
-     * Set the <code>content</code> of the page
-     * 
-     * @param content
+     * Set the <code>content</code> of the page.
      */
     public void setContent(String content)
     {
@@ -111,9 +109,7 @@ public class WikiEditPage extends PreviewableEditPage
     }
 
     /**
-     * Set the minor edit check box value
-     * 
-     * @param value
+     * Set the minor edit check box value.
      */
     public void setMinorEdit(boolean value)
     {
@@ -123,9 +119,7 @@ public class WikiEditPage extends PreviewableEditPage
     }
 
     /**
-     * Set <code>comment</code> for this change
-     * 
-     * @param comment
+     * Set <code>comment</code> for this change.
      */
     public void setEditComment(String comment)
     {
@@ -134,10 +128,7 @@ public class WikiEditPage extends PreviewableEditPage
     }
 
     /**
-     * Start editing page, create first if needed
-     * 
-     * @param space
-     * @param page
+     * Start editing page, create first if needed.
      */
     public void switchToEdit(String space, String page)
     {

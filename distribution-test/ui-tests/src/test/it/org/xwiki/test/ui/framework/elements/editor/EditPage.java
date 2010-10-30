@@ -25,6 +25,7 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.xwiki.test.ui.framework.elements.BasePage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 
@@ -36,6 +37,21 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  */
 public class EditPage extends BasePage
 {
+    @FindBy(name = "action_saveandcontinue")
+    private WebElement saveandcontinue;
+
+    @FindBy(name = "action_save")
+    private WebElement save;
+
+    @FindBy(name = "action_cancel")
+    private WebElement cancel;
+
+    @FindBy(xpath = "//*[@id = 'tmCurrentEditor']//*[@class = 'tme hastype']")
+    private WebElement selectedEditMenuItem;
+
+    @FindBy(id = "xwikidocsyntaxinput2")
+    private WebElement syntaxIdSelect;
+
     /**
      * Enumerates the available editors.
      */
@@ -94,18 +110,6 @@ public class EditPage extends BasePage
         }
     }
 
-    @FindBy(name = "action_saveandcontinue")
-    private WebElement saveandcontinue;
-
-    @FindBy(name = "action_save")
-    private WebElement save;
-
-    @FindBy(name = "action_cancel")
-    private WebElement cancel;
-
-    @FindBy(xpath = "//*[@id = 'tmCurrentEditor']//*[@class = 'tme hastype']")
-    private WebElement selectedEditMenuItem;
-
     public void clickSaveAndContinue()
     {
         saveandcontinue.click();
@@ -132,6 +136,20 @@ public class EditPage extends BasePage
     public Editor getEditor()
     {
         return Editor.valueOf(selectedEditMenuItem.getText().toUpperCase());
+    }
+
+    /**
+     * @return the syntax if of the page
+     */
+    public String getSyntaxId()
+    {
+        return this.syntaxIdSelect.getValue();
+    }
+
+    public void setSyntaxId(String syntaxId)
+    {
+        Select select = new Select(this.syntaxIdSelect);
+        select.selectByValue(syntaxId);
     }
 
     /**

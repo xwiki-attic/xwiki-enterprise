@@ -57,14 +57,16 @@ public class WYSIWYGEditPage extends PreviewableEditPage
         String content;
 
         // Handle both the TinyMCE editor and the GWT Editor depending on the syntax
+        String windowHandle = getDriver().getWindowHandle();
         if ("xwiki/1.0".equals(getSyntaxId())) {
-            String windowHandle = getDriver().getWindowHandle();
             getDriver().switchTo().frame("mce_editor_0");
             content = getDriver().findElement(By.id("mceSpanFonts")).getText();
-            getDriver().switchTo().window(windowHandle);
         } else {
-            throw new RuntimeException("Not implemented yet");
+            // Note: the GWT editor doesn't set an id on the iframe so we have to reference the first iframe...
+            getDriver().switchTo().frame(1);
+            content = getDriver().findElement(By.id("body")).getText();
         }
+        getDriver().switchTo().window(windowHandle);
         return content;
     }
 }

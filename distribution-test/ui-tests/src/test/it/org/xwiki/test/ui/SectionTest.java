@@ -39,9 +39,9 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     {
         WikiEditPage wep = new WikiEditPage();
         wep.switchToEdit("Test", "SectionEditing");
-        wep.setContent("1 First section\nSection 1 content\n\n"
-            + "1 Second section\nSection 2 content\n\n1.1 Subsection\nSubsection content\n\n"
-            + "1 Third section\nSection 3 content");
+        wep.setContent("1 Setion1\nContent1\n\n"
+            + "1 Section2\nContent2\n\n1.1 Section3\nContent3\n\n"
+            + "1 Section4\nContent4");
         wep.setSyntaxId("xwiki/1.0");
         return wep.clickSaveAndView();
     }
@@ -50,16 +50,22 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     {
         WikiEditPage wep = new WikiEditPage();
         wep.switchToEdit("Test", "SectionEditingIncluded");
-        wep.setContent("== Included section ==\nFirst Included section content\n{{velocity wiki=true}}\n"
-            + "#foreach($h in ['First', 'Second'])\n== $h generated section ==\n\n$h generated paragraph\n"
-            + "#end\n{{velocity}}\n");
+        wep.setContent("== Section4 ==\n" +
+            "Content4\n" +
+            "\n" +
+            "{{velocity wiki=true}}\n" +
+            "#foreach($h in ['5', '6'])\n" +
+            "== Section$h ==\n" +
+            "Content$h\n" +
+            "#end\n" +
+            "{{velocity}}");
         wep.setSyntaxId("xwiki/2.0");
         wep.clickSaveAndView();
 
         wep.switchToEdit("Test", "SectionEditing20");
-        wep.setContent("= First section =\nSection 1 content\n\n"
-            + "= Second section =\nSection 2 content\n\n== Subsection ==\nSubsection content\n\n"
-            + "{{include document='Test.SectionEditingIncluded'/}}\n\n" + "= Third section =\nSection 3 content");
+        wep.setContent("= Section1 =\nContent1\n\n"
+            + "= Section2 =\nContent2\n\n== Section3 ==\nContent3\n\n"
+            + "{{include document='Test.SectionEditingIncluded'/}}\n\n" + "= Section7 =\nContent7");
         wep.setSyntaxId("xwiki/2.0");
 
         return wep.clickSaveAndView();
@@ -70,30 +76,57 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-174: Sectional editing.
      */
     @Test
-    public void testSectionEditInWikiEditorWhenSyntax10()
+    public void testSectionEditInEditorWhenSyntax10()
     {
         ViewPage vp = createTestPageSyntax10();
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
-        Assert.assertEquals("Second section\n Section 2 content \n \n Subsection\n Subsection content",
+        Assert.assertEquals("Section2\n Content2 \n \n Section3\n Content3",
             wysiwygEditPage.getContent());
 
         // Edit the second section in the wiki editor
         WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();
-        Assert.assertEquals("1 Second section Section 2 content 1.1 Subsection Subsection content",
+        Assert.assertEquals("1 Section2 Content2 1.1 Section3 Content3",
             wikiEditPage.getContent());
+        wikiEditPage.clickCancel();
+
+        // Edit the third section in the wiki editor
+        Assert.assertEquals("1.1 Section3 Content3",
+            vp.editSection(3).clickEditWiki().getContent());
+        wikiEditPage.clickCancel();
+
+        // Edit the fourth section in the wiki editor
+        Assert.assertEquals("1 Section4 Content4",
+            vp.editSection(4).clickEditWiki().getContent());
     }
 
     /**
-     * Verify edit section is working in wiki editor (xwiki/2.0). XWIKI-2881 : Implement Section editing.
+     * Verify edit section is working in both wiki and wysiwyg editors (xwiki/2.0).
+     * See XWIKI-2881: Implement Section editing.
      */
     @Test
     public void testSectionEditInWikiEditorWhenSyntax20()
     {
         ViewPage vp = createTestPageSyntax20();
-        WikiEditPage wikiEditPage = vp.editSection(2).clickEditWiki();
-        Assert.assertEquals("= Second section = Section 2 content == Subsection == Subsection content "
+
+        // Edit the second section in the wysiwyg editor
+        WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
+        Assert.assertEquals("Section2\n" +
+            "Content2\n" +
+            "Section3\n" +
+            "Content3\n" +
+            "Section4\n" +
+            "Content4\n" +
+            "Section5\n" +
+            "Content5\n" +
+            "Section6\n" +
+            "Content6",
+            wysiwygEditPage.getContent());
+
+        // Edit the second section in the wiki editor
+        WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();
+        Assert.assertEquals("= Section2 = Content2 == Section3 == Content3 "
             + "{{include document=\"Test.SectionEditingIncluded\"/}}", wikiEditPage.getContent());
     }
 }

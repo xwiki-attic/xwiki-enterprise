@@ -47,19 +47,6 @@ public class SectionTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Verify edit section is working in wysiwyg editor (xwiki/1.0). XWIKI-174 : Sectional editing.
-     */
-    public void testSectionEditInWysiwygEditor()
-    {
-        initXWiki10Env();
-        clickLinkWithLocator("//div[@id='xwikicontent']/span[3]/a"); // Edit the subsection
-        assertTextNotPresent("First section");
-        assertTextNotPresent("Second section");
-        assertTextPresent("Subsection");
-        assertTextNotPresent("Third section");
-    }
-
-    /**
      * Verify section save does not override the whole document content (xwiki/1.0). XWIKI-4033: When saving after
      * section edit entire page is overwritten.
      */
@@ -73,24 +60,6 @@ public class SectionTest extends AbstractXWikiTestCase
         assertTextPresent("Second section");
         assertTextPresent("Subsection");
         assertTextPresent("Third section");
-    }
-
-    /**
-     * Verify edit section is working in wiki editor (xwiki/2.0). XWIKI-2881 : Implement Section editing.
-     */
-    public void testSectionEditInWikiEditor_syntax20()
-    {
-        initXWiki20Env();
-        // Since the section edit links are inserted with JS we need to ensure they've been generated
-        waitForElement("//div[@id='xwikicontent']/span[2]/a");
-        // TODO: I don't understand why the following xpath expression doesn't work:
-        // clickLinkWithLocator("//div[@id='xwikicontent']/span/a[contains(@href, 'section=2']");
-        clickLinkWithLocator("//div[@id='xwikicontent']/span[2]/a"); // Edit the second editable section
-        clickLinkWithText("Wiki");
-        assertTextNotPresent("First section");
-        assertTextPresent("Second section");
-        assertTextPresent("Subsection");
-        assertTextNotPresent("Third section");
     }
 
     /**

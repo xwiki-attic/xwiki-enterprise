@@ -76,7 +76,6 @@ public class AllTests extends TestCase
         addTestCase(suite, PanelWizardTest.class);
         addTestCase(suite, DocExtraTest.class);
         addTestCase(suite, PanelsTest.class);
-        addTestCase(suite, SectionTest.class);
         addTestCase(suite, ImportTest.class);
         addTestCase(suite, CommentTest.class);
 

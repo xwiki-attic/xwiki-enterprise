@@ -39,7 +39,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     {
         WikiEditPage wep = new WikiEditPage();
         wep.switchToEdit("Test", "SectionEditing");
-        wep.setContent("1 Setion1\nContent1\n\n"
+        wep.setContent("1 Section1\nContent1\n\n"
             + "1 Section2\nContent2\n\n1.1 Section3\nContent3\n\n"
             + "1 Section4\nContent4");
         wep.setSyntaxId("xwiki/1.0");
@@ -139,9 +139,38 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
             vp.editSection(3).clickEditWiki().getContent());
         wikiEditPage.clickCancel();
 
+        // Edit the fourth section in the wiki editor
         // Note: we prove that included documents don't generate editable sections by checking that the fourth section
         // is "Section7".
         Assert.assertEquals("= Section7 = Content7",
             vp.editSection(4).clickEditWiki().getContent());
+    }
+
+    /**
+     * Verify section save does not override the whole document content (xwiki/1.0).
+     * See XWIKI-4033: When saving after section edit entire page is overwritten.
+     */
+    @Test
+    public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax10()
+    {
+        ViewPage vp = createTestPageSyntax10();
+        vp.editSection(3).clickEditWiki().clickSaveAndView();
+        WikiEditPage wep = vp.clickEditWiki();
+        Assert.assertEquals("1 Section1 Content1 1 Section2 Content2 1.1 Section3 Content3 1 Section4 Content4",
+            wep.getContent());
+    }
+
+    /**
+     * Verify section save does not override the whole document content (xwiki/2.0).
+     * See XWIKI-4033: When saving after section edit entire page is overwritten.
+     */
+    @Test
+    public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax20()
+    {
+        ViewPage vp = createTestPageSyntax20();
+        vp.editSection(4).clickEditWiki().clickSaveAndView();
+        WikiEditPage wep = vp.clickEditWiki();
+        Assert.assertEquals("= Section1 = Content1 = Section2 = Content2 == Section3 == Content3 "
+            + "{{include document=\"Test.SectionEditingIncluded\"/}} = Section7 = Content7", wep.getContent());
     }
 }

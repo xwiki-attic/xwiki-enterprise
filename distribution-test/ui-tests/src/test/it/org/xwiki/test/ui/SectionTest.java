@@ -46,17 +46,54 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
         return wep.clickSaveAndView();
     }
 
+    private ViewPage createTestPageSyntax20()
+    {
+        WikiEditPage wep = new WikiEditPage();
+        wep.switchToEdit("Test", "SectionEditingIncluded");
+        wep.setContent("== Included section ==\nFirst Included section content\n{{velocity wiki=true}}\n"
+            + "#foreach($h in ['First', 'Second'])\n== $h generated section ==\n\n$h generated paragraph\n"
+            + "#end\n{{velocity}}\n");
+        wep.setSyntaxId("xwiki/2.0");
+        wep.clickSaveAndView();
+
+        wep.switchToEdit("Test", "SectionEditing20");
+        wep.setContent("= First section =\nSection 1 content\n\n"
+            + "= Second section =\nSection 2 content\n\n== Subsection ==\nSubsection content\n\n"
+            + "{{include document='Test.SectionEditingIncluded'/}}\n\n" + "= Third section =\nSection 3 content");
+        wep.setSyntaxId("xwiki/2.0");
+
+        return wep.clickSaveAndView();
+    }
+
     /**
-     * Verify edit section is working in wiki editor (xwiki/1.0). XWIKI-174 : Sectional editing.
+     * Verify edit section is working in both wiki and wysiwyg editors (xwiki/1.0).
+     * See XWIKI-174: Sectional editing.
      */
     @Test
     public void testSectionEditInWikiEditorWhenSyntax10()
     {
         ViewPage vp = createTestPageSyntax10();
-        // Edit the second section in the wiki editor
+
+        // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
+        Assert.assertEquals("Second section\n Section 2 content \n \n Subsection\n Subsection content",
+            wysiwygEditPage.getContent());
+
+        // Edit the second section in the wiki editor
         WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();
         Assert.assertEquals("1 Second section Section 2 content 1.1 Subsection Subsection content",
             wikiEditPage.getContent());
+    }
+
+    /**
+     * Verify edit section is working in wiki editor (xwiki/2.0). XWIKI-2881 : Implement Section editing.
+     */
+    @Test
+    public void testSectionEditInWikiEditorWhenSyntax20()
+    {
+        ViewPage vp = createTestPageSyntax20();
+        WikiEditPage wikiEditPage = vp.editSection(2).clickEditWiki();
+        Assert.assertEquals("= Second section = Section 2 content == Subsection == Subsection content "
+            + "{{include document=\"Test.SectionEditingIncluded\"/}}", wikiEditPage.getContent());
     }
 }

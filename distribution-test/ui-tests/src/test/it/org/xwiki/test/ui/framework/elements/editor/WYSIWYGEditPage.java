@@ -19,10 +19,10 @@
  */
 package org.xwiki.test.ui.framework.elements.editor;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.PreviewableEditPage;
 
 /**
  * Represents the actions possible in WYSIWYG edit mode.
@@ -47,5 +47,24 @@ public class WYSIWYGEditPage extends PreviewableEditPage
     {
         this.saveAndViewSubmit.submit();
         return new ViewPage();
+    }
+
+    /**
+     * Get the <code>content</code> of the page.
+     */
+    public String getContent()
+    {
+        String content;
+
+        // Handle both the TinyMCE editor and the GWT Editor depending on the syntax
+        if ("xwiki/1.0".equals(getSyntaxId())) {
+            String windowHandle = getDriver().getWindowHandle();
+            getDriver().switchTo().frame("mce_editor_0");
+            content = getDriver().findElement(By.id("mceSpanFonts")).getText();
+            getDriver().switchTo().window(windowHandle);
+        } else {
+            throw new RuntimeException("Not implemented yet");
+        }
+        return content;
     }
 }

@@ -103,6 +103,10 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
 
     /**
      * Verify edit section is working in both wiki and wysiwyg editors (xwiki/2.0).
+     *
+     * Note that we currently don't support section editing for included content (it would mean navigating to the
+     * included page since it would change that page's content and not the currently page's content).
+     *
      * See XWIKI-2881: Implement Section editing.
      */
     @Test
@@ -128,5 +132,16 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
         WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();
         Assert.assertEquals("= Section2 = Content2 == Section3 == Content3 "
             + "{{include document=\"Test.SectionEditingIncluded\"/}}", wikiEditPage.getContent());
+        wikiEditPage.clickCancel();
+
+        // Edit the third section in the wiki editor
+        Assert.assertEquals("== Section3 == Content3 {{include document=\"Test.SectionEditingIncluded\"/}}",
+            vp.editSection(3).clickEditWiki().getContent());
+        wikiEditPage.clickCancel();
+
+        // Note: we prove that included documents don't generate editable sections by checking that the fourth section
+        // is "Section7".
+        Assert.assertEquals("= Section7 = Content7",
+            vp.editSection(4).clickEditWiki().getContent());
     }
 }

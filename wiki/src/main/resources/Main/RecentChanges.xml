@@ -256,6 +256,7 @@ ul.activityList {
 }
 
 .activitySummary {
+  min-height: 35px;
   padding-top: 5px;
 }
 
@@ -435,30 +436,36 @@ h1:hover .toolFilter .toolExpand {
 * html ul.activityList  {
   list-style-position: outside; /* IE6 */
 }
-*+html ul.activityList  {
-  list-style-position: outside; /* IE7 */
-}
 
-* html .activityItem , .activityHeader{
-  display: inline-block; /* IE 6*/
+* html .activityItem ,  * html  .activityHeader, * html  .activityContent ul{
+  display: inline-block;
 }
 
 * html .activityAuthor {
-  float: left; /* IE6 */
+  float: left;
 }
 *+html .activityAuthor {
-  float: left; /* IE7 */
+  float: left;
 }
 
-*+html .activityTime {
-  float: right; /* IE7 */
-}
 * html .activityTime {
-  float: right; /* IE6 */
+  float: right;
+}
+
+* html .activityItem {
+  float: right;
+}
+
+* html .activityContent {
+  line-height: 1%;
 }
 
 * html .activityAction {
-  clear: left; /* IE6 */
+  clear: left;
+}
+
+* html .activitySummary {
+  height: 40px; /* IE 6 */
 }
 </code></property><property><name>Recent Changes CSS</name>
 </property>

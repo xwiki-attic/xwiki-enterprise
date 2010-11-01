@@ -621,7 +621,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 ##
 ## Formatters
 ##--------------------------------------------------------------
-#set($eventDateFormatter = 'dd MMM, hh:mm a')
+#set($eventDateFormatter = 'dd MMM, HH:mm')
 #set($activityListDateFormatter = 'dd MMM')
 ##
 ## Filter clause

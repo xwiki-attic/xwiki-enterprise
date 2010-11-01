@@ -879,7 +879,6 @@ $xwiki.ssx.use("Main.RecentChanges")##
 #macro(initializeEvent)
   #set($yearMsg = '')
   #set($timeAgoMsg = '')
-  #set($displayDate = '')
   #set($eventDateTime = $xwiki.jodatime.getDateTime($event.date.getTime()))
   #set($eventTimeDiff = $currentTime.minus($eventDateTime.millis))
   #set($eventYear = $eventDateTime.year)

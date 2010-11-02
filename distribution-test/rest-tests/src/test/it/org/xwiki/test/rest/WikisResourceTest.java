@@ -204,8 +204,8 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         // Verify we can search for all attachments in a given space (sandbox)
-        getMethod =
-            executeGet(String.format("%s?space=sandbox", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+        getMethod = executeGet(String.format("%s?space=sandbox",
+            getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());

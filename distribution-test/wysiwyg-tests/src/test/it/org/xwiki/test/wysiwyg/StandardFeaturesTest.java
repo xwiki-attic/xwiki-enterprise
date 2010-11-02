@@ -659,13 +659,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         setContent("<p>ab<span style=\"color: red\">cd<span style=\"background-color: yellow\">ef</span>gh</span>"
             + "ij<span style=\"font-family: monospace\">kl<span style=\"font-size: 24pt\">mn</span>op</span>rs</p>");
         switchToSource();
-        // Currently XHTML parser doesn't remove duplicated CSS properties. Remove this comment and use assertSourceText
-        // when the XHTML parser is improved.
-        assertEquals("This test is failing because XHTML parser doesn't remove duplicated "
-            + "CSS properties. Waiting for XHTML parser to be improved.",
-            "ab(% style=\"color: red;\" %)cd(% style=\"background-color: yellow;"
-                + " color: red\" %)ef(% style=\"color: red\" %)gh(%%)"
-                + "ij(% style=\"font-family: monospace;\" %)kl(% style=\"font-family: monospace;"
-                + " font-size: 24pt\" %)mn(% style=\"font-family: monospace\" %)op(%%)rs", getSourceText());
+        assertEquals("ab(% style=\"color: red;\" %)cd(% style=\"color: red; "
+            + "background-color: yellow\" %)ef(% style=\"color: red;\" %)gh(%%)"
+            + "ij(% style=\"font-family: monospace;\" %)kl(% style=\"font-family: monospace;"
+            + " font-size: 24pt\" %)mn(% style=\"font-family: monospace;\" %)op(%%)rs", getSourceText());
     }
 }

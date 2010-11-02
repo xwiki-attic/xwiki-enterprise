@@ -188,13 +188,14 @@ public class WikisResourceTest extends AbstractHttpTest
             checkLinks(attachment);
         }
 
+        // Matches Sandbox.WebHome@XWikLogo.png
         getMethod =
-            executeGet(String.format("%s?name=quo", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+            executeGet(String.format("%s?name=Logo", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getAttachmentsInfo(attachments), 2, attachments.getAttachments().size());
+        assertEquals(getAttachmentsInfo(attachments), 1, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);

@@ -96,13 +96,14 @@ public class SpacesResourceTest extends AbstractHttpTest
 
     public void testAttachments() throws Exception
     {
+        // Matches Sandbox.WebHome@XWikLogo.png
         GetMethod getMethod =
-            executeGet(String.format("%s", getUriBuilder(SpaceAttachmentsResource.class).build(getWiki(), "Main")));
+            executeGet(String.format("%s", getUriBuilder(SpaceAttachmentsResource.class).build(getWiki(), "Sandbox")));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getAttachmentsInfo(attachments), 2, attachments.getAttachments().size());
+        assertEquals(getAttachmentsInfo(attachments), 1, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);

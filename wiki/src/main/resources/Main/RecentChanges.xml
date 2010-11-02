@@ -961,7 +961,11 @@ $xwiki.ssx.use("Main.RecentChanges")##
   *#
 #macro(activitySnapshot $eventUser $eventType)
   &lt;span class="activitySnapshot"&gt;
-    &lt;a href="$xwiki.getURL($eventUser)"&gt;#smallUserAvatar("$!eventUser")&lt;/a&gt;
+    #if($eventUser != 'XWiki.XWikiGuest')
+      &lt;a href="$xwiki.getURL($eventUser)"&gt;#smallUserAvatar("$!eventUser")&lt;/a&gt;
+    #else
+      #smallUserAvatar("$!eventUser")
+    #end
     &lt;img class="activityActionAvatar" src="$xwiki.getSkinFile($activityActionsMap.get($eventType), true)" alt="$msg.get("xe.recentchanges.action.${eventType}", [$relatedEventsNo])" title="$msg.get("xe.recentchanges.action.${eventType}", [$relatedEventsNo])" /&gt;
   &lt;/span&gt;
 #end

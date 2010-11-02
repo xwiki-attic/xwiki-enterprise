@@ -775,9 +775,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
-        String attachSpace = "Main";
-        String attachPage = "RecentChanges";
-        String attachment = "lquo.gif";
+        String attachSpace = "XWiki";
+        String attachPage = "AdminSheet";
+        String attachment = "groups.png";
 
         explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
         explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
@@ -799,17 +799,17 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToAttachmentWithParameters()
     {
-        String linkLabel = "rquo";
-        String linkTooltip = "Right quote image";
+        String linkLabel = "XWiki.org Logo";
+        String linkTooltip = "Download XWiki's Logo";
         openLinkDialog(MENU_ATTACHMENT);
 
         // click the tree explorer tab
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
-        String attachSpace = "Main";
-        String attachPage = "RecentChanges";
-        String attachment = "rquo.gif";
+        String attachSpace = "Sandbox";
+        String attachPage = "WebHome";
+        String attachment = "XWikiLogo.png";
 
         explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
         explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
@@ -844,9 +844,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
-        String attachSpace = "Main";
-        String attachPage = "RecentChanges";
-        String attachment = "lquo.gif";
+        String attachSpace = "XWiki";
+        String attachPage = "AdminSheet";
+        String attachment = "users.png";
 
         // get an error from not inserting the attachment name
         explorer.lookupEntity(attachSpace + "." + attachPage);
@@ -884,14 +884,14 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testEditLinkToAttachment()
     {
         switchToSource();
-        setSourceText("[[foobar>>attach:Main.RecentChanges@lquo.gif]]");
+        setSourceText("[[foobar>>attach:Sandbox.WebHome@XWikiLogo.png]]");
         switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
-        explorer.waitForAttachmentSelected("Main", "RecentChanges", "lquo.gif");
+        assertEquals("xwiki:Sandbox.WebHome@XWikiLogo.png", explorer.getSelectedEntityReference());
+        explorer.waitForAttachmentSelected("Sandbox", "WebHome", "XWikiLogo.png");
         // and edit it now
         explorer.lookupEntity("XWiki.AdminSheet@export.png");
         explorer.waitForAttachmentSelected("XWiki", "AdminSheet", "export.png");
@@ -1263,16 +1263,16 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditRelativeLinkToAttachment()
     {
-        // Edit a page in the Main space because we know pages that already exit there and have attachments.
-        String currentSpace = "Main";
+        // Edit a page in the Sandbox space because we know pages that already exit there and have attachments.
+        String currentSpace = "Sandbox";
         open(currentSpace, getName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
-        String pageToLinkTo = "RecentChanges";
-        String fileToLinkTo = "lquo.gif";
+        String pageToLinkTo = "WebHome";
+        String fileToLinkTo = "XWikiLogo.png";
 
         switchToSource();
-        setSourceText("[[left quote>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
+        setSourceText("[[XWiki Logo>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
         switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
@@ -1298,12 +1298,12 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
-        typeInInput(LABEL_INPUT_TITLE, "quote left");
+        typeInInput(LABEL_INPUT_TITLE, "XWiki.org Logo");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[quote left>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
+        assertSourceText("[[XWiki.org Logo>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
 
         // ensure this opens on the current page selector
         setSourceText("[[attach.png>>attach:attach.png]]");
@@ -1324,17 +1324,17 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testValidationOnCurrentPageAttachmentsSelector()
     {
         switchToSource();
-        setSourceText("[[left quote>>attach:Main.RecentChanges@rquo.gif]]");
+        setSourceText("[[Export>>attach:XWiki.AdminSheet@export.png]]");
         switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals(String.format(ABSOLUTE_ATTACHMENT_REFERENCE, "Main", "RecentChanges", "rquo.gif"), explorer
+        assertEquals(String.format(ABSOLUTE_ATTACHMENT_REFERENCE, "XWiki", "AdminSheet", "export.png"), explorer
             .getSelectedEntityReference());
-        explorer.waitForAttachmentSelected("Main", "RecentChanges", "rquo.gif");
+        explorer.waitForAttachmentSelected("XWiki", "AdminSheet", "export.png");
 
-        explorer.lookupEntity("xwiki:Main.RecentChanges@lquo.gif");
-        explorer.waitForNode("lquo.gif", true);
+        explorer.lookupEntity("xwiki:XWiki.AdminSheet@import.png");
+        explorer.waitForNode("import.png", true);
 
         clickTab(CURRENT_PAGE_TAB);
 
@@ -1356,14 +1356,14 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testEditLinkPreservesFullReferences()
     {
-        // Edit a page in the Main space because we know pages that already exit there and have attachments.
-        open("Main", getName(), "edit", "editor=wysiwyg");
+        // Edit a page in the Sandbox space because we know pages that already exit there and have attachments.
+        open("Sandbox", getName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
         switchToSource();
         // Insert links to resources from the same space, using full references.
-        setSourceText("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
-            + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
+        setSourceText("[[bob>>Sandbox.WebHome]] [[alice>>Sandbox.NewPage]] "
+            + "[[carol>>attach:Sandbox.WebHome@XWikiLogo.png]]");
         switchToWysiwyg();
 
         // Edit first link, a link to an existing page.
@@ -1371,8 +1371,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("xwiki:Main.RecentChanges", explorer.getSelectedEntityReference());
-        explorer.waitForPageSelected("Main", "RecentChanges");
+        assertEquals("xwiki:Sandbox.WebHome", explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected("Sandbox", "WebHome");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -1382,8 +1382,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.childNodes[2].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("xwiki:Main.NewPage", explorer.getSelectedEntityReference());
-        explorer.waitForPageSelected("Main", "New page...");
+        assertEquals("xwiki:Sandbox.NewPage", explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected("Sandbox", "New page...");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
@@ -1393,16 +1393,16 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body.firstChild.childNodes[4].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("xwiki:Main.RecentChanges@lquo.gif", explorer.getSelectedEntityReference());
-        explorer.waitForAttachmentSelected("Main", "RecentChanges", "lquo.gif");
+        assertEquals("xwiki:Sandbox.WebHome@XWikiLogo.png", explorer.getSelectedEntityReference());
+        explorer.waitForAttachmentSelected("Sandbox", "WebHome", "XWikiLogo.png");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[bob>>Main.RecentChanges]] [[alice>>Main.NewPage]] "
-            + "[[carol>>attach:Main.RecentChanges@lquo.gif]]");
+        assertSourceText("[[bob>>Sandbox.WebHome]] [[alice>>Sandbox.NewPage]] "
+            + "[[carol>>attach:Sandbox.WebHome@XWikiLogo.png]]");
     }
 
     /**

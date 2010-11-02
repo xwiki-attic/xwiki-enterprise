@@ -19,9 +19,10 @@
  */
 package org.xwiki.test.wysiwyg;
 
-import com.thoughtworks.selenium.Wait;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
+
+import com.thoughtworks.selenium.Wait;
 
 /**
  * Tests the image insert and edit plugin. For the moment, it does not test the upload new image feature, since it needs
@@ -214,10 +215,10 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testDefaultSelection()
     {
-        String imageSpace = "Main";
-        String imagePage = "RecentChanges";
-        String imageFile1 = "lquo.gif";
-        String imageFile2 = "rquo.gif";
+        String imageSpace = "XWiki";
+        String imagePage = "AdminSheet";
+        String imageFile1 = "import.png";
+        String imageFile2 = "export.png";
 
         openImageDialog(MENU_INSERT_IMAGE);
         waitForStepSelector();
@@ -257,7 +258,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[image:Main.RecentChanges@lquo.gif]]Mmmh, cheese!" + "[[image:Main.RecentChanges@rquo.gif]]");
+        assertSourceText("[[image:XWiki.AdminSheet@import.png]]Mmmh, cheese!" + "[[image:XWiki.AdminSheet@export.png]]");
     }
 
     /**
@@ -265,10 +266,10 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testPreviousPreservesSelection()
     {
-        String imageSpace = "Main";
-        String imagePage = "RecentChanges";
-        String imageFile1 = "rquo.gif";
-        String imageFile2 = "lquo.gif";
+        String imageSpace = "XWiki";
+        String imagePage = "AdminSheet";
+        String imageFile1 = "export.png";
+        String imageFile2 = "import.png";
 
         openImageDialog(MENU_INSERT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
@@ -302,8 +303,8 @@ public class ImageTest extends AbstractWysiwygTestCase
     public void testRemoveImage()
     {
         switchToSource();
-        setSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]]Mmmh, cheese!"
-            + "[[image:xwiki:Main.RecentChanges@rquo.gif]]");
+        setSourceText("[[image:xwiki:XWiki.AdminSheet@import.png]]Mmmh, cheese!"
+            + "[[image:xwiki:XWiki.AdminSheet@export.png]]");
         switchToWysiwyg();
         selectNode("XWE.body.firstChild.childNodes[2]");
         clickMenu(MENU_IMAGE);
@@ -311,7 +312,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickMenu(MENU_REMOVE_IMAGE);
 
         switchToSource();
-        assertSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]]Mmmh, cheese!");
+        assertSourceText("[[image:xwiki:XWiki.AdminSheet@import.png]]Mmmh, cheese!");
         switchToWysiwyg();
 
         selectNode("XWE.body.firstChild.firstChild");
@@ -358,7 +359,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     public void testEditImagePreservesFullReferences()
     {
         switchToSource();
-        setSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
+        setSourceText("[[image:xwiki:XWiki.AdminSheet@import.png]] [[image:XWiki.AdminSheet@export.png]]");
         switchToWysiwyg();
 
         // edit first image
@@ -366,7 +367,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
-        assertImageSelected("Main", "RecentChanges", "lquo.gif");
+        assertImageSelected("XWiki", "AdminSheet", "import.png");
 
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
@@ -379,7 +380,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
-        assertImageSelected("Main", "RecentChanges", "rquo.gif");
+        assertImageSelected("XWiki", "AdminSheet", "export.png");
 
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
@@ -388,7 +389,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]] [[image:Main.RecentChanges@rquo.gif]]");
+        assertSourceText("[[image:xwiki:XWiki.AdminSheet@import.png]] [[image:XWiki.AdminSheet@export.png]]");
     }
 
     /**
@@ -440,7 +441,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
         assertImageSelected("XWiki", "AdminSheet", "registration.png");
-        selectImage("Main", "RecentChanges", "lquo.gif");
+        selectImage("Sandbox", "WebHome", "XWikiLogo.png");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
         // clear the alt text
@@ -456,7 +457,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:Main.RecentChanges@lquo.gif]]>>XWiki.Register]]");
+        assertSourceText("[[[[image:Sandbox.WebHome@XWikiLogo.png]]>>XWiki.Register]]");
     }
 
     /**
@@ -479,7 +480,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Edit an image.
         switchToSource();
-        setSourceText("[[image:xwiki:Main.RecentChanges@lquo.gif]]");
+        setSourceText("[[image:xwiki:Sandbox.WebHome@XWikiLogo.png]]");
         switchToWysiwyg();
         selectNode("XWE.body.firstChild.firstChild");
         openImageDialog(MENU_EDIT_IMAGE);
@@ -615,7 +616,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String pageName = getName() + ":a.b@c";
         String escapedPageName = pageName.replace(".", "\\.");
         String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
-        copyPage("Main", "RecentChanges", pageFullName);
+        copyPage("XWiki", "AdminSheet", pageFullName);
 
         // Come back to the edited page.
         open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
@@ -626,7 +627,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         selectLocation(spaceName, pageName);
-        getSelenium().click(getImageLocator("rquo.gif"));
+        getSelenium().click(getImageLocator("export.png"));
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
         clickButtonWithText(BUTTON_INSERT_IMAGE);
@@ -634,15 +635,15 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText(String.format("[[image:%s@rquo.gif]]", pageFullName));
+        assertSourceText(String.format("[[image:%s@export.png]]", pageFullName));
         switchToWysiwyg();
 
         // Edit the inserted image.
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
-        assertImageSelected(spaceName, pageName, "rquo.gif");
-        selectImage(spaceName, pageName, "lquo.gif");
+        assertImageSelected(spaceName, pageName, "export.png");
+        selectImage(spaceName, pageName, "import.png");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
         getSelenium().type(INPUT_ALT, "");
@@ -651,7 +652,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText(String.format("[[image:%s@lquo.gif]]", pageFullName));
+        assertSourceText(String.format("[[image:%s@import.png]]", pageFullName));
     }
 
     /**
@@ -741,9 +742,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         // Change the image location.
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
-        String spaceName = "Main";
-        String pageName = "RecentChanges";
-        String fileName = "rquo.gif";
+        String spaceName = "Sandbox";
+        String pageName = "WebHome";
+        String fileName = "XWikiLogo.png";
         selectLocation(spaceName, pageName);
         getSelenium().click(getImageLocator(fileName));
         clickButtonWithText(BUTTON_SELECT);

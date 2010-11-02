@@ -217,12 +217,12 @@ div.dashboardspacer {
             = $msg.get("xe.dashboard.wiki.recentactivity") =
           #else
             = $msg.get("xe.dashboard.space.recentactivity", [$doc.space]) =
-            ## Set variables to limit recent changes to the current space and 15 items.
+            ## Set variables to limit recent activity to the current space and 15 items.
             #set ($rcSpace = $doc.space)
             #set ($rcChangesNb = 15)
           #end
 
-          {{recentchanges space="$!rcSpace" changesNb="$!rcChangesNb" /}}
+          {{recentactivity space="$!rcSpace" changesNb="$!rcChangesNb" /}}
 
         )))
       )))

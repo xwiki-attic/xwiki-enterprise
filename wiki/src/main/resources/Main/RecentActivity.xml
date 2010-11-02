@@ -1184,13 +1184,13 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <defaultCategory>Content</defaultCategory>
 </property>
 <property>
-<description>Displays the recent changes in this wiki or in the passed space, if any.</description>
+<description>Displays the recent activity in this wiki or in the passed space, if any.</description>
 </property>
 <property>
-<id>recentchanges</id>
+<id>recentactivity</id>
 </property>
 <property>
-<name>Recent Changes</name>
+<name>Recent Activity</name>
 </property>
 <property>
 <supportsInlineMode>0</supportsInlineMode>
@@ -1322,7 +1322,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <defaultValue>true</defaultValue>
 </property>
 <property>
-<description>Whether to show differences for the items in the changes list or not.</description>
+<description>Whether to show differences for the items in the activity list or not.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
@@ -1388,7 +1388,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <defaultValue>true</defaultValue>
 </property>
 <property>
-<description>Whether to show changes rss links or not.</description>
+<description>Whether to show activity rss links or not.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
@@ -1454,7 +1454,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <defaultValue>30</defaultValue>
 </property>
 <property>
-<description>Number of changes to show.</description>
+<description>Number of activity to show.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
@@ -1520,7 +1520,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <defaultValue></defaultValue>
 </property>
 <property>
-<description>Comma separated list of tags to display changes for.</description>
+<description>Comma separated list of tags to display activity for.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
@@ -1586,7 +1586,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <defaultValue></defaultValue>
 </property>
 <property>
-<description>Comma separated list of spaces to display the recent changes for.</description>
+<description>Comma separated list of spaces to display the recent activity for.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
@@ -1663,7 +1663,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
 </object>
 <content>{{velocity}}
 ##
-## Recent changes.
+## Recent Activity
 ##
 ## Optional parameters :
 ##
@@ -1671,9 +1671,9 @@ $xwiki.ssx.use("Main.RecentActivity")##
 ## Note that HTTP parameters supercede velocity set variables.
 ##
 ##  - rcShowRss (String set to "true" or "false"): show RSS at the bottom of the list.
-##  - rcSpace (List of string[s]): restrict recent changes retrieval to pages within the given space.
-##  - rcTag (List of string[s]): restrict recent changes retrieval to pages with the given tag.
-##  - rcAuthor (List of string[s]): restrict recent changes retrieval to pages with the given author.
+##  - rcSpace (List of string[s]): restrict recent activity retrieval to pages within the given space.
+##  - rcTag (List of string[s]): restrict recent activity retrieval to pages with the given tag.
+##  - rcAuthor (List of string[s]): restrict recent activity retrieval to pages with the given author.
 ##  - rcChangesNb (String set to a numerical value): number of pages to display recent activity.
 ##  - rcPagercPageEventsNo (String set to a numerical value): number of activity events displayed for each page.
 ##
@@ -1705,7 +1705,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
   #end
 #end
 ## pass the variables from the velocity context
-{{recentchanges #if($rcShowRss) showRss="$rcShowRss" #end
+{{recentactivity #if($rcShowRss) showRss="$rcShowRss" #end
                 #if($rcChangesNb) changesNb="$rcChangesNb" #end
                 #if($rcPagercPageEventsNb) changesNb="$rcPagercPageEventsNb" #end
                 #if($rcSpaceString) space="$rcSpaceString" #end

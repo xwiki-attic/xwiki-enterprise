@@ -62,22 +62,26 @@ public class CreatePagePage extends ViewPage
         this.pageTextField.sendKeys(page);
     }
 
-    public boolean areTemplatesAvailable()
+    public int availableTemplateSize()
     {
-        List<WebElement> templates = getDriver().findElements(By.name("template"));
         // When there's no template available a hidden input with a blank value remains.
-        return templates.size() > 1;
+        return getDriver().findElements(By.name("template")).size() - 1;
     }
 
     public void setTemplate(String template)
     {
+        // Select the correct radio element corresponding to the passed template name.
+        // TODO: For some reason the following isn't working. Find out why.
+        //   List<WebElement> templates = getDriver().findElements(
+        //     new ByChained(By.name("template"), By.tagName("input")));
         List<WebElement> templates = getDriver().findElements(By.name("template"));
         for (WebElement templateInput : templates) {
             if (templateInput.getValue().equals(template)) {
                 templateInput.setSelected();
+                return;
             }
         }
-
+        throw new RuntimeException("Failed to find template [" + template + "]");
     }
 
     public void clickCreate()

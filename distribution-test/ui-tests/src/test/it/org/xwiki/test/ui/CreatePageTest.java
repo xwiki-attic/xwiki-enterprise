@@ -62,6 +62,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreatePageFromTemplate()
     {
+        // Setup the correct environment for the test
         String space = this.getClass().getSimpleName();
         getUtil().deletePage(space, this.testName.getMethodName());
         getUtil().deletePage(space, TEMPLATE_NAME);
@@ -90,6 +91,8 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Create the new document from template
         CreatePagePage createPagePage = templateProviderView.createPage();
+        // Save the number of available templates so that we can make some checks later on.
+        int availableTemplateSize = createPagePage.availableTemplateSize();
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
             createPagePage.createPageFromTemplate(space, templateInstanceName, templateFullName);
@@ -109,7 +112,8 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Ensure that the template choice popup is displayed
         List<WebElement> templates = getDriver().findElements(By.name("template"));
-        Assert.assertFalse(templates.isEmpty());
+        // Note: We need to remove 1 to exclude the "Empty Page" template entry
+        Assert.assertEquals(availableTemplateSize, templates.size() - 1);
 
         // Restrict the template to its own space
         templateProviderView = getUtil().gotoPage(space, TEMPLATE_NAME + "Provider");
@@ -121,7 +125,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Verify we can still create a page from template in the test space
         createPagePage = templateProviderView.createPage();
-        Assert.assertTrue(createPagePage.areTemplatesAvailable());
+        Assert.assertEquals(availableTemplateSize, createPagePage.availableTemplateSize());
 
         // Modify the target space and verify the form can't be submitted
         createPagePage.setTemplate(templateFullName);
@@ -134,6 +138,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         HomePage homePage = new HomePage();
         homePage.gotoPage();
         createPagePage = homePage.createPage();
-        Assert.assertFalse(createPagePage.areTemplatesAvailable());
+        // The list of templates should be the initial list - 1 (since in the initial list we had our template).
+        Assert.assertEquals(availableTemplateSize - 1, createPagePage.availableTemplateSize());
     }
 }

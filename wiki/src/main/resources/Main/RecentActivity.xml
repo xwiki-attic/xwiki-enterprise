@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwikidoc>
 <web>Main</web>
-<name>RecentChanges</name>
+<name>RecentActivity</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
@@ -94,7 +94,7 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>0</number>
 <className>XWiki.JavaScriptExtension</className>
 <guid>5c505c61-ae77-44de-b1b0-f9fcaca3b2b6</guid>
@@ -215,7 +215,7 @@ document.observe('xwiki:dom:loaded', function() {
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>0</number>
 <className>XWiki.StyleSheetExtension</className>
 <guid>ab40f34b-0de4-4e6a-a6c8-f03dce1d6db5</guid>
@@ -467,7 +467,7 @@ h1:hover .toolFilter .toolExpand {
 * html .activitySummary {
   height: 40px; /* IE 6 */
 }
-</code></property><property><name>Recent Changes CSS</name>
+</code></property><property><name>Recent Activity CSS</name>
 </property>
 <property>
 <parse>1</parse>
@@ -586,7 +586,7 @@ h1:hover .toolFilter .toolExpand {
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </visibility>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>0</number>
 <className>XWiki.WikiMacroClass</className>
 <guid>8891cf6c-541d-4e15-8986-ca230207525e</guid>
@@ -596,8 +596,8 @@ h1:hover .toolFilter .toolExpand {
 ##
 ## Skin Extensions
 ##--------------------------------------------------------------
-$xwiki.jsx.use("Main.RecentChanges")##
-$xwiki.ssx.use("Main.RecentChanges")##
+$xwiki.jsx.use("Main.RecentActivity")##
+$xwiki.ssx.use("Main.RecentActivity")##
 ##
 ## Icons
 ##--------------------------------------------------------------
@@ -1248,7 +1248,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>0</number>
 <className>XWiki.WikiMacroParameterClass</className>
 <guid>822b7323-43ba-4878-8209-7537c9a7c395</guid>
@@ -1314,7 +1314,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>1</number>
 <className>XWiki.WikiMacroParameterClass</className>
 <guid>c9d7f9c0-5fe8-49e9-86c9-ba04148576d7</guid>
@@ -1380,7 +1380,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>2</number>
 <className>XWiki.WikiMacroParameterClass</className>
 <guid>a50d0bbe-21f8-444d-b42f-5d521372d79e</guid>
@@ -1446,7 +1446,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>3</number>
 <className>XWiki.WikiMacroParameterClass</className>
 <guid>d5e380c7-3554-48e4-9c4d-c2ec4ca1fe7d</guid>
@@ -1512,7 +1512,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>4</number>
 <className>XWiki.WikiMacroParameterClass</className>
 <guid>9d0af90f-f2c0-4f22-b555-c20b596bb70e</guid>
@@ -1578,7 +1578,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>5</number>
 <className>XWiki.WikiMacroParameterClass</className>
 <guid>cd7504db-2ea0-4969-9c80-bd5d31fc9410</guid>
@@ -1644,7 +1644,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 </class>
-<name>Main.RecentChanges</name>
+<name>Main.RecentActivity</name>
 <number>6</number>
 <className>XWiki.WikiMacroParameterClass</className>
 <guid>c0c73914-3f1a-45e2-a88a-cc8481c66abb</guid>

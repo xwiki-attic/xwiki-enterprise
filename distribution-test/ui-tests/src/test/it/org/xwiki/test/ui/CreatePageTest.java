@@ -104,13 +104,16 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Put a broken link in the template instance
         templateInstanceEdit.setContent("[[NewPage]]");
-        templateInstanceEdit.clickSaveAndView();
+        ViewPage vp = templateInstanceEdit.clickSaveAndView();
 
         WebElement brokenLink = getDriver().findElement(
             By.xpath("//a[contains(@href,'/create/" + space + "/NewPage')]"));
         brokenLink.click();
 
-        // Ensure that the template choice popup is displayed
+        // Ensure that the template choice popup is displayed. Since this is done using JS we need to wait till it's
+        // displayed. For that we wait on the Create button since that would mean the template radio buttons will all
+        // have been displayed.
+        vp.waitUntilElementIsVisible(By.xpath("//div[@class='modal-popup']//input[@type='submit']"));
         List<WebElement> templates = getDriver().findElements(By.name("template"));
         // Note: We need to remove 1 to exclude the "Empty Page" template entry
         Assert.assertEquals(availableTemplateSize, templates.size() - 1);

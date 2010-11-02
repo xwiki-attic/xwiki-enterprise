@@ -176,6 +176,7 @@ public class WikisResourceTest extends AbstractHttpTest
 
     public void testAttachments() throws Exception
     {
+        // Verify there are attachments in the whole wiki
         GetMethod getMethod =
             executeGet(String.format("%s", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -188,6 +189,7 @@ public class WikisResourceTest extends AbstractHttpTest
             checkLinks(attachment);
         }
 
+        // Verify we can search for a specific attachment name in the whole wiki
         // Matches Sandbox.WebHome@XWikLogo.png
         getMethod =
             executeGet(String.format("%s?name=Logo", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
@@ -201,6 +203,7 @@ public class WikisResourceTest extends AbstractHttpTest
             checkLinks(attachment);
         }
 
+        // Verify we can search for all attachments in a given space (sandbox)
         getMethod =
             executeGet(String.format("%s?space=sandbox", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -213,8 +216,9 @@ public class WikisResourceTest extends AbstractHttpTest
             checkLinks(attachment);
         }
 
+        // Verify we can search for an attachment in a given space (sandbox)
         getMethod =
-            executeGet(String.format("%s?name=rq&space=Main", getUriBuilder(WikiAttachmentsResource.class).build(
+            executeGet(String.format("%s?name=Logo&space=Sandbox", getUriBuilder(WikiAttachmentsResource.class).build(
                 getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 

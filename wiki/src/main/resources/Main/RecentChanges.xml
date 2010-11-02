@@ -962,7 +962,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 #macro(activitySnapshot $eventUser $eventType)
   &lt;span class="activitySnapshot"&gt;
     &lt;a href="$xwiki.getURL($eventUser)"&gt;#smallUserAvatar("$!eventUser")&lt;/a&gt;
-    &lt;img class="activityActionAvatar" src="$xwiki.getSkinFile($activityActionsMap.get($eventType), true)" alt="$msg.get("xe.recentchanges.action.${eventType}")" title="$msg.get("xe.recentchanges.action.${eventType}")" /&gt;
+    &lt;img class="activityActionAvatar" src="$xwiki.getSkinFile($activityActionsMap.get($eventType), true)" alt="$msg.get("xe.recentchanges.action.${eventType}", [$relatedEventsNo])" title="$msg.get("xe.recentchanges.action.${eventType}", [$relatedEventsNo])" /&gt;
   &lt;/span&gt;
 #end
 #macro(displayActivityListItemSummary)
@@ -1011,6 +1011,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
   * @param isFirstEntry if true, the current item is the first entry of a list formed by a single event -&gt; do not display user avatar
   *#
 #macro(displayActivityListItemHeader $isPageEntryExpandable $isFirstEntry $isEventEntryExpandable)
+  #set($relatedEventsNo = $xwiki.activitystream.getRelatedEvents($event).size() / 2)
   &lt;div class="activityHeader"&gt;
     #if(!$isPageEntryExpandable &amp;&amp; !$isFirstEntry)
       #activitySnapshot($event.user $event.type)
@@ -1025,13 +1026,10 @@ $xwiki.ssx.use("Main.RecentChanges")##
     #if(!$isFirstEntry || $isPageEntryExpandable)
       &lt;span class="activityAction"&gt;
         #isAttachmentEvent($event)
-        #set($relatedEventsNo = $xwiki.activitystream.getRelatedEvents($event).size() / 2)
         #if($isPageEntryExpandable) ## display entry summary
           $!msg.get('xe.recentchanges.action.summary', [$events.size(), $eventUsers.size()])
-        #elseif($isAttachmentEvent &amp;&amp; $relatedEventsNo &gt; 1) ## display a block of attachments instead of displaying one entry for each attachment
-          $!msg.get("xe.recentchanges.action.multiple.${event.type}", [$relatedEventsNo])
         #else
-          $!msg.get("xe.recentchanges.action.${event.type}")
+          $!msg.get("xe.recentchanges.action.${event.type}", [$relatedEventsNo])
         #end
       &lt;/span&gt;
     #end
@@ -1148,7 +1146,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
       &lt;/ul&gt;
     #end
   #else
-    $msg.get('xe.recentchanges.noentries')
+    &lt;span class="noitems"&gt;$msg.get('xe.recentchanges.noentries')&lt;/span&gt;
   #end
   ##
   ## Display RSS URL

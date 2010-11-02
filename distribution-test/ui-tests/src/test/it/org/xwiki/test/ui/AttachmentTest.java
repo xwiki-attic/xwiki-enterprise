@@ -144,13 +144,14 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
     {
         // this mess is here to make absolutely sure the attachment goes into the database and is not being
         // stored in a cache or on the hard disk.
-        final String attachValidator =
-            "{{groovy}}\n"
-          + "println(new String(xwiki.search(\"select content.content from XWikiAttachmentContent content, "
-          + "XWikiAttachment attach, XWikiDocument doc where content.id=attach.id and attach.docId=doc.id and "
-          + "attach.filename='" + this.testAttachment + "' and doc.fullName='" + docFullName + "'\").get(0), "
-          + "\"UTF-8\"));\n"
-          + "{{/groovy}}";
+        final String attachValidator = "{{groovy}}\n"
+            + "result = xwiki.search(\"select content.content from XWikiAttachmentContent content, "
+            + "XWikiAttachment attach, XWikiDocument doc where content.id=attach.id and attach.docId=doc.id and "
+            + "attach.filename='SmallAttachment.txt' and doc.fullName='Test.AttachmentTest'\")\n"
+            + "if (!result.isEmpty()) {\n"
+            + "  println(new String(result.get(0), \"UTF-8\"));\n"
+            + "}\n"
+            + "{{/groovy}}";
 
         WikiEditPage wep = new WikiEditPage();
         wep.switchToEdit("Test", docName);
@@ -162,6 +163,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment).getPath());
         ap.clickAttachFiles();
 
+        // Refresh the page to execute the page's groovy script.
         this.getDriver().navigate().refresh();
 
         Assert.assertEquals("This is a small attachment.", vp.getContent());

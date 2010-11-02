@@ -629,6 +629,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 ## Formatters
 ##--------------------------------------------------------------
 #set($eventDateFormatter = 'dd MMM, HH:mm')
+#set($eventFullDateFormatter = 'yyyy/MM/dd HH:mm')
 #set($activityListDateFormatter = 'dd MMM')
 ##
 ## Filter clause
@@ -900,6 +901,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
     #set($timeAgoMsg = $xwiki.formatDate($event.date, $eventDateFormatter) + " $!yearMsg")
   #end
   #set($iterationDate = $xwiki.formatDate($event.date, $activityListDateFormatter) + " $!yearMsg")
+  #set($eventFullDate = $xwiki.formatDate($event.date, $eventFullDateFormatter) + " $!yearMsg")
 #end
 #**
   * Display the arrow used to expand the event list
@@ -972,6 +974,7 @@ $xwiki.ssx.use("Main.RecentChanges")##
 #macro(displayActivityListItemSummary)
   &lt;div class="activitySummary"&gt;
     #foreach($event in $events)
+      #set($relatedEventsNo = $xwiki.activitystream.getRelatedEvents($event).size() / 2)
       #activitySnapshot($event.user $event.type)
     #end
   &lt;/div&gt;
@@ -1034,10 +1037,14 @@ $xwiki.ssx.use("Main.RecentChanges")##
           $!msg.get('xe.recentchanges.action.summary', [$events.size(), $eventUsers.size()])
         #else
           $!msg.get("xe.recentchanges.action.${event.type}", [$relatedEventsNo])
+          #if($event.type == 'update' &amp;&amp; $event.version != '1.1')
+            #set($previousVersion = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version).getPreviousVersion())
+            &amp;#183; &lt;a href="$xwiki.getDocument($event.page).getURL('view', "viewer=changes&amp;rev1=${previousVersion}&amp;rev2=${event.version}")"&gt;$msg.get('xe.recentchanges.action.seechanges')&lt;/a&gt;
+          #end
         #end
       &lt;/span&gt;
     #end
-    &lt;span class='activityTime'&gt;$!timeAgoMsg&lt;/span&gt;
+    &lt;span class='activityTime' title="$eventFullDate"&gt;$!timeAgoMsg&lt;/span&gt;
     #if($isPageEntryExpandable)
       #toolExpand('')
       #displayActivityListItemSummary()

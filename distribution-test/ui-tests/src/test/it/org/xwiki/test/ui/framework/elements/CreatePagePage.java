@@ -62,6 +62,9 @@ public class CreatePagePage extends ViewPage
         this.pageTextField.sendKeys(page);
     }
 
+    /**
+     * @since 2.6RC1
+     */
     public int availableTemplateSize()
     {
         // When there's no template available a hidden input with a blank value remains.

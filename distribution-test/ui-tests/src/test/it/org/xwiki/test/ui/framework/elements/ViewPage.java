@@ -218,4 +218,22 @@ public class ViewPage extends BasePage
         getDriver().findElement(sectionBy).click();
         return new WYSIWYGEditPage();
     }
+
+    /**
+     * Clicks on a wanted link in the page.
+     *
+     * @since 2.6RC1
+     */
+    public void clickWantedLink(String spaceName, String pageName, boolean waitForTemplateDisplay)
+    {
+        WebElement brokenLink = getDriver().findElement(By.xpath(
+            "//span[@class='wikicreatelink']/a[contains(@href,'/create/" + spaceName + "/" + pageName + "')]"));
+        brokenLink.click();
+        if (waitForTemplateDisplay) {
+            // Ensure that the template choice popup is displayed. Since this is done using JS we need to wait till
+            // it's displayed. For that we wait on the Create button since that would mean the template radio buttons
+            // will all have been displayed.
+            waitUntilElementIsVisible(By.xpath("//div[@class='modal-popup']//input[@type='submit']"));
+        }
+    }
 }

@@ -144,7 +144,7 @@ New in XWiki Syntax 2.0 over XWiki Syntax 1.0:
 |=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Result
 |Bold|{{{*bold*}}}|{{{**bold**}}}|**bold**
 |Underline|{{{__underline___}}}|{{{__underline__}}}|__underline__
-|Italics|{{{~~italic~~}}}|{{{//italic//}}}|~~italic~~
+|Italics|{{{~~italic~~}}}|{{{//italic//}}}|//italic//
 |Striked out|{{{--strike--}}}|{{{--strike--}}}|--strike--
 |Monospace|&lt;tt&gt;monospace&lt;/tt&gt;|{{{##monospace##}}}|##monospace##
 |Superscript|some &lt;sup&gt;superscript&lt;/sup&gt;|{{{some ^^superscript^^}}}|some ^^superscript^^

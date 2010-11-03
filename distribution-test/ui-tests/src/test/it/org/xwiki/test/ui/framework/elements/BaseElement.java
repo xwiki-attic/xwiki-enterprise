@@ -130,11 +130,19 @@ public class BaseElement
                             }
                             continue;
                         }
-                        if (element.isDisplayed()) {
-                            if (!all) {
-                                return element;
+                        // At this stage it's possible the element is no longer valid (for exemple if the DOM has
+                        // changed). If it's no longer attached to the DOM then consider we haven't found the element
+                        // yet.
+                        try {
+                            if (element.isDisplayed()) {
+                                if (!all) {
+                                    return element;
+                                }
+                            } else if (all) {
+                                return null;
                             }
-                        } else if (all) {
+                        } catch (StaleElementReferenceException e) {
+                            // Consider we haven't found the element yet
                             return null;
                         }
                     }

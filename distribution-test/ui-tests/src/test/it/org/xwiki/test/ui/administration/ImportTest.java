@@ -75,6 +75,16 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         }
     }
 
+    /**
+     * Verify that the Import page doesn't list any package by default in default XE.
+     * @since 2.6RC1
+     */
+    @Test
+    public void testImportHasNoPackageByDefault()
+    {
+        Assert.assertEquals(0, sectionPage.getPackageNames().size());
+    }
+
     @Test
     public void testImportWithHistory() throws IOException
     {

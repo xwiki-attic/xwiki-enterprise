@@ -20,6 +20,7 @@
 package org.xwiki.test.ui.administration.elements;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -61,7 +62,21 @@ public class ImportAdministrationSectionPage extends ViewPage
 
     public boolean isPackagePresent(String packageName)
     {
-        return packageList.getText().contains(packageName);
+        return getPackageNames().contains(packageName);
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public List<String> getPackageNames()
+    {
+        List<String> names = new ArrayList<String>();
+        for (WebElement element :
+            getDriver().findElements(By.xpath("//div[@id='packagelistcontainer']//a[@class='package']")))
+        {
+            names.add(element.getText());
+        }
+        return names;
     }
 
     public void selectPackage(String packageName)

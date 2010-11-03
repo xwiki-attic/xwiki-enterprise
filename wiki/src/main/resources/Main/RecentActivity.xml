@@ -1044,7 +1044,9 @@ $xwiki.ssx.use("Main.RecentActivity")##
         #end
       &lt;/span&gt;
     #end
-    &lt;span class='activityTime' title="$eventFullDate"&gt;$!timeAgoMsg&lt;/span&gt;
+    #if ("$!timeAgoMsg" != '')
+      &lt;span class='activityTime' title="$eventFullDate"&gt;$!timeAgoMsg&lt;/span&gt;
+    #end
     #if($isPageEntryExpandable)
       #toolExpand('')
       #displayActivityListItemSummary()

@@ -22,6 +22,7 @@ package org.xwiki.test.ui.framework.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.editor.ClassEditPage;
 import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
 import org.xwiki.test.ui.framework.elements.editor.RightsEditPage;
@@ -36,6 +37,12 @@ import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
  */
 public class BasePage extends BaseElement
 {
+    /**
+     * Used for sending keyboard shortcuts to.
+     */
+    @FindBy(id = "xwikimaincontainer")
+    private WebElement mainContainerDiv;
+
     public String getPageTitle()
     {
         return getDriver().getTitle();
@@ -199,5 +206,82 @@ public class BasePage extends BaseElement
     {
         clickContentMenuEditSubMenuEntry("tmEditClass");
         return new ClassEditPage();
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public void sendKeys(CharSequence... keys)
+    {
+        this.mainContainerDiv.sendKeys(keys);
+    }
+
+    /**
+     * Waits until the page has loaded. Normally we don't need to call this method since a click in Selenium2 is a
+     * blocking call. However there are cases (such as when using a shortcut) when we asynchronously load a page.
+     * 
+     * @since 2.6RC1
+     */
+    public void waitUntilPageIsLoaded()
+    {
+        waitUntilElementIsVisible(By.id("footerglobal"));
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInWYSIWYGEditMode()
+    {
+        return getDriver()
+            .findElements(By.xpath("//div[@id='tmCurrentEditor']//a/strong[contains(text(), 'WYSIWYG')]")).size() > 0;
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInWikiEditMode()
+    {
+        return getDriver().findElements(By.xpath("//div[@id='tmCurrentEditor']//a/strong[contains(text(), 'Wiki')]"))
+            .size() > 0;
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInViewMode()
+    {
+        return getDriver().findElements(By.xpath("//div[@id='tmEdit']")).size() > 0;
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInInlineEditMode()
+    {
+        return getPageURL().contains("/inline/");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInRightsEditMode()
+    {
+        return getPageURL().contains("editor=rights");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInObjectEditMode()
+    {
+        return getPageURL().contains("editor=object");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInClassEditMode()
+    {
+        return getPageURL().contains("editor=class");
     }
 }

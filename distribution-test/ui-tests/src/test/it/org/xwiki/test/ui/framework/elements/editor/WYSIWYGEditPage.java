@@ -63,7 +63,9 @@ public class WYSIWYGEditPage extends PreviewableEditPage
             content = getDriver().findElement(By.id("mceSpanFonts")).getText();
         } else {
             // Note: the GWT editor doesn't set an id on the iframe so we have to reference the first iframe...
+            waitUntilElementIsVisible(By.xpath("//iframe[@class='gwt-RichTextArea']"));
             getDriver().switchTo().frame(1);
+            waitUntilElementIsVisible(By.id("body"));
             content = getDriver().findElement(By.id("body")).getText();
         }
         getDriver().switchTo().window(windowHandle);

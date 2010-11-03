@@ -111,7 +111,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         
         // Trigger the notification
         open("Scheduler", "WebHome");
-        clickLinkWithXPath("//a[text()='trigger']");
+        clickLinkWithXPath("//a[contains(@href, 'do=trigger&which=Scheduler.WatchListDailyNotifier')]");
 
         // Wait for the email with a timeout
         this.greenMail.waitForIncomingEmail(70000, 1);

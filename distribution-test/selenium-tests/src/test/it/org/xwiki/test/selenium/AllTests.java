@@ -76,7 +76,6 @@ public class AllTests extends TestCase
         addTestCase(suite, PanelWizardTest.class);
         addTestCase(suite, DocExtraTest.class);
         addTestCase(suite, PanelsTest.class);
-        addTestCase(suite, ImportTest.class);
         addTestCase(suite, CommentTest.class);
 
         // TODO: fix the commented test so that they succeed on our CI server.

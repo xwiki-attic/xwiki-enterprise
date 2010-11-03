@@ -179,8 +179,8 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview != 'undefined'");
         waitForNodeToLoad("xwiki:XWiki");
 
-        setFieldValue("Treeview_Input", "Main.RecentChanges");
-        waitForNodeToLoad("xwiki:Main.RecentChanges");
+        setFieldValue("Treeview_Input", "Main.Spaces");
+        waitForNodeToLoad("xwiki:Main.Spaces");
     }
 
     /**
@@ -194,19 +194,19 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForCondition("typeof selenium.browserbot.getCurrentWindow().Treeview != 'undefined'");
         waitForNodeToLoad("xwiki:Main");
 
-        setFieldValue("Treeview_Input", "Main.RecentChanges@lquo.gif");
-        waitForNodeToLoad("xwiki:Main.RecentChanges@lquo.gif");
+        setFieldValue("Treeview_Input", "Sandbox.WebHome@XWikiLogo.png");
+        waitForNodeToLoad("xwiki:Sandbox.WebHome@XWikiLogo.png");
 
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('wiki') " +
         		"== 'xwiki'");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('space') " +
-        		"== 'Main'");
+        		"== 'Sandbox'");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('name') " +
-        		"== 'RecentChanges'");
+        		"== 'WebHome'");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('attachment') " +
-        		"== 'lquo.gif'");
+        		"== 'XWikiLogo.png'");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('anchor') == ''");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == 'Main.RecentChanges@lquo.gif'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == 'Sandbox.WebHome@XWikiLogo.png'");
     }
 
     /**

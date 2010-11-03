@@ -64,7 +64,6 @@ public class AllTests extends TestCase
         addTestCase(suite, UsersGroupsRightsManagementTest.class);
         addTestCase(suite, SkinCustomizationsTest.class);
         addTestCase(suite, VersionTest.class);
-        addTestCase(suite, KeyboardShortcutsTest.class);
         addTestCase(suite, AllDocsTest.class);
         addTestCase(suite, UrlMiscTest.class);
         addTestCase(suite, ValidationTest.class);

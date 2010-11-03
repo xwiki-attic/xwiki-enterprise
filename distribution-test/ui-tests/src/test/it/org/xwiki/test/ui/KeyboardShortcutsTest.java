@@ -40,51 +40,61 @@ public class KeyboardShortcutsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testKeyboardShortcuts()
     {
-        ViewPage vp = this.util.gotoPage("Sandbox", "WebHome");
+        ViewPage vp = util.gotoPage("Sandbox", "WebHome");
 
-        // Test default edit mode (WYSIWYG for sandbox webhome)
+        // Test default edit mode (WYSIWYG for sandbox webhome) key
         vp.sendKeys("e");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInWYSIWYGEditMode());
+        Assert.assertTrue(util.isInWYSIWYGEditMode());
 
-        // Test Cancel shortcut
+        // Test Cancel key
         vp.sendKeys(Keys.ALT, "c");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInViewMode());
+        Assert.assertTrue(util.isInViewMode());
 
-        // Test Wiki edit shortcut
+        // Test Wiki edit key
         vp.sendKeys("k");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInWikiEditMode());
+        Assert.assertTrue(util.isInWikiEditMode());
 
-        // Test WYSIWYG edit mode
+        // Test WYSIWYG edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys("e");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInWYSIWYGEditMode());
+        Assert.assertTrue(util.isInWYSIWYGEditMode());
 
-        // Test Inline edit mode
+        // Test Inline edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys("f");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInInlineEditMode());
+        Assert.assertTrue(util.isInInlineEditMode());
 
-        // Test Rights edit mode
+        // Test Rights edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys("r");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInRightsEditMode());
+        Assert.assertTrue(util.isInRightsEditMode());
 
-        // Test Object edit mode
+        // Test Object edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys("o");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInObjectEditMode());
+        Assert.assertTrue(util.isInObjectEditMode());
 
-        // Test Class edit mode
+        // Test Class edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys("s");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(vp.isInClassEditMode());
+        Assert.assertTrue(util.isInClassEditMode());
+
+        // Test Delete key
+        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp.sendKeys(Keys.DELETE);
+        Assert.assertTrue(util.isInDeleteMode());
+
+        // Test Rename key
+        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp.sendKeys(Keys.F2);
+        Assert.assertTrue(util.isInRenameMode());
     }
 }

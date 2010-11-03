@@ -314,4 +314,78 @@ public class TestUtils
     {
         this.timeout = timeout;
     }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInWYSIWYGEditMode()
+    {
+        return getDriver()
+            .findElements(By.xpath("//div[@id='tmCurrentEditor']//a/strong[contains(text(), 'WYSIWYG')]")).size() > 0;
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInWikiEditMode()
+    {
+        return getDriver().findElements(By.xpath("//div[@id='tmCurrentEditor']//a/strong[contains(text(), 'Wiki')]"))
+            .size() > 0;
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInViewMode()
+    {
+        return getDriver().findElements(By.xpath("//div[@id='tmEdit']")).size() > 0;
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInInlineEditMode()
+    {
+        return getDriver().getCurrentUrl().contains("/inline/");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInRightsEditMode()
+    {
+        return getDriver().getCurrentUrl().contains("editor=rights");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInObjectEditMode()
+    {
+        return getDriver().getCurrentUrl().contains("editor=object");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInClassEditMode()
+    {
+        return getDriver().getCurrentUrl().contains("editor=class");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInDeleteMode()
+    {
+        return getDriver().getCurrentUrl().contains("/delete/");
+    }
+
+    /**
+     * @since 2.6RC1
+     */
+    public boolean isInRenameMode()
+    {
+        return getDriver().getCurrentUrl().contains("xpage=rename");
+    }
 }

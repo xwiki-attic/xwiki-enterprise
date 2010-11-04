@@ -52,7 +52,7 @@
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
-    <platform.tool.configuration.version>1.45-SNAPSHOT</platform.tool.configuration.version>
+    <platform.tool.configuration.version>1.46-SNAPSHOT</platform.tool.configuration.version>
     <platform.tool.jetty.version>1.19-SNAPSHOT</platform.tool.jetty.version>
     <platform.tool.packager.version>1.16-SNAPSHOT</platform.tool.packager.version>
     <platform.tool.rootwebapp.version>1.4-SNAPSHOT</platform.tool.rootwebapp.version>

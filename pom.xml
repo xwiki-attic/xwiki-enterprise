@@ -87,28 +87,6 @@
          the build take longer than needed (since it downloads the previous versions). -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
-  <dependencies>
-    <!-- This dependency is there to ensure the Jetty Resource project is a proper dependency, which is normal since
-         it is one, even though it's not stricly necessary as it's used by the Maven Remote Resources plugin which
-         doesn't mandate it to be a dependency proper. However this is useful for example to have it listed when we
-         run mvn dependency:tree, which we used when computing the release plan for example. -->
-    <dependency>
-      <groupId>org.xwiki.platform.tools</groupId>
-      <artifactId>xwiki-jetty-resources</artifactId>
-      <version>${platform.tool.jetty.version}</version>
-      <type>zip</type>
-      <optional>true</optional>
-      <scope>runtime</scope>
-    </dependency>
-    <!-- Same reason as for the Jetty Resource dependency -->
-    <dependency>
-      <groupId>org.xwiki.platform.tools</groupId>
-      <artifactId>xwiki-configuration-resources</artifactId>
-      <version>${platform.tool.configuration.version}</version>
-      <optional>true</optional>
-      <scope>runtime</scope>
-    </dependency>
-  </dependencies>
   <profiles>
     <profile>
       <id>ci</id>

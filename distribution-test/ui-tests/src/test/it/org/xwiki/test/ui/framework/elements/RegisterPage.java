@@ -77,6 +77,13 @@ public class RegisterPage extends BasePage
             map.put("register_email", email);
         }
         getForm().fillFieldsByName(map);
+        // There is a little piece of js which fills in the name for you.
+        // This causes flickering if what's filled in is not cleared.
+        if (username != null) {
+            while (!username.equals(getForm().getFieldValue(By.name("xwikiname")))) {
+                getForm().setFieldValue(By.name("xwikiname"), username);
+            }
+        }
     }
 
     private FormElement getForm()

@@ -46,9 +46,6 @@ public class AdministrationPage extends ViewPage
     @FindBy(xpath = "//li[@class='Rights']/a/span/img")
     WebElement rightsLink;
 
-    @FindBy(xpath = "//li[@class='Annotations']/a/span/img")
-    WebElement annotationsLink;
-
     public void gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin");
@@ -82,11 +79,5 @@ public class AdministrationPage extends ViewPage
     {
         this.rightsLink.click();
         return new GlobalRightsAdministrationSectionPage();
-    }
-
-    public AnnotationsPage clickAnnotationsSection()
-    {
-        this.annotationsLink.click();
-        return new AnnotationsPage();
     }
 }

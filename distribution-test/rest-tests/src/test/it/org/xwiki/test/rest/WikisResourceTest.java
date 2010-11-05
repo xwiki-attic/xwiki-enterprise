@@ -111,6 +111,20 @@ public class WikisResourceTest extends AbstractHttpTest
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);
         }
+
+        /* Check search for space names. Here we should get at least Sandbox as a result */
+        getMethod =
+            executeGet(String.format("%s?q=db&scope=spaces", getUriBuilder(WikiSearchResource.class).build(getWiki())));
+        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        resultSize = searchResults.getSearchResults().size();
+        assertTrue(String.format("Found %s results", resultSize), resultSize >= 1);
+
+        for (SearchResult searchResult : searchResults.getSearchResults()) {
+            checkLinks(searchResult);
+        }
     }
 
     public void testPages() throws Exception
@@ -161,8 +175,9 @@ public class WikisResourceTest extends AbstractHttpTest
         assertTrue(pageSummaries.size() > 0);
         // Verify that some WebHomes we expect are found.
         foundCounter = 0;
-        expectedWebHomes = Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
-            "Scheduler.WebHome", "Sandbox.WebHome");
+        expectedWebHomes =
+            Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
+                "Scheduler.WebHome", "Sandbox.WebHome");
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             if (expectedWebHomes.contains(pageSummary.getFullName())) {
                 foundCounter++;
@@ -205,8 +220,8 @@ public class WikisResourceTest extends AbstractHttpTest
 
         // Verify we can search for all attachments in a given space (sandbox)
         // Also verify that a space can be looked up independtly of its case ("sandbox" will match the "Sandbox" space)
-        getMethod = executeGet(String.format("%s?space=sandbox",
-            getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+        getMethod =
+            executeGet(String.format("%s?space=sandbox", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -219,8 +234,8 @@ public class WikisResourceTest extends AbstractHttpTest
 
         // Verify we can search for an attachment in a given space (sandbox)
         getMethod =
-            executeGet(String.format("%s?name=Logo&space=Sandbox", getUriBuilder(WikiAttachmentsResource.class).build(
-                getWiki())));
+            executeGet(String.format("%s?name=Logo&space=Sandbox",
+                getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());

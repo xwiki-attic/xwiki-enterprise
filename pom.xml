@@ -64,7 +64,7 @@
     <platform.web.version>${project.version}</platform.web.version>
 
     <platform.administration.version>1.42-SNAPSHOT</platform.administration.version>
-    <platform.annotations.version>1.9-SNAPSHOT</platform.annotations.version>
+    <platform.annotations.version>1.10-SNAPSHOT</platform.annotations.version>
     <platform.activitystream.version>1.7-SNAPSHOT</platform.activitystream.version>
     <platform.blog.version>1.25-SNAPSHOT</platform.blog.version>
     <platform.extension.version>1.2-SNAPSHOT</platform.extension.version>

@@ -270,7 +270,7 @@ ul.xlist li.xitem div.xshowonhover img {
 ##
 ## List spaces within the wiki.
 ##
-$xwiki.ssx.use("Main.Spaces")
+$xwiki.ssx.use('Main.Spaces')##
 #set($spaceList = $xwiki.getSpaces())
 {{html wiki="true"}}
 &lt;ul class="xlist"&gt;
@@ -282,40 +282,40 @@ $xwiki.ssx.use("Main.Spaces")
     ## $blacklistedSpaces is set in xwikivars.vm
     #if($xwiki.hasAccessLevel('view', "${space}.WebHome") &amp;&amp; !$blacklistedSpaces.contains($space))
       &lt;li class="xitem xunderline xhighlight space"&gt;
-        &lt;div class="xitemcontainer"&gt;        
+        &lt;div class="xitemcontainer"&gt;
           &lt;div class="spSpaceName"&gt;[[${space}&gt;&gt;${space}.WebHome]]&lt;/div&gt;
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
-            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$msg.get('xe.spaces.action.index')"&gt;
-              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.gif')" alt="Space index icon"/&gt;
+            &lt;a href="{{html wiki="false"}}$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)"){{/html}}" title="$msg.get('xe.spaces.action.index')"&gt;
+              &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/book_open.gif'){{/html}}" alt="$msg.get('xe.spaces.action.index.alt')"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.
-            #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))  
-              &lt;a href="$xwiki.getURL("${space}.WebPreferences", 'admin')" title="$msg.get('xe.spaces.action.admin')"&gt;
-                &lt;img src="$xwiki.getSkinFile('icons/silk/cog.gif')" alt="Administrate space icon"/&gt;
-              &lt;/a&gt;                  
-            #end          
-          &lt;/div&gt; 
+            #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))
+              &lt;a href="{{html wiki="false"}}$xwiki.getURL("${space}.WebPreferences", 'admin'){{/html}}" title="$msg.get('xe.spaces.action.admin')"&gt;
+                &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/cog.gif'){{/html}}" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
+              &lt;/a&gt;
+            #end
+          &lt;/div&gt;
           &lt;div class="xspacer"&gt;&amp;nbsp;&lt;/div&gt;
-        &lt;/div&gt;   
+        &lt;/div&gt;
       &lt;/li&gt;
-    #end    
+    #end
   #end
   ##
   ## Space creation.
   ##
-  #if($xwiki.hasAdminRights())  
-    &lt;li id="spSpaceCreateItem" class="xitem space"&gt;      
+  #if($xwiki.hasAdminRights())
+    &lt;li id="spSpaceCreateItem" class="xitem space"&gt;
       &lt;div class="xitemcontainer"&gt;
-        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space')" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
-        &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;        
+        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="{{html wiki="false"}}$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space'){{/html}}" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
+        &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;
         &lt;div id="spSpaceCreateForm" class="hidden"&gt;
-          &lt;form method="post" action="$doc.getURL('view', 'xpage=create')"&gt;
+          &lt;form method="post" action="{{html wiki="false"}}$doc.getURL('view', 'xpage=create'){{/html}}"&gt;
             &lt;div&gt;
-              &lt;input name="tocreate" type="hidden" value="space" /&gt;       
-              #set($newSpaceName = $msg.get('xe.spaces.createspace.defaultname'))
+              &lt;input name="tocreate" type="hidden" value="space" /&gt;
+              #set($newSpaceName = $escapetool.xml($msg.get('xe.spaces.createspace.defaultname')))
               &lt;label class="hidden" for="spSpaceCreateTextInput"&gt;$newSpaceName&lt;/label&gt;
-              &lt;input id="spSpaceCreateTextInput" type="text" name="space" value="$newSpaceName" class="panelinput" onfocus="if(this.value=='$newSpaceName') this.value=''" onblur="if(this.value=='') this.value='$newSpaceName'" /&gt;        
+              &lt;input id="spSpaceCreateTextInput" type="text" name="space" value="$newSpaceName" class="panelinput withTip" /&gt;
               &lt;span class="buttonwrapper"&gt;
                 &lt;input type="submit" value="$msg.get('xe.spaces.createspace.submit')" class="button" /&gt;
               &lt;/span&gt;
@@ -323,7 +323,7 @@ $xwiki.ssx.use("Main.Spaces")
           &lt;/form&gt;
         &lt;/div&gt;
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;
-      &lt;/div&gt;     
+      &lt;/div&gt;
     &lt;/li&gt;
   #end
 &lt;/ul&gt;

@@ -82,8 +82,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
-        Assert.assertEquals("Section2\n Content2 \n \n Section3\n Content3",
-            wysiwygEditPage.getContent());
+        Assert.assertEquals("Section2\nContent2 Section3 \nContent3", wysiwygEditPage.getContent());
 
         // Edit the second section in the wiki editor
         WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();
@@ -116,17 +115,8 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
-        Assert.assertEquals("Section2\n" +
-            "Content2\n" +
-            "Section3\n" +
-            "Content3\n" +
-            "Section4\n" +
-            "Content4\n" +
-            "Section5\n" +
-            "Content5\n" +
-            "Section6\n" +
-            "Content6",
-            wysiwygEditPage.getContent());
+        Assert.assertEquals("Section2\nContent2Section3\nContent3Section4\nContent4Section5\nContent5Section6\n"
+            + "Content6", wysiwygEditPage.getContent());
 
         // Edit the second section in the wiki editor
         WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();

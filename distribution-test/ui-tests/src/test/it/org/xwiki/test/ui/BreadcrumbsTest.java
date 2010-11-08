@@ -21,7 +21,6 @@ package org.xwiki.test.ui;
 
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -31,25 +30,16 @@ import org.xwiki.test.ui.framework.elements.editor.RightsEditPage.Right;
 import org.xwiki.test.ui.framework.elements.editor.RightsEditPage.State;
 
 /**
- * Test various parts of the UI.
+ * Test Breadcrumbs.
  * 
  * @version $Id$
- * @since 2.5M1
+ * @since 2.7RC1
  */
-public class UITest extends AbstractAdminAuthenticatedTest
+public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
 {
-    @Before
-    @Override
-    public void setUp()
-    {
-        super.setUp();
-        getUtil().deletePage("Test", "ViewPage");
-    }
-
     @Test
     public void testBreadcrumbs()
     {
-        // Create a class with a string property
         WikiEditPage e = new WikiEditPage();
         e.switchToEdit("Test", "ViewPage");
         e.setParent("Test.ParentPage");
@@ -60,16 +50,22 @@ public class UITest extends AbstractAdminAuthenticatedTest
         e.setTitle("Parent page");
         e.clickSaveAndView();
 
+        // Verify standard breadcrumb behavior.
         ViewPage v = getUtil().gotoPage("Test", "ViewPage");
         Assert.assertTrue(v.getHierarchy().getText().contains("Parent page"));
         Assert.assertTrue(v.getHierarchy().getText().contains("Child page"));
 
         RightsEditPage r = new RightsEditPage();
         r.switchToEdit("Test", "ParentPage");
+
+        // Remove view rights on the Test.ParentPage page to everyone except Admin user so that we can verify that the
+        // breadcrumb of the child page doesn't display pages for which you don't have view rights to.
         r.switchToUsers();
         r.setRight("Admin", Right.VIEW, State.ALLOW);
+        // Log out...
         getUtil().setSession(null);
 
+        // Verify breadcrumbs are only displayed for pages for which you have the view right.
         v = getUtil().gotoPage("Test", "ViewPage");
         Assert.assertFalse(v.getHierarchy().getText().contains("Parent page"));
         Assert.assertTrue(v.getHierarchy().getText().contains("Child page"));

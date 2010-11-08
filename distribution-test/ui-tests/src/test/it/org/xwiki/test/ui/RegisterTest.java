@@ -99,7 +99,7 @@ public class RegisterTest extends AbstractTest
     public void testRegisterExistingUser()
     {
         registerPage.fillRegisterForm(null, null, "Admin", null, null, null);
-        // Can't use validateAndRegister here because user existance is not checked by LiveValidation.
+        // Can't use validateAndRegister here because user existence is not checked by LiveValidation.
         Assert.assertFalse(tryToRegister());
         Assert.assertTrue(registerPage.validationFailureMessagesInclude("User already exists."));
     }

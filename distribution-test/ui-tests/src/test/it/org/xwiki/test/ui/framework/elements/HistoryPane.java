@@ -40,17 +40,17 @@ public class HistoryPane extends BaseElement
 
     public boolean hasVersionWithSummary(String summary)
     {
-        List<WebElement> tableEntries = pane.findElements(By.xpath("//table/tbody/tr"));
-        String commentVersionXpath;
+        List<WebElement> tableEntries = pane.findElements(By.xpath(".//table/tbody/tr"));
+        By commentVersionXPath;
         try {
-            pane.findElement(By.xpath("//tr[2]/td/input"));
-            commentVersionXpath = "//td[6]";
+            pane.findElement(By.xpath(".//tr[2]/td/input"));
+            commentVersionXPath = By.xpath(".//td[6]");
         } catch (NoSuchElementException e) {
-            commentVersionXpath = "//td[4]";
+            commentVersionXPath = By.xpath(".//td[4]");
         }
         for (WebElement tableEntry : tableEntries) {
             try {
-                WebElement cell = tableEntry.findElement(By.xpath(commentVersionXpath));
+                WebElement cell = tableEntry.findElement(commentVersionXPath);
                 if (cell.getText().trim().contentEquals(summary)) {
                     return true;
                 }

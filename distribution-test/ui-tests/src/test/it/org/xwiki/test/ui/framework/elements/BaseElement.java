@@ -223,6 +223,19 @@ public class BaseElement
     }
 
     /**
+     * Waits until the given element ends with a certain value for an attribute.
+     *
+     * @param locator the element to wait on
+     * @param attributeName the name of the attribute to check
+     * @param expectedValue the attribute value to wait for
+     */
+    public void waitUntilElementEndsWithAttributeValue(final By locator, final String attributeName,
+        final String expectedValue)
+    {
+        waitUntilElementEndsWithAttributeValue(locator, attributeName, expectedValue, getUtil().getTimeout());
+    }
+
+    /**
      * Waits until the given element has a certain value for an attribute.
      * 
      * @param locator the element to wait on
@@ -235,17 +248,46 @@ public class BaseElement
     {
         Wait<WebDriver> wait = new WebDriverWait(getDriver(), timeout);
         wait.until(new ExpectedCondition<Boolean>()
-                    {
+        {
             public Boolean apply(WebDriver driver)
-                        {
+            {
                 try {
                     RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
-                    return Boolean.valueOf(expectedValue.equals(element.getAttribute(attributeName)));
+                    return expectedValue.equals(element.getAttribute(attributeName));
                 } catch (NotFoundException e) {
-                    return Boolean.FALSE;
+                    return false;
                 } catch (StaleElementReferenceException e) {
                     // The element was removed from DOM in the meantime
-                    return Boolean.FALSE;
+                    return false;
+                }
+            }
+        });
+    }
+
+    /**
+     * Waits until the given element ends with a certain value for an attribute.
+     *
+     * @param locator the element to wait on
+     * @param attributeName the name of the attribute to check
+     * @param expectedValue the attribute value to wait for
+     * @param timeout the maximum number of seconds to wait
+     */
+    public void waitUntilElementEndsWithAttributeValue(final By locator, final String attributeName,
+        final String expectedValue, int timeout)
+    {
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), timeout);
+        wait.until(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
+            {
+                try {
+                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                    return element.getAttribute(attributeName).endsWith(expectedValue);
+                } catch (NotFoundException e) {
+                    return false;
+                } catch (StaleElementReferenceException e) {
+                    // The element was removed from DOM in the meantime
+                    return false;
                 }
             }
         });

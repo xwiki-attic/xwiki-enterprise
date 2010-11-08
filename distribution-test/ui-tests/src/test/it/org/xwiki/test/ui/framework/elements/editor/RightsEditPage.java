@@ -114,7 +114,10 @@ public class RightsEditPage extends EditPage
             final WebElement button = getDriver().findElement(buttonLocator);
             State expectedState = State.getButtonState(button).getNextState();
             button.click();
-            waitUntilElementHasAttributeValue(buttonLocator, "src", expectedState.imageURL);
+            // Note: Selenium 2.0a4 returns a relative URL when calling getAttribute("src") but since we moved to
+            // Selenium 2.0a7 it returns a *full* URL even though the DOM has a relative URL as in:
+            //   <img src="/xwiki/resources/js/xwiki/usersandgroups/img/allow.png">
+            waitUntilElementEndsWithAttributeValue(buttonLocator, "src", expectedState.imageURL);
             return expectedState;
         } finally {
             executeJavascript("window.confirm = window.__oldConfirm;");

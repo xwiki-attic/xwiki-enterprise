@@ -652,48 +652,74 @@ $xwiki.ssx.use("Main.RecentActivity")##
 ##
 ## Get values from request/macro param
 ##--------------------------------------------------------------
-## Authors
-#setVariableFromRequest($rcAuthor "rcAuthor" [])
-#if($rcAuthor.size() == 0)
-  #set($rcAuthorString = $context.macro.params.get('author'))
-  #asList($rcAuthor $rcAuthorString)
+## Number of entries to display
+#setVariableFromRequest($aEntries "entries" 20)
+#if($aEntries == 20 &amp;&amp; $context.macro.params.get('entries'))
+  #set($aEntries  = $util.parseInt($context.macro.params.get('entries')))
+#end
+## Number of activities to display for each entry
+#setVariableFromRequest($aSubEntries "subentries" 10)
+#if($aSubEntries == 10 &amp;&amp; $context.macro.params.get('subentries'))
+  #set($aSubEntries = $util.parseInt($context.macro.params.get('subentries')))
+#end
+## Wikis
+#setVariableFromRequest($aWikis "wikis" [])
+#if($aWikis.size() == 0)
+  #set($aWikisString = $context.macro.params.get('wikis'))
+  #asList($aWikis $aWikisString)
 #end
 ## Spaces
-#setVariableFromRequest($rcSpace "rcSpace" [])
-#if($rcSpace.size() == 0)
-  #set($rcSpaceString = $context.macro.params.get('space'))
-  #asList($rcSpace $rcSpaceString)
+#setVariableFromRequest($aSpaces "spaces" [])
+#if($aSpaces.size() == 0)
+  #set($aSpacesString = $context.macro.params.get('spaces'))
+  #asList($aSpaces $aSpacesString)
+#end
+## Authors
+#setVariableFromRequest($aAuthors "authors" [])
+#if($aAuthors.size() == 0)
+  #set($aAuthorsString = $context.macro.params.get('authors'))
+  #asList($aAuthors $aAuthorsString)
 #end
 ## Tags
-#setVariableFromRequest($rcTag "rcTag" [])
-#if($rcTag.size() == 0)
-  #set($rcTagString = $context.macro.params.get('tag'))
-  #asList($rcTag $rcTagString)
+#setVariableFromRequest($aTags "tags" [])
+#if($aTags.size() == 0)
+  #set($aTagsString = $context.macro.params.get('tags'))
+  #asList($aTags $aTagsString)
 #end
-## RSS links
-#setVariableFromRequest($rcShowRss "rcShowRss" false)
-## Number of pages to display
-#setVariableFromRequest($rcChangesNb "rcChangesNb" 20)
-## Number of events for each page
-#setVariableFromRequest($rcEventsNo "rcEventsNo" 10)
+## Minor versions
+#setVariableFromRequest($aMinor "minor" false)
+#if(!$aMinor &amp;&amp; $context.macro.params.get('minor'))
+  #set($aMinor = $context.macro.params.get('minor'))
+#end
+## RSS link
+#setVariableFromRequest($aRSS "rss" false)
+#if(!$aRSS &amp;&amp; $context.macro.params.get('rss'))
+  #set($aRSS = $context.macro.params.get('rss'))
+#end
 ##
 ## Filter by
 ## ------------------------------------------------------------
-## AUTHOR
-#updateFilterClause('user' $rcAuthor false)
-## SPACE
-#updateFilterClause('space' $rcSpace false)
+## Authors
+#updateFilterClause('user' $aAuthors false)
+## Spaces
+#updateFilterClause('space' $aSpaces false)
 ## BLACKLISTED SPACES - exclude them
 #if($blacklistedSpaces)
   #updateFilterClause('space' $blacklistedSpaces true)
 #end
-## TAGS
-#if("$!xwiki.getPlugin('tag')" != "" &amp;&amp; $rcTag.size() &gt; 0)
+## Wikis
+#updateFilterClause('wiki' $aWikis false)
+## Tags
+#if("$!xwiki.getPlugin('tag')" != '' &amp;&amp; $aTags.size() &gt; 0)
   #set($docsWithTag = $util.getArrayList())
-  #foreach($item in $rcTag)
+  #foreach($item in $aTags)
     #set($discard = $docsWithTag.addAll($xwiki.tag.getDocumentsWithTag($item)))
   #end
   #updateFilterClause('page' $docsWithTag false)
+#end
+## Minor versions
+#if("$!aMinor" == 'false')
+  #set($filterClause = $filterClause + " and version like '%.1'")
 #end
 ##
 ## Macros
@@ -886,7 +912,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
     ##
     ## Build the clean event list
     ## ---------------------------------------------------------------
-    #if(!$isConsecutiveUpdateEvent &amp;&amp; !($event.type == 'updateAnnotation') &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent &amp;&amp; $newList.size() &lt; $rcEventsNo)
+    #if(!$isConsecutiveUpdateEvent &amp;&amp; !($event.type == 'updateAnnotation') &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent &amp;&amp; $newList.size() &lt; $aSubEntries)
       #set($discard = $newList.add($event))
       #set($previousEventInNewList = $event)
     #end
@@ -929,11 +955,11 @@ $xwiki.ssx.use("Main.RecentActivity")##
 #macro(displayRSSURL)
   #set($rssURL = "")
   #set($parameters = 'xpage=plain&amp;outputSyntax=plain')
-  #if($rcTag.size() &gt; 0)
-    #set($parameters = "${parameters}&amp;tag=$listtool.get($rcTag, 0)")
+  #if($aTags.size() &gt; 0)
+    #set($parameters = "${parameters}&amp;tag=$listtool.get($aTags, 0)")
   #end
-  #if($rcSpace.size() &gt; 0)
-    #set($parameters = "${parameters}&amp;space=$listtool.get($rcSpace, 0)")
+  #if($aSpaces.size() &gt; 0)
+    #set($parameters = "${parameters}&amp;space=$listtool.get($aSpaces, 0)")
   #end
   #set($rssURL = $xwiki.getURL('Main.WebRss', 'view', $parameters))
   &lt;div class="rssURL"&gt;
@@ -1144,7 +1170,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
   ## Get distinct pages with recent activity
   ## -------------------------------------------------------------------
   #set($activitiesQuery = "select page, max(date) from ActivityEventImpl where $!filterClause group by page order by max(date) desc")
-  #set($pages = $xwiki.search($activitiesQuery, $rcChangesNb, 0))
+  #set($pages = $xwiki.search($activitiesQuery, $aEntries, 0))
   #if ($pages.size() &gt; 0)
     #foreach($page in $pages)
       ##
@@ -1178,7 +1204,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
   ##
   ## Display RSS URL
   ## -------------------------------------------------------------------
-  #if($rcShowRss)
+  #if("$!aRSS" == 'true')
     #displayRSSURL()
   #end
 #end
@@ -1200,13 +1226,13 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <defaultCategory>Content</defaultCategory>
 </property>
 <property>
-<description>Displays the recent activity in this wiki or in the passed space, if any.</description>
+<description>The Activity Macro provides information about recent activities done by the users inside the XWiki instance. Activity Macro listens the: create, edit, delete events for pages, comments, attachments and annotations. </description>
 </property>
 <property>
-<id>recentactivity</id>
+<id>activity</id>
 </property>
 <property>
-<name>Recent Activity</name>
+<name>Activity</name>
 </property>
 <property>
 <supportsInlineMode>0</supportsInlineMode>
@@ -1267,18 +1293,18 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <name>Main.RecentActivity</name>
 <number>0</number>
 <className>XWiki.WikiMacroParameterClass</className>
-<guid>822b7323-43ba-4878-8209-7537c9a7c395</guid>
+<guid>76922370-d2c4-4a50-98f3-2967415e0b73</guid>
 <property>
-<defaultValue>false</defaultValue>
+<defaultValue>20</defaultValue>
 </property>
 <property>
-<description>Whether to show modifications that create minor versions or not.</description>
+<description>Number of entries to display the activity for.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
 </property>
 <property>
-<name>showMinor</name>
+<name>entries</name>
 </property>
 </object>
 <object>
@@ -1333,18 +1359,18 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <name>Main.RecentActivity</name>
 <number>1</number>
 <className>XWiki.WikiMacroParameterClass</className>
-<guid>c9d7f9c0-5fe8-49e9-86c9-ba04148576d7</guid>
+<guid>dac693ae-b800-4ffc-874f-dbc59db5f32d</guid>
 <property>
-<defaultValue>true</defaultValue>
+<defaultValue>10</defaultValue>
 </property>
 <property>
-<description>Whether to show differences for the items in the activity list or not.</description>
+<description>Number of activities to show for each entry.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
 </property>
 <property>
-<name>showDiff</name>
+<name>subentries</name>
 </property>
 </object>
 <object>
@@ -1399,150 +1425,150 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <name>Main.RecentActivity</name>
 <number>2</number>
 <className>XWiki.WikiMacroParameterClass</className>
-<guid>a50d0bbe-21f8-444d-b42f-5d521372d79e</guid>
-<property>
-<defaultValue>true</defaultValue>
-</property>
-<property>
-<description>Whether to show activity rss links or not.</description>
-</property>
-<property>
-<mandatory>0</mandatory>
-</property>
-<property>
-<name>showRss</name>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.WikiMacroParameterClass</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<defaultValue>
-<disabled>0</disabled>
-<name>defaultValue</name>
-<number>4</number>
-<prettyName>Parameter default value</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</defaultValue>
-<description>
-<disabled>0</disabled>
-<name>description</name>
-<number>2</number>
-<prettyName>Parameter description</prettyName>
-<rows>5</rows>
-<size>40</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</description>
-<mandatory>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>mandatory</name>
-<number>3</number>
-<prettyName>Parameter mandatory</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</mandatory>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Parameter name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-</class>
-<name>Main.RecentActivity</name>
-<number>3</number>
-<className>XWiki.WikiMacroParameterClass</className>
-<guid>d5e380c7-3554-48e4-9c4d-c2ec4ca1fe7d</guid>
-<property>
-<defaultValue>30</defaultValue>
-</property>
-<property>
-<description>Number of activity to show.</description>
-</property>
-<property>
-<mandatory>0</mandatory>
-</property>
-<property>
-<name>changesNb</name>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.WikiMacroParameterClass</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<defaultValue>
-<disabled>0</disabled>
-<name>defaultValue</name>
-<number>4</number>
-<prettyName>Parameter default value</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</defaultValue>
-<description>
-<disabled>0</disabled>
-<name>description</name>
-<number>2</number>
-<prettyName>Parameter description</prettyName>
-<rows>5</rows>
-<size>40</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</description>
-<mandatory>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>mandatory</name>
-<number>3</number>
-<prettyName>Parameter mandatory</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</mandatory>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Parameter name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-</class>
-<name>Main.RecentActivity</name>
-<number>4</number>
-<className>XWiki.WikiMacroParameterClass</className>
-<guid>9d0af90f-f2c0-4f22-b555-c20b596bb70e</guid>
+<guid>d5daa5b3-4105-45ca-999d-7dc678073243</guid>
 <property>
 <defaultValue></defaultValue>
 </property>
 <property>
-<description>Comma separated list of tags to display activity for.</description>
+<description>Comma separated list of wikis to display activity for.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
 </property>
 <property>
-<name>tag</name>
+<name>wikis</name>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.WikiMacroParameterClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<defaultValue>
+<disabled>0</disabled>
+<name>defaultValue</name>
+<number>4</number>
+<prettyName>Parameter default value</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</defaultValue>
+<description>
+<disabled>0</disabled>
+<name>description</name>
+<number>2</number>
+<prettyName>Parameter description</prettyName>
+<rows>5</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</description>
+<mandatory>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>mandatory</name>
+<number>3</number>
+<prettyName>Parameter mandatory</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</mandatory>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Parameter name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+</class>
+<name>Main.RecentActivity</name>
+<number>3</number>
+<className>XWiki.WikiMacroParameterClass</className>
+<guid>f96d717f-6bc7-465d-ae9e-36cda81cd99b</guid>
+<property>
+<defaultValue></defaultValue>
+</property>
+<property>
+<description>Comma separated list of spaces to display the activity for.</description>
+</property>
+<property>
+<mandatory>0</mandatory>
+</property>
+<property>
+<name>spaces</name>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.WikiMacroParameterClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<defaultValue>
+<disabled>0</disabled>
+<name>defaultValue</name>
+<number>4</number>
+<prettyName>Parameter default value</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</defaultValue>
+<description>
+<disabled>0</disabled>
+<name>description</name>
+<number>2</number>
+<prettyName>Parameter description</prettyName>
+<rows>5</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</description>
+<mandatory>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>mandatory</name>
+<number>3</number>
+<prettyName>Parameter mandatory</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</mandatory>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Parameter name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+</class>
+<name>Main.RecentActivity</name>
+<number>4</number>
+<className>XWiki.WikiMacroParameterClass</className>
+<guid>71dc6bff-7a23-477b-a8a6-bf2bb47596e1</guid>
+<property>
+<defaultValue></defaultValue>
+</property>
+<property>
+<description>Comma separated list of authors whose modifications to show.</description>
+</property>
+<property>
+<mandatory>0</mandatory>
+</property>
+<property>
+<name>authors</name>
 </property>
 </object>
 <object>
@@ -1597,18 +1623,18 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <name>Main.RecentActivity</name>
 <number>5</number>
 <className>XWiki.WikiMacroParameterClass</className>
-<guid>cd7504db-2ea0-4969-9c80-bd5d31fc9410</guid>
+<guid>f5d8e941-1410-413a-a489-e5f2df8912c3</guid>
 <property>
 <defaultValue></defaultValue>
 </property>
 <property>
-<description>Comma separated list of spaces to display the recent activity for.</description>
+<description>Comma separated list of tags to display activity for.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
 </property>
 <property>
-<name>space</name>
+<name>tags</name>
 </property>
 </object>
 <object>
@@ -1663,69 +1689,102 @@ $xwiki.ssx.use("Main.RecentActivity")##
 <name>Main.RecentActivity</name>
 <number>6</number>
 <className>XWiki.WikiMacroParameterClass</className>
-<guid>c0c73914-3f1a-45e2-a88a-cc8481c66abb</guid>
+<guid>128cca0e-87a2-407a-92fc-5afa6239bdb2</guid>
 <property>
-<defaultValue></defaultValue>
+<defaultValue>false</defaultValue>
 </property>
 <property>
-<description>Comma separated list of authors whose modifications to show.</description>
+<description>Whether to show modifications that create minor versions or not.</description>
 </property>
 <property>
 <mandatory>0</mandatory>
 </property>
 <property>
-<name>author</name>
+<name>minor</name>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.WikiMacroParameterClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<defaultValue>
+<disabled>0</disabled>
+<name>defaultValue</name>
+<number>4</number>
+<prettyName>Parameter default value</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</defaultValue>
+<description>
+<disabled>0</disabled>
+<name>description</name>
+<number>2</number>
+<prettyName>Parameter description</prettyName>
+<rows>5</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</description>
+<mandatory>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>mandatory</name>
+<number>3</number>
+<prettyName>Parameter mandatory</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</mandatory>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Parameter name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+</class>
+<name>Main.RecentActivity</name>
+<number>7</number>
+<className>XWiki.WikiMacroParameterClass</className>
+<guid>baa8452c-003a-4189-8268-6cd570f7f152</guid>
+<property>
+<defaultValue>false</defaultValue>
+</property>
+<property>
+<description>Whether to show activity rss link or not.</description>
+</property>
+<property>
+<mandatory>0</mandatory>
+</property>
+<property>
+<name>rss</name>
 </property>
 </object>
 <content>{{velocity}}
 ##
-## Recent Activity
+## Activity Macro
 ##
 ## Optional parameters :
 ##
-## Parameters which can be set in velocity before including this page or can be passed as HTTP parameters.
-## Note that HTTP parameters supercede velocity set variables.
+##  - entries (String set to a numerical value): number of entries to display the activity for.
+##  - subentries (String set to a numerical value): number of activities to show for each entry.
+##  - wikis (List of string[s]): comma separated list of wikis to display activity for.
+##  - spaces (List of string[s]): comma separated list of spaces to display the activity for.
+##  - authors (List of string[s]): comma separated list of authors whose modifications to show.
+##  - tags (List of string[s]): comma separated list of tags to display activity for.
+##  - minor (String set to "true" or "false"): whether to show modifications that create minor versions or not.
+##  - rss (String set to "true" or "false"): whether to show activity rss link or not.
 ##
-##  - rcShowRss (String set to "true" or "false"): show RSS at the bottom of the list.
-##  - rcSpace (List of string[s]): restrict recent activity retrieval to pages within the given space.
-##  - rcTag (List of string[s]): restrict recent activity retrieval to pages with the given tag.
-##  - rcAuthor (List of string[s]): restrict recent activity retrieval to pages with the given author.
-##  - rcChangesNb (String set to a numerical value): number of pages to display recent activity.
-##  - rcPagercPageEventsNo (String set to a numerical value): number of activity events displayed for each page.
-##
-#if($rcTag)
-  #set($rcTagString = "")
-  #foreach($rcTagValue in $rcTag)
-    #if($velocityCount &gt; 1)
-      #set($rcTagString = "${rcTagString}, ")
-    #end
-    #set($rcTagString = "${rcTagString} ${rcTagValue}")
-  #end
-#end
-#if($rcSpace)
-  #set($rcSpaceString = "")
-  #foreach($rcSpaceValue in $rcSpace)
-    #if($velocityCount &gt; 1)
-      #set($rcSpaceString = "${rcSpaceString}, ")
-    #end
-    #set($rcSpaceString = "${rcSpaceString} ${rcSpaceValue}")
-  #end
-#end
-#if($rcAuthor)
-  #set($rcAuthorString = "")
-  #foreach($rcAuthorValue in $rcAuthor)
-    #if($velocityCount &gt; 1)
-      #set($rcAuthorString = "${rcAuthorString}, ")
-    #end
-    #set($rcAuthorString = "${rcAuthorString} ${rcAuthorValue}")
-  #end
-#end
-## pass the variables from the velocity context
-{{recentactivity #if($rcShowRss) showRss="$rcShowRss" #end
-                #if($rcChangesNb) changesNb="$rcChangesNb" #end
-                #if($rcPagercPageEventsNb) changesNb="$rcPagercPageEventsNb" #end
-                #if($rcSpaceString) space="$rcSpaceString" #end
-                #if($rcTagString) tag="$rcTagString" #end
-                #if($rcAuthorString) author="$rcAuthorString" #end /}}
-{{/velocity}}</content>
+{{/velocity}}
+
+{{activity /}}</content>
 </xwikidoc>

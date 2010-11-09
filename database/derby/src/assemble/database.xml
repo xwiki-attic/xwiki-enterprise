@@ -21,11 +21,13 @@
 -->
 
 <assembly>
+  <id>distribution</id>
   <formats>
     <format>zip</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
+    <!-- Database files -->
     <fileSet>
       <directory>${basedir}/target/database</directory>
       <outputDirectory>/</outputDirectory>

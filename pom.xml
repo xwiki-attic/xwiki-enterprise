@@ -65,7 +65,7 @@
 
     <platform.administration.version>1.43-SNAPSHOT</platform.administration.version>
     <platform.annotations.version>1.9</platform.annotations.version>
-    <platform.activitystream.version>1.7</platform.activitystream.version>
+    <platform.activitystream.version>1.8-SNAPSHOT</platform.activitystream.version>
     <platform.blog.version>1.25</platform.blog.version>
     <platform.extension.version>1.1</platform.extension.version>
     <platform.invitation.version>1.4</platform.invitation.version>

@@ -881,6 +881,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
     #set($isAnnotationUpdateRelatedEvent = false) ## TO DO - remove this variable after fixing XWIKI-5632
     #set($isConsecutiveUpdateEvent = false)
     #set($isRelatedAttachmentEvent = false)
+    #set($isCreateOrDeleteRelatedEvent = false)
     ##
     ## Get consecutive 'update' events having the same user (-&gt; only the latest such event will be taken in account)
     ## ---------------------------------------------------------------
@@ -893,7 +894,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
     ##
     ## TO DO - remove this test after fixing XWIKI-5632
     ## ---------------------------------------------------------------
-    #if($xwiki.activitystream.getRelatedEvents($event).size() &gt; 1)
+    #if($xwiki.activitystream.getRelatedEvents($event).size() &gt; 1 &amp;&amp; $event.type == 'update')
       #foreach($relatedEvent in $xwiki.activitystream.getRelatedEvents($event))
         #if($relatedEvent.type == 'updateAnnotation')
           #set($isAnnotationUpdateRelatedEvent = true)
@@ -909,10 +910,20 @@ $xwiki.ssx.use("Main.RecentActivity")##
         ($event.type == 'addAttachment' &amp;&amp; $event.requestId == $previousEventInNewList.requestId)))
         #set($isUpdateOrAddAttachmentRelatedEvent = true)
     #end
+    ## Get 'create' and 'delete' related event (-&gt; in order to remove duplicated events in the case of import, rename, delete page)
+    ## ---------------------------------------------------------------
+    #if($xwiki.activitystream.getRelatedEvents($event).size() &gt; 1 &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete')
+          #foreach($relatedEvent in $xwiki.activitystream.getRelatedEvents($event))
+            #if($relatedEvent.type == 'create' || $relatedEvent.type == 'delete')
+              #set($isCreateOrDeleteRelatedEvent = true)
+            #end
+          #end
+    #end
+    ##
     ##
     ## Build the clean event list
     ## ---------------------------------------------------------------
-    #if(!$isConsecutiveUpdateEvent &amp;&amp; !($event.type == 'updateAnnotation') &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent &amp;&amp; $newList.size() &lt; $aSubEntries)
+    #if(!$isConsecutiveUpdateEvent &amp;&amp; !($isCreateOrDeleteRelatedEvent &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete') &amp;&amp; !$isAnnotationUpdateRelatedEvent &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent &amp;&amp; $newList.size() &lt; $aSubEntries)
       #set($discard = $newList.add($event))
       #set($previousEventInNewList = $event)
     #end
@@ -986,17 +997,23 @@ $xwiki.ssx.use("Main.RecentActivity")##
   *#
 #macro(displayComment $event)
   #set($pageDoc = $xwiki.getDocument($event.page))
-  #set($pageDocRevision = $pageDoc.getDocumentRevision($event.version))
-  &lt;div class="comment"&gt;
-    $!pageDocRevision.getObject('XWiki.XWikiComments', $util.parseInt($event.getParam2())).getProperty('comment').value
-  &lt;/div&gt;
+  #if($xwiki.getDocument($pageDoc, $event.version))
+    #set($pageDocRevision = $xwiki.getDocument($pageDoc, $event.version))
+    &lt;div class="comment"&gt;
+      $!pageDocRevision.getObject('XWiki.XWikiComments', $util.parseInt($event.getParam2())).getProperty('comment').value
+    &lt;/div&gt;
+  #end
 #end
 #**
-  * Display comment
+  * Display annotation
   *#
 #macro(displayAnnotation $event)
-  &lt;div class="annotated"&gt;$xwiki.getDocument($event.page).getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value&lt;/div&gt;
-  &lt;div class="annotation"&gt;$xwiki.getDocument($event.page).getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value&lt;/div&gt;
+  #set($pageDoc = $xwiki.getDocument($event.page))
+  #if($xwiki.getDocument($pageDoc, $event.version))
+    #set($pageDocRevision = $xwiki.getDocument($pageDoc, $event.version))
+    &lt;div class="annotated"&gt;$pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value&lt;/div&gt;
+    &lt;div class="annotation"&gt;$pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value&lt;/div&gt;
+  #end
 #end
 #**
   * Display user avatar and action message
@@ -1036,10 +1053,12 @@ $xwiki.ssx.use("Main.RecentActivity")##
     #end
     #displayActivityListItemHeader(false false $isEventEntryExpandable)
     &lt;div class="activityContent"&gt;
-      #foreach($event in $xwiki.activitystream.getRelatedEvents($event))
-        #isAttachmentEvent($event)
-        #if($isAttachmentEvent)
-          #displayAttachment($event)
+      #if($event.type == 'addAttachment')
+        #foreach($event in $xwiki.activitystream.getRelatedEvents($event))
+          #isAttachmentEvent($event)
+          #if($isAttachmentEvent)
+            #displayAttachment($event)
+          #end
         #end
       #end
       #if($isCommentEvent &amp;&amp; $event.type != 'deleteComment')

@@ -720,7 +720,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
 #end
 ## Minor versions
 #if("$!aMinor" == 'false')
-  #set($filterClause = $filterClause + " and version like '%.1'")
+  #set($filterClause = $filterClause + " and not (version not like '%.1' and type = 'update')")
 #end
 ##
 ## Macros

@@ -272,6 +272,20 @@ ul.activityList {
   display: block;
 }
 
+.activityAuthor {
+  padding-right: 8em;
+}
+
+.activityPage .activityAuthor {
+  padding-left: 25px;
+  text-indent: -25px;
+}
+
+.activityPage .activityContent .activityAuthor {
+  padding-left: 0;
+  text-indent: 0;
+}
+
 .activityAction, .activityTime {
   color: $theme.textSecondaryColor;
   font-size: .8em;
@@ -312,7 +326,7 @@ ul.activityList {
   border-style: solid;
   border-width: 4px 1px 1px 3px;
   bottom: -5px;
-  height :16px;
+  height: 16px;
   position: absolute;
   right: -10px;
   width: 16px;

@@ -423,7 +423,7 @@ h1:hover .toolFilter .toolExpand {
   background-color: #FDFDFD;
   background-image: -moz-linear-gradient(top, #FFFFFF, #FAFAFA); /* FF3.5+ */
   background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #FFFFFF),color-stop(1, #FAFAFA)); /* Saf4+, Chrome */
-  filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#FAFAFA'); /* IE6,IE7 */
+  filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#FAFAFA')"; /* IE6,IE7 */
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#FAFAFA')"; /* IE8 */
 }
 

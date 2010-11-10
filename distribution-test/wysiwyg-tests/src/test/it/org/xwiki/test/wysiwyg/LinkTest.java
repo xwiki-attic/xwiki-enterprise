@@ -728,7 +728,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String selectedSpace = "Blog";
         String selectedPage = "News";
         String changedSpace = "Main";
-        String changedPage = "RecentActivity";
+        String changedPage = "Activity";
 
         explorer.lookupEntity(selectedSpace + "." + selectedPage);
         explorer.waitForPageSelected(selectedSpace, selectedPage);
@@ -912,15 +912,15 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testEditLinkPreservesCustomParameters()
     {
         switchToSource();
-        setSourceText("[[foobar>>Main.RecentActivity||class=\"foobarLink\"]]");
+        setSourceText("[[foobar>>Main.Activity||class=\"foobarLink\"]]");
         switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Main.RecentActivity", explorer.getSelectedEntityReference());
-        explorer.waitForPageSelected("Main", "RecentActivity");
+        assertEquals("xwiki:Main.Activity", explorer.getSelectedEntityReference());
+        explorer.waitForPageSelected("Main", "Activity");
         // and edit it now
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -930,7 +930,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[barfoo>>Main.RecentActivity||class=\"foobarLink\" title=\"Foo and bar\"]]");
+        assertSourceText("[[barfoo>>Main.Activity||class=\"foobarLink\" title=\"Foo and bar\"]]");
     }
 
     /**

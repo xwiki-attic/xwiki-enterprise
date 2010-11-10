@@ -888,6 +888,19 @@ $xwiki.ssx.use("Main.RecentActivity")##
   #end
 #end
 #**
+  * Get annotation text and selection
+  *#
+#macro(getAnnotation $event $annotationText $annotationSelection)
+  #set($annotationText = '')
+  #set($annotationSelection = '')
+  #isDocumentVersionValid($event)
+  #if($isDocumentVersionValid)
+    #set($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
+    #set($annotationSelection = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value)
+    #set($annotationText = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value)
+  #end
+#end
+#**
   * Remove duplicated 'update' and 'addAttachment' events for the current page entry
   * NOTE: each time an event != 'update' (like 'addAttachment, updateComment' ...) is fired, an extra 'update' event is fired too (for backward compatibility reasons)
   *#
@@ -1028,11 +1041,10 @@ $xwiki.ssx.use("Main.RecentActivity")##
   * Display annotation
   *#
 #macro(displayAnnotation $event)
-  #isDocumentVersionValid($event)
-  #if($isDocumentVersionValid)
-    #set($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
-    &lt;div class="annotated"&gt;$pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value&lt;/div&gt;
-    &lt;div class="annotation"&gt;$pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value&lt;/div&gt;
+  #getAnnotation($event $annotationText $annotationSelection)
+  #if("$!annotationText" != '' || "$!annotationSelection" != '')
+    &lt;div class="annotated"&gt;$!annotationSelection&lt;/div&gt;
+    &lt;div class="annotation"&gt;$!annotationText&lt;/div&gt;
   #end
 #end
 #**
@@ -1065,10 +1077,8 @@ $xwiki.ssx.use("Main.RecentActivity")##
 #macro(isEventEntryExpandable $event)
   #set($isEventEntryExpandable = false)
   #if($isAnnotationEvent)
-    #set($annotationObj = $xwiki.getDocument($event.page).getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)))
-    #set($selection = $annotationObj.getProperty('selection').value)
-    #set($annotation = $annotationObj.getProperty('annotation').value)
-    #if("$!selection" != '' &amp;&amp; "$!annotation" != '')
+    #getAnnotation($event $annotationText $annotationSelection)
+    #if("$!annotationText" != '' || "$!annotationSelection" != '')
       #set($isEventEntryExpandable = true)
     #end
   #elseif($isAttachmentEvent &amp;&amp; "$!event.param2" != '')

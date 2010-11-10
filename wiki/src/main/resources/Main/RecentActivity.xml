@@ -14,7 +14,7 @@
 <date>1287582416000</date>
 <contentUpdateDate>1287582416000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get("xe.recentactivity")</title>
+<title>$msg.get("xe.activity")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -974,7 +974,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
   #end
   #set($rssURL = $xwiki.getURL('Main.WebRss', 'view', $parameters))
   &lt;div class="rssURL"&gt;
-    &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.recentactivity.rssfeed")&lt;/a&gt;
+    &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.activity.rssfeed")&lt;/a&gt;
   &lt;/div&gt;
 #end
 #**
@@ -1025,7 +1025,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
     #else
       #smallUserAvatar("$!eventUser")
     #end
-    &lt;img class="activityActionAvatar" src="$xwiki.getSkinFile($activityActionsMap.get($eventType), true)" alt="$msg.get("xe.recentactivity.action.${eventType}", [$relatedEventsNo])" title="$msg.get("xe.recentactivity.action.${eventType}", [$relatedEventsNo])" /&gt;
+    &lt;img class="activityActionAvatar" src="$xwiki.getSkinFile($activityActionsMap.get($eventType), true)" alt="$msg.get("xe.activity.action.${eventType}", [$relatedEventsNo])" title="$msg.get("xe.activity.action.${eventType}", [$relatedEventsNo])" /&gt;
   &lt;/span&gt;
 #end
 #macro(displayActivityListItemSummary)
@@ -1093,12 +1093,12 @@ $xwiki.ssx.use("Main.RecentActivity")##
       &lt;span class="activityAction"&gt;
         #isAttachmentEvent($event)
         #if($isPageEntryExpandable) ## display entry summary
-          $!msg.get('xe.recentactivity.action.summary', [$events.size(), $eventUsers.size()])
+          $!msg.get('xe.activity.action.summary', [$events.size(), $eventUsers.size()])
         #else
-          $!msg.get("xe.recentactivity.action.${event.type}", [$relatedEventsNo])
+          $!msg.get("xe.activity.action.${event.type}", [$relatedEventsNo])
           #if($event.type == 'update' &amp;&amp; $event.version != '1.1')
             #set($previousVersion = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version).getPreviousVersion())
-            &amp;#183; &lt;a href="$xwiki.getDocument($event.page).getURL('view', "viewer=changes&amp;rev1=${previousVersion}&amp;rev2=${event.version}")"&gt;$msg.get('xe.recentactivity.action.seechanges')&lt;/a&gt;
+            &amp;#183; &lt;a href="$xwiki.getDocument($event.page).getURL('view', "viewer=changes&amp;rev1=${previousVersion}&amp;rev2=${event.version}")"&gt;$msg.get('xe.activity.action.seechanges')&lt;/a&gt;
           #end
         #end
       &lt;/span&gt;
@@ -1218,7 +1218,7 @@ $xwiki.ssx.use("Main.RecentActivity")##
       &lt;/ul&gt;
     #end
   #else
-    &lt;span class="noitems"&gt;$msg.get('xe.recentactivity.noentries')&lt;/span&gt;
+    &lt;span class="noitems"&gt;$msg.get('xe.activity.noentries')&lt;/span&gt;
   #end
   ##
   ## Display RSS URL

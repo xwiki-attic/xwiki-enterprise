@@ -214,9 +214,9 @@ div.dashboardspacer {
           #set($rcSpace = $util.null)
           #set($rcChangesNb = $util.null)
           #if (!$isSpaceDashboard)
-            = $msg.get("xe.dashboard.wiki.recentactivity") =
+            = $msg.get("xe.dashboard.wiki.activity") =
           #else
-            = $msg.get("xe.dashboard.space.recentactivity", [$doc.space]) =
+            = $msg.get("xe.dashboard.space.activity", [$doc.space]) =
             ## Set variables to limit recent activity to the current space and 15 items.
             #set ($aSpace = $doc.space)
           #end

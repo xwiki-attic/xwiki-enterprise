@@ -203,6 +203,7 @@
                     templates/colorThemeInit.vm
                     templates/contentmenu.vm <!-- empty placeholder -->
                     templates/deprecatedVars.vm
+                    templates/editgroup.vm <!-- TODO test with deleted XWiki.XWikiGroupSheet and 'inline' action -->
                     templates/editpanelsvars.vm
                     templates/fakeleftpanels.vm
                     templates/fakerightpanels.vm

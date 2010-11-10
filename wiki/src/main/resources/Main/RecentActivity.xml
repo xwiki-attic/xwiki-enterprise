@@ -357,6 +357,7 @@ ul.activityList {
 }
 
 .activityList .attachment {
+  margin: 0;
   padding: 3px 0 0;
 }
 /** &lt;end&gt; **/
@@ -777,6 +778,16 @@ $xwiki.ssx.use("Main.RecentActivity")##
   #end
 #end
 #**
+  * Check if the document version exists
+  *#
+#macro(isDocumentVersionValid $event)
+  #set($isDocumentVersionValid = false)
+  #set($pageDoc = $xwiki.getDocument($event.page))
+  #if($xwiki.getDocument($pageDoc, $event.version))
+    #set($isDocumentVersionValid = true)
+  #end
+#end
+#**
   * Check if the current page event list entry is expandable (there are at least 2 events for the current page) or not.
   *#
 #macro(isPageEntryExpandable)
@@ -866,6 +877,17 @@ $xwiki.ssx.use("Main.RecentActivity")##
   #end
 #end
 #**
+  * Get comment content
+  *#
+#macro(getCommentContent $event $commentContent)
+  #set($commentContent = '')
+  #isDocumentVersionValid($event)
+  #if($isDocumentVersionValid)
+    #set($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
+    #set($commentContent = $!pageDocRevision.getObject('XWiki.XWikiComments', $util.parseInt($event.param2)).getProperty('comment').value)
+  #end
+#end
+#**
   * Remove duplicated 'update' and 'addAttachment' events for the current page entry
   * NOTE: each time an event != 'update' (like 'addAttachment, updateComment' ...) is fired, an extra 'update' event is fired too (for backward compatibility reasons)
   *#
@@ -919,7 +941,6 @@ $xwiki.ssx.use("Main.RecentActivity")##
             #end
           #end
     #end
-    ##
     ##
     ## Build the clean event list
     ## ---------------------------------------------------------------
@@ -996,11 +1017,10 @@ $xwiki.ssx.use("Main.RecentActivity")##
   * Display comment
   *#
 #macro(displayComment $event)
-  #set($pageDoc = $xwiki.getDocument($event.page))
-  #if($xwiki.getDocument($pageDoc, $event.version))
-    #set($pageDocRevision = $xwiki.getDocument($pageDoc, $event.version))
+  #getCommentContent($event $commentContent)
+  #if("$!commentContent" != '')
     &lt;div class="comment"&gt;
-      $!pageDocRevision.getObject('XWiki.XWikiComments', $util.parseInt($event.getParam2())).getProperty('comment').value
+     $!commentContent
     &lt;/div&gt;
   #end
 #end
@@ -1008,9 +1028,9 @@ $xwiki.ssx.use("Main.RecentActivity")##
   * Display annotation
   *#
 #macro(displayAnnotation $event)
-  #set($pageDoc = $xwiki.getDocument($event.page))
-  #if($xwiki.getDocument($pageDoc, $event.version))
-    #set($pageDocRevision = $xwiki.getDocument($pageDoc, $event.version))
+  #isDocumentVersionValid($event)
+  #if($isDocumentVersionValid)
+    #set($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
     &lt;div class="annotated"&gt;$pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value&lt;/div&gt;
     &lt;div class="annotation"&gt;$pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value&lt;/div&gt;
   #end
@@ -1028,6 +1048,9 @@ $xwiki.ssx.use("Main.RecentActivity")##
     &lt;img class="activityActionAvatar" src="$xwiki.getSkinFile($activityActionsMap.get($eventType), true)" alt="$msg.get("xe.activity.action.${eventType}", [$relatedEventsNo])" title="$msg.get("xe.activity.action.${eventType}", [$relatedEventsNo])" /&gt;
   &lt;/span&gt;
 #end
+#**
+  * Display the summary (avatars with action icon) for the current entry
+  *#
 #macro(displayActivityListItemSummary)
   &lt;div class="activitySummary"&gt;
     #foreach($event in $events)
@@ -1036,9 +1059,11 @@ $xwiki.ssx.use("Main.RecentActivity")##
     #end
   &lt;/div&gt;
 #end
-#macro(displayEventContent)
+#**
+  * Check if the current subentry is expandable
+  *#
+#macro(isEventEntryExpandable $event)
   #set($isEventEntryExpandable = false)
-  #isAttachmentEvent($event)
   #if($isAnnotationEvent)
     #set($annotationObj = $xwiki.getDocument($event.page).getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)))
     #set($selection = $annotationObj.getProperty('selection').value)
@@ -1046,27 +1071,41 @@ $xwiki.ssx.use("Main.RecentActivity")##
     #if("$!selection" != '' &amp;&amp; "$!annotation" != '')
       #set($isEventEntryExpandable = true)
     #end
-  #end
-  &lt;li class="activityItem #if($isAttachmentEvent || ($isCommentEvent &amp;&amp; $event.type != 'deleteComment') || $isEventEntryExpandable) collapsed #end"&gt;
-    #if($isAttachmentEvent || ($isCommentEvent &amp;&amp; $event.type != 'deleteComment'))
+  #elseif($isAttachmentEvent &amp;&amp; "$!event.param2" != '')
+    #set($isEventEntryExpandable = true)
+  #elseif($isCommentEvent)
+    #getCommentContent($event $commentContent)
+    #if("$!commentContent" != '')
       #set($isEventEntryExpandable = true)
     #end
+  #end
+#end
+#**
+  * Display the content for the current event
+  *#
+#macro(displayEventContent)
+  #set($isEventEntryExpandable = false)
+  #isAttachmentEvent($event)
+  #isEventEntryExpandable($event)
+  &lt;li class="activityItem #if($isEventEntryExpandable) collapsed #end"&gt;
     #displayActivityListItemHeader(false false $isEventEntryExpandable)
-    &lt;div class="activityContent"&gt;
-      #if($event.type == 'addAttachment')
-        #foreach($event in $xwiki.activitystream.getRelatedEvents($event))
-          #isAttachmentEvent($event)
-          #if($isAttachmentEvent)
-            #displayAttachment($event)
+    #if($isEventEntryExpandable)
+      &lt;div class="activityContent"&gt;
+        #if($isAttachmentEvent)
+          #foreach($event in $xwiki.activitystream.getRelatedEvents($event))
+            #isAttachmentEvent($event)
+            #if($isAttachmentEvent)
+              #displayAttachment($event)
+            #end
           #end
         #end
-      #end
-      #if($isCommentEvent &amp;&amp; $event.type != 'deleteComment')
-        #displayComment($event)
-      #elseif($isAnnotationEvent &amp;&amp; $isEventEntryExpandable)
-        #displayAnnotation($event)
-      #end
-    &lt;/div&gt;
+        #if($isCommentEvent)
+          #displayComment($event)
+        #elseif($isAnnotationEvent &amp;&amp; $isEventEntryExpandable)
+          #displayAnnotation($event)
+        #end
+      &lt;/div&gt;
+    #end
   &lt;/li&gt;
   #set($previousEventType = $event.type)
   #set($previousEventUser = $event.user)

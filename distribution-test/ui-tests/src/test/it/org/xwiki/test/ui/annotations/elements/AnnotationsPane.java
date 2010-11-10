@@ -26,8 +26,6 @@ import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
- * Represents the actions possible on the Attachment Pane at the bottom of a page.
- * 
  * @version $Id$
  * @since 2.7RC1
  */

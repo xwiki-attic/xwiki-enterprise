@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>XWiki</web>
+<name>SharePage</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1289259615000</creationDate>
+<date>1289523463000</date>
+<contentUpdateDate>1289523463000</contentUpdateDate>
+<version>1.1</version>
+<title></title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.SharePage</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>6a871119-c483-4cd8-aa24-f72c236c979b</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>var XWiki = (function(XWiki) {
+  XWiki.SharePage = Class.create({
+    input : false,
+    form : false,
+    addedTargets : [],
+    container : false,
+
+    initialize : function () {
+      this.input = $("target");
+      this.addedTargets = [];
+      this.container = new Element('div', {'class': 'targets-container'});
+      if (this.input) {
+        this.input.insert({'before' : this.container});
+        this.container.hide();
+        this.form = this.input.up('form');
+
+        this.input.observe('xwiki:suggest:selected', this.addTarget.bindAsEventListener(this));
+        this.input.parentNode.observe('keypress', function (event) {
+          if (event.keyCode == Event.KEY_RETURN) {
+            this.addTarget(event);
+            event.stop();
+          }
+        }.bindAsEventListener(this));
+        if (!this.input.hasClassName('initialized')) {
+          new XWiki.widgets.Suggest(this.input, {
+            script: XWiki.currentDocument.getURL('get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=local&amp;uorg=user&amp;'),
+            varname: "input",
+            icon: "$xwiki.getSkinFile('icons/silk/user.gif')",
+            shownoresults : false,
+            timeout : 30000
+          });
+        }
+        this.input.focus();
+
+        if (this.form) {
+          this.form.observe('submit', function(event) {
+            event.stop();
+            if (this.addedTargets.length == 0 &amp;&amp; this.input.value.trim().length == 0) {
+              this.input.addClassName('xErrorField');
+              this.input.insert({'after' : '&lt;div class="xErrorMsg"&gt;$msg.get('core.viewers.share.error.missingRecipient')&lt;/div&gt;'});
+              return;
+            }
+            this.form.up().update(loading);
+            new Ajax.Updater(loading.up(), XWiki.currentDocument.getURL('get', 'xpage=shareinline'), {
+              parameters: this.form.serialize(),
+              onComplete : function() {
+                if (dialog) {
+                  dialog.dialog.down('.share-backlink').observe('click', dialog.closeDialog.bind(dialog));
+                }
+              }
+            });
+          }.bindAsEventListener(this));
+          this.form.down('.secondary').observe('click', function(event) {
+            if (dialog) {
+              dialog.closeDialog();
+              event.stop();
+            }
+          }.bindAsEventListener(this));
+        }
+      }
+    },
+
+    deleteTarget : function(event, target) {
+      var container = target.up();
+      target.remove();
+      if (container.empty()) {
+        container.hide();
+      }
+      this.addedTargets = this.addedTargets.without(target.down('input').value);
+    }, 
+
+    addTarget : function(event) {
+      if (this.input.value == '') {
+        return;
+      }
+      if (this.addedTargets.indexOf(this.input.value.trim()) &gt;= 0) {
+        this.input.value = '';
+        return;
+      }
+      var target = new Element('span').update(this.input.value.escapeHTML());
+      target = new Element('span', {'class' : 'target-item'}).update(target).insert(new Element('input', {'type': 'hidden', 'name' : 'target', 'value': this.input.value}));
+      if (this.input.value.indexOf('@') &gt; 0) {
+        target.addClassName('target-email');
+      } else {
+        target.addClassName('target-user');
+      }
+      var del = new Element('a', {'class' : 'delete'}).update('X');
+      del.observe('click', this.deleteTarget.bindAsEventListener(this, target));
+      target.insert(del);
+      this.container.insert(target);
+      this.container.show();
+      this.addedTargets.push(this.input.value.trim());
+      this.input.value = '';
+      this.input.removeClassName('xErrorField');
+      if (this.input.next('.xErrorMsg')) {
+        this.input.next('.xErrorMsg').remove();
+      }
+    }
+  });
+
+  var loading = new Element('div', {'class' : 'imgcenter'}).update("&lt;img src=\"$xwiki.getSkinFile('icons/xwiki/ajax-loader-large.gif')\"/&gt;");
+  var dialog;
+
+  document.observe('xwiki:dom:loaded', function() {
+    if ($('target')) {
+      new XWiki.SharePage();
+    }
+    if ($('tmActionShare')) {
+      $('tmActionShare').observe('click', function(event) {
+        event.stop();
+        dialog = new XWiki.widgets.ModalPopup(
+          loading, {}, {
+            'verticalPosition' : 'top',
+            'title' : "$msg.get('core.viewers.share.dialogTitle')",
+            'removeOnClose' : true
+          }
+        );
+        dialog.showDialog();
+        loading.up().up().addClassName('share-dialog');
+        new Ajax.Updater(loading.up(), XWiki.currentDocument.getURL('get', 'xpage=shareinline'), {
+          onComplete : function() { new XWiki.SharePage(); }
+        });
+      });
+    }
+  });
+  return XWiki;
+}(XWiki || {}));</code>
+</property>
+<property>
+<name></name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.Mail</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<html>
+<disabled>0</disabled>
+<name>html</name>
+<number>4</number>
+<prettyName>HTML</prettyName>
+<rows>15</rows>
+<size>80</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</html>
+<language>
+<disabled>0</disabled>
+<name>language</name>
+<number>2</number>
+<prettyName>Language</prettyName>
+<size>5</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</language>
+<subject>
+<disabled>0</disabled>
+<name>subject</name>
+<number>1</number>
+<prettyName>Subject</prettyName>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</subject>
+<text>
+<disabled>0</disabled>
+<name>text</name>
+<number>3</number>
+<prettyName>Text</prettyName>
+<rows>15</rows>
+<size>80</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</text>
+</class>
+<name>XWiki.SharePage</name>
+<number>0</number>
+<className>XWiki.Mail</className>
+<guid>de72bc55-5b53-4659-a48d-27bb768146f5</guid>
+<property>
+<html>&lt;p&gt;Hello ${recipientName},&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;${xwiki.getUserName($context.user)}&lt;/strong&gt; thought you might be interested in the document &lt;a href="${doc.getExternalURL()}"&gt;${doc.displayTitle}&lt;/a&gt; on &lt;a href="${xwiki.getDocument('Main.WebHome').getExternalURL()}"&gt;${request.getLocalName()}&lt;/a&gt;.&lt;/p&gt;
+
+#if ("$!{message}" != '')
+&lt;p&gt;Here is their message:&lt;/p&gt;
+
+&lt;pre style="border: 1px solid #000; padding: 10px; font-size: 130%;"&gt;
+$!{escapetool.xml($message)}
+&lt;/pre&gt;
+#end
+&lt;p&gt;To visit this document online, open &lt;a href="${doc.getExternalURL()}"&gt;${doc.getExternalURL()}&lt;/a&gt; in your browser.&lt;/p&gt;
+
+#if ($display == 'inline')
+
+&lt;p&gt;Here is the current version of the document:&lt;/p&gt;
+
+&lt;h1&gt;${doc.displayTitle}&lt;/h1&gt;
+&lt;div style="border: 1px solid #000; padding: 10px;"&gt;
+
+  $doc.getRenderedContent()
+&lt;/div&gt;
+
+#end
+
+&lt;hr /&gt;
+&lt;p&gt;This message was generated by XWiki at ${request.localName} on behalf of ${xwiki.getUserName($context.user)}.&lt;/p&gt;</html>
+</property>
+<property>
+<language>en</language>
+</property>
+<property>
+<subject>$xwiki.getUserName($context.user, false) wants to share a document with you</subject>
+</property>
+<property>
+<text>Hello ${recipientName},
+
+${xwiki.getUserName($context.user, false)} thought you might be interested in the document "${doc.displayTitle}" (${doc.getExternalURL()}) on ${request.getLocalName()}.
+
+#if ("$!{message}" != '')
+Here is their message:
+
+-----------------------------------------------------
+$!{escapetool.xml($message)}
+-----------------------------------------------------
+#end
+
+To visit this document online, open ${doc.getExternalURL()} in your browser.
+
+#if ($display == 'inline')
+
+Here is the current version of the document:
+
+-----------------------------------------------------
+$doc.getRenderedContent()
+
+#end
+
+-----------------------------------------------------
+This message was generated by XWiki at ${request.localName} on behalf of ${xwiki.getUserName($context.user, false)}.</text>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.SharePage</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>28a58bf1-c113-48c9-b8d9-59e34baa81e4</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>#template('colorThemeInit.vm')
+
+/* Should we have a defined height for the textarea? */
+.xform input[type="text"], .xform input[type="password"],  /* Needs to be put separate and add a special class for IE6 */
+.xform select, .xform textarea{
+  width: 99%;
+}
+
+.xform dt {
+  margin-top: 1.2em;
+}
+
+.xform dt label {
+  color: $theme.textColor;
+  display: block;
+  font-size: .85em;
+  font-weight: 700;
+  margin-bottom: .3em;
+  text-transform: uppercase;
+}
+
+.xform .xRequired {
+  color: $theme.textSecondaryColor;
+  font-size: .9em;
+  font-style: italic;
+  font-weight: normal;
+  margin-left: 1ex;
+  text-transform: none;
+}
+
+.xform .xHint {
+  color: $theme.textSecondaryColor;
+  display: block;
+  font-size: .8em;
+  font-style: normal;
+  font-weight: 400;
+  margin: -.3em 0 .3em;
+}
+
+.xform .xErrorMsg {
+  color: #CC3333;
+  display: block;
+  font-size: .8em;
+  font-weight: normal;
+  margin-bottom: .3em;
+}
+
+.xform .xErrorField {
+  border: 1px solid #CC3333;
+}
+
+.buttonwrapper input.secondary, .buttonwrapper a.secondary, 
+.buttonwrapper a.secondary:link, .buttonwrapper a.secondary:visited,
+.buttonwrapper a.secondary:active /* Needed for IE6 */ {
+  background-color: $theme.buttonSecondaryBackgroundColor;
+  color: $theme.buttonSecondaryTextColor;
+}
+
+.xform h2 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 2em 0 0;
+}
+.xform .buttons {
+  margin: 10px 0;
+}</code>
+</property>
+<property>
+<name>Form style</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>always</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.SharePage</name>
+<number>1</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>9a3e3cf0-3ae2-4321-8284-d14640ddcbd1</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>#template("colorThemeInit.vm")
+.xdialog-modal-container .share-dialog {
+  padding: 10px 20px;
+  width: 500px;
+}
+.share-dialog .mail-preview {
+  border: 2px solid $theme.borderColor;
+  padding: 0 10px;
+}
+.targets-container {
+  background: $theme.highlightColor;
+  border: 1px dotted $theme.borderColor;
+  margin: 4px 0;
+}
+.target-item {
+  background: transparent none left center no-repeat;
+  display: inline-block;
+  margin-right: 1em;
+  padding: 0px 1px 0px 18px;
+}
+.targets-container .target-user {
+  background-image: url("$xwiki.getSkinFile('icons/silk/user.gif')");
+}
+.targets-container .target-group {
+  background-image: url("$xwiki.getSkinFile('icons/silk/group.gif')");
+}
+.targets-container .target-email {
+  background-image: url("$xwiki.getSkinFile('icons/silk/email.gif')");
+}
+
+.target-item .delete, .target-item .delete:visited {
+  color: transparent; /*$theme.pageContentBackgroundColor;*/
+  font-size: 70%;
+  font-weight: bold;
+  text-decoration: none !important;
+  vertical-align: super;
+  cursor: pointer;
+}
+.target-item:hover .delete {
+  color: $theme.textPrimaryColor;
+}
+.target-item .delete:hover {
+  color: #C00;
+}
+</code></property><property><name>Toolbox style</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>always</use>
+</property>
+</object>
+<content></content></xwikidoc>

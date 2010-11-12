@@ -72,10 +72,10 @@
     <platform.extension.version>1.1</platform.extension.version>
     <platform.invitation.version>1.4</platform.invitation.version>
     <platform.jodatime.version>1.3</platform.jodatime.version>
-    <platform.plugin.lucene.version>1.20</platform.plugin.lucene.version>
+    <platform.plugin.lucene.version>1.21-SNAPSHOT</platform.plugin.lucene.version>
     <platform.plugin.mailsender.version>1.15-SNAPSHOT</platform.plugin.mailsender.version>
     <platform.officeimporter.version>1.17-SNAPSHOT</platform.officeimporter.version>
-    <platform.panels.version>1.41</platform.panels.version>
+    <platform.panels.version>1.42-SNAPSHOT</platform.panels.version>
     <platform.scheduler.version>1.22-SNAPSHOT</platform.scheduler.version>
     <platform.search.version>1.4</platform.search.version>
     <platform.plugin.skinx.version>1.19-SNAPSHOT</platform.plugin.skinx.version>

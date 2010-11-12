@@ -5,7 +5,7 @@
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
-<parent></parent>
+<parent>XWiki.Mail</parent>
 <creator>XWiki.Admin</creator>
 <author>XWiki.Admin</author>
 <customClass></customClass>
@@ -296,7 +296,7 @@
 <property>
 <html>&lt;p&gt;Hello ${recipientName},&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;${xwiki.getUserName($context.user)}&lt;/strong&gt; thought you might be interested in the document &lt;a href="${doc.getExternalURL()}"&gt;${doc.displayTitle}&lt;/a&gt; on &lt;a href="${xwiki.getDocument('Main.WebHome').getExternalURL()}"&gt;${request.getLocalName()}&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;${xwiki.getUserName($context.user)}&lt;/strong&gt; thought you might be interested in the document &lt;a href="${doc.getExternalURL()}"&gt;$!{escapetool.xml(${doc.displayTitle})}&lt;/a&gt; on &lt;a href="${xwiki.getDocument('Main.WebHome').getExternalURL()}"&gt;${request.getLocalName()}&lt;/a&gt;.&lt;/p&gt;
 
 #if ("$!{message}" != '')
 &lt;p&gt;Here is their message:&lt;/p&gt;
@@ -331,7 +331,7 @@ $!{escapetool.xml($message)}
 <property>
 <text>Hello ${recipientName},
 
-${xwiki.getUserName($context.user, false)} thought you might be interested in the document "${doc.displayTitle}" (${doc.getExternalURL()}) on ${request.getLocalName()}.
+${xwiki.getUserName($context.user, false)} thought you might be interested in the document "$!{escapetool.xml(${doc.displayTitle})}" (${doc.getExternalURL()}) on ${request.getLocalName()}.
 
 #if ("$!{message}" != '')
 Here is their message:

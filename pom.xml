@@ -73,7 +73,7 @@
     <platform.invitation.version>1.4</platform.invitation.version>
     <platform.jodatime.version>1.3</platform.jodatime.version>
     <platform.plugin.lucene.version>1.21</platform.plugin.lucene.version>
-    <platform.plugin.mailsender.version>1.15</platform.plugin.mailsender.version>
+    <platform.plugin.mailsender.version>1.16-SNAPSHOT</platform.plugin.mailsender.version>
     <platform.officeimporter.version>1.17</platform.officeimporter.version>
     <platform.panels.version>1.42</platform.panels.version>
     <platform.scheduler.version>1.22</platform.scheduler.version>

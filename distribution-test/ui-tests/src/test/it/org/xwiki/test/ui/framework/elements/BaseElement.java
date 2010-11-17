@@ -115,9 +115,9 @@ public class BaseElement
         Wait<WebDriver> wait = new WebDriverWait(this.getDriver(), timeout);
         try {
             wait.until(new ExpectedCondition<WebElement>()
-                            {
+            {
                 public WebElement apply(WebDriver driver)
-                                {
+                {
                     RenderedWebElement element = null;
                     for (int i = 0; i < locators.length; i++) {
                         try {
@@ -130,7 +130,7 @@ public class BaseElement
                             }
                             continue;
                         }
-                        // At this stage it's possible the element is no longer valid (for exemple if the DOM has
+                        // At this stage it's possible the element is no longer valid (for example if the DOM has
                         // changed). If it's no longer attached to the DOM then consider we haven't found the element
                         // yet.
                         try {

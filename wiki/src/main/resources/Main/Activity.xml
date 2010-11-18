@@ -668,6 +668,9 @@ $xwiki.ssx.use("Main.Activity")##
 #if($aWikis.size() == 0)
   #set($aWikisString = $context.macro.params.get('wikis'))
   #asList($aWikis $aWikisString)
+  #if ($aWikis.size() == 0)
+    $aWikis.add($context.database)
+  #end
 #end
 ## Spaces
 #setVariableFromRequest($aSpaces "spaces" [])
@@ -720,7 +723,7 @@ $xwiki.ssx.use("Main.Activity")##
 #end
 ## Minor versions
 #if("$!aMinor" == 'false')
-  #set($filterClause = $filterClause + " and not (version not like '%.1' and type = 'update')")
+  #set ($filterClause = $filterClause + " and not (act.version not like '%.1' and act.type = 'update')")
 #end
 ##
 ## Macros
@@ -757,7 +760,7 @@ $xwiki.ssx.use("Main.Activity")##
   *#
 #macro(updateFilterClause $colName $colValues $exclude)
   #if($colValues.class == 'class java.lang.String')
-    #set($filterClause = $filterClause + " and ${colName}='" + ${colValues} + "'")
+    #set ($filterClause = $filterClause + " and act.${colName}='" + ${colValues} + "'")
   #else
     #foreach($colValue in $colValues)
       #if($velocityCount == 1)
@@ -765,7 +768,7 @@ $xwiki.ssx.use("Main.Activity")##
         #if($exclude)
           #set($filterCondition = 'not ' + $filterCondition)
         #end
-        #set($filterClause = $filterClause + " and ${colName} ${filterCondition} (")
+        #set ($filterClause = $filterClause + " and act.${colName} ${filterCondition} (")
       #end
       #if("$!colValues" != '')
         #if($velocityCount &gt; 1) #set($filterClause = $filterClause + ',') #end
@@ -1237,8 +1240,7 @@ $xwiki.ssx.use("Main.Activity")##
   ##
   ## Get distinct pages with activity
   ## -------------------------------------------------------------------
-  #set($activitiesQuery = "select page, max(date) from ActivityEventImpl where $!filterClause group by page order by max(date) desc")
-  #set($pages = $xwiki.search($activitiesQuery, $aEntries, 0))
+  #set ($pages = $xwiki.activitystream.searchUniquePages("$!filterClause", $aEntries, 0))
   #if ($pages.size() &gt; 0)
     #foreach($page in $pages)
       ##

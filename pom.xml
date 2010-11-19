@@ -62,8 +62,8 @@
     <platform.tool.xar-handler.version>1.9</platform.tool.xar-handler.version>
     <platform.tool.xar-plugin.version>1.13</platform.tool.xar-plugin.version>
 
-    <platform.core.version>${project.version}</platform.core.version>
-    <platform.web.version>${project.version}</platform.web.version>
+    <platform.core.version>2.6</platform.core.version>
+    <platform.web.version>2.6</platform.web.version>
 
     <platform.administration.version>1.43</platform.administration.version>
     <platform.annotations.version>1.9</platform.annotations.version>
@@ -73,7 +73,7 @@
     <platform.invitation.version>1.4</platform.invitation.version>
     <platform.jodatime.version>1.3</platform.jodatime.version>
     <platform.plugin.lucene.version>1.21</platform.plugin.lucene.version>
-    <platform.plugin.mailsender.version>1.16-SNAPSHOT</platform.plugin.mailsender.version>
+    <platform.plugin.mailsender.version>1.16</platform.plugin.mailsender.version>
     <platform.officeimporter.version>1.17</platform.officeimporter.version>
     <platform.panels.version>1.42</platform.panels.version>
     <platform.scheduler.version>1.23</platform.scheduler.version>

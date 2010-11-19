@@ -100,6 +100,7 @@ public class AbstractValidationTest extends TestCase
         GetMethod method = createGetMethod();
 
         method.setFollowRedirects(true);
+        method.getParams().setSoTimeout(10000);
 
         if (this.credentials != null) {
             method.setDoAuthentication(true);

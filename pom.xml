@@ -77,7 +77,7 @@
     <platform.officeimporter.version>1.17</platform.officeimporter.version>
     <platform.panels.version>1.42</platform.panels.version>
     <platform.scheduler.version>1.24-SNAPSHOT</platform.scheduler.version>
-    <platform.search.version>1.4</platform.search.version>
+    <platform.search.version>1.5-SNAPSHOT</platform.search.version>
     <platform.plugin.skinx.version>1.19</platform.plugin.skinx.version>
     <platform.statistics.version>1.9</platform.statistics.version>
     <platform.tag.version>1.17</platform.tag.version>

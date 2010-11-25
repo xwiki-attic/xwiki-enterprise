@@ -66,7 +66,7 @@
     <platform.administration.version>1.44-SNAPSHOT</platform.administration.version>
     <platform.annotations.version>1.10-SNAPSHOT</platform.annotations.version>
     <platform.activitystream.version>1.10-SNAPSHOT</platform.activitystream.version>
-    <platform.blog.version>1.25-SNAPSHOT</platform.blog.version>
+    <platform.blog.version>1.26-SNAPSHOT</platform.blog.version>
     <platform.extension.version>1.2-SNAPSHOT</platform.extension.version>
     <platform.invitation.version>1.5-SNAPSHOT</platform.invitation.version>
     <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
@@ -79,7 +79,7 @@
     <platform.plugin.skinx.version>1.20-SNAPSHOT</platform.plugin.skinx.version>
     <platform.statistics.version>1.10-SNAPSHOT</platform.statistics.version>
     <platform.tag.version>1.18-SNAPSHOT</platform.tag.version>
-    <platform.watchlist.version>1.31-SNAPSHOT</platform.watchlist.version>
+    <platform.watchlist.version>1.32-SNAPSHOT</platform.watchlist.version>
     <platform.webdav.version>1.4-SNAPSHOT</platform.webdav.version>
     <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>
 

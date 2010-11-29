@@ -26,7 +26,7 @@
 <content>{{velocity}}
 $msg.get('xe.rss.feeds.description')
 #set($blog = "[[$msg.get('xe.rss.blog')&gt;&gt;Blog.WebHome]]")
-#set($search = "[[Main.WebSearch]]")
+#set($search = "[[Main.Search]]")
 #set($tags = "[[Main.Tags]]")
 
 * {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.pages.modified')" alt="$msg.get('xe.rss.pages.modified')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.global')&lt;/a&gt;&lt;/strong&gt; $msg.get('xe.rss.global.description'){{/html}}

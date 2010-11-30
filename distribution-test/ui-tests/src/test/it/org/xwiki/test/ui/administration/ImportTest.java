@@ -25,6 +25,8 @@ import java.net.URL;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.administration.elements.ImportAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
@@ -137,6 +139,9 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         this.sectionPage.attachPackage(fileUrl);
         this.sectionPage.selectPackage(BACKUP_PACKAGE);
 
+        WebElement importAsBackup = getDriver().findElement(By.name("importAsBackup"));
+        Assert.assertTrue(importAsBackup.isSelected());
+        
         this.sectionPage.importPackage();
 
         ViewPage importedPage = this.sectionPage.clickImportedPage("Main.TestPage");
@@ -147,5 +152,29 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("JohnDoe", history.getCurrentAuthor());
+    }
+    
+    @Test
+    public void testImportWhenImportAsBackupIsNotSelected() throws IOException
+    {
+        URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);
+
+        this.sectionPage.attachPackage(fileUrl);
+        this.sectionPage.selectPackage(BACKUP_PACKAGE);
+
+        WebElement importAsBackup = getDriver().findElement(By.name("importAsBackup"));
+        importAsBackup.click();
+        Assert.assertFalse(importAsBackup.isSelected());
+        
+        this.sectionPage.importPackage();
+
+        ViewPage importedPage = this.sectionPage.clickImportedPage("Main.TestPage");
+
+        // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
+        // will race for completion. Let's wait for comments first.
+        importedPage.openCommentsDocExtraPane();
+        HistoryPane history = importedPage.openHistoryDocExtraPane();
+
+        Assert.assertEquals("Admin", history.getCurrentAuthor());
     }
 }

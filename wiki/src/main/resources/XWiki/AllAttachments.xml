@@ -95,7 +95,7 @@
 <className>XWiki.JavaScriptExtension</className>
 <guid>9ad0f248-6336-4543-ae2b-fd41dda77be4</guid>
 <property>
-<cache>default</cache>
+<cache>long</cache>
 </property>
 <property>
 <code>(function(){

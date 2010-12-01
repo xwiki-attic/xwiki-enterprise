@@ -100,7 +100,7 @@
 <className>XWiki.StyleSheetExtension</className>
 <guid>0556ca2b-73ab-4779-a84d-1d7e4107d9ae</guid>
 <property>
-<cache>default</cache>
+<cache>long</cache>
 </property>
 <property>
 <code>#template('colorThemeInit.vm')

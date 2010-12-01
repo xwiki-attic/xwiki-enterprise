@@ -100,7 +100,7 @@
 <className>XWiki.StyleSheetExtension</className>
 <guid>384eebef-65ee-4d21-8fa7-af59b3b62047</guid>
 <property>
-<cache>default</cache>
+<cache>long</cache>
 </property>
 <property>
 <code>div.dashboardleft {

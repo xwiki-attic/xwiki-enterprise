@@ -220,7 +220,7 @@ document.observe('xwiki:dom:loaded', function() {
 <className>XWiki.StyleSheetExtension</className>
 <guid>ab40f34b-0de4-4e6a-a6c8-f03dce1d6db5</guid>
 <property>
-<cache>default</cache>
+<cache>long</cache>
 </property>
 <property>
 <code>#template('colorThemeInit.vm')

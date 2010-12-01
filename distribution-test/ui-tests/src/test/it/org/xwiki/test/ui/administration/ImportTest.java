@@ -175,6 +175,6 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         importedPage.openCommentsDocExtraPane();
         HistoryPane history = importedPage.openHistoryDocExtraPane();
 
-        Assert.assertEquals("Admin", history.getCurrentAuthor());
+        Assert.assertEquals("Administrator", history.getCurrentAuthor());
     }
 }

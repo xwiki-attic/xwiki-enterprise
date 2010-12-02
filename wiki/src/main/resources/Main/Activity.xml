@@ -1254,7 +1254,7 @@ $xwiki.ssx.use("Main.Activity")##
         ## Get event list for the current page
         ## -------------------------------------------------------------------
         #set($whereClause = " and month(date)=" + ${xwiki.formatDate($pageDate, 'M')} + " and year(date)=" + ${xwiki.formatDate($pageDate, 'yyyy')} + " and day(date)=" + ${xwiki.formatDate($pageDate, 'd')} + " and $!filterClause")
-        #set($events= $xwiki.activitystream.searchEvents("act.page='$pageName' and act.space&lt;&gt;'Scheduler' $!whereClause", false, 0, 0))
+        #set($events= $xwiki.activitystream.searchEvents("act.page=? and act.space&lt;&gt;'Scheduler' $!whereClause", false, 0, 0, [$pageName]))
         #if($events.size() &gt; 0)
           ##
           ## Initialize page event vars

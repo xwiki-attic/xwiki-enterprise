@@ -1136,7 +1136,10 @@ $xwiki.ssx.use("Main.Activity")##
     #end
     &lt;span class="activityAuthor"&gt;
       #if($isFirstEntry)
-        &lt;a href="$xwiki.getURL($pageName)" class="typePage type"&gt;$!{escapetool.xml($xwiki.getDocument($!pageName).displayTitle)}&lt;/a&gt;
+        #set($pageFullName = "$!{event.wiki}:$!{pageName}")
+        &lt;a href="$xwiki.getURL(${pageFullName})" class="typePage type"&gt;
+          $!{escapetool.xml($xwiki.getDocument($pageFullName).displayTitle)}
+        &lt;/a&gt;
       #else
         $xwiki.getUserName($!event.user)
       #end

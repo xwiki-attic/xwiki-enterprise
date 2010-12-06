@@ -138,7 +138,7 @@ document.observe('xwiki:dom:loaded', function() {
 <name>Expand and Collapse</name>
 </property>
 <property>
-<parse></parse>
+<parse>0</parse>
 </property>
 <property>
 <use>onDemand</use>

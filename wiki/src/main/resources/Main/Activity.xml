@@ -1136,10 +1136,14 @@ $xwiki.ssx.use("Main.Activity")##
       #activitySnapshot($event.user $event.type)
     #end
     &lt;span class="activityAuthor"&gt;
-      #if($isFirstEntry)
-        #set($pageFullName = "$!{event.wiki}:$!{pageName}")
+      #if ($isFirstEntry)
+        #set ($pageFullName = "$!{event.wiki}:$!{pageName}")
+        #set ($pageTitle = "$!{xwiki.getDocument($pageFullName).displayTitle}")
+        #if ($pageTitle == '')
+          #set ($pageTitle = $pageName)
+        #end
         &lt;a href="$xwiki.getURL(${pageFullName})" class="typePage type"&gt;
-          $!{escapetool.xml($xwiki.getDocument($pageFullName).displayTitle)}
+          $!{escapetool.xml($pageTitle)}
         &lt;/a&gt;
       #else
         $xwiki.getUserName($!event.user)

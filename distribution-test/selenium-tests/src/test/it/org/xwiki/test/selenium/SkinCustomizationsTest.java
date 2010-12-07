@@ -65,6 +65,6 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
         clickEditSaveAndContinue();
         open("Main", "WebHome");
         assertTrue(getSelenium().isElementPresent(
-            "xpath=//head/link[@href='/xwiki/bin/skin/skins/albatross/somestyle.css']"));
+            "xpath=//head/link[contains(@href,'/skin/skins/albatross/somestyle.css')]"));
     }
 }

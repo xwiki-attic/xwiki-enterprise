@@ -1248,7 +1248,7 @@ $xwiki.ssx.use("Main.Activity")##
   ##
   ## Get distinct pages with activity
   ## -------------------------------------------------------------------
-  #set ($pages = $xwiki.activitystream.searchUniquePages("$!filterClause", $aEntries, 0))
+  #set ($pages = $xwiki.activitystream.searchDailyPages("$!filterClause", $aEntries, 0))
   #if ($pages.size() &gt; 0)
     #foreach($page in $pages)
       ##

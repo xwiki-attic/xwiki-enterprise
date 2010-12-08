@@ -30,7 +30,7 @@
  * set of results serialized in JSON.
  *#
 #macro(gridresult $className $collist)
-  #gridresultwithfilter($className $collist '' '')
+  #gridresultwithfilter($className $collist '' '' [])
 #end
 
 
@@ -40,7 +40,7 @@
  * This page is called from live grids via Ajax with the argument xpage=plain. It returns a
  * set of results serialized in JSON.
  *#
-#macro(gridresultwithfilter $className $collist $filterfrom $filterwhere)
+#macro(gridresultwithfilter $className $collist $filterfrom $filterwhere $filterParams)
   #if("$!{request.xpage}" == 'plain')
     $response.setContentType('application/json')
   #end
@@ -57,8 +57,13 @@
   ##
   ## Compute the query to use for retrieving data
   ##
-  #set($whereSql = '')
+  ## 
+  ## additional columns, should *not* contain parameters, all added column names must be filtered
   #set($fromSql = '')
+  ## parametrized filter part of the query
+  #set($whereSql = '')
+  ## list of parameters to use with $whereSql
+  #set($whereParams = [])
   #set($class = $xwiki.getDocument($className).getxWikiClass())
 
   ## Exclude Blacklisted spaces ($blacklistedSpaces is set in xwikivars.vm)
@@ -67,7 +72,8 @@
     #set($whereSql = "${whereSql} and doc.space not in (")
     #foreach ($blacklistedSpace in $blacklistedSpaces)
       #if($velocityCount &gt; 1)#set ($whereSql = "${whereSql},")#end
-      #set ($whereSql = "${whereSql}'$blacklistedSpace'")
+      #set($whereSql = "${whereSql}?")
+      #set($discard = $whereParams.add("$!{blacklistedSpace}"))
     #end
     #set($whereSql = "${whereSql})")
   #end
@@ -86,7 +92,8 @@
     #foreach($tag in $request.getParameterValues('tag'))
       #set($tag = $util.decodeURI($tag))
       #if($velocityCount &gt; 1) #set($whereSql = "${whereSql} and ") #end
-      #set($whereSql = "${whereSql} '$tag' in elements(tagprop.list)")
+      #set($whereSql = "${whereSql} ? in elements(tagprop.list)")
+      #set($discard = $whereParams.add("${tag}"))
     #end
     #set($whereSql = "${whereSql})")
   #end
@@ -96,28 +103,36 @@
   ##
   #set($order = "$!request.sort")
   #if($order != '')
-    #set($orderDirection = "$!request.dir")
+    #set($orderDirection = "$!{request.get('dir').toLowerCase()}")
+    #if("$!orderDirection" != '' &amp;&amp; "$!orderDirection" != 'asc')
+      #set($orderDirection = 'desc')
+    #end
     #if($order == 'description')
       #set($tableAlias = 'dtable')
     #else
       #set($tableAlias = $order)
     #end
+    ## only safe version should be used in SQL queries
+    #set($safe_tableAlias = "$!{tableAlias.replaceAll('[^a-zA-Z0-9_.]','')}")
+    ##
     #if($order.startsWith('doc.'))
-      #set($orderSql = " order by ${tableAlias.replace('_','.')} ${orderDirection}")
+      #set($orderSql = " order by ${safe_tableAlias.replace('_','.')} ${orderDirection}")
     #elseif($tablelist.contains($tableAlias))
-      #set($orderSql = " order by ${tableAlias}.value ${orderDirection}")
+      #set($orderSql = " order by ${safe_tableAlias}.value ${orderDirection}")
     #elseif($order == 'averagevote')
       #livetable_getTableName($order)
-      #set($fromSql = "${fromSql}, BaseObject as objratings, ${tableName} ${tableAlias}")
-      #set($whereSql = "${whereSql} and doc.fullName=objratings.name and objratings.className='XWiki.AverageRatingsClass' and objratings.id=${tableAlias}.id.id and ${tableAlias}.name='${order}'")
-      #set($orderSql = " order by ${tableAlias}.value ${orderDirection}")
+      #set($fromSql = "${fromSql}, BaseObject as objratings, ${tableName} ${safe_tableAlias}")
+      #set($whereSql = "${whereSql} and doc.fullName=objratings.name and objratings.className='XWiki.AverageRatingsClass' and objratings.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.name = ?")
+      #set($discard = $whereParams.add("${order}"))
+      #set($orderSql = " order by ${safe_tableAlias}.value ${orderDirection}")
     #else
       #set($multiselect = $class.get($order).getProperty('multiSelect').getValue())
       #if("$multiselect" != '1')
         #livetable_getTableName($order)
-        #set($fromSql = "${fromSql}, ${tableName} ${tableAlias}")
-        #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.name='${order}'")
-        #set($orderSql = " order by ${tableAlias}.value ${orderDirection}")
+        #set($fromSql = "${fromSql}, ${tableName} ${safe_tableAlias}")
+        #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.name = ?")
+        #set($discard = $whereParams.add("${order}"))
+        #set($orderSql = " order by ${safe_tableAlias}.value ${orderDirection}")
       #end
     #end
   #end
@@ -125,29 +140,55 @@
   ##
   ## Compute the final queries
   ##
+  #set($sqlParams = [])
+  #set($tagsMatchingParams = [])
+  #set($allMatchingParams = [])
   #if("$!className" != '')
     ## Class query
-    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
+    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className = ? and doc.fullName &lt;&gt; ? $!whereSql $!filterwhere")
+    #set($discard = $sqlParams.addAll(["${className}", "${className}Template"]))
+    #set($discard = $sqlParams.addAll($whereParams))
+    ##
     #set($tagsMatchingFiltersFrom = ", BaseObject as obj $!fromSql $!filterfrom")
-    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!whereSql $!filterwhere")
+    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className = ? and doc.fullName &lt;&gt; ? $!whereSql $!filterwhere")
+    #set($discard = $tagsMatchingParams.addAll(["${className}", "${className}Template"]))
+    #set($discard = $tagsMatchingParams.addAll($whereParams))
+    ##
     #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
-    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className='${className}' and doc.fullName&lt;&gt;'${className}Template' $!filterwhere")
+    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className = ? and doc.fullName &lt;&gt; ? $!filterwhere")
+    #set($discard = $allMatchingParams.addAll(["${className}", "${className}Template"]))
+    ##
+    #if($filterParams)
+      #set($discard = $sqlParams.addAll($filterParams))
+      #set($discard = $tagsMatchingParams.addAll($filterParams))
+      #set($discard = $allMatchingParams.addAll($filterParams))
+    #end
   #else
     ## Document query
     #set($countSql = "$!fromSql $!filterfrom where 1=1 $!whereSql $!filterwhere")
+    #set($discard = $sqlParams.addAll($whereParams))
+    ##
     #set($tagsMatchingFiltersFrom = "$!fromSql $!filterfrom")
     #set($tagsMatchingFiltersWhere = "1=1 $!whereSql $!filterwhere")
+    #set($discard = $tagsMatchingParams.addAll($whereParams))
+    ##
     #set($allMatchingTagsFrom = "$!filterfrom")
     #set($allMatchingTagsWhere = "1=1 $!filterwhere")
+    ##
+    #if($filterParams)
+      #set($discard = $sqlParams.addAll($filterParams))
+      #set($discard = $tagsMatchingParams.addAll($filterParams))
+      #set($discard = $allMatchingParams.addAll($filterParams))
+    #end
   #end
 
   ## TagCould matching the current filters
-  #set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere))
+  #set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere, $tagsMatchingParams))
   ## TagCloud matching all the documents used by the livetable
-  #set($allMatchingTags = $xwiki.tag.getTagCountForQuery($allMatchingTagsFrom, $allMatchingTagsWhere))
+  #set($allMatchingTags = $xwiki.tag.getTagCountForQuery($allMatchingTagsFrom, $allMatchingTagsWhere, $allMatchingParams))
   #set($sql = "$countSql $!{orderSql}")
-  #set($items = $xwiki.searchDocuments($sql, $limit, $offset))
-  #set($totalItems = $xwiki.countDocuments($countSql))
+  #set($items = $xwiki.searchDocuments($sql, $limit, $offset, $sqlParams))
+  #set($totalItems = $xwiki.countDocuments($countSql, $sqlParams))
   #set($returnedItems = $items.size())
 
 
@@ -158,6 +199,7 @@
   #if("$!request.sql" == '1')
     "sql": "$escapetool.javascript($sql)",
     "countsql": "$escapetool.javascript($countSql)",
+    "params": "$escapetool.javascript($sqlParams)"
   #end
   "totalrows": $totalItems,
   "matchingtags": {
@@ -174,7 +216,7 @@
   ],
   "returnedrows": #if($returnedItems &lt; $limit) $returnedItems #else $limit #end,
   "offset": $mathtool.add($offset, 1),
-  "reqNo": $request.reqNo,
+  "reqNo": $util.parseInt($request.reqNo),
   "rows": [
     #foreach($item in $items)
      #set($viewable = $xwiki.hasAccessLevel('view', $context.user, "${context.database}:${item}"))
@@ -194,7 +236,7 @@
           #set($wikiUrl = $xwiki.getURL("${itemDoc.wiki}:Main.WebHome"))
         #end
         #set($editUrl = $itemDoc.getURL($itemDoc.defaultEditMode))
-        #set($copyUrl = $xwiki.getURL('XWiki.CopyDocument', 'view', "sourcedoc=${util.encodeURI($fullname)}"))
+        #set($copyUrl = $xwiki.getURL('XWiki.CopyDocument', 'view', "sourcedoc=${escapetool.url($fullname)}"))
         #set($deleteUrl = $itemDoc.getURL('delete'))
         #set($renameUrl = $itemDoc.getURL('view', 'xpage=rename&amp;step=1'))
         #set($rightsUrl = $itemDoc.getURL('edit', 'editor=rights'))
@@ -278,6 +320,7 @@
 
 #**
  * Get the name of the Property that should be used for a given livetable column.
+ * NOTE the resulting $tableName is safe to use inside SQL queries
  *#
 #macro(livetable_getTableName $colname)
   #set($propClassName = "$!request.get(${colname.concat('_class')})")
@@ -397,6 +440,7 @@
 
 #**
  * Macro to extend the query to select the properties for the livetable columns.
+ * NOTE $colname is filtered (all characters but [a-zA-Z0-9_.] are removed) before use
  *#
 #macro(livetable_addColumnToQuery $colname)
   #set($filterValue = "$!{request.get($colname)}")
@@ -405,6 +449,10 @@
   #else
     #set($tableAlias = $colname)
   #end
+  ## only safe versions should be used in SQL queries
+  #set($safe_colname = "$!{colname.replaceAll('[^a-zA-Z0-9_.]','')}")
+  #set($safe_tableAlias = "$!{tableAlias.replaceAll('[^a-zA-Z0-9_.]','')}")
+  ##
   #set($propType = '')
   #set($propClassName = "$!request.get(${colname.concat('_class')})")
   #if($propClassName != '')
@@ -420,35 +468,43 @@
   #if("$!filterValue" != '')
     #set($discard = $tablelist.add($tableAlias))
     #if($colname.startsWith('doc.'))
-      #set($whereSql = "${whereSql} and upper(str(${colname.replace('_','.')})) like upper('%${filterValue}%')")
+      #set($whereSql = "${whereSql} and upper(str(${safe_colname.replace('_','.')})) like upper(?)")
+      #set($discard = $whereParams.add("%${filterValue}%"))
     #elseif($propType == 'NumberClass' || $propType == 'BooleanClass')
       #livetable_getTableName($colname)
-      #set($fromSql = "${fromSql}, ${tableName} ${tableAlias}")
-      #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and ${tableAlias}.value = ${filterValue}")
+      #set($fromSql = "${fromSql}, ${tableName} ${safe_tableAlias}")
+      #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and ${safe_tableAlias}.value = ?")
+      #set($discard = $whereParams.addAll(["${colname}", $util.parseInt(${filterValue})]))
     #elseif($propType == 'DateClass')
-      #set($fromSql = "${fromSql}, DateProperty ${tableAlias}")
-      #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and upper(str(${tableAlias}.value)) like upper('%${filterValue}%')")
+      #set($fromSql = "${fromSql}, DateProperty ${safe_tableAlias}")
+      #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and upper(str(${safe_tableAlias}.value)) like upper(?)")
+      #set($discard = $whereParams.addAll(["${colname}", "%${filterValue}%"]))
     #elseif($propType == 'TextAreaClass' || $propType == 'UsersClass' || $propType == 'GroupsClass')
-      #set($fromSql = "${fromSql}, LargeStringProperty ${tableAlias}")
-      #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and upper(${tableAlias}.value) like upper('%${filterValue}%')")
+      #set($fromSql = "${fromSql}, LargeStringProperty ${safe_tableAlias}")
+      #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and upper(${safe_tableAlias}.value) like upper(?)")
+      #set($discard = $whereParams.addAll(["${colname}", "%${filterValue}%"]))
     #elseif($propType == 'StaticListClass' || $propType == 'DBListClass' || $propType == 'DBTreeListClass')
       #set($multiSelect = $propClass.get($colname).getProperty('multiSelect').getValue())
       #set($relationalStorage = $propClass.get($colname).getProperty('relationalStorage').getValue())
       #if($multiSelect == 1)
         #if($relationalStorage == 1)
-          #set($fromSql = "${fromSql}, DBStringListProperty ${tableAlias}")
-          #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and '${filterValue}' in elements(${tableAlias}.list)")
+          #set($fromSql = "${fromSql}, DBStringListProperty ${safe_tableAlias}")
+          #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and ? in elements(${safe_tableAlias}.list)")
+          #set($discard = $whereParams.addAll(["${colname}", "${filterValue}"]))
         #else
-          #set($fromSql = "${fromSql}, StringListProperty ${tableAlias}")
-          #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and upper(${tableAlias}.textValue) like upper('%${filterValue}%')")
+          #set($fromSql = "${fromSql}, StringListProperty ${safe_tableAlias}")
+          #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and upper(${safe_tableAlias}.textValue) like upper(?)")
+          #set($discard = $whereParams.addAll(["${colname}", "%${filterValue}%"]))
         #end
       #else
-        #set($fromSql = "${fromSql}, StringProperty ${tableAlias}")
-        #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and ${tableAlias}.value = '${filterValue}'")
+        #set($fromSql = "${fromSql}, StringProperty ${safe_tableAlias}")
+        #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and ${safe_tableAlias}.value = ?")
+        #set($discard = $whereParams.addAll(["${colname}", "${filterValue}"]))
       #end
     #else
-      #set($fromSql = "${fromSql}, StringProperty ${tableAlias}")
-      #set($whereSql = "${whereSql} and obj.id=${tableAlias}.id.id and ${tableAlias}.id.name='${colname}' and upper(${tableAlias}.value) like upper('%${filterValue}%')")
+      #set($fromSql = "${fromSql}, StringProperty ${safe_tableAlias}")
+      #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and upper(${safe_tableAlias}.value) like upper(?)")
+      #set($discard = $whereParams.addAll(["${colname}", "%${filterValue}%"]))
     #end
   #end
 #end

@@ -933,8 +933,9 @@ $xwiki.ssx.use("Main.Activity")##
     ##
     ## TO DO - remove this test after fixing XWIKI-5632
     ## ---------------------------------------------------------------
-    #if($xwiki.activitystream.getRelatedEvents($event).size() &gt; 1 &amp;&amp; $event.type == 'update')
-      #foreach($relatedEvent in $xwiki.activitystream.getRelatedEvents($event))
+    #set($relatedEvents = $xwiki.activitystream.getRelatedEvents($event))
+    #if($relatedEvents.size() &gt; 1 &amp;&amp; $event.type == 'update')
+      #foreach($relatedEvent in $relatedEvents)
         #if($relatedEvent.type == 'updateAnnotation')
           #set($isAnnotationUpdateRelatedEvent = true)
         #end
@@ -944,19 +945,19 @@ $xwiki.ssx.use("Main.Activity")##
     ## Get related events of type 'update' (all these events will be ignored)
     ## TO DO - remove (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId) from this test after fixing XWIKI-5632
     ## ---------------------------------------------------------------
-    #if($xwiki.activitystream.getRelatedEvents($event).size() &gt; 1 &amp;&amp;
+    #if($relatedEvents.size() &gt; 1 &amp;&amp;
         (($event.type == 'update' &amp;&amp; (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId)) ||
         ($event.type == 'addAttachment' &amp;&amp; $event.requestId == $previousEventInNewList.requestId)))
-        #set($isUpdateOrAddAttachmentRelatedEvent = true)
+      #set($isUpdateOrAddAttachmentRelatedEvent = true)
     #end
     ## Get 'create' and 'delete' related event (-&gt; in order to remove duplicated events in the case of import, rename, delete page)
     ## ---------------------------------------------------------------
-    #if($xwiki.activitystream.getRelatedEvents($event).size() &gt; 1 &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete')
-          #foreach($relatedEvent in $xwiki.activitystream.getRelatedEvents($event))
-            #if($relatedEvent.type == 'create' || $relatedEvent.type == 'delete')
-              #set($isCreateOrDeleteRelatedEvent = true)
-            #end
-          #end
+    #if($relatedEvents.size() &gt; 1 &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete')
+      #foreach($relatedEvent in $relatedEvents)
+        #if($relatedEvent.type == 'create' || $relatedEvent.type == 'delete')
+          #set($isCreateOrDeleteRelatedEvent = true)
+        #end
+      #end
     #end
     ##
     ## Build the clean event list

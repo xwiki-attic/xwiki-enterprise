@@ -785,10 +785,13 @@ $xwiki.ssx.use("Main.Activity")##
   * Check if the document version exists
   *#
 #macro(isDocumentVersionValid $event)
-  #set($isDocumentVersionValid = false)
-  #set($pageDoc = $xwiki.getDocument($event.page))
-  #if($xwiki.getDocument($pageDoc, $event.version))
-    #set($isDocumentVersionValid = true)
+  #set ($isDocumentVersionValid = false)
+  #set ($pageDoc = $xwiki.getDocument($event.page))
+  #set ($versions = $pageDoc.getRevisions())
+  #foreach ($version in $versions)
+    #if ($event.version == $version)
+      #set ($isDocumentVersionValid = true)
+    #end
   #end
 #end
 #**
@@ -1158,8 +1161,7 @@ $xwiki.ssx.use("Main.Activity")##
         #else
           $!msg.get("xe.activity.action.${event.type}", [$relatedEventsNo])
           #if($event.type == 'update' &amp;&amp; $event.version != '1.1')
-            #set($previousVersion = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version).getPreviousVersion())
-            &amp;#183; &lt;a href="$xwiki.getDocument($event.page).getURL('view', "viewer=changes&amp;rev1=${previousVersion}&amp;rev2=${event.version}")"&gt;$msg.get('xe.activity.action.seechanges')&lt;/a&gt;
+            &amp;#183; &lt;a href="$xwiki.getDocument($event.page).getURL('view', "viewer=changes&amp;rev2=${event.version}")"&gt;$msg.get('xe.activity.action.seechanges')&lt;/a&gt;
           #end
         #end
       &lt;/span&gt;

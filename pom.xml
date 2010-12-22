@@ -60,8 +60,8 @@
     <platform.tool.xar-handler.version>1.9</platform.tool.xar-handler.version>
     <platform.tool.xar-plugin.version>1.14</platform.tool.xar-plugin.version>
 
-    <platform.core.version>2.7</platform.core.version>
-    <platform.web.version>2.7</platform.web.version>
+    <platform.core.version>${project.version}</platform.core.version>
+    <platform.web.version>${project.version}</platform.web.version>
 
     <platform.administration.version>1.44</platform.administration.version>
     <platform.annotations.version>1.9</platform.annotations.version>

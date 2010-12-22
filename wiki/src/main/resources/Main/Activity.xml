@@ -1307,7 +1307,7 @@ $xwiki.ssx.use("Main.Activity")##
 <defaultCategory>Content</defaultCategory>
 </property>
 <property>
-<description>The Activity Macro provides information about recent activities done by the users inside the XWiki instance. Activity Macro listens the: create, edit, delete events for pages, comments, attachments and annotations. </description>
+<description>The Activity Macro provides information about recent activities done by the users inside the XWiki instance. It lists the create, edit and delete events for pages, as well as comments, attachments and annotations.</description>
 </property>
 <property>
 <id>activity</id>
@@ -1841,7 +1841,7 @@ $xwiki.ssx.use("Main.Activity")##
 <defaultValue>false</defaultValue>
 </property>
 <property>
-<description>Whether to show activity rss link or not.</description>
+<description>Whether to show activity RSS link or not.</description>
 </property>
 <property>
 <mandatory>0</mandatory>

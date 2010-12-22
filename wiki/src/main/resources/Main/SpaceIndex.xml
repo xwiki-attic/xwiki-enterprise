@@ -247,7 +247,7 @@
 <defaultValue>100</defaultValue>
 </property>
 <property>
-<description>The maximum number of documents to display. By default, 100 documents will be listed. If all documents should be displayed, pass 0.</description>
+<description>The maximum number of documents to display. By default, up to 100 documents will be listed. If all documents should be displayed, pass 0.</description>
 </property>
 <property>
 <mandatory>0</mandatory>

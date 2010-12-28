@@ -219,6 +219,50 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuSelectedEntryLinkColor>
+<notificationErrorColor>
+<name>notificationErrorColor</name>
+<number>36</number>
+<picker>0</picker>
+<prettyName>Error notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationErrorColor>
+<notificationInfoColor>
+<name>notificationInfoColor</name>
+<number>33</number>
+<picker>0</picker>
+<prettyName>Informational notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationInfoColor>
+<notificationSuccessColor>
+<name>notificationSuccessColor</name>
+<number>34</number>
+<picker>0</picker>
+<prettyName>Success notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationSuccessColor>
+<notificationWarningColor>
+<name>notificationWarningColor</name>
+<number>35</number>
+<picker>0</picker>
+<prettyName>Warning notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationWarningColor>
 <pageBackgroundColor>
 <name>pageBackgroundColor</name>
 <number>8</number>

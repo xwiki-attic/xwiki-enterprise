@@ -34,7 +34,7 @@
 <validationScript></validationScript>
 <backgroundSecondaryColor>
 <name>backgroundSecondaryColor</name>
-<number>30</number>
+<number>32</number>
 <picker>0</picker>
 <prettyName>Secondary background color (table headers, message boxes, administration boxes)</prettyName>
 <size>7</size>
@@ -56,7 +56,7 @@
 </borderColor>
 <buttonPrimaryBackgroundColor>
 <name>buttonPrimaryBackgroundColor</name>
-<number>27</number>
+<number>29</number>
 <picker>0</picker>
 <prettyName>Primary action button background color</prettyName>
 <size>7</size>
@@ -67,7 +67,7 @@
 </buttonPrimaryBackgroundColor>
 <buttonPrimaryTextColor>
 <name>buttonPrimaryTextColor</name>
-<number>26</number>
+<number>28</number>
 <picker>0</picker>
 <prettyName>Primary action button text color</prettyName>
 <size>7</size>
@@ -78,7 +78,7 @@
 </buttonPrimaryTextColor>
 <buttonSecondaryBackgroundColor>
 <name>buttonSecondaryBackgroundColor</name>
-<number>29</number>
+<number>31</number>
 <picker>0</picker>
 <prettyName>Secondary action button background color</prettyName>
 <size>7</size>
@@ -89,7 +89,7 @@
 </buttonSecondaryBackgroundColor>
 <buttonSecondaryTextColor>
 <name>buttonSecondaryTextColor</name>
-<number>28</number>
+<number>30</number>
 <picker>0</picker>
 <prettyName>Secondary action button text color</prettyName>
 <size>7</size>
@@ -153,6 +153,28 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </logoImage>
+<menuAddEntryBackgroundColor>
+<name>menuAddEntryBackgroundColor</name>
+<number>21</number>
+<picker>0</picker>
+<prettyName>Add menu entry background color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuAddEntryBackgroundColor>
+<menuAddEntryLinkColor>
+<name>menuAddEntryLinkColor</name>
+<number>20</number>
+<picker>0</picker>
+<prettyName>Add menu entry link color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuAddEntryLinkColor>
 <menuBackgroundColor>
 <name>menuBackgroundColor</name>
 <number>16</number>
@@ -254,7 +276,7 @@
 </pageHeaderBackgroundColor>
 <panelBackgroundColor>
 <name>panelBackgroundColor</name>
-<number>20</number>
+<number>22</number>
 <picker>0</picker>
 <prettyName>Panel background color</prettyName>
 <size>7</size>
@@ -265,7 +287,7 @@
 </panelBackgroundColor>
 <panelCollapsedBackgroundColor>
 <name>panelCollapsedBackgroundColor</name>
-<number>24</number>
+<number>26</number>
 <picker>0</picker>
 <prettyName>Collapsed panel background color</prettyName>
 <size>7</size>
@@ -276,7 +298,7 @@
 </panelCollapsedBackgroundColor>
 <panelCollapsedTextColor>
 <name>panelCollapsedTextColor</name>
-<number>25</number>
+<number>27</number>
 <picker>0</picker>
 <prettyName>Collapsed panel text color</prettyName>
 <size>7</size>
@@ -287,7 +309,7 @@
 </panelCollapsedTextColor>
 <panelHeaderBackgroundColor>
 <name>panelHeaderBackgroundColor</name>
-<number>22</number>
+<number>24</number>
 <picker>0</picker>
 <prettyName>Panel header background color</prettyName>
 <size>7</size>
@@ -298,7 +320,7 @@
 </panelHeaderBackgroundColor>
 <panelHeaderTextColor>
 <name>panelHeaderTextColor</name>
-<number>23</number>
+<number>25</number>
 <picker>0</picker>
 <prettyName>Panel header text color</prettyName>
 <size>7</size>
@@ -309,7 +331,7 @@
 </panelHeaderTextColor>
 <panelTextColor>
 <name>panelTextColor</name>
-<number>21</number>
+<number>23</number>
 <picker>0</picker>
 <prettyName>Panel text color</prettyName>
 <size>7</size>

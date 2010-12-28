@@ -869,6 +869,9 @@ $ie .colorthemewizard-editable-group {
 .colorthemewizard-menuentry {
   padding: 0 0.25em;
 }
+.colorthemewizard-menuaddentry {
+  padding: 3px 0.5em;
+}
 /*
  * Header
  */
@@ -1431,6 +1434,7 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
   &lt;div #elementMetaData('mainmenu')&gt;
    &lt;div&gt;
     $msg.get('xe.themes.colors.wizard.mainMenu')
+    &lt;span #elementMetaData('menuaddentry')&gt;$msg.get('xe.themes.colors.wizard.menuEntry')#$msg.get('core.menu.create')&lt;/span&gt;
     &lt;span #elementMetaData('menuentry')&gt;$msg.get('xe.themes.colors.wizard.menuEntry')#1&lt;/span&gt;
     &lt;span #elementMetaData('menuentry')&gt;$msg.get('xe.themes.colors.wizard.menuEntry')#2&lt;/span&gt;
    &lt;/div&gt;

@@ -33,6 +33,7 @@
 #set($elementStylingPropertyMap = {
   'page'            : {'background': ['pageBackgroundColor', 'pageBackgroundImage', 'pageBackgroundPosition'], 'color': ['textColor']},
   'mainmenu'        : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
+  'menuaddentry'    : {'background': ['menuAddEntryBackgroundColor'], 'color': ['menuAddEntryLinkColor']},
   'contentmenu'     : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
   'header'          : {'background': ['pageHeaderBackgroundColor', 'headerBackgroundImage', 'headerBackgroundPosition']},
   'panelheader'     : {'background': ['panelHeaderBackgroundColor'], 'color': ['panelHeaderTextColor'], 'border-color': ['borderColor']},
@@ -64,7 +65,7 @@
 ##
 #set($elementPropertyMap = {
   'page'               : ['pageBackgroundColor', 'pageBackgroundImage', 'pageBackgroundPosition'],
-  'mainmenu'           : ['menuBackgroundColor', 'menuLinkColor', 'menuSelectedEntryLinkColor'],
+  'mainmenu'           : ['menuBackgroundColor', 'menuLinkColor', 'menuSelectedEntryLinkColor', 'menuAddEntryLinkColor', 'menuAddEntryBackgroundColor'],
   'headerbox'          : ['logoImage', 'pageHeaderBackgroundColor', 'headerBackgroundImage', 'headerBackgroundPosition'],
   'panelheader'        : ['panelHeaderBackgroundColor', 'panelHeaderTextColor'],
   'panelcontents'      : ['panelBackgroundColor', 'panelTextColor'],

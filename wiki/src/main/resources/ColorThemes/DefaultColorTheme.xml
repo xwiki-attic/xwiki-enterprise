@@ -143,6 +143,39 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </linkColor>
+<logoImage>
+<name>logoImage</name>
+<number>11</number>
+<picker>0</picker>
+<prettyName>Logo (image displayed at the top left corner of the header - the name of an image attached to the theme document; if set, it has priority over the logo configured in the skin and the default logo)</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</logoImage>
+<menuAddEntryBackgroundColor>
+<name>menuAddEntryBackgroundColor</name>
+<number>21</number>
+<picker>0</picker>
+<prettyName>Add menu entry background color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuAddEntryBackgroundColor>
+<menuAddEntryLinkColor>
+<name>menuAddEntryLinkColor</name>
+<number>20</number>
+<picker>0</picker>
+<prettyName>Add menu entry link color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuAddEntryLinkColor>
 <menuBackgroundColor>
 <name>menuBackgroundColor</name>
 <number>15</number>
@@ -386,6 +419,15 @@
 </property>
 <property>
 <linkColor>#4791BC</linkColor>
+</property>
+<property>
+<logoImage></logoImage>
+</property>
+<property>
+<menuAddEntryBackgroundColor>#4D9244</menuAddEntryBackgroundColor>
+</property>
+<property>
+<menuAddEntryLinkColor>#FFFFFF</menuAddEntryLinkColor>
 </property>
 <property>
 <menuBackgroundColor>#005A83</menuBackgroundColor>

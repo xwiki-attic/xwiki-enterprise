@@ -36,17 +36,11 @@
     (((
     #set($tagSpace = $util.null)
     #if (!$isSpaceDashboard)    
-      = $msg.get("xe.dashboard.wiki.spaces") =
-
       {{spaces /}}
     #else
-      = $msg.get("xe.dashboard.space.documents", [$doc.space]) =
-
       {{spaceindex space="$doc.space" /}}
       #set($tagSpace = $doc.space)
     #end
-
-    = $msg.get("xe.dashboard.wiki.tagcloud") =
 
     {{tagcloud  space="$!tagSpace" /}}
     )))
@@ -56,9 +50,6 @@
     #if ($isSpaceDashboard)
       ## Set variable to limit recent activity to the current space
       #set ($aSpace = $doc.space)
-      = $msg.get("xe.dashboard.space.activity", [$aSpace]) =
-    #else
-      = $msg.get("xe.dashboard.wiki.activity") =
     #end
 
     {{activity spaces="$!aSpace" /}}

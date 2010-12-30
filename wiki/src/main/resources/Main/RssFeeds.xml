@@ -29,9 +29,9 @@ $msg.get('xe.rss.feeds.description')
 #set($search = "[[Main.Search]]")
 #set($tags = "[[Main.Tags]]")
 
-* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.pages.modified')" alt="$msg.get('xe.rss.pages.modified')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.global')&lt;/a&gt;&lt;/strong&gt; $msg.get('xe.rss.global.description'){{/html}}
-* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile("icons/black-rss-mini.png")" title="$msg.get('xe.rss.blog.feed')" alt="$msg.get('xe.rss.blog.feed')"/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.blog')&lt;/a&gt;&lt;/strong&gt; $msg.get("xe.rss.blog.description", [$blog]){{/html}}
-* **[[$msg.get('xe.rss.search')&gt;&gt;Main.Search]]** $msg.get("xe.rss.search.description", [$search])
-* **[[$msg.get('xe.rss.tags')&gt;&gt;Main.Tags]]** $msg.get("xe.rss.tags.description", [$tags])
+* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile('icons/xwiki/rss-mini.png')" title="$msg.get('xe.rss.pages.modified')" alt=""/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.global')&lt;/a&gt;&lt;/strong&gt; $msg.get('xe.rss.global.description'){{/html}}
+* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile('icons/xwiki/rss-mini.png')" title="$msg.get('xe.rss.blog.feed')" alt=""/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.blog')&lt;/a&gt;&lt;/strong&gt; $msg.get('xe.rss.blog.description', [$blog]){{/html}}
+* **[[$msg.get('xe.rss.search')&gt;&gt;Main.Search]]** $msg.get('xe.rss.search.description', [$search])
+* **[[$msg.get('xe.rss.tags')&gt;&gt;Main.Tags]]** $msg.get('xe.rss.tags.description', [$tags])
 {{/velocity}}</content>
 </xwikidoc>

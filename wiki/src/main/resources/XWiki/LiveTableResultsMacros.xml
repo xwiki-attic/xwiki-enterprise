@@ -145,18 +145,18 @@
   #set($allMatchingParams = [])
   #if("$!className" != '')
     ## Class query
-    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className = ? and doc.fullName &lt;&gt; ? $!whereSql $!filterwhere")
-    #set($discard = $sqlParams.addAll(["${className}", "${className}Template"]))
+    #set($countSql = ", BaseObject as obj $!fromSql $!filterfrom where obj.name=doc.fullName and obj.className = ? and doc.fullName not in (?, ?) $!whereSql $!filterwhere")
+    #set($discard = $sqlParams.addAll(["${className}", "${className}Template", ${className.replaceAll('Class$', 'Template')}]))
     #set($discard = $sqlParams.addAll($whereParams))
     ##
     #set($tagsMatchingFiltersFrom = ", BaseObject as obj $!fromSql $!filterfrom")
-    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className = ? and doc.fullName &lt;&gt; ? $!whereSql $!filterwhere")
-    #set($discard = $tagsMatchingParams.addAll(["${className}", "${className}Template"]))
+    #set($tagsMatchingFiltersWhere = "obj.name=doc.fullName and obj.className = ? and doc.fullName not in (?, ?) $!whereSql $!filterwhere")
+    #set($discard = $tagsMatchingParams.addAll(["${className}", "${className}Template", ${className.replaceAll('Class$', 'Template')}]))
     #set($discard = $tagsMatchingParams.addAll($whereParams))
     ##
     #set($allMatchingTagsFrom = ", BaseObject as obj $!filterfrom")
-    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className = ? and doc.fullName &lt;&gt; ? $!filterwhere")
-    #set($discard = $allMatchingParams.addAll(["${className}", "${className}Template"]))
+    #set($allMatchingTagsWhere = "obj.name=doc.fullName and obj.className = ? and doc.fullName not in (?, ?) $!filterwhere")
+    #set($discard = $allMatchingParams.addAll(["${className}", "${className}Template", ${className.replaceAll('Class$', 'Template')}]))
     ##
     #if($filterParams)
       #set($discard = $sqlParams.addAll($filterParams))

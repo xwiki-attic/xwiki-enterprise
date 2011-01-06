@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.framework.elements;
+package org.xwiki.test.ui.administration.elements;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebElement;
@@ -25,11 +25,13 @@ import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.editor.ChangeAvatarPage;
 import org.xwiki.test.ui.framework.elements.editor.ProfileEditPage;
 
-/** User profile, the profile information pane, view mode. */
-public class ProfilePage extends ViewPage
+/**
+ * Represents the User Profile Profile Tab.
+ *
+ * @version $Id$
+ */
+public class ProfileUserProfilePage extends AbstractUserProfilePage
 {
-    private final String targetUsername;
-
     @FindBy(xpath = "//div[@class='userInfo']/div[@class='editProfileCategory']/a")
     private WebElement editProfile;
 
@@ -66,20 +68,9 @@ public class ProfilePage extends ViewPage
     @FindBy(xpath = "//div[@id='avatar']//a/img")
     private WebElement userAvatarImage;
 
-    @FindBy(xpath = "//a[@href='?category=profile']")
-    private WebElement profile;
-
-    @FindBy(xpath = "//a[@href='?category=preferences']")
-    private WebElement preferences;
-
-    public ProfilePage()
+    public ProfileUserProfilePage(String username)
     {
-        this("Admin");
-    }
-
-    public ProfilePage(String username)
-    {
-        this.targetUsername = username;
+        super(username);
     }
 
     public ProfileEditPage editProfile()
@@ -91,11 +82,6 @@ public class ProfilePage extends ViewPage
     public void gotoPage()
     {
         getUtil().gotoPage("XWiki", this.targetUsername);
-    }
-
-    public boolean isOnProfilePage()
-    {
-        return getDriver().getCurrentUrl().equals(getUtil().getURL("XWiki", this.targetUsername));
     }
 
     public String getUserFirstName()
@@ -154,17 +140,5 @@ public class ProfilePage extends ViewPage
     {
         return StringUtils.substringBefore(StringUtils.substringAfterLast(
             this.userAvatarImage.getAttribute("src"), "/"), "?");
-    }
-
-    public PreferencesPage switchToPreferences()
-    {
-        this.preferences.click();
-        return new PreferencesPage();
-    }
-
-    public ProfilePage switchToProfile()
-    {
-        this.profile.click();
-        return new ProfilePage();
     }
 }

@@ -17,15 +17,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.framework.elements;
+package org.xwiki.test.ui.administration.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.editor.ChangePasswordPage;
 import org.xwiki.test.ui.framework.elements.editor.PreferencesEditPage;
 
-/** User profile, the preferences pane, view mode. */
-public class PreferencesPage extends ViewPage
+/**
+ * Represents the User Profile Preferences Tab.
+ *
+ * @version $Id$
+ */
+public class PreferencesUserProfilePage extends AbstractUserProfilePage
 {
     @FindBy(xpath = "//a[@href='/xwiki/bin/inline/XWiki/Admin?category=preferences']")
     private WebElement editPreferences;
@@ -38,6 +42,11 @@ public class PreferencesPage extends ViewPage
 
     @FindBy(xpath = "//a[@id='changePassword']")
     private WebElement changePassword;
+
+    public PreferencesUserProfilePage(String username)
+    {
+        super(username);
+    }
 
     public String getDefaultEditor()
     {

@@ -125,7 +125,7 @@ public class RegisterTest extends AbstractTest
     {
         registerPage.fillRegisterForm(null, null, null, "", "", null);
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is mandatory."));
+        Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is required."));
     }
 
     @Test
@@ -134,7 +134,7 @@ public class RegisterTest extends AbstractTest
         // A piece of javascript fills in the username with the first and last names so we will empty them.
         registerPage.fillRegisterForm("", "", "", null, null, null);
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is mandatory."));
+        Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is required."));
     }
 
     @Test

@@ -28,31 +28,29 @@
   ##
   ## This dashboard can be used for both wikis (Main.WebHome) and spaces (*.WebHome).
   ##
-  #set ($isSpaceDashboard = false)
   #if ($doc.space != "Main")
     #set ($isSpaceDashboard = true)
+  #else
+    #set ($isSpaceDashboard = false)
   #end
   {{dashboard}}
     (((
-    #set($tagSpace = $util.null)
-    #if (!$isSpaceDashboard)    
-      {{spaces /}}
-    #else
-      {{spaceindex space="$doc.space" /}}
-      #set($tagSpace = $doc.space)
-    #end
+    #if (!$isSpaceDashboard)
+      {{spaces/}}
 
-    {{tagcloud  space="$!tagSpace" /}}
+      {{tagcloud/}}
+    #else
+      {{spaceindex space="$doc.space"/}}
+
+      {{tagcloud  space="$doc.space"/}}
+    #end
     )))
     (((
-    ## reset the variable to make sure that whatever was on the context, the correct value is sent on both the cases possible here
-    #set($aSpace = $util.null)
     #if ($isSpaceDashboard)
-      ## Set variable to limit recent activity to the current space
-      #set ($aSpace = $doc.space)
+      {{activity spaces="$doc.space"/}}
+    #else
+      {{activity/}}
     #end
-
-    {{activity spaces="$!aSpace" /}}
     )))
   {{/dashboard}}
 {{/velocity}}</content>

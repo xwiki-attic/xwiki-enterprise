@@ -933,14 +933,43 @@ $xwiki.ssx.use("Main.Activity")##
        $xwiki.getUserName($event.user) == $xwiki.getUserName($previousEventInNewList.user))
           #set($isConsecutiveUpdateEvent = true)
     #end
+    #if(!$isConsecutiveUpdateEvent)
+      #checkRelatedEvents()
+      ##
+      ## Build the clean event list
+      ## ---------------------------------------------------------------
+      #if(!$isAnnotationUpdateRelatedEvent
+          &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent
+          &amp;&amp; !($isCreateOrDeleteRelatedEvent &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete')
+          &amp;&amp; $newList.size() &lt; $aSubEntries)
+        #set($discard = $newList.add($event))
+        #set($previousEventInNewList = $event)
+      #end
+      #if($newList.size() &gt;= $aSubEntries)
+        ## number of subentries reached
+        #break
+      #end
+    #end
+    #set($previousEventInOldList = $event)
+  #end
+  ## Set the $events reference to the new list
+  #set($events = $newList)
+#end
+#**
+  * checks the condition of the related events
+  *#
+#macro(checkRelatedEvents)
+  ## load related events
+  #set($relatedEvents = $xwiki.activitystream.getRelatedEvents($event))
+  #if($relatedEvents.size() &gt; 1)
     ##
     ## TO DO - remove this test after fixing XWIKI-5632
     ## ---------------------------------------------------------------
-    #set($relatedEvents = $xwiki.activitystream.getRelatedEvents($event))
-    #if($relatedEvents.size() &gt; 1 &amp;&amp; $event.type == 'update')
+    #if($event.type == 'update')
       #foreach($relatedEvent in $relatedEvents)
         #if($relatedEvent.type == 'updateAnnotation')
           #set($isAnnotationUpdateRelatedEvent = true)
+          #break
         #end
       #end
     #end
@@ -948,31 +977,21 @@ $xwiki.ssx.use("Main.Activity")##
     ## Get related events of type 'update' (all these events will be ignored)
     ## TO DO - remove (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId) from this test after fixing XWIKI-5632
     ## ---------------------------------------------------------------
-    #if($relatedEvents.size() &gt; 1 &amp;&amp;
-        (($event.type == 'update' &amp;&amp; (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId)) ||
-        ($event.type == 'addAttachment' &amp;&amp; $event.requestId == $previousEventInNewList.requestId)))
+    #if(($event.type == 'update' &amp;&amp; (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId))
+        || ($event.type == 'addAttachment' &amp;&amp; $event.requestId == $previousEventInNewList.requestId))
       #set($isUpdateOrAddAttachmentRelatedEvent = true)
     #end
     ## Get 'create' and 'delete' related event (-&gt; in order to remove duplicated events in the case of import, rename, delete page)
     ## ---------------------------------------------------------------
-    #if($relatedEvents.size() &gt; 1 &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete')
+    #if($event.type != 'create' &amp;&amp; $event.type != 'delete')
       #foreach($relatedEvent in $relatedEvents)
         #if($relatedEvent.type == 'create' || $relatedEvent.type == 'delete')
           #set($isCreateOrDeleteRelatedEvent = true)
+          #break
         #end
       #end
     #end
-    ##
-    ## Build the clean event list
-    ## ---------------------------------------------------------------
-    #if(!$isConsecutiveUpdateEvent &amp;&amp; !($isCreateOrDeleteRelatedEvent &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete') &amp;&amp; !$isAnnotationUpdateRelatedEvent &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent &amp;&amp; $newList.size() &lt; $aSubEntries)
-      #set($discard = $newList.add($event))
-      #set($previousEventInNewList = $event)
-    #end
-    #set($previousEventInOldList = $event)
   #end
-  ## Set the $events reference to the new list
-  #set($events = $newList)
 #end
 #**
   * Initialize event variables

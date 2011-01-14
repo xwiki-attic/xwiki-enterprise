@@ -914,24 +914,22 @@ $xwiki.ssx.use("Main.Activity")##
 #macro(removeDuplicatedEvents)
   ## TO DO - fix XWIKI-5632
   ## Because of this issue, related 'updateAnnotation' events are not included in the list (for flooding reasons)
-  #set($newList = $util.arrayList)
+  #set($newList = [])
   #set($previousEventInOldList = $util.null)
   #set($previousEventInNewList = $util.null)
   #foreach($event in $events)
-    #set($hasRelatedEvents = false)
     #set($isUpdateOrAddAttachmentRelatedEvent = false)
-    #set($isAnnotationUpdateRelatedEvent = false) ## TO DO - remove this variable after fixing XWIKI-5632
+    #set($isAnnotationUpdateRelatedEvent = false)## TO DO - remove this variable after fixing XWIKI-5632
     #set($isConsecutiveUpdateEvent = false)
-    #set($isRelatedAttachmentEvent = false)
     #set($isCreateOrDeleteRelatedEvent = false)
     ##
     ## Get consecutive 'update' events having the same user (-&gt; only the latest such event will be taken in account)
     ## ---------------------------------------------------------------
-    #if($event.requestId != $previousEventInNewList.requestId &amp;&amp;
-       $event.type == 'update' &amp;&amp;
-       $event.type == $previousEventInNewList.type &amp;&amp;
-       $xwiki.getUserName($event.user) == $xwiki.getUserName($previousEventInNewList.user))
-          #set($isConsecutiveUpdateEvent = true)
+    #if($event.type == 'update'
+        &amp;&amp; $event.requestId != $previousEventInNewList.requestId
+        &amp;&amp; $event.type == $previousEventInNewList.type
+        &amp;&amp; $event.user == $previousEventInNewList.user)
+      #set($isConsecutiveUpdateEvent = true)
     #end
     ##
     ## TO DO - remove this test after fixing XWIKI-5632
@@ -1156,7 +1154,7 @@ $xwiki.ssx.use("Main.Activity")##
     #if(!$isFirstEntry || $isPageEntryExpandable)
       &lt;span class="activityAction"&gt;
         #isAttachmentEvent($event)
-        #if($isPageEntryExpandable) ## display entry summary
+        #if($isPageEntryExpandable)## display entry summary
           $!msg.get('xe.activity.action.summary', [$events.size(), $eventUsers.size()])
         #else
           $!msg.get("xe.activity.action.${event.type}", [$relatedEventsNo])
@@ -1194,23 +1192,23 @@ $xwiki.ssx.use("Main.Activity")##
     ## Date header + Start list
     ## -------------------------------------------------------------------
     #if($isToday &amp;&amp; $displayToday)
-      #set($closeList = true) ## a new list will be opened
+      #set($closeList = true)## a new list will be opened
       &lt;h2&gt;$msg.get('timeAgo.today')&lt;/h2&gt;&lt;ul class='activityList'&gt;  ## display 'Today' message
       #set($displayToday = false)
-    #elseif($isYesterday &amp;&amp; $displayYesterday) ## display 'Yesterday' message
-      #if($closeList) ## there are events today
+    #elseif($isYesterday &amp;&amp; $displayYesterday)## display 'Yesterday' message
+      #if($closeList)## there are events today
         &lt;/ul&gt;
       #else
-        #set($closeList = true) ## a new list will be opened
+        #set($closeList = true)## a new list will be opened
       #end
       &lt;h2&gt;$msg.get('timeAgo.yesterday')&lt;/h2&gt;&lt;ul class='activityList'&gt;
       #set($displayYesterday = false)
-    #elseif(!$isToday &amp;&amp; !$isYesterday &amp;&amp; $iterationDate != $displayDate) ## display date message
+    #elseif(!$isToday &amp;&amp; !$isYesterday &amp;&amp; $iterationDate != $displayDate)## display date message
       #set($displayDate = $iterationDate)
-      #if($closeList) ## there are events today or/and yesterday
+      #if($closeList)## there are events today or/and yesterday
         &lt;/ul&gt;
       #else
-        #set($closeList = true) ## a new list will be opened
+        #set($closeList = true)## a new list will be opened
       #end
       &lt;h2&gt;$!iterationDate&lt;/h2&gt;&lt;ul class='activityList'&gt;
     #end
@@ -1220,7 +1218,10 @@ $xwiki.ssx.use("Main.Activity")##
     #if($velocityCount == 1)
       &lt;li class="activityItem activityPage #if($isPageEntryExpandable)collapsed#end"&gt;
         #displayActivityListItemHeader($isPageEntryExpandable true false)
-        #if(!$isPageEntryExpandable) #set($timeAgoMsg = '') #end  ## single entry
+        #if(!$isPageEntryExpandable)
+          ## single entry
+          #set($timeAgoMsg = '')
+        #end
         &lt;div class="activityContent"&gt;
           &lt;ul class="activityList"&gt;
     #end
@@ -1263,8 +1264,11 @@ $xwiki.ssx.use("Main.Activity")##
         ##
         ## Get event list for the current page
         ## -------------------------------------------------------------------
-        #set($whereClause = " and month(date)=" + ${xwiki.formatDate($pageDate, 'M')} + " and year(date)=" + ${xwiki.formatDate($pageDate, 'yyyy')} + " and day(date)=" + ${xwiki.formatDate($pageDate, 'd')} + " and $!filterClause")
-        #set($events= $xwiki.activitystream.searchEvents("act.page=? and act.space&lt;&gt;'Scheduler' $!whereClause", false, 0, 0, [$pageName]))
+        #set ($whereClause = " AND $!filterClause AND day(date)=" + ${xwiki.formatDate($pageDate, 'd')})
+        #set ($whereClause = $whereClause + " AND month(date)=" + ${xwiki.formatDate($pageDate, 'M')})
+        #set ($whereClause = $whereClause + " AND year(date)=" + ${xwiki.formatDate($pageDate, 'yyyy')})
+        #set ($whereClause = "act.page=? AND act.space&lt;&gt;'Scheduler'" + $!whereClause)
+        #set($events= $xwiki.activitystream.searchEvents("$!whereClause", false, 0, 0, [$pageName]))
         #if($events.size() &gt; 0)
           ##
           ## Initialize page event vars
@@ -1276,7 +1280,7 @@ $xwiki.ssx.use("Main.Activity")##
         #end
       #end
     #end
-    #if($closeList) ## close the last event list
+    #if($closeList)## close the last event list
       &lt;/ul&gt;
     #end
   #else

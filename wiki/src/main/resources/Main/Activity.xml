@@ -617,8 +617,8 @@ $xwiki.ssx.use("Main.Activity")##
 ##
 ## Icons
 ##--------------------------------------------------------------
-## some events are not implemented yet in the activitystream plugin: TODO: application | activityApplication, user | activityUser
-#set($activityActionsMap = {
+## Some events are not implemented yet in the activitystream plugin: TODO: application | activityApplication, user | activityUser
+#set ($activityActionsMap = {
   'create':           'icons/silk/page_white_add.gif',
   'delete':           'icons/silk/page_white_delete.gif',
   'update':           'icons/silk/page_white_edit.gif',
@@ -635,71 +635,71 @@ $xwiki.ssx.use("Main.Activity")##
 ##
 ## Date Time
 ##--------------------------------------------------------------
-#set($currentTime = $xwiki.jodatime.getDateTime())
-#set($now = $datetool.date)
-#set($todayYear = $datetool.getYear($now))
-#set($todayMonth = $datetool.getMonth($now) + 1)
-#set($todayMidnight = $currentTime.toDateMidnight())
-#set($yesterdayMidnight = $todayMidnight.minusDays(1))
+#set ($currentTime = $xwiki.jodatime.getDateTime())
+#set ($now = $datetool.date)
+#set ($todayYear = $datetool.getYear($now))
+#set ($todayMonth = $datetool.getMonth($now) + 1)
+#set ($todayMidnight = $currentTime.toDateMidnight())
+#set ($yesterdayMidnight = $todayMidnight.minusDays(1))
 ##
 ## Formatters
 ##--------------------------------------------------------------
-#set($eventDateFormatter = 'dd MMM, HH:mm')
-#set($eventFullDateFormatter = 'yyyy/MM/dd HH:mm')
-#set($activityListDateFormatter = 'dd MMM')
+#set ($eventDateFormatter = 'dd MMM, HH:mm')
+#set ($eventFullDateFormatter = 'yyyy/MM/dd HH:mm')
+#set ($activityListDateFormatter = 'dd MMM')
 ##
 ## Filter clause
 ##--------------------------------------------------------------
-#set($filterClause = '1=1')
+#set ($filterClause = '1=1')
 ##
 ## Get values from request/macro param
 ##--------------------------------------------------------------
 ## Number of entries to display
-#setVariableFromRequest($aEntries "entries" 20)
-#if($aEntries == 20 &amp;&amp; $context.macro.params.get('entries'))
-  #set($aEntries  = $util.parseInt($context.macro.params.get('entries')))
+#readVariableFromRequest('aEntries' 'entries' 20)
+#if ($aEntries == 20 &amp;&amp; $context.macro.params.get('entries'))
+  #set ($aEntries  = $util.parseInt($context.macro.params.get('entries')))
 #end
 ## Number of activities to display for each entry
-#setVariableFromRequest($aSubEntries "subentries" 10)
-#if($aSubEntries == 10 &amp;&amp; $context.macro.params.get('subentries'))
-  #set($aSubEntries = $util.parseInt($context.macro.params.get('subentries')))
+#readVariableFromRequest('aSubEntries' 'subentries' 10)
+#if ($aSubEntries == 10 &amp;&amp; $context.macro.params.get('subentries'))
+  #set ($aSubEntries = $util.parseInt($context.macro.params.get('subentries')))
 #end
 ## Wikis
-#setVariableFromRequest($aWikis "wikis" [])
-#if($aWikis.size() == 0)
-  #set($aWikisString = $context.macro.params.get('wikis'))
+#readVariableFromRequest('aWikis' 'wikis' [])
+#if ($aWikis.size() == 0)
+  #set ($aWikisString = $context.macro.params.get('wikis'))
   #asList($aWikis $aWikisString)
   #if ($aWikis.size() == 0)
     $aWikis.add($context.database)
   #end
 #end
 ## Spaces
-#setVariableFromRequest($aSpaces "spaces" [])
-#if($aSpaces.size() == 0)
-  #set($aSpacesString = $context.macro.params.get('spaces'))
+#readVariableFromRequest('aSpaces' 'spaces' [])
+#if ($aSpaces.size() == 0)
+  #set ($aSpacesString = $context.macro.params.get('spaces'))
   #asList($aSpaces $aSpacesString)
 #end
 ## Authors
-#setVariableFromRequest($aAuthors "authors" [])
-#if($aAuthors.size() == 0)
-  #set($aAuthorsString = $context.macro.params.get('authors'))
+#readVariableFromRequest('aAuthors' 'authors' [])
+#if ($aAuthors.size() == 0)
+  #set ($aAuthorsString = $context.macro.params.get('authors'))
   #asList($aAuthors $aAuthorsString)
 #end
 ## Tags
-#setVariableFromRequest($aTags "tags" [])
-#if($aTags.size() == 0)
-  #set($aTagsString = $context.macro.params.get('tags'))
+#readVariableFromRequest('aTags' 'tags' [])
+#if ($aTags.size() == 0)
+  #set ($aTagsString = $context.macro.params.get('tags'))
   #asList($aTags $aTagsString)
 #end
 ## Minor versions
-#setVariableFromRequest($aMinor "minor" false)
-#if(!$aMinor &amp;&amp; $context.macro.params.get('minor'))
-  #set($aMinor = $context.macro.params.get('minor'))
+#readVariableFromRequest('aMinor' 'minor' false)
+#if (!$aMinor &amp;&amp; $context.macro.params.get('minor'))
+  #set ($aMinor = $context.macro.params.get('minor'))
 #end
 ## RSS link
-#setVariableFromRequest($aRSS "rss" false)
-#if(!$aRSS &amp;&amp; $context.macro.params.get('rss'))
-  #set($aRSS = $context.macro.params.get('rss'))
+#readVariableFromRequest('aRSS' 'rss' false)
+#if (!$aRSS &amp;&amp; $context.macro.params.get('rss'))
+  #set ($aRSS = $context.macro.params.get('rss'))
 #end
 ##
 ## Filter by
@@ -709,21 +709,21 @@ $xwiki.ssx.use("Main.Activity")##
 ## Spaces
 #updateFilterClause('space' $aSpaces false)
 ## BLACKLISTED SPACES - exclude them
-#if($blacklistedSpaces)
+#if ($blacklistedSpaces)
   #updateFilterClause('space' $blacklistedSpaces true)
 #end
 ## Wikis
 #updateFilterClause('wiki' $aWikis false)
 ## Tags
-#if("$!xwiki.getPlugin('tag')" != '' &amp;&amp; $aTags.size() &gt; 0)
-  #set($docsWithTag = $util.getArrayList())
-  #foreach($item in $aTags)
-    #set($discard = $docsWithTag.addAll($xwiki.tag.getDocumentsWithTag($item)))
+#if ($xwiki.getPlugin('tag') &amp;&amp; $aTags.size() &gt; 0)
+  #set ($docsWithTag = $util.getArrayList())
+  #foreach ($item in $aTags)
+    #set ($discard = $docsWithTag.addAll($xwiki.tag.getDocumentsWithTag($item)))
   #end
   #updateFilterClause('page' $docsWithTag false)
 #end
 ## Minor versions
-#if("$!aMinor" == 'false')
+#if ("$!aMinor" == 'false')
   #set ($filterClause = $filterClause + " and not (act.version not like '%.1' and act.type = 'update')")
 #end
 ##
@@ -737,18 +737,18 @@ $xwiki.ssx.use("Main.Activity")##
  * FIXME: this is gonna fail for lists with '{' in the string or ','. Need to escape
  *#
 #macro(asList $list $arrayAsString)
-  #if("$!arrayAsString" != "")
-    #set($list = [])
+  #if ("$!arrayAsString" != '')
+    #set ($list = [])
     ## if the string is surrounded by {}, eliminate and then parse as list
-    #if($arrayAsString.startsWith('{') &amp;&amp; $arrayAsString.endWith('}'))
-      #set($endIndex = $arrayAsString.length() - 1)
-      #set($arrayAsString = $arrayAsString.substring(1, $endIndex))
+    #if ($arrayAsString.startsWith('{') &amp;&amp; $arrayAsString.endWith('}'))
+      #set ($endIndex = $arrayAsString.length() - 1)
+      #set ($arrayAsString = $arrayAsString.substring(1, $endIndex))
     #end
     ## parse the array serialized as string and fill in the list
-    #set($valuesArray = $arrayAsString.split(","))
-    #foreach($value in $valuesArray)
-      #if($value.trim().length())
-        #set($dispose = $list.add($value.trim()))
+    #set ($valuesArray = $arrayAsString.split(','))
+    #foreach ($value in $valuesArray)
+      #if ($value.trim().length())
+        #set ($dispose = $list.add($value.trim()))
       #end
     #end
   #end
@@ -760,23 +760,25 @@ $xwiki.ssx.use("Main.Activity")##
   * @exclude If true, exclude the given column values
   *#
 #macro(updateFilterClause $colName $colValues $exclude)
-  #if($colValues.class == 'class java.lang.String')
+  #if ($colValues.class == 'class java.lang.String')
     #set ($filterClause = $filterClause + " and act.${colName}='" + ${colValues} + "'")
   #else
-    #foreach($colValue in $colValues)
-      #if($velocityCount == 1)
-        #set($filterCondition = 'in')
-        #if($exclude)
-          #set($filterCondition = 'not ' + $filterCondition)
+    #foreach ($colValue in $colValues)
+      #if ($velocityCount == 1)
+        #set ($filterCondition = 'in')
+        #if  ($exclude)
+          #set ($filterCondition = 'not ' + $filterCondition)
         #end
         #set ($filterClause = $filterClause + " and act.${colName} ${filterCondition} (")
       #end
-      #if("$!colValues" != '')
-        #if($velocityCount &gt; 1) #set($filterClause = $filterClause + ',') #end
-        #set($filterClause = $filterClause + "'" + $colValue + "'")
+      #if ("$!colValues" != '')
+        #if ($velocityCount &gt; 1)
+          #set ($filterClause = $filterClause + ',')
+        #end
+        #set ($filterClause = $filterClause + "'" + $colValue + "'")
       #end
-      #if($velocityCount == $colValues.size())
-         #set($filterClause = $filterClause + ')')
+      #if ($velocityCount == $colValues.size())
+         #set ($filterClause = $filterClause + ')')
       #end
     #end
   #end
@@ -798,20 +800,20 @@ $xwiki.ssx.use("Main.Activity")##
   * Check if the current page event list entry is expandable (there are at least 2 events for the current page) or not.
   *#
 #macro(isPageEntryExpandable)
-  #set($isPageEntryExpandable = false)
-  #if($events.size() &gt; 1)
-    #set($isPageEntryExpandable = true)
+  #set ($isPageEntryExpandable = false)
+  #if ($events.size() &gt; 1)
+    #set ($isPageEntryExpandable = true)
   #end
 #end
 #**
   * Get unique page event users
   * -&gt; used to display the message: 'X changes by Y user(s)'
   *#
-#macro(getUniqueEventUsers)
-  #set($eventUsers = $util.arrayList)
-  #foreach($event in $events)
-    #if(!$eventUsers.contains($xwiki.getUserName($event.user)))
-      #set($discard = $eventUsers.add($xwiki.getUserName($event.user)))
+#macro (getUniqueEventUsers)
+  #set ($eventUsers = [])
+  #foreach ($event in $events)
+    #if (!$eventUsers.contains($xwiki.getUserName($event.user)))
+      #set ($discard = $eventUsers.add($xwiki.getUserName($event.user)))
     #end
   #end
 #end
@@ -819,40 +821,39 @@ $xwiki.ssx.use("Main.Activity")##
   * Check if the current page event happen today
   *#
 #macro(isToday)
-  #set($isToday = false)
-  #set($timeAgoMsg = '')
-  #if($mathtool.sub($eventTimeDiff.getDayOfYear(), 1) == 0 &amp;&amp;
+  #set ($isToday = false)
+  #set ($timeAgoMsg = '')
+  #if ($mathtool.sub($eventTimeDiff.getDayOfYear(), 1) == 0 &amp;&amp;
       ($eventDateTime.isAfter($todayMidnight) ||
-       $eventDateTime.isEqual($todayMidnight)
-      ))
-    #if($mathtool.sub($eventTimeDiff.getHourOfDay(), 2) == 0)
+       $eventDateTime.isEqual($todayMidnight)))
+    #if ($mathtool.sub($eventTimeDiff.getHourOfDay(), 2) == 0)
       ##
       ## Few seconds ago
       ## ---------------------------------------------------------------
-      #set($timeAgoMsg = $msg.get('timeAgo.minutesAgo', [$eventTimeDiff.getMinuteOfHour()]))
+      #set ($timeAgoMsg = $msg.get('timeAgo.minutesAgo', [$eventTimeDiff.getMinuteOfHour()]))
     #else
       ##
       ## Number of minutes ago
       ## ---------------------------------------------------------------
-      #set($hoursAgo = $eventTimeDiff.getHourOfDay() - 2)
-      #set($timeAgoMsg = $msg.get('timeAgo.hoursAgo', [$hoursAgo]))
+      #set ($hoursAgo = $eventTimeDiff.getHourOfDay() - 2)
+      #set ($timeAgoMsg = $msg.get('timeAgo.hoursAgo', [$hoursAgo]))
     #end
-    #set($isToday = true)
+    #set ($isToday = true)
   #end
 #end
 #**
   * Check if the current page event happen yesterday
   *#
 #macro(isYesterday)
-  #set($isYesterday = false)
-  #if(($mathtool.sub($eventTimeDiff.getDayOfYear(), 1) == 0 &amp;&amp;
+  #set ($isYesterday = false)
+  #if (($mathtool.sub($eventTimeDiff.getDayOfYear(), 1) == 0 &amp;&amp;
       $eventDateTime.isBefore($todayMidnight)
       ) ||
       ($mathtool.sub($eventTimeDiff.getDayOfYear(), 2) == 0 &amp;&amp;
       ($eventDateTime.isAfter($yesterdayMidnight) ||
        $eventDateTime.isEqual($yesterdayMidnight)
       )))
-    #set($isYesterday = true)
+    #set ($isYesterday = true)
   #end
 #end
 #**
@@ -860,51 +861,51 @@ $xwiki.ssx.use("Main.Activity")##
   * @param event The current event
   *#
 #macro(isAttachmentEvent $event)
-  #set($isAttachmentEvent = false)
-  #if($event.type == 'addAttachment' || $event.type == 'updateAttachment' || $event.type == 'deleteAttachment')
-    #set($isAttachmentEvent = true)
+  #set ($isAttachmentEvent = false)
+  #if ($event.type == 'addAttachment' || $event.type == 'updateAttachment' || $event.type == 'deleteAttachment')
+    #set ($isAttachmentEvent = true)
   #end
 #end
 #**
   * Check if the current event is of type 'addComment' or 'updateComment' or 'deleteComment'
   *#
 #macro(isCommentEvent)
-  #set($isCommentEvent = false)
-  #if($event.type == 'addComment' || $event.type == 'updateComment' || $event.type == 'deleteComment')
-    #set($isCommentEvent = true)
+  #set ($isCommentEvent = false)
+  #if ($event.type == 'addComment' || $event.type == 'updateComment' || $event.type == 'deleteComment')
+    #set ($isCommentEvent = true)
   #end
 #end
 #**
   * Check if the current event is of type 'addAnnotation' or 'updateAnnotation' or 'deleteAnnotation'
   *#
 #macro(isAnnotationEvent)
-  #set($isAnnotationEvent = false)
-  #if($event.type == 'addAnnotation' || $event.type == 'updateAnnotation' || $event.type == 'deleteAnnotation')
-    #set($isAnnotationEvent = true)
+  #set ($isAnnotationEvent = false)
+  #if ($event.type == 'addAnnotation' || $event.type == 'updateAnnotation' || $event.type == 'deleteAnnotation')
+    #set ($isAnnotationEvent = true)
   #end
 #end
 #**
   * Get comment content
   *#
 #macro(getCommentContent $event $commentContent)
-  #set($commentContent = '')
+  #set ($commentContent = '')
   #isDocumentVersionValid($event)
-  #if($isDocumentVersionValid)
-    #set($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
-    #set($commentContent = $!pageDocRevision.getObject('XWiki.XWikiComments', $util.parseInt($event.param2)).getProperty('comment').value)
+  #if ($isDocumentVersionValid)
+    #set ($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
+    #set ($commentContent = $!pageDocRevision.getObject('XWiki.XWikiComments', $util.parseInt($event.param2)).getProperty('comment').value)
   #end
 #end
 #**
   * Get annotation text and selection
   *#
 #macro(getAnnotation $event $annotationText $annotationSelection)
-  #set($annotationText = '')
-  #set($annotationSelection = '')
+  #set ($annotationText = '')
+  #set ($annotationSelection = '')
   #isDocumentVersionValid($event)
-  #if($isDocumentVersionValid)
-    #set($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
-    #set($annotationSelection = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value)
-    #set($annotationText = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value)
+  #if ($isDocumentVersionValid)
+    #set ($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
+    #set ($annotationSelection = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value)
+    #set ($annotationText = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value)
   #end
 #end
 #**
@@ -914,59 +915,59 @@ $xwiki.ssx.use("Main.Activity")##
 #macro(removeDuplicatedEvents)
   ## TO DO - fix XWIKI-5632
   ## Because of this issue, related 'updateAnnotation' events are not included in the list (for flooding reasons)
-  #set($newList = [])
-  #set($previousEventInOldList = $util.null)
-  #set($previousEventInNewList = $util.null)
-  #foreach($event in $events)
-    #set($isUpdateOrAddAttachmentRelatedEvent = false)
-    #set($isAnnotationUpdateRelatedEvent = false)## TO DO - remove this variable after fixing XWIKI-5632
-    #set($isConsecutiveUpdateEvent = false)
-    #set($isCreateOrDeleteRelatedEvent = false)
+  #set ($newList = [])
+  #set ($previousEventInOldList = $util.null)
+  #set ($previousEventInNewList = $util.null)
+  #foreach ($event in $events)
+    #set ($isUpdateOrAddAttachmentRelatedEvent = false)
+    #set ($isAnnotationUpdateRelatedEvent = false)## TO DO - remove this variable after fixing XWIKI-5632
+    #set ($isConsecutiveUpdateEvent = false)
+    #set ($isCreateOrDeleteRelatedEvent = false)
     ##
     ## Get consecutive 'update' events having the same user (-&gt; only the latest such event will be taken in account)
     ## ---------------------------------------------------------------
-    #if($event.type == 'update'
+    #if ($event.type == 'update'
         &amp;&amp; $event.requestId != $previousEventInNewList.requestId
         &amp;&amp; $event.type == $previousEventInNewList.type
         &amp;&amp; $event.user == $previousEventInNewList.user)
-      #set($isConsecutiveUpdateEvent = true)
+      #set ($isConsecutiveUpdateEvent = true)
     #end
-    #if(!$isConsecutiveUpdateEvent)
+    #if (!$isConsecutiveUpdateEvent)
       #checkRelatedEvents()
       ##
       ## Build the clean event list
       ## ---------------------------------------------------------------
-      #if(!$isAnnotationUpdateRelatedEvent
+      #if (!$isAnnotationUpdateRelatedEvent
           &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent
           &amp;&amp; !($isCreateOrDeleteRelatedEvent &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete')
           &amp;&amp; $newList.size() &lt; $aSubEntries)
-        #set($discard = $newList.add($event))
-        #set($previousEventInNewList = $event)
+        #set ($discard = $newList.add($event))
+        #set ($previousEventInNewList = $event)
       #end
-      #if($newList.size() &gt;= $aSubEntries)
+      #if ($newList.size() &gt;= $aSubEntries)
         ## number of subentries reached
         #break
       #end
     #end
-    #set($previousEventInOldList = $event)
+    #set ($previousEventInOldList = $event)
   #end
   ## Set the $events reference to the new list
-  #set($events = $newList)
+  #set ($events = $newList)
 #end
 #**
   * checks the condition of the related events
   *#
 #macro(checkRelatedEvents)
   ## load related events
-  #set($relatedEvents = $xwiki.activitystream.getRelatedEvents($event))
-  #if($relatedEvents.size() &gt; 1)
+  #set ($relatedEvents = $xwiki.activitystream.getRelatedEvents($event))
+  #if ($relatedEvents.size() &gt; 1)
     ##
     ## TO DO - remove this test after fixing XWIKI-5632
     ## ---------------------------------------------------------------
-    #if($event.type == 'update')
-      #foreach($relatedEvent in $relatedEvents)
-        #if($relatedEvent.type == 'updateAnnotation')
-          #set($isAnnotationUpdateRelatedEvent = true)
+    #if ($event.type == 'update')
+      #foreach ($relatedEvent in $relatedEvents)
+        #if ($relatedEvent.type == 'updateAnnotation')
+          #set ($isAnnotationUpdateRelatedEvent = true)
           #break
         #end
       #end
@@ -975,16 +976,16 @@ $xwiki.ssx.use("Main.Activity")##
     ## Get related events of type 'update' (all these events will be ignored)
     ## TO DO - remove (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId) from this test after fixing XWIKI-5632
     ## ---------------------------------------------------------------
-    #if(($event.type == 'update' &amp;&amp; (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId))
+    #if (($event.type == 'update' &amp;&amp; (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId))
         || ($event.type == 'addAttachment' &amp;&amp; $event.requestId == $previousEventInNewList.requestId))
-      #set($isUpdateOrAddAttachmentRelatedEvent = true)
+      #set ($isUpdateOrAddAttachmentRelatedEvent = true)
     #end
     ## Get 'create' and 'delete' related event (-&gt; in order to remove duplicated events in the case of import, rename, delete page)
     ## ---------------------------------------------------------------
-    #if($event.type != 'create' &amp;&amp; $event.type != 'delete')
-      #foreach($relatedEvent in $relatedEvents)
-        #if($relatedEvent.type == 'create' || $relatedEvent.type == 'delete')
-          #set($isCreateOrDeleteRelatedEvent = true)
+    #if ($event.type != 'create' &amp;&amp; $event.type != 'delete')
+      #foreach ($relatedEvent in $relatedEvents)
+        #if ($relatedEvent.type == 'create' || $relatedEvent.type == 'delete')
+          #set ($isCreateOrDeleteRelatedEvent = true)
           #break
         #end
       #end
@@ -995,23 +996,23 @@ $xwiki.ssx.use("Main.Activity")##
   * Initialize event variables
   *#
 #macro(initializeEvent)
-  #set($yearMsg = '')
-  #set($timeAgoMsg = '')
-  #set($eventDateTime = $xwiki.jodatime.getDateTime($event.date.getTime()))
-  #set($eventTimeDiff = $currentTime.minus($eventDateTime.millis))
-  #set($eventYear = $eventDateTime.year)
-  #if($eventYear != $todayYear)
-    #set($yearMsg = $eventYear)
+  #set ($yearMsg = '')
+  #set ($timeAgoMsg = '')
+  #set ($eventDateTime = $xwiki.jodatime.getDateTime($event.date.getTime()))
+  #set ($eventTimeDiff = $currentTime.minus($eventDateTime.millis))
+  #set ($eventYear = $eventDateTime.year)
+  #if ($eventYear != $todayYear)
+    #set ($yearMsg = $eventYear)
   #end
   #isToday()
   #isYesterday()
   #isCommentEvent()
   #isAnnotationEvent()
   #if("$!timeAgoMsg" == '')
-    #set($timeAgoMsg = $xwiki.formatDate($event.date, $eventDateFormatter) + " $!yearMsg")
+    #set ($timeAgoMsg = $xwiki.formatDate($event.date, $eventDateFormatter) + " $!yearMsg")
   #end
-  #set($iterationDate = $xwiki.formatDate($event.date, $activityListDateFormatter) + " $!yearMsg")
-  #set($eventFullDate = $xwiki.formatDate($event.date, $eventFullDateFormatter) + " $!yearMsg")
+  #set ($iterationDate = $xwiki.formatDate($event.date, $activityListDateFormatter) + " $!yearMsg")
+  #set ($eventFullDate = $xwiki.formatDate($event.date, $eventFullDateFormatter) + " $!yearMsg")
 #end
 #**
   * Display the arrow used to expand the event list
@@ -1023,15 +1024,15 @@ $xwiki.ssx.use("Main.Activity")##
   * Display RSS URL
   *#
 #macro(displayRSSURL)
-  #set($rssURL = "")
-  #set($parameters = 'xpage=plain&amp;outputSyntax=plain')
-  #if($aTags.size() &gt; 0)
-    #set($parameters = "${parameters}&amp;tag=$listtool.get($aTags, 0)")
+  #set ($rssURL = '')
+  #set ($parameters = 'xpage=plain&amp;outputSyntax=plain')
+  #if ($aTags.size() &gt; 0)
+    #set ($parameters = "${parameters}&amp;tag=$listtool.get($aTags, 0)")
   #end
-  #if($aSpaces.size() &gt; 0)
-    #set($parameters = "${parameters}&amp;space=$listtool.get($aSpaces, 0)")
+  #if ($aSpaces.size() &gt; 0)
+    #set ($parameters = "${parameters}&amp;space=$listtool.get($aSpaces, 0)")
   #end
-  #set($rssURL = $xwiki.getURL('Main.WebRss', 'view', $parameters))
+  #set ($rssURL = $xwiki.getURL('Main.WebRss', 'view', $parameters))
   &lt;div class="rssURL"&gt;
     &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.activity.rssfeed")&lt;/a&gt;
   &lt;/div&gt;
@@ -1040,11 +1041,11 @@ $xwiki.ssx.use("Main.Activity")##
   * Display mimetype and name for the given event of type attachment
   *#
 #macro(displayAttachment $event)
-  #set($pageDoc = $xwiki.getDocument($event.page))
-  #set($attach = $pageDoc.getAttachment($event.param2))
+  #set ($pageDoc = $xwiki.getDocument($event.page))
+  #set ($attach = $pageDoc.getAttachment($event.param2))
   &lt;div class="attachment"&gt;
     #mimetypeimg($attach.getMimeType().toLowerCase() $event.param2)
-    #if($attach.version)
+    #if ($attach.version)
       &lt;a href="$pageDoc.getAttachmentURL($event.param2)"&gt;$!event.param2&lt;/a&gt;
     #else
       $!event.param2
@@ -1056,7 +1057,7 @@ $xwiki.ssx.use("Main.Activity")##
   *#
 #macro(displayComment $event)
   #getCommentContent($event $commentContent)
-  #if("$!commentContent" != '')
+  #if ("$!commentContent" != '')
     &lt;div class="comment"&gt;
      $!commentContent
     &lt;/div&gt;
@@ -1067,7 +1068,7 @@ $xwiki.ssx.use("Main.Activity")##
   *#
 #macro(displayAnnotation $event)
   #getAnnotation($event $annotationText $annotationSelection)
-  #if("$!annotationText" != '' || "$!annotationSelection" != '')
+  #if ("$!annotationText" != '' || "$!annotationSelection" != '')
     &lt;div class="annotated"&gt;$!annotationSelection&lt;/div&gt;
     &lt;div class="annotation"&gt;$!annotationText&lt;/div&gt;
   #end
@@ -1077,7 +1078,7 @@ $xwiki.ssx.use("Main.Activity")##
   *#
 #macro(activitySnapshot $eventUser $eventType)
   &lt;span class="activitySnapshot"&gt;
-    #if($eventUser != 'XWiki.XWikiGuest')
+    #if ($eventUser != 'XWiki.XWikiGuest')
       &lt;a href="$xwiki.getURL($eventUser)"&gt;#smallUserAvatar("$!eventUser")&lt;/a&gt;
     #else
       #smallUserAvatar("$!eventUser")
@@ -1090,8 +1091,8 @@ $xwiki.ssx.use("Main.Activity")##
   *#
 #macro(displayActivityListItemSummary)
   &lt;div class="activitySummary"&gt;
-    #foreach($event in $events)
-      #set($relatedEventsNo = $xwiki.activitystream.getRelatedEvents($event).size() / 2)
+    #foreach ($event in $events)
+      #set ($relatedEventsNo = $xwiki.activitystream.getRelatedEvents($event).size() / 2)
       #activitySnapshot($event.user $event.type)
     #end
   &lt;/div&gt;
@@ -1100,18 +1101,18 @@ $xwiki.ssx.use("Main.Activity")##
   * Check if the current subentry is expandable
   *#
 #macro(isEventEntryExpandable $event)
-  #set($isEventEntryExpandable = false)
-  #if($isAnnotationEvent)
+  #set ($isEventEntryExpandable = false)
+  #if ($isAnnotationEvent)
     #getAnnotation($event $annotationText $annotationSelection)
-    #if("$!annotationText" != '' || "$!annotationSelection" != '')
-      #set($isEventEntryExpandable = true)
+    #if ("$!annotationText" != '' || "$!annotationSelection" != '')
+      #set ($isEventEntryExpandable = true)
     #end
-  #elseif($isAttachmentEvent &amp;&amp; "$!event.param2" != '')
-    #set($isEventEntryExpandable = true)
-  #elseif($isCommentEvent)
+  #elseif ($isAttachmentEvent &amp;&amp; "$!event.param2" != '')
+    #set ($isEventEntryExpandable = true)
+  #elseif ($isCommentEvent)
     #getCommentContent($event $commentContent)
-    #if("$!commentContent" != '')
-      #set($isEventEntryExpandable = true)
+    #if ("$!commentContent" != '')
+      #set ($isEventEntryExpandable = true)
     #end
   #end
 #end
@@ -1119,31 +1120,31 @@ $xwiki.ssx.use("Main.Activity")##
   * Display the content for the current event
   *#
 #macro(displayEventContent)
-  #set($isEventEntryExpandable = false)
+  #set ($isEventEntryExpandable = false)
   #isAttachmentEvent($event)
   #isEventEntryExpandable($event)
   &lt;li class="activityItem #if($isEventEntryExpandable) collapsed #end"&gt;
     #displayActivityListItemHeader(false false $isEventEntryExpandable)
-    #if($isEventEntryExpandable)
+    #if ($isEventEntryExpandable)
       &lt;div class="activityContent"&gt;
-        #if($isAttachmentEvent)
-          #foreach($event in $xwiki.activitystream.getRelatedEvents($event))
+        #if ($isAttachmentEvent)
+          #foreach ($event in $xwiki.activitystream.getRelatedEvents($event))
             #isAttachmentEvent($event)
-            #if($isAttachmentEvent)
+            #if ($isAttachmentEvent)
               #displayAttachment($event)
             #end
           #end
         #end
-        #if($isCommentEvent)
+        #if ($isCommentEvent)
           #displayComment($event)
-        #elseif($isAnnotationEvent &amp;&amp; $isEventEntryExpandable)
+        #elseif ($isAnnotationEvent &amp;&amp; $isEventEntryExpandable)
           #displayAnnotation($event)
         #end
       &lt;/div&gt;
     #end
   &lt;/li&gt;
-  #set($previousEventType = $event.type)
-  #set($previousEventUser = $event.user)
+  #set ($previousEventType = $event.type)
+  #set ($previousEventUser = $event.user)
 #end
 #**
   * Display the header structure for the given event
@@ -1151,9 +1152,9 @@ $xwiki.ssx.use("Main.Activity")##
   * @param isFirstEntry if true, the current item is the first entry of a list formed by a single event -&gt; do not display user avatar
   *#
 #macro(displayActivityListItemHeader $isPageEntryExpandable $isFirstEntry $isEventEntryExpandable)
-  #set($relatedEventsNo = $xwiki.activitystream.getRelatedEvents($event).size() / 2)
+  #set ($relatedEventsNo = $xwiki.activitystream.getRelatedEvents($event).size() / 2)
   &lt;div class="activityHeader"&gt;
-    #if(!$isPageEntryExpandable &amp;&amp; !$isFirstEntry)
+    #if (!$isPageEntryExpandable &amp;&amp; !$isFirstEntry)
       #activitySnapshot($event.user $event.type)
     #end
     &lt;span class="activityAuthor"&gt;
@@ -1173,11 +1174,11 @@ $xwiki.ssx.use("Main.Activity")##
     #if(!$isFirstEntry || $isPageEntryExpandable)
       &lt;span class="activityAction"&gt;
         #isAttachmentEvent($event)
-        #if($isPageEntryExpandable)## display entry summary
+        #if ($isPageEntryExpandable)## display entry summary
           $!msg.get('xe.activity.action.summary', [$events.size(), $eventUsers.size()])
         #else
           $!msg.get("xe.activity.action.${event.type}", [$relatedEventsNo])
-          #if($event.type == 'update' &amp;&amp; $event.version != '1.1')
+          #if ($event.type == 'update' &amp;&amp; $event.version != '1.1')
             &amp;#183; &lt;a href="$xwiki.getDocument($event.page).getURL('view', "viewer=changes&amp;rev2=${event.version}")"&gt;$msg.get('xe.activity.action.seechanges')&lt;/a&gt;
           #end
         #end
@@ -1186,11 +1187,11 @@ $xwiki.ssx.use("Main.Activity")##
     #if ("$!timeAgoMsg" != '')
       &lt;span class='activityTime' title="$eventFullDate"&gt;$!timeAgoMsg&lt;/span&gt;
     #end
-    #if($isPageEntryExpandable)
+    #if ($isPageEntryExpandable)
       #toolExpand('')
       #displayActivityListItemSummary()
     #end
-    #if($isEventEntryExpandable)
+    #if ($isEventEntryExpandable)
       #toolExpand('')
     #end
   &lt;/div&gt;
@@ -1202,7 +1203,7 @@ $xwiki.ssx.use("Main.Activity")##
   ##
   ## Display events for the current page
   ## -------------------------------------------------------------------
-  #foreach($event in $events)
+  #foreach ($event in $events)
     ##
     ## Event variables
     ## -------------------------------------------------------------------
@@ -1210,34 +1211,34 @@ $xwiki.ssx.use("Main.Activity")##
     ##
     ## Date header + Start list
     ## -------------------------------------------------------------------
-    #if($isToday &amp;&amp; $displayToday)
-      #set($closeList = true)## a new list will be opened
+    #if ($isToday &amp;&amp; $displayToday)
+      #set ($closeList = true)## a new list will be opened
       &lt;h2&gt;$msg.get('timeAgo.today')&lt;/h2&gt;&lt;ul class='activityList'&gt;  ## display 'Today' message
-      #set($displayToday = false)
-    #elseif($isYesterday &amp;&amp; $displayYesterday)## display 'Yesterday' message
-      #if($closeList)## there are events today
+      #set ($displayToday = false)
+    #elseif ($isYesterday &amp;&amp; $displayYesterday)## display 'Yesterday' message
+      #if ($closeList)## there are events today
         &lt;/ul&gt;
       #else
-        #set($closeList = true)## a new list will be opened
+        #set ($closeList = true)## a new list will be opened
       #end
       &lt;h2&gt;$msg.get('timeAgo.yesterday')&lt;/h2&gt;&lt;ul class='activityList'&gt;
-      #set($displayYesterday = false)
-    #elseif(!$isToday &amp;&amp; !$isYesterday &amp;&amp; $iterationDate != $displayDate)## display date message
-      #set($displayDate = $iterationDate)
-      #if($closeList)## there are events today or/and yesterday
+      #set ($displayYesterday = false)
+    #elseif (!$isToday &amp;&amp; !$isYesterday &amp;&amp; $iterationDate != $displayDate)## display date message
+      #set ($displayDate = $iterationDate)
+      #if ($closeList)## there are events today or/and yesterday
         &lt;/ul&gt;
       #else
-        #set($closeList = true)## a new list will be opened
+        #set ($closeList = true)## a new list will be opened
       #end
       &lt;h2&gt;$!iterationDate&lt;/h2&gt;&lt;ul class='activityList'&gt;
     #end
     ##
     ## Open event list + Display first event
     ## -------------------------------------------------------------------
-    #if($velocityCount == 1)
+    #if ($velocityCount == 1)
       &lt;li class="activityItem activityPage #if($isPageEntryExpandable)collapsed#end"&gt;
         #displayActivityListItemHeader($isPageEntryExpandable true false)
-        #if(!$isPageEntryExpandable)
+        #if (!$isPageEntryExpandable)
           ## single entry
           #set($timeAgoMsg = '')
         #end
@@ -1251,7 +1252,7 @@ $xwiki.ssx.use("Main.Activity")##
     ##
     ## Close page event list
     ## -------------------------------------------------------------------
-    #if($velocityCount == $events.size())
+    #if ($velocityCount == $events.size())
           &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/li&gt;
@@ -1261,25 +1262,25 @@ $xwiki.ssx.use("Main.Activity")##
 #**
   * Display activity event list
   *#
-#macro(displayActivity)
-  #set($iterationDate = '')
-  #set($displayDate = '')
-  #set($iterationDocuments = $util.arrayList)
-  #set($displayToday = true)
-  #set($displayYesterday = true)
-  #set($closeList = false)
+#macro (displayActivity)
+  #set ($iterationDate = '')
+  #set ($displayDate = '')
+  #set ($iterationDocuments = $util.arrayList)
+  #set ($displayToday = true)
+  #set ($displayYesterday = true)
+  #set ($closeList = false)
   ##
   ## Get distinct pages with activity
   ## -------------------------------------------------------------------
   #set ($pages = $xwiki.activitystream.searchDailyPages("$!filterClause", $aEntries, 0))
   #if ($pages.size() &gt; 0)
-    #foreach($page in $pages)
+    #foreach ($page in $pages)
       ##
       ## Extract page name and event date
       ## -------------------------------------------------------------------
-      #set($pageName = $page.get(0))
-      #set($pageDate = $page.get(1))
-      #if($xwiki.hasAccessLevel("view", $context.user, "${context.database}:${pageName}") &amp;&amp; !$iterationDocuments.contains($pageName))
+      #set ($pageName = $page.get(0))
+      #set ($pageDate = $page.get(1))
+      #if ($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${pageName}") &amp;&amp; !$iterationDocuments.contains($pageName))
         ##
         ## Get event list for the current page
         ## -------------------------------------------------------------------
@@ -1287,8 +1288,8 @@ $xwiki.ssx.use("Main.Activity")##
         #set ($whereClause = $whereClause + " AND month(date)=" + ${xwiki.formatDate($pageDate, 'M')})
         #set ($whereClause = $whereClause + " AND year(date)=" + ${xwiki.formatDate($pageDate, 'yyyy')})
         #set ($whereClause = "act.page=? AND act.space&lt;&gt;'Scheduler'" + $!whereClause)
-        #set($events= $xwiki.activitystream.searchEvents("$!whereClause", false, 0, 0, [$pageName]))
-        #if($events.size() &gt; 0)
+        #set ($events= $xwiki.activitystream.searchEvents("$!whereClause", false, 0, 0, [$pageName]))
+        #if ($events.size() &gt; 0)
           ##
           ## Initialize page event vars
           ## -------------------------------------------------------------------
@@ -1299,7 +1300,7 @@ $xwiki.ssx.use("Main.Activity")##
         #end
       #end
     #end
-    #if($closeList)## close the last event list
+    #if ($closeList)## close the last event list
       &lt;/ul&gt;
     #end
   #else
@@ -1308,7 +1309,7 @@ $xwiki.ssx.use("Main.Activity")##
   ##
   ## Display RSS URL
   ## -------------------------------------------------------------------
-  #if("$!aRSS" == 'true')
+  #if ("$!aRSS" == 'true')
     #displayRSSURL()
   #end
 #end

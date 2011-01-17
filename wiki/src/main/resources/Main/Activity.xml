@@ -11,8 +11,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252458000000</creationDate>
-<date>1295263485000</date>
-<contentUpdateDate>1295263485000</contentUpdateDate>
+<date>1295265654000</date>
+<contentUpdateDate>1295265654000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.activity")</title>
 <template></template>
@@ -752,7 +752,7 @@ $xwiki.ssx.use("Main.Activity")##
       #end
     #end
   #end
-  #evaluate("${escapetool.h}set(${escapetool.d}${resultVariableName}=${escapetool.d}list)")
+  #setVariable("$resultVariableName", $list)
 #end
 #**
   * Build query filter clause

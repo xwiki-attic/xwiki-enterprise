@@ -11,8 +11,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252458000000</creationDate>
-<date>1287582416000</date>
-<contentUpdateDate>1287582416000</contentUpdateDate>
+<date>1295263485000</date>
+<contentUpdateDate>1295263485000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.activity")</title>
 <template></template>
@@ -535,7 +535,7 @@ h1:hover .toolFilter .toolExpand {
 <separators>|</separators>
 <size>1</size>
 <unmodifiable>0</unmodifiable>
-<values>Mandatory|Optional|No content</values>
+<values>Optional|Mandatory|No content</values>
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </contentType>
 <defaultCategory>
@@ -668,7 +668,7 @@ $xwiki.ssx.use("Main.Activity")##
 #readVariableFromRequest('aWikis' 'wikis' [])
 #if ($aWikis.size() == 0)
   #set ($aWikisString = $context.macro.params.get('wikis'))
-  #asList($aWikis $aWikisString)
+  #asList('aWikis' $aWikisString)
   #if ($aWikis.size() == 0)
     $aWikis.add($context.database)
   #end
@@ -677,19 +677,19 @@ $xwiki.ssx.use("Main.Activity")##
 #readVariableFromRequest('aSpaces' 'spaces' [])
 #if ($aSpaces.size() == 0)
   #set ($aSpacesString = $context.macro.params.get('spaces'))
-  #asList($aSpaces $aSpacesString)
+  #asList('aSpaces' $aSpacesString)
 #end
 ## Authors
 #readVariableFromRequest('aAuthors' 'authors' [])
 #if ($aAuthors.size() == 0)
   #set ($aAuthorsString = $context.macro.params.get('authors'))
-  #asList($aAuthors $aAuthorsString)
+  #asList('aAuthors' $aAuthorsString)
 #end
 ## Tags
 #readVariableFromRequest('aTags' 'tags' [])
 #if ($aTags.size() == 0)
   #set ($aTagsString = $context.macro.params.get('tags'))
-  #asList($aTags $aTagsString)
+  #asList('aTags' $aTagsString)
 #end
 ## Minor versions
 #readVariableFromRequest('aMinor' 'minor' false)
@@ -733,12 +733,12 @@ $xwiki.ssx.use("Main.Activity")##
  * Gets the list (java.util.List) of elements in $arrayAsString, and puts them in the $list.
  *
  * @param $arrayAsString the string form of the array, similar to the java syntax for a macro ({elt1, elt2, etc}), or without the {}
- * @param $list the variable to put the resulted list into. It will be (re)initialized and emptied by this macro
+ * @param $resultVariableName the name of the variable to put the resulted list into.
  * FIXME: this is gonna fail for lists with '{' in the string or ','. Need to escape
  *#
-#macro(asList $list $arrayAsString)
+#macro(asList $resultVariableName $arrayAsString)
+  #set ($list = [])
   #if ("$!arrayAsString" != '')
-    #set ($list = [])
     ## if the string is surrounded by {}, eliminate and then parse as list
     #if ($arrayAsString.startsWith('{') &amp;&amp; $arrayAsString.endWith('}'))
       #set ($endIndex = $arrayAsString.length() - 1)
@@ -752,6 +752,7 @@ $xwiki.ssx.use("Main.Activity")##
       #end
     #end
   #end
+  #evaluate("${escapetool.h}set(${escapetool.d}${resultVariableName}=${escapetool.d}list)")
 #end
 #**
   * Build query filter clause

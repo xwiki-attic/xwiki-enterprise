@@ -262,7 +262,7 @@
   $response.sendRedirect($doc.getURL('view', "theme=$escapetool.url($request.theme)"))
   #stop
 #elseif("$!request.xaction" == 'create' &amp;&amp; "$!request.newThemeName" != '' &amp;&amp; ${services.csrf.isTokenValid("$!{request.getParameter('form_token')}")})
-  $response.sendRedirect($xwiki.getDocument('ColorThemes', $request.newThemeName).getURL('inline', 'template=ColorThemes.ColorThemeTemplate'))
+  $response.sendRedirect($xwiki.getDocument('ColorThemes', $request.newThemeName).getURL('inline', "template=ColorThemes.ColorThemeTemplate&amp;title=$request.newThemeName"))
   #stop
 #end
 

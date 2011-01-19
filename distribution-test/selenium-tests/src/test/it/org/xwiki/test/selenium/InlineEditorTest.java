@@ -21,6 +21,7 @@ package org.xwiki.test.selenium;
 
 import junit.framework.Test;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
@@ -31,7 +32,7 @@ import org.xwiki.test.selenium.framework.XWikiTestSuite;
  * @version $Id$
  */
 public class InlineEditorTest extends AbstractXWikiTestCase
-{       
+{
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the inline editor");
@@ -49,9 +50,10 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     public void testBasicInlineEditing()
     {
         open("XWiki", "Admin", "inline");
-        setFieldValue("XWiki.XWikiUsers_0_company", "A nice company");
+        String company = RandomStringUtils.randomAlphanumeric(4);
+        setFieldValue("XWiki.XWikiUsers_0_company", company);
         clickEditSaveAndView();
-        assertTextPresent("A nice company");
+        assertTextPresent(company);
     }
 
     public void testEditButtonTriggersInlineEditing()
@@ -64,19 +66,22 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     /* See XE-168 */
     public void testInlineEditCanChangeTitle()
     {
-        open("XWiki", "Admin", "inline", "title=The%20Powerful%20Admin");
+        String title = RandomStringUtils.randomAlphanumeric(4);
+        open("XWiki", "Admin", "inline", "title=" + title);
         clickEditSaveAndView();
-        assertTextPresent("The Powerful Admin");
+        // assertTextPresent(title);
+        waitForBodyContains(title);
     }
 
     /* See XWIKI-2389 */
     public void testInlineEditPreservesTitle()
     {
-        open("XWiki", "Admin", "save", "title=The%20Powerful%20Admin");
-        assertTextPresent("The Powerful Admin");
+        String title = RandomStringUtils.randomAlphanumeric(4);
+        open("XWiki", "Admin", "save", "title=" + title);
+        assertTextPresent(title);
         open("XWiki", "Admin", "inline");
         clickEditSaveAndView();
-        assertTextPresent("The Powerful Admin");
+        assertTextPresent(title);
     }
 
     /* See XE-168 */
@@ -90,23 +95,24 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     /* See XWIKI-2389 */
     public void testInlineEditPreservesParent()
     {
-        open("XWiki", "Admin", "save", "parent=Main.WebHome");
-        assertTextPresent("Welcome to your wiki");
+        open("XWiki", "Admin", "save", "parent=Blog.WebHome");
+        assertTextPresent("The Wiki Blog");
         open("XWiki", "Admin", "inline");
         clickEditSaveAndView();
-        assertTextPresent("Welcome to your wiki");
+        assertTextPresent("The Wiki Blog");
     }
 
     /* See XWIKI-2199 */
     public void testInlineEditPreservesTags()
     {
-        open("XWiki", "Admin", "save", "tags=tag1|tag2");
+        String tags = RandomStringUtils.randomAlphanumeric(4) + "|" + RandomStringUtils.randomAlphanumeric(4);
+        open("XWiki", "Admin", "save", "tags=" + tags);
         editInWikiEditor("XWiki", "Admin");
-        assertTrue("tag1|tag2".equals(getSelenium().getValue("tags")));
+        assertTrue(tags.equals(getSelenium().getValue("tags")));
         open("XWiki", "Admin", "inline");
         clickEditSaveAndView();
         editInWikiEditor("XWiki", "Admin");
-        assertTrue("tag1|tag2".equals(getSelenium().getValue("tags")));
+        assertTrue(tags.equals(getSelenium().getValue("tags")));
     }
 
     /**
@@ -115,7 +121,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
     public void testEditModeCanBeSet()
     {
         String initialContent = null;
-        try {            
+        try {
             editInWikiEditor("XWiki", "Admin");
             initialContent = getFieldValue("content");
             typeInWiki("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n" + initialContent);

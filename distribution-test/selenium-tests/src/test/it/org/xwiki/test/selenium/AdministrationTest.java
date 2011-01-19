@@ -235,7 +235,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Check it's available in global section.
         clickLinkWithText("Administer Wiki");
         assertConfigurationIconPresent(section, null);
-        clickLinkWithText(section);
+        // Section name is transformed into a translation key.
+        clickLinkWithText("admin." + section.toLowerCase());
         assertConfigurationPresent("Main", "TestConfigurable");
         // Make sure javascript adds a save button.
         waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");

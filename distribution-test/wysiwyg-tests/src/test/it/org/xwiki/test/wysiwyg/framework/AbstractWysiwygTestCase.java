@@ -665,7 +665,13 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     {
         getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
         if (wait) {
-            waitForCondition("!window.document.getElementsByTagName('iframe')[0].__disabled");
+            new Wait()
+            {
+                public boolean until()
+                {
+                    return !getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
+                }
+            }.wait("Source text area is still editable!");
         }
         // The rich text area is redisplayed (and possibly reloaded) so we have to invalidate the JavaScript API.
         invalidateJavaScriptApi();

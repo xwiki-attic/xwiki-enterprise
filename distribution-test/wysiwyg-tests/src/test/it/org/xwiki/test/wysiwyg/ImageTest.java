@@ -477,6 +477,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_EXPLORER);
         assertElementPresent("//div[@class = 'xImagesExplorer']//" + "div[contains(@class, 'xListItem-selected')]"
             + "//div[contains(@class, 'xNewImagePreview')]");
+        closeDialog();
 
         // Edit an image.
         switchToSource();

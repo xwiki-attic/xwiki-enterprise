@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>3.0-SNAPSHOT</version>
+    <version>3.0-milestone-1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-generic</artifactId>
   <name>XWiki Products - Enterprise - Installers - Generic</name>

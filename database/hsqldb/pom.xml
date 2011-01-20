@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>3.0-milestone-1</version>
+    <version>3.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
   <name>XWiki Products - Enterprise - Database - HSQLDB</name>

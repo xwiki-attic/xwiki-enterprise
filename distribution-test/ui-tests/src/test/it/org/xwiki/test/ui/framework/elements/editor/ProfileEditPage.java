@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.ui.framework.elements.editor;
 
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -93,14 +94,7 @@ public class ProfileEditPage extends EditPage
 
     public void setUserAbout(String userAbout)
     {
-        waitUntilElementIsVisible(By.xpath("//dl[1]/dd[4]//iframe"));
-        executeJavascript("Wysiwyg.getInstance('XWiki.XWikiUsers_0_comment').getRichTextArea().id = 'wysiwyg_comment';");
-        getDriver().switchTo().frame("wysiwyg_comment");
-        WebElement editorBody = getDriver().findElement(By.id("body"));
-
-        executeJavascript("document.body.innerHTML =''");
-        editorBody.sendKeys(userAbout);
-        getDriver().switchTo().defaultContent();
+        setRichTextAreaContent("//dl[1]/dd[4]//iframe", "XWiki.XWikiUsers_0_comment", userAbout);
     }
 
     public String getUserEmail()
@@ -138,13 +132,34 @@ public class ProfileEditPage extends EditPage
 
     public void setUserAddress(String userAddress)
     {
-        waitUntilElementIsVisible(By.xpath("//dl[2]/dd[3]//iframe"));
-        executeJavascript("Wysiwyg.getInstance('XWiki.XWikiUsers_0_address').getRichTextArea().id = 'wysiwyg_address';");
-        getDriver().switchTo().frame("wysiwyg_address");
+        setRichTextAreaContent("//dl[2]/dd[3]//iframe", "XWiki.XWikiUsers_0_address", userAddress);
+    }
 
-        WebElement editorBody = getDriver().findElement(By.id("body"));
-        executeJavascript("document.body.innerHTML =''");
-        editorBody.sendKeys(userAddress);
+    /**
+     * Sets the content of the specified rich text area.
+     * 
+     * @param xpath the XPath expression used to locate the rich text area in-line frame element
+     * @param fieldId the id of the plain text area replaced by the rich text area
+     * @param content the content to be set
+     */
+    private void setRichTextAreaContent(String xpath, String fieldId, String content)
+    {
+        waitUntilElementIsVisible(By.xpath(xpath));
+        String richTextAreaId = fieldId + "_rta";
+        executeJavascript(String.format("Wysiwyg.getInstance('%s').getRichTextArea().id = '%s';", fieldId,
+            richTextAreaId));
+        getDriver().switchTo().frame(richTextAreaId);
+        WebElement body = getDriver().findElement(By.id("body"));
+        if (StringUtils.isEmpty(content)) {
+            // Just clear the content.
+            executeJavascript("document.body.innerHTML = ''");
+        } else {
+            // Selenium fails to send keys to the body element if it's empty: it complains that the body element is not
+            // visible. We overcome this by inserting a space and selecting it. This way send keys will overwrite it.
+            // See http://code.google.com/p/selenium/issues/detail?id=1183 .
+            executeJavascript("document.body.innerHTML = '&nbsp;'; document.execCommand('selectAll', false, null)");
+            body.sendKeys(content);
+        }
         getDriver().switchTo().defaultContent();
     }
 

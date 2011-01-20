@@ -21,13 +21,13 @@ package org.xwiki.test.ui.administration;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.RenderedWebElement;
 import org.xwiki.test.ui.administration.elements.PreferencesUserProfilePage;
 import org.xwiki.test.ui.administration.elements.ProfileUserProfilePage;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.ChangeAvatarPage;
 import org.xwiki.test.ui.framework.elements.editor.ChangePasswordPage;
@@ -41,10 +41,8 @@ import org.xwiki.test.ui.xe.elements.HomePage;
  * @version $Id$
  * @since 2.4
  */
-public class UserProfileTest extends AbstractAdminAuthenticatedTest
+public class UserProfileTest extends AbstractTest
 {
-    private static final String TEST_USERNAME = "ProfileTestUser";
-
     private static final String IMAGE_NAME = "avatar.png";
 
     private static final String IMAGE_LOCATION = "administration/" + IMAGE_NAME;
@@ -67,161 +65,142 @@ public class UserProfileTest extends AbstractAdminAuthenticatedTest
 
     private static final String USER_BLOGFEED = "http://xwiki.org/";
 
-    private ProfileUserProfilePage profilePage = new ProfileUserProfilePage("Admin");
+    private static final String WYSIWYG_EDITOR = "Wysiwyg";
+
+    private static final String TEXT_EDITOR = "Text";
+
+    private static final String DEFAULT_EDITOR = "-";
+
+    private static final String SIMPLE_USER = "Simple";
+
+    private static final String ADVANCED_USER = "Advanced";
+
+    private ProfileUserProfilePage customProfilePage;
+
+    private String userName;
+
+    @Before
+    public void setUp()
+    {
+        userName = RandomStringUtils.randomAlphanumeric(5);
+        String password = RandomStringUtils.randomAlphanumeric(6);
+        getUtil().registerLoginAndGotoPage(userName, password, "Main");
+        customProfilePage = new ProfileUserProfilePage(userName);
+        customProfilePage.gotoPage();
+    }
 
     /** Functionality check: changing profile information. */
     @Test
-    public void EditProfile()
+    public void testEditProfile()
     {
-        ProfileUserProfilePage customProfilePage = new ProfileUserProfilePage(TEST_USERNAME);
-        try {
-            // Create clean profile
-            getUtil().deletePage("XWiki", TEST_USERNAME);
-            getUtil().registerLoginAndGotoPage(TEST_USERNAME, "abcdef123", null);
+        ProfileEditPage profileEditPage = customProfilePage.editProfile();
+        profileEditPage.setUserFirstName(USER_FIRST_NAME);
+        profileEditPage.setUserLastName(USER_LAST_NAME);
+        profileEditPage.setUserCompany(USER_COMPANY);
+        profileEditPage.setUserAbout(USER_ABOUT);
+        profileEditPage.setUserEmail(USER_EMAIL);
+        profileEditPage.setUserPhone(USER_PHONE);
+        profileEditPage.setUserAddress(USER_ADDRESS);
+        profileEditPage.setUserBlog(USER_BLOG);
+        profileEditPage.setUserBlogFeed(USER_BLOGFEED);
+        profileEditPage.clickSaveAndView();
 
-            // Change the profile information
-            customProfilePage.gotoPage();
-            ProfileEditPage profileEditPage = customProfilePage.editProfile();
-            profileEditPage.setUserFirstName(USER_FIRST_NAME);
-            profileEditPage.setUserLastName(USER_LAST_NAME);
-            profileEditPage.setUserCompany(USER_COMPANY);
-            profileEditPage.setUserAbout(USER_ABOUT);
-            profileEditPage.setUserEmail(USER_EMAIL);
-            profileEditPage.setUserPhone(USER_PHONE);
-            profileEditPage.setUserAddress(USER_ADDRESS);
-            profileEditPage.setUserBlog(USER_BLOG);
-            profileEditPage.setUserBlogFeed(USER_BLOGFEED);
-            profileEditPage.clickSaveAndView();
-
-            // Check that the information was updated
-            Assert.assertEquals(USER_FIRST_NAME, customProfilePage.getUserFirstName());
-            Assert.assertEquals(USER_LAST_NAME, customProfilePage.getUserLastName());
-            Assert.assertEquals(USER_COMPANY, customProfilePage.getUserCompany());
-            Assert.assertEquals(USER_ABOUT, customProfilePage.getUserAbout());
-            // The page will show webmaster@---- for security reasons, just check the first part of the email
-            Assert.assertEquals(StringUtils.substringBefore(USER_EMAIL, "@"),
-                StringUtils.substringBefore(customProfilePage.getUserEmail(), "@"));
-            Assert.assertEquals(USER_PHONE, customProfilePage.getUserPhone());
-            Assert.assertEquals(USER_ADDRESS, customProfilePage.getUserAddress());
-            Assert.assertEquals(USER_BLOG, customProfilePage.getUserBlog());
-            Assert.assertEquals(USER_BLOGFEED, customProfilePage.getUserBlogFeed());
-        } finally {
-            // Cleanup: delete the dummy user
-            getUtil().setSession(null);
-            getDriver().get(getUtil().getURLToLoginAsAdmin());
-            getUtil().deletePage("XWiki", TEST_USERNAME);
-        }
+        // Check that the information was updated
+        Assert.assertEquals(USER_FIRST_NAME, customProfilePage.getUserFirstName());
+        Assert.assertEquals(USER_LAST_NAME, customProfilePage.getUserLastName());
+        Assert.assertEquals(USER_COMPANY, customProfilePage.getUserCompany());
+        Assert.assertEquals(USER_ABOUT, customProfilePage.getUserAbout());
+        // The page will show webmaster@---- for security reasons, just check the first part of the email
+        Assert.assertEquals(StringUtils.substringBefore(USER_EMAIL, "@"), StringUtils.substringBefore(customProfilePage
+            .getUserEmail(), "@"));
+        Assert.assertEquals(USER_PHONE, customProfilePage.getUserPhone());
+        Assert.assertEquals(USER_ADDRESS, customProfilePage.getUserAddress());
+        Assert.assertEquals(USER_BLOG, customProfilePage.getUserBlog());
+        Assert.assertEquals(USER_BLOGFEED, customProfilePage.getUserBlogFeed());
     }
 
     /** Functionality check: changing the profile picture. */
     @Test
-    public void changeAvatarImage()
+    public void testChangeAvatarImage()
     {
-        this.profilePage.gotoPage();
-        ChangeAvatarPage changeAvatarImage = this.profilePage.changeAvatarImage();
+        ChangeAvatarPage changeAvatarImage = this.customProfilePage.changeAvatarImage();
         changeAvatarImage.setAvatarImage(IMAGE_LOCATION);
         changeAvatarImage.submit();
-        Assert.assertEquals(IMAGE_NAME, this.profilePage.getAvatarImageName());
+        Assert.assertEquals(IMAGE_NAME, this.customProfilePage.getAvatarImageName());
     }
 
     /** Functionality check: changing the password. */
     @Test
-    public void changePassword()
+    public void testChangePassword()
     {
-        try {
-            // Change the password
-            this.profilePage.gotoPage();
-            PreferencesUserProfilePage preferencesPage = this.profilePage.switchToPreferences();
-            ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
-            changePasswordPage.changePassword("xwikitest", "xwikitest");
-            changePasswordPage.submit();
+        // Change the password
+        PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
+        ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
+        String newPassword = RandomStringUtils.randomAlphanumeric(6);
+        changePasswordPage.changePassword(newPassword, newPassword);
+        changePasswordPage.submit();
 
-            // Logout
-            getUtil().setSession(null);
-            HomePage home = new HomePage();
-            home.gotoPage();
-            Assert.assertFalse(home.isAuthenticated());
+        // Logout
+        getUtil().setSession(null);
+        HomePage home = new HomePage();
+        home.gotoPage();
+        Assert.assertFalse(home.isAuthenticated());
 
-            // Login with the new password
-            getDriver().get(getUtil().getURLToLoginAs("Admin", "xwikitest"));
-            Assert.assertTrue(home.isAuthenticated());
-        } finally {
-            // Reset the default password
-            this.profilePage.gotoPage();
-            PreferencesUserProfilePage preferencesPage = this.profilePage.switchToPreferences();
-            ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
-            changePasswordPage.changePasswordToDefault();
-            changePasswordPage.submit();
-            getUtil().setSession(null);
-            getDriver().get(getUtil().getURLToLoginAsAdmin());
-        }
+        // Login with the new password
+        getDriver().get(getUtil().getURLToLoginAs(userName, newPassword));
+        Assert.assertTrue(home.isAuthenticated());
     }
 
     /** Functionality check: changing the user type. */
     @Test
     public void testChangeUserProfile()
     {
-        this.profilePage.gotoPage();
-        PreferencesUserProfilePage preferencesPage = this.profilePage.switchToPreferences();
-
+        PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
         // Setting to Simple user
         PreferencesEditPage preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setSimpleUserType();
         preferencesEditPage.clickSaveAndView();
-        preferencesPage = this.profilePage.switchToPreferences();
-        Assert.assertFalse(getDriver().getPageSource().contains("?editor=object"));
+        preferencesPage = this.customProfilePage.switchToPreferences();
+        Assert.assertEquals(SIMPLE_USER, this.customProfilePage.getUserType());
 
         // Setting to Advanced user
         preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setAdvancedUserType();
         preferencesEditPage.clickSaveAndView();
-        this.profilePage.switchToPreferences();
-        Assert.assertTrue(getDriver().getPageSource().contains("?editor=object"));
+        this.customProfilePage.switchToPreferences();
+        Assert.assertEquals(ADVANCED_USER, this.customProfilePage.getUserType());
     }
 
     /** Functionality check: changing the default editor. */
     @Test
     public void testChangeDefaultEditor()
     {
-        this.profilePage.gotoPage();
-        PreferencesUserProfilePage preferencesPage = this.profilePage.switchToPreferences();
+        PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
 
         // Setting to Text Editor
         PreferencesEditPage preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setDefaultEditorText();
         preferencesEditPage.clickSaveAndView();
-        preferencesPage = this.profilePage.switchToPreferences();
-        this.profilePage.clickEdit();
-        RenderedWebElement about = ((RenderedWebElement) getDriver().findElement(By.id("XWiki.XWikiUsers_0_comment")));
-        Assert.assertNotNull(about);
-        Assert.assertTrue(about.isDisplayed());
-        Assert.assertTrue(getDriver().findElements(By.className("xRichTextEditor")).isEmpty());
+        preferencesPage = this.customProfilePage.switchToPreferences();
+        Assert.assertEquals(TEXT_EDITOR, this.customProfilePage.getDefaultEditorToUse());
 
         // Setting to WYSIWYG Editor
-        this.profilePage.gotoPage();
-        preferencesPage = this.profilePage.switchToPreferences();
+        this.customProfilePage.gotoPage();
+        preferencesPage = this.customProfilePage.switchToPreferences();
         preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setDefaultEditorWysiwyg();
         preferencesEditPage.clickSaveAndView();
-        preferencesPage = this.profilePage.switchToPreferences();
-        this.profilePage.clickEdit();
-        about = ((RenderedWebElement) getDriver().findElement(By.id("XWiki.XWikiUsers_0_comment")));
-        Assert.assertNotNull(about);
-        Assert.assertFalse(about.isDisplayed());
-        Assert.assertTrue(getDriver().findElement(By.className("xRichTextEditor")) != null);
+        preferencesPage = this.customProfilePage.switchToPreferences();
+        Assert.assertEquals(WYSIWYG_EDITOR, this.customProfilePage.getDefaultEditorToUse());
 
         // Setting to Default Editor
-        this.profilePage.gotoPage();
-        preferencesPage = this.profilePage.switchToPreferences();
+        this.customProfilePage.gotoPage();
+        preferencesPage = this.customProfilePage.switchToPreferences();
         preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setDefaultEditorDefault();
         preferencesEditPage.clickSaveAndView();
-        preferencesPage = this.profilePage.switchToPreferences();
-        this.profilePage.clickEdit();
-        about = ((RenderedWebElement) getDriver().findElement(By.id("XWiki.XWikiUsers_0_comment")));
-        Assert.assertNotNull(about);
-        Assert.assertFalse(about.isDisplayed());
-        Assert.assertTrue(getDriver().findElement(By.className("xRichTextEditor")) != null);
+        preferencesPage = this.customProfilePage.switchToPreferences();
+        Assert.assertEquals(DEFAULT_EDITOR, this.customProfilePage.getDefaultEditorToUse());
     }
 
     /**
@@ -232,13 +211,13 @@ public class UserProfileTest extends AbstractAdminAuthenticatedTest
     public void testCommentDoesntOverrideAboutInformation()
     {
         String commentContent = "this is from a comment";
-        ViewPage profile = this.getUtil().gotoPage("XWiki", "Admin");
+        ViewPage profile = this.getUtil().gotoPage("XWiki", userName);
         int commentId = -1;
         try {
             commentId = profile.openCommentsDocExtraPane().postComment(commentContent);
             getDriver().navigate().refresh();
-            Assert.assertFalse("Comment content was used as profile information",
-                profile.getContent().contains(commentContent));
+            Assert.assertFalse("Comment content was used as profile information", profile.getContent().contains(
+                commentContent));
         } finally {
             if (commentId != -1) {
                 profile.openCommentsDocExtraPane().deleteComment(commentId);

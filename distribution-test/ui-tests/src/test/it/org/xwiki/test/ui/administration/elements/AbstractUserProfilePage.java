@@ -25,7 +25,7 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
  * Common page object for all Profile page tabs (profile tab, preferences tab, watchlist tab).
- *
+ * 
  * @version $Id$
  * @since 3.0M1
  */
@@ -36,6 +36,12 @@ public class AbstractUserProfilePage extends ViewPage
 
     @FindBy(xpath = "//a[@href='?category=preferences']")
     private WebElement preferences;
+
+    @FindBy(xpath = "//div[@id='preferencesPane']/div[1]/div/dl[2]/dd[1]")
+    private WebElement defaultEditorToUse;
+
+    @FindBy(xpath = "//div[@id='preferencesPane']/div[1]/div/dl[2]/dd[2]")
+    private WebElement userType;
 
     protected final String targetUsername;
 
@@ -54,5 +60,15 @@ public class AbstractUserProfilePage extends ViewPage
     {
         this.profile.click();
         return new ProfileUserProfilePage(this.targetUsername);
+    }
+
+    public String getDefaultEditorToUse()
+    {
+        return this.defaultEditorToUse.getText();
+    }
+
+    public String getUserType()
+    {
+        return this.userType.getText();
     }
 }

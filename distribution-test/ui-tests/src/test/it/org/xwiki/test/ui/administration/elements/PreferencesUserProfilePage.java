@@ -26,12 +26,12 @@ import org.xwiki.test.ui.framework.elements.editor.PreferencesEditPage;
 
 /**
  * Represents the User Profile Preferences Tab.
- *
+ * 
  * @version $Id$
  */
 public class PreferencesUserProfilePage extends AbstractUserProfilePage
 {
-    @FindBy(xpath = "//a[@href='/xwiki/bin/inline/XWiki/Admin?category=preferences']")
+    @FindBy(xpath = "//div[@id='preferencesPane']//div[@class='editProfileCategory']/a")
     private WebElement editPreferences;
 
     @FindBy(xpath = "//div[@class='userPreferences']/dl[2]/dd[2]")

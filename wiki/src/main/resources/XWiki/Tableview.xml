@@ -26,7 +26,7 @@
 <content>{{velocity}}
 #set($collist = ["doc.name", "doc.space","doc.date", "doc.author", "_actions"])
 #set($colprops = {
-                   "doc.name" : { "type" : "text" , "size" : 30, "link" : "view"}, 
+                   "doc.name" : { "type" : "text" , "size" : 30, "link" : "view"},
                    "doc.space" : { "type" : "text", "link" : "space"},
                    "doc.date" : { "type" : "date" },
                    "doc.author" : { "type" : "text", "link" : "author"},

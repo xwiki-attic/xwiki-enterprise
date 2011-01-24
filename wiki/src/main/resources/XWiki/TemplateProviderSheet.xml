@@ -50,21 +50,21 @@
 </property>
 </object>
 <content>{{velocity}}
-#if($context.action != 'view')
+#if ($context.action != 'view')
 ; $msg.get('xe.templateprovider.name')
 : {{html}}&lt;input type="text" value="$!{doc.getTitle()}" name="title" /&gt;{{/html}}
 #end
 ; $msg.get('xe.templateprovider.templatename')
 : $doc.display('name')
 ; $msg.get('xe.templateprovider.template')
-: $doc.display('template') 
+: $doc.display('template')
 ; $msg.get('xe.templateprovider.spaces')
 : $doc.display('spaces')
-
-#if($context.action != 'view')
+#if ($context.action != 'view')
 
 {{info}}$msg.get('xe.templateprovider.spaces.info'){{/info}}
 #else
+
   {{html wiki="true"}}
     &lt;span class="buttonwrapper"&gt;
       [[$msg.get('xe.templateprovider.backtoadmin')&gt;&gt;$xwiki.getDocument('XWiki', 'XWikiPreferences').getExternalURL('admin', 'section=Templates')]]

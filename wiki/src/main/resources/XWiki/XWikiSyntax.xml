@@ -516,9 +516,9 @@ In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 
 
 == XWiki Syntax 1.0 Link Specification ==
 
-The full format of a link is ##(alias[|&amp;gt;])+(link)(@interWikiAlias)+([|&amp;gt;]target)+##
+The full format of a link is ##{{{(alias[|&amp;gt;])+(link)(@interWikiAlias)+([|&amp;gt;]target)+}}}##
 * ##alias##: An optional string which will be displayed to the user as the link name when rendered. Example: "My Page".
-* ##link##: The full link reference using the following syntax: ##(virtualWikiAlias:)+(space.)+(reference)(?queryString)+(#anchor)+##
+* ##link##: The full link reference using the following syntax: ##{{{(virtualWikiAlias:)+(space.)+(reference)(?queryString)+(#anchor)+}}}##
 * Note that either the ##link## or the ##alias## must be specified.
 ** ##virtualWikiAlias##: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: "mywiki".
 ** ##space##: An optional Wiki Space name. If not space is specified the current space is used. Example: "Main".
@@ -530,7 +530,7 @@ The full format of a link is ##(alias[|&amp;gt;])+(link)(@interWikiAlias)+([|&am
 
 == XWiki Syntax 2.0 Link Specification ==
 
-The full format of a link is ##(label&gt;&gt;)?(link)(||parameters)*##
+The full format of a link is ##{{{(label&gt;&gt;)?(link)(||parameters)*}}}##
 * ##label##: the link label, can contain wiki syntax
 * ##link##: the link target, i.e. where to go when the link is clicked. It has a similar format than in the XWiki 1.0 syntax and it can also contain 2 types of URIs: ##mailto:## and ##attach:## for linking to an email and linking to an attachment respectively.
 * ##parameters##: An optional list of parameters passed to the link.

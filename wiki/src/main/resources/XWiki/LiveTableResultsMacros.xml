@@ -250,6 +250,7 @@
           "doc_wiki_url" : "$escapetool.javascript($wikiUrl)",
         #end
         "doc_hasadmin"  : $xwiki.hasAdminRights(),
+        "doc_hasedit" : $xwiki.hasAccessLevel('edit', $context.user, $fullname),
         "doc_edit_url" : "$escapetool.javascript($editUrl)",
         "doc_copy_url"   : "$escapetool.javascript($copyUrl)",
         "doc_delete_url" : "$escapetool.javascript($deleteUrl)",

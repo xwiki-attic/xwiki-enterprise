@@ -17,30 +17,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.framework.elements.editor;
+package org.xwiki.test.ui.framework.elements.editor.wysiwyg;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
+import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
- * Edit page with a preview button.
+ * Models a wizard step used by the WYSIWYG content editor.
  * 
  * @version $Id$
- * @since 2.4M2
+ * @since 3.0M2
  */
-public class PreviewableEditPage extends EditPage
+public class WizardStepElement extends BaseElement
 {
-    @FindBy(name = "action_preview")
-    private WebElement preview;
-
     /**
-     * Clicks on the preview button.
+     * Waits for this wizard step to load.
      * 
-     * @return the preview edit page
+     * @return a reference to this wizard step for easy method chaining
      */
-    public PreviewEditPage clickPreview()
+    public WizardStepElement waitToLoad()
     {
-        preview.click();
-        return new PreviewEditPage(this);
+        waitUntilElementIsVisible(By
+            .xpath("//div[contains(@class, 'xDialogBody') and not(contains(@class, 'loading'))]"));
+        return this;
     }
 }

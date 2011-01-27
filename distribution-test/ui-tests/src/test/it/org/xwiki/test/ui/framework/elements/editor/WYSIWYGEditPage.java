@@ -23,6 +23,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.editor.wysiwyg.EditorElement;
+import org.xwiki.test.ui.framework.elements.editor.wysiwyg.ImageSelectPane;
 
 /**
  * Represents the actions possible in WYSIWYG edit mode.
@@ -37,6 +39,11 @@ public class WYSIWYGEditPage extends PreviewableEditPage
 
     @FindBy(name = "action_save")
     private WebElement saveAndViewSubmit;
+
+    /**
+     * The WYSIWYG content editor.
+     */
+    private final EditorElement editor = new EditorElement("content");
 
     public String getDocumentTitle()
     {
@@ -54,21 +61,42 @@ public class WYSIWYGEditPage extends PreviewableEditPage
      */
     public String getContent()
     {
-        String content;
-
         // Handle both the TinyMCE editor and the GWT Editor depending on the syntax
-        String windowHandle = getDriver().getWindowHandle();
         if ("xwiki/1.0".equals(getSyntaxId())) {
+            String windowHandle = getDriver().getWindowHandle();
             getDriver().switchTo().frame("mce_editor_0");
-            content = getDriver().findElement(By.id("mceSpanFonts")).getText();
+            String content = getDriver().findElement(By.id("mceSpanFonts")).getText();
+            getDriver().switchTo().window(windowHandle);
+            return content;
         } else {
-            // Note: the GWT editor doesn't set an id on the iframe so we have to reference the first iframe...
-            waitUntilElementIsVisible(By.xpath("//iframe[@class='gwt-RichTextArea']"));
-            getDriver().switchTo().frame(1);
-            waitUntilElementIsVisible(By.id("body"));
-            content = getDriver().findElement(By.id("body")).getText();
+            return editor.getRichTextArea().getContent();
         }
-        getDriver().switchTo().window(windowHandle);
-        return content;
+    }
+
+    /**
+     * Start editing page, create first if needed.
+     */
+    public void switchToEdit(String space, String page)
+    {
+        getUtil().gotoPage(space, page, "edit", "editor=wysiwyg");
+    }
+
+    /**
+     * @return the WYSIWYG content editor
+     */
+    public EditorElement getContentEditor()
+    {
+        return editor;
+    }
+
+    /**
+     * Triggers the insert image wizard.
+     * 
+     * @return the pane used to select the image to insert
+     */
+    public ImageSelectPane insertImage()
+    {
+        editor.getMenuBar().clickImageMenu();
+        return editor.getMenuBar().clickInsertImageMenu();
     }
 }

@@ -115,6 +115,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
+        wysiwygEditPage.getContentEditor().waitToLoad();
         Assert.assertEquals("Section2\nContent2Section3\nContent3Section4\nContent4Section5\nContent5Section6\n"
             + "Content6", wysiwygEditPage.getContent());
 

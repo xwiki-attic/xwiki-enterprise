@@ -17,30 +17,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.framework.elements.editor;
+package org.xwiki.test.ui.framework.elements.editor.wysiwyg;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
- * Edit page with a preview button.
+ * Models the rich text area of the WYSIWYG content editor.
  * 
  * @version $Id$
- * @since 2.4M2
+ * @since 3.0M2
  */
-public class PreviewableEditPage extends EditPage
+public class RichTextAreaElement extends BaseElement
 {
-    @FindBy(name = "action_preview")
-    private WebElement preview;
+    /**
+     * The in-line frame element.
+     */
+    private final WebElement iframe;
 
     /**
-     * Clicks on the preview button.
+     * Creates a new rich text area element.
      * 
-     * @return the preview edit page
+     * @param iframe the in-line frame used by the rich text area
      */
-    public PreviewEditPage clickPreview()
+    public RichTextAreaElement(WebElement iframe)
     {
-        preview.click();
-        return new PreviewEditPage(this);
+        this.iframe = iframe;
+    }
+
+    /**
+     * @return the content of the rich text area
+     */
+    public String getContent()
+    {
+        String windowHandle = getDriver().getWindowHandle();
+        getDriver().switchTo().frame(iframe);
+        String content = getDriver().findElement(By.id("body")).getText();
+        getDriver().switchTo().window(windowHandle);
+        return content;
     }
 }

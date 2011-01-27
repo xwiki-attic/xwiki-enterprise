@@ -17,30 +17,45 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.framework.elements.editor;
+package org.xwiki.test.ui.framework.elements.editor.wysiwyg;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Edit page with a preview button.
+ * Models the image selection wizard step that is accessible when inserting or editing an image with the WYSIWYG content
+ * editor.
  * 
  * @version $Id$
- * @since 2.4M2
+ * @since 3.0M2
  */
-public class PreviewableEditPage extends EditPage
+public class ImageSelectPane extends WizardStepElement
 {
-    @FindBy(name = "action_preview")
-    private WebElement preview;
+    @FindBy(xpath = "//div[@class = 'xSelectorAggregatorStep']//div[. = 'Current page']")
+    private WebElement currentPageTab;
 
     /**
-     * Clicks on the preview button.
+     * {@inheritDoc}
      * 
-     * @return the preview edit page
+     * @see WizardStepElement#waitToLoad()
      */
-    public PreviewEditPage clickPreview()
+    @Override
+    public ImageSelectPane waitToLoad()
     {
-        preview.click();
-        return new PreviewEditPage(this);
+        super.waitToLoad();
+        waitUntilElementIsVisible(By.className("xSelectorAggregatorStep"));
+        return this;
+    }
+
+    /**
+     * Selects the tab that lists the images attached to the current page.
+     * 
+     * @return the pane used to select an image from those attached to the edited page
+     */
+    public CurrentPageImageSelectPane selectFromCurrentPage()
+    {
+        currentPageTab.click();
+        return new CurrentPageImageSelectPane().waitToLoad();
     }
 }

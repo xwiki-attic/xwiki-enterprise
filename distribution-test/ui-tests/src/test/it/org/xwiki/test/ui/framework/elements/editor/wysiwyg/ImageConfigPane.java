@@ -17,30 +17,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.framework.elements.editor;
+package org.xwiki.test.ui.framework.elements.editor.wysiwyg;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
 
 /**
- * Edit page with a preview button.
+ * Models the image configuration wizard step that is accessible when editing an image from the WYSIWYG content editor.
  * 
  * @version $Id$
- * @since 2.4M2
+ * @since 3.0M2
  */
-public class PreviewableEditPage extends EditPage
+public class ImageConfigPane extends WizardStepElement
 {
-    @FindBy(name = "action_preview")
-    private WebElement preview;
-
     /**
-     * Clicks on the preview button.
+     * {@inheritDoc}
      * 
-     * @return the preview edit page
+     * @see WizardStepElement#waitToLoad()
      */
-    public PreviewEditPage clickPreview()
+    @Override
+    public ImageConfigPane waitToLoad()
     {
-        preview.click();
-        return new PreviewEditPage(this);
+        super.waitToLoad();
+        waitUntilElementIsVisible(By.className("xImageConfig"));
+        return this;
     }
 }

@@ -23,24 +23,42 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Edit page with a preview button.
+ * Models the preview edit page.
  * 
  * @version $Id$
- * @since 2.4M2
+ * @since 3.0M2
  */
-public class PreviewableEditPage extends EditPage
+public class PreviewEditPage extends EditPage
 {
-    @FindBy(name = "action_preview")
-    private WebElement preview;
+    /**
+     * The edited page.
+     */
+    private PreviewableEditPage editedPage;
 
     /**
-     * Clicks on the preview button.
-     * 
-     * @return the preview edit page
+     * The button used to return to edit.
      */
-    public PreviewEditPage clickPreview()
+    @FindBy(name = "action_edit")
+    private WebElement backToEdit;
+
+    /**
+     * Creates a new preview page that holds a reference to the edited page.
+     * 
+     * @param editedPage the edited page
+     */
+    public PreviewEditPage(PreviewableEditPage editedPage)
     {
-        preview.click();
-        return new PreviewEditPage(this);
+        this.editedPage = editedPage;
+    }
+
+    /**
+     * Clicks on the back to edit button.
+     * 
+     * @return the edited page
+     */
+    public PreviewableEditPage clickBackToEdit()
+    {
+        backToEdit.click();
+        return editedPage;
     }
 }

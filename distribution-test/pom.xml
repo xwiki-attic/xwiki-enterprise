@@ -132,8 +132,8 @@
           </executions>
         </plugin>
         <!-- Start XWiki, Execute the tests and Stop XWiki.
-          Note: To execute a single test case run mvn install -Dpattern=<test name>
-          For example: mvn install -Dpattern=DeletePageTest
+          Note: To execute a single test case run mvn install -Dpattern=<test class name> -DpatternMethod=<test method name>
+          For example: mvn install -Dpattern=DeletePageTest -DpatternMethod=testDeletePageCanDoRedirect
           For example: mvn install -Dpattern=.*Wysiwyg.*
         -->
         <plugin>
@@ -155,6 +155,10 @@
               <property>
                 <name>pattern</name>
                 <value>${pattern}</value>
+              </property>
+              <property>
+                <name>patternMethod</name>
+                <value>${patternMethod}</value>
               </property>
               <property>
                 <name>xwikiPort</name>
@@ -373,10 +377,12 @@
   </dependencyManagement>
   <properties>
     <!-- This is to allow users to override this property on the command line to choose what
-      test to run. For example to run only the DeletePageTest you would type:
-      mvn install -DPattern=DeletePageTest
+      test to run. For example to run only the DeletePageTest#testDeletePageCanDoRedirect()
+      you would type:
+      mvn install -Dpattern=DeletePageTest -DpatternMethod=testDeletePageCanDoRedirect
     -->
     <pattern>.*</pattern>
+    <patternMethod>.*</patternMethod>
     <port>8080</port>
     <stopport>8079</stopport>
     <seleniumPort>4444</seleniumPort>

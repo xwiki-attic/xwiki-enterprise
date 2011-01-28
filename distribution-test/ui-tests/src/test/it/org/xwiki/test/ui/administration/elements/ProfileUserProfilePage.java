@@ -88,12 +88,12 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
 
     public void gotoPage()
     {
-        getUtil().gotoPage("XWiki", this.targetUsername);
+        getUtil().gotoPage("XWiki", getUsername());
     }
 
     public String getURL()
     {
-        return getUtil().getURL("XWiki", this.targetUsername);
+        return getUtil().getURL("XWiki", getUsername());
     }
 
     public String getUserFirstName()

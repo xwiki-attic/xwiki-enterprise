@@ -53,7 +53,6 @@ public class AllTests extends TestCase
 
         addTestCase(suite, DeletePageTest.class);
         addTestCase(suite, LoginLogoutTest.class);
-        addTestCase(suite, UserProfileTest.class);
         addTestCase(suite, WikiEditorTest.class);
         addTestCase(suite, WysiwygEditorFromWikiTest.class);
         addTestCase(suite, WysiwygEditorTest.class);

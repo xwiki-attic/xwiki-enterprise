@@ -43,23 +43,28 @@ public class AbstractUserProfilePage extends ViewPage
     @FindBy(xpath = "//div[@id='preferencesPane']/div[1]/div/dl[2]/dd[2]")
     private WebElement userType;
 
-    protected final String targetUsername;
+    private final String username;
 
     public AbstractUserProfilePage(String username)
     {
-        this.targetUsername = username;
+        this.username = username;
+    }
+
+    public String getUsername()
+    {
+        return this.username;
     }
 
     public PreferencesUserProfilePage switchToPreferences()
     {
         this.preferences.click();
-        return new PreferencesUserProfilePage(this.targetUsername);
+        return new PreferencesUserProfilePage(getUsername());
     }
 
     public ProfileUserProfilePage switchToProfile()
     {
         this.profile.click();
-        return new ProfileUserProfilePage(this.targetUsername);
+        return new ProfileUserProfilePage(getUsername());
     }
 
     public String getDefaultEditorToUse()

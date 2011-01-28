@@ -25,10 +25,10 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Alert;
 import org.xwiki.test.ui.administration.elements.PreferencesUserProfilePage;
 import org.xwiki.test.ui.administration.elements.ProfileUserProfilePage;
 import org.xwiki.test.ui.framework.AbstractTest;
-import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.ChangeAvatarPage;
 import org.xwiki.test.ui.framework.elements.editor.ChangePasswordPage;
 import org.xwiki.test.ui.framework.elements.editor.PreferencesEditPage;
@@ -75,6 +75,14 @@ public class UserProfileTest extends AbstractTest
 
     private static final String ADVANCED_USER = "Advanced";
 
+    private static final String PASSWORD_IS_EMPTY = "The password cannot be empty.";
+
+    private static final String PASSWORD_MISMATCH = "The two passwords do not match.";
+
+    private static final String PASSWORD_1 = "p1";
+
+    private static final String PASSWORD_2 = "p2";
+
     private ProfileUserProfilePage customProfilePage;
 
     private String userName;
@@ -84,9 +92,8 @@ public class UserProfileTest extends AbstractTest
     {
         userName = RandomStringUtils.randomAlphanumeric(5);
         String password = RandomStringUtils.randomAlphanumeric(6);
-        getUtil().registerLoginAndGotoPage(userName, password, "Main");
         customProfilePage = new ProfileUserProfilePage(userName);
-        customProfilePage.gotoPage();
+        getUtil().registerLoginAndGotoPage(userName, password, customProfilePage.getURL());
     }
 
     /** Functionality check: changing profile information. */
@@ -111,8 +118,8 @@ public class UserProfileTest extends AbstractTest
         Assert.assertEquals(USER_COMPANY, customProfilePage.getUserCompany());
         Assert.assertEquals(USER_ABOUT, customProfilePage.getUserAbout());
         // The page will show webmaster@---- for security reasons, just check the first part of the email
-        Assert.assertEquals(StringUtils.substringBefore(USER_EMAIL, "@"), StringUtils.substringBefore(customProfilePage
-            .getUserEmail(), "@"));
+        Assert.assertEquals(StringUtils.substringBefore(USER_EMAIL, "@"),
+            StringUtils.substringBefore(customProfilePage.getUserEmail(), "@"));
         Assert.assertEquals(USER_PHONE, customProfilePage.getUserPhone());
         Assert.assertEquals(USER_ADDRESS, customProfilePage.getUserAddress());
         Assert.assertEquals(USER_BLOG, customProfilePage.getUserBlog());
@@ -211,17 +218,51 @@ public class UserProfileTest extends AbstractTest
     public void testCommentDoesntOverrideAboutInformation()
     {
         String commentContent = "this is from a comment";
-        ViewPage profile = this.getUtil().gotoPage("XWiki", userName);
-        int commentId = -1;
-        try {
-            commentId = profile.openCommentsDocExtraPane().postComment(commentContent);
-            getDriver().navigate().refresh();
-            Assert.assertFalse("Comment content was used as profile information", profile.getContent().contains(
-                commentContent));
-        } finally {
-            if (commentId != -1) {
-                profile.openCommentsDocExtraPane().deleteComment(commentId);
-            }
+
+        int commentId = customProfilePage.openCommentsDocExtraPane().postComment(commentContent);
+        getDriver().navigate().refresh();
+        Assert.assertFalse("Comment content was used as profile information",
+            customProfilePage.getContent().contains(commentContent));
+
+        if (commentId != -1) {
+            customProfilePage.openCommentsDocExtraPane().deleteComment(commentId);
         }
+    }
+
+    @Test
+    public void testChangePasswordWithTwoDifferentPasswords()
+    {
+        PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
+        ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
+        changePasswordPage.changePassword(PASSWORD_1, PASSWORD_2);
+        changePasswordPage.submit();
+        Alert alert = getDriver().switchTo().alert();
+        Assert.assertEquals(PASSWORD_MISMATCH, alert.getText());
+        alert.accept();
+    }
+
+    @Test
+    public void testChangePasswordWithoutEnteringPasswords()
+    {
+        PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
+        ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
+        changePasswordPage.submit();
+        Alert alert = getDriver().switchTo().alert();
+        Assert.assertEquals(PASSWORD_IS_EMPTY, alert.getText());
+        alert.accept();
+    }
+
+    @Test
+    public void testChangePasswordOfAnotherUserWithTwoDifferentPasswords()
+    {
+        // Login as Admin and change the password of another user
+        getUtil().getURLToLoginAsAdminAndGotoPage(customProfilePage.getURL());
+        PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
+        ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
+        changePasswordPage.changePassword(PASSWORD_1, PASSWORD_2);
+        changePasswordPage.submit();
+        Alert alert = getDriver().switchTo().alert();
+        Assert.assertEquals(PASSWORD_MISMATCH, alert.getText());
+        alert.accept();
     }
 }

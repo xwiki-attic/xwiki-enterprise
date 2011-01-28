@@ -69,8 +69,7 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         String title = RandomStringUtils.randomAlphanumeric(4);
         open("XWiki", "Admin", "inline", "title=" + title);
         clickEditSaveAndView();
-        // assertTextPresent(title);
-        waitForBodyContains(title);
+        assertTextPresent(title);
     }
 
     /* See XWIKI-2389 */

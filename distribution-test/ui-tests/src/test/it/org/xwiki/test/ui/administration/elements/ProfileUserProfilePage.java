@@ -24,6 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.editor.ChangeAvatarPage;
 import org.xwiki.test.ui.framework.elements.editor.ProfileEditPage;
+import org.xwiki.test.ui.framework.elements.editor.wysiwyg.EditorElement;
 
 /**
  * Represents the User Profile Profile Tab.
@@ -76,12 +77,23 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
     public ProfileEditPage editProfile()
     {
         this.editProfile.click();
+
+        // Make sure we wait for the WYSIWYG fields to be loaded since otherwise they'll steal the focus and if we
+        // start typing in other fields before they're loaded what we type will end up in the wrong fields...
+        new EditorElement("XWiki.XWikiUsers_0_comment").waitToLoad();
+        new EditorElement("XWiki.XWikiUsers_0_address").waitToLoad();
+
         return new ProfileEditPage();
     }
 
     public void gotoPage()
     {
         getUtil().gotoPage("XWiki", this.targetUsername);
+    }
+
+    public String getURL()
+    {
+        return getUtil().getURL("XWiki", this.targetUsername);
     }
 
     public String getUserFirstName()
@@ -138,7 +150,7 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
 
     public String getAvatarImageName()
     {
-        return StringUtils.substringBefore(StringUtils.substringAfterLast(
-            this.userAvatarImage.getAttribute("src"), "/"), "?");
+        return StringUtils.substringBefore(
+            StringUtils.substringAfterLast(this.userAvatarImage.getAttribute("src"), "/"), "?");
     }
 }

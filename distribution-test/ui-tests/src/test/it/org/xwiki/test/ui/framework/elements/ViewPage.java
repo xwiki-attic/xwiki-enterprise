@@ -37,16 +37,16 @@ import org.xwiki.test.ui.xe.elements.HomePage;
  */
 public class ViewPage extends BasePage
 {
-    @FindBys( {@FindBy(id = "tmRegister"), @FindBy(tagName = "a")})
+    @FindBys({@FindBy(id = "tmRegister"), @FindBy(tagName = "a")})
     private WebElement registerLink;
 
-    @FindBys( {@FindBy(id = "tmLogin"), @FindBy(tagName = "a")})
+    @FindBys({@FindBy(id = "tmLogin"), @FindBy(tagName = "a")})
     private WebElement loginLink;
 
-    @FindBys( {@FindBy(id = "tmLogout"), @FindBy(tagName = "a")})
+    @FindBys({@FindBy(id = "tmLogout"), @FindBy(tagName = "a")})
     private WebElement logoutLink;
 
-    @FindBys( {@FindBy(id = "tmUser"), @FindBy(tagName = "a")})
+    @FindBys({@FindBy(id = "tmUser"), @FindBy(tagName = "a")})
     private WebElement userLink;
 
     @FindBy(id = "tmCreatePage")
@@ -63,6 +63,12 @@ public class ViewPage extends BasePage
 
     @FindBy(id = "hierarchy")
     private WebElement hierarchy;
+
+    @FindBy(id = "tmActionCopy")
+    private WebElement copyPageLink;
+
+    @FindBy(id = "document-title")
+    private WebElement documentTitle;
 
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
@@ -221,13 +227,15 @@ public class ViewPage extends BasePage
 
     /**
      * Clicks on a wanted link in the page.
-     *
+     * 
      * @since 2.6RC1
      */
     public void clickWantedLink(String spaceName, String pageName, boolean waitForTemplateDisplay)
     {
-        WebElement brokenLink = getDriver().findElement(By.xpath(
-            "//span[@class='wikicreatelink']/a[contains(@href,'/create/" + spaceName + "/" + pageName + "')]"));
+        WebElement brokenLink =
+            getDriver().findElement(
+                By.xpath("//span[@class='wikicreatelink']/a[contains(@href,'/create/" + spaceName + "/" + pageName
+                    + "')]"));
         brokenLink.click();
         if (waitForTemplateDisplay) {
             // Ensure that the template choice popup is displayed. Since this is done using JS we need to wait till
@@ -235,5 +243,17 @@ public class ViewPage extends BasePage
             // will all have been displayed.
             waitUntilElementIsVisible(By.xpath("//div[@class='modal-popup']//input[@type='submit']"));
         }
+    }
+
+    public CopyPage copyCurrentPage()
+    {
+        hoverOverMenu("tmPage");
+        this.copyPageLink.click();
+        return new CopyPage();
+    }
+
+    public String getDocumentTitle()
+    {
+        return this.documentTitle.getText();
     }
 }

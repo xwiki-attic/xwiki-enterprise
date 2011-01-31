@@ -506,11 +506,11 @@ In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 
 |Image Link|{{{&lt;a href="$xwiki.getURL("Space1.Page1")"&gt;{image:img.png|document=Space2.Page2}&lt;/a&gt;}}}|{{{[[image:Space2.Page2@img.png&gt;&gt;Space1.Page1]]}}}|[[image:img.png&gt;&gt;Main.WebHome]]|[[image:img.png&gt;&gt;Main.WebHome]]
 |Image Link with image parameters|{{{&lt;a href="$xwiki.getURL("Space1.Page1")"&gt;{image:img.png|document=Space2.Page2|width=26|height=26}&lt;/a&gt;}}}|{{{[[[[image:Space2.Page2@img.png||width="26" height="26"]]&gt;&gt;Space1.Page1]]}}}|[[[[image:img.png||width="26" height="26"]]&gt;&gt;Main.WebHome]]|[[[[image:img.png||width="26" height="26"]]&gt;&gt;Main.WebHome]]
 |Link to an attachment in the current page|(((
-{{info}}See [[Attach Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]] for details{{/info}}
+{{info}}See [[Attach Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] for details{{/info}}
 {{{{attach:text|file=img.png}}}}
 )))|{{{[[text&gt;&gt;attach:img.png]]}}}|[[text&gt;&gt;attach:img.png]]|[[text&gt;&gt;attach:img.png]]
 |Link to an attachment in a different page|(((
-{{info}}See [[Attach Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]] for details{{/info}}
+{{info}}See [[Attach Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] for details{{/info}}
 {{{{attach:text|document=Space.Page|file=img.png}}}}
 )))|{{{[[text&gt;&gt;attach:Space.Page@img.png]]}}}|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]
 
@@ -595,56 +595,40 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
    &lt;td&gt;Cell22&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-}}})))|((({{{
+}}}
+
+{{info}}For improved features see the [[Livetable Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Livetable+Macro]].{{/info}}
+)))|((({{{
 {{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
 
-{{html}}
-&lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Title1&lt;/th&gt;
-    &lt;th&gt;Title2&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cell11&lt;/td&gt;
-   &lt;td&gt;Cell12&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cell21&lt;/td&gt;
-   &lt;td&gt;Cell22&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{{/html}}}}})))|(((
+(% class="grid sortable filterable doOddEven" id="tableid" %)
+(% class="sortHeader" %)|=Title1|=Title2
+|Cell11|Cell12
+|Cell21|Cell22
+}}}
+
+{{info}}For improved features see the [[Livetable Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Livetable+Macro]].{{/info}}
+)))|(((
 {{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
 
-{{html}}
-&lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Title1&lt;/th&gt;
-    &lt;th&gt;Title2&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cell11&lt;/td&gt;
-   &lt;td&gt;Cell12&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cell21&lt;/td&gt;
-   &lt;td&gt;Cell22&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{{/html}})))
+(% class="grid sortable filterable doOddEven" id="tableid" %)
+(% class="sortHeader" %)|=Title1|=Title2
+|Cell11|Cell12
+|Cell21|Cell22
+)))
 
 = Images =
 
 (% style="width:100%" %)
 |=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Result
 |Image from attachment in current page|(((
-{{info}}See [[Image Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/ImageMacro]] for details{{/info}}
+{{info}}See [[Image Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Image+Macro+%28Radeox%29]] for details{{/info}}
 {{{{image:img.png}}}}
 )))|{{{image:img.png}}}|image:img.png
 |Image from attachment in another document|{{{{image:img.png|document=Space.Page}}}}|{{{image:Space.Page@img.png}}}|image:img.png
@@ -656,7 +640,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 Allow to enter content that will not be formatted (in other words the wiki syntax will not be taken into account).
 
 {{info}}
-In XWiki Syntax 1.0 the [[Pre macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/PreMacro]] only preserves wiki syntax and Radeox macros. However HTML snippets and Groovy/Velocity scripts are still executed.
+In XWiki Syntax 1.0 the [[Pre macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Pre+Macro+%28Radeox%29]] only preserves wiki syntax and Radeox macros. However HTML snippets and Groovy/Velocity scripts are still executed.
 {{/info}}
 
 (% style="width:100%" %)
@@ -669,7 +653,7 @@ multi line
 content
 {/pre}
 }}}
-{{info}}It's also possible to use the [[Code macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/CodeMacro]] but it displays its content in a box by default.{{/info}}
+{{info}}It's also possible to use the [[Code macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Code+Macro+%28Radeox%29]] but it displays its content in a box by default.{{/info}}
 )))|((({{{
 {{{
 multi line
@@ -774,18 +758,15 @@ There are also 2 kinds of macros in XWiki Syntax 2.0:
 
 {{info}}The Radeox macros cannot be used in XWiki Syntax 2.0. Thus they have been rewritten as XWiki macros.{{/info}}
 
-{{info}}For the full list of available macros check the [[Macro Reference page&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/]].{{/info}}
+{{info}}For the full list of available macros check the [[Extensions wiki&gt;&gt;http://extensions.xwiki.org/]].{{/info}}
 
 (% style="width:100%" %)
 |=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0
 |Velocity Macro|((({{{#info("Some text")}}})))|((({{{
-{{velocity}}{{html}}
-#info("some text")
-{{/html}}{{/velocity}}}}}
-{{info}}We're using the HTML macro in the example since the ###info## macro returns HTML content.{{/info}}
-
-{{info}}Starting with XE 2.0 you should use the [[Message Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/MessageMacro]] to implement this example.{{/info}}
-)))
+{{info}}
+Some text
+{{/info}}
+}}})))
 |Radeox Macro/XWiki Macros|((({{{
 {code:java}
 java content

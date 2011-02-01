@@ -1891,6 +1891,40 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertSourceText(String.format("[[%s>>%s]]", label, linkReference));
     }
 
+    /**
+     * Creates a link to the currently edited page by going through the "All Pages" step.
+     * 
+     * @see XWIKI-5849: Cannot create link to current page
+     */
+    public void testCreateLinkToCurrentPageThroughAllPages()
+    {
+        // We have to save the page to make it appear in the all pages tree.
+        clickEditSaveAndContinue();
+
+        String linkLabel = "this";
+        typeText(linkLabel);
+        selectNodeContents("XWE.body.firstChild");
+
+        openLinkDialog(MENU_WIKI_PAGE);
+        clickTab(ALL_PAGES_TAB);
+        waitForStepToLoad(STEP_EXPLORER);
+
+        String currentSpaceName = this.getClass().getSimpleName();
+        String currentPageName = getName();
+
+        // The current page should be selected by default.
+        explorer.waitForPageSelected(currentSpaceName, currentPageName);
+        clickButtonWithText("Select");
+
+        // Wait for the link configuration step to load.
+        waitForStepToLoad("xLinkConfig");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        switchToSource();
+        assertSourceText("[[" + linkLabel + ">>" + currentPageName + "]]");
+    }
+
     protected void waitForStepToLoad(String name)
     {
         waitForElement("//*[contains(@class, '" + name + "')]");

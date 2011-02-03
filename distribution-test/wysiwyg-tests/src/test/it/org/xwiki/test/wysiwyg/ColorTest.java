@@ -52,7 +52,7 @@ public class ColorTest extends AbstractWysiwygTestCase
 
         // Check if the editor detects the right color.
         clickForegroundColorButton();
-        assertSelectedColor("rgb(255, 0, 0)");
+        assertSelectedColor("rgb(255, 0, 0)", true);
         hideColorPicker();
     }
 
@@ -80,7 +80,7 @@ public class ColorTest extends AbstractWysiwygTestCase
 
         // Check if the editor detects the right color.
         clickBackgroundColorButton();
-        assertSelectedColor("rgb(255, 0, 0)");
+        assertSelectedColor("rgb(255, 0, 0)", true);
         hideColorPicker();
     }
 
@@ -90,7 +90,7 @@ public class ColorTest extends AbstractWysiwygTestCase
     public void testChangeTextAndBackgroudColor()
     {
         switchToSource();
-        setSourceText("(% style=\"color: red; background-color:#777;\" %)\nfoo");
+        setSourceText("(% style=\"color: red; background-color:#777;\" %)foo");
         switchToWysiwyg();
 
         // Select the text.
@@ -105,7 +105,7 @@ public class ColorTest extends AbstractWysiwygTestCase
         selectColor("rgb(252, 229, 205)");
 
         switchToSource();
-        assertSourceText("(% style=\"color: rgb(0, 255, 0); background-color: rgb(252, 229, 205);\" %)\nfoo");
+        assertSourceText("(% style=\"color: rgb(0, 255, 0); background-color: rgb(252, 229, 205);\" %)foo");
     }
 
     /**
@@ -190,10 +190,13 @@ public class ColorTest extends AbstractWysiwygTestCase
      * Asserts that the color selected by the color picker equals the given color.
      * 
      * @param rgbColor the expected selected color
+     * @param dark {@code true} if the specified color is dark, {@code false} if it is light
      */
-    protected void assertSelectedColor(String rgbColor)
+    protected void assertSelectedColor(String rgbColor, boolean dark)
     {
-        assertElementPresent("//div[@class = 'colorCell-selected' and @style = 'background-color: " + rgbColor + ";']");
+        assertElementPresent(String.format(
+            "//div[contains(@class, 'colorCell-selected-%s') and @style = 'background-color: %s;']", dark ? "dark"
+                : "light", rgbColor));
     }
 
     /**

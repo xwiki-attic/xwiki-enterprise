@@ -182,7 +182,7 @@
     #end
   #end
 
-  ## TagCould matching the current filters
+  ## TagCloud matching the current filters
   #set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere, $tagsMatchingParams))
   ## TagCloud matching all the documents used by the livetable
   #set($allMatchingTags = $xwiki.tag.getTagCountForQuery($allMatchingTagsFrom, $allMatchingTagsWhere, $allMatchingParams))
@@ -251,6 +251,7 @@
         #end
         "doc_hasadmin"  : $xwiki.hasAdminRights(),
         "doc_hasedit" : $xwiki.hasAccessLevel('edit', $context.user, $fullname),
+        "doc_hasdelete" : $xwiki.hasAccessLevel('delete', $context.user, $fullname),
         "doc_edit_url" : "$escapetool.javascript($editUrl)",
         "doc_copy_url"   : "$escapetool.javascript($copyUrl)",
         "doc_delete_url" : "$escapetool.javascript($deleteUrl)",

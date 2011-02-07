@@ -31,22 +31,22 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  */
 public class AdministrationPage extends ViewPage
 {
-    @FindBy(xpath = "//li[@class='General']/a/span/img")
+    @FindBy(xpath = "//a[contains(@href, 'section=General')]")
     WebElement generalLink;
 
-    @FindBy(xpath = "//li[@class='Import']/a/span/img")
+    @FindBy(xpath = "//a[contains(@href, 'section=Import')]")
     WebElement importLink;
 
-    @FindBy(xpath = "//li[@class='Registration']/a/span/img")
+    @FindBy(xpath = "//a[contains(@href, 'section=Registration')]")
     WebElement registrationLink;
 
-    @FindBy(xpath = "//li[@class='Users']/a/span/img")
+    @FindBy(xpath = "//a[contains(@href, 'section=Users')]")
     WebElement usersLink;
 
-    @FindBy(xpath = "//li[@class='Rights']/a/span/img")
+    @FindBy(xpath = "//a[contains(@href, 'section=Rights')]")
     WebElement rightsLink;
 
-    @FindBy(xpath = "//li[@class='Annotations']/a/span/img")
+    @FindBy(xpath = "//a[contains(@href, 'section=Annotations')]")
     WebElement annotationsLink;
 
     public void gotoPage()

@@ -259,7 +259,7 @@
         "doc_rights_url" : "$escapetool.javascript($rightsUrl)",
         "doc_author_url" : "$escapetool.javascript($xwiki.getURL($itemDoc.author))",
         "doc_date" : "$escapetool.javascript(${xwiki.formatDate($itemDoc.date)})",
-        "doc_title" : "$escapetool.javascript($xwiki.getXMLEncoded(${itemDoc.getDisplayTitle()}))",
+        "doc_title" : "$escapetool.javascript($escapetool.xml(${itemDoc.plainTitle}))",
         "doc_author" : "$escapetool.javascript(${xwiki.getLocalUserName($itemDoc.author, false)})",
         "doc_creationDate" : "$escapetool.javascript(${xwiki.formatDate($itemDoc.creationDate)})",
         "doc_creator" : "$escapetool.javascript(${xwiki.getLocalUserName($itemDoc.creator, false)})"

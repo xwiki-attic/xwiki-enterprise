@@ -120,7 +120,7 @@ Class properties:
           &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
           &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
           &lt;input type="hidden" name="xredirect" value="${doc.URL}"/&gt;
-          &lt;input type="hidden" name="content" value="$xwiki.getFormEncoded($xwiki.getDocument('XWiki.ObjectSheet').getContent().replaceAll('XWiki.MyClass', $doc.fullName))"/&gt;
+          &lt;input type="hidden" name="content" value="$escapetool.xml($xwiki.getDocument('XWiki.ObjectSheet').getContent().replace('XWiki.MyClass', $doc.fullName))"/&gt;
           &lt;input type="hidden" name="title" value="$doc.name Sheet"/&gt;
           &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create the document sheet" class="button"/&gt;&lt;/span&gt;
         &lt;/div&gt;
@@ -149,7 +149,7 @@ Class properties:
           &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
           &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
           &lt;input type="hidden" name="xredirect" value="${doc.URL}"/&gt;
-          &lt;input type="hidden" name="content" value="$xwiki.getFormEncoded($xwiki.getDocument('XWiki.ObjectTemplate').getContent().replaceAll('XWiki.MySheet', $classSheetDoc.fullName))"/&gt;
+          &lt;input type="hidden" name="content" value="$escapetool.xml($xwiki.getDocument('XWiki.ObjectTemplate').getContent().replace('XWiki.MySheet', $classSheetDoc.fullName))"/&gt;
           &lt;input type="hidden" name="title" value="$doc.name Template"/&gt;
           &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create the document template" class="button"/&gt;&lt;/span&gt;
         &lt;/div&gt;

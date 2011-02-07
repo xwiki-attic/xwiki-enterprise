@@ -47,29 +47,11 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         loginAsAdmin();
     }
 
-    public void testBasicInlineEditing()
-    {
-        open("XWiki", "Admin", "inline");
-        String company = RandomStringUtils.randomAlphanumeric(4);
-        setFieldValue("XWiki.XWikiUsers_0_company", company);
-        clickEditSaveAndView();
-        assertTextPresent(company);
-    }
-
     public void testEditButtonTriggersInlineEditing()
     {
         open("XWiki", "Admin");
         clickEditPage();
         assertElementPresent("XWiki.XWikiUsers_0_last_name");
-    }
-
-    /* See XE-168 */
-    public void testInlineEditCanChangeTitle()
-    {
-        String title = RandomStringUtils.randomAlphanumeric(4);
-        open("XWiki", "Admin", "inline", "title=" + title);
-        clickEditSaveAndView();
-        assertTextPresent(title);
     }
 
     /* See XWIKI-2389 */

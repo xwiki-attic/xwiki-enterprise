@@ -51,10 +51,6 @@ public class PanelWizardTest extends AbstractXWikiTestCase
      */
     public void testSections()
     {
-        waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
-        clickLinkWithXPath("//span[text()='Panel Wizard']");
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         assertElementPresent("//a[text()='Page Layout']");
         assertElementPresent("//a[text()='Panel List']");
     }
@@ -68,10 +64,6 @@ public class PanelWizardTest extends AbstractXWikiTestCase
      */
     public void testPageLayout()
     {
-        waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
-        clickLinkWithXPath("//span[text()='Panel Wizard']", true);
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         // tests the page layouts
         clickLinkWithXPath("//div[@id='nosidecolumn']", false);
@@ -106,10 +98,6 @@ public class PanelWizardTest extends AbstractXWikiTestCase
      */
     public void testInsertQuickLinksPanelInLeftColumn()
     {
-        waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
-        clickLinkWithXPath("//span[text()='Panel Wizard']", true);
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
         waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
@@ -146,10 +134,6 @@ public class PanelWizardTest extends AbstractXWikiTestCase
     public void testButtons()
     {
         // test button 'Go to Panels home page'
-        waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
-        clickLinkWithXPath("//span[text()='Panel Wizard']", true);
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         waitForCondition("selenium.page().bodyText().indexOf('Go to Panels home page')!=-1;");
         assertElementPresent("//a[text()='Page Layout']");
         assertElementPresent("//a[text()='Panel List']");
@@ -157,12 +141,6 @@ public class PanelWizardTest extends AbstractXWikiTestCase
 
         // test button 'Revert'
         open("Panels", "PanelWizard");
-        waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
-        clickLinkWithXPath("//span[text()='Panel Wizard']", true);
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
-        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
-        assertElementPresent("//a[text()='Page Layout']");
-        assertElementPresent("//a[text()='Panel List']");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
         waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
@@ -175,8 +153,8 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[text()='Revert']", false);
 
         // test button 'Save the new layout'
-        waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
-        clickLinkWithXPath("//span[text()='Panel Wizard']", true);
+        waitForCondition("selenium.isElementPresent(\"//a[text()='Panel Wizard']\")!=false;");
+        clickLinkWithXPath("//a[text()='Panel Wizard']", true);
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         assertElementPresent("//a[text()='Page Layout']");

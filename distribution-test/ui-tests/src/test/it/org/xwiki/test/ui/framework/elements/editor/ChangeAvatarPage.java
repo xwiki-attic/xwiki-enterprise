@@ -28,13 +28,13 @@ import org.xwiki.test.ui.framework.elements.BasePage;
 /** User profile, change avatar action. */
 public class ChangeAvatarPage extends BasePage
 {
-    @FindBy(xpath = "//div/input[@id='xwikiuploadfile']")
+    @FindBy(xpath = "//input[@id='xwikiuploadfile']")
     private WebElement avatarInput;
 
-    @FindBy(xpath = "//span[@class='buttonwrapper']/input[@class='button']")
+    @FindBy(xpath = "//*[@id='mainContentArea']//input[@class='button']")
     private WebElement submitButton;
 
-    @FindBy(xpath = "//span[@class='buttonwrapper']/a[@class='secondary button']")
+    @FindBy(xpath = "//*[@id='mainContentArea']//a[@class='secondary button']")
     private WebElement cancelButton;
 
     public void setAvatarImage(String imageName)

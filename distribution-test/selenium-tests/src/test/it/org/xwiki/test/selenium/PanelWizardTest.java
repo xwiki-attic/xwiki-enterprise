@@ -19,10 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
+import junit.framework.Test;
+
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
-import junit.framework.Test;
 
 public class PanelWizardTest extends AbstractXWikiTestCase
 {
@@ -42,8 +43,11 @@ public class PanelWizardTest extends AbstractXWikiTestCase
     }
 
     /**
-     * This method makes the following tests: <ul> <li>Opens the Wizard Panels page for XWiki instance.</li> <li>Checks for
-     * existence of 2 sections.</li> </ul>
+     * This method makes the following tests:
+     * <ul>
+     * <li>Opens the Wizard Panels page for XWiki instance.</li>
+     * <li>Checks for existence of 2 sections.</li>
+     * </ul>
      */
     public void testSections()
     {
@@ -57,8 +61,9 @@ public class PanelWizardTest extends AbstractXWikiTestCase
 
     /**
      * This method makes the following tests :
-     *
-     * <ul> <li>Opens the Wizard Panels page for XWiki instance.</li> <li>Opens and test for all 4 layouts for page.</li>
+     * <ul>
+     * <li>Opens the Wizard Panels page for XWiki instance.</li>
+     * <li>Opens and test for all 4 layouts for page.</li>
      * </ul>
      */
     public void testPageLayout()
@@ -68,7 +73,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
-        //tests the page layouts
+        // tests the page layouts
         clickLinkWithXPath("//div[@id='nosidecolumn']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightPanels' and @style='display: none;']\")!=false;");
         waitForCondition("selenium.isElementPresent(\"//div[@id='leftPanels' and @style='display: none;']\")!=false;");
@@ -93,9 +98,11 @@ public class PanelWizardTest extends AbstractXWikiTestCase
 
     /**
      * This method makes the following tests :
-     *
-     * <ul> <li>Opens the Wizard Panels page for XWiki instance.</li> <li>Selects 'bothcolums' layout.</li> <li>Then puts
-     * QuickLinks panel on the left side.</li> </ul>
+     * <ul>
+     * <li>Opens the Wizard Panels page for XWiki instance.</li>
+     * <li>Selects 'bothcolums' layout.</li>
+     * <li>Then puts QuickLinks panel on the left side.</li>
+     * </ul>
      */
     public void testInsertQuickLinksPanelInLeftColumn()
     {
@@ -131,12 +138,14 @@ public class PanelWizardTest extends AbstractXWikiTestCase
 
     /**
      * This method makes the following tests :
-     *
-     * <ul> <li>Opens the Wizard Panels page for XWiki instance.</li> <li>Test all 3 buttons.</li> </ul>
+     * <ul>
+     * <li>Opens the Wizard Panels page for XWiki instance.</li>
+     * <li>Test all 3 buttons.</li>
+     * </ul>
      */
     public void testButtons()
     {
-        //test button 'Go to Panels home page'
+        // test button 'Go to Panels home page'
         waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
         clickLinkWithXPath("//span[text()='Panel Wizard']", true);
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
@@ -146,7 +155,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         assertElementPresent("//a[text()='Panel List']");
         clickLinkWithText("Go to Panels home page");
 
-        //test button 'Revert'
+        // test button 'Revert'
         open("Panels", "PanelWizard");
         waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
         clickLinkWithXPath("//span[text()='Panel Wizard']", true);
@@ -165,7 +174,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
         clickLinkWithXPath("//a[text()='Revert']", false);
 
-        //test button 'Save the new layout'
+        // test button 'Save the new layout'
         waitForCondition("selenium.isElementPresent(\"//span[text()='Panel Wizard']\")!=false;");
         clickLinkWithXPath("//span[text()='Panel Wizard']", true);
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
@@ -176,5 +185,5 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
-	}
+    }
 }

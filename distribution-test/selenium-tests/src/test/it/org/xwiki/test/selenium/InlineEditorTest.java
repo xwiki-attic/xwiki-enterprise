@@ -47,55 +47,6 @@ public class InlineEditorTest extends AbstractXWikiTestCase
         loginAsAdmin();
     }
 
-    public void testEditButtonTriggersInlineEditing()
-    {
-        open("XWiki", "Admin");
-        clickEditPage();
-        assertElementPresent("XWiki.XWikiUsers_0_last_name");
-    }
-
-    /* See XWIKI-2389 */
-    public void testInlineEditPreservesTitle()
-    {
-        String title = RandomStringUtils.randomAlphanumeric(4);
-        open("XWiki", "Admin", "save", "title=" + title);
-        assertTextPresent(title);
-        open("XWiki", "Admin", "inline");
-        clickEditSaveAndView();
-        assertTextPresent(title);
-    }
-
-    /* See XE-168 */
-    public void testInlineEditCanChangeParent()
-    {
-        open("XWiki", "Admin", "inline", "parent=Main.WebHome");
-        clickEditSaveAndView();
-        assertTextPresent("Welcome to your wiki");
-    }
-
-    /* See XWIKI-2389 */
-    public void testInlineEditPreservesParent()
-    {
-        open("XWiki", "Admin", "save", "parent=Blog.WebHome");
-        assertTextPresent("The Wiki Blog");
-        open("XWiki", "Admin", "inline");
-        clickEditSaveAndView();
-        assertTextPresent("The Wiki Blog");
-    }
-
-    /* See XWIKI-2199 */
-    public void testInlineEditPreservesTags()
-    {
-        String tags = RandomStringUtils.randomAlphanumeric(4) + "|" + RandomStringUtils.randomAlphanumeric(4);
-        open("XWiki", "Admin", "save", "tags=" + tags);
-        editInWikiEditor("XWiki", "Admin");
-        assertTrue(tags.equals(getSelenium().getValue("tags")));
-        open("XWiki", "Admin", "inline");
-        clickEditSaveAndView();
-        editInWikiEditor("XWiki", "Admin");
-        assertTrue(tags.equals(getSelenium().getValue("tags")));
-    }
-
     /**
      * Tests that pages can override the default property display mode using $context.setDisplayMode. See XWIKI-2436.
      */

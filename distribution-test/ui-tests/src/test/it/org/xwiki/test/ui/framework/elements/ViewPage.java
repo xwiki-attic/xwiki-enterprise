@@ -70,6 +70,12 @@ public class ViewPage extends BasePage
     @FindBy(id = "document-title")
     private WebElement documentTitle;
 
+    @FindBy(id= "hierarchy")
+    private WebElement breadcrumbDiv;
+
+    @FindBy(id = "xdocTags")
+    private WebElement tagsDiv;
+
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
      */
@@ -255,5 +261,25 @@ public class ViewPage extends BasePage
     public String getDocumentTitle()
     {
         return this.documentTitle.getText();
+    }
+
+    public String getBreadcrumbContent()
+    {
+        return this.breadcrumbDiv.getText();
+    }
+
+    public boolean hasBreadcrumbContent(String breadcrumbItem)
+    {
+        return this.breadcrumbDiv.findElements(By.xpath("a[text() = '" + breadcrumbItem + "']")).size() > 0;
+    }
+
+    public boolean hasTag(String tagName)
+    {
+        return this.tagsDiv.findElements(By.xpath("*/span[@class = 'tag']/a[text() = '" + tagName + "']")).size() > 0;
+    }
+
+    public boolean isInlinePage()
+    {
+        return getDriver().findElements(By.xpath("//form[@id = 'inline']")).size() > 0;
     }
 }

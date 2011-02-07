@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.xwiki.test.ui.administration.elements.ProfileUserProfilePage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.InlinePage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -36,6 +37,16 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
 {
     // Note: We're not testing basic inline editing since this is already covered by the User Profile tests
 
+    @Test
+    public void testEditButtonTriggersInlineEditing()
+    {
+        ProfileUserProfilePage pupp = new ProfileUserProfilePage("Admin");
+        pupp.gotoPage();
+        // Here: clicking edit should perform inline editing.
+        pupp.clickEdit();
+        Assert.assertTrue(new ViewPage().isInlinePage());
+    }
+
     /* See XE-168 */
     @Test
     public void testInlineEditCanChangeTitle()
@@ -44,5 +55,55 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         getUtil().gotoPage("EditInlineTest", "testInlineEditCanChangeTitle", "inline", "title=" + title);
         ViewPage vp = new InlinePage().clickSaveAndView();
         Assert.assertEquals(title, vp.getDocumentTitle());
+    }
+
+    /* See XE-168 */
+    @Test
+    public void testInlineEditCanChangeParent()
+    {
+        getUtil().gotoPage("EditInlineTest", "testInlineEditCanChangeParent", "inline", "parent=Main.WebHome");
+        ViewPage vp = new InlinePage().clickSaveAndView();
+        Assert.assertTrue(vp.hasBreadcrumbContent("Welcome to your wiki"));
+    }
+
+    /* See XWIKI-2389 */
+    @Test
+    public void testInlineEditPreservesTitle()
+    {
+        String title = RandomStringUtils.randomAlphanumeric(4);
+        getUtil().gotoPage("EditInlineTest", "testInlineEditPreservesTitle", "save", "title=" + title);
+        ViewPage vp = new ViewPage();
+        Assert.assertEquals(title, vp.getDocumentTitle());
+        InlinePage ip = vp.clickEditInline();
+        ViewPage vp2 = ip.clickSaveAndView();
+        Assert.assertEquals(title, vp2.getDocumentTitle());
+    }
+
+    /* See XWIKI-2389 */
+    @Test
+    public void testInlineEditPreservesParent()
+    {
+        getUtil().gotoPage("EditInlineTest", "testInlineEditPreservesParent", "save", "parent=Blog.WebHome");
+        ViewPage vp = new ViewPage();
+        Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog"));
+        InlinePage ip = vp.clickEditInline();
+        ViewPage vp2 = ip.clickSaveAndView();
+        Assert.assertTrue(vp2.hasBreadcrumbContent("The Wiki Blog"));
+    }
+
+    /* See XWIKI-2199 */
+    @Test
+    public void testInlineEditPreservesTags()
+    {
+        String tag1 = RandomStringUtils.randomAlphanumeric(4);
+        String tag2 = RandomStringUtils.randomAlphanumeric(4);
+        getUtil().gotoPage("EditInlineTest", "testInlineEditPreservesTags", "save", "tags=" + tag1 + "|" + tag2);
+        ViewPage vp = new ViewPage();
+        Assert.assertTrue(vp.hasTag(tag1));
+        Assert.assertTrue(vp.hasTag(tag2));
+        InlinePage ip = vp.clickEditInline();
+        ViewPage vp2 = ip.clickSaveAndView();
+        Assert.assertTrue(vp2.hasTag(tag1));
+        Assert.assertTrue(vp2.hasTag(tag2));
     }
 }

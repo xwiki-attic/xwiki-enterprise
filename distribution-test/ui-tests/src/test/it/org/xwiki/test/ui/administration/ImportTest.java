@@ -79,12 +79,13 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
     /**
      * Verify that the Import page doesn't list any package by default in default XE.
+     * 
      * @since 2.6RC1
      */
     @Test
     public void testImportHasNoPackageByDefault()
     {
-        Assert.assertEquals(0, sectionPage.getPackageNames().size());
+        Assert.assertEquals(0, this.sectionPage.getPackageNames().size());
     }
 
     @Test
@@ -141,7 +142,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         WebElement importAsBackup = getDriver().findElement(By.name("importAsBackup"));
         Assert.assertTrue(importAsBackup.isSelected());
-        
+
         this.sectionPage.importPackage();
 
         ViewPage importedPage = this.sectionPage.clickImportedPage("Main.TestPage");
@@ -153,7 +154,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
         Assert.assertEquals("JohnDoe", history.getCurrentAuthor());
     }
-    
+
     @Test
     public void testImportWhenImportAsBackupIsNotSelected() throws IOException
     {
@@ -165,7 +166,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         WebElement importAsBackup = getDriver().findElement(By.name("importAsBackup"));
         importAsBackup.click();
         Assert.assertFalse(importAsBackup.isSelected());
-        
+
         this.sectionPage.importPackage();
 
         ViewPage importedPage = this.sectionPage.clickImportedPage("Main.TestPage");

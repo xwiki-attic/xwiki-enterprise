@@ -43,7 +43,7 @@ public class ImportAdministrationSectionPage extends ViewPage
     @FindBy(id = "xwikiuploadfile")
     private WebElement uploadFileInputField;
 
-    @FindBy(xpath = "//input[@type='submit']")
+    @FindBy(xpath = "//*[@id='attachform']//input[@type='submit']")
     private WebElement uploadFileSubmit;
 
     @FindBy(xpath = "//input[@value='Import']")
@@ -51,13 +51,13 @@ public class ImportAdministrationSectionPage extends ViewPage
 
     public void gotoPage()
     {
-        getUtil().gotoPage("XWiki", "Import", "import", "editor=globaladmin&section=Import");     
+        getUtil().gotoPage("XWiki", "XWikiPreferences", "import", "editor=globaladmin&section=Import");
     }
 
     public void attachPackage(URL file)
     {
-        uploadFileInputField.sendKeys(file.getPath());
-        uploadFileSubmit.submit();
+        this.uploadFileInputField.sendKeys(file.getPath());
+        this.uploadFileSubmit.submit();
     }
 
     public boolean isPackagePresent(String packageName)
@@ -87,7 +87,7 @@ public class ImportAdministrationSectionPage extends ViewPage
 
     public void deletePackage(String packageName)
     {
-        List<WebElement> packages = packageList.findElements(By.xpath("//ul[@class='xlist']/li/div"));
+        List<WebElement> packages = this.packageList.findElements(By.xpath("//ul[@class='xlist']/li/div"));
         for (WebElement pack : packages) {
             try {
                 pack.findElement(By.partialLinkText(packageName));
@@ -104,7 +104,7 @@ public class ImportAdministrationSectionPage extends ViewPage
     public void importPackage()
     {
         // Click submit
-        importPackageLink.click();
+        this.importPackageLink.click();
         // Wait for the "Import successful message"
         this.waitUntilElementIsVisible(By.xpath("//div[@id='packagecontainer']/div[@class='infomessage']"));
     }

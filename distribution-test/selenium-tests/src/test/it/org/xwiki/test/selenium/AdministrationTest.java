@@ -56,30 +56,30 @@ public class AdministrationTest extends AbstractXWikiTestCase
     public void testGlobalAndSpaceSections()
     {
         clickLinkWithText("Administer Wiki");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='General']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Presentation']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Registration']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Programming']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Rights']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Users']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Groups']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Import']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Export']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Panels_PanelWizard']");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=General')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Programming')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Rights')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Users')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Groups')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Import')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Export')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Panels.PanelWizard')]");
 
         // select space administration
         getSelenium().select("goto-select", "label=Main");
         waitPage();
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Presentation']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Rights']");
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='Panels_PanelWizard']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='General']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Registration']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Programming']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Users']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Groups']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Import']");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Export']");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Rights')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Panels.PanelWizard')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=General')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Programming')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Users')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Groups')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Import')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Export')]");
     }
 
     /*
@@ -88,10 +88,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
     public void testApplicationSection()
     {
         // Delete the Blog.Categories page and test it's not present in the admin global menu anymore
-        deletePage("Blog", "Categories");
+        deletePage("XWiki", "SearchAdmin");
         clickLinkWithText("Administer Wiki");
-        assertElementNotPresent("//ul[@id='admin-icons']/li[@class='Blog_Categories']");
-        restorePage("Blog", "Categories");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Search')]");
+        restorePage("XWiki", "SearchAdmin");
     }
 
     /*
@@ -101,7 +101,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         clickLinkWithText("Administer Wiki");
         getSelenium().select("goto-select", "label=Wiki administration");
-        clickLinkWithXPath("//span[text()='General']", true);
+        clickLinkWithXPath("//a[text()='General']", true);
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");
         clickLinkWithXPath("//input[@value='Save']", true);
         assertElementPresent("//span[@id='headerlanguages']");
@@ -137,7 +137,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open("XWiki", "XWikiPreferences", "admin");
 
         // test panel wizard at global level
-        clickLinkWithLocator("//span[text()='Panel Wizard']");
+        clickLinkWithLocator("//a[text()='Panel Wizard']");
         waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
@@ -154,7 +154,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // Revert changes
         open("XWiki", "XWikiPreferences", "admin");
-        clickLinkWithLocator("//span[text()='Panel Wizard']");
+        clickLinkWithLocator("//a[text()='Panel Wizard']");
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
@@ -171,7 +171,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("content", "aaa");
         clickEditSaveAndView();
         open("TestPanelsAdmin", "WebPreferences", "admin");
-        clickLinkWithLocator("//span[text()='Panel Wizard']");
+        clickLinkWithLocator("//a[text()='Panel Wizard']");
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='leftcolumn']\")!=false;");
@@ -239,12 +239,11 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithText("admin." + section.toLowerCase());
         assertConfigurationPresent("Main", "TestConfigurable");
         // Make sure javascript adds a save button.
-        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
+        waitForElement("input[@type='submit'][@value='Save']");
         // Check that it's not available in space section.
         open("Main", "WebPreferences", "admin");
         // Assert there is no icon with the default image.
-        assertElementNotPresent("//ul[@id='admin-icons']/li/*/img"
-                                + "[@src='/xwiki/bin/download/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png']");
+        assertElementNotPresent("//img[contains(@src,'/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png']");
     }
 
     /*
@@ -285,8 +284,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationIconPresent(nonExistingSection, null);
 
         // Make sure the error message is displayed.
-        assertElementPresent("//ul[@id='admin-icons']/li[@class='"
-                             + nonExistingSection + "']/a/span[@class='errormessage']");
+        // FIXME In 3.0 inaccessible sections don't appear anymore
+        // assertElementPresent("//ul[@id='admin-icons']/li[@class='" + nonExistingSection +
+        // "']/a/span[@class='errormessage']");
 
         // If someJoker is clever enough to try the url of the section...
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + nonExistingSection);
@@ -341,7 +341,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.ConfigurableClass_1_configurationClass", space + "." + page);
         getSelenium().uncheck("XWiki.ConfigurableClass_1_configureGlobally");
         // Set propertiesToShow so that each config only shows half of the properties.
-        setFieldValue("XWiki.ConfigurableClass_1_propertiesToShow", "TextArea, Select");    
+        setFieldValue("XWiki.ConfigurableClass_1_propertiesToShow", "TextArea, Select");
         setFieldValue("XWiki.ConfigurableClass_0_propertiesToShow", "String, Boolean");
         clickEditSaveAndView();
 
@@ -351,39 +351,38 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Fields
         String fullName = space + "." + page;
         String form = "//div[@id='admin-page-content']/form[@action='/xwiki/bin/save/" + space + "/" + page + "']";
-        assertElementPresent(form + "/fieldset/p[1]/label['String']");
-        assertElementPresent(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']");
-        assertElementPresent(form + "/fieldset/p[2]/label['Boolean']");
-        assertElementPresent(form + "/fieldset/p[2]/select[@name='" + fullName + "_0_Boolean']");
+        assertElementPresent(form + "/fieldset//label['String']");
+        assertElementPresent(form + "/fieldset//input[@name='" + fullName + "_0_String']");
+        assertElementPresent(form + "/fieldset//label['Boolean']");
+        assertElementPresent(form + "/fieldset//select[@name='" + fullName + "_0_Boolean']");
         assertElementPresent(form + "/fieldset/input[@id='" + fullName + "_redirect']");
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        //assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // assertElementPresent(form + "/div/p/span/input[@type='submit']");
         // Javascript injects a save button outside of the form and removes the default save button.
         waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Should not be here
-        assertElementNotPresent(form + "/fieldset/p/textarea[@name='" + fullName + "_0_TextArea']");
-        assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Select']");
+        assertElementNotPresent(form + "/fieldset//textarea[@name='" + fullName + "_0_TextArea']");
+        assertElementNotPresent(form + "/fieldset//select[@name='" + fullName + "_0_Select']");
 
         // Now we go to where the other half of the configuration should be.
         open("Main", "WebPreferences", "admin", "editor=spaceadmin&section=TestSection2");
-        assertElementPresent("//div[@id='admin-page-content']/h2[@id='HSomeOtherHeading']/span");
+        assertElementPresent("//h2[@id='HSomeOtherHeading']/span");
         // Fields
-        assertElementPresent(form + "/fieldset/p[1]/label");
-        assertElementPresent(form + "/fieldset/p[1]/textarea[@name='" + fullName + "_0_TextArea']");
-        assertElementPresent(form + "/fieldset/p[2]/label");
-        assertElementPresent(form + "/fieldset/p[2]/select[@name='" + fullName + "_0_Select']");
+        assertElementPresent(form + "/fieldset//label");
+        assertElementPresent(form + "/fieldset//textarea[@name='" + fullName + "_0_TextArea']");
+        assertElementPresent(form + "/fieldset//select[@name='" + fullName + "_0_Select']");
         assertElementPresent(form + "/fieldset/input[@id='" + fullName + "_redirect']");
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
         // Save button
-        //assertElementPresent(form + "/div/p/span/input[@type='submit']");
+        // assertElementPresent(form + "/div/p/span/input[@type='submit']");
         // Javascript injects a save button outside of the form and removes the default save button.
         waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
         // Should not be here
-        assertElementNotPresent(form + "/fieldset/p/input[@name='" + fullName + "_0_String']");
-        assertElementNotPresent(form + "/fieldset/p/select[@name='" + fullName + "_0_Boolean']");
+        assertElementNotPresent(form + "/fieldset//input[@name='" + fullName + "_0_String']");
+        assertElementNotPresent(form + "/fieldset//select[@name='" + fullName + "_0_Boolean']");
     }
 
     /*
@@ -408,9 +407,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
 
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection1");
-        waitForTextPresent(form + "/fieldset/p[3]/textarea[@name='" + fullName + "_0_TextArea']", test);
+        waitForTextPresent(form + "/fieldset//textarea[@name='" + fullName + "_0_TextArea']", test);
         // Getting content from an input field required getValue and not getText
-        assertTrue(getSelenium().getValue(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']").equals(test));
+        assertTrue(getSelenium().getValue(form + "/fieldset//input[@name='" + fullName + "_0_String']").equals(test));
     }
 
     /*
@@ -432,10 +431,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
 
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection3");
-        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixString']");
-        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixBoolean']");
-        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixTextArea']");
-        assertElementPresent("//form/fieldset/p/label/a[@href='TheLinkPrefixSelect']");
+        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixString']");
+        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixBoolean']");
+        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixTextArea']");
+        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixSelect']");
     }
 
     /*
@@ -638,8 +637,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         if(iconURL == null) {
             iconURL = "/xwiki/bin/download/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png";
         }
-        assertElementPresent("//div[@id='admin-page-menu']/ul[@id='admin-icons']/li[@class='" + section + "']/a/span/img"
-                             + "[@src='" + iconURL + "']");
+        assertElementPresent("//div[contains(@class,'admin-menu')]//li[contains(@href,'section=" + section + "')]");
     }
 
     /*
@@ -649,7 +647,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void assertConfigurationIconNotPresent(String section)
     {
-        assertElementNotPresent("//div[@id='admin-page-menu']/ul[@id='admin-icons']/li[@class='" + section + "']");
+        assertElementNotPresent("//div[contains(@class,'admin-menu')]//li[contains(@href,'section=" + section + "')]");
     }
 
     /*
@@ -662,14 +660,14 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Fields
         String fullName = space + "." + page;
         String form = "//div[@id='admin-page-content']/form[@action='/xwiki/bin/save/" + space + "/" + page + "']";
-        assertElementPresent(form + "/fieldset/p[1]/label");
-        assertElementPresent(form + "/fieldset/p[1]/input[@name='" + fullName + "_0_String']");
-        assertElementPresent(form + "/fieldset/p[2]/label");
-        assertElementPresent(form + "/fieldset/p[2]/select[@name='" + fullName + "_0_Boolean']");
-        assertElementPresent(form + "/fieldset/p[3]/label");
-        assertElementPresent(form + "/fieldset/p[3]/textarea[@name='" + fullName + "_0_TextArea']");
-        assertElementPresent(form + "/fieldset/p[4]/label");
-        assertElementPresent(form + "/fieldset/p[4]/select[@name='" + fullName + "_0_Select']");
+        assertElementPresent(form + "/fieldset/dl/dt[1]/label");
+        assertElementPresent(form + "/fieldset/dl/dd[1]/input[@name='" + fullName + "_0_String']");
+        assertElementPresent(form + "/fieldset/dl/dt[2]/label");
+        assertElementPresent(form + "/fieldset/dl/dd[2]/select[@name='" + fullName + "_0_Boolean']");
+        assertElementPresent(form + "/fieldset/dl/dt[3]/label");
+        assertElementPresent(form + "/fieldset/dl/dd[3]/textarea[@name='" + fullName + "_0_TextArea']");
+        assertElementPresent(form + "/fieldset/dl/dt[4]/label");
+        assertElementPresent(form + "/fieldset/dl/dd[4]/select[@name='" + fullName + "_0_Select']");
         assertElementPresent(form + "/fieldset/input[@id='" + fullName + "_redirect']");
         // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");

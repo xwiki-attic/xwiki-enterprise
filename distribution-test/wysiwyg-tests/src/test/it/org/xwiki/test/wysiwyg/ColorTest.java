@@ -161,6 +161,24 @@ public class ColorTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Background-color CSS property is not inheritable so in order to detect its value we must iterate over all
+     * ancestors of the current text selection.
+     */
+    public void testDetectNestedBackgroundColor()
+    {
+        switchToSource();
+        setSourceText("12 (% style=\"background-color:red\" %)34 "
+            + "(% style=\"background-color:red;color:yellow\" %)56 **78** 90");
+        switchToWysiwyg();
+        // Place the caret between 7 and 8
+        moveCaret("XWE.body.getElementsByTagName('strong')[0].firstChild", 1);
+        // Check the detected background color.
+        clickBackgroundColorButton();
+        assertSelectedColor("rgb(255, 0, 0)", true);
+        hideColorPicker();
+    }
+
+    /**
      * Clicks on the tool bar button for changing the text color.
      */
     protected void clickForegroundColorButton()

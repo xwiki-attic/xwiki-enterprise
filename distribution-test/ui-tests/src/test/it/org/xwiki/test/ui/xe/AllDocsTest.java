@@ -42,10 +42,6 @@ public class AllDocsTest extends AbstractAdminAuthenticatedTest
         // Test 1: Verify that the Action column is displayed for a user with admin rights and not for guests.
         LiveTableElement livetable = page.clickIndexTab();
         Assert.assertTrue("No Actions column found", livetable.hasColumn("Actions"));
-        page.clickLogout();
-        livetable = page.clickIndexTab();
-        Assert.assertFalse("Actions column found", livetable.hasColumn("Actions"));
-        page.loginAsAdmin();
 
         // Test 2: Verify filtering works by filtering on the document name
         // TODO: the line below fails from time to time. Fix it.

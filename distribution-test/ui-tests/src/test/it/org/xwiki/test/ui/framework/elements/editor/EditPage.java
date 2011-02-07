@@ -96,7 +96,7 @@ public class EditPage extends BasePage
          */
         public String getPrettyName()
         {
-            return prettyName;
+            return this.prettyName;
         }
 
         /**
@@ -112,7 +112,7 @@ public class EditPage extends BasePage
 
     public void clickSaveAndContinue()
     {
-        saveandcontinue.click();
+        this.saveandcontinue.click();
 
         // Wait until the page is really saved
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Saved']"));
@@ -120,13 +120,13 @@ public class EditPage extends BasePage
 
     public ViewPage clickSaveAndView()
     {
-        save.click();
+        this.save.click();
         return new ViewPage();
     }
 
     public ViewPage clickCancel()
     {
-        cancel.click();
+        this.cancel.click();
         return new ViewPage();
     }
 
@@ -135,7 +135,7 @@ public class EditPage extends BasePage
      */
     public Editor getEditor()
     {
-        return Editor.valueOf(selectedEditMenuItem.getText().toUpperCase());
+        return Editor.valueOf(this.selectedEditMenuItem.getText().toUpperCase());
     }
 
     /**

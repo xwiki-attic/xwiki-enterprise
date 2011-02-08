@@ -10,7 +10,7 @@ import org.xwiki.test.ui.panels.elements.NewPagePanel;
 
 /**
  * Test page creation using the NewPage Panel.
- *
+ * 
  * @version $Id$
  * @since 2.5RC1
  */
@@ -36,7 +36,12 @@ public class NewPagePanelTest extends AbstractAdminAuthenticatedTest
 
         WYSIWYGEditPage editPage = newPagePanel.createPage(spaceName, pageName);
 
-        Assert.assertEquals(pageName, editPage.getDocumentTitle());
+        String source = getDriver().getPageSource();
+        try {
+            Assert.assertEquals(pageName, editPage.getDocumentTitle());
+        } catch (Exception e) {
+            Assert.fail(source);
+        }
         Assert.assertEquals(pageName, editPage.getMetaDataValue("page"));
         Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
     }

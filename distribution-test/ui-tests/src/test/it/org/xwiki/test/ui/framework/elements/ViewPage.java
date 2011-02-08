@@ -67,10 +67,13 @@ public class ViewPage extends BasePage
     @FindBy(id = "tmActionCopy")
     private WebElement copyPageLink;
 
+    @FindBy(id = "tmActionDelete")
+    private WebElement deletePageLink;
+
     @FindBy(id = "document-title")
     private WebElement documentTitle;
 
-    @FindBy(id= "hierarchy")
+    @FindBy(id = "hierarchy")
     private WebElement breadcrumbDiv;
 
     @FindBy(id = "xdocTags")
@@ -143,19 +146,6 @@ public class ViewPage extends BasePage
         hoverOverMenu("tmWiki");
         this.administerWikiMenuLink.click();
         return new AdministrationPage();
-    }
-
-    // TODO: I don't think we should go through the menus, it's probably faster to to as deletePage() does
-    public void deleteCurrentPage()
-    {
-        getDriver().findElement(By.partialLinkText("More actions")).click();
-        getDriver().findElement(By.linkText("Delete")).click();
-
-        getDriver().findElement(By.xpath("//input[@value='yes']")).click();
-
-        // Purge from trash bin
-        makeConfirmDialogSilent(true); // temporary, see #makeConfirmDialogSilent
-        getDriver().findElement(By.partialLinkText("Delete")).click();
     }
 
     /**
@@ -251,11 +241,18 @@ public class ViewPage extends BasePage
         }
     }
 
-    public CopyPage copyCurrentPage()
+    public CopyPage copy()
     {
         hoverOverMenu("tmPage");
         this.copyPageLink.click();
         return new CopyPage();
+    }
+
+    public DeletePage delete()
+    {
+        hoverOverMenu("tmPage");
+        this.deletePageLink.click();
+        return new DeletePage();
     }
 
     public String getDocumentTitle()

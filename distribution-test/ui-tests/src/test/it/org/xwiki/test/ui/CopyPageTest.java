@@ -23,15 +23,15 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.CopyPage;
 import org.xwiki.test.ui.framework.elements.CopyConfirmationPage;
+import org.xwiki.test.ui.framework.elements.CopyPage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Test the Copy menu action to copy one page to another location.
- *
+ * 
  * @version $Id$
  * @since 3.0M2
  */
@@ -74,7 +74,7 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
         ViewPage viewPage = wep.clickSaveAndView();
 
         // Click on Copy Page from Top Menu
-        CopyPage copyPage = viewPage.copyCurrentPage();
+        CopyPage copyPage = viewPage.copy();
 
         // Fill the Target destination of the page to be copied to
         copyPage.setTargetPage(SPACE_VALUE_COPY + "." + PAGE_VALUE_COPY);

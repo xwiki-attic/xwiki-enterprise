@@ -49,6 +49,27 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
+     * XWIKI-5832: Cannot create groups or add members to existing groups using the object editor.
+     */
+    @Test
+    public void testEmptyGroupObjects()
+    {
+        // Create a doc
+        WikiEditPage wep = new WikiEditPage();
+        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep.setContent("this is the content");
+        ViewPage vp = wep.clickSaveAndView();
+
+        // Add an XWikiGroups object
+        ObjectEditPage oep = vp.clickEditObjects();
+        FormElement objectForm = oep.addObject("XWiki.XWikiGroups");
+        vp = oep.clickSaveAndView();
+
+        oep = vp.clickEditObjects();
+        Assert.assertEquals(1, oep.getObjectsOfClass("XWiki.XWikiGroups").size());
+    }
+
+    /**
      * Tests that XWIKI-1621 remains fixed.
      */
     @Test

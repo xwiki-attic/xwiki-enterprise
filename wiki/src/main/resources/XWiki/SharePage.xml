@@ -110,7 +110,10 @@
     container : false,
 
     initialize : function () {
-      this.input = $("target");
+      this.input = $$('#target.suggestUsers')[0];
+      if (!this.input) {
+        return;
+      }
       this.addedTargets = [];
       this.container = new Element('div', {'class': 'targets-container'});
       if (this.input) {
@@ -206,7 +209,7 @@
   var dialog;
 
   document.observe('xwiki:dom:loaded', function() {
-    if ($('target')) {
+    if ($$('#target.suggestUsers').size() &gt; 0) {
       new XWiki.SharePage();
     }
     if ($('tmActionShare')) {

@@ -50,12 +50,6 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
         SchedulerJobInlinePage inlineJob = new SchedulerJobInlinePage();
         // The edit sheet of scheduler jobs points to Quartz documentation.
         // Make sure this documentation is referenced to prove we are indeed in inline edit mode.
-        // Assert.assertTrue(inlineJob.isQuartzDocumentationReferenced());
-        String source = getDriver().getPageSource();
-        try {
-            inlineJob.isQuartzDocumentationReferenced();
-        } catch (Exception e) {
-            Assert.assertEquals("fail", source);
-        }
+        Assert.assertTrue(inlineJob.isQuartzDocumentationReferenced());
     }
 }

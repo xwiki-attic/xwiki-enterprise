@@ -36,12 +36,7 @@ public class NewPagePanelTest extends AbstractAdminAuthenticatedTest
 
         WYSIWYGEditPage editPage = newPagePanel.createPage(spaceName, pageName);
 
-        String source = getDriver().getPageSource();
-        try {
-            Assert.assertEquals(pageName, editPage.getDocumentTitle());
-        } catch (Exception e) {
-            Assert.fail(source);
-        }
+        Assert.assertEquals(pageName, editPage.getDocumentTitle());
         Assert.assertEquals(pageName, editPage.getMetaDataValue("page"));
         Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
     }

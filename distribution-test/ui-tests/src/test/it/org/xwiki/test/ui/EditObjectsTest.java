@@ -69,7 +69,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = wep.clickSaveAndView();
 
         // Add an object of the class created and set the value to be the test page
-        ObjectEditPage oep = vp.clickEditObjects();
+        ObjectEditPage oep = vp.editObjects();
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "Test.EditObjectsTestClass");
         oep.clickSaveAndView();
@@ -103,7 +103,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = wep.clickSaveAndView();
 
         // Add class
-        ClassEditPage cep = vp.clickEditClass();
+        ClassEditPage cep = vp.editClass();
         cep.addProperty("prop", "com.xpn.xwiki.objects.classes.NumberClass");
         cep.getNumberClassEditElement("prop").setNumberType("integer");
         vp = cep.clickSaveAndView();
@@ -116,7 +116,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         vp = wep.clickSaveAndView();
 
         // Add object
-        ObjectEditPage oep = vp.clickEditObjects();
+        ObjectEditPage oep = vp.editObjects();
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "3");
         vp = oep.clickSaveAndView();
@@ -165,7 +165,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = wep.clickSaveAndView();
 
         // Add class
-        ClassEditPage cep = vp.clickEditClass();
+        ClassEditPage cep = vp.editClass();
         cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StaticListClass");
         StaticListClassEditElement slcee = cep.getStaticListClassEditElement("prop");
         slcee.setMultiSelect(false);
@@ -180,7 +180,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         vp = wep.clickSaveAndView();
 
         // Add object
-        ObjectEditPage oep = vp.clickEditObjects();
+        ObjectEditPage oep = vp.editObjects();
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "choice 3");
         vp = oep.clickSaveAndView();
@@ -217,7 +217,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = wep.clickSaveAndView();
 
         // Add class
-        ClassEditPage cep = vp.clickEditClass();
+        ClassEditPage cep = vp.editClass();
         cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StaticListClass");
         StaticListClassEditElement slcee = cep.getStaticListClassEditElement("prop");
         slcee.setMultiSelect(true);
@@ -232,7 +232,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         vp = wep.clickSaveAndView();
 
         // Add object
-        ObjectEditPage oep = vp.clickEditObjects();
+        ObjectEditPage oep = vp.editObjects();
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "this|that|other");
         vp = oep.clickSaveAndView();
@@ -287,7 +287,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         oep.deleteObject("XWiki.XWikiUsers", 1);
 
         // Let's save the form and check that changes were persisted.
-        oep = oep.clickSaveAndView().clickEditObjects();
+        oep = oep.clickSaveAndView().editObjects();
         Assert.assertEquals(1, oep.getObjectsOfClass("XWiki.XWikiUsers").size());
         object = oep.getObjectsOfClass("XWiki.XWikiUsers").get(0);
         Assert.assertEquals("John", object.getFieldValue(By.id("XWiki.XWikiUsers_0_first_name")));

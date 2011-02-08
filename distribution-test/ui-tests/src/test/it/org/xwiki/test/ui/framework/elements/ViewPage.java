@@ -87,10 +87,10 @@ public class ViewPage extends BasePage
                 String thisPage = getPageURL();
                 HomePage homePage = new HomePage();
                 homePage.gotoPage();
-                clickLogin().loginAsAdmin();
+                login().loginAsAdmin();
                 getDriver().get(thisPage);
             } else {
-                clickLogin().loginAsAdmin();
+                login().loginAsAdmin();
             }
         }
     }
@@ -102,7 +102,7 @@ public class ViewPage extends BasePage
         return !getDriver().findElements(By.id("tmLogin")).isEmpty();
     }
 
-    public LoginPage clickLogin()
+    public LoginPage login()
     {
         this.loginLink.click();
         return new LoginPage();
@@ -113,12 +113,12 @@ public class ViewPage extends BasePage
         return this.userLink.getText();
     }
 
-    public void clickLogout()
+    public void logout()
     {
         this.logoutLink.click();
     }
 
-    public RegisterPage clickRegister()
+    public RegisterPage register()
     {
         this.registerLink.click();
         return new RegisterPage();

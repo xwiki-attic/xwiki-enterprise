@@ -80,7 +80,7 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
         // If we are asked to confirm the editor switch then we choose to remain on the wiki editor.
         editPage.makeConfirmDialogSilent(false);
         // Switch to WYSIWYG editor.
-        WYSIWYGEditPage wysiwygEditPage = editPage.clickEditWysiwyg();
+        WYSIWYGEditPage wysiwygEditPage = editPage.editWYSIWYG();
         // Check that we are indeed in WYSIWYG edit mode.
         Assert.assertEquals(Editor.WYSIWYG, wysiwygEditPage.getEditor());
     }

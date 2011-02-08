@@ -85,19 +85,19 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("Section2\nContent2 Section3 \nContent3", wysiwygEditPage.getContent());
 
         // Edit the second section in the wiki editor
-        WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();
+        WikiEditPage wikiEditPage = wysiwygEditPage.editWiki();
         Assert.assertEquals("1 Section2 Content2 1.1 Section3 Content3",
             wikiEditPage.getContent());
         wikiEditPage.clickCancel();
 
         // Edit the third section in the wiki editor
         Assert.assertEquals("1.1 Section3 Content3",
-            vp.editSection(3).clickEditWiki().getContent());
+            vp.editSection(3).editWiki().getContent());
         wikiEditPage.clickCancel();
 
         // Edit the fourth section in the wiki editor
         Assert.assertEquals("1 Section4 Content4",
-            vp.editSection(4).clickEditWiki().getContent());
+            vp.editSection(4).editWiki().getContent());
     }
 
     /**
@@ -120,21 +120,21 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
             + "Content6", wysiwygEditPage.getContent());
 
         // Edit the second section in the wiki editor
-        WikiEditPage wikiEditPage = wysiwygEditPage.clickEditWiki();
+        WikiEditPage wikiEditPage = wysiwygEditPage.editWiki();
         Assert.assertEquals("= Section2 = Content2 == Section3 == Content3 "
             + "{{include document=\"Test.SectionEditingIncluded\"/}}", wikiEditPage.getContent());
         wikiEditPage.clickCancel();
 
         // Edit the third section in the wiki editor
         Assert.assertEquals("== Section3 == Content3 {{include document=\"Test.SectionEditingIncluded\"/}}",
-            vp.editSection(3).clickEditWiki().getContent());
+            vp.editSection(3).editWiki().getContent());
         wikiEditPage.clickCancel();
 
         // Edit the fourth section in the wiki editor
         // Note: we prove that included documents don't generate editable sections by checking that the fourth section
         // is "Section7".
         Assert.assertEquals("= Section7 = Content7",
-            vp.editSection(4).clickEditWiki().getContent());
+            vp.editSection(4).editWiki().getContent());
     }
 
     /**
@@ -145,8 +145,8 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax10()
     {
         ViewPage vp = createTestPageSyntax10();
-        vp.editSection(3).clickEditWiki().clickSaveAndView();
-        WikiEditPage wep = vp.clickEditWiki();
+        vp.editSection(3).editWiki().clickSaveAndView();
+        WikiEditPage wep = vp.editWiki();
         Assert.assertEquals("1 Section1 Content1 1 Section2 Content2 1.1 Section3 Content3 1 Section4 Content4",
             wep.getContent());
     }
@@ -159,8 +159,8 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax20()
     {
         ViewPage vp = createTestPageSyntax20();
-        vp.editSection(4).clickEditWiki().clickSaveAndView();
-        WikiEditPage wep = vp.clickEditWiki();
+        vp.editSection(4).editWiki().clickSaveAndView();
+        WikiEditPage wep = vp.editWiki();
         Assert.assertEquals("= Section1 = Content1 = Section2 = Content2 == Section3 == Content3 "
             + "{{include document=\"Test.SectionEditingIncluded\"/}} = Section7 = Content7", wep.getContent());
     }

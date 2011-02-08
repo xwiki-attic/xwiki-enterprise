@@ -96,7 +96,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
             createPagePage.createPageFromTemplate(space, templateInstanceName, templateFullName);
-        WikiEditPage templateInstanceEdit = templateInstanceEditWysiwyg.clickSaveAndView().clickEditWiki();
+        WikiEditPage templateInstanceEdit = templateInstanceEditWysiwyg.clickSaveAndView().editWiki();
 
         // Verify template instance content
         Assert.assertEquals(templateInstanceName, templateInstanceEdit.getTitle());
@@ -114,7 +114,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Restrict the template to its own space
         templateProviderView = getUtil().gotoPage(space, TEMPLATE_NAME + "Provider");
-        templateProviderView.clickEditInline();
+        templateProviderView.editInline();
         List<String> allowedSpaces = new ArrayList<String>();
         allowedSpaces.add(space);
         templateProviderInline.setSpaces(allowedSpaces);

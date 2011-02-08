@@ -149,7 +149,7 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit" entry of the content menu.
      */
-    public void clickEdit()
+    public void edit()
     {
         clickContentMenuTopEntry("tmEdit");
     }
@@ -157,7 +157,7 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit wiki" entry of the content menu.
      */
-    public WikiEditPage clickEditWiki()
+    public WikiEditPage editWiki()
     {
         clickContentMenuEditSubMenuEntry("tmEditWiki");
         return new WikiEditPage();
@@ -166,7 +166,7 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit wysiwyg" entry of the content menu.
      */
-    public WYSIWYGEditPage clickEditWysiwyg()
+    public WYSIWYGEditPage editWYSIWYG()
     {
         clickContentMenuEditSubMenuEntry("tmEditWysiwyg");
         return new WYSIWYGEditPage();
@@ -175,7 +175,7 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit inline" entry of the content menu.
      */
-    public InlinePage clickEditInline()
+    public InlinePage editInline()
     {
         clickContentMenuEditSubMenuEntry("tmEditInline");
         return new InlinePage();
@@ -184,7 +184,7 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit acces rights" entry of the content menu.
      */
-    public RightsEditPage clickEditRights()
+    public RightsEditPage editRights()
     {
         clickContentMenuEditSubMenuEntry("tmEditRights");
         return new RightsEditPage();
@@ -193,7 +193,7 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit objects" entry of the content menu.
      */
-    public ObjectEditPage clickEditObjects()
+    public ObjectEditPage editObjects()
     {
         clickContentMenuEditSubMenuEntry("tmEditObject");
         return new ObjectEditPage();
@@ -202,7 +202,7 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit class" entry of the content menu.
      */
-    public ClassEditPage clickEditClass()
+    public ClassEditPage editClass()
     {
         clickContentMenuEditSubMenuEntry("tmEditClass");
         return new ClassEditPage();

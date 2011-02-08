@@ -47,14 +47,14 @@ public class LoginTest extends AbstractTest
 
         // Make sure we log out if we're already logged in since we're testing the log in...
         if (this.homePage.isAuthenticated()) {
-            this.homePage.clickLogout();
+            this.homePage.logout();
         }
     }
 
     @Test
     public void testLoginLogout()
     {
-        LoginPage loginPage = this.homePage.clickLogin();
+        LoginPage loginPage = this.homePage.login();
         loginPage.loginAsAdmin();
 
         // Verify that after logging in we're redirected to the page on which the login button was clicked, i.e. the
@@ -65,7 +65,7 @@ public class LoginTest extends AbstractTest
         Assert.assertEquals("Administrator", this.homePage.getCurrentUser());
 
         // Test Logout and verify we stay on the home page
-        this.homePage.clickLogout();
+        this.homePage.logout();
         Assert.assertFalse(this.homePage.isAuthenticated());
         Assert.assertTrue(this.homePage.isOnHomePage());
     }
@@ -73,7 +73,7 @@ public class LoginTest extends AbstractTest
     @Test
     public void testLoginWithInvalidCredentials()
     {
-        LoginPage loginPage = this.homePage.clickLogin();
+        LoginPage loginPage = this.homePage.login();
         loginPage.loginAs("Admin", "wrong password");
         Assert.assertTrue(loginPage.hasInvalidCredentialsErrorMessage());
     }
@@ -81,7 +81,7 @@ public class LoginTest extends AbstractTest
     @Test
     public void testLoginWithInvalidUsername()
     {
-        LoginPage loginPage = this.homePage.clickLogin();
+        LoginPage loginPage = this.homePage.login();
         loginPage.loginAs("non existent user", "admin");
         Assert.assertTrue(loginPage.hasInvalidCredentialsErrorMessage());
     }
@@ -90,7 +90,7 @@ public class LoginTest extends AbstractTest
     public void testRedirectBackAfterLogin()
     {
         try {
-            LoginPage loginPage = this.homePage.clickLogin();
+            LoginPage loginPage = this.homePage.login();
             loginPage.loginAsAdmin();
 
             AdministrationPage admin = new AdministrationPage();
@@ -99,7 +99,7 @@ public class LoginTest extends AbstractTest
             sectionPage.forceAuthenticatedView();
 
             getUtil().gotoPage("Blog", "Categories");
-            loginPage.clickLogout();
+            loginPage.logout();
             getDriver().manage().deleteAllCookies();
             loginPage.loginAsAdmin();
             // We use startsWith since the URL contains a jsessionid and a srid.
@@ -108,7 +108,7 @@ public class LoginTest extends AbstractTest
             AdministrationPage admin = new AdministrationPage();
             admin.gotoPage();
             if (!admin.isAuthenticated()) {
-                admin.clickLogin().loginAsAdmin();
+                admin.login().loginAsAdmin();
                 admin.gotoPage();
             }
             GlobalRightsAdministrationSectionPage sectionPage = admin.clickGlobalRightsSection();
@@ -122,7 +122,7 @@ public class LoginTest extends AbstractTest
         String test = "Test string " + System.currentTimeMillis();
         final String space = "Main";
         final String page = "POSTTest";
-        LoginPage loginPage = this.homePage.clickLogin();
+        LoginPage loginPage = this.homePage.login();
         loginPage.loginAsAdmin();
         // start editing a page
         WikiEditPage editPage = new WikiEditPage();

@@ -44,7 +44,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         ProfileUserProfilePage pupp = new ProfileUserProfilePage("Admin");
         pupp.gotoPage();
         // Here: clicking edit should perform inline editing.
-        pupp.clickEdit();
+        pupp.edit();
         Assert.assertTrue(new ViewPage().isInlinePage());
     }
 
@@ -75,7 +75,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         getUtil().gotoPage("EditInlineTest", "testInlineEditPreservesTitle", "save", "title=" + title);
         ViewPage vp = new ViewPage();
         Assert.assertEquals(title, vp.getDocumentTitle());
-        InlinePage ip = vp.clickEditInline();
+        InlinePage ip = vp.editInline();
         ViewPage vp2 = ip.clickSaveAndView();
         Assert.assertEquals(title, vp2.getDocumentTitle());
     }
@@ -87,7 +87,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         getUtil().gotoPage("EditInlineTest", "testInlineEditPreservesParent", "save", "parent=Blog.WebHome");
         ViewPage vp = new ViewPage();
         Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog"));
-        InlinePage ip = vp.clickEditInline();
+        InlinePage ip = vp.editInline();
         ViewPage vp2 = ip.clickSaveAndView();
         Assert.assertTrue(vp2.hasBreadcrumbContent("The Wiki Blog"));
     }
@@ -102,7 +102,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = new ViewPage();
         Assert.assertTrue(vp.hasTag(tag1));
         Assert.assertTrue(vp.hasTag(tag2));
-        InlinePage ip = vp.clickEditInline();
+        InlinePage ip = vp.editInline();
         ViewPage vp2 = ip.clickSaveAndView();
         Assert.assertTrue(vp2.hasTag(tag1));
         Assert.assertTrue(vp2.hasTag(tag2));
@@ -118,7 +118,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         try {
             ProfileUserProfilePage pupp = new ProfileUserProfilePage("Admin");
             pupp.gotoPage();
-            WikiEditPage wep = pupp.clickEditWiki();
+            WikiEditPage wep = pupp.editWiki();
             initialContent = wep.getContent();
             wep.setContent("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n" + initialContent);
             wep.clickSaveAndView();

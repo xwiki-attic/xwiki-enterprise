@@ -45,7 +45,7 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
 
         ViewPage page = new ViewPage();
         Assert.assertTrue(page.exists());
-        page.clickEdit();
+        page.edit();
 
         SchedulerJobInlinePage inlineJob = new SchedulerJobInlinePage();
         // The edit sheet of scheduler jobs points to Quartz documentation.

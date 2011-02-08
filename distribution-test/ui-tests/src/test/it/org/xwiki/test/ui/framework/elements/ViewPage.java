@@ -208,7 +208,7 @@ public class ViewPage extends BasePage
     }
 
     /**
-     * @return the page's main content
+     * @return the page's main content as text (no HTML)
      * @since 2.4M2
      */
     public String getContent()

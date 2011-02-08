@@ -26,6 +26,7 @@ import org.xwiki.test.ui.administration.elements.ProfileUserProfilePage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.InlinePage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 
 /**
  * Test Inline editing.
@@ -105,5 +106,27 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         ViewPage vp2 = ip.clickSaveAndView();
         Assert.assertTrue(vp2.hasTag(tag1));
         Assert.assertTrue(vp2.hasTag(tag2));
+    }
+
+    /**
+     * Tests that pages can override the default property display mode using $context.setDisplayMode. See XWIKI-2436.
+     */
+    @Test
+    public void testEditModeCanBeSet()
+    {
+        String initialContent = null;
+        try {
+            ProfileUserProfilePage pupp = new ProfileUserProfilePage("Admin");
+            pupp.gotoPage();
+            WikiEditPage wep = pupp.clickEditWiki();
+            initialContent = wep.getContent();
+            wep.setContent("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n" + initialContent);
+            wep.clickSaveAndView();
+            Assert.assertTrue(getDriver().getPageSource().contains("XWiki.XWikiUsers_0_last_name"));
+        } finally {
+            if (initialContent != null) {
+                getUtil().gotoPage("XWiki", "Admin", "save", "content=" + initialContent);
+            }
+        }
     }
 }

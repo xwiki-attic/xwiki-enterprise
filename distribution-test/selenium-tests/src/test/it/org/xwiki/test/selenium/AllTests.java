@@ -56,7 +56,6 @@ public class AllTests extends TestCase
         addTestCase(suite, WikiEditorTest.class);
         addTestCase(suite, WysiwygEditorFromWikiTest.class);
         addTestCase(suite, WysiwygEditorTest.class);
-        addTestCase(suite, InlineEditorTest.class);
         addTestCase(suite, VelocityMacrosTest.class);
         addTestCase(suite, BacklinksTest.class);
         addTestCase(suite, CacheTest.class);

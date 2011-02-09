@@ -25,7 +25,7 @@
 <hidden>false</hidden>
 <content>{{include document="XWiki.LiveTableResultsMacros" /}}
 
-{{velocity}}
+{{velocity wiki="false"}}
 #set($extra = "")
 #set($params = [])
 #if("$!request.space" != '')

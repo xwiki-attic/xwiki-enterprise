@@ -80,10 +80,15 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
 
         // Make sure we wait for the WYSIWYG fields to be loaded since otherwise they'll steal the focus and if we
         // start typing in other fields before they're loaded what we type will end up in the wrong fields...
-        new EditorElement("XWiki.XWikiUsers_0_comment").waitToLoad();
-        new EditorElement("XWiki.XWikiUsers_0_address").waitToLoad();
+        waitForProfileEditionToLoad();
 
         return new ProfileEditPage();
+    }
+
+    public void waitForProfileEditionToLoad()
+    {
+        new EditorElement("XWiki.XWikiUsers_0_comment").waitToLoad();
+        new EditorElement("XWiki.XWikiUsers_0_address").waitToLoad();
     }
 
     public void gotoPage()

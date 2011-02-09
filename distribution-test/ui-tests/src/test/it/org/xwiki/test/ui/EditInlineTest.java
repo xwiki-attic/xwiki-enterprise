@@ -43,8 +43,9 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     {
         ProfileUserProfilePage pupp = new ProfileUserProfilePage("Admin");
         pupp.gotoPage();
-        // Here: clicking edit should perform inline editing.
+        // Clicking edit should perform inline editing.
         pupp.edit();
+        pupp.waitForProfileEditionToLoad();
         Assert.assertTrue(new ViewPage().isInlinePage());
     }
 

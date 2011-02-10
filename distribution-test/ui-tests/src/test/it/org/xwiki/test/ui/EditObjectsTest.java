@@ -61,11 +61,11 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = wep.clickSaveAndView();
 
         // Add an XWikiGroups object
-        ObjectEditPage oep = vp.clickEditObjects();
+        ObjectEditPage oep = vp.editObjects();
         FormElement objectForm = oep.addObject("XWiki.XWikiGroups");
         vp = oep.clickSaveAndView();
 
-        oep = vp.clickEditObjects();
+        oep = vp.editObjects();
         Assert.assertEquals(1, oep.getObjectsOfClass("XWiki.XWikiGroups").size());
     }
 

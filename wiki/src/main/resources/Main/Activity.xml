@@ -11,8 +11,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252458000000</creationDate>
-<date>1295265654000</date>
-<contentUpdateDate>1295265654000</contentUpdateDate>
+<date>1297362640000</date>
+<contentUpdateDate>1297362640000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.activity")</title>
 <template></template>
@@ -142,6 +142,45 @@ document.observe('xwiki:dom:loaded', function() {
 </property>
 <property>
 <use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.RequiredRightClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<level>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>level</name>
+<number>1</number>
+<picker>0</picker>
+<prettyName>level</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<sort>none</sort>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<values>edit|programming</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</level>
+</class>
+<name>Main.Activity</name>
+<number>0</number>
+<className>XWiki.RequiredRightClass</className>
+<guid>36962c0c-7460-4536-9d05-a6381b65a37f</guid>
+<property>
+<level>programming</level>
 </property>
 </object>
 <object>
@@ -1892,5 +1931,4 @@ $xwiki.ssx.use("Main.Activity")##
 ##
 {{/velocity}}
 
-{{activity /}}</content>
-</xwikidoc>
+{{activity /}}</content></xwikidoc>

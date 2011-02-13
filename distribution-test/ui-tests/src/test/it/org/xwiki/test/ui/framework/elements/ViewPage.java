@@ -255,6 +255,16 @@ public class ViewPage extends BasePage
         return new DeletePage();
     }
 
+    public boolean canDelete()
+    {
+        if (getDriver().findElements(By.xpath("//div[@id='tmPage']//span[@class='menuarrow']")).size() > 0) {
+            hoverOverMenu("tmPage");
+            return getDriver().findElements(By.id("tmActionDelete")).size() > 0;
+        } else {
+            return false;
+        }
+    }
+
     public String getDocumentTitle()
     {
         return this.documentTitle.getText();

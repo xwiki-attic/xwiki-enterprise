@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.ui.framework.elements;
 
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
 /**
  * Represents the common actions possible after a Page has been deleted.
  * 
@@ -27,5 +30,26 @@ package org.xwiki.test.ui.framework.elements;
  */
 public class DeleteConfirmationPage extends ViewPage
 {
+    @FindBy(xpath = "//table[@class='centered']//span[@class='wikilink']")
+    private WebElement deletingUser;
+
+    @FindBy(xpath = "//p[@class='xwikimessage']")
+    private WebElement confirmationMessage;
+
+    /**
+     * @since 3.0M3
+     */
+    public String getPageDeleter()
+    {
+        return this.deletingUser.getText();
+    }
+
+    /**
+     * @since 3.0M3
+     */
+    public String getConfirmationMessage()
+    {
+        return this.confirmationMessage.getText();
+    }
 
 }

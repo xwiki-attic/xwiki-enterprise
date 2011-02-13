@@ -34,17 +34,17 @@ public class DeletePage extends ViewPage
     private WebElement confirmDeleteButton;
 
     @FindBy(xpath = "//input[@value='no']")
-    private WebElement abortDeleteButton;
+    private WebElement cancelDeleteButton;
 
-    public DeleteConfirmationPage clickYesDeleteButton()
+    public DeleteConfirmationPage confirm()
     {
-        this.confirmDeleteButton.submit();
+        this.confirmDeleteButton.click();
         return new DeleteConfirmationPage();
     }
 
-    public DeleteConfirmationPage clickNoConfirmDeleteButton()
+    public DeleteConfirmationPage cancel()
     {
-        this.abortDeleteButton.submit();
+        this.cancelDeleteButton.click();
         return new DeleteConfirmationPage();
     }
 }

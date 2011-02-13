@@ -205,6 +205,14 @@ public class TestUtils
         return getURL(space, page, "delete", "confirm=1");
     }
 
+    public void createPage(String space, String page, String content, String title)
+    {
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put("content", content);
+        queryMap.put("title", title);
+        gotoPage(space, page, "save", queryMap);
+    }
+
     public void deletePage(String space, String page)
     {
         getDriver().get(getURLToDeletePage(space, page));

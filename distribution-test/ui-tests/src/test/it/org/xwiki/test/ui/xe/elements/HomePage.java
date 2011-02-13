@@ -39,9 +39,14 @@ public class HomePage extends ViewPage
         getUtil().gotoPage("Main", "WebHome");
     }
 
+    public String getURL()
+    {
+        return getUtil().getURL("Main", "WebHome");
+    }
+
     public boolean isOnHomePage()
     {
-        return getDriver().getCurrentUrl().equals(getUtil().getURL("Main", "WebHome"));
+        return getDriver().getCurrentUrl().equals(getURL());
     }
 
     /**

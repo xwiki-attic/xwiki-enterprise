@@ -12,8 +12,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
+<date>1297866863000</date>
+<contentUpdateDate>1297866863000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.home.title")</title>
 <template></template>
@@ -29,5 +29,5 @@
 #if($hasEdit)You can use the [[Sandbox space&gt;&gt;Sandbox.WebHome]] to try out your wiki's features.#end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}}</content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

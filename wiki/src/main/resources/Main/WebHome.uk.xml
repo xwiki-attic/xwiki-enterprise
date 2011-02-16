@@ -29,5 +29,5 @@
 #if($hasEdit)Для апробації можливостей Вашої wiki спробуйте погратися в [[Просторі "Пісочниця"&gt;&gt;Sandbox.WebHome]].#end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}}
+{{dashboard source="Main.Dashboard" /}}</content>
 </content></xwikidoc>

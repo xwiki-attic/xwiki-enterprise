@@ -30,5 +30,5 @@
 #if($hasEdit)Si può usare lo  [[Spazio Sandbox&gt;&gt;Sandbox.WebHome]] per scoprire e provare tutte le caratteristiche del wiki.#end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}} 	</content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

@@ -29,5 +29,5 @@
 #if($hasEdit) Puteți utiliza [[zona de Antrenament&gt;&gt;Sandbox.WebHome]] pentru a vă familiariza cu funcționalitățile wiki-ului dumneavoastră. #end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}}</content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

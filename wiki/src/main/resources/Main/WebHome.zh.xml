@@ -29,5 +29,5 @@
 #if($hasEdit) 你可以在[[沙箱空间&gt;&gt;Sandbox.WebHome]]中测试Wiki的特性.#end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}} </content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

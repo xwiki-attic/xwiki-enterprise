@@ -29,5 +29,5 @@
 #if($hasEdit)你可以使用 [[實驗室&gt;&gt;Sandbox.WebHome]] 實驗 wiki 的功能特性。#end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}} </content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

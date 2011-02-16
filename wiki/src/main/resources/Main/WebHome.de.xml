@@ -29,5 +29,5 @@
 #if($hasEdit)Sie können den [[Sandbox Space&gt;&gt;Sandbox.WebHome]] verwenden um die Funktionen Ihres Wiki's auszuprobieren.#end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}}</content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

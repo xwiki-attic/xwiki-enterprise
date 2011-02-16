@@ -29,5 +29,5 @@
 Vous pouvez utiliser le [[bac à sable&gt;&gt;Sandbox.WebHome]] afin de tester les fonctionnalités de votre wiki.
 #end{{/velocity}}
 
-{{include document="Main.Dashboard"/}}</content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

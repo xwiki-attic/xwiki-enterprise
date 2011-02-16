@@ -29,5 +29,5 @@
 #if($hasEdit) Lai pārbaudītu šī viki iespējas, jūs varat rediģēt mēģinājumu vietas mājas lapu jeb [[Smilšu kasti&gt;&gt;Sandbox.WebHome]]. #end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}} </content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

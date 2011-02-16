@@ -29,5 +29,5 @@
 #if($hasedit) Je kunt de [[Oefenruimte&gt;&gt;Sandbox.WebHome]] gebruiken om de mogelijkheden van deze wiki uit te proberen. #end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}}</content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

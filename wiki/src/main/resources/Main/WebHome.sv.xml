@@ -29,5 +29,5 @@
 #if($hasEdit) Du kan använda [[träningszonen&gt;&gt;Sandbox.WebHome]] för att prova wikifunktionerna. #end
 {{/velocity}}
 
-{{include document="Main.Dashboard"/}}</content>
+{{dashboard source="Main.Dashboard" /}}</content>
 </xwikidoc>

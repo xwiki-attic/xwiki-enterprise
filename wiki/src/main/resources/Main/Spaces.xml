@@ -11,8 +11,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1297362903000</date>
-<contentUpdateDate>1297362903000</contentUpdateDate>
+<date>1297793379000</date>
+<contentUpdateDate>1297793379000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.spaces")</title>
 <template></template>
@@ -342,7 +342,8 @@ $xwiki.ssx.use('Main.Spaces')##
   ##
   ## Space creation.
   ##
-  #if($xwiki.hasAdminRights())
+  ## Only if the current user has admin rights and the current action is not inline. If it's inline, then there is already a form, and if we render the second, nested one, the DOM is messed up in IE.
+  #if($xwiki.hasAdminRights() &amp;&amp; "$!context.action" != "inline")
     &lt;li id="spSpaceCreateItem" class="xitem space"&gt;
       &lt;div class="xitemcontainer"&gt;
         &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="{{html wiki="false"}}$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space'){{/html}}" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;

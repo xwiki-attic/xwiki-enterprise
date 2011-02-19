@@ -167,13 +167,19 @@ tbody&gt;tr&gt;td&gt;tt {
 {{toc depth="1"/}}
 {{/box}}
 
-Starting with XWiki Enterprise version 1.7 and above we've introduced a new wiki syntax. So we're now naming the current syntax the //XWiki Syntax 1.0// and the new syntax is logically called the //XWiki Syntax 2.0//. The main reasons for introducing the new syntax were:
-* Fix the limitations and ambiguities of the XWiki 1.0 syntax (which was inspired by both Radeox - the underlying rendering engine - and TWiki).
+Starting with XWiki Enterprise version 1.7 we've introduced a new wiki syntax. We've named the old syntax the //XWiki Syntax 1.0// and the new syntax was logically called the //XWiki Syntax 2.0//. The main reasons for introducing the new syntax were:
+* Fix the limitations and ambiguities of the XWiki Syntax 1.0 (which was inspired by both Radeox - the underlying rendering engine - and TWiki).
 ** Not optimal symbols. For example the symbol for bold was single stars. This was causing trouble when users were entering text containing stars since that text was mistakenly considered to be bold when it wasn't. Hence we've rationalized the syntax by using at least double characters everywhere. 
 ** Ambiguities. For example there was an ambiguity between a bold item starting a line and a bulletted list. Resolving the ambiguities was required in order to rewrite the WYSIWYG editor so that it could be deterministic.
 * Be closer to the [[Creole 1.0 syntax&gt;&gt;http://www.wikicreole.org/]] which is becoming a standard for wiki syntax. In addition the Creole community has taken the time to analyze all the existing wiki syntaxes before deciding on symbols. The choices made are thus very good.
 
-In addition to these 2 XWiki syntaxes we've also changed our underlying rendering engine (was Radeox previously) in favor of our own engine which is superset wrapper around [[Wikimodel&gt;&gt;http://code.google.com/p/wikimodel/]] and [[Doxia&gt;&gt;http://maven.apache.org/doxia/]] (and possibly others in the future). This has allowed us to provide other syntaxes in the wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki and more&gt;&gt;#syntaxes]]
+Since the introduction of XWiki Syntax 2.0 a few shortcomings of this syntax have been found. To fix these a new, as of now //experimental//, XWiki Syntax 2.1 was introduced in XWiki Enterprise version 3.0. Some reason for the development of this new syntax are:
+* Homogenize the link and image syntax for better clarity, consistency and extensibility.
+* Added ability to display icons,  to link to files using the UNC notation and to link to relative URLs.
+
+{{info}}Since XWiki Syntax 2.1 is based on XWiki Syntax 2.0 all syntax from XWiki Syntax 2.0 is valid unless the 2.1 specifications suggest differently.{{/info}}
+
+In addition to these XWiki-specific syntaxes we've also changed our underlying rendering engine in XWiki Enterprise version 1.7 (was Radeox previously) in favor of our own engine which is superset wrapper around [[Wikimodel&gt;&gt;http://code.google.com/p/wikimodel/]] and [[Doxia&gt;&gt;http://maven.apache.org/doxia/]] (and possibly others in the future). This has allowed us to provide other syntaxes in the wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki and more&gt;&gt;#syntaxes]].
 
 = General Remarks =
 
@@ -622,18 +628,18 @@ Part in ##( )## is required, parts in ##[ ]## are optional and one of the two ch
 
 The full format of a link is **##[label {&gt; or |}] (resource) [@interWikiAlias] [{&gt; or |} target]##**
 
-* **##label##**: An optional string which will be displayed to the user as the link name when rendered. Example: "My Page"
+* **##label##**: An optional string which will be displayed to the user as the link name when rendered. Example: ##My Page##
 * **##resource##**: The full link reference using the following syntax: **##(reference) [?queryString] [#anchor]##**
 ** **##reference##**: The link reference. This can be either
-*** **A URI** in the form **##protocol:path##** (example: {{{"http://xwiki.org"}}}, "mailto:john@smith.com"), or
-*** **A wiki page** reference in the form **##~[~[wikiName:] space.] (page)##**. Examples: "WebHome", "Main.WebHome", "mywiki:Main.WebHome"
-**** **##wikiName##**: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: "mywiki"
-**** **##space##**: An optional wiki Space name. If no space is specified the current space is used. Example: "Main"
-**** **##page##**: A required string containing the name of the linked wiki page. Example: "WebHome"
-** **##queryString##**: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;mydata2=Hello"
-** **##anchor##**: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for headings. Example: "HTableOfContents"
-* **##interWikiAlias##**: An optional [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] alias as defined in the InterWiki Map (see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). This is only valid for wiki page names. Example: "wikipedia"
-* **##target##**: An optional string corresponding to the HTML ##target## attribute for a HTML ##A## link element. This element is used when rendering the link. It defaults to opening the link in the current window. Examples: "_self", "_blank"
+*** **A URI** in the form **##protocol:path##** (examples: ##http:~/~/xwiki.org##, ##mailto~:john@smith.com##), or
+*** **A wiki page** reference in the form **##~[~[wikiName:] space.] (page)##**. Examples: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+**** **##wikiName##**: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: ##mywiki##
+**** **##space##**: An optional wiki Space name. If no space is specified the current space is used. Example: ##Main##
+**** **##page##**: A required string containing the name of the linked wiki page. Example: ##WebHome##
+** **##queryString##**: An optional query string for specifying parameters that will be used in the rendered URL. Example: ##mydata1=5&amp;mydata2=Hello##
+** **##anchor##**: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for headings. Example: ##HTableOfContents##
+* **##interWikiAlias##**: An optional [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] alias as defined in the InterWiki Map (see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). This is only valid for wiki page names. Example: ##wikipedia##
+* **##target##**: An optional string corresponding to the HTML ##target## attribute for a HTML ##A## link element. This element is used when rendering the link. It defaults to opening the link in the current window. Examples: ##_self##, ##_blank##
 
 == XWiki Syntax 2.0 Link Specification ==
 
@@ -643,25 +649,64 @@ The part in ##( )## is required, while the parts in ##[ ]## are optional.
 
 The full format of a link is **##[label&gt;&gt;] (resource) [@interWikiAlias] [||parameters]##**
 
-* **##label##**: An optional string which will be displayed to the user as the link name when rendered. The label may contain XWiki Syntax. If no label is specified a default label will be generated. The generation pattern can be changed, see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Example: "My Page"
+* **##label##**: An optional string which will be displayed to the user as the link name when rendered. The label may contain XWiki Syntax. If no label is specified a default label will be generated. The generation pattern can be changed, see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Example: ##My Page##
 * **##resource##**: The full link reference using the following syntax: **##(reference) [?queryString] [#anchor]##**
 ** **##reference##**: The link reference in one of the following forms:
-*** **URL**: Any URL in the form of **##protocol:~/~/path**##. Example: {{{"http://xwiki.org"}}} or {{{"https://svn.xwiki.org/"}}}
-*** **Wiki page name** reference in the form **##~[~[wikiName:] space.] (page)##**. Examples: "WebHome", "Main.WebHome", "mywiki:Main.WebHome"
-**** **##wikiName##**: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: "mywiki"
-**** **##space##**: An optional wiki Space name. If no space is specified the current space is used. Example: "Main"
-**** **##page##**: A required string containing the name of the linked wiki page. Example: "WebHome"
-*** **Attachment** reference in the form **##attach~: [wikiPageName @] (attachmentName)##** (###anchor## is not valid). Examples: "attach~:img.png", "{{{attach:mywiki:Main.WebHome@img.png}}}"
+*** **URL**: Any URL in the form of **##protocol:~/~/path##**. Examples: ##http:~/~/xwiki.org##, ##https:~/~/svn.xwiki.org/##
+*** **Wiki page name** reference in the form **##~[~[wikiName:] space.] (page)##**. Examples: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+**** **##wikiName##**: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: ##mywiki##
+**** **##space##**: An optional wiki Space name. If no space is specified the current space is used. Example: ##Main##
+**** **##page##**: A required string containing the name of the linked wiki page. Example: ##WebHome##
+*** **Attachment** reference in the form **##attach~: [wikiPageName@] (attachmentName)##**. Examples: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
 **** **##attach~:##**: A required string identifying the resource as attachment.
 **** **##wikiPageName##**: An optional string referencing the document that holds the attachment, see "Wiki page name" above.
 **** **##attachmentName##**: Name of the attachment as it is stored in the wiki.
-*** **Email address** in the form **##mailto~: (emailAddress)##** (###anchor## is not valid). Example: "{{{mailto:john@smith.com}}}"
+*** **Email address** in the form **##mailto~: (emailAddress)##** (###anchor## is not valid). Example: ##mailto~:john@smith.com##
 **** **##mailto~:##**: A required string identifying the resource as email.
-**** **##emailAddress##**: Targeted email address. Example: "john@smith.com"
-** **##queryString##**: An optional query string for specifying parameters that will be used in the rendered URL. Example: "mydata1=5&amp;mydata2=Hello"
-** **##anchor##**: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for headings. Example: "HTableOfContents"
-* **##interWikiAlias##**: An optional [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] alias as defined in the InterWiki Map (see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). This is only valid for wiki page names. Example: "wikipedia"
-* **##parameters##**: An optional list of parameters passed to the link. Example: {{{rel="__blank"}}} (open in new window)
+**** **##emailAddress##**: Targeted email address. Example: "##john@smith.com##"
+** **##queryString##**: An optional query string for specifying parameters that will be used in the rendered URL. Example: ##mydata1=5&amp;mydata2=Hello##
+** **##anchor##**: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for headings. Example: ##HTableOfContents##
+* **##interWikiAlias##**: An optional [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] alias as defined in the InterWiki Map (see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). This is only valid for wiki page names. Example: ##wikipedia##
+* **##parameters##**: An optional list of parameters passed to the link. Example: ##rel="~_~_blank"## (open in new window)
+
+== XWiki Syntax 2.1 Link Specification ==
+
+{{info}}
+The part in ##( )## is required, while the parts in ##[ ]## are optional.
+{{/info}}
+
+The full format of a link is **##[label&gt;&gt;] (resource) [||parameters]##**
+
+* **##label##**: An optional string which will be displayed to the user as the link name when rendered. The label may contain XWiki Syntax. If no label is specified a default label will be generated. The generation pattern can be changed, see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Example: ##My Page##
+* **##resource##**: A required string with the link reference in one of the following forms
+** **URL**: Any URL in the form of **##[url:] (protocol:~/~/path)##**. Examples: ##http:~/~/xwiki.org##, ##url:https:~/~/svn.xwiki.org/##
+*** **##url:##** An optional string identifying the resource as an URL.
+** **Wiki page name** reference in the form **##[doc:] ~[~[wikiName:] space.] (page)##**. Examples: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+*** **##doc:##** An optional string identifying the resource as an XWiki document.
+*** **##wikiName##**: An optional string containing the name of a virtual wiki. The link will point to a page inside that virtual wiki. Example: ##mywiki##
+*** **##space##**: An optional wiki Space name. If no space is specified the current space is used. Example: ##Main##
+*** **##page##**: A required string containing the name of the linked wiki page. Example: ##WebHome##
+** **InterWiki page name** reference in the form **##interwiki: {{{(interWikiAlias:)}}} (page)##**. Example: ##interwiki:wikipedia:XWiki##
+*** **##interwiki:##** A required string identifying the resource as an InterWiki link.
+*** **##interWikiAlias##**: An optional [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] alias as defined in the InterWiki Map (see the [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Example: ##wikipedia##
+*** **##page##**: A required string containing the name of the linked page. Example: ##XWiki##
+** **Attachment** reference in the form **##attach~: [wikiPageName@] (attachmentName)##**. Examples: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
+*** **##attach~:##**: A required string identifying the resource as attachment.
+*** **##wikiPageName##**: An optional string referencing the document that holds the attachment, see "Wiki page name" above.
+*** **##attachmentName##**: Name of the attachment as it is stored in the wiki.
+** **Email address** in the form **##mailto~: (emailAddress)##** (###anchor## is not valid). Example: ##mailto~:john@smith.com##
+*** **##mailto~:##**: A required string identifying the resource as email.
+*** **##emailAddress##**: Targeted email address. Example: ##john@smith.com##
+** **Relative path** reference on the server in the form **##path: (relPath)##**. Example: ##path:$doc.getURL('reset')## produces target address ##http:~/~/server.domain.com/xwiki/bin/reset/Space/Page## where ##/xwiki/bin/reset/Space/Page## is produced by ##$doc.getURL('reset')##.
+*** **##path:##** A required string identifying the resource as a relative path.
+*** **##relPath##**: A required string containing the relative path of the resource on the server that shall be linked.
+** **UNC (Windows Explorer)** reference in the form **##unc: (path)##**. The link is rendered as a ##file:~/~/## link. Examples: ##unc:C:\Windows\##, ##unc:~\~\myserver\path\img.png##, ##unc:home/user/somefile##
+*** **##unc:##** A required string identifying the resource as a UNC (Windows Explorer) path.
+*** **##path##**: A required string containing the local path of resource accessible by the user. Examples: ##C:\Windows\##, ##~\~\myserver\path\img.png##, ##home/user/somefile##
+* **##parameters##**: An optional list of space-separated parameters passed to the link. Example: ##queryString="mydata1=5&amp;mydata2=Hello" anchor="HTableOfContents" rel="~_~_blank"##
+** **##queryString##**: An optional query string for specifying parameters that will be appended to the link target address and used in the rendered URL. Example: ##url:http:~/~/domain.com/path||queryString="mydata1=5&amp;mydata2=Hello"## produces target address ##http:~/~/domain.com/path?mydata1=5&amp;mydata2=Hello##
+** **##anchor##**: An optional anchor name pointing to an anchor defined in the referenced link. Note that in XWiki anchors are automatically created for headings. Example: ##url:http:~/~/domain.com/path||anchor="HTableOfContents"## produces target address ##http:~/~/domain.com/path#HTableOfContents##
+** **##rel##**: An optional parameter that allows to open link target in new window. Example: ##rel="~_~_blank"##
 
 = Tables =
 

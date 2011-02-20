@@ -446,22 +446,21 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         // Insert a link to an email address.
         switchToSource();
-        setSourceText("[[foo>>mailto:x@y.z||title=\"bar\"]]");
+        // Links are not underlined anymore in Colibri skin so we apply the underline style to the link label.
+        setSourceText("[[__foo__>>mailto:x@y.z||title=\"bar\"]]");
         switchToWysiwyg();
 
         // Select the text of the link.
         selectNode("XWE.body.getElementsByTagName('a')[0]");
         waitForUnderlineDetected(true);
 
-        // Try to remove the underline style.
+        // Remove the underline style.
         clickUnderlineButton();
-        // The underline style is still present although we changed the value of the text-decoration property. I don't
-        // think we can do something about this.
-        waitForUnderlineDetected(true);
+        waitForUnderlineDetected(false);
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("[[foo>>mailto:x@y.z||style=\"text-decoration: none;\" title=\"bar\"]]");
+        assertSourceText("[[foo>>mailto:x@y.z||title=\"bar\"]]");
     }
 
     /**
@@ -621,17 +620,20 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
     /**
      * @see XWIKI-4346: Cannot use the WYSIWYG editor in small screen after you have deleted all text in full screen
+     * @see XWIKI-6003: Entering and exiting fullscreen mode resets the scroll offset and the cursor position or the
+     *      current selection
      */
     public void testEditInFullScreen()
     {
-        typeText("123");
+        typeText("abc");
+        // Select 'b' to check if the selection is preserved when we switch to full screen editing.
+        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         clickEditInFullScreen();
-        // The caret is placed at start (which means the selection is lost).
-        typeDelete(3);
+        typeText("1");
         clickExitFullScreen();
-        typeText("x");
+        typeText("2");
         switchToSource();
-        assertSourceText("x");
+        assertSourceText("a12c");
     }
 
     /**

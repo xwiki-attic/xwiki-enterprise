@@ -19,9 +19,10 @@
  */
 package org.xwiki.test.wysiwyg.framework;
 
+import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
+
 import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.Wait;
-import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 
 /**
  * All XWiki WYSIWYG tests must extend this class.
@@ -1239,15 +1240,30 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      * 
      * @param spaceName the name of the space containing the page to be copied
      * @param pageName the name of the page to be copied
-     * @param targetPageFullName the full name of the target page
+     * @param targetSpaceName the name of the target space
+     * @param targetPageName the name of the target page
      */
-    protected void copyPage(String spaceName, String pageName, String targetPageFullName)
+    protected void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
     {
         open(spaceName, pageName);
         clickCopyPage();
-        getSelenium().type("targetdoc", targetPageFullName);
+        getSelenium().select("targetSpaceName", targetSpaceName);
+        getSelenium().type("targetPageName", targetPageName);
         clickLinkWithLocator("//input[@value='Copy']");
         assertTextPresent("successfully copied to");
+    }
+
+    /**
+     * Creates a new space with the specified name.
+     * 
+     * @param spaceName the name of the new space to create
+     */
+    public void createSpace(String spaceName)
+    {
+        clickLinkWithLocator("tmCreateSpace");
+        getSelenium().type("space", spaceName);
+        clickLinkWithLocator("//input[@value='Create']");
+        clickEditSaveAndView();
     }
 
     /**

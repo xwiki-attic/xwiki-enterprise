@@ -617,7 +617,10 @@ public class ImageTest extends AbstractWysiwygTestCase
         String pageName = getName() + ":a.b@c";
         String escapedPageName = pageName.replace(".", "\\.");
         String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
-        copyPage("XWiki", "AdminSheet", pageFullName);
+        // We have to be on an existing space to be able to create a new space.
+        open("Main", "WebHome");
+        createSpace(spaceName);
+        copyPage("XWiki", "AdminSheet", spaceName, pageName);
 
         // Come back to the edited page.
         open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");

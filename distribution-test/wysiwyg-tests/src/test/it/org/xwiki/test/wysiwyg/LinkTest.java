@@ -356,19 +356,12 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateAndEditLinkOnImage()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
-
-        // put everything in a paragraph as there are some whitespace trouble parsing outside the paragraph
-        applyStyleTitle1();
-        applyStylePlainText();
-
         clickMenu("Image");
         clickMenu("Insert Image...");
 
         waitForDialogToLoad();
 
-        // switch to "all pages" tab
+        // Switch to "All Pages" tab.
         clickTab(ALL_PAGES_TAB);
 
         String imageSpace = "XWiki";
@@ -393,23 +386,23 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForDialogToClose();
 
-        // now add a link around this image
+        // Now add a link around the image we just inserted.
         String pageName = "Photos";
         String spaceName = "Blog";
         String newSpaceName = "Main";
         String newPageName = "Dashboard";
 
         openLinkDialog(MENU_WIKI_PAGE);
-        // get the all pages tree
+        // Select the link target page from the tree.
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
         explorer.lookupEntity(spaceName + "." + pageName);
-        // wait for the space to get selected
+        // Wait for the target space to be selected.
         explorer.waitForPageSelected(spaceName, "New page...");
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
         assertEquals("presentation.png", getInputValue(LABEL_INPUT_TITLE));
-        // check that the label is readonly
+        // Check that the link label is read-only.
         assertElementPresent("//input[@title=\"" + LABEL_INPUT_TITLE + "\" and @disabled=\"\"]");
 
         clickButtonWithText("Create Link");
@@ -419,8 +412,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>Blog.Photos]]");
         switchToWysiwyg();
 
-        // move caret at the end and type some more
-        moveCaret("XWE.body.firstChild", 1);
+        // Move caret at the end and type some text.
+        moveCaret("XWE.body", 1);
         typeText(" foo ");
 
         openLinkDialog(MENU_WEB_PAGE);
@@ -429,11 +422,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Create Link");
         waitForDialogToClose();
 
-        // now go on and edit the image
-        select("XWE.body.firstChild.firstChild", 0, "XWE.body.firstChild.firstChild", 1);
+        // Now go on and edit the inserted image.
+        selectNode("XWE.body.firstChild.firstChild");
         openLinkDialog(MENU_LINK_EDIT);
 
-        // check the explorer selection
+        // Check the page selected in the XWiki Explorer tree.
         assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, spaceName, pageName), explorer
             .getSelectedEntityReference());
         explorer.waitForPageSelected(spaceName, "New page...");
@@ -1128,25 +1121,21 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testCreateLinkToSearchedPage()
     {
         String label = "foobar";
-
-        // check the wikipage link dialog
         openLinkDialog(MENU_WIKI_PAGE);
-
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
-        // perform a search
+
+        // Search for "Main.WebHome".
         typeInInput("Type a keyword to search for a wiki page", "Main.WebHome");
         clickButtonWithText("Search");
-        String selectedPageLocator =
-            "//div[contains(@class, 'xListItem')]//div[contains(@class, 'gwt-Label') and .='"
-                + String.format(PAGE_LOCATION, "Main", "WebHome") + "']";
-        // wait for the element to load in the list
-        waitForElement(selectedPageLocator);
-        // check selection on the loaded list
 
-        // select the current page
-        getSelenium().click(selectedPageLocator);
+        // Wait for the target page to appear in the list and then select it.
+        String targetPageLocator =
+            "//div[contains(@class, 'xPagesSearch')]//div[contains(@class, 'xListItem')]//div[.='"
+                + String.format(PAGE_LOCATION, "Main", "WebHome") + "']";
+        waitForElement(targetPageLocator);
+        getSelenium().click(targetPageLocator);
 
         clickButtonWithText("Select");
         waitForStepToLoad("xLinkConfig");
@@ -1714,23 +1703,25 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testFastNavigationToSelectSearchedPage()
     {
-        // 1. link to existing page, enter
+        // 1. Link to existing page. Use Enter key to select the target page.
         String label = "foobar";
-
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab(SEARCH_TAB);
         waitForStepToLoad("xPagesSearch");
+
+        // Search for "Main.WebHome" page.
         typeInInput("Type a keyword to search for a wiki page", "Main.WebHome");
         clickButtonWithText("Search");
-        // wait for desired page to load
-        String selectedPageLocator =
-            "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='"
+
+        // Wait for target page to appear in the list, then select it using the Enter key.
+        String targetPageLocator =
+            "//div[contains(@class, 'xPagesSearch')]//div[contains(@class, 'xListItem')]//div[.='"
                 + String.format(PAGE_LOCATION, "Main", "WebHome") + "']";
-        // wait for the element to load in the list
-        waitForElement(selectedPageLocator);
-        getSelenium().click(selectedPageLocator);
+        waitForElement(targetPageLocator);
+        getSelenium().click(targetPageLocator);
         getSelenium().keyUp(ITEMS_LIST, "\\13");
+
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
         clickButtonWithText("Create Link");
@@ -1741,7 +1732,8 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         setSourceText("");
         switchToWysiwyg();
-        // 2. link to a new page, double click
+
+        // 2. Link to a new page. Use double click to select the target page.
         String newPageName = "PageNew";
         label = "barfoo";
         openLinkDialog(MENU_WIKI_PAGE);

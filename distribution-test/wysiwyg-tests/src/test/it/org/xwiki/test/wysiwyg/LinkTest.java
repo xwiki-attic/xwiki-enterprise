@@ -833,7 +833,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         openLinkDialog(MENU_ATTACHMENT);
 
-        // click the tree explorer tab
+        // Select the attachment from a different page.
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
@@ -841,7 +841,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String attachPage = "AdminSheet";
         String attachment = "users.png";
 
-        // get an error from not inserting the attachment name
+        // Get an error from not inserting the attachment name.
         explorer.lookupEntity(attachSpace + "." + attachPage);
         explorer.waitForPageSelected(attachSpace, attachPage);
 
@@ -849,13 +849,18 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         assertFieldErrorIsPresentInStep("No attachment was selected", TREE_EXPLORER, "xExplorerPanel");
 
-        // type correct file reference
+        // Type correct attachment reference.
         explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
         explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
 
+        // Move to the next step: link configuration.
         clickButtonWithText("Select");
-        // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
+
+        // The link label should be the attachment name.
+        assertEquals(attachment, getInputValue(LABEL_INPUT_TITLE));
+        // Try to create a link with an empty label.
+        typeInInput(LABEL_INPUT_TITLE, "");
         clickButtonWithText("Create Link");
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
@@ -864,7 +869,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
         clickButtonWithText("Create Link");
 
-        // wait for the link dialog to close
+        // Wait for the link dialog to close.
         waitForDialogToClose();
 
         switchToSource();

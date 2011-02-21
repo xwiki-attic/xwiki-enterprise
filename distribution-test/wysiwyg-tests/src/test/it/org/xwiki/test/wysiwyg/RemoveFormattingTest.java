@@ -96,6 +96,19 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * See XWIKI-3946: Standalone XHTML anchors with spans inside are converted badly to XWiki 2.0 syntax
+     */
+    public void testRemoveFormattingFromStandaloneAnchor()
+    {
+        setContent("<a href=\"http://www.xwiki.org\" style=\"color: red; font-size: 18pt;\">123456</a>");
+        select("XWE.body.firstChild.firstChild", 2, "XWE.body.firstChild.firstChild", 4);
+        clickRemoveFormattingButton();
+        switchToSource();
+        assertSourceText("[[(% style=\"color: red; font-size: 18pt;\" %)12(%%)34"
+            + "(% style=\"color: red; font-size: 18pt;\" %)56>>http://www.xwiki.org]]");
+    }
+
+    /**
      * Clicks on the tool bar button for removing the in-line formatting of the current selection.
      */
     protected void clickRemoveFormattingButton()

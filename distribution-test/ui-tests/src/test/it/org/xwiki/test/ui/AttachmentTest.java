@@ -21,9 +21,12 @@ package org.xwiki.test.ui;
 
 import java.util.List;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
@@ -42,6 +45,12 @@ import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
  */
 public class AttachmentTest extends AbstractAdminAuthenticatedTest
 {
+    /**
+     * The object used to get the test name.
+     */
+    @Rule
+    public TestName testName = new TestName();
+    
     private final String testAttachment = "SmallAttachment.txt";
 
     private final String testAttachment2 = "SmallAttachment2.txt";
@@ -260,5 +269,28 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         ap.clickAttachFiles();
         this.getDriver().navigate().refresh();
         Assert.assertEquals("1.2", ap.getLatestVersionOfAttachment(this.testAttachment));
+    }
+
+    /**
+     * @see XWIKI-5896: The image handling in the WYSIWYG-editor with GIF images is buggy.
+     */
+    @Test
+    public void testAttachAndViewGifImage()
+    {
+        WikiEditPage editPage = new WikiEditPage();
+        // Prepare the page to display the GIF image. We explicitly set the width to a value greater than the actual
+        // image width because we want the code that resizes the image on the server side to be executed (even if the
+        // image is not actually resized).
+        editPage.switchToEdit(getClass().getSimpleName(), testName.getMethodName());
+        editPage.setContent(String.format("[[image:image.gif||width=%s]]", (20 + RandomUtils.nextInt(200))));
+        ViewPage viewPage = editPage.clickSaveAndView();
+        // Attach the GIF image.
+        AttachmentsPane attachmentsPane = viewPage.openAttachmentsDocExtraPane();
+        attachmentsPane.setFileToUpload(getClass().getResource("/image.gif").getPath());
+        attachmentsPane.clickAttachFiles();
+        // clickAttachFiles should wait for the page to load but it doesn't..
+        viewPage.waitUntilPageIsLoaded();
+        // XWIKI-5896 shows that the file name becomes image.png
+        Assert.assertTrue(attachmentsPane.attachmentExistsByFileName("image.gif"));
     }
 }

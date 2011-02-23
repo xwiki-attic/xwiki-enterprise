@@ -195,10 +195,10 @@ public class AttachmentsPane extends BaseElement
     {
         try {
             getDriver().findElement(
-                By.xpath("//a[@title='Download this attachment' and text()='" + attachmentName + "']"));
+                By.xpath("//a[@title = 'Download this attachment' and . = '" + attachmentName + "']"));
         } catch (NoSuchElementException e) {
-            return Boolean.valueOf(false);
+            return false;
         }
-        return Boolean.valueOf(true);
+        return true;
     }
 }

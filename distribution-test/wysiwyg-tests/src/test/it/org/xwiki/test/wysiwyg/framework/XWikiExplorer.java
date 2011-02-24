@@ -130,4 +130,26 @@ public class XWikiExplorer
     {
         return test.getSelenium().getValue("//div[contains(@class, 'xExplorerPanel')]//input");
     }
+
+    /**
+     * Selects the "New page..." node for the specified space.
+     * 
+     * @param spaceName the space name
+     */
+    public void selectNewPageIn(String spaceName)
+    {
+        lookupEntity(spaceName + ".");
+        waitForPageSelected(spaceName, "New page...");
+        // The SmartClient tree doesn't react when we simulate a click on the "New page..." node so we simply delete the
+        // text from the input, which will leave the "New page..." node selected.
+        lookupEntity("");
+    }
+
+    /**
+     * Waits until none of the tree nodes is selected.
+     */
+    public void waitForNoneSelected()
+    {
+        test.waitForElementNotPresent("//td[contains(@class, 'treeCellSelected')]");
+    }
 }

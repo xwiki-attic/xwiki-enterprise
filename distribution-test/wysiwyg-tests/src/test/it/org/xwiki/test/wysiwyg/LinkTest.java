@@ -1605,7 +1605,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
         explorer.waitForPageSelected("Blog", "WebHome");
+        // Lookup a page that doesn't exist to clear the selection.
+        explorer.lookupEntity("NewSpace.NewPage");
+        explorer.waitForNoneSelected();
+        // Clear the input value since otherwise we would be targeting a new page in a new page.
         explorer.lookupEntity("");
+        // At this point no page is selected and the input field is empty.
         clickButtonWithText("Select");
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         explorer.lookupEntity("Blog.WebHome");
@@ -1616,7 +1621,13 @@ public class LinkTest extends AbstractWysiwygTestCase
         // The previously selected page should still be selected.
         explorer.waitForPageSelected("Blog", "WebHome");
         assertFieldErrorIsNotPresentInStep("xExplorerPanel");
+        // Repeat the steps to get the validation error.
+        // Lookup a page that doesn't exist to clear the selection.
+        explorer.lookupEntity("NewSpace.NewPage");
+        explorer.waitForNoneSelected();
+        // Clear the input value since otherwise we would be targeting a new page in a new page.
         explorer.lookupEntity("");
+        // At this point no page is selected and the input field is empty.
         clickButtonWithText("Select");
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         closeDialog();
@@ -1920,6 +1931,39 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         switchToSource();
         assertSourceText("[[" + linkLabel + ">>" + currentPageName + "]]");
+    }
+
+    /**
+     * @see XWIKI-4473: Cannot edit a link to an existing page to change its target to a new page using the All pages
+     *      tab
+     */
+    public void testChangeLinkTargetToNewPage()
+    {
+        switchToSource();
+        setSourceText("[[Home>>Main.WebHome]]");
+        switchToWysiwyg();
+
+        // Edit the link and change its target to a new page.
+        selectAllContent();
+
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepToLoad("xExplorerPanel");
+        explorer.waitForPageSelected("Main", "WebHome");
+
+        explorer.selectNewPageIn("Blog");
+        clickButtonWithText("Select");
+
+        waitForStepToLoad("xLinkToNewPage");
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", getName());
+        clickButtonWithText("Select");
+
+        waitForStepToLoad("xLinkConfig");
+        clickButtonWithText("Create Link");
+        waitForDialogToClose();
+
+        switchToSource();
+        assertSourceText("[[Home>>Blog." + getName() + "]]");
     }
 
     protected void waitForStepToLoad(String name)

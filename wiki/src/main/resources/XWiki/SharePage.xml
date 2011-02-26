@@ -139,7 +139,7 @@
         if (this.form) {
           this.form.observe('submit', function(event) {
             event.stop();
-            if (this.addedTargets.length == 0 &amp;&amp; this.input.value.trim().length == 0) {
+            if (this.addedTargets.length == 0 &amp;&amp; this.input.value.strip().length == 0) {
               this.input.addClassName('xErrorField');
               this.input.insert({'after' : '&lt;div class="xErrorMsg"&gt;$msg.get('core.viewers.share.error.missingRecipient')&lt;/div&gt;'});
               return;
@@ -177,7 +177,7 @@
       if (this.input.value == '') {
         return;
       }
-      if (this.addedTargets.indexOf(this.input.value.trim()) &gt;= 0) {
+      if (this.addedTargets.indexOf(this.input.value.strip()) &gt;= 0) {
         this.input.value = '';
         return;
       }
@@ -193,7 +193,7 @@
       target.insert(del);
       this.container.insert(target);
       this.container.show();
-      this.addedTargets.push(this.input.value.trim());
+      this.addedTargets.push(this.input.value.strip());
       this.input.value = '';
       this.input.removeClassName('xErrorField');
       if (this.input.next('.xErrorMsg')) {

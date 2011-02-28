@@ -117,7 +117,7 @@ public class RegisterTest extends AbstractTest
     {
         registerPage.fillRegisterForm(null, null, null, null, "DifferentPassword", null);
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("Your passwords aren't the same."));
+        Assert.assertTrue(registerPage.validationFailureMessagesInclude("The passwords do not match."));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class RegisterTest extends AbstractTest
     {
         registerPage.fillRegisterForm(null, null, null, null, null, "not an email address");
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("Please give a valid email address."));
+        Assert.assertTrue(registerPage.validationFailureMessagesInclude("Please enter a valid email address."));
     }
 
     /**

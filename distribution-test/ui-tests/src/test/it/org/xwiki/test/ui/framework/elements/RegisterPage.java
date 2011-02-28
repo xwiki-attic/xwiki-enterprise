@@ -124,12 +124,9 @@ public class RegisterPage extends BasePage
     /** Try to make LiveValidation validate the forms. Focus on an unvalidated field (register_first_name) */
     public void triggerLiveValidation()
     {
-        // Click on all of the validated fields to prevent "Passwords don't match" sticking -> flickering test.
-        // The right solution is to have a better way to fire LiveValidation without excessive js.
-        this.registerFormElement.findElement(By.name("register2_password")).click();
-        this.registerFormElement.findElement(By.name("register_password")).click();
-        this.registerFormElement.findElement(By.name("xwikiname")).click();
-
-        this.registerFormElement.findElement(By.name("register_first_name")).click();
+        // By manually invoing insubmit with null as it's parameter,
+        // liveValidation will check fields but when it attempts to call submit with null as the
+        // input, it encounters an error which keeps the next page from loading.
+        executeJavascript("try{ document.getElementById('register').onsubmit(null); }catch(err){}");
     }
 }

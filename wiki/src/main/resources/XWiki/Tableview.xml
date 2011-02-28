@@ -24,16 +24,21 @@
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
 <content>{{velocity}}
-#set($collist = ["doc.name", "doc.space","doc.date", "doc.author", "_actions"])
+#set($collist = ['doc.name', 'doc.space', 'doc.date', 'doc.author'])
 #set($colprops = {
-                   "doc.name" : { "type" : "text" , "size" : 30, "link" : "view"},
-                   "doc.space" : { "type" : "text", "link" : "space"},
-                   "doc.date" : { "type" : "date" },
-                   "doc.author" : { "type" : "text", "link" : "author"},
-                   "_actions" : {"actions": ["copy","delete","rename","rights"]}
-                 })
-#set($options = { "translationPrefix" : "xe.index.",
-                  "rowCount": 15,
-                  "description": "This table lists all the documents found on this wiki. The columns can be sorted and some can be filtered." })
-#livetable("alldocs" $collist $colprops $options)
+  'doc.name' : { 'type' : 'text' , 'size' : 30, 'link' : 'view' },
+  'doc.space' : { 'type' : 'text', 'link' : 'space' },
+  'doc.date' : { 'type' : 'date' },
+  'doc.author' : { 'type' : 'text', 'link' : 'author' }
+})
+#set($options = { 
+  'translationPrefix' : 'xe.index.',
+  'rowCount' : 15,
+  'description' : 'This table lists all the documents found on this wiki. The columns can be sorted and some can be filtered.' 
+})
+#if(!$isGuest)
+  #set($discard = $collist.add('_actions'))
+  #set($discard = $colprops.put('_actions', { 'actions' : ['copy', 'delete', 'rename', 'rights'] }))
+#end
+#livetable('alldocs' $collist $colprops $options)
 {{/velocity}}</content></xwikidoc>

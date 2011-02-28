@@ -763,8 +763,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         }
         open(fromSpace, fromPage);
         clickCopyPage();
-
-        getSelenium().type("targetdoc", toSpace + "." + toPage);
+        getSelenium().type("//input[@id='targetPageName']", toSpace + "." + toPage);
         clickLinkWithLocator("//input[@value='Copy']");
 
         assertTextPresent("successfully copied to");

@@ -97,27 +97,26 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
      */
     public void testUsingMacroInGetRenderedContent() throws IOException
     {
-        // Copy the default skin page to a new page to not impact other tests
-        deletePage("Test", "testUsingMacroInGetRenderedContentSkin");
-        open("XWiki", "DefaultSkin");
-        clickCopyPage();
-        setFieldValue("targetdoc", "Test.testUsingMacroInGetRenderedContentSkin");
-        clickLinkWithLocator("//input[@value='Copy']");
+        // Copy the default skin page to a new page to not impact other tests.
+        // Note: We have to use an existing space because the copy page form doesn't allow us to copy to a new space.
+        deletePage("Sandbox", "testUsingMacroInGetRenderedContentSkin");
+        copyPage("XWiki", "DefaultSkin", "Sandbox", "testUsingMacroInGetRenderedContentSkin");
 
-        // Overwrite view template in custom skin to add macro definition
-        open("Test", "testUsingMacroInGetRenderedContentSkin", "edit", "editor=object");
+        // Overwrite view template in custom skin to add macro definition.
+        open("Sandbox", "testUsingMacroInGetRenderedContentSkin", "edit", "editor=object");
         setFieldValue("XWiki.XWikiSkins_0_view.vm", "#macro(testSkinObjectMacro)skin object macro content#end"
             + "\n$cdoc.getRenderedContent()");
         clickEditSaveAndContinue();
 
-        // Create a wiki page which use use the defined macro
+        // Create a wiki page which uses the defined macro.
         editInWikiEditor("Test", "testUsingMacroInGetRenderedContent", SYNTAX);
         setFieldValue("content", "#testSkinObjectMacro()");
         clickEditSaveAndContinue();
 
         // Validate if the macros works
         assertTextNotPresent("skin object macro content");
-        open("Test", "testUsingMacroInGetRenderedContent", "view", "skin=Test.testUsingMacroInGetRenderedContentSkin");
+        open("Test", "testUsingMacroInGetRenderedContent", "view",
+            "skin=Sandbox.testUsingMacroInGetRenderedContentSkin");
         assertTextPresent("skin object macro content");
     }
 }

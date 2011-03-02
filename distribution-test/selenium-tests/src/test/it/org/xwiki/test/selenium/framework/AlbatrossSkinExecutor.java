@@ -438,4 +438,19 @@ public class AlbatrossSkinExecutor implements SkinExecutor
             getTest().getSelenium().shiftKeyUp();
         }
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#copyPage(String, String, String, String)
+     */
+    public void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
+    {
+        getTest().open(spaceName, pageName);
+        clickCopyPage();
+        getTest().getSelenium().select("targetSpaceName", targetSpaceName);
+        getTest().getSelenium().type("targetPageName", targetPageName);
+        getTest().clickLinkWithLocator("//input[@value='Copy']");
+        getTest().assertTextPresent("successfully copied to");
+    }
 }

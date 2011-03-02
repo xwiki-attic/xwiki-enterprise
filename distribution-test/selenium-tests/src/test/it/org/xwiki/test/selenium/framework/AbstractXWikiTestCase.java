@@ -762,4 +762,14 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         // We can execute the script in preview mode. Thus we don't need to save the document.
         clickEditPreview();
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SkinExecutor#copyPage(String, String, String, String)
+     */
+    public void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
+    {
+        getSkinExecutor().copyPage(spaceName, pageName, targetSpaceName, targetPageName);
+    }
 }

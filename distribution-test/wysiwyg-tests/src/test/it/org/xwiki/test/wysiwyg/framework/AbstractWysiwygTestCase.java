@@ -453,17 +453,17 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void clickBoldButton()
     {
-        pushToolBarButton("Bold (CTRL+B)");
+        pushToolBarButton("Bold (Ctrl+B)");
     }
 
     public void clickItalicsButton()
     {
-        pushToolBarButton("Italic (CTRL+I)");
+        pushToolBarButton("Italic (Ctrl+I)");
     }
 
     public void clickUnderlineButton()
     {
-        pushToolBarButton("Underline (CTRL+U)");
+        pushToolBarButton("Underline (Ctrl+U)");
     }
 
     public void clickStrikethroughButton()
@@ -1004,7 +1004,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForBoldDetected(boolean down)
     {
-        waitForToggleButtonState("Bold (CTRL+B)", down);
+        waitForToggleButtonState("Bold (Ctrl+B)", down);
     }
 
     /**
@@ -1013,7 +1013,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForUnderlineDetected(boolean down)
     {
-        waitForToggleButtonState("Underline (CTRL+U)", down);
+        waitForToggleButtonState("Underline (Ctrl+U)", down);
     }
 
     /**
@@ -1239,24 +1239,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 return !isElementPresent(locator);
             }
         }.wait("The specified element, " + locator + ", is still present!");
-    }
-
-    /**
-     * Copies the specified page to the target page.
-     * 
-     * @param spaceName the name of the space containing the page to be copied
-     * @param pageName the name of the page to be copied
-     * @param targetSpaceName the name of the target space
-     * @param targetPageName the name of the target page
-     */
-    protected void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
-    {
-        open(spaceName, pageName);
-        clickCopyPage();
-        getSelenium().select("targetSpaceName", targetSpaceName);
-        getSelenium().type("targetPageName", targetPageName);
-        clickLinkWithLocator("//input[@value='Copy']");
-        assertTextPresent("successfully copied to");
     }
 
     /**

@@ -335,4 +335,14 @@ public interface SkinExecutor
      */
     void pressKeyboardShortcut(String shortcut, boolean withCtrlModifier, boolean withAltModifier,
         boolean withShiftModifier) throws InterruptedException;
+
+    /**
+     * Copies the specified page to the target page.
+     * 
+     * @param spaceName the name of the space containing the page to be copied
+     * @param pageName the name of the page to be copied
+     * @param targetSpaceName the name of the target space
+     * @param targetPageName the name of the target page
+     */
+    void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName);
 }

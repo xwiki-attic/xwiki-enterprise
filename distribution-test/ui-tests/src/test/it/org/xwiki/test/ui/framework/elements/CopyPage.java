@@ -21,26 +21,60 @@ package org.xwiki.test.ui.framework.elements;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * Represents the common actions possible on the Copy Page page.
- *
+ * 
  * @version $Id$
  * @since 3.0M2
  */
 public class CopyPage extends ViewPage
 {
-    @FindBy(id = "targetdoc")
-    private WebElement targetPage;
+    /**
+     * The select box containing the list of available spaces.
+     */
+    @FindBy(id = "targetSpaceName")
+    private WebElement targetSpaceName;
 
-    @FindBy(xpath = "//span[@class='buttonwrapper']/input[@class='button']")
+    /**
+     * The text input field to enter the name of the target page.
+     */
+    @FindBy(id = "targetPageName")
+    private WebElement targetPageName;
+
+    /**
+     * The copy button.
+     */
+    @FindBy(xpath = "//input[@class = 'button' and @value = 'Copy']")
     private WebElement copyButton;
 
-    public void setTargetPage(String targetPage)
+    /**
+     * Sets the name of the space where the page should be copied.
+     * 
+     * @param targetSpaceName the name of the space where the page should be copied
+     */
+    public void setTargetSpaceName(String targetSpaceName)
     {
-        this.targetPage.sendKeys(targetPage);
+        new Select(this.targetSpaceName).selectByVisibleText(targetSpaceName);
     }
 
+    /**
+     * Sets the name of the target page.
+     * 
+     * @param targetPageName the name of the target page
+     */
+    public void setTargetPageName(String targetPageName)
+    {
+        this.targetPageName.clear();
+        this.targetPageName.sendKeys(targetPageName);
+    }
+
+    /**
+     * Submit the copy page form.
+     * 
+     * @return the confirmation page
+     */
     public CopyConfirmationPage clickCopyButton()
     {
         this.copyButton.submit();

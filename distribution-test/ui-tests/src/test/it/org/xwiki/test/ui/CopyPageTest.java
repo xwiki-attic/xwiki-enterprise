@@ -66,18 +66,19 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCopyPage()
     {
-        // Create a new Page that will be copied
+        // Create a new page that will be copied.
         WikiEditPage wep = new WikiEditPage();
         wep.switchToEdit(SPACE_VALUE, PAGE_VALUE);
         wep.setTitle(PAGE_TITLE);
         wep.setContent(PAGE_CONTENT);
         ViewPage viewPage = wep.clickSaveAndView();
 
-        // Click on Copy Page from Top Menu
+        // Click on Copy from the Page top menu.
         CopyPage copyPage = viewPage.copy();
 
-        // Fill the Target destination of the page to be copied to
-        copyPage.setTargetPage(SPACE_VALUE_COPY + "." + PAGE_VALUE_COPY);
+        // Fill the target destination the page to be copied to.
+        copyPage.setTargetSpaceName(SPACE_VALUE_COPY);
+        copyPage.setTargetPageName(PAGE_VALUE_COPY);
         CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
         Assert.assertTrue(copyConfirmationPage.getInfoMessage().contains(COPY_SUCCESSFUL));
         viewPage = copyConfirmationPage.goToNewPage();

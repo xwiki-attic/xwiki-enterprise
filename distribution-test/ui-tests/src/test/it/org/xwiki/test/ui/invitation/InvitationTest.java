@@ -95,31 +95,25 @@ public class InvitationTest extends AbstractTest
             InvitationGuestActionsPage guestPage = new InvitationGuestActionsPage();
 
             // Try to accept nonexistent message.
-            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view",
-                "doAction_accept&messageID=12345"));
-            Assert.assertTrue("Guests able to accept nonexistent invitation", guestPage.getMessage() != null);
-            Assert.assertTrue("Guests trying to accept nonexistent invitation get wrong error message\nMessage: "
-                + guestPage.getMessage(),
-                guestPage.getMessage().equals("No message was found by that ID, maybe it was deleted "
-                + "accidentally or the system is experiencing problems."));
+            getDriver().get(
+                getUtil().getURL("Invitation", "InvitationGuestActions", "view", "doAction_accept&messageID=12345"));
+            Assert.assertNotNull("Guests able to accept nonexistent invitation", guestPage.getMessage());
+            Assert.assertEquals("No message was found by the given ID. It might have been deleted "
+                + "or maybe the system is experiencing difficulties.", guestPage.getMessage());
 
             // Try to decline nonexistent message.
-            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view",
-                "doAction_decline&messageID=12345"));
-            Assert.assertTrue("Guests able to decline nonexistent invitation", guestPage.getMessage() != null);
-            Assert.assertTrue("Guests trying to decline nonexistent invitation get wrong error message\nMessage: "
-                + guestPage.getMessage(),
-                guestPage.getMessage().equals("No invitation was found by the given ID. It might have been deleted or "
-                + "maybe the system is experiencing difficulties."));
+            getDriver().get(
+                getUtil().getURL("Invitation", "InvitationGuestActions", "view", "doAction_decline&messageID=12345"));
+            Assert.assertNotNull("Guests able to decline nonexistent invitation", guestPage.getMessage());
+            Assert.assertEquals("No invitation was found by the given ID. It might have been deleted or "
+                + "maybe the system is experiencing difficulties.", guestPage.getMessage());
 
             // Try to report nonexistent message.
-            getDriver().get(getUtil().getURL("Invitation", "InvitationGuestActions", "view",
-                "doAction_report&messageID=12345"));
-            Assert.assertTrue("Guests able to report nonexistent invitation as spam", guestPage.getMessage() != null);
-            Assert.assertTrue("Guests trying to report nonexistent invitation as spam get incorrect message\nMessage: "
-                + guestPage.getMessage(),
-                guestPage.getMessage().equals("There was no message found by the given ID. Maybe an administrator "
-                + "deleted the message from our system."));
+            getDriver().get(
+                getUtil().getURL("Invitation", "InvitationGuestActions", "view", "doAction_report&messageID=12345"));
+            Assert.assertNotNull("Guests able to report nonexistent invitation as spam", guestPage.getMessage());
+            Assert.assertEquals("There was no message found by the given ID. Maybe an administrator "
+                + "deleted the message from our system.", guestPage.getMessage());
         } finally {
             getUtil().setSession(s);
         }

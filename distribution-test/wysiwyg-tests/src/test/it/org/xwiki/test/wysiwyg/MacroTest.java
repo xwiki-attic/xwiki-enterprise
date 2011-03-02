@@ -19,8 +19,9 @@
  */
 package org.xwiki.test.wysiwyg;
 
-import com.thoughtworks.selenium.Wait;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import com.thoughtworks.selenium.Wait;
 
 /**
  * Integration tests for macro support inside the WYSIWYG editor.
@@ -243,7 +244,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("{{html}}<p>foo</p>{{/html}}\n\nbar");
         switchToWysiwyg();
-        getSelenium().clickAt(getDOMLocator("getElementsByTagName('button')[0]"), "0, 0");
+        getSelenium().clickAt(getMacroLocator(0), "0, 0");
         typeDelete();
         switchToSource();
         assertSourceText("bar");
@@ -302,11 +303,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_EXPAND_ALL));
         closeMenuContaining(MENU_REFRESH);
 
-        // Let's collapse the first macro by clicking it.
-        // First click selects the macro.
-        clickMacro(0);
-        // Second click toggles between collapsed and expanded state.
-        clickMacro(0);
+        // Let's collapse the first macro by selecting it first and then using the shortcut key.
+        selectMacro(0);
+        collapseMacrosUsingShortcutKey();
         // Finally unselect the macro.
         clearMacroSelection();
 
@@ -334,7 +333,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         closeMenuContaining(MENU_REFRESH);
 
         // Select the first macro and collapse it (by default macros should be expanded).
-        clickMacro(0);
+        selectMacro(0);
         clickMenu(MENU_MACRO);
         assertTrue(isMenuEnabled(MENU_COLLAPSE));
         assertFalse(isMenuEnabled(MENU_EXPAND));
@@ -348,7 +347,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Let's select the second macro too.
         getSelenium().controlKeyDown();
-        clickMacro(1);
+        selectMacro(1);
         getSelenium().controlKeyUp();
 
         // Collapse both selected macros.
@@ -373,7 +372,8 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test if the user can select a macro by clicking it and then toggle between collapsed and expanded states.
+     * Test if the user can select a macro by clicking it and then toggle between collapsed and expanded states using
+     * the space key.
      */
     public void testClickToSelectMacroAndToggleCollapse()
     {
@@ -383,21 +383,29 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // By default macros are expanded. Let's check this.
+        // Note: We have to select the rich text area frame because the visibility of an element is evaluated relative
+        // to the current window.
+        selectRichTextAreaFrame();
         assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
         assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
+        selectTopFrame();
 
         // Select the macro.
-        clickMacro(0);
+        selectMacro(0);
 
         // Let's collapse the selected macro and check its state.
-        clickMacro(0);
+        toggleMacroCollapsedState();
+        selectRichTextAreaFrame();
         assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
         assertFalse(getSelenium().isVisible(getMacroOutputLocator(0)));
+        selectTopFrame();
 
         // Let's expand the selected macro and check its state.
-        clickMacro(0);
+        toggleMacroCollapsedState();
+        selectRichTextAreaFrame();
         assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
         assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
+        selectTopFrame();
     }
 
     /**
@@ -424,12 +432,16 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Collapse the second macro.
+        selectRichTextAreaFrame();
         assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
         assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
-        clickMacro(1);
-        clickMacro(1);
+        selectTopFrame();
+        selectMacro(1);
+        toggleMacroCollapsedState();
+        selectRichTextAreaFrame();
         assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
         assertFalse(getSelenium().isVisible(getMacroOutputLocator(1)));
+        selectTopFrame();
 
         // Unselect the macro.
         clearMacroSelection();
@@ -438,8 +450,10 @@ public class MacroTest extends AbstractWysiwygTestCase
         refreshMacros();
 
         // Check if the second macro is expanded.
+        selectRichTextAreaFrame();
         assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
         assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
+        selectTopFrame();
     }
 
     /**
@@ -457,6 +471,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Place the caret after the second heading and insert a new one.
         moveCaret(getDOMLocator("getElementsByTagName('h2')[0].firstChild.firstChild"), 7);
+        // Wait for the macro to be unselected.
+        waitForSelectedMacroCount(0);
         typeEnter();
         typeText("Title 3");
         applyStyleTitle3();
@@ -869,7 +885,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Double click to edit the second macro.
         // Each double click event should be preceded by a click event.
-        clickMacro(1);
+        selectMacro(1);
         // Fire the double click event on the macro.
         getSelenium().doubleClick(getMacroLocator(1));
         waitForDialogToLoad();
@@ -1144,7 +1160,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("{{velocity}}$doc.fullName{{/velocity}}");
         switchToWysiwyg();
         String expected = getEval("window.XWE.body.textContent");
-        refreshMacros();
+        refreshMacrosUsingShortcutKey();
         assertEquals(expected, getEval("window.XWE.body.textContent"));
     }
 
@@ -1162,14 +1178,14 @@ public class MacroTest extends AbstractWysiwygTestCase
         String linkCountExpression = "window." + getDOMLocator("getElementsByTagName('a').length");
         assertEquals("1", getSelenium().getEval(linkCountExpression));
         // Select the macro.
-        clickMacro(0);
+        selectMacro(0);
         // Collapse the macro.
-        clickMacro(0);
+        toggleMacroCollapsedState();
         // Blur and focus again the rich text area.
         blurRichTextArea();
         focusRichTextArea();
         // Expand the macro.
-        clickMacro(0);
+        toggleMacroCollapsedState();
         // The link should have been preserved.
         assertEquals("1", getSelenium().getEval(linkCountExpression));
     }
@@ -1192,7 +1208,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText(sourceText.toString());
         switchToWysiwyg();
         // Force re-rendering.
-        refreshMacros();
+        refreshMacrosUsingShortcutKey();
         // Check the result.
         switchToSource();
         assertSourceText(sourceText.toString());
@@ -1285,7 +1301,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public String getMacroLocator(int index)
     {
-        return getDOMLocator("getElementsByTagName('button')[" + index + "]");
+        return getDOMLocator("getElementsByClassName('macro')[" + index + "]");
     }
 
     /**
@@ -1293,7 +1309,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public int getMacroCount()
     {
-        String expression = "window." + getDOMLocator("getElementsByTagName('button').length");
+        String expression = "window." + getDOMLocator("getElementsByClassName('macro').length");
         return Integer.parseInt(getSelenium().getEval(expression));
     }
 
@@ -1302,13 +1318,8 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public int getSelectedMacroCount()
     {
-        StringBuffer expression = new StringBuffer();
-        expression.append("var count = 0, buttons = window." + getDOMLocator("getElementsByTagName('button')") + ";\n");
-        expression.append("for(var i = 0; i < buttons.length; i++) {\n");
-        expression.append("  if (buttons[i].className.indexOf('macro-selected') >= 0) count++;\n");
-        expression.append("}\n");
-        expression.append("count");
-        return Integer.parseInt(getSelenium().getEval(expression.toString()));
+        String expression = "window." + getDOMLocator("getElementsByClassName('macro-selected').length");
+        return Integer.parseInt(getSelenium().getEval(expression));
     }
 
     /**
@@ -1333,39 +1344,75 @@ public class MacroTest extends AbstractWysiwygTestCase
      * The macro place holder is shown when the macro is collapsed. In this state the output of the macro is hidden.
      * 
      * @param index the index of a macro inside the edited document
-     * @return a {@link String} representing a DOM locator for the place holder of the specified macro
+     * @return a {@link String} representing a DOM locator for the place holder of the specified macro, relative to the
+     *         edited document
      */
     public String getMacroPlaceHolderLocator(int index)
     {
-        return getMacroLocator(index) + ".childNodes[1]";
+        return "document.getElementsByClassName('macro-placeholder')[" + index + "]";
     }
 
     /**
      * The output of a macro is shown when the macro is expanded. In this state the macro place holder is hidden.
      * 
      * @param index the index of a macro inside the edited document
-     * @return a {@link String} representing a DOM locator for the output of the specified macro
+     * @return a {@link String} representing a DOM locator for the output of the specified macro, relative to the edited
+     *         document
      */
     public String getMacroOutputLocator(int index)
     {
-        return getMacroLocator(index) + ".childNodes[2]";
+        return "document.getElementsByClassName('macro-output')[" + index + "]";
     }
 
     /**
-     * Simulates a click on the macro with the specified index.
+     * Selects the macro with the specified index in the edited document.
      * 
-     * @param index the index of the macro to be clicked
+     * @param index the index of the macro to be selected
      */
-    public void clickMacro(int index)
+    public void selectMacro(int index)
     {
         String locator = getMacroLocator(index);
         getSelenium().mouseOver(locator);
         getSelenium().mouseMove(locator);
         getSelenium().mouseDown(locator);
+        // Simulate the fact that the caret is moved inside the macro.
+        moveCaret(locator, 0);
         getSelenium().mouseUp(locator);
         getSelenium().click(locator);
         getSelenium().mouseMove(locator);
         getSelenium().mouseOut(locator);
+    }
+
+    /**
+     * Collapses the currently selected macro or, if none is selected, all the macros using the shortcut key.
+     */
+    public void collapseMacrosUsingShortcutKey()
+    {
+        getSelenium().controlKeyDown();
+        getSelenium().shiftKeyDown();
+        typeText("C");
+        getSelenium().shiftKeyUp();
+        getSelenium().controlKeyUp();
+    }
+
+    /**
+     * Expands the currently selected macro or, if none is selected, all the macros using the shortcut key.
+     */
+    public void expandMacrosUsingShortcutKey()
+    {
+        getSelenium().controlKeyDown();
+        getSelenium().shiftKeyDown();
+        typeText("E");
+        getSelenium().shiftKeyUp();
+        getSelenium().controlKeyUp();
+    }
+
+    /**
+     * Toggles the collapsed state of the currently selected macro.
+     */
+    public void toggleMacroCollapsedState()
+    {
+        typeText(" ");
     }
 
     /**
@@ -1375,7 +1422,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void editMacro(int index)
     {
-        clickMacro(index);
+        selectMacro(index);
         clickMenu(MENU_MACRO);
         clickMenu(MENU_EDIT);
         waitForDialogToLoad();
@@ -1388,7 +1435,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void deleteMacro(int index)
     {
-        clickMacro(index);
+        selectMacro(index);
         typeDelete();
     }
 
@@ -1422,12 +1469,25 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Refreshes the macros present in the edited document.
+     * Refreshes the macros present in the edited document using the menu.
      */
     public void refreshMacros()
     {
         clickMenu(MENU_MACRO);
         clickMenu(MENU_REFRESH);
+        waitForEditorToLoad();
+    }
+
+    /**
+     * Refreshes the macros present in the edited document using the shortcut key.
+     */
+    public void refreshMacrosUsingShortcutKey()
+    {
+        getSelenium().controlKeyDown();
+        getSelenium().shiftKeyDown();
+        typeText("R");
+        getSelenium().shiftKeyUp();
+        getSelenium().controlKeyUp();
         waitForEditorToLoad();
     }
 
@@ -1538,7 +1598,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void clearMacroSelection()
     {
-        runScript("XWE.selection.collapseToEnd()");
+        moveCaret("XWE.body", 0);
         triggerToolbarUpdate();
         waitForSelectedMacroCount(0);
     }

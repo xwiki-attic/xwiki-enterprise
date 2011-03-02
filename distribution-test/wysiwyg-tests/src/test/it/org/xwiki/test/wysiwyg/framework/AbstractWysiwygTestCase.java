@@ -56,17 +56,23 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     /**
      * The title of the undo tool bar button.
      */
-    public static final String TOOLBAR_BUTTON_UNDO_TITLE = "Undo (CTRL+Z)";
+    public static final String TOOLBAR_BUTTON_UNDO_TITLE = "Undo (Ctrl+Z)";
 
     /**
      * The title of the redo tool bar button.
      */
-    public static final String TOOLBAR_BUTTON_REDO_TITLE = "Redo (CTRL+Y)";
+    public static final String TOOLBAR_BUTTON_REDO_TITLE = "Redo (Ctrl+Y)";
 
     /**
      * The locator for the tool bar list box used to change the style of the current selection.
      */
     public static final String TOOLBAR_SELECT_STYLE = "//select[@title=\"Apply Style\"]";
+
+    /**
+     * Locates a menu item by its label.
+     */
+    public static final String MENU_ITEM_BY_LABEL =
+        "//td[contains(@class, 'gwt-MenuItem')]/div[@class = 'gwt-MenuItemLabel' and . = '%s']";
 
     /**
      * {@inheritDoc}
@@ -621,7 +627,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void clickMenu(String menuLabel)
     {
-        String selector = "//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']";
+        String selector = String.format(MENU_ITEM_BY_LABEL, menuLabel);
         // We select the menu item first.
         getSelenium().mouseOver(selector);
         // And then we click on it.
@@ -635,7 +641,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForMenu(String menuLabel)
     {
-        waitForElement("//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']");
+        waitForElement(String.format(MENU_ITEM_BY_LABEL, menuLabel));
     }
 
     /**
@@ -645,7 +651,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void closeMenuContaining(String menuLabel)
     {
-        getSelenium().keyDown("//td[contains(@class, 'gwt-MenuItem') and . = '" + menuLabel + "']", "\\27");
+        getSelenium().keyDown(String.format(MENU_ITEM_BY_LABEL, menuLabel), "\\27");
     }
 
     /**
@@ -818,8 +824,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public boolean isMenuEnabled(String menuLabel)
     {
         return getSelenium().isElementPresent(
-            "//td[contains(@class, 'gwt-MenuItem') and not(contains(@class, 'gwt-MenuItem-disabled')) and . = '"
-                + menuLabel + "']");
+            "//td[contains(@class, 'gwt-MenuItem') and not(contains(@class, 'gwt-MenuItem-disabled'))]"
+                + "/div[@class = 'gwt-MenuItemLabel' and . = '" + menuLabel + "']");
     }
 
     /**
@@ -1292,5 +1298,21 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         switchToSource();
         setSourceText(content);
         clickEditSaveAndView();
+    }
+
+    /**
+     * Selects the rich text area frame. Selectors are relative to the edited document after calling this method.
+     */
+    public void selectRichTextAreaFrame()
+    {
+        getSelenium().selectFrame("document.getElementsByClassName('gwt-RichTextArea')[0]");
+    }
+
+    /**
+     * Selects the top frame.
+     */
+    public void selectTopFrame()
+    {
+        getSelenium().selectFrame("relative=top");
     }
 }

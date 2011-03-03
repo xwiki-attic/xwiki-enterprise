@@ -19,10 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
+import junit.framework.Test;
+
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
-import junit.framework.Test;
 
 /**
  * Verify the overall Administration application features.
@@ -221,10 +222,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationNotPresent("Main", "TestConfigurable");
     }
 
-    /*
+    /**
      * Test add configurable application to a nonexistent section.
-     *
-     * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.
+     * <p>
+     * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.<br/>
      * Tests: XWiki.ConfigurableClass
      */
     public void testAddConfigurableApplicationInNonexistantSection()
@@ -234,23 +235,22 @@ public class AdministrationTest extends AbstractXWikiTestCase
         createConfigurableApplication("Main", "TestConfigurable", section, true);
         // Check it's available in global section.
         clickLinkWithText("Administer Wiki");
-        assertConfigurationIconPresent(section, null);
         // Section name is transformed into a translation key.
-        clickLinkWithText("admin." + section.toLowerCase());
+        String sectionName = "admin." + section.toLowerCase();
+        assertTrue(isAdminMenuItemPresent(sectionName));
+        clickLinkWithText(sectionName);
         assertConfigurationPresent("Main", "TestConfigurable");
-        // Make sure javascript adds a save button.
-        waitForElement("input[@type='submit'][@value='Save']");
         // Check that it's not available in space section.
         open("Main", "WebPreferences", "admin");
-        // Assert there is no icon with the default image.
-        assertElementNotPresent("//img[contains(@src,'/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png']");
+        // Assert there is no menu item in the administration menu for our configurable application.
+        assertFalse(isAdminMenuItemPresent(sectionName));
     }
 
-    /*
+    /**
      * Make sure some joker can't edit an application of he doesn't have permission.
-     *
-     * This test depends on the "Presentation" section existing.
-     * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.
+     * <p>
+     * This test depends on the "Presentation" section existing.<br/>
+     * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.<br/>
      * Tests: XWiki.ConfigurableClass
      */
     public void testConfigurationNotEditableWithoutPermission()
@@ -281,7 +281,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         loginAndRegisterUser("someJoker", "bentOnMalice", false);
         open("XWiki", "XWikiPreferences", "admin");
-        assertConfigurationIconPresent(nonExistingSection, null);
+        // Section name is transformed into a translation key.
+        assertTrue(isAdminMenuItemPresent("admin." + nonExistingSection.toLowerCase()));
 
         // Make sure the error message is displayed.
         // FIXME In 3.0 inaccessible sections don't appear anymore
@@ -302,16 +303,16 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationNotEditable("Main", "TestConfigurable");
     }
 
-    /*
-     * Fails if a user can create a Configurable application without having edit access to the configuration page
-     * (in this case: XWikiPreferences)
-     *
+    /**
+     * Fails if a user can create a Configurable application without having edit access to the configuration page (in
+     * this case: XWikiPreferences)
+     * <p>
      * Tests: XWiki.ConfigurableClass
      */
     public void testConfigurableCreatedByUnauthorizedWillNotExecute()
     {
         String nonExistingSection = "HopingThereIsNoSectionByThisName";
-        // Create the configurable for global admin.
+        // Create the configurable for global administrator.
         loginAndRegisterUser("anotherJoker", "bentOnMalice", false);
         createConfigurableApplication("Main", "TestConfigurable", nonExistingSection, true);
         loginAsAdmin();
@@ -627,17 +628,12 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertTextNotPresent("Error");
     }
 
-    /*
-     * Fails unless there is an administration icon for the section.
-     * Must be in the administration app first.
-     * Tests: XWiki.ConfigurableClass
+    /**
+     * Asserts that a menu item with the given label is present on the administration menu.
      */
-    public void assertConfigurationIconPresent(String section, String iconURL)
+    public boolean isAdminMenuItemPresent(String label)
     {
-        if(iconURL == null) {
-            iconURL = "/xwiki/bin/download/XWiki/ConfigurableClass/DefaultAdminSectionIcon.png";
-        }
-        assertElementPresent("//div[contains(@class,'admin-menu')]//li[contains(@href,'section=" + section + "')]");
+        return isElementPresent("//*[contains(@class, 'admin-menu')]//a[. = '" + label + "']");
     }
 
     /*
@@ -650,8 +646,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementNotPresent("//div[contains(@class,'admin-menu')]//li[contains(@href,'section=" + section + "')]");
     }
 
-    /*
-     * Will fail unless it detects a configuration of the type created by createConfigurableApplication.
+    /**
+     * Will fail unless it detects a configuration of the type created by createConfigurableApplication.<br/>
      * Tests: XWiki.ConfigurableClass
      */
     public void assertConfigurationPresent(String space, String page)
@@ -669,12 +665,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementPresent(form + "/fieldset/dl/dt[4]/label");
         assertElementPresent(form + "/fieldset/dl/dd[4]/select[@name='" + fullName + "_0_Select']");
         assertElementPresent(form + "/fieldset/input[@id='" + fullName + "_redirect']");
-        // xredirect
         assertElementPresent(form + "/fieldset/input[@value='" + getSelenium().getLocation() + "'][@name='xredirect']");
-        // Save button
-        // assertElementPresent(form + "/div/p/span/input[@type='submit']");
-        // Javascript injects a save button outside of the form and removes the default save button.
-        waitForElement("//div/div/p/span/input[@type='submit'][@value='Save']");
+        // JavaScript injects a save button outside of the form and removes the default save button.
+        waitForElement("//*[@class = 'admin-buttons']//input[@type = 'submit' and @value = 'Save']");
     }
 
     /*
@@ -694,17 +687,18 @@ public class AdministrationTest extends AbstractXWikiTestCase
                                 + space + "/" + page + "']");
     }
 
-    /*
-     * Creates a new page with a configuration class with some simple fields
-     * then adds an object of class configurable and one of it's own class.
+    /**
+     * Creates a new page with a configuration class with some simple fields<br/>
+     * then adds an object of class configurable and one of it's own class.<br/>
      * Tests: XWiki.ConfigurableClass
      */
     public void createConfigurableApplication(String space, String page, String section, boolean global)
     {
-        String storageSpace = "usedByAdministrationTest";
+        // We have to use an existing space because the copy page form doesn't allow entering a new space.
+        String storageSpace = "Sandbox";
         String storagePage = "CreateConfigurableApplication";
 
-        if(!tryToCopyPage(storageSpace, storagePage, space, page)) {
+        if (!tryToCopyPage(storageSpace, storagePage, space, page)) {
             // Create the page with a simple configuration class.
             createPage(space, page, "Test configurable application.", "xwiki/2.0");
             open(space, page, "edit", "editor=class");
@@ -753,20 +747,16 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
     }
 
-    /*
-     * This is used by createConfigurableApplication to store a copy of the default configurable to speed up making them.
+    /**
+     * This is used by createConfigurableApplication to store a copy of the default configurable to speed up making
+     * them.
      */
     public boolean tryToCopyPage(String fromSpace, String fromPage, String toSpace, String toPage)
     {
-        if(!isExistingPage(fromSpace, fromPage)) {
+        if (!isExistingPage(fromSpace, fromPage)) {
             return false;
         }
-        open(fromSpace, fromPage);
-        clickCopyPage();
-        getSelenium().type("//input[@id='targetPageName']", toSpace + "." + toPage);
-        clickLinkWithLocator("//input[@value='Copy']");
-
-        assertTextPresent("successfully copied to");
+        copyPage(fromSpace, fromPage, toSpace, toPage);
         return isExistingPage(toSpace, toPage);
     }
 }

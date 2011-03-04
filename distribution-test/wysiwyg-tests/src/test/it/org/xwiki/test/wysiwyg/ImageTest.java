@@ -620,7 +620,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         // We have to be on an existing space to be able to create a new space.
         open("Main", "WebHome");
         createSpace(spaceName);
-        copyPage("XWiki", "AdminSheet", spaceName, pageName);
+        assertTrue(copyPage("XWiki", "AdminSheet", spaceName, pageName));
 
         // Come back to the edited page.
         open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");

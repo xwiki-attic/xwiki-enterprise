@@ -311,9 +311,12 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testConfigurableCreatedByUnauthorizedWillNotExecute()
     {
-        String nonExistingSection = "HopingThereIsNoSectionByThisName";
+        // Make sure the configurable page doesn't exist because otherwise we may fail to overwrite it with a
+        // non-administrator user.
+        deletePage("Main", "TestConfigurable");
         // Create the configurable for global administrator.
         loginAndRegisterUser("anotherJoker", "bentOnMalice", false);
+        String nonExistingSection = "HopingThereIsNoSectionByThisName";
         createConfigurableApplication("Main", "TestConfigurable", nonExistingSection, true);
         loginAsAdmin();
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + nonExistingSection);
@@ -753,10 +756,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public boolean tryToCopyPage(String fromSpace, String fromPage, String toSpace, String toPage)
     {
-        if (!isExistingPage(fromSpace, fromPage)) {
+        open(fromSpace, fromPage);
+        if (!isExistingPage()) {
             return false;
         }
-        copyPage(fromSpace, fromPage, toSpace, toPage);
-        return isExistingPage(toSpace, toPage);
+        return copyPage(fromSpace, fromPage, toSpace, toPage);
     }
 }

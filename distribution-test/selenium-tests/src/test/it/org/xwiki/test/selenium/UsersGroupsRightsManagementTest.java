@@ -119,6 +119,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // Verify that new users are automatically added to the XWikiAllGroup group.
         open("XWiki", "XWikiAllGroup");
+        waitForGroupUsersLiveTable();
         assertTextPresent("XWiki.XWikiNewUser");
 
         // Delete the newly created user and see if groups are cleaned
@@ -126,6 +127,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // Verify that when a user is removed he's removed from the groups he belongs to.
         open("XWiki", "XWikiAllGroup");
+        waitForGroupUsersLiveTable();
         assertTextNotPresent("XWiki.XWikiNewUser");
     }
 
@@ -411,5 +413,13 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickLinkWithXPath(xpath, false);
         // Wait till it has been clicked since this can take some time.
         waitForCondition("selenium.isElementPresent(\"" + xpath + "[contains(@src, '" + actionToVerify + ".png')]\")");
+    }
+
+    /**
+     * Waits for the live table that lists group users to load.
+     */
+    private void waitForGroupUsersLiveTable()
+    {
+        waitForLiveTable("groupusers");
     }
 }

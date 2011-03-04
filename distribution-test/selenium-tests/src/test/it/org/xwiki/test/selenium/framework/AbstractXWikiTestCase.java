@@ -162,17 +162,32 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         assertTrue(getTitle().matches(".*\\(" + space + "." + page + "\\) - XWiki"));
     }
 
+    /**
+     * Visits the specified page and checks if it exists, coming back to the current page.
+     * 
+     * @param space the space name
+     * @param page the page name
+     * @return {@code true} if the specified page exists
+     */
     public boolean isExistingPage(String space, String page)
     {
         String saveUrl = getSelenium().getLocation();
 
         open(getUrl(space, page));
-        boolean exists = !getSelenium().isTextPresent("The requested document could not be found.");
+        boolean exists = isExistingPage();
 
         // Restore original URL
         open(saveUrl);
 
         return exists;
+    }
+
+    /**
+     * @return {@code true} if we are on an existing page, {@code false} otherwise
+     */
+    public boolean isExistingPage()
+    {
+        return !getSelenium().isTextPresent("The requested document could not be found.");
     }
 
     public void assertTitle(String title)
@@ -768,8 +783,18 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
      * 
      * @see SkinExecutor#copyPage(String, String, String, String)
      */
-    public void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
+    public boolean copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
     {
-        getSkinExecutor().copyPage(spaceName, pageName, targetSpaceName, targetPageName);
+        return getSkinExecutor().copyPage(spaceName, pageName, targetSpaceName, targetPageName);
+    }
+
+    /**
+     * Waits for the specified live table to load.
+     * 
+     * @param id the live table id
+     */
+    public void waitForLiveTable(String id)
+    {
+        waitForElement("//*[@id = '" + id + "-ajax-loader' and @class = 'xwiki-livetable-loader hidden']");
     }
 }

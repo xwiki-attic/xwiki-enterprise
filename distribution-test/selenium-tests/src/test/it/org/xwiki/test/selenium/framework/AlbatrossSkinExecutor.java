@@ -444,13 +444,13 @@ public class AlbatrossSkinExecutor implements SkinExecutor
      * 
      * @see SkinExecutor#copyPage(String, String, String, String)
      */
-    public void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
+    public boolean copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
     {
         getTest().open(spaceName, pageName);
         clickCopyPage();
         getTest().getSelenium().select("targetSpaceName", targetSpaceName);
         getTest().getSelenium().type("targetPageName", targetPageName);
         getTest().clickLinkWithLocator("//input[@value='Copy']");
-        getTest().assertTextPresent("successfully copied to");
+        return getTest().getSelenium().isTextPresent("successfully copied to");
     }
 }

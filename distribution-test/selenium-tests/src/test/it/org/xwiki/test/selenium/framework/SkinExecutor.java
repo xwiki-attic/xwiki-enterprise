@@ -337,12 +337,13 @@ public interface SkinExecutor
         boolean withShiftModifier) throws InterruptedException;
 
     /**
-     * Copies the specified page to the target page.
+     * Tries to copy the specified page to the target page.
      * 
      * @param spaceName the name of the space containing the page to be copied
      * @param pageName the name of the page to be copied
      * @param targetSpaceName the name of the target space
      * @param targetPageName the name of the target page
+     * @return {@code true} if the copy succeeded, {@code false} otherwise
      */
-    void copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName);
+    boolean copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName);
 }

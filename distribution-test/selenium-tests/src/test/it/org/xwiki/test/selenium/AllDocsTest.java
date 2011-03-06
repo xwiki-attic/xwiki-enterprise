@@ -102,10 +102,12 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
         clickLinkWithText("copy");
-        setFieldValue("targetdoc", "New.TreeviewNew");
+        // The copy page form doesn't allow us to copy to a new space.
+        setFieldValue("targetSpaceName", "Sandbox");
+        setFieldValue("targetPageName", "TreeviewNew");
         clickLinkWithLocator("//input[@value='Copy']");
         open("Main", "AllDocs");
-        getSelenium().typeKeys("xpath=//input[@name='doc.space']", "New");
+        getSelenium().typeKeys("xpath=//input[@name='doc.space']", "Sandbox");
         getSelenium().typeKeys("xpath=//input[@name='doc.name']", "treeviewnew");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewNew']");
@@ -197,21 +199,21 @@ public class AllDocsTest extends AbstractXWikiTestCase
         setFieldValue("Treeview_Input", "Sandbox.WebHome@XWikiLogo.png");
         waitForNodeToLoad("xwiki:Sandbox.WebHome@XWikiLogo.png");
 
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('wiki') " +
-        		"== 'xwiki'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('space') " +
-        		"== 'Sandbox'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('name') " +
-        		"== 'WebHome'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('attachment') " +
-        		"== 'XWikiLogo.png'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('wiki') "
+            + "== 'xwiki'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('space') "
+            + "== 'Sandbox'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('name') "
+            + "== 'WebHome'");
+        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('attachment') "
+            + "== 'XWikiLogo.png'");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('anchor') == ''");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == 'Sandbox.WebHome@XWikiLogo.png'");
     }
 
     /**
      * Wait for the node with the given ID to load.
-     *
+     * 
      * @param nodeId Id of the node to wait for.
      */
     private void waitForNodeToLoad(String nodeId)

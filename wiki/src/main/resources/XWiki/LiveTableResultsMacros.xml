@@ -236,7 +236,7 @@
           #set($wikiUrl = $xwiki.getURL("${itemDoc.wiki}:Main.WebHome"))
         #end
         #set($editUrl = $itemDoc.getURL($itemDoc.defaultEditMode))
-        #set($copyUrl = $xwiki.getURL('XWiki.CopyDocument', 'view', "sourcedoc=${escapetool.url($fullname)}"))
+        #set($copyUrl = $itemDoc.getURL('view', 'xpage=copy'))
         #set($deleteUrl = $itemDoc.getURL('delete'))
         #set($renameUrl = $itemDoc.getURL('view', 'xpage=rename&amp;step=1'))
         #set($rightsUrl = $itemDoc.getURL('edit', 'editor=rights'))

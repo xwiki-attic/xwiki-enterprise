@@ -52,8 +52,8 @@
   #end
   #set($limit = $util.parseInt($request.get('limit')))
   #set($tablelist = $util.arrayList)
-
-
+  ##
+  ##
   ##
   ## Compute the query to use for retrieving data
   ##
@@ -65,7 +65,7 @@
   ## list of parameters to use with $whereSql
   #set($whereParams = [])
   #set($class = $xwiki.getDocument($className).getxWikiClass())
-
+  ##
   ## Exclude Blacklisted spaces ($blacklistedSpaces is set in xwikivars.vm)
   ##
   #if($blacklistedSpaces.size() &gt; 0)
@@ -77,13 +77,13 @@
     #end
     #set($whereSql = "${whereSql})")
   #end
-
+  ##
   ## Add the columns needed for the actual data
   ##
   #foreach($colname in $collist)
     #livetable_addColumnToQuery($colname)
   #end
-
+  ##
   ## Tag filtering
   ##
   #if($request.tag)
@@ -97,7 +97,7 @@
     #end
     #set($whereSql = "${whereSql})")
   #end
-
+  ##
   ##
   ## Order
   ##
@@ -136,7 +136,7 @@
       #end
     #end
   #end
-
+  ##
   ##
   ## Compute the final queries
   ##
@@ -181,7 +181,7 @@
       #set($discard = $allMatchingParams.addAll($filterParams))
     #end
   #end
-
+  ##
   ## TagCloud matching the current filters
   #set($tagsMatchingFilters = $xwiki.tag.getTagCountForQuery($tagsMatchingFiltersFrom, $tagsMatchingFiltersWhere, $tagsMatchingParams))
   ## TagCloud matching all the documents used by the livetable
@@ -190,8 +190,8 @@
   #set($items = $xwiki.searchDocuments($sql, $limit, $offset, $sqlParams))
   #set($totalItems = $xwiki.countDocuments($countSql, $sqlParams))
   #set($returnedItems = $items.size())
-
-
+  ##
+  ##
   ## ==============================================
   ## json starts
   ## ==============================================

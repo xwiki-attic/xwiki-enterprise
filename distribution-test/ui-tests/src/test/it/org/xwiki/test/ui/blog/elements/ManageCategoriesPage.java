@@ -97,8 +97,9 @@ public class ManageCategoriesPage extends BasePage
         getDriver().findElement(deletePath).click();
 
         // answer yes in confirmation dialog
-        waitUntilElementIsVisible(By.xpath("//div[@class='xdialog-screen']"));
-        getDriver().findElement(By.xpath("//div[@class='xdialog-modal-container']//input[@value='Yes']")).click();
+        waitUntilElementIsVisible(By.className("xdialog-box-confirmation"));
+        getDriver().findElement(By.xpath("//div[contains(@class, 'xdialog-box-confirmation')]//input[@value='Yes']"))
+            .click();
         waitUntilElementDisappears(categoryLocator(name));
     }
 

@@ -25,9 +25,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.platform</groupId>
-    <artifactId>xwiki</artifactId>
+    <groupId>org.xwiki.commons</groupId>
+    <artifactId>xwiki-commons</artifactId>
     <version>40-SNAPSHOT</version>
+    <relativePath>../commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise-parent</artifactId>
@@ -52,6 +53,7 @@
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
+    <commons.tool.license.version>1.2-SNAPSHOT</commons.tool.license.version>
     <platform.tool.configuration.version>1.46-SNAPSHOT</platform.tool.configuration.version>
     <platform.tool.jetty.version>1.20-SNAPSHOT</platform.tool.jetty.version>
     <platform.tool.packager.version>1.17-SNAPSHOT</platform.tool.packager.version>
@@ -97,10 +99,92 @@
             <appendAssemblyId>false</appendAssemblyId>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-remote-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>xwiki-configuration-resources</id>
+              <configuration>
+                <properties>
+                  <!-- Default configuration data for hibernate.cfg.xml -->
+                  <xwikiDbConnectionUrl>${xwiki.db.connection.url}</xwikiDbConnectionUrl>
+                  <xwikiDbConnectionUsername>${xwiki.db.connection.username}</xwikiDbConnectionUsername>
+                  <xwikiDbConnectionPassword>${xwiki.db.connection.password}</xwikiDbConnectionPassword>
+                  <xwikiDbConnectionDriverClass>${xwiki.db.connection.driver_class}</xwikiDbConnectionDriverClass>
+                  <xwikiDbDialect>${xwiki.db.dialect}</xwikiDbDialect>
+                  <xwikiDbHbmXwiki>${xwiki.db.hbm.xwiki}</xwikiDbHbmXwiki>
+                  <xwikiDbHbmFeeds>${xwiki.db.hbm.feeds}</xwikiDbHbmFeeds>
+                  <!-- Default configuration data for xwiki.cfg -->
+                  <xwikiCfgPlugins>\
+                    com.xpn.xwiki.monitor.api.MonitorPlugin,\
+                    com.xpn.xwiki.plugin.calendar.CalendarPlugin,\
+                    com.xpn.xwiki.plugin.feed.FeedPlugin,\
+                    com.xpn.xwiki.plugin.ldap.LDAPPlugin,\
+                    com.xpn.xwiki.plugin.google.GooglePlugin,\
+                    com.xpn.xwiki.plugin.mail.MailPlugin,\
+                    com.xpn.xwiki.plugin.packaging.PackagePlugin,\
+                    com.xpn.xwiki.plugin.query.QueryPlugin,\
+                    com.xpn.xwiki.plugin.svg.SVGPlugin,\
+                    com.xpn.xwiki.plugin.charts.ChartingPlugin,\
+                    com.xpn.xwiki.plugin.fileupload.FileUploadPlugin,\
+                    com.xpn.xwiki.plugin.image.ImagePlugin,\
+                    com.xpn.xwiki.plugin.userdirectory.UserDirectoryPlugin,\
+                    com.xpn.xwiki.plugin.usertools.XWikiUserManagementToolsImpl,\
+                    com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
+                    com.xpn.xwiki.plugin.autotag.AutoTagPlugin,\
+                    com.xpn.xwiki.plugin.lucene.LucenePlugin,\
+                    com.xpn.xwiki.plugin.diff.DiffPlugin,\
+                    com.xpn.xwiki.plugin.rightsmanager.RightsManagerPlugin
+                  </xwikiCfgPlugins>
+                  <xwikiCfgVirtual>0</xwikiCfgVirtual>
+                  <xwikiCfgExo>0</xwikiCfgExo>
+                  <xwikiCfgEditCommentMandatory>0</xwikiCfgEditCommentMandatory>
+                  <xwikiCfgDefaultSkin>colibri</xwikiCfgDefaultSkin>
+                  <xwikiCfgDefaultBaseSkin>colibri</xwikiCfgDefaultBaseSkin>
+                  <xwikiCfgEncoding>UTF-8</xwikiCfgEncoding>
+                  <xwikiCfgAdditionalProperties />
+                </properties>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
   <profiles>
+    <!-- The top level POM automatically extracts XWiki License information but only for modules with a src/
+         directory. Since we want to include License information in the distributions, force it to run. -->
+    <profile>
+      <id>license</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <!-- FIXME: I would have loved not to have to repeat the configuration below but it seems just activating the
+           license doesn't activate the configuration from the top level POM for some reason.... -->
+      <build>
+        <plugins>
+          <!-- We want to force packaging the license resources in the produced XWiki artifacts -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-remote-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>xwiki-license-resources</id>
+                <goals>
+                  <goal>process</goal>
+                </goals>
+                <configuration>
+                  <resourceBundles>
+                    <resourceBundle>org.xwiki.commons:xwiki-commons-license-resources:${commons.tool.license.version}</resourceBundle>
+                  </resourceBundles>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>ci</id>
       <activation>
@@ -128,6 +212,73 @@
       <id>glassfish</id>
       <properties>
         <xe.container>glassfish</xe.container>
+      </properties>
+    </profile>
+    <!-- Database Profiles used in several module builds -->
+    <profile>
+      <id>hsqldb</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <xwiki.db>hsqldb</xwiki.db>
+        <xwiki.db.jdbc.groupId>hsqldb</xwiki.db.jdbc.groupId>
+        <xwiki.db.jdbc.artifactId>hsqldb</xwiki.db.jdbc.artifactId>
+        <xwiki.db.jdbc.version>1.8.0.7</xwiki.db.jdbc.version>
+        <xwiki.db.connection.url>jdbc:hsqldb:file:database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+        <xwiki.db.connection.username>sa</xwiki.db.connection.username>
+        <xwiki.db.connection.password />
+        <xwiki.db.connection.driver_class>org.hsqldb.jdbcDriver</xwiki.db.connection.driver_class>
+        <xwiki.db.dialect>org.hibernate.dialect.HSQLDialect</xwiki.db.dialect>
+        <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
+        <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+      </properties>
+    </profile>
+    <profile>
+      <id>mysql</id>
+      <properties>
+        <xwiki.db>mysql</xwiki.db>
+        <xwiki.db.jdbc.groupId>mysql</xwiki.db.jdbc.groupId>
+        <xwiki.db.jdbc.artifactId>mysql-connector-java</xwiki.db.jdbc.artifactId>
+        <xwiki.db.jdbc.version>5.1.6</xwiki.db.jdbc.version>
+        <!-- We need to set the sql_mode to a less strict value, see XWIKI-1945 -->
+        <xwiki.db.connection.url>jdbc:mysql://localhost/xwiki?useServerPrepStmts=false&amp;amp;amp;useUnicode=true&amp;amp;amp;characterEncoding=UTF-8&amp;amp;amp;sessionVariables=sql_mode=''</xwiki.db.connection.url>
+        <xwiki.db.connection.username>xwiki</xwiki.db.connection.username>
+        <xwiki.db.connection.password>xwiki</xwiki.db.connection.password>
+        <xwiki.db.connection.driver_class>com.mysql.jdbc.Driver</xwiki.db.connection.driver_class>
+        <xwiki.db.dialect>org.hibernate.dialect.MySQLDialect</xwiki.db.dialect>
+        <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
+        <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+      </properties>
+    </profile>
+    <profile>
+      <id>pgsql</id>
+      <properties>
+        <xwiki.db>pgsql</xwiki.db>
+        <xwiki.db.jdbc.groupId>postgresql</xwiki.db.jdbc.groupId>
+        <xwiki.db.jdbc.artifactId>postgresql</xwiki.db.jdbc.artifactId>
+        <xwiki.db.jdbc.version>8.3-603.jdbc3</xwiki.db.jdbc.version>
+        <xwiki.db.connection.url>jdbc:postgresql:xwiki</xwiki.db.connection.url>
+        <xwiki.db.connection.username>xwiki</xwiki.db.connection.username>
+        <xwiki.db.connection.password>xwiki</xwiki.db.connection.password>
+        <xwiki.db.connection.driver_class>org.postgresql.Driver</xwiki.db.connection.driver_class>
+        <xwiki.db.dialect>org.hibernate.dialect.PostgreSQLDialect</xwiki.db.dialect>
+        <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
+        <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+      </properties>
+    </profile>
+    <profile>
+      <id>derby</id>
+      <properties>
+        <xwiki.db>derby</xwiki.db>
+        <xwiki.db.jdbc.groupId>org.apache.derby</xwiki.db.jdbc.groupId>
+        <xwiki.db.jdbc.artifactId>derby</xwiki.db.jdbc.artifactId>
+        <xwiki.db.jdbc.version>10.2.2.0</xwiki.db.jdbc.version>
+        <xwiki.db.connection.url>jdbc:derby:database;create=true</xwiki.db.connection.url>
+        <xwiki.db.connection.driver_class>org.apache.derby.jdbc.EmbeddedDriver</xwiki.db.connection.driver_class>
+        <xwiki.db.dialect>org.hibernate.dialect.DerbyDialect</xwiki.db.dialect>
+        <xwiki.db.hbm.xwiki>xwiki.derby.hbm.xml</xwiki.db.hbm.xwiki>
+        <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
       </properties>
     </profile>
   </profiles>

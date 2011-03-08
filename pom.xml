@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons</artifactId>
-    <version>40-SNAPSHOT</version>
+    <version>41-SNAPSHOT</version>
     <relativePath>../commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
@@ -153,38 +153,6 @@
     </pluginManagement>
   </build>
   <profiles>
-    <!-- The top level POM automatically extracts XWiki License information but only for modules with a src/
-         directory. Since we want to include License information in the distributions, force it to run. -->
-    <profile>
-      <id>license</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <!-- FIXME: I would have loved not to have to repeat the configuration below but it seems just activating the
-           license doesn't activate the configuration from the top level POM for some reason.... -->
-      <build>
-        <plugins>
-          <!-- We want to force packaging the license resources in the produced XWiki artifacts -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-remote-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>xwiki-license-resources</id>
-                <goals>
-                  <goal>process</goal>
-                </goals>
-                <configuration>
-                  <resourceBundles>
-                    <resourceBundle>org.xwiki.commons:xwiki-commons-license-resources:${commons.tool.license.version}</resourceBundle>
-                  </resourceBundles>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>ci</id>
       <activation>

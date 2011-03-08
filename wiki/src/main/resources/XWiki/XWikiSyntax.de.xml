@@ -23,571 +23,580 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>{{box cssClass="floatinginfobox" title="**Inhalt**"}}
-{{toc depth="2"/}}
-{{/box}}
+<content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
 
-Beginnend mit XWiki Enterprise Version 1.7 haben wir eine neue Wiki-Syntax eingeführt. Die bisherige Syntax nennen wir //XWiki Syntax v1.0//, die neue Syntax logischerweise //XWiki Syntax v2.0//. Die Hauptgründe für die Einführung der neuen Syntax waren:
+{{box cssClass="floatinginfobox" title="**Inhaltsverzeichnis**"}}{{toc depth="1"/}}{{/box}}
 
-* Behebung der Einschränkungen und Unklarheiten der XWiki Syntax v1.0 (welche durch Radeox, die zugrunde liegende Rendering-Engine, und TWiki inspiriert wurde).
-** Keine optimalen Steuerzeichen. Zum Beispiel war das Steuerzeichen für **fett** ein einzelner Stern. Dies hat Probleme verursacht, wenn Anwender in Texten Sterne verwendet haben, da dieser Text irrtümlich als fett interpretiert wurde. Daher haben wir die Syntax so verändert, dass überall mindestens doppelte Steuerzeichen notwendig sind.
-** Mehrdeutigkeiten. Zum Beispiel gab es eine Unklarheit zwischen einem fett dargestellten Element und einer Aufzählung. Die Auflösung dieser Mehrdeutigkeiten war erforderlich, um den WYSIWYG-Editor so umzuschreiben, dass er deterministisch werden konnte.
-* Annäherung an die [[Creole 1.0-Syntax&gt;&gt;http://www.wikicreole.org/]], welche zum Standard für die Wiki-Syntax geworden ist. Zusätzlich hat sich die Creole-Gemeinschaft vor der Entscheidung über die Steuerzeichen die Zeit genommen, alle vorhandenen Wiki-Syntax-Ausprägungen zu analysieren. Die getroffenen Entscheidungen sind also sehr gut.
+Beginnend mit XWiki Enterprise Version 1.7 und darüber haben wir eine neue Wiki Syntax eingeführt. Daher haben wir die alte Syntax die //XWiki Syntax 1.0// benannt und die neue Syntax wird sinnigerweise //XWiki Syntax 2.0// genannt. Die Hauptgründe für die Einführung der neuen Syntax waren:
+* Die Einschränkungen und Mehrdeutigkeiten der XWiki 1.0 Syntax (welche sowohl durch Radeox - der zugrunde liegenden Rendering-Engine - und TWiki inspiriert wurde) beheben.
+** Nicht optimale Symbole. Zum Beispiel, das Symbol für fett war ein einzelner Stern. Dies hat Probleme verursacht, wenn der Nutzer Texte eingab, die Sterne beinhalteten, da dieser Text fälschlicherweise als fett angenommen wurde, auch wenn er das nicht war. Daher haben wir die Syntax rationalisiert, indem überall mindestens doppelte Zeichen verwendet werden.
+** Mehrdeutigkeiten. Zum Beispiel, gab es eine Mehrdeutigkeit wischen einem fetten Element, dass die Zeile begann, und einer Aufzählungsliste. Diese Mehrdeutigkeiten mussten beseitigt werden um den WYSIWYG Editor umschreiben zu können, so dass dieser deterministisch sein konnte.
+* Um näher an der [[Creole 1.0 Syntax&gt;&gt;http://www.wikicreole.org/]] zu sein, welche ein Standard für Wiki Syntax wird. Zusätzlich hat die Creole Gemeinde sich die Zeit genommen, um alle existierenden Wiki Syntaxen zu analysieren, bevor sie sich für Symbole entschieden haben. Diese Entscheidungen sind daher sehr gut.
 
-Zusätzlich zu diesen 2 XWiki-Syntaxversionen haben wir auch unsere zugrunde liegende Rendering-Engine (bisher Radeox) zugunsten der eigenen Engine ersetzt. Diese stellt eine Obermenge von  [[Wikimodel&gt;&gt;http://code.google.com/p/wikimodel/]] und [[Doxia&gt;&gt;http://maven.apache.org/doxia/]] (und möglicherweise anderen in der Zukunft) dar. Dies hat uns erlaubt, andere Schreibweisen im Wiki zu bereitzustellen: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki und mehr&gt;&gt;#syntaxes]].
+Seit der Einführung der XWiki Syntax 2.0 wurden einige Mängel dieser Syntax gefunden. Um diese zu beheben wurde eine neue, zum jetzigen Zeitpunkt //experimentelle//, XWiki Syntax 2.1 in XWiki Enterprise Version 3.0 eingeführt. Einige Gründe für die Entwicklung dieser neuen Syntax sind:
 
-= Allgemeine Hinweise =
+* Die Link- und Bildsyntax für bessere Klarheit, Konsistenz und Erweiterbarkeit homogenisiert.
+* Möglichkeit zum Anzeigen von Icons, zum verlinken von Dateien mittels der UNC Notation und dem Verlinken zu relativen URLs hinzugefügt.
 
-XWiki Syntax v2.0 behebt einige Fehler und verhindert die Eingabe von mehrdeutiger Syntax durch den Anwender, wie in der Tabelle unten in Beispielen dargestellt.
+{{info}}Da die XWiki Syntax 2.1 auf der XWiki Syntax 2.0 basiert ist die gesamte XWiki Syntax 2.0 gültig, solange die 2.1 Spezifikationen nichts anderes andeuten.{{/info}}
 
-|=Beschreibung|=Beispiel für ungültige oder mehrdeutiger Syntax|=Lösung mit XWiki Syntax 2.0
-|Nicht geschlossene Syntax Elemente|{{{**fett}}}|{{{**fett**}}}
-|Zwei einzelne Elemente, ohne Trennung durch 2 neue Zeilen|{{{| Zelle einer Tabelle}}}
-{{{* Listenelement}}}|{{{| Zelle einer Tabelle}}}
-\\{{{* Listenelement}}}
-|Zwei einzelne Elemente, ohne Trennung durch 2 neue Zeilen|{{{Absatz}}}
-{{{----}}}
-{{{Absatz}}}|{{{Absatz}}}
-\\{{{----}}}
-\\{{{Absatz}}}
-|Ignorierte Leerzeile am Anfang des Dokuments|&lt;Neue Zeile am Anfang des Dokuments&gt;
-Absatz|Absatz
-|Überschriften in nicht geschlossener Syntax|{{{=== Überschrift}}}|{{{=== Überschrift ===}}}
+Zusätzlich zu den XWiki-spezifischen Syntaxen haben wir auch unsere zugrunde liegende Rendering-Engine (war vormals Radeox) gegen unsere eigene Engine, welche eine Obermengenhülle um [[Wikimodel&gt;&gt;http://code.google.com/p/wikimodel/]] und [[Doxia&gt;&gt;http://maven.apache.org/doxia/]] (und möglicherweise weiteren in der Zukunft) ist, getauscht. Dies hat es uns erlaubt weitere Syntaxen im Wiki anzubieten: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki und mehr&gt;&gt;#syntaxes]]
 
-= Absätze =
+= Grundlegende Bemerkungen =
 
-Absätze sind Textelemente, die durch 2 oder mehr Zeilenumbrüche getrennt sind.
+XWiki Syntax 2.0 korrigiert einige Fehler oder mehrdeutige Syntax, die vom Nutzer eingegeben wird, wie in den Beispielen in der Tabelle unterhalb gezeigt.
+
+|=Beschreibung|=Beispiel für ungültige oder mehrdeutige Syntax|=Korrigierte Syntax 2.0
+|Nicht geschlossener Textstil|{{{**fett}}}|{{{**fett**}}}
+|Zwei unabhängige Elemente sind nicht durch 2 neue Zeilen getrennt|{{{| Tabellenzelle}}}\\{{{* Listenelement}}}|{{{| Tabellenzelle}}}\\\\{{{* Listenelement}}}
+|Zwei unabhängige Elemente sind nicht durch 2 neue Zeilen getrennt|{{{Absatz}}}\\{{{----}}}\\{{{Absatz}}}|{{{Absatz}}}\\\\{{{----}}}\\\\{{{Absatz}}}
+|Ignorierte neue Zeilen am Anfang von Dokument|&lt;neue Zeile am Anfang des Dokuments&gt;\\Absatz|Absatz
+|Nicht geschlossene Überschriftensyntax|{{{=== Überschrift}}}|{{{=== Überschrift ===}}}
+
+= Absatz =
+
+Absätze sind Textelemente, die durch zwei oder mehr neue Zeilen getrennt sind.
 
 {{info}}
-In XWiki Syntax 2.0 werden Leerzeilen respektiert; was bei XWiki Syntax 1.0 und in Creole Syntax nicht der Fall ist. 
+In XWiki Syntax 2.0 werden neue Zeilen beachtet, was in XWiki Syntax 1.0 und Creole Syntax nicht der Fall ist.
 {{/info}}
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis mit XWiki Syntax 1.0|=Ergebnis mit XWiki Syntax 1.2
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis XWiki Syntax 1.0|=Ergebnis XWiki Syntax 2.0
 |Einfacher Absatz|Dies ist ein Absatz|Dies ist ein Absatz|Dies ist ein Absatz|Dies ist ein Absatz
-|Absatz auf mehreren Zeilen|Absatz auf{{{\\}}}
-mehreren Zeilen|Absatz auf
-mehreren Zeilen|Absatz auf
-mehreren Zeilen|Absatz auf
-mehreren Zeilen
-|Zwei Absätze|Absatz Eins
-\\Absatz Zwei|Absatz Eins
-\\Absatz Zwei|Absatz Eins
-\\Absatz Zwei|Absatz Eins
-\\Absatz Zwei
-|Parametrisierter Absatz|&lt;p style="text-align:center;color:blue"&gt;zentrierter, blauer Absatz&lt;/p&gt;|{{{(% style="text-align:center;color:blue" %)}}}
-zentrierter, blauer Absatz|(% style="COLOR: blue; TEXT-ALIGN: center" %)
-zentrierter, blauer Absatz|(% style="COLOR: blue; TEXT-ALIGN: center" %)
-zentrierter, blauer Absatz
+|Absatz mit mehreren Zeilen|Absatz auf{{{\\}}}\\mehreren Zeilen|Absatz auf\\mehreren Zeilen|Absatz auf\\mehreren Zeilen|Absatz auf\\mehreren Zeilen
+|Zwei Absätze|Absatz eins\\\\Absatz zwei|Absatz eins\\\\Absatz zwei|Absatz eins\\\\Absatz zwei|Absatz eins\\\\Absatz zwei
+|Parametrisierter Absatz|&lt;p style="text-align:center;color:blue"&gt;Zentrierter und blauer Absatz&lt;/p&gt;|{{{(% style="text-align:center;color:blue" %)}}}\\Zentrierter und blauer Absatz|(% style="text-align:center;color:blue" %)\\Zentrierter und blauer Absatz|(% style="text-align:center;color:blue" %)\\Zentrierter und blauer Absatz
 
 = Überschriften =
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|Standard Überschriften|(((
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+|Standardüberschriften|(((
 1 Ebene 1
 1.1 Ebene 2
 1.1.1 Ebene 3
 1.1.1.1 Ebene 4
 1.1.1.1.1 Ebene 5
 1.1.1.1.1.1 Ebene 6
-)))|(((
-{{{= Ebene 1 = 
+)))|((({{{
+= Ebene 1 = 
 == Ebene 2 ==
 === Ebene 3 ===
 ==== Ebene 4 ====
 ===== Ebene 5 =====
 ====== Ebene 6 ======
-}}}
-)))|(((
+}}})))|(((
 {{html}}
 &lt;!-- Note: replace this with wiki syntax when http://jira.xwiki.org/jira/browse/XWIKI-4358 is implemented --&gt;
 &lt;h1 id="Hlevel1"&gt;&lt;span&gt;Ebene 1&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;h2 id="Hlevel2"&gt;&lt;span&gt;Ebene 2&lt;/span&gt;&lt;/h2&gt;&lt;h3 id="Hlevel3"&gt;&lt;span&gt;Ebene 3&lt;/span&gt;&lt;/h3&gt;&lt;h4 id="Hlevel4"&gt;&lt;span&gt;Ebene 4&lt;/span&gt;&lt;/h4&gt;&lt;h5 id="Hlevel5"&gt;&lt;span&gt;Ebene 5&lt;/span&gt;&lt;/h5&gt;&lt;h6 id="Hlevel6"&gt;&lt;span&gt;Ebene 6&lt;/span&gt;&lt;/h6&gt;
-{{/html}}
-)))
-|Parametrisierte Überschrift|&lt;h1&gt;&lt;span style="color:blue"&gt;Überschrift&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}
-~= Überschrift =|(((
+{{/html}})))
+|Parametrisierte Überschrift|&lt;h1&gt;&lt;span style="color:blue"&gt;Überschrift&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}\\= Überschrift =|(((
 {{html}}
-&lt;h1&gt;&lt;span id="Hheading" style="color:blue"&gt;Überschrift&lt;/span&gt;&lt;/h1&gt;
-{{/html}}
-)))
-|Überschriften in Wiki Syntax|1.1.1 Überschrift in *fett*|{{{=== Überschrift in **fett** ===}}}|(((
-=== Überschrift in **fett** ===
-)))
+&lt;h1 id="Hheading" style="color:blue"&gt;&lt;span&gt;Überschrift&lt;/span&gt;&lt;/h1&gt;
+{{/html}})))
+|Überschrift mit XWiki Syntax|1.1.1 Überschrift mit *fett*|{{{=== Überschrift mit **fett** ===}}}|(((=== Überschrift mit **fett** ===)))
 
-= Text Formatierung =
+= Textformatierung =
 
 {{info}}
-In XWiki Syntax 2.0 gegenüber XWiki Syntax 1.0 neu:
-* Leerzeichen direkt nach Syntax Symbolen sind erlaubt (zum Beispiel war in XWiki Syntax 1.0 dieser Text nicht * fett *).
-* Verdopplung des Steuerzeichens gegenüber dem einfachen Steuerzeichen in XWiki Syntax 1.0, so dass es unwahrscheinlich wird, dass der Anwender es versehentlich im Text verwendet. 
-* Die Fähigkeit den Text über mehrere Zeilen zu schreiben (war nicht der Fall unter XWiki Syntax 1.0).
+Neu in XWiki Syntax 2.0 im Vergleich zu XWiki Syntax 1.0:
+* Leerzeichen sind direkt nach einem Syntaxsymbol erlaubt (zum Beispiel war dies in XWiki Syntax 1.0 nicht möglich: * fett *).
+* Doppelsymbole werden verwendet, wo einzelne Symbole in XWiki Syntax 1.0 verwendet wurden, damit es unwahrscheinlicher wird, dass Benutzer sie versehentlich im Text verwenden.
+* Fähigkeit mehrere Zeilen zu überspannen (war in XWiki Syntax 1.0 nicht möglich).
 {{/info}}
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|fett|{{{*fett*}}}|{{{**fett**}}}|**fett**
-|unterstrichen|{{{__unterstrichen___}}}|{{{__unterstrichen__}}}|__unterstrichen__
-|kursiv|{{{~~kursiv~~}}}|{{{//kursiv//}}}|//kursiv//
-|durchgestrichen|{{{--durchgestrichen--}}}|{{{--durchgestrichen--}}}|--durchgestrichen--
-|nichtproportional|&lt;tt&gt;nichtproportional&lt;/tt&gt;|{{{##nichtproportional##}}}|##nichtproportional##
-|hochgestellt|mal &lt;sup&gt;hochgestellt&lt;/sup&gt;|{{{mal ^^hochgestellt^^}}}|mal ^^hochgestellt^^
-|tiefgestellt|mal &lt;sub&gt;tiefgestellt&lt;/sub&gt;|{{{mal ,,tiefgestellt,,}}}|mal ,,tiefgestellt,,
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+|Fett|{{{*fett*}}}|{{{**fett**}}}|**fett**
+|Unterstrichen|{{{__unterstrichen__}}}|{{{__unterstrichen__}}}|__unterstrichen__
+|Kursiv|{{{~~kursiv~~}}}|{{{//kursiv//}}}|//kursiv//
+|Durchgestrichen|{{{--durchgestrichen--}}}|{{{--durchgestrichen--}}}|--durchgestrichen--
+|Nichtproportional|&lt;tt&gt;nichtproportional&lt;/tt&gt;|{{{##nichtproportional##}}}|##nichtproportional##
+|Hochgestellt|etwas &lt;sup&gt;hochgestellt&lt;/sup&gt;|{{{etwas ^^hochgestellt^^}}}|etwas ^^hochgestellt^^
+|Tiefgestellt|etwas &lt;sub&gt;tiefgestellt&lt;/sub&gt;|{{{etwas ,,tiefgestellt,,}}}|etwas ,,tiefgestellt,,
 
 = Horizontale Linie =
 
-{{info}}
-Es müssen 4 oder mehr Gedankenstriche eingegeben werden.
-{{/info}}
+{{info}}Es müssen vier oder mehr Striche sein.{{/info}}
 
-{{info}}
-Dies ist der Unterschied zu Creole, wo genau 4 Gedankenstriche notwendig sind.
-{{/info}}
+{{info}}Es ist zu beachten, dass dies anders als bei Creole ist, wo es genau vier Striche gefordert sind.{{/info}}
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|Einfache horizontale Linie|{{{----}}}|{{{----}}}|(((
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+|Einfache horizontale Linie|{{{----}}}|{{{----}}}|(((----)))
+|Parametrisierte horizontale linie|&lt;hr style="color:blue"/&gt;|((({{{
+(% style="color:blue" %)
 ----
-)))
-|Parametrisierte horizontale Linie|&lt;hr style="color:blue"/&gt;|(((
-{{{(% style="color:blue" %)
-----
-}}}
-)))|(((
-(% style="COLOR: blue" %)
+}}})))|(((
+(% style="color:blue" %)
 ----
 )))
 
 = Listen =
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|Punkte-Liste|(((
-{{{* Punkt 1
-** Punkt 2
-*** Punkt 3
-* Punkt 4
-}}}
-)))|(((
-{{{* Punkt 1
-** Punkt 2
-*** Punkt 3
-* Punkt 4
-}}}
-)))|(((
-* Punkt 1
-** Punkt 2
-*** Punkt 3
-* Punkt 4
+{{info}}Einige der genannten Stile funktionieren nicht in allen Browsern. Für eine ausführliche Liste folgen Sie [[diesem Link (Englisch)&gt;&gt;http://www.quirksmode.org/css/lists.html]].{{/info}}
+
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+|Aufzählung|((({{{
+* Element 1
+** Element 2
+*** Element 3
+* Element 4
+}}})))|((({{{
+* Element 1
+** Element 2
+*** Element 3
+* Element 4
+}}})))|(((
+* Element 1
+** Element 2
+*** Element 3
+* Element 4
 )))
-|Nummerierte Liste|(((
-{{{1. Punkt 1
-11. Punkt 2
-111. Punkt 3
-1. Punkt 4
-}}}
-)))|(((
-{{{1. Punkt 1
-11. Punkt 2
-111. Punkt 3
-1. Punkt 4
-}}}
-)))|(((
-1. Punkt 1
-11. Punkt 2
-111. Punkt 3
-1. Punkt 4
+|Nummerierung|((({{{
+1. Element 1
+11. Element 2
+111. Element 3
+1. Element 4
+}}})))|((({{{
+1. Element 1
+11. Element 2
+111. Element 3
+1. Element 4
+}}})))|(((
+1. Element 1
+11. Element 2
+111. Element 3
+1. Element 4
 )))
-|Gemischte Liste|(((
-{{{1. Punkt 1
-1*. Punkt 2
-1*. Punkt 3
-1. Punkt 4
-}}}
-)))|(((
-{{{1. Punkt 1
-1*. Punkt 2
-1*. Punkt 3
-1. Punkt 4
-}}}
-)))|(((
-1. Punkt 1
-1*. Punkt 2
-1*. Punkt 3
-1. Punkt 4
+|Gemischte Liste|((({{{
+1. Element 1
+1*. Element 2
+1*. Element 3
+1. Element 4
+}}})))|((({{{
+1. Element 1
+1*. Element 2
+1*. Element 3
+1. Element 4
+}}})))|(((
+1. Element 1
+1*. Element 2
+1*. Element 3
+1. Element 4
 )))
-|Punkte-Liste (Quadrat)|(((
-{{{- Punkt 1
-- Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: square" %)
-* Punkt 1
-* Punkt 2
-}}}
-)))|(((
-(% style="LIST-STYLE-TYPE: square" %)
-* Punkt 1
-* Punkt 2
+|Aufzählung (Quadrat)|((({{{
+- Element 1
+- Element 2
+}}})))|((({{{
+(% style="list-style-type: square" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: square" %)
+* Element 1
+* Element 2
 )))
-|Punkte-Liste (Scheibe)|(((
+|Aufzählung (Kreis)|(((
 &lt;ul style="list-style-type: disc"&gt;
-  &lt;li&gt;Punkt1&lt;/li&gt;
-  &lt;li&gt;Punkt2&lt;/li&gt;
+  &lt;li&gt;Element 1&lt;/li&gt;
+  &lt;li&gt;Element 2&lt;/li&gt;
 &lt;/ul&gt;
-)))|(((
-{{{(% style="list-style-type: disc" %)
-* Punkt 1
-* Punkt 2
-}}}
-)))|(((
-(% style="LIST-STYLE-TYPE: disc" %)
-* Punkt 1
-* Punkt 2
+)))|((({{{
+(% style="list-style-type: disc" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: disc" %)
+* Element 1
+* Element 2
 )))
-|alphabetische Liste in Kleinbuchstaben|(((
-{{{a. Punkt 1
-a. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: lower-alpha" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-(% style="LIST-STYLE-TYPE: lower-alpha" %)
-* Punkt1
-* Punkt2
+|Nummerierung (Kleinbuchstaben)|((({{{
+a. Element 1
+a. Element 2
+}}})))|((({{{
+(% style="list-style-type: lower-alpha" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: lower-alpha" %)
+* Element 1
+* Element 2
 )))
-|alphabetische Liste in Großbuchstaben|(((
-{{{A. Punkt 1
-A. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: upper-alpha" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-(% style="LIST-STYLE-TYPE: upper-alpha" %)
-* Punkt1
-* Punkt2
+|Nummerierung (Großbuchstaben)|((({{{
+A. Element 1
+A. Element 2
+}}})))|((({{{
+(% style="list-style-type: upper-alpha" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: upper-alpha" %)
+* Element 1
+* Element 2
 )))
-|römische Liste in Kleinbuchstaben|(((
-{{{i. Punkt 1
-i. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: lower-roman" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-(% style="LIST-STYLE-TYPE: lower-roman" %)
-* Punkt1
-* Punkt2
+|Nummerierung (kleine römische Zahlen)|((({{{
+i. Element 1
+i. Element 2
+}}})))|((({{{
+(% style="list-style-type: lower-roman" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: lower-roman" %)
+* Element 1
+* Element 2
 )))
-|römische Liste in Großbuchstaben|(((
-{{{I. Punkt 1
-I. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: upper-roman" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-(% style="LIST-STYLE-TYPE: upper-roman" %)
-* Punkt1
-* Punkt2
+|Nummerierung (große römische Zahlen)|((({{{
+I. Element 1
+I. Element 2
+}}})))|((({{{
+(% style="list-style-type: upper-roman" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: upper-roman" %)
+* Element 1
+* Element 2
 )))
-|griechische Liste in Kleinbuchstaben|(((
-{{{g. Punkt 1
-g. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: lower-greek" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+|Nummerierung (griechische Kleinbuchstaben)|((({{{
+g. Element 1
+g. Element 2
+}}})))|((({{{
+(% style="list-style-type: lower-greek" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: lower-greek" %)
+* Element 1
+* Element 2
 )))
-|griechische Liste in Großbuchstaben|(((
-{{{G. Punkt 1
-G. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: upper-greek" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+|Nummerierung (griechische Großbuchstaben)|((({{{
+G. Element 1
+G. Element 2
+}}})))|((({{{
+(% style="list-style-type: upper-greek" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: upper-greek" %)
+* Element 1
+* Element 2
 )))
-|hiragana Liste|(((
-{{{h. Punkt 1
-h. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: hiragana" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+|Hiragana Liste|((({{{
+h. Element 1
+h. Element 2
+}}})))|((({{{
+(% style="list-style-type: hiragana" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: hiragana" %)
+* Element 1
+* Element 2
 )))
-|hiragana-iroha Liste|(((
-{{{H. Punkt 1
-H. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: hiragana-iroha" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+|Hiragana Iroah Liste|((({{{
+H. Element 1
+H. Element 2
+}}})))|((({{{
+(% style="list-style-type: hiragana-iroha" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: hiragana-iroha" %)
+* Element 1
+* Element 2
 )))
-|katakana Liste|(((
-{{{k. Punkt 1
-k. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: katakana" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+|Katakana Liste|((({{{
+k. Element 1
+k. Element 2
+}}})))|((({{{
+(% style="list-style-type: katakana" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: katakana" %)
+* Element 1
+* Element 2
 )))
-|katakana-iroha Liste|(((
-{{{K. Punkt 1
-K. Punkt 2
-}}}
-)))|(((
-{{{(% style="list-style-type: katakana-iroha" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+|Katakana Iroha Liste|((({{{
+K. Element 1
+K. Element 2
+}}})))|((({{{
+(% style="list-style-type: katakana-iroha" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: katakana-iroha" %)
+* Element 1
+* Element 2
 )))
-|armenische Liste|(((
-{{{&lt;ul style="list-style-type: armenian"&gt;
-  &lt;li&gt;Punkt1&lt;/li&gt;
-  &lt;li&gt;Punkt2&lt;/li&gt;
+|Nummerierung (armenisch)|((({{{
+&lt;ul style="list-style-type: armenian"&gt;
+  &lt;li&gt;Element 1&lt;/li&gt;
+  &lt;li&gt;Element 2&lt;/li&gt;
 &lt;/ul&gt;
-}}}
-)))|(((
-{{{(% style="list-style-type: armenian" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+}}})))|((({{{
+(% style="list-style-type: armenian" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: armenian" %)
+* Element 1
+* Element 2
 )))
-|hebräische Liste|(((
-{{{j. Punkt1
-j. Punkt2
-}}}
-)))|(((
-{{{(% style="list-style-type: hebrew" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+|Nummerierung (hebräisch)|((({{{
+j. Element 1
+j. Element 2
+}}})))|((({{{
+(% style="list-style-type: hebrew" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: hebrew" %)
+* Element 1
+* Element 2
 )))
-|georgische Liste|(((
-{{{&lt;ul style="list-style-type: georgian"&gt;
-  &lt;li&gt;Punkt1&lt;/li&gt;
-  &lt;li&gt;Punkt2&lt;/li&gt;
+|Nummerierung (georgisch)|((({{{
+&lt;ul style="list-style-type: georgian"&gt;
+  &lt;li&gt;Element 1&lt;/li&gt;
+  &lt;li&gt;Element 2&lt;/li&gt;
 &lt;/ul&gt;
-}}}
-)))|(((
-{{{(% style="list-style-type: georgian" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+}}})))|((({{{
+(% style="list-style-type: georgian" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: georgian" %)
+* Element 1
+* Element 2
 )))
-|CJK ideographische list|(((
-{{{&lt;ul style="list-style-type: cjk-ideographic"&gt;
-  &lt;li&gt;Punkt1&lt;/li&gt;
-  &lt;li&gt;Punkt2&lt;/li&gt;
+|Nummerierung (CJK Ideogramme)|((({{{
+&lt;ul style="list-style-type: cjk-ideographic"&gt;
+  &lt;li&gt;Element 1&lt;/li&gt;
+  &lt;li&gt;Element 2&lt;/li&gt;
 &lt;/ul&gt;
-}}}
-)))|(((
-{{{(% style="list-style-type: cjk-ideographic" %)
-* Punkt1
-* Punkt2
-}}}
-)))|(((
-* Punkt1
-* Punkt2
+}}})))|((({{{
+(% style="list-style-type: cjk-ideographic" %)
+* Element 1
+* Element 2
+}}})))|(((
+(% style="list-style-type: cjk-ideographic" %)
+* Element 1
+* Element 2
 )))
 
 = Definitionslisten =
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|Standard Definition|(((
-{{{&lt;dl&gt;
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+|Standarddefinition|((({{{
+&lt;dl&gt;
   &lt;dt&gt;Begriff&lt;/dt&gt;
   &lt;dd&gt;Definition&lt;/dd&gt;
 &lt;/dl&gt;
-}}}
-)))|(((
-{{{; Begriff
+}}})))|((({{{
+; Begriff
 : Definition
-}}}
-)))|(((
+}}})))|(((
 ; Begriff
 : Definition
 )))
-|Verschachtelte Definitionen|(((
-{{{&lt;dl&gt;
-  &lt;dt&gt;Begriff1&lt;/dt&gt;
-  &lt;dd&gt;Definition1
+|Verschachtelte Definitionen|((({{{
+&lt;dl&gt;
+  &lt;dt&gt;Begriff 1&lt;/dt&gt;
+  &lt;dd&gt;Definition 1
     &lt;dl&gt;
-      &lt;dt&gt;Begriff2&lt;/dt&gt;
-      &lt;dd&gt;Definition2&lt;/dd&gt;
+      &lt;dt&gt;Begriff 2&lt;/dt&gt;
+      &lt;dd&gt;Definition 2&lt;/dd&gt;
     &lt;/dl&gt;
   &lt;/dd&gt;
 &lt;/dl&gt;
-}}}
-)))|(((
-{{{; Begriff1
-: Definition1
-:; Begriff2
-:: Definition2
-}}}
-)))|(((
-; Begriff1
-: Definition1
-:; Begriff2
-:: Definition2
+}}})))|((({{{
+; Begriff 1
+: Definition 1
+:; Begriff 2
+:: Definition 2
+}}})))|(((
+; Begriff 1
+: Definition 1
+:; Begriff 2
+:: Definition 2
 )))
-|Parametrisierte Definition|(((
-{{{&lt;dl style="color:blue"&gt;
+|Parametrisierte Definition|((({{{
+&lt;dl style="color:blue"&gt;
   &lt;dt&gt;Begriff&lt;/dt&gt;
   &lt;dd&gt;Definition&lt;/dd&gt;
 &lt;/dl&gt;
-}}}
-)))|(((
-{{{(% style="color:blue" %)
+}}})))|((({{{
+(% style="color:blue" %)
 ; Begriff
 : Definition
-}}}
-)))|(((
-(% style="COLOR: blue" %)
+}}})))|(((
+(% style="color:blue" %)
 ; Begriff
 : Definition
 )))
 
 = Neue Zeile/Zeilenumbruch =
 
-Ein Zeilenumbruch ist eine erzwungene neue Zeile, die überall im Text vorkommen kann. Eine neue Zeile ist ein "carriage return".
+Eine neue Zeile ist ein Absatzende. Ein Zeilenumbruch ist eine erzwungene neue Zeile, welche an jeder Stelle im Text auftreten kann.
 
 {{info}}
-In XWiki Syntax 2.0 werden Leerzeilen respektiert; was bei XWiki Syntax 1.0 und in Creole Syntax nicht der Fall ist. 
+In XWiki Syntax 2.0 werden neue Zeilen beachtet, was in XWiki Syntax 1.0 und Creole Syntax nicht der Fall ist.
 {{/info}}
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis in XWiki Syntax 1.0|=Ergebnis in XWiki Syntax 2.0
-|Zeilenumbruch|{{{Zeile\\neue Zeile}}}|{{{Zeile\\neue Zeile}}}|Zeile
-neue Zeile|Zeile
-neue Zeile
-|neue Zeile|Zeile
-neue Zeile|Zeile
-neue Zeile|Zeile neue Zeile|Zeile
-neue Zeile
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis XWiki Syntax 1.0|=Ergebnis XWiki Syntax 2.0
+|Zeilenumbruch|{{{Zeile\\Neue Zeile}}}|{{{Zeile\\Neue Zeile}}}|Zeile\\Neue Zeile|Zeile\\Neue Zeile
+|Neue Zeile|Zeile\\Neue Zeile|Zeile\\Neue Zeile|Zeile Neue Zeile|Zeile\\Neue Zeile
 
 = Links =
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis in XWiki Syntax 1.0|=Ergebnis in XWiki Syntax 2.0
-|Link auf eine Page im aktuellen Space|{{{[WebHome]}}}|{{{[[WebHome]]}}}|[[Web Home&gt;&gt;WebHome]]|[[WebHome]]
-|Link mit einem Klartext|{{{[Klartext&gt;WebHome]}}}|{{{[[Klartext&gt;&gt;WebHome]]}}}|[[Klartext&gt;&gt;WebHome]]|[[Klartext&gt;&gt;WebHome]]
-|Link zu einer Page in einem Space|{{{[Main.WebHome]}}}|{{{[[Main.WebHome]]}}}|[[Web Home&gt;&gt;Main.WebHome]]|[[Main.WebHome]]
-|Link zu einer Wiki der Wiki-Farm|{{{[subwiki:Main.WebHome]}}}|{{{[[subwiki:Main.WebHome]]}}}|[[Web Home&gt;&gt;xwiki:Main.WebHome]]|[[xwiki:Main.WebHome]]
-|Link der sich in einer neuen Seite öffnet|{{{[label&gt;WebHome&gt;_blank]}}}|{{{[[label&gt;&gt;WebHome||rel="__blank"]]}}}|[[label&gt;&gt;WebHome||rel="__blank"]]|[[label&gt;&gt;WebHome||rel="__blank"]]
-|Link zu einer URL direkt im Text|{{{This is a URL: http://xwiki.org}}}|{{{This is a URL: http://xwiki.org}}}|This is a URL: http://xwiki.org|This is a URL: http://xwiki.org
+(% style="width:100%;table-layout:fixed;overflow:hidden;word-wrap:break-word" %)
+|=(% style="width:10%" %)Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=(% style="width:15%" %)Ergebnis XWiki Syntax 1.0|=(% style="width:15%" %)Ergebnis XWiki Syntax 2.0
+|Link zu Seite im aktuellen Space|{{{[WebHome]}}}|{{{[[WebHome]]}}}|[[Web Home&gt;&gt;WebHome]]|[[WebHome]]
+|Link mit Linktext|{{{[Linktext&gt;WebHome]}}}|(((
+{{{[[Linktext&gt;&gt;WebHome]]}}}
+{{info}}XWiki Syntax innerhalb des Linktextes wird unterstützt.{{/info}}
+)))|[[Linktext&gt;&gt;WebHome]]|[[Linktext&gt;&gt;WebHome]]
+|Link mit XWiki Syntax im Linktext|{{{&lt;a href="$xwiki.getURL("WebHome")"&gt;&lt;strong&gt;fetter Linktext&lt;/strong&gt;&lt;/a&gt;}}}|{{{[[**fetter Linktext**&gt;&gt;WebHome]]}}}|[[**fetter Linktext**&gt;&gt;WebHome]]|[[**fetter Linktext**&gt;&gt;WebHome]]
+|Link zu Seite im angegebenen Space|{{{[Main.WebHome]}}}|{{{[[Main.WebHome]]}}}|[[Web Home&gt;&gt;Main.WebHome]]|[[Main.WebHome]]
+|Link zu einem Unterwiki|{{{[subwiki:Main.WebHome]}}}|{{{[[subwiki:Main.WebHome]]}}}|[[Web Home&gt;&gt;xwiki:Main.WebHome]]|[[xwiki:Main.WebHome]]
+|Link der in neuem Fenster öffnet|{{{[label&gt;WebHome&gt;_blank]}}}|{{{[[label&gt;&gt;WebHome||rel="__blank"]]}}}|[[label&gt;&gt;WebHome||rel="__blank"]]|[[label&gt;&gt;WebHome||rel="__blank"]]
+|Link zu einer URL direkt im Text|{{{Dies ist eine URL: http://xwiki.org}}}|{{{Dies ist eine URL: http://xwiki.org}}}|Dies ist eine URL: http://xwiki.org|Dies ist eine URL: http://xwiki.org
 |Link zu einer URL|{{{[http://xwiki.org]}}}|{{{[[http://xwiki.org]]}}}|[[http://xwiki.org]]|[[http://xwiki.org]]
-|Link zu einer URL mit einem Klartext|{{{[XWiki&gt;http://xwiki.org]}}}|{{{[[XWiki&gt;&gt;http://xwiki.org]]}}}|[[XWiki&gt;&gt;http://xwiki.org]]|[[XWiki&gt;&gt;http://xwiki.org]]
-|Link zu einer EMail|{{{[john@smith.net&gt;mailto:john@smith.net]}}}|{{{[[john@smith.net&gt;&gt;mailto:john@smith.net]]}}}|[[john@smith.net&gt;&gt;mailto:john@smith.net]]|[[john@smith.net&gt;&gt;mailto:john@smith.net]]
-|Link über ein Bild|{{{&lt;a href='$xwiki.getURL("Space1.Page1")' &gt;{image:img.png|document=Space2.Page2}&lt;/a&gt;}}}|(((
-{{{[[image:Space2.Page2@img.png&gt;&gt;Space1.Page1]]}}}
-{{info}}Wiki syntax wird innerhalb der Link-Klammern unterstützt{{/info}}
-)))|[[image:img.png&gt;&gt;Main.WebHome]]|[[image:img.png&gt;&gt;Main.WebHome]]
-|Link zu einem Anhang (attachment) der aktuellen Page|(((
-{{info}}Siehe [[Attach Makro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]] für Details{{/info}}
-{{{{attach:text|file=img.png}}}}
-)))|{{{[[text&gt;&gt;attach:img.png]]}}}|[[text&gt;&gt;attach:img.png]]|[[text&gt;&gt;attach:img.png]]
-|Link zu einem Anhang (attachment) einer anderen Page|(((
-{{info}}Siehe [[Attach Makro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]] für Details{{/info}}
-{{{{attach:text|document=Space.Page|file=img.png}}}}
-)))|{{{[[text&gt;&gt;attach:Space.Page@img.png]]}}}|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]
+|Link zu einer URL mit Linktext|{{{[XWiki&gt;http://xwiki.org]}}}|{{{[[XWiki&gt;&gt;http://xwiki.org]]}}}|[[XWiki&gt;&gt;http://xwiki.org]]|[[XWiki&gt;&gt;http://xwiki.org]]
+|Link zu einer E-Mail-Adresse|{{{[john@smith.net&gt;mailto:john@smith.net]}}}|{{{[[john@smith.net&gt;&gt;mailto:john@smith.net]]}}}|[[john@smith.net&gt;&gt;mailto:john@smith.net]]|[[john@smith.net&gt;&gt;mailto:john@smith.net]]
+|Bild-Link|{{{&lt;a href="$xwiki.getURL("Space1.Seite1")"&gt;{image:Bild.png|document=Space2.Seite2}&lt;/a&gt;}}}|{{{[[image:Space2.Seite2@Bild.png&gt;&gt;Space1.Seite1]]}}}|[[image:img.png&gt;&gt;Main.WebHome]]|[[image:img.png&gt;&gt;Main.WebHome]]
+|Bild-Link mit Bildparametern|{{{&lt;a href="$xwiki.getURL("Space1.Seite1")"&gt;{image:Bild.png|document=Space2.Seite2|width=26|height=26}&lt;/a&gt;}}}|{{{[[[[image:Space2.Seite2@Bild.png||width="26" height="26"]]&gt;&gt;Space1.Seite1]]}}}|[[[[image:img.png||width="26" height="26"]]&gt;&gt;Main.WebHome]]|[[[[image:img.png||width="26" height="26"]]&gt;&gt;Main.WebHome]]
+|Link zu einem Anhang auf der aktuellen Seite|(((
+{{info}}Siehe [[Anhangsmakro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] für Details{{/info}}
+{{{{attach:Text|file=img.png}}}}
+)))|{{{[[Text&gt;&gt;attach:img.png]]}}}|[[Text&gt;&gt;attach:img.png]]|[[Text&gt;&gt;attach:img.png]]
+|Link zu einem Anhang auf einer anderen Seite|(((
+{{info}}See [[Anhangsmakro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] für Details{{/info}}
+{{{{attach:Text|document=Space.Seite|file=img.png}}}}
+)))|{{{[[Text&gt;&gt;attach:Space.Seite@img.png]]}}}|[[Text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]|[[Text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]
 
-== XWiki Syntax 1.0 Link Spezifikation ==
+== XWiki Syntax 1.0 Linkspezifikation ==
 
-Das Format für einen Link ist ##(alias[|&amp;gt;])+(link)(@interWikiAlias)+([|&amp;gt;]target)##
+{{info}}
+Teil in ##( )## ist erforderlich, Teile in ##[ ]## sind optional und eines der zwei Zeichen in ##{ }## muss eingefügt werden, wenn optionale Teile verwendet werden.
+{{/info}}
 
-* ##alias##: Ein optionaler Text, der dem Anwender statt des Links angezeigt wird. Beispiel: "Meine Seite".
-* ##link##: der vollständige Link mit folgender Syntax: ##{{{(virtualWikiAlias:)+(space.)+(reference)(?queryString)+(#anchor)+}}}##
-* Bemerkung: entweder der ##link## oder der ##alias## müssen angegeben werden.
-** ##virtualWikiAlias##: Ein optionaler String mit dem Namen einer virtuellen Wiki. Der Link zeigt auf eine Page in dieser virtuellen Wiki. Beispiel: "mywiki".
-** ##space##: Ein optionaler Wiki Space Name. Falls kein Space angegeben ist, wird der aktuelle verwendet. Beispiel: "Main".
-** ##reference##: Die Link Referenz. Das kann entweder eine URI in dem Format##{{{protocol:path}}}##(Beispiel: {{{"http://xwiki.org"}}}, {{{"mailto:john@smith.com"}}}) oder der Name einer Wiki Page (Beispiel: "WebHome").
-** ##queryString##: Ein optionaler Such-String für die Parameter Spezifikation, der in der gerenderten URL benutzt wird. Beispiel: {{{"mydata1=5&amp;amp;mydata2=Hello"}}}.
-** ##anchor##: Ein optionaler Anker Name, der auf einen Anker im referenzierten Link verweist. Beachten Sie, dass in XWiki für Überschriften automatisch Anker erstellt werden. Beispiel: "TableOfContentAnchor".
-* ##interWikiAlias##: Ein optionaler [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] Alias, wie er in der InterWiki Map hinterlegt ist (siehe [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Beispiel: "wikipedia"
-* ##target##: Ein optionaler String übereinstimmend zum HTML ##target## Attribut für ein HTML ##A## Link Element. Dieses Element wird benutzt, wenn der Link gerendert wird. Die Voreinstellung öffnet den Link in der aktuellen Seite. Beispiel: "_self", "_blank"
+Das vollständige Format eines Links ist **##[Linktext {&gt; oder |}] (Ressource) [@interWikiAlias] [{&gt; oder|} Ziel]##**
 
-== XWiki Syntax 2.0 Link Spezifikation ==
+* **##Linktext##**: Eine optionale Zeichenkette, welche dem Nutzer beim Rendern als Linkname gezeigt wird. Beispiel: ##Meine Seite##
+* **##Ressource##**: Die vollständige Linkreferenz in folgender Syntax: **##(Referenz) [?queryString] [#Anker]##**
+** **##Referenz##**: Die Linkreferenz. Diese kann entweder
+*** **Ein URI** in der Form **##Protokoll:Pfad##** (Beispiel: ##http:~/~/xwiki.org##, ##mailto~:john@smith.com##), oder
+*** **Eine Wikiseitenreferenz** in der Form **##~[~[wikiName:] Space.] (Seite)##**. Beispiel: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome## sein.
+**** **##wikiName##**: Eine optionale Zeichenkette, die den Namen des virtuellen Wikis enthält. Der Link wird auf eine Seite in diesem virtuellen Wiki zeigen. Beispiel: ##mywiki##
+**** **##Space##**: Ein optionaler Wiki-Space-Name. Wenn kein Space spezifiziert wird, wird der aktuelle Space verwendet. Beispie: ##Main##
+**** **##Seite##**: Eine erforderliche Zeichenkette, die den Namen der verknüpften Wikiseite enthält. Beispiel: ##WebHome##
+** **##queryString##**: Eine optionale Abfragezeichentkette, die Parameter spezifiziert, die in der gerenderten URL verwendet werden. Beispiel: ##mydata1=5&amp;mydata2=Hallo##
+** **##Anker##**: Ein optionaler Ankername, der auf einen Anker im referenzierten Link zeigt. Es ist zu beachten, dass XWiki Anker automatisch für Überschriften erstellt werden. Beispiel: ##HInhaltsverzeichnis##
+* **##interWikiAlias##**: Ein optionales [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] Alias, entsprechend der Definition in der InterWiki Map (siehe [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Dies ist nur für Wikiseitennamen zulässig. Beispiel: ##wikipedia##
+* **##Ziel##**: Eine optionale Zeichenkette entsprechend dem HTML ##target## Attribut für ein HTML ##A## Linkelement. Dieses Element wird beim Rendern des Links verwendet. Standardmäßig wird der Link im aktuellen Fenster geöffnet. Beispiele: ##_self##, ##_blank##
 
-The full format of a link is ##(label&gt;&gt;)?(link)(||parameters)*##
+== XWiki Syntax 2.0 Linkspezifikation ==
 
-* ##label##: Ein optionaler Text, der Wiki Syntax enthalten darf.
-* ##link##: die Link Adresse - wohin gesprungen wird, wenn der Link angeklickt wird. Sie hat das gleiche Format wie in XWiki 1.0 Syntax und sie kann ebenfalls zwei Typen von URIs enthalten: ##mailto~:## und ##{{{attach:}}}## um zu einer Mail-Adresse oder einem Anhang zu verweisen.##
-* ##parameters##: eine optionale Liste von Parametern, die zum Link an den Browser übergeben werden.
+{{info}}
+Der Teil in ##( )## ist erforderlich, während die Teile in ##[ ]## optional sind.
+{{/info}}
+
+Das vollständige Format eines Links ist **##[Linktext&gt;&gt;] (Ressource) [@interWikiAlias] [||Parameter]##**
+
+* **##Linktext##**: Eine optionale Zeichenkette, welche dem Nutzer beim Rendern als Linkname gezeigt wird. Der Linktext kann XWiki Syntax enthalten. Wenn kein Linktext angegeben ist, wird ein Standartext generiert. Das Erstellungsmuster kann verändert werden, siehe [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Beispiel: ##Meine Seite##
+* ##Ressource##: Die vollständige Linkreferenz in folgender Syntax: ##(Referenz) [?queryString] [#Anker]##
+** ##Referenz##: Die Linkreferenz in einer der folgenden Formen:
+*** **URL**: Eine URL in der Form **##Protokoll:~/~/Pfad##**. Beispiele: ##http:~/~/xwiki.org##, ##https:~/~/svn.xwiki.org/##
+*** **Wikiseitenname** Referenz in der Form **##~[~[wikiName:] Space.] (Seite)##**. Beispiele: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+**** **##wikiName##**: Eine optionale Zeichenkette, die den Namen des virtuellen Wikis enthält. Der Link wird auf eine Seite in diesem virtuellen Wiki zeigen. Beispiel: ##mywiki##
+**** **##Space##**: Ein optionaler Wiki-Space-Name. Wenn kein Space spezifiziert wird, wird der aktuelle Space verwendet. Beispiel: ##Main##
+**** **##Seite##**: Eine erforderliche Zeichenkette, die den Namen der verknüpften Wikiseite enthält. Beispiel: ##WebHome##
+*** **Anhang** Referenz in der Form **##attach~: [wikiSeitenName @] (anhangsName)##** (###Anker## ist nicht zulässig). Beispiele: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
+**** **##attach~:##**: Eine notwendige Zeichenkette, die die Ressource als Anhang identifiziert.
+**** **##wikiSeitenName##**: Eine optionale Zeichenkette, die das Dokument, an das der Anhang angehängt ist, referenziert, siehe "Wikiseitenname" oben.
+**** **##anhangsName##**: Name des Anhangs, wie er im Wiki gespeichert ist.
+*** **E-Mail-Adresse** in der Form **##mailto~: (emailAdresse)##** (###Anker## ist nicht zulässig). Beispiel: ##mailto~:john@smith.com##
+**** **##mailto~:##**: Eine notwendige Zeichenkette, die die Ressource als E-Mail identifiziert.
+**** **##emailAddress##**: Ziel-E-Mail-Adresse. Beispiel: ##john@smith.com##
+** **##queryString##**: Eine optionale Abfragezeichentkette, die Parameter spezifiziert, die in der gerenderten URL verwendet werden. Beispiel: ##mydata1=5&amp;mydata2=Hallo##
+** **##Anker##**: Ein optionaler Ankername, der auf einen Anker im referenzierten Link zeigt. Es ist zu beachten, dass XWiki Anker automatisch für Überschriften erstellt werden. Beispiel: ##HInhaltsverzeichnis##
+* **##interWikiAlias##**: Ein optionales [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] Alias, entsprechend der Definition in der InterWiki Map (siehe [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Dies ist nur für Wikiseitennamen zulässig. Beispiel: ##wikipedia##
+* **##Parameter##**: Eine optionale Liste mit Parametern, die an den Link weitergegeben werden. Beispiel: ##rel="~_~_blank"## (in neuem Fenster öffnen)
+
+== XWiki Syntax 2.1 Link Specification ==
+
+{{info}}
+Der Teil in ##( )## ist erforderlich, während die Teile in ##[ ]## optional sind.
+{{/info}}
+
+Das vollständige Format eines Links ist **##[Linktext&gt;&gt;] (Ressource) [||Parameter]##**
+
+* **##Linktext##**: Eine optionale Zeichenkette, welche dem Nutzer beim Rendern als Linkname gezeigt wird. Der Linktext kann XWiki Syntax enthalten. Wenn kein Linktext angegeben ist, wird ein Standartext generiert. Das Erstellungsmuster kann verändert werden, siehe [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Beispiel: ##Meine Seite##
+* **##Ressource##**: Eine erforderliche Zeichenkette mit der Linkreferenz in einer der folgenden Formen
+** **URL**: Eine URL in der Form **##[url:] (Protokoll:~/~/Pfad)##**. Beispiele: ##http:~/~/xwiki.org##, ##url:https:~/~/svn.xwiki.org/##
+*** **##url:##** Eine optionale Zeichenkette, die die Ressource als URL identifiziert.
+** **Wikiseitenname** Referenz in der Form **##[doc:] ~[~[wikiName:] Space.] (Seite)##**. Beispiele: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+*** **##doc:##** Eine optionale Zeichenkette, die die Ressource als XWiki Dokument identifiziert.
+**** **##wikiName##**: Eine optionale Zeichenkette, die den Namen des virtuellen Wikis enthält. Der Link wird auf eine Seite in diesem virtuellen Wiki zeigen. Beispiel: ##mywiki##
+**** **##Space##**: Ein optionaler Wiki-Space-Name. Wenn kein Space spezifiziert wird, wird der aktuelle Space verwendet. Beispiel: ##Main##
+**** **##Seite##**: Eine erforderliche Zeichenkette, die den Namen der verknüpften Wikiseite enthält. Beispiel: ##WebHome##
+** **InterWiki Seitenname** Referenz in der Form **##interwiki: {{{(interWikiAlias:)}}} (Seite)##**. Beispiel: ##interwiki:wikipedia:XWiki##
+*** **##interwiki:##** Eine erforderliche Zeichenkette, die die Ressource als einen InterWiki Link identifiziert.
+*** ##interWikiAlias##: Ein optionales [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] Alias, entsprechend der Definition in der InterWiki Map (siehe [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Beispiel: ##wikipedia##
+*** **##Seite##**: Eine erforderliche Zeichenkette, die den Namen der verknüpften Wikiseite enthält. Beispiel: ##XWiki##
+*** **Anhang** Referenz in der Form **##attach~: [wikiSeitenName @] (anhangsName)##**. Beispiele: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
+**** **##attach~:##**: Eine notwendige Zeichenkette, die die Ressource als Anhang identifiziert.
+**** **##wikiSeitenName##**: Eine optionale Zeichenkette, die das Dokument, an das der Anhang angehängt ist, referenziert, siehe "Wikiseitenname" oben.
+**** **##anhangsName##**: Name des Anhangs, wie er im Wiki gespeichert ist.
+*** **E-Mail-Adresse** in der Form **##mailto~: (emailAdresse)##** (###Anker## ist nicht zulässig). Beispiel: ##mailto~:john@smith.com##
+**** **##mailto~:##**: Eine notwendige Zeichenkette, die die Ressource als E-Mail identifiziert.
+**** **##emailAddress##**: Ziel-E-Mail-Adresse. Beispiel: ##john@smith.com##
+** **Relativer Pfad** Referenz auf dem Server in der Form **##path: (relPfad)##**. Beispiel: ##path:$doc.getURL('reset')## erzeugt Zieladresse ##http:~/~/server.domain.com/xwiki/bin/reset/Space/Page## wobei ##/xwiki/bin/reset/Space/Page## durch ##$doc.getURL('reset')## erzeugt wird.
+*** **##path:##** Eine erforderliche Zeichenkette, die die Ressource als relativen Pfad identifiziert.
+*** **##relPfad##**: Eine erforderliche Zeichenkette, die den relativen Pfad der Ressource auf dem Server enthält, die verknüpft werden soll.
+** **UNC (Windows Explorer)** Referenz in der Form **##unc: (Pfad)##**. Der Link wird als ##file:~/~/## gerendet. Beispiele: ##unc:C:\Windows\##, ##unc:~\~\myserver\path\img.png##, ##unc:home/user/somefile##
+*** **##unc:##** Eine erforderliche Zeichenkette, die die Ressource als UNC (Windows Explorer) Pfad identifiziert.
+*** **##Pfad##**: Eine erforderliche Zeichenkette, die den lokalen Pfad der Ressource, die dem Nutzer zugänglich ist, enthält. Beispiele: ##C:\Windows\##, ##~\~\myserver\path\img.png##, ##home/user/somefile##
+* **##Parameter##**: Eine optionale Liste von Leerzeichen-getrennten Parametern, die an den Link übergeben werden. Beispiel: ##queryString="mydata1=5&amp;amp;mydata2=Hallo" anchor="HInhaltsverzeichnis" rel="~_~_blank"##
+** **##queryString##**: Eine optionale Abfragezeichentkette, die Parameter spezifiziert, die an die Linkzieladresse angehängt werden und in der gerenderten URL verwendet werden. Beispiel: ##url:http:~/~/domain.com/pfad||queryString="mydata1=5&amp;amp;mydata2=Hello"## erzeugt Zieladresse ##http:~/~/domain.com/pfad?mydata1=5&amp;amp;mydata2=Hello##
+** **##Anker##**: Ein optionaler Ankername, der auf einen Anker im referenzierten Link zeigt. Es ist zu beachten, dass XWiki Anker automatisch für Überschriften erstellt werden. Beispiel: ##url:http:~/~/domain.com/pfad||anchor="HInhaltsverzeichnis"## erzeugt Zieladresse ##http:~/~/domain.com/pfad#HInhaltsverzeichnis##
+** **##rel##**: An optional parameter that allows to open link target in new window. Example: ##rel="~_~_blank"##
+** **##rel##**: Ein optionaler Parameter, der es ermöglicht das Linkziel in einem neuen Fenster zu öffnen. Beispiel: ##rel="~_~_blank"##
 
 = Tabellen =
 
-Ermöglicht die einfache Erstellung von Inhalten in Tabellenform. Parameter für die Tabelle, Zeilen und Zellen werden in XWiki Syntax 2.0 unterstützt.
+Erlaubt es auf einfache Weise Inhalte im Tabellenformat zu erstellen. Parameter für Tabelle, Reihe oder Zelle sind ebenfalls in XWiki Syntax 2.0 unterstützt.
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|Standard Tabelle|{{{((({table}Überschrift 1 | Überschrift 2
-Wort 1 | Wort 2{table})))}}}|(((
-{{{|=Überschrift 1|=Überschrift 2
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+|Standardtabelle|((({{{
+{table}
+Titel 1 | Titel 2
+Wort 1 | Wort 2
+{table}
+}}})))|((({{{
+|=Titel 1|=Titel 2
 |Wort 1|Wort 2
-}}}
-)))or(((
-{{{!=Überschrift 1!=Überschrift 2
+}}}))) oder ((({{{
+!=Titel 1!=Titel 2
 !!Wort 1!!Wort 2
-}}}
-)))|(((
-|=Überschrift 1|=Überschrift 2
+}}})))|(((
+|=Titel 1|=Titel 2
 |Wort 1|Wort 2
 )))
 |Parametrisierte Tabelle|(((
 &lt;table style="background-color:red;align:center"&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;td&gt;Überschrift 1&lt;/td&gt;
-      &lt;td style="background-color:yellow"&gt;Überschrift 2&lt;/td&gt;
+      &lt;td&gt;Titel 1&lt;/td&gt;
+      &lt;td style="background-color:yellow"&gt;Titel 2&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
       &lt;td&gt;Wort 1&lt;/td&gt;
@@ -595,310 +604,270 @@ Wort 1 | Wort 2{table})))}}}|(((
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
-)))|(((
-{{{(% style="background-color:red;align=center" %)
-|=Überschrift 1|=(% style="background-color:yellow" %)Überschrift 2
+)))|((({{{
+(% style="background-color:red;align=center" %)
+|=Titel 1|=(% style="background-color:yellow" %)Titel 2
 |Wort 1|Wort 2
-}}}
-)))|(((
-(% style="BACKGROUND-COLOR: red" %)
-|=Überschrift 1|=(% style="BACKGROUND-COLOR: yellow" %)Überschrift 2
+}}})))|(((
+(% style="background-color:red;align=center" %)
+|=Titel 1|=(% style="background-color:yellow" %)Titel 2
 |Wort 1|Wort 2
 )))
-|Filterable Sortable table|(((
-{{{$xwiki.ssfx.use("js/xwiki/table/table.css")
+|Filterbare, sortierbare Tabelle|((({{{
+$xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
   &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Überschrift1&lt;/th&gt;
-    &lt;th&gt;Überschrift2&lt;/th&gt;
+    &lt;th&gt;Titel 1&lt;/th&gt;
+    &lt;th&gt;Titel 2&lt;/th&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td&gt;Zelle11&lt;/td&gt;
-   &lt;td&gt;Zelle12&lt;/td&gt;
+   &lt;td&gt;Zelle 11&lt;/td&gt;
+   &lt;td&gt;Zelle 12&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td&gt;Zelle21&lt;/td&gt;
-   &lt;td&gt;Zelle22&lt;/td&gt;
+   &lt;td&gt;Zelle 21&lt;/td&gt;
+   &lt;td&gt;Zelle 22&lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
 }}}
-)))|(((
-{{{{{velocity}}
+
+{{info}}Für verbesserte Funktionen siehe das [[Live-Table Makro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Livetable+Macro]].{{/info}}
+)))|((({{{
+{{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
-$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true){{/velocity}}{{html}}
-&lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;    &lt;th&gt;Überschrift1&lt;/th&gt;
-    &lt;th&gt;Überschrift2&lt;/th&gt;  &lt;/tr&gt;  &lt;tr&gt;
-   &lt;td&gt;Zelle11&lt;/td&gt;   &lt;td&gt;Zelle12&lt;/td&gt;  &lt;/tr&gt;
-  &lt;tr&gt;   &lt;td&gt;Zelle21&lt;/td&gt;   &lt;td&gt;Zelle22&lt;/td&gt;
-  &lt;/tr&gt;&lt;/table&gt;{{/html}}}}}
+$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
+{{/velocity}}
+
+(% class="grid sortable filterable doOddEven" id="tableid" %)
+(% class="sortHeader" %)|=Titel 1|=Titel 2
+|Zelle 11|Zelle 12
+|Zelle 21|Zelle 22
+}}}
+
+{{info}}Für verbesserte Funktionen siehe das [[Live-Table Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Livetable+Macro]].{{/info}}
 )))|(((
 {{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
 
-{{html}}
-&lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Überschrift1&lt;/th&gt;
-    &lt;th&gt;Überschrift2&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Zelle11&lt;/td&gt;
-   &lt;td&gt;Zelle12&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Zelle21&lt;/td&gt;
-   &lt;td&gt;Zelle22&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{{/html}}
+(% class="grid sortable filterable doOddEven" id="tableid" %)
+(% class="sortHeader" %)|=Titel 1|=Titel 2
+|Zelle 11|Zelle 12
+|Zelle 21|Zelle 22
 )))
 
 = Bilder =
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|Bild eines Anhangs (attachment) der aktuellen Page|(((
-{{info}}Siehe [[Image Makro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/ImageMacro]] für Details{{/info}}
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+|Bild von Anhang auf aktueller Seite|(((
+{{info}}Siehe [[Bildmakro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Image+Macro+%28Radeox%29]] fü Details{{/info}}
 {{{{image:img.png}}}}
-)))|{{{image:img.png}}}|[[image:img.png]]
-|Bild eines Anhangs (attachment) eines anderen Dokuments|{{{{image:img.png|document=Space.Page}}}}|{{{image:Space.Page@img.png}}}|[[image:img.png]]
-|Bild mit Parametern|{{{{image:img.png|width=25|height=25}}}}|{{{[[image:img.png||width="25" height="25"]]}}}|[[image:img.png||height="25" width="25"]]
-|Bild aus einer URL|{{{http://some/url/img.png}}}|{{{image:http://some/url/img.png}}}|[[image:img.png]]
+)))|{{{image:img.png}}}|image:img.png
+|Bild von Anhang auf anderer Seite|{{{{image:img.png|document=Space.Seite}}}}|{{{image:Space.Seite@img.png}}}|image:img.png
+|Bild mit Parametern|{{{{image:img.png|width=25|height=25}}}}|{{{[[image:img.png||width="25" height="25"]]}}}|[[image:img.png||width="25" height="25"]]
+|Bild befindlich an URL|{{{http://eine/url/img.png}}}|{{{image:http://eine/url/img.png}}}|image:img.png
 
-= Text maskieren =
+= Wortgetreu =
 
-Die Maskierung erlaubt die Eingabe eines Inhalts, der nicht formattiert wird (in anderen Worten: die eventuell vorhandene Wiki Syntax wird nicht berücksichtigt)
+Erlaubt es Inhalte einzugeben die nicht formatiert werden (in anderen Worten wird die XWiki Syntax nicht beachtet).
 
 {{info}}
-Das [[Pre Makro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/PreMacro]] der XWiki Syntax 1.0 ignorierte Wiki und Radeox Syntax. Erkannter HTML Code und Groovy/Velocity Skripte wurden trotzdem ausgeführt.
+In XWiki Syntax 1.0 schützt das [[Pre Makro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Pre+Macro+%28Radeox%29]] nur XWiki Syntax und Radeox Makros. HTML Code und Groovy/Velocity Skripte, hingegen, werden weiterhin ausgeführt.
 {{/info}}
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis in XWiki Syntax 1.0|=Ergebnis in XWiki Syntax 2.0
-|Wortwörtlicher Text inline|{{{{pre}*[nicht interpretierter]*{/pre} Inhalt}}}|{{{{{{**[[nicht interpretierter]]**}}} Inhalt}}}|{{{*[nicht interpretierter]*}}}Inhalt|{{{**[[nicht interpretierter]]**}}}Inhalt
-|Wortwörtlicher Block|(((
-{{{{pre}ein*wortwörtlicher*Block{/pre}
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis XWiki Syntax 1.0|=Ergebnis XWiki Syntax 2.0
+|Wortgetreu in Zeile|{{{Etwas wortgetreuer {pre}*[nicht gerenderter]*{/pre} Inhalt}}}|{{{Etwas wortgetreuer {{{**[[nicht gerenderter]]**}}} Inhalt}}}|Etwas wortgetreuer {{{*[nicht gerenderter]*}}} Inhalt|Etwas wortgetreuer {{{**[[nicht gerenderter]]**}}} Inhalt
+|Wortgetreuer Block|((({{{
+{pre}
+vielzeiliger
+*wortgetreuer*
+Inhalt
+{/pre}
 }}}
-{{info}}Es ist ebenso möglich das [[Code Makro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/CodeMacro]] zu verwenden, aber es stellt den Inhalt in einer Box dar.{{/info}}
-)))|(((
-{{{{{{
-ein
-**wortwörtlicher**
-Block
+{{info}}Es ist ebenfalls möglich das [[Code Makro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Code+Macro+%28Radeox%29]] zu verwenden, jedoch dieses Zeigt den Inhalt standardmäßig in einer Box.{{/info}}
+)))|((({{{
+{{{
+mehrzeiliger
+**wortgetreuer**
+Inhalt
 }}}
-}}}
-)))|(((
-{{{ein
-*wortwörtlicher*
-Block
-}}}
-)))|(((
-{{{ein
-**wortwörtlicher**
-Block
-}}}
-)))
+}}})))|((({{{
+mehrzeiliger
+*wortgetreuer*
+Inhalt
+}}})))|((({{{
+mehrzeiliger
+**wortgetreuer**
+Inhalt
+}}})))
 
 = Zitate =
 
-Erlaubt einen Text zu zitieren.
+Erlaubt es einen Text zu zitieren.
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
 |Einfaches Zitat|(((
-&lt;blockquote&gt;&lt;p&gt;John sagte dieses&lt;/p&gt;&lt;/blockquote&gt;
-Ich sagte ok
-)))|(((
-{{{&gt; John sagte dieses
-Ich sagte ok
-}}}
-)))|(((
-&gt; John sagte dieses
-
-Ich sagte ok
+&lt;blockquote&gt;&lt;p&gt;Max hat das gesagt&lt;/p&gt;&lt;/blockquote&gt;
+Ich habe OK gesagt
+)))|((({{{
+&gt; Max hat das gesagt
+Ich habe OK gesagt
+}}})))|(((
+&gt; Max hat das gesagt
+Ich habe OK gesagt
 )))
-|verschachtelte Zitate|(((
-&lt;blockquote&gt;&lt;p&gt;John sagte dieses&lt;/p&gt;
-  &lt;blockquote&gt;&lt;p&gt;Marie antwortete folgendes&lt;/p&gt;&lt;/blockquote&gt;
+|Nested quotes|(((
+&lt;blockquote&gt;&lt;p&gt;Max hat das gesagt&lt;/p&gt;
+  &lt;blockquote&gt;&lt;p&gt;Marie hat das geantwortet&lt;/p&gt;&lt;/blockquote&gt;
 &lt;/blockquote&gt;
-Ich sagte ok 
-)))|(((
-{{{&gt; John sagte dieses
-&gt;&gt; Marie antwortete folgendes
-Ich sagte ok
-}}}
-)))|(((
-&gt; John sagte dieses
-&gt;&gt; Marie antwortete folgendes
-&gt; 
-
-Ich sagte ok
+Ich hab OK gesagt
+)))|((({{{
+&gt; Max hat das gesagt
+&gt;&gt; Marie hat das geantwortet
+Ich hab OK gesagt
+}}})))|(((
+&gt; Max hat das gesagt
+&gt;&gt; Marie hat das geantwortet
+Ich hab OK gesagt
 )))
 
 = Gruppen =
 
-Gruppen können dazu benutzt werden ein anderes Dokument inline in das aktuelle Dokument einzufügen. Dies erlaubt zum Beispiel das Einfügen komplexer Elemente in ein List-Element oder in eine Tabellenzelle. Gruppen werden durch die folgenden syntaktischen Elemente umrahmt:  ##{{{(((...)))}}}##. Eine Gruppe kann eine andere Gruppe enthalten und es gibt keine Begrenzung der Verschachtelung.  
+Gruppen können benutzt werden um ein Dokument "inline" direkt in ein anderes Dokument einzufügen. Dies ermöglicht es beispielsweise komplexe Elemente in einem Listenelement oder in einer Tabellenzelle einzufügen. Gruppen sind durch die folgenden Syntaxelemente begrenzt: ##{{{(((...)))}}}##. Eine Gruppe kann eine andere Gruppe beinhalten und es gibt keine Grenzen bei der Verschachtelung.
 
-(% style="WIDTH: 100%" %)
+(% style="width:100%" %)
 |=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
-|{{info}}Dieses feature existiert nicht in der XWiki syntax 1.0. Pures HTML ist hier erforderlich.{{/info}}|(((
-{{{|=Header 1|=Header 2|=Header 3
-|Zelle eins|(((
-= eingebettetes Dokument
+|{{info}}Diese Funktion existiert nicht in XWiki Syntax 1.0. Es müsste reines HTML verwendet werden um das Ergebnis zu erhalten.{{/info}}|((({{{
+|=Kopfzeile 1|=Kopfzeile 2|=Kopfzeile 3
+|Zelle Eins|(((
+= Eingebundenes Dokument =
 
 Ein eingebetteter Absatz.
 
-* Listenpunkt 1
-* Listenpunkt 2
-  ** Unterpunkt 1
-  ** Unterpunkt 2
-))) | Zelle drei
+* Listenelement eins
+* Listenelement zwei
+  ** Unterelement 1
+  ** Unterelement 2
+))) | Zelle Drei
 
-Nächster Absatz in dem top-level Dokument
-}}}
-)))|(((
-|=Header 1|=Header 2|=Header 3
-|Zelle eins|(((
-{{html}}
-&lt;h1 id="HEmbeddeddocument"&gt;&lt;span&gt;eingebettetes Dokument&lt;/span&gt;&lt;/h1&gt;
-{{/html}}
+Nächster Absatz im Dokument der obersten Ebene
+}}})))|(((
+|=Kopfzeile 1|=Kopfzeile 2|=Kopfzeile 3
+|Zelle Eins|(((
+{{html}}&lt;h1 id="HEmbeddeddocument"&gt;&lt;span&gt;Eingebettetes Dokument&lt;/span&gt;&lt;/h1&gt;{{/html}}
 
 Ein eingebetteter Absatz.
 
-* Listenpunkt 1
-* Listenpunkt 2
-** Unterpunkt 1
-** Unterpunkt 2
-)))| Zelle drei
+* Listenelement eins
+* Listenelement zwei
+  ** Unterelement 1
+  ** Unterelement 2
+))) | Zelle Drei
 
-Nächster Absatz in dem top-level Dokument
+Nächster Absatz im Dokument der obersten Ebene
 )))
 
-= Zeichen maskieren =
+= Entziehungszeichen =
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis in XWiki Syntax 1.0|=Ergebnis in XWiki Syntax 2.0
-|Ein Zeichen maskieren|{{{Dies ist kein \[Link\]}}}|(((
+Erlaubt es XWiki Syntax zu entgehen.
+
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis XWiki Syntax 1.0|=Ergebnis XWiki Syntax 2.0
+|Entziehungszeichen für ein Zeichen|{{{Dies ist kein \[Link\]}}}|(((
 {{{Dies ist kein ~[~[Link~]~]}}}
-{{info}}Um ein ~~ Zeichen einzugeben geben Sie die Maskierung doppelt ein: ~~~~{{/info}}
+{{info}}Um ein ~~ Zeichen einzufügen ist dieses doppelt einzugeben: ~~~~{{/info}}
 )))|{{{Dies ist kein [Link]}}}|{{{Dies ist kein [[Link]]}}}
 
 = Makros =
 
-Es gibt zwei Arten von Makros in der XWiki Syntax 1.0:
+Es gibt zwei Arten von Makros in XWiki Syntax 1.0:
 
-* Velocity Makros (Aufruf über die ###macroname(param1 ... paramN)## Syntax)
-* Radeox Makros (Aufruf über die ##{macroname:param1=value1|...|paramN=valueN}## Syntax)
+* Velocity Makros (aufgerufen mittels der ###macroname(param1 ... paramN)## Syntax)
+* Radeox Makros (aufgerufen mittels der ##{macroname:param1=value1|...|paramN=valueN}## Syntax)
 
-Es gibt ebenso zwei Arten von Makros in der XWiki Syntax 2.0:
+Es gibt ebenfalls zwei Arten von Makros in XWiki Syntax 2.0:
 
-* Velocity Makros (Aufruf über die ###macroname(param1 ... paramN)## Syntax in Velocity Makros)
-* XWiki Makros (Aufruf über die##{{{{{macroname param1="value1" ... paramN="valueN"}}}}}## Syntax)
+* Velocity Makros (aufgerufen mittels der ###macroname(param1 ... paramN)## Syntax im Velocity Makro)
+* XWiki Makros (aufgerufen mittels der ##{{{{{macroname param1="value1" ... paramN="valueN"}}}}}## Syntax)
 
+{{info}}Die Radeox Makros können in der XWiki Syntax 2.0 nicht verwendet werden. Daher müssen diese als XWiki Makros neu geschrieben werden.{{/info}}
+
+{{info}}Für die vollständige Liste der verfügbaren Makros ist das [[Erweiterungswiki&gt;&gt;http://extensions.xwiki.org/]] zu besuchen.{{/info}}
+
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0
+|Velocity Makro|((({{{#info("Ein Text")}}})))|((({{{
 {{info}}
-Die Radeox Makros können in XWiki Syntax 2.0 nicht verwendet werden. Deshalb wurden sie als XWiki Makros erstellt.
+Ein Text
 {{/info}}
-
-{{info}}
-Für eine vollständige Liste von verfügbaren Makros siehe die [[Makro Referenz Seite&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/]].
-{{/info}}
-
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0
-|Velocity Makro|(((
-{{{#info("Ein Text")}}}
-)))|(((
-{{{{{velocity}}{{html}}#info("Ein Text")
-{{/html}}{{/velocity}}}}}
-{{info}}Wir benutzen das HTML Makro im Beispiel, weil das ###info## Makro HTML Inhalte erstellt.{{/info}}
-
-{{info}}
-Seit XE 2.0 sollte das [[Message Makro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/MessageMacro]] verwendet werden um dieses Beispiel zu implementieren.
-{{/info}}
-)))
-|Radeox Makro/XWiki Makros|(((
-{{{{code:java}
+}}})))
+|Radeox Makro/XWiki Makro|((({{{
+{code:java}
 Java Inhalt
 {code}
-}}}
-)))|(((
-{{{{{code language="java"}}
+}}})))|((({{{
+{{code language="java"}}
 Java Inhalt
 {{/code}}
-}}}
-)))
+}}})))
 
 = HTML =
 
-{{info}}
-Bei der XWiki Syntax 2.0 muss HTML oder XHTML über das HTML Makro eingegeben werden, während es in der XWiki Syntax 1.0 möglich ist, HTML direkt in den Text einzugeben.
-{{/info}}
+{{info}}In XWiki Syntax 2.0 muss HTML oder XHTML unter Verwendung des HTML Makros eingegeben werden, während es in XWiki Syntax 1.0 möglich ist HTML direkt in den Text einzugeben.{{/info}}
 
-(% style="WIDTH: 100%" %)
+(% style="width:100%" %)
 |=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Ergebnis
 |&lt;b&gt;fett&lt;/b&gt;|{{{{{html}}&lt;b&gt;fett&lt;/b&gt;{{/html}}}}}|{{html}}&lt;b&gt;fett&lt;/b&gt;{{/html}}
 
-{{info}}
-Standardmäßig versteht das HTML Makro in XWiki Syntax 2.0 keine Wiki Syntax (dies betrifft auch andere Makros, weil sie ebenfalls zur Wiki Syntax zählen). Um die Wiki Syntax zu erlauben verwenden Sie {{{{{html wiki="true"}}}}}.
-{{/info}}
+{{info}}In XWiki Syntax 2.0 versteht das HTML Makro standardmäßig keine XWiki Syntax (andere Makros eingeschlossen, da diese ebenfalls XWiki Syntax sind). Um dies einzuschalten ist {{{{{html wiki="true"}}}}} zu verwenden.{{/info}}
 
-= Velocity/Groovy Skripte =
+= Velocity/Groovy Scripte =
 
-{{info}}
-In der XWiki Syntax 1.0 war es möglich, Velocity Skripte direkt überall auf der Seite einzugeben. Dies führte zu Problemen, zum Beispiel, wenn der Anwender unabsichtlich Velocity Inhalte eingab. Für Seiten ohne Velocity Code war dies Performance hungrig. Es gab mehrere andere technische Beschränkungen. Folglich müssen Velocity Skripte in XWiki Syntax 2.0 unter Benutzung des ##velocity## Makros eingegeben werden. Das gleiche gilt für die Eingabe von Groovy Skripten.
-{{/info}}
+{{info}}In XWiki Syntax 1.0 war es möglich Velocity Skripte überall direkt in der Seite einzugeben. Dies hat zu Problemen geführt, beispielsweise wenn ein Nutzer unfreiwillig Velocity Inhalte eingegeben hat. Es war zudem leistungshungrig für Seiten, die keinen Velocity Inhalt benötigten. Es gab zudem etliche weitere technische Einschränkungen. Daher müssen in XWiki Syntax 2.0 Velocity Skripte mittels des ##Velocity## Makros eingegeben werden. Selbiges gilt für Groovy Skripte.{{/info}}
 
-(% style="WIDTH: 100%" %)
-|=Feature|=XWiki Syntax 1.0|=XWiki Syntax 2.0
-|Velocity Skript|(((
-{{{#set ($var = "whatever")
-}}}
-)))|(((
-{{{{{velocity}}
+(% style="width:100%" %)
+|=Funktion|=XWiki Syntax 1.0|=XWiki Syntax 2.0
+|Velocity Skript|((({{{
+#set ($var = "whatever")
+}}})))|((({{{
+{{velocity}}
 #set ($var = "whatever")
 {{/velocity}}
-}}}
-)))
-|Groovy Skript|(((
-{{{&lt;%
+}}})))
+|Groovy Skript|((({{{
+&lt;%
 def var = "whatever"
 %&gt;
-}}}
-)))|(((
-{{{{{groovy}}
+}}})))|((({{{
+{{groovy}}
 def var = "whatever"
 {{/groovy}}
-}}}
-)))
+}}})))
 
 = Parameter =
 
-Mit der XWiki Syntax 2.0 ist es möglich, den verschiedenen Syntax-Elementen und auch Textblöcken Parameter mitzugeben. Das wird zum Beispiel verwendet, um den XHTML "style" zu setzen. Sie können jedes beliebige Schlüssel/Wert Parameter-Paar eintragen. Der XHTML Renderer wird diese Parameter als XHTML Attribute an das jeweils zu Grunde liegenden XHTML Syntax-Element weiterreichen. In der XWiki Syntax 1.0 gab es keine Syntax für die Weitergabe von Parametern. Der einzige Weg die Formatierung zu erreichen, war das direkte Schreiben von XHTML in den Beitrag, wie in der Tabelle unten beschrieben.
+Mit der XWiki Syntax 2.0 ist es möglich Parameter an die verschiedenen Syntaxelemente und auch an Textblöcke weiterzugeben. Dies wird beispielsweise benutzt um diese zu gestalten. Sie können jegliche Parameterschlüssel/Wertepaare verwenden, die Sie möchten. Der XHTML Renderer wird diese Parameter als XHTML Attribute an die zugrundeliegende XHTML Representation der verschiedenen Syntaxelemente weitergeben. In XWiki Syntax 1.0 gab es keine Syntax für das Übergeben von Parametern und die einzige Möglichkeit dies zu tun war es direkt XHTML in den Inhalt zu schreiben, wie in der nachstehenden Tabelle gezeigt.
 
-(% style="WIDTH: 100%" %)
-|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=erstelltes XHTML
-|(((
-{{{&lt;h1 class="myClass" style="myStyle" id="myId"&gt;Überschrift&lt;/h1&gt;
-}}}
-)))|(((
-{{{(% class="myClass" style="myStyle" id="myId" %)
+(% style="width:100%" %)
+|=XWiki Syntax 1.0|=XWiki Syntax 2.0|=Generiertes XHTML
+|((({{{
+&lt;h1 class="meineKlasse" style="meinStil" id="meineID"&gt;Überschrift&lt;/h1&gt;
+}}})))|((({{{
+(% class="meineKlasse" style="meinStil" id="meineID" %)
 = Überschrift =
-}}}
-)))|(((
-{{{&lt;h1 class="myClass" style="myStyle" id="myId"&gt;Überschrift&lt;/h1&gt;
-}}}
-)))
+}}})))|((({{{
+&lt;h1 class="meineKlasse" style="meinStil" id="meineID"&gt;Überschrift&lt;/h1&gt;
+}}})))
 
 {{id name="syntaxes"/}}
+= Weitere Syntaxen =
 
-= Andere Syntaxen =
-
-Die folgenden anderen Syntaxen werden ab XWiki Enterprise 1.6 unterstützt:
-
+Die folgenden weiteren Syntaxen sind in XWiki Enterprise 1.6 und später implementiert:
 * [[JSPWiki&gt;&gt;http://www.jspwiki.org/wiki/TextFormattingRules]]
 * [[MediaWiki&gt;&gt;http://en.wikipedia.org/wiki/Help:Editing]]
 * [[Confluence&gt;&gt;http://confluence.atlassian.com/display/CONF20/Confluence+Notation+Guide+Overview]]
@@ -906,7 +875,5 @@ Die folgenden anderen Syntaxen werden ab XWiki Enterprise 1.6 unterstützt:
 * [[Creole 1.0&gt;&gt;http://www.wikicreole.org/wiki/Creole1.0]]
 * [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
 
-{{warning}}
-Die Implementierung für diese Syntaxen ist noch nicht beendet. Zum Beispiel arbeitet die Unterstützung für Links noch nicht vollständig. Wir müssen auch definieren, ob wir die ursprünglichen Syntaxen erweitern wollen, um XWiki spezifische Feature zu unterstützen, wie die Fähigkeit sich mit einem sub-wiki zu verbinden.
-{{/warning}}
-</content></xwikidoc>
+{{warning}}Die Implementation einiger dieser Syntaxen ist noch nicht vollständig fertig. Beispielsweise funktioniert die Unterstützung für Links noch nicht perfekt. Wir müssen zu dem definieren, ob wir die originalen Syntaxen erweitern wollen um XWiki-spezifische Funktionen, wie die Möglichkeit zu einem anderen Unterwiki zu verlinken, zu unterstützen.{{/warning}}</content>
+</xwikidoc>

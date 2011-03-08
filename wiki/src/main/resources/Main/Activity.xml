@@ -146,6 +146,166 @@ document.observe('xwiki:dom:loaded', function() {
 </object>
 <object>
 <class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Main.Activity</name>
+<number>1</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>59b5afe8-fb0e-4c4a-b92d-5b2f5ab58132</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>var XWiki = (function (XWiki) {
+// Start XWiki augmentation.
+XWiki.UserStatus = Class.create({
+  initialize : function() {
+    this.prepareForms();
+  },
+  prepareForms: function() {
+    $$('.activity form.userstatus').each(function(usForm){
+      usForm.action = usForm.action.replace(/xredirect=.*$/, 'xpage=plain');
+      usForm._activityContainer = usForm.up('.usForm-activityContainer');
+      if (!usForm._activityContainer) {
+        usForm._activityContainer = Element.wrap(usForm.up('.activity'), 'div');
+        usForm._activityContainer.addClassName('usForm-activityContainer');
+      }
+      usForm.observe('submit', function(event) {
+        event.stop();
+        if (usForm._disabled == true || usForm.down('textarea').value == '') {
+          return;
+        }
+        new Ajax.Updater(
+          {success: usForm._activityContainer},
+          usForm.action, {
+            parameters: usForm.serialize(true),
+            onCreate: function() {
+              usForm._disabled = true;
+              usForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.inProgress')", 'inprogress');
+            },
+            onSuccess: function() {
+              if (usForm &amp;&amp; usForm._notification) {
+                usForm._notification.hide();
+              }
+            },
+            onFailure: function(response) {
+              var failureReason = '';
+              if (response.statusText == '' /* No response */ || response.status == 12031 /* In IE */) {
+                failureReason = 'Server not responding';
+              } else {
+                failureReason = response.statusText;
+              }
+              if (usForm) {
+                usForm._disabled = false
+                if (usForm._notification) {
+                  usForm._notification.hide();
+                }
+                usForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.failed')" + failureReason, 'error');
+              }
+            },
+            on1223 : function(response) { /*SUCCESS*/
+              response.request.options.onSuccess(response);
+            },
+            on0 : function(response) {  /*FAILURE*/
+              response.request.options.onFailure(response);
+            },
+            onComplete: function() {
+              this.prepareForms();
+            }.bind(this)
+          }
+        );
+      }.bindAsEventListener(this));
+    }.bind(this));
+  }
+});
+// End XWiki augmentation.
+return XWiki;
+}(XWiki || {}));
+
+document.observe('xwiki:dom:loaded', function() {
+  new XWiki.UserStatus();
+}); </code>
+</property>
+<property>
+<name>User status update</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>currentPage</use>
+</property>
+</object>
+<object>
+<class>
 <name>XWiki.RequiredRightClass</name>
 <customClass></customClass>
 <customMapping></customMapping>
@@ -669,7 +829,8 @@ $xwiki.ssx.use("Main.Activity")##
   'updateAttachment': 'icons/xwiki/attach_edit.png',
   'addComment':       'icons/silk/comment_add.gif',
   'deleteComment':    'icons/silk/comment_delete.gif',
-  'updateComment':    'icons/silk/comment_edit.gif'
+  'updateComment':    'icons/silk/comment_edit.gif',
+  'personalMessage':  'icons/silk/user_comment.gif'
 })
 ##
 ## Date Time
@@ -748,8 +909,10 @@ $xwiki.ssx.use("Main.Activity")##
 ## Spaces
 #updateFilterClause('space' $aSpaces false)
 ## BLACKLISTED SPACES - exclude them
-#if ($blacklistedSpaces)
+#if ($blacklistedSpaces &amp;&amp; $blacklistedSpaces.size() &gt; 0)
+  #set ($filterClause = $filterClause + ' and (act.application = ''MessageStream'' or 1=1 ')
   #updateFilterClause('space' $blacklistedSpaces true)
+  #set ($filterClause = $filterClause + ')')
 #end
 ## Wikis
 #updateFilterClause('wiki' $aWikis false)
@@ -925,6 +1088,15 @@ $xwiki.ssx.use("Main.Activity")##
   #end
 #end
 #**
+  * Check if the current event is a message in the MessageStream application
+  *#
+#macro(isMessageEvent)
+  #set ($isMessageEvent = false)
+  #if ($event.application == 'MessageStream')
+    #set ($isMessageEvent = true)
+  #end
+#end
+#**
   * Get comment content
   *#
 #macro(getCommentContent $event $commentContent)
@@ -1046,6 +1218,7 @@ $xwiki.ssx.use("Main.Activity")##
   #end
   #isToday()
   #isYesterday()
+  #isMessageEvent()
   #isCommentEvent()
   #isAnnotationEvent()
   #if("$!timeAgoMsg" == '')
@@ -1090,6 +1263,14 @@ $xwiki.ssx.use("Main.Activity")##
     #else
       $!event.param2
     #end
+  &lt;/div&gt;
+#end
+#**
+  * Display a user message
+  *#
+#macro(displayMessage $event)
+  &lt;div class="message"&gt;
+   $!event.getBody()
   &lt;/div&gt;
 #end
 #**
@@ -1165,7 +1346,7 @@ $xwiki.ssx.use("Main.Activity")##
   #isEventEntryExpandable($event)
   &lt;li class="activityItem #if($isEventEntryExpandable) collapsed #end"&gt;
     #displayActivityListItemHeader(false false $isEventEntryExpandable)
-    #if ($isEventEntryExpandable)
+    #if ($isEventEntryExpandable || $isMessageEvent)
       &lt;div class="activityContent"&gt;
         #if ($isAttachmentEvent)
           #foreach ($event in $xwiki.activitystream.getRelatedEvents($event))
@@ -1175,7 +1356,9 @@ $xwiki.ssx.use("Main.Activity")##
             #end
           #end
         #end
-        #if ($isCommentEvent)
+        #if ($isMessageEvent)
+          #displayMessage($event)
+        #elseif ($isCommentEvent)
           #displayComment($event)
         #elseif ($isAnnotationEvent &amp;&amp; $isEventEntryExpandable)
           #displayAnnotation($event)
@@ -1199,6 +1382,7 @@ $xwiki.ssx.use("Main.Activity")##
     #end
     &lt;span class="activityAuthor"&gt;
       #if ($isFirstEntry)
+        #if ($event.application != 'MessageStream')
         #set ($pageFullName = "$!{event.wiki}:$!{pageName}")
         #set ($pageTitle = "$!{xwiki.getDocument($pageFullName).displayTitle}")
         #if ($pageTitle == '')
@@ -1207,6 +1391,7 @@ $xwiki.ssx.use("Main.Activity")##
         &lt;a href="$xwiki.getURL(${pageFullName})" class="typePage type"&gt;
           $!{escapetool.xml($pageTitle)}
         &lt;/a&gt;
+        #end
       #else
         $xwiki.getUserName($!event.user)
       #end
@@ -1320,7 +1505,7 @@ $xwiki.ssx.use("Main.Activity")##
       ## -------------------------------------------------------------------
       #set ($pageName = $page.get(0))
       #set ($pageDate = $page.get(1))
-      #if ($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${pageName}") &amp;&amp; !$iterationDocuments.contains($pageName))
+      #if (($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${pageName}") &amp;&amp; !$iterationDocuments.contains($pageName)) || $pageName.matches(".*:XWiki[.][0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}"))
         ##
         ## Get event list for the current page
         ## -------------------------------------------------------------------
@@ -1357,7 +1542,39 @@ $xwiki.ssx.use("Main.Activity")##
 
 {{velocity}}
 {{html}}
+&lt;div class="activity"&gt;
+#if (!$isGuest)
+  #if ("$!{request.xaction}" == 'postMessage')
+    #if (!$services.messageStream.postPersonalMessage($request.messagestream_message))
+      {{error}}$msg.get('xe.activity.messages.submit.failed'){{/error}}
+    #elseif ("$!{request.xredirect}" != '')
+      $response.sendRedirect(${request.xredirect})
+    #end
+  #end
+  #set ($actionQueryString = "&amp;xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")
+  #foreach ($param in $xcontext.macro.params.getParameterNames())
+    #set ($value = "$!{xcontext.macro.params.get($param)}")
+    #if ($value != '')
+      #foreach($piece in $value.split("\s*,\s*"))
+        #set($actionQueryString = "${param}=$!{piece}&amp;$!{actionQueryString}")
+      #end
+    #end
+  #end
+  &lt;form action="${xwiki.getURL('Main.Activity', 'view', $actionQueryString)}" method="post" class="userstatus activityUser xform"&gt;
+    &lt;div class="activityContent"&gt;
+      &lt;input type="hidden" name="xaction" value="postMessage" /&gt;
+      #activitySnapshot($context.user, 'personalMessage')
+      &lt;div&gt;
+      &lt;textarea name="messagestream_message"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;div class="userstatus-tools"&gt;
+        &lt;span class="butonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.activity.messages.submit')" class="button"/&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+#end
   #displayActivity()
+&lt;/div&gt;
 {{/html}}
 {{/velocity}}</code>
 </property>

@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-rest-server</artifactId>
+      <artifactId>xwiki-core-rest-server</artifactId>
       <version>${platform.core.version}</version>
     </dependency>
     <dependency>

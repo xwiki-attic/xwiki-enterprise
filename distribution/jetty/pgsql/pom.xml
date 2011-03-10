@@ -33,19 +33,6 @@
   <name>XWiki Products - Enterprise - Distribution - Jetty - PGSQL</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - Jetty - PGSQL</description>
-  <properties>
-    <xwiki.db>pgsql</xwiki.db>
-    <xwiki.db.jdbc.groupId>postgresql</xwiki.db.jdbc.groupId>
-    <xwiki.db.jdbc.artifactId>postgresql</xwiki.db.jdbc.artifactId>
-    <xwiki.db.jdbc.version>8.3-603.jdbc3</xwiki.db.jdbc.version>
-    <xwiki.db.connection.url>jdbc:postgresql:xwiki</xwiki.db.connection.url>
-    <xwiki.db.connection.username>xwiki</xwiki.db.connection.username>
-    <xwiki.db.connection.password>xwiki</xwiki.db.connection.password>
-    <xwiki.db.connection.driver_class>org.postgresql.Driver</xwiki.db.connection.driver_class>
-    <xwiki.db.dialect>org.hibernate.dialect.PostgreSQLDialect</xwiki.db.dialect>
-    <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
-    <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
-  </properties>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->

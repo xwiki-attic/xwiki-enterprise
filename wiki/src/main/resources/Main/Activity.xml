@@ -1565,7 +1565,7 @@ $xwiki.ssx.use("Main.Activity")##
       &lt;input type="hidden" name="xaction" value="postMessage" /&gt;
       #activitySnapshot($context.user, 'personalMessage')
       &lt;div&gt;
-      &lt;textarea name="messagestream_message"&gt;&lt;/textarea&gt;
+      &lt;textarea name="messagestream_message" rows="3" cols="40"&gt;&lt;/textarea&gt;
       &lt;/div&gt;
       &lt;div class="userstatus-tools"&gt;
         &lt;span class="butonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.activity.messages.submit')" class="button"/&gt;&lt;/span&gt;

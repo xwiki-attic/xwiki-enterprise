@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-jetty</artifactId>
-    <version>3.0-SNAPSHOT</version>
+    <version>3.0-milestone-3</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-pgsql</artifactId>
   <name>XWiki Products - Enterprise - Distribution - Jetty - PGSQL</name>

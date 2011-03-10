@@ -76,9 +76,7 @@
           </configuration>
           <executions>
             <execution>
-              <!-- Right phase is prepare-package, but it is only in maven-2.1
-              <phase>prepare-package</phase>-->
-              <phase>package</phase>
+              <phase>prepare-package</phase>
               <goals>
                 <goal>unxar</goal>
               </goals>
@@ -97,11 +95,6 @@
             </hibernateConfig>
           </configuration>
           <dependencies>
-            <dependency>
-              <groupId>${xwiki.db.jdbc.groupId}</groupId>
-              <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
-              <version>${xwiki.db.jdbc.version}</version>
-            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
             <dependency>
@@ -112,9 +105,7 @@
           </dependencies>
           <executions>
             <execution>
-              <!-- Right phase is prepare-package, but it is only in maven-2.1
-              <phase>prepare-package</phase>-->
-              <phase>package</phase>
+              <phase>prepare-package</phase>
               <goals>
                 <goal>import</goal>
               </goals>

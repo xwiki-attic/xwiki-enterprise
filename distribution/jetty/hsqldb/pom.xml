@@ -33,6 +33,19 @@
   <name>XWiki Products - Enterprise - Distribution - Jetty - HSQLDB</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - Jetty - HSQLDB</description>
+  <properties>
+    <xwiki.db>hsqldb</xwiki.db>
+    <xwiki.db.jdbc.groupId>hsqldb</xwiki.db.jdbc.groupId>
+    <xwiki.db.jdbc.artifactId>hsqldb</xwiki.db.jdbc.artifactId>
+    <xwiki.db.jdbc.version>1.8.0.7</xwiki.db.jdbc.version>
+    <xwiki.db.connection.url>jdbc:hsqldb:file:database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+    <xwiki.db.connection.username>sa</xwiki.db.connection.username>
+    <xwiki.db.connection.password />
+    <xwiki.db.connection.driver_class>org.hsqldb.jdbcDriver</xwiki.db.connection.driver_class>
+    <xwiki.db.dialect>org.hibernate.dialect.HSQLDialect</xwiki.db.dialect>
+    <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
+    <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

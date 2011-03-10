@@ -33,6 +33,17 @@
   <name>XWiki Products - Enterprise - Distribution - Jetty - Derby</name>
   <packaging>pom</packaging>
   <description>XWiki Products - Enterprise - Distribution - Jetty - Derby</description>
+  <properties>
+    <xwiki.db>derby</xwiki.db>
+    <xwiki.db.jdbc.groupId>org.apache.derby</xwiki.db.jdbc.groupId>
+    <xwiki.db.jdbc.artifactId>derby</xwiki.db.jdbc.artifactId>
+    <xwiki.db.jdbc.version>10.2.2.0</xwiki.db.jdbc.version>
+    <xwiki.db.connection.url>jdbc:derby:database;create=true</xwiki.db.connection.url>
+    <xwiki.db.connection.driver_class>org.apache.derby.jdbc.EmbeddedDriver</xwiki.db.connection.driver_class>
+    <xwiki.db.dialect>org.hibernate.dialect.DerbyDialect</xwiki.db.dialect>
+    <xwiki.db.hbm.xwiki>xwiki.derby.hbm.xml</xwiki.db.hbm.xwiki>
+    <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

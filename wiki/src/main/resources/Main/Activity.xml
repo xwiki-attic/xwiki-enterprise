@@ -232,7 +232,11 @@ XWiki.UserStatus = Class.create({
   },
   prepareForms: function() {
     $$('.activity form.userstatus').each(function(usForm){
-      usForm.action = usForm.action.replace(/xredirect=.*$/, 'xpage=plain');
+      if (this.__action) {
+         usForm.action = this.__action;
+      } else {
+         this.__action = usForm.action = usForm.action.replace(/xredirect=.*$/, 'xpage=plain')
+      }
       usForm._activityContainer = usForm.up('.usForm-activityContainer');
       if (!usForm._activityContainer) {
         usForm._activityContainer = Element.wrap(usForm.up('.activity'), 'div');

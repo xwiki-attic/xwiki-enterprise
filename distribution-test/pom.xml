@@ -278,8 +278,10 @@
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Rights
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Users
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Groups
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Templates
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=XWiki.OfficeImporterAdmin
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Annotations
+                  /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Invitation
                   /xwiki/bin/admin/XWiki/XWikiPreferences?editor=globaladmin&amp;section=Search
                   /xwiki/bin/import/XWiki/Import?editor=globaladmin&amp;section=Import
                   /xwiki/bin/export/XWiki/Export?editor=globaladmin&amp;section=Export

@@ -246,6 +246,7 @@
                     templates/attach\.vm <!-- only redirects to attachments.vm -->
                     templates/deleteversionsconfirm\.vm <!-- needs both rev1 and rev2, otherwise returns 400 (Bad Request) -->
                     templates/deletegroupmember\.vm <!-- does not produce any output, expects "fullname" to be a valid user name -->
+                    templates/deprecatedMacros\.vm <!-- does not produce any output -->
                     templates/docalreadyexists\.vm <!-- returns 409 and shows an error message -->
                     templates/get\.vm <!-- just renders the page content using rendercontent.vm -->
                     templates/recyclebin\.vm <!-- output only comes from contentview.vm and docextra.vm parameter "id" must be an integer -->

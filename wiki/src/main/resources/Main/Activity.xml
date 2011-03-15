@@ -852,6 +852,12 @@ $xwiki.ssx.use("Main.Activity")##
 #set ($eventFullDateFormatter = 'yyyy/MM/dd HH:mm')
 #set ($activityListDateFormatter = 'dd MMM')
 ##
+## User status configuration
+## -------------------------------------------------------------
+#set ($config = 'XWiki.MessageStreamConfig')
+#set ($isMessageStreamActive = ("$!{xwiki.getDocument($config).getObject($config).getProperty('active').value}" == '1'))
+## TODO: filter out user statuses from the activity stream if inactive
+##
 ## Filter clause
 ##--------------------------------------------------------------
 #set ($filterClause = '1=1')
@@ -1547,7 +1553,7 @@ $xwiki.ssx.use("Main.Activity")##
 {{velocity}}
 {{html}}
 &lt;div class="activity"&gt;
-#if (!$isGuest)
+#if ($isMessageStreamActive &amp;&amp; !$isGuest)
   #if ("$!{request.xaction}" == 'postMessage')
     #if (!$services.messageStream.postPersonalMessage($request.messagestream_message))
       {{error}}$msg.get('xe.activity.messages.submit.failed'){{/error}}

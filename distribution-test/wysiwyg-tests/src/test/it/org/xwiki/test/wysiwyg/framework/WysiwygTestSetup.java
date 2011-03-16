@@ -91,53 +91,34 @@ public class WysiwygTestSetup extends TestSetup
      */
     private void enableAllEditingFeatures(AbstractWysiwygTestCase helperTest)
     {
-        // login as admin and enable editing features.
+        // Login as admin and enable editing features.
         helperTest.loginAsAdmin();
         Map<String, String> config = new HashMap<String, String>();
-        config.put("wysiwyg.plugins", "submit readonly line separator embed text valign list "
+        config.put("plugins", "submit readonly line separator embed text valign list "
             + "indent history format symbol link image " + "table macro import color justify font");
-        config.put("wysiwyg.toolbar", "bold italic underline strikethrough teletype | subscript superscript | "
+        config.put("toolBar", "bold italic underline strikethrough teletype | subscript superscript | "
             + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
             + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | "
             + " paste | macro:velocity");
-        updateXWikiPreferences(config, helperTest);
+        updateConfiguration(config, helperTest);
     }
 
     /**
-     * Updates XWiki preferences based on the given configuration object. The key in the configuration is the name of a
-     * XWiki preference and the value is the new value for that preference.
+     * Updates the WYSIWYG editor configuration based on the given configuration object. The key in the configuration is
+     * the name of a {@code XWiki.WysiwygEditorConfigClass} property and the value is the new value for that property.
      * 
      * @param config configuration object
      * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
      */
-    private void updateXWikiPreferences(Map<String, String> config, AbstractWysiwygTestCase helperTest)
+    private void updateConfiguration(Map<String, String> config, AbstractWysiwygTestCase helperTest)
     {
-        helperTest.open("XWiki", "XWikiPreferences", "edit", "editor=object");
+        helperTest.open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
         for (Map.Entry<String, String> entry : config.entrySet()) {
-            String propertyId = "XWiki.XWikiPreferences_0_" + entry.getKey();
-            if (!helperTest.isElementPresent(propertyId)) {
-                addXWikiStringPreference(entry.getKey(), helperTest);
-            }
+            String propertyId = "XWiki.WysiwygEditorConfigClass_0_" + entry.getKey();
             if (!entry.getValue().equals(helperTest.getFieldValue(propertyId))) {
                 helperTest.setFieldValue(propertyId, entry.getValue());
                 helperTest.clickEditSaveAndContinue();
             }
         }
-    }
-
-    /**
-     * Adds a string property to the XWiki.XWikiPreferences class.
-     * 
-     * @param name the property name
-     * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
-     */
-    private void addXWikiStringPreference(String name, AbstractWysiwygTestCase helperTest)
-    {
-        String location = helperTest.getSelenium().getLocation();
-        helperTest.open("XWiki", "XWikiPreferences", "edit", "editor=class");
-        helperTest.setFieldValue("propname", name);
-        helperTest.getSelenium().select("proptype", "String");
-        helperTest.clickEditAddProperty();
-        helperTest.getSelenium().open(location);
     }
 }

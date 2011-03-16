@@ -19,8 +19,9 @@
  */
 package org.xwiki.test.wysiwyg;
 
-import com.thoughtworks.selenium.Wait;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import com.thoughtworks.selenium.Wait;
 
 /**
  * Functional tests for font support inside the WYSIWYG editor.
@@ -48,9 +49,9 @@ public class FontTest extends AbstractWysiwygTestCase
     {
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
-        applyFontSize("24pt");
+        applyFontSize("24px");
         switchToSource();
-        assertSourceText("a(% style=\"font-size: 24pt;\" %)b(%%)c");
+        assertSourceText("a(% style=\"font-size: 24px;\" %)b(%%)c");
     }
 
     /**
@@ -73,9 +74,9 @@ public class FontTest extends AbstractWysiwygTestCase
         typeText("abc");
         select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
         applyFontName("Arial");
-        applyFontSize("18pt");
+        applyFontSize("18px");
         switchToSource();
-        assertSourceText("a(% style=\"font-family: Arial; font-size: 18pt;\" %)b(%%)c");
+        assertSourceText("a(% style=\"font-family: Arial; font-size: 18px;\" %)b(%%)c");
     }
 
     /**
@@ -87,7 +88,7 @@ public class FontTest extends AbstractWysiwygTestCase
         setSourceText("(% style=\"font-size: 24px; font-family: foo,verdana,sans-serif\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontSize("18pt");
+        waitForDetectedFontSize("24px");
         waitForDetectedFontName("Verdana");
     }
 
@@ -134,11 +135,10 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testDetectUnlistedFontSize()
     {
         switchToSource();
-        // 22px is equivalent to 16pt. By default the font size list includes 14pt and 18pt but not 16pt.
-        setSourceText("(% style=\"font-size: 22px\" %)\nabc");
+        setSourceText("(% style=\"font-size: 21px\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontSize("22px");
+        waitForDetectedFontSize("21px");
     }
 
     /**

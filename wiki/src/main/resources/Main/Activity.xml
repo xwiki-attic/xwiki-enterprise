@@ -244,7 +244,7 @@ XWiki.MessageStream = Class.create({
       }
       msForm.observe('submit', function(event) {
         event.stop();
-        if (msForm._disabled == true || msForm.down('textarea').value == '') {
+        if (msForm._disabled == true || msForm.down('textarea').value.strip() == '') {
           return;
         }
         new Ajax.Updater(
@@ -1557,7 +1557,13 @@ $xwiki.ssx.use("Main.Activity")##
 &lt;div class="activity"&gt;
 #if ($isMessageStreamActive &amp;&amp; !$isGuest)
   #if ("$!{request.xaction}" == 'postMessage')
-    #if (!$services.messageStream.postPersonalMessage($request.messagestream_message))
+    #set ($message = "$!{request.messagestream_message.trim()}")
+    #if ($message == '')
+      ## Do nothing with empty messages
+      #if ("$!{request.xredirect}" != '')
+        $response.sendRedirect(${request.xredirect})
+      #end
+    #elseif (!$services.messageStream.postPersonalMessage($request.messagestream_message))
       {{error}}$msg.get('xe.activity.messages.submit.failed'){{/error}}
     #elseif ("$!{request.xredirect}" != '')
       $response.sendRedirect(${request.xredirect})

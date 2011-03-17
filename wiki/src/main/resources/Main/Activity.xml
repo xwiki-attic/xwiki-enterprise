@@ -3,16 +3,16 @@
 <web>Main</web>
 <name>Activity</name>
 <language></language>
-<defaultLanguage>en</defaultLanguage>
+<defaultLanguage></defaultLanguage>
 <translation>0</translation>
 <parent>Main.Dashboard</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1252458000000</creationDate>
-<date>1297362640000</date>
-<contentUpdateDate>1297362640000</contentUpdateDate>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1300377394000</date>
+<contentUpdateDate>1300377394000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.activity")</title>
 <template></template>
@@ -226,38 +226,38 @@ document.observe('xwiki:dom:loaded', function() {
 <property>
 <code>var XWiki = (function (XWiki) {
 // Start XWiki augmentation.
-XWiki.UserStatus = Class.create({
+XWiki.MessageStream = Class.create({
   initialize : function() {
     this.prepareForms();
   },
   prepareForms: function() {
-    $$('.activity form.userstatus').each(function(usForm){
+    $$('.activity form.messagestream').each(function(msForm) {
       if (this.__action) {
-         usForm.action = this.__action;
+         msForm.action = this.__action;
       } else {
-         this.__action = usForm.action = usForm.action.replace(/xredirect=.*$/, 'xpage=plain')
+         this.__action = msForm.action = msForm.action.replace(/xredirect=.*$/, 'xpage=plain')
       }
-      usForm._activityContainer = usForm.up('.usForm-activityContainer');
-      if (!usForm._activityContainer) {
-        usForm._activityContainer = Element.wrap(usForm.up('.activity'), 'div');
-        usForm._activityContainer.addClassName('usForm-activityContainer');
+      msForm._activityContainer = msForm.up('.msForm-activityContainer');
+      if (!msForm._activityContainer) {
+        msForm._activityContainer = Element.wrap(msForm.up('.activity'), 'div');
+        msForm._activityContainer.addClassName('msForm-activityContainer');
       }
-      usForm.observe('submit', function(event) {
+      msForm.observe('submit', function(event) {
         event.stop();
-        if (usForm._disabled == true || usForm.down('textarea').value == '') {
+        if (msForm._disabled == true || msForm.down('textarea').value == '') {
           return;
         }
         new Ajax.Updater(
-          {success: usForm._activityContainer},
-          usForm.action, {
-            parameters: usForm.serialize(true),
+          {success: msForm._activityContainer},
+          msForm.action, {
+            parameters: msForm.serialize(true),
             onCreate: function() {
-              usForm._disabled = true;
-              usForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.inProgress')", 'inprogress');
+              msForm._disabled = true;
+              msForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.inProgress')", 'inprogress');
             },
             onSuccess: function() {
-              if (usForm &amp;&amp; usForm._notification) {
-                usForm._notification.hide();
+              if (msForm &amp;&amp; msForm._notification) {
+                msForm._notification.hide();
               }
             },
             onFailure: function(response) {
@@ -267,12 +267,12 @@ XWiki.UserStatus = Class.create({
               } else {
                 failureReason = response.statusText;
               }
-              if (usForm) {
-                usForm._disabled = false
-                if (usForm._notification) {
-                  usForm._notification.hide();
+              if (msForm) {
+                msForm._disabled = false
+                if (msForm._notification) {
+                  msForm._notification.hide();
                 }
-                usForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.failed')" + failureReason, 'error');
+                msForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.failed')" + failureReason, 'error');
               }
             },
             on1223 : function(response) { /*SUCCESS*/
@@ -295,7 +295,7 @@ return XWiki;
 }(XWiki || {}));
 
 document.observe('xwiki:dom:loaded', function() {
-  new XWiki.UserStatus();
+  new XWiki.MessageStream();
 }); </code>
 </property>
 <property>
@@ -855,7 +855,9 @@ $xwiki.ssx.use("Main.Activity")##
 ## User status configuration
 ## -------------------------------------------------------------
 #set ($config = 'XWiki.MessageStreamConfig')
-#set ($isMessageStreamActive = ("$!{xwiki.getDocument($config).getObject($config).getProperty('active').value}" == '1'))
+#set ($configClass = $xwiki.getDocument($config).getxWikiClass())
+#set ($configObj = $xwiki.getDocument($config).getObject($config))
+#set ($isMessageStreamActive = ("$configObj.getProperty('active').value" == '1'))
 ## TODO: filter out user statuses from the activity stream if inactive
 ##
 ## Filter clause
@@ -1393,14 +1395,14 @@ $xwiki.ssx.use("Main.Activity")##
     &lt;span class="activityAuthor"&gt;
       #if ($isFirstEntry)
         #if ($event.application != 'MessageStream')
-        #set ($pageFullName = "$!{event.wiki}:$!{pageName}")
-        #set ($pageTitle = "$!{xwiki.getDocument($pageFullName).displayTitle}")
-        #if ($pageTitle == '')
-          #set ($pageTitle = $pageName)
-        #end
-        &lt;a href="$xwiki.getURL(${pageFullName})" class="typePage type"&gt;
-          $!{escapetool.xml($pageTitle)}
-        &lt;/a&gt;
+          #set ($pageFullName = "$!{event.wiki}:$!{pageName}")
+          #set ($pageTitle = "$!{xwiki.getDocument($pageFullName).displayTitle}")
+          #if ($pageTitle == '')
+            #set ($pageTitle = $pageName)
+          #end
+          &lt;a href="$xwiki.getURL(${pageFullName})" class="typePage type"&gt;
+            $!{escapetool.xml($pageTitle)}
+          &lt;/a&gt;
         #end
       #else
         $xwiki.getUserName($!event.user)
@@ -1570,14 +1572,14 @@ $xwiki.ssx.use("Main.Activity")##
       #end
     #end
   #end
-  &lt;form action="${xwiki.getURL('Main.Activity', 'view', $actionQueryString)}" method="post" class="userstatus activityUser xform"&gt;
+  &lt;form action="${xwiki.getURL('Main.Activity', 'view', $actionQueryString)}" method="post" class="messagestream activityUser xform"&gt;
     &lt;div class="activityContent"&gt;
       &lt;input type="hidden" name="xaction" value="postMessage" /&gt;
       #activitySnapshot($context.user, 'personalMessage')
-      &lt;div&gt;
-      &lt;textarea name="messagestream_message" rows="3" cols="40"&gt;&lt;/textarea&gt;
+      &lt;div class="messagestram-data"&gt;
+        &lt;textarea name="messagestream_message" rows="3" cols="40"&gt;&lt;/textarea&gt;
       &lt;/div&gt;
-      &lt;div class="userstatus-tools"&gt;
+      &lt;div class="messagestream-buttons"&gt;
         &lt;span class="butonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.activity.messages.submit')" class="button"/&gt;&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;

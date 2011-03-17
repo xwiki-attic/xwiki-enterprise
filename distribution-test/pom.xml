@@ -46,20 +46,8 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-tests</artifactId>
+      <artifactId>xwiki-commons-test</artifactId>
       <version>${commons.core.version}</version>
-      <scope>test</scope>
-      <!-- Make sure to exclude junit-dep since it conflicts with the junit dependency we're using. -->
-      <exclusions>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit-dep</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

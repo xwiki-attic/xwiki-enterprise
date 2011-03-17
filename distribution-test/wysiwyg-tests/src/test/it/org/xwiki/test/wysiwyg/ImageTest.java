@@ -584,7 +584,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     {
         // Insert an image with attribute that cannot be edited through the Edit Image wizard.
         switchToSource();
-        setSourceText("[[image:XWiki.AdminSheet@general.png||id=\"foobar\" "
+        setSourceText("[[image:XWiki.AdminSheet@export.png||id=\"foobar\" "
             + "title=\"abc\" foo=\"bar\" style=\"margin-top:12px\"]]");
         switchToWysiwyg();
 
@@ -602,7 +602,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText("[[image:XWiki.AdminSheet@general.png||foo=\"bar\" id=\"foobar\" "
+        assertSourceText("[[image:XWiki.AdminSheet@export.png||foo=\"bar\" id=\"foobar\" "
             + "style=\"margin-top: 12px; height: 7.5em; float: right;\" title=\"abc\" width=\"75px\"]]");
     }
 
@@ -666,7 +666,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     {
         // Insert two different images.
         switchToSource();
-        setSourceText("image:XWiki.AdminSheet@users.png\n\nimage:XWiki.AdminSheet@general.png");
+        setSourceText("image:XWiki.AdminSheet@users.png\n\nimage:XWiki.AdminSheet@export.png");
         switchToWysiwyg();
 
         // Edit the first image and check if it is selected in the image selector wizard step.
@@ -682,14 +682,14 @@ public class ImageTest extends AbstractWysiwygTestCase
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
-        assertImageSelected("XWiki", "AdminSheet", "general.png");
+        assertImageSelected("XWiki", "AdminSheet", "export.png");
 
         // Select a different image and refresh the image list to see if the edited image is reselected.
         selectImage("presentation.png");
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
         waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
             + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
-        waitForElement(getImageLocator("general.png"));
+        waitForElement(getImageLocator("export.png"));
     }
 
     /**

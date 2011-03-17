@@ -229,6 +229,7 @@ document.observe('xwiki:dom:loaded', function() {
 XWiki.MessageStream = Class.create({
   initialize : function() {
     this.prepareForms();
+    this.attachDeleteHandlers();
   },
   prepareForms: function() {
     $$('.activity form.messagestream').each(function(msForm) {
@@ -283,11 +284,47 @@ XWiki.MessageStream = Class.create({
             },
             onComplete: function() {
               this.prepareForms();
+              this.attachDeleteHandlers();
             }.bind(this)
           }
         );
       }.bindAsEventListener(this));
     }.bind(this));
+  },
+  attachDeleteHandlers : function () {
+    $$('.activity .activityItem .toolDelete').invoke('observe', 'click', function (event) {
+      event.stop();
+      var trigger = event.element();
+      trigger.blur();
+      if (trigger.disabled) {
+        // Do nothing if the button was already clicked and it's waiting for a response from the server.
+        return;
+      } else {
+        new XWiki.widgets.ConfirmedAjaxRequest(
+          /* Ajax request URL */
+          trigger.href.replace(/xredirect=.*$/, 'xpage=plain&amp;confirm=1'),
+          /* Ajax request parameters */
+          {
+            onCreate : function() {
+              // Disable the button, to avoid a cascade of clicks from impatient users
+              trigger.disabled = true;
+            },
+            onSuccess : function() {
+              // Remove the corresponding HTML element from the UI
+              trigger.up("li").remove();
+            },
+            onComplete : function() {
+              // In the end: re-enable the button
+              trigger.disabled = false;
+            }
+          },
+          /* Interaction parameters */
+          {
+            confirmationText: "$msg.get('xe.activity.messages.delete.confirm')"
+          }
+        );
+      }
+    });
   }
 });
 // End XWiki augmentation.
@@ -693,6 +730,119 @@ h1:hover .toolFilter .toolExpand {
 </property>
 <property>
 <use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>Main.Activity</name>
+<number>1</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>4667bba6-1665-4993-9337-73d1eb0663c1</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>#template('colorThemeInit.vm')
+
+.toolDelete {
+  color: $theme.notificationErrorColor !important;
+  cursor: pointer;
+  font-size: .9em;
+  font-weight: bold;
+  padding: 0 4px;
+  position: absolute;
+  right: 0;
+  top: 2px;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.activityItem:hover .toolDelete {
+  visibility: visible;
+}
+
+.toolDelete:hover {
+  text-decoration: none;
+}</code>
+</property>
+<property>
+<name>Message stream form styling</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>currentPage</use>
 </property>
 </object>
 <object>
@@ -1246,6 +1396,12 @@ $xwiki.ssx.use("Main.Activity")##
   &lt;a class='toolExpand'&gt;&amp;#9660;&lt;/a&gt;
 #end
 #**
+  * Display the delete tool for own event messages
+  *#
+#macro(toolDelete $eventID)
+  &lt;a class='toolDelete' href="$doc.getURL($context.action, "$request.queryString&amp;amp;xaction=deleteMessage&amp;amp;id=$eventID&amp;amp;xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")" title="$msg.get('xe.activity.messages.delete')"&gt;x&lt;/a&gt;
+#end
+#**
   * Display RSS URL
   *#
 #macro(displayRSSURL)
@@ -1431,6 +1587,10 @@ $xwiki.ssx.use("Main.Activity")##
     #if ($isEventEntryExpandable)
       #toolExpand('')
     #end
+    ## Users can delete their own messages from the stream
+    #if (($event.application == 'MessageStream') &amp;&amp; $isFirstEntry &amp;&amp; ($xwiki.getDocument("$!{event.user}").prefixedFullName == $xwiki.getDocument("$!{context.user}").prefixedFullName))
+       #toolDelete($event.getEventId())
+    #end
   &lt;/div&gt;
 #end
 #**
@@ -1568,8 +1728,31 @@ $xwiki.ssx.use("Main.Activity")##
     #elseif ("$!{request.xredirect}" != '')
       $response.sendRedirect(${request.xredirect})
     #end
+  #elseif ("$!{request.xaction}" == 'deleteMessage')
+    #if ($request.confirm == '1')
+      #if (!$services.messageStream.deleteMessage(${request.id}))
+        {{error}}$msg.get('xe.activity.messages.delete.failed'){{/error}}
+      #elseif ("$!{request.xredirect}" != '')
+        $response.sendRedirect(${request.xredirect})
+      #end
+    #else
+      &lt;form action="$doc.getURL($context.action, $!request.queryString))"&gt;
+        &lt;div class="xdialog-box xdialog-box-confirmation"&gt;&lt;div&gt;
+          &lt;div class="question"&gt;$msg.get('xe.activity.messages.delete.confirm')&lt;/div&gt;
+          &lt;div class="buttons"&gt;
+            &lt;input type="hidden" name="confirm" value="1"/&gt;
+            &lt;input type="hidden" name="xaction" value="deleteMessage"/&gt;
+            &lt;input type="hidden" name="id" value="$request.id"/&gt;
+            &lt;input type="hidden" name="xredirect" value="$request.xredirect"/&gt;
+            &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="$msg.get('core.widgets.confirmationBox.button.yes')" class="button"/&gt;&lt;/span&gt;
+            &lt;a class="secondary button" href="$request.xredirect"/&gt;$msg.get('core.widgets.confirmationBox.button.no')&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;&lt;/div&gt;
+      &lt;/form&gt;
+    #end
   #end
-  #set ($actionQueryString = "&amp;xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")
+  #set ($xredirectQueryParam = "xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")
+  #set ($actionQueryString = "&amp;${xredirectQueryParam}")
   #foreach ($param in $xcontext.macro.params.getParameterNames())
     #set ($value = "$!{xcontext.macro.params.get($param)}")
     #if ($value != '')

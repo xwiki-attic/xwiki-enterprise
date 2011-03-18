@@ -601,6 +601,12 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
 <code>#template("colorThemeInit.vm")
 #set ($boxSize = 170)
 #set ($boxPadding = 5)
+#set ($boxMargin = 5)
+## Make the upload box two times as wide, so that the input fits nicely.
+## |                                                     |
+## |                         |  |                        |
+## | 1 width + 1 border + 2 margins + 1 border + 1 width |
+#set ($uploadBoxSize = $mathtool.add(2, $mathtool.add($mathtool.mul($boxSize, 2), $mathtool.mul($boxMargin, 2))))
 #set ($imgSize = $mathtool.sub($boxSize, $mathtool.mul($boxPadding, 2)))
 #set ($actionsHeight = 20)
 #set ($actionsWidth = 16)
@@ -628,7 +634,7 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
   border: 1px solid $theme.borderColor;
   #__css3('border-radius: 5px')
   float: left;
-  margin: 5px;
+  margin: ${boxMargin}px;
   overflow: hidden;
   position: relative;
   width: ${boxSize}px;
@@ -743,6 +749,13 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
 }
 /*--------------------------------------------------*/
 /* Upload form                                      */
+.gallery_upload {
+  ## Make this box twice as large as the others
+  width: ${uploadBoxSize}px;
+}
+* html .gallery_upload {
+  width: ${mathtool.add($uploadBoxSize, 2)}px;
+}
 .gallery_upload, .gallery_upload:hover {
   background-color: $theme.backgroundSecondaryColor;
 }
@@ -761,7 +774,7 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
 }
 .gallery_upload input.attachment {
   margin: 0; /* Overrides viewers/attachments.css */
-  width: ${imgSize}px;
+  width: ${mathtool.sub($uploadBoxSize, $mathtool.mul($boxPadding, 2))}px;
 }
 .gallery_upload .buttonwrapper {
   margin: 0;
@@ -2057,7 +2070,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
     #if (${options.rawfilter} != '')
       &lt;span class="xHint"&gt;$msg.get("${translationPrefix}.upload.hint", [${options.rawfilter}])&lt;/span&gt;
     #end
-    &lt;input type="file" name="filepath" id="attachfile" class="attachment" size="6" title="${options.rawfilter}"/&gt;
+    &lt;input type="file" name="filepath" id="attachfile" class="attachment" size="30" title="${options.rawfilter}"/&gt;
     &lt;input type="hidden" name="xredirect" value="$xwiki.getDocument($attachmentPickerDocName).getURL('get', "xaction=postUpload&amp;docAction=$!{options.get('docAction')}&amp;docname=${targetDocument.fullName}&amp;fieldname=${options.get('classname')}_${options.get('object')}_${options.get('property')}")" /&gt;
     &lt;input type="hidden" name="docname" value="${targetDocument.fullName}" /&gt;
     &lt;input type="hidden" name="classname" value="$options.get('classname')" /&gt;

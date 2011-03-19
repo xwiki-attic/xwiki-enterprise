@@ -23,7 +23,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.RunWith;
-import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.test.XWikiExecutor;
 
 /**
  * Runs all functional tests found in the classpath and start/stop XWiki before/after the tests (only once).

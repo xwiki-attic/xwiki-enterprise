@@ -19,44 +19,32 @@
  */
 package org.xwiki.test.rest;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.xwiki.test.XWikiTestSetup;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.extensions.cpsuite.ClasspathSuite;
+import org.junit.runner.RunWith;
+import org.xwiki.test.integration.XWikiExecutor;
 
 /**
- * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
- * discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the tests
- * start (but only once).
- * 
+ * Runs all functional tests found in the classpath and start/stop XWiki before/after the tests (only once).
+ *
  * @version $Id$
  */
-public class AllTests extends TestCase
+@RunWith(ClasspathSuite.class)
+public class AllTests
 {
-    private static final String PATTERN = ".*" + System.getProperty("pattern", "");
+    /** This starts and stops the wiki engine. */
+    private static final XWikiExecutor executor = new XWikiExecutor(0);
 
-    public static Test suite() throws Exception
+    @BeforeClass
+    public static void init() throws Exception
     {
-        TestSuite suite = new TestSuite();
-        addTestCase(suite, RootResourceTest.class);
-        addTestCase(suite, SpacesResourceTest.class);
-        addTestCase(suite, PagesResourceTest.class);
-        addTestCase(suite, PageResourceTest.class);
-        addTestCase(suite, CommentsResourceTest.class);
-        addTestCase(suite, AttachmentsResourceTest.class);
-        addTestCase(suite, ObjectsResourceTest.class);
-        addTestCase(suite, ClassesResourceTest.class);
-        addTestCase(suite, WikisResourceTest.class);
-        addTestCase(suite, TagsResourceTest.class);
-        return new XWikiTestSetup(suite);
+        executor.start();
     }
 
-    @SuppressWarnings("unchecked")
-    private static void addTestCase(TestSuite suite, Class testClass) throws Exception
+    @AfterClass
+    public static void shutdown() throws Exception
     {
-        if (testClass.getName().matches(PATTERN)) {
-            suite.addTest(new TestSuite(testClass));
-        }
+        executor.stop();
     }
 }

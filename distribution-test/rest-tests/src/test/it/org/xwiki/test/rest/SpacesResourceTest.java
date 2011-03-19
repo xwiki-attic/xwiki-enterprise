@@ -21,6 +21,7 @@ package org.xwiki.test.rest;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.junit.*;
 import org.xwiki.rest.Relations;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.rest.model.jaxb.Attachment;
@@ -40,70 +41,73 @@ import org.xwiki.rest.resources.wikis.WikisResource;
 public class SpacesResourceTest extends AbstractHttpTest
 {
     @Override
+    @Test
     public void testRepresentation() throws Exception
     {
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-        assertTrue(wikis.getWikis().size() > 0);
+        Assert.assertTrue(wikis.getWikis().size() > 0);
 
         Wiki wiki = wikis.getWikis().get(0);
         Link link = getFirstLinkByRelation(wiki, Relations.SPACES);
-        assertNotNull(link);
+        Assert.assertNotNull(link);
 
         getMethod = executeGet(link.getHref());
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertTrue(spaces.getSpaces().size() > 0);
+        Assert.assertTrue(spaces.getSpaces().size() > 0);
 
         for (Space space : spaces.getSpaces()) {
             link = getFirstLinkByRelation(space, Relations.SEARCH);
-            assertNotNull(link);
+            Assert.assertNotNull(link);
 
             checkLinks(space);
         }
 
     }
 
+    @Test
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
             executeGet(String.format("%s?q=somethingthatcannotpossiblyexist", getUriBuilder(SpaceSearchResource.class)
                 .build(getWiki(), "Main")));
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(0, searchResults.getSearchResults().size());
+        Assert.assertEquals(0, searchResults.getSearchResults().size());
 
         getMethod =
             executeGet(String.format("%s?q=sandbox", getUriBuilder(WikiSearchResource.class)
                 .build(getWiki(), "Sandbox")));
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         int resultSize = searchResults.getSearchResults().size();
-        assertTrue("Found " + resultSize + " result", resultSize >= 2);
+        Assert.assertTrue("Found " + resultSize + " result", resultSize >= 2);
 
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);
         }
     }
 
+    @Test
     public void testAttachments() throws Exception
     {
         // Matches Sandbox.WebHome@XWikLogo.png
         GetMethod getMethod =
             executeGet(String.format("%s", getUriBuilder(SpaceAttachmentsResource.class).build(getWiki(), "Sandbox")));
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        assertEquals(getAttachmentsInfo(attachments), 1, attachments.getAttachments().size());
+        Assert.assertEquals(getAttachmentsInfo(attachments), 1, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);

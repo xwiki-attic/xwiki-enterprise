@@ -21,6 +21,7 @@ package org.xwiki.test.rest;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.junit.*;
 import org.xwiki.rest.Relations;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.rest.model.jaxb.Link;
@@ -30,21 +31,22 @@ import org.xwiki.rest.resources.RootResource;
 public class RootResourceTest extends AbstractHttpTest
 {
     @Override
+    @Test
     public void testRepresentation() throws Exception
     {
         GetMethod getMethod = executeGet(getFullUri(RootResource.class));
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Xwiki xwiki = (Xwiki) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         Link link = getFirstLinkByRelation(xwiki, Relations.WIKIS);
-        assertNotNull(link);
+        Assert.assertNotNull(link);
 
         link = getFirstLinkByRelation(xwiki, Relations.SYNTAXES);
-        assertNotNull(link);
+        Assert.assertNotNull(link);
 
         // link = xwikiRoot.getFirstLinkByRelation(Relations.WADL);
-        // assertNotNull(link);
+        // Assert.assertNotNull(link);
 
         checkLinks(xwiki);
     }

@@ -41,6 +41,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.junit.Assert;
+import org.junit.Before;
 import org.restlet.data.MediaType;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
@@ -53,10 +55,10 @@ import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
-import org.xwiki.test.AbstractXWikiComponentTestCase;
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.test.AbstractComponentTestCase;
+import org.xwiki.test.integration.XWikiExecutor;
 
-public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
+public abstract class AbstractHttpTest extends AbstractComponentTestCase
 {
     protected Random random;
 
@@ -69,7 +71,8 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
     protected int port = Integer.valueOf(XWikiExecutor.DEFAULT_PORT);
 
     @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
         super.setUp();
         random = new Random();
@@ -323,10 +326,10 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
     protected String getWiki() throws Exception
     {
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-        assertTrue(wikis.getWikis().size() > 0);
+        Assert.assertTrue(wikis.getWikis().size() > 0);
 
         return wikis.getWikis().get(0).getName();
     }
@@ -337,7 +340,7 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
             for (Link link : linkCollection.getLinks()) {
                 GetMethod getMethod = executeGet(link.getHref());
                 if (getMethod.getStatusCode() != HttpStatus.SC_UNAUTHORIZED) {
-                    assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+                    Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
                 }
             }
         }
@@ -371,7 +374,7 @@ public abstract class AbstractHttpTest extends AbstractXWikiComponentTestCase
         PutMethod putMethod = executePut(uri, content, javax.ws.rs.core.MediaType.TEXT_PLAIN, "Admin", "admin");
 
         int code = putMethod.getStatusCode();
-        assertTrue(String.format("Failed to set page content, %s", getHttpMethodInfo(putMethod)),
+        Assert.assertTrue(String.format("Failed to set page content, %s", getHttpMethodInfo(putMethod)),
             code == HttpStatus.SC_ACCEPTED || code == HttpStatus.SC_CREATED);
 
         return code;

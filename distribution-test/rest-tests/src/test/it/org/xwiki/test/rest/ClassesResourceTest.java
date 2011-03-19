@@ -22,8 +22,6 @@ package org.xwiki.test.rest;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.xwiki.test.integration.XWikiExecutorSuite;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.rest.model.jaxb.Class;
 import org.xwiki.rest.model.jaxb.Classes;

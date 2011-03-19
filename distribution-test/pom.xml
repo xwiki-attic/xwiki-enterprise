@@ -515,5 +515,6 @@
     <module>rest-tests</module>
     <module>cluster-tests</module>
     <module>escaping-tests</module>
+    <module>storage-tests</module>
   </modules>
 </project>

@@ -23,10 +23,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-import junit.framework.Test;
+import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.test.integration.XWikiTestSetup;
 
-import org.xwiki.test.XWikiExecutor;
-import org.xwiki.test.XWikiTestSetup;
+import junit.framework.Test;
 
 /**
  * Set clustering configuration and start two instances of XWiki.
@@ -47,7 +47,7 @@ public class XWikiClusterTestSetup extends XWikiTestSetup
     /**
      * {@inheritDoc}
      * 
-     * @see org.xwiki.test.XWikiTestSetup#setUp()
+     * @see XWikiTestSetup#setUp()
      */
     @Override
     protected void setUp() throws Exception

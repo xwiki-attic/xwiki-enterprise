@@ -22,7 +22,8 @@ package org.xwiki.test.xmlrpc.confluence;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.xwiki.test.XWikiTestSetup;
+
+import org.xwiki.test.integration.XWikiTestSetup;
 import org.xwiki.test.xmlrpc.*;
 import org.xwiki.test.xmlrpc.AttachmentsTest;
 import org.xwiki.test.xmlrpc.PagesTest;

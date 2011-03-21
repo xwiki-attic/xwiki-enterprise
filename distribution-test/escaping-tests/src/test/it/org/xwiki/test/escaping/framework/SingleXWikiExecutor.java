@@ -19,8 +19,7 @@
  */
 package org.xwiki.test.escaping.framework;
 
-import org.xwiki.test.XWikiExecutor;
-
+import org.xwiki.test.integration.XWikiExecutor;
 
 /**
  * Starts and stops exactly one XWiki instance. The methods {@link #start()} and {@link #stop()}

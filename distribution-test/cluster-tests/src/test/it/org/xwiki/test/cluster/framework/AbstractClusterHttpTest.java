@@ -19,16 +19,19 @@
  */
 package org.xwiki.test.cluster.framework;
 
+import org.junit.*;
+import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.XWikiExecutor;
 
 /**
  * Base class for REST based clustering integration test.
  * 
  * @version $Id$
  */
+// TODO: Fix this, it's wrong to reuse AbstractHttpTest from the REST Tests module
 public abstract class AbstractClusterHttpTest extends AbstractHttpTest
 {
+    @Test
     public void testRepresentation() throws Exception
     {
     }

@@ -19,14 +19,11 @@
  */
 package org.xwiki.test.webdav;
 
+import org.xwiki.test.integration.XWikiTestSetup;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.xwiki.test.webdav.DefaultWebDAVTest;
-import org.xwiki.test.XWikiTestSetup;
-import org.xwiki.test.webdav.RootViewTest;
-import org.xwiki.test.webdav.TempFileTest;
 
 /**
  * A class listing all the Functional tests to execute. We need such a class (rather than

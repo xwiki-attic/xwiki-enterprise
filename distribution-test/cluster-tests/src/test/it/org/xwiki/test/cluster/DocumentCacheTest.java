@@ -24,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
+import org.junit.*;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
@@ -38,28 +39,30 @@ import org.xwiki.test.cluster.framework.AbstractClusterHttpTest;
  */
 public class DocumentCacheTest extends AbstractClusterHttpTest
 {
+    @Test
     public void testDocumentCacheSync() throws Exception
     {
         // 1) edit a page on XWiki 0
 
         switchXWiki(0);
         setPageContent(getWiki(), "Test", "CacheSync", "content");
-        assertEquals("content", getPageContent(getWiki(), "Test", "CacheSync"));
+        Assert.assertEquals("content", getPageContent(getWiki(), "Test", "CacheSync"));
 
         // 2) modify content of the page on XWiki 1
 
         switchXWiki(1);
         setPageContent(getWiki(), "Test", "CacheSync", "modified content");
-        assertEquals("modified content", getPageContent(getWiki(), "Test", "CacheSync"));
+        Assert.assertEquals("modified content", getPageContent(getWiki(), "Test", "CacheSync"));
 
         // TODO: give some time to JGroups to send the message
 
         // ASSERT) the content in XWiki 0 should be the one set than in XWiki 1
 
         switchXWiki(0);
-        assertEquals("modified content", getPageContent(getWiki(), "Test", "CacheSync"));
+        Assert.assertEquals("modified content", getPageContent(getWiki(), "Test", "CacheSync"));
     }
 
+    @Test
     public void testDocumentCacheSyncForAttachments() throws Exception
     {
         // 1) edit a page on XWiki 0
@@ -73,7 +76,7 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
         String attachmentUri =
                 getUriBuilder(AttachmentResource.class).build(getWiki(), "Test", "AttachementCacheSync", "file.ext").toString();
         PutMethod putMethod = executePut(attachmentUri, "content", MediaType.TEXT_PLAIN, "Admin", "admin");
-        assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         // TODO: give some time to JGroups to send the message
 
@@ -84,7 +87,7 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
                 getUriBuilder(AttachmentsResource.class).build(getWiki(), "Test", "AttachementCacheSync").toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
-        assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         boolean found = false;
 
@@ -96,6 +99,6 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
             }
         }
 
-        assertTrue("Failed to find attachment", found);
+        Assert.assertTrue("Failed to find attachment", found);
     }
 }

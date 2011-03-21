@@ -21,9 +21,9 @@ package org.xwiki.test.ldap.framework;
 
 import java.util.Properties;
 
-import junit.framework.Test;
+import org.xwiki.test.integration.XWikiTestSetup;
 
-import org.xwiki.test.XWikiTestSetup;
+import junit.framework.Test;
 
 /**
  * JUnit TestSetup extension that modify xwiki.cfg file to use LDAP as authentication system. This class is meant to

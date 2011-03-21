@@ -22,7 +22,7 @@ package org.xwiki.test.wysiwyg;
 import junit.framework.Test;
 import junit.framework.TestCase;
 
-import org.xwiki.test.XWikiTestSetup;
+import org.xwiki.test.integration.XWikiTestSetup;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiSeleniumTestSetup;

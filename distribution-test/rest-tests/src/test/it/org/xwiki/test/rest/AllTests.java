@@ -19,32 +19,15 @@
  */
 package org.xwiki.test.rest;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.RunWith;
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutorSuite;
 
 /**
  * Runs all functional tests found in the classpath and start/stop XWiki before/after the tests (only once).
  *
  * @version $Id$
  */
-@RunWith(ClasspathSuite.class)
+@RunWith(XWikiExecutorSuite.class)
 public class AllTests
 {
-    /** This starts and stops the wiki engine. */
-    private static final XWikiExecutor executor = new XWikiExecutor(0);
-
-    @BeforeClass
-    public static void init() throws Exception
-    {
-        executor.start();
-    }
-
-    @AfterClass
-    public static void shutdown() throws Exception
-    {
-        executor.stop();
-    }
 }

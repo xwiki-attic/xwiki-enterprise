@@ -21,7 +21,7 @@ package org.xwiki.test.ui.framework;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutor;
 
 /**
  * This is a container for holding all of the information which should persist throughout all of the tests.

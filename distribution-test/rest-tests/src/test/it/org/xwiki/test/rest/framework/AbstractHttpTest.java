@@ -382,8 +382,8 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
 
     protected String getHttpMethodInfo(HttpMethod method) throws Exception
     {
-        return String.format("\nName: %s\nURI: %s\nStatus code: %d\nStatus text: %s\nResponse:\n%s", method.getName(),
-            method.getURI(), method.getStatusCode(), method.getStatusText(), method.getResponseBodyAsString());
+        return String.format("\nName: %s\nURI: %s\nStatus code: %d\nStatus text: %s", method.getName(),
+            method.getURI(), method.getStatusCode(), method.getStatusText());
     }
 
     protected String getAttachmentsInfo(Attachments attachments)

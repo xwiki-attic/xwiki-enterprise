@@ -971,7 +971,9 @@ $xwiki.ssx.use("Main.Activity")##
   'addComment':       'icons/silk/comment_add.gif',
   'deleteComment':    'icons/silk/comment_delete.gif',
   'updateComment':    'icons/silk/comment_edit.gif',
-  'personalMessage':  'icons/silk/user_comment.gif'
+  'personalMessage':  'icons/silk/user_comment.gif',
+  'directMessage':    'icons/silk/user_go.gif',
+  'groupMessage':     'icons/silk/group_go.gif'
 })
 ##
 ## Date Time
@@ -996,6 +998,9 @@ $xwiki.ssx.use("Main.Activity")##
 #set ($configObj = $xwiki.getDocument($config).getObject($config))
 #set ($isMessageStreamActive = ("$configObj.getProperty('active').value" == '1'))
 ## TODO: filter out user statuses from the activity stream if inactive
+##
+##
+#set ($currentUser = $services.model.serialize($services.model.resolveDocument($context.user), 'default'))
 ##
 ## Filter clause
 ##--------------------------------------------------------------
@@ -1055,7 +1060,41 @@ $xwiki.ssx.use("Main.Activity")##
 ## Filter by
 ## ------------------------------------------------------------
 ## Authors
-#updateFilterClause('user' $aAuthors false)
+#if ($aAuthors.size() &gt; 0)
+  #set ($toUsersParameters = [])
+  #set ($fromUsersParameters = [])
+  #set ($usersQuery = '')
+  #set ($hasDifferentUsers = false)
+  #foreach ($u in $aAuthors)
+    #if ("$!u" != '')
+      #set ($usersQuery = $usersQuery.concat(',?'))
+      #set ($discard = $fromUsersParameters.add($u))
+      #set ($discard = $toUsersParameters.add("${u}^XWiki.XWikiUsers"))
+      #if ($services.model.serialize($services.model.resolveDocument($u), 'default') != $currentUser)
+        #set ($hasDifferentUsers = true)
+      #end
+    #end
+  #end
+  #if ($usersQuery.length() &gt; 1)
+    ## Remove the first comma
+    #set ($usersQuery = $usersQuery.substring(1))
+    #if (!$isGuest)
+      #if ($hasDifferentUsers)
+        ## Direct messages from the current user to the filtered users
+        #set ($filterClause = $filterClause + " and ((act.application = 'MessageStream' and act.type = 'directMessage' and act.user = ? and act.param2 in (${usersQuery})) or act.user in (${usersQuery}))")
+        #set ($discard = $filterParameters.add($currentUser))
+        #set ($discard = $filterParameters.addAll($toUsersParameters))
+      #else
+        ## All direct messages to the current user
+        #set ($filterClause = $filterClause + " and ((act.application = 'MessageStream' and act.type = 'directMessage' and act.param2 = ?) or act.user in (${usersQuery}))")
+        #set ($discard = $filterParameters.add("${currentUser}^XWiki.XWikiUsers"))
+      #end
+    #else
+      #set ($filterClause = $filterClause + " and act.user in (${usersQuery})")
+    #end
+    #set ($discard = $filterParameters.addAll($fromUsersParameters))
+  #end
+#end
 ## Spaces
 #updateFilterClause('space' $aSpaces false)
 ## BLACKLISTED SPACES - exclude them
@@ -1078,6 +1117,51 @@ $xwiki.ssx.use("Main.Activity")##
 #if ("$!aMinor" == 'false')
   #set ($filterClause = $filterClause + " and not (act.version not like '%.1' and act.type = 'update')")
 #end
+##
+## MessageStream filtering
+## ------------------------------------------------------------
+## The scope filtering is already handled by the "Filter by" section: specific space, specific user...
+##
+## Public messages should be visible to everyone
+#set ($messageFilter = "act.type = 'publicMessage'")
+#if (!$isGuest)
+  ##
+  ## A user should see all his messages
+  #set ($messageFilter = "$messageFilter or act.user = ?")
+  #set ($discard = $filterParameters.add(${currentUser}))
+  ##
+  ## A user should see direct messages for him
+  #set ($messageFilter = "$messageFilter or (act.type = 'directMessage' and act.param2 = ?)")
+  #set ($discard = $filterParameters.add("${currentUser}^XWiki.XWikiUsers"))
+  ##
+  ## A user should see personal messages from followed users
+  #if ($xwiki.watchlist.getWatchedUsers().size() &gt; 0)
+    #set ($messageFilter = "$messageFilter or (act.type = 'personalMessage' and act.user in (")
+    #foreach ($u in $xwiki.watchlist.getWatchedUsers())
+      #if ($velocityCount &gt; 1)
+	#set ($messageFilter = $messageFilter.concat(','))
+      #end
+      #set ($messageFilter = $messageFilter.concat('?'))
+      #set ($discard = $filterParameters.add($u))
+    #end
+    #set ($messageFilter = $messageFilter.concat('))'))
+  #end
+  ##
+  ## A user should see messages for his groups
+  #set ($usersGroups = $xwiki.rightsmanager.getAllGroupsNamesForMember($xcontext.user))
+  #if ($usersGroups.size() &gt; 0)
+    #set ($messageFilter = "$messageFilter or (act.type = 'groupMessage' and act.param2 in (")
+    #foreach ($g in $usersGroups)
+      #if ($velocityCount &gt; 1)
+	#set ($messageFilter = $messageFilter.concat(','))
+      #end
+      #set ($messageFilter = $messageFilter.concat('?'))
+      #set ($discard = $filterParameters.add("${services.model.serialize($services.model.resolveDocument($g), 'default')}^XWiki.XWikiGroups"))
+    #end
+    #set ($messageFilter = $messageFilter.concat('))'))
+  #end
+#end
+#set ($filterClause = $filterClause + " and (act.application &lt;&gt; 'MessageStream' or (act.application = 'MessageStream' and (${messageFilter})))")
 ##
 ## Macros
 ## -------------------------------------------------------------
@@ -1129,7 +1213,7 @@ $xwiki.ssx.use("Main.Activity")##
         #if ($velocityCount &gt; 1)
           #set ($filterClause = $filterClause + ',')
         #end
-        #set ($filterClause = $filterClause + "?")
+        #set ($filterClause = $filterClause + '?')
         #set ($discard = $filterParameters.add(${colValue}))
       #end
       #if ($velocityCount == $colValues.size())

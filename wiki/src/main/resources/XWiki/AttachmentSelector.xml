@@ -2086,12 +2086,12 @@ $xwiki.jsx.use($attachmentPickerDocName)
     #if (${options.rawfilter} != '')
       &lt;span class="xHint"&gt;$msg.get("${translationPrefix}.upload.hint", [${options.rawfilter}])&lt;/span&gt;
     #end
-    &lt;input type="file" name="filepath" id="attachfile" class="attachment" size="30" title="${options.rawfilter}"/&gt;
-    &lt;input type="hidden" name="xredirect" value="$xwiki.getDocument($attachmentPickerDocName).getURL('get', "xaction=postUpload&amp;docAction=$!{options.get('docAction')}&amp;docname=${targetDocument.fullName}&amp;fieldname=${options.get('classname')}_${options.get('object')}_${options.get('property')}")" /&gt;
-    &lt;input type="hidden" name="docname" value="${targetDocument.fullName}" /&gt;
-    &lt;input type="hidden" name="classname" value="$options.get('classname')" /&gt;
-    &lt;input type="hidden" name="object" value="$options.get('object')" /&gt;
-    &lt;input type="hidden" name="property" value="$options.get('property')" /&gt;
+    &lt;input type="file" name="filepath" id="attachfile" class="attachment" size="30" title="$!{escapetool.xml($options.rawfilter)}"/&gt;
+    &lt;input type="hidden" name="xredirect" value="$xwiki.getDocument($attachmentPickerDocName).getURL('get', "xaction=postUpload&amp;amp;docAction=$!{escapetool.url($options.get('docAction'))}&amp;amp;docname=$!{escapetool.url($targetDocument.fullName)}&amp;amp;fieldname=$!{escapetool.url($options.get('classname'))}_$!{escapetool.url($options.get('object'))}_$!{escapetool.url($options.get('property'))}")" /&gt;
+    &lt;input type="hidden" name="docname" value="$!{escapetool.xml($targetDocument.fullName)}" /&gt;
+    &lt;input type="hidden" name="classname" value="$!{escapetool.xml($options.get('classname'))}" /&gt;
+    &lt;input type="hidden" name="object" value="$!{escapetool.xml($options.get('object'))}" /&gt;
+    &lt;input type="hidden" name="property" value="$!{escapetool.xml($options.get('property'))}" /&gt;
   &lt;/div&gt;
   &lt;div class="buttons"&gt;
     &lt;span class="buttonwrapper"&gt;

@@ -21,12 +21,13 @@ package org.xwiki.test.rest;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.Xwiki;
 import org.xwiki.rest.resources.RootResource;
+import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class RootResourceTest extends AbstractHttpTest
 {

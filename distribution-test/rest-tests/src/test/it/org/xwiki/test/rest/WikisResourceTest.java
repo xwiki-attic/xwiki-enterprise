@@ -19,11 +19,14 @@
  */
 package org.xwiki.test.rest;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -37,9 +40,7 @@ import org.xwiki.rest.resources.wikis.WikiAttachmentsResource;
 import org.xwiki.rest.resources.wikis.WikiPagesResource;
 import org.xwiki.rest.resources.wikis.WikiSearchResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
-
-import java.util.Arrays;
-import java.util.List;
+import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class WikisResourceTest extends AbstractHttpTest
 {

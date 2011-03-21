@@ -30,10 +30,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.jackrabbit.uuid.UUID;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.rest.framework.TestConstants;
 import org.xwiki.rest.model.jaxb.History;
 import org.xwiki.rest.model.jaxb.HistorySummary;
 import org.xwiki.rest.model.jaxb.Link;
@@ -52,6 +51,8 @@ import org.xwiki.rest.resources.pages.PageHistoryResource;
 import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.pages.PageTranslationResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
+import org.xwiki.test.rest.framework.AbstractHttpTest;
+import org.xwiki.test.rest.framework.TestConstants;
 
 public class PageResourceTest extends AbstractHttpTest
 {

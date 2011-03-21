@@ -27,10 +27,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.jackrabbit.uuid.UUID;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.test.rest.framework.AbstractHttpTest;
-import org.xwiki.test.rest.framework.TestConstants;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.PageSummary;
@@ -41,6 +40,8 @@ import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.pages.PageTagsResource;
 import org.xwiki.rest.resources.tags.PagesForTagsResource;
 import org.xwiki.rest.resources.tags.TagsResource;
+import org.xwiki.test.rest.framework.AbstractHttpTest;
+import org.xwiki.test.rest.framework.TestConstants;
 
 /**
  * @version $Id$

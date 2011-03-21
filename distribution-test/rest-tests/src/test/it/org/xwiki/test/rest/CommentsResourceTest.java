@@ -25,9 +25,9 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.rest.model.jaxb.Comment;
 import org.xwiki.rest.model.jaxb.Comments;
 import org.xwiki.rest.model.jaxb.History;
@@ -35,6 +35,7 @@ import org.xwiki.rest.model.jaxb.HistorySummary;
 import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.resources.comments.CommentsResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
+import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class CommentsResourceTest extends AbstractHttpTest
 {

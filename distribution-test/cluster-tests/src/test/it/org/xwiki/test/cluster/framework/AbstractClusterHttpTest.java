@@ -19,7 +19,7 @@
  */
 package org.xwiki.test.cluster.framework;
 
-import org.junit.*;
+import org.junit.Test;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 

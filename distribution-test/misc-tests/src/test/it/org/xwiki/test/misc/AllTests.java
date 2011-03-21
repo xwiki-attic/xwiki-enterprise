@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.misc;
 
+import org.xwiki.test.integration.XWikiTestSetup;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.xwiki.test.XWikiTestSetup;
 
 /**
  * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner

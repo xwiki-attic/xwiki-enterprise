@@ -1000,6 +1000,7 @@ $xwiki.ssx.use("Main.Activity")##
 ## Filter clause
 ##--------------------------------------------------------------
 #set ($filterClause = '1=1')
+#set ($filterParameters = [])
 ##
 ## Get values from request/macro param
 ##--------------------------------------------------------------
@@ -1113,21 +1114,23 @@ $xwiki.ssx.use("Main.Activity")##
   *#
 #macro(updateFilterClause $colName $colValues $exclude)
   #if ($colValues.class == 'class java.lang.String')
-    #set ($filterClause = $filterClause + " and act.${colName}='" + ${colValues} + "'")
+    #set ($filterClause = $filterClause + " and act.${colName}=?")
+    #set ($discard = $filterParameters.add(${colValues}))
   #else
     #foreach ($colValue in $colValues)
       #if ($velocityCount == 1)
         #set ($filterCondition = 'in')
-        #if  ($exclude)
+        #if ($exclude)
           #set ($filterCondition = 'not ' + $filterCondition)
         #end
         #set ($filterClause = $filterClause + " and act.${colName} ${filterCondition} (")
       #end
-      #if ("$!colValues" != '')
+      #if ("$!colValue" != '')
         #if ($velocityCount &gt; 1)
           #set ($filterClause = $filterClause + ',')
         #end
-        #set ($filterClause = $filterClause + "'" + $colValue + "'")
+        #set ($filterClause = $filterClause + "?")
+        #set ($discard = $filterParameters.add(${colValue}))
       #end
       #if ($velocityCount == $colValues.size())
          #set ($filterClause = $filterClause + ')')
@@ -1656,7 +1659,7 @@ $xwiki.ssx.use("Main.Activity")##
   ##
   ## Get distinct pages with activity
   ## -------------------------------------------------------------------
-  #set ($pages = $xwiki.activitystream.searchDailyPages("$!filterClause", $aEntries, 0))
+  #set ($pages = $xwiki.activitystream.searchDailyPages("$!filterClause", $filterParameters, $aEntries, 0))
   #if ($pages.size() &gt; 0)
     #foreach ($page in $pages)
       ##
@@ -1672,7 +1675,9 @@ $xwiki.ssx.use("Main.Activity")##
         #set ($whereClause = $whereClause + " AND month(date)=" + ${xwiki.formatDate($pageDate, 'M')})
         #set ($whereClause = $whereClause + " AND year(date)=" + ${xwiki.formatDate($pageDate, 'yyyy')})
         #set ($whereClause = "act.page=? AND act.space&lt;&gt;'Scheduler'" + $!whereClause)
-        #set ($events= $xwiki.activitystream.searchEvents("$!whereClause", false, 0, 0, [$pageName]))
+        #set ($subqueryParameters = [$pageName])
+        #set ($discard = $subqueryParameters.addAll($filterParameters))
+        #set ($events= $xwiki.activitystream.searchEvents("$!whereClause", false, 0, 0, $subqueryParameters))
         #if ($events.size() &gt; 0)
           ##
           ## Initialize page event vars

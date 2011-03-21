@@ -19,64 +19,68 @@
  */
 package org.xwiki.test.cluster;
 
-import java.lang.reflect.Method;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Properties;
 
-import org.xwiki.test.cluster.framework.XWikiClusterTestSetup;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutorSuite;
 
 /**
- * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
- * discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the tests
- * start (but only once).
- * 
+ * Runs all functional tests found in the classpath and start/stop XWiki before/after the tests (only once).
+ *
  * @version $Id$
  */
-public class AllTests extends TestCase
+@RunWith(XWikiExecutorSuite.class)
+@XWikiExecutorSuite.Executors(2)
+public class AllTests
 {
-    /**
-     * The pattern to filter the tests to launch.
-     */
-    private static final String PATTERN = ".*" + System.getProperty("pattern", "");
+    private static final String WEBINF_PATH = "/observation/remote/jgroups";
 
-    /**
-     * @return the test suite.
-     * @throws Exception error when creation the tests suite.
-     */
-    public static Test suite() throws Exception
+    @XWikiExecutorSuite.Initialized
+    public void initialize(List<XWikiExecutor> executors)
     {
-        TestSuite suite = new TestSuite();
-
-        // Unit tests
-        // TODO
-
-        // Selenium tests
-        // TODO
-
-        // REST tests
-        TestSuite restSuite = new TestSuite();
-
-        addTestCase(restSuite, DocumentCacheTest.class);
-
-        suite.addTest(restSuite);
-
-        return new XWikiClusterTestSetup(suite);
-    }
-
-    private static void addTestCase(TestSuite suite, Class< ? > testClass) throws Exception
-    {
-        if (testClass.getName().matches(PATTERN)) {
-            suite.addTest(new TestSuite(testClass));
+        try {
+            initChannel(executors.get(0), "tcp1");
+            initChannel(executors.get(1), "tcp2");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize Cluster Channels", e);
         }
     }
 
-    private static void addTestCaseSuite(TestSuite suite, Class< ? > testClass) throws Exception
+    private void initChannel(XWikiExecutor executor, String channelName) throws Exception
     {
-        if (testClass.getName().matches(PATTERN)) {
-            Method method = testClass.getMethod("suite");
-            suite.addTest((Test) method.invoke(null));
+        Properties properties = executor.loadXWikiProperties();
+        properties.setProperty("observation.remote.enabled", "true");
+        properties.setProperty("observation.remote.channels", channelName);
+        executor.saveXWikiProperties(properties);
+
+        Properties log4JProperties = executor.loadLog4JProperties();
+        log4JProperties.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
+        log4JProperties.setProperty("log4j.appender.stdout.Target", "System.out");
+        log4JProperties.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
+        log4JProperties.setProperty("log4j.appender.stdout.layout.ConversionPattern",
+            "%d [%X{url}] [%t] %-5p %-30.30c{2} %x - %m %n");
+        log4JProperties.setProperty("log4j.rootLogger", "warn, stdout");
+        log4JProperties.setProperty("log4j.logger.org.xwiki.observation.remote", "debug");
+        log4JProperties.setProperty("log4j.logger.com.xpn.xwiki.internal", "debug");
+        executor.saveLog4JProperties(log4JProperties);
+
+        String filename = channelName + ".xml";
+
+        InputStream is = getClass().getResourceAsStream("/" + filename);
+        try {
+            FileOutputStream fos = new FileOutputStream(executor.getWebInfDirectory() + WEBINF_PATH + "/" + filename);
+
+            byte[] buffer = new byte[1024];
+
+            for (int nb; (nb = is.read(buffer)) > 0;) {
+                fos.write(buffer, 0, nb);
+            }
+        } finally {
+            is.close();
         }
     }
 }

@@ -19,7 +19,7 @@
  */
 package org.xwiki.test.storage.profiles;
 
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutor;
 
 /**
  * Configuration profile.

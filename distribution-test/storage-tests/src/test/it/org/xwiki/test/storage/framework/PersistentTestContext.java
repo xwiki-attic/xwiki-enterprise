@@ -19,7 +19,7 @@
  */
 package org.xwiki.test.storage.framework;
 
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.storage.profiles.Profile;
 
 /**

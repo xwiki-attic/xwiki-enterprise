@@ -21,7 +21,6 @@ package org.xwiki.test.storage.framework;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.xwiki.test.storage.profiles.Profile;
 import org.xwiki.test.storage.profiles.FilesystemAttachmentStorageProfile;
 
 /**

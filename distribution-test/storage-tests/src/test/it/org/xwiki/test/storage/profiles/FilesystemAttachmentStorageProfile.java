@@ -21,7 +21,7 @@ package org.xwiki.test.storage.profiles;
 
 import java.util.Properties;
 
-import org.xwiki.test.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutor;
 
 /**
  * Test profile for running tests with filesystem attachment storage enabled.

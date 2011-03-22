@@ -20,6 +20,7 @@
 package org.xwiki.test.ui.administration.elements;
 
 import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.editor.ChangeAvatarPage;
@@ -28,7 +29,7 @@ import org.xwiki.test.ui.framework.elements.editor.wysiwyg.EditorElement;
 
 /**
  * Represents the User Profile Profile Tab.
- *
+ * 
  * @version $Id$
  */
 public class ProfileUserProfilePage extends AbstractUserProfilePage

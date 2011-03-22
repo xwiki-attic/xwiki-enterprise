@@ -90,17 +90,17 @@ public class UserProfileTest extends AbstractTest
     @Before
     public void setUp()
     {
-        userName = RandomStringUtils.randomAlphanumeric(5);
+        this.userName = RandomStringUtils.randomAlphanumeric(5);
         String password = RandomStringUtils.randomAlphanumeric(6);
-        customProfilePage = new ProfileUserProfilePage(userName);
-        getUtil().registerLoginAndGotoPage(userName, password, customProfilePage.getURL());
+        this.customProfilePage = new ProfileUserProfilePage(this.userName);
+        getUtil().registerLoginAndGotoPage(this.userName, password, this.customProfilePage.getURL());
     }
 
     /** Functionality check: changing profile information. */
     @Test
     public void testEditProfile()
     {
-        ProfileEditPage profileEditPage = customProfilePage.editProfile();
+        ProfileEditPage profileEditPage = this.customProfilePage.editProfile();
         profileEditPage.setUserFirstName(USER_FIRST_NAME);
         profileEditPage.setUserLastName(USER_LAST_NAME);
         profileEditPage.setUserCompany(USER_COMPANY);
@@ -113,17 +113,17 @@ public class UserProfileTest extends AbstractTest
         profileEditPage.clickSaveAndView();
 
         // Check that the information was updated
-        Assert.assertEquals(USER_FIRST_NAME, customProfilePage.getUserFirstName());
-        Assert.assertEquals(USER_LAST_NAME, customProfilePage.getUserLastName());
-        Assert.assertEquals(USER_COMPANY, customProfilePage.getUserCompany());
-        Assert.assertEquals(USER_ABOUT, customProfilePage.getUserAbout());
+        Assert.assertEquals(USER_FIRST_NAME, this.customProfilePage.getUserFirstName());
+        Assert.assertEquals(USER_LAST_NAME, this.customProfilePage.getUserLastName());
+        Assert.assertEquals(USER_COMPANY, this.customProfilePage.getUserCompany());
+        Assert.assertEquals(USER_ABOUT, this.customProfilePage.getUserAbout());
         // The page will show webmaster@---- for security reasons, just check the first part of the email
         Assert.assertEquals(StringUtils.substringBefore(USER_EMAIL, "@"),
-            StringUtils.substringBefore(customProfilePage.getUserEmail(), "@"));
-        Assert.assertEquals(USER_PHONE, customProfilePage.getUserPhone());
-        Assert.assertEquals(USER_ADDRESS, customProfilePage.getUserAddress());
-        Assert.assertEquals(USER_BLOG, customProfilePage.getUserBlog());
-        Assert.assertEquals(USER_BLOGFEED, customProfilePage.getUserBlogFeed());
+            StringUtils.substringBefore(this.customProfilePage.getUserEmail(), "@"));
+        Assert.assertEquals(USER_PHONE, this.customProfilePage.getUserPhone());
+        Assert.assertEquals(USER_ADDRESS, this.customProfilePage.getUserAddress());
+        Assert.assertEquals(USER_BLOG, this.customProfilePage.getUserBlog());
+        Assert.assertEquals(USER_BLOGFEED, this.customProfilePage.getUserBlogFeed());
     }
 
     /** Functionality check: changing the profile picture. */
@@ -154,7 +154,7 @@ public class UserProfileTest extends AbstractTest
         Assert.assertFalse(home.isAuthenticated());
 
         // Login with the new password
-        getDriver().get(getUtil().getURLToLoginAs(userName, newPassword));
+        getDriver().get(getUtil().getURLToLoginAs(this.userName, newPassword));
         Assert.assertTrue(home.isAuthenticated());
     }
 
@@ -219,13 +219,13 @@ public class UserProfileTest extends AbstractTest
     {
         String commentContent = "this is from a comment";
 
-        int commentId = customProfilePage.openCommentsDocExtraPane().postComment(commentContent);
+        int commentId = this.customProfilePage.openCommentsDocExtraPane().postComment(commentContent);
         getDriver().navigate().refresh();
         Assert.assertFalse("Comment content was used as profile information",
-            customProfilePage.getContent().contains(commentContent));
+            this.customProfilePage.getContent().contains(commentContent));
 
         if (commentId != -1) {
-            customProfilePage.openCommentsDocExtraPane().deleteComment(commentId);
+            this.customProfilePage.openCommentsDocExtraPane().deleteComment(commentId);
         }
     }
 
@@ -256,7 +256,7 @@ public class UserProfileTest extends AbstractTest
     public void testChangePasswordOfAnotherUserWithTwoDifferentPasswords()
     {
         // Login as Admin and change the password of another user
-        getUtil().getURLToLoginAsAdminAndGotoPage(customProfilePage.getURL());
+        getUtil().getURLToLoginAsAdminAndGotoPage(this.customProfilePage.getURL());
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
         ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
         changePasswordPage.changePassword(PASSWORD_1, PASSWORD_2);

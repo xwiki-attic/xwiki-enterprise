@@ -24,12 +24,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 /**
- * Represents the actions possible on the General Administration Page.
- *
+ * Represents the actions possible on the Localization Administration Page.
+ * 
  * @version $Id$
- * @since 2.6RC1
+ * @since 3.0RC1
  */
-public class GeneralAdministrationSectionPage extends AdministrationSectionPage
+public class LocalizationAdministrationSectionPage extends AdministrationSectionPage
 {
     @FindBy(id = "XWiki.XWikiPreferences_0_multilingual")
     private WebElement multiLingualSelect;
@@ -37,9 +37,9 @@ public class GeneralAdministrationSectionPage extends AdministrationSectionPage
     @FindBy(id = "XWiki.XWikiPreferences_0_default_language")
     private WebElement defaultLanguagesField;
 
-    public GeneralAdministrationSectionPage()
+    public LocalizationAdministrationSectionPage()
     {
-        super("General");
+        super("Localization");
     }
 
     public void setMultiLingual(boolean isMultiLingual)

@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
-import org.xwiki.test.ui.administration.elements.GeneralAdministrationSectionPage;
+import org.xwiki.test.ui.administration.elements.LocalizationAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
@@ -52,7 +52,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         this.adminPage = new AdministrationPage();
-        setLanguageSettings(false,  "en");
+        setLanguageSettings(false, "en");
     }
 
     /**
@@ -80,7 +80,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 
         // Change default language to "fr"
         this.adminPage.gotoPage();
-        GeneralAdministrationSectionPage sectionPage = this.adminPage.clickGeneralSection();
+        LocalizationAdministrationSectionPage sectionPage = this.adminPage.clickLocalizationSection();
         sectionPage.setDefaultLanguages("fr");
         sectionPage.clickSave();
 
@@ -159,7 +159,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     private void setLanguageSettings(boolean isMultiLingual, String defaultLanguages)
     {
         this.adminPage.gotoPage();
-        GeneralAdministrationSectionPage sectionPage = this.adminPage.clickGeneralSection();
+        LocalizationAdministrationSectionPage sectionPage = this.adminPage.clickLocalizationSection();
         sectionPage.setMultiLingual(isMultiLingual);
         sectionPage.setDefaultLanguages(defaultLanguages);
         sectionPage.clickSave();

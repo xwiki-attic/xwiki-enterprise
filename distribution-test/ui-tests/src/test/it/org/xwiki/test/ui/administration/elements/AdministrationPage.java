@@ -31,8 +31,8 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  */
 public class AdministrationPage extends ViewPage
 {
-    @FindBy(xpath = "//a[contains(@href, 'section=General')]")
-    WebElement generalLink;
+    @FindBy(xpath = "//a[contains(@href, 'section=Localization')]")
+    WebElement localizationLink;
 
     @FindBy(xpath = "//a[contains(@href, 'section=Import')]")
     WebElement importLink;
@@ -54,10 +54,10 @@ public class AdministrationPage extends ViewPage
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin");
     }
 
-    public GeneralAdministrationSectionPage clickGeneralSection()
+    public LocalizationAdministrationSectionPage clickLocalizationSection()
     {
-        this.generalLink.click();
-        return new GeneralAdministrationSectionPage();
+        this.localizationLink.click();
+        return new LocalizationAdministrationSectionPage();
     }
 
     public ImportAdministrationSectionPage clickImportSection()

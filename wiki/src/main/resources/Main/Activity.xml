@@ -833,17 +833,21 @@ h1:hover .toolFilter .toolExpand {
   position: relative;
   margin: 2px 0;
 }
+.messagestream-tools, .messagestream-tools * {
+  vertical-align: middle;
+}
 .messagestream select {
   background: transparent none 2px center no-repeat;
   color: $theme.textPrimaryColor;
+  min-height: 16px;
   padding: 0 0 0 20px;
   width: auto;
 }
 
-.messagestream select option,
-.messagestream select option[selected='selected'] {
+.messagestream select option {
   background: transparent none 2px center no-repeat;
   padding: 0 0 0 20px;
+  min-height: 16px;
 }
 
 #set ($iconMap = {
@@ -854,15 +858,14 @@ h1:hover .toolFilter .toolExpand {
 })
 #foreach ($entry in $iconMap.entrySet())
 .messagestream select.${entry.key},
-.messagestream select option[value='${entry.key}'],
-.messagestream select option[value='${entry.key}']:checked,
-.messagestream select option[value='${entry.key}'][selected='selected'] {
+.messagestream select option[value='${entry.key}'] {
   background-image: url("$xwiki.getSkinFile("icons/silk/${entry.value}.gif")");
 }
 #end
 
 .messagestream input.targetName {
   width: auto;
+  min-height: 16px;
 }
 .toolDelete {
   color: $theme.notificationErrorColor !important;

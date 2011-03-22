@@ -256,11 +256,7 @@ XWiki.MessageStream = Class.create({
   },
   prepareForms: function() {
     $$('.activity form.messagestream').each(function(msForm) {
-      if (this.__action) {
-         msForm.action = this.__action;
-      } else {
-         this.__action = msForm.action = msForm.action.replace(/xredirect=.*$/, 'xpage=plain')
-      }
+      msForm.action = msForm.action.replace(/xredirect=.*$/, 'xpage=plain')
       msForm._activityContainer = msForm.up('.msForm-activityContainer');
       if (!msForm._activityContainer) {
         msForm._activityContainer = Element.wrap(msForm.up('.activity'), 'div');

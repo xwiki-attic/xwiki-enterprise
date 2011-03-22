@@ -234,7 +234,7 @@ XWiki.MessageStream = Class.create({
     this.attachDeleteHandlers();
   },
   enhanceSelect: function () {
-    $$('.activity form.messagestream select[name="visibilityLevel"]').each(function(element) {
+    $$('form.messagestream select[name="visibilityLevel"]').each(function(element) {
       element.addClassName(element.options[element.selectedIndex].value);
       element.__targetNameInput = element.up('form').down('input[name="targetName"]');
       if (element.__targetNameInput &amp;&amp; this.targetsWithName.indexOf(element.options[element.selectedIndex].value) &lt; 0) {
@@ -265,6 +265,7 @@ XWiki.MessageStream = Class.create({
       if (!msForm._activityContainer) {
         msForm._activityContainer = Element.wrap(msForm.up('.activity'), 'div');
         msForm._activityContainer.addClassName('msForm-activityContainer');
+        msForm._activityContainer.insertBefore(msForm, msForm._activityContainer.firstChild);
       }
       msForm.observe('submit', function(event) {
         event.stop();
@@ -280,6 +281,9 @@ XWiki.MessageStream = Class.create({
               msForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.inProgress')", 'inprogress');
             },
             onSuccess: function() {
+              if (msForm) {
+                msForm.messagestream_message.value = '';
+              }
               if (msForm &amp;&amp; msForm._notification) {
                 msForm._notification.hide();
               }
@@ -306,10 +310,14 @@ XWiki.MessageStream = Class.create({
               response.request.options.onFailure(response);
             },
             onComplete: function() {
-              this.prepareForms();
-              this.enhanceSelect();
+              msForm._disabled = false;
+              while (msForm._activityContainer.select('.activity').length &gt; 1) {
+                msForm._activityContainer.down('.activity').remove();
+              }
+              msForm._activityContainer.down('.activity form').remove();
               this.attachDeleteHandlers();
-            }.bind(this)
+            }.bind(this),
+            insertion: 'bottom'
           }
         );
       }.bindAsEventListener(this));

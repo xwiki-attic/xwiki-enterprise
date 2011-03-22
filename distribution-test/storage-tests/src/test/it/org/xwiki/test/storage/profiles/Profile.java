@@ -25,13 +25,10 @@ import org.xwiki.test.integration.XWikiExecutor;
  * Configuration profile.
  *
  * @version $Id$
- * @since 3.0M3
+ * @since 3.0RC1
  */
 public interface Profile
 {
     /** Apply the configuration profile. */
-    public void applyProfile(final XWikiExecutor executor) throws Exception;
-
-    /** Set things back to the way they were before. */
-    public void removeProfile(final XWikiExecutor executor) throws Exception;
+    public void apply(final XWikiExecutor executor) throws Exception;
 }

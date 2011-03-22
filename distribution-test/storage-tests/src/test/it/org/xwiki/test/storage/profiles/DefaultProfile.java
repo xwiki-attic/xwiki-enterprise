@@ -17,28 +17,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.storage.framework;
+package org.xwiki.test.storage.profiles;
 
 import org.xwiki.test.integration.XWikiExecutor;
 
 /**
- * To be extended by all Test Classes. Provides access to information such as the port number.
+ * Everything is default, nothing is changed in configuration.
  *
  * @version $Id$
  * @since 3.0RC1
  */
-public class AbstractTest
+public class DefaultProfile implements Profile
 {
-    private static XWikiExecutor executor;
-
-    /** Used so that AllTests can set the executor. */
-    public static void setExecutor(final XWikiExecutor executor)
+    public void apply(final XWikiExecutor executor) throws Exception
     {
-        AbstractTest.executor = executor;
-    }
-
-    protected short getPort()
-    {
-        return (short) executor.getPort();
     }
 }

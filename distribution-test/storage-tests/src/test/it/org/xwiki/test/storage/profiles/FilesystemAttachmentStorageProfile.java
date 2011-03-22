@@ -27,27 +27,18 @@ import org.xwiki.test.integration.XWikiExecutor;
  * Test profile for running tests with filesystem attachment storage enabled.
  *
  * @version $Id$
- * @since 3.0M3
+ * @since 3.0RC1
  */
 public class FilesystemAttachmentStorageProfile implements Profile
 {
-    /** The original xwiki configuration so it can be set back after. */
-    private Properties initialXWikiConf;
-
-    public void applyProfile(final XWikiExecutor executor) throws Exception
+    public void apply(final XWikiExecutor executor) throws Exception
     {
-        this.initialXWikiConf = executor.loadXWikiCfg();
-        final Properties currentXWikiConf = executor.loadXWikiCfg();
+        final Properties conf = executor.loadXWikiCfg();
 
-        currentXWikiConf.setProperty("xwiki.store.attachment.hint", "file");
-        currentXWikiConf.setProperty("xwiki.store.attachment.versioning.hint", "file");
-        currentXWikiConf.setProperty("xwiki.store.attachment.recyclebin.hint", "file");
+        conf.setProperty("xwiki.store.attachment.hint", "file");
+        conf.setProperty("xwiki.store.attachment.versioning.hint", "file");
+        conf.setProperty("xwiki.store.attachment.recyclebin.hint", "file");
 
-        executor.saveXWikiCfg(currentXWikiConf);
-    }
-
-    public void removeProfile(final XWikiExecutor executor) throws Exception
-    {
-        executor.saveXWikiCfg(initialXWikiConf);
+        executor.saveXWikiCfg(conf);
     }
 }

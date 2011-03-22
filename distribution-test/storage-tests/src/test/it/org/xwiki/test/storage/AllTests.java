@@ -19,40 +19,27 @@
  */
 package org.xwiki.test.storage;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.RunWith;
-import org.xwiki.test.storage.framework.PersistentTestContext;
+import org.xwiki.component.annotation.Requirement;
+import org.xwiki.component.phase.Initializable;
+import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.storage.framework.AbstractTest;
-import org.xwiki.test.storage.profiles.FilesystemAttachmentStorageProfile;
+import org.xwiki.test.storage.profiles.ForEachProfileSuite;
 
 /**
  * Runs all functional tests found in the classpath.
  *
  * @version $Id$
- * @since 3.0M3
+ * @since 3.0RC1
  */
-@RunWith(ClasspathSuite.class)
-public class AllTests
+@RunWith(ForEachProfileSuite.class)
+public class AllTests implements Initializable
 {
-    /**
-     * Because junit disallows any references which persist between tests,
-     * there is a context which is static.
-     */
-    private static PersistentTestContext context;
+    @Requirement
+    private XWikiExecutor executor;
 
-    @BeforeClass
-    public static void init() throws Exception
+    public void initialize()
     {
-        // TODO: How do we run every test in every profile?
-        context = new PersistentTestContext(new FilesystemAttachmentStorageProfile());
-        AbstractTest.setContext(context.getUnstoppable());
-    }
-
-    @AfterClass
-    public static void shutdown() throws Exception
-    {
-        context.shutdown();
+        AbstractTest.setExecutor(executor);
     }
 }

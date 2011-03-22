@@ -24,28 +24,28 @@ import java.util.HashMap;
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.methods.MultipartPostMethod;
+import org.junit.Assert;
+import org.junit.Test;
+import org.xwiki.test.storage.framework.AbstractTest;
 
 /**
  * Test saving and downloading of attachments.
  *
  * @version $Id$
- * @since 3.0M3
+ * @since 3.0RC1
  */
-public class AttachmentTest
+public class AttachmentTest extends AbstractTest
 {
-    private static final String ADDRESS_PREFIX = "http://127.0.0.1:8080/xwiki/bin/";
-
     private static final String ATTACHMENT_CONTENT = "This is content for a very small attachment.";
 
     private static final String FILENAME = "littleAttachment.txt";
+
+    private final String addressPrefix = "http://127.0.0.1:" + this.getPort() + "/xwiki/bin/";
 
     /**
      * Tests that XWIKI-5405 remains fixed.
@@ -67,11 +67,11 @@ public class AttachmentTest
           + "{{/groovy}}";
 
         // Create the document if it exists.
-        doPost(ADDRESS_PREFIX + "delete/Test/Attachment?confirm=1&basicauth=1",
+        doPost(this.addressPrefix + "delete/Test/Attachment?confirm=1&basicauth=1",
                new String[] {"Admin", "admin"}, null);
 
         // Create a document.
-        doPost(ADDRESS_PREFIX + "save/Test/Attachment",
+        doPost(this.addressPrefix + "save/Test/Attachment",
                new String[] {"Admin", "admin"},
                new HashMap<String, String>() {{
             put("basicauth", "1");
@@ -81,15 +81,15 @@ public class AttachmentTest
         HttpMethod ret = null;
 
         // Test getAttachment()
-        ret = doPost(ADDRESS_PREFIX + "view/Test/Attachment?xpage=plain", null, null);
+        ret = doPost(this.addressPrefix + "view/Test/Attachment?xpage=plain", null, null);
         Assert.assertEquals("<p>" + ATTACHMENT_CONTENT + "</p>", ret.getResponseBodyAsString());
 
         // Test downloadAction.
-        ret = doPost(ADDRESS_PREFIX + "download/Test/Attachment/" + FILENAME, null, null);
+        ret = doPost(this.addressPrefix + "download/Test/Attachment/" + FILENAME, null, null);
         Assert.assertEquals(ATTACHMENT_CONTENT, new String(ret.getResponseBody(), "UTF-8"));
 
         // Make sure there is exactly 1 version of this attachment.
-        ret = doPost(ADDRESS_PREFIX + "preview/Test/Attachment?xpage=plain",
+        ret = doPost(this.addressPrefix + "preview/Test/Attachment?xpage=plain",
                new String[] {"Admin", "admin"},
                new HashMap<String, String>() {{
             put("basicauth", "1");
@@ -99,7 +99,7 @@ public class AttachmentTest
         Assert.assertEquals("<p>1</p>", ret.getResponseBodyAsString());
 
         // Make sure that version contains the correct content.
-        ret = doPost(ADDRESS_PREFIX + "preview/Test/Attachment?xpage=plain",
+        ret = doPost(this.addressPrefix + "preview/Test/Attachment?xpage=plain",
                      new String[] {"Admin", "admin"},
                      new HashMap<String, String>() {{
             put("basicauth", "1");
@@ -114,14 +114,14 @@ public class AttachmentTest
     {
         HttpMethod ret = null;
         // Upload the XAR to import.
-        ret = doUpload(ADDRESS_PREFIX + "upload/XWiki/XWikiPreferences?basicauth=1",
+        ret = doUpload(this.addressPrefix + "upload/XWiki/XWikiPreferences?basicauth=1",
                        new String[] {"Admin", "admin"},
                        new HashMap<String, File>() {{
             put("filepath", new File(this.getClass().getResource("/Test.Attachment2.xar").toURI()));
         }});
 
         // Do the import.
-        ret = doPost(ADDRESS_PREFIX + "import/XWiki/XWikiPreferences",
+        ret = doPost(this.addressPrefix + "import/XWiki/XWikiPreferences",
                      new String[] {"Admin", "admin"},
                      new HashMap<String, String>() {{
             put("basicauth", "1");
@@ -132,7 +132,7 @@ public class AttachmentTest
         }});
 
         // Check for attachment content.
-        ret = doPost(ADDRESS_PREFIX + "download/Test/Attachment2/" + FILENAME, null, null);
+        ret = doPost(this.addressPrefix + "download/Test/Attachment2/" + FILENAME, null, null);
         Assert.assertEquals(ATTACHMENT_CONTENT, new String(ret.getResponseBody(), "UTF-8"));
     }
 

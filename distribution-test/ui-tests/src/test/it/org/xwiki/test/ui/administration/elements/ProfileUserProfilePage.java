@@ -65,9 +65,9 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
     private WebElement userBlogFeed;
 
     @FindBy(xpath = "//div[@id='avatar']//a")
-    private WebElement userAvatar;
+    private WebElement changeAvatar;
 
-    @FindBy(xpath = "//div[@id='avatar']//a/img")
+    @FindBy(xpath = "//div[@id='avatar']//img")
     private WebElement userAvatarImage;
 
     public ProfileUserProfilePage(String username)
@@ -150,7 +150,8 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
 
     public ChangeAvatarPage changeAvatarImage()
     {
-        this.userAvatar.click();
+        this.changeAvatar.click();
+        waitUntilElementIsVisible(By.id("uploadAttachment"));
         return new ChangeAvatarPage();
     }
 

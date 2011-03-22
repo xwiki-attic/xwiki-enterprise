@@ -1934,26 +1934,32 @@ $xwiki.ssx.use("Main.Activity")##
         &lt;textarea name="messagestream_message" rows="3" cols="40"&gt;&lt;/textarea&gt;
       &lt;/div&gt;
       &lt;div class="messagestream-tools"&gt;
-        &lt;label for="visibilityLevel"&gt;$msg.get('xe.activity.messages.visibility')&lt;/label&gt;
         #set ($targetName = ${msg.get('xe.activity.messages.visibility.targetName.tip')})
         #set ($targetClassName = 'withTip')
+        #set ($possibleTargets = $configClass.get('visibilityLevel').getListValues())
         #if ($doc.getObject('XWiki.XWikiGroups'))
-          #set ($discard = $configObj.set('visibilityLevel', 'group'))
+          #set ($defaultTarget = 'group')
           #set ($targetName = $doc.prefixedFullName)
           #set ($targetClassName = '')
         #elseif ($aAuthors.size() &gt; 0)
           #if ($doc.prefixedFullName == $currentUser)
-            #set ($discard = $configObj.set('visibilityLevel', 'followers'))
+            #set ($defaultTarget = 'followers')
           #else
-            #set ($discard = $configObj.set('visibilityLevel', 'user'))
+            #set ($defaultTarget = 'user')
             #set ($targetName = $doc.prefixedFullName)
             #set ($targetClassName = '')
           #end
         #else
-          #set ($discard = $configObj.set('visibilityLevel', 'everyone'))
+          #set ($defaultTarget = 'everyone')
         #end
-        $doc.displayEdit($configClass.get('visibilityLevel'), "", $configObj)
-        &lt;input type="text" name="targetName" class="targetName $!{targetClassName}" value="$!{targetName}" size="15"/&gt;
+        &lt;label&gt;$msg.get('xe.activity.messages.visibility')
+          &lt;select name="visibilityLevel"&gt;
+          #foreach ($target in $possibleTargets)
+            &lt;option value="${target}"#if ($defaultTarget == $target) selected="selected"#end&gt;$msg.get("XWiki.MessageStreamConfig_visibilityLevel_${target}")&lt;/option&gt;
+          #end
+          &lt;/select&gt;
+        &lt;/label&gt;
+        &lt;label&gt;&lt;span class="hidden"&gt;Name:&lt;/span&gt;&lt;input type="text" name="targetName" class="targetName $!{targetClassName}" value="$!{targetName}" size="15"/&gt;&lt;/label&gt;
       &lt;/div&gt;
       &lt;div class="messagestream-buttons"&gt;
         &lt;span class="butonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.activity.messages.submit')" class="button"/&gt;&lt;/span&gt;

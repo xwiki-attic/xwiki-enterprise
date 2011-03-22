@@ -227,9 +227,32 @@ document.observe('xwiki:dom:loaded', function() {
 <code>var XWiki = (function (XWiki) {
 // Start XWiki augmentation.
 XWiki.MessageStream = Class.create({
+  targetsWithName : ['user', 'group'],
   initialize : function() {
     this.prepareForms();
+    this.enhanceSelect();
     this.attachDeleteHandlers();
+  },
+  enhanceSelect: function () {
+    $$('.activity form.messagestream select[name="visibilityLevel"]').each(function(element) {
+      element.addClassName(element.options[element.selectedIndex].value);
+      element.__targetNameInput = element.up('form').down('input[name="targetName"]');
+      if (element.__targetNameInput &amp;&amp; this.targetsWithName.indexOf(element.options[element.selectedIndex].value) &lt; 0) {
+        element.__targetNameInput.addClassName('hidden');
+      }
+      element.observe('change', function(event) {
+        element.blur();
+        $w(element.className).each(function(classname) {
+          element.removeClassName(classname);
+        });
+        element.addClassName(element.options[element.selectedIndex].value);
+        if (element.__targetNameInput &amp;&amp; this.targetsWithName.indexOf(element.options[element.selectedIndex].value) &lt; 0) {
+          element.__targetNameInput.addClassName('hidden');
+        } else {
+          element.__targetNameInput.removeClassName('hidden');
+        }
+      }.bindAsEventListener(this));
+    }.bind(this));
   },
   prepareForms: function() {
     $$('.activity form.messagestream').each(function(msForm) {
@@ -284,6 +307,7 @@ XWiki.MessageStream = Class.create({
             },
             onComplete: function() {
               this.prepareForms();
+              this.enhanceSelect();
               this.attachDeleteHandlers();
             }.bind(this)
           }
@@ -801,6 +825,41 @@ h1:hover .toolFilter .toolExpand {
 <property>
 <code>#template('colorThemeInit.vm')
 
+.messagestream-tools {
+  position: relative;
+  margin: 2px 0;
+}
+.messagestream select {
+  background: transparent none 2px center no-repeat;
+  color: $theme.textPrimaryColor;
+  padding: 0 0 0 20px;
+  width: auto;
+}
+
+.messagestream select option,
+.messagestream select option[selected='selected'] {
+  background: transparent none 2px center no-repeat;
+  padding: 0 0 0 20px;
+}
+
+#set ($iconMap = {
+  'everyone'  : 'world',
+  'followers' : 'group_link',
+  'group'     : 'group',
+  'user'      : 'user'
+})
+#foreach ($entry in $iconMap.entrySet())
+.messagestream select.${entry.key},
+.messagestream select option[value='${entry.key}'],
+.messagestream select option[value='${entry.key}']:checked,
+.messagestream select option[value='${entry.key}'][selected='selected'] {
+  background-image: url("$xwiki.getSkinFile("icons/silk/${entry.value}.gif")");
+}
+#end
+
+.messagestream input.targetName {
+  width: auto;
+}
 .toolDelete {
   color: $theme.notificationErrorColor !important;
   cursor: pointer;
@@ -1124,44 +1183,48 @@ $xwiki.ssx.use("Main.Activity")##
 ##
 ## Public messages should be visible to everyone
 #set ($messageFilter = "act.type = 'publicMessage'")
-#if (!$isGuest)
-  ##
-  ## A user should see all his messages
-  #set ($messageFilter = "$messageFilter or act.user = ?")
-  #set ($discard = $filterParameters.add(${currentUser}))
-  ##
-  ## A user should see direct messages for him
-  #set ($messageFilter = "$messageFilter or (act.type = 'directMessage' and act.param2 = ?)")
-  #set ($discard = $filterParameters.add("${currentUser}^XWiki.XWikiUsers"))
-  ##
-  ## A user should see personal messages from followed users
-  #if ($xwiki.watchlist.getWatchedUsers().size() &gt; 0)
-    #set ($messageFilter = "$messageFilter or (act.type = 'personalMessage' and act.user in (")
-    #foreach ($u in $xwiki.watchlist.getWatchedUsers())
-      #if ($velocityCount &gt; 1)
-	#set ($messageFilter = $messageFilter.concat(','))
+#if ($isMessageStreamActive)
+  #if (!$isGuest)
+    ##
+    ## A user should see all his messages
+    #set ($messageFilter = "$messageFilter or act.user = ?")
+    #set ($discard = $filterParameters.add(${currentUser}))
+    ##
+    ## A user should see direct messages for him
+    #set ($messageFilter = "$messageFilter or (act.type = 'directMessage' and act.param2 = ?)")
+    #set ($discard = $filterParameters.add("${currentUser}^XWiki.XWikiUsers"))
+    ##
+    ## A user should see personal messages from followed users
+    #if ($xwiki.watchlist.getWatchedUsers().size() &gt; 0)
+      #set ($messageFilter = "$messageFilter or (act.type = 'personalMessage' and act.user in (")
+      #foreach ($u in $xwiki.watchlist.getWatchedUsers())
+        #if ($velocityCount &gt; 1)
+          #set ($messageFilter = $messageFilter.concat(','))
+        #end
+        #set ($messageFilter = $messageFilter.concat('?'))
+        #set ($discard = $filterParameters.add($u))
       #end
-      #set ($messageFilter = $messageFilter.concat('?'))
-      #set ($discard = $filterParameters.add($u))
+      #set ($messageFilter = $messageFilter.concat('))'))
     #end
-    #set ($messageFilter = $messageFilter.concat('))'))
-  #end
-  ##
-  ## A user should see messages for his groups
-  #set ($usersGroups = $xwiki.rightsmanager.getAllGroupsNamesForMember($xcontext.user))
-  #if ($usersGroups.size() &gt; 0)
-    #set ($messageFilter = "$messageFilter or (act.type = 'groupMessage' and act.param2 in (")
-    #foreach ($g in $usersGroups)
-      #if ($velocityCount &gt; 1)
-	#set ($messageFilter = $messageFilter.concat(','))
+    ##
+    ## A user should see messages for his groups
+    #set ($usersGroups = $xwiki.rightsmanager.getAllGroupsNamesForMember($xcontext.user))
+    #if ($usersGroups.size() &gt; 0)
+      #set ($messageFilter = "$messageFilter or (act.type = 'groupMessage' and act.param2 in (")
+      #foreach ($g in $usersGroups)
+        #if ($velocityCount &gt; 1)
+          #set ($messageFilter = $messageFilter.concat(','))
+        #end
+        #set ($messageFilter = $messageFilter.concat('?'))
+        #set ($discard = $filterParameters.add("${services.model.serialize($services.model.resolveDocument($g), 'default')}^XWiki.XWikiGroups"))
       #end
-      #set ($messageFilter = $messageFilter.concat('?'))
-      #set ($discard = $filterParameters.add("${services.model.serialize($services.model.resolveDocument($g), 'default')}^XWiki.XWikiGroups"))
+      #set ($messageFilter = $messageFilter.concat('))'))
     #end
-    #set ($messageFilter = $messageFilter.concat('))'))
   #end
+  #set ($filterClause = $filterClause + " and (act.application &lt;&gt; 'MessageStream' or (act.application = 'MessageStream' and (${messageFilter})))")
+#else
+  #set ($filterClause = $filterClause + " and act.application &lt;&gt; 'MessageStream'")
 #end
-#set ($filterClause = $filterClause + " and (act.application &lt;&gt; 'MessageStream' or (act.application = 'MessageStream' and (${messageFilter})))")
 ##
 ## Macros
 ## -------------------------------------------------------------
@@ -1799,10 +1862,28 @@ $xwiki.ssx.use("Main.Activity")##
       #if ("$!{request.xredirect}" != '')
         $response.sendRedirect(${request.xredirect})
       #end
-    #elseif (!$services.messageStream.postPersonalMessage($request.messagestream_message))
-      {{error}}$msg.get('xe.activity.messages.submit.failed'){{/error}}
-    #elseif ("$!{request.xredirect}" != '')
-      $response.sendRedirect(${request.xredirect})
+    #else
+      #set ($messageType = "$!{request.visibilityLevel}")
+      #set ($success = false)
+      #if ($messageType == 'everyone')
+        #set ($success = $services.messageStream.postGlobalMessage($message))
+      #elseif ($messageType == 'followers')
+        #set ($success = $services.messageStream.postPersonalMessage($message))
+      #elseif ($messageType == 'group')
+        #set ($success = $services.messageStream.postMessageToGroup($message, $services.model.resolveDocument("$!{request.targetName}")))
+      #elseif ($messageType == 'user')
+        #set ($success = $services.messageStream.postDirectMessageToUser($message, $services.model.resolveDocument("$!{request.targetName}")))
+      #end
+      #if (!$success)
+        #if ($request.xpage == 'plain')
+          $response.setStatus(403)## Forbidden
+          #stop
+        #else
+          {{error}}$msg.get('xe.activity.messages.submit.failed'){{/error}}
+        #end
+      #elseif ("$!{request.xredirect}" != '')
+        $response.sendRedirect(${request.xredirect})
+      #end
     #end
   #elseif ("$!{request.xaction}" == 'deleteMessage')
     #if ($request.confirm == '1')
@@ -1843,6 +1924,28 @@ $xwiki.ssx.use("Main.Activity")##
       #activitySnapshot($context.user, 'personalMessage')
       &lt;div class="messagestram-data"&gt;
         &lt;textarea name="messagestream_message" rows="3" cols="40"&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;div class="messagestream-tools"&gt;
+        &lt;label for="visibilityLevel"&gt;$msg.get('xe.activity.messages.visibility')&lt;/label&gt;
+        #set ($targetName = ${msg.get('xe.activity.messages.visibility.targetName.tip')})
+        #set ($targetClassName = 'withTip')
+        #if ($doc.getObject('XWiki.XWikiGroups'))
+          #set ($discard = $configObj.set('visibilityLevel', 'group'))
+          #set ($targetName = $doc.prefixedFullName)
+          #set ($targetClassName = '')
+        #elseif ($aAuthors.size() &gt; 0)
+          #if ($doc.prefixedFullName == $currentUser)
+            #set ($discard = $configObj.set('visibilityLevel', 'followers'))
+          #else
+            #set ($discard = $configObj.set('visibilityLevel', 'user'))
+            #set ($targetName = $doc.prefixedFullName)
+            #set ($targetClassName = '')
+          #end
+        #else
+          #set ($discard = $configObj.set('visibilityLevel', 'everyone'))
+        #end
+        $doc.displayEdit($configClass.get('visibilityLevel'), "", $configObj)
+        &lt;input type="text" name="targetName" class="targetName $!{targetClassName}" value="$!{targetName}" size="15"/&gt;
       &lt;/div&gt;
       &lt;div class="messagestream-buttons"&gt;
         &lt;span class="butonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.activity.messages.submit')" class="button"/&gt;&lt;/span&gt;

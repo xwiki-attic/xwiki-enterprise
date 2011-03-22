@@ -44,6 +44,26 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
 </active>
+<visibilityLevel>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>visibilityLevel</name>
+<number>2</number>
+<picker>0</picker>
+<prettyName>Visibility level</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<sort>none</sort>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<values>everyone=Everyone|followers=My followers|group=Group|user=User</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</visibilityLevel>
 </class>
 <object>
 <class>
@@ -217,6 +237,26 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
 </active>
+<visibilityLevel>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>visibilityLevel</name>
+<number>2</number>
+<picker>0</picker>
+<prettyName>Visibility level</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<sort>none</sort>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<values>everyone=Everyone|followers=My followers|group=Group|user=User</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</visibilityLevel>
 </class>
 <name>XWiki.MessageStreamConfig</name>
 <number>0</number>
@@ -224,6 +264,9 @@
 <guid>1531641f-d0a7-4df2-b019-773e3883ba3a</guid>
 <property>
 <active>1</active>
+</property>
+<property>
+<visibilityLevel>everyone</visibilityLevel>
 </property>
 </object>
 <content>{{velocity}}

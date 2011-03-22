@@ -1030,6 +1030,7 @@ $xwiki.ssx.use("Main.Activity")##
   'addComment':       'icons/silk/comment_add.gif',
   'deleteComment':    'icons/silk/comment_delete.gif',
   'updateComment':    'icons/silk/comment_edit.gif',
+  'publicMessage':    'icons/silk/user_comment.gif',
   'personalMessage':  'icons/silk/user_comment.gif',
   'directMessage':    'icons/silk/user_go.gif',
   'groupMessage':     'icons/silk/group_go.gif'
@@ -1866,7 +1867,7 @@ $xwiki.ssx.use("Main.Activity")##
       #set ($messageType = "$!{request.visibilityLevel}")
       #set ($success = false)
       #if ($messageType == 'everyone')
-        #set ($success = $services.messageStream.postGlobalMessage($message))
+        #set ($success = $services.messageStream.postPublicMessage($message))
       #elseif ($messageType == 'followers')
         #set ($success = $services.messageStream.postPersonalMessage($message))
       #elseif ($messageType == 'group')

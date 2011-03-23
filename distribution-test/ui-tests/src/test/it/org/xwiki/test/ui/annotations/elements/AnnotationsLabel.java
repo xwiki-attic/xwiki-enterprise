@@ -94,7 +94,8 @@ public class AnnotationsLabel extends ViewPage
     {
         showAnnotationByText(searchText);
         waitUntilElementIsVisible(By.xpath("//div[@class='annotationText']/p"));
-        String annotationContent = getDriver().findElement(By.xpath("//div[@class='annotationText']/p")).getText();
+        String annotationContent = getDriver().findElement(By.xpath(
+            "//*[@class='annotation-bubble']//div[@class='annotationText']/p")).getText();
         RenderedWebElement body = (RenderedWebElement) getDriver().findElement(By.id("body"));
         body.sendKeys(Keys.ESCAPE);
         waitUntilElementDisappears(By.className("annotation-box-view"));

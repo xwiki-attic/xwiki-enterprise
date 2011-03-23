@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-parent</artifactId>
-    <version>3.0-SNAPSHOT</version>
+    <version>3.0-rc-1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-windows</artifactId>
   <name>XWiki Products - Enterprise - Installers - Windows</name>

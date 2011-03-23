@@ -529,6 +529,14 @@ ul.activityList {
   position: relative;
 }
 
+.activityUser {
+  padding-left: 0;
+  width: 100%;
+}
+.activityUser .activityContent {
+  padding-left: 75px;
+}
+
 .activitySummary {
   min-height: 35px;
   padding-top: 5px;

@@ -27,7 +27,7 @@
 
 
 {{velocity}}
-#if($hasEdit)Si può usare lo  [[Spazio Sandbox&gt;&gt;Sandbox.WebHome]] per scoprire e provare tutte le caratteristiche del wiki.#end
+#if($hasEdit)Si può usare lo [[Spazio Sandbox&gt;&gt;Sandbox.WebHome]] per scoprire e provare tutte le caratteristiche del wiki.#end
 {{/velocity}}
 
 {{dashboard source="Main.Dashboard" /}}</content>

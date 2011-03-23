@@ -23,34 +23,36 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>{{box cssClass="floatinginfobox" title="**Indice**"}}{{toc depth="1"/}}{{/box}}
+<content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
 
-A partire dalla versione 1.7 di XWiki Enterprise abbiamo introdotto una nuova sintassi di xwiki. Per cui adesso la sintassi corrente è chiamata //Sintassi di XWiki v1.0// e la nuova sintassi si  chiama conseguentemente //Sintassi di XWiki v2.0//. I principali motivi per l'introduzione di una nuova sintassi sono stati i seguenti:
+{{box cssClass="floatinginfobox" title="**Indice**"}}
+{{toc depth="1"/}}
+{{/box}}
 
-* Superare i limiti e le ambiguità della sintassi di XWiki 1.0 (che fu ispirata sia da Radeox - il motore di rendering sottostante- e da TWiki).
+A partire dalla versione 1.7 di XWiki Enterprise abbiamo introdotto una nuova sintassi di xwiki. Per cui adesso la sintassi corrente è chiamata //Sintassi di XWiki v1.0// e la nuova sintassi si chiama conseguentemente //Sintassi di XWiki v2.0//. I principali motivi per l'introduzione di una nuova sintassi sono stati i seguenti:
+* Superare i limiti e le ambiguità della sintassi XWiki 1.0 (che fu ispirata sia da Radeox - il motore di rendering sottostante- e da TWiki).
 ** Simboli non ottimali. Per esempio il simbolo per il grassetto era un asterisco singolo. Ciò causava problemi se gli utenti inserivano del testo che conteneva degli asterischi dal momento che il testo seguente veniva considerato erroneamente in grassetto mentre non lo era affatto. Per cui abbiamo razionalizzato la sintassi usando almeno un carattere doppio ovunque possibile.
 ** Ambiguità. Per esempio c'era ambiguità tra una voce in grassetto all'inizio di una riga ed un elenco puntato. Era necessario risolvere le ambiguità per poter riscrivere l'editor WYSIWYG in modo che fosse deterministico.
 * Per essere più vicini alla [[Sintassi Creole 1.0&gt;&gt;http://www.wikicreole.org/]] che sta diventando lo standard delle sintasssi per i wiki. Inoltre la comunità di Creole ha speso del tempo per analizzare tutte le sintassi dei wiki esistenti prima di decidere i simboli da usare. Per cui le scelte fatte sono molto buone.
 
-Oltre a queste due sintassi abbiamo modificato anche il motore di rendering sottostante (precedentemente era Radeox) in favore di un nostro motore che è un superset wrapper attorno a [[Wikimodel&gt;&gt;http://code.google.com/p/wikimodel/]] e [[Doxia&gt;&gt;http://maven.apache.org/doxia/]]  (e si spera altri in futuro). Qeusto ci ha consentito di poter usare anche altre sintassi nel wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki and more&gt;&gt;#syntaxes]]
+Dall'introduzione della sintassi XWiki 2.0 abbiamo scoperto alcuni difetti di questa sintassi. Per risolverli è stata introdotta, per il momento //in via sperimentale//, la sintassi XWiki 2.1 a partire dalla versione 3.0 di XWiki Enterprise. Ecco alcuni dei motivi per l'introduzione di questa nuova sintassi:
+* Omogeneizzare la sintassi per i link e le immgini per maggiore chiarezza, consistenza ed estendibilità.
+* Aggiunta la possibilità di mostrare icone, di fare collegamenti a file usando la notazione UNC e fare link a URL relativi.
+
+{{info}}Dal momento che la sintassi XWiki 2.1 si basa sulla sintassi XWiki 2.0, tutti i costrutti con sintassi XWiki 2.0 rimangono validi a meno che le specifiche della sintassi XWiki 2.1 indichino diversamente.{{/info}}
+
+Oltre a queste due sintassi specifiche di XWiki abbiamo modificato anche il motore di rendering sottostante a partire da XWiki Enterprise versione 1.7 (precedentemente era Radeox) in favore di un nostro motore che è un superset wrapper attorno a [[Wikmodel&gt;&gt;http://code.google.com/p/wikimodel/]] e [[Doxia&gt;&gt;http://maven.apache.org/doxia/]]  (e si spera altri in futuro). Qeusto ci ha consentito di poter usare anche altre sintassi nel wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki and more&gt;&gt;#syntaxes]].
 
 = Considerazioni Generali =
 
 La sintassi XWiki v2.0 corregge alcuni errori o ambiguità che gli utenti potevano inserire come mostrato negli esempi della tabella seguente.
 
 |=Descrizione|=Esempio di sintassi non valida o ambigua|=Risolto con Sintassi XWiki 2.0
-|Stili non chiusi|{{{**bold}}}|{{{**bold**}}}
-|Due elementi isolati non separati da 2 nuove righe|{{{| cella tabella}}}
-{{{* voce elenco}}}|{{{| cella tabella}}}
-\\{{{* voce elenco}}}
-|Due elementi isolati non separati da 2 nuove righe|{{{paragrafo}}}
-{{{----}}}
-{{{paragrafo}}}|{{{paragrafo}}}
-\\{{{----}}}
-\\{{{paragrafo}}}
-|Nuova riga ignorata all'inizio del documento|&lt;nuova riga all'inizio del documento&gt;
-paragrafo|paragrafo
-|Sintassi del titolo non chiusa|{{{=== titolo}}}|{{{=== titolo ===}}}
+|Stili di testo non chiusi|{{{**bold}}}|{{{**bold**}}}
+|Due elementi isolati non separati da 2 nuove righe|{{{| cella tabella}}}\\{{{* voce elenco}}}|{{{| cella tabella}}}\\\\{{{* voce elenco}}}
+|Due elementi isolati non separati da 2 nuove righe|{{{paragrafo}}}\\{{{----}}}\\{{{paragrafo}}}|{{{paragrafo}}}\\\\{{{----}}}\\\\{{{paragrafo}}}
+|Nuova riga ignorata all'inizio del documento|&lt;nuova riga all'inizio del documento&gt;\\paragrafo|paragrafo
+|Sintassi dei titoli non chiusa|{{{=== titolo}}}|{{{=== titolo ===}}}
 
 = Paragrafi =
 
@@ -63,20 +65,9 @@ Nella nuova Sintassi XWiki 2.0 le nuove righe sono rispettate al contrario della
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato con Sintassi XWiki 1.0|=Risultato con Sintassi XWiki 1.2
 |Semplice paragrafo|Questo è un paragrafo|Questo è un paragrafo|Questo è un paragrafo|Questo è un paragrafo
-|Paragrafo su più righe|Paragrafo su{{{\\}}}
-più|Paragrafo su
-più righe|Paragrafo su
-più righe|Paragrafo su
-più righe
-|Due paragrafi|Paragrafo uno
-\\Paragrafo due|Paragrafo uno
-\\Paragrafo due|Paragrafo uno
-\\Paragrafo due|Paragrafo uno
-\\Paragrafo due
-|Paragrafo parametrizzato|&lt;p style="text-align:center;color:blue"&gt;Paragrafo centrato e blu&lt;/p&gt;|{{{(% style="text-align:center;color:blue" %)}}}
-Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)
-Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)
-Paragrafo centrato e blu
+|Paragrafo su più righe|Paragrafo su{{{\\}}}\\più righe|Paragrafo su\\più righe|Paragrafo su\\più righe|Paragrafo su\\più righe
+|Due paragrafi|Paragrafo uno\\\\Paragrafo due|Paragrafo uno\\\\Paragrafo due|Paragrafo uno\\\\Paragrafo due|Paragrafo uno\\\\Paragrafo due
+|Paragrafo parametrizzato|&lt;p style="text-align:center;color:blue"&gt;Paragrafo centrato e blu&lt;/p&gt;|{{{(% style="text-align:center;color:blue" %)}}}\\Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)\\Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)\\Paragrafo centrato e blu
 
 = Titoli=
 
@@ -95,29 +86,24 @@ Paragrafo centrato e blu
 === livello 3 ===
 ==== livello 4 ====
 ===== livello 5 =====
-====== livello 6 ======}}}
-)))|(((
+====== livello 6 ======
+}}})))|(((
 {{html}}
-&lt;!-- Note: replace this with wiki syntax when http://jira.xwiki.org/jira/browse/XWIKI-4358 is implemented --&gt;
+&lt;!-- Nota: sostituire questo con sintassi xwiki se accade come http://jira.xwiki.org/jira/browse/XWIKI-4358 --&gt;
 &lt;h1 id="Hlevel1"&gt;&lt;span&gt;livello 1&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;h2 id="Hlevel2"&gt;&lt;span&gt;livello 2&lt;/span&gt;&lt;/h2&gt;&lt;h3 id="Hlevel3"&gt;&lt;span&gt;livello 3&lt;/span&gt;&lt;/h3&gt;&lt;h4 id="Hlevel4"&gt;&lt;span&gt;livello 4&lt;/span&gt;&lt;/h4&gt;&lt;h5 id="Hlevel5"&gt;&lt;span&gt;livello 5&lt;/span&gt;&lt;/h5&gt;&lt;h6 id="Hlevel6"&gt;&lt;span&gt;livello 6&lt;/span&gt;&lt;/h6&gt;
-{{/html}}
-)))
-|Titoli con Parametri|&lt;h1&gt;&lt;span style="color:blue"&gt;titolo&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}
-~= titolo =|(((
+{{/html}})))
+|Titoli con Parametri|&lt;h1&gt;&lt;span style="color:blue"&gt;titolo&lt;/span&gt;&lt;/h1&gt;|{{{(% style="color:blue" %)}}}\\= titolo =|(((
 {{html}}
 &lt;h1 id="Hheader" style="color:blue"&gt;&lt;span&gt;titolo&lt;/span&gt;&lt;/h1&gt;
-{{/html}}
-)))
-|Titoli con sintassi wiki|1.1.1 Titolo con *grassetto*|{{{=== Titolo con **grassetto** ===}}}|(((
-=== Titolo con **grassetto** ===
-)))
+{{/html}})))
+|Titoli con sintassi XWiki|1.1.1 Titolo con *grassetto*|{{{=== Titolo con **grassetto** ===}}}|(((=== Titolo con **grassetto** ===)))
 
 = Formattazione Testo =
 
 {{info}}
-Novità nella Sintassi XWiki 2.0 rispetto alla Sintassi XWiki 1.0:
-* Sono consentiti degli spazi subito dopo il simbolo sintattico (per esempio in Sinatssi XWiki 1.0, questo non era * grassetto *).
-* Uso di doppi simboli quando nella Sintassi XWiki 1.0 ce n'era solo uno cosicché è meno probabile che l'utente li usi nel testo.
+Novità della Sintassi XWiki 2.0 rispetto alla Sintassi XWiki 1.0:
+* Sono consentiti degli spazi subito dopo il simbolo sintattico (per esempio in Sinatssi XWiki 1.0, questo non era possibile: * grassetto *).
+* Uso di doppi simboli quando nella Sintassi XWiki 1.0 ce n'era solo uno cosicché è meno probabile che l'utente li usi erroneamente nel testo.
 * Possibilità di dividersi su più righe (non era possibile con la Sintassi XWiki 1.0).
 {{/info}}
 
@@ -139,265 +125,265 @@ Novità nella Sintassi XWiki 2.0 rispetto alla Sintassi XWiki 1.0:
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
-|Riga Orizzontale semplice|{{{----}}}|{{{----}}}|(((
+|Riga Orizzontale semplice|{{{----}}}|{{{----}}}|(((----)))
+|Riga Orizzontale con Parametri|&lt;hr style="color:blue"/&gt;|((({{{
+(% style="color:blue" %)
 ----
-)))
-|Riga Orizzontale con Parametri|&lt;hr style="color:blue"/&gt;|(((
-{{{(% style="color:blue" %)
-----}}}
-)))|(((
+}}})))|(((
 (% style="color: blue;" %)
 ----
 )))
 
 = Elenchi =
 
+{{info}}Alcuni degli stili elencati non funzionano con tutti i browser. Per un elenco completo seguire [[questo link&gt;&gt;http://www.quirksmode.org/css/lists.html]].{{/info}}
+
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
-|Elenco puntato|(((
-{{{* voce 1
+|Elenco puntato|((({{{
+* voce 1
 ** voce 2
 *** voce 3
-* voce 4}}}
-)))|(((
-{{{* voce 1
+* voce 4
+}}})))|((({{{
+* voce 1
 ** voce 2
 *** voce 3
-* voce 4}}}
-)))|(((
+* voce 4
+}}})))|(((
 * voce 1
 ** voce 2
 *** voce 3
 * voce 4
 )))
-|Elenco numerato|(((
-{{{1. voce 1
+|Elenco numerato|((({{{
+1. voce 1
 11. voce 2
 111. voce 3
-1. voce 4}}}
-)))|(((
-{{{1. voce 1
+1. voce 4
+}}})))|((({{{
+1. voce 1
 11. voce 2
 111. voce 3
-1. voce 4}}}
-)))|(((
+1. voce 4
+}}})))|(((
 1. voce 1
 11. voce 2
 111. voce 3
 1. voce 4
 )))
-|Elenco misto|(((
-{{{1. voce 1
+|Elenco misto|((({{{
+1. voce 1
 1*. voce 2
 1*. voce 3
-1. voce 4}}}
-)))|(((
-{{{1. voce 1
+1. voce 4
+}}})))|((({{{
+1. voce 1
 1*. voce 2
 1*. voce 3
-1. voce 4}}}
-)))|(((
+1. voce 4
+}}})))|(((
 1. voce 1
 1*. voce 2
 1*. voce 3
 1. voce 4
 )))
-|Elenco puntato con quadratino|(((
-{{{- voce 1
-- voce 2}}}
-)))|(((
-{{{(% style="list-style-type: square" %)
+|Elenco puntato con quadratino|((({{{
+- voce 1
+- voce 2
+}}})))|((({{{
+(% style="list-style-type: square" %)
 * voce 1
-* voce 2}}}
-)))|(((
+* voce 2
+}}})))|(((
 (% style="list-style-type: square;" %)
 * voce 1
 * voce 2
 )))
-|Elenco puntato pieno|(((
+|Elenco puntato con punto pieno|(((
 &lt;ul style="list-style-type: disc"&gt;
-  &lt;li&gt;voce1&lt;/li&gt;
-  &lt;li&gt;voce2&lt;/li&gt;
+&lt;li&gt;voce1&lt;/li&gt;
+&lt;li&gt;voce2&lt;/li&gt;
 &lt;/ul&gt;
-)))|(((
-{{{(% style="list-style-type: disc" %)
+)))|((({{{
+(% style="list-style-type: disc" %)
 * voce 1
-* voce 2}}}
-)))|(((
+* voce 2
+}}})))|(((
 (% style="list-style-type: disc;" %)
 * voce 1
 * voce 2
 )))
-|Elenco alfabetico minuscolo|(((
-{{{a. voce 1
-a. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: lower-alpha" %)
+|Elenco alfabetico minuscolo|((({{{
+a. voce 1
+a. voce 2
+}}})))|((({{{
+(% style="list-style-type: lower-alpha" %)
 * voce1 
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: lower-alpha;" %)
 * voce1
 * voce2
 )))
-|Elenco alfabetico maiuscolo|(((
-{{{A. voce 1
-A. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: upper-alpha" %)
+|Elenco alfabetico Maiuscolo|((({{{
+A. voce 1
+A. voce 2
+}}})))|((({{{
+(% style="list-style-type: upper-alpha" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: upper-alpha;" %)
 * voce1
 * voce2
 )))
-|Elenco con numeri Romani minuscoli|(((
-{{{i. voce 1
-i. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: lower-roman" %)
+|Elenco con numeri Romani minuscoli|((({{{
+i. voce 1
+i. voce 2
+}}})))|((({{{
+(% style="list-style-type: lower-roman" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: lower-roman;" %)
 * voce1
 * voce2
 )))
-|Elenco con numeri Romani maiuscoli|(((
-{{{I. voce 1
-I. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: upper-roman" %)
+|Elenco con numeri Romani Maiuscoli|((({{{
+I. voce 1
+I. voce 2
+}}})))|((({{{
+(% style="list-style-type: upper-roman" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: upper-roman;" %)
 * voce1
 * voce2
 )))
-|Elenco con lettere Greche minuscole|(((
-{{{g. voce 1
-g. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: lower-greek" %)
+|Elenco con lettere Greche minuscole|((({{{
+g. voce 1
+g. voce 2
+}}})))|((({{{
+(% style="list-style-type: lower-greek" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: lower-greek;" %)
 * voce1
 * voce2
 )))
-|Elenco con lettere Greche maiuscole|(((
-{{{G. voce 1
-G. item 2}}}
-)))|(((
-{{{(% style="list-style-type: upper-greek" %)
+|Elenco con lettere Greche Maiuscole|((({{{
+G. voce 1
+G. item 2
+}}})))|((({{{
+(% style="list-style-type: upper-greek" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: upper-greek;" %)
 * voce1
 * voce2
 )))
-|Elenco Giapponese Hiragana|(((
-{{{h. voce 1
-h. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: hiragana" %)
+|Elenco Giapponese Hiragana|((({{{
+h. voce 1
+h. voce 2
+}}})))|((({{{
+(% style="list-style-type: hiragana" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: hiragana;" %)
 * voce1
 * voce2
 )))
-|Elenco Giapponese Hiragana Iroha|(((
-{{{H. voce 1
-H. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: hiragana-iroha" %)
+|Elenco Giapponese Hiragana Iroha|((({{{
+H. voce 1
+H. voce 2
+}}})))|((({{{
+(% style="list-style-type: hiragana-iroha" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: hiragana-iroha;" %)
 * voce1
 * voce2
 )))
-|Elenco Giapponese Katakana|(((
-{{{k. voce 1
-k. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: katakana" %)
+|Elenco Giapponese Katakana|((({{{
+k. voce 1
+k. voce 2
+}}})))|((({{{
+(% style="list-style-type: katakana" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: katakana;" %)
 * voce1
 * voce2
 )))
-|Elenco Giapponese Katakana Iroha|(((
-{{{K. voce 1
-K. voce 2}}}
-)))|(((
-{{{(% style="list-style-type: katakana-iroha" %)
+|Elenco Giapponese Katakana Iroha|((({{{
+K. voce 1
+K. voce 2
+}}})))|((({{{
+(% style="list-style-type: katakana-iroha" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: katakana-iroha;" %)
 * voce1
 * voce2
 )))
-|Elenco lettere Armene|(((
-{{{&lt;ul style="list-style-type: armenian"&gt;
-  &lt;li&gt;voce1&lt;/li&gt;
-  &lt;li&gt;voce2&lt;/li&gt;
-&lt;/ul&gt;}}}
-)))|(((
-{{{(% style="list-style-type: armenian" %)
+|Elenco lettere Armene|((({{{
+&lt;ul style="list-style-type: armenian"&gt;
+&lt;li&gt;voce1&lt;/li&gt;
+&lt;li&gt;voce2&lt;/li&gt;
+&lt;/ul&gt;
+}}})))|((({{{
+(% style="list-style-type: armenian" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: armenian;" %)
 * voce1
 * voce2
 )))
-|Elenco lettere Ebraiche|(((
-{{{j. voce1
-j. voce2}}}
-)))|(((
-{{{(% style="list-style-type: hebrew" %)
+|Elenco lettere Ebraiche|((({{{
+j. voce1
+j. voce2
+}}})))|((({{{
+(% style="list-style-type: hebrew" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: hebrew;" %)
 * voce1
 * voce2
 )))
-|Elenco lettere Georgiane|(((
-{{{&lt;ul style="list-style-type: georgian"&gt;
-  &lt;li&gt;voce1&lt;/li&gt;
-  &lt;li&gt;voce2&lt;/li&gt;
-&lt;/ul&gt;}}}
-)))|(((
-{{{(% style="list-style-type: georgian" %)
+|Elenco lettere Georgiane|((({{{
+&lt;ul style="list-style-type: georgian"&gt;
+&lt;li&gt;voce1&lt;/li&gt;
+&lt;li&gt;voce2&lt;/li&gt;
+&lt;/ul&gt;
+}}})))|((({{{
+(% style="list-style-type: georgian" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: georgian;" %)
 * voce1
 * voce2
 )))
-|Elenco ideogrammi Cinesi CJK|(((
-{{{&lt;ul style="list-style-type: cjk-ideographic"&gt;
-  &lt;li&gt;voce1&lt;/li&gt;
-  &lt;li&gt;voce2&lt;/li&gt;
-&lt;/ul&gt;}}}
-)))|(((
-{{{(% style="list-style-type: cjk-ideographic" %)
+|Elenco ideogrammi Cinesi CJK|((({{{
+&lt;ul style="list-style-type: cjk-ideographic"&gt;
+&lt;li&gt;voce1&lt;/li&gt;
+&lt;li&gt;voce2&lt;/li&gt;
+&lt;/ul&gt;
+}}})))|((({{{
+(% style="list-style-type: cjk-ideographic" %)
 * voce1
-* voce2}}}
-)))|(((
+* voce2
+}}})))|(((
 (% style="list-style-type: cjk-ideographic;" %)
 * voce1
 * voce2
@@ -407,49 +393,49 @@ j. voce2}}}
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
-|Definizione Standard|(((
-{{{&lt;dl&gt;
-  &lt;dt&gt;termine&lt;/dt&gt;
-  &lt;dd&gt;definizione&lt;/dd&gt;
+|Definizione Standard|((({{{
+&lt;dl&gt;
+&lt;dt&gt;termine&lt;/dt&gt;
+&lt;dd&gt;definizione&lt;/dd&gt;
 &lt;/dl&gt;}}}
-)))|(((
-{{{; termine
-: definizione}}}
-)))|(((
+)))|((({{{
+; termine
+: definizione
+}}})))|(((
 ; termine
 : definizione
 )))
-|Definizioni Nidificate|(((
-{{{&lt;dl&gt;
-  &lt;dt&gt;termine1&lt;/dt&gt;
-  &lt;dd&gt;definizione1
-    &lt;dl&gt;
-      &lt;dt&gt;termine2&lt;/dt&gt;
-      &lt;dd&gt;definizione2&lt;/dd&gt;
-    &lt;/dl&gt;
-  &lt;/dd&gt;
-&lt;/dl&gt;}}}
-)))|(((
-{{{; termine1
+|Definizioni Nidificate|((({{{
+&lt;dl&gt;
+&lt;dt&gt;termine1&lt;/dt&gt;
+&lt;dd&gt;definizione1
+&lt;dl&gt;
+&lt;dt&gt;termine2&lt;/dt&gt;
+&lt;dd&gt;definizione2&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+}}})))|((({{{
+; termine1
 : definizione1
 :; termine2
-:: definizione2}}}
-)))|(((
+:: definizione2
+}}})))|(((
 ; termine1
 : definizione1
 :; termine2
 :: definizione2
 )))
-|Definizione con Parametri|(((
-{{{&lt;dl style="color:blue"&gt;
-  &lt;dt&gt;termine&lt;/dt&gt;
-  &lt;dd&gt;definizione&lt;/dd&gt;
-&lt;/dl&gt;}}}
-)))|(((
-{{{(% style="color:blue" %)
+|Definizione con Parametri|((({{{
+&lt;dl style="color:blue"&gt;
+&lt;dt&gt;termine&lt;/dt&gt;
+&lt;dd&gt;definizione&lt;/dd&gt;
+&lt;/dl&gt;
+}}})))|((({{{
+(% style="color:blue" %)
 ; termine
-: definizione}}}
-)))|(((
+: definizione
+}}})))|(((
 (% style="color: blue;" %)
 ; termine
 : definizione
@@ -460,65 +446,130 @@ j. voce2}}}
 Una nuova riga è un ritorno a capo. Un'interruzione di riga è una nuova riga forzata che può comparire in un punto qualsiasi del testo.
 
 {{info}}
-Con la Sintassi XWiki 2.0 le nuove righe vengono rispettate, cosa che non accade con la Sintassi XWiki 1.0 e nella Sintassi di Creole.
+Con la Sintassi XWiki 2.0 le nuove righe vengono rispettate, cosa che non accade con la Sintassi XWiki 1.0 e con la Sintassi di Creole.
 {{/info}}
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato con Sintassi XWiki 1.0|=Risultato con Sintassi XWiki 2.0
-|Interruzione riga|{{{Riga\\Nuova riga}}}|{{{Riga\\Nuova riga}}}|Riga
-Nuova riga|Riga
-Nuova riga
-|Nuova riga|Riga
-Nuova riga|Riga
-Nuova riga|Riga Nuova riga|Riga
-Nuova riga
+|Interruzione riga|{{{Riga\\Nuova riga}}}|{{{Riga\\Nuova riga}}}|Riga\\Nuova riga|Riga\\Nuova riga
+|Nuova riga|Riga\\Nuova riga|Riga\\Nuova riga|Riga Nuova riga|Riga\\Nuova riga
 
 = Collegamenti - Links =
 
-(% style="width: 100%;" %)
-|=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato con Sintassi XWiki 1.0|=Risultato con Sintassi XWiki 2.0
+(% style="width: 100%;table-layout:fixed;overflow:hidden;word-wrap:break-word" %)
+|=(% style="width:10%" %)Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=(% style="width:15%" %)Risultato con Sintassi XWiki 1.0|=(% style="width:15%" %)Risultato con Sintassi XWiki 2.0
 |Link ad una pagina nello Spazio corrente|{{{[WebHome]}}}|{{{[[WebHome]]}}}|[[Web Home&gt;&gt;WebHome]]|[[WebHome]]
-|Link con etichetta|{{{[label&gt;WebHome]}}}|{{{[[label&gt;&gt;WebHome]]}}}|[[label&gt;&gt;WebHome]]|[[label&gt;&gt;WebHome]]
+|Link con etichetta|{{{[label&gt;WebHome]}}}|(((
+{{{[[label&gt;&gt;WebHome]]}}}
+{{info}}La sintassi XWiki è supportata anche all'interno delle etichette{{/info}}
+)))|[[label&gt;&gt;WebHome]]|[[label&gt;&gt;WebHome]]
+|Link con sintassi XWiki nell'etichetta|{{{&lt;a href="$xwiki.getURL("WebHome")"&gt;&lt;strong&gt;etichetta in grassetto&lt;/strong&gt;&lt;/a&gt;}}}|{{{[[**etichetta in grassetto**&gt;&gt;WebHome]]}}}|[[**etichetta in grassetto**&gt;&gt;WebHome]]|[[**etichetta in grassetto**&gt;&gt;WebHome]]
 |Link ad una pagina di uno spazio specificato|{{{[Main.WebHome]}}}|{{{[[Main.WebHome]]}}}|[[Web Home&gt;&gt;Main.WebHome]]|[[Main.WebHome]]
 |Link ad un subwiki|{{{[subwiki:Main.WebHome]}}}|{{{[[subwiki:Main.WebHome]]}}}|[[Web Home&gt;&gt;xwiki:Main.WebHome]]|[[xwiki:Main.WebHome]]
 |Link che si apre in una nuova pagina|{{{[label&gt;WebHome&gt;_blank]}}}|{{{[[label&gt;&gt;WebHome||rel="__blank"]]}}}|[[label&gt;&gt;WebHome||rel="__blank"]]|[[label&gt;&gt;WebHome||rel="__blank"]]
 |Link ad un URL direttamente nel testo|{{{Questo è un URL: http://xwiki.org}}}|{{{Questo è un URL: http://xwiki.org}}}|This is a URL: http://xwiki.org|This is a URL: http://xwiki.org
 |Link ad un URL|{{{[http://xwiki.org]}}}|{{{[[http://xwiki.org]]}}}|[[http://xwiki.org]]|[[http://xwiki.org]]
 |Link ad un URL con etichetta|{{{[XWiki&gt;http://xwiki.org]}}}|{{{[[XWiki&gt;&gt;http://xwiki.org]]}}}|[[XWiki&gt;&gt;http://xwiki.org]]|[[XWiki&gt;&gt;http://xwiki.org]]
-|Link ad una email|{{{[email&gt;mailto:john@smith.net]}}}|{{{[[email&gt;&gt;mailto:john@smith.net]]}}}|[[email&gt;&gt;mailto:john@smith.net]]|[[email&gt;&gt;mailto:john@smith.net]]
-|Link ad un'immagine|{{{&lt;a href="$xwiki.getURL("Space1.Page1")"&gt;{image:img.png|document=Space2.Page2}&lt;/a&gt;}}}|(((
-{{{[[image:Space2.Page2@img.png&gt;&gt;Space1.Page1]]}}}
-
-{{info}}La sintassi Wiki è supportata all'interno delle etichette dei link{{/info}}
-)))|[[image:img.png&gt;&gt;Main.WebHome]]|[[image:img.png&gt;&gt;Main.WebHome]]
-|Link ad un allegato|(((
-{{info}}Vedere [[Attach Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/AttachMacro]] per dettagli{{/info}}
-
+|Link ad un indirizzo email|{{{[john@smith.net&gt;mailto:john@smith.net]}}}|{{{[[john@smith.net&gt;&gt;mailto:john@smith.net]]}}}|[[john@smith.net&gt;&gt;mailto:john@smith.net]]|[[john@smith.net&gt;&gt;mailto:john@smith.net]]
+|Link ad un'immagine|{{{&lt;a href="$xwiki.getURL("Space1.Page1")"&gt;{image:img.png|document=Space2.Page2}&lt;/a&gt;}}}|{{{[[image:Space2.Page2@img.png&gt;&gt;Space1.Page1]]}}}|[[image:img.png&gt;&gt;Main.WebHome]]|[[image:img.png&gt;&gt;Main.WebHome]]
+|Link ad un'immagine con parametri|{{{&lt;a href="$xwiki.getURL("Space1.Page1")"&gt;{image:img.png|document=Space2.Page2|width=26|height=26}&lt;/a&gt;}}}|{{{[[[[image:Space2.Page2@img.png||width="26" height="26"]]&gt;&gt;Space1.Page1]]}}}|[[[[image:img.png||width="26" height="26"]]&gt;&gt;Main.WebHome]]|[[[[image:img.png||width="26" height="26"]]&gt;&gt;Main.WebHome]]
+|Link ad un allegato nella pagina corrente|(((
+{{info}}Vedere [[Attach Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] per ulteriori dettagli{{/info}}
 {{{{attach:text|file=img.png}}}}
 )))|{{{[[text&gt;&gt;attach:img.png]]}}}|[[text&gt;&gt;attach:img.png]]|[[text&gt;&gt;attach:img.png]]
+|Link ad un allegato in una pagina diversa|(((
+{{info}}Vedere [[Attach Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] fper ulteriori dettagli{{/info}}
+{{{{attach:text|document=Space.Page|file=img.png}}}}
+)))|{{{[[text&gt;&gt;attach:Space.Page@img.png]]}}}|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]
 
 == Specifiche dei link con la Sintassi XWiki 1.0 ==
 
-Il formato completo di un link è ##(alias[|&amp;gt;])+(link)(@interWikiAlias)+([|&amp;gt;]target)+##
+{{info}}
+Le parti tra ##( )## sono richieste, le parti tra ##[ ]## sono opzionali e si deve aggiungere uno dei due caratteri in ##{ }## se si usano parti opzionali.
+{{/info}}
 
-* ##alias##: Una stringa opzionale che viene mostrata all'utente come nome del link quando è renderizzata. Esempio: "Pagina personale".
-* ##link##: Il riferimento completo al link usando la seguente sintassi: ##(virtualWikiAlias:)+(space.)+(reference)(?queryString)+(#anchor)+##
-* Notare che si deve specificare o il ##link## oppure l' ##alias## .
-** ##virtualWikiAlias##: Stringa opzionale che contiene il nome di un virtual wiki. Il link punterà ad una pagina all'interno di quel virtual wiki. Esempio: "miowiki".
-** ##space##: Nome opzionale dello Spazio Wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: "Main".
-** ##reference##: Il riferimento al link. Può essere un URI nella forma##{{{protocol:path}}}##(esempio: {{{"http://xwiki.org"}}}, {{{"mailto:john@smith.com"}}}) o un nome di una pagina wiki (esempio: "WebHome").
-** ##queryString##: Stringa opzionale di query per specificare dei parametri che saranno usati nel rendering dell'URL. Esempio: {{{"mydata1=5&amp;amp;mydata2=Hello"}}}.
-** ##anchor##: Nome opzionale di un'ancora che punta ad un'altra ancora definita nel link in oggetto. Notare che in XWiki le ancore sono create automaticamente per i titoli. Esempio: "TableOfContentAnchor".
-* ##interWikiAlias##: Un alias opzionale [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] come definito nella InterWiki Map (vedere la  [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Esempio: "wikipedia"
-* ##target##: Stringa opzionale che corrisponde all'atttributo HTML ##target## per un elemento link HTML ##A## . Questo elemento viene usato quando si fa il render del link. Di default apre il link nella pagina corrente. Esempi: "_self", "_blank"
+Il formato completo di un link è **##[label {&gt; or |}] (resource) [@interWikiAlias] [{&gt; or |} target]##**
+
+* **##label##**: Una stringa opzionale che viene mostrata all'utente come nome del link quando è renderizzata. Esempio: ##Pagina personale##
+* **##resource##**: Il riferimento completo al link usando la seguente sintassi: **##(reference) [?queryString] [#anchor]##**
+** **##reference##**: Il riferimento del link. Esso può essere indifferentemente
+*** **un URI** nella forma **##protocol:path##** (esempi: ##http:~/~/xwiki.org##, ##mailto~:john@smith.com##), o
+*** **una pagina wiki ** riferimento nella forma **##~[~[wikiName:] space.] (page)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+**** **##wikiName##**: Stringa opzionale che contiene il nome di un virtual wiki (animal). Il link punterà ad una pagina all'interno di quel virtual wiki. Esempio: ##miowiki##
+**** **##space##: Nome opzionale dello Spazio del wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: ##Main##
+**** **##page##**: Stringa obbligatoria che contiene il nome della pagina del wiki da collegare. Esempio: ##WebHome##
+** **##queryString##: Stringa opzionale di query per specificare dei parametri che saranno usati nel rendering dell'URL. Esempio: ##mydata1=5&amp;mydata2=Hello##
+** **##anchor##: Nome opzionale di un'ancora che punta ad un'altra ancora definita nel link in oggetto. Notare che in XWiki le ancore sono create automaticamente per i titoli. Esempio: ##HTableOfContents##
+* **##interWikiAlias##: Un alias opzionale [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] come definito nella InterWiki Map (vedere la  [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]).Questo vale solo per i nomi delle pagine wiki. Esempio: ##wikipedia##
+* **##target##: Stringa opzionale che corrisponde all'atttributo HTML ##target## per un elemento link HTML ##A## . Questo elemento viene usato quando si fa il render del link. Di default apre il link nella pagina corrente. Esempi: ##_self##, ##_blank##
 
 == Specifiche dei link con la Sintassi XWiki 2.0  ==
 
-Il formato completo di un link è ##(label&gt;&gt;)?(link)(||parameters)*##
+{{info}}
+Le parti tra ##( )## sono richieste, le parti tra ##[ ]## sono opzionali.
+{{/info}}
 
-* ##label##: l'etichetta del link, può contenere della sintassi wiki
-* ##link##: la destinazione del link, cioè dove si va cliccando sul link. Ha un formato più facile che nella sintassi XWiki 1.0 e può contenere due tipi di URI: ##mailto:## e ##attach:## per fare il link ad una email ed ad un allegato rispettivamente.##
-* ##parameters##: elenco opzionale di parametri che si possono passare al link.
+Il formato completo di un link è **##[label&gt;&gt;] (resource) [@interWikiAlias] [||parameters]##**
+
+* **##label##: Stringa opzionale che sarà mostrata all'utente dopo il render del link. L'etichetta può contenere della sintassi XWiki. Se non viene specificata un'etichetta sarà generata un'etichetta predefinita. Il modello di generazione può essere cambiato, vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Esempio: ##My Page##
+* **##resource##**: Il riferimento completo al link con la sintassi seguente: **##(reference) [?queryString] [#anchor]##**
+** **##reference##**: Il riferimento al collegamento in una delle forme seguenti:
+*** **URL**: qualsiasi URL nella forma **##protocol:~/~/path##**. Esempi: ##http:~/~/xwiki.org##, ##https:~/~/svn.xwiki.org/##
+*** **Nome pagina Wiki** riferimento nella forma **##~[~[wikiName:] space.] (page)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+**** **##wikiName##**: Stringa opzionale che contiene il nome di un virtual wiki (animal). Il link punterà ad una pagina all'interno di quel virtual wiki. Esempio: ##mywiki##
+**** **##space##**: Nome opzionale di uno Spazio del wiki. Se non si specifica nessun spazio verrà usato lo spazio corrente. Esempio: ##Main##
+**** **##page##**: Stringa obbligatoria che contiene il nome della pagina del wiki cui si vuole collegarsi. Esempio: ##WebHome##
+*** **Allegato** riferimento nella forma **##attach~: [wikiPageName@] (attachmentName)##**. Esempi: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
+**** **##attach~:##**: Stringa richiesta che identifica la risorsa come allegato.
+**** **##wikiPageName##**: Stringa opzionale con il riferimento al documento che contiene l'allegato, vedere sopra "Wiki page name".
+**** **##attachmentName##**: Nome dell'allegato come è stato memorizzato nel wiki.
+*** **indirizzo Email** nella forma **##mailto~: (emailAddress)##** (###anchor## non è valido). Esempio: ##mailto~:john@smith.com##
+**** **##mailto~:##**: Stringa richiesta che identifica la risorsa come email.
+**** **##emailAddress##**: Indirizzo del destinatario dell'email. Esempio: "##john@smith.com##"
+** **##queryString##**: Stringa opzionale di query per specificare parametri che saranno usati nel rendering dell'URL. Esempio: ##mydata1=5&amp;mydata2=Hello##
+** **##anchor##**: Nome di un'ancora opzionale che punta ad un'ancora definita nel link cui si fa riferimento. Notare che in XWiki le ancore sono create automaticamente per i titoli. Esempio: ##HTableOfContents##
+* **##interWikiAlias##**: Alias opzionale [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] come definito nella InterWiki Map (vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Questo vale solo per i nomi delle pagine wiki. Esempio: ##wikipedia##
+* **##parameters##: elenco opzionale di parametri che si possono passare al link. Esempio: ##rel="~_~_blank"## (apri in una nuova finestra)
+
+== Specifiche dei link con la Sintassi XWiki 2.1 ==
+
+{{info}}
+Le parti tra ##( )## sono richieste, le parti tra ##[ ]## sono opzionali.
+{{/info}}
+
+Il formato completo di un link è **##[label&gt;&gt;] (resource) [||parameters]##**
+
+
+* **##label##**: Stringa opzionale che sarà mostrata all'utente dopo il render del link. L'etichetta può contenere della sintassi XWiki. Se non viene specificata un'etichetta sarà generata un'etichetta predefinita. Il modello di generazione può essere cambiato, vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Esempio: ##My Page##
+* **##resource##**: Stringa richiesta con il riferimento al link in una delle forma seguenti
+** **URL**: qualsiasi URL nella forma **##[url:] (protocol:~/~/path)##**. Esempi: ##http:~/~/xwiki.org##, ##url:https:~/~/svn.xwiki.org/##
+*** **##url:##** Stringa opzionale che identifica la risorsa come un URL.
+** **Wiki page name** Nome pagina WIki, riferimento nella forma **##[doc:] ~[~[wikiName:] space.] (page)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+*** **##doc:##** Stringa opzionale che identifica la risorsa come documento XWiki.
+*** **##wikiName##**: Stringa opzionale contenente il nome di un virtual wiki (animal). Il link punterà ad una pagina all'interno di quel virtual wiki. Esempio: ##mywiki##
+*** **##space##**: Nome opzionale di uno Spazio del wiki. Se non si specifica nessun spazio verrà usato lo spazio corrente. Esempio: ##Main##
+*** **##page##**: Stringa richiesta con il nome della pagina wiki cui punta il link. Esempio: ##WebHome##
+** **InterWiki page name** Nome pagina Interwiki, riferimento nella forma **##interwiki: {{{(interWikiAlias:)}}} (page)##**. Esempio: ##interwiki:wikipedia:XWiki##
+*** **##interwiki:##** Stringa richiesta che identifica la risorsa come un link InterWiki.
+*** **##interWikiAlias##**: Alias opzionale dell'[[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] come definito dall'InterWiki Map (vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Esempio: ##wikipedia##
+*** **##page##**: Stringa richiesta con il nome della pagina wiki cui punta il link. Esempio:: ##XWiki##
+** **Attachment** Allegato, riferimento nella forma **##attach~: [wikiPageName@] (attachmentName)##**. Esempi: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
+*** **##attach~:##**: Stringa richiesta che identifica la risorsa come un allegato.
+*** **##wikiPageName##**: Stringa opzionale che indica il riferimento al documento che contiene l'allegato, vedere "Wiki page name" precedente.
+*** **##attachmentName##**: Nome dell'alllegato come memorizzato nel wiki.
+** **Email address** Indirizzo email, nella forma **##mailto~: (emailAddress)##** (###anchor## non è valido). Esempio: ##mailto~:john@smith.com##
+*** **##mailto~:##**: Stringa richiesta che indentifica la risorsa come email.
+*** **##emailAddress##**: Indirizzo email del destinatario. Esempio: ##john@smith.com##
+** **Relative path** Percorso relativo, riferimento sul server nella forma **##path: (relPath)##**. Esempio: ##path:$doc.getURL('reset')## produce l'indirizzo di destinazione ##http:~/~/server.domain.com/xwiki/bin/reset/Space/Page## dove ##/xwiki/bin/reset/Space/Page## è prodotto da ##$doc.getURL('reset')##.
+*** **##path:##** Stringa richiesta che identifica la risorsa come percorso relativo.
+*** **##relPath##**: Stringa richiesta contenente il percorso relativo della risorsa sul server cui punta il link.
+** **UNC (Windows Explorer)** riferimento nella forma **##unc: (path)##**. Il link è reso come un link ad un ##file:~/~/## . Esempi: ##unc:C:\Windows\##, ##unc:~\~\myserver\path\img.png##, ##unc:home/user/somefile##
+*** **##unc:##** Stringa richiesta che identifica la risorsa come un percorso UNC (Windows Explorer).
+*** **##path##**: Stringa richiesta contenente il percorso locale della risorsa acessibile dall'utente. Esempi: ##C:\Windows\##, ##~\~\myserver\path\img.png##, ##home/user/somefile##
+* **##parameters##**: Lista opzionale separata da spazi di parametri passati al link. Esempio: ##queryString="mydata1=5&amp;mydata2=Hello" anchor="HTableOfContents" rel="~_~_blank"##
+** **##queryString##**: Stringa opzionale di query per specifici parametri che saranno appesi all'indirizzo del link e usati nel rendering dell'URL. Eaempio: ##url:http:~/~/domain.com/path||queryString="mydata1=5&amp;mydata2=Hello"## produce l'indirizzo di destinazione ##http:~/~/domain.com/path?mydata1=5&amp;mydata2=Hello##
+** **##anchor##**: Nome opzionale di un ancora che punta ad un ancora definita nel link cui si riferisce. Notare che in XWiki le ancore per i titoli sono create automaticamente. Esempio: ##url:http:~/~/domain.com/path||anchor="HTableOfContents"## produce l'indirizzo di destinazione ##http:~/~/domain.com/path#HTableOfContents##
+** **##rel##**: Parametro opzionale che consente di aprire il link in una nuova finestra. Esempio: ##rel="~_~_blank"##
 
 = Tabelle =
 
@@ -531,95 +582,81 @@ Il formato completo di un link è ##(label&gt;&gt;)?(link)(||parameters)*##
 Titolo 1 | Titolo 2
 Parola 1 | Parola 2
 {table}
-)))}}}|(((
-{{{|=Titolo 1|=Titolo 2
+)))}}}|((({{{
+|=Titolo 1|=Titolo 2
 |Parola 1|Parola 2}}}
-)))|(((
+}}}))) o ((({{{
+!=Titolo 1!=Titolo 2
+!!Parola 1!!Parola 2
+}}})))|(((
 |=Titolo 1|=Titolo 2
 |Parola 1|Parola 2
 )))
 |Tabella con Parametri|(((
 &lt;table style="background-color:red;align:center"&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Titolo 1&lt;/td&gt;
-      &lt;td style="background-color:yellow"&gt;Titolo 2&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Parola 1&lt;/td&gt;
-      &lt;td&gt;Parola 2&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Titolo 1&lt;/td&gt;
+&lt;td style="background-color:yellow"&gt;Titolo 2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Parola 1&lt;/td&gt;
+&lt;td&gt;Parola 2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
-)))|(((
-{{{(% style="background-color:red;align=center" %)
+)))|((({{{
+(% style="background-color:red;align=center" %)
 |=Titolo 1|=(% style="background-color:yellow" %)Titolo 2
-|Parola 1|Parola 2}}}
-)))|(((
+|Parola 1|Parola 2
+}}})))|(((
 (% style="background-color: red;" %)
 |=Titolo 1|=(% style="background-color: yellow;" %)Titolo 2
 |Parola 1|Parola 2
 )))
-|Tabella filtrabile ordinabile|(((
-{{{$xwiki.ssfx.use("js/xwiki/table/table.css")
+|Tabella filtrabile ordinabile|((({{{
+$xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 &lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Titolo1&lt;/th&gt;
-    &lt;th&gt;Titolo2&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cella11&lt;/td&gt;
-   &lt;td&gt;Cella12&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cella21&lt;/td&gt;
-   &lt;td&gt;Cella22&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;}}}
-)))|(((
-{{{{{velocity}}
+&lt;tr class="sortHeader"&gt;
+&lt;th&gt;Titolo1&lt;/th&gt;
+&lt;th&gt;Titolo2&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cella11&lt;/td&gt;
+&lt;td&gt;Cella12&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cella21&lt;/td&gt;
+&lt;td&gt;Cella22&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+}}}
+
+{{info}}Per caratteristiche avanzate vedere la [[Livetable Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Livetable+Macro]].{{/info}}
+)))|((({{{
+{{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
-{{html}}
-&lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Titolo1&lt;/th&gt;
-    &lt;th&gt;Titolo2&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cella11&lt;/td&gt;
-   &lt;td&gt;Cella12&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cella21&lt;/td&gt;
-   &lt;td&gt;Cella22&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{{/html}}}}}
+
+(% class="grid sortable filterable doOddEven" id="tableid" %)
+(% class="sortHeader" %)|=Titolo 1|=Titolo 2
+|Cella 11|Cella 12
+|Cella 21|Cella 22
+}}}
+
+{{info}}Per caratteristiche avanzate vedere la [[Livetable Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Livetable+Macro]].{{/info}}
 )))|(((
 {{velocity}}
 $xwiki.ssfx.use("js/xwiki/table/table.css")
 $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 {{/velocity}}
 
-{{html}}
-&lt;table id="tableid" class="grid sortable filterable doOddEven"&gt;
-  &lt;tr class="sortHeader"&gt;
-    &lt;th&gt;Titolo1&lt;/th&gt;
-    &lt;th&gt;Titolo2&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cella11&lt;/td&gt;
-   &lt;td&gt;Cella12&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Cella21&lt;/td&gt;
-   &lt;td&gt;Cella22&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-{{/html}}
+(% class="grid sortable filterable doOddEven" id="tableid" %)
+(% class="sortHeader" %)|=Titolo 1|=Titolo 2
+|Cella 11|Cella 12
+|Cella 21|Cella 22
 )))
 
 = Immagini =
@@ -627,8 +664,7 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
 |Immagine da un allegato nella pagina corrente|(((
-{{info}}Vedere [[Image Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/ImageMacro]] per dettagli{{/info}}
-
+{{info}}Vedere [[Image Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Image+Macro+%28Radeox%29]] per dettagli{{/info}}
 {{{{image:img.png}}}}
 )))|{{{image:img.png}}}|image:img.png
 |Immagine da un allegato di un altro documento|{{{{image:img.png|document=Space.Page}}}}|{{{image:Space.Page@img.png}}}|image:img.png
@@ -640,35 +676,35 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 Consente di inserire del contenuto che non sarà formattato (in altre parole non viene considerata la sintassi wiki).
 
 {{info}}
-Con la Sintassi XWiki 1.0 la [[Pre macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/PreMacro]] preserva solo la sintassi wiki e le macro Radeox. Per cui gli snippets HTML e gli script Groovy/Velocity sono comunque eseguiti.
+Con la Sintassi XWiki 1.0 la [[Pre macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Pre+Macro+%28Radeox%29]] preserva solo la sintassi wiki e le macro Radeox. Per cui gli snippets HTML e gli script Groovy/Velocity sono comunque eseguiti.
 {{/info}}
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultati con Sintassi XWiki 1.0|=Risultati con Sintassi XWiki 2.0
-|Verbatim in una riga|{{{Testo verbatim {pre}*[not rendered]*{/pre} content}}}|{{{Testo verbatim {{{**[[not rendered]]**}}} content}}}|Testo verbatim {{{*[not rendered]*}}}content|Testo verbatim {{{**[[not rendered]]**}}}content
-|Verbatim in un blocco|(((
-{{{{pre}
+|Verbatim in una riga|{{{Testo verbatim {pre}*[not rendered]*{/pre} contenuto}}}|{{{Testo verbatim {{{**[[not rendered]]**}}} contenuto}}}|Testo verbatim {{{*[not rendered]*}}}contenuto|Testo verbatim {{{**[[not rendered]]**}}}contenuto
+|Verbatim in un blocco|((({{{
+{pre}
 contenuto
 *verbatim*
 su più righe
-{/pre}}}}
-
-{{info}}È anche possibile usare la [[Code macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/CodeMacro]] ma essa visualizza per default il contenuto in una casella.{{/info}}
-)))|(((
-{{{{{{
+{/pre}
+}}}
+{{info}}È anche possibile usare la [[Code macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Code+Macro+%28Radeox%29]] ma essa visualizza per default il contenuto in una casella.{{/info}}
+)))|((({{{
+{{{
 contenuto
 **verbatim**
 su più righe
-}}}}}}
-)))|(((
-{{{contenuto
+}}}
+}}})))|((({{{
+contenuto
 *verbatim*
-su più righe}}}
-)))|(((
-{{{contenuto
+su più righe
+}}})))|((({{{
+contenuto
 **verbatim**
-su più righe}}}
-)))
+su più righe
+}}})))
 
 = Citazioni =
 
@@ -679,28 +715,25 @@ Permette di citare, quotare, del testo.
 |Citazione semplice|(((
 &lt;blockquote&gt;&lt;p&gt;Giovanni ha detto questo&lt;/p&gt;&lt;/blockquote&gt;
 Io ho detto va bene
-)))|(((
-{{{&gt; Giovanni ha detto questo
-Io ho detto va bene}}}
-)))|(((
+)))|((({{{
 &gt; Giovanni ha detto questo
-
+Io ho detto va bene
+}}})))|(((
+&gt; Giovanni ha detto questo
 Io ho detto va bene
 )))
 |Citazioni nidificate|(((
 &lt;blockquote&gt;&lt;p&gt;Giovanni ha detto questo&lt;/p&gt;
-  &lt;blockquote&gt;&lt;p&gt;Maria ha risposto questo&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;Maria ha risposto questo&lt;/p&gt;&lt;/blockquote&gt;
 &lt;/blockquote&gt;
 Io ho detto va bene 
-)))|(((
-{{{&gt; Giovanni ha detto questo
-&gt;&gt; Maria ha risposto questo
-Io ho detto va bene}}}
-)))|(((
+)))|((({{{
 &gt; Giovanni ha detto questo
 &gt;&gt; Maria ha risposto questo
-
-
+Io ho detto va bene
+}}})))|(((
+&gt; Giovanni ha detto questo
+&gt;&gt; Maria ha risposto questo
 Io ho detto va bene
 )))
 
@@ -710,84 +743,77 @@ Si possono usare i Gruppi per inserire direttamete un altro documento nel docume
 
 (% style="width: 100%;" %)
 |=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
-|{{info}}Questa caratteristica non esiste nella Sintassi XWiki 1.0. Si deve usare puro codice HTML per ottenere il risultato.{{/info}}|(((
-{{{|=Titolo 1|=Titolo 2|=Titolo 3
+|{{info}}Questa caratteristica non esiste nella Sintassi XWiki 1.0. Si deve usare puro codice HTML per ottenere il risultato.{{/info}}|((({{{
+|=Titolo 1|=Titolo 2|=Titolo 3
 |Cella Uno|(((
-= Documento incluso
+= Documento incluso =
 
 Alcuni paragrafi inclusi.
 
-* elenco voce uno
-* elenco voce due
-  ** sotto elemento 1
-  ** sotto elemento 2
+* voce elenco uno
+* voce elenco due
+** sotto elemento 1
+** sotto elemento 2
 ))) | Cella Tre
 
-Paragrafo successivo nel documento di livello superiore}}}
-)))|(((
+Paragrafo successivo nel documento di livello superiore
+}}})))|(((
 |=Titolo 1|=Titolo 2|=Titolo 3
 |Cella Uno|(((
 {{html}}&lt;h1 id="HEmbeddeddocument"&gt;&lt;span&gt;Documento incluso&lt;/span&gt;&lt;/h1&gt;{{/html}}
 
 Alcuni paragrafi inclusi.
 
-* elenco voce uno
-* elenco voce due
+* voce elenco uno
+* voce elenco due
 ** sotto elemento 1
 ** sotto elemento 2
-)))| Cella Tre
+))) | Cella Tre
 
 Paragrafo successivo nel documento di livello superiore
 )))
 
-= Escapes //testo non valutato// =
+= Escapes - Commenti //testo non valutato// =
+
+Consente di commentare e quindi non valutare la sintassi XWiki
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato con Sintassi XWiki 1.0|=Risultato con Sintassi XWiki 2.0
-|Escape di un carattere|{{{Questo non è un \[link\]}}}|(((
+|Commentare un carattere|{{{Questo non è un \[link\]}}}|(((
 {{{Questo non è un ~[~[link~]~]}}}
-
-{{info}}Per inseire un carattere ~~ usare un escape doppio: ~~~~{{/info}}
+{{info}}Per inserire il carattere ~~ usare un doppio commento: ~~~~{{/info}}
 )))|{{{Questo non è un [link]}}}|{{{Questo non è un [[link]]}}}
 
 = Macro =
 
 Ci sono due tipi di macro nella Sintassi XWiki 1.0:
-
 * Macro Velocity (chiamate usando la sintassi ###macroname(param1 ... paramN)## )
 * Macro Radeox (chiamate usando la sintassi ##{macroname:param1=value1|...|paramN=valueN}## )
 
 Anche nella Sintassi XWiki 2.0 ci sono due tipi di macro:
-
 * Macro Velocity (chiamate usando la sintassi ###macroname(param1 ... paramN)## all'interno della Macro Velocity)
 * Macro XWiki (chiamate usando la sintassi ##{{{{{macroname param1="value1" ... paramN="valueN"}}}}}## )
 
 {{info}}Non si possono usare le macro Radeox con la Sintassi XWiki 2.0. Perciò devono essere riscritte come macro XWiki.{{/info}}
 
-{{info}}Per l'elenco completo delle macro disponibili controllare la [[Macro Reference page&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/]].{{/info}}
+{{info}}Per l'elenco completo delle macro disponibili controllare la pagina delle [[Estensioni di XWiki&gt;&gt;http://extensions.xwiki.org/]].{{/info}}
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0
-|Macro Velocity|(((
-{{{#info("testo a caso")}}}
-)))|(((
-{{{{{velocity}}{{html}}
-#info("testo a caso")
-{{/html}}{{/velocity}}}}}
-
-{{info}}Nell'esempio usiamo la macro HTML poiché la macro ###info## ritorna contenuto HTML.{{/info}}
-
-{{info}}A partire da XE 2.0 si dovrebbe usare la [[Message Macro&gt;&gt;http://code.xwiki.org/xwiki/bin/view/Macros/MessageMacro]] per implementare questo esempio.{{/info}}
-)))
-|Macro Radeox/Macro XWiki|(((
-{{{{code:java}
+|Macro Velocity|((({{{#info("testo a caso")}}})))|((({{{
+{{info}}
+Testo a caso
+{{/info}}
+}}})))
+|Radeox Macro/XWiki Macro|((({{{
+{code:java}
 contenuto java
-{code}}}}
-)))|(((
-{{{{{code language="java"}}
+{code}
+}}})))|((({{{
+{{code language="java"}}
 contenuto java
-{{/code}}}}}
-)))
+{{/code}}
+}}})))
 
 = HTML =
 
@@ -797,7 +823,7 @@ contenuto java
 |=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
 |&lt;b&gt;grassetto&lt;/b&gt;|{{{{{html}}&lt;b&gt;grassetto&lt;/b&gt;{{/html}}}}}|{{html}}&lt;b&gt;grassetto&lt;/b&gt;{{/html}}
 
-{{info}}Nella Sintassi XWiki 2.0, per default la macro HTML interpreta la sintassi wiki. Per evitare questo, usare {{{{{html wiki="false"}}}}}.{{/info}}
+{{info}}Nella Sintassi XWiki 2.0, per default la macro HTML non interpreta la sintassi XWiki (così come altre macro racchiuse, dal momento che anch'esse sono sintassi XWiki). Per abilitare la cosa, usare {{{{{html wiki="true"}}}}}.{{/info}}
 
 = Scripts Velocity/Groovy =
 
@@ -805,22 +831,22 @@ contenuto java
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0
-|Script Velocity|(((
-{{{#set ($var = "qualsiasi")}}}
-)))|(((
-{{{{{velocity}}
+|Script Velocity|((({{{
 #set ($var = "qualsiasi")
-{{/velocity}}}}}
-)))
-|Script Groovy|(((
-{{{&lt;%
+}}})))|((({{{
+{{velocity}}
+#set ($var = "qualsiasi")
+{{/velocity}}
+}}})))
+|Script Groovy|((({{{
+&lt;%
 def var = "qualsiasi"
-%&gt;}}}
-)))|(((
-{{{{{groovy}}
+%&gt;
+}}})))|((({{{
+{{groovy}}
 def var = "qualsiasi"
-{{/groovy}}}}}
-)))
+{{/groovy}}
+}}})))
 
 = Parametri =
 
@@ -828,21 +854,19 @@ Con la Sintassi XWiki 2.0 è possibile passare dei parametri tra i diversi eleme
 
 (% style="width: 100%;" %)
 |=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=XHTML Generato
-|(((
-{{{&lt;h1 class="miaClasse" style="mioStile" id="myId"&gt;titolo&lt;/h1&gt;}}}
-)))|(((
-{{{(% class="miaClasse" style="mioStile" id="myId" %)
-= titolo=}}}
-)))|(((
-{{{&lt;h1 class="miaClasse" style="mioStile" id="myId"&gt;titolo&lt;/h1&gt;}}}
-)))
+|((({{{
+&lt;h1 class="miaClasse" style="mioStile" id="myId"&gt;titolo&lt;/h1&gt;
+}}})))|((({{{
+(% class="miaClasse" style="mioStile" id="myId" %)
+= titolo =
+}}})))|((({{{
+&lt;h1 class="miaClasse" style="mioStile" id="myId"&gt;titolo&lt;/h1&gt;
+}}})))
 
 {{id name="syntaxes"/}}
-
 = Altre sintassi =
 
 A partire da XWiki Enterprise 1.6 sono implementate anche queste altre sintassi:
-
 * [[JSPWiki&gt;&gt;http://www.jspwiki.org/wiki/TextFormattingRules]]
 * [[MediaWiki&gt;&gt;http://en.wikipedia.org/wiki/Help:Editing]]
 * [[Confluence&gt;&gt;http://confluence.atlassian.com/display/CONF20/Confluence+Notation+Guide+Overview]]

@@ -39,6 +39,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         return suite;
     }
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -57,30 +58,42 @@ public class AdministrationTest extends AbstractXWikiTestCase
     public void testGlobalAndSpaceSections()
     {
         clickLinkWithText("Administer Wiki");
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=General')]");
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Editing')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Localization')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Programming')]");
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Rights')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Email')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Elements')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Users')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Groups')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Rights')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Import')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Export')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Templates')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=MessageStream')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Panels.PanelWizard')]");
 
         // select space administration
         getSelenium().select("goto-select", "label=Main");
         waitPage();
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Rights')]");
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Panels.PanelWizard')]");
-        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=General')]");
-        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Editing')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Localization')]");
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Programming')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Email')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Elements')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Users')]");
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Groups')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Rights')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Registration')]");
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Import')]");
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Export')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Templates')]");
+        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=MessageStream')]");
+        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Panels.PanelWizard')]");
     }
 
     /*
@@ -102,7 +115,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         clickLinkWithText("Administer Wiki");
         getSelenium().select("goto-select", "label=Wiki administration");
-        clickLinkWithXPath("//a[text()='General']", true);
+        clickLinkWithXPath("//a[text()='Localization']", true);
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");
         clickLinkWithXPath("//input[@value='Save']", true);
         assertElementPresent("//span[@id='headerlanguages']");

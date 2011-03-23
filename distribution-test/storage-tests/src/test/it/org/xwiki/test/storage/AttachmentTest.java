@@ -346,6 +346,76 @@ public class AttachmentTest extends AbstractTest
         Assert.assertEquals("<p>6.1</p>", new String(ret.getResponseBody(), "UTF-8"));
     }
 
+    /**
+     * Tests that XWIKI-5436 remains fixed.
+     * This test proves that when an attachment is saved using Document.addAttachment
+     * and then the document is saved a number of times after, the attachment verstion is not incremented.
+     * It also checks that XWikiAttachment.isContentDirty() is false unless the attachment has
+     * just been modified.
+     */
+    @Test
+    public void testAttachmentContentDirty() throws Exception
+    {
+        final String test1 =
+            "{{groovy}}\n"
+          + "doc.addAttachment('" + FILENAME + "', '" + ATTACHMENT_CONTENT +"'.getBytes('UTF-8'));\n"
+          + "print(doc.getDocument().getAttachmentList().get(0).isContentDirty());\n"
+          + "doc.saveAsAuthor();\n"
+          + "print(' ');"
+          + "print(doc.getDocument().getAttachmentList().get(0).isContentDirty());\n"
+          + "{{/groovy}}\n";
+
+        final String docName = "/Test/testAttachmentContentDirty";
+
+        // Delete the document if it exists.
+        doPost(this.addressPrefix + "delete" + docName + "?confirm=1&basicauth=1", ADMIN_CREDENTIALS, null);
+
+        // Create a document.
+        doPost(this.addressPrefix + "save" + docName + "?basicauth=1", ADMIN_CREDENTIALS,
+               new HashMap<String, String>(){{
+            put("content", test1);
+        }});
+
+        Assert.assertEquals("<p>true false</p>",
+                            getPageAsString(this.addressPrefix + "view" + docName + "?xpage=plain"));
+
+
+        // Make sure that on load the attach content isn't dirty.
+        final String test2 =
+            "{{groovy}}print(doc.getDocument().getAttachmentList().get(0).isContentDirty());{{/groovy}}\n";
+
+        doPost(this.addressPrefix + "save" + docName + "?basicauth=1", ADMIN_CREDENTIALS,
+               new HashMap<String, String>(){{
+            put("content", test2);
+        }});
+        Assert.assertEquals("<p>false</p>",
+                            getPageAsString(this.addressPrefix + "view" + docName + "?xpage=plain"));
+
+        // Make sure the version of the attachment has not been incremented.
+        final String test3 =
+            "{{groovy}}print(doc.getDocument().getAttachmentList().get(0).getVersion());{{/groovy}}";
+        doPost(this.addressPrefix + "save" + docName + "?basicauth=1", ADMIN_CREDENTIALS,
+               new HashMap<String, String>(){{
+            put("content", test3);
+        }});
+        Assert.assertEquals("<p>1.1</p>",
+                            getPageAsString(this.addressPrefix + "view" + docName + "?xpage=plain"));
+
+        // Reupload the attachment and make sure the version is incremented.
+        doPost(this.addressPrefix + "preview" + docName + "?basicauth=1", ADMIN_CREDENTIALS,
+               new HashMap<String, String>(){{
+            put("content", test1);
+        }});
+
+        doPost(this.addressPrefix + "save" + docName + "?basicauth=1", ADMIN_CREDENTIALS,
+               new HashMap<String, String>(){{
+            put("content", test3);
+        }});
+        Assert.assertEquals("<p>1.2</p>",
+                            getPageAsString(this.addressPrefix + "view" + docName + "?xpage=plain"));
+    }
+
+    /*------------------------- Helper Functions -------------------------*/
 
     private static String getPageAsString(final String address) throws IOException
     {

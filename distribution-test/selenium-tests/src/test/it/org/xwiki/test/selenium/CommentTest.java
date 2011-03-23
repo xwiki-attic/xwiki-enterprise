@@ -120,6 +120,7 @@ public class CommentTest extends AbstractXWikiTestCase
             loginAsAdmin();
         }
         open("CommentTest", "PageWithSomeComments");
+        loadCommentsTab();
 
         // Wait until comments load though ajax mechanism.
         waitForElement("//div[@id='_comments']/form[@id='AddComment']/fieldset[@id='commentform']");
@@ -147,6 +148,7 @@ public class CommentTest extends AbstractXWikiTestCase
         if (!isAuthenticated()) {
             loginAsAdmin();
         }
+        loadCommentsTab();
         if (!isElementPresent("//div[@class='commentheader']/div/span[@class='commentauthor']/span/a")) {
             postComment("This comment will be edited.", null, true);
         }
@@ -207,6 +209,7 @@ public class CommentTest extends AbstractXWikiTestCase
 
     public void postComment(String comment, String author, boolean doubleCheck)
     {
+        loadCommentsTab();
         setCommentContent(comment);
         if (author != null) {
             setCommentAuthor(author);
@@ -231,6 +234,14 @@ public class CommentTest extends AbstractXWikiTestCase
     public String getCommentAuthor()
     {
         return getSelenium().getAttribute("//input[@name='XWiki.XWikiComments_author']@value");
+    }
+
+    public void loadCommentsTab()
+    {
+        if (isElementPresent("//a[@id='Commentslink']")) {
+            clickLinkWithXPath("//a[@id='Commentslink']", false);
+            waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
+        }
     }
 
     public void setCommentContent(String content)

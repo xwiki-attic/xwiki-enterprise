@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons</artifactId>
-    <version>41-SNAPSHOT</version>
+    <version>41</version>
     <relativePath>../commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
@@ -53,37 +53,37 @@
   </modules>
   <properties>
     <!-- Versions of XWiki dependencies used in XE modules -->
-    <platform.tool.configuration.version>1.46-SNAPSHOT</platform.tool.configuration.version>
-    <platform.tool.jetty.version>1.21-SNAPSHOT</platform.tool.jetty.version>
-    <platform.tool.packager.version>1.18-SNAPSHOT</platform.tool.packager.version>
-    <platform.tool.rootwebapp.version>1.5-SNAPSHOT</platform.tool.rootwebapp.version>
-    <platform.tool.standards-validator.version>1.4-SNAPSHOT</platform.tool.standards-validator.version>
-    <platform.tool.xar-handler.version>1.10-SNAPSHOT</platform.tool.xar-handler.version>
-    <platform.tool.xar-plugin.version>1.15-SNAPSHOT</platform.tool.xar-plugin.version>
+    <platform.tool.configuration.version>1.45</platform.tool.configuration.version>
+    <platform.tool.jetty.version>1.20</platform.tool.jetty.version>
+    <platform.tool.packager.version>1.17</platform.tool.packager.version>
+    <platform.tool.rootwebapp.version>1.4</platform.tool.rootwebapp.version>
+    <platform.tool.standards-validator.version>1.3</platform.tool.standards-validator.version>
+    <platform.tool.xar-handler.version>1.9</platform.tool.xar-handler.version>
+    <platform.tool.xar-plugin.version>1.14</platform.tool.xar-plugin.version>
 
-    <commons.core.version>${project.version}</commons.core.version>
-    <platform.core.version>${project.version}</platform.core.version>
-    <platform.web.version>${project.version}</platform.web.version>
+    <commons.core.version>3.0-rc-1</commons.core.version>
+    <platform.core.version>3.0-rc-1</platform.core.version>
+    <platform.web.version>3.0-rc-1</platform.web.version>
 
-    <platform.administration.version>1.48-SNAPSHOT</platform.administration.version>
-    <platform.annotations.version>1.12-SNAPSHOT</platform.annotations.version>
-    <platform.activitystream.version>1.12-SNAPSHOT</platform.activitystream.version>
-    <platform.blog.version>1.30-SNAPSHOT</platform.blog.version>
-    <platform.extension.version>1.3-SNAPSHOT</platform.extension.version>
-    <platform.invitation.version>1.6-SNAPSHOT</platform.invitation.version>
-    <platform.jodatime.version>1.4-SNAPSHOT</platform.jodatime.version>
-    <platform.plugin.lucene.version>1.25-SNAPSHOT</platform.plugin.lucene.version>
-    <platform.plugin.mailsender.version>1.18-SNAPSHOT</platform.plugin.mailsender.version>
-    <platform.officeimporter.version>1.19-SNAPSHOT</platform.officeimporter.version>
-    <platform.panels.version>1.47-SNAPSHOT</platform.panels.version>
-    <platform.scheduler.version>1.26-SNAPSHOT</platform.scheduler.version>
-    <platform.search.version>1.9-SNAPSHOT</platform.search.version>
-    <platform.plugin.skinx.version>1.23-SNAPSHOT</platform.plugin.skinx.version>
-    <platform.statistics.version>1.11-SNAPSHOT</platform.statistics.version>
-    <platform.tag.version>1.21-SNAPSHOT</platform.tag.version>
-    <platform.watchlist.version>1.36-SNAPSHOT</platform.watchlist.version>
-    <platform.webdav.version>1.5-SNAPSHOT</platform.webdav.version>
-    <platform.wikimacrobridge.version>1.5-SNAPSHOT</platform.wikimacrobridge.version>
+    <platform.administration.version>1.48</platform.administration.version>
+    <platform.annotations.version>1.12</platform.annotations.version>
+    <platform.activitystream.version>1.12</platform.activitystream.version>
+    <platform.blog.version>1.29</platform.blog.version>
+    <platform.extension.version>1.3</platform.extension.version>
+    <platform.invitation.version>1.5</platform.invitation.version>
+    <platform.jodatime.version>1.3</platform.jodatime.version>
+    <platform.plugin.lucene.version>1.24</platform.plugin.lucene.version>
+    <platform.plugin.mailsender.version>1.17</platform.plugin.mailsender.version>
+    <platform.officeimporter.version>1.19</platform.officeimporter.version>
+    <platform.panels.version>1.46</platform.panels.version>
+    <platform.scheduler.version>1.25</platform.scheduler.version>
+    <platform.search.version>1.9</platform.search.version>
+    <platform.plugin.skinx.version>1.22</platform.plugin.skinx.version>
+    <platform.statistics.version>1.10</platform.statistics.version>
+    <platform.tag.version>1.20</platform.tag.version>
+    <platform.watchlist.version>1.35</platform.watchlist.version>
+    <platform.webdav.version>1.4</platform.webdav.version>
+    <platform.wikimacrobridge.version>1.4</platform.wikimacrobridge.version>
 
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
          the build take longer than needed (since it downloads the previous versions). -->

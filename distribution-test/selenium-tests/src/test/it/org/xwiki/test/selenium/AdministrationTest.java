@@ -448,10 +448,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
 
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection3");
-        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixString']");
-        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixBoolean']");
-        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixTextArea']");
-        assertElementPresent("//form/fieldset//label/a[@href='TheLinkPrefixSelect']");
+        assertElementPresent("//form/fieldset//a[@href='TheLinkPrefixString']");
+        assertElementPresent("//form/fieldset//a[@href='TheLinkPrefixBoolean']");
+        assertElementPresent("//form/fieldset//a[@href='TheLinkPrefixTextArea']");
+        assertElementPresent("//form/fieldset//a[@href='TheLinkPrefixSelect']");
     }
 
     /*

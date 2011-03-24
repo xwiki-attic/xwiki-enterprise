@@ -495,8 +495,8 @@
           #set($discard = $whereParams.addAll(["${colname}", "${filterValue}"]))
         #else
           #set($fromSql = "${fromSql}, StringListProperty ${safe_tableAlias}")
-          #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and upper(${safe_tableAlias}.textValue) like upper(?)")
-          #set($discard = $whereParams.addAll(["${colname}", "%${filterValue}%"]))
+          #set($whereSql = "${whereSql} and obj.id=${safe_tableAlias}.id.id and ${safe_tableAlias}.id.name = ? and concat('|', concat(upper(${safe_tableAlias}.textValue), '|')) like upper(?)")
+          #set($discard = $whereParams.addAll(["${colname}", "%|${filterValue}|%"]))
         #end
       #else
         #set($fromSql = "${fromSql}, StringProperty ${safe_tableAlias}")

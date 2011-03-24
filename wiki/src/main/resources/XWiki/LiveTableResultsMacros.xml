@@ -118,7 +118,10 @@
     #if($order.startsWith('doc.'))
       #set($orderSql = " order by ${safe_tableAlias.replace('_','.')} ${orderDirection}")
     #elseif($tablelist.contains($tableAlias))
-      #set($orderSql = " order by ${safe_tableAlias}.value ${orderDirection}")
+      #set ($multiselect = "$!{class.get($order).getProperty('multiSelect').getValue()}")
+      #if ($multiselect != '1')
+        #set ($orderSql = " order by ${safe_tableAlias}.value ${orderDirection}")
+      #end
     #elseif($order == 'averagevote')
       #livetable_getTableName($order)
       #set($fromSql = "${fromSql}, BaseObject as objratings, ${tableName} ${safe_tableAlias}")

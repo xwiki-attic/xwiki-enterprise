@@ -784,6 +784,7 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
 }
 .gallery_upload input.attachment {
   margin: 0; /* Overrides viewers/attachments.css */
+  padding: 0; /* Overrides viewers/attachments.css */
   width: ${mathtool.sub($uploadBoxSize, $mathtool.mul($boxPadding, 2))}px;
 }
 .gallery_upload .buttonwrapper {

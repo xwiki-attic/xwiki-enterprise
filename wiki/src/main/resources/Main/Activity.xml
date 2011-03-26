@@ -844,37 +844,14 @@ h1:hover .toolFilter .toolExpand {
 .messagestream-tools, .messagestream-tools * {
   vertical-align: middle;
 }
+
 .messagestream select {
-  background: transparent none 2px center no-repeat;
-  color: $theme.textPrimaryColor;
-  min-height: 16px;
-  padding: 0 0 0 20px;
   width: auto;
 }
-
-.messagestream select option {
-  background: transparent none 2px center no-repeat;
-  padding: 0 0 0 20px;
-  min-height: 16px;
-}
-
-#set ($iconMap = {
-  'everyone'  : 'world',
-  'followers' : 'group_link',
-  'group'     : 'group',
-  'user'      : 'user'
-})
-#foreach ($entry in $iconMap.entrySet())
-.messagestream select.${entry.key},
-.messagestream select option[value='${entry.key}'] {
-  background-image: url("$xwiki.getSkinFile("icons/silk/${entry.value}.gif")");
-}
-#end
-
 .messagestream input.targetName {
   width: auto;
-  min-height: 16px;
 }
+
 .toolDelete {
   color: $theme.notificationErrorColor !important;
   cursor: pointer;

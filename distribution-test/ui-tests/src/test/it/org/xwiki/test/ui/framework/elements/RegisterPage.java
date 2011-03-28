@@ -124,9 +124,10 @@ public class RegisterPage extends BasePage
     /** Try to make LiveValidation validate the forms. Focus on an unvalidated field (register_first_name) */
     public void triggerLiveValidation()
     {
-        // By manually invoing insubmit with null as it's parameter,
+        // By manually invoking onsubmit with null as it's parameter,
         // liveValidation will check fields but when it attempts to call submit with null as the
         // input, it encounters an error which keeps the next page from loading.
-        executeJavascript("try{ document.getElementById('register').onsubmit(null); }catch(err){}");
+        executeJavascript("try{ document.getElementById('register_first_name').focus(); " +
+            "document.getElementById('register').onsubmit(null); }catch(err){}");
     }
 }

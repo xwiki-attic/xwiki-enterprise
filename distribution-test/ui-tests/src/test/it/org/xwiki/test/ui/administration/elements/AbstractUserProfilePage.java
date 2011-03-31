@@ -22,6 +22,7 @@ package org.xwiki.test.ui.administration.elements;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.watchlist.elements.WatchlistUserProfilePage;
 
 /**
  * Common page object for all Profile page tabs (profile tab, preferences tab, watchlist tab).
@@ -32,10 +33,13 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
 public class AbstractUserProfilePage extends ViewPage
 {
     @FindBy(xpath = "//a[@href='?category=profile']")
-    private WebElement profile;
+    private WebElement profileCategory;
 
     @FindBy(xpath = "//a[@href='?category=preferences']")
-    private WebElement preferences;
+    private WebElement preferencesCategory;
+
+    @FindBy(xpath = "//a[@href='?category=watchlist']")
+    private WebElement watchlistCategory;
 
     @FindBy(xpath = "//div[@id='preferencesPane']/div[1]/div/dl[2]/dd[1]")
     private WebElement defaultEditorToUse;
@@ -55,16 +59,22 @@ public class AbstractUserProfilePage extends ViewPage
         return this.username;
     }
 
+    public ProfileUserProfilePage switchToProfile()
+    {
+        this.profileCategory.click();
+        return new ProfileUserProfilePage(getUsername());
+    }
+
     public PreferencesUserProfilePage switchToPreferences()
     {
-        this.preferences.click();
+        this.preferencesCategory.click();
         return new PreferencesUserProfilePage(getUsername());
     }
 
-    public ProfileUserProfilePage switchToProfile()
+    public WatchlistUserProfilePage switchToWatchlist()
     {
-        this.profile.click();
-        return new ProfileUserProfilePage(getUsername());
+        this.watchlistCategory.click();
+        return new WatchlistUserProfilePage(getUsername());
     }
 
     public String getDefaultEditorToUse()

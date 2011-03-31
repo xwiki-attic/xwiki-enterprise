@@ -208,8 +208,12 @@ public class TestUtils
     public void createPage(String space, String page, String content, String title)
     {
         Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put("content", content);
-        queryMap.put("title", title);
+        if (content != null) {
+            queryMap.put("content", content);
+        }
+        if (title != null) {
+            queryMap.put("title", title);
+        }
         gotoPage(space, page, "save", queryMap);
     }
 

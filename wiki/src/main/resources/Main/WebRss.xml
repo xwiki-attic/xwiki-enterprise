@@ -4,17 +4,17 @@
 <web>Main</web>
 <name>WebRss</name>
 <language></language>
-<defaultLanguage>en</defaultLanguage>
+<defaultLanguage></defaultLanguage>
 <translation>0</translation>
 <parent>Main.RssFeeds</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
 <creationDate>1252450800000</creationDate>
 <date>1266601716000</date>
 <contentUpdateDate>1266601716000</contentUpdateDate>
-<version>9.1</version>
+<version>1.1</version>
 <title>$msg.get("xe.rss.pages.modified")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
@@ -32,14 +32,14 @@
   $response.setContentType('application/rss+xml')
   #if("$!{request.space}" == '')
     ## RSS feed for the whole wiki
-    #set ($request = 'where 1=1 order by doc.date desc')
+    #set ($query = 'where 1=1 order by doc.date desc')
     #set ($description = $msg.get('xe.rss.feed.description'))
   #else
     ## RSS feed for a single space
-    #set ($request = "where doc.space='${request.space}' order by doc.date desc")
+    #set ($query = "where doc.space='${request.space}' order by doc.date desc")
     #set ($description = $msg.get('xe.rss.space.description', [$request.space]))
   #end
-  #set ($feed = $xwiki.feed.getWebFeed($request, 20, 0, $util.getHashMap()))
+  #set ($feed = $xwiki.feed.getWebFeed($query, 20, 0, $util.getHashMap()))
   #set ($feedURI = $xwiki.getDocument('Main.WebHome').getExternalURL('view'))
   #set ($discard = $feed.setLink($feedURI))
   #set ($discard = $feed.setUri($feedURI))

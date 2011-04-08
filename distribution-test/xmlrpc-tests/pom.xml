@@ -82,12 +82,12 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-xmlrpc-model</artifactId>
+      <artifactId>xwiki-platform-xmlrpc-model</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-core-xmlrpc-client</artifactId>
+      <artifactId>xwiki-platform-xmlrpc-client</artifactId>
       <version>${platform.version}</version>
     </dependency>
   </dependencies>

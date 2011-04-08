@@ -52,13 +52,13 @@
           <artifactId>maven-remote-resources-plugin</artifactId>
           <executions>
             <execution>
-              <id>xwiki-configuration-resources</id>
+              <id>xwiki-platform-tool-configuration-resources</id>
               <goals>
                 <goal>process</goal>
               </goals>
               <configuration>
                 <resourceBundles>
-                  <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.version}</resourceBundle>
+                  <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
                 </resourceBundles>
               </configuration>
             </execution>
@@ -66,8 +66,8 @@
         </plugin>
         <!-- Step 2: Expand the XAR file -->
         <plugin>
-          <groupId>org.xwiki.platform.tools</groupId>
-          <artifactId>xwiki-xar-plugin</artifactId>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-tool-xar-plugin</artifactId>
           <version>${platform.version}</version>
           <configuration>
             <groupId>org.xwiki.enterprise</groupId>
@@ -87,8 +87,8 @@
         </plugin>
         <!-- Step 3: Import the XAR content into the Database -->
         <plugin>
-          <groupId>org.xwiki.platform.tools</groupId>
-          <artifactId>xwiki-packager-plugin</artifactId>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
           <version>${platform.version}</version>
           <configuration>
             <sourceDirectory>${project.build.directory}/xar</sourceDirectory>

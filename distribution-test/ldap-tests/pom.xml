@@ -36,14 +36,14 @@
   <dependencies>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-core</artifactId>
+      <artifactId>xwiki-platform-oldcore</artifactId>
       <version>${platform.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-core</artifactId>
+      <artifactId>xwiki-platform-oldcore</artifactId>
       <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>

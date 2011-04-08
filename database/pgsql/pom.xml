@@ -43,13 +43,13 @@
       </plugin>
       <!-- Step 2: Expand the XAR file -->
       <plugin>
-        <groupId>org.xwiki.platform.tools</groupId>
-        <artifactId>xwiki-xar-plugin</artifactId>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-xar-plugin</artifactId>
       </plugin>
       <!-- Step 3: Import the XAR content into the Database -->
       <plugin>
-        <groupId>org.xwiki.platform.tools</groupId>
-        <artifactId>xwiki-packager-plugin</artifactId>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
       </plugin>
     </plugins>
   </build>

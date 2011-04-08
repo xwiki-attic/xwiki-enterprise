@@ -41,7 +41,7 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.tools</groupId>
+      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-jetty-resources</artifactId>
       <version>${platform.version}</version>
       <type>zip</type>
@@ -55,7 +55,7 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.tools</groupId>
+      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-rootwebapp</artifactId>
       <version>${platform.version}</version>
       <type>war</type>
@@ -112,7 +112,7 @@
             </goals>
             <configuration>
               <resourceBundles>
-                <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.version}</resourceBundle>
+                <resourceBundle>org.xwiki.platform:xwiki-configuration-resources:${platform.version}</resourceBundle>
               </resourceBundles>
               <properties>
                   <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
@@ -134,7 +134,7 @@
               <artifactItems>
                 <!-- Expand Jetty startup/stop scripts in the container root directory -->
                 <artifactItem>
-                  <groupId>org.xwiki.platform.tools</groupId>
+                  <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.version}</version>
                   <type>zip</type>
@@ -144,7 +144,7 @@
                 </artifactItem>
                 <!-- Expand other Jetty container files into the Jetty directory -->
                 <artifactItem>
-                  <groupId>org.xwiki.platform.tools</groupId>
+                  <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-jetty-resources</artifactId>
                   <version>${platform.version}</version>
                   <type>zip</type>
@@ -163,7 +163,7 @@
                   <excludes>**/hibernate.cfg.xml</excludes>
                 </artifactItem>
                 <artifactItem>
-                  <groupId>org.xwiki.platform.tools</groupId>
+                  <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-rootwebapp</artifactId>
                   <version>${platform.version}</version>
                   <type>war</type>

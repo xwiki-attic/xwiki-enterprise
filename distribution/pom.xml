@@ -42,8 +42,8 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.tools</groupId>
-      <artifactId>xwiki-rootwebapp</artifactId>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-tool-rootwebapp</artifactId>
       <version>${platform.version}</version>
       <type>war</type>
       <optional>true</optional>

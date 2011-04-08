@@ -48,7 +48,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.tools</groupId>
+      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-standards-validator</artifactId>
       <version>${platform.version}</version>
     </dependency>

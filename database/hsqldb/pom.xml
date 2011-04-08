@@ -51,7 +51,7 @@
         <artifactId>maven-remote-resources-plugin</artifactId>
         <executions>
           <execution>
-            <id>xwiki-configuration-resources</id>
+            <id>xwiki-platform-tool-configuration-resources</id>
             <configuration>
               <properties>
                 <xwikiDbConnectionUrl>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwikiDbConnectionUrl>
@@ -62,13 +62,13 @@
       </plugin>
       <!-- Step 2: Expand the XAR file -->
       <plugin>
-        <groupId>org.xwiki.platform.tools</groupId>
-        <artifactId>xwiki-xar-plugin</artifactId>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-xar-plugin</artifactId>
       </plugin>
       <!-- Step 3: Import the XAR content into the Database -->
       <plugin>
-        <groupId>org.xwiki.platform.tools</groupId>
-        <artifactId>xwiki-packager-plugin</artifactId>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
       </plugin>
       <!-- Step 4: Zip the generated database -->
       <plugin>

@@ -37,7 +37,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
-      <version>${platform.core.version}</version>
+      <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -50,7 +50,7 @@
     <dependency>
       <groupId>org.xwiki.platform.tools</groupId>
       <artifactId>xwiki-standards-validator</artifactId>
-      <version>${platform.tool.standards-validator.version}</version>
+      <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>org.w3c.css</groupId>

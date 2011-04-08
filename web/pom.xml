@@ -37,13 +37,13 @@
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-web-standard</artifactId>
-      <version>${platform.web.version}</version>
+      <version>${platform.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-watchlist</artifactId>
-      <version>${platform.watchlist.version}</version>
+      <version>${platform.version}</version>
       <exclusions>
         <exclusion>
           <groupId>commons-logging</groupId>
@@ -54,37 +54,37 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-jodatime</artifactId>
-      <version>${platform.jodatime.version}</version>
+      <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-lucene</artifactId>
-      <version>${platform.plugin.lucene.version}</version>
+      <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-scheduler</artifactId>
-      <version>${platform.scheduler.version}</version>
+      <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-mailsender</artifactId>
-      <version>${platform.plugin.mailsender.version}</version>
+      <version>${platform.version}</version>
     </dependency>   
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-skinx</artifactId>
-      <version>${platform.plugin.skinx.version}</version>
+      <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-tag</artifactId>
-      <version>${platform.tag.version}</version>
+      <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
       <artifactId>xwiki-plugin-activitystream</artifactId>
-      <version>${platform.activitystream.version}</version>
+      <version>${platform.version}</version>
     </dependency>
   </dependencies>
   <build>
@@ -112,7 +112,7 @@
             </goals>
             <configuration>
               <resourceBundles>
-                <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.tool.configuration.version}</resourceBundle>
+                <resourceBundle>org.xwiki.platform.tools:xwiki-configuration-resources:${platform.version}</resourceBundle>
               </resourceBundles>
               <properties>
                 <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>

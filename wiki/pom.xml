@@ -13,85 +13,85 @@
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-panels</artifactId>
-      <version>${platform.panels.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-administration</artifactId>
-      <version>${platform.administration.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-scheduler</artifactId>
-      <version>${platform.scheduler.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-watchlist</artifactId>
-      <version>${platform.watchlist.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-statistics</artifactId>
-      <version>${platform.statistics.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-search</artifactId>
-      <version>${platform.search.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-blog</artifactId>
-      <version>${platform.blog.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-officeimporter</artifactId>
-      <version>${platform.officeimporter.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-webdav</artifactId>
-      <version>${platform.webdav.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-tag</artifactId>
-      <version>${platform.tag.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-wiki-macro-bridge</artifactId>
-      <version>${platform.wikimacrobridge.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-annotations</artifactId>
-      <version>${platform.annotations.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-invitation</artifactId>
-      <version>${platform.invitation.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
       <artifactId>xwiki-application-extension</artifactId>
-      <version>${platform.extension.version}</version>
+      <version>${platform.version}</version>
       <type>xar</type>
     </dependency>  
   </dependencies>
@@ -100,14 +100,14 @@
       <extension>
         <groupId>org.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xar-handlers</artifactId>
-        <version>${platform.tool.xar-handler.version}</version>
+        <version>${platform.version}</version>
       </extension>
     </extensions>
     <plugins>
       <plugin>
         <groupId>org.xwiki.platform.tools</groupId>
         <artifactId>xwiki-xar-plugin</artifactId>
-        <version>${platform.tool.xar-plugin.version}</version>
+        <version>${platform.version}</version>
       </plugin>
     </plugins>
     <pluginManagement>

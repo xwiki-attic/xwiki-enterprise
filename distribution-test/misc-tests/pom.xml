@@ -37,7 +37,7 @@
     <dependency>
       <groupId>com.xpn.xwiki.platform</groupId>
       <artifactId>xwiki-core</artifactId>
-      <version>${platform.core.version}</version>
+      <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

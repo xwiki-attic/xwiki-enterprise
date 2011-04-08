@@ -42,7 +42,7 @@
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-watchlist</artifactId>
+      <artifactId>xwiki-platform-watchlist-api</artifactId>
       <version>${platform.version}</version>
       <exclusions>
         <exclusion>
@@ -53,37 +53,37 @@
     </dependency>   
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-jodatime</artifactId>
+      <artifactId>xwiki-platform-jodatime</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-lucene</artifactId>
+      <artifactId>xwiki-platform-search-lucene</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-scheduler</artifactId>
+      <artifactId>xwiki-platform-scheduler</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-mailsender</artifactId>
+      <artifactId>xwiki-platform-mailsender</artifactId>
       <version>${platform.version}</version>
     </dependency>   
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-skinx</artifactId>
+      <artifactId>xwiki-platform-skin-skinx</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-tag</artifactId>
+      <artifactId>xwiki-platform-tag-api</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-activitystream</artifactId>
+      <artifactId>xwiki-platform-activitystream</artifactId>
       <version>${platform.version}</version>
     </dependency>
   </dependencies>

@@ -12,85 +12,85 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-panels</artifactId>
+      <artifactId>xwiki-platform-panels</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-administration</artifactId>
+      <artifactId>xwiki-platform-administration</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-scheduler</artifactId>
+      <artifactId>xwiki-platform-scheduler-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-watchlist</artifactId>
+      <artifactId>xwiki-platform-watchlist-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-statistics</artifactId>
+      <artifactId>xwiki-platform-statistics</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-search</artifactId>
+      <artifactId>xwiki-platform-search-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-blog</artifactId>
+      <artifactId>xwiki-platform-blog</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-officeimporter</artifactId>
+      <artifactId>xwiki-platform-office-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-webdav</artifactId>
+      <artifactId>xwiki-platform-webdav-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-tag</artifactId>
+      <artifactId>xwiki-platform-tag-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-wiki-macro-bridge</artifactId>
+      <artifactId>xwiki-platform-rendering-macro-wikibridge</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-annotations</artifactId>
+      <artifactId>xwiki-platform-annotations-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-invitation</artifactId>
+      <artifactId>xwiki-platform-invitation</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-extension</artifactId>
+      <artifactId>xwiki-platform-extension-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>  

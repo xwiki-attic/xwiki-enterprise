@@ -78,7 +78,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-annotations-ui</artifactId>
+      <artifactId>xwiki-platform-annotation-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

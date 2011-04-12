@@ -35,8 +35,8 @@
   <description>XWiki Products - Enterprise - Functional XMLRPC Tests</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-core</artifactId>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-oldcore</artifactId>
       <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>

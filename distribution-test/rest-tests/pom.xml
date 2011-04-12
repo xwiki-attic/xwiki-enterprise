@@ -35,7 +35,7 @@
   <description>XWiki Products - Enterprise - REST Functional Tests</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki.platform</groupId>
+      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-rest-server</artifactId>
       <version>${platform.version}</version>
     </dependency>

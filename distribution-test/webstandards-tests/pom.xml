@@ -35,8 +35,8 @@
   <description>XWiki Products - Enterprise - Web Standards Functional Tests</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki.platform</groupId>
-      <artifactId>xwiki-core</artifactId>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-oldcore</artifactId>
       <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>
@@ -49,7 +49,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-standards-validator</artifactId>
+      <artifactId>xwiki-platform-tool-standards-validator</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>

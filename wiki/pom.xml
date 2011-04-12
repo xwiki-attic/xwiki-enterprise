@@ -99,14 +99,14 @@
     <extensions>
       <extension>
         <groupId>org.xwiki.platform</groupId>
-        <artifactId>xwiki-xar-handlers</artifactId>
+        <artifactId>xwiki-platform-tool-xar-handlers</artifactId>
         <version>${platform.version}</version>
       </extension>
     </extensions>
     <plugins>
       <plugin>
         <groupId>org.xwiki.platform</groupId>
-        <artifactId>xwiki-xar-plugin</artifactId>
+        <artifactId>xwiki-platform-tool-xar-plugin</artifactId>
         <version>${platform.version}</version>
       </plugin>
     </plugins>

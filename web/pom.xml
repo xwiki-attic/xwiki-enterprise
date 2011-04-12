@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-web-standard</artifactId>
+      <artifactId>xwiki-platform-web</artifactId>
       <version>${platform.version}</version>
       <type>war</type>
     </dependency>

@@ -72,7 +72,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-rendering-macro-wikibridge</artifactId>
+      <artifactId>xwiki-platform-rendering-wikimacro-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

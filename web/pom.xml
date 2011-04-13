@@ -63,7 +63,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-scheduler</artifactId>
+      <artifactId>xwiki-platform-scheduler-api</artifactId>
       <version>${platform.version}</version>
     </dependency>
     <dependency>

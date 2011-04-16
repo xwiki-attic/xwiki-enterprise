@@ -43,7 +43,7 @@
     <!-- ROOT webapp, redirecting to /xwiki/ when no application is specified. -->
     <dependencySet>
       <includes>
-        <include>org.xwiki.platform.tools:xwiki-rootwebapp</include>
+        <include>org.xwiki.platform:xwiki-platform-tool-rootwebapp</include>
       </includes>
       <outputDirectory>webapps/root</outputDirectory>
       <unpack>true</unpack>
@@ -51,7 +51,7 @@
     <!-- Unpack Jetty files -->
     <dependencySet>
       <includes>
-        <include>org.xwiki.platform.tools:xwiki-jetty-resources</include>
+        <include>org.xwiki.platform:xwiki-platform-tool-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>

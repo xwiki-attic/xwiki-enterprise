@@ -501,16 +501,16 @@
     </profile>
   </profiles>
   <modules>
-    <module>misc-tests</module>
-    <module>xmlrpc-tests</module>
-    <module>ui-tests</module>
-    <module>selenium-tests</module>
-    <module>ldap-tests</module>
-    <module>webdav-tests</module>
-    <module>webstandards-tests</module>
-    <module>rest-tests</module>
-    <module>cluster-tests</module>
-    <module>escaping-tests</module>
-    <module>storage-tests</module>
+    <module>xwiki-enterprise-test-misc</module>
+    <module>xwiki-enterprise-test-xmlrpc</module>
+    <module>xwiki-enterprise-test-ui</module>
+    <module>xwiki-enterprise-test-selenium</module>
+    <module>xwiki-enterprise-test-ldap</module>
+    <module>xwiki-enterprise-test-webdav</module>
+    <module>xwiki-enterprise-test-webstandards</module>
+    <module>xwiki-enterprise-test-rest</module>
+    <module>xwiki-enterprise-test-cluster</module>
+    <module>xwiki-enterprise-test-escaping</module>
+    <module>xwiki-enterprise-test-storage</module>
   </modules>
 </project>

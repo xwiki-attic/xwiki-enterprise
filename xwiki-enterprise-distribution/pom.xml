@@ -56,13 +56,13 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>jetty</module>
+        <module>xwiki-enterprise-jetty</module>
       </modules>
     </profile>
     <profile>
       <id>glassfish</id>
       <modules>
-        <module>glassfish</module>
+        <module>xwiki-enterprise-glassfish</module>
       </modules>
     </profile>
   </profiles>

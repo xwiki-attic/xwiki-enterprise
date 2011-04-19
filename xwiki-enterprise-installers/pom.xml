@@ -33,7 +33,7 @@
   <name>XWiki Enterprise - Installers - Parent POM</name>
   <packaging>pom</packaging>
   <modules>
-    <module>generic</module>
-    <module>windows</module>
+    <module>xwiki-enterprise-installer-generic</module>
+    <module>xwiki-enterprise-installer-windows</module>
   </modules>
 </project>

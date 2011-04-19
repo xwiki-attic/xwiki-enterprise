@@ -149,25 +149,25 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>hsqldb</module>
+        <module>xwiki-enterprise-database-hsqldb</module>
       </modules>
     </profile>
     <profile>
       <id>derby</id>
       <modules>
-        <module>derby</module>
+        <module>xwiki-enterprise-database-derby</module>
       </modules>
     </profile>
     <profile>
       <id>pgsql</id>
       <modules>
-        <module>pgsql</module>
+        <module>xwiki-enterprise-database-pgsql</module>
       </modules>
     </profile>
     <profile>
       <id>mysql</id>
       <modules>
-        <module>mysql</module>
+        <module>xwiki-enterprise-database-mysql</module>
       </modules>
     </profile>
   </profiles>

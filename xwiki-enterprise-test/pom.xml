@@ -512,5 +512,6 @@
     <module>xwiki-enterprise-test-cluster</module>
     <module>xwiki-enterprise-test-escaping</module>
     <module>xwiki-enterprise-test-storage</module>
+    <module>xwiki-enterprise-test-wysiwyg</module>
   </modules>
 </project>

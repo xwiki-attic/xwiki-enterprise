@@ -384,11 +384,6 @@
           <name>performRelease</name>
         </property>
       </activation>
-      <modules>
-        <!-- The wysiwyg-tests module is activated only in ci profile because it requires to
-             to give the focus to the selenium browser window during the execution -->
-        <module>wysiwyg-tests</module>
-      </modules>
     </profile>
     <profile>
       <id>unix</id>

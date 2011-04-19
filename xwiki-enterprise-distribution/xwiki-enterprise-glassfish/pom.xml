@@ -227,7 +227,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>derby</module>
+        <module>xwiki-enterprise-glassfish-derby</module>
       </modules>
     </profile>
   </profiles>

@@ -783,6 +783,7 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
   text-transform: none !important;
 }
 .gallery_upload input.attachment {
+  font-size: 83.3%;
   margin: 0; /* Overrides viewers/attachments.css */
   padding: 0; /* Overrides viewers/attachments.css */
   width: ${mathtool.sub($uploadBoxSize, $mathtool.mul($boxPadding, 2))}px;

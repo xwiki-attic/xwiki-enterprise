@@ -26,13 +26,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-parent</artifactId>
+    <artifactId>xwiki-enterprise</artifactId>
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-generic</artifactId>
-  <name>XWiki Products - Enterprise - Installers - Generic</name>
+  <name>XWiki Enterprise - Installers - Generic</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Installers - Generic</description>
+  <description>XWiki Enterprise - Installers - Generic</description>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.izpack</groupId>

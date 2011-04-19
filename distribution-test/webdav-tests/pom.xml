@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-webdav</artifactId>
-  <name>XWiki Products - Enterprise - WebDAV Functional Tests</name>
+  <name>XWiki Enterprise - Functional Tests - WebDAV</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - WebDAV Functional Tests</description>
+  <description>XWiki Enterprise - Functional Tests - WebDAV</description>
   <dependencies>
     <dependency>
       <groupId>commons-httpclient</groupId>

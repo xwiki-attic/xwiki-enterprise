@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-hsqldb</artifactId>
-  <name>XWiki Products - Enterprise - Distribution - Jetty - HSQLDB</name>
+  <name>XWiki Enterprise - Distribution - Jetty - HSQLDB</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - Jetty - HSQLDB</description>
+  <description>XWiki Enterprise - Distribution - Jetty - HSQLDB</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

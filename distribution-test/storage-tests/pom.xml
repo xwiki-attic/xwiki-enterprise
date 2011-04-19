@@ -30,7 +30,7 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-storage</artifactId>
-  <name>XWiki Products - Enterprise - Storage Functional Tests</name>
+  <name>XWiki Enterprise - Functional Tests - Storage</name>
   <packaging>pom</packaging>
   <description>
 Functional tests to prove that documents, objects, properties and attachments can be loaded and stored

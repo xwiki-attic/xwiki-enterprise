@@ -26,13 +26,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-parent</artifactId>
+    <artifactId>xwiki-enterprise</artifactId>
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test</artifactId>
-  <name>XWiki Products - Enterprise - Functional Tests</name>
+  <name>XWiki Enterprise - Functional Tests - Parent POM</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Functional Tests</description>
+  <description>XWiki Enterprise - Functional Tests - Parent POM</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.commons</groupId>

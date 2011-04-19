@@ -26,13 +26,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
+    <artifactId>xwiki-enterprise-distribution</artifactId>
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-glassfish</artifactId>
-  <name>XWiki Products - Enterprise - Distribution - GlassFish</name>
+  <name>XWiki Enterprise - Distribution - GlassFish</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - GlassFish</description>
+  <description>XWiki Enterprise - Distribution - GlassFish</description>
   <properties>
     <glassfish.database.folder>glassfish/domains/domain1/database</glassfish.database.folder>
     <glassfish.war.folder>glassfish/domains/domain1/autodeploy</glassfish.war.folder>

@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-pgsql</artifactId>
-  <name>XWiki Products - Enterprise - Distribution - Jetty - PGSQL</name>
+  <name>XWiki Enterprise - Distribution - Jetty - PGSQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - Jetty - PGSQL</description>
+  <description>XWiki Enterprise - Distribution - Jetty - PGSQL</description>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->

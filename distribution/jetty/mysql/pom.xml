@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-mysql</artifactId>
-  <name>XWiki Products - Enterprise - Distribution - Jetty - MySQL</name>
+  <name>XWiki Enterprise - Distribution - Jetty - MySQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - Jetty - MySQL</description>
+  <description>XWiki Enterprise - Distribution - Jetty - MySQL</description>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->

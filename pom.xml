@@ -31,10 +31,10 @@
     <relativePath>../xwiki-commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
-  <artifactId>xwiki-enterprise-parent</artifactId>
+  <artifactId>xwiki-enterprise</artifactId>
   <packaging>pom</packaging>
-  <name>XWiki Products - Enterprise - Parent POM</name>
-  <description>XWiki Products - Enterprise - Parent POM</description>
+  <name>XWiki Enterprise - Parent POM</name>
+  <description>XWiki Enterprise - Parent POM</description>
   <scm>
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>

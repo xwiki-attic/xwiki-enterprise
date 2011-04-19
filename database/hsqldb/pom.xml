@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
-  <name>XWiki Products - Enterprise - Database - HSQLDB</name>
+  <name>XWiki Enterprise - Database - HSQLDB</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Database - HSQLDB</description>
+  <description>XWiki Enterprise - Database - HSQLDB</description>
   <!-- Required for the exec:exec plugin execution below. Doesn't seem to work as an exec plugin
        dependency -->
   <dependencies>

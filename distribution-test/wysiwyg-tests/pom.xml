@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-wysiwyg</artifactId>
-  <name>XWiki Products - Enterprise - Functional Wysiwyg Selenium Tests</name>
+  <name>XWiki Enterprise - Functional Tests - WYSIWYG</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Functional Wysiwyg Selenium Tests</description>
+  <description>XWiki Enterprise - Functional Tests - WYSIWYG</description>
   <dependencies>
     <dependency>
       <groupId>org.seleniumhq.selenium.client-drivers</groupId>

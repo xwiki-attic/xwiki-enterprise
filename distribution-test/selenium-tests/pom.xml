@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-selenium</artifactId>
-  <name>XWiki Products - Enterprise - Functional Selenium Tests</name>
+  <name>XWiki Enterprise - Functional Tests - Selenium</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Functional Selenium Tests</description>
+  <description>Deprecated: Tests to be moved to ui-tests</description>
   <dependencies>
     <dependency>
       <groupId>org.seleniumhq.selenium.client-drivers</groupId>

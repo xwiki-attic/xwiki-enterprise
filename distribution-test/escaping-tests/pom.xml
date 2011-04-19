@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-escaping</artifactId>
-  <name>XWiki Products - Enterprise - Escaping Functional Tests</name>
+  <name>XWiki Enterprise - Functional Tests - Escaping</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Escaping Functional Tests</description>
+  <description>XWiki Enterprise - Functional Tests - Escaping</description>
   <dependencies>
     <dependency>
       <groupId>cpsuite</groupId>

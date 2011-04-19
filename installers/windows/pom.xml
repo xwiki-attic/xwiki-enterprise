@@ -26,13 +26,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-parent</artifactId>
+    <artifactId>xwiki-enterprise</artifactId>
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-windows</artifactId>
-  <name>XWiki Products - Enterprise - Installers - Windows</name>
+  <name>XWiki Enterprise - Installers - Windows</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Installers - Windows</description>
+  <description>XWiki Enterprise - Installers - Windows</description>
   <dependencies>
     <!-- Even though this dependency is defined in Launch4J's pom.xml we still need it to
          construct the correct maven.compile.classpath for executing the Launch4J Ant task below -->

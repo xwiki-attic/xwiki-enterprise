@@ -26,13 +26,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
+    <artifactId>xwiki-enterprise-distribution</artifactId>
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty</artifactId>
-  <name>XWiki Products - Enterprise - Distribution - Jetty</name>
+  <name>XWiki Enterprise - Distribution - Jetty</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - Jetty</description>
+  <description>XWiki Enterprise - Distribution - Jetty</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform</groupId>

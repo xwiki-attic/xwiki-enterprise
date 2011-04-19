@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-database-pgsql</artifactId>
-  <name>XWiki Products - Enterprise - Database - PGSQL</name>
+  <name>XWiki Enterprise - Database - PGSQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Database - PGSQL</description>
+  <description>XWiki Enterprise - Database - PGSQL</description>
   <build>
     <plugins>
       <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager

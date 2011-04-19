@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-rest</artifactId>
-  <name>XWiki Products - Enterprise - REST Functional Tests</name>
+  <name>XWiki Enterprise - Functional Tests - REST</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - REST Functional Tests</description>
+  <description>XWiki Enterprise - Functional Tests - REST</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform</groupId>

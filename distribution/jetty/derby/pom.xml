@@ -30,9 +30,9 @@
     <version>3.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-derby</artifactId>
-  <name>XWiki Products - Enterprise - Distribution - Jetty - Derby</name>
+  <name>XWiki Enterprise - Distribution - Jetty - Derby</name>
   <packaging>pom</packaging>
-  <description>XWiki Products - Enterprise - Distribution - Jetty - Derby</description>
+  <description>XWiki Enterprise - Distribution - Jetty - Derby</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

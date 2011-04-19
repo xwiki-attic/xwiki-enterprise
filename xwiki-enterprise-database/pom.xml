@@ -67,7 +67,7 @@
         <!-- Step 2: Expand the XAR file -->
         <plugin>
           <groupId>org.xwiki.commons</groupId>
-          <artifactId>xwiki-commmons-tool-xar-plugin</artifactId>
+          <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
           <version>${commons.version}</version>
           <configuration>
             <groupId>org.xwiki.enterprise</groupId>

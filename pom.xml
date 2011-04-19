@@ -45,10 +45,10 @@
     <url>http://jira.xwiki.org/jira/browse/XE</url>
   </issueManagement>
   <modules>
-    <module>wiki</module>
-    <module>database</module>
-    <module>web</module>
-    <module>distribution</module>
+    <module>xwiki-enterprise-wiki</module>
+    <module>xwiki-enterprise-database</module>
+    <module>xwiki-enterprise-web</module>
+    <module>xwiki-enterprise-distribution</module>
   </modules>
   <properties>
     <commons.version>${project.version}</commons.version>
@@ -132,8 +132,8 @@
         </property>
       </activation>
       <modules>
-        <module>installers</module>
-        <module>distribution-test</module>
+        <module>xwiki-enterprise-installers</module>
+        <module>xwiki-enterprise-test</module>
       </modules>
     </profile>
     <profile>

@@ -35,9 +35,9 @@
   <description>XWiki Products - Enterprise - Web</description>
   <dependencies>
     <dependency>
-      <groupId>com.xpn.xwiki.platform</groupId>
+      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-web-standard</artifactId>
-      <version>${platform.web.version}</version>
+      <version>${platform.core.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
@@ -82,9 +82,9 @@
       <version>${platform.plugin.skinx.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.xpn.xwiki.platform.plugins</groupId>
-      <artifactId>xwiki-plugin-tag</artifactId>
-      <version>${platform.tag.version}</version>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-tag-api</artifactId>
+      <version>${platform.core.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xpn.xwiki.platform.plugins</groupId>

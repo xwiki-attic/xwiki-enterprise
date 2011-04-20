@@ -36,9 +36,9 @@
   <version>2.7-SNAPSHOT</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
-    <connection>scm:svn:http://svn.xwiki.org/svnroot/xwiki/enterprise/branches/xwiki-enterprise-2.7</connection>
-    <developerConnection>scm:svn:https://svn.xwiki.org/svnroot/xwiki/enterprise/branches/xwiki-enterprise-2.7</developerConnection>
-    <url>http://svn.xwiki.org/svnroot/xwiki/enterprise/branches/xwiki-enterprise-2.7</url>
+    <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
+    <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
+    <url>http://github.com/xwiki/xwiki-enterprise</url>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -61,7 +61,6 @@
     <platform.tool.xar-plugin.version>1.14</platform.tool.xar-plugin.version>
 
     <platform.core.version>${project.version}</platform.core.version>
-    <platform.web.version>${project.version}</platform.web.version>
 
     <platform.administration.version>1.44.1</platform.administration.version>
     <platform.annotations.version>1.9</platform.annotations.version>
@@ -78,7 +77,6 @@
     <platform.search.version>1.5</platform.search.version>
     <platform.plugin.skinx.version>1.19</platform.plugin.skinx.version>
     <platform.statistics.version>1.9</platform.statistics.version>
-    <platform.tag.version>1.18</platform.tag.version>
     <platform.watchlist.version>1.32</platform.watchlist.version>
     <platform.webdav.version>1.4</platform.webdav.version>
     <platform.wikimacrobridge.version>1.4</platform.wikimacrobridge.version>

@@ -76,9 +76,6 @@ public class ViewPage extends BasePage
     @FindBy(id = "hierarchy")
     private WebElement breadcrumbDiv;
 
-    @FindBy(id = "xdocTags")
-    private WebElement tagsDiv;
-
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
      */
@@ -278,11 +275,6 @@ public class ViewPage extends BasePage
     public boolean hasBreadcrumbContent(String breadcrumbItem)
     {
         return this.breadcrumbDiv.findElements(By.xpath("a[text() = '" + breadcrumbItem + "']")).size() > 0;
-    }
-
-    public boolean hasTag(String tagName)
-    {
-        return this.tagsDiv.findElements(By.xpath("*/span[@class = 'tag']/a[text() = '" + tagName + "']")).size() > 0;
     }
 
     public boolean isInlinePage()

@@ -27,6 +27,7 @@ import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.InlinePage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.ui.tag.elements.TaggablePage;
 
 /**
  * Test Inline editing.
@@ -100,13 +101,13 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         String tag1 = RandomStringUtils.randomAlphanumeric(4);
         String tag2 = RandomStringUtils.randomAlphanumeric(4);
         getUtil().gotoPage("EditInlineTest", "testInlineEditPreservesTags", "save", "tags=" + tag1 + "|" + tag2);
-        ViewPage vp = new ViewPage();
-        Assert.assertTrue(vp.hasTag(tag1));
-        Assert.assertTrue(vp.hasTag(tag2));
-        InlinePage ip = vp.editInline();
-        ViewPage vp2 = ip.clickSaveAndView();
-        Assert.assertTrue(vp2.hasTag(tag1));
-        Assert.assertTrue(vp2.hasTag(tag2));
+        TaggablePage taggablePage = new TaggablePage();
+        Assert.assertTrue(taggablePage.hasTag(tag1));
+        Assert.assertTrue(taggablePage.hasTag(tag2));
+        taggablePage.editInline().clickSaveAndView();
+        taggablePage = new TaggablePage();
+        Assert.assertTrue(taggablePage.hasTag(tag1));
+        Assert.assertTrue(taggablePage.hasTag(tag2));
     }
 
     /**

@@ -17,9 +17,9 @@
       <type>xar</type>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform.applications</groupId>
-      <artifactId>xwiki-application-administration</artifactId>
-      <version>${platform.administration.version}</version>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-administration</artifactId>
+      <version>${platform.core.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>

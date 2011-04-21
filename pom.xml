@@ -64,7 +64,6 @@
     <commons.core.version>${project.version}</commons.core.version>
     <platform.core.version>${project.version}</platform.core.version>
 
-    <platform.administration.version>1.49</platform.administration.version>
     <platform.annotations.version>1.12</platform.annotations.version>
     <platform.activitystream.version>1.12</platform.activitystream.version>
     <platform.blog.version>1.30</platform.blog.version>

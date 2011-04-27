@@ -50,7 +50,7 @@ public class NewPagePanel extends ViewPage
 
     public void gotoPage()
     {
-        getUtil().gotoPage("Panels", "NewPage");
+        getUtil().gotoPage("Panels", "NewPage", "view", "xpage=create");
     }
 
     /**

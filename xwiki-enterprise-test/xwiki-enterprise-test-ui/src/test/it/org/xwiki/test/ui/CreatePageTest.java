@@ -91,12 +91,11 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Create the new document from template
         CreatePagePage createPagePage = templateProviderView.createPage();
-
         // Save the number of available templates so that we can make some checks later on.
         int availableTemplateSize = createPagePage.availableTemplateSize();
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
-            createPagePage.createPageFromTemplate(space, templateInstanceName, templateFullName + "Provider");
+            createPagePage.createPageFromTemplate(space, templateInstanceName, templateFullName);
         WikiEditPage templateInstanceEdit = templateInstanceEditWysiwyg.clickSaveAndView().editWiki();
 
         // Verify template instance content
@@ -109,7 +108,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Verify that clicking on the wanted link pops up a box to choose the template.
         vp.clickWantedLink(space, "NewPage", true);
-        List<WebElement> templates = getDriver().findElements(By.name("templateprovider"));
+        List<WebElement> templates = getDriver().findElements(By.name("template"));
         // Note: We need to remove 1 to exclude the "Empty Page" template entry
         Assert.assertEquals(availableTemplateSize, templates.size() - 1);
 
@@ -126,7 +125,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(availableTemplateSize, createPagePage.availableTemplateSize());
 
         // Modify the target space and verify the form can't be submitted
-        createPagePage.setTemplate(templateFullName + "Provider");
+        createPagePage.setTemplate(templateFullName);
         createPagePage.setSpace("Foobar");
         String currentURL = getDriver().getCurrentUrl();
         createPagePage.clickCreate();
@@ -136,7 +135,6 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         HomePage homePage = new HomePage();
         homePage.gotoPage();
         createPagePage = homePage.createPage();
-
         // The list of templates should be the initial list - 1 (since in the initial list we had our template).
         Assert.assertEquals(availableTemplateSize - 1, createPagePage.availableTemplateSize());
     }

@@ -66,7 +66,7 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
     
     public void gotoPage()
     {
-        getUtil().gotoPage("XWiki", getUsername(), "", Collections.singletonMap("category", "watchlist"));
+        getUtil().gotoPage("XWiki", getUsername(), "view", Collections.singletonMap("category", "watchlist"));
     }
 
     /**

@@ -120,6 +120,9 @@ public class XWikiExplorer
     public void lookupEntity(String entityReference)
     {
         test.getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", entityReference);
+        waitForNode(pageName, false);
+        test.getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", "");
+        test.getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", entityReference);
     }
 
     /**

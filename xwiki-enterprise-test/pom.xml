@@ -188,9 +188,9 @@
                     skins/toucan/editpanelsvars.vm
                     templates/adduorg.vm
                     templates/colorThemeInit.vm
-                    templates/contentmenu.vm <!-- empty placeholder -->
                     templates/deprecatedVars.vm
                     templates/editgroup.vm <!-- TODO test with deleted XWiki.XWikiGroupSheet and 'inline' action -->
+                    templates/editmodes.vm <!-- empty placeholder in colibri -->
                     templates/editpanelsvars.vm
                     templates/fakeleftpanels.vm
                     templates/fakerightpanels.vm
@@ -198,7 +198,6 @@
                     templates/layoutExtraVars.vm <!-- empty placeholder -->
                     templates/layoutvars.vm
                     templates/macros.vm
-                    templates/shortcuts.vm <!-- empty placeholder -->
                     templates/skinvariables.vm
                     templates/xwikivars.vm
                 </value>

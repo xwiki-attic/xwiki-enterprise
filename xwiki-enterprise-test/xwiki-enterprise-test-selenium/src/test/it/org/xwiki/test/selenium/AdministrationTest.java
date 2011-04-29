@@ -60,7 +60,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithText("Administer Wiki");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Editing')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Localization')]");
-        assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Programming')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Email')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Elements')]");
@@ -80,7 +79,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
         waitPage();
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Editing')]");
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Localization')]");
-        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Programming')]");
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Email')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Presentation')]");
         assertElementPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Elements')]");

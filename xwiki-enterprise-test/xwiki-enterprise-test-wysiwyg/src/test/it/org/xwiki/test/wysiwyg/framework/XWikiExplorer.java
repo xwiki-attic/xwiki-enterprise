@@ -120,7 +120,7 @@ public class XWikiExplorer
     public void lookupEntity(String entityReference)
     {
         test.getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", entityReference);
-        waitForNode(entityReferencere.placeAll("(.+?\\.)?(.+?)([@#].+)?$", "$2"), false);
+        waitForNode(entityReference.replaceAll("(.+?\\.)?(.+?)([@#].+)?$", "$2"), false);
         test.getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", "");
         test.getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", entityReference);
     }

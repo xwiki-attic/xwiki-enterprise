@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons-pom</artifactId>
-    <version>3.1M1-SNAPSHOT</version>
+    <version>3.1-milestone-1</version>
     <relativePath>../xwiki-commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
@@ -51,8 +51,8 @@
     <module>xwiki-enterprise-distribution</module>
   </modules>
   <properties>
-    <commons.version>${project.version}</commons.version>
-    <platform.version>${project.version}</platform.version>
+    <commons.version>3.1-milestone-1</commons.version>
+    <platform.version>3.1-milestone-1</platform.version>
 
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
          the build take longer than needed (since it downloads the previous versions). -->

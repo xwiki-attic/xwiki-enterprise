@@ -87,7 +87,7 @@ public class BasePage extends BaseElement
      */
     protected void hoverOverMenu(String menuId)
     {
-        // We need to hover over the Wiki menu so that the a menu entry is visible before we can click on
+        // We need to hover over the Wiki menu so that the menu entry is visible before we can click on
         // it. The normal way to implement it is to do something like this:
         //
         // @FindBy(id = "tmWiki")
@@ -96,15 +96,19 @@ public class BasePage extends BaseElement
         // ((RenderedWebElement) spaceMenuDiv).hover();
         //
         // However it seems that currently Native Events don't work in FF 3.5+ versions and it seems to be only working
-        // on Windows. Thus for now we have to simulate the hover using JavaSCript.
+        // on Windows. Thus for now we have to simulate the hover using JavaScript.
         //
         // In addition there's a second bug where a WebElement retrieved using a @FindBy annotation cannot be used
         // as a parameter to JavascriptExecutor.executeScript().
         // See http://code.google.com/p/selenium/issues/detail?id=256
         // Thus FTM we have to use getDriver().findElement().
 
-        WebElement spaceMenuDiv = getDriver().findElement(By.id(menuId));
-        executeScript("showsubmenu(arguments[0])", spaceMenuDiv);
+        WebElement menuDiv = getDriver().findElement(By.id(menuId));
+        executeScript("showsubmenu(arguments[0])", menuDiv);
+
+        // We wait for the submenu to be visible before carrying on to ensure that after this method returns the
+        // calling code can access submenu items.
+        waitUntilElementIsVisible(By.xpath("//div[@id = '" + menuId + "']//span[contains(@class, 'submenu')]"));
     }
 
     /**

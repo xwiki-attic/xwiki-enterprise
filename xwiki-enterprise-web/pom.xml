@@ -176,6 +176,11 @@ xwiki.work.dir=work
               </includes>
             </resource>
           </webResources>
+          <!-- Excluded to prevent conflict in the patched version of Rhino used by yuicompressor used for JSX.
+               See http://jira.xwiki.org/jira/browse/XWIKI-6151 for more details.
+               TODO: Remove this which will be no longer needed when http://jira.xwiki.org/jira/browse/XWIKI-6581 is
+               done. -->
+          <packagingExcludes>WEB-INF/lib/batik-js-*.jar</packagingExcludes>
         </configuration>
       </plugin>
     </plugins>

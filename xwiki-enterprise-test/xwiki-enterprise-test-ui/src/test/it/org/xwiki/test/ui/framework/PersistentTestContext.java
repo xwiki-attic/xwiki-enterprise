@@ -47,7 +47,7 @@ public class PersistentTestContext
         this.executor = new XWikiExecutor(0);
         executor.start();
 
-        // Ensure that we display page source information if an HTML fails to be found, for easier debugging.
+        // Ensure that we display page source information if a UI element fails to be found, for easier debugging.
         this.driver = new FirefoxDriver() {
             @Override public WebElement findElement(By by)
             {

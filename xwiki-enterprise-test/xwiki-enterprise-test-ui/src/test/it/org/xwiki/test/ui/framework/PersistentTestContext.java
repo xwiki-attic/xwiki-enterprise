@@ -54,7 +54,7 @@ public class PersistentTestContext
                 try {
                     return super.findElement(by);
                 } catch (NoSuchElementException e) {
-                    throw new RuntimeException("Failed to locate element from page source ["
+                    throw new NoSuchElementException("Failed to locate element from page source ["
                         + getPageSource() + "]", e);
                 }
             }

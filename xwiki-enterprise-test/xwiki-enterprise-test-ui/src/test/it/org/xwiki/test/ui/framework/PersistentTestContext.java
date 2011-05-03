@@ -24,7 +24,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.xwiki.test.integration.XWikiExecutor;
 
 /**
@@ -49,14 +48,14 @@ public class PersistentTestContext
         executor.start();
 
         // Ensure that we display page source information if an HTML fails to be found, for easier debugging.
-        this.driver = new EventFiringWebDriver(new FirefoxDriver()) {
+        this.driver = new FirefoxDriver() {
             @Override public WebElement findElement(By by)
             {
                 try {
                     return super.findElement(by);
                 } catch (NoSuchElementException e) {
-                    throw new NoSuchElementException(e.getMessage() + " Page source [" + getPageSource()
-                        + "]", e.getCause());
+                    throw new RuntimeException("Failed to locate element from page source ["
+                        + getPageSource() + "]", e);
                 }
             }
         };

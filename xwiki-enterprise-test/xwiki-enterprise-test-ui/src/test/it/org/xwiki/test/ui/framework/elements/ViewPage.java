@@ -26,6 +26,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
+import org.xwiki.test.ui.comments.elements.CommentsTab;
 import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.xe.elements.HomePage;
 
@@ -151,12 +152,12 @@ public class ViewPage extends BasePage
      * @return element for controlling the comments tab
      * @since 2.4
      */
-    public CommentsPane openCommentsDocExtraPane()
+    public CommentsTab openCommentsDocExtraPane()
     {
         this.getDriver().findElement(By.id("Commentslink")).click();
         this.waitUntilElementIsVisible(By.id("commentscontent"));
 
-        return new CommentsPane();
+        return new CommentsTab();
     }
 
     public HistoryPane openHistoryDocExtraPane()

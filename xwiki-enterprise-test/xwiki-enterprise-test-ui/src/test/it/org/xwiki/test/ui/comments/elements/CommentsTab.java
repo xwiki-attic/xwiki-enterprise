@@ -35,7 +35,6 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  */
 public class CommentsTab extends ViewPage
 {
-
     @FindBy(xpath = "//input[@value='Add comment']")
     private WebElement buttonAddComment;
 
@@ -48,26 +47,12 @@ public class CommentsTab extends ViewPage
     @FindBy(id = "XWiki.XWikiComments_comment")
     private WebElement commentTextArea;
 
-    @FindBy(id = "XWiki.XWikiComments_author")
-    private WebElement setCommentAuthor;
-
     @FindBy(id = "Commentstab")
     private WebElement commentsTab;
-
-    @FindBy(id = "Commentspane")
-    private WebElement pane;
 
     CommentDeleteConfirmationModal confirmDelete;
 
     List<WebElement> commentsList;
-
-    public void allowAnonymousCommenting()
-    {
-        /*
-         * This is a little bit hard-core allowAnonymousCommenting()
-         */
-
-    }
 
     public void clickAddComment()
     {
@@ -79,17 +64,15 @@ public class CommentsTab extends ViewPage
         this.buttonSaveComment.click();
     }
 
-    public String getCommentAuthor()
+    public String getCurrentAuthor()
     {
-        return commentAuthor.getValue();
+        return this.commentAuthor.getValue();
     }
 
     public boolean isCommentFormShown()
     {
-
-        RenderedWebElement commentForm =
-            (RenderedWebElement) getDriver().findElement(
-                By.xpath("//form[@id='AddComment']/fieldset[@id='commentform']"));
+        RenderedWebElement commentForm = (RenderedWebElement) getDriver().findElement(
+            By.xpath("//form[@id='AddComment']/fieldset[@id='commentform']"));
         return commentForm.isDisplayed();
     }
 
@@ -105,13 +88,14 @@ public class CommentsTab extends ViewPage
 
     public int getCommentID(String content)
     {
-        commentsList = getDriver().findElements(By.className("reply"));
+        this.commentsList = getDriver().findElements(By.className("reply"));
         WebElement comment;
-        for (int i = 0; i < commentsList.size(); i++) {
-            comment = commentsList.get(i);
-            if (comment.findElement(By.xpath("//div[@class='commentcontent']")).getText().equals(content))
+        for (int i = 0; i < this.commentsList.size(); i++) {
+            comment = this.commentsList.get(i);
+            if (comment.findElement(By.xpath("//div[@class='commentcontent']")).getText().equals(content)) {
                 return Integer.parseInt(comment.findElement(By.className("xwikicomment")).getAttribute("id")
                     .substring("xwikicomment_".length()));
+            }
         }
         return -1;
     }
@@ -126,26 +110,17 @@ public class CommentsTab extends ViewPage
                 .xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']"));
             getDriver().findElement(
                 By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']")).click();
-            waitUntilElementIsVisible(By.xpath("//div[@id='commentscontent']"));
             waitUntilElementIsVisible(By.xpath("//div[@class='commentcontent']/p[contains(text(),'" + content + "')]"));
         }
-        System.out.println("INDEX=  " + this.getCommentID(content));
         return this.getCommentID(content);
-
-    }
-
-    public void setCommentAuthor(String author)
-    {
-        this.setCommentAuthor.clear();
-        this.setCommentAuthor(author);
     }
 
     public void deleteCommentByID(int id)
     {
-        commentsList = getDriver().findElements(By.className("reply"));
-        commentsList.get(id).findElement(By.className("delete")).click();
-        confirmDelete = new CommentDeleteConfirmationModal();
-        confirmDelete.clickOk();
+        this.commentsList = getDriver().findElements(By.className("reply"));
+        this.commentsList.get(id).findElement(By.className("delete")).click();
+        this.confirmDelete = new CommentDeleteConfirmationModal();
+        this.confirmDelete.clickOk();
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment deleted']"));
         getDriver().findElement(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment deleted']"))
             .click();
@@ -153,20 +128,19 @@ public class CommentsTab extends ViewPage
 
     public void replyToCommentByID(int id, String replyContent)
     {
-        commentsList = getDriver().findElements(By.className("reply"));
-        commentsList.get(id).findElement(By.cssSelector("a.commentreply")).click();
+        this.commentsList = getDriver().findElements(By.className("reply"));
+        this.commentsList.get(id).findElement(By.cssSelector("a.commentreply")).click();
         getDriver().findElement(By.id("XWiki.XWikiComments_comment")).sendKeys(replyContent);
         this.clickAddComment();
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']"));
         getDriver().findElement(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']"))
             .click();
-
     }
 
     public void editCommentByID(int id, String content)
     {
-        commentsList = getDriver().findElements(By.className("reply"));
-        commentsList.get(id).findElement(By.className("edit")).click();
+        this.commentsList = getDriver().findElements(By.className("reply"));
+        this.commentsList.get(id).findElement(By.className("edit")).click();
         waitUntilElementIsVisible(By.id("XWiki.XWikiComments_" + id + "_comment"));
         getDriver().findElement(By.id("XWiki.XWikiComments_" + id + "_comment")).clear();
         getDriver().findElement(By.id("XWiki.XWikiComments_" + id + "_comment")).sendKeys(content);
@@ -174,20 +148,19 @@ public class CommentsTab extends ViewPage
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']"));
         getDriver().findElement(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']"))
             .click();
-        waitUntilElementIsVisible(By.xpath("//div[@id='commentscontent']"));
         waitUntilElementIsVisible(By.xpath("//div[@class='commentcontent']/p[contains(text(),'" + content + "')]"));
     }
 
     public String getCommentAuthorByID(int id)
     {
-        commentsList = getDriver().findElements(By.className("reply"));
-        return commentsList.get(id).findElement(By.xpath("//span[@class='commentauthor']//a")).getText();
+        this.commentsList = getDriver().findElements(By.className("reply"));
+        return this.commentsList.get(id).findElement(By.xpath("//span[@class='commentauthor']//a")).getText();
     }
 
     public String getCommentContentByID(int id)
     {
-        commentsList = getDriver().findElements(By.className("reply"));
-        return commentsList.get(id).findElement(By.xpath("//div[@class='commentcontent']/p")).getText();
+        this.commentsList = getDriver().findElements(By.className("reply"));
+        return this.commentsList.get(id).findElement(By.xpath("//div[@class='commentcontent']/p")).getText();
     }
 
 }

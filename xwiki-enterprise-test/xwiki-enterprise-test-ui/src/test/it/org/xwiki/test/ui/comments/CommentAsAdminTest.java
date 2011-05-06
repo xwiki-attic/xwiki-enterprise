@@ -53,68 +53,61 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
 
     private static final String COMMENT_REPLY = "Comment Reply";
 
+    @Override
     @Before
-    public void Init()
-    {
-        getUtil().deletePage(SPACE_NAME, DOC_NAME);
-        getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
-    }
-
-    public CommentAsAdminTest()
+    public void setUp()
     {
         super.setUp();
-        this.Init();
-        commentsTab = new CommentsTab();
+        getUtil().deletePage(SPACE_NAME, DOC_NAME);
+        getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
         getUtil().gotoPage(SPACE_NAME, DOC_NAME);
+        this.commentsTab = new CommentsTab();
+        this.commentsTab.loadCommentsTab();
     }
 
     @Test
     public void testPostCommentAsAdmin()
     {
-        commentsTab.loadCommentsTab();
-        Assert.assertTrue(commentsTab.isCommentFormShown());
-        commentsTab.postComment(COMMENT_CONTENT, true);
-        Assert.assertEquals(COMMENT_CONTENT, commentsTab.getCommentContentByID(0));
-        Assert.assertEquals(ADMIN, commentsTab.getCommentAuthorByID(0));
+        Assert.assertTrue(this.commentsTab.isCommentFormShown());
+        this.commentsTab.postComment(COMMENT_CONTENT, true);
+        Assert.assertEquals(COMMENT_CONTENT, this.commentsTab.getCommentContentByID(0));
+        Assert.assertEquals(ADMIN, this.commentsTab.getCommentAuthorByID(0));
     }
 
     @Test
     public void testReplyToCommentAsAdmin()
     {
-        commentsTab.loadCommentsTab();
-        commentsTab.postComment(COMMENT_CONTENT, true);
-        commentsTab.replyToCommentByID(0, COMMENT_REPLY);
-
+        this.commentsTab.postComment(COMMENT_CONTENT, true);
+        this.commentsTab.replyToCommentByID(0, COMMENT_REPLY);
     }
 
     @Test
     public void testDeleteCommentAsAdmin()
     {
-        commentsTab.loadCommentsTab();
-        Assert.assertTrue(commentsTab.isCommentFormShown());
-        commentsTab.postComment(COMMENT_CONTENT, true);
-        commentsTab.deleteCommentByID(0);
+        Assert.assertTrue(this.commentsTab.isCommentFormShown());
+        this.commentsTab.postComment(COMMENT_CONTENT, true);
+        this.commentsTab.deleteCommentByID(0);
     }
 
     @Test
     public void testEditCommentAsAdmin()
     {
-        commentsTab.loadCommentsTab();
-        Assert.assertTrue(commentsTab.isCommentFormShown());
-        commentsTab.postComment(COMMENT_CONTENT, true);
-        commentsTab.editCommentByID(0, COMMENT_REPLACED_CONTENT);
-        Assert.assertEquals(COMMENT_REPLACED_CONTENT, commentsTab.getCommentContentByID(0));
+        Assert.assertTrue(this.commentsTab.isCommentFormShown());
+        this.commentsTab.postComment(COMMENT_CONTENT, true);
+        this.commentsTab.editCommentByID(0, COMMENT_REPLACED_CONTENT);
+        Assert.assertEquals(COMMENT_REPLACED_CONTENT, this.commentsTab.getCommentContentByID(0));
     }
 
     @Test
     public void testPostCommentAsAdminNoJs()
     {
-        // in this test class, the only user who logs in is admin.
+        // In this test class, the only user who logs in is admin.
         getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
-        commentsTab.postComment(COMMENT_CONTENT, false);
+        this.commentsTab.postComment(COMMENT_CONTENT, false);
         ViewPage vp = new ViewPage();
+        // This opens with ?viewer=comments, don't explicitly load the comments tab
         vp.waitUntilPageIsLoaded();
-        Assert.assertEquals(COMMENT_CONTENT, commentsTab.getCommentContentByID(0));
-        Assert.assertEquals(ADMIN, commentsTab.getCommentAuthorByID(0));
+        Assert.assertEquals(COMMENT_CONTENT, this.commentsTab.getCommentContentByID(0));
+        Assert.assertEquals(ADMIN, this.commentsTab.getCommentAuthorByID(0));
     }
 }

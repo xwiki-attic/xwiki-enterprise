@@ -219,13 +219,13 @@ public class UserProfileTest extends AbstractTest
     {
         String commentContent = "this is from a comment";
 
-        int commentId = this.customProfilePage.openCommentsDocExtraPane().postComment(commentContent);
+        int commentId = this.customProfilePage.openCommentsDocExtraPane().postComment(commentContent, true);
         getDriver().navigate().refresh();
-        Assert.assertFalse("Comment content was used as profile information",
-            this.customProfilePage.getContent().contains(commentContent));
+        Assert.assertFalse("Comment content was used as profile information", this.customProfilePage.getContent()
+            .contains(commentContent));
 
         if (commentId != -1) {
-            this.customProfilePage.openCommentsDocExtraPane().deleteComment(commentId);
+            this.customProfilePage.openCommentsDocExtraPane().deleteCommentByID(commentId);
         }
     }
 

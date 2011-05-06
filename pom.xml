@@ -62,7 +62,6 @@
 
     <platform.core.version>${project.version}</platform.core.version>
 
-    <platform.administration.version>1.44.1</platform.administration.version>
     <platform.annotations.version>1.9</platform.annotations.version>
     <platform.activitystream.version>1.10</platform.activitystream.version>
     <platform.blog.version>1.26</platform.blog.version>

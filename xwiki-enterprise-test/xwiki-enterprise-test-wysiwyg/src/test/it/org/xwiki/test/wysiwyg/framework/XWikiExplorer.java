@@ -44,31 +44,50 @@ public class XWikiExplorer
     }
 
     /**
-     * Waits for the specified node to be present.
+     * Waits for the node with the specified hint to be selected.
+     * <p>
+     * Note: We can wait only for the selected node because only the visible tree nodes are present in the DOM tree. If
+     * a tree node is not present in the DOM it doesn't mean we can't select it.
      * 
-     * @param nodeLabel the label of the node to wait for; this can be for instance the name of space or page
-     * @param selected whether the specified node should be selected or not
+     * @param hint the tool tip of the node to wait for
      */
-    public void waitForNode(final String nodeLabel, boolean selected)
+    private void waitForNodeWithHint(final String hint)
     {
-        final String className = selected ? "treeCellSelected" : "treeCell";
         new Wait()
         {
             public boolean until()
             {
-                return test.isElementPresent("//td[contains(@class, '" + className + "')]//nobr[. = '" + nodeLabel
+                return test.isElementPresent("//td[contains(@class, 'treeCellSelected')]//span[@title = '" + hint
                     + "']");
             }
-        }.wait("The specified tree node, " + nodeLabel + ", is not present!");
+        }.wait("The tree node with the specified tool tip, \"" + hint + "\", wasn't selected!");
     }
 
     /**
-     * @param nodeLabel the node label
-     * @return {@code true} if the specified node is present in the tree, {@code false} otherwise
+     * Waits for the node with the specified hint and label to be selected.
+     * 
+     * @param hint the tool tip of the node to wait for
+     * @param label the label of the node to wait for
      */
-    public boolean isNodePresent(String nodeLabel)
+    private void waitForNodeWithHintAndLabel(final String hint, final String label)
     {
-        return test.isElementPresent("//td[contains(@class, 'treeCell')]//nobr[. = '" + nodeLabel + "']");
+        new Wait()
+        {
+            public boolean until()
+            {
+                return test.isElementPresent("//td[contains(@class, 'treeCellSelected')]//span[@title = '" + hint
+                    + "' and . = '" + label + "']");
+            }
+        }.wait("The tree node with the specified tool tip, \"" + hint + "\", and label, \"" + label
+            + "\", wasn't selected!");
+    }
+
+    /**
+     * Waits until none of the tree nodes is selected.
+     */
+    public void waitForNoneSelected()
+    {
+        test.waitForElementNotPresent("//td[contains(@class, 'treeCellSelected')]");
     }
 
     /**
@@ -79,8 +98,17 @@ public class XWikiExplorer
      */
     public void waitForPageSelected(String spaceName, String pageName)
     {
-        waitForNode(spaceName, false);
-        waitForNode(pageName, true);
+        waitForNodeWithHint(String.format("Located in xwiki \u00BB %s \u00BB %s", spaceName, pageName));
+    }
+
+    /**
+     * Waits for the "New page.." node under the specified space to be selected.
+     * 
+     * @param spaceName the name of the space where the new page would be created
+     */
+    public void waitForNewPageSelected(String spaceName)
+    {
+        waitForNodeWithHint(String.format("New page in xwiki \u00BB %s", spaceName));
     }
 
     /**
@@ -92,9 +120,8 @@ public class XWikiExplorer
      */
     public void waitForAttachmentSelected(String spaceName, String pageName, String attachment)
     {
-        waitForNode(spaceName, false);
-        waitForNode(pageName, false);
-        waitForNode(attachment, true);
+        waitForNodeWithHintAndLabel(String.format("Attached to xwiki \u00BB %s \u00BB %s", spaceName, pageName),
+            attachment);
     }
 
     /**
@@ -106,9 +133,7 @@ public class XWikiExplorer
      */
     public void waitForAttachmentsSelected(String spaceName, String pageName)
     {
-        waitForNode(spaceName, false);
-        waitForNode(pageName, false);
-        waitForNode("Attachments (" + pageName + ")", true);
+        waitForNodeWithHint(String.format("Attachments of xwiki \u00BB %s \u00BB %s", spaceName, pageName));
     }
 
     /**
@@ -139,17 +164,9 @@ public class XWikiExplorer
     public void selectNewPageIn(String spaceName)
     {
         lookupEntity(spaceName + ".");
-        waitForPageSelected(spaceName, "New page...");
+        waitForNewPageSelected(spaceName);
         // The SmartClient tree doesn't react when we simulate a click on the "New page..." node so we simply delete the
         // text from the input, which will leave the "New page..." node selected.
         lookupEntity("");
-    }
-
-    /**
-     * Waits until none of the tree nodes is selected.
-     */
-    public void waitForNoneSelected()
-    {
-        test.waitForElementNotPresent("//td[contains(@class, 'treeCellSelected')]");
     }
 }

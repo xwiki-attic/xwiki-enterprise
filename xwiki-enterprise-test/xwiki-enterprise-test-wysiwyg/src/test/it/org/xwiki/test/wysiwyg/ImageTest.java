@@ -425,7 +425,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         explorer.lookupEntity("XWiki.Register");
         // wait for the space to get selected
-        explorer.waitForPageSelected("XWiki", "New page...");
+        explorer.waitForNewPageSelected("XWiki");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         assertEquals("registration.png", getInputValue(LinkTest.LABEL_INPUT_TITLE));

@@ -115,20 +115,22 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         clickTab("All pages");
         waitForStepToLoad("xExplorerPanel");
         explorer.waitForPageSelected(currentSpace, currentPage);
-        // now tree is loaded check for the spaces in it
-        // FIXME: this is not very robust as it will return false positive when the space Blog, for example, doesn't
-        // appear but a page named "Blog" appears in the Main space. However there is no way we can address only space
-        // cells in the explorer tree
-        // check the spaces: Blog, Main and Sandbox are present
-        assertTrue(explorer.isNodePresent("Blog"));
-        assertTrue(explorer.isNodePresent("Main"));
-        assertTrue(explorer.isNodePresent("Sandbox"));
-        // check the spaces: ColorThemes, Panels, Scheduler, Stats, XWiki are not present
-        assertFalse(explorer.isNodePresent("ColorThemes"));
-        assertFalse(explorer.isNodePresent("Panels"));
-        assertFalse(explorer.isNodePresent("Scheduler"));
-        assertFalse(explorer.isNodePresent("Stats"));
-        assertFalse(explorer.isNodePresent("XWiki"));
+        // Now the tree is loaded. Check the list of spaces.
+        // Blog, Main and Sandbox must be present.
+        explorer.selectNewPageIn("Blog");
+        explorer.selectNewPageIn("Main");
+        explorer.selectNewPageIn("Sandbox");
+        // ColorThemes, Panels, Scheduler, Stats and XWiki shouldn't be present.
+        explorer.lookupEntity("ColorThemes.");
+        explorer.waitForNoneSelected();
+        explorer.lookupEntity("Panels.");
+        explorer.waitForNoneSelected();
+        explorer.lookupEntity("Scheduler.");
+        explorer.waitForNoneSelected();
+        explorer.lookupEntity("Stats.");
+        explorer.waitForNoneSelected();
+        explorer.lookupEntity("XWiki.");
+        explorer.waitForNoneSelected();
 
         closeDialog();
     }

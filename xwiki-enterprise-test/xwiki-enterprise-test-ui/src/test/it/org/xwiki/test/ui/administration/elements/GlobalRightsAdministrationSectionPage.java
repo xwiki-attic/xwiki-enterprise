@@ -22,6 +22,7 @@ package org.xwiki.test.ui.administration.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.xwiki.test.ui.framework.elements.EditRightsPane;
 
 /**
  * Represents the actions possible on the Global Rights Administration Page.
@@ -29,8 +30,15 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.4RC1
  */
+
 public class GlobalRightsAdministrationSectionPage extends AdministrationSectionPage
 {
+
+    @FindBy(id = "guest_comment_requires_captcha")
+    private WebElement captchaCheckBox;
+
+    private EditRightsPane editRightsPane = new EditRightsPane();
+
     public GlobalRightsAdministrationSectionPage()
     {
         super("Rights");
@@ -55,5 +63,24 @@ public class GlobalRightsAdministrationSectionPage extends AdministrationSection
             this.forceAuthenticatedViewLink.click();
             waitUntilElementHasAttributeValue(By.id(this.forceAuthenticatedViewLink.getAttribute("id")), "alt", "no");
         }
+    }
+
+    public void disableCAPTCHA()
+    {
+        if (this.captchaCheckBox.isSelected()) {
+            this.captchaCheckBox.click();
+        }
+    }
+
+    public void enableCAPTCHA()
+    {
+        if (!this.captchaCheckBox.isSelected()) {
+            this.captchaCheckBox.click();
+        }
+    }
+
+    public EditRightsPane getEditRightsPane()
+    {
+        return this.editRightsPane;
     }
 }

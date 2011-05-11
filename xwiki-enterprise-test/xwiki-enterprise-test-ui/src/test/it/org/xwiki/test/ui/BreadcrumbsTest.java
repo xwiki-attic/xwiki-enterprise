@@ -23,11 +23,11 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.EditRightsPane.Right;
+import org.xwiki.test.ui.framework.elements.EditRightsPane.State;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.RightsEditPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.test.ui.framework.elements.editor.RightsEditPage.Right;
-import org.xwiki.test.ui.framework.elements.editor.RightsEditPage.State;
 
 /**
  * Test Breadcrumbs.

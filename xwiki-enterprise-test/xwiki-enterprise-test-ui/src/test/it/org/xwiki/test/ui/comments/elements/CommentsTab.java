@@ -44,6 +44,9 @@ public class CommentsTab extends ViewPage
     @FindBy(xpath = "//fieldset[@id='commentform']/label/span")
     private WebElement commentAuthor;
 
+    @FindBy(id = "XWiki.XWikiComments_author")
+    private WebElement anonymousCommentAuthor;
+
     @FindBy(id = "XWiki.XWikiComments_comment")
     private WebElement commentTextArea;
 
@@ -71,8 +74,9 @@ public class CommentsTab extends ViewPage
 
     public boolean isCommentFormShown()
     {
-        RenderedWebElement commentForm = (RenderedWebElement) getDriver().findElement(
-            By.xpath("//form[@id='AddComment']/fieldset[@id='commentform']"));
+        RenderedWebElement commentForm =
+            (RenderedWebElement) getDriver().findElement(
+                By.xpath("//form[@id='AddComment']/fieldset[@id='commentform']"));
         return commentForm.isDisplayed();
     }
 
@@ -86,15 +90,20 @@ public class CommentsTab extends ViewPage
         this.commentTextArea.sendKeys(content);
     }
 
+    public void setAnonymousCommentAuthor(String author)
+    {
+        this.anonymousCommentAuthor.clear();
+        this.anonymousCommentAuthor.sendKeys(author);
+    }
+
     public int getCommentID(String content)
     {
-        this.commentsList = getDriver().findElements(By.className("reply"));
-        WebElement comment;
+        this.commentsList = getDriver().findElements(By.className("xwikicomment"));
+
         for (int i = 0; i < this.commentsList.size(); i++) {
-            comment = this.commentsList.get(i);
-            if (comment.findElement(By.xpath("//div[@class='commentcontent']")).getText().equals(content)) {
-                return Integer.parseInt(comment.findElement(By.className("xwikicomment")).getAttribute("id")
-                    .substring("xwikicomment_".length()));
+            if (this.commentsList.get(i).findElement(By.className("commentcontent")).getText().equals(content)) {
+                return Integer
+                    .parseInt(this.commentsList.get(i).getAttribute("id").substring("xwikicomment_".length()));
             }
         }
         return -1;
@@ -115,10 +124,25 @@ public class CommentsTab extends ViewPage
         return this.getCommentID(content);
     }
 
+    public int postCommentAsGuest(String content, String author, boolean validation)
+    {
+        this.setCommentContent(content);
+        this.setAnonymousCommentAuthor(author);
+        this.clickAddComment();
+
+        if (validation) {
+            waitUntilElementIsVisible(By
+                .xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']"));
+            getDriver().findElement(
+                By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']")).click();
+            waitUntilElementIsVisible(By.xpath("//div[@class='commentcontent']/p[contains(text(),'" + content + "')]"));
+        }
+        return this.getCommentID(content);
+    }
+
     public void deleteCommentByID(int id)
     {
-        this.commentsList = getDriver().findElements(By.className("reply"));
-        this.commentsList.get(id).findElement(By.className("delete")).click();
+        getDriver().findElement(By.xpath("//div[@id='xwikicomment_" + id + "']//a[@class='delete']")).click();
         this.confirmDelete = new CommentDeleteConfirmationModal();
         this.confirmDelete.clickOk();
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment deleted']"));
@@ -128,8 +152,7 @@ public class CommentsTab extends ViewPage
 
     public void replyToCommentByID(int id, String replyContent)
     {
-        this.commentsList = getDriver().findElements(By.className("reply"));
-        this.commentsList.get(id).findElement(By.cssSelector("a.commentreply")).click();
+        getDriver().findElement(By.xpath("//div[@id='xwikicomment_" + id + "']//a[@class='commentreply']")).click();
         getDriver().findElement(By.id("XWiki.XWikiComments_comment")).sendKeys(replyContent);
         this.clickAddComment();
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') and text()='Comment posted']"));
@@ -139,8 +162,7 @@ public class CommentsTab extends ViewPage
 
     public void editCommentByID(int id, String content)
     {
-        this.commentsList = getDriver().findElements(By.className("reply"));
-        this.commentsList.get(id).findElement(By.className("edit")).click();
+        getDriver().findElement(By.xpath("//div[@id='xwikicomment_" + id + "']//a[@class='edit']")).click();
         waitUntilElementIsVisible(By.id("XWiki.XWikiComments_" + id + "_comment"));
         getDriver().findElement(By.id("XWiki.XWikiComments_" + id + "_comment")).clear();
         getDriver().findElement(By.id("XWiki.XWikiComments_" + id + "_comment")).sendKeys(content);
@@ -153,14 +175,15 @@ public class CommentsTab extends ViewPage
 
     public String getCommentAuthorByID(int id)
     {
-        this.commentsList = getDriver().findElements(By.className("reply"));
-        return this.commentsList.get(id).findElement(By.xpath("//span[@class='commentauthor']//a")).getText();
+        return getDriver().findElement(By.xpath("//div[@id='xwikicomment_" + id + "']//span[@class='commentauthor']"))
+            .getText();
     }
 
     public String getCommentContentByID(int id)
     {
-        this.commentsList = getDriver().findElements(By.className("reply"));
-        return this.commentsList.get(id).findElement(By.xpath("//div[@class='commentcontent']/p")).getText();
+        return getDriver().findElement(By.xpath("//div[@id='xwikicomment_" + id + "']//div[@class='commentcontent']"))
+            .getText();
+
     }
 
 }

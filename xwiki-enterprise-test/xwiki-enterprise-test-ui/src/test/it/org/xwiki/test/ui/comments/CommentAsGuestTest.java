@@ -78,7 +78,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
         getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
     }
 
-    public void SetRightsOnGuest(Right right, State state)
+    private void setRightsOnGuest(Right right, State state)
     {
         getUtil().gotoPage(ADMIN_SPACE, ADMIN_PAGE, ACTION, USERS_LIVETABLE_URL);
         GlobalRightsAdministrationSectionPage globalRights = new GlobalRightsAdministrationSectionPage();
@@ -89,7 +89,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testPostCommentAsAnonymous()
     {
-        SetRightsOnGuest(Right.COMMENT, State.ALLOW);
+        setRightsOnGuest(Right.COMMENT, State.ALLOW);
         getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         ViewPage viewPage = new ViewPage();
         viewPage.logout();
@@ -98,12 +98,13 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
         this.commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
         Assert.assertEquals(COMMENT_CONTENT, this.commentsTab.getCommentContentByID(0));
         Assert.assertEquals(COMMENT_AUTHOR, this.commentsTab.getCommentAuthorByID(0));
-        // Assert.assertEquals(ADMIN, this.commentsTab.getCommentAuthorByID(0));
     }
 
     @Test
     public void testPostCommentAsAnonymousNoJs()
     {
+        setRightsOnGuest(Right.COMMENT, State.ALLOW);
+        getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         ViewPage vp = new ViewPage();
         vp.logout();
         getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
@@ -119,7 +120,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testReplyCommentAsAnonymous()
     {
-        SetRightsOnGuest(Right.COMMENT, State.ALLOW);
+        setRightsOnGuest(Right.COMMENT, State.ALLOW);
         getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         ViewPage viewPage = new ViewPage();
         viewPage.logout();
@@ -136,7 +137,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCannotEditCommentAsAnonymous()
     {
-        SetRightsOnGuest(Right.COMMENT, State.ALLOW);
+        setRightsOnGuest(Right.COMMENT, State.ALLOW);
         getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         ViewPage viewPage = new ViewPage();
         viewPage.logout();

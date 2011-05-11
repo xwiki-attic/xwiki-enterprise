@@ -387,7 +387,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void assertWikiTextGeneratedByWysiwyg(String text)
     {
-        getTest().clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         Assert.assertEquals(text, getTest().getSelenium().getValue("content"));
     }
 

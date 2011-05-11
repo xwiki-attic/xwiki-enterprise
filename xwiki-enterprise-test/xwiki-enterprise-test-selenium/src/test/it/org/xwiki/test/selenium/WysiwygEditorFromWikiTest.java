@@ -33,7 +33,7 @@ import junit.framework.Test;
 public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
 {
     private static final String SYNTAX = "xwiki/1.0";
-    
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
@@ -44,27 +44,27 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        loginAsAdmin();        
+        loginAsAdmin();
         editInWikiEditor("Test", "WysiwygEdit", SYNTAX);
     }
 
     public void testIndentedOrderedList() throws Exception
     {
         setFieldValue("content", "1. level 1\n11. level 2");
-        clickLinkWithText("WYSIWYG");
+        clickEditPageInWysiwyg();
 
         assertHTMLGeneratedByWysiwyg("ol/li[text()='level 1']");
         assertHTMLGeneratedByWysiwyg("ol/ol/li[text()='level 2']");
 
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("1. level 1\n11. level 2", getFieldValue("content"));
     }
 
     public void testAutomaticConversionFromHashSyntaxToNumberSyntaxForOrderedLists()
     {
         setFieldValue("content", "# item 1\n# item 2");
-        clickLinkWithText("WYSIWYG");
-        clickLinkWithText("Wiki");
+        clickEditPageInWysiwyg();
+        clickEditPageInWikiSyntaxEditor();
 
         assertEquals("1. item 1\n1. item 2", getFieldValue("content"));
     }
@@ -72,8 +72,8 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
     public void testHorizontalLineBeforeTableMacro()
     {
         setFieldValue("content", "----\n\n{table}\na | b\nc | d\n{table}");
-        clickLinkWithText("WYSIWYG");
-        clickLinkWithText("Wiki");
+        clickEditPageInWysiwyg();
+        clickEditPageInWikiSyntaxEditor();
 
         assertEquals("----\n\n{table}\na | b\nc | d\n{table}", getFieldValue("content"));
     }
@@ -81,43 +81,43 @@ public class WysiwygEditorFromWikiTest extends AbstractXWikiTestCase
     public void testBulletedLists() throws Exception
     {
         setFieldValue("content", "- item 1\n-- item 2\n- item 3");
-        clickLinkWithText("WYSIWYG");
+        clickEditPageInWysiwyg();
 
         assertHTMLGeneratedByWysiwyg("ul/li[text()='item 1']");
         assertHTMLGeneratedByWysiwyg("ul/ul/li[text()='item 2']");
         assertHTMLGeneratedByWysiwyg("ul/li[text()='item 3']");
 
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("- item 1\n-- item 2\n- item 3", getFieldValue("content"));
     }
 
     public void testVelocityComments() throws Exception
     {
         setFieldValue("content", "## comment");
-        clickLinkWithText("WYSIWYG");
+        clickEditPageInWysiwyg();
 
         // <div class="vcomment"> comment</div>
         assertHTMLGeneratedByWysiwyg("div[@class='vcomment'][.=' comment']");
 
-        clickLinkWithText("Wiki");
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("## comment", getFieldValue("content"));
     }
 
     public void testAccentsInLinks() throws Exception
     {
         setFieldValue("content", "[\u00E9t\u00E9]");
-        clickLinkWithText("WYSIWYG");
-        clickLinkWithText("Wiki");
+        clickEditPageInWysiwyg();
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("[\u00E9t\u00E9]", getFieldValue("content"));
 
         setFieldValue("content", "[test>\u00E9t\u00E9]");
-        clickLinkWithText("WYSIWYG");
-        clickLinkWithText("Wiki");
+        clickEditPageInWysiwyg();
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("[test>\u00E9t\u00E9]", getFieldValue("content"));
 
         setFieldValue("content", "[\u00E9t\u00E9>test]");
-        clickLinkWithText("WYSIWYG");
-        clickLinkWithText("Wiki");
+        clickEditPageInWysiwyg();
+        clickEditPageInWikiSyntaxEditor();
         assertEquals("[\u00E9t\u00E9>test]", getFieldValue("content"));
     }
 

@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.ui.framework.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -65,19 +66,32 @@ public class CreatePagePage extends ViewPage
     /**
      * @since 2.6RC1
      */
-    public int availableTemplateSize()
+    public int getAvailableTemplateSize()
     {
         // When there's no template available a hidden input with a blank value remains.
-        return getDriver().findElements(By.name("template")).size() - 1;
+        return getDriver().findElements(By.name("templateprovider")).size() - 1;
+    }
+
+    public List<String> getAvailableTemplates()
+    {
+        List<String> availableTemplates = new ArrayList<String>();
+        List<WebElement> templateInputs = getDriver().findElements(By.name("templateprovider"));
+        for (WebElement input : templateInputs) {
+            if (input.getValue().length() > 0) {
+                availableTemplates.add(input.getValue());
+            }
+        }
+
+        return availableTemplates;
     }
 
     public void setTemplate(String template)
     {
         // Select the correct radio element corresponding to the passed template name.
         // TODO: For some reason the following isn't working. Find out why.
-        //   List<WebElement> templates = getDriver().findElements(
-        //     new ByChained(By.name("template"), By.tagName("input")));
-        List<WebElement> templates = getDriver().findElements(By.name("template"));
+        // List<WebElement> templates = getDriver().findElements(
+        // new ByChained(By.name("template"), By.tagName("input")));
+        List<WebElement> templates = getDriver().findElements(By.name("templateprovider"));
         for (WebElement templateInput : templates) {
             if (templateInput.getValue().equals(template)) {
                 templateInput.setSelected();
@@ -107,5 +121,11 @@ public class CreatePagePage extends ViewPage
         setTemplate(templateValue);
         clickCreate();
         return new WYSIWYGEditPage();
+    }
+
+    public boolean hasError()
+    {
+        // if there is at least one element with errormessage classname
+        return getDriver().findElements(By.className("errormessage")).size() > 0;
     }
 }

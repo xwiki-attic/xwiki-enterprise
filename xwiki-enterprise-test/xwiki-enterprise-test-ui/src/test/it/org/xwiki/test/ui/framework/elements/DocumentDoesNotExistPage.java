@@ -19,32 +19,26 @@
  */
 package org.xwiki.test.ui.framework.elements;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.openqa.selenium.support.FindBys;
 
 /**
- * Represents the actions possible on the Create Space template page.
+ * Page to handle the "Document does not exist" page.
  * 
  * @version $Id$
- * @since 2.3M1
+ * @since 3.1M1
  */
-public class CreateSpacePage extends ViewPage
+public class DocumentDoesNotExistPage extends BasePage
 {
-    @FindBy(id = "space")
-    private WebElement spaceTextField;
+    @FindBys({@FindBy(className = "xwikimessage"), @FindBy(tagName = "a")})
+    private WebElement editThisPageToCreate;
 
-    public WYSIWYGEditPage createSpace(String spaceValue)
+    /**
+     * This function cannot return
+     */
+    public void clickEditThisPageToCreate()
     {
-        this.spaceTextField.sendKeys(spaceValue);
-        this.spaceTextField.submit();
-        return new WYSIWYGEditPage();
-    }
-
-    public boolean hasError()
-    {
-        // if there is at least one element with errormessage classname
-        return getDriver().findElements(By.className("errormessage")).size() > 0;
+        this.editThisPageToCreate.click();
     }
 }

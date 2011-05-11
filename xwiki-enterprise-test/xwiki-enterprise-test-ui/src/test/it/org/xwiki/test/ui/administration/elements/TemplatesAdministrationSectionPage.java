@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.ui.administration.elements;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -29,16 +32,16 @@ import org.openqa.selenium.support.FindBy;
  * @since 2.4M2
  */
 public class TemplatesAdministrationSectionPage extends AdministrationSectionPage
-{    
+{
     @FindBy(id = "space")
     private WebElement spaceInput;
-    
+
     @FindBy(id = "page")
     private WebElement pageInput;
-    
+
     @FindBy(id = "createTemplateProvider")
     private WebElement createButton;
-    
+
     public TemplatesAdministrationSectionPage()
     {
         super("Templates");
@@ -52,5 +55,13 @@ public class TemplatesAdministrationSectionPage extends AdministrationSectionPag
         pageInput.sendKeys(page);
         createButton.click();
         return new TemplateProviderInlinePage();
+    }
+
+    public List<WebElement> getExistingTemplatesLinks()
+    {
+        WebElement availableTemplatesHeader = getDriver().findElement(By.id("HAvailableTemplateProviders"));
+        // a bit unreliable here, but it's the best I can do
+        WebElement ul = availableTemplatesHeader.findElement(By.xpath("following-sibling::node()"));
+        return ul.findElements(By.tagName("a"));
     }
 }

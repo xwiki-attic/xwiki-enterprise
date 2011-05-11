@@ -70,15 +70,20 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
     {
         Assert.assertTrue(this.commentsTab.isCommentFormShown());
         this.commentsTab.postComment(COMMENT_CONTENT, true);
-        Assert.assertEquals(COMMENT_CONTENT, this.commentsTab.getCommentContentByID(0));
-        Assert.assertEquals(ADMIN, this.commentsTab.getCommentAuthorByID(0));
+        Assert.assertEquals(COMMENT_CONTENT,
+            this.commentsTab.getCommentContentByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
+        Assert.assertEquals(ADMIN,
+            this.commentsTab.getCommentAuthorByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
     }
 
     @Test
     public void testReplyToCommentAsAdmin()
     {
         this.commentsTab.postComment(COMMENT_CONTENT, true);
-        this.commentsTab.replyToCommentByID(0, COMMENT_REPLY);
+        this.commentsTab.replyToCommentByID(this.commentsTab.getCommentID(COMMENT_CONTENT), COMMENT_REPLY);
+        Assert.assertEquals(COMMENT_REPLY,
+            this.commentsTab.getCommentContentByID(this.commentsTab.getCommentID(COMMENT_REPLY)));
+        Assert.assertEquals(ADMIN, this.commentsTab.getCommentAuthorByID(this.commentsTab.getCommentID(COMMENT_REPLY)));
     }
 
     @Test
@@ -86,7 +91,8 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
     {
         Assert.assertTrue(this.commentsTab.isCommentFormShown());
         this.commentsTab.postComment(COMMENT_CONTENT, true);
-        this.commentsTab.deleteCommentByID(0);
+        this.commentsTab.deleteCommentByID(this.commentsTab.getCommentID(COMMENT_CONTENT));
+        Assert.assertTrue(this.commentsTab.getCommentID(COMMENT_CONTENT) == -1);
     }
 
     @Test
@@ -95,7 +101,8 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(this.commentsTab.isCommentFormShown());
         this.commentsTab.postComment(COMMENT_CONTENT, true);
         this.commentsTab.editCommentByID(0, COMMENT_REPLACED_CONTENT);
-        Assert.assertEquals(COMMENT_REPLACED_CONTENT, this.commentsTab.getCommentContentByID(0));
+        Assert.assertEquals(COMMENT_REPLACED_CONTENT,
+            this.commentsTab.getCommentContentByID(this.commentsTab.getCommentID(COMMENT_REPLACED_CONTENT)));
     }
 
     @Test
@@ -107,7 +114,9 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = new ViewPage();
         // This opens with ?viewer=comments, don't explicitly load the comments tab
         vp.waitUntilPageIsLoaded();
-        Assert.assertEquals(COMMENT_CONTENT, this.commentsTab.getCommentContentByID(0));
-        Assert.assertEquals(ADMIN, this.commentsTab.getCommentAuthorByID(0));
+        Assert.assertEquals(COMMENT_CONTENT,
+            this.commentsTab.getCommentContentByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
+        Assert.assertEquals(ADMIN,
+            this.commentsTab.getCommentAuthorByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
     }
 }

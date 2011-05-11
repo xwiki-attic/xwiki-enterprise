@@ -11,8 +11,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1274448564000</creationDate>
-<date>1274448564000</date>
-<contentUpdateDate>1274448564000</contentUpdateDate>
+<date>1305132441000</date>
+<contentUpdateDate>1305132441000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -33,6 +33,7 @@
 <nameField></nameField>
 <validationScript></validationScript>
 <defaultEditMode>
+<disabled>0</disabled>
 <name>defaultEditMode</name>
 <number>1</number>
 <prettyName>Default Edit Mode</prettyName>
@@ -63,7 +64,12 @@
 #if ($context.action != 'view')
 
 {{info}}$msg.get('xe.templateprovider.spaces.info'){{/info}}
-#else
+#end
+; $msg.get('xe.templateprovider.action') 
+
+$msg.get('xe.templateprovider.action.info')
+: $doc.display('action')
+#if ($context.action == 'view')
 
   {{html wiki="true"}}
     &lt;span class="buttonwrapper"&gt;

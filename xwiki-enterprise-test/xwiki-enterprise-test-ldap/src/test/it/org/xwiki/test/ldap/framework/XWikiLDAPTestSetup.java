@@ -21,8 +21,16 @@ package org.xwiki.test.ldap.framework;
 
 import java.util.Properties;
 
+import javax.management.JMX;
+import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+
 import org.xwiki.test.integration.XWikiTestSetup;
 
+import ch.qos.logback.classic.jmx.JMXConfiguratorMBean;
 import junit.framework.Test;
 
 /**
@@ -48,17 +56,10 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
      */
     public Properties currentXWikiConf;
 
-    // ///
-
     /**
      * The default xwiki.cfg properties.
      */
     private Properties initialXWikiConf;
-
-    /**
-     * The log4j.properties properties.
-     */
-    private Properties logProperties;
 
     public XWikiLDAPTestSetup(Test test) throws Exception
     {
@@ -94,23 +95,12 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.mode_group_sync", "always");
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.ssl", "0");
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
-
-        // Prepare log4j.properties properties
-        this.logProperties = new Properties();
-        this.logProperties.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
-        this.logProperties.setProperty("log4j.appender.stdout.Target", "System.out");
-        this.logProperties.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-        this.logProperties.setProperty("log4j.appender.stdout.layout.ConversionPattern",
-            "%d [%X{url}] [%t] %-5p %-30.30c{2} %x - %m %n");
-        this.logProperties.setProperty("log4j.rootLogger", "warn, stdout");
-        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.plugin.ldap", "trace");
-        this.logProperties.setProperty("log4j.logger.com.xpn.xwiki.user.impl.LDAP", "trace");
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @see org.xwiki.test.XWikiTestSetup#setUp()
+     * @see XWikiTestSetup#setUp()
      */
     @Override
     protected void setUp() throws Exception
@@ -118,15 +108,24 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.port", "" + LDAPTestSetup.getLDAPPort());
         getXWikiExecutor().saveXWikiCfg(this.currentXWikiConf);
 
-        getXWikiExecutor().saveLog4JProperties(this.logProperties);
-
         super.setUp();
+
+        // Now that the server is started, connect to it remotely using JMX/RMI to set the log levels for LDAP XWiki
+        // classes in order to get more information in the logs for easier debugging.
+        JMXServiceURL url = new JMXServiceURL(
+            "service:jmx:rmi:///jndi/rmi://:" + getXWikiExecutor().getRMIPort() + "/jmxrmi");
+        JMXConnector jmxc = JMXConnectorFactory.connect(url);
+        MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+        ObjectName oname = new ObjectName("logback:type=xwiki");
+        JMXConfiguratorMBean proxy = JMX.newMBeanProxy(mbsc, oname, JMXConfiguratorMBean.class);
+        proxy.setLoggerLevel("com.xpn.xwiki.plugin.ldap", "trace");
+        proxy.setLoggerLevel("com.xpn.xwiki.user.impl.LDAP", "trace");
     }
 
     /**
      * {@inheritDoc}
      * 
-     * @see org.xwiki.test.XWikiTestSetup#tearDown()
+     * @see XWikiTestSetup#tearDown()
      */
     @Override
     protected void tearDown() throws Exception

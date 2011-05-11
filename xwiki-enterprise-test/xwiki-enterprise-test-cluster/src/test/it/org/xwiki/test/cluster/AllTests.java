@@ -24,9 +24,18 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import javax.management.JMX;
+import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+
 import org.junit.runner.RunWith;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
+
+import ch.qos.logback.classic.jmx.JMXConfiguratorMBean;
 
 /**
  * Runs all functional tests found in the classpath and start/stop XWiki before/after the tests (only once).
@@ -39,14 +48,27 @@ public class AllTests
 {
     private static final String WEBINF_PATH = "/observation/remote/jgroups";
 
-    @XWikiExecutorSuite.Initialized
-    public void initialize(List<XWikiExecutor> executors)
+    @XWikiExecutorSuite.PreStart
+    public void preInitialize(List<XWikiExecutor> executors) throws Exception
     {
-        try {
-            initChannel(executors.get(0), "tcp1");
-            initChannel(executors.get(1), "tcp2");
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize Cluster Channels", e);
+        initChannel(executors.get(0), "tcp1");
+        initChannel(executors.get(1), "tcp2");
+    }
+
+    @XWikiExecutorSuite.PostStart
+    public void postInitialize(List<XWikiExecutor> executors) throws Exception
+    {
+        // Now that the server is started, connect to it remotely using JMX/RMI to set the log levels for some
+        // cluster-related XWiki classes in order to get more information in the logs for easier debugging.
+        for (XWikiExecutor executor : executors) {
+            JMXServiceURL url = new JMXServiceURL(
+                "service:jmx:rmi:///jndi/rmi://:" + executor.getRMIPort() + "/jmxrmi");
+            JMXConnector jmxc = JMXConnectorFactory.connect(url);
+            MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+            ObjectName oname = new ObjectName("logback:type=xwiki");
+            JMXConfiguratorMBean proxy = JMX.newMBeanProxy(mbsc, oname, JMXConfiguratorMBean.class);
+            proxy.setLoggerLevel("org.xwiki.observation.remote", "debug");
+            proxy.setLoggerLevel("com.xpn.xwiki.internal", "debug");
         }
     }
 
@@ -56,17 +78,6 @@ public class AllTests
         properties.setProperty("observation.remote.enabled", "true");
         properties.setProperty("observation.remote.channels", channelName);
         executor.saveXWikiProperties(properties);
-
-        Properties log4JProperties = executor.loadLog4JProperties();
-        log4JProperties.setProperty("log4j.appender.stdout", "org.apache.log4j.ConsoleAppender");
-        log4JProperties.setProperty("log4j.appender.stdout.Target", "System.out");
-        log4JProperties.setProperty("log4j.appender.stdout.layout", "org.apache.log4j.PatternLayout");
-        log4JProperties.setProperty("log4j.appender.stdout.layout.ConversionPattern",
-            "%d [%X{url}] [%t] %-5p %-30.30c{2} %x - %m %n");
-        log4JProperties.setProperty("log4j.rootLogger", "warn, stdout");
-        log4JProperties.setProperty("log4j.logger.org.xwiki.observation.remote", "debug");
-        log4JProperties.setProperty("log4j.logger.com.xpn.xwiki.internal", "debug");
-        executor.saveLog4JProperties(log4JProperties);
 
         String filename = channelName + ".xml";
 

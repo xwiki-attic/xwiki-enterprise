@@ -348,7 +348,7 @@ public abstract class AbstractEscapingTest implements FileTest
      */
     protected List<ValidationError> getUnderEscapingErrors(String url)
     {
-        // TODO better use log4j
+        // TODO better use XWiki logging
         System.out.println("Testing URL: " + url);
 
         InputStream content = AbstractEscapingTest.getUrlContent(url);

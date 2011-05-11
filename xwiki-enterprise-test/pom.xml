@@ -155,7 +155,11 @@
                 <name>seleniumPort</name>
                 <value>${seleniumPort}</value>
               </property>
-               <property>
+              <property>
+                <name>rmiPort</name>
+                <value>${rmiport}</value>
+              </property>
+              <property>
                 <name>xwikiExecutionDirectory</name>
                 <value>${basedir}/target/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</value>
               </property>
@@ -371,6 +375,7 @@
     <patternMethod>.*</patternMethod>
     <port>8080</port>
     <stopport>8079</stopport>
+    <rmiport>9000</rmiport>
     <seleniumPort>4444</seleniumPort>
   </properties>
   <profiles>
@@ -394,7 +399,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -408,7 +413,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -435,7 +440,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}" -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}" -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -449,7 +454,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -477,7 +482,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath} -Djava.net.preferIPv4Stack=true</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>

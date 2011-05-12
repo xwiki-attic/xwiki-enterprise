@@ -11,8 +11,8 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
-<date>1297793379000</date>
-<contentUpdateDate>1297793379000</contentUpdateDate>
+<date>1305191339000</date>
+<contentUpdateDate>1305191339000</contentUpdateDate>
 <version>1.1</version>
 <title>$msg.get("xe.spaces")</title>
 <template></template>
@@ -349,7 +349,7 @@ $xwiki.ssx.use('Main.Spaces')##
         &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="{{html wiki="false"}}$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space'){{/html}}" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;
         &lt;div id="spSpaceCreateForm" class="hidden"&gt;
-          &lt;form method="post" action="{{html wiki="false"}}$doc.getURL('view', 'xpage=create'){{/html}}" class="xformInline"&gt;
+          &lt;form method="post" action="{{html wiki="false"}}$doc.getURL('create'){{/html}}" class="xformInline"&gt;
             &lt;div&gt;
               &lt;input name="tocreate" type="hidden" value="space" /&gt;
               #set($newSpaceName = $escapetool.xml($msg.get('xe.spaces.createspace.defaultname')))

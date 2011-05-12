@@ -124,6 +124,8 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // Verify template instance content
         Assert.assertEquals(templateInstanceName, templateInstanceEdit.getTitle());
         Assert.assertEquals(templateContent, templateInstanceEdit.getContent());
+        // check the parent of the template instance
+        Assert.assertEquals(templateProviderFullName, templateInstanceEdit.getParent());
 
         // Put a wanted link in the template instance
         templateInstanceEdit.setContent("[[NewPage]]");
@@ -160,6 +162,8 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // Verify template instance content
         Assert.assertEquals(TEMPLATE_NAME + "UnexistingInstance", unexistingPageEdit.getTitle());
         Assert.assertEquals(templateContent, unexistingPageEdit.getContent());
+        // test that this page has no parent
+        Assert.assertEquals("", unexistingPageEdit.getParent());
 
         // create an empty page when there is a template available, make sure it's empty
         HomePage homePage = new HomePage();
@@ -168,11 +172,16 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(createEmptyPage.getAvailableTemplateSize() > 0);
         WYSIWYGEditPage editEmptyPage = createEmptyPage.createPage(space, "EmptyPage");
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
+        // wait to load editor to make sure that what we're saving is the content that is supposed to be in this
+        // document
         editEmptyPage.getContentEditor().waitToLoad();
         ViewPage emptyPage = editEmptyPage.clickSaveAndView();
-        WikiEditPage editWikiEmptyPage = emptyPage.editWiki();
-        // make sure it's empty (well as empty as it can be)
-        Assert.assertEquals("\\\\", editWikiEmptyPage.getContent());
+        // make sure it's empty
+        Assert.assertEquals("", emptyPage.getContent());
+        // make sure parent is the right one
+        Assert.assertTrue(emptyPage.hasBreadcrumbContent("Welcome to your wiki"));
+        // mare sure title is the right one
+        Assert.assertEquals("EmptyPage", emptyPage.getDocumentTitle());
 
         // Restrict the template to its own space
         templateProviderView = getUtil().gotoPage(space, TEMPLATE_NAME + "Provider");
@@ -228,6 +237,10 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         Assert.assertEquals(space, editSpaceWebhomePage.getMetaDataValue("space"));
         Assert.assertEquals("WebHome", editSpaceWebhomePage.getMetaDataValue("page"));
+        // and no parent
+        Assert.assertEquals("", editSpaceWebhomePage.getParent());
+        // and the title the name of the space
+        Assert.assertEquals(space, editSpaceWebhomePage.getDocumentTitle());
     }
 
     /**
@@ -431,5 +444,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // and now test the title is the name of the page and the content is the one from the template
         Assert.assertEquals(newPageName, newPage.getDocumentTitle());
         Assert.assertEquals(templateContent, newPage.getContent());
+        // and the parent, it should be the template provider, since that's where we created it from
+        Assert.assertTrue(newPage.hasBreadcrumbContent(templateProviderName));
     }
 }

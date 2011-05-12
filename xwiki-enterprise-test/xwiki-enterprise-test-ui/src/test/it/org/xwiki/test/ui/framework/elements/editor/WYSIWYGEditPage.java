@@ -39,6 +39,9 @@ public class WYSIWYGEditPage extends PreviewableEditPage
 
     @FindBy(name = "action_save")
     private WebElement saveAndViewSubmit;
+    
+    @FindBy(name = "parent")
+    private WebElement parentInput;
 
     /**
      * The WYSIWYG content editor.
@@ -99,4 +102,12 @@ public class WYSIWYGEditPage extends PreviewableEditPage
         editor.getMenuBar().clickImageMenu();
         return editor.getMenuBar().clickInsertImageMenu();
     }
+
+    /**
+     * @return the value of the parent field.
+     */
+    public String getParent()
+    {
+        return this.parentInput.getValue();
+    }    
 }

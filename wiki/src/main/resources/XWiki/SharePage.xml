@@ -144,9 +144,10 @@
               this.input.insert({'after' : '&lt;div class="xErrorMsg"&gt;$msg.get('core.viewers.share.error.missingRecipient')&lt;/div&gt;'});
               return;
             }
+            var params = this.form.serialize();
             this.form.up().update(loading);
             new Ajax.Updater(loading.up(), XWiki.currentDocument.getURL('get', 'xpage=shareinline'), {
-              parameters: this.form.serialize(),
+              parameters: params,
               onComplete : function() {
                 if (dialog) {
                   dialog.dialog.down('.share-backlink').observe('click', dialog.closeDialog.bind(dialog));

@@ -348,7 +348,7 @@ $xwiki.ssx.use($doc.fullName)
   #if($themeList.size() &gt; 0)
     == $msg.get('xe.themes.others') ==
   #end
-  #if(!$isGuest)
+  #if(!$isGuest &amp;&amp; $xcontext.action != 'inline')
   &lt;form action="$doc.getURL()" method="post" class="xformInline"&gt;
   &lt;div class="x-theme-create"&gt;
     &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
@@ -358,7 +358,7 @@ $xwiki.ssx.use($doc.fullName)
     &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.themes.create')" class="button"/&gt;&lt;/span&gt;
   &lt;/div&gt;
   &lt;/form&gt;
-#end
+  #end
   &lt;div class="clearfloats"&gt;&lt;/div&gt;
   #foreach($themeDocName in $themeList)
     #displayTheme($themeDocName)

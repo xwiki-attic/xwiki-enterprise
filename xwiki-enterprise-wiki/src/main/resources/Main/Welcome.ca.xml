@@ -2,7 +2,7 @@
 
 <xwikidoc>
 <web>Main</web>
-<name>WebHome</name>
+<name>Welcome</name>
 <language>ca</language>
 <defaultLanguage>en</defaultLanguage>
 <translation>1</translation>
@@ -15,7 +15,7 @@
 <date>1297866863000</date>
 <contentUpdateDate>1297866863000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get("xe.home.title")</title>
+<title>$msg.get("xe.dashboard.wiki.welcome")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -29,5 +29,4 @@
 #if($hasEdit) Podeu utilitzar l'[[espai del calaix&gt;&gt;Sandbox.WebHome]] per a provar les característiques de la vostra wiki. #end
 {{/velocity}}
 
-{{dashboard source="Main.Dashboard" /}}</content>
-</xwikidoc>
+</content></xwikidoc>

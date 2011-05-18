@@ -2,8 +2,8 @@
 
 <xwikidoc>
 <web>Main</web>
-<name>WebHome</name>
-<language>nl</language>
+<name>Welcome</name>
+<language>lv</language>
 <defaultLanguage>en</defaultLanguage>
 <translation>1</translation>
 <parent></parent>
@@ -15,7 +15,7 @@
 <date>1297866863000</date>
 <contentUpdateDate>1297866863000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get("xe.home.title")</title>
+<title>$msg.get("xe.dashboard.wiki.welcome")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -23,11 +23,10 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>Het is een eenvoudig te bewerken website om beter samen te werken. Deze wiki is opgebouwd uit //pagina's//, gegroepeerd in //werkruimtes(spaces)//. Op dit moment ben je in de **Main** werkruimte, en bekijk je de startpagina (**WebHome**) van deze werkruimte. 
+<content>Šī tīmekļa vietne jums ļauj ērtā veidā rediģēt lapu saturu un sadarboties. Šajā viki ir //lapas//, kas tiek glabātas //vietās//. Šobrīd jūs esat vietas **Main** mājas lapā (**WebHome**).
 
-{{velocity}}
-#if($hasedit) Je kunt de [[Oefenruimte&gt;&gt;Sandbox.WebHome]] gebruiken om de mogelijkheden van deze wiki uit te proberen. #end
+{{velocity wiki="true"}}
+#if($hasEdit) Lai pārbaudītu šī viki iespējas, jūs varat rediģēt mēģinājumu vietas mājas lapu jeb [[Smilšu kasti&gt;&gt;Sandbox.WebHome]]. #end
 {{/velocity}}
 
-{{dashboard source="Main.Dashboard" /}}</content>
-</xwikidoc>
+</content></xwikidoc>

@@ -2,8 +2,8 @@
 
 <xwikidoc>
 <web>Main</web>
-<name>WebHome</name>
-<language>de</language>
+<name>Welcome</name>
+<language>nl</language>
 <defaultLanguage>en</defaultLanguage>
 <translation>1</translation>
 <parent></parent>
@@ -15,7 +15,7 @@
 <date>1297866863000</date>
 <contentUpdateDate>1297866863000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get("xe.home.title")</title>
+<title>$msg.get("xe.dashboard.wiki.welcome")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -23,11 +23,10 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>XWiki ist eine einfach veränderbare Webseite die Ihnen die Zusammenarbeit erleichtern wird. Dieses Wiki ist aus //Seiten// aufgebaut, die in //Spaces// einsortiert sind. Sie sind momentan im **Main**-Space und sehen dessen Startseite (**WebHome**).
+<content>Het is een eenvoudig te bewerken website om beter samen te werken. Deze wiki is opgebouwd uit //pagina's//, gegroepeerd in //werkruimtes(spaces)//. Op dit moment ben je in de **Main** werkruimte, en bekijk je de startpagina (**WebHome**) van deze werkruimte. 
 
 {{velocity}}
-#if($hasEdit)Sie können den [[Sandbox Space&gt;&gt;Sandbox.WebHome]] verwenden um die Funktionen Ihres Wiki's auszuprobieren.#end
+#if($hasedit) Je kunt de [[Oefenruimte&gt;&gt;Sandbox.WebHome]] gebruiken om de mogelijkheden van deze wiki uit te proberen. #end
 {{/velocity}}
 
-{{dashboard source="Main.Dashboard" /}}</content>
-</xwikidoc>
+</content></xwikidoc>

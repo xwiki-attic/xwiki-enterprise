@@ -2,8 +2,8 @@
 
 <xwikidoc>
 <web>Main</web>
-<name>WebHome</name>
-<language>zh_TW</language>
+<name>Welcome</name>
+<language>fr</language>
 <defaultLanguage>en</defaultLanguage>
 <translation>1</translation>
 <parent></parent>
@@ -15,7 +15,7 @@
 <date>1297866863000</date>
 <contentUpdateDate>1297866863000</contentUpdateDate>
 <version>1.1</version>
-<title>$msg.get("xe.home.title")</title>
+<title>$msg.get("xe.dashboard.wiki.welcome")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -23,11 +23,10 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>這是一個很容易編輯的協同合作網站。這個 Wiki 由 //空間// 排序的 //頁面// 所組成，您現在正在 **Main** 空間中的首頁 (**WebHome**)
+<content>C'est un site web facile à éditer qui aidera les membres de votre équipe à mieux travailler ensemble. Ce wiki se compose de //pages// organisées par //espaces.// Vous êtes actuellement sur la page d'accueil (**WebHome**) de l'espace principal (**Main**).
 
-{{velocity}}
-#if($hasEdit)你可以使用 [[實驗室&gt;&gt;Sandbox.WebHome]] 實驗 wiki 的功能特性。#end
-{{/velocity}}
+{{velocity}}#if($hasEdit)
+Vous pouvez utiliser le [[bac à sable&gt;&gt;Sandbox.WebHome]] afin de tester les fonctionnalités de votre wiki.
+#end{{/velocity}}
 
-{{dashboard source="Main.Dashboard" /}}</content>
-</xwikidoc>
+</content></xwikidoc>

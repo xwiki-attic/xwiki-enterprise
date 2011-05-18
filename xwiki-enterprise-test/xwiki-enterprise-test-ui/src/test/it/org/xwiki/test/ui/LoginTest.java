@@ -26,6 +26,7 @@ import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.elements.LoginPage;
+import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.test.ui.xe.elements.HomePage;
 
@@ -52,7 +53,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
-    public void testLoginLogout()
+    public void testLoginLogoutAsAdmin()
     {
         LoginPage loginPage = this.homePage.login();
         loginPage.loginAsAdmin();
@@ -142,4 +143,47 @@ public class LoginTest extends AbstractTest
         Assert.assertEquals(test, editPage.getTitle());
         Assert.assertEquals(test, editPage.getContent());
     }
+
+    @Test
+    public void testCorrectUrlIsAccessedAfterLogin()
+    {
+        HomePage homePage = new HomePage();
+        if (homePage.isAuthenticated()) {
+            homePage.logout();
+        }
+        // We will choose the Scheduler.WebHome page to make our testing
+        // since it can't be viewed without being logged in
+        getUtil().gotoPage("Scheduler", "WebHome");
+        LoginPage loginPage = new LoginPage();
+        Assert.assertFalse(loginPage.isAuthenticated());
+        loginPage.loginAsAdmin();
+        // We should be redirected back to Scheduler.WebHome
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("/xwiki/bin/view/Scheduler/WebHome"));
+        Assert.assertTrue(getDriver().getTitle().contains("Job Scheduler"));
+        // Preserve the initial state
+        homePage.gotoPage();
+        if (homePage.isAuthenticated())
+            homePage.logout();
+    }
+
+    @Test
+    public void testDataIsPreservedAfterLogin()
+    {
+        HomePage homePage = new HomePage();
+        if (homePage.isAuthenticated()) {
+            homePage.logout();
+        }
+        getUtil().gotoPage("Test", "TestData", "save", "content=this+should+not+be+saved");
+        getUtil().gotoPage("Test", "TestData", "save", "content=this+should+be+saved+instead&parent=Main.WebHome");
+        LoginPage loginPage = new LoginPage();
+        loginPage.loginAsAdmin();
+        getDriver().getCurrentUrl().contains("/xwiki/bin/view/Test/TestData");
+        ViewPage viewPage = new ViewPage();
+        viewPage.getContent().equals("this should be saved instead");
+        // Preserve the initial state
+        homePage.gotoPage();
+        if (homePage.isAuthenticated())
+            homePage.logout();
+    }
+
 }

@@ -28,6 +28,7 @@ import org.openqa.selenium.support.FindBys;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.comments.elements.CommentsTab;
 import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.history.elements.HistoryTab;
 import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
@@ -160,12 +161,12 @@ public class ViewPage extends BasePage
         return new CommentsTab();
     }
 
-    public HistoryPane openHistoryDocExtraPane()
+    public HistoryTab openHistoryDocExtraPane()
     {
         this.getDriver().findElement(By.id("Historylink")).click();
         this.waitUntilElementIsVisible(By.id("historycontent"));
 
-        return new HistoryPane();
+        return new HistoryTab();
     }
 
     public AttachmentsPane openAttachmentsDocExtraPane()

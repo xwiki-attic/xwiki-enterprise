@@ -30,8 +30,8 @@ import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.administration.elements.ImportAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.HistoryPane;
 import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.history.elements.HistoryTab;
 
 /**
  * Test the Import XAR feature.
@@ -104,7 +104,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
         // will race for completion. Let's wait for comments first.
         importedPage.openCommentsDocExtraPane();
-        HistoryPane history = importedPage.openHistoryDocExtraPane();
+        HistoryTab history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("4.1", history.getCurrentVersion());
         Assert.assertEquals("Imported from XAR", history.getCurrentVersionComment());
@@ -126,7 +126,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
         // will race for completion. Let's wait for comments first.
         importedPage.openCommentsDocExtraPane();
-        HistoryPane history = importedPage.openHistoryDocExtraPane();
+        HistoryTab history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("1.1", history.getCurrentVersion());
         Assert.assertEquals("Imported from XAR", history.getCurrentVersionComment());
@@ -150,7 +150,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
         // will race for completion. Let's wait for comments first.
         importedPage.openCommentsDocExtraPane();
-        HistoryPane history = importedPage.openHistoryDocExtraPane();
+        HistoryTab history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("JohnDoe", history.getCurrentAuthor());
     }
@@ -174,7 +174,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         // Since the page by default opens the comments pane, if we instantly click on the history, the two tabs
         // will race for completion. Let's wait for comments first.
         importedPage.openCommentsDocExtraPane();
-        HistoryPane history = importedPage.openHistoryDocExtraPane();
+        HistoryTab history = importedPage.openHistoryDocExtraPane();
 
         Assert.assertEquals("Administrator", history.getCurrentAuthor());
     }

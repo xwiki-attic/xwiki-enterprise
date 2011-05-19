@@ -50,7 +50,7 @@ public class CommentsTab extends ViewPage
     @FindBy(id = "XWiki.XWikiComments_comment")
     private WebElement commentTextArea;
 
-    @FindBy(id = "Commentstab")
+    @FindBy(id = "Commentslink")
     private WebElement commentsTab;
 
     CommentDeleteConfirmationModal confirmDelete;

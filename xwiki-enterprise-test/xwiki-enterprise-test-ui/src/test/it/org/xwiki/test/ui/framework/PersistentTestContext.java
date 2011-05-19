@@ -48,14 +48,16 @@ public class PersistentTestContext
         executor.start();
 
         // Ensure that we display page source information if a UI element fails to be found, for easier debugging.
-        this.driver = new FirefoxDriver() {
-            @Override public WebElement findElement(By by)
+        this.driver = new FirefoxDriver()
+        {
+            @Override
+            public WebElement findElement(By by)
             {
                 try {
                     return super.findElement(by);
                 } catch (NoSuchElementException e) {
-                    throw new NoSuchElementException("Failed to locate element from page source ["
-                        + getPageSource() + "]", e);
+                    throw new NoSuchElementException("Failed to locate element from page source [" + getPageSource()
+                        + "]", e);
                 }
             }
         };

@@ -17,10 +17,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.framework.elements;
+package org.xwiki.test.ui.history.elements;
 
 import java.util.List;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -33,10 +34,13 @@ import org.xwiki.test.ui.framework.elements.BaseElement;
  * @version $Id$
  * @since 2.3M1
  */
-public class HistoryPane extends BaseElement
+public class HistoryTab extends BaseElement
 {
     @FindBy(id = "Historypane")
     private WebElement pane;
+
+    @FindBy(id = "Historylink")
+    private WebElement historyTab;
 
     public boolean hasVersionWithSummary(String summary)
     {
@@ -101,5 +105,30 @@ public class HistoryPane extends BaseElement
             // in the second column
             return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[2]")).getText();
         }
+    }
+
+    public void loadHistoryTab()
+    {
+        this.historyTab.click();
+        waitUntilElementIsVisible(By.id("Historypane"));
+    }
+
+    public void rollbackToVersion(String version)
+    {
+        getDriver().findElement(
+            By.xpath("//table[@class='xwikidatatable']//tr[contains(., '" + version
+                + "')]//td[@class='xwikibuttonlink']/a[contains(.,'Rollback')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+    }
+
+    public void deleteVersion(String version)
+    {
+        getDriver().findElement(
+            By.xpath("//table[@class='xwikidatatable']//tr[contains(., '" + version
+                + "')]//td[@class='xwikibuttonlink']/a[contains(.,'Delete')]")).click();
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
     }
 }

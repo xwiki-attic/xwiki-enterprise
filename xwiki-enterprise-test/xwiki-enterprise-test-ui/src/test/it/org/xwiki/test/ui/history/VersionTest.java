@@ -28,6 +28,10 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.test.ui.history.elements.HistoryTab;
 
+/**
+ * @version $Id$
+ * @since 3.1M2
+ */
 public class VersionTest extends AbstractAdminAuthenticatedTest
 {
     private static final String PAGE_NAME = "HistoryTest";
@@ -66,6 +70,5 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
         this.historyTab.loadHistoryTab();
         Assert.assertEquals("Rollback to version 1.1", this.historyTab.getCurrentVersionComment());
         Assert.assertEquals("Administrator", this.historyTab.getCurrentAuthor());
-
     }
 }

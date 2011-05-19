@@ -120,7 +120,6 @@ public class HistoryTab extends BaseElement
                 + "')]//td[@class='xwikibuttonlink']/a[contains(.,'Rollback')]")).click();
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
-
     }
 
     public void deleteVersion(String version)

@@ -34,7 +34,9 @@ public class ImageTest extends AbstractWysiwygTestCase
 {
     public static final String MENU_IMAGE = "Image";
 
-    public static final String MENU_INSERT_IMAGE = "Insert Image...";
+    public static final String MENU_INSERT_ATTACHED_IMAGE = "Attached Image...";
+
+    public static final String MENU_INSERT_EXTERNAL_IMAGE = "External Image...";
 
     public static final String MENU_EDIT_IMAGE = "Edit Image...";
 
@@ -56,13 +58,13 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     public static final String TAB_ALL_PAGES = "All pages";
 
-    public static final String TAB_EXTERNAL_IMAGE = "External";
-
     public static final String BUTTON_SELECT = "Select";
 
-    public static final String BUTTON_UPLOAD = "Upload";
-
     public static final String BUTTON_INSERT_IMAGE = "Insert Image";
+
+    public static final String BUTTON_CHANGE_IMAGE = "Change Image";
+
+    public static final String BUTTON_IMAGE_SETTINGS = "Image Settings";
 
     public static final String BUTTON_PREVIOUS = "Previous";
 
@@ -97,7 +99,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String imageSpace = "XWiki";
         String imagePage = "AdminSheet";
         String imageFile = "registration.png";
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -121,7 +123,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String imagePage = "Categories";
         String imageFile = "icon.png";
 
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -162,7 +164,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         typeText("Attention");
         typeEnter();
 
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -220,7 +222,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String imageFile1 = "import.png";
         String imageFile2 = "export.png";
 
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepSelector();
         // test that the default loaded view is the current page view
         assertElementPresent("//div[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]");
@@ -238,7 +240,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         typeText("Mmmh, cheese!");
 
         // now second image
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // test that the default loaded view is the current page view
         assertElementPresent("//div[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]");
@@ -271,7 +273,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String imageFile1 = "export.png";
         String imageFile2 = "import.png";
 
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
@@ -279,7 +281,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
-        clickButtonWithText("Previous");
+        clickButtonWithText(BUTTON_CHANGE_IMAGE);
 
         waitForStepToLoad(STEP_EXPLORER);
         // wait for the inner selector to load
@@ -327,7 +329,7 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testNewImageOptionLoadsFileUploadStep()
     {
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
 
         // wait for the default option to load and then click it
@@ -338,7 +340,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_UPLOAD);
         closeDialog();
 
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
@@ -400,7 +402,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     public void testEditImageWithLink()
     {
         // add all the image & link, otherwise it will not reproduce, it only reproduces if container is body
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // switch to all pages view
         clickTab(TAB_ALL_PAGES);
@@ -467,7 +469,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     public void testNewImageOptionIsSelectedByDefault()
     {
         // Insert a new image.
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         // Look on the current page selector.
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         assertElementPresent("//div[@class = 'xImagesSelector']//" + "div[contains(@class, 'xListItem-selected')]"
@@ -500,12 +502,12 @@ public class ImageTest extends AbstractWysiwygTestCase
     public void testErrorIsHiddenOnNextDisplay()
     {
         // Get an error in the file upload step and check that on previous, next is not displayed anymore.
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         assertElementPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_UPLOAD);
-        clickButtonWithText(BUTTON_UPLOAD);
+        clickButtonWithText(BUTTON_IMAGE_SETTINGS);
         waitForStepToLoad(STEP_UPLOAD);
         assertFieldErrorIsPresent("The file path was not set", FILE_UPLOAD_INPUT);
         clickButtonWithText(BUTTON_PREVIOUS);
@@ -514,11 +516,11 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_UPLOAD);
         assertFieldErrorIsNotPresent();
         // Get the error again, close, open and test that error is no longer there.
-        clickButtonWithText(BUTTON_UPLOAD);
+        clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForStepToLoad(STEP_UPLOAD);
         assertFieldErrorIsPresent("The file path was not set", FILE_UPLOAD_INPUT);
         closeDialog();
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         assertElementPresent("//*[contains(@class, 'xListItem-selected')]//*[contains(@class, 'xNewImagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
@@ -533,7 +535,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     public void testFastNavigationToSelectImage()
     {
         // double click to select the new image option
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         // click first to make sure selection is set
         getSelenium().click("//*[contains(@class, 'xListItem')]//*[contains(@class, 'xNewImagePreview')]");
@@ -542,7 +544,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         closeDialog();
 
         // enter to select the new image option
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         getSelenium().click("//div[contains(@class, \"xNewImagePreview\")]");
         getSelenium().keyUp(IMAGES_LIST, "\\13");
@@ -550,7 +552,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         closeDialog();
 
         // double click to add an image from another page
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         selectLocation("XWiki", "AdminSheet");
@@ -567,7 +569,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         moveCaret("XWE.body", 0);
 
         // enter to test enter upload in all pages
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         selectLocation("XWiki", "AdminSheet");
@@ -627,7 +629,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForEditorToLoad();
 
         // Insert an image from the created page.
-        openImageDialog(MENU_INSERT_IMAGE);
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         clickTab(TAB_ALL_PAGES);
         selectLocation(spaceName, pageName);
@@ -697,20 +699,18 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     public void testInsertExternalImage()
     {
-        openImageDialog(MENU_INSERT_IMAGE);
-        waitForStepToLoad(STEP_SELECTOR);
-        clickTab(TAB_EXTERNAL_IMAGE);
+        openImageDialog(MENU_INSERT_EXTERNAL_IMAGE);
         waitForStepToLoad(STEP_EXTERNAL_IMAGE);
 
         // Try to move to the next step without setting the image location.
-        clickButtonWithText(BUTTON_SELECT);
+        clickButtonWithText(BUTTON_IMAGE_SETTINGS);
         waitForStepToLoad(STEP_EXTERNAL_IMAGE);
         assertFieldErrorIsPresent("Please specify the image location.", INPUT_EXTERNAL_IMAGE_LOCATION);
 
         // Set the image URL and insert the image.
         String imageURL = "http://www.xwiki.org/xwiki/skins/toucan/logo.png";
         getSelenium().type(INPUT_EXTERNAL_IMAGE_LOCATION, imageURL);
-        clickButtonWithText(BUTTON_SELECT);
+        clickButtonWithText(BUTTON_IMAGE_SETTINGS);
         waitForStepToLoad(STEP_CONFIG);
 
         // The alternative text should be set by default to the image URL.
@@ -738,33 +738,20 @@ public class ImageTest extends AbstractWysiwygTestCase
         // Edit the external image and change its location.
         selectNode("XWE.body.getElementsByTagName('img')[0]");
         openImageDialog(MENU_EDIT_IMAGE);
-        waitForStepToLoad(STEP_SELECTOR);
-        // The step to select an external image should be selected by default.
         waitForStepToLoad(STEP_EXTERNAL_IMAGE);
         assertEquals(imageURL, getSelenium().getValue(INPUT_EXTERNAL_IMAGE_LOCATION));
 
         // Change the image location.
-        clickTab(TAB_ALL_PAGES);
-        waitForStepToLoad(STEP_EXPLORER);
-        String spaceName = "Sandbox";
-        String pageName = "WebHome";
-        String fileName = "XWikiLogo.png";
-        selectLocation(spaceName, pageName);
-        getSelenium().click(getImageLocator(fileName));
-        clickButtonWithText(BUTTON_SELECT);
-        waitForStepToLoad(STEP_CONFIG);
-
-        // Check if the alternative text was preserved.
-        assertEquals(alternativeText, getSelenium().getValue(INPUT_ALT));
-        // Reset the alternative text.
-        getSelenium().type(INPUT_ALT, "");
+        imageURL = "http://www.xwiki.org/xwiki/skins/colibri/logo.png";
+        getSelenium().type(INPUT_EXTERNAL_IMAGE_LOCATION, imageURL);
+        // Quickly insert the image, skipping the settings step.
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
         // Check the result.
         switchToSource();
-        // The title attribute must be preserved.
-        assertSourceText(String.format("[[image:%s.%s@%s||title=\"abc\"]]", spaceName, pageName, fileName));
+        // The image parameters must be preserved.
+        setSourceText(String.format("[[image:%s||alt=\"%s\" title=\"abc\"]]", imageURL, alternativeText));
     }
 
     private void waitForStepToLoad(String stepClass)

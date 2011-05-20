@@ -38,6 +38,12 @@ public class LinkTest extends AbstractWysiwygTestCase
 
     public static final String MENU_LINK_REMOVE = "Remove Link";
 
+    public static final String BUTTON_SELECT = "Select";
+
+    public static final String BUTTON_LINK_SETTINGS = "Link Settings";
+
+    public static final String BUTTON_CREATE_LINK = "Create Link";
+
     public static final String CURRENT_PAGE_TAB = "Current page";
 
     public static final String ALL_PAGES_TAB = "All pages";
@@ -97,10 +103,10 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         explorer.lookupEntity(selectedSpace + "." + selectedPage);
         explorer.waitForPageSelected(selectedSpace, selectedPage);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         // wait for the link dialog to close
         waitForDialogToClose();
@@ -128,10 +134,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.lookupEntity(space + "." + page);
         explorer.waitForPageSelected(space, page);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         waitForDialogToClose();
 
@@ -156,9 +162,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.lookupEntity(space + "." + newPageName);
         explorer.waitForNewPageSelected(space);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         // wait for the link dialog to close
         waitForDialogToClose();
 
@@ -184,9 +190,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_EXPLORER);
         explorer.lookupEntity(newSpace + "." + newPage);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         // wait for the link dialog to close
         waitForDialogToClose();
 
@@ -208,7 +214,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // ensure wizard step is loaded
         waitForStepToLoad("xLinkToUrl");
         typeInInput("Web page address", url);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -230,7 +236,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String newLabel = "xwiki rox";
         typeInInput(LABEL_INPUT_TITLE, newLabel);
         typeInInput("Web page address", url);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -249,7 +255,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_EMAIL_ADDRESS);
 
         typeInInput("Email address", email);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -267,7 +273,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         typeInInput("Web page address", linkURL);
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -292,7 +298,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // test that the picked up label of the link is the right text
         assertEquals("ourxwikirox", getInputValue(LABEL_INPUT_TITLE));
         typeInInput("Web page address", "www.xwiki.org");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         waitForDialogToClose();
         switchToSource();
@@ -317,7 +323,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         typeInInput("Web page address", linkURL);
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 5);
@@ -340,7 +346,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertEquals(linkURL, getInputValue("Web page address"));
 
         typeInInput("Web page address", newLinkURL);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -354,7 +360,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testCreateAndEditLinkOnImage()
     {
         clickMenu("Image");
-        clickMenu("Insert Image...");
+        clickMenu("Attached Image...");
 
         waitForDialogToLoad();
 
@@ -377,7 +383,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForCondition("selenium.isElementPresent('" + imageSelector + "');");
         getSelenium().click(imageSelector);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xImageConfig");
         clickButtonWithText("Insert Image");
 
@@ -396,13 +402,13 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.lookupEntity(spaceName + "." + pageName);
         // Wait for the target space to be selected.
         explorer.waitForNewPageSelected(spaceName);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         assertEquals("presentation.png", getInputValue(LABEL_INPUT_TITLE));
         // Check that the link label is read-only.
         assertElementPresent("//input[@title=\"" + LABEL_INPUT_TITLE + "\" and @disabled=\"\"]");
 
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -416,7 +422,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_WEB_PAGE);
         typeInInput(LABEL_INPUT_TITLE, "bar");
         typeInInput("Web page address", "http://bar.myxwiki.org");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         // Now go on and edit the inserted image.
@@ -430,9 +436,9 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         explorer.lookupEntity(newSpaceName + "." + newPageName);
         explorer.waitForPageSelected(newSpaceName, newPageName);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -548,7 +554,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertEquals("http://www.xwiki.com", getInputValue("Web page address"));
         typeInInput("Web page address", "http://www.xwiki.org");
 
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -572,17 +578,17 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         explorer.lookupEntity(space + "." + page);
         explorer.waitForPageSelected(space, page);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         // try to create link without filling in the label
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkConfig");
 
         // fill in the label and create link
         typeInInput(LABEL_INPUT_TITLE, "foo");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         waitForDialogToClose();
 
@@ -604,16 +610,16 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         explorer.lookupEntity(space + "." + page);
         explorer.waitForNewPageSelected(space);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkConfig");
 
         // fill in the label and create link
         typeInInput(LABEL_INPUT_TITLE, "foo");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         switchToSource();
         assertSourceText("[[foo>>" + space + "." + page + "]]");
@@ -626,14 +632,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_WEB_PAGE);
 
         // test that initially 2 errors are displayed
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkToUrl");
         assertFieldErrorIsPresentInStep("The web page address was not set", "//input[@title='Web page address']",
             "xLinkToUrl");
 
         typeInInput("Web page address", "http://www.xwiki.org");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkToUrl");
@@ -642,7 +648,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // fill in the label and create link
         typeInInput(LABEL_INPUT_TITLE, "xwiki");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -655,7 +661,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // now create a link to an email page
         openLinkDialog(MENU_EMAIL_ADDRESS);
 
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkToUrl");
@@ -663,7 +669,7 @@ public class LinkTest extends AbstractWysiwygTestCase
             "xLinkToUrl");
 
         typeInInput(LABEL_INPUT_TITLE, "alice");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         assertFieldErrorIsPresentInStep("The email address was not set", "//input[@title='Email address']",
             "xLinkToUrl");
@@ -671,7 +677,7 @@ public class LinkTest extends AbstractWysiwygTestCase
             + "']");
 
         typeInInput("Email address", "alice@wonderla.nd");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         waitForDialogToClose();
 
@@ -722,7 +728,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         explorer.lookupEntity(selectedSpace + "." + selectedPage);
         explorer.waitForPageSelected(selectedSpace, selectedPage);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
 
@@ -738,10 +744,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         // and now change it
         explorer.lookupEntity(changedSpace + "." + changedPage);
         explorer.waitForPageSelected(changedSpace, changedPage);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         // wait for the link dialog to close
         waitForDialogToClose();
@@ -772,10 +778,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
         explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         // wait for the link dialog to close
         waitForDialogToClose();
@@ -804,14 +810,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
         explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
         // fill in the link label and title
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
         typeInInput("Type the tooltip of the created link, which appears when mouse is over the link.", linkTooltip);
 
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         // wait for the link dialog to close
         waitForDialogToClose();
@@ -842,7 +848,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.lookupEntity(attachSpace + "." + attachPage);
         explorer.waitForPageSelected(attachSpace, attachPage);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
 
         assertFieldErrorIsPresentInStep("No attachment was selected", TREE_EXPLORER, "xExplorerPanel");
 
@@ -851,20 +857,20 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
 
         // Move to the next step: link configuration.
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
 
         // The link label should be the attachment name.
         assertEquals(attachment, getInputValue(LABEL_INPUT_TITLE));
         // Try to create a link with an empty label.
         typeInInput(LABEL_INPUT_TITLE, "");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkConfig");
 
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
 
         // Wait for the link dialog to close.
         waitForDialogToClose();
@@ -890,9 +896,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         // and edit it now
         explorer.lookupEntity("XWiki.AdminSheet@export.png");
         explorer.waitForAttachmentSelected("XWiki", "AdminSheet", "export.png");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -917,11 +923,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertEquals("xwiki:Main.Activity", explorer.getSelectedEntityReference());
         explorer.waitForPageSelected("Main", "Activity");
         // and edit it now
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "barfoo");
         typeInInput("Type the tooltip of the created link, which appears when mouse is over the link.", "Foo and bar");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -942,8 +948,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeInInput("Web page address", url);
         typeInInput(LABEL_INPUT_TITLE, linkLabel);
         // open in new window
-        getSelenium().check("//div[contains(@class, 'xLinkConfig')]//span[contains(@class, 'gwt-CheckBox')]/input");
-        clickButtonWithText("Create Link");
+        getSelenium().check("//div[contains(@class, 'xLinkToUrl')]//span[contains(@class, 'gwt-CheckBox')]/input");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -956,7 +962,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         assertEquals(linkLabel, getInputValue(LABEL_INPUT_TITLE));
         assertEquals(url, getInputValue("Web page address"));
-        assertTrue(isChecked("//div[contains(@class, 'xLinkConfig')]//span[contains(@class, 'gwt-CheckBox')]/input"));
+        assertTrue(isChecked("//div[contains(@class, 'xLinkToUrl')]//span[contains(@class, 'gwt-CheckBox')]/input"));
     }
 
     /**
@@ -978,7 +984,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xLinkToUrl");
         typeInInput(tooltipTitle, tooltip);
         typeInInput("Web page address", url);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1059,11 +1065,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertElementPresent("//div[contains(@class, 'xPagesRecent')]"
             + "//div[contains(@class, 'xListItem-selected')]//div[. = '"
             + String.format(PAGE_LOCATION, getClass().getSimpleName(), getName()) + "']");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         String label = "barfoo";
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1086,13 +1092,13 @@ public class LinkTest extends AbstractWysiwygTestCase
         // test that the selected element is the new page element
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1139,10 +1145,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForElement(targetPageLocator);
         getSelenium().click(targetPageLocator);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1157,6 +1163,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         String newPageName = "AnotherNewPage";
         String label = "foo new bar";
 
+        // Select the bogus BR to overwrite it.
+        selectAllContent();
+        typeText(label);
+        // Select the text.
+        selectNodeContents("XWE.body.firstChild");
+
         openLinkDialog(MENU_WIKI_PAGE);
 
         // check the recent changes selection
@@ -1166,13 +1178,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         // test that the selected element is the new page element
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
-        clickButtonWithText("Select");
-        waitForStepToLoad("xLinkConfig");
-        typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1239,10 +1248,10 @@ public class LinkTest extends AbstractWysiwygTestCase
             explorer.getSelectedEntityReference());
         explorer.waitForPageSelected(currentSpace, pageToLinkTo);
         // and edit it now
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "the Dashboard");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1287,10 +1296,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertEquals(attachmentReference, explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected(currentSpace, pageToLinkTo, fileToLinkTo);
 
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "XWiki.org Logo");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1332,10 +1341,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xAttachmentsSelector");
         // The option to upload a new attachment should be selected.
         assertElementPresent(NEW_ATTACHMENT_SELECTED);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xUploadPanel");
         assertFieldErrorIsNotPresentInStep("xUploadPanel");
-        clickButtonWithText("Upload");
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
 
         closeDialog();
@@ -1364,9 +1373,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xExplorerPanel");
         assertEquals("xwiki:Sandbox.WebHome", explorer.getSelectedEntityReference());
         explorer.waitForPageSelected("Sandbox", "WebHome");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         // Edit second link, a link to a new page.
@@ -1375,9 +1384,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xExplorerPanel");
         assertEquals("xwiki:Sandbox.NewPage", explorer.getSelectedEntityReference());
         explorer.waitForNewPageSelected("Sandbox");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         // Edit third link, a link to an existing file.
@@ -1386,39 +1395,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xExplorerPanel");
         assertEquals("xwiki:Sandbox.WebHome@XWikiLogo.png", explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected("Sandbox", "WebHome", "XWikiLogo.png");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
         assertSourceText("[[bob>>Sandbox.WebHome]] [[alice>>Sandbox.NewPage]] "
             + "[[carol>>attach:Sandbox.WebHome@XWikiLogo.png]]");
-    }
-
-    /**
-     * Tests that choosing remove link when the caret is inside an empty link removes the empty link instead of putting
-     * the caret outside the link.
-     */
-    public void testUnlinkInEmptyLink()
-    {
-        switchToSource();
-        // NOTE: The link label must be styled because otherwise the link is deleted when we delete its label.
-        setSourceText("[[**1**>>http://www.xwiki.org]]");
-        switchToWysiwyg();
-        // Move the caret at the start of the link.
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 0);
-        // Delete the link label.
-        typeDelete();
-        // We should have an empty link at this point.
-        clickMenu(MENU_LINK);
-        assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
-        clickMenu(MENU_LINK_REMOVE);
-        typeText("2");
-        // Check the result.
-        switchToSource();
-        // NOTE: The style is lost but that's a small issue.
-        assertSourceText("2");
     }
 
     /**
@@ -1431,7 +1415,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // for a web page
         openLinkDialog(MENU_WEB_PAGE);
         typeInInput("Web page address", "http://www.xwiki.org");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         // check that an error is present
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkToUrl");
@@ -1446,7 +1430,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // for an email
         openLinkDialog(MENU_EMAIL_ADDRESS);
         typeInInput("Email address", "xwiki@xwiki.com");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         // check that an error is present
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[@title='" + LABEL_INPUT_TITLE
             + "']", "xLinkToUrl");
@@ -1471,23 +1455,23 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xAttachmentsSelector");
         // The option to upload a new attachment should be selected.
         assertElementPresent(NEW_ATTACHMENT_SELECTED);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xUploadPanel");
         // Click the upload button without selecting a file.
-        clickButtonWithText("Upload");
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
         // Go to the previous step and come back: the error should be gone.
         clickButtonWithText("Previous");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xUploadPanel");
         // Get the error again to check that closing it and displaying this step again makes it go away.
-        clickButtonWithText("Upload");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
         closeDialog();
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
         assertElementPresent(NEW_ATTACHMENT_SELECTED);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xUploadPanel");
     }
 
@@ -1505,21 +1489,21 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesRecent");
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkToNewPage");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         assertFieldErrorIsPresentInStep("The name of the new page was not set", "//input", "xLinkToNewPage");
         clickButtonWithText("Previous");
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesRecent");
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // error not present on coming back from previous
         assertFieldErrorIsNotPresentInStep("xLinkToNewPage");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         assertFieldErrorIsPresentInStep("The name of the new page was not set", "//input", "xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", "NewPage");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");
         // error not present when coming back from next
@@ -1528,7 +1512,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertEquals("NewPage", getSelenium().getValue("//div[contains(@class, 'xLinkToNewPage')]//input"));
         // get error again
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", "");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         assertFieldErrorIsPresentInStep("The name of the new page was not set", "//input", "xLinkToNewPage");
         closeDialog();
         // open again, check the error is not still there
@@ -1536,7 +1520,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesRecent");
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         // error not present when re-creating a link
         assertFieldErrorIsNotPresentInStep("xLinkToNewPage");
         closeDialog();
@@ -1552,21 +1536,21 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[position() = 1]",
             "xLinkConfig");
         // previous, next => error is not present
         clickButtonWithText("Previous");
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // error, again, to close this time
         typeInInput(LABEL_INPUT_TITLE, "");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[position() = 1]",
             "xLinkConfig");
         closeDialog();
@@ -1574,21 +1558,21 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // get an error
         typeInInput(LABEL_INPUT_TITLE, "");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         assertFieldErrorIsPresentInStep("The label of the link cannot be empty", "//input[position() = 1]",
             "xLinkConfig");
         // now go ahead, edit the link
         typeInInput(LABEL_INPUT_TITLE, "PageNew");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         // now open again, check error is not there anymore
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xExplorerPanel");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         closeDialog();
 
@@ -1608,11 +1592,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         // Clear the input value since otherwise we would be targeting a new page in a new page.
         explorer.lookupEntity("");
         // At this point no page is selected and the input field is empty.
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         explorer.lookupEntity("Blog.WebHome");
         explorer.waitForPageSelected("Blog", "WebHome");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");
         // The previously selected page should still be selected.
@@ -1625,7 +1609,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // Clear the input value since otherwise we would be targeting a new page in a new page.
         explorer.lookupEntity("");
         // At this point no page is selected and the input field is empty.
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         closeDialog();
         openLinkDialog(MENU_LINK_EDIT);
@@ -1679,7 +1663,7 @@ public class LinkTest extends AbstractWysiwygTestCase
                 + currentPageLocation + "']");
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1700,10 +1684,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         getSelenium().keyUp(ITEMS_LIST, "\\13");
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1737,7 +1721,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1757,10 +1741,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         getSelenium().doubleClick(NEW_PAGE_FROM_SEARCH_LOCATOR);
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1784,7 +1768,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // Ensure wizard step is loaded.
         waitForStepToLoad("xLinkToUrl");
         typeInInput("Web page address", "http://www.xwiki.org");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
         // Place the caret inside the text.
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
@@ -1838,11 +1822,11 @@ public class LinkTest extends AbstractWysiwygTestCase
                 + String.format(PAGE_LOCATION, spaceName, pageName) + "']";
         waitForElement(createdPageLocator);
         getSelenium().click(createdPageLocator);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         String label = "Label";
         typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         // Check the result.
@@ -1857,11 +1841,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xPagesSelector");
         waitForElement("//div[contains(@class, 'xListItem-selected')]//div[. = '"
             + String.format(PAGE_LOCATION, spaceName, pageName) + "']");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         // Change the link to open in new window.
         getSelenium().check("//div[contains(@class, 'xLinkConfig')]//span[contains(@class, 'gwt-CheckBox')]/input");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         // Check the result.
@@ -1879,17 +1863,17 @@ public class LinkTest extends AbstractWysiwygTestCase
         String linkReference = escapedPageName.replaceAll("([@\\?\\#])", "\\\\$1");
         String label = "Label";
 
+        typeText(label);
+        selectNode("XWE.body.firstChild");
+
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xSelectorAggregatorStep");
         waitForStepToLoad("xPagesSelector");
         waitForElement("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", pageName);
-        clickButtonWithText("Select");
-        waitForStepToLoad("xLinkConfig");
-        typeInInput(LABEL_INPUT_TITLE, label);
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1919,11 +1903,11 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // The current page should be selected by default.
         explorer.waitForPageSelected(currentSpaceName, currentPageName);
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
 
         // Wait for the link configuration step to load.
         waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
@@ -1949,14 +1933,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.waitForPageSelected("Main", "WebHome");
 
         explorer.selectNewPageIn("Blog");
-        clickButtonWithText("Select");
+        clickButtonWithText(BUTTON_SELECT);
 
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", getName());
-        clickButtonWithText("Select");
-
-        waitForStepToLoad("xLinkConfig");
-        clickButtonWithText("Create Link");
+        clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();

@@ -66,7 +66,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     {
         getUtil().gotoPage("EditInlineTest", "testInlineEditCanChangeParent", "inline", "parent=Main.WebHome");
         ViewPage vp = new InlinePage().clickSaveAndView();
-        Assert.assertTrue(vp.hasBreadcrumbContent("Welcome to your wiki"));
+        Assert.assertTrue(vp.hasBreadcrumbContent("Wiki Home"));
     }
 
     /* See XWIKI-2389 */

@@ -179,7 +179,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // make sure it's empty
         Assert.assertEquals("", emptyPage.getContent());
         // make sure parent is the right one
-        Assert.assertTrue(emptyPage.hasBreadcrumbContent("Welcome to your wiki"));
+        Assert.assertTrue(emptyPage.hasBreadcrumbContent("Wiki Home"));
         // mare sure title is the right one
         Assert.assertEquals("EmptyPage", emptyPage.getDocumentTitle());
 

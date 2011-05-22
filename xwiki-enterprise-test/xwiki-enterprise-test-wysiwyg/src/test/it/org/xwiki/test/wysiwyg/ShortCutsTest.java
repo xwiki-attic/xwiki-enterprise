@@ -19,19 +19,16 @@
  */
 package org.xwiki.test.wysiwyg;
 
-import java.util.Date;
-
-import com.thoughtworks.selenium.Wait;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 public class ShortCutsTest extends AbstractWysiwygTestCase
 {
-	 /**
+    /**
      * @see XWIKI-5560: Shortcut key malfunction when saving a page within source view.
      */
     public void testShortCutsForSaveAndView()
     {
-    	// Set initial content to WYSIWYG editor
+        // Set initial content to WYSIWYG editor
         setContent("<strong>foo</strong>");
         switchToWysiwyg(false);
         switchToWysiwyg();
@@ -44,13 +41,13 @@ public class ShortCutsTest extends AbstractWysiwygTestCase
         clickEditPageInWikiSyntaxEditor();
         assertEquals("**changeInSource**", getFieldValue("content"));
     }
-    
+
     /**
      * @see XWIKI-5560: Shortcut key malfunction when saving a page within source view.
      */
     public void testShortCutsForSaveAndContinue()
     {
-    	// Set initial content to WYSIWYG editor
+        // Set initial content to WYSIWYG editor
         setContent("<strong>foo</strong>");
         switchToWysiwyg(false);
         switchToWysiwyg();
@@ -60,32 +57,34 @@ public class ShortCutsTest extends AbstractWysiwygTestCase
         // type alt+shift+s to save the contents and continue to edit.
         typeShortCutsforSaveAndContinue();
         // Open the edited wiki page.
-        this.open("ShortCutsTest","testShortCutsForSaveAndContinue");
+        this.open("ShortCutsTest", "testShortCutsForSaveAndContinue");
         // Open the Wiki editor and assert the content.
         clickEditPageInWikiSyntaxEditor();
         assertEquals("**changeInSource**", getFieldValue("content"));
     }
-    
+
     /**
      * Press Alt+s to save and view.
      */
-    public void typeShortCutsforSaveAndView(){
-    	getSelenium().altKeyDown();
+    public void typeShortCutsforSaveAndView()
+    {
+        getSelenium().altKeyDown();
         typeKeyInSource("s", true, 1, false);
         getSelenium().altKeyUp();
     }
-    
+
     /**
      * Press Alt+shift+s to save and continue.
      */
-    public void typeShortCutsforSaveAndContinue(){
-    	getSelenium().altKeyDown();
-    	getSelenium().shiftKeyDown();
+    public void typeShortCutsforSaveAndContinue()
+    {
+        getSelenium().altKeyDown();
+        getSelenium().shiftKeyDown();
         typeKeyInSource("s", true, 1, false);
         getSelenium().shiftKeyUp();
         getSelenium().altKeyUp();
     }
-    
+
     /**
      * Presses the specified key for the given number of times.
      * 

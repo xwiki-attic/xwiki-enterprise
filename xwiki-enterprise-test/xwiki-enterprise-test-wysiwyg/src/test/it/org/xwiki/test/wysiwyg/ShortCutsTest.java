@@ -21,6 +21,12 @@ package org.xwiki.test.wysiwyg;
 
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
+/**
+ * Test the interaction between the keyboard shortcuts and the WYSIWYG editor.
+ * 
+ * @version $Id$
+ * @since 3.1M2
+ */
 public class ShortCutsTest extends AbstractWysiwygTestCase
 {
     /**

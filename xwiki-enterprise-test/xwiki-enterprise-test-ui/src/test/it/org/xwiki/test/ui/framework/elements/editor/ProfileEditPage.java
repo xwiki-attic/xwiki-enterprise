@@ -19,10 +19,9 @@
  */
 package org.xwiki.test.ui.framework.elements.editor;
 
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.xwiki.test.ui.framework.elements.editor.wysiwyg.EditorElement;
 
 /** User profile, the profile information pane, edit mode. */
 public class ProfileEditPage extends EditPage
@@ -47,6 +46,16 @@ public class ProfileEditPage extends EditPage
 
     @FindBy(id = "XWiki.XWikiUsers_0_blogfeed")
     private WebElement userBlogFeed;
+
+    /**
+     * The WYSIWYG editor used to edit the user description.
+     */
+    private final EditorElement userAbout = new EditorElement("XWiki.XWikiUsers_0_comment");
+
+    /**
+     * The WYSIWYG editor used to edit the user address.
+     */
+    private final EditorElement userAddress = new EditorElement("XWiki.XWikiUsers_0_address");
 
     public String getUserFirstName()
     {
@@ -83,18 +92,13 @@ public class ProfileEditPage extends EditPage
 
     public String getUserAbout()
     {
-        waitUntilElementIsVisible(By.xpath("//dl[1]//dd[4]//iframe"));
-        getDriver().switchTo().frame(1);
-        WebElement editorBody = getDriver().findElement(By.id("body"));
-        String result = editorBody.getText();
-
-        getDriver().switchTo().defaultContent();
-        return result;
+        return userAbout.getRichTextArea().getText();
     }
 
     public void setUserAbout(String userAbout)
     {
-        setRichTextAreaContent("//dl[1]/dd[4]//iframe", "XWiki.XWikiUsers_0_comment", userAbout);
+        this.userAbout.getRichTextArea().clear();
+        this.userAbout.getRichTextArea().sendKeys(userAbout);
     }
 
     public String getUserEmail()
@@ -121,46 +125,13 @@ public class ProfileEditPage extends EditPage
 
     public String getUserAddress()
     {
-        waitUntilElementIsVisible(By.xpath("//dl[2]/dd[3]//iframe"));
-        getDriver().switchTo().frame(2);
-        WebElement editorBody = getDriver().findElement(By.id("body"));
-        String result = editorBody.getText();
-
-        getDriver().switchTo().defaultContent();
-        return result;
+        return userAddress.getRichTextArea().getText();
     }
 
     public void setUserAddress(String userAddress)
     {
-        setRichTextAreaContent("//dl[2]/dd[3]//iframe", "XWiki.XWikiUsers_0_address", userAddress);
-    }
-
-    /**
-     * Sets the content of the specified rich text area.
-     * 
-     * @param xpath the XPath expression used to locate the rich text area in-line frame element
-     * @param fieldId the id of the plain text area replaced by the rich text area
-     * @param content the content to be set
-     */
-    private void setRichTextAreaContent(String xpath, String fieldId, String content)
-    {
-        waitUntilElementIsVisible(By.xpath(xpath));
-        String richTextAreaId = fieldId + "_rta";
-        executeJavascript(String.format("Wysiwyg.getInstance('%s').getRichTextArea().id = '%s';", fieldId,
-            richTextAreaId));
-        getDriver().switchTo().frame(richTextAreaId);
-        WebElement body = getDriver().findElement(By.id("body"));
-        if (StringUtils.isEmpty(content)) {
-            // Just clear the content.
-            executeJavascript("document.body.innerHTML = ''");
-        } else {
-            // Selenium fails to send keys to the body element if it's empty: it complains that the body element is not
-            // visible. We overcome this by inserting a space and selecting it. This way send keys will overwrite it.
-            // See http://code.google.com/p/selenium/issues/detail?id=1183 .
-            executeJavascript("document.body.innerHTML = '&nbsp;'; document.execCommand('selectAll', false, null)");
-            body.sendKeys(content);
-        }
-        getDriver().switchTo().defaultContent();
+        this.userAddress.getRichTextArea().clear();
+        this.userAddress.getRichTextArea().sendKeys(userAddress);
     }
 
     public String getUserBlog()

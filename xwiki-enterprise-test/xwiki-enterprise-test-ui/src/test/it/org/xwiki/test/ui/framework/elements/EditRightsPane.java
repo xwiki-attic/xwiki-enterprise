@@ -175,7 +175,6 @@ public class EditRightsPane extends BaseElement
     /**
      * Click on a right button until it gets in the wanted state.
      * 
-     * @param entityName the target user or group name
      * @param right the target right
      * @param wantedState the wanted state for the right
      */

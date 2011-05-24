@@ -66,7 +66,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     {
         getUtil().gotoPage("EditInlineTest", "testInlineEditCanChangeParent", "inline", "parent=Main.WebHome");
         ViewPage vp = new InlinePage().clickSaveAndView();
-        Assert.assertTrue(vp.hasBreadcrumbContent("Wiki Home"));
+        Assert.assertTrue(vp.hasBreadcrumbContent("Wiki Home", false));
     }
 
     /* See XWIKI-2389 */
@@ -88,10 +88,10 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     {
         getUtil().gotoPage("EditInlineTest", "testInlineEditPreservesParent", "save", "parent=Blog.WebHome");
         ViewPage vp = new ViewPage();
-        Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog"));
+        Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog", false));
         InlinePage ip = vp.editInline();
         ViewPage vp2 = ip.clickSaveAndView();
-        Assert.assertTrue(vp2.hasBreadcrumbContent("The Wiki Blog"));
+        Assert.assertTrue(vp2.hasBreadcrumbContent("The Wiki Blog", false));
     }
 
     /* See XWIKI-2199 */

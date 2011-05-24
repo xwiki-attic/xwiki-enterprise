@@ -179,7 +179,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // make sure it's empty
         Assert.assertEquals("", emptyPage.getContent());
         // make sure parent is the right one
-        Assert.assertTrue(emptyPage.hasBreadcrumbContent("Wiki Home"));
+        Assert.assertTrue(emptyPage.hasBreadcrumbContent("Wiki Home", false));
         // mare sure title is the right one
         Assert.assertEquals("EmptyPage", emptyPage.getDocumentTitle());
 
@@ -445,6 +445,6 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(newPageName, newPage.getDocumentTitle());
         Assert.assertEquals(templateContent, newPage.getContent());
         // and the parent, it should be the template provider, since that's where we created it from
-        Assert.assertTrue(newPage.hasBreadcrumbContent(templateProviderName));
+        Assert.assertTrue(newPage.hasBreadcrumbContent(templateProviderName, false));
     }
 }

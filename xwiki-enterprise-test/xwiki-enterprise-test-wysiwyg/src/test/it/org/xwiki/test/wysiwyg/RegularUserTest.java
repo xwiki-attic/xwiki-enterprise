@@ -146,7 +146,7 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         // Save the current page so that it appears in the tree.
         clickEditSaveAndContinue();
 
-        openDialog("Image", "Insert Image...");
+        openDialog(ImageTest.MENU_IMAGE, ImageTest.MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad("xSelectorAggregatorStep");
         clickTab("All pages");
         waitForStepToLoad("xImagesExplorer");

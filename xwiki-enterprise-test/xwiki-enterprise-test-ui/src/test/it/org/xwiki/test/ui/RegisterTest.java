@@ -66,6 +66,10 @@ public class RegisterTest extends AbstractTest
             x++;
             registerPage.gotoPage();
         }
+        // The prepareName javascript function is the cause of endless flickering
+        // since it trys to suggest a username every time the field is focused.
+        registerPage.executeJavascript("document.getElementById('xwikiname').onfocus = null;");
+
         registerPage.fillInJohnSmithValues();
     }
 

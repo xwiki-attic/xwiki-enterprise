@@ -238,8 +238,8 @@ public class LineTest extends AbstractWysiwygTestCase
      */
     public void testEnterAfterImage()
     {
-        clickMenu("Image");
-        clickMenu("Insert Image...");
+        clickMenu(ImageTest.MENU_IMAGE);
+        clickMenu(ImageTest.MENU_INSERT_ATTACHED_IMAGE);
 
         waitForDialogToLoad();
         // wait for the main step of the dialog to load

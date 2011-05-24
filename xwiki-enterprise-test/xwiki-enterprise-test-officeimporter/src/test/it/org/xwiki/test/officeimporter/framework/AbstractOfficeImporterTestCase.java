@@ -23,8 +23,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.logging.LogFactory;
-
 import com.xpn.xwiki.it.selenium.framework.AbstractXWikiTestCase;
 
 /**

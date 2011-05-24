@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-database-derby</artifactId>
-      <version>${project.version}</version>
+      <version>3.1-milestone-2</version>
       <type>zip</type>
       <optional>true</optional>
     </dependency>
@@ -95,7 +95,7 @@
               <goal>single</goal>
             </goals>
             <configuration>
-              <finalName>xwiki-enterprise-${project.version}</finalName>
+              <finalName>xwiki-enterprise-3.1-milestone-2</finalName>
               <attach>false</attach>
               <descriptors>
                 <descriptor>src/assemble/xwiki-war.xml</descriptor>

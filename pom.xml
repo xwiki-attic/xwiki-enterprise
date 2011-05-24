@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons-pom</artifactId>
-    <version>3.1-SNAPSHOT</version>
+    <version>3.1-milestone-2</version>
     <relativePath>../xwiki-commons/xwiki-commons-pom</relativePath>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
@@ -52,9 +52,9 @@
     <module>xwiki-enterprise-distribution</module>
   </modules>
   <properties>
-    <commons.version>${project.version}</commons.version>
-    <rendering.version>${project.version}</rendering.version>
-    <platform.version>${project.version}</platform.version>
+    <commons.version>3.1-milestone-2</commons.version>
+    <rendering.version>3.1-milestone-2</rendering.version>
+    <platform.version>3.1-milestone-2</platform.version>
     <smartgwt.version>2.4</smartgwt.version>
 
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes

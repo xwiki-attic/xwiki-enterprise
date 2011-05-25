@@ -101,7 +101,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * Verify edit section is working in both wiki and wysiwyg editors (xwiki/2.0).
+     * Verify edit section is working in both wiki and wysiwyg editors (xwiki/2.0 and xwiki/2.1).
      *
      * Note that we currently don't support section editing for included content (it would mean navigating to the
      * included page since it would change that page's content and not the currently page's content).
@@ -111,7 +111,13 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testSectionEditInWikiEditorWhenSyntax2x()
     {
-        ViewPage vp = createTestPages("xwiki/2.0");
+        testSectionEditInWikiEditorWhenSyntax2x("xwiki/2.0");
+        testSectionEditInWikiEditorWhenSyntax2x("xwiki/2.1");
+    }
+
+    private void testSectionEditInWikiEditorWhenSyntax2x(String syntaxId)
+    {
+        ViewPage vp = createTestPages(syntaxId);
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);

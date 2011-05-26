@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -94,8 +93,6 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
     /**
      * Tests if a new page can be created from a template.
      */
-    // Ignored because this test seems to be freezing up on the ci server and breaking all tests.
-    @Ignore
     @Test
     public void testCreatePageFromTemplate()
     {

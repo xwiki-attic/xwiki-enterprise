@@ -24,6 +24,7 @@ import java.net.URL;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -39,6 +40,7 @@ import org.xwiki.test.ui.history.elements.HistoryTab;
  * @version $Id$
  * @since 2.3M1
  */
+@Ignore
 public class ImportTest extends AbstractAdminAuthenticatedTest
 {
     private static final String PACKAGE_WITHOUT_HISTORY = "Main.TestPage-no-history.xar";

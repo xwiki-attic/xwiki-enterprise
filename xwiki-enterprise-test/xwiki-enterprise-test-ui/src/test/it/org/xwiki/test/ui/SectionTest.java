@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.ui;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -33,6 +34,7 @@ import junit.framework.Assert;
  * @version $Id$
  * @since 2.6RC1
  */
+@Ignore
 public class SectionTest extends AbstractAdminAuthenticatedTest
 {
     private ViewPage createTestPages(String syntaxId)

@@ -402,7 +402,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -416,7 +416,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -443,7 +443,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}" -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}" -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -457,7 +457,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -485,7 +485,7 @@
       <properties>
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
-        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>

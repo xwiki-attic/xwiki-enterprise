@@ -19,7 +19,6 @@
  */
 package org.xwiki.test.ui;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -34,22 +33,17 @@ import junit.framework.Assert;
  * @version $Id$
  * @since 2.6RC1
  */
-@Ignore
 public class SectionTest extends AbstractAdminAuthenticatedTest
 {
     private ViewPage createTestPages(String syntaxId)
     {
-        WikiEditPage wep = new WikiEditPage();
-
         if (syntaxId.equalsIgnoreCase("xwiki/1.0")) {
-            wep.switchToEdit("Test", "SectionEditing");
-            wep.setContent("1 Section1\nContent1\n\n"
+            getUtil().createPage("Test", "SectionEditing", "1 Section1\nContent1\n\n"
                 + "1 Section2\nContent2\n\n1.1 Section3\nContent3\n\n"
-                + "1 Section4\nContent4");
-            wep.setSyntaxId("xwiki/1.0");
+                + "1 Section4\nContent4", "section test in " + syntaxId, syntaxId);
+
         } else if (syntaxId.startsWith("xwiki/2.")) {
-            wep.switchToEdit("Test", "SectionEditingIncluded");
-            wep.setContent("== Section4 ==\n" +
+            getUtil().createPage("Test", "SectionEditingIncluded", "== Section4 ==\n" +
                 "Content4\n" +
                 "\n" +
                 "{{velocity wiki=true}}\n" +
@@ -57,20 +51,17 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
                 "== Section$h ==\n" +
                 "Content$h\n" +
                 "#end\n" +
-                "{{velocity}}");
-            wep.setSyntaxId(syntaxId);
-            wep.clickSaveAndView();
+                "{{velocity}}", "section test included in " + syntaxId, syntaxId);
 
-            wep.switchToEdit("Test", "SectionEditing");
-            wep.setContent("= Section1 =\nContent1\n\n"
+            getUtil().createPage("Test", "SectionEditing", "= Section1 =\nContent1\n\n"
                 + "= Section2 =\nContent2\n\n== Section3 ==\nContent3\n\n"
-                + "{{include document='Test.SectionEditingIncluded'/}}\n\n" + "= Section7 =\nContent7");
-            wep.setSyntaxId(syntaxId);
+                + "{{include document='Test.SectionEditingIncluded'/}}\n\n" + "= Section7 =\nContent7",
+                "section test in " + syntaxId, syntaxId);
         } else {
             throw new RuntimeException("Unhandled syntax [" + syntaxId + "]");
         }
 
-        return wep.clickSaveAndView();
+        return new ViewPage();
     }
 
     /**

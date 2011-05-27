@@ -207,12 +207,20 @@ public class TestUtils
 
     public void createPage(String space, String page, String content, String title)
     {
+        createPage(space, page, content, title, null);
+    }
+
+    public void createPage(String space, String page, String content, String title, String syntaxId)
+    {
         Map<String, String> queryMap = new HashMap<String, String>();
         if (content != null) {
             queryMap.put("content", content);
         }
         if (title != null) {
             queryMap.put("title", title);
+        }
+        if (syntaxId != null) {
+            queryMap.put("syntaxId", syntaxId);
         }
         gotoPage(space, page, "save", queryMap);
     }

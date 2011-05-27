@@ -21,14 +21,15 @@ package org.xwiki.test.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.FormElement;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.ClassEditPage;
 import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 
 /**
  * Test XClass editing.
@@ -38,6 +39,9 @@ import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
  */
 public class EditClassTest extends AbstractAdminAuthenticatedTest
 {
+    @Rule
+    public TestName testName = new TestName();
+
     @Before
     @Override
     public void setUp()
@@ -57,17 +61,15 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
         cep.clickSaveAndView();
 
         // Create object page
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
-        wep.setContent("this is the content: {{velocity}}$doc.display('prop'){{/velocity}}");
-        ViewPage vp = wep.clickSaveAndView();
+        getUtil().createPage("Test", "EditObjectsTestObject",
+            "this is the content: {{velocity}}$doc.display('prop'){{/velocity}}", this.testName.getMethodName());
 
         // Add an object of the class created
         ObjectEditPage oep = new ObjectEditPage();
         oep.switchToEdit("Test", "EditObjectsTestObject");
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "testing value");
-        vp = oep.clickSaveAndView();
+        ViewPage vp = oep.clickSaveAndView();
 
         Assert.assertEquals("this is the content: testing value", vp.getContent());
     }
@@ -83,11 +85,10 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
         cep.clickSaveAndView();
 
         // Create object page
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
-        wep.setContent("this is the content: {{velocity}}$doc.display('prop1')/$doc.display('prop2')/" +
-            "$!doc.getObject('Test.EditObjectsTestClass').getProperty('prop1').value{{/velocity}}");
-        ViewPage vp = wep.clickSaveAndView();
+        getUtil().createPage("Test", "EditObjectsTestObject",
+            "this is the content: {{velocity}}$doc.display('prop1')/$doc.display('prop2')/" +
+            "$!doc.getObject('Test.EditObjectsTestClass').getProperty('prop1').value{{/velocity}}",
+            this.testName.getMethodName());
 
         // Add an object of the class created
         ObjectEditPage oep = new ObjectEditPage();
@@ -95,7 +96,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop1"), "testing value 1");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop2"), "testing value 2");
-        vp = oep.clickSaveAndView();
+        ViewPage vp = oep.clickSaveAndView();
 
         Assert.assertEquals("this is the content: testing value 1/testing value 2/testing value 1", vp.getContent());
 

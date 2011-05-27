@@ -185,16 +185,19 @@
                 <name>filesProduceNoOutput</name><!-- NOTE: Only affects automatic tests -->
                 <!-- list of file names -->
                 <value>
+                    skins/albatross/contentmenu.vm
+                    skins/albatross/editpanelsvars.vm
                     skins/albatross/macros.vm
-                    skins/colibri/editmodes.vm
-                    skins/colibri/editpanelsvars.vm
+                    skins/albatross/shortcuts.vm
+                    skins/toucan/contentmenu.vm
                     skins/toucan/editmodes.vm
                     skins/toucan/editpanelsvars.vm
+                    skins/toucan/shortcuts.vm
                     templates/adduorg.vm
                     templates/colorThemeInit.vm
                     templates/deprecatedVars.vm
                     templates/editgroup.vm <!-- TODO test with deleted XWiki.XWikiGroupSheet and 'inline' action -->
-                    templates/editmodes.vm <!-- empty placeholder in colibri -->
+                    templates/editmodes.vm
                     templates/editpanelsvars.vm
                     templates/fakeleftpanels.vm
                     templates/fakerightpanels.vm

@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.ui;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -33,40 +34,41 @@ import junit.framework.Assert;
  * @version $Id$
  * @since 2.6RC1
  */
+@Ignore
 public class SectionTest extends AbstractAdminAuthenticatedTest
 {
-    private ViewPage createTestPageSyntax10()
+    private ViewPage createTestPages(String syntaxId)
     {
         WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "SectionEditing");
-        wep.setContent("1 Section1\nContent1\n\n"
-            + "1 Section2\nContent2\n\n1.1 Section3\nContent3\n\n"
-            + "1 Section4\nContent4");
-        wep.setSyntaxId("xwiki/1.0");
-        return wep.clickSaveAndView();
-    }
 
-    private ViewPage createTestPageSyntax20()
-    {
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "SectionEditingIncluded");
-        wep.setContent("== Section4 ==\n" +
-            "Content4\n" +
-            "\n" +
-            "{{velocity wiki=true}}\n" +
-            "#foreach($h in ['5', '6'])\n" +
-            "== Section$h ==\n" +
-            "Content$h\n" +
-            "#end\n" +
-            "{{velocity}}");
-        wep.setSyntaxId("xwiki/2.0");
-        wep.clickSaveAndView();
+        if (syntaxId.equalsIgnoreCase("xwiki/1.0")) {
+            wep.switchToEdit("Test", "SectionEditing");
+            wep.setContent("1 Section1\nContent1\n\n"
+                + "1 Section2\nContent2\n\n1.1 Section3\nContent3\n\n"
+                + "1 Section4\nContent4");
+            wep.setSyntaxId("xwiki/1.0");
+        } else if (syntaxId.startsWith("xwiki/2.")) {
+            wep.switchToEdit("Test", "SectionEditingIncluded");
+            wep.setContent("== Section4 ==\n" +
+                "Content4\n" +
+                "\n" +
+                "{{velocity wiki=true}}\n" +
+                "#foreach($h in ['5', '6'])\n" +
+                "== Section$h ==\n" +
+                "Content$h\n" +
+                "#end\n" +
+                "{{velocity}}");
+            wep.setSyntaxId(syntaxId);
+            wep.clickSaveAndView();
 
-        wep.switchToEdit("Test", "SectionEditing20");
-        wep.setContent("= Section1 =\nContent1\n\n"
-            + "= Section2 =\nContent2\n\n== Section3 ==\nContent3\n\n"
-            + "{{include document='Test.SectionEditingIncluded'/}}\n\n" + "= Section7 =\nContent7");
-        wep.setSyntaxId("xwiki/2.0");
+            wep.switchToEdit("Test", "SectionEditing");
+            wep.setContent("= Section1 =\nContent1\n\n"
+                + "= Section2 =\nContent2\n\n== Section3 ==\nContent3\n\n"
+                + "{{include document='Test.SectionEditingIncluded'/}}\n\n" + "= Section7 =\nContent7");
+            wep.setSyntaxId(syntaxId);
+        } else {
+            throw new RuntimeException("Unhandled syntax [" + syntaxId + "]");
+        }
 
         return wep.clickSaveAndView();
     }
@@ -78,7 +80,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testSectionEditInEditorWhenSyntax10()
     {
-        ViewPage vp = createTestPageSyntax10();
+        ViewPage vp = createTestPages("xwiki/1.0");
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
@@ -101,7 +103,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * Verify edit section is working in both wiki and wysiwyg editors (xwiki/2.0).
+     * Verify edit section is working in both wiki and wysiwyg editors (xwiki/2.0 and xwiki/2.1).
      *
      * Note that we currently don't support section editing for included content (it would mean navigating to the
      * included page since it would change that page's content and not the currently page's content).
@@ -109,9 +111,15 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-2881: Implement Section editing.
      */
     @Test
-    public void testSectionEditInWikiEditorWhenSyntax20()
+    public void testSectionEditInWikiEditorWhenSyntax2x()
     {
-        ViewPage vp = createTestPageSyntax20();
+        testSectionEditInWikiEditorWhenSyntax2x("xwiki/2.0");
+        testSectionEditInWikiEditorWhenSyntax2x("xwiki/2.1");
+    }
+
+    private void testSectionEditInWikiEditorWhenSyntax2x(String syntaxId)
+    {
+        ViewPage vp = createTestPages(syntaxId);
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
@@ -144,7 +152,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax10()
     {
-        ViewPage vp = createTestPageSyntax10();
+        ViewPage vp = createTestPages("xwiki/1.0");
         vp.editSection(3).editWiki().clickSaveAndView();
         WikiEditPage wep = vp.editWiki();
         Assert.assertEquals("1 Section1 Content1 1 Section2 Content2 1.1 Section3 Content3 1 Section4 Content4",
@@ -158,7 +166,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax20()
     {
-        ViewPage vp = createTestPageSyntax20();
+        ViewPage vp = createTestPages("xwiki/2.0");
         vp.editSection(4).editWiki().clickSaveAndView();
         WikiEditPage wep = vp.editWiki();
         Assert.assertEquals("= Section1 = Content1 = Section2 = Content2 == Section3 == Content3 "

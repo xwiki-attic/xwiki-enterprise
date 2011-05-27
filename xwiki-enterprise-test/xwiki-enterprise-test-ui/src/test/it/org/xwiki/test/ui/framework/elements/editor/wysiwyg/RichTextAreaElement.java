@@ -47,14 +47,53 @@ public class RichTextAreaElement extends BaseElement
     }
 
     /**
-     * @return the content of the rich text area
+     * @return the inner text of the rich text area
      */
-    public String getContent()
+    public String getText()
     {
         String windowHandle = getDriver().getWindowHandle();
         getDriver().switchTo().frame(iframe);
+
         String content = getDriver().findElement(By.id("body")).getText();
+
         getDriver().switchTo().window(windowHandle);
         return content;
+    }
+
+    /**
+     * Clears the content of the rich text area.
+     */
+    public void clear()
+    {
+        String windowHandle = getDriver().getWindowHandle();
+        getDriver().switchTo().frame(iframe);
+
+        executeJavascript("document.body.innerHTML = ''");
+
+        getDriver().switchTo().window(windowHandle);
+    }
+
+    /**
+     * Simulate typing in the rich text area.
+     * 
+     * @param keysToSend the sequence of keys to by typed
+     */
+    public void sendKeys(CharSequence... keysToSend)
+    {
+        if (keysToSend.length == 0) {
+            return;
+        }
+
+        String windowHandle = getDriver().getWindowHandle();
+        getDriver().switchTo().frame(iframe);
+
+        // Selenium fails to send keys to the body element if it's empty: it complains that the body element is not
+        // visible. We overcome this by inserting a space and selecting it. This way send keys will overwrite it.
+        // See http://code.google.com/p/selenium/issues/detail?id=1183 .
+        executeJavascript("document.body.innerHTML = '&nbsp;'; document.execCommand('selectAll', false, null)");
+        // FIXME: This doesn't work in Firefox 4: sendKeys only focuses the rich text area.
+        getDriver().findElement(By.id("body")).sendKeys(keysToSend);
+
+        getDriver().switchTo().window(windowHandle);
     }
 }

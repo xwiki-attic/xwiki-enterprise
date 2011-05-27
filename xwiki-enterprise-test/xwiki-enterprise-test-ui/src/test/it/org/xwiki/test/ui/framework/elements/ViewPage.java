@@ -63,9 +63,6 @@ public class ViewPage extends BasePage
     @FindBy(id = "xwikicontent")
     private WebElement content;
 
-    @FindBy(id = "hierarchy")
-    private WebElement hierarchy;
-
     @FindBy(id = "tmActionCopy")
     private WebElement copyPageLink;
 
@@ -190,12 +187,6 @@ public class ViewPage extends BasePage
         return true;
     }
 
-    /** @return the hierarchy container. */
-    public WebElement getHierarchy()
-    {
-        return this.hierarchy;
-    }
-
     /**
      * @return the page's main content as text (no HTML)
      * @since 2.4M2
@@ -274,9 +265,16 @@ public class ViewPage extends BasePage
         return this.breadcrumbDiv.getText();
     }
 
-    public boolean hasBreadcrumbContent(String breadcrumbItem)
+    public boolean hasBreadcrumbContent(String breadcrumbItem, boolean isCurrent)
     {
-        return this.breadcrumbDiv.findElements(By.xpath("a[text() = '" + breadcrumbItem + "']")).size() > 0;
+        List<WebElement> result;
+        if (isCurrent) {
+            result = this.breadcrumbDiv.findElements(By.xpath("span[@class = 'current' and text() ='" + breadcrumbItem
+                + "']"));
+        } else {
+            result = this.breadcrumbDiv.findElements(By.xpath("a[text() = '" + breadcrumbItem + "']"));
+        }
+        return result.size() > 0;
     }
 
     public boolean isInlinePage()

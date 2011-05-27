@@ -86,6 +86,8 @@ public class LDAPRunner extends AbstractServerTest
         // partitions creation
         setUp();
 
+        System.out.println("LDAP server started on port [" + port + "]");
+
         System.setProperty(LDAPTestSetup.SYSPROPNAME_LDAPPORT, "" + port);
 
         // Load a demo ldif file
@@ -98,7 +100,7 @@ public class LDAPRunner extends AbstractServerTest
     public void stop() throws Exception
     {
         tearDown();
-        
+
         System.clearProperty(LDAPTestSetup.SYSPROPNAME_LDAPPORT);
     }
 }

@@ -272,8 +272,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeText(String text)
     {
-        // We have to simulate each keyPress so that thsince it was a temporary one in order not to loose changes
-        // ("Work in progress", remember?).e RTE get them well.
+        // We have to simulate each keyPress so that the RTE get them well.
         char[] chars = text.toCharArray();
 
         for (int i = 0; i < chars.length; i++) {

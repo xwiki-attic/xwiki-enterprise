@@ -61,8 +61,7 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         // Create a new Page that will be deleted
-        getUtil().createPage(SPACE_VALUE, PAGE_VALUE, PAGE_CONTENT, PAGE_TITLE);
-        this.viewPage = new ViewPage();
+        this.viewPage = getUtil().createPage(SPACE_VALUE, PAGE_VALUE, PAGE_CONTENT, PAGE_TITLE);
     }
 
     @Test

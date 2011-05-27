@@ -68,8 +68,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testUploadDownloadTwoAttachments()
     {
-        getUtil().createPage("Test", docName, "", "AttachmentTest#testUploadDownloadTwoAttachments()");
-        ViewPage vp = new ViewPage();
+        ViewPage vp = getUtil().createPage("Test", docName, null, "AttachmentTest#testUploadDownloadTwoAttachments()");
 
         AttachmentsPane ap = vp.openAttachmentsDocExtraPane();
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment).getPath());
@@ -114,9 +113,8 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         // Prepare the page to display the GIF image. We explicitly set the width to a value greater than the actual
         // image width because we want the code that resizes the image on the server side to be executed (even if the
         // image is not actually resized).
-        getUtil().createPage(getClass().getSimpleName(), testName.getMethodName(),
+        ViewPage viewPage = getUtil().createPage(getClass().getSimpleName(), testName.getMethodName(),
             String.format("[[image:image.gif||width=%s]]", (20 + RandomUtils.nextInt(200))), testName.getMethodName());
-        ViewPage viewPage = new ViewPage();
 
         // Attach the GIF image.
         AttachmentsPane attachmentsPane = viewPage.openAttachmentsDocExtraPane();

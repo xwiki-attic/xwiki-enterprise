@@ -205,12 +205,12 @@ public class TestUtils
         return getURL(space, page, "delete", "confirm=1");
     }
 
-    public void createPage(String space, String page, String content, String title)
+    public ViewPage createPage(String space, String page, String content, String title)
     {
-        createPage(space, page, content, title, null);
+        return createPage(space, page, content, title, null);
     }
 
-    public void createPage(String space, String page, String content, String title, String syntaxId)
+    public ViewPage createPage(String space, String page, String content, String title, String syntaxId)
     {
         Map<String, String> queryMap = new HashMap<String, String>();
         if (content != null) {
@@ -223,6 +223,7 @@ public class TestUtils
             queryMap.put("syntaxId", syntaxId);
         }
         gotoPage(space, page, "save", queryMap);
+        return new ViewPage();
     }
 
     public void deletePage(String space, String page)

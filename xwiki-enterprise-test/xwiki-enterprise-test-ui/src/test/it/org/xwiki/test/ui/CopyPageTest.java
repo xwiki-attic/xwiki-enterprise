@@ -26,7 +26,6 @@ import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.CopyConfirmationPage;
 import org.xwiki.test.ui.framework.elements.CopyPage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
@@ -67,11 +66,7 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
     public void testCopyPage()
     {
         // Create a new page that will be copied.
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit(SPACE_VALUE, PAGE_VALUE);
-        wep.setTitle(PAGE_TITLE);
-        wep.setContent(PAGE_CONTENT);
-        ViewPage viewPage = wep.clickSaveAndView();
+        ViewPage viewPage = getUtil().createPage(SPACE_VALUE, PAGE_VALUE, PAGE_CONTENT, PAGE_TITLE);
 
         // Click on Copy from the Page top menu.
         CopyPage copyPage = viewPage.copy();

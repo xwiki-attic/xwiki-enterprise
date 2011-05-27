@@ -19,7 +19,6 @@
  */
 package org.xwiki.test.ui.administration;
 
-import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.RegisterTest;
 import org.xwiki.test.ui.administration.elements.LightBoxRegisterPage;
@@ -32,7 +31,6 @@ import org.xwiki.test.ui.framework.elements.RegisterPage;
  * @version $Id$
  * @since 2.4M2
  */
-@Ignore
 public class RegisterFromAdministrationTest extends RegisterTest
 {
     protected void switchUser()

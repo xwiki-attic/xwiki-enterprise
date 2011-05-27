@@ -378,7 +378,7 @@
     <patternMethod>.*</patternMethod>
     <port>8080</port>
     <stopport>8079</stopport>
-    <rmiport>9010</rmiport>
+    <rmiport>6666</rmiport>
     <seleniumPort>4444</seleniumPort>
   </properties>
   <profiles>

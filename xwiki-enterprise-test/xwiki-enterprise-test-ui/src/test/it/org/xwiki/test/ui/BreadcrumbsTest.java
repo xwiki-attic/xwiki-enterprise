@@ -41,25 +41,25 @@ public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
     public void testBreadcrumbs()
     {
         // Delete the page to reset the rights on it (since the test below modifies them).
-        getUtil().deletePage("Test", "ViewPage");
+        getUtil().deletePage("BreadcrumbsTest", "testBreadcrumbs");
 
         WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "ViewPage");
-        wep.setParent("Test.ParentPage");
+        wep.switchToEdit("BreadcrumbsTest", "testBreadcrumbs");
+        wep.setParent("BreadcrumbsTest.testBreadcrumbsParentPage");
         wep.setTitle("Child page");
         wep.clickSaveAndView();
 
-        wep.switchToEdit("Test", "ParentPage");
+        wep.switchToEdit("BreadcrumbsTest", "testBreadcrumbsParentPage");
         wep.setTitle("Parent page");
         wep.clickSaveAndView();
 
         // Verify standard breadcrumb behavior.
-        ViewPage vp = getUtil().gotoPage("Test", "ViewPage");
-        Assert.assertTrue(vp.getHierarchy().getText().contains("Parent page"));
-        Assert.assertTrue(vp.getHierarchy().getText().contains("Child page"));
+        ViewPage vp = getUtil().gotoPage("BreadcrumbsTest", "testBreadcrumbs");
+        Assert.assertTrue(vp.hasBreadcrumbContent("Parent page", false));
+        Assert.assertTrue(vp.hasBreadcrumbContent("Child page", true));
 
         RightsEditPage rep = new RightsEditPage();
-        rep.switchToEdit("Test", "ParentPage");
+        rep.switchToEdit("BreadcrumbsTest", "testBreadcrumbsParentPage");
 
         // Remove view rights on the Test.ParentPage page to everyone except Admin user so that we can verify that the
         // breadcrumb of the child page doesn't display pages for which you don't have view rights to.
@@ -69,9 +69,9 @@ public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
         getUtil().setSession(null);
 
         // Verify breadcrumbs are only displayed for pages for which you have the view right.
-        vp = getUtil().gotoPage("Test", "ViewPage");
-        Assert.assertFalse(vp.getHierarchy().getText().contains("Parent page"));
-        Assert.assertTrue(vp.getHierarchy().getText().contains("Child page"));
-        Assert.assertTrue(vp.getHierarchy().getText().contains("ParentPage"));
+        vp = getUtil().gotoPage("BreadcrumbsTest", "testBreadcrumbs");
+        Assert.assertFalse(vp.hasBreadcrumbContent("Parent page", false));
+        Assert.assertTrue(vp.hasBreadcrumbContent("Child page", true));
+        Assert.assertTrue(vp.hasBreadcrumbContent("BreadcrumbsTest.testBreadcrumbsParentPage", false));
     }
 }

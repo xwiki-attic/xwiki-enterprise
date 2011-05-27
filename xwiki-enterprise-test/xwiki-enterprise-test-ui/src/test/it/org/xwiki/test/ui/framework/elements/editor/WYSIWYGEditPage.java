@@ -72,7 +72,7 @@ public class WYSIWYGEditPage extends PreviewableEditPage
             getDriver().switchTo().window(windowHandle);
             return content;
         } else {
-            return editor.getRichTextArea().getContent();
+            return editor.getRichTextArea().getText();
         }
     }
 

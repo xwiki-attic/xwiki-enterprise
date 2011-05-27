@@ -57,10 +57,6 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
     private final String docName = "AttachmentTest";
 
-    private final String docFullName = "Test.AttachmentTest";
-
-    private final String smallAttachmentString = "This is content for a very small attachment.";
-
     @Before
     @Override
     public void setUp()
@@ -72,10 +68,8 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testUploadDownloadTwoAttachments()
     {
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", docName);
-        wep.setTitle("AttachmentTest#testUploadDownloadTwoAttachments()");
-        ViewPage vp = wep.clickSaveAndView();
+        getUtil().createPage("Test", docName, "", "AttachmentTest#testUploadDownloadTwoAttachments()");
+        ViewPage vp = new ViewPage();
 
         AttachmentsPane ap = vp.openAttachmentsDocExtraPane();
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment).getPath());
@@ -112,18 +106,18 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * @see XWIKI-5896: The image handling in the WYSIWYG-editor with GIF images is buggy.
+     * See XWIKI-5896: The image handling in the WYSIWYG-editor with GIF images is buggy.
      */
     @Test
     public void testAttachAndViewGifImage()
     {
-        WikiEditPage editPage = new WikiEditPage();
         // Prepare the page to display the GIF image. We explicitly set the width to a value greater than the actual
         // image width because we want the code that resizes the image on the server side to be executed (even if the
         // image is not actually resized).
-        editPage.switchToEdit(getClass().getSimpleName(), testName.getMethodName());
-        editPage.setContent(String.format("[[image:image.gif||width=%s]]", (20 + RandomUtils.nextInt(200))));
-        ViewPage viewPage = editPage.clickSaveAndView();
+        getUtil().createPage(getClass().getSimpleName(), testName.getMethodName(),
+            String.format("[[image:image.gif||width=%s]]", (20 + RandomUtils.nextInt(200))), testName.getMethodName());
+        ViewPage viewPage = new ViewPage();
+
         // Attach the GIF image.
         AttachmentsPane attachmentsPane = viewPage.openAttachmentsDocExtraPane();
         attachmentsPane.setFileToUpload(getClass().getResource("/image.gif").getPath());

@@ -403,7 +403,13 @@
         <!-- Force IPv4 usage. This is for the Cluster tests only and is caused by a bug in JGroups. See
              http://xwiki.markmail.org/thread/hcswfhh7w4isayuy -->
         <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
+
+        <!--
+          * HACK HACK HACK preferIp4Stack should be passed as a seperate parameter if at all
+          * it is piggybacked on top of the stop port relying on the space being mishandled by stop_xwiki.sh.
+          * This is a test to see if it fixes http://jira.xwiki.org/jira/browse/XE-928
+          -->
+        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh "${stopport} -Djava.net.preferIPv4Stack=true"</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <profile>

@@ -104,5 +104,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
     </plugins>
+    <properties>
+      <!-- Testing setting a different rmiport since ui-tests seems to be causing XE-928 -->
+      <rmiport>6667</rmiport>
+    </properties>
   </build>
 </project>

@@ -24,18 +24,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
-import javax.management.JMX;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-
 import org.junit.runner.RunWith;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
-
-import ch.qos.logback.classic.jmx.JMXConfiguratorMBean;
 
 /**
  * Runs all functional tests found in the classpath and start/stop XWiki before/after the tests (only once).
@@ -53,23 +44,6 @@ public class AllTests
     {
         initChannel(executors.get(0), "tcp1");
         initChannel(executors.get(1), "tcp2");
-    }
-
-    @XWikiExecutorSuite.PostStart
-    public void postInitialize(List<XWikiExecutor> executors) throws Exception
-    {
-        // Now that the server is started, connect to it remotely using JMX/RMI to set the log levels for some
-        // cluster-related XWiki classes in order to get more information in the logs for easier debugging.
-        for (XWikiExecutor executor : executors) {
-            JMXServiceURL url = new JMXServiceURL(
-                "service:jmx:rmi:///jndi/rmi://:" + executor.getRMIPort() + "/jmxrmi");
-            JMXConnector jmxc = JMXConnectorFactory.connect(url);
-            MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-            ObjectName oname = new ObjectName("logback:type=xwiki");
-            JMXConfiguratorMBean proxy = JMX.newMBeanProxy(mbsc, oname, JMXConfiguratorMBean.class);
-            proxy.setLoggerLevel("org.xwiki.observation.remote", "debug");
-            proxy.setLoggerLevel("com.xpn.xwiki.internal", "debug");
-        }
     }
 
     private void initChannel(XWikiExecutor executor, String channelName) throws Exception

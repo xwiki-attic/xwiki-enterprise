@@ -400,7 +400,7 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -412,7 +412,7 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -437,7 +437,7 @@
     <profile>
       <id>macprofiler</id>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}" -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}"</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -449,7 +449,7 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki.bat ${port} ${stopport}</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -475,7 +475,7 @@
     <profile>
       <id>winprofiler</id>
       <properties>
-        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=${rmiport} -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>cmd /c start_xwiki_debug.bat ${port} ${stopport} profiler ${profilerPath}</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>cmd /c stop_xwiki.bat ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>

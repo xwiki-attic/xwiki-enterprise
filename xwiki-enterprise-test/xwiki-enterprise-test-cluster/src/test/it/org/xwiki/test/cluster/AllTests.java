@@ -24,18 +24,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
-import javax.management.JMX;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-
 import org.junit.runner.RunWith;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
-
-import ch.qos.logback.classic.jmx.JMXConfiguratorMBean;
 
 /**
  * Runs all functional tests found in the classpath and start/stop XWiki before/after the tests (only once).

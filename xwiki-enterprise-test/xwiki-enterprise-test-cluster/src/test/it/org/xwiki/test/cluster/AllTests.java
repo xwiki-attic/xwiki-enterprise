@@ -55,23 +55,6 @@ public class AllTests
         initChannel(executors.get(1), "tcp2");
     }
 
-    @XWikiExecutorSuite.PostStart
-    public void postInitialize(List<XWikiExecutor> executors) throws Exception
-    {
-        // Now that the server is started, connect to it remotely using JMX/RMI to set the log levels for some
-        // cluster-related XWiki classes in order to get more information in the logs for easier debugging.
-        for (XWikiExecutor executor : executors) {
-            JMXServiceURL url = new JMXServiceURL(
-                "service:jmx:rmi:///jndi/rmi://:" + executor.getRMIPort() + "/jmxrmi");
-            JMXConnector jmxc = JMXConnectorFactory.connect(url);
-            MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-            ObjectName oname = new ObjectName("logback:type=xwiki");
-            JMXConfiguratorMBean proxy = JMX.newMBeanProxy(mbsc, oname, JMXConfiguratorMBean.class);
-            proxy.setLoggerLevel("org.xwiki.observation.remote", "debug");
-            proxy.setLoggerLevel("com.xpn.xwiki.internal", "debug");
-        }
-    }
-
     private void initChannel(XWikiExecutor executor, String channelName) throws Exception
     {
         Properties properties = executor.loadXWikiProperties();

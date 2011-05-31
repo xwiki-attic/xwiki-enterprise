@@ -109,17 +109,6 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         getXWikiExecutor().saveXWikiCfg(this.currentXWikiConf);
 
         super.setUp();
-
-        // Now that the server is started, connect to it remotely using JMX/RMI to set the log levels for LDAP XWiki
-        // classes in order to get more information in the logs for easier debugging.
-        JMXServiceURL url = new JMXServiceURL(
-            "service:jmx:rmi:///jndi/rmi://:" + getXWikiExecutor().getRMIPort() + "/jmxrmi");
-        JMXConnector jmxc = JMXConnectorFactory.connect(url);
-        MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-        ObjectName oname = new ObjectName("logback:type=xwiki");
-        JMXConfiguratorMBean proxy = JMX.newMBeanProxy(mbsc, oname, JMXConfiguratorMBean.class);
-        proxy.setLoggerLevel("com.xpn.xwiki.plugin.ldap", "trace");
-        proxy.setLoggerLevel("com.xpn.xwiki.user.impl.LDAP", "trace");
     }
 
     /**

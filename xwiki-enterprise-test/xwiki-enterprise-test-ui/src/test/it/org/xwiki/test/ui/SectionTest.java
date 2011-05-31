@@ -122,18 +122,19 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
         WikiEditPage wikiEditPage = wysiwygEditPage.editWiki();
         Assert.assertEquals("= Section2 = Content2 == Section3 == Content3 "
             + "{{include document=\"Test.SectionEditingIncluded\"/}}", wikiEditPage.getContent());
-        wikiEditPage.clickCancel();
+        vp = wikiEditPage.clickCancel();
 
         // Edit the third section in the wiki editor
+        wikiEditPage = vp.editSection(3).editWiki();
         Assert.assertEquals("== Section3 == Content3 {{include document=\"Test.SectionEditingIncluded\"/}}",
-            vp.editSection(3).editWiki().getContent());
-        wikiEditPage.clickCancel();
+            wikiEditPage.getContent());
+        vp = wikiEditPage.clickCancel();
 
         // Edit the fourth section in the wiki editor
         // Note: we prove that included documents don't generate editable sections by checking that the fourth section
         // is "Section7".
-        Assert.assertEquals("= Section7 = Content7",
-            vp.editSection(4).editWiki().getContent());
+        wikiEditPage = vp.editSection(4).editWiki();
+        Assert.assertEquals("= Section7 = Content7", wikiEditPage.getContent());
     }
 
     /**

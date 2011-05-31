@@ -24,15 +24,12 @@ import java.util.List;
 import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.AttachmentsPane;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 
 /**
  * Test saving and downloading of attachments.
@@ -45,12 +42,6 @@ import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
  */
 public class AttachmentTest extends AbstractAdminAuthenticatedTest
 {
-    /**
-     * The object used to get the test name.
-     */
-    @Rule
-    public TestName testName = new TestName();
-    
     private final String testAttachment = "SmallAttachment.txt";
 
     private final String testAttachment2 = "SmallAttachment2.txt";

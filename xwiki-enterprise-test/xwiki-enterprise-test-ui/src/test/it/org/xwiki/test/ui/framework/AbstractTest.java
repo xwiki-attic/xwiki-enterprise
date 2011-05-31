@@ -22,6 +22,8 @@ package org.xwiki.test.ui.framework;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 import org.openqa.selenium.WebDriver;
 import org.xwiki.test.ui.framework.elements.BaseElement;
 
@@ -33,6 +35,12 @@ import org.xwiki.test.ui.framework.elements.BaseElement;
  */
 public class AbstractTest
 {
+    /**
+     * The object used to access the name of the current test.
+     */
+    @Rule
+    public final TestName testName = new TestName();
+
     protected static PersistentTestContext context;
 
     /** Used so that AllTests can set the persistent test context. */
@@ -40,7 +48,6 @@ public class AbstractTest
     {
         AbstractTest.context = context;
         BaseElement.setContext(context);
-        TestUtils.setContext(context);
     }
 
     @Before

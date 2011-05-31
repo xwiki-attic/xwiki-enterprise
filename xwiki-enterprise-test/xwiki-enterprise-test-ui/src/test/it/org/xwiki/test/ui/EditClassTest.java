@@ -21,9 +21,7 @@ package org.xwiki.test.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.FormElement;
@@ -39,9 +37,6 @@ import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
  */
 public class EditClassTest extends AbstractAdminAuthenticatedTest
 {
-    @Rule
-    public TestName testName = new TestName();
-
     @Before
     @Override
     public void setUp()

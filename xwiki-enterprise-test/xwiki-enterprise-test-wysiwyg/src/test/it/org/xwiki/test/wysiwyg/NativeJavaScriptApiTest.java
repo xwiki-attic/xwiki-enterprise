@@ -102,8 +102,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("</script>\n");
         content.append("{{/html}}\n");
         content.append("{{/velocity}}");
-        // Set the content directly.
-        setFieldValue("content", content.toString());
+        setSourceText(content.toString());
         clickEditSaveAndView();
 
         clickButtonWithText("Load Editor");
@@ -159,8 +158,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("</script>\n");
         content.append("{{/html}}\n");
         content.append("{{/velocity}}");
-        // Set the content directly.
-        setFieldValue("content", content.toString());
+        setSourceText(content.toString());
         clickEditSaveAndView();
 
         waitForCondition("typeof window.editor == 'object'");
@@ -220,8 +218,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("</script>\n");
         content.append("{{/html}}\n");
         content.append("{{/velocity}}");
-        // Set the content directly.
-        setFieldValue("content", content.toString());
+        setSourceText(content.toString());
         clickEditSaveAndView();
 
         // Wait for the editor to be created.
@@ -287,8 +284,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("</script>\n");
         content.append("{{/html}}\n");
         content.append("{{/velocity}}");
-        // Set the content directly.
-        setFieldValue("content", content.toString());
+        setSourceText(content.toString());
         clickEditSaveAndView();
 
         // Wait for the editor to be created.

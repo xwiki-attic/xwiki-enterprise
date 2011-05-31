@@ -511,8 +511,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
         // Create two sections.
         switchToSource();
-        // Set the content directly.
-        setFieldValue("content", "= s1 =\n\nabc\n\n= s2 =\n\nxyz");
+        setSourceText("= s1 =\n\nabc\n\n= s2 =\n\nxyz");
         clickEditSaveAndView();
 
         // Edit the second section.

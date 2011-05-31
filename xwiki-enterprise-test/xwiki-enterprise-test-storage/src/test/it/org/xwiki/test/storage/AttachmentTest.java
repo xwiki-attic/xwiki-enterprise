@@ -282,6 +282,8 @@ public class AttachmentTest extends AbstractTest
      * restored.
      */
     @Test
+    // This test flickers. see: http://jira.xwiki.org/jira/browse/XE-934
+    @Ignore
     public void testRollbackAfterSaveDeleteSaveAttachment() throws Exception
     {
         final String docName = "/Test/testRollbackAfterSaveDeleteSaveAttachment";

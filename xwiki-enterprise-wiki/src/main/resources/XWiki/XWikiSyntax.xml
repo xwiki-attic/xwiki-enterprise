@@ -585,6 +585,11 @@ In XWiki Syntax 2.0 new lines are honored which is not the case in XWiki Syntax 
 {{info}}See [[Attach Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] for details{{/info}}
 {{{{attach:text|document=Space.Page|file=img.png}}}}
 )))|{{{[[text&gt;&gt;attach:Space.Page@img.png]]}}}|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]
+|Link to an Anchor in a page|{{{[label&gt;Space.Page#anchor]}}}|{{{[[label&gt;&gt;Space.Page#anchor]]}}}|[[label&gt;&gt;XWiki.XWikiSyntax#HLinks]]|[[label&gt;&gt;XWiki.XWikiSyntax#HLinks]]
+|Link to a Heading in a page|(((
+{{info}}When you add a Heading, an anchor named "H" followed by the heading title with only alpha characters is created. For example, for a Heading named "My heading", the generated anchor will be "HMyheading".{{/info}}
+{{{[label&gt;Space.Page#HMyheading]}}}
+)))|{{{[[label&gt;&gt;Space.Page#HMyheading]]}}}|[[label&gt;&gt;XWiki.XWikiSyntax#HLinks]]|[[label&gt;&gt;XWiki.XWikiSyntax#HLinks]]
 
 == XWiki Syntax 1.0 Link Specification ==
 

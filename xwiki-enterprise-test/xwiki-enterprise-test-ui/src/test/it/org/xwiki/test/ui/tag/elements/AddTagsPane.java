@@ -70,20 +70,33 @@ public class AddTagsPane extends BaseElement
     /**
      * Click on the add button to add the typed tags.
      * 
-     * @return {@code true} if any of the typed tags have been added, {@code false} otherwise
+     * @return {@code true} if any of the typed tags have been added,
+     *         {@code false} if an error occurs such as an existing tag is saved.
      */
     public boolean add()
     {
-        addTagsForm.findElement(addButtonLocator).click();
-        Wait<WebDriver> wait = new WebDriverWait(this.getDriver(), getUtil().getTimeout());
-        // Wait until the add tags panel disappears or the tags input is re-enabled.
-        wait.until(new ExpectedCondition<Boolean>()
+        // Wait for no error notifications to be displayed because after that we wait for one to show up.
+        new WebDriverWait(this.getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
         {
             public Boolean apply(WebDriver driver)
             {
-                return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0 || tagsInput.isEnabled();
+                return getDriver().findElements(By.className("xnotification-error")).size() == 0;
             }
         });
+
+        addTagsForm.findElement(addButtonLocator).click();
+        
+        // Wait until the add tags panel disappears or
+        // an error notification is shown to indicate something is wrong and the tag cannot be saved.
+        new WebDriverWait(this.getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
+            {
+                return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0
+                    || getDriver().findElements(By.className("xnotification-error")).size() > 0;
+            }
+        });
+
         // If the add tags panel is still visible then there was a problem adding the tags.
         return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0;
     }

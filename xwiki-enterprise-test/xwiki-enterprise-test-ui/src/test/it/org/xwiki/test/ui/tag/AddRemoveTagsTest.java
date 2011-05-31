@@ -141,18 +141,6 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * Tests that we can't add an empty tag.
-     */
-    @Test
-    public void testAddEmptyTag()
-    {
-        AddTagsPane addTagsPane = taggablePage.addTags();
-        addTagsPane.setTags("");
-        Assert.assertFalse(addTagsPane.add());
-        addTagsPane.cancel();
-    }
-
-    /**
      * Add a tag that contains the pipe character, which is used to separate stored tags.
      */
     @Test

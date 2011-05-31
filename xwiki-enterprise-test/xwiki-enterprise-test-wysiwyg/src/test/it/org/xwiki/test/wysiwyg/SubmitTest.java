@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -93,5 +96,74 @@ public class SubmitTest extends AbstractWysiwygTestCase
         // Open the Wiki editor and assert the content.
         clickEditPageInWikiSyntaxEditor();
         assertEquals("u##v##w", getFieldValue("content"));
+    }
+
+    /**
+     * @see XWIKI-5560: Shortcut key malfunction when saving a page within source view.
+     * @throws MalformedURLException
+     */
+    public void testShortcutsForSaveAndView() throws MalformedURLException
+    {
+        // Switch to source editor and change the contents.
+        switchToSource();
+        // Type some content in the source editor
+        setSourceText("**changeInSource**");
+        // Type alt+s to save and view the contents.
+        typeShortcutsForSaveAndView();
+        // Wait page to load
+        waitPage();
+        // Get the loaded page's URL
+        URL viewPageUrl = new URL(getSelenium().getLocation());
+        // Assert the page indeed redirect to the view mode for the page saved.
+        assertEquals(viewPageUrl.getPath(), getUrl(getClass().getSimpleName(), getName()));
+        // Open the Wiki editor and assert the content.
+        clickEditPageInWikiSyntaxEditor();
+        assertEquals("**changeInSource**", getFieldValue("content"));
+    }
+
+    /**
+     * @see XWIKI-5560: Shortcut key malfunction when saving a page within source view.
+     */
+    public void testShortcutsForSaveAndContinue()
+    {
+        // Switch to source editor and change the contents.
+        switchToSource();
+        // Get current URL before saving the wiki page
+        String currentUrlBeforeSave = getSelenium().getLocation();
+        // Type some content in the source editor
+        setSourceText("**changeInSource**");
+        // type alt+shift+s to save the contents and continue to edit.
+        typeShortcutsForSaveAndContinue();
+        // Get current URL after saving the wiki page
+        String currentUrlAfterSave = getSelenium().getLocation();
+        // Assert that the page stays in the same edit mode after saving the page
+        assertEquals(currentUrlBeforeSave, currentUrlAfterSave);
+        // Open the edited wiki page.
+        open(getClass().getSimpleName(), getName());
+        // Open the Wiki editor and assert the content.
+        clickEditPageInWikiSyntaxEditor();
+        assertEquals("**changeInSource**", getFieldValue("content"));
+    }
+
+    /**
+     * Press Alt+s to save and view.
+     */
+    private void typeShortcutsForSaveAndView()
+    {
+        getSelenium().altKeyDown();
+        typeKeyInSource("s", true, 1, false);
+        getSelenium().altKeyUp();
+    }
+
+    /**
+     * Press Alt+shift+s to save and continue.
+     */
+    private void typeShortcutsForSaveAndContinue()
+    {
+        getSelenium().altKeyDown();
+        getSelenium().shiftKeyDown();
+        typeKeyInSource("s", true, 1, false);
+        getSelenium().shiftKeyUp();
+        getSelenium().altKeyUp();
     }
 }

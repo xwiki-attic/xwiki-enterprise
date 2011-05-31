@@ -217,19 +217,25 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Select the nth element of the given tagName (p, div, etc), including the element himself.
-     * This method will throw a Javascript Exception (which are reported) if the element does not exist.
-     * Example :
-     *
-     * selectElement("p", 2);
+     * Select the nth element of the given tagName (p, div, etc), including the element himself. This method will throw
+     * a Javascript Exception (which are reported) if the element does not exist. Example : selectElement("p", 2);
      * -------------------
-     * <p>first paragraph</p>
-     * <ul>...</ul>
-     * [<p>second paragraph</p>]
-     * <p>third
-     * paragraph</p>
+     * <p>
+     * first paragraph
+     * </p>
+     * <ul>
+     * ...
+     * </ul>
+     * [
+     * <p>
+     * second paragraph
+     * </p>
+     * ]
+     * <p>
+     * third paragraph
+     * </p>
      * -------------------
-     *
+     * 
      * @param tagName tagName (p, div, etc) to look for
      * @param occurence number of the occurence to select (from 1 to n).
      */
@@ -239,18 +245,23 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Select the content of the nth element of the given tagName (p, div, etc).
-     * This method will throw a Javascript Exception (which are reported) if the element does not exist.
-     * Example :
-     *
-     * selectElement("p", 2);
+     * Select the content of the nth element of the given tagName (p, div, etc). This method will throw a Javascript
+     * Exception (which are reported) if the element does not exist. Example : selectElement("p", 2);
      * -------------------
-     * <p>first paragraph</p>
-     * <ul>...</ul>
-     * <p>[second paragraph]</p>
-     * <p>third paragraph</p>
+     * <p>
+     * first paragraph
+     * </p>
+     * <ul>
+     * ...
+     * </ul>
+     * <p>
+     * [second paragraph]
+     * </p>
+     * <p>
+     * third paragraph
+     * </p>
      * -------------------
-     *
+     * 
      * @param tagName tagName (p, div, etc) to look for
      * @param occurence number of the occurence to select (from 1 to n).
      */
@@ -285,21 +296,53 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      * @param count the number of times to press the specified key
      * @param hold {@code false} if the key should be released after each key press, {@code true} if it should be hold
      *            down and released just at the end
+     * @param locator the locator for type keys
      */
-    public void typeKey(String key, boolean fireKeyPress, int count, boolean hold)
+    public void typeKey(String key, boolean fireKeyPress, int count, boolean hold, String locator)
     {
         for (int i = 0; i < count; i++) {
-            getSelenium().keyDown(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+            getSelenium().keyDown(locator, key);
             if (fireKeyPress) {
-                getSelenium().keyPress(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+                getSelenium().keyPress(locator, key);
             }
             if (!hold) {
-                getSelenium().keyUp(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+                getSelenium().keyUp(locator, key);
             }
         }
         if (hold && count > 0) {
-            getSelenium().keyUp(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, key);
+            getSelenium().keyUp(locator, key);
         }
+    }
+
+    /**
+     * Presses the specified key for the given number of times in WYSIWYG source editor.
+     * 
+     * @param key the key to be pressed
+     * @param fireKeyPress {@code true} if the specified key should generate a key press event, {@code false} otherwise.
+     *            Normally only printable keys generate a key press event.
+     * @param count the number of times to press the specified key
+     * @param hold {@code false} if the key should be released after each key press, {@code true} if it should be hold
+     *            down and released just at the end
+     */
+
+    public void typeKeyInSource(String key, boolean fireKeyPress, int count, boolean hold)
+    {
+        typeKey(key, fireKeyPress, count, hold, WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
+    }
+
+    /**
+     * Presses the specified key for the given number of times in WYSIWYG rich text editor.
+     * 
+     * @param key the key to be pressed
+     * @param fireKeyPress {@code true} if the specified key should generate a key press event, {@code false} otherwise.
+     *            Normally only printable keys generate a key press event.
+     * @param count the number of times to press the specified key
+     * @param hold {@code false} if the key should be released after each key press, {@code true} if it should be hold
+     *            down and released just at the end
+     */
+    public void typeKey(String key, boolean fireKeyPress, int count, boolean hold)
+    {
+        typeKey(key, fireKeyPress, count, hold, WYSIWYG_LOCATOR_FOR_KEY_EVENTS);
     }
 
     /**

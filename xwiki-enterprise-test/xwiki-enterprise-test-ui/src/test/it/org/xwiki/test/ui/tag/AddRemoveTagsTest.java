@@ -23,9 +23,7 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.test.ui.tag.elements.AddTagsPane;
@@ -39,12 +37,6 @@ import org.xwiki.test.ui.tag.elements.TaggablePage;
  */
 public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
 {
-    /**
-     * The object used to get the test name.
-     */
-    @Rule
-    public TestName testName = new TestName();
-
     /**
      * The test page.
      */

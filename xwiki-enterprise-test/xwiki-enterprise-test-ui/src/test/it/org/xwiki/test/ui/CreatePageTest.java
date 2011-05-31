@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.TemplateProviderInlinePage;
@@ -47,12 +45,6 @@ import org.xwiki.test.ui.xe.elements.HomePage;
  */
 public class CreatePageTest extends AbstractAdminAuthenticatedTest
 {
-    /**
-     * The object used to access the name of the current test.
-     */
-    @Rule
-    public final TestName testName = new TestName();
-
     /**
      * Name of the template.
      */

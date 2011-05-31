@@ -103,6 +103,9 @@ public class BasePage extends BaseElement
         // See http://code.google.com/p/selenium/issues/detail?id=256
         // Thus FTM we have to use getDriver().findElement().
 
+        // For some unknown reason sometimes the menuId cannot be found so wait for it to be visible before finding it.
+        waitUntilElementIsVisible(By.id(menuId));
+
         WebElement menuDiv = getDriver().findElement(By.id(menuId));
         executeScript("showsubmenu(arguments[0])", menuDiv);
 

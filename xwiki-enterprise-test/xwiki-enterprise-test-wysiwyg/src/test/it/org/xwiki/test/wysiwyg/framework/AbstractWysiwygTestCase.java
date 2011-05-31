@@ -217,24 +217,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Select the nth element of the given tagName (p, div, etc), including the element himself. This method will throw
-     * a Javascript Exception (which are reported) if the element does not exist. Example : selectElement("p", 2);
+     * Select the nth element of the given tagName (p, div, etc.), including the element itself. This method will throw
+     * a JavaScript exception (which is reported) if the element does not exist.
+     * <p>
+     * Example:
+     * 
+     * <pre>
+     * {@code selectElement("p", 2);
      * -------------------
-     * <p>
-     * first paragraph
-     * </p>
-     * <ul>
-     * ...
-     * </ul>
-     * [
-     * <p>
-     * second paragraph
-     * </p>
-     * ]
-     * <p>
-     * third paragraph
-     * </p>
+     * <p>first paragraph</p>
+     * <ul>...</ul>
+     * [<p>second paragraph</p>]
+     * <p>third
+     * paragraph</p>
      * -------------------
+     * }
+     * </pre>
      * 
      * @param tagName tagName (p, div, etc) to look for
      * @param occurence number of the occurence to select (from 1 to n).
@@ -245,22 +243,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Select the content of the nth element of the given tagName (p, div, etc). This method will throw a Javascript
-     * Exception (which are reported) if the element does not exist. Example : selectElement("p", 2);
+     * Select the content of the nth element of the given tagName (p, div, etc.). This method will throw a JavaScript
+     * exception (which is reported) if the element does not exist.
+     * <p>
+     * Example:
+     * 
+     * <pre>
+     * {@code selectElement("p", 2);
      * -------------------
-     * <p>
-     * first paragraph
-     * </p>
-     * <ul>
-     * ...
-     * </ul>
-     * <p>
-     * [second paragraph]
-     * </p>
-     * <p>
-     * third paragraph
-     * </p>
+     * <p>first paragraph</p>
+     * <ul>...</ul>
+     * <p>[second paragraph]</p>
+     * <p>third
+     * paragraph</p>
      * -------------------
+     * }
+     * </pre>
      * 
      * @param tagName tagName (p, div, etc) to look for
      * @param occurence number of the occurence to select (from 1 to n).

@@ -70,27 +70,36 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
     @Test
     public void testDocumentCacheSyncForAttachments() throws Exception
     {
-        // 1) edit a page on XWiki 0
-
+        // 1) Edit a page on XWiki 0
         switchXWiki(0);
         setPageContent(getWiki(), "Test", "AttachementCacheSync", "content");
 
-        // 2) add attachment to the page on XWiki 1
-
+        // 2) Add attachment to the page on XWiki 1
         switchXWiki(1);
-        String attachmentUri =
-                getUriBuilder(AttachmentResource.class).build(getWiki(), "Test", "AttachementCacheSync", "file.ext").toString();
+        String attachmentUri = getUriBuilder(AttachmentResource.class).build(getWiki(), "Test",
+            "AttachementCacheSync", "file.ext").toString();
         PutMethod putMethod = executePut(attachmentUri, "content", MediaType.TEXT_PLAIN, "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
-        // TODO: give some time to JGroups to send the message
-
-        // ASSERT) the content in XWiki 0 should be the one set than in XWiki 1
-
+        // ASSERT) The content in XWiki 0 should be the one set than in XWiki 1
+        // Since it can take time for the Cluster to propagate the change, we need to wait and set up a timeout.
         switchXWiki(0);
-        String attachmentsUri =
-                getUriBuilder(AttachmentsResource.class).build(getWiki(), "Test", "AttachementCacheSync").toString();
+        String attachmentsUri = getUriBuilder(AttachmentsResource.class).build(getWiki(), "Test",
+            "AttachementCacheSync").toString();
 
+        long t1 = System.currentTimeMillis();
+        long t2;
+        while (!hasAttachment(attachmentsUri)) {
+            t2 = System.currentTimeMillis();
+            if (t2 - t1 > 10000L) {
+                Assert.fail("Failed to find attachment");
+            }
+            Thread.sleep(100);
+        }
+    }
+
+    private boolean hasAttachment(String attachmentsUri) throws Exception
+    {
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -101,9 +110,10 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
             System.out.println(attachment.getName());
             if (attachment.getName().equals("file.ext")) {
                 found = true;
+                break;
             }
         }
 
-        Assert.assertTrue("Failed to find attachment", found);
+        return found;
     }
 }

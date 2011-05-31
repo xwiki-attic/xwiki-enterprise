@@ -114,7 +114,7 @@ public class WatchListTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[contains(@href, 'do=trigger&which=Scheduler.WatchListDailyNotifier')]");
 
         // Wait for the email with a timeout
-        this.greenMail.waitForIncomingEmail(70000, 1);
+        assertTrue("Mail not received", this.greenMail.waitForIncomingEmail(70000, 1));
 
         String messageFromXWiki = GreenMailUtil.getBody(this.greenMail.getReceivedMessages()[0]);
         assertFalse(messageFromXWiki.contains("Exception"));

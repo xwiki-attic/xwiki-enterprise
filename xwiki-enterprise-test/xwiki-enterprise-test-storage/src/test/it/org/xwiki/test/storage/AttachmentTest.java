@@ -33,6 +33,7 @@ import org.apache.commons.httpclient.methods.MultipartPostMethod;
 import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.storage.framework.AbstractTest;
 import org.apache.commons.io.IOUtils;

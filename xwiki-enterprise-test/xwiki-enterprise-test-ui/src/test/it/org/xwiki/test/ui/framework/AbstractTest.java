@@ -47,6 +47,7 @@ public class AbstractTest
     {
         AbstractTest.context = context;
         BaseElement.setContext(context);
+        TestUtils.setContext(context);
     }
 
     @BeforeClass

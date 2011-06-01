@@ -20,7 +20,6 @@
 package org.xwiki.test.ui.framework.elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -35,6 +34,7 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.test.ui.framework.PersistentTestContext;
 import org.xwiki.test.ui.framework.TestUtils;
+import org.xwiki.test.ui.framework.XWikiWrappingDriver;
 
 /**
  * Represents all elements which include web pages as well as parts of web pages.
@@ -54,11 +54,12 @@ public class BaseElement
 
     public BaseElement()
     {
-        ElementLocatorFactory finder = new AjaxElementLocatorFactory(this.getDriver(), getUtil().getTimeout());
+        ElementLocatorFactory finder =
+            new AjaxElementLocatorFactory(getDriver().getWrappedDriver(), getUtil().getTimeout());
         PageFactory.initElements(finder, this);
     }
 
-    protected WebDriver getDriver()
+    protected XWikiWrappingDriver getDriver()
     {
         return context.getDriver();
     }
@@ -112,7 +113,7 @@ public class BaseElement
      */
     public void waitUntilElementsAreVisible(final By[] locators, int timeout, final boolean all)
     {
-        Wait<WebDriver> wait = new WebDriverWait(this.getDriver(), timeout);
+        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
         try {
             wait.until(new ExpectedCondition<WebElement>()
             {
@@ -150,6 +151,8 @@ public class BaseElement
                 }
             });
         } catch (TimeoutException e) {
+            getUtil().takeScreenshot();
+
             StringBuffer sb = new StringBuffer("Failed to find the following locators: [\n");
             for (By by : locators) {
                 sb.append(by).append("\n");
@@ -174,22 +177,28 @@ public class BaseElement
      */
     public void waitUntilElementDisappears(final By locator, int timeout)
     {
-        Wait<WebDriver> wait = new WebDriverWait(this.getDriver(), timeout);
-        wait.until(new ExpectedCondition<Boolean>()
-                    {
-            public Boolean apply(WebDriver driver)
-                        {
-                try {
-                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
-                    return Boolean.valueOf(!element.isDisplayed());
-                } catch (NotFoundException e) {
-                    return Boolean.TRUE;
-                } catch (StaleElementReferenceException e) {
-                    // The element was removed from DOM in the meantime
-                    return Boolean.TRUE;
+        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
+        try {
+            wait.until(new ExpectedCondition<Boolean>()
+            {
+                public Boolean apply(WebDriver driver)
+                {
+                    try {
+                        RenderedWebElement element =
+                            (RenderedWebElement) driver.findElement(locator);
+                        return Boolean.valueOf(!element.isDisplayed());
+                    } catch (NotFoundException e) {
+                        return Boolean.TRUE;
+                    } catch (StaleElementReferenceException e) {
+                        // The element was removed from DOM in the meantime
+                        return Boolean.TRUE;
+                    }
                 }
-            }
-        });
+            });
+        } catch (TimeoutException e) {
+            getUtil().takeScreenshot();
+            throw e;
+        }
     }
 
     /**
@@ -200,7 +209,7 @@ public class BaseElement
      */
     public void makeElementVisible(By locator)
     {
-        makeElementVisible(this.getDriver().findElement(locator));
+        makeElementVisible(getDriver().findElement(locator));
     }
 
     public void makeElementVisible(WebElement element)
@@ -246,22 +255,27 @@ public class BaseElement
     public void waitUntilElementHasAttributeValue(final By locator, final String attributeName,
         final String expectedValue, int timeout)
     {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver(), timeout);
-        wait.until(new ExpectedCondition<Boolean>()
-        {
-            public Boolean apply(WebDriver driver)
+        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
+        try {
+            wait.until(new ExpectedCondition<Boolean>()
             {
-                try {
-                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
-                    return expectedValue.equals(element.getAttribute(attributeName));
-                } catch (NotFoundException e) {
-                    return false;
-                } catch (StaleElementReferenceException e) {
-                    // The element was removed from DOM in the meantime
-                    return false;
+                public Boolean apply(WebDriver driver)
+                {
+                    try {
+                        RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                        return expectedValue.equals(element.getAttribute(attributeName));
+                    } catch (NotFoundException e) {
+                        return false;
+                    } catch (StaleElementReferenceException e) {
+                        // The element was removed from DOM in the meantime
+                        return false;
+                    }
                 }
-            }
-        });
+            });
+        } catch (TimeoutException e) {
+            getUtil().takeScreenshot();
+            throw e;
+        }
     }
 
     /**
@@ -275,22 +289,27 @@ public class BaseElement
     public void waitUntilElementEndsWithAttributeValue(final By locator, final String attributeName,
         final String expectedValue, int timeout)
     {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver(), timeout);
-        wait.until(new ExpectedCondition<Boolean>()
-        {
-            public Boolean apply(WebDriver driver)
+        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
+        try {
+            wait.until(new ExpectedCondition<Boolean>()
             {
-                try {
-                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
-                    return element.getAttribute(attributeName).endsWith(expectedValue);
-                } catch (NotFoundException e) {
-                    return false;
-                } catch (StaleElementReferenceException e) {
-                    // The element was removed from DOM in the meantime
-                    return false;
+                public Boolean apply(WebDriver driver)
+                {
+                    try {
+                        RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                        return element.getAttribute(attributeName).endsWith(expectedValue);
+                    } catch (NotFoundException e) {
+                        return false;
+                    } catch (StaleElementReferenceException e) {
+                        // The element was removed from DOM in the meantime
+                        return false;
+                    }
                 }
-            }
-        });
+            });
+        } catch (TimeoutException e) {
+            getUtil().takeScreenshot();
+            throw e;
+        }
     }
 
     /**
@@ -315,28 +334,28 @@ public class BaseElement
      */
     public void waitUntilElementHasTextContent(final By locator, final String expectedValue, int timeout)
     {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver(), timeout);
-        wait.until(new ExpectedCondition<Boolean>()
-                    {
-            public Boolean apply(WebDriver driver)
-                        {
-                RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
-                return Boolean.valueOf(expectedValue.equals(element.getText()));
-            }
-        });
+        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
+        try {
+            wait.until(new ExpectedCondition<Boolean>()
+            {
+                public Boolean apply(WebDriver driver)
+                {
+                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                    return Boolean.valueOf(expectedValue.equals(element.getText()));
+                }
+            });
+        } catch (TimeoutException e) {
+            getUtil().takeScreenshot();
+            throw e;
+        }
     }
 
     public Object executeJavascript(String javascript, Object... arguments)
     {
-        if (!(this.getDriver() instanceof JavascriptExecutor)) {
-            throw new RuntimeException("Currently used web driver (" + this.getDriver().getClass()
-                + ") does not support JavaScript execution");
-        }
-        JavascriptExecutor js = (JavascriptExecutor) this.getDriver();
-        if (!js.isJavascriptEnabled()) {
+        if (!getDriver().isJavascriptEnabled()) {
             throw new RuntimeException("JavaScript is disabled");
         }
-        return js.executeScript(javascript, arguments);
+        return getDriver().executeScript(javascript, arguments);
     }
 
     /**
@@ -353,6 +372,6 @@ public class BaseElement
     public void makeConfirmDialogSilent(boolean accept)
     {
         String script = String.format("window.confirm = function() { return %s; }", accept);
-        ((JavascriptExecutor) this.getDriver()).executeScript(script);
+        getDriver().executeScript(script);
     }
 }

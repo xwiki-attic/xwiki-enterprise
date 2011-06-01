@@ -24,7 +24,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
@@ -181,23 +180,15 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         select.selectByVisibleText("XWiki 1.0");
         ViewPage vp = wep.clickSaveAndView();
         annotationsPane.toggleAnnotationsPane();
-        try {
-            Assert.assertEquals(0, getDriver().findElements(By.id("annotationsdisplay")).size());
-            getDriver().findElement(By.id("annotationsdisplay"));
-            Assert.fail("Annotations are disabled in 1.0 Pages. This element should no be here");
-        } catch (NoSuchElementException e) {
-            // This is normal, test passes
-        }
+        // Annotations are disabled in 1.0 Pages. This element should no be here
+        Assert.assertEquals(0, getDriver().findElements(By.id("annotationsdisplay")).size());
         annotationsWindow.simulateCTRL_M();
-        try {
-            vp = new ViewPage();
-            vp.waitUntilElementIsVisible(By.className("xnotification-warning"), 20);
-            WebElement warning = getDriver().findElement(By.className("xnotification-warning"));
-            Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
-        } catch (NoSuchElementException e) {
-            // This should not happen. THe warning that Annotations are disabled in 1.0 syntax should appear.
-            Assert.fail("There is no warning that annotations are disabled for 1.0 pages");
-        }
+
+        vp = new ViewPage();
+        vp.waitUntilElementIsVisible(By.className("xnotification-warning"), 20);
+        WebElement warning = getDriver().findElement(By.className("xnotification-warning"));
+        Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
+
         adminPage.gotoPage();
         annotationsAdminPage = adminPage.clickAnnotationsSection();
         annotationsAdminPage.activateAnnotations();
@@ -209,14 +200,10 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         // Landing directly on this page might result in notification not to be displayed
         getDriver().navigate().refresh();
         vp.waitUntilElementIsVisible(By.id("body"), 20);
-        try {
-            vp = new ViewPage();
-            vp.waitUntilElementIsVisible(By.className("xnotification-warning"), 20);
-            WebElement warning = getDriver().findElement(By.className("xnotification-warning"));
-            Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
-        } catch (NoSuchElementException e) {
-            // This should not happen. The warning that Annotations are disabled in 1.0 syntax should appear.
-            Assert.fail("There is no warning that annotations are disabled for 1.0 pages");
-        }
+
+        vp = new ViewPage();
+        vp.waitUntilElementIsVisible(By.className("xnotification-warning"), 20);
+        warning = getDriver().findElement(By.className("xnotification-warning"));
+        Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
     }
 }

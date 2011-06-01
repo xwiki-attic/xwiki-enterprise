@@ -20,7 +20,6 @@
 package org.xwiki.test.ui.annotations.elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
@@ -86,8 +85,7 @@ public class AnnotationsWindow extends ViewPage
         script.append("  if (!strFound) \n");
         script.append("    return;\n");
         script.append("}\n");
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript(script.toString());
+        getDriver().executeScript(script.toString());
     }
 
     /**
@@ -95,8 +93,7 @@ public class AnnotationsWindow extends ViewPage
      */
     public void selectText(String annotationWord)
     {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript(script + "findString('" + annotationWord + "');");
+        getDriver().executeScript(script + "findString('" + annotationWord + "');");
     }
 
     public void enterAnnotationText(String annotationText)

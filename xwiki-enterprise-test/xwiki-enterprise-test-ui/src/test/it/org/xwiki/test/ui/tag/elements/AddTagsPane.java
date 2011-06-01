@@ -76,7 +76,7 @@ public class AddTagsPane extends BaseElement
     public boolean add()
     {
         // Wait for no error notifications to be displayed because after that we wait for one to show up.
-        new WebDriverWait(this.getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
+        new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
         {
             public Boolean apply(WebDriver driver)
             {
@@ -88,7 +88,7 @@ public class AddTagsPane extends BaseElement
         
         // Wait until the add tags panel disappears or
         // an error notification is shown to indicate something is wrong and the tag cannot be saved.
-        new WebDriverWait(this.getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
+        new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
         {
             public Boolean apply(WebDriver driver)
             {

@@ -20,6 +20,7 @@
 package org.xwiki.test.ui.framework;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
 import org.xwiki.test.ui.framework.elements.BaseElement;
@@ -40,6 +41,12 @@ public class AbstractTest
         AbstractTest.context = context;
         BaseElement.setContext(context);
         TestUtils.setContext(context);
+    }
+
+    @Before
+    public void setTestName()
+    {
+        context.setCurrentTestName(getClass().getSimpleName() + "-" + this.testName.getMethodName());
     }
 
     @BeforeClass

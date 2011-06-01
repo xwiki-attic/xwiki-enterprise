@@ -754,6 +754,41 @@ public class ImageTest extends AbstractWysiwygTestCase
         setSourceText(String.format("[[image:%s||alt=\"%s\" title=\"abc\"]]", imageURL, alternativeText));
     }
 
+    /**
+     * Tests that the configuration that limits the image selection to the current page works as expected.
+     */
+    public void testImageSelectionLimitedToCurrentPage()
+    {
+        String allPagesTabLocator =
+            "//*[contains(@class, 'xStepsTabs')]//*[@class = 'gwt-TabBarItem' and . = '" + TAB_ALL_PAGES + "']";
+        String location = getSelenium().getLocation();
+
+        // By default, attachment selection shoudn't be limited to the current page.
+        openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        assertElementPresent(allPagesTabLocator);
+
+        // Change the configuration.
+        open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+        checkField("XWiki.WysiwygEditorConfigClass_0_imageSelectionLimited");
+        clickEditSaveAndContinue();
+
+        try {
+            open(location);
+            waitForEditorToLoad();
+
+            // The "All Pages" tab should be hidden now.
+            openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
+            waitForStepToLoad("xSelectorAggregatorStep");
+            assertElementNotPresent(allPagesTabLocator);
+        } finally {
+            // Restore the configuration.
+            open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+            checkField("XWiki.WysiwygEditorConfigClass_0_imageSelectionLimited_false");
+            clickEditSaveAndContinue();
+        }
+    }
+
     private void waitForStepToLoad(String stepClass)
     {
         waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + stepClass + "\")]');");

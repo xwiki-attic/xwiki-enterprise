@@ -1944,6 +1944,41 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertSourceText("[[Home>>Blog." + getName() + "]]");
     }
 
+    /**
+     * XWIKI-6657: Attachment selection limited set to Yes still shows "All Pages" tab when creating a link in WYSIWYG
+     */
+    public void testAttachmentSelectionLimitedToCurrentPage()
+    {
+        String allPagesTabLocator =
+            "//*[contains(@class, 'xStepsTabs')]//*[@class = 'gwt-TabBarItem' and . = '" + ALL_PAGES_TAB + "']";
+        String location = getSelenium().getLocation();
+
+        // By default, attachment selection shoudn't be limited to the current page.
+        openLinkDialog(MENU_ATTACHMENT);
+        waitForStepToLoad("xSelectorAggregatorStep");
+        assertElementPresent(allPagesTabLocator);
+
+        // Change the configuration.
+        open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+        checkField("XWiki.WysiwygEditorConfigClass_0_attachmentSelectionLimited");
+        clickEditSaveAndContinue();
+
+        try {
+            open(location);
+            waitForEditorToLoad();
+
+            // The "All Pages" tab should be hidden now.
+            openLinkDialog(MENU_ATTACHMENT);
+            waitForStepToLoad("xSelectorAggregatorStep");
+            assertElementNotPresent(allPagesTabLocator);
+        } finally {
+            // Restore the configuration.
+            open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+            checkField("XWiki.WysiwygEditorConfigClass_0_attachmentSelectionLimited_false");
+            clickEditSaveAndContinue();
+        }
+    }
+
     protected void waitForStepToLoad(String name)
     {
         waitForElement("//*[contains(@class, '" + name + "')]");

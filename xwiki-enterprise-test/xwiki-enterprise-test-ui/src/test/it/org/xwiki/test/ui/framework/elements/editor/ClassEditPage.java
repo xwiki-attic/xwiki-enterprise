@@ -69,11 +69,7 @@ public class ClassEditPage extends BasePage
         locators[0] = By.id("xproperty_" + propertyName);
         locators[1] = By.className("xnotification-error");
         waitUntilElementsAreVisible(locators, false);
-        try {
-            return getDriver().findElement(locators[0]) != null;
-        } catch (NoSuchElementException ex) {
-            return false;
-        }
+        return getDriver().findElements(locators[0]).size() > 0;
     }
 
     public void deleteProperty(String propertyName)

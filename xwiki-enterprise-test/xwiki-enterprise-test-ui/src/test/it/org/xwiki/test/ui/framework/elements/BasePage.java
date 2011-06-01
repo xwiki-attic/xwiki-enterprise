@@ -20,7 +20,6 @@
 package org.xwiki.test.ui.framework.elements;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.editor.ClassEditPage;
@@ -76,8 +75,7 @@ public class BasePage extends BaseElement
      */
     public boolean isNewDocument()
     {
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        return (Boolean) js.executeScript("return XWiki.docisnew");
+        return (Boolean) getDriver().executeScript("return XWiki.docisnew");
     }
 
     /**
@@ -107,29 +105,11 @@ public class BasePage extends BaseElement
         waitUntilElementIsVisible(By.id(menuId));
 
         WebElement menuDiv = getDriver().findElement(By.id(menuId));
-        executeScript("showsubmenu(arguments[0])", menuDiv);
+        getDriver().executeScript("showsubmenu(arguments[0])", menuDiv);
 
         // We wait for the submenu to be visible before carrying on to ensure that after this method returns the
         // calling code can access submenu items.
         waitUntilElementIsVisible(By.xpath("//div[@id = '" + menuId + "']//span[contains(@class, 'submenu')]"));
-    }
-
-    /**
-     * Run javascript and return the result.
-     * 
-     * @param script The source of the script to run.
-     * @param arguments Arguments to pass to the script. Will be made available to the script through a variable called
-     *            "arguments".
-     * @return Response from the script, One of Boolean, Long, String, List or WebElement. Or null.
-     * @see <a
-     *      href="http://webdriver.googlecode.com/svn/javadoc/org/openqa/selenium/JavascriptExecutor.html#executeScript">JavascriptExecutor</a>
-     */
-    public Object executeScript(String script, Object... arguments)
-    {
-        if (!(getDriver() instanceof JavascriptExecutor)) {
-            throw new RuntimeException("This test only works with a Javascript-enabled Selenium2 Driver");
-        }
-        return ((JavascriptExecutor) getDriver()).executeScript(script, arguments);
     }
 
     /**

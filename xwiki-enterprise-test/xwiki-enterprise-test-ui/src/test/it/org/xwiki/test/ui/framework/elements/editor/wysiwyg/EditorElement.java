@@ -84,17 +84,18 @@ public class EditorElement extends BaseElement
         try {
             // Either the source tab is present and selected and the plain text area can be edited or the rich text area
             // is not loading (with or without tabs).
-            new WebDriverWait(getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<WebElement>()
+            new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout()).until(
+                new ExpectedCondition<WebElement>()
             {
                 public WebElement apply(WebDriver driver)
                 {
                     try {
-                        getContainer().findElement(
+                        getContainer(driver).findElement(
                             By.xpath("//div[@class = 'gwt-TabBarItem gwt-TabBarItem-selected']/div[. = 'Source']"));
-                        WebElement sourceTextArea = getContainer().findElement(By.className("xPlainTextEditor"));
+                        WebElement sourceTextArea = getContainer(driver).findElement(By.className("xPlainTextEditor"));
                         return sourceTextArea.isEnabled() ? sourceTextArea : null;
                     } catch (NotFoundException sourceNotFound) {
-                        WebElement richTextEditor = getContainer().findElement(By.className("xRichTextEditor"));
+                        WebElement richTextEditor = getContainer(driver).findElement(By.className("xRichTextEditor"));
                         try {
                             richTextEditor.findElement(By.className("loading"));
                             return null;
@@ -108,6 +109,17 @@ public class EditorElement extends BaseElement
         } catch (TimeoutException e) {
             throw new TimeoutException("The WYSIWYG editor failed to load in a decent amount of time!", e);
         }
+    }
+
+    /**
+     * Note: Uses the passed driver, this is important since this is called by code within a Wait class, using the
+     * wrapped driver.
+     *
+     * @return the element that wraps the editor
+     */
+    private WebElement getContainer(WebDriver driver)
+    {
+        return driver.findElement(By.xpath("//div[starts-with(@id, '" + fieldId + "_container')]"));
     }
 
     /**

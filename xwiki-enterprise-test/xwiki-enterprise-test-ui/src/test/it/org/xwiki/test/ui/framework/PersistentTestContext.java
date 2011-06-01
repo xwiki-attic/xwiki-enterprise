@@ -19,10 +19,6 @@
  */
 package org.xwiki.test.ui.framework;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.xwiki.test.integration.XWikiExecutor;
 
@@ -37,7 +33,9 @@ public class PersistentTestContext
     /** This starts and stops the wiki engine. */
     private final XWikiExecutor executor;
 
-    private final WebDriver driver;
+    private final XWikiWrappingDriver driver;
+
+    private String currentTestName;
 
     /** Utility methods which should be available to tests and to pages. */
     private final TestUtils util = new TestUtils();
@@ -47,20 +45,8 @@ public class PersistentTestContext
         this.executor = new XWikiExecutor(0);
         executor.start();
 
-        // Ensure that we display page source information if a UI element fails to be found, for easier debugging.
-        this.driver = new FirefoxDriver()
-        {
-            @Override
-            public WebElement findElement(By by)
-            {
-                try {
-                    return super.findElement(by);
-                } catch (NoSuchElementException e) {
-                    throw new NoSuchElementException("Failed to locate element from page source [" + getPageSource()
-                        + "]", e);
-                }
-            }
-        };
+        // Use a wrapping driver to display more information when there are failures.
+        this.driver = new XWikiWrappingDriver(new FirefoxDriver(), this.util);
     }
 
     public PersistentTestContext(PersistentTestContext toClone)
@@ -69,7 +55,17 @@ public class PersistentTestContext
         this.driver = toClone.driver;
     }
 
-    public WebDriver getDriver()
+    public void setCurrentTestName(String currentTestName)
+    {
+        this.currentTestName = currentTestName;
+    }
+
+    public String getCurrentTestName()
+    {
+        return this.currentTestName;
+    }
+
+    public XWikiWrappingDriver getDriver()
     {
         return this.driver;
     }

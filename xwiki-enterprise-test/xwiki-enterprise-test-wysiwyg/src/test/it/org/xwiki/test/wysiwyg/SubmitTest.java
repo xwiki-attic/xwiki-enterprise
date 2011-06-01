@@ -22,6 +22,7 @@ package org.xwiki.test.wysiwyg;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -107,7 +108,8 @@ public class SubmitTest extends AbstractWysiwygTestCase
         // Switch to source editor and change the contents.
         switchToSource();
         // Type some content in the source editor
-        setSourceText("**changeInSource**");
+        String content = RandomStringUtils.randomAlphanumeric(5);
+        setSourceText(content);
         // Type alt+s to save and view the contents.
         typeShortcutsForSaveAndView();
         // Wait page to load
@@ -118,7 +120,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
         assertEquals(viewPageUrl.getPath(), getUrl(getClass().getSimpleName(), getName()));
         // Open the Wiki editor and assert the content.
         clickEditPageInWikiSyntaxEditor();
-        assertEquals("**changeInSource**", getFieldValue("content"));
+        assertEquals(content, getFieldValue("content"));
     }
 
     /**
@@ -130,19 +132,21 @@ public class SubmitTest extends AbstractWysiwygTestCase
         switchToSource();
         // Get current URL before saving the wiki page
         String currentUrlBeforeSave = getSelenium().getLocation();
+        String content = RandomStringUtils.randomAlphanumeric(5);
         // Type some content in the source editor
-        setSourceText("**changeInSource**");
+        setSourceText(content);
         // type alt+shift+s to save the contents and continue to edit.
         typeShortcutsForSaveAndContinue();
         // Get current URL after saving the wiki page
         String currentUrlAfterSave = getSelenium().getLocation();
         // Assert that the page stays in the same edit mode after saving the page
         assertEquals(currentUrlBeforeSave, currentUrlAfterSave);
-        // Open the edited wiki page.
-        open(getClass().getSimpleName(), getName());
+        // Cancel editing. We don't go directly to wiki edit mode because the content would be preserved even if it
+        // wasn't saved.
+        clickEditCancelEdition();
         // Open the Wiki editor and assert the content.
         clickEditPageInWikiSyntaxEditor();
-        assertEquals("**changeInSource**", getFieldValue("content"));
+        assertEquals(content, getFieldValue("content"));
     }
 
     /**

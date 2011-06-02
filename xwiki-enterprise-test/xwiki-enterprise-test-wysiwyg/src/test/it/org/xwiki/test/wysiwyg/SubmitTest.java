@@ -112,8 +112,6 @@ public class SubmitTest extends AbstractWysiwygTestCase
         setSourceText(content);
         // Type alt+s to save and view the contents.
         typeShortcutsForSaveAndView();
-        // Wait page to load
-        waitPage();
         // Get the loaded page's URL
         URL viewPageUrl = new URL(getSelenium().getLocation());
         // Assert the page indeed redirect to the view mode for the page saved.
@@ -157,6 +155,8 @@ public class SubmitTest extends AbstractWysiwygTestCase
         getSelenium().altKeyDown();
         typeKeyInSource("s", true, 1, false);
         getSelenium().altKeyUp();
+        // Wait for view page to load.
+        waitPage();
     }
 
     /**
@@ -169,5 +169,9 @@ public class SubmitTest extends AbstractWysiwygTestCase
         typeKeyInSource("s", true, 1, false);
         getSelenium().shiftKeyUp();
         getSelenium().altKeyUp();
+        // Wait for the confirmation.
+        waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
+            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");
+
     }
 }

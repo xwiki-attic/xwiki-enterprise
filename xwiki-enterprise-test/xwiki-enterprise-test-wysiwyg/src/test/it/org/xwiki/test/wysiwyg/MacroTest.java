@@ -269,7 +269,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testCollapseAndExpandAllMacros()
     {
-        typeText("no macro");
+        setContent("no macro");
 
         clickMenu(MENU_MACRO);
         assertTrue(isMenuEnabled(MENU_REFRESH));
@@ -1335,9 +1335,7 @@ public class MacroTest extends AbstractWysiwygTestCase
             {
                 return count == getSelectedMacroCount();
             }
-        }
-            .wait("The specified number of selected macros, " + count
-                + ", hasn't been reached in a decent amount of time");
+        }.wait("The specified number of selected macros, " + count + ", hasn't been reached in a decent amount of time");
     }
 
     /**

@@ -75,6 +75,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         "//td[contains(@class, 'gwt-MenuItem')]/div[@class = 'gwt-MenuItemLabel' and . = '%s']";
 
     /**
+     * Use this small interval when the operation you are waiting for doesn't execute instantly but pretty fast anyway.
+     */
+    public static final long SMALL_WAIT_INTERVAL = 50L;
+
+    /**
      * {@inheritDoc}
      * 
      * @see AbstractXWikiTestCase#setUp()
@@ -86,22 +91,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         login();
         open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractXWikiTestCase#tearDown()
-     */
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-
-        // Make sure there is no interference between tests. When tests are executed at high speed it can happen that a
-        // test starts before the page used by the previous test unloads and there are cases when we want a test to
-        // start before its initial page finishes loading.
-        open("about:blank");
-        waitPage();
     }
 
     /**
@@ -719,7 +708,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 {
                     return !getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
                 }
-            }.wait("Source text area is still editable!");
+            }.wait("Source text area is still editable!", Wait.DEFAULT_TIMEOUT, SMALL_WAIT_INTERVAL);
         }
         // The rich text area is redisplayed (and possibly reloaded) so we have to invalidate the JavaScript API.
         invalidateJavaScriptApi();
@@ -749,7 +738,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 {
                     return getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
                 }
-            }.wait("Source text area is not editable!");
+            }.wait("Source text area is not editable!", Wait.DEFAULT_TIMEOUT, SMALL_WAIT_INTERVAL);
             getSelenium().fireEvent(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "focus");
         }
     }

@@ -89,7 +89,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToExistingPage()
     {
-        String linkLabel = "foo";
+        String linkLabel = "x";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
 
@@ -120,7 +120,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToSpace()
     {
-        String linkLabel = "foobar";
+        String linkLabel = "x";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
         openLinkDialog(MENU_WIKI_PAGE);
@@ -150,7 +150,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToNewPage()
     {
-        String linkLabel = "alice";
+        String linkLabel = "a";
         String space = "Main";
         String newPageName = "AliceInWonderwiki";
         typeText(linkLabel);
@@ -179,7 +179,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToNewPageInNewSpace()
     {
-        String linkLabel = "bob";
+        String linkLabel = "b";
         String newSpace = "Bob";
         String newPage = "Cat";
         typeText(linkLabel);
@@ -205,7 +205,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToWebPage()
     {
-        String linkLabel = "xwiki";
+        String linkLabel = "x";
         String url = "http://www.xwiki.org";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
@@ -226,7 +226,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToWebPageWithChangedLabel()
     {
-        String linkLabel = "rox";
+        String linkLabel = "x";
         String url = "http://www.xwiki.org";
         typeText(linkLabel);
         selectAllContent();
@@ -248,7 +248,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToEmailAddress()
     {
-        String linkLabel = "carol";
+        String linkLabel = "c";
         String email = "carol@xwiki.org";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
@@ -287,22 +287,22 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         // Select the bogus BR to overwrite it.
         selectAllContent();
-        typeText("our");
+        typeText("1");
         clickBoldButton();
-        typeText("xwiki");
+        typeText("2");
         clickBoldButton();
-        typeText("rox");
+        typeText("3");
         selectAllContent();
         openLinkDialog(MENU_WEB_PAGE);
 
         // test that the picked up label of the link is the right text
-        assertEquals("ourxwikirox", getInputValue(LABEL_INPUT_TITLE));
+        assertEquals("123", getInputValue(LABEL_INPUT_TITLE));
         typeInInput("Web page address", "www.xwiki.org");
         clickButtonWithText(BUTTON_CREATE_LINK);
 
         waitForDialogToClose();
         switchToSource();
-        assertSourceText("[[our**xwiki**rox>>http://www.xwiki.org]]");
+        assertSourceText("[[1**2**3>>http://www.xwiki.org]]");
     }
 
     /**
@@ -314,7 +314,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // put everything in a paragraph because editing in body is sometimes parsed wrong
         applyStyleTitle1();
         applyStylePlainText();
-        typeText("this is ");
+        typeText("1");
         String linkLabel = "xwiki";
         String linkURL = "http://www.xwiki.com";
         String newLinkURL = "http://www.xwiki.org";
@@ -333,9 +333,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
         // unlink here should only move the caret out
         clickMenu(MENU_LINK_REMOVE);
-        typeText(" which rox");
+        typeText("2");
         switchToSource();
-        assertSourceText("this is [[" + linkLabel + ">>" + linkURL + "]] which rox");
+        assertSourceText("1[[" + linkLabel + ">>" + linkURL + "]]2");
         switchToWysiwyg();
 
         select("XWE.body.firstChild", 1, "XWE.body.firstChild.childNodes[1].firstChild", 5);
@@ -350,7 +350,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("this is [[" + linkLabel + ">>" + newLinkURL + "]] which rox");
+        assertSourceText("1[[" + linkLabel + ">>" + newLinkURL + "]]2");
     }
 
     /**
@@ -417,7 +417,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // Move caret at the end and type some text.
         moveCaret("XWE.body", 1);
-        typeText(" foo ");
+        typeText("x");
 
         openLinkDialog(MENU_WEB_PAGE);
         typeInInput(LABEL_INPUT_TITLE, "bar");
@@ -443,7 +443,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         switchToSource();
         assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>" + newSpaceName + "." + newPageName
-            + "]] foo [[bar>>http://bar.myxwiki.org]]");
+            + "]]x[[bar>>http://bar.myxwiki.org]]");
     }
 
     /**
@@ -690,12 +690,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCannotCreateLinkAroundBlockElements()
     {
-        applyStyleTitle1();
-        applyStylePlainText();
-        typeText("foo");
-        typeEnter();
-        typeText("bar");
-        assertContent("<p>foo</p><p>bar<br></p>");
+        setContent("<p>foo</p><p>bar</p>");
         select("XWE.body.firstChild.firstChild", 2, "XWE.body.childNodes[1].firstChild", 2);
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_WEB_PAGE));
@@ -712,7 +707,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testLinkLocationIsPreservedOnPrevious()
     {
-        String linkLabel = "foo";
+        String linkLabel = "x";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
 
@@ -761,7 +756,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkToAttachment()
     {
-        String linkLabel = "boo";
+        String linkLabel = "x";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
 
@@ -973,7 +968,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testQuoteInLinkTooltip()
     {
-        String linkLabel = "rox";
+        String linkLabel = "x";
         String url = "http://www.xwiki.org";
         String tooltip = "our xwiki \"rox\"";
         String tooltipTitle = "Type the tooltip of the created link, which appears when mouse is over the link.";
@@ -1040,7 +1035,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // now type something and check second display of the dialog, that it stays to the last inserted page
-        typeText("poof");
+        typeText("z");
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xExplorerPanel");
         assertEquals(newSpace + "." + newPage, explorer.getSelectedEntityReference());
@@ -1161,7 +1156,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testCreateLinkToNewPageInCurrentSpaceFromSearch()
     {
         String newPageName = "AnotherNewPage";
-        String label = "foo new bar";
+        String label = "x";
 
         // Select the bogus BR to overwrite it.
         selectAllContent();
@@ -1214,7 +1209,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // now type something and check second display of the dialog, that it opens on the current page
-        typeText("poof");
+        typeText("z");
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
         // test that there is a "new attachment" option
@@ -1861,7 +1856,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String pageName = getName() + ":a.b@c?d=e&f=g#h";
         String escapedPageName = pageName.replace(".", "\\.");
         String linkReference = escapedPageName.replaceAll("([@\\?\\#])", "\\\\$1");
-        String label = "Label";
+        String label = "x";
 
         typeText(label);
         selectNode("XWE.body.firstChild");
@@ -1890,7 +1885,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // We have to save the page to make it appear in the all pages tree.
         clickEditSaveAndContinue();
 
-        String linkLabel = "this";
+        String linkLabel = "x";
         typeText(linkLabel);
         selectNodeContents("XWE.body.firstChild");
 

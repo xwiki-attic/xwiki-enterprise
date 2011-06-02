@@ -337,14 +337,14 @@ public class LineTest extends AbstractWysiwygTestCase
      */
     public void testEnterInHeader()
     {
-        typeText("header");
+        typeText("H1");
         applyStyleTitle1();
         switchToSource();
-        assertSourceText("= header =");
+        assertSourceText("= H1 =");
         switchToWysiwyg();
 
         // Place the caret in the middle of the header.
-        moveCaret("XWE.body.firstChild.firstChild", 3);
+        moveCaret("XWE.body.firstChild.firstChild", 1);
 
         // Type some text to update the tool bar.
         typeText("#");
@@ -359,7 +359,7 @@ public class LineTest extends AbstractWysiwygTestCase
         waitForStyleDetected("Plain text");
 
         switchToSource();
-        assertSourceText("= hea# =\n\nder");
+        assertSourceText("= H# =\n\n1");
     }
 
     /**

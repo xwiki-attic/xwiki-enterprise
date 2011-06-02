@@ -31,7 +31,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
     public void testTypingAndDeletion()
     {
-        String text = "foobar";
+        String text = "az";
         // Select all content to overwrite the bogus BR.
         selectAllContent();
         typeText(text);
@@ -44,66 +44,66 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         // Select all content to overwrite the bogus BR.
         selectAllContent();
-        typeText("foobar");
+        typeText("x");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickBoldButton();
-        assertContent("<h5><strong>foobar</strong></h5>");
+        assertContent("<h5><strong>x</strong></h5>");
     }
 
     public void testItalics()
     {
         // Select all content to overwrite the bogus BR.
         selectAllContent();
-        typeText("foobar");
+        typeText("x");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickItalicsButton();
-        assertContent("<h5><em>foobar</em></h5>");
+        assertContent("<h5><em>x</em></h5>");
     }
 
     public void testUnderline()
     {
         // Select all content to overwrite the bogus BR.
         selectAllContent();
-        typeText("foobar");
+        typeText("x");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickUnderlineButton();
-        assertContent("<h5><ins>foobar</ins></h5>");
+        assertContent("<h5><ins>x</ins></h5>");
     }
 
     public void testStrikethrough()
     {
         // Select all content to overwrite the bogus BR.
         selectAllContent();
-        typeText("foobar");
+        typeText("x");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickStrikethroughButton();
-        assertContent("<h5><del>foobar</del></h5>");
+        assertContent("<h5><del>x</del></h5>");
     }
 
     public void testSubscript()
     {
         // Select all content to overwrite the bogus BR.
         selectAllContent();
-        typeText("foobar");
+        typeText("x");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickSubscriptButton();
-        assertContent("<h5><sub>foobar</sub></h5>");
+        assertContent("<h5><sub>x</sub></h5>");
     }
 
     public void testSuperscript()
     {
         // Select all content to overwrite the bogus BR.
         selectAllContent();
-        typeText("foobar");
+        typeText("x");
         applyStyleTitle5();
         selectElement("h5", 1);
         clickSuperscriptButton();
-        assertContent("<h5><sup>foobar</sup></h5>");
+        assertContent("<h5><sup>x</sup></h5>");
     }
 
     public void testUnorderedList()
@@ -162,29 +162,29 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         // Select all content to overwrite the bogus BR.
         selectAllContent();
-        typeText("foobar");
+        typeText("x");
         selectAllContent();
 
         applyStyleTitle1();
-        assertContent("<h1>foobar</h1>");
+        assertContent("<h1>x</h1>");
 
         applyStyleTitle2();
-        assertContent("<h2>foobar</h2>");
+        assertContent("<h2>x</h2>");
 
         applyStyleTitle3();
-        assertContent("<h3>foobar</h3>");
+        assertContent("<h3>x</h3>");
 
         applyStyleTitle4();
-        assertContent("<h4>foobar</h4>");
+        assertContent("<h4>x</h4>");
 
         applyStyleTitle5();
-        assertContent("<h5>foobar</h5>");
+        assertContent("<h5>x</h5>");
 
         applyStyleTitle6();
-        assertContent("<h6>foobar</h6>");
+        assertContent("<h6>x</h6>");
 
         applyStylePlainText();
-        assertContent("<p>foobar</p>");
+        assertContent("<p>x</p>");
     }
 
     /**
@@ -205,15 +205,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         testEmptyWysiwyg();
         switchToWysiwyg();
 
-        typeText("foobar");
+        typeText("az");
         applyStyleTitle1();
         // Type Enter then Backspace to remove the bogus BR at the end.
         typeEnter();
         typeBackspace();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        moveCaret("XWE.body.firstChild.firstChild", 3);
+        moveCaret("XWE.body.firstChild.firstChild", 1);
         clickHRButton();
-        assertContent("<h1>foo</h1><hr><h1>bar</h1>");
+        assertContent("<h1>a</h1><hr><h1>z</h1>");
     }
 
     /**
@@ -339,8 +339,8 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testInsertHRInPlaceOfASelectedList()
     {
-        typeTextThenEnter("foo");
-        typeText("bar");
+        typeTextThenEnter("a");
+        typeText("z");
         selectAllContent();
         clickUnorderedListButton();
         clickHRButton();
@@ -518,16 +518,16 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         open(location + (location.indexOf('?') < 0 ? "?" : "") + "&section=2");
         waitForEditorToLoad();
         typeDelete(2);
-        typeText("Section 2");
+        typeText("c2");
         switchToSource();
-        assertSourceText("= Section 2 =\n\nxyz");
+        assertSourceText("= c2 =\n\nxyz");
         clickEditSaveAndView();
 
         // Check the content of the page.
         open(location);
         waitForEditorToLoad();
         switchToSource();
-        assertSourceText("= s1 =\n\nabc\n\n= Section 2 =\n\nxyz");
+        assertSourceText("= s1 =\n\nabc\n\n= c2 =\n\nxyz");
     }
 
     /**
@@ -647,9 +647,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         getSelenium().click("//input[@value = 'Create']");
         waitPage();
         waitForEditorToLoad();
-        typeText("This is a test");
+        typeText("qzr");
         clickEditPreview();
-        assertTextPresent("This is a test");
+        assertTextPresent("qzr");
     }
 
     /**

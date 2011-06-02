@@ -33,20 +33,20 @@ public class HistoryTest extends AbstractWysiwygTestCase
      */
     public void testUndoRedo()
     {
-        typeText("alice bob");
+        typeText("a b");
         typeTab();
-        typeText("carol");
+        typeText("c");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         applyStyleTitle1();
         waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
         clickUndoButton(4);
-        assertContent("alice bob<br>");
+        assertContent("a b<br>");
         clickUndoButton(3);
         assertContent("<br>");
         waitForPushButton(TOOLBAR_BUTTON_REDO_TITLE, true);
         clickRedoButton(7);
-        assertContent("<h1>alice bob&nbsp;&nbsp;&nbsp; carol\u00A9<br></h1>");
+        assertContent("<h1>a b&nbsp;&nbsp;&nbsp; c\u00A9<br></h1>");
     }
 
     /**
@@ -58,7 +58,7 @@ public class HistoryTest extends AbstractWysiwygTestCase
      */
     public void testUndoRedoShortcutKeys()
     {
-        typeText("March 9th, 2009");
+        setContent("March 9th, 2009");
         select("XWE.body.firstChild", 0, "XWE.body.firstChild", 5);
 
         // Make text bold.

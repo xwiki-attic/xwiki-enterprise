@@ -80,8 +80,8 @@ public class ListTest extends AbstractWysiwygTestCase
         // Set the selection around the list
         select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.lastChild.firstChild", 3);
         typeEnter();
-        typeText("foobar");
-        assertContent("<p><br></p>foobar");
+        typeText("x");
+        assertContent("<p><br></p>x");
     }
 
     /**
@@ -377,11 +377,11 @@ public class ListTest extends AbstractWysiwygTestCase
         assertContent("<ul><li>foo</li><li><br><ul><li>ar</li></ul></li></ul>");
         // type in the empty list item
         moveCaret("XWE.body.firstChild.lastChild", 0);
-        typeText("bar");
-        assertContent("<ul><li>foo</li><li>bar<br><ul><li>ar</li></ul></li></ul>");
+        typeText("x");
+        assertContent("<ul><li>foo</li><li>x<br><ul><li>ar</li></ul></li></ul>");
         // now delete, to test that it jumps the <br>
         typeDelete();
-        assertContent("<ul><li>foo</li><li>barar</li></ul>");
+        assertContent("<ul><li>foo</li><li>xar</li></ul>");
     }
 
     /**
@@ -402,13 +402,13 @@ public class ListTest extends AbstractWysiwygTestCase
         assertContent("<ul><li>foo</li><li><br><ul><li>ar</li></ul></li></ul>");
         // type in the empty list item
         moveCaret("XWE.body.firstChild.lastChild", 0);
-        typeText("bar");
-        assertContent("<ul><li>foo</li><li>bar<br><ul><li>ar</li></ul></li></ul>");
+        typeText("x");
+        assertContent("<ul><li>foo</li><li>x<br><ul><li>ar</li></ul></li></ul>");
         // Put the caret at the beginning of the sublist
         moveCaret("XWE.body.firstChild.lastChild.lastChild.firstChild.firstChild", 0);
         // now backspace, to test that it jumps the <br>
         typeBackspace();
-        assertContent("<ul><li>foo</li><li>barar</li></ul>");
+        assertContent("<ul><li>foo</li><li>xar</li></ul>");
     }
 
     /**
@@ -505,25 +505,25 @@ public class ListTest extends AbstractWysiwygTestCase
     {
         // Select the bogus BR to overwrite it.
         selectAllContent();
-        typeText("foo");
+        typeText("1");
         clickUnorderedListButton();
         typeEnter();
-        typeText("bar");
-        assertContent("<ul><li>foo</li><li>bar<br></li></ul>");
+        typeText("2");
+        assertContent("<ul><li>1</li><li>2<br></li></ul>");
         // The indent tool bar button is disabled when the caret is not inside a list. We have to wait for the indent
         // tool bar button to become enabled because the tool bar is updated with delay.
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
-        assertContent("<ul><li>foo<ul><li>bar<br></li></ul></li></ul>");
+        assertContent("<ul><li>1<ul><li>2<br></li></ul></li></ul>");
         // test that the indented item cannot be indented once more
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, false);
         moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0);
         typeTab();
         // check that nothing happened
-        assertContent("<ul><li>foo<ul><li>bar<br></li></ul></li></ul>");
+        assertContent("<ul><li>1<ul><li>2<br></li></ul></li></ul>");
 
         switchToSource();
-        assertSourceText("* foo\n** bar");
+        assertSourceText("* 1\n** 2");
     }
 
     /**
@@ -534,19 +534,19 @@ public class ListTest extends AbstractWysiwygTestCase
     {
         // Select the bogus BR to overwrite it.
         selectAllContent();
-        typeText("one");
+        typeText("1");
         clickUnorderedListButton();
         typeEnter();
-        typeTextThenEnter("two");
+        typeTextThenEnter("2");
         typeTab();
-        typeTextThenEnter("two plus one");
+        typeTextThenEnter("+");
         typeShiftTab();
-        typeText("three");
+        typeText("3");
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
-        assertContent("<ul><li>one</li><li>two<ul><li>two plus one</li><li>three<br></li></ul></li></ul>");
+        assertContent("<ul><li>1</li><li>2<ul><li>+</li><li>3<br></li></ul></li></ul>");
         switchToSource();
-        assertSourceText("* one\n* two\n** two plus one\n** three");
+        assertSourceText("* 1\n* 2\n** +\n** 3");
     }
 
     /**
@@ -559,41 +559,41 @@ public class ListTest extends AbstractWysiwygTestCase
     {
         // Select the bogus BR to overwrite it.
         selectAllContent();
-        typeText("foo");
+        typeText("1");
         clickUnorderedListButton();
         typeEnter();
-        typeText("bar");
+        typeText("2");
         // The indent tool bar button is disabled when the caret is not inside a list. We have to wait for the indent
         // tool bar button to become enabled because the tool bar is updated with delay.
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
-        // move to the end of the foo element, hit enter, tab and type. Should create a new list item, parent of the bar
+        // move to the end of the "1" element, hit enter, tab and type. Should create a new list item, parent of the "2"
         // sublist, tab should indent and type should add content
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
-        typeText("one");
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        typeText("3");
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
         typeEnter();
-        assertContent("<ul><li>foo</li><li>one<ul><li>bar<br></li></ul></li></ul>");
+        assertContent("<ul><li>1</li><li>3<ul><li>2<br></li></ul></li></ul>");
         // check that the list item is indentable, the list plugin is correctly recognizing lists (XWIKI-3061)
         assertTrue(isIndentButtonEnabled());
         clickIndentButton();
-        assertContent("<ul><li>foo<ul><li>one<ul><li>bar<br></li></ul></li></ul></li></ul>");
+        assertContent("<ul><li>1<ul><li>3<ul><li>2<br></li></ul></li></ul></li></ul>");
         switchToSource();
-        assertSourceText("* foo\n** one\n*** bar");
+        assertSourceText("* 1\n** 3\n*** 2");
         switchToWysiwyg();
-        // select second element "one"
+        // select second element "3"
         select("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0,
-            "XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 3);
+            "XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 1);
         // Check that the list item is outdentable i.e. the list plugin is correctly recognizing lists (XWIKI-3061).
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
         clickOutdentButton();
-        assertContent("<ul><li>foo</li><li>one<ul><li>bar<br></li></ul></li></ul>");
+        assertContent("<ul><li>1</li><li>3<ul><li>2<br></li></ul></li></ul>");
         moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         clickOutdentButton();
-        assertContent("<ul><li>foo</li><li>one</li><li>bar<br></li></ul>");
+        assertContent("<ul><li>1</li><li>3</li><li>2<br></li></ul>");
         switchToSource();
-        assertSourceText("* foo\n* one\n* bar");
+        assertSourceText("* 1\n* 3\n* 2");
     }
 
     /**
@@ -604,20 +604,20 @@ public class ListTest extends AbstractWysiwygTestCase
     {
         // Select the bogus BR to overwrite it.
         selectAllContent();
-        typeText("one");
+        typeText("1");
         clickUnorderedListButton();
         typeEnter();
-        typeTextThenEnter("two");
+        typeTextThenEnter("2");
         typeTab();
-        typeTextThenEnter("two plus one");
+        typeTextThenEnter("+");
         typeShiftTab();
-        typeText("three");
+        typeText("3");
         // move caret at the beginning of the "two" item
         moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
         typeShiftTab();
-        assertContent("<ul><li>one</li></ul><p>two</p><ul><li>two plus one</li><li>three<br></li></ul>");
+        assertContent("<ul><li>1</li></ul><p>2</p><ul><li>+</li><li>3<br></li></ul>");
         switchToSource();
-        assertSourceText("* one\n\ntwo\n\n* two plus one\n* three");
+        assertSourceText("* 1\n\n2\n\n* +\n* 3");
     }
 
     /**

@@ -20,7 +20,9 @@
 package org.xwiki.test.ui.xe;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
@@ -34,6 +36,12 @@ import org.xwiki.test.ui.xe.elements.HomePage;
  */
 public class SpacesTest extends AbstractAdminAuthenticatedTest
 {
+    /**
+     * The object used to access the name of the current test.
+     */
+    @Rule
+    public final TestName testName = new TestName();
+
     /**
      * Tests if a new space can be created from the Space dashboard.
      */

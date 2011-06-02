@@ -20,7 +20,9 @@
 package org.xwiki.test.ui;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.framework.elements.editor.wysiwyg.UploadImagePane;
@@ -33,6 +35,12 @@ import org.xwiki.test.ui.framework.elements.editor.wysiwyg.UploadImagePane;
  */
 public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
 {
+    /**
+     * The object used to get the test name.
+     */
+    @Rule
+    public TestName testName = new TestName();
+
     /**
      * The edited page.
      */

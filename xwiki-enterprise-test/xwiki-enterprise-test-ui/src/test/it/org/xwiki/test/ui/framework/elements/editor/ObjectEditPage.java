@@ -60,11 +60,11 @@ public class ObjectEditPage extends EditPage
         this.classNameSubmit.click();
 
         // Make sure we wait for the element to appear since there's no page refresh.
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout());
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), getUtil().getTimeout());
         wait.until(new ExpectedCondition<Boolean>()
-        {
+                    {
             public Boolean apply(WebDriver driver)
-            {
+                        {
                 return Boolean.valueOf(driver.findElements(objectsLocator).size() > initialObjectCount);
             }
         });
@@ -81,11 +81,11 @@ public class ObjectEditPage extends EditPage
         getDriver().findElement(By.cssSelector("[id='add_xobject_" + className + "'] .xobject-add-control")).click();
 
         // Make sure we wait for the element to appear since there's no page refresh.
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout());
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), getUtil().getTimeout());
         wait.until(new ExpectedCondition<Boolean>()
-        {
+                    {
             public Boolean apply(WebDriver driver)
-            {
+                        {
                 return Boolean.valueOf(driver.findElements(objectsLocator).size() > initialObjectCount);
             }
         });

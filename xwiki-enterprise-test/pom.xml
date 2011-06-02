@@ -164,10 +164,6 @@
                 <value>${basedir}/target/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</value>
               </property>
               <property>
-                <name>screenshotDirectory</name>
-                <value>${basedir}/target/screenshots</value>
-              </property>
-              <property>
                 <name>xwikiExecutionStartCommand</name>
                 <value>${xwikiExecutionStartCommand}</value>
               </property>

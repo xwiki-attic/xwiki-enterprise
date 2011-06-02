@@ -19,7 +19,6 @@
  */
 package org.xwiki.test.ui.framework;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -29,12 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -51,8 +47,6 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  */
 public class TestUtils
 {
-    private static final String SCREENSHOT_DIR = System.getProperty("screenshotDirectory");
-
     private static PersistentTestContext context;
 
     /**
@@ -66,7 +60,7 @@ public class TestUtils
         TestUtils.context = context;
     }
 
-    protected XWikiWrappingDriver getDriver()
+    protected WebDriver getDriver()
     {
         return context.getDriver();
     }
@@ -135,7 +129,7 @@ public class TestUtils
     }
 
     /**
-     * After successful completion of this function, you are guaranteed to be logged in as the given user and on the
+     * After successful completion of this function, you are guarenteed to be logged in as the given user and on the
      * page passed in pageURL.
      * 
      * @param pageURL
@@ -144,7 +138,7 @@ public class TestUtils
     {
         final String pageURI = pageURL.replaceAll("\\?.*", "");
         try {
-            Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getTimeout());
+            Wait<WebDriver> wait = new WebDriverWait(getDriver(), getTimeout());
             wait.until(new ExpectedCondition<Boolean>()
             {
                 public Boolean apply(WebDriver driver)
@@ -153,7 +147,6 @@ public class TestUtils
                 }
             });
         } catch (TimeoutException e) {
-            takeScreenshot();
             Assert.fail("Failed to go to the page: " + pageURL + "\nCurrent page is " + getDriver().getCurrentUrl());
         }
     }
@@ -434,40 +427,5 @@ public class TestUtils
         // also the case when an exception occurs, so we should somehow eliminate that case
         return isInViewMode() && getDriver().findElements(By.id("document-title")).size() == 0
             && getDriver().findElements(By.className("xwikimessage")).size() > 0;
-    }
-
-    /**
-     * Takes a screenshot and puts the generated image in the temporary directory.
-     *
-     * @since 3.2M1
-     */
-    public void takeScreenshot()
-    {
-        if (!(getDriver().getWrappedDriver() instanceof  TakesScreenshot)) {
-            return;
-        }
-
-        try {
-            File scrFile = ((TakesScreenshot) getDriver().getWrappedDriver()).getScreenshotAs(OutputType.FILE);
-            File screenshotFile;
-            if (SCREENSHOT_DIR != null) {
-                File screenshotDir = new File(SCREENSHOT_DIR);
-                screenshotDir.mkdirs();
-                screenshotFile = new File(screenshotDir, context.getCurrentTestName() + ".png");
-            } else {
-                screenshotFile = new File(new File(System.getProperty("java.io.tmpdir")),
-                    context.getCurrentTestName() + ".png");
-            }
-            FileUtils.copyFile(scrFile, screenshotFile);
-            try {
-                throw new Exception("Screenshot for failing test [" + context.getCurrentTestName() + "] saved at ["
-                + screenshotFile.getAbsolutePath() + "]");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            System.out.println("Failed to take screenshot for failing test [" + context.getCurrentTestName() + "]");
-            e.printStackTrace();
-        }
     }
 }

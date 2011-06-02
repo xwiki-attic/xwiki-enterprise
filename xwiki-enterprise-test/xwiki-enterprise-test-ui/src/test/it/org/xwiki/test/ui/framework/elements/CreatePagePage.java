@@ -41,6 +41,11 @@ public class CreatePagePage extends ViewPage
     @FindBy(id = "page")
     private WebElement pageTextField;
 
+    public void gotoPage()
+    {
+        getUtil().gotoPage("Main", "WebHome", "create");
+    }
+
     public String getSpace()
     {
         return spaceTextField.getValue();

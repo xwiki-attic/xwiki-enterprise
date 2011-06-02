@@ -123,6 +123,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         // clickAttachFiles should wait for the page to load but it doesn't..
         viewPage.waitUntilPageIsLoaded();
         // XWIKI-5896 shows that the file name becomes image.png
+        attachmentsPane = viewPage.openAttachmentsDocExtraPane();
         Assert.assertTrue(attachmentsPane.attachmentExistsByFileName("image.gif"));
     }
 }

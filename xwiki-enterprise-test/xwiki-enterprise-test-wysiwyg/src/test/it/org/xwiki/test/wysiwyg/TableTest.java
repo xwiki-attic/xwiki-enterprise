@@ -77,7 +77,7 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().controlKeyDown();
         typeUpArrow();
         getSelenium().controlKeyUp();
-        typeText("before");
+        typeText("1");
 
         // Place the caret again in one of the table cells.
         moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
@@ -86,7 +86,7 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().metaKeyDown();
         typeUpArrow();
         getSelenium().metaKeyUp();
-        typeText("up");
+        typeText("2");
 
         // Place the caret again in one of the table cells.
         moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
@@ -95,7 +95,7 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().controlKeyDown();
         typeDownArrow();
         getSelenium().controlKeyUp();
-        typeText("after");
+        typeText("4");
 
         // Place the caret again in one of the table cells.
         moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
@@ -104,10 +104,10 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().metaKeyDown();
         typeDownArrow();
         getSelenium().metaKeyUp();
-        typeText("down");
+        typeText("3");
 
         switchToSource();
-        assertSourceText("before\n\nup\n\n|=Space|=Page\n|Main|WebHome\n\ndown\n\nafter");
+        assertSourceText("1\n\n2\n\n|=Space|=Page\n|Main|WebHome\n\n3\n\n4");
     }
 
     /**

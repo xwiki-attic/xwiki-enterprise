@@ -138,15 +138,15 @@ public class ColorTest extends AbstractWysiwygTestCase
     public void testChangeTextColorAfterSelectingTextWithDifferentColors()
     {
         // Type the two words.
-        typeText("foo bar");
+        typeText("a z");
 
         // Select the first word and change its color to red.
-        select("XWE.body.firstChild", 0, "XWE.body.firstChild", 3);
+        select("XWE.body.firstChild", 0, "XWE.body.firstChild", 1);
         clickForegroundColorButton();
         selectColor("rgb(255, 0, 0)");
 
         // Select the second word and change its color to blue.
-        select("XWE.body.childNodes[1]", 1, "XWE.body.childNodes[1]", 4);
+        select("XWE.body.childNodes[1]", 1, "XWE.body.childNodes[1]", 2);
         clickForegroundColorButton();
         selectColor("rgb(0, 0, 255)");
 
@@ -157,7 +157,7 @@ public class ColorTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("(% style=\"color: rgb(0, 255, 0);\" %)foo bar");
+        assertSourceText("(% style=\"color: rgb(0, 255, 0);\" %)a z");
     }
 
     /**

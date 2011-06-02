@@ -133,7 +133,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_CONFIG);
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         moveCaret("XWE.body", 1);
-        typeText(" blogging is cool");
+        typeText("x");
 
         // cannot select the image otherwise but like this: click won't work, nor push button
         selectNode("XWE.body.firstChild");
@@ -148,7 +148,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
 
         switchToSource();
-        assertSourceText("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]] blogging is cool");
+        assertSourceText("[[image:" + imageSpace + "." + imagePage + "@" + imageFile + "]]x");
     }
 
     /**
@@ -161,7 +161,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String imageFile = "rights.png";
 
         applyStyleTitle1();
-        typeText("Attention");
+        typeText("H");
         typeEnter();
 
         openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
@@ -181,12 +181,11 @@ public class ImageTest extends AbstractWysiwygTestCase
         // Place the caret after the inserted image.
         runScript("XWE.selection.collapseToEnd()");
 
-        typeText("There is no parking on this wiki!");
+        typeText("x");
 
         switchToSource();
-        assertSourceText("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
-            + "style=\"display: block; margin-left: auto; margin-right: auto;\" width=\"200\"]]"
-            + "There is no parking on this wiki!");
+        assertSourceText("= H =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
+            + "style=\"display: block; margin-left: auto; margin-right: auto;\" width=\"200\"]]" + "x");
         switchToWysiwyg();
 
         // now edit
@@ -207,8 +206,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("= Attention =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
-            + "style=\"display: block; margin-left: auto; margin-right: auto;\"]]There is no parking on this wiki!");
+        assertSourceText("= H =\n\n[[image:XWiki.AdminSheet@rights.png||alt=\"No parking sign\" "
+            + "style=\"display: block; margin-left: auto; margin-right: auto;\"]]x");
     }
 
     /**
@@ -237,7 +236,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         moveCaret("XWE.body", 1);
 
-        typeText("Mmmh, cheese!");
+        typeText("x");
 
         // now second image
         openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
@@ -260,7 +259,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[image:XWiki.AdminSheet@import.png]]Mmmh, cheese!" + "[[image:XWiki.AdminSheet@export.png]]");
+        assertSourceText("[[image:XWiki.AdminSheet@import.png]]x[[image:XWiki.AdminSheet@export.png]]");
     }
 
     /**

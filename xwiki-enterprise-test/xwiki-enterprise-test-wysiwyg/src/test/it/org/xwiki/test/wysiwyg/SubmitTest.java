@@ -166,7 +166,8 @@ public class SubmitTest extends AbstractWysiwygTestCase
     {
         getSelenium().altKeyDown();
         getSelenium().shiftKeyDown();
-        typeKeyInSource("s", true, 1, false);
+        // Don't fire KeyPress event because the KeyDown event is stopped by the shortcut key handler.
+        typeKeyInSource("s", false, 1, false);
         getSelenium().shiftKeyUp();
         getSelenium().altKeyUp();
         // Wait for the confirmation.

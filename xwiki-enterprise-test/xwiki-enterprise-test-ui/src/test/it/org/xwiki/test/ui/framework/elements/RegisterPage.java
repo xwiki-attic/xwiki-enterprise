@@ -108,12 +108,8 @@ public class RegisterPage extends BasePage
     /** @return Is the specified message included in the list of validation failure messages. */
     public boolean validationFailureMessagesInclude(String message)
     {
-        for (WebElement messageElement : getValidationFailureMessages()) {
-            if (messageElement.getText().equals(message)) {
-                return true;
-            }
-        }
-        return false;
+        return getDriver().findElements(By.xpath("//dd/span[@class='LV_validation_message LV_invalid' "
+                                                 + "and . = '" + message + "']")).size() > 0;
     }
 
     public boolean liveValidationEnabled()
@@ -121,7 +117,7 @@ public class RegisterPage extends BasePage
         return !getDriver().findElements(By.xpath("/html/body/div/div/div[3]/div/div/div/div/div/script")).isEmpty();
     }
 
-    /** Try to make LiveValidation validate the forms. Focus on an unvalidated field (register_first_name) */
+    /** Try to make LiveValidation validate the forms. */
     public void triggerLiveValidation()
     {
         // By manually invoking onsubmit with null as it's parameter,

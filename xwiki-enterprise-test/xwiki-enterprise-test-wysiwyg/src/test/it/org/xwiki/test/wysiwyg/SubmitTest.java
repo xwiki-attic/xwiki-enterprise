@@ -103,6 +103,9 @@ public class SubmitTest extends AbstractWysiwygTestCase
      * @see XWIKI-5560: Shortcut key malfunction when saving a page within source view.
      * @throws MalformedURLException
      */
+    // @Ignored because this test causes a history dropdown menu to open and it breaks.
+    // see: http://jira.xwiki.org/jira/browse/XE-947
+    /*
     public void testShortcutsForSaveAndView() throws MalformedURLException
     {
         // Switch to source editor and change the contents.
@@ -120,10 +123,14 @@ public class SubmitTest extends AbstractWysiwygTestCase
         clickEditPageInWikiSyntaxEditor();
         assertEquals(content, getFieldValue("content"));
     }
+    */
 
     /**
      * @see XWIKI-5560: Shortcut key malfunction when saving a page within source view.
      */
+    // @Ignored because this test causes a history dropdown menu to open and it breaks.
+    // see: http://jira.xwiki.org/jira/browse/XE-947
+    /*
     public void testShortcutsForSaveAndContinue()
     {
         // Switch to source editor and change the contents.
@@ -146,6 +153,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
         clickEditPageInWikiSyntaxEditor();
         assertEquals(content, getFieldValue("content"));
     }
+    */
 
     /**
      * Press Alt+s to save and view.

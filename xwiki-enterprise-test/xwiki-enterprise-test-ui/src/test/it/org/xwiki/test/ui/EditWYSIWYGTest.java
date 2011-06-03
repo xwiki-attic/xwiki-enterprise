@@ -68,9 +68,9 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     {
         editPage.clickPreview().clickBackToEdit();
         editPage.getContentEditor().waitToLoad();
-        UploadImagePane uploadImagePane = editPage.insertImage().selectFromCurrentPage().uploadImage();
+        UploadImagePane uploadImagePane = editPage.insertAttachedImage().selectFromCurrentPage().uploadImage();
         uploadImagePane.setImageToUpload(this.getClass().getResource("/administration/avatar.png").getPath());
         // Fails if the image configuration step doesn't load in a decent amount of time.
-        uploadImagePane.clickUploadImage();
+        uploadImagePane.configureImage();
     }
 }

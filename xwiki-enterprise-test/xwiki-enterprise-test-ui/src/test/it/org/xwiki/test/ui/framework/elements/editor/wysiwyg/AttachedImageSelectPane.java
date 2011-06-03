@@ -24,13 +24,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Models the image selection wizard step that is accessible when inserting or editing an image with the WYSIWYG content
- * editor.
+ * Models the image selection wizard step that is accessible when inserting or editing an attached image with the
+ * WYSIWYG content editor.
  * 
  * @version $Id$
  * @since 3.0M2
  */
-public class ImageSelectPane extends WizardStepElement
+public class AttachedImageSelectPane extends WizardStepElement
 {
     @FindBy(xpath = "//div[@class = 'xSelectorAggregatorStep']//div[. = 'Current page']")
     private WebElement currentPageTab;
@@ -41,7 +41,7 @@ public class ImageSelectPane extends WizardStepElement
      * @see WizardStepElement#waitToLoad()
      */
     @Override
-    public ImageSelectPane waitToLoad()
+    public AttachedImageSelectPane waitToLoad()
     {
         super.waitToLoad();
         waitUntilElementIsVisible(By.className("xSelectorAggregatorStep"));

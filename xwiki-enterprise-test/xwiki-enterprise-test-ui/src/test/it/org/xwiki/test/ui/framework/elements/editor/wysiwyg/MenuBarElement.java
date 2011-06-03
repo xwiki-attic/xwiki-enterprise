@@ -55,19 +55,19 @@ public class MenuBarElement extends BaseElement
     }
 
     /**
-     * Clicks on the insert image menu.
+     * Clicks on the "Attached Image..." menu.
      * 
-     * @return the pane used to select the image to insert
+     * @return the pane used to select an attached image to insert
      */
-    public ImageSelectPane clickInsertImageMenu()
+    public AttachedImageSelectPane clickInsertAttachedImageMenu()
     {
-        WebElement insertImageMenu =
-            container.findElement(By.xpath("//td[contains(@class, 'gwt-MenuItem') and . = 'Insert Image...']"));
-        if (!isMenuEnabled(insertImageMenu)) {
+        WebElement insertAttachedImageMenu =
+            container.findElement(By.xpath("//td[contains(@class, 'gwt-MenuItem') and . = 'Attached Image...']"));
+        if (!isMenuEnabled(insertAttachedImageMenu)) {
             return null;
         }
-        insertImageMenu.click();
-        return new ImageSelectPane().waitToLoad();
+        insertAttachedImageMenu.click();
+        return new AttachedImageSelectPane().waitToLoad();
     }
 
     /**
@@ -88,7 +88,6 @@ public class MenuBarElement extends BaseElement
     {
         WebElement menu =
             container.findElement(By.xpath("//td[contains(@class, 'gwt-MenuItem') and . = '" + label + "']"));
-        // TODO: We need to hover the menu in order to update the state of its sub-menu items.
         menu.click();
     }
 }

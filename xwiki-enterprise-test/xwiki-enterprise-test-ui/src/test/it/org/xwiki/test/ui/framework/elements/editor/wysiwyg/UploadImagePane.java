@@ -38,10 +38,16 @@ public class UploadImagePane extends WizardStepElement
     private WebElement fileInput;
 
     /**
-     * The upload button.
+     * The button that moves the wizard to the image configuration step.
      */
-    @FindBy(xpath = "//button[. = 'Upload']")
-    private WebElement uploadButton;
+    @FindBy(xpath = "//button[. = 'Image Settings']")
+    private WebElement imageSettingsButton;
+
+    /**
+     * The insert image button (which skips the image configuration step).
+     */
+    @FindBy(xpath = "//button[. = 'Insert Image']")
+    private WebElement insertImageButton;
 
     /**
      * {@inheritDoc}
@@ -68,13 +74,23 @@ public class UploadImagePane extends WizardStepElement
     }
 
     /**
-     * Clicks on the upload button and waits for the image to be uploaded.
+     * Clicks on the "Image Settings" button, waits for the image to be uploaded and then for the image configuration
+     * pane to be loaded.
      * 
      * @return the pane used to configure the uploaded image before inserting it into the content
      */
-    public ImageConfigPane clickUploadImage()
+    public ImageConfigPane configureImage()
     {
-        uploadButton.click();
+        imageSettingsButton.click();
         return new ImageConfigPane().waitToLoad();
+    }
+
+    /**
+     * Clicks on the "Insert Image" button, waits for the image to be uploaded and then for the image wizard to close.
+     */
+    public void insertImage()
+    {
+        insertImageButton.click();
+        // TODO: Wait for the wizard to close.
     }
 }

@@ -33,6 +33,9 @@ public class SchedulerJobInlinePage extends InlinePage
 {
     public boolean isQuartzDocumentationReferenced()
     {
-        return getDriver().findElement(By.partialLinkText("official quartz scheduler documentation")) != null;
+        // getDriver().findElement(By.partialLinkText("official quartz scheduler documentation")) != null;
+        // Not using this because it seems to cause http://jira.xwiki.org/jira/browse/XE-942
+
+        return getDriver().getPageSource().contains(">official quartz scheduler documentation<");
     }
 }

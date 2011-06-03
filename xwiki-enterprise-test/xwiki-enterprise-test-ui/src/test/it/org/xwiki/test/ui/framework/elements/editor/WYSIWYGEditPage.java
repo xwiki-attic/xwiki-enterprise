@@ -24,7 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.wysiwyg.EditorElement;
-import org.xwiki.test.ui.framework.elements.editor.wysiwyg.ImageSelectPane;
+import org.xwiki.test.ui.framework.elements.editor.wysiwyg.AttachedImageSelectPane;
 
 /**
  * Represents the actions possible in WYSIWYG edit mode.
@@ -39,7 +39,7 @@ public class WYSIWYGEditPage extends PreviewableEditPage
 
     @FindBy(name = "action_save")
     private WebElement saveAndViewSubmit;
-    
+
     @FindBy(name = "parent")
     private WebElement parentInput;
 
@@ -93,14 +93,14 @@ public class WYSIWYGEditPage extends PreviewableEditPage
     }
 
     /**
-     * Triggers the insert image wizard.
+     * Triggers the insert attached image wizard.
      * 
-     * @return the pane used to select the image to insert
+     * @return the pane used to select an attached image to insert
      */
-    public ImageSelectPane insertImage()
+    public AttachedImageSelectPane insertAttachedImage()
     {
         editor.getMenuBar().clickImageMenu();
-        return editor.getMenuBar().clickInsertImageMenu();
+        return editor.getMenuBar().clickInsertAttachedImageMenu();
     }
 
     /**
@@ -109,5 +109,5 @@ public class WYSIWYGEditPage extends PreviewableEditPage
     public String getParent()
     {
         return this.parentInput.getValue();
-    }    
+    }
 }

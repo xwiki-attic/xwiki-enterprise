@@ -21,6 +21,7 @@ package org.xwiki.test.ui;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.EditRightsPane.Right;
@@ -38,6 +39,9 @@ import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
 {
     @Test
+    @Ignore
+    // this test flickers.
+    // see: http://jira.xwiki.org/jira/browse/XE-941
     public void testBreadcrumbs()
     {
         // Delete the page to reset the rights on it (since the test below modifies them).

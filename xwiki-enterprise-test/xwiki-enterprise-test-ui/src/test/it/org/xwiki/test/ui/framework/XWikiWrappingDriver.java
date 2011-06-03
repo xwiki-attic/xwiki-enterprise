@@ -29,9 +29,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * Extends an existing Selenium Driver to generate more debug information (takes screenshot on find failures, show page
- * source).
- *
+ * Wraps an existing {@link WebDriver} to generate more debugging information:
+ * <ul>
+ * <li>takes screenshots on test failures</li>
+ * <li>shows page source</li>
+ * </ul>
+ * .
+ * 
  * @since 3.2M1
  */
 public class XWikiWrappingDriver implements WebDriver, JavascriptExecutor
@@ -51,105 +55,88 @@ public class XWikiWrappingDriver implements WebDriver, JavascriptExecutor
         return this.driver;
     }
 
-    @Override
     public void close()
     {
         getWrappedDriver().close();
     }
 
-    @Override
     public List<WebElement> findElements(By by)
     {
         return getWrappedDriver().findElements(by);
     }
 
-    @Override
     public void get(String s)
     {
         getWrappedDriver().get(s);
     }
 
-    @Override
     public String getCurrentUrl()
     {
         return getWrappedDriver().getCurrentUrl();
     }
 
-    @Override
     public String getPageSource()
     {
         return getWrappedDriver().getPageSource();
     }
 
-    @Override
     public String getTitle()
     {
         return getWrappedDriver().getTitle();
     }
 
-    @Override
     public String getWindowHandle()
     {
         return getWrappedDriver().getWindowHandle();
     }
 
-    @Override
     public Set<String> getWindowHandles()
     {
         return getWrappedDriver().getWindowHandles();
     }
 
-    @Override
     public Options manage()
     {
         return getWrappedDriver().manage();
     }
 
-    @Override
     public Navigation navigate()
     {
         return getWrappedDriver().navigate();
     }
 
-    @Override
     public void quit()
     {
         getWrappedDriver().quit();
     }
 
-    @Override
     public TargetLocator switchTo()
     {
         return getWrappedDriver().switchTo();
     }
 
-    @Override
     public WebElement findElement(By by)
     {
         try {
             return getWrappedDriver().findElement(by);
         } catch (NoSuchElementException e) {
             this.utils.takeScreenshot();
-            throw new NoSuchElementException("Failed to locate element from page source [" + getPageSource()
-                + "]", e);
+            throw new NoSuchElementException("Failed to locate element from page source [" + getPageSource() + "]", e);
         }
     }
 
-    @Override
     public Object executeAsyncScript(String s, Object... objects)
     {
         checkIsJavascriptExecutor();
         return ((JavascriptExecutor) getWrappedDriver()).executeAsyncScript(s, objects);
     }
 
-    @Override
     public Object executeScript(String s, Object... objects)
     {
         checkIsJavascriptExecutor();
         return ((JavascriptExecutor) getWrappedDriver()).executeScript(s, objects);
     }
 
-    @Override
     public boolean isJavascriptEnabled()
     {
         checkIsJavascriptExecutor();

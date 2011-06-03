@@ -24,7 +24,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.scheduler.elements.SchedulerJobInlinePage;
 
 /**
  * Tests Scheduler application features.

@@ -162,6 +162,14 @@ public class BasePage extends BaseElement
     }
 
     /**
+     * Gets a string representation of the URL for editing the page.
+     */
+    public String getEditURL()
+    {
+        return getDriver().findElement(By.xpath("//div[@id='tmEdit']//a")).getAttribute("href");
+    }
+
+    /**
      * Performs a click on the "edit wiki" entry of the content menu.
      */
     public WikiEditPage editWiki()

@@ -1901,8 +1901,7 @@ $xwiki.ssx.use("Main.Activity")##
       &lt;/form&gt;
     #end
   #end
-  #set ($xredirectQueryParam = "xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")
-  #set ($actionQueryString = "&amp;${xredirectQueryParam}")
+  #set ($actionQueryString = "xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")
   #foreach ($param in $xcontext.macro.params.getParameterNames())
     #set ($value = "$!{xcontext.macro.params.get($param)}")
     #if ($value != '')

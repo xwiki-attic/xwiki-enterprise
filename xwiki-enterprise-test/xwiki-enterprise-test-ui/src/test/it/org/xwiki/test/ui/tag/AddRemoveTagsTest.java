@@ -181,6 +181,9 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      * @see XWIKI-6549: Prevent adding new tags that are equal ignoring case with existing tags
      */
     @Test
+    @Ignore
+    // Ignored because this test is flickering on the CI server.
+    // see: http://jira.xwiki.org/jira/browse/XE-948
     public void testTagCaseIsIgnored()
     {
         String firstTag = RandomStringUtils.randomAlphanumeric(6);

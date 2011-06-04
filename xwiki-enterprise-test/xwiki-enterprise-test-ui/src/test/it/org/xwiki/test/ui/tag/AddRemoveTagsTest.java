@@ -24,6 +24,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.rules.TestName;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;

@@ -217,6 +217,7 @@ public class AbstractValidationTest extends TestCase
         Pattern pattern = patternFilter == null ? null : Pattern.compile(patternFilter);
 
         Element filesElement = tocDoc.getRootElement().element("files");
+        @SuppressWarnings("unchecked")
         List<Element> fileElementList = filesElement.elements("file");
         for (Element el : fileElementList) {
             String docFullName = el.getStringValue();

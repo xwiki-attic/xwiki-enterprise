@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+<web>Main</web>
+<name>WebHome</name>
+<language>es</language>
+<defaultLanguage>en</defaultLanguage>
+<translation>1</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1305713563000</date>
+<contentUpdateDate>1305713563000</contentUpdateDate>
+<version>1.1</version>
+<title>$msg.get("xe.home.title")</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>Este es un sitio web fácil de editar que les ayudará a trabajar mejor juntos. Este Wiki está compuesto de //páginas// organizadas en //espacios//. Usted está actualmente en el espacio principal (**Main**), viendo la página inicial (**WebHome**).
+
+{{velocity}}
+#if($hasEdit)Puede utilizar la [[zona de pruebas&gt;&gt;Sandbox.WebHome]] para probar las características del wiki.#end
+{{/velocity}}
+
+{{dashboard source="Main.Dashboard" /}}</content>
+</xwikidoc>

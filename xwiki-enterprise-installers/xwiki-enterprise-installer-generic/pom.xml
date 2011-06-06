@@ -50,7 +50,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-web</artifactId>
-      <version>${project.version}</version>
+      <version>3.1-rc-1</version>
       <type>war</type>
       <scope>runtime</scope>
     </dependency>
@@ -64,7 +64,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-      <version>${project.version}</version>
+      <version>3.1-rc-1</version>
       <type>zip</type>
       <scope>runtime</scope>
     </dependency>
@@ -155,7 +155,7 @@
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
                   <artifactId>xwiki-enterprise-web</artifactId>
-                  <version>${project.version}</version>
+                  <version>3.1-rc-1</version>
                   <type>war</type>
                   <outputDirectory>${xwiki.container}/webapps/xwiki</outputDirectory>
                   <!-- Exclude default Hibernate config file since we're instead using one with the
@@ -172,7 +172,7 @@
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
                   <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
-                  <version>${project.version}</version>
+                  <version>3.1-rc-1</version>
                   <type>zip</type>
                   <outputDirectory>${xwiki.database}</outputDirectory>
                 </artifactItem>

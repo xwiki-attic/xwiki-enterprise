@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-test-rest</artifactId>
-      <version>${project.version}</version>
+      <version>3.1-rc-1</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -56,7 +56,7 @@
   </dependencies>
   <properties>
     <database.directory>${project.build.directory}/database</database.directory>
-    <application.directory>${project.build.directory}/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</application.directory>
+    <application.directory>${project.build.directory}/xwiki-enterprise-jetty-${xwiki.db}-3.1-rc-1</application.directory>
   </properties>
   <build>
     <plugins>
@@ -113,7 +113,7 @@
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
                   <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
-                  <version>${project.version}</version>
+                  <version>3.1-rc-1</version>
                   <type>zip</type>
                 </artifactItem>
               </artifactItems>
@@ -131,7 +131,7 @@
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
                   <artifactId>xwiki-enterprise-jetty-hsqldb</artifactId>
-                  <version>${project.version}</version>
+                  <version>3.1-rc-1</version>
                   <type>zip</type>
                 </artifactItem>
               </artifactItems>

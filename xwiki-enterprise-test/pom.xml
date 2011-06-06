@@ -105,7 +105,7 @@
                   <artifactItem>
                     <groupId>org.xwiki.enterprise</groupId>
                     <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
-                    <version>${project.version}</version>
+                    <version>3.1-rc-1</version>
                     <type>zip</type>
                   </artifactItem>
                 </artifactItems>
@@ -161,7 +161,7 @@
               </property>
               <property>
                 <name>xwikiExecutionDirectory</name>
-                <value>${basedir}/target/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</value>
+                <value>${basedir}/target/xwiki-enterprise-jetty-${xwiki.db}-3.1-rc-1</value>
               </property>
               <property>
                 <name>xwikiExecutionStartCommand</name>
@@ -251,12 +251,12 @@
               </property>
               <property>
                 <name>pathToXWikiWar</name>
-                <value>org/xwiki/enterprise/xwiki-enterprise-web/${project.version}/xwiki-enterprise-web-${project.version}.war</value>
+                <value>org/xwiki/enterprise/xwiki-enterprise-web/3.1-rc-1/xwiki-enterprise-web-3.1-rc-1.war</value>
               </property>
               <!-- Used in webstandards tests and escaping tests -->
               <property>
                 <name>pathToXWikiXar</name>
-                <value>org/xwiki/enterprise/xwiki-enterprise-wiki/${project.version}/xwiki-enterprise-wiki-${project.version}.xar</value>
+                <value>org/xwiki/enterprise/xwiki-enterprise-wiki/3.1-rc-1/xwiki-enterprise-wiki-3.1-rc-1.xar</value>
               </property>
               <!-- Used only in webstandards tests -->
               <property>

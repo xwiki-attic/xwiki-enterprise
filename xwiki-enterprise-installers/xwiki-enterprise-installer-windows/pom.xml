@@ -95,7 +95,7 @@
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
                   <artifactId>xwiki-enterprise-installer-generic</artifactId>
-                  <version>3.1-rc-1</version>
+                  <version>${project.version}</version>
                   <classifier>standard</classifier>
                 </artifactItem>
               </artifactItems>
@@ -160,7 +160,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>${project.build.directory}/${project.artifactId}-3.1-rc-1.exe</file>
+                  <file>${project.build.directory}/${project.artifactId}-${project.version}.exe</file>
                   <type>exe</type>
                 </artifact>
               </artifacts>

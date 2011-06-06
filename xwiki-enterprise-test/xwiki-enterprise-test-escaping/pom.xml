@@ -43,14 +43,14 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-wiki</artifactId>
-      <version>3.1-SNAPSHOT</version>
+      <version>${project.version}</version>
       <type>xar</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-web</artifactId>
-      <version>3.1-SNAPSHOT</version>
+      <version>${project.version}</version>
       <type>war</type>
       <scope>test</scope>
     </dependency>

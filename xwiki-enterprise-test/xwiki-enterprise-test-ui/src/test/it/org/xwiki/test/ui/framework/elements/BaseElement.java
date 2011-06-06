@@ -79,18 +79,7 @@ public class BaseElement
      */
     public void waitUntilElementIsVisible(final By locator)
     {
-        this.waitUntilElementIsVisible(locator, getUtil().getTimeout());
-    }
-
-    /**
-     * Wait until the element given by the locator is displayed.
-     * 
-     * @param locator the locator for the element to look for.
-     * @param timeout how long to wait in seconds before giving up.
-     */
-    public void waitUntilElementIsVisible(final By locator, int timeout)
-    {
-        waitUntilElementsAreVisible(new By[] {locator}, timeout, true);
+        this.waitUntilElementIsVisible(locator);
     }
 
     /**
@@ -101,21 +90,7 @@ public class BaseElement
      */
     public void waitUntilElementsAreVisible(final By[] locators, final boolean all)
     {
-        waitUntilElementsAreVisible(locators, getUtil().getTimeout(), all);
-    }
-
-    /**
-     * Wait until one or all of a array of element locators are displayed.
-     * 
-     * @param locators the array of element locators to look for.
-     * @param timeout how long to wait in seconds before giving up.
-     * @param all if true then don't return until all elements are found. Otherwise return after finding one.
-     */
-    public void waitUntilElementsAreVisible(final By[] locators, int timeout, final boolean all)
-    {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
-        try {
-            wait.until(new ExpectedCondition<WebElement>()
+        getUtil().waitUntilCondition(new ExpectedCondition<WebElement>()
             {
                 public WebElement apply(WebDriver driver)
                 {
@@ -149,37 +124,18 @@ public class BaseElement
                     }
                     return element;
                 }
-            });
-        } catch (TimeoutException e) {
-            getUtil().takeScreenshot();
-
-            StringBuffer sb = new StringBuffer("Failed to find the following locators: [\n");
-            for (By by : locators) {
-                sb.append(by).append("\n");
             }
-            sb.append("] in the source [\n");
-            sb.append(getDriver().getPageSource());
-            sb.append("\n]");
-            throw new TimeoutException(sb.toString(), e);
-        }
-    }
-
-    public void waitUntilElementDisappears(final By locator)
-    {
-        waitUntilElementDisappears(locator, getUtil().getTimeout());
+        );
     }
 
     /**
      * Waits until the given element is either hidden or deleted.
      * 
      * @param locator
-     * @param timeout
      */
-    public void waitUntilElementDisappears(final By locator, int timeout)
+    public void waitUntilElementDisappears(final By locator)
     {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
-        try {
-            wait.until(new ExpectedCondition<Boolean>()
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
                 public Boolean apply(WebDriver driver)
                 {
@@ -194,11 +150,8 @@ public class BaseElement
                         return Boolean.TRUE;
                     }
                 }
-            });
-        } catch (TimeoutException e) {
-            getUtil().takeScreenshot();
-            throw e;
-        }
+            }
+        );
     }
 
     /**
@@ -228,36 +181,7 @@ public class BaseElement
     public void waitUntilElementHasAttributeValue(final By locator, final String attributeName,
         final String expectedValue)
     {
-        waitUntilElementHasAttributeValue(locator, attributeName, expectedValue, getUtil().getTimeout());
-    }
-
-    /**
-     * Waits until the given element ends with a certain value for an attribute.
-     *
-     * @param locator the element to wait on
-     * @param attributeName the name of the attribute to check
-     * @param expectedValue the attribute value to wait for
-     */
-    public void waitUntilElementEndsWithAttributeValue(final By locator, final String attributeName,
-        final String expectedValue)
-    {
-        waitUntilElementEndsWithAttributeValue(locator, attributeName, expectedValue, getUtil().getTimeout());
-    }
-
-    /**
-     * Waits until the given element has a certain value for an attribute.
-     * 
-     * @param locator the element to wait on
-     * @param attributeName the name of the attribute to check
-     * @param expectedValue the attribute value to wait for
-     * @param timeout the maximum number of seconds to wait
-     */
-    public void waitUntilElementHasAttributeValue(final By locator, final String attributeName,
-        final String expectedValue, int timeout)
-    {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
-        try {
-            wait.until(new ExpectedCondition<Boolean>()
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
                 public Boolean apply(WebDriver driver)
                 {
@@ -271,11 +195,8 @@ public class BaseElement
                         return false;
                     }
                 }
-            });
-        } catch (TimeoutException e) {
-            getUtil().takeScreenshot();
-            throw e;
-        }
+            }
+        );
     }
 
     /**
@@ -284,14 +205,11 @@ public class BaseElement
      * @param locator the element to wait on
      * @param attributeName the name of the attribute to check
      * @param expectedValue the attribute value to wait for
-     * @param timeout the maximum number of seconds to wait
      */
     public void waitUntilElementEndsWithAttributeValue(final By locator, final String attributeName,
-        final String expectedValue, int timeout)
+        final String expectedValue)
     {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
-        try {
-            wait.until(new ExpectedCondition<Boolean>()
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
                 public Boolean apply(WebDriver driver)
                 {
@@ -305,11 +223,8 @@ public class BaseElement
                         return false;
                     }
                 }
-            });
-        } catch (TimeoutException e) {
-            getUtil().takeScreenshot();
-            throw e;
-        }
+            }
+        );
     }
 
     /**
@@ -321,33 +236,15 @@ public class BaseElement
      */
     public void waitUntilElementHasTextContent(final By locator, final String expectedValue)
     {
-        this.waitUntilElementHasTextContent(locator, expectedValue, getUtil().getTimeout());
-    }
-
-    /**
-     * Waits until the given element has a certain value as its inner text.
-     * 
-     * @param locator the element to wait on
-     * @param expectedValue the content value to wait for
-     * @param timeout the maximum number of seconds to wait
-     * @since 2.4
-     */
-    public void waitUntilElementHasTextContent(final By locator, final String expectedValue, int timeout)
-    {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), timeout);
-        try {
-            wait.until(new ExpectedCondition<Boolean>()
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
                 public Boolean apply(WebDriver driver)
                 {
                     RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
                     return Boolean.valueOf(expectedValue.equals(element.getText()));
                 }
-            });
-        } catch (TimeoutException e) {
-            getUtil().takeScreenshot();
-            throw e;
-        }
+            }
+        );
     }
 
     public Object executeJavascript(String javascript, Object... arguments)

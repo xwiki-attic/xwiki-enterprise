@@ -28,8 +28,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.test.ui.framework.elements.FormElement;
 
 /**
@@ -60,14 +58,14 @@ public class ObjectEditPage extends EditPage
         this.classNameSubmit.click();
 
         // Make sure we wait for the element to appear since there's no page refresh.
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout());
-        wait.until(new ExpectedCondition<Boolean>()
-        {
-            public Boolean apply(WebDriver driver)
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
-                return Boolean.valueOf(driver.findElements(objectsLocator).size() > initialObjectCount);
+                public Boolean apply(WebDriver driver)
+                {
+                    return Boolean.valueOf(driver.findElements(objectsLocator).size() > initialObjectCount);
+                }
             }
-        });
+        );
 
         List<FormElement> objects = getObjectsOfClass(className);
         return objects.get(objects.size() - 1);
@@ -81,14 +79,14 @@ public class ObjectEditPage extends EditPage
         getDriver().findElement(By.cssSelector("[id='add_xobject_" + className + "'] .xobject-add-control")).click();
 
         // Make sure we wait for the element to appear since there's no page refresh.
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout());
-        wait.until(new ExpectedCondition<Boolean>()
-        {
-            public Boolean apply(WebDriver driver)
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
-                return Boolean.valueOf(driver.findElements(objectsLocator).size() > initialObjectCount);
+                public Boolean apply(WebDriver driver)
+                {
+                    return Boolean.valueOf(driver.findElements(objectsLocator).size() > initialObjectCount);
+                }
             }
-        });
+        );
 
         List<FormElement> objects = getObjectsOfClass(className);
         return objects.get(objects.size() - 1);

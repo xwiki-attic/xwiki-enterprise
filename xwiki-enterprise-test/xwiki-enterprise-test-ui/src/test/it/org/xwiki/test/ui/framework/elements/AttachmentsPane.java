@@ -125,7 +125,7 @@ public class AttachmentsPane extends BaseElement
 
         waitUntilElementIsVisible(By.className("xdialog-box-confirmation"));
         waitUntilElementIsVisible(
-            By.xpath("//*[@class='xdialog-modal-container']/*[contains(@class, 'xdialog-box-confirmation')]"), 20);
+            By.xpath("//*[@class='xdialog-modal-container']/*[contains(@class, 'xdialog-box-confirmation')]"));
         getDriver().findElement(By.xpath("//*[@class='xdialog-modal-container']//input[@value='Yes']")).click();
         waitUntilElementDisappears(By
             .xpath("//*[@class='xdialog-modal-container']/*[contains(@class, 'xdialog-box-confirmation')]"));

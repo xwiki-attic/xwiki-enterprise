@@ -24,8 +24,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
@@ -76,26 +74,28 @@ public class AddTagsPane extends BaseElement
     public boolean add()
     {
         // Wait for no error notifications to be displayed because after that we wait for one to show up.
-        new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
-        {
-            public Boolean apply(WebDriver driver)
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
-                return getDriver().findElements(By.className("xnotification-error")).size() == 0;
+                public Boolean apply(WebDriver driver)
+                {
+                    return getDriver().findElements(By.className("xnotification-error")).size() == 0;
+                }
             }
-        });
+        );
 
         addTagsForm.findElement(addButtonLocator).click();
         
         // Wait until the add tags panel disappears or
         // an error notification is shown to indicate something is wrong and the tag cannot be saved.
-        new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
-        {
-            public Boolean apply(WebDriver driver)
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
-                return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0
-                    || getDriver().findElements(By.className("xnotification-error")).size() > 0;
+                public Boolean apply(WebDriver driver)
+                {
+                    return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0
+                        || getDriver().findElements(By.className("xnotification-error")).size() > 0;
+                }
             }
-        });
+        );
 
         // If the add tags panel is still visible then there was a problem adding the tags.
         return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0;

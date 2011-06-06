@@ -143,18 +143,28 @@ public class TestUtils
     public void assertOnPage(final String pageURL)
     {
         final String pageURI = pageURL.replaceAll("\\?.*", "");
-        try {
-            Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getTimeout());
-            wait.until(new ExpectedCondition<Boolean>()
+        waitUntilCondition(new ExpectedCondition<Boolean>()
             {
                 public Boolean apply(WebDriver driver)
                 {
                     return getDriver().getCurrentUrl().contains(pageURI);
                 }
-            });
+            }
+        );
+    }
+
+    /**
+     * @since 3.2M1
+     */
+    public <T> void waitUntilCondition(ExpectedCondition<T> condition)
+    {
+        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getTimeout());
+        try {
+            wait.until(condition);
         } catch (TimeoutException e) {
             takeScreenshot();
-            Assert.fail("Failed to go to the page: " + pageURL + "\nCurrent page is " + getDriver().getCurrentUrl());
+            System.out.println("Page source = [" + getDriver().getPageSource() + "]");
+            throw e;
         }
     }
 

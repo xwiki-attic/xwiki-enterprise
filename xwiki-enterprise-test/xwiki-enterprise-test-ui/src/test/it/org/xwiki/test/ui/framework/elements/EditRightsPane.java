@@ -90,13 +90,13 @@ public class EditRightsPane extends BaseElement
     public void switchToUsers()
     {
         this.showUsersField.click();
-        this.getRightsTable().waitUntilReady();
+        getRightsTable().waitUntilReady();
     }
 
     public void switchToGroups()
     {
         this.showGroupsField.click();
-        this.getRightsTable().waitUntilReady();
+        getRightsTable().waitUntilReady();
     }
 
     public State getGuestRight(Right right)
@@ -190,7 +190,7 @@ public class EditRightsPane extends BaseElement
         return getUtil().getURL(space, page, "edit", "editor=rights");
     }
 
-    private LiveTableElement getRightsTable()
+    protected LiveTableElement getRightsTable()
     {
         if (this.rightsTable == null) {
             this.rightsTable = new LiveTableElement("usersandgroupstable");

@@ -106,7 +106,7 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     {
         annotationsWindow.addAnnotation(annotatedText, annotationText);
         // waiting for the notification that the operation is done
-        vp.waitUntilElementIsVisible(By.className("xnotification-done"), 20);
+        vp.waitUntilElementIsVisible(By.className("xnotification-done"));
         // check is the saved successfully message is displayed
         save = getDriver().findElement(By.className("xnotification-done"));
         Assert.assertEquals(XWIKI_ANNOTATION_ADD_SUCCESS, save.getText());
@@ -117,7 +117,7 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     void deleteAnnotationByID(String id)
     {
         annotationsLabel.deleteAnnotationById(id);
-        vp.waitUntilElementIsVisible(By.className("xnotification-done"), 20);
+        vp.waitUntilElementIsVisible(By.className("xnotification-done"));
         WebElement delete = getDriver().findElement(By.className("xnotification-done"));
         Assert.assertEquals(XWIKI_ANNOTATION_DELETE_SUCCESS, delete.getText());
         delete.click();
@@ -185,7 +185,7 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         annotationsWindow.simulateCTRL_M();
 
         vp = new ViewPage();
-        vp.waitUntilElementIsVisible(By.className("xnotification-warning"), 20);
+        vp.waitUntilElementIsVisible(By.className("xnotification-warning"));
         WebElement warning = getDriver().findElement(By.className("xnotification-warning"));
         Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
 
@@ -199,10 +199,10 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         // Landing directly on this page might result in notification not to be displayed
         getDriver().navigate().refresh();
-        vp.waitUntilElementIsVisible(By.id("body"), 20);
+        vp.waitUntilElementIsVisible(By.id("body"));
 
         vp = new ViewPage();
-        vp.waitUntilElementIsVisible(By.className("xnotification-warning"), 20);
+        vp.waitUntilElementIsVisible(By.className("xnotification-warning"));
         warning = getDriver().findElement(By.className("xnotification-warning"));
         Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
     }

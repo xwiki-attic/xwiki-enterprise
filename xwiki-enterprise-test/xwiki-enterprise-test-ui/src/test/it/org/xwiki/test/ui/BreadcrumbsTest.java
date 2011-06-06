@@ -62,13 +62,13 @@ public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(vp.hasBreadcrumbContent("Parent page", false));
         Assert.assertTrue(vp.hasBreadcrumbContent("Child page", true));
 
-        RightsEditPage rep = new RightsEditPage();
-        rep.switchToEdit("BreadcrumbsTest", "testBreadcrumbsParentPage");
-
         // Remove view rights on the Test.ParentPage page to everyone except Admin user so that we can verify that the
         // breadcrumb of the child page doesn't display pages for which you don't have view rights to.
+        RightsEditPage rep = new RightsEditPage();
+        rep.switchToEdit("BreadcrumbsTest", "testBreadcrumbsParentPage");
         rep.switchToUsers();
         rep.setRight("Admin", Right.VIEW, State.ALLOW);
+
         // Log out...
         getUtil().setSession(null);
 

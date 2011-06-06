@@ -23,7 +23,9 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.TimeoutException;
 
 /**
@@ -82,6 +84,7 @@ public class LiveTableElement extends BaseElement
                 break;
             }
         }
+        getUtil().takeScreenshot();
         throw new TimeoutException("Livetable isn't ready after the timeout has expired. Source ["
             + getDriver().getPageSource() + "]");
     }
@@ -108,5 +111,21 @@ public class LiveTableElement extends BaseElement
     private void clearStatus()
     {
         executeJavascript("if ($('uitest-livetable-status')) $('uitest-livetable-status').remove();");
+    }
+
+    /**
+     * @since 3.2M1
+     */
+    public void waitUntilRowCountGreaterThan(final int minimalExpectedRowCount)
+    {
+        final By by = By.xpath("//tbody[@id = '" + this.livetableId + "-display']//tr");
+        getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+            {
+                public Boolean apply(WebDriver driver)
+                {
+                    return driver.findElements(by).size() >= minimalExpectedRowCount;
+                }
+            }
+        );
     }
 }

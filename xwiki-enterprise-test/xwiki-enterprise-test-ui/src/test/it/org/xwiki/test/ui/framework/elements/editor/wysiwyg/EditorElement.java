@@ -24,8 +24,6 @@ import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.TimeoutException;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
@@ -81,11 +79,7 @@ public class EditorElement extends BaseElement
      */
     public EditorElement waitToLoad()
     {
-        try {
-            // Either the source tab is present and selected and the plain text area can be edited or the rich text area
-            // is not loading (with or without tabs).
-            new WebDriverWait(getDriver().getWrappedDriver(), getUtil().getTimeout()).until(
-                new ExpectedCondition<WebElement>()
+        getUtil().waitUntilCondition(new ExpectedCondition<WebElement>()
             {
                 public WebElement apply(WebDriver driver)
                 {
@@ -104,11 +98,9 @@ public class EditorElement extends BaseElement
                         }
                     }
                 }
-            });
-            return this;
-        } catch (TimeoutException e) {
-            throw new TimeoutException("The WYSIWYG editor failed to load in a decent amount of time!", e);
-        }
+            }
+        );
+        return this;
     }
 
     /**

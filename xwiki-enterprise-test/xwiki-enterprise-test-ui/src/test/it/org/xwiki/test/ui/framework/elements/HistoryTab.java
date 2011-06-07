@@ -26,7 +26,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
  * Represents the actions possible on the History Pane at the bottom of a page.
@@ -38,9 +37,6 @@ public class HistoryTab extends BaseElement
 {
     @FindBy(id = "Historypane")
     private WebElement pane;
-
-    @FindBy(id = "Historylink")
-    private WebElement historyTab;
 
     public boolean hasVersionWithSummary(String summary)
     {
@@ -105,12 +101,6 @@ public class HistoryTab extends BaseElement
             // in the second column
             return pane.findElement(By.xpath("//node()[contains(@class, 'currentversion')]/td[2]")).getText();
         }
-    }
-
-    public void loadHistoryTab()
-    {
-        this.historyTab.click();
-        waitUntilElementIsVisible(By.id("Historypane"));
     }
 
     public ViewPage rollbackToVersion(String version)

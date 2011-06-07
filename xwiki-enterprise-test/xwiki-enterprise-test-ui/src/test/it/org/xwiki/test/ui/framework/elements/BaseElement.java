@@ -79,7 +79,7 @@ public class BaseElement
      */
     public void waitUntilElementIsVisible(final By locator)
     {
-        this.waitUntilElementIsVisible(locator);
+        waitUntilElementsAreVisible(new By[] {locator}, true);
     }
 
     /**

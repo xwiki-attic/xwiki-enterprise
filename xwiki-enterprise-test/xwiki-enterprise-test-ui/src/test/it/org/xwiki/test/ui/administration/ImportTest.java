@@ -30,8 +30,8 @@ import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.administration.elements.ImportAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.HistoryTab;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.history.elements.HistoryTab;
 
 /**
  * Test the Import XAR feature.

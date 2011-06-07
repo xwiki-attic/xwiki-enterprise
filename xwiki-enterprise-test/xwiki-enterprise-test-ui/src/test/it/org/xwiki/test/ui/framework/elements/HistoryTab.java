@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.history.elements;
+package org.xwiki.test.ui.framework.elements;
 
 import java.util.List;
 
@@ -113,13 +113,14 @@ public class HistoryTab extends BaseElement
         waitUntilElementIsVisible(By.id("Historypane"));
     }
 
-    public void rollbackToVersion(String version)
+    public ViewPage rollbackToVersion(String version)
     {
         getDriver().findElement(
             By.xpath("//table[@class='xwikidatatable']//tr[contains(., '" + version
                 + "')]//td[@class='xwikibuttonlink']/a[contains(.,'Rollback')]")).click();
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
+        return new ViewPage();
     }
 
     public void deleteVersion(String version)

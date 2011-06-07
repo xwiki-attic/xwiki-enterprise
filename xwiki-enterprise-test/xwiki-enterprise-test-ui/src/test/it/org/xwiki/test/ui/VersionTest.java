@@ -17,18 +17,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.history;
+package org.xwiki.test.ui;
 
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.HistoryTab;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.test.ui.history.elements.HistoryTab;
 
 /**
+ * Verify versioning features of documents and attachments.
+ *
  * @version $Id$
  * @since 3.1M2
  */
@@ -44,31 +45,25 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
 
     private static final String CONTENT2 = "Second version of Content";
 
-    HistoryTab historyTab = new HistoryTab();
-
-    @Before
-    @Override
-    public void setUp()
-    {
-        super.setUp();
-        getUtil().deletePage(SPACE_NAME, PAGE_NAME);
-        getUtil().createPage(SPACE_NAME, PAGE_NAME, CONTENT1, TITLE);
-        getUtil().gotoPage(SPACE_NAME, PAGE_NAME);
-        this.historyTab.loadHistoryTab();
-    }
-
     @Test
     public void testRollbackToFirstVersion() throws Exception
     {
-        getUtil().gotoPage(SPACE_NAME, PAGE_NAME);
-        ViewPage vp = new ViewPage();
+        getUtil().deletePage(SPACE_NAME, PAGE_NAME);
+
+        // Create first version of the page
+        ViewPage vp = getUtil().createPage(SPACE_NAME, PAGE_NAME, CONTENT1, TITLE);
+
+        // Adds second version
         WikiEditPage wikiEditPage = vp.editWiki();
         wikiEditPage.setContent(CONTENT2);
         wikiEditPage.clickSaveAndView();
-        this.historyTab.loadHistoryTab();
-        this.historyTab.rollbackToVersion("1.1");
-        this.historyTab.loadHistoryTab();
-        Assert.assertEquals("Rollback to version 1.1", this.historyTab.getCurrentVersionComment());
-        Assert.assertEquals("Administrator", this.historyTab.getCurrentAuthor());
+
+        // Verify that we can rollback to the first version
+        HistoryTab historyTab = vp.openHistoryDocExtraPane();
+        vp = historyTab.rollbackToVersion("1.1");
+        Assert.assertEquals("First version of Content", vp.getContent());
+        historyTab = vp.openHistoryDocExtraPane();
+        Assert.assertEquals("Rollback to version 1.1", historyTab.getCurrentVersionComment());
+        Assert.assertEquals("Administrator", historyTab.getCurrentAuthor());
     }
 }

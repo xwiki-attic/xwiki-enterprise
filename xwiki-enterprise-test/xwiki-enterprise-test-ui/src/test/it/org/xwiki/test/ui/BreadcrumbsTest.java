@@ -21,13 +21,9 @@ package org.xwiki.test.ui;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.EditRightsPane.Right;
-import org.xwiki.test.ui.framework.elements.EditRightsPane.State;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.RightsEditPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 
 /**
@@ -39,9 +35,6 @@ import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
 {
     @Test
-    @Ignore
-    // this test flickers.
-    // see: http://jira.xwiki.org/jira/browse/XE-941
     public void testBreadcrumbs()
     {
         // Delete the page to reset the rights on it (since the test below modifies them).
@@ -64,10 +57,8 @@ public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
 
         // Remove view rights on the Test.ParentPage page to everyone except Admin user so that we can verify that the
         // breadcrumb of the child page doesn't display pages for which you don't have view rights to.
-        RightsEditPage rep = new RightsEditPage();
-        rep.switchToEdit("BreadcrumbsTest", "testBreadcrumbsParentPage");
-        rep.switchToUsers();
-        rep.setRight("Admin", Right.VIEW, State.ALLOW);
+        getUtil().gotoPage("BreadcrumbsTest", "testBreadcrumbsParentPage", "objectadd",
+            "classname=XWiki.XWikiRights&XWiki.XWikiRights_levels=view&XWiki.XWikiRights_users=Administrator");
 
         // Log out...
         getUtil().setSession(null);

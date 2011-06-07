@@ -17,7 +17,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.ui.comments;
+package org.xwiki.test.ui;
 
 import java.util.List;
 
@@ -28,8 +28,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
-import org.xwiki.test.ui.comments.elements.CommentDeleteConfirmationModal;
-import org.xwiki.test.ui.comments.elements.CommentsTab;
+import org.xwiki.test.ui.framework.elements.CommentDeleteConfirmationModal;
+import org.xwiki.test.ui.framework.elements.CommentsTab;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.EditRightsPane.Right;
 import org.xwiki.test.ui.framework.elements.EditRightsPane.State;

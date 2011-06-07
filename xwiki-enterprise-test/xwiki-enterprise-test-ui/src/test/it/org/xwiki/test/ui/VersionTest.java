@@ -61,8 +61,16 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
         // Verify that we can rollback to the first version
         HistoryTab historyTab = vp.openHistoryDocExtraPane();
         vp = historyTab.rollbackToVersion("1.1");
-        // @Ignore for the moment since it's causing some flickering. Needs to be fixed.
-        // Assert.assertEquals("First version of Content", vp.getContent());
+
+        // Try to debug flickering test. From time to time the assert fails, which means the rollbacks somehow fails.
+        // Since I (Vincent) cannot guess why I'm taking a screenshot to see what's on the screen when it fails.
+        try {
+            Assert.assertEquals("First version of Content", vp.getContent());
+        } catch (Error error) {
+            getUtil().takeScreenshot();
+            throw error;
+        }
+
         historyTab = vp.openHistoryDocExtraPane();
         Assert.assertEquals("Rollback to version 1.1", historyTab.getCurrentVersionComment());
         Assert.assertEquals("Administrator", historyTab.getCurrentAuthor());

@@ -41,4 +41,9 @@ public class AbstractTest
     {
         return (short) executor.getPort();
     }
+
+    protected String getAddressPrefix()
+    {
+        return "http://127.0.0.1:" + this.getPort() + "/xwiki/bin/";
+    }
 }

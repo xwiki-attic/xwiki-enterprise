@@ -103,6 +103,10 @@ public class HistoryTab extends BaseElement
         }
     }
 
+    /**
+     * IMPORTANT: this method isn't blocking and doesn't wait for the page to be loaded (after the confirmation popup
+     *            has been accepted).
+     */
     public ViewPage rollbackToVersion(String version)
     {
         getDriver().findElement(
@@ -110,6 +114,12 @@ public class HistoryTab extends BaseElement
                 + "')]//td[@class='xwikibuttonlink']/a[contains(.,'Rollback')]")).click();
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
+
+        // A new page is loaded after the popup is accepted, thus we need to wait that it's loaded before returning
+        // as otherwise following actions may be performed on the current page and not on the new page.
+        // TODO: Find a generic way to test for this condition. Right now users of this method need to perform their
+        // own wait.
+
         return new ViewPage();
     }
 

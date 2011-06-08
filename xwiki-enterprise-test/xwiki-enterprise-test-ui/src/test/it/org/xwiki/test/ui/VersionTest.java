@@ -58,18 +58,20 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
         wikiEditPage.setContent(CONTENT2);
         wikiEditPage.clickSaveAndView();
 
+        // TODO: Remove when XWIKI-6688 (Possible race condition when clicking on a tab at the bottom of a page in
+        // view mode) is fixed.
+        vp.waitForDocExtraPaneActive("comments");
+
         // Verify that we can rollback to the first version
         HistoryTab historyTab = vp.openHistoryDocExtraPane();
         vp = historyTab.rollbackToVersion("1.1");
 
-        // Try to debug flickering test. From time to time the assert fails, which means the rollbacks somehow fails.
-        // Since I (Vincent) cannot guess why I'm taking a screenshot to see what's on the screen when it fails.
-        try {
-            Assert.assertEquals("First version of Content", vp.getContent());
-        } catch (Error error) {
-            getUtil().takeScreenshot();
-            throw error;
-        }
+        // Rollback doesn't wait...
+        // Wait for the comment tab to be selected since we're currently on the history tab and rolling
+        // back is going to load a new page and make the focus active on the comments tab.
+        vp.waitForDocExtraPaneActive("comments");
+
+        Assert.assertEquals("First version of Content", vp.getContent());
 
         historyTab = vp.openHistoryDocExtraPane();
         Assert.assertEquals("Rollback to version 1.1", historyTab.getCurrentVersionComment());

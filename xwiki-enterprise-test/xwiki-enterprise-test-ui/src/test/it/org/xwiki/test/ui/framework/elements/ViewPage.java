@@ -279,4 +279,12 @@ public class ViewPage extends BasePage
     {
         return getDriver().findElements(By.xpath("//form[@id = 'inline']")).size() > 0;
     }
+
+    /**
+     * @param paneId valid values: "history", "comments", etc
+     */
+    public void waitForDocExtraPaneActive(String paneId)
+    {
+        waitUntilElementIsVisible(By.id(paneId + "content"));
+    }
 }

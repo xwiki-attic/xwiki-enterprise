@@ -1525,7 +1525,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // close everything, open again, error should not be there anymore. get error, fix it, add the link, on new
         // dialog error should not be there anymore
         switchToSource();
-        setSourceText("[[the home>>Main.WebHome]]");
+        setSourceText("[[the sandbox>>Sandbox.WebHome]]");
         switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);

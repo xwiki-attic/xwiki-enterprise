@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.storage.profiles;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -147,6 +148,14 @@ public class ForEachProfileSuite extends ClasspathSuite
                     executor.stop();
                 } catch (Exception e) {
                     // Squash this and let the original exception be thrown.
+                }
+
+                // This is a hack because HSQL seems to be leaving stray lock files once in a while when
+                // it is shut down. See: http://jira.xwiki.org/jira/browse/XE-952
+                final File executionDirectory = new File(executor.getExecutionDirectory());
+                final File lock = new File(new File(executionDirectory, "database"), "xwiki_db.lck");
+                if (lock.exists()) {
+                    lock.delete();
                 }
             }
         }

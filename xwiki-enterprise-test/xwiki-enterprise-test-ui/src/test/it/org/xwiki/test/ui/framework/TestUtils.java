@@ -480,4 +480,14 @@ public class TestUtils
             e.printStackTrace();
         }
     }
+
+    /**
+     * Forces the current user to be the Guest user by clearing all coookies.
+     *
+     * @since 3.2M1
+     */
+    public void foreGuestUser()
+    {
+        setSession(null);
+    }
 }

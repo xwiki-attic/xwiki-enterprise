@@ -59,10 +59,8 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
         getUtil().deletePage(SPACE_NAME, DOC_NAME);
-        getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
-        getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        this.commentsTab = new CommentsTab();
-        this.commentsTab.loadCommentsTab();
+        ViewPage vp = getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
+        this.commentsTab = vp.openCommentsDocExtraPane();
     }
 
     @Test

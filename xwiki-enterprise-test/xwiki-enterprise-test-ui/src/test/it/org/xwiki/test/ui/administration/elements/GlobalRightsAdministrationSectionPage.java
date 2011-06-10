@@ -30,12 +30,13 @@ import org.xwiki.test.ui.framework.elements.EditRightsPane;
  * @version $Id$
  * @since 2.4RC1
  */
-
 public class GlobalRightsAdministrationSectionPage extends AdministrationSectionPage
 {
-
     @FindBy(id = "guest_comment_requires_captcha")
     private WebElement captchaCheckBox;
+
+    @FindBy(id = "authenticate_view")
+    WebElement forceAuthenticatedViewLink;
 
     private EditRightsPane editRightsPane = new EditRightsPane();
 
@@ -44,8 +45,13 @@ public class GlobalRightsAdministrationSectionPage extends AdministrationSection
         super("Rights");
     }
 
-    @FindBy(id = "authenticate_view")
-    WebElement forceAuthenticatedViewLink;
+    /**
+     * @since 3.2M1
+     */
+    public void gotoPage()
+    {
+        getUtil().gotoPage("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=Rights");
+    }
 
     /** Checks the "always authenticate user for view" option. */
     public void forceAuthenticatedView()

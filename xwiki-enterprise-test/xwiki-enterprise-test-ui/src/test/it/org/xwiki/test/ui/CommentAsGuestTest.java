@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
-import org.xwiki.test.ui.framework.elements.CommentDeleteConfirmationModal;
 import org.xwiki.test.ui.framework.elements.CommentsTab;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.EditRightsPane.Right;
@@ -39,18 +38,8 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  * @version $Id$
  * @since 3.1M2
  */
-
 public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
 {
-
-    private static final String ADMIN_SPACE = "XWiki";
-
-    private static final String ADMIN_PAGE = "XWikiPreferences";
-
-    private static final String ACTION = "admin";
-
-    private static final String USERS_LIVETABLE_URL = "editor=globaladmin&section=Rights";
-
     private static final String SPACE_NAME = "TestSpace";
 
     private static final String DOC_NAME = "TestComments";
@@ -65,10 +54,6 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
 
     private static final String COMMENT_REPLY = "Comment Reply";
 
-    CommentsTab commentsTab = new CommentsTab();
-
-    CommentDeleteConfirmationModal commentModal = new CommentDeleteConfirmationModal();
-
     @Override
     @Before
     public void setUp()
@@ -80,8 +65,8 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
 
     private void setRightsOnGuest(Right right, State state)
     {
-        getUtil().gotoPage(ADMIN_SPACE, ADMIN_PAGE, ACTION, USERS_LIVETABLE_URL);
         GlobalRightsAdministrationSectionPage globalRights = new GlobalRightsAdministrationSectionPage();
+        globalRights.gotoPage();
         globalRights.getEditRightsPane().switchToUsers();
         globalRights.getEditRightsPane().setGuestRight(right, state);
     }
@@ -90,68 +75,67 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     public void testPostCommentAsAnonymous()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        ViewPage viewPage = new ViewPage();
-        viewPage.logout();
-        this.commentsTab = new CommentsTab();
-        this.commentsTab.loadCommentsTab();
-        this.commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
-        Assert.assertEquals(COMMENT_CONTENT, this.commentsTab.getCommentContentByID(0));
-        Assert.assertEquals(COMMENT_AUTHOR, this.commentsTab.getCommentAuthorByID(0));
+        getUtil().foreGuestUser();
+
+        ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
+        CommentsTab commentsTab = vp.openCommentsDocExtraPane();
+
+        commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
+        Assert.assertEquals(COMMENT_CONTENT, commentsTab.getCommentContentByID(0));
+        Assert.assertEquals(COMMENT_AUTHOR, commentsTab.getCommentAuthorByID(0));
     }
 
     @Test
     public void testPostCommentAsAnonymousNoJs()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        ViewPage vp = new ViewPage();
-        vp.logout();
+        getUtil().foreGuestUser();
         getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
-        this.commentsTab.postComment(COMMENT_CONTENT, false);
+        CommentsTab commentsTab = new CommentsTab();
+
+        commentsTab.postComment(COMMENT_CONTENT, false);
         // This opens with ?viewer=comments, don't explicitly load the comments tab
-        vp.waitUntilPageIsLoaded();
+        new ViewPage().waitUntilPageIsLoaded();
         Assert.assertEquals(COMMENT_CONTENT,
-            this.commentsTab.getCommentContentByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
+            commentsTab.getCommentContentByID(commentsTab.getCommentID(COMMENT_CONTENT)));
         Assert.assertEquals(COMMENT_AUTHOR,
-            this.commentsTab.getCommentAuthorByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
+            commentsTab.getCommentAuthorByID(commentsTab.getCommentID(COMMENT_CONTENT)));
     }
 
     @Test
     public void testReplyCommentAsAnonymous()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        ViewPage viewPage = new ViewPage();
-        viewPage.logout();
-        this.commentsTab = new CommentsTab();
-        this.commentsTab.loadCommentsTab();
-        this.commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
-        this.commentsTab.replyToCommentByID(this.commentsTab.getCommentID(COMMENT_CONTENT), COMMENT_REPLY);
+        getUtil().foreGuestUser();
+
+        ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
+        CommentsTab commentsTab = vp.openCommentsDocExtraPane();
+
+        commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
+        commentsTab.replyToCommentByID(commentsTab.getCommentID(COMMENT_CONTENT), COMMENT_REPLY);
         Assert.assertEquals(COMMENT_REPLY,
-            this.commentsTab.getCommentContentByID(this.commentsTab.getCommentID(COMMENT_REPLY)));
+            commentsTab.getCommentContentByID(commentsTab.getCommentID(COMMENT_REPLY)));
         Assert.assertEquals(COMMENT_AUTHOR,
-            this.commentsTab.getCommentAuthorByID(this.commentsTab.getCommentID(COMMENT_REPLY)));
+            commentsTab.getCommentAuthorByID(commentsTab.getCommentID(COMMENT_REPLY)));
     }
 
     @Test
     public void testCannotEditCommentAsAnonymous()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        ViewPage viewPage = new ViewPage();
-        viewPage.logout();
-        this.commentsTab = new CommentsTab();
-        this.commentsTab.loadCommentsTab();
-        this.commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
+        getUtil().foreGuestUser();
+
+        ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
+        CommentsTab commentsTab = vp.openCommentsDocExtraPane();
+
+        commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
         List<WebElement> editButton;
 
         editButton =
             getDriver().findElements(
-                By.xpath("//div[@id='xwikicomment_" + this.commentsTab.getCommentID(COMMENT_CONTENT)
+                By.xpath("//div[@id='xwikicomment_" + commentsTab.getCommentID(COMMENT_CONTENT)
                     + "']//a[@class='edit']"));
 
         Assert.assertEquals(0, editButton.size());
-
     }
 }

@@ -51,9 +51,6 @@ public class CommentsTab extends ViewPage
     @FindBy(id = "XWiki.XWikiComments_comment")
     private WebElement commentTextArea;
 
-    @FindBy(id = "Commentslink")
-    private WebElement commentsTab;
-
     CommentDeleteConfirmationModal confirmDelete;
 
     List<WebElement> commentsList;
@@ -79,11 +76,6 @@ public class CommentsTab extends ViewPage
             (RenderedWebElement) getDriver().findElement(
                 By.xpath("//form[@id='AddComment']/fieldset[@id='commentform']"));
         return commentForm.isDisplayed();
-    }
-
-    public void loadCommentsTab()
-    {
-        this.commentsTab.click();
     }
 
     public void setCommentContent(String content)
@@ -184,7 +176,5 @@ public class CommentsTab extends ViewPage
     {
         return getDriver().findElement(By.xpath("//div[@id='xwikicomment_" + id + "']//div[@class='commentcontent']"))
             .getText();
-
     }
-
 }

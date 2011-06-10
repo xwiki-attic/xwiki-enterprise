@@ -77,7 +77,7 @@ public class RegisterTest extends AbstractTest
     protected void switchUser()
     {
         // Fast Logout.
-        getUtil().setSession(null);
+        getUtil().forceGuestUser();
     }
 
     /** To put the registration page someplace else, subclass this class and change this method. */
@@ -188,7 +188,7 @@ public class RegisterTest extends AbstractTest
     private void deleteUser(final String userName)
     {
         TestUtils.Session s = getUtil().getSession();
-        getUtil().setSession(null);
+        getUtil().forceGuestUser();
         getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToDeletePage("XWiki", userName)));
         getUtil().setSession(s);
     }
@@ -196,7 +196,7 @@ public class RegisterTest extends AbstractTest
     protected void tryToLogin(String username, String password)
     {
         // Fast logout.
-        getUtil().setSession(null);
+        getUtil().forceGuestUser();
         getDriver().get(getUtil().getURLToLoginAs(username, password));
         Assert.assertTrue(registerPage.isAuthenticated());
     }

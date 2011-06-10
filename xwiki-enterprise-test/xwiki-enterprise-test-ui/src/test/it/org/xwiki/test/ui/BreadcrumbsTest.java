@@ -63,8 +63,8 @@ public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
                 + "XWiki.XWikiRights_users=XWiki.Admin&"
                 + "XWiki.XWikiRights_allow=1");
 
-        // Log out...
-        getUtil().setSession(null);
+        // Logout
+        getUtil().forceGuestUser();
 
         // Verify breadcrumbs are only displayed for pages for which you have the view right.
         vp = getUtil().gotoPage("BreadcrumbsTest", "testBreadcrumbs");

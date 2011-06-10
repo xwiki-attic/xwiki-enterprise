@@ -91,7 +91,7 @@ public class InvitationTest extends AbstractTest
     {
         TestUtils.Session s = getUtil().getSession();
         try {
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             InvitationGuestActionsPage guestPage = new InvitationGuestActionsPage();
 
             // Try to accept nonexistent message.
@@ -188,7 +188,7 @@ public class InvitationTest extends AbstractTest
     {
         TestUtils.Session s = getUtil().getSession();
         try {
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             getUtil().registerLoginAndGotoPage("NonMailAdminUser", "WeakPassword", getSenderPage().getURL());
             startGreenMail();
             getSenderPage().fillForm("user@localhost.localdomain", null, null);
@@ -225,7 +225,7 @@ public class InvitationTest extends AbstractTest
     {
         TestUtils.Session admin = getUtil().getSession();
         try {
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             getUtil().registerLoginAndGotoPage("NonMailAdminUser", "WeakPassword", getSenderPage().getURL());
             startGreenMail();
             getSenderPage().fillForm("user@localhost.localdomain anotheruser@localhost.localdomain", null, null);
@@ -277,7 +277,7 @@ public class InvitationTest extends AbstractTest
     {
         TestUtils.Session admin = getUtil().getSession();
         try {
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             getUtil().registerLoginAndGotoPage("spam", "andEggs", getSenderPage().getURL());
             startGreenMail();
             getSenderPage().fillForm("undisclosed-recipients@localhost.localdomain", null,
@@ -293,7 +293,7 @@ public class InvitationTest extends AbstractTest
 
             // Now switch to guest.
             TestUtils.Session spammer = getUtil().getSession();
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
@@ -380,7 +380,7 @@ public class InvitationTest extends AbstractTest
             Assert.assertTrue("New invitation is not listed as pending in the footer.",
                 getSenderPage().getFooter().myPendingInvitations() == 1);
             // Now switch to guest.
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
@@ -411,7 +411,7 @@ public class InvitationTest extends AbstractTest
                 row2.get(2).getText().equals("I'm not interested thank you."));
 
             // Make sure a guest can't accept the invitation now.
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After a message is declined a user can still accept it!",
                 guestPage.getMessage().equals("This invitation has been declined and cannot be accepted now."));
@@ -450,7 +450,7 @@ public class InvitationTest extends AbstractTest
             Assert.assertTrue("New invitation is not listed as pending in the footer.",
                 getSenderPage().getFooter().myPendingInvitations() == 1);
             // Now switch to guest.
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
@@ -468,7 +468,7 @@ public class InvitationTest extends AbstractTest
             Assert.assertTrue("Failed to log user in after registering from invitation.", rp.isAuthenticated());
 
             // Now switch to guest again and try to accept the invitation again.
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After the invitation was accepted a user was allowed to accept it again.",
                 guestPage.getMessage().equals("This invitation has already been accepted and the "
@@ -507,7 +507,7 @@ public class InvitationTest extends AbstractTest
 
             oep.clickSaveAndContinue();
             // now prove anon cannot register
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             new RegisterPage().gotoPage();
             getUtil().assertOnPage(getUtil().getURL("XWiki", "XWikiLogin", "login"));
 
@@ -524,7 +524,7 @@ public class InvitationTest extends AbstractTest
             Assert.assertTrue("New invitation is not listed as pending in the footer.",
                 getSenderPage().getFooter().myPendingInvitations() == 1);
             // Now switch to guest.
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
@@ -590,7 +590,7 @@ public class InvitationTest extends AbstractTest
                 confirm.confirm().equals("Invitation successfully rescinded."));
 
             // Now switch to guest.
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
 
             String commonPart = "\nAdministrator left you this message when rescinding the invitation.\n"
                 + "Sorry, wrong email address.";
@@ -641,7 +641,7 @@ public class InvitationTest extends AbstractTest
             config.clickSave();
 
             // Now switch to a wizeguy user
-            getUtil().setSession(null);
+            getUtil().forceGuestUser();
             getUtil().registerLoginAndGotoPage("tr0ll", "StrongPassword", getSenderPage().getURL());
 
             startGreenMail();

@@ -148,7 +148,7 @@ public class UserProfileTest extends AbstractTest
         changePasswordPage.submit();
 
         // Logout
-        getUtil().setSession(null);
+        getUtil().forceGuestUser();
         HomePage home = new HomePage();
         home.gotoPage();
         Assert.assertFalse(home.isAuthenticated());

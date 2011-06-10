@@ -486,7 +486,7 @@ public class TestUtils
      *
      * @since 3.2M1
      */
-    public void foreGuestUser()
+    public void forceGuestUser()
     {
         setSession(null);
     }

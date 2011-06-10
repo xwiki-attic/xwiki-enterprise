@@ -75,7 +75,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     public void testPostCommentAsAnonymous()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().foreGuestUser();
+        getUtil().forceGuestUser();
 
         ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         CommentsTab commentsTab = vp.openCommentsDocExtraPane();
@@ -89,7 +89,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     public void testPostCommentAsAnonymousNoJs()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().foreGuestUser();
+        getUtil().forceGuestUser();
         getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
         CommentsTab commentsTab = new CommentsTab();
 
@@ -106,7 +106,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     public void testReplyCommentAsAnonymous()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().foreGuestUser();
+        getUtil().forceGuestUser();
 
         ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         CommentsTab commentsTab = vp.openCommentsDocExtraPane();
@@ -123,7 +123,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     public void testCannotEditCommentAsAnonymous()
     {
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().foreGuestUser();
+        getUtil().forceGuestUser();
 
         ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         CommentsTab commentsTab = vp.openCommentsDocExtraPane();

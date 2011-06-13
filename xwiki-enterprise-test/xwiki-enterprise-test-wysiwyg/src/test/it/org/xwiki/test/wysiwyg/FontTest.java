@@ -202,12 +202,15 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     protected void waitForDetectedFontName(final String expectedFontName)
     {
+        final String[] detectedFontName = new String[1];
         new Wait()
         {
             public boolean until()
             {
-                return expectedFontName.equals(getSelenium().getValue(FONT_NAME_SELECTOR));
+                detectedFontName[0] = getSelenium().getValue(FONT_NAME_SELECTOR);
+                return expectedFontName.equals(detectedFontName[0]);
             }
-        }.wait("The detected font name doesn't match the expected font name, '" + expectedFontName + "'.");
+        }.wait("The detected font name, " + detectedFontName[0] + ", doesn't match the expected font name, '"
+            + expectedFontName + "'.");
     }
 }

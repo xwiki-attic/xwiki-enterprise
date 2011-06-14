@@ -105,10 +105,10 @@ public class FontTest extends AbstractWysiwygTestCase
         waitForDetectedFontName("Wingdings");
 
         switchToSource();
-        setSourceText("(% style=\"font-family: wingdings,helvetica\" %)\nabc");
+        setSourceText("(% style=\"font-family: wingdings,arial\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontName("Helvetica");
+        waitForDetectedFontName("Arial");
     }
 
     /**
@@ -123,10 +123,10 @@ public class FontTest extends AbstractWysiwygTestCase
         waitForDetectedFontName("unknown");
 
         switchToSource();
-        setSourceText("(% style=\"font-family: unknown,helvetica\" %)\nabc");
+        setSourceText("(% style=\"font-family: unknown,arial\" %)\nabc");
         switchToWysiwyg();
         selectAllContent();
-        waitForDetectedFontName("Helvetica");
+        waitForDetectedFontName("Arial");
     }
 
     /**

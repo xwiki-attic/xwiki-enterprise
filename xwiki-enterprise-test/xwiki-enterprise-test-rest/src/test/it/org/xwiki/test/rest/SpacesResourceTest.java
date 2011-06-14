@@ -67,6 +67,12 @@ public class SpacesResourceTest extends AbstractHttpTest
             Assert.assertNotNull(link);
 
             checkLinks(space);
+
+            /*
+             * Check that in the returned spaces there are not spaces not visible to user Guest, for example the
+             * "Scheduler" space
+             */
+            Assert.assertFalse(space.getName().equals("Scheduler"));
         }
 
     }

@@ -21,8 +21,9 @@ package org.xwiki.test.wysiwyg;
 
 import java.util.Date;
 
-import com.thoughtworks.selenium.Wait;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import com.thoughtworks.selenium.Wait;
 
 public class TabsTest extends AbstractWysiwygTestCase
 {
@@ -130,6 +131,20 @@ public class TabsTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * Switches to source tab and waits for the conversion. The cursor should be placed at the start.
+     * 
+     * @see XWIKI-4392: Place the caret at the beginning of the content when swtching to WYSIWYG Source editor.
+     */
+    public void testSwitchToSourceWithHTMLChangesAndWait()
+    {
+        typeText("1");
+        applyStyleTitle1();
+        switchToSource();
+        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
+        assertSourceText("x= 1 =");
+    }
+
+    /**
      * Switches to source tab without changing the HTML. The source selection should be preserved.
      */
     public void testSwitchToSourceWithoutHTMLChanges()
@@ -145,20 +160,6 @@ public class TabsTest extends AbstractWysiwygTestCase
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
         // Check the source text.
         assertSourceText(sourceText.substring(0, cursorPosition) + "x" + sourceText.substring(cursorPosition));
-    }
-
-    /**
-     * Switches to source tab and waits for the conversion. The cursor should be placed at the start.
-     * 
-     * @see XWIKI-4392: Place the caret at the beginning of the content when swtching to WYSIWYG Source editor.
-     */
-    public void testSwitchToSourceWithHTMLChangesAndWait()
-    {
-        typeText("1");
-        applyStyleTitle1();
-        switchToSource();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
-        assertSourceText("x= 1 =");
     }
 
     /**

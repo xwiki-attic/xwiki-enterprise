@@ -100,7 +100,7 @@ public class AttachmentsTest extends AbstractXWikiXmlRpcTest
         List<Attachment> attachments = rpc.getAttachments(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
         Attachment attachmentToBeRemoved = attachments.get(random.nextInt(attachments.size()));
 
-        TestUtils.banner("TEST: getAttachments()");
+        TestUtils.banner("TEST: testRemoveAttachment()");
         System.out.format("Before: %s\n", attachments);
         Boolean result = rpc.removeAttachment(attachmentToBeRemoved.getPageId(), attachmentToBeRemoved.getFileName());
 

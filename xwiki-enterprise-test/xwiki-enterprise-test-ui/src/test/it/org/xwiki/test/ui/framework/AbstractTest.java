@@ -72,7 +72,7 @@ public class AbstractTest
         context.shutdown();
     }
 
-    protected WebDriver getDriver()
+    protected static WebDriver getDriver()
     {
         return context.getDriver();
     }
@@ -80,7 +80,7 @@ public class AbstractTest
     /**
      * @return Utility class with functions not specific to any test or element.
      */
-    protected TestUtils getUtil()
+    protected static TestUtils getUtil()
     {
         return context.getUtil();
     }

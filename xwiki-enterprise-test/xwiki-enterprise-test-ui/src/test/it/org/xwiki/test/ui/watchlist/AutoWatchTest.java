@@ -34,7 +34,7 @@ import org.xwiki.test.ui.watchlist.elements.WatchlistUserProfilePage;
  * 
  * @version $Id$
  */
-public class WatchlistTest extends AbstractTest
+public class AutoWatchTest extends AbstractTest
 {
     private WatchlistUserProfilePage watchlistPage;
 

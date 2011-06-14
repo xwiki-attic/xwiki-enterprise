@@ -27,17 +27,26 @@ import org.xwiki.test.ui.framework.elements.editor.EditPage;
 /** User profile, the watchlist pane, edit mode. */
 public class WatchlistPreferencesEditPage extends EditPage
 {
-    private static final String AUTOMATICWATCH_DEFAULT = "Default";
+    public static final String AUTOMATICWATCH_DEFAULT = "default";
 
-    private static final String AUTOMATICWATCH_NONE = "Disabled";
+    public static final String AUTOMATICWATCH_NONE = "NONE";
 
-    private static final String AUTOMATICWATCH_ALL = "Any modification";
+    public static final String AUTOMATICWATCH_ALL = "ALL";
 
-    private static final String AUTOMATICWATCH_MAJOR = "Major modifications";
+    public static final String AUTOMATICWATCH_MAJOR = "MAJOR";
 
-    private static final String AUTOMATICWATCH_NEW = "New documents";
+    public static final String AUTOMATICWATCH_NEW = "NEW";
 
-    @FindBy(xpath = "//select[@id='XWiki.WatchListClass_0_automaticwatch']")
+    public static final String NOTIFIER_HOURLY = "Scheduler.WatchListHourlyNotifier";
+
+    public static final String NOTIFIER_DAILY = "Scheduler.WatchListDailyNotifier";
+
+    public static final String NOTIFIER_WEEKLY = "Scheduler.WatchListWeeklyNotifier";
+
+    @FindBy(name = "XWiki.WatchListClass_0_interval")
+    private WebElement notifier;
+
+    @FindBy(id = "XWiki.WatchListClass_0_automaticwatch")
     private WebElement automaticwatch;
 
     public void setAutomaticWatchDefault()
@@ -68,5 +77,23 @@ public class WatchlistPreferencesEditPage extends EditPage
     {
         Select select = new Select(this.automaticwatch);
         select.selectByValue(AUTOMATICWATCH_NEW);
+    }
+
+    public void setNotifierHourly()
+    {
+        Select select = new Select(this.notifier);
+        select.selectByValue(NOTIFIER_HOURLY);
+    }
+
+    public void setNotifierDaily()
+    {
+        Select select = new Select(this.notifier);
+        select.selectByValue(NOTIFIER_DAILY);
+    }
+
+    public void setNotifierWeekly()
+    {
+        Select select = new Select(this.notifier);
+        select.selectByValue(NOTIFIER_WEEKLY);
     }
 }

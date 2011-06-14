@@ -73,6 +73,12 @@ public class ViewPage extends BasePage
     @FindBy(id = "hierarchy")
     private WebElement breadcrumbDiv;
 
+    @FindBy(id = "tmWatchSpace")
+    private WebElement watchSpaceLink;
+
+    @FindBy(id = "tmWatchDocument")
+    private WebElement watchDocumentLink;
+
     /**
      * Logs in the Admin user (move to the home page if the current page has no log in link).
      */
@@ -267,8 +273,9 @@ public class ViewPage extends BasePage
     {
         List<WebElement> result;
         if (isCurrent) {
-            result = this.breadcrumbDiv.findElements(By.xpath("span[@class = 'current' and text() ='" + breadcrumbItem
-                + "']"));
+            result =
+                this.breadcrumbDiv.findElements(By.xpath("span[@class = 'current' and text() ='" + breadcrumbItem
+                    + "']"));
         } else {
             result = this.breadcrumbDiv.findElements(By.xpath("a[text() = '" + breadcrumbItem + "']"));
         }
@@ -286,5 +293,23 @@ public class ViewPage extends BasePage
     public void waitForDocExtraPaneActive(String paneId)
     {
         waitUntilElementIsVisible(By.id(paneId + "content"));
+    }
+
+    /**
+     * @since 3.2M1
+     */
+    public void watchDocument()
+    {
+        hoverOverMenu("tmPage");
+        this.watchDocumentLink.click();
+    }
+
+    /**
+     * @since 3.2M1
+     */
+    public void watchSpace()
+    {
+        hoverOverMenu("tmSpace");
+        this.watchSpaceLink.click();
     }
 }

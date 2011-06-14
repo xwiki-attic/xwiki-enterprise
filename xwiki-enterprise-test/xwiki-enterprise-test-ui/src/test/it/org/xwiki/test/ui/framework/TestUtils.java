@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.OutputType;
@@ -124,13 +124,16 @@ public class TestUtils
      */
     public String getURLToLoginAndGotoPage(final String username, final String password, final String pageURL)
     {
-        Map<String, String> parameters = new HashMap<String, String>(){{
-            put("j_username", username);
-            put("j_password", password);
-            if (pageURL != null && pageURL.length() > 0) {
-                put("xredirect", pageURL);
+        Map<String, String> parameters = new HashMap<String, String>()
+        {
+            {
+                put("j_username", username);
+                put("j_password", password);
+                if (pageURL != null && pageURL.length() > 0) {
+                    put("xredirect", pageURL);
+                }
             }
-        }};
+        };
         return getURL("XWiki", "XWikiLogin", "loginsubmit", parameters);
     }
 
@@ -144,13 +147,12 @@ public class TestUtils
     {
         final String pageURI = pageURL.replaceAll("\\?.*", "");
         waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    return getDriver().getCurrentUrl().contains(pageURI);
-                }
+                return getDriver().getCurrentUrl().contains(pageURI);
             }
-        );
+        });
     }
 
     /**
@@ -181,14 +183,17 @@ public class TestUtils
 
     public void registerLoginAndGotoPage(final String username, final String password, final String pageURL)
     {
-        String registerURL = getURL("XWiki", "Register", "register", new HashMap<String, String>(){{
-            put("register", "1");
-            put("xwikiname", username);
-            put("register_password", password);
-            put("register2_password", password);
-            put("register_email", "");
-            put("xredirect", getURLToLoginAndGotoPage(username, password, pageURL));
-        }});
+        String registerURL = getURL("XWiki", "Register", "register", new HashMap<String, String>()
+        {
+            {
+                put("register", "1");
+                put("xwikiname", username);
+                put("register_password", password);
+                put("register2_password", password);
+                put("register_email", "");
+                put("xredirect", getURLToLoginAndGotoPage(username, password, pageURL));
+            }
+        });
         getDriver().get(registerURL);
     }
 
@@ -203,7 +208,7 @@ public class TestUtils
         gotoPage(space, page, action, "");
     }
 
-    public void gotoPage(String space, String page, String action, Map<String, String> queryParameters)
+    public void gotoPage(String space, String page, String action, Map<String, ? > queryParameters)
     {
         getDriver().get(getURL(space, page, action, queryParameters));
     }
@@ -281,8 +286,20 @@ public class TestUtils
      */
     public String getURL(String space, String page, String action, String queryString)
     {
-        return this.baseURL + action + "/" + escapeURL(space) + "/" + escapeURL(page)
-            + ((queryString == null || queryString.length() < 1) ? "" : "?" + queryString);
+        StringBuilder builder = new StringBuilder(this.baseURL);
+
+        builder.append(action);
+        builder.append('/');
+        builder.append(escapeURL(space));
+        builder.append('/');
+        builder.append(escapeURL(page));
+
+        if (!StringUtils.isEmpty(queryString)) {
+            builder.append('?');
+            builder.append(queryString);
+        }
+
+        return builder.toString();
     }
 
     /**
@@ -294,13 +311,45 @@ public class TestUtils
      * @param action the action to do on the page.
      * @param queryParameters the parameters to pass in the URL, these will be automatically URL encoded.
      */
-    public String getURL(String space, String page, String action, Map<String, String> queryParameters)
+    public String getURL(String space, String page, String action, Map<String, ? > queryParameters)
     {
-        String queryString = "";
-        for (String key : queryParameters.keySet()) {
-            queryString += escapeURL(key) + "=" + escapeURL(queryParameters.get(key)) + "&";
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, ? > entry : queryParameters.entrySet()) {
+            addQueryStringEntry(builder, entry.getKey(), entry.getValue());
+            builder.append('&');
         }
-        return getURL(space, page, action, queryString);
+
+        return getURL(space, page, action, builder.toString());
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public void addQueryStringEntry(StringBuilder builder, String key, Object value)
+    {
+        if (value != null) {
+            if (value instanceof Iterable) {
+                for (Object element : (Iterable< ? >) value) {
+                    addQueryStringEntry(builder, key, element.toString());
+                }
+            } else {
+                addQueryStringEntry(builder, key, value.toString());
+            }
+        } else {
+            addQueryStringEntry(builder, key, (String) null);
+        }
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public void addQueryStringEntry(StringBuilder builder, String key, String value)
+    {
+        builder.append(escapeURL(key));
+        if (value != null) {
+            builder.append('=');
+            builder.append(escapeURL(value));
+        }
     }
 
     /**
@@ -329,9 +378,12 @@ public class TestUtils
 
         private Session(final Set<Cookie> cookies)
         {
-            this.cookies = Collections.unmodifiableSet(new HashSet<Cookie>(){{
-                addAll(cookies);
-            }});
+            this.cookies = Collections.unmodifiableSet(new HashSet<Cookie>()
+            {
+                {
+                    addAll(cookies);
+                }
+            });
         }
 
         private Set<Cookie> getCookies()
@@ -428,7 +480,7 @@ public class TestUtils
     }
 
     /**
-     * @since 3.1M2 
+     * @since 3.1M2
      */
     public boolean isInCreateMode()
     {
@@ -448,12 +500,12 @@ public class TestUtils
 
     /**
      * Takes a screenshot and puts the generated image in the temporary directory.
-     *
+     * 
      * @since 3.2M1
      */
     public void takeScreenshot()
     {
-        if (!(getDriver().getWrappedDriver() instanceof  TakesScreenshot)) {
+        if (!(getDriver().getWrappedDriver() instanceof TakesScreenshot)) {
             return;
         }
 
@@ -465,13 +517,13 @@ public class TestUtils
                 screenshotDir.mkdirs();
                 screenshotFile = new File(screenshotDir, context.getCurrentTestName() + ".png");
             } else {
-                screenshotFile = new File(new File(System.getProperty("java.io.tmpdir")),
-                    context.getCurrentTestName() + ".png");
+                screenshotFile =
+                    new File(new File(System.getProperty("java.io.tmpdir")), context.getCurrentTestName() + ".png");
             }
             FileUtils.copyFile(scrFile, screenshotFile);
             try {
                 throw new Exception("Screenshot for failing test [" + context.getCurrentTestName() + "] saved at ["
-                + screenshotFile.getAbsolutePath() + "]");
+                    + screenshotFile.getAbsolutePath() + "]");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -483,11 +535,110 @@ public class TestUtils
 
     /**
      * Forces the current user to be the Guest user by clearing all coookies.
-     *
+     * 
      * @since 3.2M1
      */
     public void forceGuestUser()
     {
         setSession(null);
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public void addObject(String space, String page, String className, Object... properties)
+    {
+        gotoPage(space, page, "objectadd", toQueryParameters(className, null, properties));
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public void addObject(String space, String page, String className, Map<String, ? > properties)
+    {
+        gotoPage(space, page, "objectadd", toQueryParameters(className, null, properties));
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public void deleteObject(String space, String page, String className, int objectNumber)
+    {
+        StringBuilder queryString = new StringBuilder();
+
+        queryString.append("classname=");
+        queryString.append(escapeURL(className));
+        queryString.append('&');
+        queryString.append("classid=");
+        queryString.append(objectNumber);
+
+        gotoPage(space, page, "objectremove", queryString.toString());
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public void updateObject(String space, String page, String className, int objectNumber, Map<String, ? > properties)
+    {
+        gotoPage(space, page, "save", toQueryParameters(className, objectNumber, properties));
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public void updateObject(String space, String page, String className, int objectNumber, Object... properties)
+    {
+        // TODO: would be even quicker using REST
+        gotoPage(space, page, "save", toQueryParameters(className, objectNumber, properties));
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public Map<String, ? > toQueryParameters(String className, Integer objectNumber, Object... properties)
+    {
+        Map<String, Object> queryParameters = new HashMap<String, Object>();
+
+        queryParameters.put("classname", className);
+
+        for (int i = 0; i < properties.length; i += 2) {
+            int nextIndex = i + 1;
+            queryParameters.put(toQueryParameterKey(className, objectNumber, (String) properties[i]),
+                nextIndex < properties.length ? properties[nextIndex] : null);
+        }
+
+        return queryParameters;
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public Map<String, ? > toQueryParameters(String className, Integer objectNumber, Map<String, ? > properties)
+    {
+        Map<String, Object> queryParameters = new HashMap<String, Object>();
+
+        queryParameters.put("classname", className);
+
+        for (Map.Entry<String, ? > entry : properties.entrySet()) {
+            queryParameters.put(toQueryParameterKey(className, objectNumber, entry.getKey()), entry.getValue());
+        }
+
+        return queryParameters;
+    }
+
+    /**
+     * @sice 3.2M1
+     */
+    public String toQueryParameterKey(String className, Integer objectNumber, String key)
+    {
+        StringBuilder keyBuilder = new StringBuilder(className);
+        keyBuilder.append('_');
+        if (objectNumber != null) {
+            keyBuilder.append(objectNumber);
+            keyBuilder.append('_');
+        }
+        keyBuilder.append(key);
+
+        return keyBuilder.toString();
     }
 }

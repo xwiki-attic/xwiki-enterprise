@@ -35,7 +35,7 @@ import org.xwiki.test.ui.watchlist.elements.editor.WatchlistPreferencesEditPage;
  */
 public class WatchlistUserProfilePage extends AbstractUserProfilePage
 {
-    @FindBy(xpath = "//div[@id='watchlistManagement']//div[@class='editProfileCategory']/a")
+    @FindBy(xpath = "//div[@id='watchlistPane']//div[@class='editProfileCategory']/a")
     private WebElement editPreferences;
 
     @FindBy(xpath = "//div[@class='watchlistManagement']/dl[1]/dd[1]")
@@ -86,6 +86,14 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
         // TODO: only looks in the first livetable page currently
         return !getDriver().findElements(
             By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/" + page + "']"))
+            .isEmpty();
+    }
+    
+    public boolean isWatched(String space)
+    {
+        // TODO: only looks in the first livetable page currently
+        return !getDriver().findElements(
+            By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/WebHome']"))
             .isEmpty();
     }
 

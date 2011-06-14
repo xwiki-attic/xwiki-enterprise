@@ -58,7 +58,7 @@
       <version>1.2.5</version>
       <scope>test</scope>
     </dependency>
-    <!-- Used by InvitationTest -->
+    <!-- Used by several tests to send mails -->
     <dependency>
       <groupId>com.icegreen</groupId>
       <artifactId>greenmail</artifactId>

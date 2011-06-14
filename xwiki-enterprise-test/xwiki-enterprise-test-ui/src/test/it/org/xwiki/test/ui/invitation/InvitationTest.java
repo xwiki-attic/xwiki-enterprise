@@ -30,6 +30,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -61,6 +62,13 @@ public class InvitationTest extends AbstractTest
 
     private GreenMail greenMail;
 
+    @BeforeClass
+    public static void beforeClass()
+    {
+        // Set the SMTP port to the default port used by Greenmail (3025)
+        getUtil().updateObject("XWiki", "XWikiPreferences", "XWiki.XWikiPreferences", 0, "smtp_port", 3025);
+    }
+    
     @Before
     public void setUp()
     {
@@ -73,12 +81,6 @@ public class InvitationTest extends AbstractTest
         if (!initialized) {
             // We have to go to sender page before any config shows up.
             this.senderPage.gotoPage();
-            // Set port to 3025
-            AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
-            config.gotoPage();
-            config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_smtp_port"),
-                "3025");
-            config.clickSave();
             initialized = true;
         }
 

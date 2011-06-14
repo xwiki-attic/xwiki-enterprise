@@ -54,16 +54,15 @@ public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = getUtil().gotoPage("BreadcrumbsTest", "testBreadcrumbs");
         Assert.assertTrue(vp.hasBreadcrumbContent("Parent page", false));
         Assert.assertTrue(vp.hasBreadcrumbContent("Child page", true));
-
+        
         // Remove view rights on the Test.ParentPage page to everyone except Admin user so that we can verify that the
         // breadcrumb of the child page doesn't display pages for which you don't have view rights to.
-        getUtil().gotoPage("BreadcrumbsTest", "testBreadcrumbsParentPage", "objectadd",
-            "classname=XWiki.XWikiRights&"
-                + "XWiki.XWikiRights_levels=view&"
-                + "XWiki.XWikiRights_users=XWiki.Admin&"
-                + "XWiki.XWikiRights_allow=1");
-
-        // Logout
+        getUtil().addObject("BreadcrumbsTest", "testBreadcrumbsParentPage", "XWiki.XWikiRights",
+            "levels", "view",
+            "users", "XWiki.Admin",
+            "allow", "1");
+        
+        // Log out...
         getUtil().forceGuestUser();
 
         // Verify breadcrumbs are only displayed for pages for which you have the view right.

@@ -47,43 +47,50 @@ public class SchedulerHomePage extends ViewPage
 
     public SchedulerPage clickJobActionView(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='view']")).click();
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='view']"))
+            .click();
 
         return new SchedulerPage();
     }
 
     public SchedulerEditPage clickJobActionEdit(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='Edit']")).click();
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='Edit']"))
+            .click();
 
         return new SchedulerEditPage();
     }
 
     public DeletePage clickJobActionDelete(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='delete']")).click();
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='delete']"))
+            .click();
 
         return new DeletePage();
     }
 
     public void clickJobActionScheduler(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='schedule']")).click();
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='schedule']"))
+            .click();
     }
 
     public void clickJobActionTrigger(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='trigger']")).click();
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='trigger']"))
+            .click();
     }
 
     public void clickJobActionPause(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='pause']")).click();
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='pause']"))
+            .click();
     }
 
     public void clickJobActionResume(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='resume']")).click();
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='resume']"))
+            .click();
     }
 
     public void clickJobActionUnschedule(String jobName)
@@ -95,6 +102,7 @@ public class SchedulerHomePage extends ViewPage
     public SchedulerEditPage clickAdd()
     {
         this.addButton.click();
+
         return new SchedulerEditPage();
     }
 }

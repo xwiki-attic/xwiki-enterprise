@@ -21,19 +21,42 @@ package org.xwiki.test.ui.scheduler;
 
 import junit.framework.Assert;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.framework.elements.DeletePage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.scheduler.elements.SchedulerHomePage;
+import org.xwiki.test.ui.scheduler.elements.SchedulerPage;
+import org.xwiki.test.ui.scheduler.elements.editor.SchedulerEditPage;
 
 /**
  * Tests Scheduler application features.
  * 
- * @since 2.3.1
- * @since 2.4M1
  * @version $Id$
  */
 public class SchedulerTest extends AbstractAdminAuthenticatedTest
 {
+    private SchedulerHomePage schedulerHomePage;
+
+    @Before
+    public void setUp()
+    {
+        super.setUp();
+        
+        getUtil().deletePage("Scheduler", "SchedulerTestJob");
+
+        this.schedulerHomePage = new SchedulerHomePage();
+    }
+
+    @After
+    public void tearDown()
+    {
+        getUtil().deletePage("Scheduler", "SchedulerTestJob");
+    }
+
     /**
      * Tests that a scheduler job page default edit mode is "inline"
      */
@@ -42,5 +65,57 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     {
         getUtil().gotoPage("Scheduler", "WatchListDailyNotifier");
         Assert.assertTrue(new ViewPage().getEditURL().contains("/inline/"));
+    }
+
+    @Test
+    public void testJobActions()
+    {
+        // Create Job
+        this.schedulerHomePage.gotoPage();
+        this.schedulerHomePage.setJobName("SchedulerTestJob");
+        SchedulerEditPage schedulerEdit = this.schedulerHomePage.clickAdd();
+
+        String jobName = "Tester problem";
+        schedulerEdit.setJobName(jobName);
+        schedulerEdit.setJobDescription(jobName);
+        schedulerEdit.setCron("0 15 10 ? * MON-FRI");
+        SchedulerPage schedulerPage = schedulerEdit.clickSaveAndView();
+        this.schedulerHomePage = schedulerPage.backToHome();
+
+        // View Job
+        schedulerPage = this.schedulerHomePage.clickJobActionView(jobName);
+        this.schedulerHomePage = schedulerPage.backToHome();
+
+        // Edit Job
+        schedulerEdit = this.schedulerHomePage.clickJobActionEdit(jobName);
+        schedulerEdit.setJobDescription("Tester problem2");
+        schedulerEdit.setCron("0 0/5 14 * * ?");
+        schedulerPage = schedulerEdit.clickSaveAndView();
+        this.schedulerHomePage = schedulerPage.backToHome();
+
+        // Delete and Restore Job
+        DeletePage deletePage = this.schedulerHomePage.clickJobActionDelete(jobName);
+        deletePage.confirm();
+        this.schedulerHomePage.gotoPage();
+        Assert.assertTrue(getDriver().findElements(By.linkText(jobName)).isEmpty());
+        getUtil().gotoPage("Scheduler", "SchedulerTestJob");
+        getDriver().findElement(By.linkText("Restore")).click();
+        schedulerPage = new SchedulerPage();
+        schedulerPage.backToHome();
+
+        // Schedule Job
+        this.schedulerHomePage.clickJobActionScheduler(jobName);
+
+        // Trigger Job
+        this.schedulerHomePage.clickJobActionTrigger(jobName);
+
+        // Pause Job
+        this.schedulerHomePage.clickJobActionPause(jobName);
+
+        // Resume Job
+        this.schedulerHomePage.clickJobActionResume(jobName);
+
+        // Unschedule Job
+        this.schedulerHomePage.clickJobActionUnschedule(jobName);
     }
 }

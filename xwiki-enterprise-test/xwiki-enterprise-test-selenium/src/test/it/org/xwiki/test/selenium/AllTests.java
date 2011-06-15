@@ -61,7 +61,6 @@ public class AllTests extends TestCase
         addTestCase(suite, UrlMiscTest.class);
         addTestCase(suite, ValidationTest.class);
         addTestCase(suite, AdministrationTest.class);
-        addTestCase(suite, SchedulerTest.class);
         addTestCase(suite, PanelWizardTest.class);
         addTestCase(suite, DocExtraTest.class);
         addTestCase(suite, PanelsTest.class);

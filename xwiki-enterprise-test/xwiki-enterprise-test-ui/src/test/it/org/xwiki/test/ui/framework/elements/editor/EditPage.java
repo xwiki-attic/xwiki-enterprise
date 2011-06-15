@@ -38,19 +38,19 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
 public class EditPage extends BasePage
 {
     @FindBy(name = "action_saveandcontinue")
-    private WebElement saveandcontinue;
+    protected WebElement saveandcontinue;
 
     @FindBy(name = "action_save")
-    private WebElement save;
+    protected WebElement save;
 
     @FindBy(name = "action_cancel")
-    private WebElement cancel;
+    protected WebElement cancel;
 
     @FindBy(xpath = "//*[@id = 'tmCurrentEditor']//*[@class = 'tme hastype']")
-    private WebElement selectedEditMenuItem;
+    protected WebElement selectedEditMenuItem;
 
     @FindBy(id = "xwikidocsyntaxinput2")
-    private WebElement syntaxIdSelect;
+    protected WebElement syntaxIdSelect;
 
     /**
      * Enumerates the available editors.

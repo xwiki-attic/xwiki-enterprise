@@ -1,22 +1,3 @@
-/*
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
- *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
 package org.xwiki.test.ldap;
 
 import java.security.Principal;
@@ -41,8 +22,6 @@ import org.xwiki.model.reference.EntityReferenceSerializer;
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
-
-import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
 import org.xwiki.test.ldap.framework.LDAPTestSetup;
 import com.xpn.xwiki.objects.BaseObject;
@@ -56,7 +35,7 @@ import com.xpn.xwiki.web.Utils;
 /**
  * Unit tests using embedded LDAP server (Apache DS). Theses test can be launched directly from JUnit plugin of EDI.
  * 
- * @version $Id: 904e90230d20c73817205a7560f440ff87c14b75 $
+ * @version $Id$
  */
 public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 {
@@ -192,7 +171,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         mockXWiki.stubs().method("getXWikiPreference").will(returnValue(null));
         mockXWiki.stubs().method("getXWikiPreferenceAsInt").will(throwException(new NumberFormatException("null")));
         mockXWiki.stubs().method("isVirtualMode").will(returnValue(this.isVirtualMode));
-        mockXWiki.stubs().method("getDefaultDocumentSyntax").will(returnValue(Syntax.XWIKI_1_0.toIdString()));
+        mockXWiki.stubs().method("getDefaultDocumentSyntax").will(returnValue(XWikiDocument.XWIKI10_SYNTAXID));
         mockXWiki.stubs().method("Param").will(new CustomStub("Implements XWiki.Param")
         {
             public Object invoke(Invocation invocation) throws Throwable
@@ -333,7 +312,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertNotNull("The user profile document does not contains ldap object", ldapProfileObj);
 
         assertEquals(storedDn, ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_DN));
-        assertEquals(storedUid.toLowerCase(), ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_UID));
+        assertEquals(storedUid, ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_UID));
     }
 
     /**

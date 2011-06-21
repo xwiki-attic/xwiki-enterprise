@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 import org.xwiki.test.ui.tag.elements.AddTagsPane;
 import org.xwiki.test.ui.tag.elements.TaggablePage;
 
@@ -50,9 +49,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         // Create a new test page.
-        WikiEditPage wikiEditPage = new WikiEditPage();
-        wikiEditPage.switchToEdit(this.getClass().getSimpleName(), testName.getMethodName());
-        wikiEditPage.clickSaveAndView();
+        getUtil().createPage(this.getClass().getSimpleName(), testName.getMethodName(), null, null);
         taggablePage = new TaggablePage();
     }
 

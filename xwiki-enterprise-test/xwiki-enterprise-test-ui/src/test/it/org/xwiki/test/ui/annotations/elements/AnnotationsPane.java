@@ -26,6 +26,8 @@ import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
+ * Pane that opens when you click on the Annotation menu entry.
+ *
  * @version $Id$
  * @since 2.7RC1
  */

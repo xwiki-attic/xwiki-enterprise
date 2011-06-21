@@ -25,7 +25,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.administration.elements.AnnotationsPage;
 import org.xwiki.test.ui.annotations.elements.AnnotationsLabel;
@@ -33,8 +32,6 @@ import org.xwiki.test.ui.annotations.elements.AnnotationsPane;
 import org.xwiki.test.ui.annotations.elements.AnnotationsWindow;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Annotation Test.
@@ -78,8 +75,6 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     private static final String XWIKI_ANNOTATION_DELETE_SUCCESS = "Annotation deleted";
 
     private ViewPage vp;
-
-    private HomePage homePage;
 
     private AnnotationsPane annotationsPane;
 
@@ -131,14 +126,7 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void defaultAnnotationsTest()
     {
-        homePage = new HomePage();
-        homePage.gotoPage();
-
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit(SPACE_NAME, DOC_NAME);
-        wep.setTitle(DOC_TITLE);
-        wep.setContent(CONTENT);
-        vp = wep.clickSaveAndView();
+        vp = getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, DOC_TITLE);
         annotationsPane = new AnnotationsPane();
 
         annotationsPane.toggleAnnotationsPane();
@@ -165,26 +153,19 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void xwikiPageSyntaxAnnotationsTest()
     {
-        homePage = new HomePage();
-        homePage.gotoPage();
         adminPage = new AdministrationPage();
         annotationsPane = new AnnotationsPane();
         annotationsWindow = new AnnotationsWindow();
         annotationsLabel = new AnnotationsLabel();
-        homePage.gotoPage();
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit(SPACE_NAME, DOC_NAME);
-        wep.setTitle(DOC_TITLE);
-        wep.setContent(CONTENT);
-        Select select = new Select(getDriver().findElement(By.xpath("//select[@id='xwikidocsyntaxinput2']")));
-        select.selectByVisibleText("XWiki 1.0");
-        ViewPage vp = wep.clickSaveAndView();
+
+        getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, DOC_TITLE, "xwiki/1.0");
+
         annotationsPane.toggleAnnotationsPane();
         // Annotations are disabled in 1.0 Pages. This element should no be here
         Assert.assertEquals(0, getDriver().findElements(By.id("annotationsdisplay")).size());
         annotationsWindow.simulateCTRL_M();
 
-        vp = new ViewPage();
+        ViewPage vp = new ViewPage();
         vp.waitUntilElementIsVisible(By.className("xnotification-warning"));
         WebElement warning = getDriver().findElement(By.className("xnotification-warning"));
         Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());

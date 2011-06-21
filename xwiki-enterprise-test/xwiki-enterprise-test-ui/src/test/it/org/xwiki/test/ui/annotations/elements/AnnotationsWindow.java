@@ -114,10 +114,10 @@ public class AnnotationsWindow extends ViewPage
 
     public void addAnnotation(String selectedText, String annotationText)
     {
-        this.selectText(selectedText);
-        this.simulateCTRL_M();
-        this.enterAnnotationText(annotationText);
-        this.saveAnnotation();
+        selectText(selectedText);
+        simulateCTRL_M();
+        enterAnnotationText(annotationText);
+        saveAnnotation();
     }
 
     public void simulateCTRL_M()

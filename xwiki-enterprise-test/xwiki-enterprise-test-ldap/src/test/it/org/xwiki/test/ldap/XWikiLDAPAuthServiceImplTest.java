@@ -333,7 +333,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertNotNull("The user profile document does not contains ldap object", ldapProfileObj);
 
         assertEquals(storedDn, ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_DN));
-        assertEquals(storedUid.toLowerCase(), ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_UID));
+        assertEquals(storedUid, ldapProfileObj.getStringValue(LDAPProfileXClass.LDAP_XFIELD_UID));
     }
 
     /**

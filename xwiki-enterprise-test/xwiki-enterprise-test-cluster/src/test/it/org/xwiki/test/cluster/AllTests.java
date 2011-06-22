@@ -50,6 +50,6 @@ public class AllTests
         executor.saveXWikiProperties(properties);
 
         // This is sometimes required sometime not depending on the system environment
-        executor.addEnv("jgroups.bind_addr", "localhost");
+        executor.addEnvironmentVariable("jgroups.bind_addr", "localhost");
     }
 }

@@ -54,13 +54,27 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
 
     private static final String COMMENT_REPLY = "Comment Reply";
 
+    private ViewPage vp;
+
     @Override
     @Before
     public void setUp()
     {
         super.setUp();
+
+        // Ensure that guest user has comment permission
+        setRightsOnGuest(Right.COMMENT, State.ALLOW);
+
         getUtil().deletePage(SPACE_NAME, DOC_NAME);
-        getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
+        this.vp = getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
+
+        // Set Guest user
+        getUtil().forceGuestUser();
+
+        // Important: we need to reload the page since forceGuestUser() simply removes the cookies and doesn't refresh
+        // the page and we need it refreshed since there's an extra field for guest users when commenting (the user
+        // name field).
+        getDriver().navigate().refresh();
     }
 
     private void setRightsOnGuest(Right right, State state)
@@ -72,13 +86,9 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    public void testPostCommentAsAnonymous()
+    public void testPostCommentAsGuest()
     {
-        setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().forceGuestUser();
-
-        ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        CommentsTab commentsTab = vp.openCommentsDocExtraPane();
+        CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();
 
         commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
         Assert.assertEquals(COMMENT_CONTENT, commentsTab.getCommentContentByID(0));
@@ -86,10 +96,8 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    public void testPostCommentAsAnonymousNoJs()
+    public void testPostCommentAsGuestNoJs()
     {
-        setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().forceGuestUser();
         getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
         CommentsTab commentsTab = new CommentsTab();
 
@@ -105,11 +113,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testReplyCommentAsAnonymous()
     {
-        setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().forceGuestUser();
-
-        ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        CommentsTab commentsTab = vp.openCommentsDocExtraPane();
+        CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();
 
         commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
         commentsTab.replyToCommentByID(commentsTab.getCommentID(COMMENT_CONTENT), COMMENT_REPLY);
@@ -122,11 +126,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCannotEditCommentAsAnonymous()
     {
-        setRightsOnGuest(Right.COMMENT, State.ALLOW);
-        getUtil().forceGuestUser();
-
-        ViewPage vp = getUtil().gotoPage(SPACE_NAME, DOC_NAME);
-        CommentsTab commentsTab = vp.openCommentsDocExtraPane();
+        CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();
 
         commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
         List<WebElement> editButton;

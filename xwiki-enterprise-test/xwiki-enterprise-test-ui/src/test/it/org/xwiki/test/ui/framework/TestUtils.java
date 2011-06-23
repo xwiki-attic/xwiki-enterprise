@@ -416,6 +416,8 @@ public class TestUtils
     /**
      * Forces the passed driver to wait for a {@link #getTimeout()} number of seconds when looking up page elements
      * before declaring that it cannot find them.
+     *
+     * @since 3.2M1
      */
     public void setDriverImplicitWait(WebDriver driver)
     {
@@ -561,7 +563,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public void addObject(String space, String page, String className, Object... properties)
     {
@@ -569,7 +571,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public void addObject(String space, String page, String className, Map<String, ? > properties)
     {
@@ -577,7 +579,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public void deleteObject(String space, String page, String className, int objectNumber)
     {
@@ -593,7 +595,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public void updateObject(String space, String page, String className, int objectNumber, Map<String, ? > properties)
     {
@@ -601,7 +603,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public void updateObject(String space, String page, String className, int objectNumber, Object... properties)
     {
@@ -610,7 +612,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public Map<String, ? > toQueryParameters(String className, Integer objectNumber, Object... properties)
     {
@@ -628,7 +630,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public Map<String, ? > toQueryParameters(String className, Integer objectNumber, Map<String, ? > properties)
     {
@@ -644,7 +646,7 @@ public class TestUtils
     }
 
     /**
-     * @sice 3.2M1
+     * @since 3.2M1
      */
     public String toQueryParameterKey(String className, Integer objectNumber, String key)
     {
@@ -658,4 +660,33 @@ public class TestUtils
 
         return keyBuilder.toString();
     }
+
+    /**
+     * @since 3.2M1
+     */
+    public WebElement findElementWithoutWaiting(WebDriver driver, By by)
+    {
+        // Temporarily remove the implicit wait on the driver since we're doing our own waits...
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        try {
+            return driver.findElement(by);
+        } finally {
+            setDriverImplicitWait(driver);
+        }
+    }
+
+    /**
+     * @since 3.2M1
+     */
+    public List<WebElement> findElementsWithoutWaiting(WebDriver driver, By by)
+    {
+        // Temporarily remove the implicit wait on the driver since we're doing our own waits...
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        try {
+            return driver.findElements(by);
+        } finally {
+            setDriverImplicitWait(driver);
+        }
+    }
+
 }

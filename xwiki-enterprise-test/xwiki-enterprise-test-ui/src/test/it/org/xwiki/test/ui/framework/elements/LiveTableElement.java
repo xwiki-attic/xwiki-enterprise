@@ -44,7 +44,7 @@ public class LiveTableElement extends BaseElement
         this.livetableId = livetableId;
 
         Assert.assertTrue("Invalid state, the livetable shouldn't be in a displayed state",
-            getDriver().findElements(By.id("uitest-livetable-status")).size() == 0);
+            getUtil().findElementsWithoutWaiting(getDriver(), By.id("uitest-livetable-status")).size() == 0);
 
         // Register a Javascript event observation since we need to know when the livetable has finished displaying
         // all its data before we can perform assertions and that livetable sends an event when it has done so.
@@ -58,7 +58,7 @@ public class LiveTableElement extends BaseElement
     public boolean isReady()
     {
         boolean ready = false;
-        List<WebElement> elements = getDriver().findElements(By.id("uitest-livetable-status"));
+        List<WebElement> elements = getUtil().findElementsWithoutWaiting(getDriver(), By.id("uitest-livetable-status"));
         if (elements.size() > 0) {
             ready = "complete".equals(elements.get(0).getText());
         }

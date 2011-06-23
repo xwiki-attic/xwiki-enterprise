@@ -86,7 +86,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 
         // Now language must be "fr"
         vp = getUtil().gotoPage("Test", "LanguageTest");
-        Assert.assertTrue("Header doesn't contain \"Quitter la session\"", isPageInFrench());
+        Assert.assertTrue("Page not in French!", isPageInFrench());
         Assert.assertEquals("Invalid content", vp.getContent(),
             "context = (fr), doc = (), default = (en), tdoc = (), tdocdefault = (en)");
     }
@@ -95,7 +95,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     public void testPassingLanguageInRequestHasNoEffectInMonoligualMode()
     {
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
-        Assert.assertTrue("Header doesn't contain \"Log-out\"", isPageInEnglish());
+        Assert.assertTrue("Page not in English!", isPageInEnglish());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
         setLanguageSettings(true, "en");
 
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
-        Assert.assertTrue("Header doesn't contain \"Quitter la session\"", isPageInFrench());
+        Assert.assertTrue("Page not in French!", isPageInFrench());
     }
 
     @Test
@@ -144,7 +144,8 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
      */
     private boolean isPageInEnglish()
     {
-        return getDriver().findElement(By.xpath("//div[@id='tmLogout']//strong")).getText().contains("Log-out");
+        return getDriver().findElement(By.xpath("//div[@id='tmLogout']//strong")).getText().toLowerCase().contains(
+            "log-out");
     }
 
     /**
@@ -152,8 +153,8 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
      */
     private boolean isPageInFrench()
     {
-        return getDriver().findElement(By.xpath("//div[@id='tmLogout']//strong")).getText().contains(
-            "Quitter la session");
+        return getDriver().findElement(By.xpath("//div[@id='tmLogout']//strong")).getText().toLowerCase().contains(
+            "quitter la session");
     }
 
     private void setLanguageSettings(boolean isMultiLingual, String defaultLanguages)

@@ -46,7 +46,10 @@ public class PersistentTestContext
         executor.start();
 
         // Use a wrapping driver to display more information when there are failures.
-        this.driver = new XWikiWrappingDriver(new FirefoxDriver(), this.util);
+        this.driver = new XWikiWrappingDriver(new FirefoxDriver(), getUtil());
+
+        // Wait when trying to find elements on the page till the timeout expires
+        getUtil().setDriverImplicitWait(this.driver);
     }
 
     public PersistentTestContext(PersistentTestContext toClone)

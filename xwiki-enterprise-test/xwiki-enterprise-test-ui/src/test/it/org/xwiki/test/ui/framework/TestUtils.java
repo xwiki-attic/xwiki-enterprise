@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -160,13 +161,20 @@ public class TestUtils
      */
     public <T> void waitUntilCondition(ExpectedCondition<T> condition)
     {
-        Wait<WebDriver> wait = new WebDriverWait(getDriver().getWrappedDriver(), getTimeout());
+        // Temporarily remove the implicit wait on the driver since we're doing our own waits...
+        WebDriver driver = getDriver().getWrappedDriver();
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+        Wait<WebDriver> wait = new WebDriverWait(driver, getTimeout());
         try {
             wait.until(condition);
         } catch (TimeoutException e) {
             takeScreenshot();
             System.out.println("Page source = [" + getDriver().getPageSource() + "]");
             throw e;
+        } finally {
+            // Reset timeout
+            setDriverImplicitWait(driver);
         }
     }
 
@@ -403,6 +411,15 @@ public class TestUtils
     public void setTimeout(int timeout)
     {
         this.timeout = timeout;
+    }
+
+    /**
+     * Forces the passed driver to wait for a {@link #getTimeout()} number of seconds when looking up page elements
+     * before declaring that it cannot find them.
+     */
+    public void setDriverImplicitWait(WebDriver driver)
+    {
+        driver.manage().timeouts().implicitlyWait(getTimeout(), TimeUnit.SECONDS);
     }
 
     /**

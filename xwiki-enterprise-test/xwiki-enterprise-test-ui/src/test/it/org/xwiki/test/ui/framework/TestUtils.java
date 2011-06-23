@@ -507,17 +507,6 @@ public class TestUtils
     }
 
     /**
-     * @since 3.1M2
-     */
-    public boolean isNonExistingPage()
-    {
-        // there's a view mode, there is no title for the document and there is a message. Unfortunately I think this is
-        // also the case when an exception occurs, so we should somehow eliminate that case
-        return isInViewMode() && getDriver().findElements(By.id("document-title")).size() == 0
-            && getDriver().findElements(By.className("xwikimessage")).size() > 0;
-    }
-
-    /**
      * Takes a screenshot and puts the generated image in the temporary directory.
      * 
      * @since 3.2M1

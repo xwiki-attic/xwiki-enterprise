@@ -130,10 +130,9 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(availableTemplateSize, templates.size() - 1);
         Assert.assertTrue(createPagePage.getAvailableTemplates().contains(templateProviderFullName));
 
-        // create a new page from template by going to a non-existing page
-        getUtil().gotoPage(space, TEMPLATE_NAME + "UnexistingInstance");
-        // make sure we're on a non-existing page
-        Assert.assertTrue(getUtil().isNonExistingPage());
+        // Create a new page from template by going to a non-existing page
+        // And make sure we're on a non-existing page
+        Assert.assertFalse(getUtil().gotoPage(space, TEMPLATE_NAME + "UnexistingInstance").exists());
         DocumentDoesNotExistPage unexistingPage = new DocumentDoesNotExistPage();
         unexistingPage.clickEditThisPageToCreate();
         // make sure we're in create mode
@@ -343,8 +342,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // and now start testing!
 
         // 1/ create a page from the link in the page displayed when navigating to a non-existing page
-        getUtil().gotoPage(space, "NewUnexistingPage");
-        Assert.assertTrue(getUtil().isNonExistingPage());
+        Assert.assertFalse(getUtil().gotoPage(space, "NewUnexistingPage").exists());
         DocumentDoesNotExistPage nonExistingPage = new DocumentDoesNotExistPage();
         nonExistingPage.clickEditThisPageToCreate();
         // make sure we're not in create mode anymore
@@ -422,12 +420,11 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // wait for editor to load (so that content is loaded)
         editCreatedPage.getContentEditor().waitToLoad();
         // and now cancel it
-        editCreatedPage.clickCancel();
+        ViewPage newPage = editCreatedPage.clickCancel();
         // make sure we're not in unexisting page
-        Assert.assertFalse(getUtil().isNonExistingPage());
+        Assert.assertTrue(newPage.exists());
         // we should be in view mode (useless check since the impl of isNonExisting page calls it anyway)
         Assert.assertTrue(getUtil().isInViewMode());
-        ViewPage newPage = new ViewPage();
         // make sure it's the page we want
         Assert.assertEquals(space, newPage.getMetaDataValue("space"));
         Assert.assertEquals(newPageName, newPage.getMetaDataValue("page"));

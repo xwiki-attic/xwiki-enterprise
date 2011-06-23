@@ -181,10 +181,10 @@ public class ViewPage extends BasePage
     /** @return does this page exist. */
     public boolean exists()
     {
-        List<WebElement> messages = getDriver().findElements(By.className("xwikimessage"));
+        List<WebElement> messages = getUtil().findElementsWithoutWaiting(getDriver(), By.className("xwikimessage"));
         for (WebElement message : messages) {
-            if (message.getText().equals("The requested document could not be found.")
-                || message.getText().equals("The document has been deleted.")) {
+            if (message.getText().contains("The requested document could not be found.")
+                || message.getText().contains("The document has been deleted.")) {
                 return false;
             }
         }

@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.ui;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -309,9 +311,9 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
 
         // Let's save the form and check that changes were persisted.
         oep = oep.clickSaveAndView().editObjects();
-        Assert.assertEquals(1, oep.getObjectsOfClass("XWiki.XWikiUsers").size());
-        object = oep.getObjectsOfClass("XWiki.XWikiUsers").get(0);
-        Assert.assertEquals("John", object.getFieldValue(By.id("XWiki.XWikiUsers_0_first_name")));
+        List<FormElement> xwikiUsersForms = oep.getObjectsOfClass("XWiki.XWikiUsers");
+        Assert.assertEquals(1, xwikiUsersForms.size());
+        Assert.assertEquals("John", xwikiUsersForms.get(0).getFieldValue(By.id("XWiki.XWikiUsers_0_first_name")));
     }
 
     @Test

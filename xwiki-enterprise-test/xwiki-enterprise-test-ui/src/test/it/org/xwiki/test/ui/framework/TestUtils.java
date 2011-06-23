@@ -181,7 +181,7 @@ public class TestUtils
     public String getLoggedInUserName()
     {
         String loggedInUserName = null;
-        List<WebElement> elements = getDriver().findElements(By.xpath("//div[@id='tmUser']/span/a"));
+        List<WebElement> elements = findElementsWithoutWaiting(getDriver(), By.xpath("//div[@id='tmUser']/span/a"));
         if (!elements.isEmpty()) {
             String href = elements.get(0).getAttribute("href");
             loggedInUserName = href.substring(href.lastIndexOf("/") + 1);

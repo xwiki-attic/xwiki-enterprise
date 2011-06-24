@@ -65,7 +65,8 @@ public class InvitationSenderPage extends BasePage
 
     public boolean userIsSpammer()
     {
-        for (WebElement error : getDriver().findElements(By.id("invitation-permission-error"))) {
+        for (WebElement error : getUtil().findElementsWithoutWaiting(getDriver(),
+            By.id("invitation-permission-error"))) {
             if (error.getText().equals(
                 "A message which you sent was reported as spam and your privilege to send mail has"
                     + " been suspended pending investigation, we apologize for the inconvenience.")) {

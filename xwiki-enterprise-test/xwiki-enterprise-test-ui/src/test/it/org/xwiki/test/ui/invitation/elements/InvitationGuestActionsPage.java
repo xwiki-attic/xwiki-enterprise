@@ -62,7 +62,7 @@ public class InvitationGuestActionsPage extends BasePage
         int end = messageContent.indexOf("\"", start);
         getDriver().get(messageContent.substring(start, end).replaceAll("&amp;", "&"));
         // Make sure the right messages is displayed otherwise we can't continue.
-        if(action.label != null && !confirm.getLabel().equals(action.label)) {
+        if(action.label != null && !confirm.getLabel().equalsIgnoreCase(action.label)) {
             throw new WebDriverException("Not on correct page, expecting memo label to say \"" + action.label + "\"");
         }
     }
@@ -81,7 +81,8 @@ public class InvitationGuestActionsPage extends BasePage
 
     public String getMessage()
     {
-        List<WebElement> elements = getDriver().findElements(By.id("invitation-action-message"));
+        List<WebElement> elements =
+            getUtil().findElementsWithoutWaiting(getDriver(), By.id("invitation-action-message"));
         if (elements.size() > 0) {
             return elements.get(0).getText();
         }

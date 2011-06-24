@@ -54,7 +54,7 @@ public abstract class InspectInvitationsPage extends BasePage
     /** If there is a message box telling the status and memo the content is returned. */
     public String getStatusAndMemo()
     {
-        List<WebElement> elements = getDriver().findElements(By.id("message-status-and-memo"));
+        List<WebElement> elements = getUtil().findElementsWithoutWaiting(getDriver(), By.id("message-status-and-memo"));
         if (elements.size() > 0) {
             return elements.get(0).getText();
         }
@@ -68,8 +68,8 @@ public abstract class InspectInvitationsPage extends BasePage
         for (WebElement cell : column) {
             if (cell.getText().equals(value)) {
                 // Get the Subject element in the same row and look inside for a link.
-                WebElement link = 
-                    getTable().getColumn("Subject").get(column.indexOf(cell)).findElements(By.tagName("a")).get(0);
+                WebElement link = getUtil().findElementsWithoutWaiting(getDriver(),
+                    getTable().getColumn("Subject").get(column.indexOf(cell)), By.tagName("a")).get(0);
                 link.click();
                 return null;
             }
@@ -136,7 +136,7 @@ public abstract class InspectInvitationsPage extends BasePage
                 notSpamButton.click();
                 InvitationActionConfirmationElement confirm = new InvitationActionConfirmationElement();
                 // We can't go forward unless we are on the right form.
-                if (!confirm.getLabel().equals("Synopsis of findings and/or action taken")) {
+                if (!confirm.getLabel().equalsIgnoreCase("Synopsis of findings and/or action taken")) {
                     throw new WebDriverException("Not on 'not spam' confirm page, message says: " + confirm.getLabel());
                 }
                 confirm.setMemo(message);

@@ -678,4 +678,31 @@ public class TestUtils
         }
     }
 
+    /**
+     * @since 3.2M1
+     */
+    public WebElement findElementWithoutWaiting(WebDriver driver, WebElement element, By by)
+    {
+        // Temporarily remove the implicit wait on the driver since we're doing our own waits...
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        try {
+            return element.findElement(by);
+        } finally {
+            setDriverImplicitWait(driver);
+        }
+    }
+
+    /**
+     * @since 3.2M1
+     */
+    public List<WebElement> findElementsWithoutWaiting(WebDriver driver, WebElement element, By by)
+    {
+        // Temporarily remove the implicit wait on the driver since we're doing our own waits...
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        try {
+            return element.findElements(by);
+        } finally {
+            setDriverImplicitWait(driver);
+        }
+    }
 }

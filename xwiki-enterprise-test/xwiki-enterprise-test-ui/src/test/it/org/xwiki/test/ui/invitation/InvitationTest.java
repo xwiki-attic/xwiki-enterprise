@@ -73,12 +73,24 @@ public class InvitationTest extends AbstractTest
         if (!initialized) {
             // We have to go to sender page before any config shows up.
             this.senderPage.gotoPage();
-            // Set port to 3025
+
             AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
             config.gotoPage();
+            // Set port to 3025
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_smtp_port"),
                 "3025");
+            // Make sure that by default we don't allow non admin to send emails to multiple addresses
+            config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
+                + "usersMaySendToMultiple"), "false");
             config.clickSave();
+
+            // Make sure the users we're registering in testAcceptInvitation and testAcceptInvitationToCloseWiki don't
+            // exist.
+            // TODO: Fix this whole mess of having try/finally blocks in tests below which is an anti pattern. Instead
+            // we need to separate tests by fixture.
+            getUtil().deletePage("XWiki", "InvitedMember");
+            getUtil().deletePage("XWiki", "AnotherInvitedMember");
+
             initialized = true;
         }
 
@@ -232,7 +244,7 @@ public class InvitationTest extends AbstractTest
             InvitationSenderPage.InvitationSentPage sent = getSenderPage().send();
             getGreenMail().waitForIncomingEmail(2000, 2);
             MimeMessage[] messages = getGreenMail().getReceivedMessages();
-            Assert.assertTrue("Messages were recieved when they shouldn't have been sent!", messages.length == 0);
+            Assert.assertTrue("Messages were received when they shouldn't have been sent!", messages.length == 0);
             Assert.assertTrue("User was not shown the correct error message.",
                 sent.getMessageBoxContent().equals("Your message couldn't be sent because there were no valid email "
                 + "addresses to send to."));
@@ -582,12 +594,11 @@ public class InvitationTest extends AbstractTest
 
             InvitationActionConfirmationElement confirm = message.cancel();
 
-            Assert.assertTrue("Confirmation field for canceling invitation has wrong label",
-                confirm.getLabel().equals("Leave a message in case the invitee(s) try to register."));
+            Assert.assertEquals("leave a message in case the invitee(s) try to register.",
+                confirm.getLabel().toLowerCase());
 
             confirm.setMemo("Sorry, wrong email address.");
-            Assert.assertTrue("User not shown the correct message after confirming cancellation of invitation.",
-                confirm.confirm().equals("Invitation successfully rescinded."));
+            Assert.assertEquals("Invitation successfully rescinded.", confirm.confirm());
 
             // Now switch to guest.
             getUtil().forceGuestUser();
@@ -600,24 +611,23 @@ public class InvitationTest extends AbstractTest
                 new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertFalse("Guest was able to accept a message which had been canceled.",
                 guestPage.getMessage().equals(""));
-            Assert.assertTrue("Guest attempting to accept invitation was not given message that was canceled.",
-                guestPage.getMessage().equals("We're sorry but this invitation has been rescinded." + commonPart));
+            Assert.assertEquals("We're sorry but this invitation has been rescinded." + commonPart,
+                guestPage.getMessage());
 
             // Prove that invitation cannot be declined
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertFalse("Guest was able to decline a message which had been canceled.",
                 guestPage.getMessage().equals(""));
-            Assert.assertTrue("Guest attempting to decline invitation was not given message that was canceled.",
-                guestPage.getMessage().equals("This invitation has been rescinded and thus cannot be declined."
-                + commonPart));
+            Assert.assertEquals("This invitation has been rescinded and thus cannot be declined." + commonPart,
+                guestPage.getMessage());
 
             // Prove that the message report spam page still shows up.
             guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             Assert.assertTrue("Guest was not able to report canceled invitation as spam",
                 guestPage.getMessage().equals(""));
             guestPage.setMemo("Canceled message is spam.");
-            Assert.assertTrue(guestPage.confirm().equals("Your report has been logged and the situation will "
-                + "be investigated as soon as possible, we apologize for the inconvenience."));
+            Assert.assertEquals("Your report has been logged and the situation will "
+                + "be investigated as soon as possible, we apologize for the inconvenience.", guestPage.confirm());
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);

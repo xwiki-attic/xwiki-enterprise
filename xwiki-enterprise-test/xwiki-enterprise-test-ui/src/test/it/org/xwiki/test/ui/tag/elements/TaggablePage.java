@@ -45,7 +45,7 @@ public class TaggablePage extends ViewPage
      */
     public boolean hasTag(String tagName)
     {
-        return this.tagsContainer.findElements(getTagLocator(tagName)).size() > 0;
+        return getUtil().findElementsWithoutWaiting(getDriver(), this.tagsContainer, getTagLocator(tagName)).size() > 0;
     }
 
     /**
@@ -65,8 +65,8 @@ public class TaggablePage extends ViewPage
      */
     public boolean removeTag(String tagName)
     {
-        List<WebElement> toDelete =
-            this.tagsContainer.findElements(By.xpath("//a[contains(@href, '&tag=" + tagName + "') and . = 'X']"));
+        List<WebElement> toDelete = getUtil().findElementsWithoutWaiting(getDriver(), this.tagsContainer,
+            By.xpath("//a[contains(@href, '&tag=" + tagName + "') and . = 'X']"));
         if (toDelete.size() > 0) {
             toDelete.get(0).click();
             waitUntilElementDisappears(getTagLocator(tagName));

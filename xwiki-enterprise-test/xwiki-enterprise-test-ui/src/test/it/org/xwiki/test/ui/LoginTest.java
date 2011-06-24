@@ -22,13 +22,11 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.elements.LoginPage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Test the Login feature.
@@ -38,43 +36,44 @@ import org.xwiki.test.ui.xe.elements.HomePage;
  */
 public class LoginTest extends AbstractTest
 {
-    private HomePage homePage;
+    private ViewPage vp;
+
+    private String nonExistentPageURL;
 
     @Before
     public void setUp()
     {
-        this.homePage = new HomePage();
-        this.homePage.gotoPage();
+        // Force log out (we're using the fast way since this is not part of what we want to test)
+        getUtil().forceGuestUser();
 
-        // Make sure we log out if we're already logged in since we're testing the log in...
-        if (this.homePage.isAuthenticated()) {
-            this.homePage.logout();
-        }
+        // Go to any page in view mode. We choose to go to a nonexisting page so that it loads as fast as possible
+        this.vp = getUtil().gotoPage("NonExistentSpace", "NonExistentPage");
+        this.nonExistentPageURL = getDriver().getCurrentUrl();
     }
 
     @Test
     public void testLoginLogoutAsAdmin()
     {
-        LoginPage loginPage = this.homePage.login();
+        LoginPage loginPage = this.vp.login();
         loginPage.loginAsAdmin();
 
         // Verify that after logging in we're redirected to the page on which the login button was clicked, i.e. the
-        // home page here.
-        Assert.assertTrue(this.homePage.isOnHomePage());
+        // non existent page here.
+        Assert.assertEquals(this.nonExistentPageURL, getDriver().getCurrentUrl());
 
-        Assert.assertTrue(this.homePage.isAuthenticated());
-        Assert.assertEquals("Administrator", this.homePage.getCurrentUser());
+        Assert.assertTrue(this.vp.isAuthenticated());
+        Assert.assertEquals("Administrator", this.vp.getCurrentUser());
 
-        // Test Logout and verify we stay on the home page
-        this.homePage.logout();
-        Assert.assertFalse(this.homePage.isAuthenticated());
-        Assert.assertTrue(this.homePage.isOnHomePage());
+        // Test Logout and verify we stay on the same page
+        this.vp.logout();
+        Assert.assertFalse(this.vp.isAuthenticated());
+        Assert.assertEquals(this.nonExistentPageURL, getDriver().getCurrentUrl());
     }
 
     @Test
     public void testLoginWithInvalidCredentials()
     {
-        LoginPage loginPage = this.homePage.login();
+        LoginPage loginPage = this.vp.login();
         loginPage.loginAs("Admin", "wrong password");
         Assert.assertTrue(loginPage.hasInvalidCredentialsErrorMessage());
     }
@@ -82,38 +81,44 @@ public class LoginTest extends AbstractTest
     @Test
     public void testLoginWithInvalidUsername()
     {
-        LoginPage loginPage = this.homePage.login();
+        LoginPage loginPage = this.vp.login();
         loginPage.loginAs("non existent user", "admin");
         Assert.assertTrue(loginPage.hasInvalidCredentialsErrorMessage());
     }
 
+    /**
+     * Verify that the initial URL is not lost after logging in when the session has expired.
+     * See XWIKI-5317.
+     */
     @Test
     public void testRedirectBackAfterLogin()
     {
         try {
-            LoginPage loginPage = this.homePage.login();
-            loginPage.loginAsAdmin();
+            // Test setup: disallow view right for unauthenticated users. We need to be logged as admin in order to
+            // do that. Since this is not what we are testing use the fast way to log in
+            GlobalRightsAdministrationSectionPage grasp = new GlobalRightsAdministrationSectionPage();
+            getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(grasp.getURL()));
+            grasp.forceAuthenticatedView();
 
-            AdministrationPage admin = new AdministrationPage();
-            admin.gotoPage();
-            GlobalRightsAdministrationSectionPage sectionPage = admin.clickGlobalRightsSection();
-            sectionPage.forceAuthenticatedView();
-
-            getUtil().gotoPage("Blog", "Categories");
-            loginPage.logout();
+            // Go to a page, log out and expire session by removing cookies, log in again and verify that the user is
+            // redirected to the initial page.
+            ViewPage page = getUtil().gotoPage("SomeSpace", "SomePage");
+            page.logout();
+            // Since view is disallowed for unauthenticated users, at this point we see a log in page.
+            LoginPage loginPage = new LoginPage();
+            // Remove all cookie to simulate a session expiry
             getDriver().manage().deleteAllCookies();
             loginPage.loginAsAdmin();
+
             // We use startsWith since the URL contains a jsessionid and a srid.
-            Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL("Blog", "Categories")));
+            Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL("SomeSpace", "SomePage")));
         } finally {
-            AdministrationPage admin = new AdministrationPage();
-            admin.gotoPage();
-            if (!admin.isAuthenticated()) {
-                admin.login().loginAsAdmin();
-                admin.gotoPage();
+            GlobalRightsAdministrationSectionPage grasp = new GlobalRightsAdministrationSectionPage();
+            grasp.gotoPage();
+            if (!grasp.isAuthenticated()) {
+                getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(grasp.getURL()));
             }
-            GlobalRightsAdministrationSectionPage sectionPage = admin.clickGlobalRightsSection();
-            sectionPage.unforceAuthenticatedView();
+            grasp.unforceAuthenticatedView();
         }
     }
 
@@ -123,7 +128,7 @@ public class LoginTest extends AbstractTest
         String test = "Test string " + System.currentTimeMillis();
         final String space = "Main";
         final String page = "POSTTest";
-        LoginPage loginPage = this.homePage.login();
+        LoginPage loginPage = this.vp.login();
         loginPage.loginAsAdmin();
         // start editing a page
         WikiEditPage editPage = new WikiEditPage();
@@ -147,10 +152,6 @@ public class LoginTest extends AbstractTest
     @Test
     public void testCorrectUrlIsAccessedAfterLogin()
     {
-        HomePage homePage = new HomePage();
-        if (homePage.isAuthenticated()) {
-            homePage.logout();
-        }
         // We will choose the Scheduler.WebHome page to make our testing
         // since it can't be viewed without being logged in
         getUtil().gotoPage("Scheduler", "WebHome");
@@ -160,19 +161,11 @@ public class LoginTest extends AbstractTest
         // We should be redirected back to Scheduler.WebHome
         Assert.assertTrue(getDriver().getCurrentUrl().contains("/xwiki/bin/view/Scheduler/WebHome"));
         Assert.assertTrue(getDriver().getTitle().contains("Job Scheduler"));
-        // Preserve the initial state
-        homePage.gotoPage();
-        if (homePage.isAuthenticated())
-            homePage.logout();
     }
 
     @Test
     public void testDataIsPreservedAfterLogin()
     {
-        HomePage homePage = new HomePage();
-        if (homePage.isAuthenticated()) {
-            homePage.logout();
-        }
         getUtil().gotoPage("Test", "TestData", "save", "content=this+should+not+be+saved");
         getUtil().gotoPage("Test", "TestData", "save", "content=this+should+be+saved+instead&parent=Main.WebHome");
         LoginPage loginPage = new LoginPage();
@@ -180,10 +173,5 @@ public class LoginTest extends AbstractTest
         getDriver().getCurrentUrl().contains("/xwiki/bin/view/Test/TestData");
         ViewPage viewPage = new ViewPage();
         viewPage.getContent().equals("this should be saved instead");
-        // Preserve the initial state
-        homePage.gotoPage();
-        if (homePage.isAuthenticated())
-            homePage.logout();
     }
-
 }

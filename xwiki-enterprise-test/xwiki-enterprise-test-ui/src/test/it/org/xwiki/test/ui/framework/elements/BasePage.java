@@ -65,7 +65,7 @@ public class BasePage extends BaseElement
     {
         // Note that we cannot test if the userLink field is accessible since we're using an AjaxElementLocatorFactory
         // and thus it would wait 15 seconds before considering it's not accessible.
-        return !getDriver().findElements(By.id("tmUser")).isEmpty();
+        return !getUtil().findElementsWithoutWaiting(getDriver(), By.id("tmUser")).isEmpty();
     }
 
     /**

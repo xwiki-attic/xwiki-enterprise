@@ -79,30 +79,11 @@ public class ViewPage extends BasePage
     @FindBy(id = "tmWatchDocument")
     private WebElement watchDocumentLink;
 
-    /**
-     * Logs in the Admin user (move to the home page if the current page has no log in link).
-     */
-    public void loginAsAdmin()
-    {
-        if (!isAuthenticated()) {
-            // If there's no login link then go to the home page.
-            if (!hasLoginLink()) {
-                String thisPage = getPageURL();
-                HomePage homePage = new HomePage();
-                homePage.gotoPage();
-                login().loginAsAdmin();
-                getDriver().get(thisPage);
-            } else {
-                login().loginAsAdmin();
-            }
-        }
-    }
-
     public boolean hasLoginLink()
     {
         // Note that we cannot test if the loginLink field is accessible since we're using an AjaxElementLocatorFactory
         // and thus it would wait 15 seconds before considering it's not accessible.
-        return !getDriver().findElements(By.id("tmLogin")).isEmpty();
+        return !getUtil().findElementsWithoutWaiting(getDriver(), By.id("tmLogin")).isEmpty();
     }
 
     public LoginPage login()

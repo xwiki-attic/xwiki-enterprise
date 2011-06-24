@@ -45,7 +45,7 @@ public class AllDocsTest extends AbstractAdminAuthenticatedTest
         page.logout();
         livetable = page.clickIndexTab();
         Assert.assertFalse("Actions column shouldn't be visible for guests", livetable.hasColumn("Actions"));
-        page.loginAsAdmin();
+        page.login().loginAsAdmin();
 
         // Test 2: Verify filtering works by filtering on the document name
         // TODO: the line below fails from time to time. Fix it.

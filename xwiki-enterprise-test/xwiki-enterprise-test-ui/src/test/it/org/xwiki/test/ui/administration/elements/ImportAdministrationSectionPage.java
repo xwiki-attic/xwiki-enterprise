@@ -71,8 +71,8 @@ public class ImportAdministrationSectionPage extends ViewPage
     public List<String> getPackageNames()
     {
         List<String> names = new ArrayList<String>();
-        for (WebElement element :
-            getDriver().findElements(By.xpath("//div[@id='packagelistcontainer']//a[@class='package']")))
+        for (WebElement element : getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//div[@id='packagelistcontainer']//a[@class='package']")))
         {
             names.add(element.getText());
         }

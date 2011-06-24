@@ -132,7 +132,7 @@ public class ManageCategoriesPage extends BasePage
      */
     public boolean isCategoryPresent(String name)
     {
-        return !getDriver().findElements(categoryLocator(name)).isEmpty();
+        return !getUtil().findElementsWithoutWaiting(getDriver(), categoryLocator(name)).isEmpty();
     }
 
     /**

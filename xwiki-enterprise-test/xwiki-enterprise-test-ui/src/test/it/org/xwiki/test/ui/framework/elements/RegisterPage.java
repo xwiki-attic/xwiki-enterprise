@@ -102,19 +102,21 @@ public class RegisterPage extends BasePage
     /** @return a list of WebElements representing validation failure messages. Use after calling register() */
     public List<WebElement> getValidationFailureMessages()
     {
-        return getDriver().findElements(By.xpath("//dd/span[@class='LV_validation_message LV_invalid']"));
+        return getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//dd/span[@class='LV_validation_message LV_invalid']"));
     }
 
     /** @return Is the specified message included in the list of validation failure messages. */
     public boolean validationFailureMessagesInclude(String message)
     {
-        return getDriver().findElements(By.xpath("//dd/span[@class='LV_validation_message LV_invalid' "
-                                                 + "and . = '" + message + "']")).size() > 0;
+        return getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//dd/span[@class='LV_validation_message LV_invalid' and . = '" + message + "']")).size() > 0;
     }
 
     public boolean liveValidationEnabled()
     {
-        return !getDriver().findElements(By.xpath("/html/body/div/div/div[3]/div/div/div/div/div/script")).isEmpty();
+        return !getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("/html/body/div/div/div[3]/div/div/div/div/div/script")).isEmpty();
     }
 
     /** Try to make LiveValidation validate the forms. */

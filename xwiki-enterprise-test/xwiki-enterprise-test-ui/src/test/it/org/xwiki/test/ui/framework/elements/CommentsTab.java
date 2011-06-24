@@ -177,4 +177,13 @@ public class CommentsTab extends ViewPage
         return getDriver().findElement(By.xpath("//div[@id='xwikicomment_" + id + "']//div[@class='commentcontent']"))
             .getText();
     }
+
+    /**
+     * @since 3.2M1
+     */
+    public boolean hasEditbuttonForCommentByID(int commentId)
+    {
+        return getDriver().findElements(
+            By.xpath("//div[@id='xwikicomment_" + commentId + "']//a[@class='edit']")).size() > 0;
+    }
 }

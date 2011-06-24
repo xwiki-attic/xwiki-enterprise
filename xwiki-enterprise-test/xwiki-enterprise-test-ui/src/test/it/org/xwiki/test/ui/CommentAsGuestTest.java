@@ -127,15 +127,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     public void testCannotEditCommentAsAnonymous()
     {
         CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();
-
         commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
-        List<WebElement> editButton;
-
-        editButton =
-            getDriver().findElements(
-                By.xpath("//div[@id='xwikicomment_" + commentsTab.getCommentID(COMMENT_CONTENT)
-                    + "']//a[@class='edit']"));
-
-        Assert.assertEquals(0, editButton.size());
+        Assert.assertFalse(commentsTab.hasEditbuttonForCommentByID(commentsTab.getCommentID(COMMENT_CONTENT)));
     }
 }

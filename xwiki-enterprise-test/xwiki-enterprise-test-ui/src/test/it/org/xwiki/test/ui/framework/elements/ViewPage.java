@@ -252,14 +252,15 @@ public class ViewPage extends BasePage
 
     public boolean hasBreadcrumbContent(String breadcrumbItem, boolean isCurrent)
     {
-        boolean result;
+        List<WebElement> result;
         if (isCurrent) {
-            result = getUtil().hasElement(this.breadcrumbDiv, By.xpath("span[@class = 'current' and text() ='"
-                + breadcrumbItem + "']"));
+            result = getUtil().findElementsWithoutWaiting(getDriver(), this.breadcrumbDiv,
+                By.xpath("span[@class = 'current' and text() ='" + breadcrumbItem + "']"));
         } else {
-            result = getUtil().hasElement(this.breadcrumbDiv, By.xpath("a[text() = '" + breadcrumbItem + "']"));
+            result = getUtil().findElementsWithoutWaiting(getDriver(), this.breadcrumbDiv,
+                By.xpath("a[text() = '" + breadcrumbItem + "']"));
         }
-        return result;
+        return result.size() > 0;
     }
 
     public boolean isInlinePage()

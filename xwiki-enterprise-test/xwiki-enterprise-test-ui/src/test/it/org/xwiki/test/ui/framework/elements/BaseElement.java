@@ -21,7 +21,6 @@ package org.xwiki.test.ui.framework.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -91,10 +90,10 @@ public class BaseElement
             {
                 public WebElement apply(WebDriver driver)
                 {
-                    RenderedWebElement element = null;
+                    WebElement element = null;
                     for (int i = 0; i < locators.length; i++) {
                         try {
-                            element = (RenderedWebElement) driver.findElement(locators[i]);
+                            element = driver.findElement(locators[i]);
                         } catch (NotFoundException e) {
                             // This exception is caught by WebDriverWait
                             // but it returns null which is not necessarily what we want.
@@ -137,9 +136,8 @@ public class BaseElement
                 public Boolean apply(WebDriver driver)
                 {
                     try {
-                        RenderedWebElement element =
-                            (RenderedWebElement) driver.findElement(locator);
-                        return Boolean.valueOf(!element.isDisplayed());
+                        WebElement element = driver.findElement(locator);
+                        return !element.isDisplayed();
                     } catch (NotFoundException e) {
                         return Boolean.TRUE;
                     } catch (StaleElementReferenceException e) {
@@ -183,7 +181,7 @@ public class BaseElement
                 public Boolean apply(WebDriver driver)
                 {
                     try {
-                        RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                        WebElement element = driver.findElement(locator);
                         return expectedValue.equals(element.getAttribute(attributeName));
                     } catch (NotFoundException e) {
                         return false;
@@ -211,7 +209,7 @@ public class BaseElement
                 public Boolean apply(WebDriver driver)
                 {
                     try {
-                        RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                        WebElement element = driver.findElement(locator);
                         return element.getAttribute(attributeName).endsWith(expectedValue);
                     } catch (NotFoundException e) {
                         return false;
@@ -237,7 +235,7 @@ public class BaseElement
             {
                 public Boolean apply(WebDriver driver)
                 {
-                    RenderedWebElement element = (RenderedWebElement) driver.findElement(locator);
+                    WebElement element = driver.findElement(locator);
                     return Boolean.valueOf(expectedValue.equals(element.getText()));
                 }
             }

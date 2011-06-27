@@ -23,19 +23,19 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.administration.elements.ProfileUserProfilePage;
-import org.xwiki.test.ui.framework.AbstractTest;
+import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.scheduler.elements.SchedulerHomePage;
 import org.xwiki.test.ui.watchlist.elements.WatchlistUserProfilePage;
 import org.xwiki.test.ui.watchlist.elements.editor.WatchlistPreferencesEditPage;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;
 
-public class WatchThisPageAndWholeSpaceTest extends AbstractTest
+public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTest
 {
     private GreenMail greenMail;
 
@@ -43,21 +43,14 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractTest
 
     private ProfileUserProfilePage profilePage;
 
-    @BeforeClass
-    public static void beforeClass()
+    @Before
+    public void setUp()
     {
-        // Make sure we are admin
-        if (getUtil().getLoggedInUserName() != "Admin") {
-            getDriver().get(getUtil().getURLToLoginAsAdmin());
-        }
+        super.setUp();
 
         // Set the SMTP port to the default port used by Greenmail (3025)
         getUtil().updateObject("XWiki", "XWikiPreferences", "XWiki.XWikiPreferences", 0, "smtp_port", 3025);
-    }
-    
-    @Before
-    public void setUp() throws InterruptedException
-    {
+
         // Start GreenMail test server
         this.greenMail = new GreenMail();
         this.greenMail.start();
@@ -120,13 +113,12 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractTest
         watchlistPreferences.setNotifierDaily();
         watchlistPreferences.clickSaveAndContinue();
 
-        // Switch to Admin user
-        getDriver().get(getUtil().getURLToLoginAsAdmin());
+        // Switch to Admin user and go to the scheduler home page
+        SchedulerHomePage schedulerHomePage = new SchedulerHomePage();
+        getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(schedulerHomePage.getURL()));
 
         // Trigger the notification
-        getUtil().gotoPage("Scheduler", "WebHome");
-        getDriver().findElement(By.xpath("//a[contains(@href, 'do=trigger&which=Scheduler.WatchListDailyNotifier')]"))
-            .click();
+        schedulerHomePage.clickJobActionTrigger("WatchList daily notifier");
 
         // Wait for the email with a timeout
         Assert.assertTrue("Mail not received", this.greenMail.waitForIncomingEmail(70000, 1));

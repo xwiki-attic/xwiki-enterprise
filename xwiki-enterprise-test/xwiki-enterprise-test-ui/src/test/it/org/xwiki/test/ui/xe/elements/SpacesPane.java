@@ -67,9 +67,11 @@ public class SpacesPane extends BaseElement
         String escapedSpaceName = getUtil().escapeURL(spaceName);
 
         // Start by finding all li elements with 'xitem' class
-        for (WebElement liElement : getDriver().findElements(By.xpath("//li[contains(@class, 'xitem')]"))) {
-            List<WebElement> elements =
-                liElement.findElements(By.xpath(".//a[contains(@href, 'SpaceIndex?space=" + escapedSpaceName + "')]"));
+        for (WebElement liElement : getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//li[contains(@class, 'xitem')]")))
+        {
+            List<WebElement> elements = getUtil().findElementsWithoutWaiting(getDriver(), liElement,
+                By.xpath(".//a[contains(@href, 'SpaceIndex?space=" + escapedSpaceName + "')]"));
             if (!elements.isEmpty()) {
 
                 // Make sure we hover before we click since the link is hidden by default.

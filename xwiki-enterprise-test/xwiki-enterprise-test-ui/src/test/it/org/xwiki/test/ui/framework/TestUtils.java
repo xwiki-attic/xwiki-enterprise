@@ -34,6 +34,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -703,6 +704,38 @@ public class TestUtils
             return element.findElements(by);
         } finally {
             setDriverImplicitWait(driver);
+        }
+    }
+
+    /**
+     * Should be used when the result is supposed to be true (otherwise you'll incur the timeout).
+     *
+     * @since 3.2M1
+     */
+    public boolean hasElement(By by)
+    {
+        try {
+            // Note: make sure to use the original driver since we don't want to generate logs/take screenshots when
+            // there's an exception.
+            getDriver().getWrappedDriver().findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Should be used when the result is supposed to be true (otherwise you'll incur the timeout).
+     *
+     * @since 3.2M1
+     */
+    public boolean hasElement(WebElement element, By by)
+    {
+        try {
+            element.findElement(by);
+            return true;
+        } catch (NoSuchElementException e) {
+            return false;
         }
     }
 }

@@ -84,17 +84,15 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
     public boolean isWatched(String space, String page)
     {
         // TODO: only looks in the first livetable page currently
-        return !getDriver().findElements(
-            By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/" + page + "']"))
-            .isEmpty();
+        return getUtil().hasElement(
+            By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/" + page + "']"));
     }
     
     public boolean isWatched(String space)
     {
         // TODO: only looks in the first livetable page currently
-        return !getDriver().findElements(
-            By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/WebHome']"))
-            .isEmpty();
+        return getUtil().hasElement(
+            By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/WebHome']"));
     }
 
     public WatchlistPreferencesEditPage editPreferences()

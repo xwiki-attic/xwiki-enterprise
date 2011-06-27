@@ -97,6 +97,7 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
 
     }
 
+    // TODO: this should be a PageObject API
     void addAnnotation(String annotatedText, String annotationText)
     {
         annotationsWindow.addAnnotation(annotatedText, annotationText);
@@ -109,6 +110,7 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(annotationText, annotationsLabel.getAnnotationContentByText(annotatedText));
     }
 
+    // TODO: this should be a PageObject API
     void deleteAnnotationByID(String id)
     {
         annotationsLabel.deleteAnnotationById(id);
@@ -162,11 +164,15 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
 
         annotationsPane.toggleAnnotationsPane();
         // Annotations are disabled in 1.0 Pages. This element should no be here
-        Assert.assertEquals(0, getDriver().findElements(By.id("annotationsdisplay")).size());
+        // TODO: this should be a PageObject API
+        Assert.assertEquals(0, getUtil().findElementsWithoutWaiting(getDriver(),
+            By.id("annotationsdisplay")).size());
         annotationsWindow.simulateCTRL_M();
 
         ViewPage vp = new ViewPage();
+        // TODO: this should be a PageObject API
         vp.waitUntilElementIsVisible(By.className("xnotification-warning"));
+        // TODO: this should be a PageObject API
         WebElement warning = getDriver().findElement(By.className("xnotification-warning"));
         Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
 
@@ -180,10 +186,13 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         getUtil().gotoPage(SPACE_NAME, DOC_NAME);
         // Landing directly on this page might result in notification not to be displayed
         getDriver().navigate().refresh();
+        // TODO: this should be a PageObject API
         vp.waitUntilElementIsVisible(By.id("body"));
 
         vp = new ViewPage();
+        // TODO: this should be a PageObject API
         vp.waitUntilElementIsVisible(By.className("xnotification-warning"));
+        // TODO: this should be a PageObject API
         warning = getDriver().findElement(By.className("xnotification-warning"));
         Assert.assertEquals(XWIKI_SYNTAX_1_WARNING, warning.getText());
     }

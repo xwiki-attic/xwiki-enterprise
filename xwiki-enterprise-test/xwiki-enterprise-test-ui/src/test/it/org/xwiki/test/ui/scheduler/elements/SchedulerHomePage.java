@@ -39,6 +39,11 @@ public class SchedulerHomePage extends ViewPage
         getUtil().gotoPage("Scheduler", "WebHome", "view");
     }
 
+    public String getURL()
+    {
+        return getUtil().getURL("Scheduler", "WebHome");
+    }
+
     public void setJobName(String jobName)
     {
         this.nameInput.clear();

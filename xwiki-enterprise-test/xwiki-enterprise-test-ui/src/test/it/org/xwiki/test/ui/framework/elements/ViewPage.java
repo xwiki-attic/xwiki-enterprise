@@ -232,9 +232,9 @@ public class ViewPage extends BasePage
 
     public boolean canDelete()
     {
-        if (getDriver().findElements(By.xpath("//div[@id='tmPage']//span[@class='menuarrow']")).size() > 0) {
+        if (getUtil().hasElement(By.xpath("//div[@id='tmPage']//span[@class='menuarrow']"))) {
             hoverOverMenu("tmPage");
-            return getDriver().findElements(By.id("tmActionDelete")).size() > 0;
+            return getUtil().hasElement(By.id("tmActionDelete"));
         } else {
             return false;
         }
@@ -252,15 +252,14 @@ public class ViewPage extends BasePage
 
     public boolean hasBreadcrumbContent(String breadcrumbItem, boolean isCurrent)
     {
-        List<WebElement> result;
+        boolean result;
         if (isCurrent) {
-            result =
-                this.breadcrumbDiv.findElements(By.xpath("span[@class = 'current' and text() ='" + breadcrumbItem
-                    + "']"));
+            result = getUtil().hasElement(this.breadcrumbDiv, By.xpath("span[@class = 'current' and text() ='"
+                + breadcrumbItem + "']"));
         } else {
-            result = this.breadcrumbDiv.findElements(By.xpath("a[text() = '" + breadcrumbItem + "']"));
+            result = getUtil().hasElement(this.breadcrumbDiv, By.xpath("a[text() = '" + breadcrumbItem + "']"));
         }
-        return result.size() > 0;
+        return result;
     }
 
     public boolean isInlinePage()

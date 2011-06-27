@@ -98,7 +98,7 @@ public class AddTagsPane extends BaseElement
         );
 
         // If the add tags panel is still visible then there was a problem adding the tags.
-        return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0;
+        return getUtil().findElementsWithoutWaiting(getDriver(), By.className(FORM_CLASS_NAME)).size() == 0;
     }
 
     /**

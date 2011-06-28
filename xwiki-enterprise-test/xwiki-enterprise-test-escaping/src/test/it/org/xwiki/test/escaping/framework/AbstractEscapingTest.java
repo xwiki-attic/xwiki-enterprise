@@ -157,6 +157,7 @@ public abstract class AbstractEscapingTest implements FileTest
      * 
      * @see org.xwiki.test.escaping.suite.FileTest#initialize(java.lang.String, java.io.Reader)
      */
+    @Override
     public boolean initialize(String name, final Reader reader)
     {
         this.name = name;

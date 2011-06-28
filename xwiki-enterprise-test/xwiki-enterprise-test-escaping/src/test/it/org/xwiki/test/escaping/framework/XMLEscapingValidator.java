@@ -87,6 +87,7 @@ public class XMLEscapingValidator implements Validator
      * 
      * @see org.xwiki.validator.Validator#setDocument(java.io.InputStream)
      */
+    @Override
     public void setDocument(InputStream document)
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(document));
@@ -109,6 +110,7 @@ public class XMLEscapingValidator implements Validator
      * 
      * @see org.xwiki.validator.Validator#validate()
      */
+    @Override
     public List<ValidationError> validate()
     {
         clear();
@@ -222,6 +224,7 @@ public class XMLEscapingValidator implements Validator
      * {@inheritDoc}
      * @see org.xwiki.validator.Validator#getErrors()
      */
+    @Override
     public List<ValidationError> getErrors()
     {
         return this.errors;
@@ -231,6 +234,7 @@ public class XMLEscapingValidator implements Validator
      * {@inheritDoc}
      * @see org.xwiki.validator.Validator#clear()
      */
+    @Override
     public void clear()
     {
         this.errors = new ArrayList<ValidationError>();
@@ -240,6 +244,7 @@ public class XMLEscapingValidator implements Validator
      * {@inheritDoc}
      * @see org.xwiki.validator.Validator#getName()
      */
+    @Override
     public String getName()
     {
         return "XML ESCAPING";

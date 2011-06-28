@@ -211,6 +211,7 @@ public class ArchiveSuite extends ParentRunner<Runner>
     public void sort(Sorter sorter)
     {
         super.sort(new Sorter(new Comparator<Description>() {
+            @Override
             public int compare(Description o1, Description o2) {
                 return o1.getDisplayName().compareTo(o2.getDisplayName());
             }

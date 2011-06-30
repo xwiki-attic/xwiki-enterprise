@@ -23,8 +23,13 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
+import org.junit.rules.MethodRule;
 import org.junit.rules.TestName;
+import org.junit.rules.TestWatchman;
+import org.junit.runners.model.FrameworkMethod;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
@@ -41,7 +46,35 @@ public class AbstractTest
     @Rule
     public final TestName testName = new TestName();
 
+    /**
+     * The object used to watch tests (start/finish and fail/succeed).
+     */
+    @Rule
+    public final MethodRule watchman = new TestWatchman()
+    {
+        @Override
+        public void starting(FrameworkMethod method)
+        {
+            logger.info("{} started", method.getName());
+        }
+
+        @Override
+        public void succeeded(FrameworkMethod method)
+        {
+            logger.info("{} succeeded", method.getName());
+        }
+
+        @Override
+        public void failed(Throwable e, FrameworkMethod method)
+        {
+            logger.info("{} failed", method.getName());
+        }
+    };
+
     protected static PersistentTestContext context;
+
+    /** The object used to log an info message when the test starts and ends. */
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)

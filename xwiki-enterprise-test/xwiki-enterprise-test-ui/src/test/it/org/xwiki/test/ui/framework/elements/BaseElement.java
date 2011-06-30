@@ -244,9 +244,6 @@ public class BaseElement
 
     public Object executeJavascript(String javascript, Object... arguments)
     {
-        if (!getDriver().isJavascriptEnabled()) {
-            throw new RuntimeException("JavaScript is disabled");
-        }
         return getDriver().executeScript(javascript, arguments);
     }
 

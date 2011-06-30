@@ -46,7 +46,7 @@ public class TemplateProviderInlinePage extends InlinePage
 
     public String getTemplateName()
     {
-        return this.templateNameInput.getValue();
+        return this.templateNameInput.getAttribute("value");
     }
 
     public void setTemplateName(String value)
@@ -57,7 +57,7 @@ public class TemplateProviderInlinePage extends InlinePage
 
     public String getTemplate()
     {
-        return this.templateInput.getValue();
+        return this.templateInput.getAttribute("value");
     }
 
     public void setTemplate(String value)
@@ -76,7 +76,7 @@ public class TemplateProviderInlinePage extends InlinePage
         List<String> spaces = new ArrayList<String>();
 
         for (WebElement input : getSpacesInput()) {
-            spaces.add(input.getValue());
+            spaces.add(input.getAttribute("value"));
         }
 
         return spaces;
@@ -88,7 +88,7 @@ public class TemplateProviderInlinePage extends InlinePage
             if (input.isSelected()) {
                 input.toggle();
             }
-            if (spaces.contains(input.getValue())) {
+            if (spaces.contains(input.getAttribute("value"))) {
                 input.toggle();
             }
         }
@@ -104,7 +104,7 @@ public class TemplateProviderInlinePage extends InlinePage
 
         for (WebElement input : getSpacesInput()) {
             if (input.isSelected()) {
-                selectedSpaces.add(input.getValue());
+                selectedSpaces.add(input.getAttribute("value"));
             }
         }
 
@@ -124,17 +124,17 @@ public class TemplateProviderInlinePage extends InlinePage
             // go through all the spaces and select them, and unselect the ones in the list to exclude
             for (WebElement input : getSpacesInput()) {
                 // prevent checking the hidden fields with empty value
-                if (!input.isSelected() && input.getValue().length() > 0) {
+                if (!input.isSelected() && input.getAttribute("value").length() > 0) {
                     input.toggle();
                 }
-                if (spaces.contains(input.getValue())) {
+                if (spaces.contains(input.getAttribute("value"))) {
                     input.toggle();
                 }
             }
         } else {
             // go through the spaces and make sure the exclude list is unselected
             for (WebElement input : getSpacesInput()) {
-                if (spaces.contains(input.getValue()) && input.isSelected()) {
+                if (spaces.contains(input.getAttribute("value")) && input.isSelected()) {
                     input.toggle();
                 }
             }

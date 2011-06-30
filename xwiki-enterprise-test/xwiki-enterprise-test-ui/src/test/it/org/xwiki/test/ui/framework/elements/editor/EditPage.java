@@ -144,7 +144,7 @@ public class EditPage extends BasePage
      */
     public String getSyntaxId()
     {
-        return this.syntaxIdSelect.getValue();
+        return this.syntaxIdSelect.getAttribute("value");
     }
 
     /**

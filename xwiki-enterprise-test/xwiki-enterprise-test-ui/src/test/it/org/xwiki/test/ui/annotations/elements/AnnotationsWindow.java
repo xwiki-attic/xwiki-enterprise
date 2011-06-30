@@ -21,7 +21,6 @@ package org.xwiki.test.ui.annotations.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -122,7 +121,7 @@ public class AnnotationsWindow extends ViewPage
 
     public void simulateCTRL_M()
     {
-        RenderedWebElement body = (RenderedWebElement) getDriver().findElement(By.id("body"));
+        WebElement body = getDriver().findElement(By.id("body"));
         body.sendKeys(Keys.CONTROL, "m");
     }
 }

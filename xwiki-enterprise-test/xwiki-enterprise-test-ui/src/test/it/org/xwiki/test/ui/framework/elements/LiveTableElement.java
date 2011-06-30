@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.TimeoutException;
 
 /**
  * Represents the actions possible on a livetable.
@@ -93,7 +93,7 @@ public class LiveTableElement extends BaseElement
     {
         List<WebElement> elements = getUtil().findElementsWithoutWaiting(getDriver(),
             By.xpath("//th[contains(@class, 'xwiki-livetable-display-header-text') and normalize-space(.) = '"
-            + columnTitle + "']"));
+                + columnTitle + "']"));
         return elements.size() > 0;
     }
 

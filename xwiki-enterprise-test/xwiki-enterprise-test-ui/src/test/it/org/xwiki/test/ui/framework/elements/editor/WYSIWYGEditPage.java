@@ -50,7 +50,7 @@ public class WYSIWYGEditPage extends PreviewableEditPage
 
     public String getDocumentTitle()
     {
-        return this.titleField.getValue();
+        return this.titleField.getAttribute("value");
     }
 
     public ViewPage save()
@@ -108,6 +108,6 @@ public class WYSIWYGEditPage extends PreviewableEditPage
      */
     public String getParent()
     {
-        return this.parentInput.getValue();
+        return this.parentInput.getAttribute("value");
     }
 }

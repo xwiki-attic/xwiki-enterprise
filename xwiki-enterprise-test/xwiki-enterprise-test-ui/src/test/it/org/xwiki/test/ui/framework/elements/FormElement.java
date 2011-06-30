@@ -70,7 +70,7 @@ public class FormElement extends BaseElement
 
     public String getFieldValue(By findElementBy)
     {
-        return this.form.findElement(findElementBy).getValue();
+        return this.form.findElement(findElementBy).getAttribute("value");
     }
 
     public void setFieldValue(By findElementBy, String value)

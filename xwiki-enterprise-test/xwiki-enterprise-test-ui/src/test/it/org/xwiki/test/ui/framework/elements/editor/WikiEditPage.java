@@ -20,7 +20,6 @@
 package org.xwiki.test.ui.framework.elements.editor;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -55,7 +54,7 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public String getTitle()
     {
-        return this.titleInput.getValue();
+        return this.titleInput.getAttribute("value");
     }
 
     /**
@@ -72,7 +71,7 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public String getParent()
     {
-        return this.parentInput.getValue();
+        return this.parentInput.getAttribute("value");
     }
 
     /**
@@ -84,7 +83,7 @@ public class WikiEditPage extends PreviewableEditPage
     {
         // Without this, the following cast fails with a ClassCastException
         this.parentInput = this.getDriver().findElement(By.name("parent"));
-        if (!((RenderedWebElement) this.parentInput).isDisplayed()) {
+        if (!this.parentInput.isDisplayed()) {
             this.editParentTrigger.click();
         }
         this.parentInput.clear();
@@ -113,8 +112,10 @@ public class WikiEditPage extends PreviewableEditPage
      */
     public void setMinorEdit(boolean value)
     {
-        if (this.minorEditCheckBox.isSelected() != value) {
-            this.minorEditCheckBox.toggle();
+        if ((this.minorEditCheckBox.isSelected() && !value)
+            || (!this.minorEditCheckBox.isSelected() && value))
+        {
+            this.minorEditCheckBox.click();
         }
     }
 

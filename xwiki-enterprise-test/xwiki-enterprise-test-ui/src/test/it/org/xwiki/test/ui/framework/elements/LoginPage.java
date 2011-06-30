@@ -63,7 +63,7 @@ public class LoginPage extends ViewPage
             this.usernameText.sendKeys(username);
             this.passwordText.sendKeys(password);
             if (rememberMe) {
-                this.rememberMeCheckbox.setSelected();
+                this.rememberMeCheckbox.click();;
             }
             this.submitButton.click();
         }

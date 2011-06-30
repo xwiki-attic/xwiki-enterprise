@@ -127,27 +127,11 @@ public class XWikiWrappingDriver implements WebDriver, JavascriptExecutor
 
     public Object executeAsyncScript(String s, Object... objects)
     {
-        checkIsJavascriptExecutor();
         return ((JavascriptExecutor) getWrappedDriver()).executeAsyncScript(s, objects);
     }
 
     public Object executeScript(String s, Object... objects)
     {
-        checkIsJavascriptExecutor();
         return ((JavascriptExecutor) getWrappedDriver()).executeScript(s, objects);
-    }
-
-    public boolean isJavascriptEnabled()
-    {
-        checkIsJavascriptExecutor();
-        return ((JavascriptExecutor) getWrappedDriver()).isJavascriptEnabled();
-    }
-
-    private void checkIsJavascriptExecutor()
-    {
-        if (!(getWrappedDriver() instanceof JavascriptExecutor)) {
-            throw new RuntimeException("Currently used web driver [" + getWrappedDriver().getClass()
-                + "] does not support JavaScript execution");
-        }
     }
 }

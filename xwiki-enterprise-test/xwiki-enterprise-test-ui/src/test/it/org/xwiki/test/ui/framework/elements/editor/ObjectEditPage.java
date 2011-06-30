@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -135,7 +134,7 @@ public class ObjectEditPage extends EditPage
         for (int i = 0; i < elements.size(); i++) {
             WebElement element = elements.get(i);
             // Make sure all forms are displayed otherwise we can't interact with them.
-            if (element instanceof RenderedWebElement && !((RenderedWebElement) element).isDisplayed()) {
+            if (!element.isDisplayed()) {
                 titles.get(i).click();
             }
             forms.add(new FormElement(element));

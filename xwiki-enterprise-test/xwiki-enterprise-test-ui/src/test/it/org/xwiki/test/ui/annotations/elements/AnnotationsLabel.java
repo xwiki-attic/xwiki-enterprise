@@ -21,7 +21,6 @@ package org.xwiki.test.ui.annotations.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -96,7 +95,7 @@ public class AnnotationsLabel extends ViewPage
         waitUntilElementIsVisible(By.xpath("//div[@class='annotationText']/p"));
         String annotationContent = getDriver().findElement(By.xpath(
             "//*[@class='annotation-bubble']//div[@class='annotationText']/p")).getText();
-        RenderedWebElement body = (RenderedWebElement) getDriver().findElement(By.id("body"));
+        WebElement body = getDriver().findElement(By.id("body"));
         body.sendKeys(Keys.ESCAPE);
         waitUntilElementDisappears(By.className("annotation-box-view"));
         return annotationContent;

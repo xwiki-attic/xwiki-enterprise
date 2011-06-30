@@ -48,7 +48,7 @@ public class CreatePagePage extends ViewPage
 
     public String getSpace()
     {
-        return spaceTextField.getValue();
+        return spaceTextField.getAttribute("value");
     }
 
     public void setSpace(String space)
@@ -59,7 +59,7 @@ public class CreatePagePage extends ViewPage
 
     public String getPage()
     {
-        return pageTextField.getValue();
+        return pageTextField.getAttribute("value");
     }
 
     public void setPage(String page)
@@ -82,8 +82,8 @@ public class CreatePagePage extends ViewPage
         List<String> availableTemplates = new ArrayList<String>();
         List<WebElement> templateInputs = getDriver().findElements(By.name("templateprovider"));
         for (WebElement input : templateInputs) {
-            if (input.getValue().length() > 0) {
-                availableTemplates.add(input.getValue());
+            if (input.getAttribute("value").length() > 0) {
+                availableTemplates.add(input.getAttribute("value"));
             }
         }
 
@@ -98,8 +98,8 @@ public class CreatePagePage extends ViewPage
         // new ByChained(By.name("template"), By.tagName("input")));
         List<WebElement> templates = getDriver().findElements(By.name("templateprovider"));
         for (WebElement templateInput : templates) {
-            if (templateInput.getValue().equals(template)) {
-                templateInput.setSelected();
+            if (templateInput.getAttribute("value").equals(template)) {
+                templateInput.click();
                 return;
             }
         }

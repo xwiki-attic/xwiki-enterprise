@@ -22,11 +22,8 @@ package org.xwiki.test.ui.framework.elements;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.CommentDeleteConfirmationModal;
-import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
  * Page Object for Comments Tab.
@@ -67,14 +64,13 @@ public class CommentsTab extends ViewPage
 
     public String getCurrentAuthor()
     {
-        return this.commentAuthor.getValue();
+        return this.commentAuthor.getAttribute("value");
     }
 
     public boolean isCommentFormShown()
     {
-        RenderedWebElement commentForm =
-            (RenderedWebElement) getDriver().findElement(
-                By.xpath("//form[@id='AddComment']/fieldset[@id='commentform']"));
+        WebElement commentForm = getDriver().findElement(
+            By.xpath("//form[@id='AddComment']/fieldset[@id='commentform']"));
         return commentForm.isDisplayed();
     }
 

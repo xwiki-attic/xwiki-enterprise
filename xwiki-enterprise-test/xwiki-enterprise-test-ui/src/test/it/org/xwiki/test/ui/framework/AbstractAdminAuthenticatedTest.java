@@ -32,7 +32,7 @@ public class AbstractAdminAuthenticatedTest extends AbstractTest
     @Before
     public void setUp()
     {
-        if (getUtil().getLoggedInUserName() != "Admin") {
+        if (!"Admin".equals(getUtil().getLoggedInUserName())) {
             // Log in and direct to a non existent page so that it loads very fast (we load it in plain mode so that
             // we don't even have to display the skin ;)) and we don't incur the time cost of going to the home page
             // for example.

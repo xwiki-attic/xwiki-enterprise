@@ -32,7 +32,7 @@ public class AbstractAdminAuthenticatedTest extends AbstractTest
     @Before
     public void setUp()
     {
-        if (getUtil().getLoggedInUserName() != "Admin") {
+        if (!"Admin".equals(getUtil().getLoggedInUserName())) {
             getDriver().get(getUtil().getURLToLoginAsAdmin());
         }
     }

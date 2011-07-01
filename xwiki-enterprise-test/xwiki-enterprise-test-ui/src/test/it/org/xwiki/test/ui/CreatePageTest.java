@@ -197,7 +197,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         createPagePage.clickCreate();
         Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
         // and check that an error is displayed to the user
-        Assert.assertTrue(createPagePage.hasError());
+        createPagePage.waitForFieldErrorMessage();
 
         // Verify the template we have removed is no longer available.
         createEmptyPage.gotoPage();
@@ -262,7 +262,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // make sure that we stay on the same page and that an error is displayed to the user. Maybe we should check the
         // error
         Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
-        Assert.assertTrue(createPage.hasError());
+        createPage.waitForErrorMessage();
 
         // 2/ create a page from template that already exists
         // restart everything to make sure it's not the error before
@@ -276,7 +276,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // make sure that we stay on the same page and that an error is displayed to the user. Maybe we should check the
         // error
         Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
-        Assert.assertTrue(createPage.hasError());
+        createPage.waitForErrorMessage();
 
         // 3/ create a space that already exists
         homePage.gotoPage();

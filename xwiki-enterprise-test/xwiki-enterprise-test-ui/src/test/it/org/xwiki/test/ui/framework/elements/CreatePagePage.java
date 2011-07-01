@@ -25,6 +25,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.pagefactory.ByChained;
 import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
 
 /**
@@ -128,9 +129,23 @@ public class CreatePagePage extends ViewPage
         return new WYSIWYGEditPage();
     }
 
-    public boolean hasError()
+    /**
+     * Waits for a global error message in the page.
+     *
+     * @since 3.2M1
+     */
+    public void waitForErrorMessage()
     {
-        // if there is at least one element with errormessage classname
-        return getDriver().findElements(By.className("errormessage")).size() > 0;
+        waitUntilElementIsVisible(By.className("errormessage"));
+    }
+
+    /**
+     * Waits for a validation error in a field.
+     *
+     * @since 3.2M1
+     */
+    public void waitForFieldErrorMessage()
+    {
+        waitUntilElementIsVisible(new ByChained(By.className("LV_invalid")));
     }
 }

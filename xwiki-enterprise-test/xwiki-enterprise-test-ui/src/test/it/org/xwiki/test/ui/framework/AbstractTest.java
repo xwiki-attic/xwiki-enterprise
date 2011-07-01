@@ -28,6 +28,7 @@ import org.junit.runners.model.FrameworkMethod;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xwiki.test.ui.AllTests;
 import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
@@ -39,7 +40,17 @@ import org.xwiki.test.ui.framework.elements.BaseElement;
 public class AbstractTest
 {
     /**
-     * The object used to watch tests (start/finish and fail/succeed).
+     * The object used to watch tests and log when they start and succeed/fail.
+     * <p>
+     * The reason we need this is simply to overcome a deficiency in error reporting in Jenkins. The reason is that
+     * Jenkins bases its test reporting on the Maven Surefire plugin reporting which itself is using a file to report
+     * test status. Since ui-tests are using a test suite, {@link AllTests}, there's only a single file generated and
+     * it's only generated when all tests have finished executing. Thus if a test hangs there won't be any file
+     * generated and looking at the Jenkins UI it won't be possible to see which tests have executed.
+     * <p>
+     * Normally each JUnit Test Runner knows what test is executing and when it's finished and thus can report them in
+     * its own console (as this is the case for IDEs for example). Again the issue here is that Jenkins doesn't have any
+     * JUnit Test Runner but instead is calling JUnit by delegation to the Maven Surefire plugin.
      */
     @Rule
     public final MethodRule watchman = new TestWatchman()

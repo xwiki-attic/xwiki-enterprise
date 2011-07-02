@@ -62,6 +62,9 @@ public class TestUtils
      */
     private int timeout = 10;
 
+    /** Cached secret token. TODO cache for each user. */
+    private String secretToken = null;
+
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)
     {
@@ -368,6 +371,46 @@ public class TestUtils
             builder.append('=');
             builder.append(escapeURL(value));
         }
+    }
+
+    /**
+     * (Re)-cache the secret token used for CSRF protection. A user with edit rights on Main.WebHome must be logged in.
+     * This method must be called before {@link #getSecretToken()} is called and after each re-login.
+     * 
+     * @since 3.2M1
+     * @see #getSecretToken()
+     */
+    public void recacheSecretToken()
+    {
+        // the registration form uses secret token
+        getDriver().get(getURL("XWiki", "Register", "register"));
+        try {
+            WebElement tokenInput = getDriver().findElement(By.xpath("//input[@name='form_token']"));
+            this.secretToken = tokenInput.getAttribute("value");
+        } catch (NoSuchElementException exception) {
+            // something is really wrong if this happens
+            System.out.println("Warning: Failed to cache anti-CSRF secret token, some tests might fail!");
+            exception.printStackTrace();
+        }
+        // return to the previous page
+        getDriver().navigate().back();
+    }
+
+    /**
+     * Get the secret token used for CSRF protection. Remember to call {@link #recacheSecretToken()} first.
+     * 
+     * @return anti-CSRF secret token, or empty string if the token was not cached
+     * @since 3.2M1
+     * @see #recacheSecretToken()
+     */
+    public String getSecretToken()
+    {
+        if (this.secretToken == null) {
+            System.out.println("Warning: No cached anti-CSRF token found. "
+                + "Make sure to call recacheSecretToken() before getSecretToken(), otherwise this test might fail.");
+            return "";
+        }
+        return this.secretToken;
     }
 
     /**

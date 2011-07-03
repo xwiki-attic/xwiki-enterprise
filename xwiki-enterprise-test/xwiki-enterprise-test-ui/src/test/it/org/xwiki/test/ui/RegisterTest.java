@@ -56,6 +56,7 @@ public class RegisterTest extends AbstractTest
         while (registerPage.liveValidationEnabled() != useLiveValidation()) {
             AdministrationSectionPage sectionPage = new AdministrationSectionPage("Registration");
             getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(sectionPage.getURL()));
+            getUtil().recacheSecretToken();
             getUtil().assertOnPage(sectionPage.getURL());
             sectionPage.getForm().setFieldValue(By.name("XWiki.Registration_0_liveValidation_enabled"),
                 Boolean.valueOf(useLiveValidation()).toString());
@@ -189,7 +190,9 @@ public class RegisterTest extends AbstractTest
     {
         TestUtils.Session s = getUtil().getSession();
         getUtil().forceGuestUser();
-        getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToDeletePage("XWiki", userName)));
+        getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToNonExistentPage()));
+        getUtil().recacheSecretToken();
+        getUtil().deletePage("XWiki", userName);
         getUtil().setSession(s);
     }
 
@@ -199,5 +202,6 @@ public class RegisterTest extends AbstractTest
         getUtil().forceGuestUser();
         getDriver().get(getUtil().getURLToLoginAs(username, password));
         Assert.assertTrue(registerPage.isAuthenticated());
+        getUtil().recacheSecretToken();
     }
 }

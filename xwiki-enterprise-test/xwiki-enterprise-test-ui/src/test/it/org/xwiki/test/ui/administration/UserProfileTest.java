@@ -156,6 +156,7 @@ public class UserProfileTest extends AbstractTest
         // Login with the new password
         getDriver().get(getUtil().getURLToLoginAs(this.userName, newPassword));
         Assert.assertTrue(home.isAuthenticated());
+        getUtil().recacheSecretToken();
     }
 
     /** Functionality check: changing the user type. */
@@ -257,6 +258,7 @@ public class UserProfileTest extends AbstractTest
     {
         // Login as Admin and change the password of another user
         getUtil().getURLToLoginAsAdminAndGotoPage(this.customProfilePage.getURL());
+        getUtil().recacheSecretToken();
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
         ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
         changePasswordPage.changePassword(PASSWORD_1, PASSWORD_2);

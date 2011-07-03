@@ -116,6 +116,7 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         // Switch to Admin user and go to the scheduler home page
         SchedulerHomePage schedulerHomePage = new SchedulerHomePage();
         getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(schedulerHomePage.getURL()));
+        getUtil().recacheSecretToken();
 
         // Trigger the notification
         schedulerHomePage.clickJobActionTrigger("WatchList daily notifier");

@@ -36,6 +36,7 @@ public class AbstractAdminAuthenticatedTest extends AbstractTest
             // Log in and direct to a non existent page so that it loads very fast and we don't incur the time cost of
             // going to the home page for example.
             getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToNonExistentPage()));
+            getUtil().recacheSecretToken();
         }
     }
 }

@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.elements.LoginPage;
+import org.xwiki.test.ui.framework.elements.ResubmissionPage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
 
@@ -98,6 +99,7 @@ public class LoginTest extends AbstractTest
             // do that. Since this is not what we are testing use the fast way to log in
             GlobalRightsAdministrationSectionPage grasp = new GlobalRightsAdministrationSectionPage();
             getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(grasp.getURL()));
+            getUtil().recacheSecretToken();
             grasp.forceAuthenticatedView();
 
             // Go to a page, log out and expire session by removing cookies, log in again and verify that the user is
@@ -140,7 +142,12 @@ public class LoginTest extends AbstractTest
         // try to save
         editPage.clickSaveAndView();
         // we should have been redirected to login
-        Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL("XWiki", "XWikiLogin", "login")));
+        String wantUrl = getUtil().getURL("XWiki", "XWikiLogin", "login");
+        if (wantUrl.indexOf('?') > 0) {
+            // strip parameters
+            wantUrl = wantUrl.substring(0, wantUrl.indexOf('?'));
+        }
+        Assert.assertTrue(getDriver().getCurrentUrl().startsWith(wantUrl));
         loginPage.loginAsAdmin();
         // we should have been redirected back to view, and the page should have been saved
         Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL(space, page)));
@@ -170,6 +177,11 @@ public class LoginTest extends AbstractTest
         getUtil().gotoPage("Test", "TestData", "save", "content=this+should+be+saved+instead&parent=Main.WebHome");
         LoginPage loginPage = new LoginPage();
         loginPage.loginAsAdmin();
+        // we switched to another user, CSRF protection (if enabled) will ask for confirmation
+        ResubmissionPage resubmissionPage = new ResubmissionPage();
+        if (resubmissionPage.isOnResubmissionPage()) {
+            resubmissionPage.resubmit();
+        }
         Assert.assertTrue(getDriver().getCurrentUrl().contains("/xwiki/bin/view/Test/TestData"));
         ViewPage viewPage = new ViewPage();
         Assert.assertEquals("this should be saved instead", viewPage.getContent());

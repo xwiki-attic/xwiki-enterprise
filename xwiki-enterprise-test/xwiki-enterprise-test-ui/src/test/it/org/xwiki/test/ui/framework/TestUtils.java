@@ -80,7 +80,7 @@ public class TestUtils
 
     public Session getSession()
     {
-        return this.new Session(getDriver().manage().getCookies());
+        return this.new Session(getDriver().manage().getCookies(), getSecretToken());
     }
 
     public void setSession(Session session)
@@ -91,6 +91,11 @@ public class TestUtils
             for (Cookie cookie : session.getCookies()) {
                 options.addCookie(cookie);
             }
+        }
+        if (session != null && !StringUtils.isEmpty(session.getSecretToken())) {
+            this.secretToken = session.getSecretToken();
+        } else {
+            recacheSecretToken();
         }
     }
 
@@ -212,10 +217,13 @@ public class TestUtils
                 put("register_password", password);
                 put("register2_password", password);
                 put("register_email", "");
-                put("xredirect", getURLToLoginAndGotoPage(username, password, pageURL));
+                put("xredirect", getURLToLoginAndGotoPage(username, password, getURLToNonExistentPage()));
+                put("form_token", getSecretToken());
             }
         });
         getDriver().get(registerURL);
+        recacheSecretToken();
+        getDriver().get(pageURL);
     }
 
     public ViewPage gotoPage(String space, String page)
@@ -315,8 +323,15 @@ public class TestUtils
         builder.append('/');
         builder.append(escapeURL(page));
 
-        if (!StringUtils.isEmpty(queryString)) {
+        boolean needToAddSecretToken = !("view".equals(action) || "register".equals(action));
+        if (needToAddSecretToken || !StringUtils.isEmpty(queryString)) {
             builder.append('?');
+        }
+        if (needToAddSecretToken) {
+            addQueryStringEntry(builder, "form_token", getSecretToken());
+            builder.append('&');
+        }
+        if (!StringUtils.isEmpty(queryString)) {
             builder.append(queryString);
         }
 
@@ -437,7 +452,9 @@ public class TestUtils
     {
         private final Set<Cookie> cookies;
 
-        private Session(final Set<Cookie> cookies)
+        private final String secretToken;
+
+        private Session(final Set<Cookie> cookies, final String secretToken)
         {
             this.cookies = Collections.unmodifiableSet(new HashSet<Cookie>()
             {
@@ -445,11 +462,17 @@ public class TestUtils
                     addAll(cookies);
                 }
             });
+            this.secretToken = secretToken;
         }
 
         private Set<Cookie> getCookies()
         {
             return this.cookies;
+        }
+
+        private String getSecretToken()
+        {
+            return this.secretToken;
         }
     }
 

@@ -140,6 +140,15 @@ public class TestUtils
     }
 
     /**
+     * @return URL to a non existent page that loads very fast (we are using plain mode so that we don't even have to
+     * display the skin ;))
+     */
+    public String getURLToNonExistentPage()
+    {
+        return getURL("NonExistentSpace", "NonExistentPage", "view", "xpage=plain");
+    }
+
+    /**
      * After successful completion of this function, you are guaranteed to be logged in as the given user and on the
      * page passed in pageURL.
      * 

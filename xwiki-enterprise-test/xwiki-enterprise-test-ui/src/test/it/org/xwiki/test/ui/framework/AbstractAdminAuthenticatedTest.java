@@ -33,11 +33,9 @@ public class AbstractAdminAuthenticatedTest extends AbstractTest
     public void setUp()
     {
         if (!"Admin".equals(getUtil().getLoggedInUserName())) {
-            // Log in and direct to a non existent page so that it loads very fast (we load it in plain mode so that
-            // we don't even have to display the skin ;)) and we don't incur the time cost of going to the home page
-            // for example.
-            getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(
-                getUtil().getURL("NonExistentSpace", "NonExistentPage", "view", "xpage=plain")));
+            // Log in and direct to a non existent page so that it loads very fast and we don't incur the time cost of
+            // going to the home page for example.
+            getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToNonExistentPage()));
         }
     }
 }

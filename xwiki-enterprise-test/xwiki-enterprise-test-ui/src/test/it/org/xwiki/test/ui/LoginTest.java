@@ -170,8 +170,8 @@ public class LoginTest extends AbstractTest
         getUtil().gotoPage("Test", "TestData", "save", "content=this+should+be+saved+instead&parent=Main.WebHome");
         LoginPage loginPage = new LoginPage();
         loginPage.loginAsAdmin();
-        getDriver().getCurrentUrl().contains("/xwiki/bin/view/Test/TestData");
+        Assert.assertTrue(getDriver().getCurrentUrl().contains("/xwiki/bin/view/Test/TestData"));
         ViewPage viewPage = new ViewPage();
-        viewPage.getContent().equals("this should be saved instead");
+        Assert.assertEquals("this should be saved instead", viewPage.getContent());
     }
 }

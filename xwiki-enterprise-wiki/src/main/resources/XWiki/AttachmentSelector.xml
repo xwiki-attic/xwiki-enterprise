@@ -1951,7 +1951,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
     #set ($sortedAttachments = $sorttool.sort($attachmentList, 'date:desc'))
     #set ($lastAttachment = $sortedAttachments.get(0))
   #end
-  $response.sendRedirect($targetDocument.getURL($docAction, "$!{fieldname}=$!{lastAttachment.filename}"))
+  $response.sendRedirect($targetDocument.getURL($docAction, "$!{fieldname}=$!{lastAttachment.filename}&amp;form_token=$!{escapetool.url($request.get('form_token'))}"))
   #stop
 #end
 {{/velocity}}
@@ -2008,9 +2008,9 @@ $xwiki.jsx.use($attachmentPickerDocName)
   #attachmentPicker_displayStartFrame({'value' : $attachment.filename, 'text' : $attachment.filename, 'cssClass' : "$!{cssClass}"} $targetDocument $currentValue)
   #attachmentPicker_displayAttachmentDetails($attachment $options)
   #set ($returnURL = $escapetool.url($doc.getURL('view', $request.queryString)))
-  #set ($deleteURL = $targetDocument.getAttachmentURL($attachment.filename, 'delattachment', "xredirect=${returnURL}") )
+  #set ($deleteURL = $targetDocument.getAttachmentURL($attachment.filename, 'delattachment', "xredirect=${returnURL}&amp;form_token=$!{services.csrf.getToken()}") )
   #set ($viewURL = $targetDocument.getAttachmentURL($attachment.filename) )##{'name' : 'download', 'url' : $viewURL, 'rel' : '__blank'}
-  #set ($selectURL = $targetDocument.getURL(${options.get('docAction')}, "${options.get('classname')}_${options.get('object')}_${options.get('property')}=${attachment.filename}"))
+  #set ($selectURL = $targetDocument.getURL(${options.get('docAction')}, "${options.get('classname')}_${options.get('object')}_${options.get('property')}=${attachment.filename}&amp;form_token=$!{services.csrf.getToken()}"))
   #attachmentPicker_displayEndFrame ([{'name' : 'select', 'url' : $selectURL}, {'name' : 'delete', 'url' : $deleteURL}])
 #end
 
@@ -2091,11 +2091,12 @@ $xwiki.jsx.use($attachmentPickerDocName)
       &lt;span class="xHint"&gt;$msg.get("${translationPrefix}.upload.hint", [${options.rawfilter}])&lt;/span&gt;
     #end
     &lt;input type="file" name="filepath" id="attachfile" class="attachment" size="30" title="$!{escapetool.xml($options.rawfilter)}"/&gt;
-    &lt;input type="hidden" name="xredirect" value="$xwiki.getDocument($attachmentPickerDocName).getURL('get', "xaction=postUpload&amp;amp;docAction=$!{escapetool.url($options.get('docAction'))}&amp;amp;docname=$!{escapetool.url($targetDocument.fullName)}&amp;amp;fieldname=$!{escapetool.url($options.get('classname'))}_$!{escapetool.url($options.get('object'))}_$!{escapetool.url($options.get('property'))}")" /&gt;
+    &lt;input type="hidden" name="xredirect" value="$xwiki.getDocument($attachmentPickerDocName).getURL('get', "xaction=postUpload&amp;amp;docAction=$!{escapetool.url($options.get('docAction'))}&amp;amp;docname=$!{escapetool.url($targetDocument.fullName)}&amp;amp;fieldname=$!{escapetool.url($options.get('classname'))}_$!{escapetool.url($options.get('object'))}_$!{escapetool.url($options.get('property'))}&amp;amp;form_token=$!{services.csrf.getToken()}")" /&gt;
     &lt;input type="hidden" name="docname" value="$!{escapetool.xml($targetDocument.fullName)}" /&gt;
     &lt;input type="hidden" name="classname" value="$!{escapetool.xml($options.get('classname'))}" /&gt;
     &lt;input type="hidden" name="object" value="$!{escapetool.xml($options.get('object'))}" /&gt;
     &lt;input type="hidden" name="property" value="$!{escapetool.xml($options.get('property'))}" /&gt;
+    &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
   &lt;/div&gt;
   &lt;div class="buttons"&gt;
     &lt;span class="buttonwrapper"&gt;
@@ -2132,7 +2133,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
   #attachmentPicker_displayStartFrame({'cssClass' : "gallery_emptyChoice $!{dcssClass}", 'text' : $msg.get("${translationPrefix}.default"), 'value' : "${options.defaultValue}"} $targetDocument $currentValue)
   #attachmentPicker_displayAttachmentDetails($defaultAttachment $options)
   #set ($returnURL = $escapetool.url($doc.getURL('view', $request.queryString)))
-  #set ($selectURL = $targetDocument.getURL(${options.get('docAction')}, "${options.get('classname')}_${options.get('object')}_${options.get('property')}="))
+  #set ($selectURL = $targetDocument.getURL(${options.get('docAction')}, "${options.get('classname')}_${options.get('object')}_${options.get('property')}=&amp;form_token=$!{services.csrf.getToken()}"))
   #attachmentPicker_displayEndFrame ([{'name' : 'select', 'url' : $selectURL}])
 #end
 {{/velocity}}

@@ -82,6 +82,10 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
         // Print test name for easier parsing of Selenium logs
         System.out.println("Test: " + getName());
+
+        if (AbstractXWikiTestCase.secretToken == null) {
+            recacheSecretToken();
+        }
     }
 
     /**
@@ -523,16 +527,19 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void logout()
     {
         getSkinExecutor().logout();
+        recacheSecretToken();
     }
 
     public void login(String username, String password, boolean rememberme)
     {
         getSkinExecutor().login(username, password, rememberme);
+        recacheSecretToken();
     }
 
     public void loginAsAdmin()
     {
         getSkinExecutor().loginAsAdmin();
+        recacheSecretToken();
     }
 
     /**
@@ -741,12 +748,32 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public String getUrl(String space, String doc, String action)
     {
-        return "/xwiki/bin/" + action + "/" + space + "/" + doc;
+        return getUrl(space, doc, action, null);
     }
 
     public String getUrl(String space, String doc, String action, String queryString)
     {
-        return getUrl(space, doc, action) + "?" + queryString;
+        StringBuilder builder = new StringBuilder("/xwiki/bin/");
+        builder.append(action);
+        builder.append('/');
+        builder.append(space);
+        builder.append('/');
+        builder.append(doc);
+
+        boolean needToAddSecretToken = !("view".equals(action) || "register".equals(action));
+        boolean needToAddQuery = queryString != null && queryString.length() > 0;
+        if (needToAddSecretToken || needToAddQuery) {
+            builder.append('?');
+        }
+        if (needToAddSecretToken) {
+            builder.append("form_token=");
+            builder.append(getSecretToken());
+            builder.append('&');
+        }
+        if (needToAddQuery) {
+            builder.append(queryString);
+        }
+        return builder.toString();
     }
 
     public void pressKeyboardShortcut(String shortcut, boolean withCtrlModifier, boolean withAltModifier,

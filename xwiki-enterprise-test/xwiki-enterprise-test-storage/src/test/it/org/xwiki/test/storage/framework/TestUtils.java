@@ -19,16 +19,16 @@
  */
 package org.xwiki.test.storage.framework;
 
-import java.util.Map;
-import java.io.File;
 import java.io.IOException;
-import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.methods.MultipartPostMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 
@@ -65,8 +65,8 @@ public final class TestUtils
         }
 
         if (parameters != null) {
-            for (Map.Entry e : parameters.entrySet()) {
-                method.addParameter((String) e.getKey(), (String) e.getValue());
+            for (Map.Entry<String, String> e : parameters.entrySet()) {
+                method.addParameter(e.getKey(), e.getValue());
             }
         }
         client.executeMethod(method);
@@ -88,11 +88,29 @@ public final class TestUtils
                                                                              userNameAndPassword[1]));
         }
 
-        for (Map.Entry e : uploads.entrySet()) {
+        for (Map.Entry<String, byte[]> e : uploads.entrySet()) {
             method.addPart(new FilePart("filepath",
-                           new ByteArrayPartSource((String) e.getKey(), (byte[]) e.getValue())));
+                           new ByteArrayPartSource(e.getKey(), e.getValue())));
         }
         client.executeMethod(method);
         return method;
+    }
+
+    /**
+     * Encodes a given string so that it may be used as a URL component. Compatable with javascript decodeURIComponent,
+     * though more strict than encodeURIComponent: all characters except [a-zA-Z0-9], '.', '-', '*', '_' are converted
+     * to hexadecimal, and spaces are substituted by '+'.
+     * 
+     * @param s
+     * @since 3.2M1
+     */
+    public static String escapeURL(String s)
+    {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // should not happen
+            throw new RuntimeException(e);
+        }
     }
 }

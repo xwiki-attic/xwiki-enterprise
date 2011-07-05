@@ -26,18 +26,18 @@
 <content>{{include document="XWiki.LiveTableResultsMacros" /}}
 
 {{velocity wiki="false"}}
-#set($extra = "")
-#set($params = [])
-#if("$!request.space" != '')
-  #set($extra = "${extra} and doc.space = ?")
-  #set($discard = $params.add("$request.space"))
+#set ($extra = '')
+#set ($params = [])
+#if ("$!request.space" != '')
+  #set ($extra = "${extra} and doc.space = ?")
+  #set ($discard = $params.add($request.space))
 #end
-#if("$!request.parent" != '')
-  #set($extra = "${extra} and doc.parent = '${request.parent}'")
+#if ("$!request.parent" != '')
+  #set ($extra = "${extra} and doc.parent = '${request.parent}'")
 #end
-#if("$!request.orphaned" == '1')
-  #set($extra = "${extra} and doc.parent='' and doc.name&lt;&gt;'WebHome'")
+#if ("$!request.orphaned" == '1')
+  #set ($extra = "${extra} and doc.parent='' and doc.name&lt;&gt;'WebHome'")
 #end
-#gridresultwithfilter("$!request.classname" $request.collist.split(",") "" "${extra}" $params)
+#gridresultwithfilter("$!request.classname" $request.collist.split(',') '' "${extra}" $params)
 {{/velocity}}</content>
 </xwikidoc>

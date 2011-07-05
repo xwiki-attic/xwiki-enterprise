@@ -32,6 +32,9 @@
   #set($extra = "${extra} and doc.space = ?")
   #set($discard = $params.add("$request.space"))
 #end
+#if("$!request.parent" != '')
+  #set($extra = "${extra} and doc.parent = '${request.parent}'")
+#end
 #if("$!request.orphaned" == '1')
   #set($extra = "${extra} and doc.parent='' and doc.name&lt;&gt;'WebHome'")
 #end

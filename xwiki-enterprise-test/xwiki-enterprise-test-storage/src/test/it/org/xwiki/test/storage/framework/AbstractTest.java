@@ -21,6 +21,8 @@ package org.xwiki.test.storage.framework;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.httpclient.HttpMethod;
 import org.xwiki.test.integration.XWikiExecutor;
@@ -34,6 +36,9 @@ import org.xwiki.test.integration.XWikiExecutor;
 public class AbstractTest
 {
     private static XWikiExecutor executor;
+
+    /** Cached secret token. TODO cache for each user. */
+    private String secretToken = null;
 
     /** Used so that AllTests can set the executor. */
     public static void setExecutor(final XWikiExecutor executor)
@@ -110,11 +115,48 @@ public class AbstractTest
             builder.append(TestUtils.escapeURL(filename));
         }
 
-        if (queryString != null && !queryString.isEmpty()) {
+        boolean needToAddSecretToken = !("view".equals(action) || "edit".equals(action));
+        boolean needToAddQuery = queryString != null && !queryString.isEmpty();
+        if (needToAddSecretToken || needToAddQuery) {
             builder.append('?');
+        }
+        if (needToAddSecretToken) {
+            builder.append("form_token=");
+            builder.append(getSecretToken());
+            builder.append('&');
+        }
+        if (needToAddQuery) {
             builder.append(queryString);
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Get the secret token used for CSRF protection. Caches the token on the first call. NOT this will not work when
+     * several users are used.
+     * 
+     * @return anti-CSRF secret token, or empty string on error
+     * @since 3.2M1
+     */
+    protected String getSecretToken()
+    {
+        if (this.secretToken == null) {
+            String body = null;
+            try {
+                body = new String(doPostAsAdmin("Main", "WebHome", null, "edit", "editor=wiki", null).getResponseBody(), "UTF-8");
+                Matcher matcher = Pattern.compile("<input[^>]+form_token[^>]+value=('|\")([^'\"]+)").matcher(body);
+                if (matcher.find() && matcher.groupCount() == 2) {
+                    this.secretToken = matcher.group(2);
+                    return this.secretToken;
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+            // something went really wrong
+            System.out.println("Warning: Failed to cache anti-CSRF secret token, some tests might fail!");
+            return "";
+        }
+        return this.secretToken;
     }
 }

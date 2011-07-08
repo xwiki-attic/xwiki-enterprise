@@ -206,6 +206,7 @@
                     templates/fakeleftpanels.vm
                     templates/fakerightpanels.vm
                     templates/frequentlyUsedDocs.vm
+                    templates/languages.vm <!-- TODO test in multilingual mode -->
                     templates/layoutExtraVars.vm <!-- empty placeholder -->
                     templates/layoutvars.vm
                     templates/macros.vm
@@ -223,12 +224,14 @@
                     templates/changemyavatar\.vm <!-- target page must be user page -->
                     templates/comments2\.vm <!-- needs a page with comments -->
                     templates/createinline\.vm <!-- expects xredirect to be a valid URL -->
+                    templates/deleteversionsconfirm\.vm <!-- needs both rev1 and rev2, otherwise returns 400 (Bad Request) -->
                     templates/leftpanels\.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
                     templates/login\.vm <!-- expects xredirect to be a valid URL -->
                     templates/office\.vm <!-- expects attachment to be a valid attachment -->
                     templates/passwd\.vm <!-- must be tested on a user document, otherwise returns status 400 -->
                     templates/plain\.vm <!-- need raw=1 -->
                     templates/recyclebinlist\.vm <!-- page must have been deleted before -->
+                    templates/rename\.vm <!-- step=1 renders renameStep1.vm, otherwise needs correct form_token and renames the document -->
                     templates/rendercontent\.vm <!-- page must exist, otherwise empty -->
                     templates/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->
                     templates/textarea_wysiwyg\.vm <!-- probably need to set default editor to wysiwyg -->
@@ -238,13 +241,13 @@
                     templates/ad\.vm <!-- not used, needs special configuration -->
                     templates/analytics\.vm <!-- commented out -->
                     templates/attach\.vm <!-- only redirects to attachments.vm -->
-                    templates/changeavatar\.vm <!-- does not produce any output -->
-                    templates/deleteversionsconfirm\.vm <!-- needs both rev1 and rev2, otherwise returns 400 (Bad Request) -->
+                    templates/changeavatar\.vm <!-- does not produce any output, just redirects -->
                     templates/deletegroupmember\.vm <!-- does not produce any output, expects "fullname" to be a valid user name -->
                     templates/deprecatedMacros\.vm <!-- does not produce any output -->
                     templates/docalreadyexists\.vm <!-- returns 409 and shows an error message -->
                     templates/get\.vm <!-- just renders the page content using rendercontent.vm -->
                     templates/recyclebin\.vm <!-- output only comes from contentview.vm and docextra.vm parameter "id" must be an integer -->
+                    templates/saverights\.vm <!-- expects correct form_token and modifies the document -->
                     templates/templatedoesnotexist\.vm <!-- returns 400 and shows an error message -->
                     templates/textarea_text\.vm <!-- empty, not used any more -->
                     templates/titlevars\.vm <!-- needs defined $renderedContent, already tested with editinline.vm and contentview.vm -->

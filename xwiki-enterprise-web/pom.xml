@@ -444,8 +444,9 @@
     </dependency>
     <!-- Logging Dependencies. Ensures all logging goes through SLF4J and Logback. -->
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-logging-logback</artifactId>
+      <version>${commons.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

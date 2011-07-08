@@ -206,7 +206,6 @@
                     templates/fakeleftpanels.vm
                     templates/fakerightpanels.vm
                     templates/frequentlyUsedDocs.vm
-                    templates/languages.vm <!-- TODO test in multilingual mode -->
                     templates/layoutExtraVars.vm <!-- empty placeholder -->
                     templates/layoutvars.vm
                     templates/macros.vm

@@ -20,15 +20,18 @@
 
 package org.xwiki.test.escaping.framework;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
@@ -81,11 +84,17 @@ public abstract class AbstractEscapingTest implements FileTest
     /** Language parameter name. */
     private static final String LANGUAGE = "language";
 
+    /** Secret token parameter name. */
+    private static final String SECRET_TOKEN = "form_token";
+
     /** HTTP client shared between all subclasses. */
     private static HttpClient client;
 
     /** A flag controlling login. If true, administrator credentials are used. */
     private static boolean loggedIn = true;
+
+    /** Stores two cached tokens, one for each value of loggedIn (false -> 0, true -> 1). */
+    private static String[] secretTokens = new String[2];
 
     /** File name of the template to use. */
     protected String name;
@@ -142,7 +151,8 @@ public abstract class AbstractEscapingTest implements FileTest
     protected static void setMultiLanguageMode(boolean enabled)
     {
         String url = AbstractEscapingTest.URL_START + "save/XWiki/XWikiPreferences?";
-        url += "XWiki.XWikiPreferences_0_languages=&XWiki.XWikiPreferences_0_multilingual=";
+        url += SECRET_TOKEN + "=" + getSecretToken();
+        url += "&XWiki.XWikiPreferences_0_languages=&XWiki.XWikiPreferences_0_multilingual=";
         AbstractEscapingTest.getUrlContent(url + (enabled ? 1 : 0));
         // set language=en to prevent false positives coming from the cookies
         String langUrl = AbstractEscapingTest.URL_START + "view/Main/?" + LANGUAGE + "=en";
@@ -396,7 +406,7 @@ public abstract class AbstractEscapingTest implements FileTest
     }
 
     /**
-     * Create the target URL from the given parameters. URL-escapes everything.
+     * Create the target URL from the given parameters. URL-escapes everything. Adds secret token if needed.
      * 
      * @param action action to use, "view" is used if null
      * @param space space name to use, "Main" is used if null
@@ -411,22 +421,68 @@ public abstract class AbstractEscapingTest implements FileTest
         String url = URL_START + escapeUrl(action == null ? "view" : action) + "/";
         url += escapeUrl(space == null ? "Main" : space) + "/";
         url += escapeUrl(page == null ? "WebHome" : page);
-        if (parameters == null) {
-            return url;
-        }
+
         String delimiter = "?";
-        for (String parameter : parameters.keySet()) {
-            if (parameter != null && !parameter.equals("")) {
-                String value = parameters.get(parameter);
-                url += delimiter + escapeUrl(parameter) + "=" + escapeUrl(value);
+        if (parameters != null) {
+            for (String parameter : parameters.keySet()) {
+                if (parameter != null && !parameter.equals("")) {
+                    String value = parameters.get(parameter);
+                    url += delimiter + escapeUrl(parameter) + "=" + escapeUrl(value);
+                }
+                delimiter = "&";
             }
-            delimiter = "&";
         }
         // special handling for language parameter to exclude false positives (language setting is saved in cookies and
         // sent on subsequent requests)
-        if (addLanguage && !parameters.containsKey(LANGUAGE)) {
+        if (addLanguage && (parameters == null || !parameters.containsKey(LANGUAGE))) {
             url += delimiter + LANGUAGE + "=en";
         }
+        // some tests need to create or delete pages, we add secret token to avoid CSRF protection failures
+        if ((action == null || !action.equals("edit"))
+                && (parameters == null || !parameters.containsKey(SECRET_TOKEN))) {
+            url += delimiter + SECRET_TOKEN + "=" + getSecretToken();
+        }
         return url;
+    }
+
+    /**
+     * Get the secret token used for CSRF protection. Caches 2 tokens (for logged in and logged out) on the first call.
+     * 
+     * @return anti-CSRF secret token, or empty string on error
+     * @since 3.2M1
+     */
+    protected static String getSecretToken()
+    {
+        int index = isLoggedIn() ? 1 : 0;
+        if (secretTokens[index] == null) {
+            secretTokens[index] = getSecretTokenFromPage();
+        }
+        return secretTokens[index];
+    }
+
+    /**
+     * Parse a wiki page to get the current secret token.
+     * 
+     * @return secret token
+     */
+    private static String getSecretTokenFromPage()
+    {
+        Pattern pattern = Pattern.compile("<input[^>]+" + SECRET_TOKEN + "[^>]+value=('|\")([^'\"]+)");
+        try {
+            String url = createUrl("edit", "Main", "WebHome", null);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(AbstractEscapingTest.getUrlContent(url)));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find() && matcher.groupCount() == 2) {
+                    return matcher.group(2);
+                }
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        // something went really wrong
+        System.out.println("WARNING, Failed to cache anti-CSRF secret token, some tests might fail!");
+        return "";
     }
 }

@@ -133,8 +133,8 @@ public class AbstractTest
     }
 
     /**
-     * Get the secret token used for CSRF protection. Caches the token on the first call. NOT this will not work when
-     * several users are used.
+     * Get the secret token used for CSRF protection. Caches the token on the first call. NOTE that this will not work
+     * when several users are used.
      * 
      * @return anti-CSRF secret token, or empty string on error
      * @since 3.2M1

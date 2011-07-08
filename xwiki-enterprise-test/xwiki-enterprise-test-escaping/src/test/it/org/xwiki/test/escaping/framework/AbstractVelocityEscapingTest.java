@@ -61,6 +61,8 @@ public abstract class AbstractVelocityEscapingTest extends AbstractAutomaticTest
         // xpage is handled by actions (in xwiki-core) to render a velocity template
         // invalid template names produce "Unexpected empty response" warnings
         ignored.add("xpage");
+        // form token is never (should not be) rendered, but is checked by CSRF protection
+        ignored.add("form_token");
         // TODO match if user name, space name or action is used
         Set<String> input = new HashSet<String>();
         BufferedReader data = new BufferedReader(reader);

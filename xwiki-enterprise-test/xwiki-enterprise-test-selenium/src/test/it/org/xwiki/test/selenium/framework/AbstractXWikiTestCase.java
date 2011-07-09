@@ -839,6 +839,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     {
         // the registration form uses secret token
         open("XWiki", "Register", "register");
+        waitPage();
         AbstractXWikiTestCase.secretToken = getSelenium().getValue("//input[@name='form_token']");
         if (AbstractXWikiTestCase.secretToken == null || AbstractXWikiTestCase.secretToken.length() <= 0) {
             // something is really wrong if this happens
@@ -846,6 +847,11 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         }
         // return to the previous page
         getSelenium().goBack();
+        if (!getSelenium().getLocation().contains(BASEDIR)) {
+            // avoid returning to selenium start page (waitPage() doesn't handle that well)
+            open("Main", "WebHome");
+        }
+        waitPage();
     }
 
     /**

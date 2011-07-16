@@ -133,6 +133,11 @@
       this.addSelectListeners();
       this.updateCurrentSelection();
       this.addCloseListener();
+      var img = this.property.down('img');
+      if (img) {
+        img.observe('load', function() {img.up('div').removeClassName('hidden');});
+        img.observe('error', function() {img.up('div').addClassName('hidden');});
+      }
     },
     /**
      * Catches the upload form submission and stops it if the selected file is not of the accepted types (or not selected at all),
@@ -1034,7 +1039,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
     #set ($attachmentResource = '')
   #end
   #if ($displayImage)## &amp;&amp; $attachment &amp;&amp; $attachment.isImage())
-    (% class="$!{cssClass}" %)(((#if ("$!{attachmentResource}" != '' || $forceElement)#if($withLink)[[#end[[image:${attachmentResource}$!{imageParams}]]#if($withLink)&gt;&gt;attach:${attachmentResource}||rel=lightbox]]#{end}#end)))##
+    (% class="$!{cssClass}#if (!$attachment) hidden#end" %)(((#if ("$!{attachmentResource}" != '' || $forceElement)#if($withLink)[[#end[[image:${attachmentResource}$!{imageParams}]]#if($withLink)&gt;&gt;attach:${attachmentResource}||rel=lightbox]]#{end}#end)))##
   #else
     (% class="$!{cssClass}" %)#if ("$!{attachmentResource}" != '' || $forceElement)#if ($withLink)[[attach:${attachmentResource}||rel=__blank]]#{else}(% class="displayed" %)${attachmentName}(% %)#{end}#end(%%)##
   #end

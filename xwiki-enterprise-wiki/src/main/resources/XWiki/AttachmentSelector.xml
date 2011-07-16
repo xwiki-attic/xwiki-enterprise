@@ -1041,7 +1041,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
 #end
 
 #macro (attachmentPicker_displayButton)
-  #if ($hasEdit)(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}#if ($doc.syntax.toIdString() == 'xwiki/2.0')?#{else}||queryString="#{end}docname=${doc.fullName}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}#if ($doc.syntax.toIdString() == 'xwiki/2.0')||#{else}" #{end}class="attachment-picker-start button" title="${buttontext}"]](%%)#end
+  #if ($hasEdit)(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}?docname=${doc.fullName}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}||class="attachment-picker-start button" title="${buttontext}"]](%%)#end
 #end
 {{/velocity}}
 

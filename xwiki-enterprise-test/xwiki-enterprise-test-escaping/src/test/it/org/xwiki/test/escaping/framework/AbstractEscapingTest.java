@@ -328,13 +328,26 @@ public abstract class AbstractEscapingTest implements FileTest
     {
         if (AbstractEscapingTest.client == null) {
             HttpClient adminClient = new HttpClient();
+
+            // set up admin credentials
             Credentials defaultcreds = new UsernamePasswordCredentials("Admin", "admin");
             adminClient.getState().setCredentials(AuthScope.ANY, defaultcreds);
+
+            // set up client parameters
             HttpClientParams clientParams = new HttpClientParams();
-            clientParams.setSoTimeout(2000);
+            clientParams.setSoTimeout(20000);
+            // We need to allow circular redirects, because some templates redirect to the same location with different
+            // query parameters and the check for circular redirect in HttpClient only checks the URI path without the
+            // parameters.
+            // Note that actual circular redirects are still aborted after following them for some fixed number of times
+            clientParams.setBooleanParameter(HttpClientParams.ALLOW_CIRCULAR_REDIRECTS, true);
+            adminClient.setParams(clientParams);
+
+            // set up connections parameters
             HttpConnectionManagerParams connectionParams = new HttpConnectionManagerParams();
             connectionParams.setConnectionTimeout(30000);
             adminClient.getHttpConnectionManager().setParams(connectionParams);
+
             AbstractEscapingTest.client = adminClient;
         }
         return AbstractEscapingTest.client;

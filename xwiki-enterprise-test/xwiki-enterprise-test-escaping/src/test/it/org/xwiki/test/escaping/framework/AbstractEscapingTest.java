@@ -297,7 +297,7 @@ public abstract class AbstractEscapingTest implements FileTest
             }
             return new ByteArrayInputStream(str.getBytes("utf-8"));
         } catch (IOException exception) {
-            throw new RuntimeException("Error retrieving URL: " + url + "\n" + exception);
+            throw new RuntimeException("Error retrieving URL: " + url, exception);
         } finally {
             get.releaseConnection();
         }

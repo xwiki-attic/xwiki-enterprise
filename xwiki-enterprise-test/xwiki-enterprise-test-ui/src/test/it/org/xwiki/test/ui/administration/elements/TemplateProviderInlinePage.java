@@ -86,10 +86,10 @@ public class TemplateProviderInlinePage extends InlinePage
     {
         for (WebElement input : getSpacesInput()) {
             if (input.isSelected()) {
-                input.toggle();
+                input.click();
             }
             if (spaces.contains(input.getAttribute("value"))) {
-                input.toggle();
+                input.click();
             }
         }
     }
@@ -125,17 +125,17 @@ public class TemplateProviderInlinePage extends InlinePage
             for (WebElement input : getSpacesInput()) {
                 // prevent checking the hidden fields with empty value
                 if (!input.isSelected() && input.getAttribute("value").length() > 0) {
-                    input.toggle();
+                    input.click();
                 }
                 if (spaces.contains(input.getAttribute("value"))) {
-                    input.toggle();
+                    input.click();
                 }
             }
         } else {
             // go through the spaces and make sure the exclude list is unselected
             for (WebElement input : getSpacesInput()) {
                 if (spaces.contains(input.getAttribute("value")) && input.isSelected()) {
-                    input.toggle();
+                    input.click();
                 }
             }
         }
@@ -143,6 +143,6 @@ public class TemplateProviderInlinePage extends InlinePage
 
     public void setSaveAndEdit()
     {
-        this.templateActionSelect.findElement(By.xpath("//option[@value='saveandedit']")).setSelected();
+        this.templateActionSelect.findElement(By.xpath("//option[@value='saveandedit']")).click();
     }
 }

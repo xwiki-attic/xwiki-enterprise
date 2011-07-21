@@ -85,6 +85,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         }
 
         getDriver().navigate().back();
+        links = ap.getAttachmentLinks();
         links.get(1).click();
         content = getDriver().findElement(By.tagName("html")).getText();
 

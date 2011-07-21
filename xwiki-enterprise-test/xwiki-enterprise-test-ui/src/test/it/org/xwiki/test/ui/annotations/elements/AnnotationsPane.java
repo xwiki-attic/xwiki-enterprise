@@ -61,7 +61,7 @@ public class AnnotationsPane extends ViewPage
         waitUntilElementIsVisible(By.className("annotationsettings"));
         WebElement checkBox = getDriver().findElement(By.id("annotationsdisplay"));
         if (checkBox.isSelected() == false) {
-            checkBox.setSelected();
+            checkBox.click();
         }
     }
 
@@ -76,7 +76,7 @@ public class AnnotationsPane extends ViewPage
         waitUntilElementIsVisible(By.className("annotationsettings"));
         WebElement checkBox = getDriver().findElement(By.id("annotationsdisplay"));
         if (checkBox.isSelected() == true) {
-            checkBox.toggle();
+            checkBox.click();
         }
     }
 }

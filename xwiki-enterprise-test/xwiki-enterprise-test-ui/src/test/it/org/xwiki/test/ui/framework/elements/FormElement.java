@@ -100,7 +100,7 @@ public class FormElement extends BaseElement
     {
         int x = 0;
         while (checkBoxElement.isSelected() != checked) {
-            checkBoxElement.toggle();
+            checkBoxElement.click();
             if (x == 100) {
                 throw new WebDriverException("Unable to set checkbox at " + checkBoxElement.getAttribute("name")
                     + " to " + checked);
@@ -157,7 +157,7 @@ public class FormElement extends BaseElement
                     + " not found.");
             }
             for (String label : valuesToSelect) {
-                optionsByValue.get(label).setSelected();
+                optionsByValue.get(label).click();
             }
         }
 
@@ -180,7 +180,7 @@ public class FormElement extends BaseElement
             }
             for (String label : valuesToUnSelect) {
                 if (optionsByValue.get(label).isSelected()) {
-                    optionsByValue.get(label).toggle();
+                    optionsByValue.get(label).click();
                 }
             }
         }

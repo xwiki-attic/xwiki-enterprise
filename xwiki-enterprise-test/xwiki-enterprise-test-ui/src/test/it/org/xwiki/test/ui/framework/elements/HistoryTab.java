@@ -109,13 +109,16 @@ public class HistoryTab extends BaseElement
      */
     public ViewPage rollbackToVersion(String version)
     {
+        // Temporary till we understand why the following sometimes fail:
+        // Alert alert = getDriver().switchTo().alert();
+        // alert.accept();
+        makeConfirmDialogSilent(true);
+
         getDriver().findElement(
             By.xpath("//table[@class='xwikidatatable']//tr[contains(., '" + version
                 + "')]//td[@class='xwikibuttonlink']/a[contains(.,'Rollback')]")).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
 
-        // A new page is loaded after the popup is accepted, thus we need to wait that it's loaded before returning
+        // A new page is loaded after the dialog is accepted, thus we need to wait that it's loaded before returning
         // as otherwise following actions may be performed on the current page and not on the new page.
         // TODO: Find a generic way to test for this condition. Right now users of this method need to perform their
         // own wait.
@@ -125,10 +128,13 @@ public class HistoryTab extends BaseElement
 
     public void deleteVersion(String version)
     {
+        // Temporary till we understand why the following sometimes fail:
+        // Alert alert = getDriver().switchTo().alert();
+        // alert.accept();
+        makeConfirmDialogSilent(true);
+
         getDriver().findElement(
             By.xpath("//table[@class='xwikidatatable']//tr[contains(., '" + version
                 + "')]//td[@class='xwikibuttonlink']/a[contains(.,'Delete')]")).click();
-        Alert alert = getDriver().switchTo().alert();
-        alert.accept();
     }
 }

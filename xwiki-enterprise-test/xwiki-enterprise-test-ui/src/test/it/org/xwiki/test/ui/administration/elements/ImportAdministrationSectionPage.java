@@ -87,7 +87,8 @@ public class ImportAdministrationSectionPage extends ViewPage
 
     public void deletePackage(String packageName)
     {
-        List<WebElement> packages = this.packageList.findElements(By.xpath("//ul[@class='xlist']/li/div"));
+        List<WebElement> packages = getUtil().findElementsWithoutWaiting(getDriver(), this.packageList,
+            By.xpath("//ul[@class='xlist']/li/div"));
         for (WebElement pack : packages) {
             try {
                 pack.findElement(By.partialLinkText(packageName));

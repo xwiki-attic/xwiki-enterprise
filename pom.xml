@@ -34,7 +34,7 @@
   <artifactId>xwiki-enterprise-parent</artifactId>
   <packaging>pom</packaging>
   <name>XWiki Products - Enterprise - Parent POM</name>
-  <version>3.0-SNAPSHOT</version>
+  <version>3.0.1</version>
   <description>XWiki Products - Enterprise - Parent POM</description>
   <scm>
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>

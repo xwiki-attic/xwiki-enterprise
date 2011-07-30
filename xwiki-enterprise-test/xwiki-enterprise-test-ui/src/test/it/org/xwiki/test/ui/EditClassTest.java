@@ -57,7 +57,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
 
         // Create object page
         getUtil().createPage("Test", "EditObjectsTestObject",
-            "this is the content: {{velocity}}$doc.display('prop'){{/velocity}}", this.testName.getMethodName());
+            "this is the content: {{velocity}}$doc.display('prop'){{/velocity}}", getTestMethodName());
 
         // Add an object of the class created
         ObjectEditPage oep = new ObjectEditPage();
@@ -83,7 +83,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
         getUtil().createPage("Test", "EditObjectsTestObject",
             "this is the content: {{velocity}}$doc.display('prop1')/$doc.display('prop2')/" +
             "$!doc.getObject('Test.EditObjectsTestClass').getProperty('prop1').value{{/velocity}}",
-            this.testName.getMethodName());
+            getTestMethodName());
 
         // Add an object of the class created
         ObjectEditPage oep = new ObjectEditPage();

@@ -89,18 +89,17 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
     public void testCreatePageFromTemplate()
     {
         // Setup the correct environment for the test
-        String space = this.getClass().getSimpleName();
-        getUtil().deletePage(space, this.testName.getMethodName());
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
         // all these pages are created during this test
-        getUtil().deletePage(space, TEMPLATE_NAME + "Instance");
-        getUtil().deletePage(space, "NewPage");
-        getUtil().deletePage(space, TEMPLATE_NAME + "UnexistingInstance");
-        getUtil().deletePage(space, "EmptyPage");
+        getUtil().deletePage(getTestClassName(), TEMPLATE_NAME + "Instance");
+        getUtil().deletePage(getTestClassName(), "NewPage");
+        getUtil().deletePage(getTestClassName(), TEMPLATE_NAME + "UnexistingInstance");
+        getUtil().deletePage(getTestClassName(), "EmptyPage");
 
         String templateContent = "My Template Content";
         String templateTitle = "My Template Title";
         String templateProviderName = TEMPLATE_NAME + "Provider";
-        String templateProviderFullName = space + "." + templateProviderName;
+        String templateProviderFullName = getTestClassName() + "." + templateProviderName;
 
         ViewPage templateProviderView = createTemplate(templateProviderName, templateContent, templateTitle, false);
 
@@ -110,7 +109,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         int availableTemplateSize = createPagePage.getAvailableTemplateSize();
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
-            createPagePage.createPageFromTemplate(space, templateInstanceName, templateProviderFullName);
+            createPagePage.createPageFromTemplate(getTestClassName(), templateInstanceName, templateProviderFullName);
         WikiEditPage templateInstanceEdit = templateInstanceEditWysiwyg.clickSaveAndView().editWiki();
 
         // Verify template instance content
@@ -124,7 +123,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = templateInstanceEdit.clickSaveAndView();
 
         // Verify that clicking on the wanted link pops up a box to choose the template.
-        vp.clickWantedLink(space, "NewPage", true);
+        vp.clickWantedLink(getTestClassName(), "NewPage", true);
         List<WebElement> templates = getDriver().findElements(By.name("templateprovider"));
         // Note: We need to remove 1 to exclude the "Empty Page" template entry
         Assert.assertEquals(availableTemplateSize, templates.size() - 1);
@@ -132,7 +131,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Create a new page from template by going to a non-existing page
         // And make sure we're on a non-existing page
-        Assert.assertFalse(getUtil().gotoPage(space, TEMPLATE_NAME + "UnexistingInstance").exists());
+        Assert.assertFalse(getUtil().gotoPage(getTestClassName(), TEMPLATE_NAME + "UnexistingInstance").exists());
         DocumentDoesNotExistPage unexistingPage = new DocumentDoesNotExistPage();
         unexistingPage.clickEditThisPageToCreate();
         // make sure we're in create mode
@@ -160,7 +159,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         CreatePagePage createEmptyPage = new CreatePagePage();
         createEmptyPage.gotoPage();
         Assert.assertTrue(createEmptyPage.getAvailableTemplateSize() > 0);
-        WYSIWYGEditPage editEmptyPage = createEmptyPage.createPage(space, "EmptyPage");
+        WYSIWYGEditPage editEmptyPage = createEmptyPage.createPage(getTestClassName(), "EmptyPage");
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         // wait to load editor to make sure that what we're saving is the content that is supposed to be in this
         // document
@@ -174,11 +173,11 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("EmptyPage", emptyPage.getDocumentTitle());
 
         // Restrict the template to its own space
-        templateProviderView = getUtil().gotoPage(space, TEMPLATE_NAME + "Provider");
+        templateProviderView = getUtil().gotoPage(getTestClassName(), TEMPLATE_NAME + "Provider");
         templateProviderView.editInline();
         TemplateProviderInlinePage templateProviderInline = new TemplateProviderInlinePage();
         List<String> allowedSpaces = new ArrayList<String>();
-        allowedSpaces.add(space);
+        allowedSpaces.add(getTestClassName());
         templateProviderInline.setSpaces(allowedSpaces);
         templateProviderView = templateProviderInline.clickSaveAndView();
 

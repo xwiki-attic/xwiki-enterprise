@@ -49,7 +49,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         // Create a new test page.
-        getUtil().createPage(this.getClass().getSimpleName(), testName.getMethodName(), null, null);
+        getUtil().createPage(getTestClassName(), getTestMethodName(), null, null);
         taggablePage = new TaggablePage();
     }
 
@@ -144,7 +144,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(taggablePage.hasTag(tag));
 
         // Reload the page and test again.
-        getUtil().gotoPage(this.getClass().getSimpleName(), testName.getMethodName());
+        getUtil().gotoPage(getTestClassName(), getTestMethodName());
         taggablePage = new TaggablePage();
         Assert.assertTrue(taggablePage.hasTag(tag));
     }

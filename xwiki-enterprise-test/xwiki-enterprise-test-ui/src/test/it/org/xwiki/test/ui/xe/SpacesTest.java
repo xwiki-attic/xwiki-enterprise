@@ -42,21 +42,20 @@ public class SpacesTest extends AbstractAdminAuthenticatedTest
     {
         HomePage homePage = new HomePage();
         homePage.gotoPage();
-        String spaceName = this.testName.getMethodName();
-        WYSIWYGEditPage editPage = homePage.getSpacesPane().createSpace(spaceName);
+        WYSIWYGEditPage editPage = homePage.getSpacesPane().createSpace(getTestClassName());
 
         // Verify that space creation uses the space name as the space home page's title
-        Assert.assertEquals(spaceName, editPage.getDocumentTitle());
+        Assert.assertEquals(getTestClassName(), editPage.getDocumentTitle());
 
         // Verify that the space created is correct by looking at the generate metadata in the HTML header
         // (they contain the space name amongst other data).
-        Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
+        Assert.assertEquals(getTestClassName(), editPage.getMetaDataValue("space"));
     }
 
     @Test
     public void testLinkToSpaceIndexWhenSpecialCharacterInSpaceName()
     {
-        String spaceName = this.testName.getMethodName() + "&";
+        String spaceName = getTestClassName() + "&";
         // Make sure the space WebHome page doesn't exist.
         getUtil().deletePage(spaceName, "WebHome");
 

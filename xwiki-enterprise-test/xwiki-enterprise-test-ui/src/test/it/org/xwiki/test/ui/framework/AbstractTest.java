@@ -100,7 +100,7 @@ public class AbstractTest
     @Before
     public void setTestName()
     {
-        context.setCurrentTestName(getClass().getSimpleName() + "-" + this.testName.getMethodName());
+        context.setCurrentTestName(getClass().getSimpleName() + "-" + getTestMethodName());
     }
 
     @BeforeClass
@@ -116,6 +116,22 @@ public class AbstractTest
     public static void shutdown() throws Exception
     {
         context.shutdown();
+    }
+
+    /**
+     * @since 3.2M2
+     */
+    protected String getTestMethodName()
+    {
+        return this.testName.getMethodName();
+    }
+
+    /**
+     * @since 3.2M2
+     */
+    protected String getTestClassName()
+    {
+        return getClass().getSimpleName();
     }
 
     protected static WebDriver getDriver()

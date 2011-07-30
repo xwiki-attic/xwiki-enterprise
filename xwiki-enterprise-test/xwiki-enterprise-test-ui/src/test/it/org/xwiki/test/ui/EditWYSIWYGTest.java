@@ -45,7 +45,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         editPage = new WYSIWYGEditPage();
-        editPage.switchToEdit(this.getClass().getSimpleName(), testName.getMethodName());
+        editPage.switchToEdit(getTestClassName(), getTestMethodName());
         editPage.getContentEditor().waitToLoad();
     }
 

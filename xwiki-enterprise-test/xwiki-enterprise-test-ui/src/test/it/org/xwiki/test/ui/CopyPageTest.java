@@ -26,7 +26,6 @@ import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.CopyConfirmationPage;
 import org.xwiki.test.ui.framework.elements.CopyPage;
 import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Test the Copy menu action to copy one page to another location.
@@ -36,44 +35,29 @@ import org.xwiki.test.ui.xe.elements.HomePage;
  */
 public class CopyPageTest extends AbstractAdminAuthenticatedTest
 {
-    private HomePage homePage;
-
-    private static final String SPACE_VALUE = "Main";
-
-    private static final String PAGE_VALUE = "CopyPageTest";
-
-    private static final String SPACE_VALUE_COPY = "Main";
-
-    private static final String PAGE_VALUE_COPY = "CopyPageTest1";
-
     private static final String PAGE_CONTENT = "This page is used for copying purposes";
 
     private static final String PAGE_TITLE = "Page title that will be copied";
 
     private static final String COPY_SUCCESSFUL = "successfully copied to";
 
-    public void setUp()
-    {
-        // Delete page is already exists
-        super.setUp();
-        getUtil().deletePage(SPACE_VALUE, PAGE_VALUE);
-        getUtil().deletePage(SPACE_VALUE_COPY, PAGE_VALUE_COPY);
-        homePage = new HomePage();
-        homePage.gotoPage();
-    }
-
     @Test
     public void testCopyPage()
     {
+        // Delete page that may already exist
+        String copiedPageName = getTestMethodName() + "1";
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().deletePage(getTestClassName(), copiedPageName);
+
         // Create a new page that will be copied.
-        ViewPage viewPage = getUtil().createPage(SPACE_VALUE, PAGE_VALUE, PAGE_CONTENT, PAGE_TITLE);
+        ViewPage viewPage = getUtil().createPage(getTestClassName(), getTestMethodName(), PAGE_CONTENT, PAGE_TITLE);
 
         // Click on Copy from the Page top menu.
         CopyPage copyPage = viewPage.copy();
 
         // Fill the target destination the page to be copied to.
-        copyPage.setTargetSpaceName(SPACE_VALUE_COPY);
-        copyPage.setTargetPageName(PAGE_VALUE_COPY);
+        copyPage.setTargetSpaceName(getTestClassName());
+        copyPage.setTargetPageName(copiedPageName);
         CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
         Assert.assertTrue(copyConfirmationPage.getInfoMessage().contains(COPY_SUCCESSFUL));
         viewPage = copyConfirmationPage.goToNewPage();

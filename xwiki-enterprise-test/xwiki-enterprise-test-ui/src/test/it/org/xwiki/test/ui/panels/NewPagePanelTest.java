@@ -42,13 +42,10 @@ public class NewPagePanelTest extends AbstractAdminAuthenticatedTest
         NewPagePanel newPagePanel = new NewPagePanel();
         newPagePanel.gotoPage();
 
-        String spaceName = this.getClass().getSimpleName();
-        String pageName = testName.getMethodName();
+        WYSIWYGEditPage editPage = newPagePanel.createPage(getTestClassName(), getTestMethodName());
 
-        WYSIWYGEditPage editPage = newPagePanel.createPage(spaceName, pageName);
-
-        Assert.assertEquals(pageName, editPage.getDocumentTitle());
-        Assert.assertEquals(pageName, editPage.getMetaDataValue("page"));
-        Assert.assertEquals(spaceName, editPage.getMetaDataValue("space"));
+        Assert.assertEquals(getTestMethodName(), editPage.getDocumentTitle());
+        Assert.assertEquals(getTestMethodName(), editPage.getMetaDataValue("page"));
+        Assert.assertEquals(getTestClassName(), editPage.getMetaDataValue("space"));
     }
 }

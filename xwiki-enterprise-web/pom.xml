@@ -269,6 +269,13 @@
       <artifactId>xwiki-rendering-syntax-doxia</artifactId>
       <version>${rendering.version}</version>
       <scope>runtime</scope>
+      <!-- Incompatible with the version of plexus used by Extension Manager aether module -->
+      <exclusions>
+        <exclusion>
+            <artifactId>plexus-container-default</artifactId>
+            <groupId>org.codehaus.plexus</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>

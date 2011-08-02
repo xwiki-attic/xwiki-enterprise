@@ -263,6 +263,12 @@ public class TestUtils
 
     public ViewPage createPage(String space, String page, String content, String title, String syntaxId)
     {
+        return createPage(space, page, content, title, syntaxId, null);
+    }
+
+    public ViewPage createPage(String space, String page, String content, String title, String syntaxId,
+        String parentFullPageName)
+    {
         Map<String, String> queryMap = new HashMap<String, String>();
         if (content != null) {
             queryMap.put("content", content);
@@ -272,6 +278,9 @@ public class TestUtils
         }
         if (syntaxId != null) {
             queryMap.put("syntaxId", syntaxId);
+        }
+        if (parentFullPageName != null) {
+            queryMap.put("parent", parentFullPageName);
         }
         gotoPage(space, page, "save", queryMap);
         return new ViewPage();

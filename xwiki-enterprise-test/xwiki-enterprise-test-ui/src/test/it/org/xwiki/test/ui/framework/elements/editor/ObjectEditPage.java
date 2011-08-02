@@ -53,7 +53,7 @@ public class ObjectEditPage extends EditPage
         getForm().setFieldValue(this.classNameField, className);
 
         final By objectsLocator = By.cssSelector("[id='xclass_" + className + "'] .xobject");
-        final int initialObjectCount = getDriver().findElements(objectsLocator).size();
+        final int initialObjectCount = getUtil().findElementsWithoutWaiting(getDriver(), objectsLocator).size();
         this.classNameSubmit.click();
 
         // Make sure we wait for the element to appear since there's no page refresh.

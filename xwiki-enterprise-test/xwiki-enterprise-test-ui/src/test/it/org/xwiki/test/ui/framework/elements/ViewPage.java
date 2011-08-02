@@ -27,7 +27,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.xwiki.test.ui.administration.elements.AdministrationPage;
 import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.test.ui.xe.elements.HomePage;
 
 /**
  * Represents the common actions possible on all Pages when using the "view" action.

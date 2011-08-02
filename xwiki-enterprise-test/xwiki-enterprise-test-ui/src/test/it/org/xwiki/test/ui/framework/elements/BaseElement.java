@@ -263,4 +263,21 @@ public class BaseElement
         String script = String.format("window.confirm = function() { return %s; }", accept);
         getDriver().executeScript(script);
     }
+
+    /**
+     * @since 3.2M2
+     */
+    public boolean hasNotificationErrorMessage(String message)
+    {
+        return getUtil().hasElement(By.xpath("//div[contains(@class,'xnotification-error') "
+            + "and contains(text(), '" + message + "')]"));
+    }
+
+    /**
+     * @since 3.2M2
+     */
+    public void waitForNotificationErrorMessage()
+    {
+        waitUntilElementIsVisible(By.className("xnotification-error"));
+    }
 }

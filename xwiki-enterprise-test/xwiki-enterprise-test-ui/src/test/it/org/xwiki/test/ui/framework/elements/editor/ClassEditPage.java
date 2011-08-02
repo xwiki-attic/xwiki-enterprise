@@ -59,17 +59,26 @@ public class ClassEditPage extends BasePage
 
     private FormElement form;
 
-    public boolean addProperty(String propertyName, String propertyType)
+    public void addProperty(String propertyName, String propertyType)
+    {
+        addPropertyWithoutWaiting(propertyName, propertyType);
+
+        // Make sure we wait for the element to appear since there's no page refresh.
+        waitUntilElementIsVisible(By.id("xproperty_" + propertyName));
+    }
+
+    /**
+     * @since 3.2M2
+     */
+    public void addPropertyWithoutWaiting(String propertyName, String propertyType)
     {
         getForm().setFieldValue(this.propertyNameField, propertyName);
         getForm().setFieldValue(this.propertyTypeField, propertyType);
         this.propertySubmit.click();
-        // Make sure we wait for the element to appear since there's no page refresh.
-        By[] locators = new By[2];
-        locators[0] = By.id("xproperty_" + propertyName);
-        locators[1] = By.className("xnotification-error");
-        waitUntilElementsAreVisible(locators, false);
-        return getUtil().hasElement(locators[0]);
+
+        // Just wait for the notification message (this message is always displayed, whether the property has been
+        // added correctly or whether there's an error.
+        waitForNotificationErrorMessage();
     }
 
     public void deleteProperty(String propertyName)

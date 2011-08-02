@@ -117,7 +117,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     public void addInvalidProperty()
     {
         ClassEditPage cep = getUtil().editClass("Test", "EditObjectsTestClass");
-        Assert.assertFalse(cep.addProperty("a<b c", "com.xpn.xwiki.objects.classes.StringClass"));
-        Assert.assertFalse(getDriver().getPageSource().contains("xwikimessage"));
+        cep.addPropertyWithoutWaiting("a<b c", "com.xpn.xwiki.objects.classes.StringClass");
+        Assert.assertTrue(cep.hasNotificationErrorMessage("Failed: Property names must follow these naming rules:"));
     }
 }

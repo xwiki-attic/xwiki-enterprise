@@ -44,6 +44,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.editor.ClassEditPage;
+import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
 
 /**
  * Helper methods for testing, not related to a specific Page Object. Also made available to tests classes.
@@ -686,6 +688,19 @@ public class TestUtils
     }
 
     /**
+     * @since 3.2M2
+     */
+    public ClassEditPage addClassProperty(String space, String page, String propertyName, String propertyType)
+    {
+        Map props = new HashMap();
+        props.put("propname", propertyName);
+        props.put("proptype", propertyType);
+
+        gotoPage(space, page, "propadd", props);
+        return new ClassEditPage();
+    }
+
+    /**
      * @since 3.2M1
      */
     public Map<String, ? > toQueryParameters(String className, Integer objectNumber, Object... properties)
@@ -821,5 +836,23 @@ public class TestUtils
         } catch (NoSuchElementException e) {
             return false;
         }
+    }
+
+    /**
+     * @since 3.2M2
+     */
+    public ObjectEditPage editObjects(String space, String page)
+    {
+        gotoPage(space, page, "edit", "editor=object");
+        return new ObjectEditPage();
+    }
+
+    /**
+     * @since 3.2M2
+     */
+    public ClassEditPage editClass(String space, String page)
+    {
+        gotoPage(space, page, "edit", "editor=class");
+        return new ClassEditPage();
     }
 }

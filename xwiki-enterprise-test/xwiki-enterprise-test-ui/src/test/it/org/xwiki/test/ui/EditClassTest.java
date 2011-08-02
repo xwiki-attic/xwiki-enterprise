@@ -49,22 +49,23 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testAddProperty()
     {
+        // We verify that we can click on Edit Class from View Page (we need to test this at
+        // least once to ensure the UI works).
+        ClassEditPage cep = getUtil().gotoPage("Test", "EditObjectsTestClass").editClass();
+
         // Create a class with a string property
-        ClassEditPage cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
         cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StringClass");
         cep.clickSaveAndView();
 
         // Create object page
-        getUtil().createPage("Test", "EditObjectsTestObject",
+        ViewPage vp = getUtil().createPage("Test", "EditObjectsTestObject",
             "this is the content: {{velocity}}$doc.display('prop'){{/velocity}}", getTestMethodName());
 
         // Add an object of the class created
-        ObjectEditPage oep = new ObjectEditPage();
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        ObjectEditPage oep = vp.editObjects();
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop"), "testing value");
-        ViewPage vp = oep.clickSaveAndView();
+        vp = oep.clickSaveAndView();
 
         Assert.assertEquals("this is the content: testing value", vp.getContent());
     }
@@ -73,35 +74,35 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     public void testDeleteProperty()
     {
         // Create a class with two string properties
-        ClassEditPage cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
-        cep.addProperty("prop1", "com.xpn.xwiki.objects.classes.StringClass");
-        cep.addProperty("prop2", "com.xpn.xwiki.objects.classes.StringClass");
-        cep.clickSaveAndView();
+        getUtil().addClassProperty("Test", "EditObjectsTestClass",
+            "prop1", "com.xpn.xwiki.objects.classes.StringClass");
+        getUtil().addClassProperty("Test", "EditObjectsTestClass",
+            "prop2", "com.xpn.xwiki.objects.classes.StringClass");
 
         // Create object page
-        getUtil().createPage("Test", "EditObjectsTestObject",
+        ViewPage vp = getUtil().createPage("Test", "EditObjectsTestObject",
             "this is the content: {{velocity}}$doc.display('prop1')/$doc.display('prop2')/" +
             "$!doc.getObject('Test.EditObjectsTestClass').getProperty('prop1').value{{/velocity}}",
             getTestMethodName());
 
         // Add an object of the class created
-        ObjectEditPage oep = new ObjectEditPage();
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        ObjectEditPage oep = vp.editObjects();
         FormElement objectForm = oep.addObject("Test.EditObjectsTestClass");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop1"), "testing value 1");
         objectForm.setFieldValue(By.id("Test.EditObjectsTestClass_0_prop2"), "testing value 2");
-        ViewPage vp = oep.clickSaveAndView();
+        vp = oep.clickSaveAndView();
 
         Assert.assertEquals("this is the content: testing value 1/testing value 2/testing value 1", vp.getContent());
 
         // Delete the first property from the class
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        ClassEditPage cep = getUtil().editClass("Test", "EditObjectsTestClass");
         cep.deleteProperty("prop1");
         cep.clickSaveAndView();
+
         vp = getUtil().gotoPage("Test", "EditObjectsTestObject");
         Assert.assertEquals("this is the content: /testing value 2/testing value 1", vp.getContent());
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+
+        oep = vp.editObjects();
         Assert.assertNotNull(getDriver().findElement(By.className("deprecatedProperties")));
         Assert.assertNotNull(getDriver().findElement(By.cssSelector(".deprecatedProperties label")));
         Assert.assertEquals("prop1:", getDriver().findElement(By.cssSelector(".deprecatedProperties label")).getText());
@@ -115,8 +116,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     @Test
     public void addInvalidProperty()
     {
-        ClassEditPage cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        ClassEditPage cep = getUtil().editClass("Test", "EditObjectsTestClass");
         Assert.assertFalse(cep.addProperty("a<b c", "com.xpn.xwiki.objects.classes.StringClass"));
         Assert.assertFalse(getDriver().getPageSource().contains("xwikimessage"));
     }

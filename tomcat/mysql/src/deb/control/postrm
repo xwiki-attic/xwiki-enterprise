@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+#set -x
+
+if [ -f /usr/share/debconf/confmodule ]; then
+    . /usr/share/debconf/confmodule
+fi
+if [ -f /usr/share/dbconfig-common/dpkg/postrm.mysql ]; then
+    . /usr/share/dbconfig-common/dpkg/postrm.mysql
+    dbc_go xwiki $@
+fi
+
+if [ "$1" = "purge" ]; then
+	rm -f /etc/xwiki
+        rm -rf /usr/lib/xwiki/
+        rm -f /var/lib/tomcat6/webapps/xwiki
+fi
+
+#DEBHELPER#

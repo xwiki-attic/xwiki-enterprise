@@ -1,0 +1,4 @@
+usr/share/xwiki
+usr/share/dbconfig-common/data/xwiki/install
+usr/share/dbconfig-common/data/xwiki/upgrade/mysql
+etc/xwiki

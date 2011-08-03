@@ -20,7 +20,6 @@
 package org.xwiki.test.ui.framework.elements.editor;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.BasePage;
@@ -75,10 +74,6 @@ public class ClassEditPage extends BasePage
         getForm().setFieldValue(this.propertyNameField, propertyName);
         getForm().setFieldValue(this.propertyTypeField, propertyType);
         this.propertySubmit.click();
-
-        // Just wait for the notification message (this message is always displayed, whether the property has been
-        // added correctly or whether there's an error.
-        waitForNotificationErrorMessage();
     }
 
     public void deleteProperty(String propertyName)

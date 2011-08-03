@@ -267,17 +267,9 @@ public class BaseElement
     /**
      * @since 3.2M2
      */
-    public boolean hasNotificationErrorMessage(String message)
+    public void waitForNotificationErrorMessage(String message)
     {
-        return getUtil().hasElement(By.xpath("//div[contains(@class,'xnotification-error') "
+        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-error') "
             + "and contains(text(), '" + message + "')]"));
-    }
-
-    /**
-     * @since 3.2M2
-     */
-    public void waitForNotificationErrorMessage()
-    {
-        waitUntilElementIsVisible(By.className("xnotification-error"));
     }
 }

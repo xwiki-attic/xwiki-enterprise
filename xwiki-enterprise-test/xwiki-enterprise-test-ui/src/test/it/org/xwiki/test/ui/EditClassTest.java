@@ -118,6 +118,6 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     {
         ClassEditPage cep = getUtil().editClass("Test", "EditObjectsTestClass");
         cep.addPropertyWithoutWaiting("a<b c", "com.xpn.xwiki.objects.classes.StringClass");
-        Assert.assertTrue(cep.hasNotificationErrorMessage("Failed: Property names must follow these naming rules:"));
+        cep.waitForNotificationErrorMessage("Failed: Property names must follow these naming rules:");
     }
 }

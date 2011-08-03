@@ -87,19 +87,10 @@ public class ImportAdministrationSectionPage extends ViewPage
 
     public void deletePackage(String packageName)
     {
-        List<WebElement> packages = getUtil().findElementsWithoutWaiting(getDriver(), this.packageList,
-            By.xpath("//ul[@class='xlist']/li/div"));
-        for (WebElement pack : packages) {
-            try {
-                pack.findElement(By.partialLinkText(packageName));
-                makeConfirmDialogSilent(true); // temporary, see BaseElement#makeConfirmDialogSilent
-                pack.findElement(By.xpath("//div/span/a[@class='deletelink']")).click();
-                return;
-            } catch (NoSuchElementException e) {
-                // Not the right package. Try again.
-            }
-        }
-        throw new NoSuchElementException(packageName);
+        makeConfirmDialogSilent(true); // temporary, see BaseElement#makeConfirmDialogSilent
+        this.packageList.findElement(By.xpath(
+            "//ul[@class='xlist']//a[contains(@class, 'package') and contains(text(), '" + packageName
+                + "')]/../span/a[contains(@class, 'deletelink')]")).click();
     }
 
     public void importPackage()

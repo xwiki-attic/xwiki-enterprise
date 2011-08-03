@@ -29,6 +29,9 @@ ln -f /etc/xwiki/struts.tld /usr/lib/xwiki/WEB-INF/
 ln -f /etc/xwiki/version.properties /usr/lib/xwiki/WEB-INF/
 ln -f /etc/xwiki/xwiki.cfg /usr/lib/xwiki/WEB-INF/
 
+# Add MySQL connector
+ln -s /usr/share/java/mysql.jar /usr/lib/xwiki/WEB-INF/lib/
+
 . /usr/share/debconf/confmodule
 
 . /usr/share/dbconfig-common/dpkg/postinst.mysql 

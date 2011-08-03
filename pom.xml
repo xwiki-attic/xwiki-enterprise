@@ -140,6 +140,13 @@
       </modules>
     </profile>
     <profile>
+      <!-- Run the installers only -->
+      <id>installers</id>
+      <modules>
+        <module>xwiki-enterprise-installers</module>
+      </modules>
+    </profile>
+    <profile>
       <id>jetty</id>
       <activation>
         <activeByDefault>true</activeByDefault>

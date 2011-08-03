@@ -26,6 +26,7 @@ import org.junit.Rule;
 import org.junit.rules.MethodRule;
 import org.junit.rules.TestName;
 import org.junit.rules.TestWatchman;
+import org.junit.runner.RunWith;
 import org.junit.runners.model.FrameworkMethod;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -33,12 +34,15 @@ import org.slf4j.LoggerFactory;
 import org.xwiki.test.ui.AllTests;
 import org.xwiki.test.ui.framework.elements.BaseElement;
 
+import com.google.code.tempusfugit.concurrency.IntermittentTestRunner;
+
 /**
  * To be extended by all Test Classes. Allows to start/stop the Web Driver and get access to it.
  * 
  * @version $Id$
  * @since 2.3M1
  */
+@RunWith(IntermittentTestRunner.class)
 public class AbstractTest
 {
     /**

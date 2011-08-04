@@ -49,7 +49,7 @@ public class AllTests
         properties.setProperty("observation.remote.channels", channelName);
         executor.saveXWikiProperties(properties);
 
-        // This is sometimes required sometime not depending on the system environment
-        executor.addEnvironmentVariable("jgroups.bind_addr", "localhost");
+        // Force bind_addr since tcp jgroups configuration expect cluster members to listen localhost by default
+        executor.setOpts("-Djgroups.bind_addr=localhost -Xmx512m -XX:MaxPermSize=128m");
     }
 }

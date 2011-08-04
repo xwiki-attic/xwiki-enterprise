@@ -4,4 +4,3 @@ First one is based on tomcat6 and MySQL5.
 
 TODO before being moved to the platform:
 - either modify the cfg after configuration or force user password to "xwiki"
-- find how to actually use libmysql-java on debian

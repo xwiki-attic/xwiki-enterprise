@@ -46,7 +46,6 @@ import org.xwiki.test.ui.invitation.elements.InvitationMessageDisplayElement;
 import org.xwiki.test.ui.invitation.elements.InvitationSenderPage;
 
 import com.icegreen.greenmail.util.GreenMail;
-import com.icegreen.greenmail.util.ServerSetup;
 
 /**
  * Tests invitation application.
@@ -733,9 +732,7 @@ public class InvitationTest extends AbstractTest
 
     protected void startGreenMail() throws Exception
     {
-        // We have to explicitly bind to 127.0.0.1 because localhost causes an ip4/ip6 mismatch
-        // between the wiki and the test.
-        this.greenMail = new GreenMail(new ServerSetup(3025, "127.0.0.1", "smtp"));
+        this.greenMail = new GreenMail();
         this.greenMail.start();
     }
 

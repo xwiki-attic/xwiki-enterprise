@@ -732,7 +732,7 @@ public class InvitationTest extends AbstractTest
 
     protected void startGreenMail() throws Exception
     {
-        System.setProperty("java.net.perferIPv4Stack", "true");
+        System.setProperty("java.net.preferIPv4Stack", "true");
         this.greenMail = new GreenMail();
         this.greenMail.start();
     }

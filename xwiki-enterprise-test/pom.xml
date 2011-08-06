@@ -406,7 +406,7 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport} -DpreferIPv4Stack=true</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>

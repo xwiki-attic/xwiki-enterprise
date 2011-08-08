@@ -87,41 +87,40 @@ public class BaseElement
     public void waitUntilElementsAreVisible(final By[] locators, final boolean all)
     {
         getUtil().waitUntilCondition(new ExpectedCondition<WebElement>()
+        {
+            public WebElement apply(WebDriver driver)
             {
-                public WebElement apply(WebDriver driver)
-                {
-                    WebElement element = null;
-                    for (int i = 0; i < locators.length; i++) {
-                        try {
-                            element = driver.findElement(locators[i]);
-                        } catch (NotFoundException e) {
-                            // This exception is caught by WebDriverWait
-                            // but it returns null which is not necessarily what we want.
-                            if (all) {
-                                return null;
-                            }
-                            continue;
-                        }
-                        // At this stage it's possible the element is no longer valid (for example if the DOM has
-                        // changed). If it's no longer attached to the DOM then consider we haven't found the element
-                        // yet.
-                        try {
-                            if (element.isDisplayed()) {
-                                if (!all) {
-                                    return element;
-                                }
-                            } else if (all) {
-                                return null;
-                            }
-                        } catch (StaleElementReferenceException e) {
-                            // Consider we haven't found the element yet
+                WebElement element = null;
+                for (int i = 0; i < locators.length; i++) {
+                    try {
+                        element = driver.findElement(locators[i]);
+                    } catch (NotFoundException e) {
+                        // This exception is caught by WebDriverWait
+                        // but it returns null which is not necessarily what we want.
+                        if (all) {
                             return null;
                         }
+                        continue;
                     }
-                    return element;
+                    // At this stage it's possible the element is no longer valid (for example if the DOM has
+                    // changed). If it's no longer attached to the DOM then consider we haven't found the element
+                    // yet.
+                    try {
+                        if (element.isDisplayed()) {
+                            if (!all) {
+                                return element;
+                            }
+                        } else if (all) {
+                            return null;
+                        }
+                    } catch (StaleElementReferenceException e) {
+                        // Consider we haven't found the element yet
+                        return null;
+                    }
                 }
+                return element;
             }
-        );
+        });
     }
 
     /**
@@ -132,21 +131,20 @@ public class BaseElement
     public void waitUntilElementDisappears(final By locator)
     {
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    try {
-                        WebElement element = driver.findElement(locator);
-                        return !element.isDisplayed();
-                    } catch (NotFoundException e) {
-                        return Boolean.TRUE;
-                    } catch (StaleElementReferenceException e) {
-                        // The element was removed from DOM in the meantime
-                        return Boolean.TRUE;
-                    }
+                try {
+                    WebElement element = driver.findElement(locator);
+                    return !element.isDisplayed();
+                } catch (NotFoundException e) {
+                    return Boolean.TRUE;
+                } catch (StaleElementReferenceException e) {
+                    // The element was removed from DOM in the meantime
+                    return Boolean.TRUE;
                 }
             }
-        );
+        });
     }
 
     /**
@@ -177,26 +175,25 @@ public class BaseElement
         final String expectedValue)
     {
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    try {
-                        WebElement element = driver.findElement(locator);
-                        return expectedValue.equals(element.getAttribute(attributeName));
-                    } catch (NotFoundException e) {
-                        return false;
-                    } catch (StaleElementReferenceException e) {
-                        // The element was removed from DOM in the meantime
-                        return false;
-                    }
+                try {
+                    WebElement element = driver.findElement(locator);
+                    return expectedValue.equals(element.getAttribute(attributeName));
+                } catch (NotFoundException e) {
+                    return false;
+                } catch (StaleElementReferenceException e) {
+                    // The element was removed from DOM in the meantime
+                    return false;
                 }
             }
-        );
+        });
     }
 
     /**
      * Waits until the given element ends with a certain value for an attribute.
-     *
+     * 
      * @param locator the element to wait on
      * @param attributeName the name of the attribute to check
      * @param expectedValue the attribute value to wait for
@@ -205,21 +202,20 @@ public class BaseElement
         final String expectedValue)
     {
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    try {
-                        WebElement element = driver.findElement(locator);
-                        return element.getAttribute(attributeName).endsWith(expectedValue);
-                    } catch (NotFoundException e) {
-                        return false;
-                    } catch (StaleElementReferenceException e) {
-                        // The element was removed from DOM in the meantime
-                        return false;
-                    }
+                try {
+                    WebElement element = driver.findElement(locator);
+                    return element.getAttribute(attributeName).endsWith(expectedValue);
+                } catch (NotFoundException e) {
+                    return false;
+                } catch (StaleElementReferenceException e) {
+                    // The element was removed from DOM in the meantime
+                    return false;
                 }
             }
-        );
+        });
     }
 
     /**
@@ -232,14 +228,13 @@ public class BaseElement
     public void waitUntilElementHasTextContent(final By locator, final String expectedValue)
     {
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    WebElement element = driver.findElement(locator);
-                    return Boolean.valueOf(expectedValue.equals(element.getText()));
-                }
+                WebElement element = driver.findElement(locator);
+                return Boolean.valueOf(expectedValue.equals(element.getText()));
             }
-        );
+        });
     }
 
     public Object executeJavascript(String javascript, Object... arguments)
@@ -269,7 +264,21 @@ public class BaseElement
      */
     public void waitForNotificationErrorMessage(String message)
     {
-        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-error') "
-            + "and contains(text(), '" + message + "')]"));
+        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-error') " + "and contains(text(), '"
+            + message + "')]"));
+    }
+
+    /**
+     * @since 3.2M2
+     */
+    public void waitForNotificationWarningMessage(String message)
+    {
+        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-warning') " + "and contains(text(), '"
+            + message + "')]"));
+        // in order to improve test speed we click on the notification
+        getDriver().findElement(
+            By.xpath("//div[contains(@class,'xnotification-warning') " + "and contains(text(), '" + message + "')]"))
+            .click();
+
     }
 }

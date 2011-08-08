@@ -22,8 +22,9 @@ package org.xwiki.test.ui.annotations.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
  * Implements the Annotation window that appears when selecting an annotation
@@ -32,7 +33,7 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  * @since 2.7RC1
  */
 
-public class AnnotationsLabel extends ViewPage
+public class AnnotationsLabel extends BaseElement
 {
 
     @FindBy(xpath = "//a[@title='Delete this annotation']")
@@ -44,15 +45,31 @@ public class AnnotationsLabel extends ViewPage
     @FindBy(xpath = "annotationDate")
     private WebElement annotationDate;
 
-    private void showAnnotationByText(String searchText)
+    private void hoverOnAnnotationByText(String searchText)
     {
-        String classId = this.getAnnotationIdByText(searchText);
-        getDriver().findElement(By.xpath("//span[@id='" + classId + "']")).click();
+        hoverOnAnnotationById(getAnnotationIdByText(searchText));
+    }
+
+    private void hoverOnAnnotationById(String annotationId)
+    {
+        WebElement annotationIcon = getDriver().findElement(By.id(annotationId));
+
+        // Move mouse to annotation icon
+        Actions builder = new Actions(getDriver().getWrappedDriver());
+        builder.moveToElement(annotationIcon).build().perform();
+
+        waitUntilElementIsVisible(By.className("annotation-box-view"));
     }
 
     private void showAnnotationById(String idText)
     {
-        getDriver().findElement(By.xpath("//span[@id='" + idText + "']")).click();
+        hoverOnAnnotationById(idText);
+        // getDriver().findElement(By.xpath("//span[@id='" + idText + "']")).click();
+    }
+
+    private void showAnnotationByText(String searchText)
+    {
+        showAnnotationById(getAnnotationIdByText(searchText));
     }
 
     public void deleteAnnotationByText(String searchText)
@@ -70,7 +87,7 @@ public class AnnotationsLabel extends ViewPage
 
     public String getAnnotationsAuthorByText(String searchText)
     {
-        this.showAnnotationByText(searchText);
+        this.hoverOnAnnotationByText(searchText);
         return this.annotationAuthor.getText();
     }
 
@@ -91,11 +108,17 @@ public class AnnotationsLabel extends ViewPage
 
     public String getAnnotationContentByText(String searchText)
     {
-        showAnnotationByText(searchText);
+        hoverOnAnnotationByText(searchText);
         waitUntilElementIsVisible(By.xpath("//div[@class='annotationText']/p"));
-        String annotationContent = getDriver().findElement(By.xpath(
-            "//*[@class='annotation-bubble']//div[@class='annotationText']/p")).getText();
+        String annotationContent =
+            getDriver().findElement(By.xpath("//*[@class='annotation-bubble']//div[@class='annotationText']/p"))
+                .getText();
         WebElement body = getDriver().findElement(By.id("body"));
+        /*
+         * It seems that hovering over the small yellow icon sends 2 requests, and one ESC is not enough to make the
+         * window disappear
+         */
+        body.sendKeys(Keys.ESCAPE);
         body.sendKeys(Keys.ESCAPE);
         waitUntilElementDisappears(By.className("annotation-box-view"));
         return annotationContent;

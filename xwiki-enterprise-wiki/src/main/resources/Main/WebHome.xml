@@ -316,7 +316,7 @@
     #set($displayOnMainPageProp = $userPrefClass.get('displayOnMainPage'))
     #set($prefValue = $displayOnMainPageProp.getProperty('defaultValue').value)
   #end
-  #if ($prefValue &gt; 0)
+  #if ($prefValue &amp;&amp; $prefValue &gt; 0)
     #set($dashboardObjects = $xwiki.getDocument($context.user).getObjects("XWiki.GadgetClass"))
     #if ($dashboardObjects.size() &gt; 0)
       {{dashboard source = "$context.user" /}}

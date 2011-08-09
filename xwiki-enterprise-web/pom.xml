@@ -42,13 +42,32 @@
       <type>war</type>
     </dependency>
     <!-- Dependencies we need inside the XE WAR -->
-    <!-- Old Core -->
+    <!-- Legacy packages -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-oldcore</artifactId>
+      <artifactId>xwiki-platform-legacy-oldcore</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-legacy-observation</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-legacy-annotation</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-legacy-bridge</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    
     <!-- Add the GWT JAR so that the XWiki GWT Servlet can be activated by default in web.xml -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -628,6 +647,7 @@ xwiki.work.dir=work
             </resource>
           </webResources>
           <!-- - Make sure we exclude JCL and LOGJ4 since we want all logging to go through SLF4J
+               - Exclude xwiki-platform-olcore because it's included in xwiki-platform-legacy-oldcore
                - Excluded to prevent conflict in the patched version of Rhino used by yuicompressor used for JSX.
                  See http://jira.xwiki.org/jira/browse/XWIKI-6151 for more details.
 
@@ -635,7 +655,7 @@ xwiki.work.dir=work
                      See http://jira.codehaus.org/browse/MWAR-81
           -->
           <packagingExcludes>
-            WEB-INF/lib/batik-js-*.jar,WEB-INF/lib/commons-logging-*.jar,WEB-INF/lib/log4j-??????.jar
+            WEB-INF/lib/xwiki-platform-olcore-*.jar,WEB-INF/lib/batik-js-*.jar,WEB-INF/lib/commons-logging-*.jar,WEB-INF/lib/log4j-??????.jar
           </packagingExcludes>
         </configuration>
       </plugin>

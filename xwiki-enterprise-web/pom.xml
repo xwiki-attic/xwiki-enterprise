@@ -41,6 +41,13 @@
       <version>${platform.version}</version>
       <type>war</type>
     </dependency>
+
+    <!-- Make sure to include the proper version of antlr for hibernate-core -->
+    <dependency>
+      <groupId>antlr</groupId>
+      <artifactId>antlr</artifactId>
+    </dependency>
+
     <!-- Dependencies we need inside the XE WAR -->
     <!-- Legacy packages -->
     <dependency>

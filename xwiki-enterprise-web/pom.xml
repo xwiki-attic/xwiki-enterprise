@@ -372,13 +372,6 @@
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Legacy / Backward compatibility -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-legacy</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     <!-- XML Script Service -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

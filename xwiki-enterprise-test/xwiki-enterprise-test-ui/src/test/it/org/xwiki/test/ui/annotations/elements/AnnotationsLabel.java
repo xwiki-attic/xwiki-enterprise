@@ -64,7 +64,6 @@ public class AnnotationsLabel extends BaseElement
     private void showAnnotationById(String idText)
     {
         hoverOnAnnotationById(idText);
-        // getDriver().findElement(By.xpath("//span[@id='" + idText + "']")).click();
     }
 
     private void showAnnotationByText(String searchText)
@@ -114,10 +113,9 @@ public class AnnotationsLabel extends BaseElement
             getDriver().findElement(By.xpath("//*[@class='annotation-bubble']//div[@class='annotationText']/p"))
                 .getText();
         WebElement body = getDriver().findElement(By.id("body"));
-        /*
-         * It seems that hovering over the small yellow icon sends 2 requests, and one ESC is not enough to make the
-         * window disappear
-         */
+
+        // It seems that hovering over the small yellow icon sends 2 requests, and one ESC is not enough to make the
+        // window disappear
         body.sendKeys(Keys.ESCAPE);
         body.sendKeys(Keys.ESCAPE);
         waitUntilElementDisappears(By.className("annotation-box-view"));

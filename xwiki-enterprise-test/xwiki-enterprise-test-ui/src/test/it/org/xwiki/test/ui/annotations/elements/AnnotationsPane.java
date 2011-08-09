@@ -36,7 +36,9 @@ public class AnnotationsPane extends BaseElement
     @FindBy(id = "annotationsdisplay")
     private WebElement checkBox;
 
-    // Shows the annotations pane from the top of the page
+    /**
+     * Shows the annotations pane from the top of the page
+     */
     public void showAnnotationsPane()
     {
         WebElement annotationsPane = getDriver().findElement(By.xpath("//div[@id='tmAnnotations']//a[@class='tme']"));
@@ -44,7 +46,9 @@ public class AnnotationsPane extends BaseElement
         waitUntilElementIsVisible(By.className("annotationsettings"));
     }
 
-    // Hides the annotations pane from the top of the page
+    /**
+     * Hides the annotations pane from the top of the page
+     */
     public void hideAnnotationsPane()
     {
         WebElement annotationsPane = getDriver().findElement(By.xpath("//div[@id='tmAnnotations']//a[@class='tme']"));
@@ -52,7 +56,9 @@ public class AnnotationsPane extends BaseElement
         waitUntilElementDisappears(By.className("annotationsettings"));
     }
 
-    // Checks the "Show Annotations" check box.
+    /**
+     * Checks the "Show Annotations" check box.
+     */
     public void clickShowAnnotations()
     {
         if (this.checkBox.isSelected() == false) {
@@ -60,7 +66,9 @@ public class AnnotationsPane extends BaseElement
         }
     }
 
-    // Un-Checks the "Show Annotations" checkbox.
+    /**
+     * Un-Checks the "Show Annotations" checkbox.
+     */
     public void clickHideAnnotations()
     {
         if (this.checkBox.isSelected() == true) {
@@ -68,8 +76,12 @@ public class AnnotationsPane extends BaseElement
         }
     }
 
-    // Checks if the checkBox within AnnotationsPane is visible
-    public boolean checkIfClickbuttonExists()
+    /**
+     * Checks if the checkBox within AnnotationsPane is visible
+     * 
+     * @return returns true if the Show Annotations checkbox is displayed
+     */
+    public boolean checkIfShowAnnotationsCheckboxExists()
     {
         if (getUtil().findElementsWithoutWaiting(getDriver(), By.id("annotationsdisplay")).size() > 0) {
             return true;

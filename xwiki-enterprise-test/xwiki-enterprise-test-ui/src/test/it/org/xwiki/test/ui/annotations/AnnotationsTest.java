@@ -19,9 +19,11 @@
  */
 package org.xwiki.test.ui.annotations;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.annotations.elements.AnnotableViewPage;
+import org.xwiki.test.ui.annotations.elements.AnnotatableViewPage;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 
 /**
@@ -58,7 +60,7 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
 
     private static final String ANNOTATION_TEXT_4 = "Yes, we have our WYSIWYG";
 
-    private AnnotableViewPage annotableViewPage;
+    private AnnotatableViewPage annotatableViewPage;
 
     @Before
     @Override
@@ -66,21 +68,29 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
         getUtil().deletePage(SPACE_NAME, DOC_NAME);
-        annotableViewPage = new AnnotableViewPage();
+        annotatableViewPage = new AnnotatableViewPage();
         getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, DOC_TITLE);
     }
 
     @Test
-    public void AddAndDeleteAnnotationTest()
+    public void AddAndDeleteAnnotation()
     {
-        annotableViewPage.addAnnotation(ANNOTATED_TEXT_1, ANNOTATION_TEXT_1);
-        annotableViewPage.addAnnotation(ANNOTATED_TEXT_2, ANNOTATION_TEXT_2);
-        annotableViewPage.addAnnotation(ANNOTATED_TEXT_3, ANNOTATION_TEXT_3);
-        annotableViewPage.addAnnotation(ANNOTATED_TEXT_4, ANNOTATION_TEXT_4);
+        annotatableViewPage.addAnnotation(ANNOTATED_TEXT_1, ANNOTATION_TEXT_1);
+        Assert.assertEquals(ANNOTATION_TEXT_1, annotatableViewPage.getAnnotationContentByText(ANNOTATED_TEXT_1));
+        annotatableViewPage.addAnnotation(ANNOTATED_TEXT_2, ANNOTATION_TEXT_2);
+        Assert.assertEquals(ANNOTATION_TEXT_2, annotatableViewPage.getAnnotationContentByText(ANNOTATED_TEXT_2));
+        annotatableViewPage.addAnnotation(ANNOTATED_TEXT_3, ANNOTATION_TEXT_3);
+        Assert.assertEquals(ANNOTATION_TEXT_3, annotatableViewPage.getAnnotationContentByText(ANNOTATED_TEXT_3));
+        annotatableViewPage.addAnnotation(ANNOTATED_TEXT_4, ANNOTATION_TEXT_4);
+        Assert.assertEquals(ANNOTATION_TEXT_4, annotatableViewPage.getAnnotationContentByText(ANNOTATED_TEXT_4));
 
-        annotableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_1);
-        annotableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_2);
-        annotableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_3);
-        annotableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_4);
+        // It seems that there are some issues refreshing content while this tab is not open. This might be a bug in the
+        // Annotations Application
+        annotatableViewPage.showAnnotationsPane();
+        annotatableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_1);
+        annotatableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_2);
+        annotatableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_3);
+        annotatableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_4);
+
     }
 }

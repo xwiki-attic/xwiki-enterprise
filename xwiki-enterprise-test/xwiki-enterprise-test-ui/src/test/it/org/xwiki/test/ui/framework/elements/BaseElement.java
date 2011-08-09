@@ -266,6 +266,10 @@ public class BaseElement
     {
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-error') " + "and contains(text(), '"
             + message + "')]"));
+        // in order to improve test speed, clicking on the notification will make it disappear
+        getDriver().findElement(
+            By.xpath("//div[contains(@class,'xnotification-error') " + "and contains(text(), '" + message + "')]"))
+            .click();
     }
 
     /**
@@ -275,10 +279,22 @@ public class BaseElement
     {
         waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-warning') " + "and contains(text(), '"
             + message + "')]"));
-        // in order to improve test speed we click on the notification
+        // in order to improve test speed, clicking on the notification will make it disappear
         getDriver().findElement(
             By.xpath("//div[contains(@class,'xnotification-warning') " + "and contains(text(), '" + message + "')]"))
             .click();
+    }
 
+    /**
+     * @since 3.2M2
+     */
+    public void waitForNotificationSuccessMessage(String message)
+    {
+        waitUntilElementIsVisible(By.xpath("//div[contains(@class,'xnotification-done') " + "and contains(text(), '"
+            + message + "')]"));
+        // in order to improve test speed, clicking on the notification will make it disappear
+        getDriver().findElement(
+            By.xpath("//div[contains(@class,'xnotification-done') " + "and contains(text(), '" + message + "')]"))
+            .click();
     }
 }

@@ -19,14 +19,11 @@
  */
 package org.xwiki.test.ui;
 
-import java.util.List;
-
 import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.framework.elements.AttachmentsPane;
 import org.xwiki.test.ui.framework.elements.ViewPage;
@@ -46,20 +43,19 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
     private final String testAttachment2 = "SmallAttachment2.txt";
 
-    private final String docName = "AttachmentTest";
-
     @Before
     @Override
     public void setUp()
     {
         super.setUp();
-        getUtil().deletePage("Test", docName);
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
     }
 
     @Test
     public void testUploadDownloadTwoAttachments()
     {
-        ViewPage vp = getUtil().createPage("Test", docName, null, "AttachmentTest#testUploadDownloadTwoAttachments()");
+        ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), null,
+            getTestClassName() + "#" + getTestMethodName());
 
         AttachmentsPane ap = vp.openAttachmentsDocExtraPane();
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment).getPath());
@@ -68,32 +64,14 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         ap.clickAttachFiles();
 
         Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment));
+        Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment2));
 
-        // This is breaking because of a bug. TODO: fix.
-        //Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment2));
-
-        List<WebElement> links = ap.getAttachmentLinks();
-        links.get(0).click();
-        // This test does not prove that the attachments will be shown in any particular order.
-        String content = getDriver().findElement(By.tagName("html")).getText();
-        int firstAttachNum = 0;
-        if (content.equals("This is a small attachment.")) {
-            firstAttachNum = 1;
-        } else {
-            Assert.assertEquals("This is another small attachment.", content);
-            firstAttachNum = 2;
-        }
-
+        // Verify attachment contents
+        ap.getAttachmentLink(this.testAttachment).click();
+        Assert.assertEquals("This is a small attachment.", getDriver().findElement(By.tagName("html")).getText());
         getDriver().navigate().back();
-        links = ap.getAttachmentLinks();
-        links.get(1).click();
-        content = getDriver().findElement(By.tagName("html")).getText();
-
-        if (firstAttachNum == 2) {
-            Assert.assertEquals("This is a small attachment.", content);
-        } else {
-            Assert.assertEquals("This is another small attachment.", content);
-        }
+        ap.getAttachmentLink(this.testAttachment2).click();
+        Assert.assertEquals("This is another small attachment.", getDriver().findElement(By.tagName("html")).getText());
     }
 
     /**

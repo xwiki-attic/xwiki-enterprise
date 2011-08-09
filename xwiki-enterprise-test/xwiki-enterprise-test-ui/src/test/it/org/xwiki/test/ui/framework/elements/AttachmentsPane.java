@@ -19,14 +19,12 @@
  */
 package org.xwiki.test.ui.framework.elements;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
  * Represents the actions possible on the Attachment Pane at the bottom of a page.

@@ -648,7 +648,7 @@ xwiki.work.dir=work
                      See http://jira.codehaus.org/browse/MWAR-81
           -->
           <packagingExcludes>
-            WEB-INF/lib/xwiki-platform-olcore-*.jar,WEB-INF/lib/batik-js-*.jar,WEB-INF/lib/commons-logging-*.jar,WEB-INF/lib/log4j-??????.jar
+            WEB-INF/lib/xwiki-platform-oldcore-*.jar,WEB-INF/lib/batik-js-*.jar,WEB-INF/lib/commons-logging-*.jar,WEB-INF/lib/log4j-??????.jar
           </packagingExcludes>
         </configuration>
       </plugin>

@@ -4,7 +4,6 @@ set -e
 #set -x
 
 . /usr/share/debconf/confmodule
-if [ -f /usr/share/dbconfig-common/dpkg/config.mysql ]; then
-	. /usr/share/dbconfig-common/dpkg/config.mysql 
-	dbc_go xwiki $@
-fi
+. /usr/share/dbconfig-common/dpkg/config.mysql
+
+dbc_go xwiki $@

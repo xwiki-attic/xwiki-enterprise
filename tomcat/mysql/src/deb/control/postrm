@@ -11,10 +11,24 @@ if [ -f /usr/share/dbconfig-common/dpkg/postrm.mysql ]; then
     dbc_go xwiki $@
 fi
 
+rm -rf /usr/lib/xwiki/
+rm -f /var/lib/tomcat6/webapps/xwiki
+rm -rf /usr/share/xwiki
+
 if [ "$1" = "purge" ]; then
-	rm -f /etc/xwiki
-        rm -rf /usr/lib/xwiki/
-        rm -f /var/lib/tomcat6/webapps/xwiki
+	rm -rf /etc/xwiki
 fi
+
+#########################
+# Restart Tomcat
+#########################
+
+invoke-rc.d --quiet tomcat6 restart || {
+    RESULT=$?
+    # Ignore if tomcat6 init script does not exist (yet)
+    if [ $RESULT != 100 ]; then
+	exit $RESULT
+    fi
+}
 
 #DEBHELPER#

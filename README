@@ -1,6 +1,1 @@
 Debian/Ubuntu Package(s) of XWiki built using maven.
-
-First one is based on tomcat6 and MySQL5.
-
-TODO before being moved to the platform:
-- either modify the cfg after configuration or force user password to "xwiki"

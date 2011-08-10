@@ -35,6 +35,11 @@
   <description>XWiki Enterprise - Distribution - Debian - Tomcat - MySQL</description>
   <build>
     <plugins>
+      <!-- Unpack the war -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
       <!-- Produce deb package -->
       <plugin>
         <artifactId>jdeb</artifactId>
@@ -76,11 +81,11 @@
                   </mapper>
                 </data>
                 <data>
-                  <src>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</src>
-                  <type>file</type>
+                  <src>${basedir}/src/main/resources/templates</src>
+                  <type>directory</type>
                   <mapper>
                     <type>perm</type>
-                    <prefix>/etc/xwiki</prefix>
+                    <prefix>/usr/share/xwiki/templates</prefix>
                   </mapper>
                 </data>
               </dataSet>

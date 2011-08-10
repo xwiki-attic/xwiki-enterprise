@@ -32,16 +32,16 @@ ln -f /etc/xwiki/struts.tld /usr/lib/xwiki/WEB-INF/
 ln -f /etc/xwiki/version.properties /usr/lib/xwiki/WEB-INF/
 ln -f /etc/xwiki/xwiki.cfg /usr/lib/xwiki/WEB-INF/
 
-# Add MySQL connector
-ln -sf /usr/share/java/mysql.jar /usr/lib/xwiki/WEB-INF/lib/
+# Add PostgreSQL connector
+ln -sf /usr/share/java/postgresql.jar /usr/lib/xwiki/WEB-INF/lib/
 
 #########################
 # Configuration
 #########################
 
 . /usr/share/debconf/confmodule
-if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
-  . /usr/share/dbconfig-common/dpkg/postinst.mysql
+if [ -f /usr/share/dbconfig-common/dpkg/postinst.pgsql ]; then
+  . /usr/share/dbconfig-common/dpkg/postinst.pgsql
 
   dbc_generate_include='template:/etc/xwiki/hibernate.cfg.xml'
   dbc_generate_include_owner='root:tomcat'

@@ -29,10 +29,10 @@
     <artifactId>xwiki-enterprise-debian-tomcat</artifactId>
     <version>3.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-debian-tomcat-mysql</artifactId>
-  <name>XWiki Enterprise - Distribution - Debian - Tomcat - MySQL</name>
+  <artifactId>xwiki-enterprise-debian-tomcat-pgsql</artifactId>
+  <name>XWiki Enterprise - Distribution - Debian - Tomcat - Postgres SQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Distribution - Debian - Tomcat - MySQL</description>
+  <description>XWiki Enterprise - Distribution - Debian - Tomcat - Postgres SQL</description>
   <build>
     <plugins>
       <!-- Unpack the war -->
@@ -44,7 +44,6 @@
       <plugin>
         <artifactId>jdeb</artifactId>
         <groupId>org.vafer</groupId>
-        <version>0.8</version>
       </plugin>
     </plugins>
   </build>

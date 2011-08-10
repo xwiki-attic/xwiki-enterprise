@@ -33,7 +33,67 @@
   <name>XWiki Enterprise - Distribution - Debian - Tomcat</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Debian - Tomcat</description>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <!-- Produce deb package -->
+        <plugin>
+          <artifactId>jdeb</artifactId>
+          <groupId>org.vafer</groupId>
+          <version>0.8</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>jdeb</goal>
+              </goals>
+              <configuration>
+                <dataSet>
+                  <data>
+                    <src>${war.path}</src>
+                    <type>directory</type>
+                    <excludes>WEB-INF/**/*</excludes>
+                    <mapper>
+                      <type>perm</type>
+                      <prefix>/usr/lib/xwiki</prefix>
+                    </mapper>
+                  </data>
+                  <data>
+                    <src>${war.path}/WEB-INF</src>
+                    <type>directory</type>
+                    <excludes>**/lib/*,**/hibernate.cfg.xml</excludes>
+                    <mapper>
+                      <type>perm</type>
+                      <prefix>/etc/xwiki</prefix>
+                    </mapper>
+                  </data>
+                  <data>
+                    <src>${war.path}/WEB-INF/lib</src>
+                    <type>directory</type>
+                    <excludes>**/lib/*</excludes>
+                    <mapper>
+                      <type>perm</type>
+                      <prefix>/usr/lib/xwiki/WEB-INF/lib</prefix>
+                    </mapper>
+                  </data>
+                  <data>
+                    <src>${basedir}/src/main/resources/templates</src>
+                    <type>directory</type>
+                    <mapper>
+                      <type>perm</type>
+                      <prefix>/usr/share/xwiki/templates</prefix>
+                    </mapper>
+                  </data>
+                </dataSet>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
   <modules>
     <module>mysql</module>
+    <module>pgsql</module>
   </modules>
 </project>

@@ -36,38 +36,8 @@
   <properties>
     <war.path>${project.build.directory}/war</war.path>
   </properties>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <!-- Unpack the war -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>unzip-application</id>
-              <phase>process-resources</phase>
-              <goals>
-                <goal>unpack</goal>
-              </goals>
-              <configuration>
-                <artifactItems>
-                  <artifactItem>
-                    <groupId>org.xwiki.enterprise</groupId>
-                    <artifactId>xwiki-enterprise-web</artifactId>
-                    <version>${project.version}</version>
-                    <type>war</type>
-                  </artifactItem>
-                </artifactItems>
-                <outputDirectory>${war.path}</outputDirectory>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
   <modules>
+    <module>common</module>
     <module>tomcat</module>
   </modules>
 </project>

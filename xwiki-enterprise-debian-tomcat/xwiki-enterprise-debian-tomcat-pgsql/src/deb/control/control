@@ -1,12 +1,11 @@
-Package: xwiki-enterprise-tomcat-mysql
+Package: xwiki-enterprise-tomcat-pgsql
 Version: [[version]]
 Section: java
 Priority: optional
-Provides: xwiki, xwiki-enterprise
 Architecture: all
-Depends: mysql-server (>= 5.0.0), tomcat6 ( >= 6.0.20), libmysql-java ( >= 5.0.0), dbconfig-common ( >= 1.8.0), java6-runtime
+Depends: xwiki-enterprise-common ([[version]]), postgresql (>= 8.4), tomcat6 ( >= 6.0.20), libpg-java ( >= 8.4)
 Maintainer: XWiki Team (devs@xwiki.org)
-Description: XWiki enterprise Tomcat/MySQL based package
+Description: XWiki enterprise Tomcat/PostgreSQL
  XWiki is a free wiki software platform written in Java with a design emphasis
  on extensibility.
  .

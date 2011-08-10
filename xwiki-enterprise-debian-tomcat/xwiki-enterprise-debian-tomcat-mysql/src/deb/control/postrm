@@ -11,12 +11,10 @@ if [ -f /usr/share/dbconfig-common/dpkg/postrm.mysql ]; then
     dbc_go xwiki $@
 fi
 
-rm -rf /usr/lib/xwiki/
 rm -f /var/lib/tomcat6/webapps/xwiki
-rm -rf /usr/share/xwiki
 
 if [ "$1" = "purge" ]; then
-	rm -rf /etc/xwiki
+	rm -f /etc/xwiki/hibernate.cfg.xml
 fi
 
 #########################

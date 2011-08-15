@@ -705,11 +705,4 @@ xwiki.work.dir=work
       </dependencies>
     </profile>
   </profiles>
-  <repositories>
-   <!-- Needed for Smart GWT -->
-    <repository>
-      <id>smartgwt-maven</id>
-      <url>http://www.smartclient.com/maven2</url>
-    </repository>
-  </repositories>
 </project>

@@ -433,8 +433,6 @@
                  <properties>
                    <profilerPath>/Applications/YourKit Java Profiler 7.0.11.app/bin/mac</profilerPath>
                  </properties>
-                 <repositories>
-                   <repository>
              [...]
              <activeProfiles>
                <activeProfile>xwiki</activeProfile>
@@ -471,8 +469,6 @@
                  <properties>
                    <profilerPath>C:\PROGRA~1\YOURKI~1.11\bin\win32</profilerPath>                   
                  </properties>
-                 <repositories>
-                   <repository>
              [...]
              <activeProfiles>
                <activeProfile>xwiki</activeProfile>

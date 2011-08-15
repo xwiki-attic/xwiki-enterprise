@@ -37,27 +37,6 @@
     <glassfish.database.folder>glassfish/domains/domain1/database</glassfish.database.folder>
     <glassfish.war.folder>glassfish/domains/domain1/autodeploy</glassfish.war.folder>
   </properties>
-  <repositories>
-    <repository>
-      <id>glassfish-repository</id>
-      <name>Java.net Repository for Glassfish</name>
-      <url>http://download.java.net/maven/glassfish</url>
-      <snapshots>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-    <repository>
-      <!--
-        back up glassfish maven repository in case the 'glassfish-repository' goes down 
-      -->
-      <id>glassfish-repository-wsinterop</id>
-      <name>Java.net Repository for Glassfish</name>
-      <url>http://maven.dyndns.org/glassfish/</url>
-      <snapshots>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

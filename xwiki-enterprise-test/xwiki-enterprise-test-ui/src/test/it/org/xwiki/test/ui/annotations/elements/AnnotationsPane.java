@@ -19,64 +19,74 @@
  */
 package org.xwiki.test.ui.annotations.elements;
 
-import junit.framework.Assert;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.openqa.selenium.support.FindBy;
+import org.xwiki.test.ui.framework.elements.BaseElement;
 
 /**
  * Pane that opens when you click on the Annotation menu entry.
- *
+ * 
  * @version $Id$
  * @since 2.7RC1
  */
-public class AnnotationsPane extends ViewPage
+public class AnnotationsPane extends BaseElement
 {
-    private boolean isVisible = false;
+
+    @FindBy(id = "annotationsdisplay")
+    private WebElement checkBox;
 
     /**
-     * Toggles visible/invisible the Annotations Tab.
+     * Shows the annotations pane from the top of the page
      */
-    public void toggleAnnotationsPane()
+    public void showAnnotationsPane()
     {
         WebElement annotationsPane = getDriver().findElement(By.xpath("//div[@id='tmAnnotations']//a[@class='tme']"));
         annotationsPane.click();
-        if (this.isVisible == true) {
-            this.isVisible = false;
-        }
-        if (this.isVisible == false) {
-            this.isVisible = true;
-        }
+        waitUntilElementIsVisible(By.className("annotationsettings"));
+    }
+
+    /**
+     * Hides the annotations pane from the top of the page
+     */
+    public void hideAnnotationsPane()
+    {
+        WebElement annotationsPane = getDriver().findElement(By.xpath("//div[@id='tmAnnotations']//a[@class='tme']"));
+        annotationsPane.click();
+        waitUntilElementDisappears(By.className("annotationsettings"));
     }
 
     /**
      * Checks the "Show Annotations" check box.
      */
-    public void showAnnotations()
+    public void clickShowAnnotations()
     {
-        if (this.isVisible == false) {
-            Assert.fail("Annotation Pane is hidden");
-        }
-        waitUntilElementIsVisible(By.className("annotationsettings"));
-        WebElement checkBox = getDriver().findElement(By.id("annotationsdisplay"));
-        if (checkBox.isSelected() == false) {
-            checkBox.click();
+        if (this.checkBox.isSelected() == false) {
+            this.checkBox.click();
         }
     }
 
     /**
      * Un-Checks the "Show Annotations" checkbox.
      */
-    public void hideAnnotations()
+    public void clickHideAnnotations()
     {
-        if (this.isVisible == false) {
-            Assert.fail("Annotation Pane is hidden");
+        if (this.checkBox.isSelected() == true) {
+            this.checkBox.click();
         }
-        waitUntilElementIsVisible(By.className("annotationsettings"));
-        WebElement checkBox = getDriver().findElement(By.id("annotationsdisplay"));
-        if (checkBox.isSelected() == true) {
-            checkBox.click();
+    }
+
+    /**
+     * Checks if the checkBox within AnnotationsPane is visible
+     * 
+     * @return returns true if the Show Annotations checkbox is displayed
+     */
+    public boolean checkIfShowAnnotationsCheckboxExists()
+    {
+        if (getUtil().findElementsWithoutWaiting(getDriver(), By.id("annotationsdisplay")).size() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -37,12 +37,6 @@ import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
  */
 public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
 {
-    private static final String CONTENT =
-        "It's an easy-to-edit website that will help you work better together. This Wiki is made of pages "
-            + "sorted by spaces. You're currently in the Main space, looking at its home page (WebHome).";
-
-    private static final String DOC_TITLE = "AnnotationsTest in XWiki 1.0 Syntax";
-
     private AnnotatableViewPage annotatableViewPage;
 
     @Before
@@ -64,7 +58,8 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
         annotationsAdminPage.clickSave();
 
         annotatableViewPage = new AnnotatableViewPage(
-            getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, DOC_TITLE, "xwiki/1.0"));
+            getUtil().createPage(getTestClassName(), getTestMethodName(), "Some content",
+                "AnnotationsTest in XWiki 1.0 Syntax", "xwiki/1.0"));
     }
 
     /**

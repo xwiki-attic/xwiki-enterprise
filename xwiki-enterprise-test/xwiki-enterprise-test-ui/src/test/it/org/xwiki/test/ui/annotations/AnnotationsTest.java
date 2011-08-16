@@ -85,6 +85,5 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         annotatableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_2);
         annotatableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_3);
         annotatableViewPage.deleteAnnotationByText(ANNOTATED_TEXT_4);
-
     }
 }

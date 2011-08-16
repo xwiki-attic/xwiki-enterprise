@@ -37,7 +37,7 @@
     <war.path>${project.build.directory}/war</war.path>
   </properties>
   <modules>
-    <module>common</module>
-    <module>tomcat</module>
+    <module>xwiki-enterprise-common</module>
+    <module>xwiki-enterprise-debian-tomcat</module>
   </modules>
 </project>

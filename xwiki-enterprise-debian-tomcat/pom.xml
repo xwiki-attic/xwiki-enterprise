@@ -54,7 +54,7 @@
     </pluginManagement>
   </build>
   <modules>
-    <module>mysql</module>
-    <module>pgsql</module>
+    <module>xwiki-enterprise-debian-tomcat-mysql</module>
+    <module>xwiki-enterprise-debian-tomcat-pgsql</module>
   </modules>
 </project>

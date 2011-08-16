@@ -5,6 +5,8 @@ set -e
 
 #########################
 # Links
+# TODO: get rid of them when jdeb add support for symbolic links
+#       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
 #########################
 
 rm -rf /etc/xwiki/lib

@@ -32,7 +32,6 @@ import org.xwiki.test.ui.framework.elements.BaseElement;
  */
 public class AnnotationsPane extends BaseElement
 {
-
     @FindBy(id = "annotationsdisplay")
     private WebElement checkBox;
 

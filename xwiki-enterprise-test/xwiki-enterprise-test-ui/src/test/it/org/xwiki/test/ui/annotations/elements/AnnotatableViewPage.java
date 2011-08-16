@@ -22,15 +22,15 @@ package org.xwiki.test.ui.annotations.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.xwiki.test.ui.framework.elements.BaseElement;
 import org.xwiki.test.ui.framework.elements.ViewPage;
 
 /**
  * @since 3.2M2
  * @version $Id$
  */
-public class AnnotatableViewPage extends ViewPage
+public class AnnotatableViewPage extends BaseElement
 {
-
     private static final String XWIKI_ANNOTATION_ADD_SUCCESS = "Annotation has been successfully added";
 
     private static final String XWIKI_ANNOTATION_DELETE_SUCCESS = "Annotation deleted";
@@ -46,8 +46,11 @@ public class AnnotatableViewPage extends ViewPage
 
     private StringBuilder script;
 
-    public AnnotatableViewPage()
+    private ViewPage viewPage;
+
+    public AnnotatableViewPage(ViewPage viewPage)
     {
+        this.viewPage = viewPage;
 
         /**
          * Injection of this javascript function is used because the Selenium 2 API does not yet fully support advanced
@@ -93,6 +96,11 @@ public class AnnotatableViewPage extends ViewPage
         annotationsWindow = new AnnotationsWindow();
         annotationsLabel = new AnnotationsLabel();
 
+    }
+
+    public ViewPage getWrappedViewPage()
+    {
+        return this.viewPage;
     }
 
     public void addAnnotation(String annotatedText, String annotationText)

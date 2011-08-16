@@ -38,12 +38,6 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
         "It's an easy-to-edit website that will help you work better together. This Wiki is made of pages "
             + "sorted by spaces. You're currently in the Main space, looking at its home page (WebHome).";
 
-    private static final String DOC_NAME = "AnnotationsTestPage";
-
-    private static final String SPACE_NAME = "Main";
-
-    private static final String DOC_TITLE = "AnnotationsTest";
-
     private static final String ANNOTATED_TEXT_1 = "work better together";
 
     private static final String ANNOTATION_TEXT_1 = "XWiki motto";
@@ -67,13 +61,13 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     public void setUp()
     {
         super.setUp();
-        getUtil().deletePage(SPACE_NAME, DOC_NAME);
-        annotatableViewPage = new AnnotatableViewPage();
-        getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, DOC_TITLE);
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        annotatableViewPage = new AnnotatableViewPage(
+            getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, null));
     }
 
     @Test
-    public void AddAndDeleteAnnotation()
+    public void AddAndDeleteAnnotations()
     {
         annotatableViewPage.addAnnotation(ANNOTATED_TEXT_1, ANNOTATION_TEXT_1);
         Assert.assertEquals(ANNOTATION_TEXT_1, annotatableViewPage.getAnnotationContentByText(ANNOTATED_TEXT_1));

@@ -41,15 +41,7 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
         "It's an easy-to-edit website that will help you work better together. This Wiki is made of pages "
             + "sorted by spaces. You're currently in the Main space, looking at its home page (WebHome).";
 
-    private static final String DOC_NAME = "AnnotationsTestPageIn10Syntax";
-
-    private static final String SPACE_NAME = "Main";
-
     private static final String DOC_TITLE = "AnnotationsTest in XWiki 1.0 Syntax";
-
-    private AdministrationPage adminPage = new AdministrationPage();
-
-    private AnnotationsPage annotationsAdminPage = new AnnotationsPage();
 
     private AnnotatableViewPage annotatableViewPage;
 
@@ -58,9 +50,11 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
     public void setUp()
     {
         super.setUp();
-        getUtil().deletePage(SPACE_NAME, DOC_NAME);
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+
+        AdministrationPage adminPage = new AdministrationPage();
         adminPage.gotoPage();
-        annotationsAdminPage = adminPage.clickAnnotationsSection();
+        AnnotationsPage annotationsAdminPage = adminPage.clickAnnotationsSection();
         // We make sure the annotations are Activated
         annotationsAdminPage.activateAnnotations();
         // We set annotations to be displayed by default
@@ -68,9 +62,9 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
         // We set annotations to be highlighted
         annotationsAdminPage.displayAnnotationsHighlightByDefault();
         annotationsAdminPage.clickSave();
-        annotatableViewPage = new AnnotatableViewPage();
-        adminPage = new AdministrationPage();
-        getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, DOC_TITLE, "xwiki/1.0");
+
+        annotatableViewPage = new AnnotatableViewPage(
+            getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, DOC_TITLE, "xwiki/1.0"));
     }
 
     /**
@@ -80,8 +74,6 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
     @Test
     public void xwikiPageSyntaxAnnotations()
     {
-        // Landing directly on this page might result in notification not to be displayed
-        getDriver().navigate().refresh();
         annotatableViewPage.showAnnotationsPane();
         // Annotations are disabled in 1.0 Pages. This element should no be here
         Assert.assertTrue(annotatableViewPage.checkIfAnnotationsAreDisabled());
@@ -93,8 +85,9 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
     public void tearDown()
     {
         // We restore the original factory settings of the Annotation Application
+        AdministrationPage adminPage = new AdministrationPage();
         adminPage.gotoPage();
-        annotationsAdminPage = adminPage.clickAnnotationsSection();
+        AnnotationsPage annotationsAdminPage = adminPage.clickAnnotationsSection();
         annotationsAdminPage.activateAnnotations();
         annotationsAdminPage.hideAnnotationsByDefault();
         annotationsAdminPage.hideAnnotationsHighlightByDefault();

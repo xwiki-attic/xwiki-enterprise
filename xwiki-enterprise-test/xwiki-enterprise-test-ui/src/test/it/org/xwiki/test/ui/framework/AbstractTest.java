@@ -98,6 +98,8 @@ public class AbstractTest
         BaseElement.setContext(context);
         TestUtils.setContext(context);
 
+        // Cache the initial CSRF token since that token needs to be passed to all forms (this is done automatically
+        // in TestUtils), including the login form. Whenever a new user logs in we need to recache
         getUtil().recacheSecretToken();
     }
 

@@ -57,6 +57,10 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), null,
             getTestClassName() + "#" + getTestMethodName());
 
+        // TODO: Remove when XWIKI-6688 (Possible race condition when clicking on a tab at the bottom of a page in
+        // view mode) is fixed.
+        vp.waitForDocExtraPaneActive("comments");
+
         AttachmentsPane ap = vp.openAttachmentsDocExtraPane();
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment).getPath());
         ap.addAnotherFile();

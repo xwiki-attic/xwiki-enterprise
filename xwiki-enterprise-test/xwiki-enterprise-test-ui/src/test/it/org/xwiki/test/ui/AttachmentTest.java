@@ -71,7 +71,13 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment2));
 
         // Verify attachment contents
+
+        // TODO: For some reason this click() is generating 2 calls to the server:
+        // "GET /xwiki/bin/download/AttachmentTest/testUploadDownloadTwoAttachments/SmallAttachment.txt HTTP/1.1"
+        // "GET /xwiki/bin/download/AttachmentTest/testUploadDownloadTwoAttachments/SmallAttachment.txt HTTP/1.1"
+        // See https://groups.google.com/forum/#!topic/webdriver/tsuBgipwzRQ
         ap.getAttachmentLink(this.testAttachment).click();
+
         Assert.assertEquals("This is a small attachment.", getDriver().findElement(By.tagName("html")).getText());
         getDriver().navigate().back();
         ap.getAttachmentLink(this.testAttachment2).click();

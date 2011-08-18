@@ -72,7 +72,8 @@ public class AttachmentsPane extends BaseElement
     public WebElement getAttachmentLink(String attachmentName)
     {
         return getDriver().findElement(
-            By.xpath("//div[@id='_attachments']//a[contains(@href, '" + attachmentName + "')]"));
+            By.xpath("//div[@id='_attachments']//a[@title = 'Download this attachment' and contains(@href, '"
+                + attachmentName + "')]"));
     }
 
     /**

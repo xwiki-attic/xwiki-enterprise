@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
-      <version>2.3.1</version>
+      <version>2.4.0</version>
       <exclusions>
         <!-- It has a dependency on testng which we need to exclude to prevent
              Maven Surefire plugin to think we're executing TestNG tests. -->

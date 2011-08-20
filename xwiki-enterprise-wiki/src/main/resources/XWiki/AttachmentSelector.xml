@@ -514,6 +514,8 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
   if (event) {
     Event.stop(event);
   }
+  // Call optional callback
+  this.options.onClose.call(this);
   // Hide the dialog, without removing it from the DOM.
   this.dialog.hide();
   if (this.options.removeOnClose) {

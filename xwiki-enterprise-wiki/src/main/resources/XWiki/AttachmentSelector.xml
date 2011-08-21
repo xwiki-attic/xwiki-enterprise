@@ -269,6 +269,10 @@
               targetElement._x_notif.hide();
               // on success, update image
               this.updateAttachment(attachmentName, imageSource);
+              document.fire("xwiki:attachmentSelector:selected", {
+                attachment: attachmentName,
+                image: imageSource
+              })
               this.dialog.closeDialog();
             }.bindAsEventListener(this),
             onFailure : function(response) {

@@ -168,6 +168,17 @@
     )))
     #end
   #end
+  ##
+  ## Document creation.
+  ##
+  ## Only if the current user has edit rights.
+  #if ($hasCreatePage)
+  {{html}}
+    &lt;ul class="xlist"&gt;
+      &lt;li class="page create"&gt;&lt;a href="$doc.getURL('create')"&gt;$msg.get('xe.spaceIndex.documentList.create')&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  {{/html}}
+  #end
 {{/velocity}}
 </code></property><property><contentDescription></contentDescription></property><property><contentType>No content</contentType>
 </property>

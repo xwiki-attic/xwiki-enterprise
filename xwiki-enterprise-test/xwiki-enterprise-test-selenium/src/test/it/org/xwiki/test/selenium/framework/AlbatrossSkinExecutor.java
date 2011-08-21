@@ -448,7 +448,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         getTest().open(spaceName, pageName);
         clickCopyPage();
-        getTest().getSelenium().select("targetSpaceName", targetSpaceName);
+        getTest().getSelenium().type("targetSpaceName", targetSpaceName);
         getTest().getSelenium().type("targetPageName", targetPageName);
         getTest().clickLinkWithLocator("//input[@value='Copy']");
         return getTest().getSelenium().isTextPresent("successfully copied to");

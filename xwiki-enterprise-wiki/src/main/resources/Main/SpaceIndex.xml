@@ -3,13 +3,13 @@
 <web>Main</web>
 <name>SpaceIndex</name>
 <language></language>
-<defaultLanguage>en</defaultLanguage>
+<defaultLanguage></defaultLanguage>
 <translation>0</translation>
 <parent>Main.WebHome</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
 <creationDate>1252454400000</creationDate>
 <date>1290173191000</date>
 <contentUpdateDate>1290173191000</contentUpdateDate>
@@ -140,28 +140,28 @@
 <code>{{velocity}}
   ## TODO: add me a parameter to specify the style, list or livetable
   ## get the number of documents to display
-  #set($limit = $context.macro.params.get('count'))
-  #if ("$!limit" == "")
+  #set ($limit = $xcontext.macro.params.get('count'))
+  #if ("$!limit" == '')
     ## 100 documents displayed by default if no value is specified
-    #set($limit = 100)
+    #set ($limit = '100')
   #end
-  #set($limit = $util.parseInt($limit))
+  #set ($limit = $util.parseInt($limit))
   ## get the space to display the documents for
-  #set($spaceParam = $doc.space)
-  #set($spaceMacroParam = $context.macro.params.get('space'))
-  #if("$!spaceMacroParam" != "")
-    #set($spaceParam = $spaceMacroParam)
+  #set ($spaceParam = $doc.space)
+  #set ($spaceMacroParam = $xcontext.macro.params.get('space'))
+  #if ("$!spaceMacroParam" != '')
+    #set ($spaceParam = $spaceMacroParam)
   #end
-  #set($docNames = $xwiki.searchDocuments("where doc.space='${spaceParam}' order by doc.creationDate desc", $limit, 0))
+  #set ($docNames = $xwiki.searchDocuments('where doc.space=? order by doc.creationDate desc', $limit, 0, [${spaceParam}]))
   {{html}}
     #displayDocumentList($docNames false []) 
     ## Note: we pass an empty blacklistedSpaces list since we are used as a space dashboard, not a global dashboard
   {{/html}}
 
-  #if($docNames.size() == $limit)
-    #set($docCount = $xwiki.countDocuments("where doc.space='${spaceParam}'"))
-    #set($remaining = $mathtool.sub($docCount, $limit))
-    #if($remaining &gt; 0)
+  #if ($docNames.size() == $limit)
+    #set ($docCount = $xwiki.countDocuments('where doc.space=?', [${spaceParam}]))
+    #set ($remaining = $mathtool.sub($docCount, $limit))
+    #if ($remaining &gt; 0)
     (% class="documentListMore" %) (((
     // $msg.get('xe.dashboard.space.remainingDocumentsInSpace', [$remaining, $spaceParam])
        [[$msg.get('xe.dashboard.space.visitSpaceIndex')&gt;&gt;Main.SpaceIndex?space=$spaceParam]] //

@@ -343,8 +343,9 @@ $xwiki.ssx.use($doc.fullName)
   == $msg.get('xe.themes.current') ==
   #displayTheme($currentTheme)
   &lt;div class="clearfloats"&gt;&lt;/div&gt;
-  #set($query = ", BaseObject as theme where doc.fullName=theme.name and theme.className='ColorThemes.ColorThemeClass' and doc.fullName&lt;&gt;'ColorThemes.ColorThemeTemplate' and doc.fullName&lt;&gt;'$currentTheme' and doc.fullName&lt;&gt;'ColorThemes.ColorThemeSheet' order by doc.title")
-  #set($themeList = $xwiki.searchDocuments($query, 0, 0))
+  #set($query = ", BaseObject as theme where doc.fullName=theme.name and theme.className='ColorThemes.ColorThemeClass' and doc.fullName&lt;&gt;'ColorThemes.ColorThemeTemplate' and doc.fullName&lt;&gt;? and doc.fullName&lt;&gt;'ColorThemes.ColorThemeSheet' order by doc.title")
+  #set($params = ["$!currentTheme"])
+  #set($themeList = $xwiki.searchDocuments($query, 0, 0, $params))
   #if($themeList.size() &gt; 0)
     == $msg.get('xe.themes.others') ==
   #end

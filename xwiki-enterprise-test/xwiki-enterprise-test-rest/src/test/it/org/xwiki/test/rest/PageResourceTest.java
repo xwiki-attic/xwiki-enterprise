@@ -456,4 +456,65 @@ public class PageResourceTest extends AbstractHttpTest
 
         Assert.assertEquals(newSyntax, modifiedPage.getSyntax());
     }
+
+    @Test
+    public void testPageCopyFrom() throws Exception {
+	Page sourcePage = getFirstPage();
+	
+	String targetPageName = "newPageCopiedFrom-" + UUID.randomUUID().toString();
+	String targetPageUrl = getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName).toString();
+	
+	String targetPageUrlWithCopyFrom = targetPageUrl + "?copyFrom=" + sourcePage.getId();
+	PutMethod putMethod = executePutXml(targetPageUrlWithCopyFrom, sourcePage, "Admin", "admin");
+	
+	Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+	
+	Page targetPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());		
+	
+	Assert.assertEquals(sourcePage.getTitle(), targetPage.getTitle());
+	Assert.assertEquals(sourcePage.getContent(), targetPage.getContent());
+	
+	/* clean the created page */
+	DeleteMethod deleteMethod = executeDelete(targetPageUrl, "Admin", "admin");
+
+	GetMethod getMethod = executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName).toString());
+	Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+    }
+    
+    @Test
+    public void testPageMoveFrom() throws Exception {
+	Page originalPage = getFirstPage();
+	
+	/* create a temporary page as the source page */
+	String sourcePageName = "newPageCopiedFrom-" + UUID.randomUUID().toString();
+	String sourcePageUrl = getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, sourcePageName).toString();
+	
+	String sourcePageUrlWithCopyFrom = sourcePageUrl + "?copyFrom=" + originalPage.getId();
+	PutMethod putMethod = executePutXml(sourcePageUrlWithCopyFrom, originalPage, "Admin", "admin");
+	
+	Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+	
+	Page sourcePage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+	
+	/* create a new page as the target page */
+	String targetPageName = "newPageMovedFrom-" + UUID.randomUUID().toString();
+	String targetPageUrl = getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName).toString();
+	
+	String targetPageUrlWithMoveFrom = targetPageUrl + "?moveFrom=" + sourcePage.getId();
+	putMethod = executePutXml(targetPageUrlWithMoveFrom, sourcePage, "Admin", "admin");
+	
+	Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+	
+	Page targetPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+	
+	Assert.assertEquals(sourcePage.getTitle(), targetPage.getTitle());
+	Assert.assertEquals(sourcePage.getContent(), targetPage.getContent());
+	
+	/* the source page should have been deleted */
+	GetMethod getMethod = executeGet(sourcePageUrl);
+	Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+	
+	/* clean the target page */
+	DeleteMethod deleteMethod = executeDelete(targetPageUrl, "Admin", "admin");
+    }
 }

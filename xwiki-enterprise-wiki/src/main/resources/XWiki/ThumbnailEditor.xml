@@ -11,15 +11,15 @@
 <customClass></customClass>
 <contentAuthor>XWiki.Admin</contentAuthor>
 <creationDate>1313425740000</creationDate>
-<date>1313936000000</date>
-<contentUpdateDate>1313936000000</contentUpdateDate>
+<date>1314108195000</date>
+<contentUpdateDate>1314108195000</contentUpdateDate>
 <version>1.1</version>
 <title>#if($request.document) $xwiki.getDocument($request.document).displayTitle ($request.document): #end Edit Thumbnail</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
 <comment></comment>
-<minorEdit>false</minorEdit>
+<minorEdit>true</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
 <object>
@@ -626,9 +626,21 @@ document.observe("xwiki:dom:loaded", function() {
   float:left;
 }
 
-div#thumbnailPreviews span.previewTitle {
-  font-style:italic;
+div#thumbnailPreviews div.previewTitle {
+  font-weight:bold;
+  font-size: 80%;
+  margin-bottom:10px;
 }
+
+div#thumbnailPreviews div.previewHolder {
+  display:inline-block;
+}
+
+div#thumbnailPreviews div.previewHolder img,
+div#thumbnailPreviews div.previewHolder canvas {
+  vertical-align:top;
+}
+
 #existingThumbnail {
   margin-bottom:20px;
 }
@@ -1040,14 +1052,16 @@ div#thumbnailPreviews span.previewTitle {
 <property>
 <code>{{velocity output=false}}
 
-Resolve image to edit thumbnail for -&gt;
+Resolve image to edit thumbnail for
 
 #if("$!{xcontext.macro.params.property}" != '')
   #set($propertyReference = $services.model.resolveObjectProperty($xcontext.macro.params.property))
   #set($document = $xwiki.getDocument($propertyReference.parent.parent))
   #set($object = $document.getObject($propertyReference.parent.name)) ## FIXME: there should be a public getXObject(ObjectReference) API
   #set($property = $object.get($propertyReference.name))
-  #set($imageReference = $services.model.resolveAttachment($property, "currentmixed", $propertyReference.parent))
+  #if("$!property" != '')
+    #set($imageReference = $services.model.resolveAttachment($property, "currentmixed", $propertyReference.parent))
+  #end
 #elseif("$!{xcontext.macro.params.image}" != '')
   #set($imageReference = $services.model.resolveAttachment($xcontext.macro.params.image))
 #else
@@ -1067,6 +1081,8 @@ $xwiki.ssx.use('XWiki.ThumbnailEditor')
 
 Now construct the URL pointing to the Thumbnail Editor for the proper image
 
+#set($editThumbnailURL = '')
+
 #if($imageReference)
 #set($serializedImageReference = $services.model.serialize($imageReference, "default"))
 #set($editThumbnailURL = $xwiki.getURL('XWiki.ThumbnailEditor', 'view', "image=${serializedImageReference}"))
@@ -1083,17 +1099,16 @@ Check for minimum(Widht|Height) parameter
 #if("$!{xcontext.macro.params.minimumHeight}" != '')
   #set($editThumbnailURL = "${editThumbnailURL}&amp;minimumHeight=${xcontext.macro.params.minimumHeight}")
 #end
-#end
 
 Check for previewSizes parameter
 #if("$!{xcontext.macro.params.previewSizes}" != '')
   #set($editThumbnailURL = "${editThumbnailURL}&amp;previewSizes=${xcontext.macro.params.previewSizes}")
 #end
-
+#end
 {{/velocity}}
 
 {{velocity}}
-#if($editThumbnailURL)
+#if("$!editThumbnailURL" != '')
 {{html}}
 &lt;div class="thumbnail-edit"&gt;
   &lt;span class="buttonwrapper"&gt;
@@ -1663,25 +1678,25 @@ Lookup requested preview sizes.
 ##
 #if($previewSizes.size() &gt; 0)
 &lt;div id="thumbnailPreviews"&gt;
-&lt;div id="existingThumbnail" class="preview"&gt;
-  &lt;div&gt;
-    #foreach($size in $previewSizes)
-      &lt;img src="$services.thumbnails.getThumbnailURL($imageReference, {'width': $size.x, 'height' :$size.y})" style="width:${size.x}px;height:${size.y}px;" /&gt;
-    #end
-  &lt;/div&gt;
-  &lt;span class="previewTitle"&gt;
+&lt;div id="existingThumbnail"&gt;
+  &lt;div class="previewTitle"&gt;
     $msg.get('xe.thumbnailEditor.currentThumbnail')
-  &lt;/span&gt;
-&lt;/div&gt;
-&lt;div id="newThumbnailPreview" class="preview"&gt;
-  &lt;div&gt;
+  &lt;/div&gt;
+  &lt;div class="previewHolder"&gt;
     #foreach($size in $previewSizes)
       &lt;img src="$services.thumbnails.getThumbnailURL($imageReference, {'width': $size.x, 'height' :$size.y})" style="width:${size.x}px;height:${size.y}px;" /&gt;
     #end
   &lt;/div&gt;
-  &lt;span class="previewTitle"&gt;
+&lt;/div&gt;
+&lt;div id="newThumbnailPreview"&gt;
+  &lt;div class="previewTitle"&gt;
     $msg.get('xe.thumbnailEditor.newThumbnailPreview')
-  &lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="previewHolder"&gt;
+    #foreach($size in $previewSizes)
+      &lt;img src="$services.thumbnails.getThumbnailURL($imageReference, {'width': $size.x, 'height' :$size.y})" style="width:${size.x}px;height:${size.y}px;" /&gt;
+    #end
+  &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 #end

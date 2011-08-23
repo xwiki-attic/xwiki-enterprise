@@ -72,10 +72,9 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
         // Verify attachment contents
 
-        // TODO: For some reason this click() is generating 2 calls to the server:
-        // "GET /xwiki/bin/download/AttachmentTest/testUploadDownloadTwoAttachments/SmallAttachment.txt HTTP/1.1"
-        // "GET /xwiki/bin/download/AttachmentTest/testUploadDownloadTwoAttachments/SmallAttachment.txt HTTP/1.1"
-        // See https://groups.google.com/forum/#!topic/webdriver/tsuBgipwzRQ
+        // Note: With Firefox 3.x the following click() generates 2 calls to the server side at once which can cause
+        // concurrency issues. Using Firefox 6.0 (and possibly other versions) generates only a single call, as it
+        // shoud be. I've opened http://code.google.com/p/selenium/issues/detail?id=2320
         ap.getAttachmentLink(this.testAttachment).click();
 
         Assert.assertEquals("This is a small attachment.", getDriver().findElement(By.tagName("html")).getText());

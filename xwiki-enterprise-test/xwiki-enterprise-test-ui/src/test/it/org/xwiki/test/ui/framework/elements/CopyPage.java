@@ -56,7 +56,8 @@ public class CopyPage extends ViewPage
      */
     public void setTargetSpaceName(String targetSpaceName)
     {
-        new Select(this.targetSpaceName).selectByVisibleText(targetSpaceName);
+        this.targetSpaceName.clear();
+        this.targetSpaceName.sendKeys(targetSpaceName);
     }
 
     /**

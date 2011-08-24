@@ -87,12 +87,52 @@ public class RichTextAreaElement extends BaseElement
         String windowHandle = getDriver().getWindowHandle();
         getDriver().switchTo().frame(iframe);
 
-        // Selenium fails to send keys to the body element if it's empty: it complains that the body element is not
-        // visible. We overcome this by inserting a space and selecting it. This way send keys will overwrite it.
-        // See http://code.google.com/p/selenium/issues/detail?id=1183 .
-        executeJavascript("document.body.innerHTML = '&nbsp;'; document.execCommand('selectAll', false, null)");
-        // FIXME: This doesn't work in Firefox 4: sendKeys only focuses the rich text area.
-        getDriver().findElement(By.id("body")).sendKeys(keysToSend);
+        // FIXME: The following JavaScript code is a temporary workaround for
+        // http://code.google.com/p/selenium/issues/detail?id=2331 (sendKeys doesn't work on BODY element with
+        // contentEditable=true).
+        StringBuilder script = new StringBuilder();
+
+        // Save the selection.
+        script.append("window.__savedRange = window.getSelection().getRangeAt(0);\n");
+
+        // Make the BODY element read-only.
+        script.append("document.body.contentEditable = false;\n");
+
+        // Wrap all content with a contentEditable DIV.
+        script.append("var div = document.createElement('div');\n");
+        script.append("document.body.appendChild(div);\n");
+        script.append("var contentRange = document.createRange();\n");
+        script.append("contentRange.setStartBefore(document.body.firstChild);\n");
+        script.append("contentRange.setEndBefore(div);\n");
+        script.append("div.appendChild(contentRange.extractContents());\n");
+        script.append("div.contentEditable = true;\n");
+
+        // Restore the selection.
+        script.append("window.getSelection().removeAllRanges();\n");
+        script.append("window.getSelection().addRange(window.__savedRange);\n");
+        script.append("window.__savedRange = undefined;\n");
+        executeJavascript(script.toString());
+
+        getDriver().findElement(By.xpath("//body/div")).sendKeys(keysToSend);
+
+        // Save the selection.
+        script.delete(0, script.length());
+        script.append("window.__savedRange = window.getSelection().getRangeAt(0);\n");
+
+        // Unwrap the content.
+        script.append("var contentRange = document.createRange();\n");
+        script.append("contentRange.selectNodeContents(document.body.firstChild);\n");
+        script.append("document.body.appendChild(contentRange.extractContents());\n");
+        script.append("document.body.removeChild(document.body.firstChild);\n");
+
+        // Restore contentEditable on the BODY element.
+        script.append("document.body.contentEditable = true;\n");
+
+        // Restore the selection.
+        script.append("window.getSelection().removeAllRanges();\n");
+        script.append("window.getSelection().addRange(window.__savedRange);\n");
+        script.append("window.__savedRange = undefined;\n");
+        executeJavascript(script.toString());
 
         getDriver().switchTo().window(windowHandle);
     }

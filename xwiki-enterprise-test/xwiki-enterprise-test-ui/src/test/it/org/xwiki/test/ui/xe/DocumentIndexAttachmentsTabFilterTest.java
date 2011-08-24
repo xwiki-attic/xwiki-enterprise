@@ -49,8 +49,7 @@ public class DocumentIndexAttachmentsTabFilterTest extends AbstractAdminAuthenti
     @Test
     public void testAttachmentsPane()
     {
-        AllDocsPage docsPage = new AllDocsPage();
-        docsPage.gotoPage();
+        AllDocsPage docsPage = AllDocsPage.gotoPage();
         LiveTableElement liveTable = docsPage.clickAttachmentsTab();
         // Here we test if all the Columns are displayed
         Assert.assertTrue("No Filename column found", liveTable.hasColumn("Filename"));

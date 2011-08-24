@@ -36,8 +36,7 @@ public class AllDocsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testTableViewActions() throws Exception
     {
-        AllDocsPage page = new AllDocsPage();
-        page.gotoPage();
+        AllDocsPage page = AllDocsPage.gotoPage();
 
         // Test 1: Verify that the Action column is displayed only for administrators.
         LiveTableElement livetable = page.clickIndexTab();

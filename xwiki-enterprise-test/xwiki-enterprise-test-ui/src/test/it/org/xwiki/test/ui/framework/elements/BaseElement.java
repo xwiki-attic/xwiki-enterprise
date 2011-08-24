@@ -63,7 +63,7 @@ public class BaseElement
     /**
      * @return Utility class with functions not specific to any test or element.
      */
-    protected TestUtils getUtil()
+    protected static TestUtils getUtil()
     {
         return context.getUtil();
     }

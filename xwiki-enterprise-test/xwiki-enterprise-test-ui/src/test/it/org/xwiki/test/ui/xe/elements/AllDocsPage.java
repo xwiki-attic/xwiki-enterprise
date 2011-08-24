@@ -38,9 +38,10 @@ public class AllDocsPage extends ViewPage
     @FindBy(xpath = "//li[@id='xwikiattachments']/a")
     private WebElement attachmentsTab;
 
-    public void gotoPage()
+    public static AllDocsPage gotoPage()
     {
         getUtil().gotoPage("Main", "AllDocs");
+        return new AllDocsPage();
     }
 
     public LiveTableElement clickIndexTab()

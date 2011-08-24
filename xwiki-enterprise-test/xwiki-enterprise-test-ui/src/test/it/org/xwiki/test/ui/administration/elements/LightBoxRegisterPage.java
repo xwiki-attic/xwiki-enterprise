@@ -22,7 +22,7 @@ package org.xwiki.test.ui.administration.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.framework.elements.AbstractRegistrationPage;
 
 /**
  * Represents a registration page in a lightbox
@@ -30,21 +30,22 @@ import org.xwiki.test.ui.framework.elements.RegisterPage;
  * @version $Id$
  * @since 2.3M1
  */
-public class LightBoxRegisterPage extends RegisterPage
+public class LightBoxRegisterPage extends AbstractRegistrationPage
 {
     @FindBy(xpath = "//div/form[@id='register']/div/span[1]/input[@value='Save']")
     private WebElement submitButton;
 
-    public void gotoPage()
+    public static LightBoxRegisterPage gotoPage()
     {
         UsersAdministrationSectionPage sectionPage = UsersAdministrationSectionPage.gotoPage();
-        sectionPage.clickAddNewUser();
-        waitUntilElementIsVisible(By.id("register_first_name"));
+        LightBoxRegisterPage registerPage = sectionPage.clickAddNewUser();
+        registerPage.waitUntilElementIsVisible(By.id("register_first_name"));
+        return registerPage;
     }
 
     public void clickRegister()
     {
-        submitButton.click();
+        this.submitButton.click();
     }
 
     public boolean liveValidationEnabled()

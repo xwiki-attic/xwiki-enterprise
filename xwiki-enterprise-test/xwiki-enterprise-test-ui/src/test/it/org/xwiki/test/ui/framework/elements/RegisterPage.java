@@ -19,10 +19,6 @@
  */
 package org.xwiki.test.ui.framework.elements;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,65 +29,18 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.3M1
  */
-public class RegisterPage extends BasePage
+public class RegisterPage extends AbstractRegistrationPage
 {
-    @FindBy(id = "register")
-    private WebElement registerFormElement;
-
     @FindBy(xpath = "//form[@id='register']/div/span/input[@type='submit']")
     private WebElement submitButton;
 
-    private FormElement form;
-
-    /** To put the registration page someplace else, subclass this class and change this method. */
-    public void gotoPage()
+    /**
+     * To put the registration page someplace else, subclass this class and change this method.
+     */
+    public static RegisterPage gotoPage()
     {
         getUtil().gotoPage("XWiki", "Register", "register");
-    }
-
-    public void fillInJohnSmithValues()
-    {
-        fillRegisterForm("John", "Smith", "JohnSmith", "WeakPassword", "WeakPassword", "johnsmith@xwiki.org");
-    }
-
-    public void fillRegisterForm(final String firstName, final String lastName, final String username,
-        final String password, final String confirmPassword, final String email)
-    {
-        Map<String, String> map = new HashMap<String, String>();
-        if (firstName != null) {
-            map.put("register_first_name", firstName);
-        }
-        if (lastName != null) {
-            map.put("register_last_name", lastName);
-        }
-        if (username != null) {
-            map.put("xwikiname", username);
-        }
-        if (password != null) {
-            map.put("register_password", password);
-        }
-        if (confirmPassword != null) {
-            map.put("register2_password", confirmPassword);
-        }
-        if (email != null) {
-            map.put("register_email", email);
-        }
-        getForm().fillFieldsByName(map);
-        // There is a little piece of js which fills in the name for you.
-        // This causes flickering if what's filled in is not cleared.
-        if (username != null) {
-            while (!username.equals(getForm().getFieldValue(By.name("xwikiname")))) {
-                getForm().setFieldValue(By.name("xwikiname"), username);
-            }
-        }
-    }
-
-    private FormElement getForm()
-    {
-        if (this.form == null) {
-            this.form = new FormElement(this.registerFormElement);
-        }
-        return this.form;
+        return new RegisterPage();
     }
 
     public void clickRegister()
@@ -99,33 +48,9 @@ public class RegisterPage extends BasePage
         this.submitButton.click();
     }
 
-    /** @return a list of WebElements representing validation failure messages. Use after calling register() */
-    public List<WebElement> getValidationFailureMessages()
-    {
-        return getUtil().findElementsWithoutWaiting(getDriver(),
-            By.xpath("//dd/span[@class='LV_validation_message LV_invalid']"));
-    }
-
-    /** @return Is the specified message included in the list of validation failure messages. */
-    public boolean validationFailureMessagesInclude(String message)
-    {
-        return getUtil().findElementsWithoutWaiting(getDriver(),
-            By.xpath("//dd/span[@class='LV_validation_message LV_invalid' and . = '" + message + "']")).size() > 0;
-    }
-
     public boolean liveValidationEnabled()
     {
         return !getUtil().findElementsWithoutWaiting(getDriver(),
             By.xpath("/html/body/div/div/div[3]/div/div/div/div/div/script")).isEmpty();
-    }
-
-    /** Try to make LiveValidation validate the forms. */
-    public void triggerLiveValidation()
-    {
-        // By manually invoking onsubmit with null as it's parameter,
-        // liveValidation will check fields but when it attempts to call submit with null as the
-        // input, it encounters an error which keeps the next page from loading.
-        executeJavascript("try{ document.getElementById('register_first_name').focus(); " +
-            "document.getElementById('register').onsubmit(null); }catch(err){}");
     }
 }

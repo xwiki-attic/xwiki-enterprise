@@ -46,9 +46,10 @@ public class LoginPage extends ViewPage
     @FindBy(xpath = "//div[@class='errormessage']")
     private WebElement loginErrorDiv;
 
-    public void gotoPage()
+    public static LoginPage gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiLogin", "login");
+        return new LoginPage();
     }
 
     public void loginAsAdmin()

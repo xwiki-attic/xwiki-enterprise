@@ -19,9 +19,9 @@
  */
 package org.xwiki.test.ui.administration.elements;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.framework.elements.RegisterPage;
 
 /**
  * Represents the actions possible on the Users Administration Page.
@@ -49,10 +49,9 @@ public class UsersAdministrationSectionPage extends AdministrationSectionPage
         super("Users");
     }
 
-    public RegisterPage clickAddNewUser()
+    public LightBoxRegisterPage clickAddNewUser()
     {
         this.addNewUserButton.click();
-        RegisterPage rp = new LightBoxRegisterPage();
-        return rp;
+        return new LightBoxRegisterPage();
     }
 }

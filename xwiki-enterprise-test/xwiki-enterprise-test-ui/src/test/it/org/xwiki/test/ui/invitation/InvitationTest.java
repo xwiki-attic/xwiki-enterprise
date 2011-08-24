@@ -517,7 +517,7 @@ public class InvitationTest extends AbstractTest
             oep.clickSaveAndContinue();
             // now prove anon cannot register
             getUtil().forceGuestUser();
-            new RegisterPage().gotoPage();
+            RegisterPage.gotoPage();
             getUtil().assertOnPage(getUtil().getURL("XWiki", "XWikiLogin", "login"));
 
             // Now we try sending and accepting an invitation.

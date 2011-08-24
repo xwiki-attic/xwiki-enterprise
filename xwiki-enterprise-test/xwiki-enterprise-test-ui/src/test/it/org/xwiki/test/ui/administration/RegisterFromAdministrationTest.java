@@ -22,7 +22,7 @@ package org.xwiki.test.ui.administration;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.RegisterTest;
 import org.xwiki.test.ui.administration.elements.LightBoxRegisterPage;
-import org.xwiki.test.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.framework.elements.AbstractRegistrationPage;
 
 /**
  * Test the Admin->Users->AddNewUser feature by executing the same tests as in RegisterTest but from
@@ -39,7 +39,7 @@ public class RegisterFromAdministrationTest extends RegisterTest
         getUtil().recacheSecretToken();
     }
 
-    protected RegisterPage getRegisterPage()
+    protected AbstractRegistrationPage getRegisterPage()
     {
         return new LightBoxRegisterPage();
     }

@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
 import org.xwiki.test.ui.administration.elements.AdministrationSectionPage;
+import org.xwiki.test.ui.framework.elements.AbstractRegistrationPage;
 import org.xwiki.test.ui.framework.elements.RegisterPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.TestUtils;
@@ -45,15 +46,13 @@ public class RegisterTest extends AbstractTest
     @Before
     public void setUp()
     {
-        registerPage = getRegisterPage();
-
         deleteUser("JohnSmith");
         switchUser();
-        registerPage.gotoPage();
+        this.registerPage = RegisterPage.gotoPage();
 
         // Switch LiveValidation on or off as needed.
         int x = 0;
-        while (registerPage.liveValidationEnabled() != useLiveValidation()) {
+        while (this.registerPage.liveValidationEnabled() != useLiveValidation()) {
             AdministrationSectionPage sectionPage = new AdministrationSectionPage("Registration");
             getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(sectionPage.getURL()));
             getUtil().recacheSecretToken();
@@ -65,13 +64,13 @@ public class RegisterTest extends AbstractTest
                 throw new WebDriverException("Unable to set useLiveValidation to " + useLiveValidation());
             }
             x++;
-            registerPage.gotoPage();
+            this.registerPage = RegisterPage.gotoPage();
         }
         // The prepareName javascript function is the cause of endless flickering
         // since it trys to suggest a username every time the field is focused.
-        registerPage.executeJavascript("document.getElementById('xwikiname').onfocus = null;");
+        this.registerPage.executeJavascript("document.getElementById('xwikiname').onfocus = null;");
 
-        registerPage.fillInJohnSmithValues();
+        this.registerPage.fillInJohnSmithValues();
     }
 
     /** Become the user needed for the test. Guest for RegisterTest. */
@@ -82,7 +81,7 @@ public class RegisterTest extends AbstractTest
     }
 
     /** To put the registration page someplace else, subclass this class and change this method. */
-    protected RegisterPage getRegisterPage()
+    protected AbstractRegistrationPage getRegisterPage()
     {
         return new RegisterPage();
     }
@@ -106,48 +105,48 @@ public class RegisterTest extends AbstractTest
         registerPage.fillRegisterForm(null, null, "Admin", null, null, null);
         // Can't use validateAndRegister here because user existence is not checked by LiveValidation.
         Assert.assertFalse(tryToRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("User already exists."));
+        Assert.assertTrue(this.registerPage.validationFailureMessagesInclude("User already exists."));
     }
 
     @Test
     public void testRegisterPasswordTooShort()
     {
-        registerPage.fillRegisterForm(null, null, null, "short", "short", null);
+        this.registerPage.fillRegisterForm(null, null, null, "short", "short", null);
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("Please use a longer password."));
+        Assert.assertTrue(this.registerPage.validationFailureMessagesInclude("Please use a longer password."));
     }
 
     @Test
     public void testRegisterDifferentPasswords()
     {
-        registerPage.fillRegisterForm(null, null, null, null, "DifferentPassword", null);
+        this.registerPage.fillRegisterForm(null, null, null, null, "DifferentPassword", null);
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("The passwords do not match."));
+        Assert.assertTrue(this.registerPage.validationFailureMessagesInclude("The passwords do not match."));
     }
 
     @Test
     public void testRegisterEmptyPassword()
     {
-        registerPage.fillRegisterForm(null, null, null, "", "", null);
+        this.registerPage.fillRegisterForm(null, null, null, "", "", null);
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is required."));
+        Assert.assertTrue(this.registerPage.validationFailureMessagesInclude("This field is required."));
     }
 
     @Test
     public void testRegisterEmptyUserName()
     {
         // A piece of javascript fills in the username with the first and last names so we will empty them.
-        registerPage.fillRegisterForm("", "", "", null, null, null);
+        this.registerPage.fillRegisterForm("", "", "", null, null, null);
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("This field is required."));
+        Assert.assertTrue(this.registerPage.validationFailureMessagesInclude("This field is required."));
     }
 
     @Test
     public void testRegisterInvalidEmail()
     {
-        registerPage.fillRegisterForm(null, null, null, null, null, "not an email address");
+        this.registerPage.fillRegisterForm(null, null, null, null, null, "not an email address");
         Assert.assertFalse(validateAndRegister());
-        Assert.assertTrue(registerPage.validationFailureMessagesInclude("Please enter a valid email address."));
+        Assert.assertTrue(this.registerPage.validationFailureMessagesInclude("Please enter a valid email address."));
     }
 
     /**
@@ -158,14 +157,14 @@ public class RegisterTest extends AbstractTest
     protected boolean validateAndRegister()
     {
         if (useLiveValidation()) {
-            registerPage.triggerLiveValidation();
-            if (!registerPage.getValidationFailureMessages().isEmpty()) {
+            this.registerPage.triggerLiveValidation();
+            if (!this.registerPage.getValidationFailureMessages().isEmpty()) {
                 return false;
             }
             boolean result = tryToRegister();
 
             Assert.assertTrue("LiveValidation did not show a failure message but clicking on the register button did.",
-                              registerPage.getValidationFailureMessages().isEmpty());
+                this.registerPage.getValidationFailureMessages().isEmpty());
 
             return result;
         }
@@ -174,7 +173,7 @@ public class RegisterTest extends AbstractTest
 
     protected boolean tryToRegister()
     {
-        registerPage.clickRegister();
+        this.registerPage.clickRegister();
         
         List<WebElement> infos = getDriver().findElements(By.className("infomessage"));
         for (WebElement info : infos) {
@@ -201,7 +200,7 @@ public class RegisterTest extends AbstractTest
         // Fast logout.
         getUtil().forceGuestUser();
         getDriver().get(getUtil().getURLToLoginAs(username, password));
-        Assert.assertTrue(registerPage.isAuthenticated());
+        Assert.assertTrue(this.registerPage.isAuthenticated());
         getUtil().recacheSecretToken();
     }
 }

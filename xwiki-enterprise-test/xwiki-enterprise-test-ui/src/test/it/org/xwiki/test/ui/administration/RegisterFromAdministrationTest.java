@@ -21,7 +21,7 @@ package org.xwiki.test.ui.administration;
 
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.RegisterTest;
-import org.xwiki.test.ui.administration.elements.LightBoxRegisterPage;
+import org.xwiki.test.ui.administration.elements.LightBoxRegistrationPage;
 import org.xwiki.test.ui.framework.elements.AbstractRegistrationPage;
 
 /**
@@ -41,14 +41,14 @@ public class RegisterFromAdministrationTest extends RegisterTest
 
     protected AbstractRegistrationPage getRegisterPage()
     {
-        return new LightBoxRegisterPage();
+        return new LightBoxRegistrationPage();
     }
 
     protected boolean tryToRegister()
     {
-        registerPage.clickRegister();
+        registrationPage.clickRegister();
 
-        registerPage.waitUntilElementsAreVisible(
+        registrationPage.waitUntilElementsAreVisible(
             new By[] {By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"),
                       By.xpath("//dd/span[@class='LV_validation_message LV_invalid']")
             },

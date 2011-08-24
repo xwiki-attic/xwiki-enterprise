@@ -36,7 +36,7 @@ public class InvitationGuestActionsPage extends BasePage
 {
     public static enum Action
     {
-        // Accept is null because the user is forwarded to RegisterPage, decline is null because it includes the name
+        // Accept is null because the user is forwarded to RegistrationPage, decline is null because it includes the name
         // of the sender.
         ACCEPT(null),
         DECLINE(null),
@@ -73,7 +73,7 @@ public class InvitationGuestActionsPage extends BasePage
         confirm = new InvitationActionConfirmationElement();
     }
 
-    /** This will fail if the action is accept because the user is redirected to a RegisterPage. */
+    /** This will fail if the action is accept because the user is redirected to a RegistrationPage. */
     public void setMemo(String memo)
     {
         confirm.setMemo(memo);
@@ -90,7 +90,7 @@ public class InvitationGuestActionsPage extends BasePage
         return "";
     }
 
-    /** This will fail if the action is accept because the user is redirected to a RegisterPage. */
+    /** This will fail if the action is accept because the user is redirected to a RegistrationPage. */
     /** Outputs the message given after clicking the confirm button. */
     public String confirm()
     {

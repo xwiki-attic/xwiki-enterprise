@@ -29,7 +29,7 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 2.3M1
  */
-public class RegisterPage extends AbstractRegistrationPage
+public class RegistrationPage extends AbstractRegistrationPage
 {
     @FindBy(xpath = "//form[@id='register']/div/span/input[@type='submit']")
     private WebElement submitButton;
@@ -37,10 +37,10 @@ public class RegisterPage extends AbstractRegistrationPage
     /**
      * To put the registration page someplace else, subclass this class and change this method.
      */
-    public static RegisterPage gotoPage()
+    public static RegistrationPage gotoPage()
     {
         getUtil().gotoPage("XWiki", "Register", "register");
-        return new RegisterPage();
+        return new RegistrationPage();
     }
 
     public void clickRegister()

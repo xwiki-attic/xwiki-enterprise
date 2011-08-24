@@ -101,10 +101,10 @@ public class ViewPage extends BasePage
         this.logoutLink.click();
     }
 
-    public RegisterPage register()
+    public RegistrationPage register()
     {
         this.registerLink.click();
-        return new RegisterPage();
+        return new RegistrationPage();
     }
 
     public CreatePagePage createPage()

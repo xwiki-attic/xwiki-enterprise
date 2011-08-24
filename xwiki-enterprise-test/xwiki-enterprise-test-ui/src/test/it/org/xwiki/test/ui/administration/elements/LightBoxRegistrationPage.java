@@ -25,22 +25,22 @@ import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.ui.framework.elements.AbstractRegistrationPage;
 
 /**
- * Represents a registration page in a lightbox
+ * Represents a registration page in a lightbox.
  * 
  * @version $Id$
  * @since 2.3M1
  */
-public class LightBoxRegisterPage extends AbstractRegistrationPage
+public class LightBoxRegistrationPage extends AbstractRegistrationPage
 {
     @FindBy(xpath = "//div/form[@id='register']/div/span[1]/input[@value='Save']")
     private WebElement submitButton;
 
-    public static LightBoxRegisterPage gotoPage()
+    public static LightBoxRegistrationPage gotoPage()
     {
         UsersAdministrationSectionPage sectionPage = UsersAdministrationSectionPage.gotoPage();
-        LightBoxRegisterPage registerPage = sectionPage.clickAddNewUser();
-        registerPage.waitUntilElementIsVisible(By.id("register_first_name"));
-        return registerPage;
+        LightBoxRegistrationPage registrationPage = sectionPage.clickAddNewUser();
+        registrationPage.waitUntilElementIsVisible(By.id("register_first_name"));
+        return registrationPage;
     }
 
     public void clickRegister()

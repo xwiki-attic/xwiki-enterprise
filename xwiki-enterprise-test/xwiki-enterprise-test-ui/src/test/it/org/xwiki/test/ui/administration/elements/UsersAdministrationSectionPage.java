@@ -19,7 +19,6 @@
  */
 package org.xwiki.test.ui.administration.elements;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -49,9 +48,9 @@ public class UsersAdministrationSectionPage extends AdministrationSectionPage
         super("Users");
     }
 
-    public LightBoxRegisterPage clickAddNewUser()
+    public LightBoxRegistrationPage clickAddNewUser()
     {
         this.addNewUserButton.click();
-        return new LightBoxRegisterPage();
+        return new LightBoxRegistrationPage();
     }
 }

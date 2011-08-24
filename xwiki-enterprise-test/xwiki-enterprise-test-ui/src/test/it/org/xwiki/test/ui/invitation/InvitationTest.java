@@ -36,7 +36,7 @@ import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.AdministrationSectionPage;
 import org.xwiki.test.ui.framework.AbstractTest;
 import org.xwiki.test.ui.framework.TestUtils;
-import org.xwiki.test.ui.framework.elements.RegisterPage;
+import org.xwiki.test.ui.framework.elements.RegistrationPage;
 import org.xwiki.test.ui.framework.elements.TableElement;
 import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
 import org.xwiki.test.ui.invitation.elements.InspectInvitationsPage;
@@ -467,7 +467,7 @@ public class InvitationTest extends AbstractTest
                 + guestPage.getMessage(),
                 guestPage.getMessage().equals(""));
             // Register a new user.
-            RegisterPage rp = new RegisterPage();
+            RegistrationPage rp = new RegistrationPage();
             rp.fillRegisterForm(null, null, "InvitedMember", "WeakPassword", "WeakPassword", null);
             rp.clickRegister();
             Assert.assertTrue("There were failure messages when registering.",
@@ -517,7 +517,7 @@ public class InvitationTest extends AbstractTest
             oep.clickSaveAndContinue();
             // now prove anon cannot register
             getUtil().forceGuestUser();
-            RegisterPage.gotoPage();
+            RegistrationPage.gotoPage();
             getUtil().assertOnPage(getUtil().getURL("XWiki", "XWikiLogin", "login"));
 
             // Now we try sending and accepting an invitation.
@@ -541,7 +541,7 @@ public class InvitationTest extends AbstractTest
                 + guestPage.getMessage(),
                 guestPage.getMessage().equals(""));
             // Register a new user.
-            RegisterPage rp = new RegisterPage();
+            RegistrationPage rp = new RegistrationPage();
             rp.fillRegisterForm(null, null, "AnotherInvitedMember", "WeakPassword", "WeakPassword", null);
             rp.clickRegister();
             Assert.assertTrue("There were failure messages when registering.",

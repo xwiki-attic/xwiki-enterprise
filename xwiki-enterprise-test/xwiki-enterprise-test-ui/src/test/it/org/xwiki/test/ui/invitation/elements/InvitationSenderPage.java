@@ -53,9 +53,11 @@ public class InvitationSenderPage extends BasePage
 
     private InvitationMessageDisplayElement previewElement;
 
-    public void gotoPage()
+    public static InvitationSenderPage gotoPage()
     {
-        getDriver().get(getURL());
+        InvitationSenderPage page = new InvitationSenderPage();
+        page.getDriver().get(page.getURL());
+        return page;
     }
 
     public String getURL()

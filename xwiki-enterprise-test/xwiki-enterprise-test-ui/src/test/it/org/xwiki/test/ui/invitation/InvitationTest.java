@@ -69,11 +69,9 @@ public class InvitationTest extends AbstractTest
         getUtil().recacheSecretToken();
         getUtil().deletePage("Invitation", "InvitationMessages");
 
-        this.senderPage = newSenderPage();
-
-        if (!initialized) {
+        if (!this.initialized) {
             // We have to go to sender page before any config shows up.
-            this.senderPage.gotoPage();
+            InvitationSenderPage.gotoPage();
 
             AdministrationSectionPage config = AdministrationSectionPage.gotoPage("Invitation");
             // Set port to 3025
@@ -91,11 +89,11 @@ public class InvitationTest extends AbstractTest
             getUtil().deletePage("XWiki", "InvitedMember");
             getUtil().deletePage("XWiki", "AnotherInvitedMember");
 
-            initialized = true;
+            this.initialized = true;
         }
 
-        this.senderPage.gotoPage();
-        this.senderPage.fillInDefaultValues();
+        setSenderPage(InvitationSenderPage.gotoPage());
+        getSenderPage().fillInDefaultValues();
     }
 
     @Test
@@ -261,7 +259,7 @@ public class InvitationTest extends AbstractTest
 
             // Prove that the user can now send to multiple recipients.
             startGreenMail();
-            getSenderPage().gotoPage();
+            setSenderPage(InvitationSenderPage.gotoPage());
             getSenderPage().fillForm("user@localhost.localdomain anotheruser@localhost.localdomain", null, null);
             sent = getSenderPage().send();
             getGreenMail().waitForIncomingEmail(10000, 2);
@@ -325,7 +323,7 @@ public class InvitationTest extends AbstractTest
             // Switch to admin
             getUtil().setSession(admin);
             // Go to invitation sender.
-            getSenderPage().gotoPage();
+            setSenderPage(InvitationSenderPage.gotoPage());
             // Switch back to spammer.
             getUtil().setSession(spammer);
             getSenderPage().send();
@@ -335,7 +333,7 @@ public class InvitationTest extends AbstractTest
 
             // Switch to admin.
             getUtil().setSession(admin);
-            getSenderPage().gotoPage();
+            setSenderPage(InvitationSenderPage.gotoPage());
             Assert.assertTrue("No warning in footer that a message is reported as spam",
                 getSenderPage().getFooter().spamReports() == 1);
             // View spam message.
@@ -360,7 +358,7 @@ public class InvitationTest extends AbstractTest
                 expectedSuccessMessage.equals(successMessage));
             // Switch back to spammer
             getUtil().setSession(spammer);
-            getSenderPage().gotoPage();
+            setSenderPage(InvitationSenderPage.gotoPage());
             Assert.assertFalse("User permission to send not returned by admin action.",
                 getSenderPage().userIsSpammer());
         } finally {
@@ -402,7 +400,7 @@ public class InvitationTest extends AbstractTest
             // Switch to admin
             getUtil().setSession(admin);
             // Go to invitation sender.
-            getSenderPage().gotoPage();
+            setSenderPage(InvitationSenderPage.gotoPage());
             Assert.assertTrue("Declined invitation is still listed as pending in the footer.",
                 getSenderPage().getFooter().spamReports() == 0);
 
@@ -524,8 +522,8 @@ public class InvitationTest extends AbstractTest
 
             // Now we try sending and accepting an invitation.
             getUtil().setSession(admin);
-            getSenderPage().gotoPage();
-            this.senderPage.fillInDefaultValues();
+            setSenderPage(InvitationSenderPage.gotoPage());
+            getSenderPage().fillInDefaultValues();
 
             startGreenMail();
             getSenderPage().send();
@@ -748,5 +746,10 @@ public class InvitationTest extends AbstractTest
     protected InvitationSenderPage getSenderPage()
     {
         return this.senderPage;
+    }
+
+    protected void setSenderPage(InvitationSenderPage senderPage)
+    {
+        this.senderPage = senderPage;
     }
 }

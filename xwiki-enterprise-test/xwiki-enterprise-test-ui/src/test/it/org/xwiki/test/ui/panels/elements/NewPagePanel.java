@@ -48,9 +48,10 @@ public class NewPagePanel extends ViewPage
     @FindBy(xpath = "//input[@type = 'text' and @name = 'page']")
     private WebElement pageNameTextField;
 
-    public void gotoPage()
+    public static NewPagePanel gotoPage()
     {
         getUtil().gotoPage("Panels", "NewPage", "view", "xpage=create");
+        return new NewPagePanel();
     }
 
     /**

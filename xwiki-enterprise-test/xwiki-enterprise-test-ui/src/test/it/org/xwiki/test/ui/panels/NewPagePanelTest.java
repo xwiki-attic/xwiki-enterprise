@@ -39,8 +39,7 @@ public class NewPagePanelTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreatePageFromPanel()
     {
-        NewPagePanel newPagePanel = new NewPagePanel();
-        newPagePanel.gotoPage();
+        NewPagePanel newPagePanel = NewPagePanel.gotoPage();
 
         WYSIWYGEditPage editPage = newPagePanel.createPage(getTestClassName(), getTestMethodName());
 

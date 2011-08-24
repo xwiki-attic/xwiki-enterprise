@@ -28,10 +28,10 @@ import org.xwiki.test.ui.scheduler.elements.editor.SchedulerEditPage;
 
 public class SchedulerHomePage extends ViewPage
 {
-    @FindBy(xpath = "//form[@id='newdoc']//input[@type='button']")
+    @FindBy(xpath = "//form[@id='newdoc']//input[@type='submit' and @value='Add']")
     private WebElement addButton;
 
-    @FindBy(id = "title")
+    @FindBy(id = "page")
     private WebElement nameInput;
 
     public void gotoPage()

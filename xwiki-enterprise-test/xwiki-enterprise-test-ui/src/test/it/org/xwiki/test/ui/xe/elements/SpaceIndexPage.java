@@ -29,8 +29,9 @@ import org.xwiki.test.ui.framework.elements.ViewPage;
  */
 public class SpaceIndexPage extends ViewPage
 {
-    public void gotoPage()
+    public static SpaceIndexPage gotoPage()
     {
         getUtil().gotoPage("Main", "Spaces");
+        return new SpaceIndexPage();
     }
 }

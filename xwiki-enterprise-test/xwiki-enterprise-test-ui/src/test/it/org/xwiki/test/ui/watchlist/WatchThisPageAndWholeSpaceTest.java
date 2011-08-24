@@ -66,7 +66,7 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         getUtil().updateObject("XWiki", this.profilePage.getUsername(), "XWiki.XWikiUsers", 0, "email",
             "admin@localhost");
 
-        this.watchlistPage = profilePage.switchToWatchlist();
+        this.watchlistPage = this.profilePage.switchToWatchlist();
 
         // Disable auto watch
         WatchlistPreferencesEditPage watchlistPreferences = this.watchlistPage.editPreferences();
@@ -97,7 +97,7 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         page.watchSpace();
 
         // Verify that the watched page & space are present in the watchlist manager
-        this.watchlistPage.gotoPage();
+        this.watchlistPage = WatchlistUserProfilePage.gotoPage(this.watchlistPage.getUsername());
         // TODO: use LiveTableElement instead but does not seems to work...
         // LiveTableElement watchlist = this.watchlistPage.getWatchList();
         // watchlist.waitUntilReady();

@@ -64,7 +64,7 @@ public class AutoWatchTest extends AbstractTest
         getUtil().createPage(this.testSpace, "testpage", null, null);
 
         // go back to watchlist profile
-        this.watchlistPage.gotoPage();
+        this.watchlistPage = WatchlistUserProfilePage.gotoPage(this.watchlistPage.getUsername());
 
         // TODO: use LiveTableElement instead but does not seems to work...
         // LiveTableElement watchlist = this.watchlistPage.getWatchList();

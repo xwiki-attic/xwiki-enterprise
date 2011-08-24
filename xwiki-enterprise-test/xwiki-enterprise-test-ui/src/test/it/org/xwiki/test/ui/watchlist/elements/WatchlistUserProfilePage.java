@@ -44,6 +44,13 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
     @FindBy(xpath = "//div[@class='watchlistManagement']/dl[1]/dd[2]")
     private WebElement automaticwatch;
 
+    public static WatchlistUserProfilePage gotoPage(String username)
+    {
+        WatchlistUserProfilePage page = new WatchlistUserProfilePage(username);
+        getUtil().gotoPage("XWiki", page.getUsername(), "view", Collections.singletonMap("category", "watchlist"));
+        return page;
+    }
+
     public WatchlistUserProfilePage(String username)
     {
         super(username);
@@ -64,11 +71,6 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
         return new LiveTableElement("mywatchlist");
     }
     
-    public void gotoPage()
-    {
-        getUtil().gotoPage("XWiki", getUsername(), "view", Collections.singletonMap("category", "watchlist"));
-    }
-
     /**
      * Unregister a document or a space from the watchlist.
      * 

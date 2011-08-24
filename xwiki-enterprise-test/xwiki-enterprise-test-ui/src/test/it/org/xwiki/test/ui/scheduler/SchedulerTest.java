@@ -39,16 +39,12 @@ import org.xwiki.test.ui.scheduler.elements.editor.SchedulerEditPage;
  */
 public class SchedulerTest extends AbstractAdminAuthenticatedTest
 {
-    private SchedulerHomePage schedulerHomePage;
-
     @Before
     public void setUp()
     {
         super.setUp();
         
         getUtil().deletePage("Scheduler", "SchedulerTestJob");
-
-        this.schedulerHomePage = new SchedulerHomePage();
     }
 
     @After
@@ -71,32 +67,33 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     public void testJobActions()
     {
         // Create Job
-        this.schedulerHomePage.gotoPage();
-        this.schedulerHomePage.setJobName("SchedulerTestJob");
-        SchedulerEditPage schedulerEdit = this.schedulerHomePage.clickAdd();
+        SchedulerHomePage schedulerHomePage = SchedulerHomePage.gotoPage();
+        schedulerHomePage.gotoPage();
+        schedulerHomePage.setJobName("SchedulerTestJob");
+        SchedulerEditPage schedulerEdit = schedulerHomePage.clickAdd();
 
         String jobName = "Tester problem";
         schedulerEdit.setJobName(jobName);
         schedulerEdit.setJobDescription(jobName);
         schedulerEdit.setCron("0 15 10 ? * MON-FRI");
         SchedulerPage schedulerPage = schedulerEdit.clickSaveAndView();
-        this.schedulerHomePage = schedulerPage.backToHome();
+        schedulerHomePage = schedulerPage.backToHome();
 
         // View Job
-        schedulerPage = this.schedulerHomePage.clickJobActionView(jobName);
-        this.schedulerHomePage = schedulerPage.backToHome();
+        schedulerPage = schedulerHomePage.clickJobActionView(jobName);
+        schedulerHomePage = schedulerPage.backToHome();
 
         // Edit Job
-        schedulerEdit = this.schedulerHomePage.clickJobActionEdit(jobName);
+        schedulerEdit = schedulerHomePage.clickJobActionEdit(jobName);
         schedulerEdit.setJobDescription("Tester problem2");
         schedulerEdit.setCron("0 0/5 14 * * ?");
         schedulerPage = schedulerEdit.clickSaveAndView();
-        this.schedulerHomePage = schedulerPage.backToHome();
+        schedulerHomePage = schedulerPage.backToHome();
 
         // Delete and Restore Job
-        DeletePage deletePage = this.schedulerHomePage.clickJobActionDelete(jobName);
+        DeletePage deletePage = schedulerHomePage.clickJobActionDelete(jobName);
         deletePage.confirm();
-        this.schedulerHomePage.gotoPage();
+        schedulerHomePage = SchedulerHomePage.gotoPage();
         Assert.assertTrue(getDriver().findElements(By.linkText(jobName)).isEmpty());
         getUtil().gotoPage("Scheduler", "SchedulerTestJob");
         getDriver().findElement(By.linkText("Restore")).click();
@@ -104,18 +101,18 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
         schedulerPage.backToHome();
 
         // Schedule Job
-        this.schedulerHomePage.clickJobActionScheduler(jobName);
+        schedulerHomePage.clickJobActionScheduler(jobName);
 
         // Trigger Job
-        this.schedulerHomePage.clickJobActionTrigger(jobName);
+        schedulerHomePage.clickJobActionTrigger(jobName);
 
         // Pause Job
-        this.schedulerHomePage.clickJobActionPause(jobName);
+        schedulerHomePage.clickJobActionPause(jobName);
 
         // Resume Job
-        this.schedulerHomePage.clickJobActionResume(jobName);
+        schedulerHomePage.clickJobActionResume(jobName);
 
         // Unschedule Job
-        this.schedulerHomePage.clickJobActionUnschedule(jobName);
+        schedulerHomePage.clickJobActionUnschedule(jobName);
     }
 }

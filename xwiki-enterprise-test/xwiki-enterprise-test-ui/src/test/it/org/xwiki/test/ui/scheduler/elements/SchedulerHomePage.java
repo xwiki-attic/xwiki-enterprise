@@ -34,9 +34,10 @@ public class SchedulerHomePage extends ViewPage
     @FindBy(id = "page")
     private WebElement nameInput;
 
-    public void gotoPage()
+    public static SchedulerHomePage gotoPage()
     {
         getUtil().gotoPage("Scheduler", "WebHome", "view");
+        return new SchedulerHomePage();
     }
 
     public String getURL()

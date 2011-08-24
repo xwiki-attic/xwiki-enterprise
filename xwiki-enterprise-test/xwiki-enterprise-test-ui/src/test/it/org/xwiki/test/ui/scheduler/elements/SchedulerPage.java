@@ -31,7 +31,6 @@ public class SchedulerPage extends ViewPage
     public SchedulerHomePage backToHome()
     {
         this.backToHomeLink.click();
-
         return new SchedulerHomePage();
     }
 }

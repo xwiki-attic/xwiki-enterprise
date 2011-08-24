@@ -46,8 +46,7 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
         super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());
 
-        AdministrationPage adminPage = new AdministrationPage();
-        adminPage.gotoPage();
+        AdministrationPage adminPage = AdministrationPage.gotoPage();
         AnnotationsPage annotationsAdminPage = adminPage.clickAnnotationsSection();
         // We make sure the annotations are Activated
         annotationsAdminPage.activateAnnotations();
@@ -80,8 +79,7 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
     public void tearDown()
     {
         // We restore the original factory settings of the Annotation Application
-        AdministrationPage adminPage = new AdministrationPage();
-        adminPage.gotoPage();
+        AdministrationPage adminPage = AdministrationPage.gotoPage();
         AnnotationsPage annotationsAdminPage = adminPage.clickAnnotationsSection();
         annotationsAdminPage.activateAnnotations();
         annotationsAdminPage.hideAnnotationsByDefault();

@@ -49,9 +49,10 @@ public class AdministrationPage extends ViewPage
     @FindBy(xpath = "//a[contains(@href, 'section=Annotations')]")
     WebElement annotationsLink;
 
-    public void gotoPage()
+    public static AdministrationPage gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin");
+        return new AdministrationPage();
     }
 
     public LocalizationAdministrationSectionPage clickLocalizationSection()

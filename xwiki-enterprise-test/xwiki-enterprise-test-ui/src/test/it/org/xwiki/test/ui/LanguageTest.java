@@ -39,9 +39,6 @@ import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
  */
 public class LanguageTest extends AbstractAdminAuthenticatedTest
 {
-    /** Administration interface */
-    private AdministrationPage adminPage;
-
     /**
      * Ensure the default language is English and that the wiki is in monolingual mode
      */
@@ -51,7 +48,6 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
 
-        this.adminPage = new AdministrationPage();
         setLanguageSettings(false, "en");
     }
 
@@ -79,8 +75,8 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
             "context = (en), doc = (), default = (en), tdoc = (), tdocdefault = (en)");
 
         // Change default language to "fr"
-        this.adminPage.gotoPage();
-        LocalizationAdministrationSectionPage sectionPage = this.adminPage.clickLocalizationSection();
+        AdministrationPage adminPage = AdministrationPage.gotoPage();
+        LocalizationAdministrationSectionPage sectionPage = adminPage.clickLocalizationSection();
         sectionPage.setDefaultLanguages("fr");
         sectionPage.clickSave();
 
@@ -159,8 +155,8 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 
     private void setLanguageSettings(boolean isMultiLingual, String defaultLanguages)
     {
-        this.adminPage.gotoPage();
-        LocalizationAdministrationSectionPage sectionPage = this.adminPage.clickLocalizationSection();
+        AdministrationPage adminPage = AdministrationPage.gotoPage();
+        LocalizationAdministrationSectionPage sectionPage = adminPage.clickLocalizationSection();
         sectionPage.setMultiLingual(isMultiLingual);
         sectionPage.setDefaultLanguages(defaultLanguages);
         sectionPage.clickSave();

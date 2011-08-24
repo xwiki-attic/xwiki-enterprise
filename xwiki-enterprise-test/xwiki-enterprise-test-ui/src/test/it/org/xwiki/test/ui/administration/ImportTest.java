@@ -60,9 +60,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
         // Delete Test Page we import from XAR to ensure to start with a predefined state.
         getUtil().deletePage("Main", "TestPage");
 
-        this.adminPage = new AdministrationPage();
-        this.adminPage.gotoPage();
-
+        this.adminPage = AdministrationPage.gotoPage();
         this.sectionPage = this.adminPage.clickImportSection();
 
         // Remove our packages if they're there already, to ensure to start with a predefined state.

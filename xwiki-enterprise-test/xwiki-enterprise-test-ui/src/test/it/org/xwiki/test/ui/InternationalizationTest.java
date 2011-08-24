@@ -47,8 +47,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
         getUtil().deletePage("\u0219", "WebHome");
         getUtil().deletePage("Main", "\u0219");
 
-        this.homePage = new HomePage();
-        this.homePage.gotoPage();
+        this.homePage = HomePage.gotoPage();
     }
 
     /**
@@ -57,7 +56,6 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreateNonAsciiSpace()
     {
-
         CreateSpacePage createSpacePage = this.homePage.createSpace();
         WYSIWYGEditPage editPage = createSpacePage.createSpace("\u0219");
 

@@ -40,8 +40,7 @@ public class SpacesTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testCreateSpace()
     {
-        HomePage homePage = new HomePage();
-        homePage.gotoPage();
+        HomePage homePage = HomePage.gotoPage();
         WYSIWYGEditPage editPage = homePage.getSpacesPane().createSpace(getTestClassName());
 
         // Verify that space creation uses the space name as the space home page's title
@@ -66,8 +65,7 @@ public class SpacesTest extends AbstractAdminAuthenticatedTest
         editPage.clickSaveAndView();
 
         // Navigate to the Home Page and click on the SpaceIndex.
-        HomePage homePage = new HomePage();
-        homePage.gotoPage();
+        HomePage homePage = HomePage.gotoPage();
         homePage.getSpacesPane().clickSpaceIndex(spaceName);
 
         // TODO: Improve the following test by asserting the content of the Livetable in the SpaceIndexPage

@@ -34,9 +34,10 @@ public class HomePage extends ViewPage
      */
     private final SpacesPane spacesPane = new SpacesPane();
 
-    public void gotoPage()
+    public static HomePage gotoPage()
     {
         getUtil().gotoPage("Main", "WebHome");
+        return new HomePage();
     }
 
     public String getURL()

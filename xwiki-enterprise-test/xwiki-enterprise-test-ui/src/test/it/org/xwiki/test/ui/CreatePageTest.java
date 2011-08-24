@@ -215,8 +215,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         getUtil().deletePage(space, "WebHome");
 
         // start creating a space
-        HomePage homePage = new HomePage();
-        homePage.gotoPage();
+        HomePage homePage = HomePage.gotoPage();
         CreateSpacePage createSpace = homePage.createSpace();
 
         WYSIWYGEditPage editSpaceWebhomePage = createSpace.createSpace(space);
@@ -250,8 +249,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         getUtil().createPage(existingSpace, "WebHome", "{{spaceindex /}}", "New random space");
 
         // 1/ create an empty page that already exists
-        HomePage homePage = new HomePage();
-        homePage.gotoPage();
+        HomePage homePage = HomePage.gotoPage();
         CreatePagePage createPage = homePage.createPage();
         createPage.setSpace(space);
         createPage.setPage(existingPageName);
@@ -264,7 +262,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // 2/ create a page from template that already exists
         // restart everything to make sure it's not the error before
-        homePage.gotoPage();
+        homePage = HomePage.gotoPage();
         createPage = homePage.createPage();
         createPage.setSpace(space);
         createPage.setPage(existingPageName);
@@ -277,7 +275,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         createPage.waitForErrorMessage();
 
         // 3/ create a space that already exists
-        homePage.gotoPage();
+        homePage = HomePage.gotoPage();
         CreateSpacePage createSpace = homePage.createSpace();
         currentURL = getDriver().getCurrentUrl();
         // strip the parameters out of this URL

@@ -34,8 +34,6 @@ import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
  */
 public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
 {
-    private ManageCategoriesPage categoriesPage;
-
     /**
      * We make sure to have spaces and special chars to ensure categories can be named with any char.
      */
@@ -47,8 +45,6 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
     public void setUp()
     {
         super.setUp();
-
-        categoriesPage = new ManageCategoriesPage();
 
         // clean up
         getUtil().deletePage("Blog", CATEGORY);
@@ -70,7 +66,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
      */
     private void categoryAdd(String name)
     {
-        categoriesPage.gotoPage();
+        ManageCategoriesPage categoriesPage = ManageCategoriesPage.gotoPage();
         Assert.assertFalse(categoriesPage.isCategoryPresent(name));
 
         categoriesPage.clickAddCategory();
@@ -86,7 +82,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
      */
     private void categoryRename(String fromName, String toName)
     {
-        categoriesPage.gotoPage();
+        ManageCategoriesPage categoriesPage = ManageCategoriesPage.gotoPage();
         Assert.assertTrue(categoriesPage.isCategoryPresent(fromName));
         Assert.assertFalse(categoriesPage.isCategoryPresent(toName));
 
@@ -102,7 +98,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
      */
     private void categoryRemove(String name)
     {
-        categoriesPage.gotoPage();
+        ManageCategoriesPage categoriesPage = ManageCategoriesPage.gotoPage();
         Assert.assertTrue(categoriesPage.isCategoryPresent(name));
 
         categoriesPage.deleteCategory(name);

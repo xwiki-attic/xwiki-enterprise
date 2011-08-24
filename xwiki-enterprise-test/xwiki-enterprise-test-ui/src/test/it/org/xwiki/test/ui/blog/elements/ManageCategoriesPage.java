@@ -47,9 +47,10 @@ public class ManageCategoriesPage extends BasePage
     @FindBy(xpath = "//form[@class='category-rename-form']//input[@type='submit']")
     private WebElement renameButton;
 
-    public void gotoPage()
+    public static ManageCategoriesPage gotoPage()
     {
         getUtil().gotoPage("Blog", "ManageCategories", "view");
+        return new ManageCategoriesPage();
     }
 
     /**

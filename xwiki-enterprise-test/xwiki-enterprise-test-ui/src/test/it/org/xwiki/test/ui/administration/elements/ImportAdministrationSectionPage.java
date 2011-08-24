@@ -88,6 +88,10 @@ public class ImportAdministrationSectionPage extends ViewPage
     public void deletePackage(String packageName)
     {
         makeConfirmDialogSilent(true); // temporary, see BaseElement#makeConfirmDialogSilent
+        // Note: With Firefox 3.x the following click() generates 2 calls to the server side at once which can cause
+        // concurrency issues. Using Firefox 6.0 (and possibly other versions) generates only a single call, as it
+        // should be. See http://code.google.com/p/selenium/issues/detail?id=2320 and
+        // http://jira.xwiki.org/jira/browse/XWIKI-6860 .
         this.packageList.findElement(By.xpath(
             "//ul[@class='xlist']//a[contains(@class, 'package') and contains(text(), '" + packageName
                 + "')]/../span/a[contains(@class, 'deletelink')]")).click();

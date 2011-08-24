@@ -70,6 +70,13 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
     @FindBy(xpath = "//div[@id='avatar']//img")
     private WebElement userAvatarImage;
 
+    public static ProfileUserProfilePage gotoPage(String username)
+    {
+        ProfileUserProfilePage page = new ProfileUserProfilePage(username);
+        getUtil().gotoPage("XWiki", page.getUsername());
+        return page;
+    }
+
     public ProfileUserProfilePage(String username)
     {
         super(username);
@@ -90,11 +97,6 @@ public class ProfileUserProfilePage extends AbstractUserProfilePage
     {
         new EditorElement("XWiki.XWikiUsers_0_comment").waitToLoad();
         new EditorElement("XWiki.XWikiUsers_0_address").waitToLoad();
-    }
-
-    public void gotoPage()
-    {
-        getUtil().gotoPage("XWiki", getUsername());
     }
 
     public String getURL()

@@ -49,9 +49,10 @@ public class ImportAdministrationSectionPage extends ViewPage
     @FindBy(xpath = "//input[@value='Import']")
     private WebElement importPackageLink;
 
-    public void gotoPage()
+    public static ImportAdministrationSectionPage gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiPreferences", "import", "editor=globaladmin&section=Import");
+        return new ImportAdministrationSectionPage();
     }
 
     public void attachPackage(URL file)

@@ -42,8 +42,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testEditButtonTriggersInlineEditing()
     {
-        ProfileUserProfilePage pupp = new ProfileUserProfilePage("Admin");
-        pupp.gotoPage();
+        ProfileUserProfilePage pupp = ProfileUserProfilePage.gotoPage("Admin");
         // Clicking edit should perform inline editing.
         pupp.edit();
         pupp.waitForProfileEditionToLoad();
@@ -118,8 +117,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     {
         String initialContent = null;
         try {
-            ProfileUserProfilePage pupp = new ProfileUserProfilePage("Admin");
-            pupp.gotoPage();
+            ProfileUserProfilePage pupp = ProfileUserProfilePage.gotoPage("Admin");
             WikiEditPage wep = pupp.editWiki();
             initialContent = wep.getContent();
             wep.setContent("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n" + initialContent);

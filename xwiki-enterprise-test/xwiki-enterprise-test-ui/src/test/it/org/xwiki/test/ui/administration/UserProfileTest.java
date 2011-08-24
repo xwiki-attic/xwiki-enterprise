@@ -193,7 +193,7 @@ public class UserProfileTest extends AbstractTest
         Assert.assertEquals(TEXT_EDITOR, this.customProfilePage.getDefaultEditorToUse());
 
         // Setting to WYSIWYG Editor
-        this.customProfilePage.gotoPage();
+        this.customProfilePage = ProfileUserProfilePage.gotoPage(this.userName);
         preferencesPage = this.customProfilePage.switchToPreferences();
         preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setDefaultEditorWysiwyg();
@@ -202,7 +202,7 @@ public class UserProfileTest extends AbstractTest
         Assert.assertEquals(WYSIWYG_EDITOR, this.customProfilePage.getDefaultEditorToUse());
 
         // Setting to Default Editor
-        this.customProfilePage.gotoPage();
+        this.customProfilePage = ProfileUserProfilePage.gotoPage(this.userName);
         preferencesPage = this.customProfilePage.switchToPreferences();
         preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setDefaultEditorDefault();

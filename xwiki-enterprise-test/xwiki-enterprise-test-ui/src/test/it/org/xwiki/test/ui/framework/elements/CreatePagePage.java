@@ -42,9 +42,10 @@ public class CreatePagePage extends ViewPage
     @FindBy(id = "page")
     private WebElement pageTextField;
 
-    public void gotoPage()
+    public static CreatePagePage gotoPage()
     {
         getUtil().gotoPage("Main", "WebHome", "create");
+        return new CreatePagePage();
     }
 
     public String getSpace()

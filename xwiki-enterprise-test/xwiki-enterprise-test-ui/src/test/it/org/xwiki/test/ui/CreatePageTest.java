@@ -155,8 +155,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("", unexistingPageEdit.getParent());
 
         // create an empty page when there is a template available, make sure it's empty
-        CreatePagePage createEmptyPage = new CreatePagePage();
-        createEmptyPage.gotoPage();
+        CreatePagePage createEmptyPage = CreatePagePage.gotoPage();
         Assert.assertTrue(createEmptyPage.getAvailableTemplateSize() > 0);
         WYSIWYGEditPage editEmptyPage = createEmptyPage.createPage(getTestClassName(), "EmptyPage");
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
@@ -198,7 +197,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         createPagePage.waitForFieldErrorMessage();
 
         // Verify the template we have removed is no longer available.
-        createEmptyPage.gotoPage();
+        createEmptyPage = CreatePagePage.gotoPage();
 
         // make sure that the template provider is not in the list of templates
         Assert.assertFalse(createPagePage.getAvailableTemplates().contains(templateProviderFullName));

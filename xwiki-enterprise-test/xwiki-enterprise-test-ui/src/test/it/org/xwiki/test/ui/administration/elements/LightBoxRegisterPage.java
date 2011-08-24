@@ -37,9 +37,7 @@ public class LightBoxRegisterPage extends RegisterPage
 
     public void gotoPage()
     {
-        UsersAdministrationSectionPage sectionPage = new UsersAdministrationSectionPage();
-        sectionPage.gotoPage();
-
+        UsersAdministrationSectionPage sectionPage = UsersAdministrationSectionPage.gotoPage();
         sectionPage.clickAddNewUser();
         waitUntilElementIsVisible(By.id("register_first_name"));
     }

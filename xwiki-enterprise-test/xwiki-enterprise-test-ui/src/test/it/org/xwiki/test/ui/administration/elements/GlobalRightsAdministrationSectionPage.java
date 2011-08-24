@@ -48,9 +48,10 @@ public class GlobalRightsAdministrationSectionPage extends AdministrationSection
     /**
      * @since 3.2M1
      */
-    public void gotoPage()
+    public static GlobalRightsAdministrationSectionPage gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=Rights");
+        return new GlobalRightsAdministrationSectionPage();
     }
 
     /** Checks the "always authenticate user for view" option. */

@@ -42,6 +42,16 @@ public class TemplatesAdministrationSectionPage extends AdministrationSectionPag
     @FindBy(id = "createTemplateProvider")
     private WebElement createButton;
 
+    /**
+     * @since 3.2M3
+     */
+    public static TemplatesAdministrationSectionPage gotoPage()
+    {
+        TemplatesAdministrationSectionPage page = new TemplatesAdministrationSectionPage();
+        page.getDriver().get(page.getURL());
+        return page;
+    }
+
     public TemplatesAdministrationSectionPage()
     {
         super("Templates");

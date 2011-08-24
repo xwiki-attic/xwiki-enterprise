@@ -70,8 +70,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         editTemplatePage.clickSaveAndView();
 
         // Create the template provider
-        TemplatesAdministrationSectionPage sectionPage = new TemplatesAdministrationSectionPage();
-        sectionPage.gotoPage();
+        TemplatesAdministrationSectionPage sectionPage = TemplatesAdministrationSectionPage.gotoPage();
         TemplateProviderInlinePage templateProviderInline =
             sectionPage.createTemplateProvider(space, templateProviderName);
         templateProviderInline.setTemplateName("My Template");
@@ -314,8 +313,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         getUtil().deletePage(space, "NewPage");
         getUtil().deletePage(space, "NewLinkedPage");
         // go through all the templates and make sure they are disabled on this space
-        TemplatesAdministrationSectionPage sectionPage = new TemplatesAdministrationSectionPage();
-        sectionPage.gotoPage();
+        TemplatesAdministrationSectionPage sectionPage = TemplatesAdministrationSectionPage.gotoPage();
 
         // get the links to existing templates, navigate to each of them and disable the current space
         List<String> spacesToExclude = new ArrayList<String>();
@@ -331,7 +329,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
             providerEditPage.clickSaveAndView();
 
             // go back to the admin page, to leave this in a valid state
-            sectionPage.gotoPage();
+            sectionPage = TemplatesAdministrationSectionPage.gotoPage();
             existingTemplatesLinks = sectionPage.getExistingTemplatesLinks();
         }
 

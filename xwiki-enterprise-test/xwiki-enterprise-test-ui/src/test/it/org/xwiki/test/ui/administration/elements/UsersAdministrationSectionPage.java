@@ -34,6 +34,16 @@ public class UsersAdministrationSectionPage extends AdministrationSectionPage
     @FindBy(id = "addNewUser")
     private WebElement addNewUserButton;
 
+    /**
+     * @since 3.2M3
+     */
+    public static UsersAdministrationSectionPage gotoPage()
+    {
+        UsersAdministrationSectionPage page = new UsersAdministrationSectionPage();
+        page.getDriver().get(page.getURL());
+        return page;
+    }
+
     public UsersAdministrationSectionPage()
     {
         super("Users");

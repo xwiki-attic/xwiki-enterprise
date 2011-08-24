@@ -115,8 +115,7 @@ public class LoginTest extends AbstractTest
             // We use startsWith since the URL contains a jsessionid and a srid.
             Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL("SomeSpace", "SomePage")));
         } finally {
-            GlobalRightsAdministrationSectionPage grasp = new GlobalRightsAdministrationSectionPage();
-            grasp.gotoPage();
+            GlobalRightsAdministrationSectionPage grasp = GlobalRightsAdministrationSectionPage.gotoPage();
             if (!grasp.isAuthenticated()) {
                 getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(grasp.getURL()));
             }

@@ -75,8 +75,7 @@ public class InvitationTest extends AbstractTest
             // We have to go to sender page before any config shows up.
             this.senderPage.gotoPage();
 
-            AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
-            config.gotoPage();
+            AdministrationSectionPage config = AdministrationSectionPage.gotoPage("Invitation");
             // Set port to 3025
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_smtp_port"),
                 "3025");
@@ -254,8 +253,7 @@ public class InvitationTest extends AbstractTest
             // Become admin and allow users to send to multiple.
             TestUtils.Session nonAdmin = getUtil().getSession();
             getUtil().setSession(admin);
-            AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
-            config.gotoPage();
+            AdministrationSectionPage config = AdministrationSectionPage.gotoPage("Invitation");
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
                 + "usersMaySendToMultiple"), "true");
             config.clickSave();
@@ -645,8 +643,7 @@ public class InvitationTest extends AbstractTest
         TestUtils.Session admin = getUtil().getSession();
         try {
             // Allow users to send to multiple.
-            AdministrationSectionPage config = new AdministrationSectionPage("Invitation");
-            config.gotoPage();
+            AdministrationSectionPage config = AdministrationSectionPage.gotoPage("Invitation");
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
                 + "usersMaySendToMultiple"), "true");
             config.clickSave();

@@ -31,11 +31,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class AnnotationsPage extends AdministrationSectionPage
 {
-    public AnnotationsPage()
-    {
-        super("Annotations");
-    }
-
     @FindBy(id = "AnnotationCode.AnnotationConfig_AnnotationCode.AnnotationConfig_0_activated")
     private WebElement annotationsAreActivatedRadioYes;
 
@@ -54,9 +49,15 @@ public class AnnotationsPage extends AdministrationSectionPage
     @FindBy(id = "AnnotationCode.AnnotationConfig_AnnotationCode.AnnotationConfig_0_displayHighlight_false")
     private WebElement displayAnnotationsHighlightByDefaultRadioNo;
 
-    public void gotoPage()
+    public static AnnotationsPage gotoPage()
     {
         getUtil().gotoPage("XWiki", "XWikiPreferences", "admin", "section=Annotations");
+        return new AnnotationsPage();
+    }
+
+    public AnnotationsPage()
+    {
+        super("Annotations");
     }
 
     public void activateAnnotations()

@@ -19,14 +19,10 @@
  */
 package org.xwiki.test.ui;
 
-import java.util.List;
-
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.framework.elements.CommentsTab;
 import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
@@ -79,8 +75,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
 
     private void setRightsOnGuest(Right right, State state)
     {
-        GlobalRightsAdministrationSectionPage globalRights = new GlobalRightsAdministrationSectionPage();
-        globalRights.gotoPage();
+        GlobalRightsAdministrationSectionPage globalRights = GlobalRightsAdministrationSectionPage.gotoPage();
         globalRights.getEditRightsPane().switchToUsers();
         globalRights.getEditRightsPane().setGuestRight(right, state);
     }

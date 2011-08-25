@@ -21,8 +21,8 @@ package org.xwiki.test.ui;
 
 import org.junit.Test;
 import org.junit.Assert;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.ViewPage;
 
 /**
  * Verify the Backlinks feature.

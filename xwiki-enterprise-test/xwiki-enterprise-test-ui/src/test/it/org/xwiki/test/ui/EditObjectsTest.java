@@ -25,13 +25,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.FormElement;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.ClassEditPage;
-import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
-import org.xwiki.test.ui.framework.elements.editor.StaticListClassEditElement;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.FormElement;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.editor.ClassEditPage;
+import org.xwiki.test.po.platform.editor.ObjectEditPage;
+import org.xwiki.test.po.platform.editor.StaticListClassEditElement;
+import org.xwiki.test.po.platform.editor.WikiEditPage;
 
 /**
  * Test XObject editing.

@@ -22,12 +22,12 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
-import org.xwiki.test.ui.framework.AbstractTest;
-import org.xwiki.test.ui.framework.elements.LoginPage;
-import org.xwiki.test.ui.framework.elements.ResubmissionPage;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.po.AbstractTest;
+import org.xwiki.test.po.administration.GlobalRightsAdministrationSectionPage;
+import org.xwiki.test.po.platform.LoginPage;
+import org.xwiki.test.po.platform.ResubmissionPage;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.editor.WikiEditPage;
 
 /**
  * Test the Login feature.
@@ -124,7 +124,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
-    public void testRedirectPreservesPOSTParameters() throws InterruptedException
+    public void testRedirectPreservesPOSTParameters()
     {
         String test = "Test string " + System.currentTimeMillis();
         final String space = "Main";

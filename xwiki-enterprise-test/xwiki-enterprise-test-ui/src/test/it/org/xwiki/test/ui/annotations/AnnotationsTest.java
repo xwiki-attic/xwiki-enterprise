@@ -23,8 +23,8 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.annotations.elements.AnnotatableViewPage;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.annotations.AnnotatableViewPage;
 
 /**
  * Annotation Test.

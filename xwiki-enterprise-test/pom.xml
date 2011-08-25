@@ -508,6 +508,7 @@
   <modules>
     <module>xwiki-enterprise-test-misc</module>
     <module>xwiki-enterprise-test-xmlrpc</module>
+    <module>xwiki-enterprise-test-pageobjects</module>
     <module>xwiki-enterprise-test-ui</module>
     <module>xwiki-enterprise-test-selenium</module>
     <module>xwiki-enterprise-test-ldap</module>

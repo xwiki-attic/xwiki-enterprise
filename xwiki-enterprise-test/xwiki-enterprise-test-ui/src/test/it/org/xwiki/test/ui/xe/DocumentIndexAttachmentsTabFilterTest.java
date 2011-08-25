@@ -26,9 +26,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.LiveTableElement;
-import org.xwiki.test.ui.xe.elements.AllDocsPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.LiveTableElement;
+import org.xwiki.test.po.xe.AllDocsPage;
 
 /**
  * Test to prove that XE-701 remains fixed.

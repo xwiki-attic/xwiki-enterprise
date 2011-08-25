@@ -25,11 +25,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.administration.elements.AdministrationPage;
-import org.xwiki.test.ui.administration.elements.LocalizationAdministrationSectionPage;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.administration.AdministrationPage;
+import org.xwiki.test.po.administration.LocalizationAdministrationSectionPage;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.editor.WikiEditPage;
 
 /**
  * Verify the ability to change the language.

@@ -23,12 +23,12 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.administration.elements.GlobalRightsAdministrationSectionPage;
-import org.xwiki.test.ui.framework.elements.CommentsTab;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.EditRightsPane.Right;
-import org.xwiki.test.ui.framework.elements.EditRightsPane.State;
-import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.administration.GlobalRightsAdministrationSectionPage;
+import org.xwiki.test.po.platform.CommentsTab;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.EditRightsPane.Right;
+import org.xwiki.test.po.platform.EditRightsPane.State;
 
 /**
  * @version $Id$

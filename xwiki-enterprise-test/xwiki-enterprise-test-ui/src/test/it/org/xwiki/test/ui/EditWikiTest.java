@@ -23,10 +23,10 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.test.ui.framework.elements.editor.EditPage.Editor;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
+import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.po.platform.editor.EditPage.Editor;
 
 /**
  * Test wiki editing.

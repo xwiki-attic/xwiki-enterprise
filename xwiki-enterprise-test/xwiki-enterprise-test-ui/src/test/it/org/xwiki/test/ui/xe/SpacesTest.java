@@ -21,10 +21,10 @@ package org.xwiki.test.ui.xe;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.test.ui.xe.elements.HomePage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
+import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.po.xe.HomePage;
 
 /**
  * Tests the Space Dashboard.

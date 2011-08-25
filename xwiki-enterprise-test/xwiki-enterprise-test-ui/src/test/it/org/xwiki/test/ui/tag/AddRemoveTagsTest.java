@@ -25,9 +25,9 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.tag.elements.AddTagsPane;
-import org.xwiki.test.ui.tag.elements.TaggablePage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.tag.AddTagsPane;
+import org.xwiki.test.po.tag.TaggablePage;
 
 /**
  * Several tests for adding and removing tags to/from a wiki page.

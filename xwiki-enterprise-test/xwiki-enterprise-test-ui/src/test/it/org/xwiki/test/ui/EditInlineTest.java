@@ -22,12 +22,12 @@ package org.xwiki.test.ui;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.test.ui.administration.elements.ProfileUserProfilePage;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.InlinePage;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
-import org.xwiki.test.ui.tag.elements.TaggablePage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.administration.ProfileUserProfilePage;
+import org.xwiki.test.po.platform.InlinePage;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.po.tag.TaggablePage;
 
 /**
  * Test Inline editing.

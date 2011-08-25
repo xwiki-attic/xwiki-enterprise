@@ -22,10 +22,10 @@ package org.xwiki.test.ui;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.HistoryTab;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WikiEditPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.HistoryTab;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.editor.WikiEditPage;
 
 /**
  * Verify versioning features of documents and attachments.

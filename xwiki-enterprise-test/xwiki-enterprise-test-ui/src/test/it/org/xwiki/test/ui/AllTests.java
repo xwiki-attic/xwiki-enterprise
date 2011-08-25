@@ -19,35 +19,14 @@
  */
 package org.xwiki.test.ui;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.extensions.cpsuite.ClasspathSuite;
-import org.junit.runner.RunWith;
-import org.xwiki.test.ui.framework.PersistentTestContext;
-import org.xwiki.test.ui.framework.AbstractTest;
+import org.xwiki.test.po.AbstractAllTests;
 
 /**
  * Runs all functional tests found in the classpath.
- *
+ * 
  * @version $Id$
  * @since 2.3M1
  */
-@RunWith(ClasspathSuite.class)
-public class AllTests
+public class AllTests extends AbstractAllTests
 {
-    /** Because junit disallows any references which persist between tests, there is a context which is static. */
-    private static PersistentTestContext context;
-
-    @BeforeClass
-    public static void init() throws Exception
-    {
-        context = new PersistentTestContext();
-        AbstractTest.setContext(context.getUnstoppable());
-    }
-
-    @AfterClass
-    public static void shutdown() throws Exception
-    {
-        context.shutdown();
-    }
 }

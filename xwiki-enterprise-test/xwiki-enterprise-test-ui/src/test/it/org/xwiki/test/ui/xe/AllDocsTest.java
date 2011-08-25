@@ -21,9 +21,9 @@ package org.xwiki.test.ui.xe;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.LiveTableElement;
-import org.xwiki.test.ui.xe.elements.AllDocsPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.LiveTableElement;
+import org.xwiki.test.po.xe.AllDocsPage;
 
 /**
  * Tests for the AllDocs page.

@@ -33,17 +33,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.administration.elements.AdministrationSectionPage;
-import org.xwiki.test.ui.framework.AbstractTest;
-import org.xwiki.test.ui.framework.TestUtils;
-import org.xwiki.test.ui.framework.elements.RegistrationPage;
-import org.xwiki.test.ui.framework.elements.TableElement;
-import org.xwiki.test.ui.framework.elements.editor.ObjectEditPage;
-import org.xwiki.test.ui.invitation.elements.InspectInvitationsPage;
-import org.xwiki.test.ui.invitation.elements.InvitationActionConfirmationElement;
-import org.xwiki.test.ui.invitation.elements.InvitationGuestActionsPage;
-import org.xwiki.test.ui.invitation.elements.InvitationMessageDisplayElement;
-import org.xwiki.test.ui.invitation.elements.InvitationSenderPage;
+import org.xwiki.test.po.AbstractTest;
+import org.xwiki.test.po.TestUtils;
+import org.xwiki.test.po.administration.AdministrationSectionPage;
+import org.xwiki.test.po.invitation.InspectInvitationsPage;
+import org.xwiki.test.po.invitation.InvitationActionConfirmationElement;
+import org.xwiki.test.po.invitation.InvitationGuestActionsPage;
+import org.xwiki.test.po.invitation.InvitationMessageDisplayElement;
+import org.xwiki.test.po.invitation.InvitationSenderPage;
+import org.xwiki.test.po.platform.RegistrationPage;
+import org.xwiki.test.po.platform.TableElement;
+import org.xwiki.test.po.platform.editor.ObjectEditPage;
 
 import com.icegreen.greenmail.util.GreenMail;
 
@@ -69,7 +69,7 @@ public class InvitationTest extends AbstractTest
         getUtil().recacheSecretToken();
         getUtil().deletePage("Invitation", "InvitationMessages");
 
-        if (!this.initialized) {
+        if (!initialized) {
             // We have to go to sender page before any config shows up.
             InvitationSenderPage.gotoPage();
 
@@ -89,7 +89,7 @@ public class InvitationTest extends AbstractTest
             getUtil().deletePage("XWiki", "InvitedMember");
             getUtil().deletePage("XWiki", "AnotherInvitedMember");
 
-            this.initialized = true;
+            initialized = true;
         }
 
         setSenderPage(InvitationSenderPage.gotoPage());

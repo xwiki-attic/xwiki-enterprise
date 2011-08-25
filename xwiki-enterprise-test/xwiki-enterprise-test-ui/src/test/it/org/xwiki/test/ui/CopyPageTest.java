@@ -22,10 +22,10 @@ package org.xwiki.test.ui;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.CopyConfirmationPage;
-import org.xwiki.test.ui.framework.elements.CopyPage;
-import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.CopyConfirmationPage;
+import org.xwiki.test.po.platform.CopyPage;
+import org.xwiki.test.po.platform.ViewPage;
 
 /**
  * Test the Copy menu action to copy one page to another location.

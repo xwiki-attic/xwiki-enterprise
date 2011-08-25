@@ -20,9 +20,9 @@
 package org.xwiki.test.ui.administration;
 
 import org.openqa.selenium.By;
+import org.xwiki.test.po.administration.LightBoxRegistrationPage;
+import org.xwiki.test.po.platform.AbstractRegistrationPage;
 import org.xwiki.test.ui.RegisterTest;
-import org.xwiki.test.ui.administration.elements.LightBoxRegistrationPage;
-import org.xwiki.test.ui.framework.elements.AbstractRegistrationPage;
 
 /**
  * Test the Admin->Users->AddNewUser feature by executing the same tests as in RegisterTest but from

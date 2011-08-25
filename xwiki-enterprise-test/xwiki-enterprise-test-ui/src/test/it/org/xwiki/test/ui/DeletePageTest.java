@@ -25,11 +25,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.DeleteConfirmationPage;
-import org.xwiki.test.ui.framework.elements.DeletePage;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.xe.elements.HomePage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.DeleteConfirmationPage;
+import org.xwiki.test.po.platform.DeletePage;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.xe.HomePage;
 
 /**
  * Tests the Delete button present in the top level menu.

@@ -22,12 +22,12 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.framework.elements.CreatePagePage;
-import org.xwiki.test.ui.framework.elements.CreateSpacePage;
-import org.xwiki.test.ui.xe.elements.HomePage;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.framework.elements.editor.WYSIWYGEditPage;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.CreatePagePage;
+import org.xwiki.test.po.platform.CreateSpacePage;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
+import org.xwiki.test.po.xe.HomePage;
 
 /**
  * Validates the support for non-ASCII characters.

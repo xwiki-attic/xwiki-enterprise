@@ -19,7 +19,6 @@
  */
 package org.xwiki.test.ui.administration;
 
-import java.io.IOException;
 import java.net.URL;
 
 import org.junit.Assert;
@@ -27,11 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.administration.elements.AdministrationPage;
-import org.xwiki.test.ui.administration.elements.ImportAdministrationSectionPage;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.HistoryTab;
-import org.xwiki.test.ui.framework.elements.ViewPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.administration.AdministrationPage;
+import org.xwiki.test.po.administration.ImportAdministrationSectionPage;
+import org.xwiki.test.po.platform.HistoryTab;
+import org.xwiki.test.po.platform.ViewPage;
 
 /**
  * Test the Import XAR feature.
@@ -87,7 +86,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    public void testImportWithHistory() throws IOException
+    public void testImportWithHistory()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITH_HISTORY);
 
@@ -110,7 +109,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    public void testImportWithNewHistoryVersion() throws IOException
+    public void testImportWithNewHistoryVersion()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITHOUT_HISTORY);
 
@@ -131,7 +130,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    public void testImportAsBackup() throws IOException
+    public void testImportAsBackup()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);
 
@@ -154,7 +153,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    public void testImportWhenImportAsBackupIsNotSelected() throws IOException
+    public void testImportWhenImportAsBackupIsNotSelected()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);
 

@@ -35,35 +35,18 @@
   <description>XWiki Enterprise - Functional Tests - UI</description>
   <dependencies>
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>cpsuite</groupId>
-      <artifactId>cpsuite</artifactId>
-      <version>1.2.5</version>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-test-pageobjects</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
+    
     <!-- Used by several tests to send mails -->
     <dependency>
       <groupId>com.icegreen</groupId>
       <artifactId>greenmail</artifactId>
       <version>1.3</version>
       <scope>test</scope>
-    </dependency>
-    <!-- Make it easy to debug flickering tests by repeating them.
-         See http://tempus-fugit.googlecode.com/svn/site/documentation/annotations.html#aRepeating -->
-    <dependency>
-      <groupId>com.google.code.tempus-fugit</groupId>
-      <artifactId>tempus-fugit</artifactId>
-      <version>1.1</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
   <build>

@@ -25,12 +25,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.test.ui.administration.elements.ProfileUserProfilePage;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.scheduler.elements.SchedulerHomePage;
-import org.xwiki.test.ui.watchlist.elements.WatchlistUserProfilePage;
-import org.xwiki.test.ui.watchlist.elements.editor.WatchlistPreferencesEditPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.administration.ProfileUserProfilePage;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.scheduler.SchedulerHomePage;
+import org.xwiki.test.po.watchlist.WatchlistUserProfilePage;
+import org.xwiki.test.po.watchlist.editor.WatchlistPreferencesEditPage;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.GreenMailUtil;

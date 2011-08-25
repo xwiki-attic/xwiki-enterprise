@@ -25,12 +25,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.test.ui.framework.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.framework.elements.DeletePage;
-import org.xwiki.test.ui.framework.elements.ViewPage;
-import org.xwiki.test.ui.scheduler.elements.SchedulerHomePage;
-import org.xwiki.test.ui.scheduler.elements.SchedulerPage;
-import org.xwiki.test.ui.scheduler.elements.editor.SchedulerEditPage;
+import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.platform.DeletePage;
+import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.scheduler.SchedulerHomePage;
+import org.xwiki.test.po.scheduler.SchedulerPage;
+import org.xwiki.test.po.scheduler.editor.SchedulerEditPage;
 
 /**
  * Tests Scheduler application features.
@@ -68,7 +68,6 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     {
         // Create Job
         SchedulerHomePage schedulerHomePage = SchedulerHomePage.gotoPage();
-        schedulerHomePage.gotoPage();
         schedulerHomePage.setJobName("SchedulerTestJob");
         SchedulerEditPage schedulerEdit = schedulerHomePage.clickAdd();
 

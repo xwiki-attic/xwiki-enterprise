@@ -27,11 +27,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.test.ui.administration.elements.AdministrationSectionPage;
-import org.xwiki.test.ui.framework.elements.AbstractRegistrationPage;
-import org.xwiki.test.ui.framework.elements.RegistrationPage;
-import org.xwiki.test.ui.framework.AbstractTest;
-import org.xwiki.test.ui.framework.TestUtils;
+import org.xwiki.test.po.AbstractTest;
+import org.xwiki.test.po.TestUtils;
+import org.xwiki.test.po.administration.AdministrationSectionPage;
+import org.xwiki.test.po.platform.AbstractRegistrationPage;
+import org.xwiki.test.po.platform.RegistrationPage;
 
 /**
  * Test the user registration feature.

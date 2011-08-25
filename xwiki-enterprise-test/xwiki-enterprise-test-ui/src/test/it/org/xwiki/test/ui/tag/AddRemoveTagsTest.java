@@ -28,8 +28,6 @@ import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.tag.AddTagsPane;
 import org.xwiki.test.po.tag.TaggablePage;
 
-import com.google.code.tempusfugit.concurrency.annotations.Intermittent;
-
 /**
  * Several tests for adding and removing tags to/from a wiki page.
  * 
@@ -152,7 +150,8 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * @see XWIKI-3843: Strip leading and trailing white spaces to tags when white space is not the separator
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3843">XWIKI-3843</a>: Strip leading and trailing white
+     *      spaces to tags when white space is not the separator
      */
     @Test
     public void testStripLeadingAndTrailingSpacesFromTags()
@@ -170,7 +169,8 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * @see XWIKI-6549: Prevent adding new tags that are equal ignoring case with existing tags
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-6549">XWIKI-6549</a>: Prevent adding new tags that are
+     *      equal ignoring case with existing tags
      */
     @Test
     public void testTagCaseIsIgnored()

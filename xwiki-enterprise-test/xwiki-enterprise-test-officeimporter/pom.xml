@@ -35,9 +35,8 @@
   <description>Selenium tests for office importer application</description>
   <dependencies>
     <dependency>
-      <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-      <artifactId>selenium-java-client-driver</artifactId>
-      <scope>test</scope>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium</artifactId>
     </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

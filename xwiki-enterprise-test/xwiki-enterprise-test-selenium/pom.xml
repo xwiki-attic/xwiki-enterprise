@@ -35,8 +35,8 @@
   <description>Deprecated: Tests to be moved to ui-tests</description>
   <dependencies>
     <dependency>
-      <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-      <artifactId>selenium-java-client-driver</artifactId>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium</artifactId>
     </dependency>
     <dependency>
       <groupId>com.icegreen</groupId>

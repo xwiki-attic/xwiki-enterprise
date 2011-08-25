@@ -35,8 +35,8 @@
   <description>XWiki Enterprise - Functional Tests - WYSIWYG</description>
   <dependencies>
     <dependency>
-      <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-      <artifactId>selenium-java-client-driver</artifactId>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium</artifactId>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>

@@ -23,11 +23,12 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.tag.AddTagsPane;
 import org.xwiki.test.po.tag.TaggablePage;
+
+import com.google.code.tempusfugit.concurrency.annotations.Intermittent;
 
 /**
  * Several tests for adding and removing tags to/from a wiki page.
@@ -49,6 +50,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
         super.setUp();
 
         // Create a new test page.
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
         getUtil().createPage(getTestClassName(), getTestMethodName(), null, null);
         taggablePage = new TaggablePage();
     }
@@ -173,11 +175,12 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testTagCaseIsIgnored()
     {
-        String firstTag = RandomStringUtils.randomAlphanumeric(6);
+        String firstTag = "taG1";
         Assert.assertFalse(taggablePage.hasTag(firstTag));
-        String secondTag = firstTag.substring(0, 3).toUpperCase() + firstTag.substring(3).toLowerCase();
+        // Second tag is same as first tag but with different uppercase/lowercase chars.
+        String secondTag = "Tag1";
         Assert.assertFalse(taggablePage.hasTag(secondTag));
-        String thirdTag = RandomStringUtils.randomAlphanumeric(4);
+        String thirdTag = "tag3";
         Assert.assertFalse(taggablePage.hasTag(thirdTag));
 
         AddTagsPane addTagsPane = taggablePage.addTags();

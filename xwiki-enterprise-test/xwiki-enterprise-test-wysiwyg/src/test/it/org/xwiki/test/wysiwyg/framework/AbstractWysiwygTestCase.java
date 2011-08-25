@@ -32,7 +32,7 @@ import com.thoughtworks.selenium.Wait;
 public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 {
     private static final String WYSIWYG_LOCATOR_FOR_KEY_EVENTS =
-        "document.getElementsByTagName('iframe')[0].contentWindow.document.documentElement";
+        "document.getElementsByTagName('iframe')[0].contentWindow.document.body";
 
     private static final String WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='WYSIWYG']";
 

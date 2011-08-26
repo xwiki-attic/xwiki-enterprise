@@ -48,7 +48,7 @@ public class LightBoxRegistrationPage extends AbstractRegistrationPage
         this.submitButton.click();
     }
 
-    public boolean liveValidationEnabled()
+    public boolean isLiveValidationEnabled()
     {
         return !getDriver().findElements(By.xpath("//div[@id='lb']/div[@id='lb-content']/script[3]")).isEmpty();
     }

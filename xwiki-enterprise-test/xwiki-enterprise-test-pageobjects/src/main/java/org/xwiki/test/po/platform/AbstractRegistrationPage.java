@@ -114,6 +114,7 @@ public abstract class AbstractRegistrationPage extends BasePage
 
     public boolean isLiveValidationEnabled()
     {
-        return !"undefined".equals(this.executeJavascript("return LiveValidation"));
+        return !getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//div[@id='mainContentArea']/script")).isEmpty();
     }
 }

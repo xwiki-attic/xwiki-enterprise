@@ -41,14 +41,14 @@ import org.xwiki.test.po.platform.RegistrationPage;
  */
 public class RegisterTest extends AbstractTest
 {
-    protected RegistrationPage registrationPage;
+    protected AbstractRegistrationPage registrationPage;
 
     @Before
     public void setUp()
     {
         deleteUser("JohnSmith");
         switchUser();
-        this.registrationPage = RegistrationPage.gotoPage();
+        this.registrationPage = this.getRegistrationPage();
 
         // Switch LiveValidation on or off as needed.
         int x = 0;
@@ -64,8 +64,9 @@ public class RegisterTest extends AbstractTest
                 throw new WebDriverException("Unable to set useLiveValidation to " + useLiveValidation());
             }
             x++;
-            this.registrationPage = RegistrationPage.gotoPage();
+            this.registrationPage = this.getRegistrationPage();
         }
+
         // The prepareName javascript function is the cause of endless flickering
         // since it trys to suggest a username every time the field is focused.
         this.registrationPage.executeJavascript("document.getElementById('xwikiname').onfocus = null;");
@@ -83,7 +84,7 @@ public class RegisterTest extends AbstractTest
     /** To put the registration page someplace else, subclass this class and change this method. */
     protected AbstractRegistrationPage getRegistrationPage()
     {
-        return new RegistrationPage();
+        return RegistrationPage.gotoPage();
     }
 
     /** To test without javascript validation, subclass this class and change this method. */

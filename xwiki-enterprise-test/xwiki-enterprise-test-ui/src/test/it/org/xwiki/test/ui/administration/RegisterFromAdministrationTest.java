@@ -33,17 +33,20 @@ import org.xwiki.test.ui.RegisterTest;
  */
 public class RegisterFromAdministrationTest extends RegisterTest
 {
+    @Override
     protected void switchUser()
     {
         getDriver().get(getUtil().getURLToLoginAsAdmin());
         getUtil().recacheSecretToken();
     }
 
-    protected AbstractRegistrationPage getRegisterPage()
+    @Override
+    protected AbstractRegistrationPage getRegistrationPage()
     {
-        return new LightBoxRegistrationPage();
+        return LightBoxRegistrationPage.gotoPage();
     }
 
+    @Override
     protected boolean tryToRegister()
     {
         registrationPage.clickRegister();

@@ -35,7 +35,8 @@ public class RegistrationPage extends AbstractRegistrationPage
     private WebElement submitButton;
 
     /**
-     * To put the registration page someplace else, subclass this class and change this method.
+     * To put the registration page someplace else, subclass this class and change
+     * this method.
      */
     public static RegistrationPage gotoPage()
     {
@@ -43,14 +44,9 @@ public class RegistrationPage extends AbstractRegistrationPage
         return new RegistrationPage();
     }
 
+    @Override
     public void clickRegister()
     {
         this.submitButton.click();
-    }
-
-    public boolean liveValidationEnabled()
-    {
-        return !getUtil().findElementsWithoutWaiting(getDriver(),
-            By.xpath("/html/body/div/div/div[3]/div/div/div/div/div/script")).isEmpty();
     }
 }

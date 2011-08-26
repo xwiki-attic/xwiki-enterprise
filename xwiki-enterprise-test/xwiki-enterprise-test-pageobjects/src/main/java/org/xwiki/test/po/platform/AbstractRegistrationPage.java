@@ -34,12 +34,14 @@ import org.openqa.selenium.support.FindBy;
  * @version $Id$
  * @since 3.2M3
  */
-public class AbstractRegistrationPage extends BasePage
+public abstract class AbstractRegistrationPage extends BasePage
 {
     @FindBy(id = "register")
     private WebElement registerFormElement;
 
     private FormElement form;
+
+    public abstract void clickRegister();
 
     public void fillInJohnSmithValues()
     {
@@ -108,5 +110,11 @@ public class AbstractRegistrationPage extends BasePage
         // input, it encounters an error which keeps the next page from loading.
         executeJavascript("try{ document.getElementById('register_first_name').focus(); " +
             "document.getElementById('register').onsubmit(null); }catch(err){}");
+    }
+
+    public boolean isLiveValidationEnabled()
+    {
+        return !getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("/html/body/div/div/div[3]/div/div/div/div/div/script")).isEmpty();
     }
 }

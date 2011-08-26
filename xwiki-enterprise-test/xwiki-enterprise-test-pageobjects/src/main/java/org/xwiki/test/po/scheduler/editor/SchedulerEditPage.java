@@ -72,4 +72,12 @@ public class SchedulerEditPage extends EditPage
 
         return new SchedulerPage();
     }
+
+    /**
+     * @since 3.2M2
+     */
+    public void waitForJobEditionToLoad()
+    {
+        new EditorElement("XWiki.SchedulerJobClass_0_jobDescription").waitToLoad();
+    }
 }

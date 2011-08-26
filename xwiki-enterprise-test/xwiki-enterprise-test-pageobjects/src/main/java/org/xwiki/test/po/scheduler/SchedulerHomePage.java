@@ -64,7 +64,12 @@ public class SchedulerHomePage extends ViewPage
         getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='Edit']"))
             .click();
 
-        return new SchedulerEditPage();
+        // Make sure we wait for the WYSIWYG fields to be loaded since otherwise they'll steal the focus and if we
+        // start typing in other fields before they're loaded what we type will end up in the wrong fields...
+        SchedulerEditPage sep = new SchedulerEditPage();
+        sep.waitForJobEditionToLoad();
+
+        return sep;
     }
 
     public DeletePage clickJobActionDelete(String jobName)
@@ -110,5 +115,26 @@ public class SchedulerHomePage extends ViewPage
         this.addButton.click();
 
         return new SchedulerEditPage();
+    }
+
+    /**
+     * @return true if the scheduler home page contains an error message or false otherwise. An error message appears
+     *         when one of the scheduler actions fails to execute properly.
+     * @since 3.2M3
+     */
+    public boolean hasError()
+    {
+        return getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//div[contains(@class, 'errormessage')]")).size() > 0;
+    }
+
+    /**
+     * @return the text of the error message (see {@link #hasError()}
+     * @since 3.2M3
+     */
+    public String getErrorMessage()
+    {
+        return getUtil().findElementWithoutWaiting(getDriver(),
+            By.xpath("//div[contains(@class, 'errormessage')]")).getText();
     }
 }

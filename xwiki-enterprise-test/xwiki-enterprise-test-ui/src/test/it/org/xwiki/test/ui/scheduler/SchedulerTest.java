@@ -93,25 +93,35 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
         DeletePage deletePage = schedulerHomePage.clickJobActionDelete(jobName);
         deletePage.confirm();
         schedulerHomePage = SchedulerHomePage.gotoPage();
-        Assert.assertTrue(getDriver().findElements(By.linkText(jobName)).isEmpty());
+        Assert.assertFalse(getUtil().hasElement(By.linkText(jobName)));
         getUtil().gotoPage("Scheduler", "SchedulerTestJob");
         getDriver().findElement(By.linkText("Restore")).click();
         schedulerPage = new SchedulerPage();
         schedulerPage.backToHome();
 
-        // Schedule Job
-        schedulerHomePage.clickJobActionScheduler(jobName);
-
         // Trigger Job
         schedulerHomePage.clickJobActionTrigger(jobName);
+        Assert.assertFalse("Failed to trigger job. Error [" + schedulerHomePage.getErrorMessage() + "]",
+            schedulerHomePage.hasError());
+
+        // Schedule Job
+        schedulerHomePage.clickJobActionScheduler(jobName);
+        Assert.assertFalse("Failed to schedule job. Error [" + schedulerHomePage.getErrorMessage() + "]",
+            schedulerHomePage.hasError());
 
         // Pause Job
         schedulerHomePage.clickJobActionPause(jobName);
+        Assert.assertFalse("Failed to pause job. Error [" + schedulerHomePage.getErrorMessage() + "]",
+            schedulerHomePage.hasError());
 
         // Resume Job
         schedulerHomePage.clickJobActionResume(jobName);
+        Assert.assertFalse("Failed to resume job. Error [" + schedulerHomePage.getErrorMessage() + "]",
+            schedulerHomePage.hasError());
 
         // Unschedule Job
         schedulerHomePage.clickJobActionUnschedule(jobName);
+        Assert.assertFalse("Failed to unschedule job.  Error [" + schedulerHomePage.getErrorMessage() + "]",
+            schedulerHomePage.hasError());
     }
 }

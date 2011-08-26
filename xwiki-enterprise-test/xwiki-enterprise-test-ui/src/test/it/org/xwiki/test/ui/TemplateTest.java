@@ -21,7 +21,6 @@ package org.xwiki.test.ui;
 
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
@@ -37,15 +36,6 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
 {
     /** Page used for testing: Main.TemplateTest */
     private WikiEditPage editPage;
-
-    @Before
-    @Override
-    public void setUp()
-    {
-        super.setUp();
-
-        editPage = new WikiEditPage();
-    }
 
     /**
      * Test that velocity is rendered
@@ -112,12 +102,12 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
      */
     private void saveVelocity(String code, boolean html)
     {
-        editPage.switchToEdit("Main", "TemplateTest");
+        this.editPage = WikiEditPage.gotoPage("Main", "TemplateTest");
         if (html) {
             code = "{{html wiki=\"false\"}}\n" + code + "\n{{/html}}";
         }
-        editPage.setContent("{{velocity filter=\"none\"}}\n" + code + "\n{{/velocity}}\n");
-        editPage.clickSaveAndView();
+        this.editPage.setContent("{{velocity filter=\"none\"}}\n" + code + "\n{{/velocity}}\n");
+        this.editPage.clickSaveAndView();
     }
 
     /**

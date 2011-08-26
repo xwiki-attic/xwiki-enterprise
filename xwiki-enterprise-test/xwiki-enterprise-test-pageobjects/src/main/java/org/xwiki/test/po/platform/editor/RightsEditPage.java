@@ -29,12 +29,14 @@ import org.xwiki.test.po.platform.EditRightsPane;
  */
 public class RightsEditPage extends EditRightsPane
 {
-    public void switchToEdit(String space, String page)
+    public static RightsEditPage gotoPage(String space, String page)
     {
         getUtil().gotoPage(space, page, "edit", "editor=rights");
 
         // Make sure that the livetable has finished displaying. To ensure this, wait till the livetable has displayed
         // at least 2 XWiki Groups (Admin Group and All Group).
-        getRightsTable().waitUntilRowCountGreaterThan(2);
+        RightsEditPage rightsEditPage = new RightsEditPage();
+        rightsEditPage.getRightsTable().waitUntilRowCountGreaterThan(2);
+        return rightsEditPage;
     }
 }

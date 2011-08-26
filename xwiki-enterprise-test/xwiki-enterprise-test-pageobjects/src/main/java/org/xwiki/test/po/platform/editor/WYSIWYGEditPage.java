@@ -48,6 +48,15 @@ public class WYSIWYGEditPage extends PreviewableEditPage
      */
     private final EditorElement editor = new EditorElement("content");
 
+    /**
+     * Go to the passed page in WYSIWYG edit mode.
+     */
+    public static WYSIWYGEditPage gotoPage(String space, String page)
+    {
+        getUtil().gotoPage(space, page, "edit", "editor=wysiwyg");
+        return new WYSIWYGEditPage();
+    }
+
     public String getDocumentTitle()
     {
         return this.titleField.getAttribute("value");
@@ -74,14 +83,6 @@ public class WYSIWYGEditPage extends PreviewableEditPage
         } else {
             return editor.getRichTextArea().getText();
         }
-    }
-
-    /**
-     * Start editing page, create first if needed.
-     */
-    public void switchToEdit(String space, String page)
-    {
-        getUtil().gotoPage(space, page, "edit", "editor=wysiwyg");
     }
 
     /**

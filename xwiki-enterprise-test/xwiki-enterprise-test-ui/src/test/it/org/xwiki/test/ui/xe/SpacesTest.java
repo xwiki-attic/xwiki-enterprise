@@ -59,8 +59,7 @@ public class SpacesTest extends AbstractAdminAuthenticatedTest
         getUtil().deletePage(spaceName, "WebHome");
 
         // Create Space with a URL-reserved character in the Space name.
-        WikiEditPage editPage = new WikiEditPage();
-        editPage.switchToEdit(spaceName, "WebHome");
+        WikiEditPage editPage = WikiEditPage.gotoPage(spaceName, "WebHome");
         editPage.setContent("Content");
         editPage.clickSaveAndView();
 

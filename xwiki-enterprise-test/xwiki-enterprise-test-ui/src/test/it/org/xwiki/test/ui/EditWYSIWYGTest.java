@@ -44,23 +44,22 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
 
-        editPage = new WYSIWYGEditPage();
-        editPage.switchToEdit(getTestClassName(), getTestMethodName());
-        editPage.getContentEditor().waitToLoad();
+        this.editPage = WYSIWYGEditPage.gotoPage(getTestClassName(), getTestMethodName());
+        this.editPage.getContentEditor().waitToLoad();
     }
 
     /**
      * Tests that images are uploaded fine after a preview.
      * 
-     * @see XWIKI-5895: Adding an image in the WYSIWYG editor and previewing it without saving the page first makes the
-     *      XWiki page corrupt.
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-5895">XWIKI-5895</a>: Adding an image in the WYSIWYG
+     *      editor and previewing it without saving the page first makes the XWiki page corrupt.
      **/
     @Test
     public void testUploadImageAfterPreview()
     {
-        editPage.clickPreview().clickBackToEdit();
-        editPage.getContentEditor().waitToLoad();
-        UploadImagePane uploadImagePane = editPage.insertAttachedImage().selectFromCurrentPage().uploadImage();
+        this.editPage.clickPreview().clickBackToEdit();
+        this.editPage.getContentEditor().waitToLoad();
+        UploadImagePane uploadImagePane = this.editPage.insertAttachedImage().selectFromCurrentPage().uploadImage();
         uploadImagePane.setImageToUpload(this.getClass().getResource("/administration/avatar.png").getPath());
         // Fails if the image configuration step doesn't load in a decent amount of time.
         uploadImagePane.configureImage();

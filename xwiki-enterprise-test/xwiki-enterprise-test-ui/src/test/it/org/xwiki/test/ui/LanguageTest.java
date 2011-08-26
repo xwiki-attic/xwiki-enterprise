@@ -63,8 +63,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testChangeLanguageInMonolingualModeUsingTheAdministrationPreference()
     {
-        WikiEditPage edit = new WikiEditPage();
-        edit.switchToEdit("Test", "LanguageTest");
+        WikiEditPage edit = WikiEditPage.gotoPage("Test", "LanguageTest");
         edit.setContent("{{velocity}}context = ($context.language), doc = ($doc.language), "
             + "default = ($doc.defaultLanguage), tdoc = ($tdoc.language), "
             + "tdocdefault = ($tdoc.defaultLanguage){{/velocity}}");

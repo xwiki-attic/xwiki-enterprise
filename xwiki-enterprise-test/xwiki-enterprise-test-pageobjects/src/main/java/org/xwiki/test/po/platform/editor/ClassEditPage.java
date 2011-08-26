@@ -58,6 +58,15 @@ public class ClassEditPage extends BasePage
 
     private FormElement form;
 
+    /**
+     * Go to the passed page in object edit mode.
+     */
+    public static ClassEditPage gotoPage(String space, String page)
+    {
+        getUtil().gotoPage(space, page, "edit", "editor=class");
+        return new ClassEditPage();
+    }
+
     public void addProperty(String propertyName, String propertyType)
     {
         addPropertyWithoutWaiting(propertyName, propertyType);
@@ -95,17 +104,6 @@ public class ClassEditPage extends BasePage
             this.form = new FormElement(this.propertyForm);
         }
         return this.form;
-    }
-
-    /**
-     * Start editing the page using the Class editor.
-     * 
-     * @param space
-     * @param page
-     */
-    public void switchToEdit(String space, String page)
-    {
-        getUtil().gotoPage(space, page, "edit", "editor=class");
     }
 
     public DatabaseListClassEditElement getDatabaseListClassEditElement(String propertyName)

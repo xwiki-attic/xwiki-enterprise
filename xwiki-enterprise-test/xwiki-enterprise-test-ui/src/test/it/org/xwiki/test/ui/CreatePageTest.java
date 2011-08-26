@@ -63,8 +63,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         String templateFullName = space + "." + TEMPLATE_NAME;
 
         // Create a template
-        WikiEditPage editTemplatePage = new WikiEditPage();
-        editTemplatePage.switchToEdit(space, TEMPLATE_NAME);
+        WikiEditPage editTemplatePage = WikiEditPage.gotoPage(space, TEMPLATE_NAME);
         editTemplatePage.setTitle(templateTitle);
         editTemplatePage.setContent(templateContent);
         editTemplatePage.clickSaveAndView();
@@ -300,8 +299,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // prepare the test environment, create a test space and exclude all templates for this space
         String space = this.getClass().getSimpleName();
         // create the webhome of this space to make sure the space exists
-        WikiEditPage editTemplatePage = new WikiEditPage();
-        editTemplatePage.switchToEdit(space, "WebHome");
+        WikiEditPage editTemplatePage = WikiEditPage.gotoPage(space, "WebHome");
         editTemplatePage.setTitle("Welcome to the templates test space");
         editTemplatePage.setContent("You can have fun with templates here");
         editTemplatePage.clickSaveAndView();

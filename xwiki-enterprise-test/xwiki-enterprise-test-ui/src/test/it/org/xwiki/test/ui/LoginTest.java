@@ -132,8 +132,7 @@ public class LoginTest extends AbstractTest
         LoginPage loginPage = this.vp.login();
         loginPage.loginAsAdmin();
         // start editing a page
-        WikiEditPage editPage = new WikiEditPage();
-        editPage.switchToEdit(space, page);
+        WikiEditPage editPage = WikiEditPage.gotoPage(space, page);
         editPage.setTitle(test);
         editPage.setContent(test);
         // emulate expired session: delete the cookies
@@ -150,7 +149,7 @@ public class LoginTest extends AbstractTest
         loginPage.loginAsAdmin();
         // we should have been redirected back to view, and the page should have been saved
         Assert.assertTrue(getDriver().getCurrentUrl().startsWith(getUtil().getURL(space, page)));
-        editPage.switchToEdit(space, page);
+        editPage = WikiEditPage.gotoPage(space, page);
         Assert.assertEquals(test, editPage.getTitle());
         Assert.assertEquals(test, editPage.getContent());
     }

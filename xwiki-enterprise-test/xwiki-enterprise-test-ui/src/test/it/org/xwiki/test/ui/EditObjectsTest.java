@@ -57,8 +57,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     public void testEmptyGroupObjects()
     {
         // Create a doc
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
+        WikiEditPage wep = WikiEditPage.gotoPage("Test", "EditObjectsTestObject");
         wep.setContent("this is the content");
         ViewPage vp = wep.clickSaveAndView();
 
@@ -78,16 +77,14 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     public void testChangeMultiselectProperty()
     {
         // Create a class with a database list property set to return all documents
-        ClassEditPage cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        ClassEditPage cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
         cep.addProperty("prop", "com.xpn.xwiki.objects.classes.DBListClass");
         cep.getDatabaseListClassEditElement("prop").setHibernateQuery(
             "select doc.fullName from XWikiDocument doc where doc.space = 'Test'");
         cep.clickSaveAndView();
 
         // Create a second page to hold the Object and set its content
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
+        WikiEditPage wep = WikiEditPage.gotoPage("Test", "EditObjectsTestObject");
         wep.setContent("this is the content");
         ViewPage vp = wep.clickSaveAndView();
 
@@ -98,14 +95,12 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         oep.clickSaveAndView();
 
         // Set multiselect to true
-        cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
         cep.getDatabaseListClassEditElement("prop").setMultiSelect(true);
         cep.clickSaveAndView();
 
         // Select a second document in the DB list select field.
-        oep = new ObjectEditPage();
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
             By.id("Test.EditObjectsTestClass_0_prop"), "Test.EditObjectsTestObject");
         vp = oep.clickSaveAndView();
@@ -120,8 +115,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     public void testChangeNumberType()
     {
         // Create class page
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestClass");
+        WikiEditPage wep = WikiEditPage.gotoPage("Test", "EditObjectsTestClass");
         wep.setContent("this is the content");
         ViewPage vp = wep.clickSaveAndView();
 
@@ -133,8 +127,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Create object page
-        wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep = WikiEditPage.gotoPage("Test", "EditObjectsTestObject");
         wep.setContent("this is the content: {{velocity}}$doc.display('prop'){{/velocity}}");
         vp = wep.clickSaveAndView();
 
@@ -146,30 +139,26 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("this is the content: 3", vp.getContent());
 
         // Change number to double type
-        cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
         cep.getNumberClassEditElement("prop").setNumberType("double");
         vp = cep.clickSaveAndView();
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Verify conversion
-        oep = new ObjectEditPage();
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
             By.id("Test.EditObjectsTestClass_0_prop"), "2.5");
         vp = oep.clickSaveAndView();
         Assert.assertEquals("this is the content: 2.5", vp.getContent());
 
         // Change number to long type
-        cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
         cep.getNumberClassEditElement("prop").setNumberType("long");
         vp = cep.clickSaveAndView();
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Verify conversion
-        oep = new ObjectEditPage();
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         vp = oep.clickSaveAndView();
         Assert.assertEquals("this is the content: 2", vp.getContent());
     }
@@ -182,8 +171,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     public void testChangeListMultipleSelect()
     {
         // Create class page
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestClass");
+        WikiEditPage wep = WikiEditPage.gotoPage("Test", "EditObjectsTestClass");
         wep.setContent("this is the content");
         ViewPage vp = wep.clickSaveAndView();
 
@@ -197,8 +185,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Create object page
-        wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep = WikiEditPage.gotoPage("Test", "EditObjectsTestObject");
         wep.setContent("this is the content: {{velocity}}$doc.display('prop'){{/velocity}}");
         vp = wep.clickSaveAndView();
 
@@ -210,14 +197,13 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("this is the content: choice 3", vp.getContent());
 
         // Change list to a multiple select.
-        cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
         cep.getStaticListClassEditElement("prop").setMultiSelect(true);
         vp = cep.clickSaveAndView();
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Verify conversion
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
             By.id("Test.EditObjectsTestClass_0_prop"), "choice 3");
         oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
@@ -234,8 +220,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     public void testChangeListTypeRelationalStorage()
     {
         // Create class page
-        WikiEditPage wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestClass");
+        WikiEditPage wep = WikiEditPage.gotoPage("Test", "EditObjectsTestClass");
         wep.setContent("this is the content");
         ViewPage vp = wep.clickSaveAndView();
 
@@ -249,8 +234,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Create object page
-        wep = new WikiEditPage();
-        wep.switchToEdit("Test", "EditObjectsTestObject");
+        wep = WikiEditPage.gotoPage("Test", "EditObjectsTestObject");
         wep.setContent("this is the content: {{velocity}}$doc.display('prop'){{/velocity}}");
         vp = wep.clickSaveAndView();
 
@@ -262,28 +246,26 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("this is the content: this that other", vp.getContent());
 
         // Change list to relational storage.
-        cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
         cep.getStaticListClassEditElement("prop").setRelationalStorage(true);
         vp = cep.clickSaveAndView();
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Make sure we can still edit the object.
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
             By.id("Test.EditObjectsTestClass_0_prop"), "this|other");
         vp = oep.clickSaveAndView();
         Assert.assertEquals("this is the content: this other", vp.getContent());
 
         // Change list to non-relational storage.
-        cep = new ClassEditPage();
-        cep.switchToEdit("Test", "EditObjectsTestClass");
+        cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
         cep.getStaticListClassEditElement("prop").setRelationalStorage(false);
         vp = cep.clickSaveAndView();
         Assert.assertEquals("this is the content", vp.getContent());
 
         // Make sure we can still edit the object.
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         oep.getObjectsOfClass("Test.EditObjectsTestClass").get(0).setFieldValue(
             By.id("Test.EditObjectsTestClass_0_prop"), "that|other");
         vp = oep.clickSaveAndView();
@@ -293,8 +275,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testObjectAddAndRemove()
     {
-        ObjectEditPage oep = new ObjectEditPage();
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        ObjectEditPage oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         FormElement object = oep.addObject("XWiki.XWikiUsers");
         object.setFieldValue(By.id("XWiki.XWikiUsers_0_first_name"), "John");
 
@@ -319,8 +300,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testInlineObjectAddButton()
     {
-        ObjectEditPage oep = new ObjectEditPage();
-        oep.switchToEdit("Test", "EditObjectsTestObject");
+        ObjectEditPage oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         oep.addObject("XWiki.XWikiUsers");
         oep.addObjectFromInlineLink("XWiki.XWikiUsers");
     }

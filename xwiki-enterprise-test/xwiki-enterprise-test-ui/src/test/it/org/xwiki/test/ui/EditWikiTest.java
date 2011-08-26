@@ -36,7 +36,9 @@ import org.xwiki.test.po.platform.editor.EditPage.Editor;
  */
 public class EditWikiTest extends AbstractAdminAuthenticatedTest
 {
-    /** Page used for testing: Test.EditWikiTest */
+    /**
+     * Page used for testing.
+     */
     private WikiEditPage editPage;
 
     @Before
@@ -44,21 +46,21 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
     public void setUp()
     {
         super.setUp();
-        this.editPage = new WikiEditPage();
-        getUtil().deletePage("Test", "EditWikiTest");
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        this.editPage = WikiEditPage.gotoPage(getTestClassName(), getTestMethodName());
     }
 
     /** Test that save and continue saves as a minor version. */
     @Test
     public void testSaveAndContinueSavesAsMinorEdit()
     {
-        this.editPage.switchToEdit("Test", "EditWikiTest");
+
         Assert.assertTrue(this.editPage.isNewDocument());
         this.editPage.setContent("abc1");
         this.editPage.clickSaveAndView();
         Assert.assertEquals("1.1", this.editPage.getMetaDataValue("version"));
 
-        this.editPage.switchToEdit("Test", "EditWikiTest");
+        this.editPage = WikiEditPage.gotoPage(getTestClassName(), getTestMethodName());
         Assert.assertFalse(this.editPage.isNewDocument());
         this.editPage.setContent("abc2");
         this.editPage.setMinorEdit(false);
@@ -74,13 +76,12 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testSwitchToWysiwygWithAdvancedContent()
     {
-        editPage.switchToEdit("Test", "EditWikiTest");
         // Place some HTML in the page content.
-        editPage.setContent("{{html}}<hr/>{{/html}}");
+        this.editPage.setContent("{{html}}<hr/>{{/html}}");
         // If we are asked to confirm the editor switch then we choose to remain on the wiki editor.
-        editPage.makeConfirmDialogSilent(false);
+        this.editPage.makeConfirmDialogSilent(false);
         // Switch to WYSIWYG editor.
-        WYSIWYGEditPage wysiwygEditPage = editPage.editWYSIWYG();
+        WYSIWYGEditPage wysiwygEditPage = this.editPage.editWYSIWYG();
         // Check that we are indeed in WYSIWYG edit mode.
         Assert.assertEquals(Editor.WYSIWYG, wysiwygEditPage.getEditor());
     }

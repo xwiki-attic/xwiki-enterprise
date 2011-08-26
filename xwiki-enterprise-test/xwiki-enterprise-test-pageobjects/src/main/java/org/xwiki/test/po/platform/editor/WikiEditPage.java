@@ -50,6 +50,15 @@ public class WikiEditPage extends PreviewableEditPage
     private WebElement commentInput;
 
     /**
+     * Go to the passed page in wiki edit mode.
+     */
+    public static WikiEditPage gotoPage(String space, String page)
+    {
+        getUtil().gotoPage(space, page, "edit", "editor=wiki");
+        return new WikiEditPage();
+    }
+
+    /**
      * Get the <code>title</code> of the page.
      */
     public String getTitle()
@@ -126,13 +135,5 @@ public class WikiEditPage extends PreviewableEditPage
     {
         this.commentInput.clear();
         this.commentInput.sendKeys(comment);
-    }
-
-    /**
-     * Start editing page, create first if needed.
-     */
-    public void switchToEdit(String space, String page)
-    {
-        getUtil().gotoPage(space, page, "edit", "editor=wiki");
     }
 }

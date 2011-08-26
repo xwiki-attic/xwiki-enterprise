@@ -48,6 +48,15 @@ public class ObjectEditPage extends EditPage
 
     private FormElement form;
 
+    /**
+     * Go to the passed page in object edit mode.
+     */
+    public static ObjectEditPage gotoPage(String space, String page)
+    {
+        getUtil().gotoPage(space, page, "edit", "editor=object");
+        return new ObjectEditPage();
+    }
+
     public FormElement addObject(String className)
     {
         getForm().setFieldValue(this.classNameField, className);
@@ -140,10 +149,5 @@ public class ObjectEditPage extends EditPage
             forms.add(new FormElement(element));
         }
         return forms;
-    }
-
-    public void switchToEdit(String space, String page)
-    {
-        getUtil().gotoPage(space, page, "edit", "editor=object");
     }
 }

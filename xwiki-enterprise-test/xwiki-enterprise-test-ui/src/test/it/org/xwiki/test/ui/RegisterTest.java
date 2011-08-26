@@ -52,7 +52,7 @@ public class RegisterTest extends AbstractTest
 
         // Switch LiveValidation on or off as needed.
         int x = 0;
-        while (this.registrationPage.liveValidationEnabled() != useLiveValidation()) {
+        while (this.registrationPage.isLiveValidationEnabled() != useLiveValidation()) {
             AdministrationSectionPage sectionPage = new AdministrationSectionPage("Registration");
             getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(sectionPage.getURL()));
             getUtil().recacheSecretToken();

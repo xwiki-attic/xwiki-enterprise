@@ -99,29 +99,34 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
         schedulerPage = new SchedulerPage();
         schedulerPage.backToHome();
 
-        // Trigger Job
-        schedulerHomePage.clickJobActionTrigger(jobName);
-        Assert.assertFalse("Failed to trigger job. Error [" + schedulerHomePage.getErrorMessage() + "]",
-            schedulerHomePage.hasError());
-
         // Schedule Job
         schedulerHomePage.clickJobActionScheduler(jobName);
-        Assert.assertFalse("Failed to schedule job. Error [" + schedulerHomePage.getErrorMessage() + "]",
-            schedulerHomePage.hasError());
+        if (schedulerHomePage.hasError()) {
+            Assert.fail("Failed to schedule job. Error [" + schedulerHomePage.getErrorMessage() + "]");
+        }
+
+        // Trigger Job (a Job can only be triggered after it's been scheduled)
+        schedulerHomePage.clickJobActionTrigger(jobName);
+        if (schedulerHomePage.hasError()) {
+            Assert.fail("Failed to trigger job. Error [" + schedulerHomePage.getErrorMessage() + "]");
+        }
 
         // Pause Job
         schedulerHomePage.clickJobActionPause(jobName);
-        Assert.assertFalse("Failed to pause job. Error [" + schedulerHomePage.getErrorMessage() + "]",
-            schedulerHomePage.hasError());
+        if (schedulerHomePage.hasError()) {
+            Assert.fail("Failed to pause job. Error [" + schedulerHomePage.getErrorMessage() + "]");
+        }
 
         // Resume Job
         schedulerHomePage.clickJobActionResume(jobName);
-        Assert.assertFalse("Failed to resume job. Error [" + schedulerHomePage.getErrorMessage() + "]",
-            schedulerHomePage.hasError());
+        if (schedulerHomePage.hasError()) {
+            Assert.fail("Failed to resume job. Error [" + schedulerHomePage.getErrorMessage() + "]");
+        }
 
         // Unschedule Job
         schedulerHomePage.clickJobActionUnschedule(jobName);
-        Assert.assertFalse("Failed to unschedule job.  Error [" + schedulerHomePage.getErrorMessage() + "]",
-            schedulerHomePage.hasError());
+        if (schedulerHomePage.hasError()) {
+            Assert.fail("Failed to unschedule job.  Error [" + schedulerHomePage.getErrorMessage() + "]");
+        }
     }
 }

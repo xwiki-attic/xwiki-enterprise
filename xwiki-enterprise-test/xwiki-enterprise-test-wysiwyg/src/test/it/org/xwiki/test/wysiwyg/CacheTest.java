@@ -81,7 +81,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Check the result.
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "c");
-        assertSourceText("abc");
+        assertSourceText("cba");
     }
 
     /**

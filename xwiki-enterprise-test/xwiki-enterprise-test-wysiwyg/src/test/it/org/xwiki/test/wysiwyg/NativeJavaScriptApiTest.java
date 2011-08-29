@@ -108,6 +108,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");
         waitForEditorToLoad();
+        focusRichTextArea();
 
         typeText("x");
         assertEquals("x", getSourceText("editor"));
@@ -119,6 +120,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         clickButtonWithText("Load Editor");
         waitForCondition("typeof window.editor == 'object'");
         waitForEditorToLoad();
+        focusRichTextArea();
 
         typeText("z");
         applyStyleTitle1();
@@ -173,6 +175,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     public void testCommandManagerApi()
     {
         insertEditor("editor", "syntax: 'xwiki/2.0'");
+        focusRichTextArea();
         typeText("x");
         selectNodeContents("XWE.body.firstChild");
         assertTrue(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isSupported('bold')")));
@@ -224,6 +227,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         // Wait for the editor to be created.
         waitForCondition("typeof window.editor == 'object'");
         waitForEditorToLoad();
+        focusRichTextArea();
 
         // Switch to source tab and back.
         typeText("1");
@@ -255,8 +259,8 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     {
         String hookId = "XWiki.ArticleClass_0_description";
         insertEditor(hookId, "syntax: 'xwiki/2.0'");
-        assertEquals(hookId, getSelenium().getEval(
-            "window.Wysiwyg.getInstance('" + hookId + "').getParameter('hookId')"));
+        assertEquals(hookId,
+            getSelenium().getEval("window.Wysiwyg.getInstance('" + hookId + "').getParameter('hookId')"));
     }
 
     /**

@@ -343,6 +343,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // Close the group edit lightbox
         clickLinkWithLocator("lb-close");
         open("XWiki", group);
+        waitForGroupUsersLiveTable();
         assertTextPresent(user);
     }
 
@@ -379,6 +380,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // However we haven't done it since we also want to verify that clicking on the "Users" tab works.
         openAdministrationPage();
         clickLinkWithText("Users");
+        waitForLiveTable("userstable");
     }
 
     /**

@@ -1088,17 +1088,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Simulates a focus event on the rich text area. We don't use the focus method because it fails to notify our
-     * listeners when the browser window is not focused, preventing us from running the tests in background.
+     * Focuses the rich text area.
      * <p>
      * NOTE: The initial range CAN differ when the browser window is focused from when it isn't! Make sure you place the
      * caret where you want it to be at the beginning of you test and after switching back to WYSIWYG editor.
      */
     protected void focusRichTextArea()
     {
-        // The focus event doesn't propagate from an inner element to the host window, meaning we are forced to trigger
-        // the focus event on the window object.
-        focus(getDOMLocator("defaultView"));
+        getSelenium().focus(getDOMLocator("body"));
     }
 
     /**

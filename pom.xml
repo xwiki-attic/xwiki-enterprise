@@ -52,9 +52,12 @@
     <module>xwiki-enterprise-distribution</module>
   </modules>
   <properties>
-    <commons.version>${project.version}</commons.version>
-    <rendering.version>${project.version}</rendering.version>
-    <platform.version>${project.version}</platform.version>
+    <!-- Useful for Enterprise extensions -->
+    <enterprise.version>${commons.version}</enterprise.version>
+    <!-- Versions of XWiki dependencies used in Enterprise modules -->
+    <rendering.version>${enterprise.version}</rendering.version>
+    <platform.version>${enterprise.version}</platform.version>
+
     <smartgwt.version>2.4</smartgwt.version>
 
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes

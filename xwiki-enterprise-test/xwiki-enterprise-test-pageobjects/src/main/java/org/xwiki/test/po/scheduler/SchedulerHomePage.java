@@ -61,7 +61,7 @@ public class SchedulerHomePage extends ViewPage
 
     public SchedulerEditPage clickJobActionEdit(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='Edit']"))
+        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='edit']"))
             .click();
 
         // Make sure we wait for the WYSIWYG fields to be loaded since otherwise they'll steal the focus and if we

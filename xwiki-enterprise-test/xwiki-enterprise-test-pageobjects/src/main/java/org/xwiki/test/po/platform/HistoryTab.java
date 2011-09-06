@@ -108,9 +108,6 @@ public class HistoryTab extends BaseElement
      */
     public ViewPage rollbackToVersion(String version)
     {
-        // Temporary till we understand why the following sometimes fail:
-        // Alert alert = getDriver().switchTo().alert();
-        // alert.accept();
         makeConfirmDialogSilent(true);
 
         getDriver().findElement(
@@ -127,9 +124,6 @@ public class HistoryTab extends BaseElement
 
     public void deleteVersion(String version)
     {
-        // Temporary till we understand why the following sometimes fail:
-        // Alert alert = getDriver().switchTo().alert();
-        // alert.accept();
         makeConfirmDialogSilent(true);
 
         getDriver().findElement(

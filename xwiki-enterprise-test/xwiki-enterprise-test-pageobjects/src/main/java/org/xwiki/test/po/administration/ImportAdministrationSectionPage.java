@@ -84,7 +84,8 @@ public class ImportAdministrationSectionPage extends ViewPage
 
     public void deletePackage(String packageName)
     {
-        makeConfirmDialogSilent(true); // temporary, see BaseElement#makeConfirmDialogSilent
+        makeConfirmDialogSilent(true);
+
         // Note: With Firefox 3.x the following click() generates 2 calls to the server side at once which can cause
         // concurrency issues. Using Firefox 6.0 (and possibly other versions) generates only a single call, as it
         // should be. See http://code.google.com/p/selenium/issues/detail?id=2320 and

@@ -250,6 +250,7 @@
                     templates/templatedoesnotexist\.vm <!-- returns 400 and shows an error message -->
                     templates/textarea_text\.vm <!-- empty, not used any more -->
                     templates/titlevars\.vm <!-- needs defined $renderedContent, already tested with editinline.vm and contentview.vm -->
+                    templates/uploadfailure\.vm <!-- returns a 500 error and shows an error message -->
                     templates/watch\.vm <!-- expects xredirect to be a valid URL, does not display anything -->
                     templates/wysiwyg\.vm <!-- redirects to editwysiwyg.vm, recursive redirection error with some parameters -->
                     templates/xpart\.vm <!-- avoid recursive include -->

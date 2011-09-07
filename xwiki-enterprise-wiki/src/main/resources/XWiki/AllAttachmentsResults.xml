@@ -69,6 +69,7 @@
 ## to work as expected
 ## ============================================================================================
 #if ("$!request.get('xpage')" == 'plain')
+  $response.setContentType('application/json')##
   #set ($offset = $util.parseInt($request.get('offset')))
   ## offset starts from 0 in velocity and 1 in javascript
   #set ($off = $offset - 1)
@@ -154,7 +155,7 @@
     "filename" : "$escapetool.javascript($attachment.filename)",
     "fileurl" : "$document.getAttachmentURL($attachment.filename)",
     "url" : "$document.getURL('view')",
-    "spaceurl" : '$xwiki.getURL("${document.space}.WebHome")',
+    "spaceurl" : "$xwiki.getURL("${document.space}.WebHome")",
     "date" : "$xwiki.formatDate($attachment.date, $formatDate)",
     "author" : "$!escapetool.javascript($attachment.author)",
     "authorname" : "$!escapetool.javascript($xwiki.getDocument($attachment.author).name)",

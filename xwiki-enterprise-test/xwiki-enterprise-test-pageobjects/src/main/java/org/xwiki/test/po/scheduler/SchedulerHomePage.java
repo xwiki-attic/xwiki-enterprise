@@ -53,16 +53,13 @@ public class SchedulerHomePage extends ViewPage
 
     public SchedulerPage clickJobActionView(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='view']"))
-            .click();
-
+        clickAction(jobName, "view");
         return new SchedulerPage();
     }
 
     public SchedulerEditPage clickJobActionEdit(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='edit']"))
-            .click();
+        clickAction(jobName, "edit");
 
         // Make sure we wait for the WYSIWYG fields to be loaded since otherwise they'll steal the focus and if we
         // start typing in other fields before they're loaded what we type will end up in the wrong fields...
@@ -74,40 +71,42 @@ public class SchedulerHomePage extends ViewPage
 
     public DeletePage clickJobActionDelete(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='delete']"))
-            .click();
-
+        clickAction(jobName, "delete");
         return new DeletePage();
     }
 
     public void clickJobActionScheduler(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='schedule']"))
-            .click();
+        clickAction(jobName, "schedule");
     }
 
     public void clickJobActionTrigger(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='trigger']"))
-            .click();
+        clickAction(jobName, "trigger");
     }
 
     public void clickJobActionPause(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='pause']"))
-            .click();
+        clickAction(jobName, "pause");
     }
 
     public void clickJobActionResume(String jobName)
     {
-        getDriver().findElement(By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='resume']"))
-            .click();
+        clickAction(jobName, "resume");
     }
 
     public void clickJobActionUnschedule(String jobName)
     {
+        clickAction(jobName, "unschedule");
+    }
+
+    /**
+     * Click one of the actin that can be performed on a job.
+     */
+    private void clickAction(String jobName, String actionLinkName)
+    {
         getDriver().findElement(
-            By.xpath("//tr/td[text()='" + jobName + "']/parent::tr//td/span/a[text()='unschedule']")).click();
+            By.xpath("//tr[td[.='" + jobName + "']]/td/span/a[.='" + actionLinkName + "']")).click();
     }
 
     public SchedulerEditPage clickAdd()

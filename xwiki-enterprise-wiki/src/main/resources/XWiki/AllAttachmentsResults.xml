@@ -61,7 +61,7 @@
 <level>programming</level>
 </property>
 </object>
-<content>{{velocity}}
+<content>{{velocity wiki="false"}}
 ## ============================================================================================
 ## This page is called from live grids via Ajax with the argument xpage=plain. It returns a
 ## set of results serialized in JSON.

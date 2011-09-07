@@ -3,13 +3,13 @@
 <web>XWiki</web>
 <name>TemplateProviderSheet</name>
 <language></language>
-<defaultLanguage>en</defaultLanguage>
+<defaultLanguage></defaultLanguage>
 <translation>0</translation>
 <parent>XWiki.TemplateProviderClass</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
 <customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
 <creationDate>1274448564000</creationDate>
 <date>1305222692000</date>
 <contentUpdateDate>1305222692000</contentUpdateDate>

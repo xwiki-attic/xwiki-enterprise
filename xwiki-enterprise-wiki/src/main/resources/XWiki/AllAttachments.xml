@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>XWiki</web>
 <name>AllAttachments</name>
@@ -35,6 +34,7 @@
 <validationScript></validationScript>
 <cache>
 <cache>0</cache>
+<disabled>0</disabled>
 <displayType>select</displayType>
 <multiSelect>0</multiSelect>
 <name>cache</name>
@@ -49,6 +49,7 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </cache>
 <code>
+<disabled>0</disabled>
 <name>code</name>
 <number>2</number>
 <prettyName>Code</prettyName>
@@ -58,6 +59,7 @@
 <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
 </code>
 <name>
+<disabled>0</disabled>
 <name>name</name>
 <number>1</number>
 <prettyName>Name</prettyName>
@@ -66,6 +68,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 <parse>
+<disabled>0</disabled>
 <displayFormType>select</displayFormType>
 <displayType>yesno</displayType>
 <name>parse</name>
@@ -76,6 +79,7 @@
 </parse>
 <use>
 <cache>0</cache>
+<disabled>0</disabled>
 <displayType>select</displayType>
 <multiSelect>0</multiSelect>
 <name>use</name>
@@ -86,7 +90,7 @@
 <separators> ,|</separators>
 <size>1</size>
 <unmodifiable>0</unmodifiable>
-<values>onDemand=On demand|always=Always</values>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
@@ -221,25 +225,24 @@ XWiki.index.displayAttachmentEntry = function (row, i, table) {
 </property>
 </object>
 <content>{{velocity}}
-#set($ok = $xwiki.jsx.use('XWiki.AllAttachments'))
+#set ($discard = $xwiki.jsx.use('XWiki.AllAttachments'))
 ##
-#set($collist = ["filename", "doc.name","doc.space", "doc.date", "doc.author", "type"])
-#set($colprops = {
-                   "filename"  : { "type" : "text" , "size" : 10 }, 
-                   "doc.name"  : { "type" : "text" , "size" : 10 },
-                   "doc.space" : { "type" : "text" , "size" : 10 },
-                   "doc.date"  : { "type" : "date" , "size" : 10, "filterable":false},
-                   "doc.author": { "type" : "text" , "size" : 10 },
-                   "type" : {"sortable": false}
+#set ($collist = ['filename', 'doc.name', 'doc.space', 'doc.date', 'doc.author', 'type'])
+#set ($colprops = {
+                   'filename'  : { 'type' : 'text', 'size' : 10 },
+                   'doc.name'  : { 'type' : 'text', 'size' : 10 },
+                   'doc.space' : { 'type' : 'text', 'size' : 10 },
+                   'doc.date'  : { 'type' : 'date', 'size' : 10, 'filterable' : false },
+                   'doc.author': { 'type' : 'text', 'size' : 10 },
+                   'type'      : { 'sortable' : false }
                  })
-#set($options = { "url":"$xwiki.getURL('XWiki.AllAttachmentsResults')?xpage=plain&amp;outputSyntax=plain",
-                  "callback" : "XWiki.index.displayAttachmentEntry", 
-                  "translationPrefix" : "xe.index.attachments." })
+#set($options = { 'url' : $xwiki.getURL('XWiki.AllAttachmentsResults', 'get', 'xpage=plain&amp;outputSyntax=plain'),
+                  'callback' : 'XWiki.index.displayAttachmentEntry',
+                  'translationPrefix' : 'xe.index.attachments.' })
 #livetable('allattachments' $collist $colprops $options)
 
 (% id="inaccessibleDocsMessage" class="hidden" %)
 (((
-{{info}}$msg.get("rightsmanager.documentrequireviewrights"){{/info}}
+{{info}}$msg.get('rightsmanager.documentrequireviewrights'){{/info}}
 )))
-{{/velocity}}</content>
-</xwikidoc>
+{{/velocity}}</content></xwikidoc>

@@ -1423,8 +1423,7 @@ $xwiki.ssx.use("Main.Activity")##
   #set ($previousEventInOldList = $util.null)
   #set ($previousEventInNewList = $util.null)
   #foreach ($event in $events)
-    #set ($isUpdateOrAddAttachmentRelatedEvent = false)
-    #set ($isAnnotationUpdateRelatedEvent = false)## TO DO - remove this variable after fixing XWIKI-5632
+    #set ($isUpdateRelatedEvent = false)
     #set ($isConsecutiveUpdateEvent = false)
     #set ($isCreateOrDeleteRelatedEvent = false)
     ##
@@ -1441,8 +1440,7 @@ $xwiki.ssx.use("Main.Activity")##
       ##
       ## Build the clean event list
       ## ---------------------------------------------------------------
-      #if (!$isAnnotationUpdateRelatedEvent
-          &amp;&amp; !$isUpdateOrAddAttachmentRelatedEvent
+      #if (!$isUpdateRelatedEvent
           &amp;&amp; !($isCreateOrDeleteRelatedEvent &amp;&amp; $event.type != 'create' &amp;&amp; $event.type != 'delete')
           &amp;&amp; $newList.size() &lt; $aSubEntries)
         #set ($discard = $newList.add($event))
@@ -1465,24 +1463,13 @@ $xwiki.ssx.use("Main.Activity")##
   ## load related events
   #set ($relatedEvents = $xwiki.activitystream.getRelatedEvents($event))
   #if ($relatedEvents.size() &gt; 1)
-    ##
-    ## TO DO - remove this test after fixing XWIKI-5632
-    ## ---------------------------------------------------------------
     #if ($event.type == 'update')
       #foreach ($relatedEvent in $relatedEvents)
-        #if ($relatedEvent.type == 'updateAnnotation')
-          #set ($isAnnotationUpdateRelatedEvent = true)
+        #if ($relatedEvent.type != 'update')
+          #set ($isUpdateRelatedEvent = true)
           #break
         #end
       #end
-    #end
-    ##
-    ## Get related events of type 'update' (all these events will be ignored)
-    ## TO DO - remove (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId) from this test after fixing XWIKI-5632
-    ## ---------------------------------------------------------------
-    #if (($event.type == 'update' &amp;&amp; (!$isAnnotationUpdateRelatedEvent || $event.requestId == $previousEventInNewList.requestId))
-        || ($event.type == 'addAttachment' &amp;&amp; $event.requestId == $previousEventInNewList.requestId))
-      #set ($isUpdateOrAddAttachmentRelatedEvent = true)
     #end
     ## Get 'create' and 'delete' related event (-&gt; in order to remove duplicated events in the case of import, rename, delete page)
     ## ---------------------------------------------------------------

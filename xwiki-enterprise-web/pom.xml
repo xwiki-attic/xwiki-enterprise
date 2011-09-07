@@ -168,7 +168,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-extension-repository-xwiki-client</artifactId>
+      <artifactId>xwiki-platform-extension-repository-xwiki-handler</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

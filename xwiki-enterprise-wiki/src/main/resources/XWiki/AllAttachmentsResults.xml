@@ -75,7 +75,7 @@
   #set ($off = $offset - 1)
   #set ($limit = $util.parseInt($request.get('limit')))
   #set ($title = $request.get('doc.name'))
-  #set ($author = $request.get('doc.author'))
+  #set ($author = $request.get('author'))
   #set ($space = $request.get('doc.space'))
   #set ($filename = $request.filename)
   #set ($formatDate = 'yyyy MMMM dd, HH:mm')
@@ -110,14 +110,14 @@
       #set ($discard = $queryParameters.add($blacklistedSpace))
     #end
   #end
-  #set ($validSortOptions = ['filename', 'doc.name', 'doc.space', 'doc.date', 'doc.author'])
-  #if($validSortOptions.contains($request.sort))
+  #set ($validSortOptions = ['filename', 'doc.name', 'doc.space', 'date', 'author'])
+  #if ($validSortOptions.contains($request.sort))
     #set ($order = $request.sort)
   #else
     #set ($order = 'attach.filename')
   #end
-  #if ($order == 'filename')
-    #set ($order = 'attach.filename')
+  #if (!$order.startsWith('doc.'))
+    #set ($order = "attach.${order}")
   #end
   #if ("$!request.dir" == 'desc')
     #set ($dir = 'desc')

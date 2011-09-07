@@ -260,6 +260,15 @@ public class BaseElement
     }
 
     /**
+     * @see #makeConfirmDialogSilent(boolean)
+     * @since 3.2M3
+     */
+    public void makeAlertDialogSilent()
+    {
+        getDriver().executeScript("window.alert = function() { return true; }");
+    }
+
+    /**
      * @since 3.2M3
      */
     public void waitForNotificationErrorMessage(String message)

@@ -49,11 +49,6 @@ public class UploadImagePane extends WizardStepElement
     @FindBy(xpath = "//button[. = 'Insert Image']")
     private WebElement insertImageButton;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see WizardStepElement#waitToLoad()
-     */
     @Override
     public UploadImagePane waitToLoad()
     {

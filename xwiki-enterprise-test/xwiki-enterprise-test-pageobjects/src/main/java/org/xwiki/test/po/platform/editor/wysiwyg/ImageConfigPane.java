@@ -29,11 +29,6 @@ import org.openqa.selenium.By;
  */
 public class ImageConfigPane extends WizardStepElement
 {
-    /**
-     * {@inheritDoc}
-     * 
-     * @see WizardStepElement#waitToLoad()
-     */
     @Override
     public ImageConfigPane waitToLoad()
     {

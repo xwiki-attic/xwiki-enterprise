@@ -158,40 +158,24 @@ public class ArchiveSuite extends ParentRunner<Runner>
         this.runners = createRunners(this.archivePath);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#getChildren()
-     */
     @Override
     protected List<Runner> getChildren()
     {
         return this.runners;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#describeChild(java.lang.Object)
-     */
     @Override
     protected Description describeChild(Runner child)
     {
         return child.getDescription();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#runChild(java.lang.Object, org.junit.runner.notification.RunNotifier)
-     */
     @Override
     protected void runChild(Runner child, RunNotifier notifier)
     {
         child.run(notifier);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#getName()
-     */
     @Override
     protected String getName()
     {
@@ -203,10 +187,6 @@ public class ArchiveSuite extends ParentRunner<Runner>
         return getClass().getSimpleName() + "(" + fileName + ")\n";
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#sort(org.junit.runner.manipulation.Sorter)
-     */
     @Override
     public void sort(Sorter sorter)
     {
@@ -330,10 +310,6 @@ public class ArchiveSuite extends ParentRunner<Runner>
         return path;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#withBeforeClasses(org.junit.runners.model.Statement)
-     */
     @Override
     protected Statement withBeforeClasses(Statement statement)
     {
@@ -345,10 +321,6 @@ public class ArchiveSuite extends ParentRunner<Runner>
         return new RunBefores(result, methods, null);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#withAfterClasses(org.junit.runners.model.Statement)
-     */
     @Override
     protected Statement withAfterClasses(Statement statement)
     {

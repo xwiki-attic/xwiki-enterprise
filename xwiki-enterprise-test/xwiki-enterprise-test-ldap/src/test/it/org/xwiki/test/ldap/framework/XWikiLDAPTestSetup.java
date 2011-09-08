@@ -21,16 +21,8 @@ package org.xwiki.test.ldap.framework;
 
 import java.util.Properties;
 
-import javax.management.JMX;
-import javax.management.MBeanServerConnection;
-import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-
 import org.xwiki.test.integration.XWikiTestSetup;
 
-import ch.qos.logback.classic.jmx.JMXConfiguratorMBean;
 import junit.framework.Test;
 
 /**
@@ -97,11 +89,6 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         this.currentXWikiConf.setProperty("xwiki.authentication.ldap.ssl.keystore", "");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiTestSetup#setUp()
-     */
     @Override
     protected void setUp() throws Exception
     {
@@ -111,11 +98,6 @@ public class XWikiLDAPTestSetup extends XWikiTestSetup
         super.setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see XWikiTestSetup#tearDown()
-     */
     @Override
     protected void tearDown() throws Exception
     {

@@ -68,7 +68,7 @@
     <!-- xwiki.cfg configuration -->
     <xwiki.cfg.virtual>0</xwiki.cfg.virtual>
     <xe.xwiki.cfg.plugins>\
-  com.xpn.xwiki.monitor.api.MonitototorPlugin,\
+  com.xpn.xwiki.monitor.api.MonitorPlugin,\
   com.xpn.xwiki.plugin.skinx.JsSkinExtensionPlugin,\
   com.xpn.xwiki.plugin.skinx.JsSkinFileExtensionPlugin,\
   com.xpn.xwiki.plugin.skinx.CssSkinExtensionPlugin,\

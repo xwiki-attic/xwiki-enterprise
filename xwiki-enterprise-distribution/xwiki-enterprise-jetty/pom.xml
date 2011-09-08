@@ -69,7 +69,7 @@
                   <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
                 </resourceBundles>
                 <properties>
-                  <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
+                  <xwikiDbHbmCommonExtraMappings>${xwikiDbHbmCommonExtraMappings}</xwikiDbHbmCommonExtraMappings>
                 </properties>
               </configuration>
             </execution>

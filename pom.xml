@@ -64,6 +64,7 @@
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
     
     <!-- Configuration -->
+    <xwikiCfgVirtual>0</xwikiCfgVirtual>
     <xe.xwikiCfgPlugins>\
   com.xpn.xwiki.monitor.api.MonitorPlugin,\
   com.xpn.xwiki.plugin.skinx.JsSkinExtensionPlugin,\
@@ -100,6 +101,7 @@
     <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
     <xwikiCfgDefaultSkin>colibri</xwikiCfgDefaultSkin>
     <xwikiCfgDefaultBaseSkin>colibri</xwikiCfgDefaultBaseSkin>
+    <xwikiCfgAdditionalProperties></xwikiCfgAdditionalProperties>
   </properties>
   <build>
     <pluginManagement>

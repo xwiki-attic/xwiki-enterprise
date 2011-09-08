@@ -38,6 +38,7 @@
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-installer-generic</artifactId>
       <version>${project.version}</version>
+      <classifier>standard</classifier>
     </dependency>
     
     <!-- Even though this dependency is defined in Launch4J's pom.xml we still need it to

@@ -84,7 +84,7 @@
                 <data>
                   <src>${war.path}</src>
                   <type>directory</type>
-                  <excludes>WEB-INF/**/*</excludes>
+                  <excludes>WEB-INF,WEB-INF/**/*</excludes>
                   <mapper>
                     <type>perm</type>
                     <prefix>/usr/lib/xwiki</prefix>
@@ -93,7 +93,7 @@
                 <data>
                   <src>${war.path}/WEB-INF</src>
                   <type>directory</type>
-                  <excludes>**/lib/*,**/hibernate.cfg.xml</excludes>
+                  <excludes>**/lib,**/lib/*,**/hibernate.cfg.xml</excludes>
                   <mapper>
                     <type>perm</type>
                     <prefix>/etc/xwiki</prefix>
@@ -102,7 +102,6 @@
                 <data>
                   <src>${war.path}/WEB-INF/lib</src>
                   <type>directory</type>
-                  <excludes>**/lib/*</excludes>
                   <mapper>
                     <type>perm</type>
                     <prefix>/usr/lib/xwiki/WEB-INF/lib</prefix>

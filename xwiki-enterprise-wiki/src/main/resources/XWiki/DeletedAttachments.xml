@@ -511,7 +511,7 @@ $response.setContentType('application/json')
     "url" : "$originalDocument.getAttachmentRevisionURL($originalAttachment.filename, $originalAttachment.version, "rid=${datt.id}")",
     "documentUrl" : "$originalDocument.getURL()",
     "canDelete" : $datt.canDelete(),
-    "deleteUrl" : "$originalDocument.getAttachmentURL($datt.filename, 'delattachment', "trashId=${datt.id}")",
+    "deleteUrl" : "$originalDocument.getAttachmentURL($datt.filename, 'delattachment', "trashId=${datt.id}&amp;form_token=$!{services.csrf.getToken()}")",
     "canRestore" : $datt.canRestore(),
     "alreadyExists" : #if($originalDocument.getAttachment($datt.filename)) true #else false #end,
     "restoreUrl" : "$originalDocument.getAttachmentURL($datt.filename)",

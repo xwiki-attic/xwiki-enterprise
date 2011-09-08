@@ -41,32 +41,10 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-tool-jetty-resources</artifactId>
-      <version>${platform.version}</version>
-      <type>zip</type>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-web</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-tool-rootwebapp</artifactId>
-      <version>${platform.version}</version>
-      <type>war</type>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
+      <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
-      <scope>runtime</scope>
     </dependency>
   </dependencies>
   <build>
@@ -103,26 +81,6 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-remote-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>xwiki-platform-tool-configuration-resources</id>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <configuration>
-              <resourceBundles>
-                <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
-              </resourceBundles>
-              <properties>
-                  <xwiki.db.common.extraMappings>activitystream.hbm.xml</xwiki.db.common.extraMappings>
-                </properties>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
@@ -132,65 +90,23 @@
             </goals>
             <configuration>
               <artifactItems>
-                <!-- Expand Jetty startup/stop scripts in the container root directory -->
                 <artifactItem>
-                  <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-tool-jetty-resources</artifactId>
-                  <version>${platform.version}</version>
+                  <groupId>org.xwiki.enterprise</groupId>
+                  <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
+                  <version>${project.version}</version>
                   <type>zip</type>
-                  <outputDirectory>${xwiki.container}</outputDirectory>
-                  <!-- Only extract shell scripts -->
-                  <includes>**/*.sh,**/*.bat</includes>
-                </artifactItem>
-                <!-- Expand other Jetty container files into the Jetty directory -->
-                <artifactItem>
-                  <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-tool-jetty-resources</artifactId>
-                  <version>${platform.version}</version>
-                  <type>zip</type>
-                  <outputDirectory>${xwiki.container}</outputDirectory>
-                  <!-- Extracts everything excepts shell scripts -->
-                  <excludes>**/*.sh,**/*.bat</excludes>
+                  <!-- Extracts everything excepts database -->
+                  <excludes>*/database,*/database/**/*</excludes>
+                  <outputDirectory>${project.build.directory}/container</outputDirectory>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
-                  <artifactId>xwiki-enterprise-web</artifactId>
-                  <version>${project.version}</version>
-                  <type>war</type>
-                  <outputDirectory>${xwiki.container}/webapps/xwiki</outputDirectory>
-                  <!-- Exclude default Hibernate config file since we're instead using one with the
-                       selected database configuration defined. -->
-                  <excludes>**/hibernate.cfg.xml</excludes>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-tool-rootwebapp</artifactId>
-                  <version>${platform.version}</version>
-                  <type>war</type>
-                  <outputDirectory>${xwiki.container}/webapps/root</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.xwiki.enterprise</groupId>
-                  <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
+                  <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
                   <version>${project.version}</version>
                   <type>zip</type>
-                  <outputDirectory>${xwiki.database}</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy</id>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>${xwiki.db.jdbc.groupId}</groupId>
-                  <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
-                  <version>${xwiki.db.jdbc.version}</version>
-                  <outputDirectory>${xwiki.container}/webapps/xwiki/WEB-INF/lib</outputDirectory>
+                  <!-- Only extract database -->
+                  <includes>*/database/**/*</includes>
+                  <outputDirectory>${project.build.directory}/database</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -222,11 +138,10 @@
   </build>
   <properties>
     <izpack.compiler.version>4.2.1</izpack.compiler.version>
-    <xwiki.hibernate>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</xwiki.hibernate>
     <xwiki.license>${project.build.directory}/classes/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>
-    <xwiki.container>${project.build.directory}/container</xwiki.container>
-    <xwiki.database>${project.build.directory}/database</xwiki.database>
+    <xwiki.container>${project.build.directory}/container/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</xwiki.container>
+    <xwiki.database>${project.build.directory}/database/xwiki-enterprise-jetty-${xwiki.db}-${project.version}/database</xwiki.database>
     <xwiki.png>${project.build.directory}/classes/images/xwiki.png</xwiki.png>
     <xwiki.border1.png>${project.build.directory}/classes/images/border1.png</xwiki.border1.png>
     <xwiki.border2.png>${project.build.directory}/classes/images/border2.png</xwiki.border2.png>

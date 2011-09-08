@@ -496,31 +496,6 @@
         <executions>
           <execution>
             <id>xwiki-platform-tool-configuration-resources</id>
-            <!-- The remote resources plugin adds its output directory as a resource directory
-                 so that the Maven resources plugin copies these resources to target/classes.
-                 However copying them to target/classes will make them appear in WEB-INF/classes
-                 in the generated WAR since the WAR plugin copies resources in target/classes in
-                 WEB-INF/classes. Thus to prevent this we're binding this execution to a phase
-                 that comes after the execution of the resources plugin (which executes in the
-                 process-resources phase). Thus this remote resources plugin will execute just
-                 after the resources plugin and the resources won't be copied, which is why we're
-                 adding a webResource configuration element below in the WAR plugin's
-                 configuration. -->
-            <phase>process-resources</phase>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <configuration>
-              <resourceBundles>
-                <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
-              </resourceBundles>
-              <properties>
-                <xwikiDbHbmCommonExtraMappings>${xwikiDbHbmCommonExtraMappings}</xwikiDbHbmCommonExtraMappings>
-                <xwikiCfgPlugins>${xwikiCfgPlugins}</xwikiCfgPlugins>
-                <xwikiCfgDefaultSkin>${xwikiCfgDefaultSkin}</xwikiCfgDefaultSkin>
-                <xwikiCfgDefaultBaseSkin>${xwikiCfgDefaultBaseSkin}</xwikiCfgDefaultBaseSkin>
-              </properties>
-            </configuration>
           </execution>
         </executions>
       </plugin>

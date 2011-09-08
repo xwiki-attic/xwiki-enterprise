@@ -33,6 +33,9 @@
   <name>XWiki Enterprise - Database - HSQLDB</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Database - HSQLDB</description>
+  <properties>
+    <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+  </properties>
   <!-- Required for the exec:exec plugin execution below. Doesn't seem to work as an exec plugin
        dependency -->
   <dependencies>
@@ -52,11 +55,6 @@
         <executions>
           <execution>
             <id>xwiki-platform-tool-configuration-resources</id>
-            <configuration>
-              <properties>
-                <xwikiDbConnectionUrl>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwikiDbConnectionUrl>
-              </properties>
-            </configuration>
           </execution>
         </executions>
       </plugin>

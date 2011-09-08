@@ -115,7 +115,7 @@
                 <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
               </resourceBundles>
               <properties>
-                  <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
+                  <xwiki.db.common.extraMappings>activitystream.hbm.xml</xwiki.db.common.extraMappings>
                 </properties>
             </configuration>
           </execution>

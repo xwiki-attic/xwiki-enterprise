@@ -33,6 +33,10 @@
   <name>XWiki Enterprise - Database - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Database - Parent POM</description>
+  <properties>
+    <!-- Disable plugins mappings -->
+    <xwiki.db.common.extraMappings></xwiki.db.common.extraMappings>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
@@ -47,23 +51,6 @@
       <plugins>
         <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
        plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-remote-resources-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>xwiki-platform-tool-configuration-resources</id>
-              <goals>
-                <goal>process</goal>
-              </goals>
-              <configuration>
-                <resourceBundles>
-                  <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
-                </resourceBundles>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
         <!-- Step 2: Expand the XAR file -->
         <plugin>
           <groupId>org.xwiki.commons</groupId>

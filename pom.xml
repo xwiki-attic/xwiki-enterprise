@@ -45,9 +45,9 @@
     <url>http://jira.xwiki.org/jira/browse/XE</url>
   </issueManagement>
   <modules>
+    <module>xwiki-enterprise-web</module>
     <module>xwiki-enterprise-wiki</module>
     <module>xwiki-enterprise-database</module>
-    <module>xwiki-enterprise-web</module>
     <module>xwiki-enterprise-distribution</module>
   </modules>
   <properties>
@@ -63,10 +63,12 @@
          the build take longer than needed (since it downloads the previous versions). -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
     
-    <!-- Configuration -->
-    <xwikiCfgVirtual>0</xwikiCfgVirtual>
-    <xe.xwikiCfgPlugins>\
-  com.xpn.xwiki.monitor.api.MonitorPlugin,\
+    <!-- Hibernate configuration -->
+    <xwiki.db.common.extraMappings>activitystream.hbm.xml</xwiki.db.common.extraMappings>
+    <!-- xwiki.cfg configuration -->
+    <xwiki.cfg.virtual>0</xwiki.cfg.virtual>
+    <xe.xwiki.cfg.plugins>\
+  com.xpn.xwiki.monitor.api.MonitototorPlugin,\
   com.xpn.xwiki.plugin.skinx.JsSkinExtensionPlugin,\
   com.xpn.xwiki.plugin.skinx.JsSkinFileExtensionPlugin,\
   com.xpn.xwiki.plugin.skinx.CssSkinExtensionPlugin,\
@@ -95,13 +97,14 @@
   com.xpn.xwiki.plugin.activitystream.plugin.ActivityStreamPlugin, \
   com.xpn.xwiki.plugin.watchlist.WatchListPlugin, \
   com.xpn.xwiki.plugin.tag.TagPlugin
-    </xe.xwikiCfgPlugins>
-    <xwikiCfgPlugins>${xe.xwikiCfgPlugins}
-    </xwikiCfgPlugins>
-    <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
-    <xwikiCfgDefaultSkin>colibri</xwikiCfgDefaultSkin>
-    <xwikiCfgDefaultBaseSkin>colibri</xwikiCfgDefaultBaseSkin>
-    <xwikiCfgAdditionalProperties></xwikiCfgAdditionalProperties>
+    </xe.xwiki.cfg.plugins>
+    <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins}
+    </xwiki.cfg.plugins>
+    <xwiki.cfg.defaultskin>colibri</xwiki.cfg.defaultskin>
+    <xwiki.cfg.defaultbaseskin>colibri</xwiki.cfg.defaultbaseskin>
+    <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
+    <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
+    <xwiki.cfg.additionalproperties></xwiki.cfg.additionalproperties>
   </properties>
   <build>
     <pluginManagement>
@@ -119,7 +122,14 @@
           <executions>
             <execution>
               <id>xwiki-platform-tool-configuration-resources</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>process</goal>
+              </goals>
               <configuration>
+                <resourceBundles>
+                  <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
+                </resourceBundles>
                 <properties>
                   <!-- Default configuration data for hibernate.cfg.xml -->
                   <xwikiDbConnectionUrl>${xwiki.db.connection.url}</xwikiDbConnectionUrl>
@@ -129,35 +139,16 @@
                   <xwikiDbDialect>${xwiki.db.dialect}</xwikiDbDialect>
                   <xwikiDbHbmXwiki>${xwiki.db.hbm.xwiki}</xwikiDbHbmXwiki>
                   <xwikiDbHbmFeeds>${xwiki.db.hbm.feeds}</xwikiDbHbmFeeds>
+                  <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
+
                   <!-- Default configuration data for xwiki.cfg -->
-                  <xwikiCfgPlugins>\
-                    com.xpn.xwiki.monitor.api.MonitorPlugin,\
-                    com.xpn.xwiki.plugin.calendar.CalendarPlugin,\
-                    com.xpn.xwiki.plugin.feed.FeedPlugin,\
-                    com.xpn.xwiki.plugin.ldap.LDAPPlugin,\
-                    com.xpn.xwiki.plugin.google.GooglePlugin,\
-                    com.xpn.xwiki.plugin.mail.MailPlugin,\
-                    com.xpn.xwiki.plugin.packaging.PackagePlugin,\
-                    com.xpn.xwiki.plugin.query.QueryPlugin,\
-                    com.xpn.xwiki.plugin.svg.SVGPlugin,\
-                    com.xpn.xwiki.plugin.charts.ChartingPlugin,\
-                    com.xpn.xwiki.plugin.fileupload.FileUploadPlugin,\
-                    com.xpn.xwiki.plugin.image.ImagePlugin,\
-                    com.xpn.xwiki.plugin.userdirectory.UserDirectoryPlugin,\
-                    com.xpn.xwiki.plugin.usertools.XWikiUserManagementToolsImpl,\
-                    com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
-                    com.xpn.xwiki.plugin.autotag.AutoTagPlugin,\
-                    com.xpn.xwiki.plugin.lucene.LucenePlugin,\
-                    com.xpn.xwiki.plugin.diff.DiffPlugin,\
-                    com.xpn.xwiki.plugin.rightsmanager.RightsManagerPlugin
-                  </xwikiCfgPlugins>
-                  <xwikiCfgVirtual>0</xwikiCfgVirtual>
-                  <xwikiCfgExo>0</xwikiCfgExo>
-                  <xwikiCfgEditCommentMandatory>0</xwikiCfgEditCommentMandatory>
-                  <xwikiCfgDefaultSkin>colibri</xwikiCfgDefaultSkin>
-                  <xwikiCfgDefaultBaseSkin>colibri</xwikiCfgDefaultBaseSkin>
-                  <xwikiCfgEncoding>UTF-8</xwikiCfgEncoding>
-                  <xwikiCfgAdditionalProperties />
+                  <xwikiCfgPlugins>${xwiki.cfg.plugins}</xwikiCfgPlugins>
+                  <xwikiCfgVirtual>${xwiki.cfg.virtual}</xwikiCfgVirtual>
+                  <xwikiCfgEditCommentMandatory>${xwiki.cfg.editcomment.mandatory}</xwikiCfgEditCommentMandatory>
+                  <xwikiCfgDefaultSkin>${xwiki.cfg.defaultskin}</xwikiCfgDefaultSkin>
+                  <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
+                  <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
+                  <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
                 </properties>
               </configuration>
             </execution>

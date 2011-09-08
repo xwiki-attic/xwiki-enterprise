@@ -91,7 +91,7 @@
               </resourceBundles>
               <properties>
                 <xwikiDbConnectionUrl>jdbc:hsqldb:hsql://localhost/xwiki_db</xwikiDbConnectionUrl>
-                <xwikiDbHbmCommonExtraMappings>activitystream.hbm.xml</xwikiDbHbmCommonExtraMappings>
+                <xwiki.db.common.extraMappings>activitystream.hbm.xml</xwiki.db.common.extraMappings>
               </properties>
             </configuration>
           </execution>

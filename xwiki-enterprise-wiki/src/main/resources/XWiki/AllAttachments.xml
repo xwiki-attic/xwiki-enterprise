@@ -113,21 +113,21 @@ if (typeof XWiki.index == "undefined") {
 }
 
 var mimetypes = {
-  "image/svg"                     : { "src" : "$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" : "SVG",  "title" : "SVG" },
-  "application/svg+xml"           : { "src" : "$xwiki.getSkinFile('mimetypes/vectorgfx.png')", "alt" : "SVG",  "title" : "SVG" },
-  "text/plain"                    : { "src" : "$xwiki.getSkinFile('mimetypes/txt.png')",       "alt" : "Text", "title" : "Text"},
-  "text/html"                     : { "src" : "$xwiki.getSkinFile('mimetypes/html.png')",      "alt" : "HTML", "title" : "HTML"},
-  "text/css"                      : { "src" : "$xwiki.getSkinFile('mimetypes/url.png')",       "alt" : "CSS",  "title" : "CSS" },
-  "application/xml"               : { "src" : "$xwiki.getSkinFile('mimetypes/xml.png')",       "alt" : "CSS",  "title" : "CSS" },
-  "application/pdf"               : { "src" : "$xwiki.getSkinFile('mimetypes/pdf.png')",       "alt" : "PDF",  "title" : "PDF" },
-  "application/postscript"        : { "src" : "$xwiki.getSkinFile('mimetypes/ps.png')",        "alt" : "PS",   "title" : "PS"  },
-  "application/msword"            : { "src" : "$xwiki.getSkinFile('mimetypes/word.png')",      "alt" : "Word", "title" : "Word"},
-  "application/powerpoint"        : { "src" : "$xwiki.getSkinFile('mimetypes/ppt.png')",       "alt" : "PPT",  "title" : "PPT" },
-  "application/x-shockwave-flash" : { "src" : "$xwiki.getSkinFile('mimetypes/swf.png')",       "alt" : "SWF",  "title" : "SWF" },
-  "application/x-tar"             : { "src" : "$xwiki.getSkinFile('mimetypes/tar.png')",       "alt" : "TAR",  "title" : "TAR" },
-  "application/zip"               : { "src" : "$xwiki.getSkinFile('mimetypes/zip1.png')",      "alt" : "ZIP",  "title" : "ZIP" },
-  "application/x-gzip"            : { "src" : "$xwiki.getSkinFile('mimetypes/tar_gz.png')",    "alt" : "GZ",   "title" : "GZ"  },
-  "application/java-archive"      : { "src" : "$xwiki.getSkinFile('mimetypes/jar.png')",       "alt" : "JAR",  "title" : "JAR" }
+  "image/svg"                     : { "src" : "$xwiki.getSkinFile('icons/silk/vector.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.svg")}", "title" : "${msg.get("core.viewers.attachments.mime.svg")}" },
+  "application/svg+xml"           : { "src" : "$xwiki.getSkinFile('icons/silk/vector.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.svg")}", "title" : "${msg.get("core.viewers.attachments.mime.svg")}" },
+  "text/plain"                    : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_text.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.text")}", "title" : "${msg.get("core.viewers.attachments.mime.text")}"},
+  "text/html"                     : { "src" : "$xwiki.getSkinFile('icons/silk/html.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.html")}", "title" : "${msg.get("core.viewers.attachments.mime.html")}"},
+  "text/css"                      : { "src" : "$xwiki.getSkinFile('icons/silk/css.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.css")}", "title" : "${msg.get("core.viewers.attachments.mime.css")}" },
+  "application/xml"               : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_code.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.xml")}", "title" : "${msg.get("core.viewers.attachments.mime.xml")}" },
+  "application/pdf"               : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_acrobat.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.pdf")}", "title" : "${msg.get("core.viewers.attachments.mime.pdf")}" },
+  "application/postscript"        : { "src" : "$xwiki.getSkinFile('icons/silk/page_red.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.ps")}",   "title" : "${msg.get("core.viewers.attachments.mime.ps")}"  },
+  "application/msword"            : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_word.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.document")}", "title" : "${msg.get("core.viewers.attachments.mime.document")}"},
+  "application/powerpoint"        : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_powerpoint.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.presentation")}", "title" : "${msg.get("core.viewers.attachments.mime.presentation")}" },
+  "application/x-shockwave-flash" : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_flash.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.flash")}", "title" : "${msg.get("core.viewers.attachments.mime.flash")}" },
+  "application/x-tar"             : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_compressed.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.tar")}", "title" : "${msg.get("core.viewers.attachments.mime.tar")}" },
+  "application/zip"               : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_zip.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.zip")}", "title" : "${msg.get("core.viewers.attachments.mime.zip")}" },
+  "application/x-gzip"            : { "src" : "$xwiki.getSkinFile('icons/silk/page_white_compressed.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.gz")}", "title" : "${msg.get("core.viewers.attachments.mime.gz")}"  },
+  "application/java-archive"      : { "src" : "$xwiki.getSkinFile('icons/silk/cup.gif')", "alt" : "${msg.get("core.viewers.attachments.mime.jar")}", "title" : "${msg.get("core.viewers.attachments.mime.jar")}" }
 };
 
 /**
@@ -142,42 +142,42 @@ function getMimeTypeImage(type) {
     image = new Element('img',{'src':mimetypes[type].src,'alt':mimetypes[type].alt,'title':mimetypes[type].title});
   }
   else if(type.match(/^image\//)) {
-    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/jpg.png')", 'alt':"Image", 'title': "Image"});
+    image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/picture.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.image")}", 'title': "${msg.get("core.viewers.attachments.mime.image")}"});
   }
   else if(type.match(/^text\//)) {
-    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/txt.png')", 'alt':"Text", 'title': "Text"});
+    image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/page_white_text.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.text")}", 'title': "${msg.get("core.viewers.attachments.mime.text")}"});
   }
   else if(type.match(/^audio\//)){
-    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/wav.png')", 'alt':"Audio", 'title': "Audio"});
+    image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/music.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.audio")}", 'title': "${msg.get("core.viewers.attachments.mime.audio")}"});
   }
   else if(type.match(/^video\//)){
-    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/video.png')", 'alt':"Video", 'title': "Video"});
+    image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/film.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.video")}", 'title': "${msg.get("core.viewers.attachments.mime.video")}"});
   }
   else if(type=="application/octet-stream") {
     if (type.match(/\.xls$/)) {
-      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/excel.png')", 'alt':"XLS", 'title': "XLS"});
+      image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/page_white_excel.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.spreadsheet")}", 'title': "${msg.get("core.viewers.attachments.mime.spreadsheet")}"});
     }
     else if (type.match(/\.bz$/)) {
-      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/tar_bz.png')", 'alt':"BZ", 'title': "BZ"});
+      image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/page_white_compressed.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.bz")}", 'title': "${msg.get("core.viewers.attachments.mime.bz")}"});
     }
     else if (type.match(/\.tgz$/)) {
-      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/tar_gz.png')", 'alt':"GZ", 'title': "GZ"});
+      image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/page_white_compressed.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.gz")}", 'title': "${msg.get("core.viewers.attachments.mime.gz")}"});
     }
     else if (type.match(/\.rar$/)) {
-      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/zip1.png')", 'alt':"RAR", 'title': "RAR"});
+      image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/page_white_compressed.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.rar")}", 'title': "${msg.get("core.viewers.attachments.mime.rar")}"});
     }
     else if (type.match(/\.(odt|odp|odf|ods|sxw|stw)$/)) {
-      image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/openoffice.png')", 'alt':"OOo", 'title': "OOo"});
+      image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/page.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.office")}", 'title': "${msg.get("core.viewers.attachments.mime.office")}"});
     }
   } 
   else if (type.match(/^application\//)) {
-    image = new Element('img', {'src':"$xwiki.getSkinFile('mimetypes/exec.png')", 'alt':"Application", 'title': "Application"});
+    image = new Element('img', {'src':"$xwiki.getSkinFile('icons/silk/cog.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.exe")}", 'title': "${msg.get("core.viewers.attachments.mime.exe")}"});
   }
   if (typeof image == "undefined") {
-    image = new Element('img', {'src': "$xwiki.getSkinFile('mimetypes/bin.png')", 'alt':"BIN", 'title': "BIN"});
+    image = new Element('img', {'src': "$xwiki.getSkinFile('icons/silk/page_white.gif')", 'alt':"${msg.get("core.viewers.attachments.mime.attachment")}", 'title': "${msg.get("core.viewers.attachments.mime.attachment")}"});
   }
-  image.style.width = '20px';
-  image.style.height = '20px';
+  image.style.width = '16px';
+  image.style.height = '16px';
   return image;
 }
 

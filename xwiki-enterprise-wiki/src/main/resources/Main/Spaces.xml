@@ -143,7 +143,7 @@
 <property>
 <code>#template('colorThemeInit.vm')
 #spSpaceCreateItem {
-  background-image: url($xwiki.getSkinFile("icons/silk/folder_add.gif"));
+  background-image: url("$xwiki.getSkinFile('icons/silk/folder_add.gif')");
 }
 
 ul.xlist li.space div.spSpaceName {

@@ -189,10 +189,6 @@
                 <name>filesProduceNoOutput</name><!-- NOTE: Only affects automatic tests -->
                 <!-- list of file names -->
                 <value>
-                    skins/albatross/contentmenu.vm
-                    skins/albatross/editpanelsvars.vm
-                    skins/albatross/macros.vm
-                    skins/albatross/shortcuts.vm
                     skins/toucan/contentmenu.vm
                     skins/toucan/editmodes.vm
                     skins/toucan/editpanelsvars.vm

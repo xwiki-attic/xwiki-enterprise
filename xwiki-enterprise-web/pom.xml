@@ -340,13 +340,6 @@
          practice to put them here since they are real dependencies -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-albatross</artifactId>
-      <version>${platform.version}</version>
-      <type>zip</type>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-colibri</artifactId>
       <version>${platform.version}</version>
       <type>zip</type>
@@ -512,13 +505,6 @@
             </goals>
             <configuration>
               <artifactItems>
-                <!-- Unpack the Albatross skin -->
-                <artifactItem>
-                  <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-albatross</artifactId>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/skin</outputDirectory>
-                </artifactItem>
                 <!-- Unpack the Toucan skin -->
                 <artifactItem>
                   <groupId>org.xwiki.platform</groupId>

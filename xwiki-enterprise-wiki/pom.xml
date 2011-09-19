@@ -93,7 +93,13 @@
       <artifactId>xwiki-platform-extension-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
-    </dependency>  
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-sheet-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
   </dependencies>
   <build>
     <extensions>

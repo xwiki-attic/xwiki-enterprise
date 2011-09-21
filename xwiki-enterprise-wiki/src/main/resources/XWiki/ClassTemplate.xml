@@ -23,14 +23,42 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.DocumentSheetBinding</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<sheet>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>sheet</name>
+<number>1</number>
+<picker>0</picker>
+<prettyName>Sheet</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</sheet>
+</class>
+<name>XWiki.ClassTemplate</name>
+<number>0</number>
+<className>XWiki.DocumentSheetBinding</className>
+<guid>4236a78b-13cd-49db-aa31-45ae80a10334</guid>
+<property>
+<sheet>XWiki.ClassSheet</sheet>
+</property>
+</object>
 <content>{{velocity}}
 ## Replace Main with the Space where you want your documents to be created.
 ## Replace the default parent with the one of your choice and save the document.
 ##
-#set($className = $doc.name.substring(0, $doc.name.indexOf("Class")))
-#set($defaultParent = "${doc.space}.${className}Class")
+#set($defaultParent = $doc.fullName)
 #set($defaultSpace = 'Main')
-{{/velocity}}
-
-{{include document="XWiki.ClassSheet"/}}</content>
-</xwikidoc>
+{{/velocity}}</content></xwikidoc>

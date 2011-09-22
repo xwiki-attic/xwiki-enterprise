@@ -62,7 +62,7 @@
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
          the build take longer than needed (since it downloads the previous versions). -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
-    
+
     <!-- Hibernate configuration -->
     <xwiki.db.common.extraMappings>activitystream.hbm.xml</xwiki.db.common.extraMappings>
     <!-- xwiki.cfg configuration -->
@@ -104,7 +104,8 @@
     <xwiki.cfg.defaultbaseskin>colibri</xwiki.cfg.defaultbaseskin>
     <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
-    <xwiki.cfg.additionalproperties>xwiki.work.dir=work</xwiki.cfg.additionalproperties>
+    <xwiki.cfg.additionalproperties>xwiki.work.dir=data</xwiki.cfg.additionalproperties>
+    <xwiki.properties.container.persistentDirectory>data</xwiki.properties.container.persistentDirectory>
   </properties>
   <build>
     <pluginManagement>
@@ -149,6 +150,7 @@
                   <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
                   <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
                   <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
+                  <xwikiPropertiesContainerPersistentDirectory>${xwiki.properties.container.persistentDirectory}</xwikiPropertiesContainerPersistentDirectory>
                 </properties>
               </configuration>
             </execution>

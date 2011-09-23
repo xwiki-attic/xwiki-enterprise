@@ -523,7 +523,9 @@ public class TestUtils
 
     public boolean isInInlineEditMode()
     {
-        return getDriver().getCurrentUrl().contains("/inline/");
+        String currentURL = getDriver().getCurrentUrl();
+        // Keep checking the deprecated inline action for backward compatibility.
+        return currentURL.contains("editor=inline") || currentURL.contains("/inline/");
     }
 
     public boolean isInRightsEditMode()

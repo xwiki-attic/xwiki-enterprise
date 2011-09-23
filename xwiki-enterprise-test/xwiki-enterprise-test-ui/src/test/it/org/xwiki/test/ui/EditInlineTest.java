@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,6 +29,7 @@ import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.po.platform.InlinePage;
 import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.po.platform.editor.ObjectEditPage;
 import org.xwiki.test.po.platform.editor.WikiEditPage;
 import org.xwiki.test.po.tag.TaggablePage;
 
@@ -115,17 +119,34 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testEditModeCanBeSet()
     {
-        String initialContent = null;
+        int step = 0;
         try {
             ProfileUserProfilePage pupp = ProfileUserProfilePage.gotoPage("Admin");
-            WikiEditPage wep = pupp.editWiki();
-            initialContent = wep.getContent();
-            wep.setContent("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n" + initialContent);
+
+            // Overwrite the sheet that is automatically applied.
+            ObjectEditPage objectEditor = pupp.editObjects();
+            objectEditor.addObject("XWiki.DocumentSheetBinding");
+            step++;
+
+            WikiEditPage wep = objectEditor.editWiki();
+            // Overwrite the default display mode and manually call the sheet.
+            wep.setContent("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n\n"
+                + "{{include document=\"XWiki.XWikiUserSheet\" /}}");
             wep.clickSaveAndView();
+            step++;
+
             Assert.assertTrue(getDriver().getPageSource().contains("XWiki.XWikiUsers_0_last_name"));
         } finally {
-            if (initialContent != null) {
-                getUtil().gotoPage("XWiki", "Admin", "save", "content=" + initialContent);
+            if (step > 0) {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("classname", "XWiki.DocumentSheetBinding");
+                parameters.put("classid", "0");
+                if (step > 1) {
+                    // Reset the content.
+                    parameters.put("xredirect", getUtil().getURL("XWiki", "Admin", "save", "content="));
+                }
+                // Reset the default sheet.
+                getUtil().gotoPage("XWiki", "Admin", "objectremove", parameters);
             }
         }
     }

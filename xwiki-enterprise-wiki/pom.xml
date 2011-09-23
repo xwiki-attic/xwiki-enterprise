@@ -15,90 +15,105 @@
       <artifactId>xwiki-platform-panels</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-administration</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-scheduler-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-watchlist-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-statistics</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-search-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-blog</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-office-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-webdav-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-tag-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-rendering-wikimacro-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-annotation-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-invitation</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-extension-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-sheet-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>

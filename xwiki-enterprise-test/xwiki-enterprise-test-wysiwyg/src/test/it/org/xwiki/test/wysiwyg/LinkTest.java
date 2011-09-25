@@ -1481,16 +1481,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         // another error, go next, previous, error should not be there anymore. Get another error, close dialog. Open
         // again, get there, the error should not be displayed.
         openLinkDialog(MENU_WIKI_PAGE);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xPagesRecent");
+        waitForStepAggregatorAndAssertSelectedStep(RECENT_PAGES_TAB);
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkToNewPage");
         clickButtonWithText(BUTTON_LINK_SETTINGS);
         assertFieldErrorIsPresentInStep("The name of the new page was not set", "//input", "xLinkToNewPage");
         clickButtonWithText("Previous");
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xPagesRecent");
+        waitForStepAggregatorAndAssertSelectedStep(RECENT_PAGES_TAB);
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
         // error not present on coming back from previous
@@ -1512,8 +1510,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         closeDialog();
         // open again, check the error is not still there
         openLinkDialog(MENU_WIKI_PAGE);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xPagesRecent");
+        waitForStepAggregatorAndAssertSelectedStep(RECENT_PAGES_TAB);
         assertElementPresent("//div[contains(@class, 'xListItem-selected')]/div[contains(@class, 'xNewPagePreview')]");
         clickButtonWithText(BUTTON_SELECT);
         // error not present when re-creating a link
@@ -1529,8 +1526,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xExplorerPanel");
+        waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "");
@@ -1539,8 +1535,7 @@ public class LinkTest extends AbstractWysiwygTestCase
             "xLinkConfig");
         // previous, next => error is not present
         clickButtonWithText("Previous");
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xExplorerPanel");
+        waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // error, again, to close this time
@@ -1551,8 +1546,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         closeDialog();
         // now again, check that the error is no longer there
         openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xExplorerPanel");
+        waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // get an error
@@ -1565,8 +1559,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_CREATE_LINK);
         // now open again, check error is not there anymore
         openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xExplorerPanel");
+        waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         closeDialog();
@@ -1578,8 +1571,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xExplorerPanel");
+        waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         explorer.waitForPageSelected("Blog", "WebHome");
         // Lookup a page that doesn't exist to clear the selection.
         explorer.lookupEntity("NewSpace.NewPage");
@@ -1608,7 +1600,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         closeDialog();
         openLinkDialog(MENU_LINK_EDIT);
-        waitForStepToLoad("xSelectorAggregatorStep");
+        waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         assertFieldErrorIsNotPresentInStep("xExplorerPanel");
         closeDialog();
     }
@@ -1649,7 +1641,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String currentPageLocation = String.format(PAGE_LOCATION, this.getClass().getSimpleName(), getName());
         String label = "barfoo";
         openLinkDialog(MENU_WIKI_PAGE);
-        waitForStepToLoad("xPagesRecent");
+        waitForStepAggregatorAndAssertSelectedStep(RECENT_PAGES_TAB);
         getSelenium().click(
             "//div[contains(@class, 'xPagesSelector')]//div[contains(@class, 'gwt-Label') and .='"
                 + currentPageLocation + "']");
@@ -1672,8 +1664,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         label = "foobar";
 
         openLinkDialog(MENU_WIKI_PAGE);
-        waitForStepToLoad("xSelectorAggregatorStep");
-        waitForStepToLoad("xPagesRecent");
+        waitForStepAggregatorAndAssertSelectedStep(RECENT_PAGES_TAB);
         // select the current page
         getSelenium().click("//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]");
         getSelenium().keyUp(ITEMS_LIST, "\\13");
@@ -2017,5 +2008,18 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         waitForStepToLoad(step);
         assertFieldErrorIsNotPresent();
+    }
+
+    /**
+     * Waits for the step aggregator to load and asserts the specified step is selected.
+     * 
+     * @param selectedStepTitle the title of step that is expected to be selected
+     */
+    private void waitForStepAggregatorAndAssertSelectedStep(String selectedStepTitle)
+    {
+        waitForElement("//*[@class = 'xSelectorAggregatorStep']/"
+            + "*[contains(@class, 'xStepsTabs') and not(contains(@class, 'loading'))]");
+        assertElementPresent("//*[contains(@class, 'xStepsTabs')]"
+            + "//*[contains(@class, 'gwt-TabBarItem-selected') and . = '" + selectedStepTitle + "']");
     }
 }

@@ -58,8 +58,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     public void testInlineEditCanChangeTitle()
     {
         String title = RandomStringUtils.randomAlphanumeric(4);
-        getUtil()
-            .gotoPage(getClass().getSimpleName(), testName.getMethodName(), "edit", "editor=inline&title=" + title);
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", "editor=inline&title=" + title);
         InlinePage inlinePage = new InlinePage();
         // Check if the title specified on the request is properly displayed.
         Assert.assertEquals(title, inlinePage.getDocumentTitle());
@@ -75,8 +74,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testInlineEditCanChangeParent()
     {
-        getUtil().gotoPage(getClass().getSimpleName(), testName.getMethodName(), "edit",
-            "editor=inline&parent=Main.WebHome");
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", "editor=inline&parent=Main.WebHome");
         ViewPage vp = new InlinePage().clickSaveAndView();
         Assert.assertTrue(vp.hasBreadcrumbContent("Wiki Home", false));
     }
@@ -86,7 +84,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     public void testInlineEditPreservesTitle()
     {
         String title = RandomStringUtils.randomAlphanumeric(4);
-        getUtil().gotoPage(getClass().getSimpleName(), testName.getMethodName(), "save", "title=" + title);
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "title=" + title);
         ViewPage vp = new ViewPage();
         Assert.assertEquals(title, vp.getDocumentTitle());
         InlinePage ip = vp.editInline();
@@ -98,7 +96,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testInlineEditPreservesParent()
     {
-        getUtil().gotoPage(getClass().getSimpleName(), testName.getMethodName(), "save", "parent=Blog.WebHome");
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "parent=Blog.WebHome");
         ViewPage vp = new ViewPage();
         Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog", false));
         InlinePage ip = vp.editInline();
@@ -112,7 +110,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     {
         String tag1 = RandomStringUtils.randomAlphanumeric(4);
         String tag2 = RandomStringUtils.randomAlphanumeric(4);
-        getUtil().gotoPage(getClass().getSimpleName(), testName.getMethodName(), "save", "tags=" + tag1 + "|" + tag2);
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "tags=" + tag1 + "|" + tag2);
         TaggablePage taggablePage = new TaggablePage();
         Assert.assertTrue(taggablePage.hasTag(tag1));
         Assert.assertTrue(taggablePage.hasTag(tag2));

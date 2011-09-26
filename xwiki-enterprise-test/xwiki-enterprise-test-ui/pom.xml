@@ -56,32 +56,17 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-      <!-- Step 2: Create jar containing integration tests which will be installed -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <configuration>
-              <includes>
-                <include>**/elements/**/*.class</include>
-                <include>**/framework/**/*.class</include>
-              </includes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Step 3: Process the test resources -->
+      <!-- Step 2: Process the test resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>      
-      <!-- Step 4: Unpack the application -->
+      <!-- Step 3: Unpack the application -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
-      <!-- Step 5: Execute the tests (they start/stop XE) -->
+      <!-- Step 4: Execute the tests (they start/stop XE) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>

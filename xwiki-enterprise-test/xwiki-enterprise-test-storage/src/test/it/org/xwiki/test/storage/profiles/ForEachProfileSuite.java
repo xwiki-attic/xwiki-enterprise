@@ -20,11 +20,12 @@
 package org.xwiki.test.storage.profiles;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.extensions.cpsuite.ClasspathClassesFinder;
@@ -33,7 +34,6 @@ import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.test.integration.XWikiExecutor;
 
@@ -56,9 +56,6 @@ public class ForEachProfileSuite extends ClasspathSuite
         super(klass, builder);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected List<Runner> getChildren()
     {
@@ -74,9 +71,6 @@ public class ForEachProfileSuite extends ClasspathSuite
         return runners;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void run(RunNotifier notifier)
     {
@@ -119,10 +113,10 @@ public class ForEachProfileSuite extends ClasspathSuite
                     Object instance = this.getTestClass().getJavaClass().newInstance();
 
                     // If there is a field which is an XWikiExecutor type
-                    // and has an @Requirement annotation, inject the current executor.
+                    // and has an @Inject annotation, inject the current executor.
                     for (Field field : this.getTestClass().getJavaClass().getDeclaredFields()) {
                         if (field.getType() == XWikiExecutor.class
-                            && field.getAnnotation(Requirement.class) != null)
+                            && field.getAnnotation(Inject.class) != null)
                         {
                             field.setAccessible(true);
                             field.set(instance, executor);

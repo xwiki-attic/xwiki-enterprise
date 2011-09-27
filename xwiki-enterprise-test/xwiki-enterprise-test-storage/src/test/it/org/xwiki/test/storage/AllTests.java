@@ -19,8 +19,9 @@
  */
 package org.xwiki.test.storage;
 
+import javax.inject.Inject;
+
 import org.junit.runner.RunWith;
-import org.xwiki.component.annotation.Requirement;
 import org.xwiki.component.phase.Initializable;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.storage.framework.AbstractTest;
@@ -35,7 +36,7 @@ import org.xwiki.test.storage.profiles.ForEachProfileSuite;
 @RunWith(ForEachProfileSuite.class)
 public class AllTests implements Initializable
 {
-    @Requirement
+    @Inject
     private XWikiExecutor executor;
 
     public void initialize()

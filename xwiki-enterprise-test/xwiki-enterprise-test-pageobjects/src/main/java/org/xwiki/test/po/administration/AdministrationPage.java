@@ -21,6 +21,7 @@ package org.xwiki.test.po.administration;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.xwiki.test.po.extension.ExtensionsAdminPage;
 import org.xwiki.test.po.platform.ViewPage;
 
 /**
@@ -48,6 +49,9 @@ public class AdministrationPage extends ViewPage
 
     @FindBy(xpath = "//a[contains(@href, 'section=Annotations')]")
     WebElement annotationsLink;
+    
+    @FindBy(xpath = "//a[contains(@href, 'section=Extension Manager')]")
+    WebElement extensionsLink;
 
     public static AdministrationPage gotoPage()
     {
@@ -89,5 +93,11 @@ public class AdministrationPage extends ViewPage
     {
         this.annotationsLink.click();
         return new AnnotationsPage();
+    }
+    
+    public ExtensionsAdminPage clickExtensionsSection()
+    {
+        this.extensionsLink.click();
+        return new ExtensionsAdminPage();
     }
 }

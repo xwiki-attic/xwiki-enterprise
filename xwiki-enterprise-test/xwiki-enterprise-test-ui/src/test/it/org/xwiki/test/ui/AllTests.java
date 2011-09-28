@@ -19,7 +19,8 @@
  */
 package org.xwiki.test.ui;
 
-import org.xwiki.test.po.AbstractAllTests;
+import org.junit.runner.RunWith;
+import org.xwiki.test.po.PageObjectSuite;
 
 /**
  * Runs all functional tests found in the classpath.
@@ -27,6 +28,7 @@ import org.xwiki.test.po.AbstractAllTests;
  * @version $Id$
  * @since 2.3M1
  */
-public class AllTests extends AbstractAllTests
+@RunWith(PageObjectSuite.class)
+public class AllTests
 {
 }

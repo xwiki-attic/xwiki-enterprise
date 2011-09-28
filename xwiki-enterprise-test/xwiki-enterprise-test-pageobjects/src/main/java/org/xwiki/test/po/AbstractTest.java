@@ -55,7 +55,7 @@ public class AbstractTest
      * <p>
      * The reason we need this is simply to overcome a deficiency in error reporting in Jenkins. The reason is that
      * Jenkins bases its test reporting on the Maven Surefire plugin reporting which itself is using a file to report
-     * test status. Since ui-tests are using a test suite, {@link AbstractAllTests}, there's only a single file generated and
+     * test status. Since ui-tests are using a test suite, {@link PageObjectSuite}, there's only a single file generated and
      * it's only generated when all tests have finished executing. Thus if a test hangs there won't be any file
      * generated and looking at the Jenkins UI it won't be possible to see which tests have executed.
      * <p>

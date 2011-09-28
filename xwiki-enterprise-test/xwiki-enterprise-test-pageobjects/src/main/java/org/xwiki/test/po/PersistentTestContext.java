@@ -43,7 +43,18 @@ public class PersistentTestContext
     public PersistentTestContext() throws Exception
     {
         this.executor = new XWikiExecutor(0);
-        executor.start();
+        this.executor.start();
+
+        // Use a wrapping driver to display more information when there are failures.
+        this.driver = new XWikiWrappingDriver(new FirefoxDriver(), getUtil());
+
+        // Wait when trying to find elements on the page till the timeout expires
+        getUtil().setDriverImplicitWait(this.driver);
+    }
+
+    public PersistentTestContext(XWikiExecutor executor) throws Exception
+    {
+        this.executor = executor;
 
         // Use a wrapping driver to display more information when there are failures.
         this.driver = new XWikiWrappingDriver(new FirefoxDriver(), getUtil());

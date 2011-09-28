@@ -51,6 +51,7 @@ public class AdministrationSectionPage extends ViewPage
     {
         AdministrationSectionPage page = new AdministrationSectionPage(section);
         page.getDriver().get(page.getURL());
+
         return page;
     }
 

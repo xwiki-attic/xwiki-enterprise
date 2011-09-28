@@ -20,7 +20,11 @@
 package org.xwiki.test.po;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,7 +34,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -43,6 +53,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.xwiki.rest.model.jaxb.ObjectFactory;
+import org.xwiki.rest.model.jaxb.Xwiki;
 import org.xwiki.test.po.platform.ViewPage;
 import org.xwiki.test.po.platform.editor.ClassEditPage;
 import org.xwiki.test.po.platform.editor.ObjectEditPage;
@@ -78,7 +90,30 @@ public class TestUtils
         return context.getDriver();
     }
 
-    private final String baseURL = "http://localhost:8080/xwiki/bin/";
+    private static final String baseURL = "http://localhost:8080/xwiki/";
+
+    private static final String baseBinURL = baseURL + "bin/";
+
+    private static final String baseRestURL = baseURL + "rest/";
+
+    private static Marshaller marshaller;
+
+    private static Unmarshaller unmarshaller;
+
+    private static ObjectFactory objectFactory;
+
+    {
+        {
+            try {
+                JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb");
+                marshaller = context.createMarshaller();
+                unmarshaller = context.createUnmarshaller();
+                objectFactory = new ObjectFactory();
+            } catch (JAXBException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public Session getSession()
     {
@@ -151,7 +186,7 @@ public class TestUtils
 
     /**
      * @return URL to a non existent page that loads very fast (we are using plain mode so that we don't even have to
-     * display the skin ;))
+     *         display the skin ;))
      */
     public String getURLToNonExistentPage()
     {
@@ -323,7 +358,7 @@ public class TestUtils
      */
     public String getURL(String space, String page, String action, String queryString)
     {
-        StringBuilder builder = new StringBuilder(this.baseURL);
+        StringBuilder builder = new StringBuilder(this.baseBinURL);
 
         builder.append(action);
         builder.append('/');
@@ -766,5 +801,31 @@ public class TestUtils
     {
         gotoPage(space, page, "edit", "editor=class");
         return new ClassEditPage();
+    }
+
+    public String getVersion() throws MalformedURLException, IOException, JAXBException
+    {
+        InputStream is = new URL(baseRestURL).openStream();
+
+        Xwiki xwiki;
+        try {
+            xwiki = (Xwiki) unmarshaller.unmarshal(is);
+        } finally {
+            is.close();
+        }
+
+        return xwiki.getVersion();
+    }
+
+    public String getMavenVersion() throws MalformedURLException, IOException, JAXBException
+    {
+        String version = getVersion();
+
+        int index = version.indexOf('-');
+        if (index > 0) {
+            version = version.substring(0, index) + "-SNAPSHOT";
+        }
+
+        return version;
     }
 }

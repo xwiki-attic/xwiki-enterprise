@@ -52,6 +52,12 @@
     <!-- Dependencies we need inside the XE WAR -->
     <!-- Legacy packages -->
     <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-legacy-component</artifactId>
+      <version>${commons.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-legacy-oldcore</artifactId>
       <version>${platform.version}</version>

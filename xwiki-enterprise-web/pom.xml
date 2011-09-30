@@ -621,6 +621,25 @@
               </rules>
             </configuration>
           </execution>
+          <!-- Override check from top level POM that prevents depending on a legacy module since we want to package
+               Legacy modules in the generated XE product -->
+          <execution>
+            <id>enforce-no-legacy-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <xwikiBannedDependencies implementation="org.xwiki.tool.enforcer.XWikiBannedDependencies">
+                  <searchTransitive>true</searchTransitive>
+                  <excludes>
+                    <!-- Override the value from the top level POM with a value that'll not ban any dependency -->
+                    <exclude>alwaysok</exclude>
+                  </excludes>
+                </xwikiBannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

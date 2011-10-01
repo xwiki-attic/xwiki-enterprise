@@ -190,7 +190,7 @@
       ## The sheet is not bound to the class.
       #set($xredirect = $request.getRequestURL())
       #set($defaultClassSheetStringReference = $services.model.serialize($defaultClassSheetReference, "default"))
-      #set($bindURL = $doc.getURL('view', "bindSheet=${escapetool.url($defaultClassSheetStringReference)}&amp;xredirect=${xredirect}&amp;form_token=$!{services.csrf.getToken()}"))
+      #set($bindURL = $doc.getURL('view', "bindSheet=${escapetool.url($defaultClassSheetStringReference)}&amp;xredirect=${escapetool.url($xredirect)}&amp;form_token=$!{services.csrf.getToken()}"))
       {{warning}}
         The sheet is not bound to the class so it won't be applied automatically when a document that has an object of this class is displayed. {{html}}&lt;a href="$bindURL"&gt;Bind the sheet to the class »&lt;/a&gt;.{{/html}}
       {{/warning}}
@@ -230,7 +230,7 @@
   #else
     #if(!$classTemplateDoc.getObject(${doc.fullName}))
       #set($xredirect = $request.getRequestURL())
-      #set($createUrl = $classTemplateDoc.getURL('objectadd', "classname=${doc.fullName}&amp;amp;xredirect=${xredirect}&amp;amp;form_token=$!{services.csrf.getToken()}"))
+      #set($createUrl = $classTemplateDoc.getURL('objectadd', "classname=${doc.fullName}&amp;amp;xredirect=${escapetool.url($xredirect)}&amp;amp;form_token=$!{services.csrf.getToken()}"))
       {{warning}}
         The template does not contain an object of type //$doc.fullName//. {{html}}&lt;a href="$createUrl"&gt;Add a ${className} object to the template »&lt;/a&gt;.{{/html}}
       {{/warning}}

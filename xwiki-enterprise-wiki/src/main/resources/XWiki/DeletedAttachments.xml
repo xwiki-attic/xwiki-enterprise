@@ -421,7 +421,7 @@ $xwiki.jsx.use('XWiki.DeletedAttachments', {'minify' : 'false'})##
   #if("$!{request.view}" == '')
     #set($queryParams = '')
   #else
-    #set($queryParams = "view=$!{request.view}")
+    #set($queryParams = "view=$!{escapetool.url($request.view)}")
   #end
   #set($paginationParameters = {
     'totalItems' : $xwiki.search("select count(datt.id) from DeletedAttachment as datt").get(0),

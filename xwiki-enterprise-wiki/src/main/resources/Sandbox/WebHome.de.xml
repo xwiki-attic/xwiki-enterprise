@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Sandbox</web>
 <name>WebHome</name>
@@ -139,5 +138,4 @@ Dieses Makro bietet die Möglichkeit, die Aufmerksamkeit der Leser auf einen bes
 
 Dieses Makro erzeugt ein Inhaltsverzeichnis basierend auf den Überschriften in der Seite:
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

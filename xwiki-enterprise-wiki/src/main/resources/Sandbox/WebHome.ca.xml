@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Sandbox</web>
 <name>WebHome</name>
@@ -141,5 +140,4 @@ Aquesta macro us permet cridar l'atenció als usuaris amb trossos d'informació:
 
 Aquesta macro genera automàticament la taula de continguts basada amb encapçalaments de la vostra pàgina wiki:
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

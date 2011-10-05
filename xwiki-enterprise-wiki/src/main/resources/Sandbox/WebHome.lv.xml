@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Sandbox</web>
 <name>WebHome</name>
@@ -119,5 +118,4 @@ Sekojošais makross parāda tekstu brīdinājuma ziņojuma rāmī:
 
 Šis makross automātiski izveido lapas satura rādītāju, izmantojot lapā saliktos virsrakstus:
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Sandbox</web>
 <name>WebHome</name>
@@ -141,5 +140,4 @@ Macros allow you to make wiki content look better and to add additional features
 
 该宏能够根据wiki页面中的标题自动生成页面目录列表：
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

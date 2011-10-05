@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>XWiki</web>
 <name>XWikiSyntax</name>
@@ -874,5 +873,4 @@ A partire da XWiki Enterprise 1.6 sono implementate anche queste altre sintassi:
 * [[Creole 1.0&gt;&gt;http://www.wikicreole.org/wiki/Creole1.0]]
 * [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
 
-{{warning}}L'implementazione di queste sintassi non è stata ancora completata. Per esempio il supporto ai link non funziona ancora perfettamente. Dobbiamo anche definire se estendere le sintassi originali per supportare le caratteristiche specifiche di XWiki come la possibilità di fare un link ad un altro sub-wiki.{{/warning}}</content>
-</xwikidoc>
+{{warning}}L'implementazione di queste sintassi non è stata ancora completata. Per esempio il supporto ai link non funziona ancora perfettamente. Dobbiamo anche definire se estendere le sintassi originali per supportare le caratteristiche specifiche di XWiki come la possibilità di fare un link ad un altro sub-wiki.{{/warning}}</content></xwikidoc>

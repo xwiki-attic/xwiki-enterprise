@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Sandbox</web>
 <name>WebHome</name>
@@ -122,5 +121,4 @@ Esta macro le permite atraer la atención de los usuarios a un trozo específico
 
 Este macro genera de forma automática la tabla de contenidos de su página wiki basada en los encabezados:
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

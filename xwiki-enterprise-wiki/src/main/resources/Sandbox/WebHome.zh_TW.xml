@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Sandbox</web>
 <name>WebHome</name>
@@ -141,5 +140,4 @@ This macro allows you to draw users’ attention to a specific piece of informat
 
 This macro automatically generates a table of contents of your wiki page based on headings:
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

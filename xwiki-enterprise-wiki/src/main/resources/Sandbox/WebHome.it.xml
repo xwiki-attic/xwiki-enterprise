@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
 <web>Sandbox</web>
 <name>WebHome</name>
@@ -142,5 +141,4 @@ Questa Macro consente di attirare l'attenzione del lettore:
 
 Questa Macro genera automaticamente l'indice della pagina in base ai livelli dei titoli:
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

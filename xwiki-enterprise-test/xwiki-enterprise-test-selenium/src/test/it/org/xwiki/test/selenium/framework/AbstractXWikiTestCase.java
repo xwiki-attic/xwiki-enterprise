@@ -408,81 +408,79 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         waitForCondition("window.document.getElementsByClassName('xnotification-done')[0] != null");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickEditPage()
-     */
+    @Override
     public void clickEditPage()
     {
         getSkinExecutor().clickEditPage();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickEditPageInWikiSyntaxEditor()
-     */
+    @Override
     public void clickEditPageInWikiSyntaxEditor()
     {
         getSkinExecutor().clickEditPageInWikiSyntaxEditor();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickEditPageInWysiwyg()
-     */
+    @Override
     public void clickEditPageInWysiwyg()
     {
         getSkinExecutor().clickEditPageInWysiwyg();
     }
 
+    @Override
     public void clickDeletePage()
     {
         getSkinExecutor().clickDeletePage();
     }
 
+    @Override
     public void clickCopyPage()
     {
         getSkinExecutor().clickCopyPage();
     }
 
+    @Override
     public void clickShowComments()
     {
         getSkinExecutor().clickShowComments();
     }
 
+    @Override
     public void clickShowAttachments()
     {
         getSkinExecutor().clickShowAttachments();
     }
 
+    @Override
     public void clickShowHistory()
     {
         getSkinExecutor().clickShowHistory();
     }
 
+    @Override
     public void clickShowInformation()
     {
         getSkinExecutor().clickShowInformation();
     }
 
+    @Override
     public void clickEditPreview()
     {
         getSkinExecutor().clickEditPreview();
     }
 
+    @Override
     public void clickEditSaveAndContinue()
     {
         getSkinExecutor().clickEditSaveAndContinue();
     }
 
+    @Override
     public void clickEditCancelEdition()
     {
         getSkinExecutor().clickEditCancelEdition();
     }
 
+    @Override
     public void clickEditSaveAndView()
     {
         getSkinExecutor().clickEditSaveAndView();
@@ -492,6 +490,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
      * Clicks on the add property button in the class editor. As a result the specified property is added to the edited
      * class and the class is saved. This method waits for the class to be saved.
      */
+    @Override
     public void clickEditAddProperty()
     {
         getSkinExecutor().clickEditAddProperty();
@@ -501,41 +500,45 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
      * Clicks on the add object button in the object editor. As a result an object of the specified class is added to
      * the edited document and the document is saved. This method waits for the document to be saved.
      */
+    @Override
     public void clickEditAddObject()
     {
         getSkinExecutor().clickEditAddObject();
     }
 
+    @Override
     public boolean isAuthenticated()
     {
         return getSkinExecutor().isAuthenticated();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean isAuthenticated(String username)
     {
         return getSkinExecutor().isAuthenticated(username);
     }
     
+    @Override
     public boolean isAuthenticationMenuPresent()
     {
         return getSkinExecutor().isAuthenticationMenuPresent();
     }
 
+    @Override
     public void logout()
     {
         getSkinExecutor().logout();
         recacheSecretToken();
     }
 
+    @Override
     public void login(String username, String password, boolean rememberme)
     {
         getSkinExecutor().login(username, password, rememberme);
         recacheSecretToken();
     }
 
+    @Override
     public void loginAsAdmin()
     {
         getSkinExecutor().loginAsAdmin();
@@ -590,11 +593,13 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         setFieldValue("register_email", email);
     }
 
+    @Override
     public void clickLogin()
     {
         getSkinExecutor().clickLogin();
     }
 
+    @Override
     public void clickRegister()
     {
         getSkinExecutor().clickRegister();

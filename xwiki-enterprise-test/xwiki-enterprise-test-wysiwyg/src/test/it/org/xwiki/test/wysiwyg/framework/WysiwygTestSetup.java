@@ -44,9 +44,6 @@ public class WysiwygTestSetup extends TestSetup
         super(test);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void setUp() throws Exception
     {

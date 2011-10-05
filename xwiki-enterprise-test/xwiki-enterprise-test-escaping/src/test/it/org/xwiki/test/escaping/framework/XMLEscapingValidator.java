@@ -234,30 +234,18 @@ public class XMLEscapingValidator implements Validator
         return (pos_apos >= 0 && pos_apos < index && pos_quot >= 0 && pos_quot < index);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.validator.Validator#getErrors()
-     */
     @Override
     public List<ValidationError> getErrors()
     {
         return this.errors;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.validator.Validator#clear()
-     */
     @Override
     public void clear()
     {
         this.errors = new ArrayList<ValidationError>();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.xwiki.validator.Validator#getName()
-     */
     @Override
     public String getName()
     {

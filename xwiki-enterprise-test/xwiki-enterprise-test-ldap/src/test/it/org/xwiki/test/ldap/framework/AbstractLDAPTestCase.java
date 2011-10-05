@@ -33,11 +33,6 @@ public abstract class AbstractLDAPTestCase extends AbstractBridgedXWikiComponent
      */
     private LDAPRunner ldap;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
     @Override
     public void setUp() throws Exception
     {
@@ -49,11 +44,6 @@ public abstract class AbstractLDAPTestCase extends AbstractBridgedXWikiComponent
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
     @Override
     public void tearDown() throws Exception
     {

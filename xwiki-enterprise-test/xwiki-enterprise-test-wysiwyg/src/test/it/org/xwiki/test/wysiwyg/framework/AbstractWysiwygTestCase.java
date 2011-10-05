@@ -79,11 +79,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public static final long SMALL_WAIT_INTERVAL = 50L;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractXWikiTestCase#setUp()
-     */
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -868,11 +864,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         assertEquals(expectedHTML, getContent());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AbstractXWikiTestCase#clickEditPreview()
-     */
+    @Override
     public void clickEditPreview()
     {
         updateRichTextAreaFormField();

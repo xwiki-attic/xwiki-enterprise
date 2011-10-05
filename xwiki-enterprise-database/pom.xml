@@ -35,7 +35,7 @@
   <description>XWiki Enterprise - Database - Parent POM</description>
   <properties>
     <!-- Disable plugins mappings -->
-    <xwiki.db.common.extraMappings></xwiki.db.common.extraMappings>
+    <xwiki.db.common.extraMappings />
   </properties>
   <dependencies>
     <dependency>

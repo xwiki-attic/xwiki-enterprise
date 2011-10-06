@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-debian-tomcat</artifactId>
-    <version>3.2-SNAPSHOT</version>
+    <version>3.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-debian-tomcat-pgsql</artifactId>
   <name>XWiki Enterprise - Distribution - Debian - Tomcat - Postgres SQL</name>

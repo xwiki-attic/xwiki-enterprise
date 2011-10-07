@@ -100,6 +100,8 @@ public class RichTextAreaElement extends BaseElement
 
         // Wrap all content with a contentEditable DIV.
         script.append("var div = document.createElement('div');\n");
+        // Make sure the DIV is visible (this is for the case when the rich text area is empty).
+        script.append("div.style.minHeight = '20px';");
         script.append("document.body.appendChild(div);\n");
         script.append("var contentRange = document.createRange();\n");
         script.append("contentRange.setStartBefore(document.body.firstChild);\n");

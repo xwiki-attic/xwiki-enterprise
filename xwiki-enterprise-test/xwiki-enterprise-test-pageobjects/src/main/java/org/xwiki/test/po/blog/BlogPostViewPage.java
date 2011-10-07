@@ -53,6 +53,12 @@ public class BlogPostViewPage extends ViewPage
     @FindBy(className = "blog-entry-toolbox")
     private WebElement toolBox;
 
+    /**
+     * The edit blog post icon.
+     */
+    @FindBy(xpath = "//*[@class = 'blog-entry-toolbox']//img[@alt = 'edit ']")
+    private WebElement editIcon;
+
     @Override
     public String getContent()
     {
@@ -85,5 +91,16 @@ public class BlogPostViewPage extends ViewPage
     public boolean isHidden()
     {
         return !toolBox.findElements(By.xpath("//img[@alt = 'show ']")).isEmpty();
+    }
+
+    /**
+     * Clicks on the edit blog post icon.
+     * 
+     * @return the "Inline form" edit page used for editing the blog post
+     */
+    public BlogPostInlinePage clickEditBlogPostIcon()
+    {
+        editIcon.click();
+        return new BlogPostInlinePage();
     }
 }

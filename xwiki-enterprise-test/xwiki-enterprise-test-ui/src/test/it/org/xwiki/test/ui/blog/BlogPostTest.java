@@ -30,8 +30,6 @@ import org.xwiki.test.po.blog.BlogHomePage;
 import org.xwiki.test.po.blog.BlogPostInlinePage;
 import org.xwiki.test.po.blog.BlogPostViewPage;
 import org.xwiki.test.po.blog.CreateBlogPostPane;
-import org.xwiki.test.po.platform.HistoryTab;
-import org.xwiki.test.po.platform.ViewPage;
 
 /**
  * Functional tests for blog posts.
@@ -42,13 +40,14 @@ import org.xwiki.test.po.platform.ViewPage;
 public class BlogPostTest extends AbstractAdminAuthenticatedTest
 {
     /**
-     * Tests the form that creates a new blog post.
+     * Tests how a blog post is created and then edited.
      */
     @Test
-    public void testCreateBlogPost()
+    public void testCreateAndEditBlogPost()
     {
         getUtil().deletePage("Blog", getTestMethodName());
 
+        // Create the blog post.
         CreateBlogPostPane createBlogPostPane = BlogHomePage.gotoPage().getCreateBlogPostPane();
         createBlogPostPane.setTitle(getTestMethodName());
         BlogPostInlinePage blogPostInlinePage = createBlogPostPane.clickCreateButton();
@@ -61,46 +60,34 @@ public class BlogPostTest extends AbstractAdminAuthenticatedTest
         blogPostInlinePage.setCategories(Collections.singletonList("Personal"));
         BlogPostViewPage blogPostViewPage = blogPostInlinePage.clickSaveAndView();
 
+        // Assert the result.
         Assert.assertEquals("Test blog title", blogPostViewPage.getDocumentTitle());
         Assert.assertEquals("Test blog content", blogPostViewPage.getContent());
         Assert.assertEquals(Collections.singletonList("Personal"), blogPostViewPage.getCategories());
         Assert.assertFalse(blogPostViewPage.isPublished());
-    }
 
-    /**
-     * @see XWIKI-6960: The title of blog posts is not updated
-     */
-    @Test
-    public void testEditBlogPost()
-    {
-        // Make sure the Blog.BlogIntroduction page is clean.
-        ViewPage blogPost = getUtil().gotoPage("Blog", "BlogIntroduction");
-        HistoryTab blogPostHistory = blogPost.openHistoryDocExtraPane();
-        if (!"1.1".equals(blogPostHistory.getCurrentVersion())) {
-            blogPost = blogPostHistory.rollbackToVersion("1.1");
-        }
-
-        blogPost.editInline();
-        BlogPostInlinePage blogPostInlinePage = new BlogPostInlinePage();
+        // Edit the blog post.
+        blogPostInlinePage = blogPostViewPage.clickEditBlogPostIcon();
         blogPostInlinePage.waitToLoad();
 
-        Assert.assertEquals("First blog post", blogPostInlinePage.getTitle());
-        Assert.assertTrue(blogPostInlinePage.getContent().startsWith("This is your wiki's blog first post."));
-        Assert.assertEquals(Collections.singletonList("News"), blogPostInlinePage.getCategories());
-        Assert.assertTrue(blogPostInlinePage.isPublished());
-        Assert.assertFalse(blogPostInlinePage.isHidden());
+        Assert.assertEquals("Test blog title", blogPostInlinePage.getTitle());
+        Assert.assertEquals("Test blog content", blogPostInlinePage.getContent());
+        Assert.assertEquals(Collections.singletonList("Personal"), blogPostInlinePage.getCategories());
+        Assert.assertFalse(blogPostInlinePage.isPublished());
 
+        // Modify the blog post.
         blogPostInlinePage.setTitle("Modified title");
         blogPostInlinePage.setContent("Modified content");
         blogPostInlinePage.setCategories(Arrays.asList("News", "Personal"));
-        blogPostInlinePage.setHidden(true);
+        blogPostInlinePage.setPublished(true);
 
-        BlogPostViewPage blogPostViewPage = blogPostInlinePage.clickSaveAndView();
+        // Assert the result.
+        blogPostViewPage = blogPostInlinePage.clickSaveAndView();
 
         Assert.assertEquals("Modified title", blogPostViewPage.getDocumentTitle());
         Assert.assertEquals("Modified content", blogPostViewPage.getContent());
         Assert.assertEquals(Arrays.asList("News", "Personal"), blogPostViewPage.getCategories());
         Assert.assertTrue(blogPostViewPage.isPublished());
-        Assert.assertTrue(blogPostViewPage.isHidden());
+        Assert.assertFalse(blogPostViewPage.isHidden());
     }
 }

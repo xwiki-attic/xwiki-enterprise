@@ -30,6 +30,8 @@ import org.xwiki.test.po.blog.BlogHomePage;
 import org.xwiki.test.po.blog.BlogPostInlinePage;
 import org.xwiki.test.po.blog.BlogPostViewPage;
 import org.xwiki.test.po.blog.CreateBlogPostPane;
+import org.xwiki.test.po.platform.HistoryTab;
+import org.xwiki.test.po.platform.ViewPage;
 
 /**
  * Functional tests for blog posts.
@@ -71,7 +73,14 @@ public class BlogPostTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testEditBlogPost()
     {
-        getUtil().gotoPage("Blog", "BlogIntroduction").editInline();
+        // Make sure the Blog.BlogIntroduction page is clean.
+        ViewPage blogPost = getUtil().gotoPage("Blog", "BlogIntroduction");
+        HistoryTab blogPostHistory = blogPost.openHistoryDocExtraPane();
+        if (!"1.1".equals(blogPostHistory.getCurrentVersion())) {
+            blogPost = blogPostHistory.rollbackToVersion("1.1");
+        }
+
+        blogPost.editInline();
         BlogPostInlinePage blogPostInlinePage = new BlogPostInlinePage();
         blogPostInlinePage.waitToLoad();
 
@@ -93,7 +102,5 @@ public class BlogPostTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(Arrays.asList("News", "Personal"), blogPostViewPage.getCategories());
         Assert.assertTrue(blogPostViewPage.isPublished());
         Assert.assertTrue(blogPostViewPage.isHidden());
-
-        blogPostViewPage.openHistoryDocExtraPane().rollbackToVersion("1.1");
     }
 }

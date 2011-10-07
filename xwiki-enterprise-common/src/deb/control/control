@@ -6,6 +6,7 @@ Provides: xwiki, xwiki-enterprise
 Architecture: all
 Depends: dbconfig-common ( >= 1.8.0), java6-runtime
 Maintainer: XWiki Team (devs@xwiki.org)
+License: LGPL 2.1
 Description: XWiki enterprise common package
  XWiki is a free wiki software platform written in Java with a design emphasis
  on extensibility.

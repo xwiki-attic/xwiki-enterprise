@@ -5,6 +5,7 @@ Priority: optional
 Architecture: all
 Depends: xwiki-enterprise-common ([[version]]), mysql-server (>= 5.0.0), tomcat6 ( >= 6.0.20), libmysql-java ( >= 5.0.0)
 Maintainer: XWiki Team (devs@xwiki.org)
+License: LGPL 2.1
 Description: XWiki enterprise Tomcat/MySQL based package
  XWiki is a free wiki software platform written in Java with a design emphasis
  on extensibility.

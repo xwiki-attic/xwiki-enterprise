@@ -40,4 +40,23 @@
     <module>xwiki-enterprise-common</module>
     <module>xwiki-enterprise-debian-tomcat</module>
   </modules>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>jdeb</artifactId>
+          <groupId>org.vafer</groupId>
+          <version>0.8</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>jdeb</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>

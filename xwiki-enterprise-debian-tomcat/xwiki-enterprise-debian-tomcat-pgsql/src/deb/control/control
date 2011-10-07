@@ -5,6 +5,7 @@ Priority: optional
 Architecture: all
 Depends: xwiki-enterprise-common ([[version]]), postgresql (>= 8.4), tomcat6 ( >= 6.0.20), libpg-java ( >= 8.4)
 Maintainer: XWiki Team (devs@xwiki.org)
+License: LGPL 2.1
 Description: XWiki enterprise Tomcat/PostgreSQL
  XWiki is a free wiki software platform written in Java with a design emphasis
  on extensibility.

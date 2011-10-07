@@ -33,26 +33,6 @@
   <name>XWiki Enterprise - Distribution - Debian - Tomcat</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Debian - Tomcat</description>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <!-- Produce deb package -->
-        <plugin>
-          <artifactId>jdeb</artifactId>
-          <groupId>org.vafer</groupId>
-          <version>0.8</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>jdeb</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
   <modules>
     <module>xwiki-enterprise-debian-tomcat-mysql</module>
     <module>xwiki-enterprise-debian-tomcat-pgsql</module>

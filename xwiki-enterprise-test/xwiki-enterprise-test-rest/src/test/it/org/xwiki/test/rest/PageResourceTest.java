@@ -20,6 +20,7 @@
 package org.xwiki.test.rest;
 
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
@@ -29,7 +30,6 @@ import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.jackrabbit.uuid.UUID;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;

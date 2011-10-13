@@ -46,7 +46,7 @@
   </issueManagement>
   <modules>
     <module>xwiki-enterprise-web</module>
-    <module>xwiki-enterprise-wiki</module>
+    <module>xwiki-enterprise-ui</module>
     <module>xwiki-enterprise-database</module>
     <module>xwiki-enterprise-distribution</module>
   </modules>
@@ -111,6 +111,11 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.xwiki.commons</groupId>
+          <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+          <version>${commons.version}</version>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
@@ -158,6 +163,14 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <!-- Needed to add support for the XAR packaging -->
+    <extensions>
+      <extension>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-handlers</artifactId>
+        <version>${commons.version}</version>
+      </extension>
+    </extensions>
   </build>
   <profiles>
     <profile>

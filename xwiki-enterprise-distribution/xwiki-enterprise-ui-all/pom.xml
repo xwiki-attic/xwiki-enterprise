@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.xwiki.enterprise</groupId>
+    <artifactId>xwiki-enterprise</artifactId>
+    <version>3.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-enterprise-ui-all</artifactId>
+  <name>XWiki Enterprise - UI All</name>
+  <packaging>xar</packaging>
+  <description>All in one XWiki Enterprise XAR package</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <!-- Exclude from being Clovered since it doesn't bring interesting information and causes
+               problems with the XAR plugin since Clover generates files in target/classes that conflicts -->
+          <groupId>com.atlassian.maven.plugins</groupId>
+          <artifactId>maven-clover2-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.xwiki.commons</groupId>
+          <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+          <configuration>
+            <includeDependencies>true</includeDependencies>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>  
+</project>

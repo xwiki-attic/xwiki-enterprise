@@ -42,7 +42,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>xwiki-enterprise-wiki</artifactId>
+      <artifactId>xwiki-enterprise-ui-all</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
       <scope>test</scope>

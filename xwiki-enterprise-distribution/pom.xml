@@ -49,6 +49,9 @@
       <optional>true</optional>
     </dependency>
   </dependencies>
+  <modules>
+    <module>xwiki-enterprise-ui-all</module>
+  </modules>
   <profiles>
     <profile>
       <id>jetty</id>

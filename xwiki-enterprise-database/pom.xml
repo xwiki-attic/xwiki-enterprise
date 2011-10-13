@@ -40,10 +40,10 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-wiki</artifactId>
+      <artifactId>xwiki-enterprise-ui-all</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
-      <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
@@ -58,7 +58,7 @@
           <version>${commons.version}</version>
           <configuration>
             <groupId>org.xwiki.enterprise</groupId>
-            <artifactId>xwiki-enterprise-wiki</artifactId>
+            <artifactId>xwiki-enterprise-ui-all</artifactId>
             <outputDirectory>${project.build.directory}/xar</outputDirectory>
           </configuration>
           <executions>
@@ -76,7 +76,7 @@
         <plugin>
           <groupId>org.xwiki.platform</groupId>
           <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
-          <version>${platform.version}</version>
+          <version>${commons.version}</version>
           <configuration>
             <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
             <hibernateConfig>

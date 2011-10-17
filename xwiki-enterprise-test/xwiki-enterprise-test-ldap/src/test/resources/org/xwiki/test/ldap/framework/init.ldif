@@ -120,7 +120,7 @@ cn: HMS Lydia
 uniquemember: cn=horatio Hornblower,ou=people,o=sevenseas
 uniquemember: cn=William Bush,ou=people,o=sevenSeas
 uniquemember: cn=Thomas Quist,ou=people,o=sevenSeas
-uniquemember: User.With.Points
+uniquemember: cn=User.With.Points,ou=people,o=sevenSeas
 uniquemember: cn=Moultrie Crystal,ou=people,o=sevenSeas
 
 # HMS Victory Crew

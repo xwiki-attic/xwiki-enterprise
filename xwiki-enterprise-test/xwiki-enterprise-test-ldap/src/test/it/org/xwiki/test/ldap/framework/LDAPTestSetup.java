@@ -71,9 +71,14 @@ public class LDAPTestSetup extends TestSetup
     // Somes datas examples
 
     /**
+     * The OU containing the users.
+     */
+    public static final String USERS_OU = "ou=people,o=sevenSeas";
+    
+    /**
      * The LDAP DN of user Horatio Hornblower.
      */
-    public static final String HORATIOHORNBLOWER_DN = "cn=Horatio Hornblower,ou=people,o=sevenSeas";
+    public static final String HORATIOHORNBLOWER_DN = "cn=Horatio Hornblower," + USERS_OU;
 
     /**
      * The LDAP unique id of user Horatio Hornblower.
@@ -103,7 +108,7 @@ public class LDAPTestSetup extends TestSetup
     /**
      * The LDAP DN of user Thomas Quist.
      */
-    public static final String THOMASQUIST_DN = "cn=Thomas Quist,ou=people,o=sevenSeas";
+    public static final String THOMASQUIST_DN = "cn=Thomas Quist," + USERS_OU;
 
     /**
      * The LDAP common name of user Thomas Quist.
@@ -118,7 +123,7 @@ public class LDAPTestSetup extends TestSetup
     /**
      * The LDAP DN of user William Bush.
      */
-    public static final String WILLIAMBUSH_DN = "cn=William Bush,ou=people,o=sevenSeas";
+    public static final String WILLIAMBUSH_DN = "cn=William Bush," + USERS_OU;
 
     /**
      * The LDAP password of user William Bush.
@@ -138,7 +143,7 @@ public class LDAPTestSetup extends TestSetup
     /**
      * The LDAP DN of user User.With.Points.
      */
-    public static final String USERWITHPOINTS_DN = "cn=User.With.Points,ou=people,o=sevenSeas";
+    public static final String USERWITHPOINTS_DN = "cn=User.With.Points," + USERS_OU;
 
     /**
      * The LDAP password of user User.With.Points.

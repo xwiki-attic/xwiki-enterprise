@@ -589,4 +589,23 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
+
+    public void testAuthenticateWithOUMembership() throws XWikiException
+    {
+        saveDocument(getDocument("XWiki.Group1"));
+
+        this.properties.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1="
+            + LDAPTestSetup.USERS_OU);
+
+        assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
+            LDAPTestSetup.HORATIOHORNBLOWER_DN);
+
+        List<BaseObject> groupList = getDocument("XWiki.Group1").getObjects(this.groupClass.getName());
+
+        assertTrue("No user has been added to the group", groupList != null && groupList.size() > 0);
+
+        BaseObject groupObject = groupList.get(0);
+
+        assertEquals("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN, groupObject.getStringValue("member"));
+    }
 }

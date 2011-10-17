@@ -198,7 +198,7 @@ public class LDAPTestSetup extends TestSetup
     static {
         HMSLYDIA_MEMBERS.add(HORATIOHORNBLOWER_DN.toLowerCase());
         HMSLYDIA_MEMBERS.add(WILLIAMBUSH_DN.toLowerCase());
-        HMSLYDIA_MEMBERS.add("cn=Thomas Quist,ou=people,o=sevenSeas".toLowerCase());
+        HMSLYDIA_MEMBERS.add(THOMASQUIST_DN.toLowerCase());
         HMSLYDIA_MEMBERS.add("cn=Moultrie Crystal,ou=people,o=sevenSeas".toLowerCase());
         HMSLYDIA_MEMBERS.add("cn=User.With.Points,ou=people,o=sevenSeas".toLowerCase());
     }

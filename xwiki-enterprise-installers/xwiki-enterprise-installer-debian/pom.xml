@@ -26,25 +26,41 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-debian-tomcat</artifactId>
+    <artifactId>xwiki-enterprise-installers</artifactId>
     <version>3.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-debian-tomcat-mysql</artifactId>
-  <name>XWiki Enterprise - Distribution - Debian - Tomcat - MySQL</name>
+  <artifactId>xwiki-enterprise-installer-debian</artifactId>
+  <name>XWiki Enterprise - Installer - Debian</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Distribution - Debian - Tomcat - MySQL</description>
+  <description>XWiki Enterprise - Installer - Debian</description>
+  <properties>
+    <war.path>${project.build.directory}/war</war.path>
+  </properties>
+  <modules>
+    <module>xwiki-enterprise-installer-debian-common</module>
+    <module>xwiki-enterprise-installer-debian-tomcat</module>
+  </modules>
   <build>
-    <plugins>
-      <!-- Unpack the war -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <!-- Produce deb package -->
-      <plugin>
-        <artifactId>jdeb</artifactId>
-        <groupId>org.vafer</groupId>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>jdeb</artifactId>
+          <groupId>org.vafer</groupId>
+          <!-- TODO: change version when 0.9 is released and available on maven central -->
+          <version>0.9-20111015</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>jdeb</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+          <timestamped>true</timestamped>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 </project>

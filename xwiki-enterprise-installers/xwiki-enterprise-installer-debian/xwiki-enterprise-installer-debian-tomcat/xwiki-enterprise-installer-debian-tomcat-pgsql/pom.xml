@@ -26,15 +26,25 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-debian</artifactId>
+    <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
     <version>3.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-debian-tomcat</artifactId>
-  <name>XWiki Enterprise - Distribution - Debian - Tomcat</name>
+  <artifactId>xwiki-enterprise-installer-debian-tomcat-pgsql</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Tomcat - Postgres SQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Distribution - Debian - Tomcat</description>
-  <modules>
-    <module>xwiki-enterprise-debian-tomcat-mysql</module>
-    <module>xwiki-enterprise-debian-tomcat-pgsql</module>
-  </modules>
+  <description>XWiki Enterprise - Installer - Debian - Tomcat - Postgres SQL</description>
+  <build>
+    <plugins>
+      <!-- Unpack the war -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <!-- Produce deb package -->
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -26,19 +26,20 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-debian</artifactId>
+    <artifactId>xwiki-enterprise-installer-debian</artifactId>
     <version>3.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-common</artifactId>
-  <name>XWiki Enterprise - Distribution - Debian - Common</name>
+  <artifactId>xwiki-enterprise-installer-debian-common</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Common</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Distribution - Debian - Common</description>
+  <description>XWiki Enterprise - Installer - Debian - Common</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-web</artifactId>
       <version>${project.version}</version>
       <type>war</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>

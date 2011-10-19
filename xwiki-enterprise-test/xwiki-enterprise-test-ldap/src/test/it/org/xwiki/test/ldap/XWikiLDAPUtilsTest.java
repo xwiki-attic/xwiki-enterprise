@@ -70,11 +70,6 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 
     private Properties properties = new Properties();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
     @Override
     public void setUp() throws Exception
     {
@@ -120,11 +115,6 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
             LDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, getContext());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
     @Override
     public void tearDown() throws Exception
     {
@@ -142,16 +132,12 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
     }
 
     /**
-     * check that the cache is not created each time it's retrieved and correctly handle refresh time.
-     * 
-     * @throws XWikiException error when getting the cache.
-     * @throws XWikiCacheNeedsRefreshException
-     * @throws InterruptedException
-     * @throws CacheException
+     * Check that the cache is not created each time it's retrieved and correctly handle refresh time.
      */
     public void testCache() throws XWikiException, InterruptedException, CacheException
     {
         CacheConfiguration cacheConfigurationGroups = new CacheConfiguration();
+        cacheConfigurationGroups.setConfigurationId("ldap.groups");
 
         Cache<Map<String, String>> tmpCache = this.ldapUtils.getCache(cacheConfigurationGroups, getContext());
         Cache<Map<String, String>> cache = this.ldapUtils.getCache(cacheConfigurationGroups, getContext());

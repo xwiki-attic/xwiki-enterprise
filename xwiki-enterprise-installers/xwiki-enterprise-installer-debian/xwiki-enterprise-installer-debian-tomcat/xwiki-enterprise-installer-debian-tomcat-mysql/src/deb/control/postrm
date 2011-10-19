@@ -1,0 +1,32 @@
+#!/bin/sh
+
+set -e
+#set -x
+
+if [ -f /usr/share/debconf/confmodule ]; then
+    . /usr/share/debconf/confmodule
+fi
+if [ -f /usr/share/dbconfig-common/dpkg/postrm.mysql ]; then
+    . /usr/share/dbconfig-common/dpkg/postrm.mysql
+    dbc_go xwiki $@
+fi
+
+rm -f /var/lib/tomcat6/webapps/xwiki
+
+if [ "$1" = "purge" ]; then
+	rm -f /etc/xwiki/hibernate.cfg.xml
+fi
+
+#########################
+# Restart Tomcat
+#########################
+
+invoke-rc.d --quiet tomcat6 restart || {
+    RESULT=$?
+    # Ignore if tomcat6 init script does not exist (yet)
+    if [ $RESULT != 100 ]; then
+	exit $RESULT
+    fi
+}
+
+#DEBHELPER#

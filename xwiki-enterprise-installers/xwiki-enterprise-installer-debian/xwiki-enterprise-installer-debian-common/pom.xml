@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.xwiki.enterprise</groupId>
+    <artifactId>xwiki-enterprise-installer-debian</artifactId>
+    <version>3.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>xwiki-enterprise-installer-debian-common</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Common</name>
+  <packaging>pom</packaging>
+  <description>XWiki Enterprise - Installer - Debian - Common</description>
+  <properties>
+    <war.path>${project.build.directory}/war</war.path>
+
+    <template.mysql.path>${project.build.directory}/templates/mysql</template.mysql.path>
+    <template.pgsql.path>${project.build.directory}/templates/pgsql</template.pgsql.path>
+
+    <xwiki.properties.container.persistentDirectory>/var/lib/xwiki/data</xwiki.properties.container.persistentDirectory>
+    <xwiki.cfg.additionalproperties>wiki.work.dir=${xwiki.properties.container.persistentDirectory}</xwiki.cfg.additionalproperties>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Unpack the war -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+            <execution>
+              <id>unzip-application</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>unpack</goal>
+              </goals>
+              <configuration>
+                <artifactItems>
+                  <artifactItem>
+                    <groupId>org.xwiki.enterprise</groupId>
+                    <artifactId>xwiki-enterprise-web</artifactId>
+                    <version>${project.version}</version>
+                    <type>war</type>
+                  </artifactItem>
+                </artifactItems>
+                <outputDirectory>${war.path}</outputDirectory>
+              </configuration>
+            </execution>
+          </executions>
+      </plugin>
+      <!-- Prepare hibernate configuration templates -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>xwiki-platform-tool-configuration-resources-mysql</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${template.mysql.path}</outputDirectory>
+              <resourceBundles>
+                <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
+              </resourceBundles>
+              <properties>
+                <!-- hibernate.cfg.xml -->
+                <xwikiDbConnectionUrl>jdbc:mysql://_DBC_DBSERVER_/_DBC_DBNAME_?useServerPrepStmts=false&amp;amp;amp;useUnicode=true&amp;amp;amp;characterEncoding=UTF-8</xwikiDbConnectionUrl>
+                <xwikiDbConnectionUsername>_DBC_DBUSER_</xwikiDbConnectionUsername>
+                <xwikiDbConnectionPassword>_DBC_DBPASS_</xwikiDbConnectionPassword>
+                <xwikiDbConnectionDriverClass>com.mysql.jdbc.Driver</xwikiDbConnectionDriverClass>
+                <xwikiDbDialect>org.hibernate.dialect.MySQL5InnoDBDialect</xwikiDbDialect>
+                <xwikiDbHbmXwiki>xwiki.hbm.xml</xwikiDbHbmXwiki>
+                <xwikiDbHbmFeeds>feeds.hbm.xml</xwikiDbHbmFeeds>
+                <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
+
+                <!-- xwiki.cfg -->
+                <xwikiCfgPlugins>${xwiki.cfg.plugins}</xwikiCfgPlugins>
+                <xwikiCfgVirtual>${xwiki.cfg.virtual}</xwikiCfgVirtual>
+                <xwikiCfgEditCommentMandatory>${xwiki.cfg.editcomment.mandatory}</xwikiCfgEditCommentMandatory>
+                <xwikiCfgDefaultSkin>${xwiki.cfg.defaultskin}</xwikiCfgDefaultSkin>
+                <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
+                <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
+                <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
+                
+                <!-- xwiki.properties -->
+                <xwikiPropertiesContainerPersistentDirectory>${xwiki.properties.container.persistentDirectory}</xwikiPropertiesContainerPersistentDirectory>
+              </properties>
+            </configuration>
+          </execution>
+          <execution>
+            <id>xwiki-platform-tool-configuration-resources-pgsql</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>process</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${template.pgsql.path}</outputDirectory>
+              <resourceBundles>
+                <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
+              </resourceBundles>
+              <properties>
+                <!-- hibernate.cfg.xml -->
+                <xwikiDbConnectionUrl>jdbc:postgresql:_DBC_DBNAME_</xwikiDbConnectionUrl>
+                <xwikiDbConnectionUsername>_DBC_DBUSER_</xwikiDbConnectionUsername>
+                <xwikiDbConnectionPassword>_DBC_DBPASS_</xwikiDbConnectionPassword>
+                <xwikiDbConnectionDriverClass>org.postgresql.Driver</xwikiDbConnectionDriverClass>
+                <xwikiDbDialect>org.hibernate.dialect.PostgreSQLDialect</xwikiDbDialect>
+                <xwikiDbHbmXwiki>xwiki.hbm.xml</xwikiDbHbmXwiki>
+                <xwikiDbHbmFeeds>feeds.hbm.xml</xwikiDbHbmFeeds>
+                <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
+              </properties>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Produce deb package -->
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+        <configuration>
+          <dataSet>
+            <data>
+              <src>${war.path}</src>
+              <type>directory</type>
+              <excludes>WEB-INF,WEB-INF/**/*</excludes>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/lib/xwiki</prefix>
+              </mapper>
+            </data>
+            <data>
+              <src>${war.path}/WEB-INF</src>
+              <type>directory</type>
+              <excludes>**/lib,**/lib/*,**/hibernate.cfg.xml,**/xwiki.cfg,**/xwiki.properties</excludes>
+              <mapper>
+                <type>perm</type>
+                <prefix>/etc/xwiki</prefix>
+              </mapper>
+            </data>
+            <data>
+              <src>${war.path}/WEB-INF/lib</src>
+              <type>directory</type>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/lib/xwiki/WEB-INF/lib</prefix>
+              </mapper>
+            </data>
+            <data>
+              <src>${template.mysql.path}/</src>
+              <type>directory</type>
+              <includes>xwiki.cfg,xwiki.properties</includes>
+              <mapper>
+                <type>perm</type>
+                <prefix>/etc/xwiki</prefix>
+              </mapper>
+            </data>
+            <data>
+              <src>${template.mysql.path}/hibernate.cfg.xml</src>
+              <type>file</type>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/share/xwiki/templates/mysql/</prefix>
+              </mapper>
+            </data>
+            <data>
+              <src>${template.pgsql.path}/hibernate.cfg.xml</src>
+              <type>file</type>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/share/xwiki/templates/pgsql/</prefix>
+              </mapper>
+            </data>
+          </dataSet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

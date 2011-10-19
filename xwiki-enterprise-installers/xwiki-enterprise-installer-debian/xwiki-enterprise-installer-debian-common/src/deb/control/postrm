@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+#set -x
+
+rm -rf /usr/lib/xwiki/
+rm -rf /usr/share/xwiki
+
+if [ "$1" = "purge" ]; then
+	rm -rf /etc/xwiki
+fi

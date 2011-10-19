@@ -33,9 +33,6 @@
   <name>XWiki Enterprise - Installer - Debian</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Installer - Debian</description>
-  <properties>
-    <war.path>${project.build.directory}/war</war.path>
-  </properties>
   <modules>
     <module>xwiki-enterprise-installer-debian-common</module>
     <module>xwiki-enterprise-installer-debian-tomcat</module>

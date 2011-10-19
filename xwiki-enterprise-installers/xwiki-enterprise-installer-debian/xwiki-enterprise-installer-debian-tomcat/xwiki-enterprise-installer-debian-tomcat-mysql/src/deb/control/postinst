@@ -5,6 +5,8 @@ set -e
 
 #########################
 # Links
+# TODO: get rid of them when jdeb add support for symbolic links
+#       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
 #########################
 
 ## Make symlinks to centralize the webapp in tomcat6 container
@@ -12,6 +14,13 @@ ln -sf /usr/lib/xwiki /var/lib/tomcat6/webapps/xwiki
 
 # Add MySQL connector
 ln -sf /usr/share/java/mysql.jar /usr/lib/xwiki/WEB-INF/lib/
+
+#########################
+# Rights
+#########################
+
+## Make sure tomcat is able to write in the data folder
+chown root.tomcat6 /var/lib/xwiki/data
 
 #########################
 # Configuration
@@ -26,7 +35,7 @@ if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
   dbc_generate_include='template:/etc/xwiki/hibernate.cfg.xml'
   dbc_generate_include_owner='root:tomcat6'
   dbc_generate_include_perms='640'
-  dbc_generate_include_args='--ucf -C\; -o template_infile=/usr/share/xwiki/templates/hibernate.mysql.cfg.xml.template'
+  dbc_generate_include_args='--ucf -C\; -o template_infile=/usr/share/xwiki/templates/mysql/hibernate.cfg.xml'
 
   dbc_go xwiki $@
   

@@ -114,7 +114,7 @@
   #if ($validSortOptions.contains($request.sort))
     #set ($order = $request.sort)
   #else
-    #set ($order = 'attach.filename')
+    #set ($order = 'filename')
   #end
   #if (!$order.startsWith('doc.'))
     #set ($order = "attach.${order}")

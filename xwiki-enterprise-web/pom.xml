@@ -581,16 +581,17 @@
               <filtering>false</filtering>
             </resource>
           </webResources>
-          <!-- - Make sure we exclude JCL and LOGJ4 since we want all logging to go through SLF4J
-               - Exclude xwiki-platform-olcore because it's included in xwiki-platform-legacy-oldcore
-               - Excluded to prevent conflict in the patched version of Rhino used by yuicompressor used for JSX.
-                 See http://jira.xwiki.org/jira/browse/XWIKI-6151 for more details.
-
-               Note: We use ?????? because we need to exclude log4j-1.2.16 but keep log4j-over-slf4j-1.6.1.jar
-                     See http://jira.codehaus.org/browse/MWAR-81
+          <!-- - Exclude JCL and LOG4J since we want all logging to go through SLF4J. Note that we're excluding
+                 log4j-<version>.jar but keeping log4j-over-slf4j-<version>.jar
+               - Exclude xwiki-platform-olcore because it's already included in xwiki-platform-legacy-oldcore
+               - Exclude batik-js to prevent conflict with the patched version of Rhino used by yuicompressor used for
+                 JSX. See http://jira.xwiki.org/jira/browse/XWIKI-6151 for more details.
           -->
           <packagingExcludes>
-            WEB-INF/lib/xwiki-platform-oldcore-*.jar,WEB-INF/lib/batik-js-*.jar,WEB-INF/lib/commons-logging-*.jar,WEB-INF/lib/log4j-??????.jar
+            WEB-INF/lib/xwiki-platform-oldcore-*.jar,
+            WEB-INF/lib/batik-js-*.jar,
+            WEB-INF/lib/commons-logging-*.jar,
+            %regex[WEB-INF/lib/log4j-(?!over-slf4j).*.jar]
           </packagingExcludes>
         </configuration>
       </plugin>

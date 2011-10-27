@@ -29,11 +29,14 @@
       <pattern>%d [%t] [%t] %-5p %-30.30c{2} - %m %n</pattern>
     </encoder>
   </appender>
+  
+  <logger name="org.xwiki.test" level="info" />
+  
   <logger name="com.xpn.xwiki.user.impl.LDAP" level="trace"/>
-  <logger name="com.xpn.xwiki" level="warn"/>
   <logger name="com.xpn.xwiki.plugin.ldap" level="trace"/>
-  <logger name="org.jgroups" level="error"/>
+  
+  <!-- By default everything that is of severity WARN, ERROR or FATAL is logged to the console. -->
   <root level="warn">
-    <appender-ref ref="stdout"/>
+    <appender-ref ref="stdout" />
   </root>
 </configuration>

@@ -20,11 +20,10 @@
 package org.xwiki.test.po;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,13 +33,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
+import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -79,6 +87,16 @@ public class TestUtils
     /** Cached secret token. TODO cache for each user. */
     private String secretToken = null;
 
+    private HttpClient adminHTTPClient;
+
+    public TestUtils()
+    {
+        this.adminHTTPClient = new HttpClient();
+        this.adminHTTPClient.getState()
+            .setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("Admin", "admin"));
+        this.adminHTTPClient.getParams().setAuthenticationPreemptive(true);
+    }
+
     /** Used so that AllTests can set the persistent test context. */
     public static void setContext(PersistentTestContext context)
     {
@@ -90,11 +108,11 @@ public class TestUtils
         return context.getDriver();
     }
 
-    private static final String baseURL = "http://localhost:8080/xwiki/";
+    private static final String BASE_URL = "http://localhost:8080/xwiki/";
 
-    private static final String baseBinURL = baseURL + "bin/";
+    private static final String BASE_BIN_URL = BASE_URL + "bin/";
 
-    private static final String baseRestURL = baseURL + "rest/";
+    private static final String BASE_REST_URL = BASE_URL + "rest/";
 
     private static Marshaller marshaller;
 
@@ -325,6 +343,19 @@ public class TestUtils
         getDriver().get(getURLToDeletePage(space, page));
     }
 
+    public boolean pageExists(String space, String page)
+    {
+        boolean exists;
+        try {
+            executeGet(getURL(space, page), Status.OK.getStatusCode());
+            exists = true;
+        } catch (Exception e) {
+            exists = false;
+        }
+
+        return exists;
+    }
+
     /**
      * Get the URL to view a page.
      * 
@@ -358,7 +389,7 @@ public class TestUtils
      */
     public String getURL(String space, String page, String action, String queryString)
     {
-        StringBuilder builder = new StringBuilder(this.baseBinURL);
+        StringBuilder builder = new StringBuilder(this.BASE_BIN_URL);
 
         builder.append(action);
         builder.append('/');
@@ -803,9 +834,9 @@ public class TestUtils
         return new ClassEditPage();
     }
 
-    public String getVersion() throws MalformedURLException, IOException, JAXBException
+    public String getVersion() throws Exception
     {
-        InputStream is = new URL(baseRestURL).openStream();
+        InputStream is = executeGet(BASE_REST_URL, Status.OK.getStatusCode()).getResponseBodyAsStream();
 
         Xwiki xwiki;
         try {
@@ -817,7 +848,7 @@ public class TestUtils
         return xwiki.getVersion();
     }
 
-    public String getMavenVersion() throws MalformedURLException, IOException, JAXBException
+    public String getMavenVersion() throws Exception
     {
         String version = getVersion();
 
@@ -827,5 +858,51 @@ public class TestUtils
         }
 
         return version;
+    }
+
+    public void importXar(File file) throws Exception
+    {
+        // FIXME: improve that with one REST API to directly import a xar
+
+        // make sure xwiki.Import exists
+        if (!pageExists("XWiki", "Import")) {
+            createPage("XWiki", "Import", null, null);
+        }
+
+        // attach file
+        executePut(BASE_REST_URL + "wikis/xwiki/spaces/XWiki/pages/Import/attachments/" + file.getName(),
+            new FileInputStream(file), MediaType.APPLICATION_OCTET_STREAM, Status.ACCEPTED.getStatusCode());
+
+        // import file
+        executeGet(BASE_BIN_URL
+            + "import/XWiki/Import?historyStrategy=add&importAsBackup=true&ajax&action=import&name=" + file.getName(),
+            Status.OK.getStatusCode());
+    }
+
+    protected GetMethod executeGet(String uri, int expectedCode) throws Exception
+    {
+        GetMethod getMethod = new GetMethod(uri);
+
+        int code = this.adminHTTPClient.executeMethod(getMethod);
+        if (code != expectedCode) {
+            throw new Exception("Failed to execute get [" + uri + "] with code [" + code + "]");
+        }
+
+        return getMethod;
+    }
+
+    protected PutMethod executePut(String uri, InputStream content, String mediaType, int expectedCode)
+        throws Exception
+    {
+        PutMethod putMethod = new PutMethod(uri);
+        RequestEntity entity = new InputStreamRequestEntity(content, mediaType);
+        putMethod.setRequestEntity(entity);
+
+        int code = this.adminHTTPClient.executeMethod(putMethod);
+        if (code != expectedCode) {
+            throw new Exception("Failed to execute put [" + uri + "] with code [" + code + "]");
+        }
+
+        return putMethod;
     }
 }

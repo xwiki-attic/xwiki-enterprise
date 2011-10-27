@@ -46,6 +46,9 @@ public class PersistentTestContext
         this.executor.start();
 
         // Use a wrapping driver to display more information when there are failures.
+        // Note: If you wish to make Selenium use your default Firefox profile (for example to use your installed
+        // extensions such as Firebug), simply uncomment the following line:
+        // System.setProperty("webdriver.firefox.profile", "default");
         this.driver = new XWikiWrappingDriver(new FirefoxDriver(), getUtil());
 
         // Wait when trying to find elements on the page till the timeout expires

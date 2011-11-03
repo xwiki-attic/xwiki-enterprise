@@ -21,7 +21,7 @@ package org.xwiki.test.po.administration;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.extension.ExtensionsAdminPage;
+import org.xwiki.test.po.extension.client.ExtensionsAdminPage;
 import org.xwiki.test.po.platform.ViewPage;
 
 /**

@@ -17,33 +17,44 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.test.po.extension;
+package org.xwiki.test.po.extension.server;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
+import org.xwiki.test.po.platform.LiveTableElement;
+import org.xwiki.test.po.platform.ViewPage;
 
-/**
- * Represents the actions possible on the Extension Manager Administration Page after install action.
- * 
- * @version $Id$
- * @since 3.2M3
- */
-public class InstallExtensionsAdminPage extends ExtensionsAdminPage
+public class ExtensionsPage extends ViewPage
 {
-    @FindBy(xpath = "//input[@type='submit'][@name='confirm']")
-    private WebElement applyButton;
+    @FindBy(id = "inputextensionsearch")
+    private WebElement searchInput;
 
-    public InstallAppliedExtensionsAdminPage clickApplyButton()
+    @FindBy(id = "inputextensionid")
+    private WebElement idInput;
+
+    private LiveTableElement liveTable;
+
+    public static ExtensionsPage gotoPage()
     {
-        this.applyButton.click();
-
-        return new InstallAppliedExtensionsAdminPage();
+        getUtil().gotoPage("Extension", "WebHome");
+        return new ExtensionsPage();
     }
 
-    public boolean hasMissingInfosError()
+    public LiveTableElement getLiveTable()
     {
-        return getUtil().findElementWithoutWaiting(getDriver(), By.xpath("//div[@class='box errormessage']")).getText()
-            .equals("You have to provide both extension id and version.");
+        if (this.liveTable == null) {
+            this.liveTable = new LiveTableElement("extensions");
+        }
+
+        return this.liveTable;
+    }
+
+    public ExtensionInlinePage contributeExtension(String extensionId)
+    {
+        this.idInput.clear();
+        this.idInput.sendKeys(extensionId);
+
+        return new ExtensionInlinePage();
     }
 }

@@ -170,10 +170,18 @@ public class BasePage extends BaseElement
     /**
      * Performs a click on the "edit inline" entry of the content menu.
      */
-    public InlinePage editInline()
+    public <T extends InlinePage> T editInline()
     {
         clickContentMenuEditSubMenuEntry("tmEditInline");
-        return new InlinePage();
+        return createInlinePage();
+    }
+    
+    /**
+     * Can be overridden to return extended {@link InlinePage}.
+     */
+    protected <T extends InlinePage> T createInlinePage()
+    {
+        return (T) new InlinePage();
     }
 
     /**

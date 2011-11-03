@@ -23,8 +23,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.extension.ExtensionsAdminPage;
-import org.xwiki.test.po.extension.ResolveExtensionsAdminPage;
+import org.xwiki.test.po.extension.client.ExtensionsAdminPage;
+import org.xwiki.test.po.extension.client.ResolveExtensionsAdminPage;
 
 /**
  * Test the Extensions Manager admin UI.

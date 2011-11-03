@@ -35,5 +35,6 @@
   <modules>
     <module>xwiki-enterprise-installer-generic</module>
     <module>xwiki-enterprise-installer-windows</module>
+    <module>xwiki-enterprise-installer-debian</module>
   </modules>
 </project>

@@ -35,9 +35,9 @@ ln -f /etc/xwiki/xwiki.cfg /usr/lib/xwiki/WEB-INF/
 # var
 #########################
 
-if [ -d /var/lib/xwiki ]; then
+if [ ! -d /var/lib/xwiki ]; then
   mkdir -f /var/lib/xwiki
 fi
-if [ -d /var/lib/xwiki/data ]; then
+if [ ! -d /var/lib/xwiki/data ]; then
   mkdir -f /var/lib/xwiki/data
 fi

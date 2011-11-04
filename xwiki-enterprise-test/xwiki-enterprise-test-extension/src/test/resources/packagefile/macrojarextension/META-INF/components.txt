@@ -1,2 +1,2 @@
-packagefile.testextension.TestMacroExtension
-packagefile.testextension.TestScriptServiceExtension
+packagefile.macrojarextension.TestMacroExtension
+packagefile.macrojarextension.TestScriptServiceExtension

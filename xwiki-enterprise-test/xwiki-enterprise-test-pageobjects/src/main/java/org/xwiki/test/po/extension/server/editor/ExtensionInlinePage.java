@@ -3,116 +3,115 @@ package org.xwiki.test.po.extension.server.editor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.xwiki.test.po.extension.server.ExtensionPage;
 import org.xwiki.test.po.platform.InlinePage;
+import org.xwiki.test.po.platform.editor.wysiwyg.EditorElement;
+import org.xwiki.test.po.platform.editor.wysiwyg.RichTextAreaElement;
 
+/**
+ * @version $Id$
+ * @since 3.3M1
+ */
 public class ExtensionInlinePage extends InlinePage
 {
-    @FindBy(id = "ExtensionCode.ExtensionClass_0_id")
-    private WebElement id;
-
     @FindBy(id = "ExtensionCode.ExtensionClass_0_name")
-    private WebElement name;
-
-    @FindBy(id = "title")
-    private WebElement title;
+    private WebElement nameInput;
 
     @FindBy(id = "ExtensionCode.ExtensionClass_0_type")
-    private WebElement type;
+    private WebElement typeInput;
 
-    @FindBy(id = "ExtensionCode.ExtensionClass_0_summary")
-    private WebElement summary;
+    private final EditorElement summaryEditor = new EditorElement("ExtensionCode.ExtensionClass_0_summary");
 
     @FindBy(id = "ExtensionCode.ExtensionClass_0_authors")
-    private WebElement authors;
+    private WebElement authorsInput;
 
     @FindBy(id = "ExtensionCode.ExtensionClass_0_licenseName")
-    private WebElement licenseName;
+    private WebElement licenseNameList;
 
     @FindBy(id = "ExtensionCode.ExtensionClass_0_source")
-    private WebElement source;
+    private WebElement sourceInput;
 
     @FindBy(id = "ExtensionCode.ExtensionClass_0_icon")
-    private WebElement icon;
+    private WebElement iconInput;
 
-    @FindBy(id = "ExtensionCode.ExtensionClass_0_description")
-    private WebElement description;
+    private final EditorElement descriptionEditor = new EditorElement("ExtensionCode.ExtensionClass_0_description");
 
     @FindBy(id = "ExtensionCode.ExtensionClass_0_customInstallationOnly")
-    private WebElement customInstallationOnly;
+    private WebElement customInstallationOnlyCheckBox;
 
-    @FindBy(id = "ExtensionCode.ExtensionClass_0_installation")
-    private WebElement installation;
-
-    public void setId(String id)
-    {
-        this.id.clear();
-        this.id.sendKeys(id);
-    }
+    private final EditorElement installationEditor = new EditorElement("ExtensionCode.ExtensionClass_0_installation");
 
     public void setName(String name)
     {
-        this.name.clear();
-        this.name.sendKeys(name);
+        this.nameInput.clear();
+        this.nameInput.sendKeys(name);
     }
 
-    public void setTitle(String title)
+    public String getName()
     {
-        this.title.clear();
-        this.title.sendKeys(title);
+        return this.nameInput.getAttribute("value");
     }
 
     public void setType(String type)
     {
-        Select select = new Select(this.type);
+        Select select = new Select(this.typeInput);
         select.selectByValue(type);
     }
 
     public void setSummary(String summary)
     {
-        this.summary.clear();
-        this.summary.sendKeys(summary);
+        RichTextAreaElement richTextArea = this.summaryEditor.waitToLoad().getRichTextArea();
+        richTextArea.clear();
+        richTextArea.sendKeys(summary);
     }
 
     public void setAuthors(String author)
     {
-        this.authors.clear();
-        this.authors.sendKeys(author);
+        this.authorsInput.clear();
+        this.authorsInput.sendKeys(author);
     }
 
     public void setLicenseName(String licenseName)
     {
-        Select select = new Select(this.licenseName);
+        Select select = new Select(this.licenseNameList);
         select.selectByValue(licenseName);
     }
 
     public void setSource(String source)
     {
-        this.source.clear();
-        this.source.sendKeys(source);
+        this.sourceInput.clear();
+        this.sourceInput.sendKeys(source);
     }
 
     public void setIcon(String icon)
     {
-        this.icon.clear();
-        this.icon.sendKeys(icon);
+        this.iconInput.clear();
+        this.iconInput.sendKeys(icon);
     }
 
     public void setDescription(String description)
     {
-        this.description.clear();
-        this.description.sendKeys(description);
+        RichTextAreaElement richTextArea = this.descriptionEditor.waitToLoad().getRichTextArea();
+        richTextArea.clear();
+        richTextArea.sendKeys(description);
     }
 
     public void setCustomInstallationOnly(boolean customInstallationOnly)
     {
-        Select select = new Select(this.customInstallationOnly);
+        Select select = new Select(this.customInstallationOnlyCheckBox);
         select.selectByValue(customInstallationOnly ? "1" : "0");
     }
 
     public void setInstallation(String installation)
     {
-        this.installation.clear();
-        this.installation.sendKeys(installation);
+        RichTextAreaElement richTextArea = this.installationEditor.waitToLoad().getRichTextArea();
+        richTextArea.clear();
+        richTextArea.sendKeys(installation);
     }
 
+    @Override
+    protected ExtensionPage createViewPage()
+    {
+        return new ExtensionPage();
+    }
 }

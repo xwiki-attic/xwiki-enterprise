@@ -27,6 +27,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.po.platform.InlinePage;
+import org.xwiki.test.po.platform.ViewPage;
 import org.xwiki.test.po.platform.editor.wysiwyg.EditorElement;
 import org.xwiki.test.po.platform.editor.wysiwyg.RichTextAreaElement;
 
@@ -196,9 +197,8 @@ public class BlogPostInlinePage extends InlinePage
     }
 
     @Override
-    public BlogPostViewPage clickSaveAndView()
+    protected BlogPostViewPage createViewPage()
     {
-        super.clickSaveAndView();
         return new BlogPostViewPage();
     }
 }

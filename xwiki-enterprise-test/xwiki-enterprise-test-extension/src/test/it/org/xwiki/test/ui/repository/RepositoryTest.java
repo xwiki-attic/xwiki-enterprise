@@ -21,9 +21,14 @@ package org.xwiki.test.ui.repository;
 
 import java.io.File;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.extension.server.ExtensionPage;
+import org.xwiki.test.po.extension.server.ExtensionsPage;
+import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
 
 /**
  * Repository Test.
@@ -51,8 +56,23 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    public void testAddAndDeleteAnnotations()
+    public void testAddExtension() throws Exception
     {
+        ExtensionsPage extensions = ExtensionsPage.gotoPage();
 
+        ExtensionInlinePage extensionInline = extensions.contributeExtension("Macro JAR extension");
+
+        Assert.assertEquals("Macro JAR extension", extensionInline.getName());
+
+        extensionInline.setDescription("Macro JAR extension description");
+        extensionInline.setInstallation("Macro JAR extension installation");
+        extensionInline.setLicenseName("Do What The Fuck You Want To Public License 2");
+        extensionInline.setSource("http://source");
+        extensionInline.setSummary("Macro JAR extension summary");
+        extensionInline.setType("jar");
+
+        ExtensionPage extension = extensionInline.clickSaveAndView();
+
+        getUtil().attachFile("Extension", "Macro JAR extension", new File("target/extensions/macro-jar-extension-1.0.jar"), true);
     }
 }

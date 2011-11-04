@@ -52,15 +52,23 @@ public class InlinePage extends ViewPage
         saveandcontinue.click();
     }
 
-    public ViewPage clickSaveAndView()
+    public <T extends ViewPage> T clickSaveAndView()
     {
         save.click();
-        return new ViewPage();
+        return createViewPage();
     }
 
-    public ViewPage clickCancel()
+    public <T extends ViewPage> T clickCancel()
     {
         cancel.click();
-        return new ViewPage();
+        return createViewPage();
+    }
+
+    /**
+     * Can be overridden to return extended {@link ViewPage}.
+     */
+    protected <T extends ViewPage> T createViewPage()
+    {
+        return (T) new ViewPage();
     }
 }

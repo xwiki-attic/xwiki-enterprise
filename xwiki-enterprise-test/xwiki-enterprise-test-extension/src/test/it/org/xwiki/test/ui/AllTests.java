@@ -19,10 +19,12 @@
  */
 package org.xwiki.test.ui;
 
+import java.io.File;
 import java.util.List;
 import java.util.Properties;
 
 import org.junit.runner.RunWith;
+import org.xwiki.extension.test.ExtensionPackager;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
 import org.xwiki.test.po.PageObjectSuite;
@@ -39,10 +41,16 @@ public class AllTests
     public void preInitialize(List<XWikiExecutor> executors) throws Exception
     {
         XWikiExecutor executor = executors.get(0);
-     
+
         // Put self as extensions repository
         Properties properties = executor.loadXWikiProperties();
         properties.setProperty("extension.repositories", "self:xwiki:http://localhost:8080/xwiki/rest");
         executor.saveXWikiProperties(properties);
+
+        // build test extensions
+
+        ExtensionPackager extensionPackager =
+            new ExtensionPackager(new File("target/"), new File("target/extensions/"));
+        extensionPackager.generateExtensions();
     }
 }

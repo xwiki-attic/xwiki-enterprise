@@ -47,6 +47,7 @@ import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
@@ -858,18 +859,40 @@ public class TestUtils
         return version;
     }
 
-    public void importXar(File file) throws Exception
+    public void attachFile(String space, String page, File file, boolean failIfExists) throws Exception
     {
-        // FIXME: improve that with one REST API to directly import a xar
-
         // make sure xwiki.Import exists
-        if (!pageExists("XWiki", "Import")) {
-            createPage("XWiki", "Import", null, null);
+        if (!pageExists(space, page)) {
+            createPage(space, page, null, null);
         }
 
+        StringBuilder url = new StringBuilder(BASE_REST_URL);
+
+        url.append("wikis/xwiki/spaces/");
+        url.append(escapeURL(space));
+        url.append("/pages/");
+        url.append(escapeURL(page));
+        url.append("/attachments/");
+        url.append(file.getName());
+
+        InputStream is = new FileInputStream(file);
+        try {
+            if (failIfExists) {
+                executePut(url.toString(), is, MediaType.APPLICATION_OCTET_STREAM, Status.CREATED.getStatusCode());
+            } else {
+                executePut(url.toString(), is, MediaType.APPLICATION_OCTET_STREAM, Status.CREATED.getStatusCode(),
+                    Status.ACCEPTED.getStatusCode());
+            }
+        } finally {
+            is.close();
+        }
+    }
+
+    // FIXME: improve that with a REST API to directly import a xar
+    public void importXar(File file) throws Exception
+    {
         // attach file
-        executePut(BASE_REST_URL + "wikis/xwiki/spaces/XWiki/pages/Import/attachments/" + file.getName(),
-            new FileInputStream(file), MediaType.APPLICATION_OCTET_STREAM, Status.ACCEPTED.getStatusCode());
+        attachFile("XWiki", "Import", file, false);
 
         // import file
         executeGet(BASE_BIN_URL
@@ -889,7 +912,7 @@ public class TestUtils
         return getMethod;
     }
 
-    protected PutMethod executePut(String uri, InputStream content, String mediaType, int expectedCode)
+    protected PutMethod executePut(String uri, InputStream content, String mediaType, int... expectedCodes)
         throws Exception
     {
         PutMethod putMethod = new PutMethod(uri);
@@ -897,7 +920,7 @@ public class TestUtils
         putMethod.setRequestEntity(entity);
 
         int code = this.adminHTTPClient.executeMethod(putMethod);
-        if (code != expectedCode) {
+        if (!ArrayUtils.contains(expectedCodes, code)) {
             throw new Exception("Failed to execute put [" + uri + "] with code [" + code + "]");
         }
 

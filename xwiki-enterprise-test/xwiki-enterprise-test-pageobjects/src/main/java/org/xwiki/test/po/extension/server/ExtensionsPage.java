@@ -25,13 +25,20 @@ import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
 import org.xwiki.test.po.platform.LiveTableElement;
 import org.xwiki.test.po.platform.ViewPage;
 
+/**
+ * @version $Id$
+ * @since 3.3M1
+ */
 public class ExtensionsPage extends ViewPage
 {
-    @FindBy(id = "inputextensionsearch")
+    @FindBy(id = "searchTextInput")
     private WebElement searchInput;
 
-    @FindBy(id = "inputextensionid")
-    private WebElement idInput;
+    @FindBy(id = "contributeNameInput")
+    private WebElement contributeNameInput;
+
+    @FindBy(id = "contributeSubmit")
+    private WebElement contributeSubmit;
 
     private LiveTableElement liveTable;
 
@@ -50,10 +57,11 @@ public class ExtensionsPage extends ViewPage
         return this.liveTable;
     }
 
-    public ExtensionInlinePage contributeExtension(String extensionId)
+    public ExtensionInlinePage contributeExtension(String extensionName)
     {
-        this.idInput.clear();
-        this.idInput.sendKeys(extensionId);
+        this.contributeNameInput.clear();
+        this.contributeNameInput.sendKeys(extensionName);
+        this.contributeSubmit.click();
 
         return new ExtensionInlinePage();
     }

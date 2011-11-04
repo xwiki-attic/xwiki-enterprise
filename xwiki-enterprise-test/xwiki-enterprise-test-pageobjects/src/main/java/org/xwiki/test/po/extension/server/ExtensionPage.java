@@ -19,40 +19,13 @@
  */
 package org.xwiki.test.po.extension.server;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
-import org.xwiki.test.po.platform.LiveTableElement;
 import org.xwiki.test.po.platform.ViewPage;
 
+/**
+ * @version $Id$
+ * @since 3.3M1
+ */
 public class ExtensionPage extends ViewPage
 {
-    @FindBy(id = "inputextensionsearch")
-    private WebElement searchInput;
 
-    @FindBy(id = "inputextensionid")
-    private WebElement idInput;
-
-    private LiveTableElement liveTable;
-
-    public static ExtensionPage gotoPage()
-    {
-        getUtil().gotoPage("Extension", "WebHome");
-        return new ExtensionPage();
-    }
-
-    public LiveTableElement getLiveTable()
-    {
-        if (this.liveTable == null) {
-            this.liveTable = new LiveTableElement("extensions");
-        }
-
-        return this.liveTable;
-    }
-
-    @Override
-    protected ExtensionInlinePage createInlinePage()
-    {
-        return new ExtensionInlinePage();
-    }
 }

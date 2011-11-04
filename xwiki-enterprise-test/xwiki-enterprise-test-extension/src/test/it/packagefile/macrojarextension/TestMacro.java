@@ -34,17 +34,17 @@ import org.xwiki.rendering.macro.MacroExecutionException;
 import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 @Component
-@Named("test")
+@Named("macrojarextension")
 @Singleton
 public class TestMacro extends AbstractNoParameterMacro
 {
     public TestMacro()
     {
-        super("test");
+        super("Macro Jar Extension");
     }
 
     @Override
-    public List<Block> execute(Object arg0, String arg1, MacroTransformationContext arg2)
+    public List<Block> execute(Object parameters, String content, MacroTransformationContext context)
         throws MacroExecutionException
     {
         return Arrays.<Block> asList(new WordBlock("test"), new SpaceBlock(), new WordBlock("result"));

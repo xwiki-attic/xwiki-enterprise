@@ -468,6 +468,13 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <!-- LinkChecker -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-linkchecker-refresher</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Logging Dependencies. Ensures all logging goes through SLF4J and Logback. -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>

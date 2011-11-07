@@ -21,7 +21,6 @@ package org.xwiki.test.po.platform;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -40,16 +39,7 @@ public class LiveTableElement extends BaseElement
 
     public LiveTableElement(String livetableId)
     {
-        super();
         this.livetableId = livetableId;
-
-        Assert.assertTrue("Invalid state, the livetable shouldn't be in a displayed state",
-            getUtil().findElementsWithoutWaiting(getDriver(), By.id("uitest-livetable-status")).size() == 0);
-
-        // Register a Javascript event observation since we need to know when the livetable has finished displaying
-        // all its data before we can perform assertions and that livetable sends an event when it has done so.
-        executeJavascript("document.observe('xwiki:livetable:" + this.livetableId + ":displayComplete', function() {"
-            + "document.body.insert(new Element('div', {'id' : 'uitest-livetable-status' }).update('complete'));});");
     }
 
     /**
@@ -57,12 +47,8 @@ public class LiveTableElement extends BaseElement
      */
     public boolean isReady()
     {
-        boolean ready = false;
-        List<WebElement> elements = getUtil().findElementsWithoutWaiting(getDriver(), By.id("uitest-livetable-status"));
-        if (elements.size() > 0) {
-            ready = "complete".equals(elements.get(0).getText());
-        }
-        return ready;
+        return (Boolean) executeJavascript("return window.livetable_" + livetableId
+            + ".loadingStatus.hasClassName('hidden')");
     }
 
     /**
@@ -74,7 +60,6 @@ public class LiveTableElement extends BaseElement
         long t1 = System.currentTimeMillis();
         while ((System.currentTimeMillis() - t1 < getUtil().getTimeout() * 1000L)) {
             if (isReady()) {
-                clearStatus();
                 return;
             }
             try {
@@ -91,25 +76,20 @@ public class LiveTableElement extends BaseElement
 
     public boolean hasColumn(String columnTitle)
     {
-        List<WebElement> elements = getUtil().findElementsWithoutWaiting(getDriver(),
-            By.xpath("//th[contains(@class, 'xwiki-livetable-display-header-text') and normalize-space(.) = '"
-                + columnTitle + "']"));
+        List<WebElement> elements =
+            getUtil().findElementsWithoutWaiting(
+                getDriver(),
+                By.xpath("//th[contains(@class, 'xwiki-livetable-display-header-text') and normalize-space(.) = '"
+                    + columnTitle + "']"));
         return elements.size() > 0;
     }
 
     public void filterColumn(String inputId, String filterValue)
     {
         // Reset the livetable status since the filtering will cause a reload
-        clearStatus();
         WebElement element = getDriver().findElement(By.id(inputId));
         element.sendKeys(filterValue);
         waitUntilReady();
-    }
-
-    /** Drop the element that signals that the livetable finished loading. */
-    private void clearStatus()
-    {
-        executeJavascript("if ($('uitest-livetable-status')) $('uitest-livetable-status').remove();");
     }
 
     /**
@@ -119,12 +99,11 @@ public class LiveTableElement extends BaseElement
     {
         final By by = By.xpath("//tbody[@id = '" + this.livetableId + "-display']//tr");
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    return driver.findElements(by).size() >= minimalExpectedRowCount;
-                }
+                return driver.findElements(by).size() >= minimalExpectedRowCount;
             }
-        );
+        });
     }
 }

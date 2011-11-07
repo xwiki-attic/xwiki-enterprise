@@ -47,7 +47,13 @@
       <scope>test</scope>
       <type>test-jar</type>
     </dependency>
-
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-extension-repository-xwiki-api</artifactId>
+      <version>${platform.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
     <!-- Components to install before the test -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

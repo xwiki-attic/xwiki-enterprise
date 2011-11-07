@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -122,7 +123,8 @@ public class TestUtils
     {
         {
             try {
-                JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb");
+                JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb" +
+                    ":org.xwiki.extension.repository.xwiki.model.jaxb");
                 marshaller = context.createMarshaller();
                 unmarshaller = context.createUnmarshaller();
                 objectFactory = new ObjectFactory();
@@ -835,14 +837,7 @@ public class TestUtils
 
     public String getVersion() throws Exception
     {
-        InputStream is = executeGet(BASE_REST_URL, Status.OK.getStatusCode()).getResponseBodyAsStream();
-
-        Xwiki xwiki;
-        try {
-            xwiki = (Xwiki) unmarshaller.unmarshal(is);
-        } finally {
-            is.close();
-        }
+        Xwiki xwiki = getRESTResource("");
 
         return xwiki.getVersion();
     }
@@ -898,6 +893,26 @@ public class TestUtils
         executeGet(BASE_BIN_URL
             + "import/XWiki/Import?historyStrategy=add&importAsBackup=true&ajax&action=import&name=" + file.getName(),
             Status.OK.getStatusCode());
+    }
+
+    public <T> T getRESTResource(String resourceUri, Object... parameters) throws Exception
+    {
+        UriBuilder builder =
+            UriBuilder.fromUri(BASE_REST_URL.substring(0, BASE_REST_URL.length() - 1)).path(
+                resourceUri.charAt(0) == '/' ? resourceUri.substring(1) : resourceUri);
+
+        String url = builder.build(parameters).toString();
+
+        InputStream is = executeGet(url, Status.OK.getStatusCode()).getResponseBodyAsStream();
+
+        T resource;
+        try {
+            resource = (T) unmarshaller.unmarshal(is);
+        } finally {
+            is.close();
+        }
+
+        return (T) resource;
     }
 
     protected GetMethod executeGet(String uri, int expectedCode) throws Exception

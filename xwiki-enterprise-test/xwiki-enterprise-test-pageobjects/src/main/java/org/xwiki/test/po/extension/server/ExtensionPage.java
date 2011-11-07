@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.po.extension.server;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.xwiki.test.po.platform.ViewPage;
 
 /**
@@ -27,5 +29,18 @@ import org.xwiki.test.po.platform.ViewPage;
  */
 public class ExtensionPage extends ViewPage
 {
-
+    /**
+     * @since 3.3M2
+     */
+    public boolean isValidExtension()
+    {
+        for (WebElement message : getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//div[@class='box successmessage']"))) {
+            if (message.getText().contains("This extension is installable with Extension Manager")) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }

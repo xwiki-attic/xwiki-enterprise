@@ -40,7 +40,7 @@ public class ExtensionsPage extends ViewPage
     @FindBy(id = "contributeSubmit")
     private WebElement contributeSubmit;
 
-    private LiveTableElement liveTable;
+    private ExtensionsLiveTableElement liveTable;
 
     public static ExtensionsPage gotoPage()
     {
@@ -48,10 +48,12 @@ public class ExtensionsPage extends ViewPage
         return new ExtensionsPage();
     }
 
-    public LiveTableElement getLiveTable()
+    public ExtensionsLiveTableElement getLiveTable()
     {
         if (this.liveTable == null) {
-            this.liveTable = new LiveTableElement("extensions");
+            this.liveTable = new ExtensionsLiveTableElement();
+            this.liveTable.waitUntilReady();
+            
         }
 
         return this.liveTable;

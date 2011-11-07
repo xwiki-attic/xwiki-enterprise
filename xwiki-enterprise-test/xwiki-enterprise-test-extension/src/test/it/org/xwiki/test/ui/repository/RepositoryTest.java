@@ -25,9 +25,13 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.extension.repository.xwiki.Resources;
+import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.extension.server.ExtensionPage;
+import org.xwiki.test.po.extension.server.ExtensionsLiveTableElement;
 import org.xwiki.test.po.extension.server.ExtensionsPage;
+import org.xwiki.test.po.extension.server.RepositoryAdminPage;
 import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
 
 /**
@@ -58,21 +62,65 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testAddExtension() throws Exception
     {
-        ExtensionsPage extensions = ExtensionsPage.gotoPage();
+        // Set id prefix
 
-        ExtensionInlinePage extensionInline = extensions.contributeExtension("Macro JAR extension");
+        RepositoryAdminPage repositoryAdminPage = RepositoryAdminPage.gotoPage();
 
-        Assert.assertEquals("Macro JAR extension", extensionInline.getName());
+        repositoryAdminPage.setDefaultIdPrefix("prefix-");
+        repositoryAdminPage.clickUpdateButton();
 
-        extensionInline.setDescription("Macro JAR extension description");
-        extensionInline.setInstallation("Macro JAR extension installation");
+        // Create extension
+
+        String extensionName = "Macro JAR extension";
+
+        ExtensionsPage extensionsPage = ExtensionsPage.gotoPage();
+        
+        ExtensionInlinePage extensionInline = extensionsPage.contributeExtension(extensionName);
+
+        Assert.assertEquals(extensionName, extensionInline.getName());
+
+        extensionInline.setDescription("extension description");
+        extensionInline.setInstallation("extension installation");
         extensionInline.setLicenseName("Do What The Fuck You Want To Public License 2");
         extensionInline.setSource("http://source");
-        extensionInline.setSummary("Macro JAR extension summary");
+        extensionInline.setSummary("extension summary");
         extensionInline.setType("jar");
 
-        ExtensionPage extension = extensionInline.clickSaveAndView();
+        ExtensionPage extensionPage = extensionInline.clickSaveAndView();
 
-        getUtil().attachFile("Extension", "Macro JAR extension", new File("target/extensions/macro-jar-extension-1.0.jar"), true);
+        Assert.assertFalse(extensionPage.isValidExtension());
+
+        // Add version
+        // TODO: add UI to manipulate versions
+
+        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "1.0");
+
+        // Add attachment
+
+        getUtil().attachFile("Extension", extensionName,
+            new File("target/extensions/prefix-macro-jar-extension-1.0.jar"), true);
+
+        // Check livetable
+
+        extensionsPage = ExtensionsPage.gotoPage();
+
+        ExtensionsLiveTableElement livetable = extensionsPage.getLiveTable();
+
+        livetable.filterName(extensionName);
+
+        extensionPage = livetable.clickExtensionName(extensionName);
+
+        // Validate extension state
+
+        Assert.assertTrue(extensionPage.isValidExtension());
+
+        // Validate REST service
+
+        ExtensionVersion extension =
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, "prefix-macro-jar-extension", "1.0");
+
+        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
+        Assert.assertEquals("1.0", extension.getVersion());
+        Assert.assertEquals("jar", extension.getType());
     }
 }

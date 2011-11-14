@@ -226,6 +226,12 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-dashboard-macro</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-formula-macro</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
@@ -245,12 +251,6 @@
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-rendering-macro-container</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-rendering-macro-dashboard</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

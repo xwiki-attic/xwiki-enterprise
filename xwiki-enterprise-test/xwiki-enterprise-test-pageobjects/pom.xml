@@ -79,5 +79,10 @@
       <artifactId>xwiki-platform-rest-model</artifactId>
       <version>${platform.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-extension-repository-xwiki-model</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
   </dependencies>
 </project>

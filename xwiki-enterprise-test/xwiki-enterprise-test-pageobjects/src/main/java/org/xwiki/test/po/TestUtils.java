@@ -86,23 +86,24 @@ public class TestUtils
     private static final String BASE_REST_URL = BASE_URL + "rest/";
 
     /**
-     * Used to perform marshaling of REST resources.
+     * Used to convert Java object into it's REST XML representation.
      */
     private static Marshaller marshaller;
 
     /**
-     * Used to perform unmarshaling of REST resources.
+     * Used to convert REST request XML result into its Java representation.
      */
     private static Unmarshaller unmarshaller;
 
     /**
-     * Used to create REST resources.
+     * Used to create REST Java resources.
      */
     private static ObjectFactory objectFactory;
 
     {
         {
             try {
+                // Initialize REST related tools
                 JAXBContext context =
                     JAXBContext.newInstance("org.xwiki.rest.model.jaxb"
                         + ":org.xwiki.extension.repository.xwiki.model.jaxb");

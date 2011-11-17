@@ -33,8 +33,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -79,6 +79,42 @@ public class TestUtils
 
     private static PersistentTestContext context;
 
+    private static final String BASE_URL = "http://localhost:8080/xwiki/";
+
+    private static final String BASE_BIN_URL = BASE_URL + "bin/";
+
+    private static final String BASE_REST_URL = BASE_URL + "rest/";
+
+    /**
+     * Used to perform marshaling of REST resources.
+     */
+    private static Marshaller marshaller;
+
+    /**
+     * Used to perform unmarshaling of REST resources.
+     */
+    private static Unmarshaller unmarshaller;
+
+    /**
+     * Used to create REST resources.
+     */
+    private static ObjectFactory objectFactory;
+
+    {
+        {
+            try {
+                JAXBContext context =
+                    JAXBContext.newInstance("org.xwiki.rest.model.jaxb"
+                        + ":org.xwiki.extension.repository.xwiki.model.jaxb");
+                marshaller = context.createMarshaller();
+                unmarshaller = context.createUnmarshaller();
+                objectFactory = new ObjectFactory();
+            } catch (JAXBException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     /**
      * How long to wait before failing a test because an element cannot be found. Can be overridden with setTimeout.
      */
@@ -106,32 +142,6 @@ public class TestUtils
     protected XWikiWrappingDriver getDriver()
     {
         return context.getDriver();
-    }
-
-    private static final String BASE_URL = "http://localhost:8080/xwiki/";
-
-    private static final String BASE_BIN_URL = BASE_URL + "bin/";
-
-    private static final String BASE_REST_URL = BASE_URL + "rest/";
-
-    private static Marshaller marshaller;
-
-    private static Unmarshaller unmarshaller;
-
-    private static ObjectFactory objectFactory;
-
-    {
-        {
-            try {
-                JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb" +
-                    ":org.xwiki.extension.repository.xwiki.model.jaxb");
-                marshaller = context.createMarshaller();
-                unmarshaller = context.createUnmarshaller();
-                objectFactory = new ObjectFactory();
-            } catch (JAXBException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     public Session getSession()

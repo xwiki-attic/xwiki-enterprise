@@ -194,8 +194,9 @@ public class EditRightsPane extends BaseElement
     {
         if (this.rightsTable == null) {
             this.rightsTable = new LiveTableElement("usersandgroupstable");
+            this.rightsTable.waitUntilReady();
         }
+
         return this.rightsTable;
     }
-
 }

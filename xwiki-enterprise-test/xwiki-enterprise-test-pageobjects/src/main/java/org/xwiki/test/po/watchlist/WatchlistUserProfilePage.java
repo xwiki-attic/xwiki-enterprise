@@ -68,9 +68,12 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
 
     public LiveTableElement getWatchList()
     {
-        return new LiveTableElement("mywatchlist");
+        LiveTableElement liveTableElement = new LiveTableElement("mywatchlist");
+        liveTableElement.waitUntilReady();
+
+        return liveTableElement;
     }
-    
+
     /**
      * Unregister a document or a space from the watchlist.
      * 
@@ -85,14 +88,19 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
 
     public boolean isWatched(String space, String page)
     {
+        // Make sure the livetable is loaded
+        getWatchList();
+
         // TODO: only looks in the first livetable page currently
+        // TODO: move a generic version of that in LiveTableElement
         return getUtil().hasElement(
             By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/" + page + "']"));
     }
-    
+
     public boolean isWatched(String space)
     {
         // TODO: only looks in the first livetable page currently
+        // TODO: move a generic version of that in LiveTableElement
         return getUtil().hasElement(
             By.xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + space + "/WebHome']"));
     }

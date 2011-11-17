@@ -24,7 +24,6 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.xwiki.test.po.AbstractTest;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.po.watchlist.WatchlistUserProfilePage;
@@ -65,13 +64,6 @@ public class AutoWatchTest extends AbstractTest
 
         // go back to watchlist profile
         this.watchlistPage = WatchlistUserProfilePage.gotoPage(this.watchlistPage.getUsername());
-
-        // TODO: use LiveTableElement instead but does not seems to work...
-        // LiveTableElement watchlist = this.watchlistPage.getWatchList();
-        // watchlist.waitUntilReady();
-        this.watchlistPage.waitUntilElementIsVisible(By
-            .xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/" + this.testSpace
-                + "/testpage']"));
 
         // check if it's registered in the watchlist
         Assert

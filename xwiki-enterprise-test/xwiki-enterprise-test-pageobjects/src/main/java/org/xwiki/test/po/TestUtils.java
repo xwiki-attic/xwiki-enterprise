@@ -86,7 +86,7 @@ public class TestUtils
     private static final String BASE_REST_URL = BASE_URL + "rest/";
 
     /**
-     * Used to convert Java object into it's REST XML representation.
+     * Used to convert Java object into its REST XML representation.
      */
     private static Marshaller marshaller;
 

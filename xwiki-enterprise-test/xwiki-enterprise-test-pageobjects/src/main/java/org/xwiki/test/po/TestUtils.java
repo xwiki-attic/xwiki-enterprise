@@ -33,8 +33,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -86,6 +86,36 @@ public class TestUtils
     private static final String BASE_REST_URL = BASE_URL + "rest/";
 
     /**
+     * Used to perform marshaling of REST resources.
+     */
+    private static Marshaller marshaller;
+
+    /**
+     * Used to perform unmarshaling of REST resources.
+     */
+    private static Unmarshaller unmarshaller;
+
+    /**
+     * Used to create REST resources.
+     */
+    private static ObjectFactory objectFactory;
+
+    {
+        {
+            try {
+                JAXBContext context =
+                    JAXBContext.newInstance("org.xwiki.rest.model.jaxb"
+                        + ":org.xwiki.extension.repository.xwiki.model.jaxb");
+                marshaller = context.createMarshaller();
+                unmarshaller = context.createUnmarshaller();
+                objectFactory = new ObjectFactory();
+            } catch (JAXBException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
      * How long to wait before failing a test because an element cannot be found. Can be overridden with setTimeout.
      */
     private int timeout = 10;
@@ -95,40 +125,12 @@ public class TestUtils
 
     private HttpClient adminHTTPClient;
 
-    /**
-     * Used to perform marshaling of REST resources.
-     */
-    private Marshaller marshaller;
-
-    /**
-     * Used to perform unmarshaling of REST resources.
-     */
-    private Unmarshaller unmarshaller;
-
-    /**
-     * Used to create REST resources.
-     */
-    private ObjectFactory objectFactory;
-
     public TestUtils()
     {
         this.adminHTTPClient = new HttpClient();
         this.adminHTTPClient.getState()
             .setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("Admin", "admin"));
         this.adminHTTPClient.getParams().setAuthenticationPreemptive(true);
-
-        // REST
-
-        try {
-            JAXBContext context =
-                JAXBContext.newInstance("org.xwiki.rest.model.jaxb"
-                    + ":org.xwiki.extension.repository.xwiki.model.jaxb");
-            this.marshaller = context.createMarshaller();
-            this.unmarshaller = context.createUnmarshaller();
-            this.objectFactory = new ObjectFactory();
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /** Used so that AllTests can set the persistent test context. */
@@ -915,7 +917,7 @@ public class TestUtils
 
         T resource;
         try {
-            resource = (T) this.unmarshaller.unmarshal(is);
+            resource = (T) unmarshaller.unmarshal(is);
         } finally {
             is.close();
         }

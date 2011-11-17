@@ -393,7 +393,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String pageName = "Photos";
         String spaceName = "Blog";
         String newSpaceName = "Main";
-        String newPageName = "Dashboard";
+        String newPageName = "SpaceIndex";
 
         openLinkDialog(MENU_WIKI_PAGE);
         // Select the link target page from the tree.
@@ -1230,7 +1230,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         open(currentSpace, getName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
-        String pageToLinkTo = "Dashboard";
+        String pageToLinkTo = "SpaceIndex";
         switchToSource();
         setSourceText("[[the main page>>" + pageToLinkTo + "]]");
         switchToWysiwyg();
@@ -1245,12 +1245,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         // and edit it now
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
-        typeInInput(LABEL_INPUT_TITLE, "the Dashboard");
+        typeInInput(LABEL_INPUT_TITLE, "space index");
         clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[the Dashboard>>" + pageToLinkTo + "]]");
+        assertSourceText("[[space index>>" + pageToLinkTo + "]]");
     }
 
     /**

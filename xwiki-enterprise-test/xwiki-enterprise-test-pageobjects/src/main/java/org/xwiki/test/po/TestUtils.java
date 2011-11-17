@@ -79,6 +79,12 @@ public class TestUtils
 
     private static PersistentTestContext context;
 
+    private static final String BASE_URL = "http://localhost:8080/xwiki/";
+
+    private static final String BASE_BIN_URL = BASE_URL + "bin/";
+
+    private static final String BASE_REST_URL = BASE_URL + "rest/";
+
     /**
      * How long to wait before failing a test because an element cannot be found. Can be overridden with setTimeout.
      */
@@ -89,12 +95,40 @@ public class TestUtils
 
     private HttpClient adminHTTPClient;
 
+    /**
+     * Used to perform marshaling of REST resources.
+     */
+    private Marshaller marshaller;
+
+    /**
+     * Used to perform unmarshaling of REST resources.
+     */
+    private Unmarshaller unmarshaller;
+
+    /**
+     * Used to create REST resources.
+     */
+    private ObjectFactory objectFactory;
+
     public TestUtils()
     {
         this.adminHTTPClient = new HttpClient();
         this.adminHTTPClient.getState()
             .setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("Admin", "admin"));
         this.adminHTTPClient.getParams().setAuthenticationPreemptive(true);
+
+        // REST
+
+        try {
+            JAXBContext context =
+                JAXBContext.newInstance("org.xwiki.rest.model.jaxb"
+                    + ":org.xwiki.extension.repository.xwiki.model.jaxb");
+            this.marshaller = context.createMarshaller();
+            this.unmarshaller = context.createUnmarshaller();
+            this.objectFactory = new ObjectFactory();
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /** Used so that AllTests can set the persistent test context. */
@@ -106,32 +140,6 @@ public class TestUtils
     protected XWikiWrappingDriver getDriver()
     {
         return context.getDriver();
-    }
-
-    private static final String BASE_URL = "http://localhost:8080/xwiki/";
-
-    private static final String BASE_BIN_URL = BASE_URL + "bin/";
-
-    private static final String BASE_REST_URL = BASE_URL + "rest/";
-
-    private static Marshaller marshaller;
-
-    private static Unmarshaller unmarshaller;
-
-    private static ObjectFactory objectFactory;
-
-    {
-        {
-            try {
-                JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb" +
-                    ":org.xwiki.extension.repository.xwiki.model.jaxb");
-                marshaller = context.createMarshaller();
-                unmarshaller = context.createUnmarshaller();
-                objectFactory = new ObjectFactory();
-            } catch (JAXBException e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     public Session getSession()
@@ -907,7 +915,7 @@ public class TestUtils
 
         T resource;
         try {
-            resource = (T) unmarshaller.unmarshal(is);
+            resource = (T) this.unmarshaller.unmarshal(is);
         } finally {
             is.close();
         }

@@ -49,9 +49,12 @@ public class AdministrationPage extends ViewPage
 
     @FindBy(xpath = "//a[contains(@href, 'section=Annotations')]")
     WebElement annotationsLink;
-    
+
     @FindBy(xpath = "//a[contains(@href, 'section=Extension Manager')]")
     WebElement extensionsLink;
+
+    @FindBy(xpath = "//a[contains(@href, 'section=WYSIWYG')]")
+    WebElement wysiwygLink;
 
     public static AdministrationPage gotoPage()
     {
@@ -94,10 +97,16 @@ public class AdministrationPage extends ViewPage
         this.annotationsLink.click();
         return new AnnotationsPage();
     }
-    
+
     public ExtensionsAdminPage clickExtensionsSection()
     {
         this.extensionsLink.click();
         return new ExtensionsAdminPage();
+    }
+
+    public WYSIWYGEditorAdministrationSectionPage clickWYSIWYGEditorSection()
+    {
+        this.wysiwygLink.click();
+        return new WYSIWYGEditorAdministrationSectionPage();
     }
 }

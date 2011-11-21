@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.misc;
 
-import junit.framework.TestCase;
-
-import java.net.URL;
-import java.net.HttpURLConnection;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import junit.framework.TestCase;
 
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.util.PDFTextStripper;
@@ -33,10 +33,17 @@ public class PDFTest extends TestCase
     /**
      * Verify that the PDF export feature works on a single simple page by downloading the PDF and parsing it using
      * PDFBox.
+     * 
+     * @see XWIKI-7048: PDF export templates can display properties of other objects if the XWiki.PDFClass object is
+     *      missing
      */
     public void testExportSingleSimplePageAsPDF() throws Exception
     {
-        URL url = new URL("http://localhost:8080/xwiki/bin/export/Main/WebHome?format=pdf");
+        // We're using Dashboard.WebHome page because it has objects of type XWiki.GadgetClass and they have a title
+        // property which was mistaken with the title property of XWiki.PDFClass before XWIKI-7048 was fixed. The gadget
+        // title contains Velocity code that isn't wrapped in a Velocity macro so it is printed as is if not rendered in
+        // the right context.
+        URL url = new URL("http://localhost:8080/xwiki/bin/export/Dashboard/WebHome?format=pdf");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         InputStream is = connection.getInputStream();
         PDDocument pdd = PDDocument.load(is);
@@ -46,5 +53,6 @@ public class PDFTest extends TestCase
         is.close();
 
         assertTrue("Invalid content", text.contains("Welcome to your wiki"));
+        assertFalse("Invalid content", text.contains("$msg.get(\""));
     }
 }

@@ -64,7 +64,6 @@ public class UploadImagePane extends WizardStepElement
      */
     public void setImageToUpload(String imagePath)
     {
-        fileInput.clear();
         fileInput.sendKeys(imagePath);
     }
 

@@ -19,9 +19,13 @@
  */
 package org.xwiki.test.ui;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.po.administration.ProfileUserProfilePage;
+import org.xwiki.test.po.platform.editor.ProfileEditPage;
 import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
 import org.xwiki.test.po.platform.editor.wysiwyg.UploadImagePane;
 
@@ -51,8 +55,8 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     /**
      * Tests that images are uploaded fine after a preview.
      * 
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-5895">XWIKI-5895</a>: Adding an image in the WYSIWYG
-     *      editor and previewing it without saving the page first makes the XWiki page corrupt.
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-5895">XWIKI-5895</a>: Adding an image in the WYSIWYG editor
+     *      and previewing it without saving the page first makes the XWiki page corrupt.
      **/
     @Test
     public void testUploadImageAfterPreview()
@@ -63,5 +67,22 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         uploadImagePane.setImageToUpload(this.getClass().getResource("/administration/avatar.png").getPath());
         // Fails if the image configuration step doesn't load in a decent amount of time.
         uploadImagePane.configureImage();
+    }
+
+    /**
+     * @see XWIKI:7028: Strange behaviour when pressing back and forward on a page that has 2 WYSIWYG editors displayed.
+     */
+    @Test
+    public void testBackForwardCache()
+    {
+        ProfileEditPage profileEditPage = ProfileUserProfilePage.gotoPage("Admin").editProfile();
+        String about = profileEditPage.getUserAbout();
+        String address = profileEditPage.getUserAddress();
+        getDriver().navigate().back();
+        getDriver().navigate().forward();
+        new ProfileUserProfilePage("Admin").waitForProfileEditionToLoad();
+        profileEditPage = new ProfileEditPage();
+        Assert.assertEquals(about, profileEditPage.getUserAbout());
+        Assert.assertEquals(address, profileEditPage.getUserAddress());
     }
 }

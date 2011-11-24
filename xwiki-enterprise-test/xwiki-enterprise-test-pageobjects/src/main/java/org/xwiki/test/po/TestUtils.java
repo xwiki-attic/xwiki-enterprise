@@ -910,7 +910,7 @@ public class TestUtils
     {
         UriBuilder builder =
             UriBuilder.fromUri(BASE_REST_URL.substring(0, BASE_REST_URL.length() - 1)).path(
-                resourceUri.charAt(0) == '/' ? resourceUri.substring(1) : resourceUri);
+                !resourceUri.isEmpty() && resourceUri.charAt(0) == '/' ? resourceUri.substring(1) : resourceUri);
 
         String url = builder.build(parameters).toString();
 

@@ -20,7 +20,8 @@ public class ExtensionInlinePage extends InlinePage
     @FindBy(id = "ExtensionCode.ExtensionClass_0_type")
     private WebElement typeInput;
 
-    private final EditorElement summaryEditor = new EditorElement("ExtensionCode.ExtensionClass_0_summary");
+    @FindBy(id = "ExtensionCode.ExtensionClass_0_summary")
+    private WebElement summaryInput;
 
     @FindBy(id = "ExtensionCode.ExtensionClass_0_authors")
     private WebElement authorsInput;
@@ -60,9 +61,8 @@ public class ExtensionInlinePage extends InlinePage
 
     public void setSummary(String summary)
     {
-        RichTextAreaElement richTextArea = this.summaryEditor.waitToLoad().getRichTextArea();
-        richTextArea.clear();
-        richTextArea.sendKeys(summary);
+        this.summaryInput.clear();
+        this.summaryInput.sendKeys(summary);
     }
 
     public void setAuthors(String author)

@@ -1794,7 +1794,7 @@ $xwiki.ssx.use("Main.Activity")##
       ## -------------------------------------------------------------------
       #set ($pageName = $page.get(0))
       #set ($pageDate = $page.get(1))
-      #if (($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${pageName}") &amp;&amp; !$iterationDocuments.contains($pageName)) || $pageName.matches(".*:XWiki[.][0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}"))
+      #if ($pageName.matches(".*:XWiki[.][0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}") || ($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${pageName}") &amp;&amp; !$iterationDocuments.contains($pageName)))
         ##
         ## Get event list for the current page
         ## -------------------------------------------------------------------

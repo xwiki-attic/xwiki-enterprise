@@ -85,6 +85,9 @@ public class LiveTableElement extends BaseElement
 
     public void filterColumn(String inputId, String filterValue)
     {
+        // Make extra sure selenium can't go quicker than the livetable status by forcing it before filtering
+        executeJavascript("return $('" + livetableId + "-ajax-loader').removeClassName('hidden')");
+
         WebElement element = getDriver().findElement(By.id(inputId));
         element.sendKeys(filterValue);
         waitUntilReady();

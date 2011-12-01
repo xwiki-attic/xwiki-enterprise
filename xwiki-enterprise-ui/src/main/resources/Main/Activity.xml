@@ -1800,6 +1800,8 @@ $xwiki.ssx.use("Main.Activity")##
       ## -------------------------------------------------------------------
       #set ($pageName = $page.get(0))
       #set ($pageDate = $page.get(1))
+      ## If the affected document name matches ".*:XWiki[.][0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}" then it is a GUID corresponding to message stream events, and not a real document.
+      ## Always assume access to messages. For the rest of the documents, check access.
       #if ($pageName.matches(".*:XWiki[.][0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}") || ($xwiki.hasAccessLevel('view', $context.user, "${context.database}:${pageName}") &amp;&amp; !$iterationDocuments.contains($pageName)))
         ##
         ## Get event list for the current page

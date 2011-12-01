@@ -85,7 +85,6 @@ public class LiveTableElement extends BaseElement
 
     public void filterColumn(String inputId, String filterValue)
     {
-        // Reset the livetable status since the filtering will cause a reload
         WebElement element = getDriver().findElement(By.id(inputId));
         element.sendKeys(filterValue);
         waitUntilReady();

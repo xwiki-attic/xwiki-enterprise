@@ -1027,6 +1027,7 @@ $xwiki.ssx.use("Main.Activity")##
   'directMessage':    'icons/silk/user_go.gif',
   'groupMessage':     'icons/silk/group_go.gif'
 })
+#macro (initDateVariables)
 ##
 ## Date Time
 ##--------------------------------------------------------------
@@ -1036,6 +1037,7 @@ $xwiki.ssx.use("Main.Activity")##
 #set ($todayMonth = $datetool.getMonth($now) + 1)
 #set ($todayMidnight = $currentTime.toDateMidnight())
 #set ($yesterdayMidnight = $todayMidnight.minusDays(1))
+#end
 ##
 ## Formatters
 ##--------------------------------------------------------------
@@ -1490,7 +1492,7 @@ $xwiki.ssx.use("Main.Activity")##
   #set ($yearMsg = '')
   #set ($timeAgoMsg = '')
   #set ($eventDateTime = $xwiki.jodatime.getDateTime($event.date.getTime()))
-  #set ($eventTimeDiff = $currentTime.minus($eventDateTime.millis))
+  #set ($eventTimeDiff = $currentTime.minus($eventDateTime.millis).withZone($xwiki.jodatime.getUTCTimezone()))
   #set ($eventYear = $eventDateTime.year)
   #if ($eventYear != $todayYear)
     #set ($yearMsg = $eventYear)
@@ -1726,7 +1728,11 @@ $xwiki.ssx.use("Main.Activity")##
     ## Date header + Start list
     ## -------------------------------------------------------------------
     #if ($isToday &amp;&amp; $displayToday)
-      #set ($closeList = true)## a new list will be opened
+      #if ($closeList)## there are events from the future
+        &lt;/ul&gt;
+      #else
+        #set ($closeList = true)## a new list will be opened
+      #end
       &lt;h2&gt;$msg.get('timeAgo.today')&lt;/h2&gt;&lt;ul class='activityList'&gt;  ## display 'Today' message
       #set ($displayToday = false)
     #elseif ($isYesterday &amp;&amp; $displayYesterday)## display 'Yesterday' message
@@ -1943,6 +1949,7 @@ $xwiki.ssx.use("Main.Activity")##
     &lt;/div&gt;
   &lt;/form&gt;
 #end
+  #initDateVariables()
   #displayActivity()
 &lt;/div&gt;
 {{/html}}

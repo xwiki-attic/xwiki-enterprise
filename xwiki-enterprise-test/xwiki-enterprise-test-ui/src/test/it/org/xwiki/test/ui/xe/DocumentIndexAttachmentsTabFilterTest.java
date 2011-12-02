@@ -17,7 +17,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
 package org.xwiki.test.ui.xe;
 
 import java.util.List;
@@ -66,10 +65,8 @@ public class DocumentIndexAttachmentsTabFilterTest extends AbstractAdminAuthenti
         // Here we get the results that remain after applying the filter
         // and we check if there is a result that doesn't contain the filter, the test will fail
         for (int i = 0; i < pageResults.size(); i++) {
-            System.out.println(pageResults.get(i).getText());
-            if (pageResults.get(i).getText().toLowerCase().contains("an") != true) {
-                Assert.fail("This " + pageResults.get(i).getText() + " should not be here !");
-            }
+            String text = pageResults.get(i).getText();
+            Assert.assertTrue("This [" + text + "] should not be here !", text.toLowerCase().contains("an"));
         }
     }
 }

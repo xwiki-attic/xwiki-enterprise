@@ -48,6 +48,7 @@ import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
@@ -906,7 +907,7 @@ public class TestUtils
             Status.OK.getStatusCode());
     }
 
-    public <T> T getRESTResource(String resourceUri, Object... parameters) throws Exception
+    public InputStream getRESTInputStream(String resourceUri, Object... parameters) throws Exception
     {
         UriBuilder builder =
             UriBuilder.fromUri(BASE_REST_URL.substring(0, BASE_REST_URL.length() - 1)).path(
@@ -914,7 +915,26 @@ public class TestUtils
 
         String url = builder.build(parameters).toString();
 
-        InputStream is = executeGet(url, Status.OK.getStatusCode()).getResponseBodyAsStream();
+        return executeGet(url, Status.OK.getStatusCode()).getResponseBodyAsStream();
+    }
+
+    public byte[] getRESTBuffer(String resourceUri, Object... parameters) throws Exception
+    {
+        InputStream is = getRESTInputStream(resourceUri, parameters);
+
+        byte[] buffer;
+        try {
+            buffer = IOUtils.toByteArray(is);
+        } finally {
+            is.close();
+        }
+
+        return buffer;
+    }
+
+    public <T> T getRESTResource(String resourceUri, Object... parameters) throws Exception
+    {
+        InputStream is = getRESTInputStream(resourceUri, parameters);
 
         T resource;
         try {

@@ -23,10 +23,12 @@ import java.io.File;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.extension.repository.xwiki.Resources;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
+import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.extension.server.ExtensionPage;
 import org.xwiki.test.po.extension.server.ExtensionsLiveTableElement;
@@ -74,13 +76,13 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         String extensionName = "Macro JAR extension";
 
         ExtensionsPage extensionsPage = ExtensionsPage.gotoPage();
-        
+
         ExtensionInlinePage extensionInline = extensionsPage.contributeExtension(extensionName);
 
         Assert.assertEquals(extensionName, extensionInline.getName());
 
-        extensionInline.setDescription("extension description");
-        extensionInline.setInstallation("extension installation");
+        // extensionInline.setDescription("extension description");
+        // extensionInline.setInstallation("extension installation");
         extensionInline.setLicenseName("Do What The Fuck You Want To Public License 2");
         extensionInline.setSource("http://source");
         extensionInline.setSummary("extension summary");
@@ -97,8 +99,8 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         // Add attachment
 
-        getUtil().attachFile("Extension", extensionName,
-            new File("target/extensions/prefix-macro-jar-extension-1.0.jar"), true);
+        File extensionFile = new File("target/extensions/prefix-macro-jar-extension-1.0.jar");
+        getUtil().attachFile("Extension", extensionName, extensionFile, true);
 
         // Check livetable
 
@@ -114,7 +116,11 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         Assert.assertTrue(extensionPage.isValidExtension());
 
-        // Validate REST service
+        // //////////////////////////////////////////
+        // Validate REST
+        // //////////////////////////////////////////
+
+        // Resolve
 
         ExtensionVersion extension =
             getUtil().getRESTResource(Resources.EXTENSION_VERSION, "prefix-macro-jar-extension", "1.0");
@@ -122,5 +128,26 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
         Assert.assertEquals("1.0", extension.getVersion());
         Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("extension summary", extension.getSummary());
+        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
+
+        // File
+
+        Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, "prefix-macro-jar-extension", "1.0").length);
+
+        // Search
+
+        ExtensionsSearchResult result = getUtil().getRESTResource(Resources.SEARCH);
+
+        Assert.assertEquals(1, result.getTotalHits());
+        Assert.assertEquals(0, result.getOffset());
+        extension = result.getExtensions().get(0);
+
+        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
+        Assert.assertEquals("1.0", extension.getVersion());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("extension summary", extension.getSummary());
+        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
     }
 }

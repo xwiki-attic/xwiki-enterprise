@@ -81,8 +81,8 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         Assert.assertEquals(extensionName, extensionInline.getName());
 
-        // extensionInline.setDescription("extension description");
-        // extensionInline.setInstallation("extension installation");
+        extensionInline.setDescription("extension description");
+        extensionInline.setInstallation("extension installation");
         extensionInline.setLicenseName("Do What The Fuck You Want To Public License 2");
         extensionInline.setSource("http://source");
         extensionInline.setSummary("extension summary");
@@ -130,6 +130,7 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("jar", extension.getType());
         Assert.assertEquals("extension summary", extension.getSummary());
         Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
+        Assert.assertEquals("extension description", extension.getDescription());
 
         // File
 
@@ -149,5 +150,6 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("jar", extension.getType());
         Assert.assertEquals("extension summary", extension.getSummary());
         Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
+        Assert.assertEquals("extension description", extension.getDescription());
     }
 }

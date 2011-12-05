@@ -27,6 +27,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.extension.repository.xwiki.Resources;
+import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionDependency;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
@@ -93,7 +94,7 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertFalse(extensionPage.isValidExtension());
 
         // Add version
-        // TODO: add UI to manipulate versions
+        // TODO: add XR UI to manipulate versions
 
         getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "1.0");
         getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "10.0",
@@ -102,7 +103,12 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
             "download", "attach:prefix-macro-jar-extension-1.0.jar");
 
         // Add dependencies
-        // TODO: add UI to manipulate versions
+        // TODO: add XR UI to manipulate versions
+
+        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionDependencyClass", "version", "1.0",
+            "id", "dependencyid1", "extensionVersion", "10.0");
+        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionDependencyClass", "version", "2.0",
+            "id", "dependencyid2", "extensionVersion", "10.0");
 
         // Add attachment
 
@@ -183,6 +189,13 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
         Assert.assertEquals("extension description", extension.getDescription());
 
+        ExtensionDependency dependency1 = extension.getDependencies().get(0);
+        Assert.assertEquals("dependencyid1", dependency1.getId());
+        Assert.assertEquals("1.0", dependency1.getVersion());
+        ExtensionDependency dependency2 = extension.getDependencies().get(1);
+        Assert.assertEquals("dependencyid2", dependency2.getId());
+        Assert.assertEquals("2.0", dependency2.getVersion());
+
         // File
 
         Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
@@ -204,5 +217,7 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("extension summary", extension.getSummary());
         Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
         Assert.assertEquals("extension description", extension.getDescription());
+
+        // TODO: add support for dependencies in XR search
     }
 }

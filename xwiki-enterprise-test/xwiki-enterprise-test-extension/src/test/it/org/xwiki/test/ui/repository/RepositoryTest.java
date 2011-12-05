@@ -96,11 +96,18 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         // TODO: add UI to manipulate versions
 
         getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "1.0");
+        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "10.0",
+            "download", getUtil().getAttachmentURL("Extension", extensionName, "prefix-macro-jar-extension-1.0.jar"));
+        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "2.0",
+            "download", "attach:prefix-macro-jar-extension-1.0.jar");
+
+        // Add dependencies
+        // TODO: add UI to manipulate versions
 
         // Add attachment
 
         File extensionFile = new File("target/extensions/prefix-macro-jar-extension-1.0.jar");
-        getUtil().attachFile("Extension", extensionName, extensionFile, true);
+        getUtil().attachFile("Extension", extensionName, "prefix-macro-jar-extension-1.0.jar", extensionFile, true);
 
         // Check livetable
 
@@ -120,6 +127,10 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         // Validate REST
         // //////////////////////////////////////////
 
+        // //////////////////////////////////////////
+        // 1.0
+        // //////////////////////////////////////////
+
         // Resolve
 
         ExtensionVersion extension =
@@ -137,7 +148,49 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
             getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, "prefix-macro-jar-extension", "1.0").length);
 
+        // //////////////////////////////////////////
+        // 2.0
+        // //////////////////////////////////////////
+
+        // Resolve
+
+        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, "prefix-macro-jar-extension", "2.0");
+
+        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
+        Assert.assertEquals("2.0", extension.getVersion());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("extension summary", extension.getSummary());
+        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
+        Assert.assertEquals("extension description", extension.getDescription());
+
+        // File
+
+        Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, "prefix-macro-jar-extension", "2.0").length);
+
+        // //////////////////////////////////////////
+        // 10.0
+        // //////////////////////////////////////////
+
+        // Resolve
+
+        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, "prefix-macro-jar-extension", "10.0");
+
+        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
+        Assert.assertEquals("10.0", extension.getVersion());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("extension summary", extension.getSummary());
+        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
+        Assert.assertEquals("extension description", extension.getDescription());
+
+        // File
+
+        Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, "prefix-macro-jar-extension", "10.0").length);
+
+        // //////////////////////////////////////////
         // Search
+        // //////////////////////////////////////////
 
         ExtensionsSearchResult result = getUtil().getRESTResource(Resources.SEARCH);
 
@@ -146,7 +199,7 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         extension = result.getExtensions().get(0);
 
         Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
-        Assert.assertEquals("1.0", extension.getVersion());
+        Assert.assertEquals("10.0", extension.getVersion());
         Assert.assertEquals("jar", extension.getType());
         Assert.assertEquals("extension summary", extension.getSummary());
         Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());

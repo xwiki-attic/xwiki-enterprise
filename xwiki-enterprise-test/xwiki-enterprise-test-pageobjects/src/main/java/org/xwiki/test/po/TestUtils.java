@@ -410,7 +410,8 @@ public class TestUtils
         builder.append('/');
         builder.append(escapeURL(page));
 
-        boolean needToAddSecretToken = !("view".equals(action) || "register".equals(action));
+        boolean needToAddSecretToken =
+            !("view".equals(action) || "register".equals(action) || "download".equals(action));
         if (needToAddSecretToken || !StringUtils.isEmpty(queryString)) {
             builder.append('?');
         }
@@ -443,6 +444,17 @@ public class TestUtils
         }
 
         return getURL(space, page, action, builder.toString());
+    }
+
+    public String getAttachmentURL(String space, String page, String attachment)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(getURL(space, page, "download"));
+        builder.append('/');
+        builder.append(escapeURL(attachment));
+
+        return builder.toString();
     }
 
     /**
@@ -866,7 +878,7 @@ public class TestUtils
         return version;
     }
 
-    public void attachFile(String space, String page, File file, boolean failIfExists) throws Exception
+    public void attachFile(String space, String page, String name, File file, boolean failIfExists) throws Exception
     {
         // make sure xwiki.Import exists
         if (!pageExists(space, page)) {
@@ -880,7 +892,7 @@ public class TestUtils
         url.append("/pages/");
         url.append(escapeURL(page));
         url.append("/attachments/");
-        url.append(file.getName());
+        url.append(escapeURL(file.getName()));
 
         InputStream is = new FileInputStream(file);
         try {
@@ -895,16 +907,16 @@ public class TestUtils
         }
     }
 
-    // FIXME: improve that with a REST API to directly import a xar
+    // FIXME: improve that with a REST API to directly import a XAR
     public void importXar(File file) throws Exception
     {
         // attach file
-        attachFile("XWiki", "Import", file, false);
+        attachFile("XWiki", "Import", file.getName(), file, false);
 
         // import file
-        executeGet(BASE_BIN_URL
-            + "import/XWiki/Import?historyStrategy=add&importAsBackup=true&ajax&action=import&name=" + file.getName(),
-            Status.OK.getStatusCode());
+        executeGet(
+            BASE_BIN_URL + "import/XWiki/Import?historyStrategy=add&importAsBackup=true&ajax&action=import&name="
+                + escapeURL(file.getName()), Status.OK.getStatusCode());
     }
 
     public InputStream getRESTInputStream(String resourceUri, Object... parameters) throws Exception

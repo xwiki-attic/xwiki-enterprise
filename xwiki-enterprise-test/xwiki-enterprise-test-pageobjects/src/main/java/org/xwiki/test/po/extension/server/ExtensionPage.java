@@ -36,7 +36,7 @@ public class ExtensionPage extends ViewPage
     {
         for (WebElement message : getUtil().findElementsWithoutWaiting(getDriver(),
             By.xpath("//div[@class='box successmessage']"))) {
-            if (message.getText().contains("This extension is installable with Extension Manager")) {
+            if (message.getText().contains("Installable with the Extension Manager")) {
                 return true;
             }
         }

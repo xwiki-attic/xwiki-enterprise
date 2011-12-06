@@ -861,7 +861,7 @@ public class TestUtils
 
     public String getVersion() throws Exception
     {
-        Xwiki xwiki = getRESTResource("");
+        Xwiki xwiki = getRESTResource("", null);
 
         return xwiki.getVersion();
     }
@@ -919,20 +919,28 @@ public class TestUtils
                 + escapeURL(file.getName()), Status.OK.getStatusCode());
     }
 
-    public InputStream getRESTInputStream(String resourceUri, Object... parameters) throws Exception
+    public InputStream getRESTInputStream(String resourceUri, Map<String, Object[]> queryParams, Object... elements)
+        throws Exception
     {
         UriBuilder builder =
             UriBuilder.fromUri(BASE_REST_URL.substring(0, BASE_REST_URL.length() - 1)).path(
                 !resourceUri.isEmpty() && resourceUri.charAt(0) == '/' ? resourceUri.substring(1) : resourceUri);
 
-        String url = builder.build(parameters).toString();
+        if (queryParams != null) {
+            for (Map.Entry<String, Object[]> entry : queryParams.entrySet()) {
+                builder.queryParam(entry.getKey(), entry.getValue());
+            }
+        }
+
+        String url = builder.build(elements).toString();
 
         return executeGet(url, Status.OK.getStatusCode()).getResponseBodyAsStream();
     }
 
-    public byte[] getRESTBuffer(String resourceUri, Object... parameters) throws Exception
+    public byte[] getRESTBuffer(String resourceUri, Map<String, Object[]> queryParams, Object... elements)
+        throws Exception
     {
-        InputStream is = getRESTInputStream(resourceUri, parameters);
+        InputStream is = getRESTInputStream(resourceUri, queryParams, elements);
 
         byte[] buffer;
         try {
@@ -944,9 +952,10 @@ public class TestUtils
         return buffer;
     }
 
-    public <T> T getRESTResource(String resourceUri, Object... parameters) throws Exception
+    public <T> T getRESTResource(String resourceUri, Map<String, Object[]> queryParams, Object... elements)
+        throws Exception
     {
-        InputStream is = getRESTInputStream(resourceUri, parameters);
+        InputStream is = getRESTInputStream(resourceUri, queryParams, elements);
 
         T resource;
         try {

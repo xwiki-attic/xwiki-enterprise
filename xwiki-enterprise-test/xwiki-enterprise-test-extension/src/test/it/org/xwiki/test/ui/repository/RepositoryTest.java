@@ -20,6 +20,8 @@
 package org.xwiki.test.ui.repository;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -27,9 +29,11 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.extension.repository.xwiki.Resources;
+import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionAuthor;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionDependency;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
+import org.xwiki.extension.repository.xwiki.model.jaxb.License;
 import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.extension.server.ExtensionPage;
 import org.xwiki.test.po.extension.server.ExtensionsLiveTableElement;
@@ -44,6 +48,14 @@ import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
  */
 public class RepositoryTest extends AbstractAdminAuthenticatedTest
 {
+    private static final String IDPREFIX = "prefix-";
+
+    private ExtensionVersion baseExtension;
+
+    private License baseLicense;
+
+    private ExtensionAuthor baseAuthor;
+
     @Before
     @Override
     public void setUp()
@@ -60,6 +72,27 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
                 throw new RuntimeException("Failed to import XR xar", e);
             }
         }
+
+        // base extension informations
+
+        this.baseExtension = new ExtensionVersion();
+
+        this.baseExtension.setId(IDPREFIX + "macro-jar-extension");
+        this.baseExtension.setType("jar");
+        this.baseExtension.setName("Macro JAR extension");
+        this.baseExtension.setDescription("extension description");
+        this.baseExtension.setSummary("extension summary");
+
+        this.baseLicense = new License();
+        this.baseLicense.setName("Do What The Fuck You Want To Public License 2");
+        this.baseExtension.getLicenses().add(this.baseLicense);
+
+        this.baseAuthor = new ExtensionAuthor();
+        this.baseAuthor.setName("Administrator");
+        this.baseAuthor.setUrl(getUtil().getURL("XWiki", "Admin"));
+        this.baseExtension.getAuthors().add(this.baseAuthor);
+
+        this.baseExtension.setVersion("10.0");
     }
 
     @Test
@@ -69,25 +102,23 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         RepositoryAdminPage repositoryAdminPage = RepositoryAdminPage.gotoPage();
 
-        repositoryAdminPage.setDefaultIdPrefix("prefix-");
+        repositoryAdminPage.setDefaultIdPrefix(IDPREFIX);
         repositoryAdminPage.clickUpdateButton();
 
         // Create extension
 
-        String extensionName = "Macro JAR extension";
-
         ExtensionsPage extensionsPage = ExtensionsPage.gotoPage();
 
-        ExtensionInlinePage extensionInline = extensionsPage.contributeExtension(extensionName);
+        ExtensionInlinePage extensionInline = extensionsPage.contributeExtension(this.baseExtension.getName());
 
-        Assert.assertEquals(extensionName, extensionInline.getName());
+        Assert.assertEquals(this.baseExtension.getName(), extensionInline.getName());
 
-        extensionInline.setDescription("extension description");
+        extensionInline.setDescription(this.baseExtension.getDescription());
         extensionInline.setInstallation("extension installation");
-        extensionInline.setLicenseName("Do What The Fuck You Want To Public License 2");
+        extensionInline.setLicenseName(this.baseLicense.getName());
         extensionInline.setSource("http://source");
-        extensionInline.setSummary("extension summary");
-        extensionInline.setType("jar");
+        extensionInline.setSummary(this.baseExtension.getSummary());
+        extensionInline.setType(this.baseExtension.getType());
 
         ExtensionPage extensionPage = extensionInline.clickSaveAndView();
 
@@ -96,24 +127,34 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         // Add version
         // TODO: add XR UI to manipulate versions
 
-        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "1.0");
-        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "10.0",
-            "download", getUtil().getAttachmentURL("Extension", extensionName, "prefix-macro-jar-extension-1.0.jar"));
-        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionVersionClass", "version", "2.0",
-            "download", "attach:prefix-macro-jar-extension-1.0.jar");
+        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionVersionClass",
+            "version", "1.0");
+        getUtil()
+            .addObject(
+                "Extension",
+                this.baseExtension.getName(),
+                "ExtensionCode.ExtensionVersionClass",
+                "version",
+                this.baseExtension.getVersion(),
+                "download",
+                getUtil().getAttachmentURL("Extension", this.baseExtension.getName(),
+                    "prefix-macro-jar-extension-1.0.jar"));
+        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionVersionClass",
+            "version", "2.0", "download", "attach:prefix-macro-jar-extension-1.0.jar");
 
         // Add dependencies
         // TODO: add XR UI to manipulate versions
 
-        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionDependencyClass", "version", "1.0",
-            "id", "dependencyid1", "extensionVersion", "10.0");
-        getUtil().addObject("Extension", extensionName, "ExtensionCode.ExtensionDependencyClass", "version", "2.0",
-            "id", "dependencyid2", "extensionVersion", "10.0");
+        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionDependencyClass",
+            "version", "1.0", "id", "dependencyid1", "extensionVersion", this.baseExtension.getVersion());
+        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionDependencyClass",
+            "version", "2.0", "id", "dependencyid2", "extensionVersion", this.baseExtension.getVersion());
 
         // Add attachment
 
         File extensionFile = new File("target/extensions/prefix-macro-jar-extension-1.0.jar");
-        getUtil().attachFile("Extension", extensionName, "prefix-macro-jar-extension-1.0.jar", extensionFile, true);
+        getUtil().attachFile("Extension", this.baseExtension.getName(), "prefix-macro-jar-extension-1.0.jar",
+            extensionFile, true);
 
         // Check livetable
 
@@ -121,9 +162,9 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         ExtensionsLiveTableElement livetable = extensionsPage.getLiveTable();
 
-        livetable.filterName(extensionName);
+        livetable.filterName(this.baseExtension.getName());
 
-        extensionPage = livetable.clickExtensionName(extensionName);
+        extensionPage = livetable.clickExtensionName(this.baseExtension.getName());
 
         // Validate extension state
 
@@ -140,19 +181,23 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         // Resolve
 
         ExtensionVersion extension =
-            getUtil().getRESTResource(Resources.EXTENSION_VERSION, "prefix-macro-jar-extension", "1.0");
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId(), "1.0");
 
-        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
+        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getType(), extension.getType());
+        Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
+        Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
+        Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
+        Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
+        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
         Assert.assertEquals("1.0", extension.getVersion());
-        Assert.assertEquals("jar", extension.getType());
-        Assert.assertEquals("extension summary", extension.getSummary());
-        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
-        Assert.assertEquals("extension description", extension.getDescription());
+
+        Assert.assertEquals(getUtil().getURL("Extension", this.baseExtension.getName()), extension.getWebsite());
 
         // File
 
         Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
-            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, "prefix-macro-jar-extension", "1.0").length);
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId(), "1.0").length);
 
         // //////////////////////////////////////////
         // 2.0
@@ -160,19 +205,23 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         // Resolve
 
-        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, "prefix-macro-jar-extension", "2.0");
+        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId(), "2.0");
 
-        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
+        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getType(), extension.getType());
+        Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
+        Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
+        Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
+        Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
+        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
         Assert.assertEquals("2.0", extension.getVersion());
-        Assert.assertEquals("jar", extension.getType());
-        Assert.assertEquals("extension summary", extension.getSummary());
-        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
-        Assert.assertEquals("extension description", extension.getDescription());
+
+        Assert.assertEquals(getUtil().getURL("Extension", this.baseExtension.getName()), extension.getWebsite());
 
         // File
 
         Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
-            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, "prefix-macro-jar-extension", "2.0").length);
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId(), "2.0").length);
 
         // //////////////////////////////////////////
         // 10.0
@@ -180,15 +229,21 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         // Resolve
 
-        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, "prefix-macro-jar-extension", "10.0");
+        extension =
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId(),
+                this.baseExtension.getVersion());
 
-        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
-        Assert.assertEquals("10.0", extension.getVersion());
-        Assert.assertEquals("jar", extension.getType());
-        Assert.assertEquals("extension summary", extension.getSummary());
-        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
-        Assert.assertEquals("extension description", extension.getDescription());
+        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getType(), extension.getType());
+        Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
+        Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
+        Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
+        Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
+        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals(this.baseExtension.getVersion(), extension.getVersion());
 
+        Assert.assertEquals(getUtil().getURL("Extension", this.baseExtension.getName()), extension.getWebsite());
+        
         ExtensionDependency dependency1 = extension.getDependencies().get(0);
         Assert.assertEquals("dependencyid1", dependency1.getId());
         Assert.assertEquals("1.0", dependency1.getVersion());
@@ -198,26 +253,87 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         // File
 
-        Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
-            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, "prefix-macro-jar-extension", "10.0").length);
+        Assert.assertEquals(
+            FileUtils.readFileToByteArray(extensionFile).length,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId(),
+                this.baseExtension.getVersion()).length);
 
         // //////////////////////////////////////////
         // Search
         // //////////////////////////////////////////
 
-        ExtensionsSearchResult result = getUtil().getRESTResource(Resources.SEARCH);
+        // Empty search
+
+        Map<String, Object[]> queryParams = new HashMap<String, Object[]>();
+        ExtensionsSearchResult result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
 
         Assert.assertEquals(1, result.getTotalHits());
         Assert.assertEquals(0, result.getOffset());
         extension = result.getExtensions().get(0);
 
-        Assert.assertEquals("prefix-macro-jar-extension", extension.getId());
-        Assert.assertEquals("10.0", extension.getVersion());
-        Assert.assertEquals("jar", extension.getType());
-        Assert.assertEquals("extension summary", extension.getSummary());
-        Assert.assertEquals("Do What The Fuck You Want To Public License 2", extension.getLicenses().get(0).getName());
-        Assert.assertEquals("extension description", extension.getDescription());
+        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getType(), extension.getType());
+        Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
+        Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
+        Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
+        Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
+        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals(this.baseExtension.getVersion(), extension.getVersion());
 
         // TODO: add support for dependencies in XR search
+
+        // Search pattern
+
+        queryParams.clear();
+        queryParams.put("q", new Object[] {"macro"});
+
+        result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
+
+        Assert.assertEquals(1, result.getTotalHits());
+        Assert.assertEquals(0, result.getOffset());
+        extension = result.getExtensions().get(0);
+
+        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getType(), extension.getType());
+        Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
+        Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
+        Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
+        Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
+        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals(this.baseExtension.getVersion(), extension.getVersion());
+
+        // Wrong search pattern
+
+        queryParams.clear();
+        queryParams.put("q", new Object[] {"notexisting"});
+
+        result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
+
+        Assert.assertEquals(0, result.getTotalHits());
+        Assert.assertEquals(0, result.getOffset());
+        Assert.assertEquals(0, result.getExtensions().size());
+
+        // Search limit offset
+
+        queryParams.clear();
+        queryParams.put("start", new Object[] {1});
+
+        result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
+
+        Assert.assertEquals(1, result.getTotalHits());
+        Assert.assertEquals(1, result.getOffset());
+        Assert.assertEquals(0, result.getExtensions().size());
+
+        // Search limit nb
+
+        queryParams.clear();
+        queryParams.put("number", new Object[] {0});
+
+        result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
+
+        Assert.assertEquals(1, result.getTotalHits());
+        Assert.assertEquals(0, result.getOffset());
+        Assert.assertEquals(0, result.getExtensions().size());
+
     }
 }

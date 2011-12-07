@@ -22,7 +22,6 @@ package org.xwiki.test.po.extension.server;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
-import org.xwiki.test.po.platform.LiveTableElement;
 import org.xwiki.test.po.platform.ViewPage;
 
 /**

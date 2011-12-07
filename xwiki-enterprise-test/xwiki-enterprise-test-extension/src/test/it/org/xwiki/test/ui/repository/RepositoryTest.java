@@ -28,6 +28,7 @@ import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.xwiki.extension.repository.xwiki.Resources;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionAuthor;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionDependency;
@@ -81,7 +82,7 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         this.baseExtension.setType("jar");
         this.baseExtension.setName("Macro JAR extension");
         this.baseExtension.setDescription("extension description");
-        this.baseExtension.setSummary("extension summary");
+        this.baseExtension.setSummary("extension summary, **not bold**");
 
         this.baseLicense = new License();
         this.baseLicense.setName("Do What The Fuck You Want To Public License 2");
@@ -121,6 +122,9 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         extensionInline.setType(this.baseExtension.getType());
 
         ExtensionPage extensionPage = extensionInline.clickSaveAndView();
+
+        // Test summary
+        getUtil().findElementsWithoutWaiting(getDriver(), By.xpath("//tt[text()=\""+this.baseExtension.getSummary()+"\"]"));
 
         Assert.assertFalse(extensionPage.isValidExtension());
 
@@ -334,6 +338,5 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(1, result.getTotalHits());
         Assert.assertEquals(0, result.getOffset());
         Assert.assertEquals(0, result.getExtensions().size());
-
     }
 }

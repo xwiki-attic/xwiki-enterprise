@@ -901,6 +901,26 @@ public class LinkTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-7237: mailto is not stripped when editing a link to an e-mail address
+     */
+    public void testEditLinkToEmailAddress()
+    {
+        switchToSource();
+        setSourceText("[[test>>mailto:test@xwiki.org]]");
+        switchToWysiwyg();
+        moveCaret("XWE.body.firstChild.firstChild.firstChild", 2);
+        openLinkDialog(MENU_LINK_EDIT);
+        waitForStepToLoad("xLinkToUrl");
+        assertEquals("test@xwiki.org", getInputValue("Email address"));
+        typeInInput("Email address", "test@gmail.com");
+        clickButtonWithText(BUTTON_CREATE_LINK);
+        waitForDialogToClose();
+
+        switchToSource();
+        assertSourceText("[[test>>mailto:test@gmail.com]]");
+    }
+
+    /**
      * Test that editing a link with custom parameters set from wiki syntax preserves the parameters of the link.
      * 
      * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3568">XWIKI-3568</a>

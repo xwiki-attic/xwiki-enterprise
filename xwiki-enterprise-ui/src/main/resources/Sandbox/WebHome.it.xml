@@ -107,8 +107,8 @@ Si possono creare delle semplici tabelle in questo modo:
 == Tabella con riga e colonna d'intestazione ==
 
 |= intestazione |= intestazione |= intestazione 
-|= intestazione | cell | cell
-|= intestazione | cell | cell
+|= intestazione | cella | cella
+|= intestazione | cella | cella
 
 
 = Link o Collegamenti =

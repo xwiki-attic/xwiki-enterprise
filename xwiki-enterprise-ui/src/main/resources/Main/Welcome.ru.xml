@@ -2,7 +2,7 @@
 <xwikidoc>
 <web>Main</web>
 <name>Welcome</name>
-<language>uk</language>
+<language>ru</language>
 <defaultLanguage>en</defaultLanguage>
 <translation>1</translation>
 <parent>Main.WebHome</parent>
@@ -22,10 +22,9 @@
 <minorEdit>false</minorEdit>
 <syntaxId>xwiki/2.0</syntaxId>
 <hidden>false</hidden>
-<content>Це легка для редагування місцина в мережі, що допоможе Вам краще співпрацювати. Ця Wiki складається із //сторінок// розсортованих в різних //просторах//. Зараз Ви знаходитесь в **Головному** просторі та дивитесь на його домашню сторінку (**WebHome**).
+<content>Это вебсайт, который легко редактировать и использовать для совместной работы. Эта Вики состоит из //страниц// сгруппированных по //разделам//. Сейчас вы находитесь в основном разделе, который называется **Main**, на домашней странице раздела (**WebHome**).
 
 {{velocity}}
-#if($hasEdit)Для апробації можливостей Вашої wiki спробуйте погратися в [[Просторі "Пісочниця"&gt;&gt;Sandbox.WebHome]].#end
+#if($hasEdit)Вы можете воспользоваться [[Песочницей&gt;&gt;Sandbox.WebHome]], чтобы опробовать все особенности работы с вики.#end
 {{/velocity}}
-
 </content></xwikidoc>

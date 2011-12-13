@@ -246,15 +246,13 @@ public class AdministrationTest extends AbstractXWikiTestCase
         createConfigurableApplication("Main", "TestConfigurable", section, true);
         // Check it's available in global section.
         clickLinkWithText("Administer Wiki");
-        // Section name is transformed into a translation key.
-        String sectionName = "admin." + section.toLowerCase();
-        assertTrue(isAdminMenuItemPresent(sectionName));
-        clickLinkWithText(sectionName);
+        assertTrue(isAdminMenuItemPresent(section));
+        clickLinkWithText(section);
         assertConfigurationPresent("Main", "TestConfigurable");
         // Check that it's not available in space section.
         open("Main", "WebPreferences", "admin");
         // Assert there is no menu item in the administration menu for our configurable application.
-        assertFalse(isAdminMenuItemPresent(sectionName));
+        assertFalse(isAdminMenuItemPresent(section));
     }
 
     /**
@@ -292,8 +290,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         loginAndRegisterUser("someJoker", "bentOnMalice", false);
         open("XWiki", "XWikiPreferences", "admin");
-        // Section name is transformed into a translation key.
-        assertTrue(isAdminMenuItemPresent("admin." + nonExistingSection.toLowerCase()));
+        assertTrue(isAdminMenuItemPresent(nonExistingSection));
 
         // Make sure the error message is displayed.
         // FIXME In 3.0 inaccessible sections don't appear anymore

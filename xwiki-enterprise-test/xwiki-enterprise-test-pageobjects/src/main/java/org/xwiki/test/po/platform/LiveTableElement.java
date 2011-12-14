@@ -94,6 +94,39 @@ public class LiveTableElement extends BaseElement
     }
 
     /**
+     * @param columnTitle the title of live table column
+     * @return the 0-based index of the specified column
+     */
+    public int getColumnIndex(String columnTitle)
+    {
+        WebElement liveTable = getDriver().findElement(By.id(livetableId));
+
+        String escapedColumnTitle = columnTitle.replace("\\", "\\\\").replace("'", "\\'");
+        String columnXPath = "//thead[@class = 'xwiki-livetable-display-header']//th[normalize-space(.) = '%s']";
+        WebElement column = liveTable.findElement(By.xpath(String.format(columnXPath, escapedColumnTitle)));
+
+        return ((Long) getDriver().executeScript("return arguments[0].cellIndex;", column)).intValue();
+    }
+
+    /**
+     * Checks if there is a row that has the given value for the specified column.
+     * 
+     * @param columnTitle the title of live table column
+     * @param columnValue the value to match rows against
+     * @return {@code true} if there is a row that matches the given value for the specified column, {@code false}
+     *         otherwise
+     */
+    public boolean hasRow(String columnTitle, String columnValue)
+    {
+        String escapedColumnValue = columnValue.replace("\\", "\\\\").replace("'", "\\'");
+        String cellXPath = "//tr/td[position() = %s and . = '%s']";
+
+        WebElement liveTableBody = getDriver().findElement(By.id(livetableId + "-display"));
+        return liveTableBody.findElements(
+            By.xpath(String.format(cellXPath, getColumnIndex(columnTitle) + 1, escapedColumnValue))).size() > 0;
+    }
+
+    /**
      * @since 3.2M3
      */
     public void waitUntilRowCountGreaterThan(final int minimalExpectedRowCount)

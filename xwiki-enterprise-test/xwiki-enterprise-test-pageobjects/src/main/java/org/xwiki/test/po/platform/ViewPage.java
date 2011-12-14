@@ -255,6 +255,18 @@ public class ViewPage extends BasePage
         return result.size() > 0;
     }
 
+    /**
+     * Clicks on the breadcrumb link with the given text.
+     * 
+     * @param linkText the link text
+     * @return the target of the breadcrumb link
+     */
+    public ViewPage clickBreadcrumbLink(String linkText)
+    {
+        this.breadcrumbDiv.findElement(By.linkText(linkText)).click();
+        return new ViewPage();
+    }
+
     public boolean isInlinePage()
     {
         return getDriver().findElements(By.xpath("//form[@id = 'inline']")).size() > 0;

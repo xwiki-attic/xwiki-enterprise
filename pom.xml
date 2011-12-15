@@ -57,7 +57,7 @@
     <rendering.version>${enterprise.version}</rendering.version>
     <platform.version>${enterprise.version}</platform.version>
 
-    <smartgwt.version>2.4</smartgwt.version>
+    <smartgwt.version>3.0</smartgwt.version>
 
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
          the build take longer than needed (since it downloads the previous versions). -->

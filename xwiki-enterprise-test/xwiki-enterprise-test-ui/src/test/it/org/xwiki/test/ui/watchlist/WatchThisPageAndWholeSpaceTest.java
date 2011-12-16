@@ -55,10 +55,9 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         this.greenMail = new GreenMail();
         this.greenMail.start();
 
+        // Create a user for the test
         String userName = RandomStringUtils.randomAlphanumeric(5);
-
         this.profilePage = new ProfileUserProfilePage(userName);
-
         getUtil().registerLoginAndGotoPage(profilePage.getUsername(), "password", profilePage.getURL());
 
         // Set the Admin user's email address to use a localhost domain so that the mail is caught by our
@@ -92,7 +91,7 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         ViewPage page = getUtil().createPage("Test", "TestWatchThisPage", "TestWatchThisPage ui", null);
         page.watchDocument();
 
-        // Watch TestWatchWholeSpace
+        // Watch TestWatchWholeSpace.Test1
         page = getUtil().createPage("TestWatchWholeSpace", "Test1", "TestWatchWholeSpace ui", null);
         page.watchSpace();
 
@@ -106,10 +105,8 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         Assert.assertTrue(this.watchlistPage.isWatched("Test", "TestWatchThisPage"));
         Assert.assertTrue(this.watchlistPage.isWatched("TestWatchWholeSpace"));
 
-        // Edit preferences
+        // Ensure that the watchlist notified is set to Daily since we're going to trigger that notifier scheduler job
         WatchlistPreferencesEditPage watchlistPreferences = this.watchlistPage.editPreferences();
-
-        // Ensure the frequency set is every hour so that Hourly job we've modified is used
         watchlistPreferences.setNotifierDaily();
         watchlistPreferences.clickSaveAndContinue();
 
@@ -118,12 +115,13 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(schedulerHomePage.getURL()));
         getUtil().recacheSecretToken();
 
-        // Trigger the notification
+        // Trigger the notification for the Daily job
         schedulerHomePage.clickJobActionTrigger("WatchList daily notifier");
 
         // Wait for the email with a timeout
         Assert.assertTrue("Mail not received", this.greenMail.waitForIncomingEmail(70000, 1));
 
+        // Verify email content
         String messageFromXWiki = GreenMailUtil.getBody(this.greenMail.getReceivedMessages()[0]);
         Assert.assertFalse(messageFromXWiki.contains("Exception"));
         Assert.assertTrue(messageFromXWiki.contains("TestWatchThisPage"));

@@ -104,14 +104,14 @@
     ## Before XWiki 2.0, the default class sheet was suffixed with "ClassSheet". Since 2.0, the suffix is just "Sheet".
     #set($defaultClassSheetReference = $services.model.createDocumentReference($doc.wiki, $doc.space, "${className}ClassSheet"))
     #if(!$xwiki.exists($defaultClassSheetReference))
-      #set($discard = $defaultClassSheetReference.setName("${className}Sheet"))
+      #set($defaultClassSheetReference = $services.model.createDocumentReference($doc.wiki, $doc.space, "${className}Sheet"))
     #end
   #end
   ## Determine the template using naming convention.
   ## Before XWiki 2.0, the default class template was suffixed with "ClassTemplate". Since 2.0, the suffix is just "Template".
   #set($classTemplateReference = $services.model.createDocumentReference($doc.wiki, $doc.space, "${className}ClassTemplate"))
   #if(!$xwiki.exists($classTemplateReference))
-    #set($discard = $classTemplateReference.setName("${className}Template"))
+    #set($classTemplateReference = $services.model.createDocumentReference($doc.wiki, $doc.space, "${className}Template"))
   #end
   #set($classTemplateDoc = $xwiki.getDocument($classTemplateReference))
   #set($hasClassSheets = !$classSheetReferences.isEmpty() || $xwiki.exists($defaultClassSheetReference))

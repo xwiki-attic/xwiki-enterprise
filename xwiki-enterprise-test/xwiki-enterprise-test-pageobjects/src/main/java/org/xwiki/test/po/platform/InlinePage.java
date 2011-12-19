@@ -42,6 +42,9 @@ public class InlinePage extends ViewPage
     @FindBy(name = "action_cancel")
     private WebElement cancel;
 
+    @FindBy(id = "inline")
+    private WebElement form;
+
     public void clickPreview()
     {
         preview.click();
@@ -70,5 +73,19 @@ public class InlinePage extends ViewPage
     protected <T extends ViewPage> T createViewPage()
     {
         return (T) new ViewPage();
+    }
+
+    @Override
+    public String getContent()
+    {
+        return form.getText();
+    }
+
+    /**
+     * @return the form element
+     */
+    protected WebElement getForm()
+    {
+        return form;
     }
 }

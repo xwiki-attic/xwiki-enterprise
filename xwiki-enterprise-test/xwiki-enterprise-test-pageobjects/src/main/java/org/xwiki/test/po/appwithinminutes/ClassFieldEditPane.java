@@ -23,6 +23,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.po.platform.ConfirmationBox;
 
 /**
  * Represents the pane used to edit a class field.
@@ -43,6 +44,12 @@ public class ClassFieldEditPane extends BaseElement
     private final WebElement container;
 
     /**
+     * The field tool box. Includes the icons for moving and deleting a field, as well as the icon to show/hide the
+     * field configuration panel.
+     */
+    private final WebElement toolBox;
+
+    /**
      * Creates a new instance that can be used to edit the specified class field.
      * 
      * @param fieldName the field name
@@ -51,6 +58,7 @@ public class ClassFieldEditPane extends BaseElement
     {
         this.fieldName = fieldName;
         container = getDriver().findElement(By.id("field-" + fieldName));
+        toolBox = container.findElement(By.className("toolBox"));
     }
 
     /**
@@ -60,7 +68,7 @@ public class ClassFieldEditPane extends BaseElement
      */
     public void setPrettyName(String prettyName)
     {
-        WebElement prettyNameInput = container.findElement(By.id(String.format("field-%s_prettyName", fieldName)));
+        WebElement prettyNameInput = getPropertyInput("prettyName");
         prettyNameInput.clear();
         prettyNameInput.sendKeys(prettyName);
     }
@@ -72,12 +80,20 @@ public class ClassFieldEditPane extends BaseElement
      */
     public void setDefaultValue(String defaultValue)
     {
+        WebElement defaultValueInput = getDefaultValueInput();
+        defaultValueInput.clear();
+        defaultValueInput.sendKeys(defaultValue);
+    }
+
+    /**
+     * @return the element used to input the default field value
+     */
+    protected WebElement getDefaultValueInput()
+    {
         // Workaround for the fact that ends-with XPath function is not implemented.
         // substring(@id, string-length(@id) - string-length(suffix) + 1)
         String xpath = "//*[substring(@id, string-length(@id) - %s - 2) = '_0_%s']";
-        WebElement input = container.findElement(By.xpath(String.format(xpath, fieldName.length(), fieldName)));
-        input.clear();
-        input.sendKeys(defaultValue);
+        return container.findElement(By.xpath(String.format(xpath, fieldName.length(), fieldName)));
     }
 
     /**
@@ -85,17 +101,55 @@ public class ClassFieldEditPane extends BaseElement
      */
     public void openConfigPanel()
     {
+        clickToolBoxIcon("Configure");
+    }
+
+    /**
+     * Closes the field configuration panel.
+     */
+    public void closeConfigPanel()
+    {
+        clickToolBoxIcon("Preview");
+        String previewXPath = "//*[@id = 'field-" + fieldName + "']//dl[@class = 'field-viewer']/dd";
+        waitUntilElementHasAttributeValue(By.xpath(previewXPath), "class", "");
+    }
+
+    /**
+     * Clicks on the specified icon from the field tool box.
+     * 
+     * @param alt the alternative text of the tool box icon to be clicked
+     */
+    private void clickToolBoxIcon(String alt)
+    {
         // This doesn't trigger the :hover CSS pseudo class so we're forced to manually set the display of the tool box.
         new Actions(getDriver().getWrappedDriver()).moveToElement(container).perform();
 
-        // FIXME: The following two lines are a hack to overcome the fact that the previous line doesn't trigger the
-        // :hover CSS pseudo class on the field container (even if the mouse if moved over it).
-        WebElement toolBox = container.findElement(By.className("toolBox"));
+        // FIXME: The following line is a hack to overcome the fact that the previous line doesn't trigger the :hover
+        // CSS pseudo class on the field container (even if the mouse if moved over it).
+        showToolBox();
+
+        toolBox.findElement(By.xpath("img[@alt = '" + alt + "']")).click();
+
+        // Reset the tool box display. Remove this line when the :hover CSS class will be triggered by mouse over.
+        hideToolBox();
+    }
+
+    /**
+     * Workaround for the fact that we can't yet hover the field container. We can move the mouse over the field
+     * container but its :hover CSS class is not triggered so the tool box stays hidden.
+     */
+    private void showToolBox()
+    {
         getDriver().executeScript("arguments[0].style.display = 'block';", toolBox);
+    }
 
-        container.findElement(By.xpath("//div[@class = 'toolBox']/img[@title = 'Configure']")).click();
-
-        // Reset the tool box display.
+    /**
+     * Resets the tool box display.
+     * 
+     * @see #showToolBox()
+     */
+    private void hideToolBox()
+    {
         getDriver().executeScript("arguments[0].style.display = '';", toolBox);
     }
 
@@ -106,8 +160,36 @@ public class ClassFieldEditPane extends BaseElement
      */
     public void setName(String fieldName)
     {
-        WebElement nameInput = container.findElement(By.id(String.format("field-%s_name", this.fieldName)));
+        WebElement nameInput = getPropertyInput("name");
         nameInput.clear();
         nameInput.sendKeys(fieldName);
+    }
+
+    /**
+     * @return the field name
+     */
+    public String getName()
+    {
+        return getPropertyInput("name").getAttribute("value");
+    }
+
+    /**
+     * @param propertyName the name of a class field meta property
+     * @return the form input used to edit the value of the specified meta property
+     */
+    protected WebElement getPropertyInput(String propertyName)
+    {
+        return container.findElement(By.id(String.format("field-%s_%s", this.fieldName, propertyName)));
+    }
+
+    /**
+     * Clicks on the delete field icon.
+     * 
+     * @return the confirmation box to confirm the field delete
+     */
+    public ConfirmationBox delete()
+    {
+        clickToolBoxIcon("Delete");
+        return new ConfirmationBox();
     }
 }

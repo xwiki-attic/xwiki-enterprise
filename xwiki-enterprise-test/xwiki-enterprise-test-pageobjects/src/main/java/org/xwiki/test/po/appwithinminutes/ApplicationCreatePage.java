@@ -43,6 +43,17 @@ public class ApplicationCreatePage extends ViewPage
     private WebElement nextStepButton;
 
     /**
+     * Loads the first step of the App Within Minutes wizard
+     * 
+     * @return the page that represents the first step of the App Within Minutes wizard
+     */
+    public static ApplicationCreatePage gotoPage()
+    {
+        getUtil().gotoPage("AppWithinMinutes", "CreateApplication");
+        return new ApplicationCreatePage();
+    }
+
+    /**
      * Types the given string into the application name input.
      * 
      * @param appName the application name
@@ -51,6 +62,14 @@ public class ApplicationCreatePage extends ViewPage
     {
         appNameInput.clear();
         appNameInput.sendKeys(appName);
+    }
+
+    /**
+     * @return the text input where the application name is typed
+     */
+    public WebElement getApplicationNameInput()
+    {
+        return appNameInput;
     }
 
     /**
@@ -67,6 +86,14 @@ public class ApplicationCreatePage extends ViewPage
                 return previews.size() == 1 && previews.get(0).getText().contains(appName);
             }
         });
+    }
+
+    /**
+     * Waits until the application name input has an error message.
+     */
+    public void waitForApplicationNameError()
+    {
+        waitUntilElementHasAttributeValue(By.id("appName"), "class", "xErrorField");
     }
 
     /**

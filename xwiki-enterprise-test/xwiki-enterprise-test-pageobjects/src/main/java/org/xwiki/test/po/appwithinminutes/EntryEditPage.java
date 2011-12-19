@@ -21,7 +21,6 @@ package org.xwiki.test.po.appwithinminutes;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.po.platform.InlinePage;
 
 /**
@@ -48,9 +47,6 @@ public class EntryEditPage extends InlinePage
      */
     private static final String FIELD_XPATH_FORMAT = "//*[substring(@id, string-length(@id) - %s - 2) = '_0_%s']";
 
-    @FindBy(id = "inline")
-    private WebElement form;
-
     /**
      * Retrieves the label of the specified form field.
      * 
@@ -59,7 +55,8 @@ public class EntryEditPage extends InlinePage
      */
     public String getLabel(String fieldName)
     {
-        WebElement label = form.findElement(By.xpath(String.format(LABEL_XPATH_FORMAT, fieldName.length(), fieldName)));
+        String xpath = String.format(LABEL_XPATH_FORMAT, fieldName.length(), fieldName);
+        WebElement label = getForm().findElement(By.xpath(xpath));
         return label.getText();
     }
 
@@ -71,7 +68,8 @@ public class EntryEditPage extends InlinePage
      */
     public String getValue(String fieldName)
     {
-        WebElement field = form.findElement(By.xpath(String.format(FIELD_XPATH_FORMAT, fieldName.length(), fieldName)));
+        String xpath = String.format(FIELD_XPATH_FORMAT, fieldName.length(), fieldName);
+        WebElement field = getForm().findElement(By.xpath(xpath));
         return field.getAttribute("value");
     }
 
@@ -83,7 +81,8 @@ public class EntryEditPage extends InlinePage
      */
     public void setValue(String fieldName, String fieldValue)
     {
-        WebElement field = form.findElement(By.xpath(String.format(FIELD_XPATH_FORMAT, fieldName.length(), fieldName)));
+        String xpath = String.format(FIELD_XPATH_FORMAT, fieldName.length(), fieldName);
+        WebElement field = getForm().findElement(By.xpath(xpath));
         field.clear();
         field.sendKeys(fieldValue);
     }

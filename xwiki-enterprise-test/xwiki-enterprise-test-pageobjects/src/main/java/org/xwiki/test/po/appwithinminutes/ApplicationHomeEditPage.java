@@ -57,9 +57,6 @@ public class ApplicationHomeEditPage extends InlinePage
     @FindBy(xpath = "//div[@class = 'columnPicker']/input[@type = 'image' and @alt = 'Add']")
     private WebElement addColumnButton;
 
-    @FindBy(id = "inline")
-    private WebElement form;
-
     /**
      * The WYSIWYG editor used to input the application description.
      */
@@ -129,7 +126,7 @@ public class ApplicationHomeEditPage extends InlinePage
     {
         String escapedColumnLabel = columnLabel.replace("\\", "\\\\").replace("'", "\\'");
         String xpath = "//ul[@class = 'hList']/li[starts-with(., '" + escapedColumnLabel + "')]";
-        WebElement column = form.findElement(By.xpath(xpath));
+        WebElement column = getForm().findElement(By.xpath(xpath));
         // FIXME: This doesn't trigger the :hover CSS pseudo class. The click still works because the delete X (text) is
         // not really hidden: it is displayed with white color (the page background-color).
         new Actions(getDriver().getWrappedDriver()).moveToElement(column).perform();

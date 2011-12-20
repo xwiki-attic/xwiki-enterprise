@@ -534,7 +534,7 @@ ul.activityList {
   width: 100%;
 }
 .activityUser .activityContent {
-  padding-left: 75px;
+  padding: 0.5em 0 0.5em 75px;
 }
 
 .activitySummary {

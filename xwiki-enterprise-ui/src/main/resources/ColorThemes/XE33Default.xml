@@ -2,7 +2,7 @@
 
 <xwikidoc>
 <web>ColorThemes</web>
-<name>DefaultColorTheme</name>
+<name>XE33Default</name>
 <language></language>
 <defaultLanguage>en</defaultLanguage>
 <translation>0</translation>
@@ -15,7 +15,7 @@
 <date>1251108485000</date>
 <contentUpdateDate>1251108485000</contentUpdateDate>
 <version>1.1</version>
-<title>Default color theme</title>
+<title>XE 3.3 Default</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -430,7 +430,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </titleColor>
 </class>
-<name>ColorThemes.DefaultColorTheme</name>
+<name>ColorThemes.XE33Default</name>
 <number>0</number>
 <className>ColorThemes.ColorThemeClass</className>
 <guid>4c8e6b18-fee0-43aa-b65f-a3f32a39c890</guid>

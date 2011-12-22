@@ -119,6 +119,22 @@ public class ObjectEditPage extends EditPage
         waitUntilElementDisappears(By.className("deprecatedProperties"));
     }
 
+    /**
+     * @param className a class name
+     * @param propertyName a class field name
+     * @return {@code true} if the specified class field is listed as deprecated, {@code false} otherwise
+     */
+    public boolean isPropertyDeprecated(String className, String propertyName)
+    {
+        WebElement xclass = getDriver().findElement(By.id("xclass_" + className));
+        List<WebElement> deprecatedPropertiesElements = xclass.findElements(By.className("deprecatedProperties"));
+        if (deprecatedPropertiesElements.size() > 0) {
+            String xpath = "//label[. = '" + propertyName + ":']";
+            return deprecatedPropertiesElements.get(0).findElements(By.xpath(xpath)).size() > 0;
+        }
+        return false;
+    }
+
     private FormElement getForm()
     {
         if (this.form == null) {

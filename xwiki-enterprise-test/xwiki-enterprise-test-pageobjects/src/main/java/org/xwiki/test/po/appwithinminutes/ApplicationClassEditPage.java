@@ -49,11 +49,20 @@ public class ApplicationClassEditPage extends InlinePage
     @FindBy(name = "xaction_save")
     private WebElement saveButton;
 
+    /**
+     * @see #saveButton
+     */
+    @FindBy(name = "xaction_saveandcontinue")
+    private WebElement saveAndContinueButton;
+
     @FindBy(id = "palette")
     private WebElement palette;
 
     @FindBy(id = "fields")
     private WebElement fields;
+
+    @FindBy(id = "updateClassSheet")
+    private WebElement updateClassSheetCheckbox;
 
     /**
      * Clicks on the Next Step button.
@@ -71,6 +80,12 @@ public class ApplicationClassEditPage extends InlinePage
     {
         saveButton.click();
         return createViewPage();
+    }
+
+    @Override
+    public void clickSaveAndContinue()
+    {
+        saveAndContinueButton.click();
     }
 
     /**
@@ -101,5 +116,28 @@ public class ApplicationClassEditPage extends InlinePage
         });
 
         return new ClassFieldEditPane(addedField.getAttribute("id").substring("field-".length()));
+    }
+
+    /**
+     * Moves the class field specified by the first parameter before the class field specified by the second parameter
+     * 
+     * @param fieldToMove the class field to be moved
+     * @param beforeField the class field before which to insert the field being moved
+     */
+    public void moveFieldBefore(String fieldToMove, String beforeField)
+    {
+        new ClassFieldEditPane(fieldToMove).dragTo(fields.findElement(By.id("field-" + beforeField)), 0, 0);
+    }
+
+    /**
+     * Sets whether the class sheet should be updated or not.
+     * 
+     * @param update {@code true} to update the class sheet, {@code false} otherwise
+     */
+    public void setUpdateClassSheet(boolean update)
+    {
+        if (updateClassSheetCheckbox.isSelected() != update) {
+            updateClassSheetCheckbox.click();
+        }
     }
 }

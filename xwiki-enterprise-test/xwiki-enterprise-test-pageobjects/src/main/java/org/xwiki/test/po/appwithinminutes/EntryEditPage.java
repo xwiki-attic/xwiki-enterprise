@@ -19,6 +19,10 @@
  */
 package org.xwiki.test.po.appwithinminutes;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.po.platform.InlinePage;
@@ -85,5 +89,17 @@ public class EntryEditPage extends InlinePage
         WebElement field = getForm().findElement(By.xpath(xpath));
         field.clear();
         field.sendKeys(fieldValue);
+    }
+
+    /**
+     * @return the list of form field names available on this page
+     */
+    public List<String> getFieldNames()
+    {
+        List<String> fieldNames = new ArrayList<String>();
+        for (WebElement field : getForm().findElements(By.xpath("//*[contains(@name, '_0_')]"))) {
+            fieldNames.add(StringUtils.substringAfter(field.getAttribute("name"), "_0_"));
+        }
+        return fieldNames;
     }
 }

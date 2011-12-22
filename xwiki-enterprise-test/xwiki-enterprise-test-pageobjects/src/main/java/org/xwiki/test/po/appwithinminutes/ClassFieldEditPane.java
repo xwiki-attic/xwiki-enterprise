@@ -192,4 +192,30 @@ public class ClassFieldEditPane extends BaseElement
         clickToolBoxIcon("Delete");
         return new ConfirmationBox();
     }
+
+    /**
+     * Drag this field over the specified element. Use this method to reorder class fields.
+     * 
+     * @param element the element to drag this field to
+     * @param xOffset offset from the top-left corner of the given element; a negative value means coordinates right
+     *            from the given element
+     * @param yOffset offset from the top-left corner of the given element; a negative value means coordinates above the
+     *            given element
+     */
+    public void dragTo(WebElement element, int xOffset, int yOffset)
+    {
+        // This doesn't trigger the :hover CSS pseudo class so we're forced to manually set the display of the tool box.
+        new Actions(getDriver().getWrappedDriver()).moveToElement(container).perform();
+
+        // FIXME: The following line is a hack to overcome the fact that the previous line doesn't trigger the :hover
+        // CSS pseudo class on the field container (even if the mouse if moved over it).
+        showToolBox();
+
+        WebElement dragHandler = toolBox.findElement(By.xpath("img[@alt = 'Move']"));
+        new Actions(getDriver().getWrappedDriver()).clickAndHold(dragHandler).moveToElement(element, xOffset, yOffset)
+            .perform();
+
+        // Reset the tool box display. Remove this line when the :hover CSS class will be triggered by mouse over.
+        hideToolBox();
+    }
 }

@@ -19,7 +19,7 @@
  */
 package org.xwiki.test.po.blog;
 
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Represents the blog home page.

@@ -23,9 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.openqa.selenium.Keys;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.TestUtils;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Verify the keyboard shortcuts feature of XWiki.

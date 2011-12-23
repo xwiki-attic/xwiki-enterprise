@@ -23,8 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
  * Test template handling.

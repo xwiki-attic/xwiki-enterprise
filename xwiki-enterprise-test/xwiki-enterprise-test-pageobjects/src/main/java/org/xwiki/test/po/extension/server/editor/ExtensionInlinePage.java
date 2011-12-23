@@ -4,9 +4,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.xwiki.test.po.extension.server.ExtensionPage;
-import org.xwiki.test.po.platform.InlinePage;
-import org.xwiki.test.po.platform.editor.wysiwyg.EditorElement;
-import org.xwiki.test.po.platform.editor.wysiwyg.RichTextAreaElement;
+import org.xwiki.test.ui.po.InlinePage;
+import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
+import org.xwiki.test.ui.po.editor.wysiwyg.RichTextAreaElement;
 
 /**
  * @version $Id$

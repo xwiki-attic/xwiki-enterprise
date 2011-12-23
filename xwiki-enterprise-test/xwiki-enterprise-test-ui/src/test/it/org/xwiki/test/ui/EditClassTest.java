@@ -23,11 +23,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.platform.FormElement;
-import org.xwiki.test.po.platform.ViewPage;
-import org.xwiki.test.po.platform.editor.ClassEditPage;
-import org.xwiki.test.po.platform.editor.ObjectEditPage;
+import org.xwiki.test.ui.po.FormElement;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.ClassEditPage;
+import org.xwiki.test.ui.po.editor.ObjectEditPage;
 
 /**
  * Test XClass editing.

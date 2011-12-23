@@ -25,13 +25,13 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractTest;
+import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.po.administration.PreferencesUserProfilePage;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
-import org.xwiki.test.po.platform.editor.ChangeAvatarPage;
-import org.xwiki.test.po.platform.editor.ChangePasswordPage;
-import org.xwiki.test.po.platform.editor.PreferencesEditPage;
-import org.xwiki.test.po.platform.editor.ProfileEditPage;
+import org.xwiki.test.ui.po.editor.ChangeAvatarPage;
+import org.xwiki.test.ui.po.editor.ChangePasswordPage;
+import org.xwiki.test.ui.po.editor.PreferencesEditPage;
+import org.xwiki.test.ui.po.editor.ProfileEditPage;
 import org.xwiki.test.po.xe.HomePage;
 
 /**

@@ -22,8 +22,8 @@ package org.xwiki.test.po.xe;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.BaseElement;
-import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.po.BaseElement;
+import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 
 import java.util.List;
 

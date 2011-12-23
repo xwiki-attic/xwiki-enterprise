@@ -23,7 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.blog.ManageCategoriesPage;
 
 /**

@@ -24,7 +24,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
  * Implements the Annotation window that appears when selecting an annotation

@@ -22,7 +22,7 @@ package org.xwiki.test.po.blog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.BasePage;
+import org.xwiki.test.ui.po.BasePage;
 
 /**
  * Represents Blog category management page.

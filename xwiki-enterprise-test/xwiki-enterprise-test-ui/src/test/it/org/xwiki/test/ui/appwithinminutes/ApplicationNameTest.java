@@ -23,9 +23,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.openqa.selenium.Keys;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.appwithinminutes.ApplicationCreatePage;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Tests the first step of the App Within Minutes wizard.

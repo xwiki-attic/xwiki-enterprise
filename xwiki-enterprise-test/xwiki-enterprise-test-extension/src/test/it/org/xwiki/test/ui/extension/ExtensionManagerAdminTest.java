@@ -22,7 +22,7 @@ package org.xwiki.test.ui.extension;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.extension.client.ExtensionsAdminPage;
 import org.xwiki.test.po.extension.client.ResolveExtensionsAdminPage;
 

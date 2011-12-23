@@ -26,7 +26,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Represents the actions possible on the Administration Import Page.

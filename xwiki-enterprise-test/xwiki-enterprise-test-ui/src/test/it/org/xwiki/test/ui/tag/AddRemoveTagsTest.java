@@ -24,7 +24,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.tag.AddTagsPane;
 import org.xwiki.test.po.tag.TaggablePage;
 

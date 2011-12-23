@@ -24,9 +24,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.platform.AttachmentsPane;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.AttachmentsPane;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Test saving and downloading of attachments.

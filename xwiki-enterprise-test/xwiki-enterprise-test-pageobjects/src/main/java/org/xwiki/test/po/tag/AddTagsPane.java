@@ -24,7 +24,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
  * Models the panel that is displayed when we want to add new tags to a wiki page.

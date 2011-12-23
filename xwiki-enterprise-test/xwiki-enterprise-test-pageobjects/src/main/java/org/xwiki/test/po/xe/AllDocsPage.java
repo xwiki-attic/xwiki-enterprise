@@ -21,8 +21,8 @@ package org.xwiki.test.po.xe;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.LiveTableElement;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.LiveTableElement;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Represents the actions possible on the AllDocs Page.

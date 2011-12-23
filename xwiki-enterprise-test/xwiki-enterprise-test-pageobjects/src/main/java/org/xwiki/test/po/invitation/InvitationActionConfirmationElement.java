@@ -22,7 +22,7 @@ package org.xwiki.test.po.invitation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
  * Represents the actions possible on the confirmation dialog for the invitation appliaction.

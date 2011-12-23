@@ -25,7 +25,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.po.administration.AbstractUserProfilePage;
-import org.xwiki.test.po.platform.LiveTableElement;
+import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.po.watchlist.editor.WatchlistPreferencesEditPage;
 
 /**

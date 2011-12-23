@@ -21,7 +21,7 @@ package org.xwiki.test.po.xe;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Represents the sheet used to display information about a XWiki class.

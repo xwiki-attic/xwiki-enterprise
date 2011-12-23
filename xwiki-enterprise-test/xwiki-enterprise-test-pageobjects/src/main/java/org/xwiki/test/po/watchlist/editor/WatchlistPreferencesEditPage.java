@@ -22,7 +22,7 @@ package org.xwiki.test.po.watchlist.editor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.xwiki.test.po.platform.editor.EditPage;
+import org.xwiki.test.ui.po.editor.EditPage;
 
 /** User profile, the watchlist pane, edit mode. */
 public class WatchlistPreferencesEditPage extends EditPage

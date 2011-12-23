@@ -23,8 +23,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
-import org.xwiki.test.po.platform.LiveTableElement;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.LiveTableElement;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Represents the actions possible on the application home page.

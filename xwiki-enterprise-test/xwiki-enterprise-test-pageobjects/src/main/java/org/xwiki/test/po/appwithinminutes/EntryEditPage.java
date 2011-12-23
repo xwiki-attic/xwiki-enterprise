@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.platform.InlinePage;
+import org.xwiki.test.ui.po.InlinePage;
 
 /**
  * Represents the actions possible when editing an application entry.

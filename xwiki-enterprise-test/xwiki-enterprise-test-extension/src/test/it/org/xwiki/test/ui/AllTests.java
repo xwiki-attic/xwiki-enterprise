@@ -27,7 +27,6 @@ import org.junit.runner.RunWith;
 import org.xwiki.extension.test.ExtensionPackager;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
-import org.xwiki.test.po.PageObjectSuite;
 
 /**
  * Runs all functional tests found in the classpath.

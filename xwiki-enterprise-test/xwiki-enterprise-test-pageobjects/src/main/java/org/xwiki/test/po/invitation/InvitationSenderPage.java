@@ -25,9 +25,9 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.BasePage;
-import org.xwiki.test.po.platform.FormElement;
-import org.xwiki.test.po.platform.TableElement;
+import org.xwiki.test.ui.po.BasePage;
+import org.xwiki.test.ui.po.FormElement;
+import org.xwiki.test.ui.po.TableElement;
 
 /**
  * Represents the actions possible on the invitation sender page.

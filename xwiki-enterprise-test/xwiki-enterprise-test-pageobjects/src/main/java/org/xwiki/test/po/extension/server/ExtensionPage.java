@@ -21,7 +21,7 @@ package org.xwiki.test.po.extension.server;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * @version $Id$

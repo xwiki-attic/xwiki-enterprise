@@ -23,11 +23,10 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
-import org.xwiki.test.po.platform.editor.ProfileEditPage;
-import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
-import org.xwiki.test.po.platform.editor.wysiwyg.UploadImagePane;
+import org.xwiki.test.ui.po.editor.ProfileEditPage;
+import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.po.editor.wysiwyg.UploadImagePane;
 
 /**
  * Test WYSIWYG content editing.

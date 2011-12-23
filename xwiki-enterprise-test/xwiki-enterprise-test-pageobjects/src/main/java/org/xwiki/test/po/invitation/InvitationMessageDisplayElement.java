@@ -24,7 +24,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
  * Represents the actions possible on the section of a page which allows the user to previw an unsent message or

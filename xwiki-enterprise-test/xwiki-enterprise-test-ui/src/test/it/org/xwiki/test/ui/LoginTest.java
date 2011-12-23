@@ -22,12 +22,11 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractTest;
 import org.xwiki.test.po.administration.GlobalRightsAdministrationSectionPage;
-import org.xwiki.test.po.platform.LoginPage;
-import org.xwiki.test.po.platform.ResubmissionPage;
-import org.xwiki.test.po.platform.ViewPage;
-import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.ui.po.LoginPage;
+import org.xwiki.test.ui.po.ResubmissionPage;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
  * Test the Login feature.

@@ -22,8 +22,8 @@ package org.xwiki.test.po.annotations;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.platform.BaseElement;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.BaseElement;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * @since 3.2M3

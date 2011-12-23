@@ -26,15 +26,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.TemplateProviderInlinePage;
 import org.xwiki.test.po.administration.TemplatesAdministrationSectionPage;
-import org.xwiki.test.po.platform.CreatePagePage;
-import org.xwiki.test.po.platform.CreateSpacePage;
-import org.xwiki.test.po.platform.DocumentDoesNotExistPage;
-import org.xwiki.test.po.platform.ViewPage;
-import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
-import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.ui.po.CreatePagePage;
+import org.xwiki.test.ui.po.CreateSpacePage;
+import org.xwiki.test.ui.po.DocumentDoesNotExistPage;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.po.editor.WikiEditPage;
 import org.xwiki.test.po.xe.HomePage;
 
 /**

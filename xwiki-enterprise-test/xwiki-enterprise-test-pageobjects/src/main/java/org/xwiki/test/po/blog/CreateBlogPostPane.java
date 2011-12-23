@@ -21,7 +21,7 @@ package org.xwiki.test.po.blog;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
  * The create blog post form.

@@ -22,8 +22,8 @@ package org.xwiki.test.po.scheduler;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.DeletePage;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.DeletePage;
+import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.po.scheduler.editor.SchedulerEditPage;
 
 public class SchedulerHomePage extends ViewPage

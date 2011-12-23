@@ -24,10 +24,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.xwiki.test.po.platform.InlinePage;
-import org.xwiki.test.po.platform.ViewPage;
-import org.xwiki.test.po.platform.editor.wysiwyg.EditorElement;
-import org.xwiki.test.po.platform.editor.wysiwyg.RichTextAreaElement;
+import org.xwiki.test.ui.po.InlinePage;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
+import org.xwiki.test.ui.po.editor.wysiwyg.RichTextAreaElement;
 
 /**
  * Represents the actions available when editing the application home page. This is also the third step of the App

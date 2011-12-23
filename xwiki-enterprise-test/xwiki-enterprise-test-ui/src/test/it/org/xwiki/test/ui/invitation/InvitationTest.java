@@ -33,17 +33,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.AbstractTest;
-import org.xwiki.test.po.TestUtils;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.TestUtils;
 import org.xwiki.test.po.administration.AdministrationSectionPage;
 import org.xwiki.test.po.invitation.InspectInvitationsPage;
 import org.xwiki.test.po.invitation.InvitationActionConfirmationElement;
 import org.xwiki.test.po.invitation.InvitationGuestActionsPage;
 import org.xwiki.test.po.invitation.InvitationMessageDisplayElement;
 import org.xwiki.test.po.invitation.InvitationSenderPage;
-import org.xwiki.test.po.platform.RegistrationPage;
-import org.xwiki.test.po.platform.TableElement;
-import org.xwiki.test.po.platform.editor.ObjectEditPage;
+import org.xwiki.test.ui.po.RegistrationPage;
+import org.xwiki.test.ui.po.TableElement;
+import org.xwiki.test.ui.po.editor.ObjectEditPage;
 
 import com.icegreen.greenmail.util.GreenMail;
 

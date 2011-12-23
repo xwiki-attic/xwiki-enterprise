@@ -23,7 +23,7 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractTest;
+import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.po.appwithinminutes.AppWithinMinutesHomePage;
 import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
 import org.xwiki.test.po.appwithinminutes.ApplicationCreatePage;
@@ -32,7 +32,7 @@ import org.xwiki.test.po.appwithinminutes.ApplicationHomePage;
 import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.EntryNamePane;
-import org.xwiki.test.po.platform.LiveTableElement;
+import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
  * Tests the App Within Minutes wizard.

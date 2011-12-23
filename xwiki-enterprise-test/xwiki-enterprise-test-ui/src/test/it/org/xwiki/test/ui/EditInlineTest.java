@@ -25,12 +25,11 @@ import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
-import org.xwiki.test.po.platform.InlinePage;
-import org.xwiki.test.po.platform.ViewPage;
-import org.xwiki.test.po.platform.editor.ObjectEditPage;
-import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.ui.po.InlinePage;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.ObjectEditPage;
+import org.xwiki.test.ui.po.editor.WikiEditPage;
 import org.xwiki.test.po.tag.TaggablePage;
 
 /**

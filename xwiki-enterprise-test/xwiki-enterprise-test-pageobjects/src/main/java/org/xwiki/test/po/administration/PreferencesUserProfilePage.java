@@ -21,8 +21,8 @@ package org.xwiki.test.po.administration;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.editor.ChangePasswordPage;
-import org.xwiki.test.po.platform.editor.PreferencesEditPage;
+import org.xwiki.test.ui.po.editor.ChangePasswordPage;
+import org.xwiki.test.ui.po.editor.PreferencesEditPage;
 
 /**
  * Represents the User Profile Preferences Tab.

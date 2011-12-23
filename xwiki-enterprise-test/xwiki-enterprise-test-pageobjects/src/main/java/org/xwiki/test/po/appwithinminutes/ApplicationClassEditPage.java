@@ -27,8 +27,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.xwiki.test.po.platform.InlinePage;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.InlinePage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Represents the actions available when editing the application class. This is also the second step of the App Within

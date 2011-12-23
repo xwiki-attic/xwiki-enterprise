@@ -23,9 +23,9 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.editor.ChangeAvatarPage;
-import org.xwiki.test.po.platform.editor.ProfileEditPage;
-import org.xwiki.test.po.platform.editor.wysiwyg.EditorElement;
+import org.xwiki.test.ui.po.editor.ChangeAvatarPage;
+import org.xwiki.test.ui.po.editor.ProfileEditPage;
+import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
 
 /**
  * Represents the User Profile Profile Tab.

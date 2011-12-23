@@ -25,10 +25,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.platform.DeleteConfirmationPage;
-import org.xwiki.test.po.platform.DeletePage;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.DeleteConfirmationPage;
+import org.xwiki.test.ui.po.DeletePage;
+import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.po.xe.HomePage;
 
 /**

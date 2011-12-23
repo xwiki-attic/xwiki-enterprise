@@ -1,7 +1,7 @@
 package org.xwiki.test.po.extension.server;
 
 import org.openqa.selenium.By;
-import org.xwiki.test.po.platform.LiveTableElement;
+import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
  * @version $Id$

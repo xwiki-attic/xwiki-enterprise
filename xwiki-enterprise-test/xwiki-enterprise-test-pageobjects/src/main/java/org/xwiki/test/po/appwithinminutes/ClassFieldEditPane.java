@@ -22,8 +22,8 @@ package org.xwiki.test.po.appwithinminutes;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.xwiki.test.po.platform.BaseElement;
-import org.xwiki.test.po.platform.ConfirmationBox;
+import org.xwiki.test.ui.po.BaseElement;
+import org.xwiki.test.ui.po.ConfirmationBox;
 
 /**
  * Represents the pane used to edit a class field.

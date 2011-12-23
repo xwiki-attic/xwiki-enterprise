@@ -24,7 +24,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.platform.BasePage;
+import org.xwiki.test.ui.po.BasePage;
 
 /**
  * Represents the actions possible by guests on the invitation application.

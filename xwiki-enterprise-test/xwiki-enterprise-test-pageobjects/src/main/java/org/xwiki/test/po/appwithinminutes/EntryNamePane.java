@@ -21,7 +21,7 @@ package org.xwiki.test.po.appwithinminutes;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
  * Represents the pane used to input the entry name.

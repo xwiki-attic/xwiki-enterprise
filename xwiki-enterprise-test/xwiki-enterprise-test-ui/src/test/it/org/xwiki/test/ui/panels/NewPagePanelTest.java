@@ -21,9 +21,9 @@ package org.xwiki.test.ui.panels;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.panels.NewPagePanel;
-import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 
 /**
  * Test page creation using the NewPage Panel.

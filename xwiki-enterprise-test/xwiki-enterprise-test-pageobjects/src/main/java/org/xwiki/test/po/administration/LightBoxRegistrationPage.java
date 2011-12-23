@@ -22,7 +22,7 @@ package org.xwiki.test.po.administration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.AbstractRegistrationPage;
+import org.xwiki.test.ui.po.AbstractRegistrationPage;
 
 /**
  * Represents a registration page in a lightbox.

@@ -25,11 +25,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.AdministrationPage;
 import org.xwiki.test.po.administration.LocalizationAdministrationSectionPage;
-import org.xwiki.test.po.platform.ViewPage;
-import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
  * Verify the ability to change the language.

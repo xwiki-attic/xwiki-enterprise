@@ -23,9 +23,8 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.platform.CommentsTab;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.CommentsTab;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Test comment and reply on XWiki Pages when logged as Administrator.

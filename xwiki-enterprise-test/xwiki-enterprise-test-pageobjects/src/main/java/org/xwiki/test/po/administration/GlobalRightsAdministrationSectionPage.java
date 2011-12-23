@@ -22,7 +22,7 @@ package org.xwiki.test.po.administration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.EditRightsPane;
+import org.xwiki.test.ui.po.EditRightsPane;
 
 /**
  * Represents the actions possible on the Global Rights Administration Page.

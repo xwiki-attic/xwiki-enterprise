@@ -22,7 +22,7 @@ package org.xwiki.test.po.annotations;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.BaseElement;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
  * Represents the Annotation window that appears when selecting a text and pressing CTRL+M.

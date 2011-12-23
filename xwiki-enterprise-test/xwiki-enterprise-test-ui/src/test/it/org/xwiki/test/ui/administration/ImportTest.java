@@ -26,11 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.AdministrationPage;
 import org.xwiki.test.po.administration.ImportAdministrationSectionPage;
-import org.xwiki.test.po.platform.HistoryTab;
-import org.xwiki.test.po.platform.ViewPage;
+import org.xwiki.test.ui.po.HistoryTab;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Test the Import XAR feature.

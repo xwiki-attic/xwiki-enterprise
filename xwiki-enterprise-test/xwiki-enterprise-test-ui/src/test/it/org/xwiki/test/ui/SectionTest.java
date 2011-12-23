@@ -20,10 +20,9 @@
 package org.xwiki.test.ui;
 
 import org.junit.Test;
-import org.xwiki.test.po.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.platform.ViewPage;
-import org.xwiki.test.po.platform.editor.WYSIWYGEditPage;
-import org.xwiki.test.po.platform.editor.WikiEditPage;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 import junit.framework.Assert;
 

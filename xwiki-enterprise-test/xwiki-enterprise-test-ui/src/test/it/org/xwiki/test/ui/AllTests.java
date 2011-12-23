@@ -20,7 +20,6 @@
 package org.xwiki.test.ui;
 
 import org.junit.runner.RunWith;
-import org.xwiki.test.po.PageObjectSuite;
 
 /**
  * Runs all functional tests found in the classpath.

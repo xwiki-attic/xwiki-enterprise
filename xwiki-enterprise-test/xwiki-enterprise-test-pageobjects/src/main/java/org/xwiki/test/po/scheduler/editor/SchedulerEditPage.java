@@ -21,8 +21,8 @@ package org.xwiki.test.po.scheduler.editor;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.po.platform.editor.EditPage;
-import org.xwiki.test.po.platform.editor.wysiwyg.EditorElement;
+import org.xwiki.test.ui.po.editor.EditPage;
+import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
 import org.xwiki.test.po.scheduler.SchedulerPage;
 
 public class SchedulerEditPage extends EditPage
@@ -63,7 +63,7 @@ public class SchedulerEditPage extends EditPage
     /**
      * {@inheritDoc}
      * 
-     * @see org.xwiki.test.po.platform.editor.EditPage#clickSaveAndView()
+     * @see org.xwiki.test.ui.po.editor.EditPage#clickSaveAndView()
      */
     @Override
     public SchedulerPage clickSaveAndView()

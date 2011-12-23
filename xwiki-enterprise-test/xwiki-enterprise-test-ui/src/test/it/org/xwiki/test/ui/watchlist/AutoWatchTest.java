@@ -24,7 +24,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.AbstractTest;
+import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.po.watchlist.WatchlistUserProfilePage;
 

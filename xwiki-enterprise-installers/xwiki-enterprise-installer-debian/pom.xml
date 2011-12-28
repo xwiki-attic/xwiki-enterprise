@@ -43,7 +43,8 @@
         <plugin>
           <artifactId>jdeb</artifactId>
           <groupId>org.vafer</groupId>
-          <version>0.9</version>
+          <!-- TODO: change version when https://github.com/tcurdt/jdeb/issues/24 is fixed -->
+          <version>0.9-20111015</version>
           <executions>
             <execution>
               <phase>package</phase>

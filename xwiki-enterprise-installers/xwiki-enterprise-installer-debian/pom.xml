@@ -43,8 +43,7 @@
         <plugin>
           <artifactId>jdeb</artifactId>
           <groupId>org.vafer</groupId>
-          <!-- TODO: change version when 0.9 is released and available on maven central -->
-          <version>0.9-20111015</version>
+          <version>0.9</version>
           <executions>
             <execution>
               <phase>package</phase>

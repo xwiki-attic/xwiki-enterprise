@@ -9,18 +9,18 @@ set -e
 #       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
 #########################
 
-## Make symlinks to centralize the webapp in tomcat6 container
-ln -sf /usr/lib/xwiki /var/lib/tomcat6/webapps/xwiki
-
 # Add MySQL connector
 ln -sf /usr/share/java/mysql.jar /usr/lib/xwiki/WEB-INF/lib/
+
+# Custom tomcat context configuration
+ln -sf /etc/xwiki/xwiki-tomcat.xml  /etc/tomcat6/Catalina/localhost/xwiki.xml
 
 #########################
 # Rights
 #########################
 
 ## Make sure tomcat is able to write in the data folder
-chown root.tomcat6 /var/lib/xwiki/data
+chown tomcat6.tomcat6 /var/lib/xwiki/data
 
 #########################
 # Configuration
@@ -38,8 +38,6 @@ if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
   dbc_generate_include_args='--ucf -C\; -o template_infile=/usr/share/xwiki/templates/mysql/hibernate.cfg.xml'
 
   dbc_go xwiki $@
-  
-  ln -f /etc/xwiki/hibernate.cfg.xml /usr/lib/xwiki/WEB-INF/
 fi
 
 #########################

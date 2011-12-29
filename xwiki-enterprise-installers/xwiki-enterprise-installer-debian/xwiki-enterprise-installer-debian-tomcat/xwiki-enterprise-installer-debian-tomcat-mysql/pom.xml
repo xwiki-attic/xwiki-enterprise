@@ -33,6 +33,15 @@
   <name>XWiki Enterprise - Installer - Debian - Tomcat - MySQL</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Installer - Debian - Tomcat - MySQL</description>
+  <properties>
+    <xwiki.db.connection.url>jdbc:mysql://_DBC_DBSERVER_/_DBC_DBNAME_?useServerPrepStmts=false&amp;amp;amp;useUnicode=true&amp;amp;amp;characterEncoding=UTF-8</xwiki.db.connection.url>
+    <xwiki.db.connection.username>_DBC_DBUSER_</xwiki.db.connection.username>
+    <xwiki.db.connection.password>_DBC_DBPASS_</xwiki.db.connection.password>
+    <xwiki.db.connection.driver_class>com.mysql.jdbc.Driver</xwiki.db.connection.driver_class>
+    <xwiki.db.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</xwiki.db.dialect>
+    <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
+    <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+  </properties>
   <build>
     <plugins>
       <!-- Unpack the war -->
@@ -40,10 +49,35 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
+      <!-- Prepare hibernate configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+      </plugin>
       <!-- Produce deb package -->
       <plugin>
         <artifactId>jdeb</artifactId>
         <groupId>org.vafer</groupId>
+        <configuration>
+          <dataSet>
+            <data>
+              <src>${project.basedir}/src/deb/resources/</src>
+              <type>directory</type>
+              <mapper>
+                <type>perm</type>
+                <prefix></prefix>
+              </mapper>
+            </data>
+            <data>
+              <src>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</src>
+              <type>file</type>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/share/xwiki/templates/mysql</prefix>
+              </mapper>
+            </data>
+          </dataSet>
+        </configuration>
       </plugin>
     </plugins>
   </build>

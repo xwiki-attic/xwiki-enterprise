@@ -11,7 +11,7 @@ if [ -f /usr/share/dbconfig-common/dpkg/postrm.pgsql ]; then
     dbc_go xwiki $@
 fi
 
-rm -f /var/lib/tomcat6/webapps/xwiki
+rm -f /etc/tomcat6/Catalina/localhost/xwiki.xml
 
 if [ "$1" = "purge" ]; then
 	rm -f rm -f /etc/xwiki/hibernate.cfg.xml

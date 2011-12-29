@@ -36,9 +36,6 @@
   <properties>
     <war.path>${project.build.directory}/war</war.path>
 
-    <template.mysql.path>${project.build.directory}/templates/mysql</template.mysql.path>
-    <template.pgsql.path>${project.build.directory}/templates/pgsql</template.pgsql.path>
-
     <xwiki.properties.container.persistentDirectory>/var/lib/xwiki/data</xwiki.properties.container.persistentDirectory>
     <xwiki.cfg.additionalproperties>wiki.work.dir=${xwiki.properties.container.persistentDirectory}</xwiki.cfg.additionalproperties>
   </properties>
@@ -78,72 +75,10 @@
             </execution>
           </executions>
       </plugin>
-      <!-- Prepare hibernate configuration templates -->
+      <!-- Prepare configuration -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>xwiki-platform-tool-configuration-resources-mysql</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${template.mysql.path}</outputDirectory>
-              <resourceBundles>
-                <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
-              </resourceBundles>
-              <properties>
-                <!-- hibernate.cfg.xml -->
-                <xwikiDbConnectionUrl>jdbc:mysql://_DBC_DBSERVER_/_DBC_DBNAME_?useServerPrepStmts=false&amp;amp;amp;useUnicode=true&amp;amp;amp;characterEncoding=UTF-8</xwikiDbConnectionUrl>
-                <xwikiDbConnectionUsername>_DBC_DBUSER_</xwikiDbConnectionUsername>
-                <xwikiDbConnectionPassword>_DBC_DBPASS_</xwikiDbConnectionPassword>
-                <xwikiDbConnectionDriverClass>com.mysql.jdbc.Driver</xwikiDbConnectionDriverClass>
-                <xwikiDbDialect>org.hibernate.dialect.MySQL5InnoDBDialect</xwikiDbDialect>
-                <xwikiDbHbmXwiki>xwiki.hbm.xml</xwikiDbHbmXwiki>
-                <xwikiDbHbmFeeds>feeds.hbm.xml</xwikiDbHbmFeeds>
-                <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
-
-                <!-- xwiki.cfg -->
-                <xwikiCfgPlugins>${xwiki.cfg.plugins}</xwikiCfgPlugins>
-                <xwikiCfgVirtual>${xwiki.cfg.virtual}</xwikiCfgVirtual>
-                <xwikiCfgEditCommentMandatory>${xwiki.cfg.editcomment.mandatory}</xwikiCfgEditCommentMandatory>
-                <xwikiCfgDefaultSkin>${xwiki.cfg.defaultskin}</xwikiCfgDefaultSkin>
-                <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
-                <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
-                <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
-                
-                <!-- xwiki.properties -->
-                <xwikiPropertiesContainerPersistentDirectory>${xwiki.properties.container.persistentDirectory}</xwikiPropertiesContainerPersistentDirectory>
-              </properties>
-            </configuration>
-          </execution>
-          <execution>
-            <id>xwiki-platform-tool-configuration-resources-pgsql</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${template.pgsql.path}</outputDirectory>
-              <resourceBundles>
-                <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
-              </resourceBundles>
-              <properties>
-                <!-- hibernate.cfg.xml -->
-                <xwikiDbConnectionUrl>jdbc:postgresql:_DBC_DBNAME_</xwikiDbConnectionUrl>
-                <xwikiDbConnectionUsername>_DBC_DBUSER_</xwikiDbConnectionUsername>
-                <xwikiDbConnectionPassword>_DBC_DBPASS_</xwikiDbConnectionPassword>
-                <xwikiDbConnectionDriverClass>org.postgresql.Driver</xwikiDbConnectionDriverClass>
-                <xwikiDbDialect>org.hibernate.dialect.PostgreSQLDialect</xwikiDbDialect>
-                <xwikiDbHbmXwiki>xwiki.hbm.xml</xwikiDbHbmXwiki>
-                <xwikiDbHbmFeeds>feeds.hbm.xml</xwikiDbHbmFeeds>
-                <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
-              </properties>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <!-- Produce deb package -->
       <plugin>
@@ -178,28 +113,12 @@
               </mapper>
             </data>
             <data>
-              <src>${template.mysql.path}/</src>
+              <src>${project.build.directory}/maven-shared-archive-resources</src>
               <type>directory</type>
               <includes>xwiki.cfg,xwiki.properties</includes>
               <mapper>
                 <type>perm</type>
                 <prefix>/etc/xwiki</prefix>
-              </mapper>
-            </data>
-            <data>
-              <src>${template.mysql.path}/hibernate.cfg.xml</src>
-              <type>file</type>
-              <mapper>
-                <type>perm</type>
-                <prefix>/usr/share/xwiki/templates/mysql/</prefix>
-              </mapper>
-            </data>
-            <data>
-              <src>${template.pgsql.path}/hibernate.cfg.xml</src>
-              <type>file</type>
-              <mapper>
-                <type>perm</type>
-                <prefix>/usr/share/xwiki/templates/pgsql/</prefix>
               </mapper>
             </data>
           </dataSet>

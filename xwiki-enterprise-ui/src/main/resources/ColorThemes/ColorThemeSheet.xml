@@ -1079,7 +1079,10 @@ $ie7 .colorthemewizard-secondaryButtonbox {
 .colorthemewizard-palette a.color${colorID} {
   background-color: $webColors.get($colorID);
 }
-#end</code>
+#end
+input.procolor {
+  background-image: none;
+}</code>
 </property>
 <property>
 <name>Color theme wizard display style</name>

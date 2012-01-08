@@ -228,10 +228,48 @@ document.observe('xwiki:dom:loaded', function() {
 // Start XWiki augmentation.
 XWiki.MessageStream = Class.create({
   targetsWithName : ['user', 'group'],
+  suggestParameters : {
+      "user" : {
+            script: "$xwiki.getURL('Main.Activity', 'get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=local&amp;uorg=user')&amp;",
+            varname: "input",
+            icon: "$xwiki.getSkinFile('icons/silk/user.png')",
+            noresults: "User not found",
+            timeout : 30000,
+      },
+      "group" : {
+            script: "$xwiki.getURL('Main.Activity', 'get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiGroups&amp;wiki=local&amp;uorg=group')&amp;",
+            varname: "input",
+            icon: "$xwiki.getSkinFile('icons/silk/group.png')",
+            noresults: "Group not found",
+            timeout : 30000,
+      }
+  },
   initialize : function() {
     this.prepareForms();
     this.enhanceSelect();
     this.attachDeleteHandlers();
+  },
+  prepareTargetInput : function(event, element) {
+    if (event) {
+      element.blur();
+    }
+    $w(element.className).each(function(classname) {
+      element.removeClassName(classname)
+    });
+    var targetType = element.options[element.selectedIndex].value;
+    element.addClassName(targetType);
+    if (!element.__targetNameInput) {return;}
+    if (this.targetsWithName.indexOf(targetType) &lt; 0) {
+      element.__targetNameInput.addClassName('hidden');
+      if (element.__targetNameInput.__x_suggest) {
+        element.__targetNameInput.__x_suggest.detach();
+      }
+    } else {
+      element.__targetNameInput.removeClassName('hidden');
+      if (this.suggestParameters[targetType]) {
+        new XWiki.widgets.Suggest(element.__targetNameInput, this.suggestParameters[targetType]);
+      }
+    }
   },
   enhanceSelect: function () {
     $$('form.messagestream select[name="visibilityLevel"]').each(function(element) {
@@ -240,18 +278,8 @@ XWiki.MessageStream = Class.create({
       if (element.__targetNameInput &amp;&amp; this.targetsWithName.indexOf(element.options[element.selectedIndex].value) &lt; 0) {
         element.__targetNameInput.addClassName('hidden');
       }
-      element.observe('change', function(event) {
-        element.blur();
-        $w(element.className).each(function(classname) {
-          element.removeClassName(classname);
-        });
-        element.addClassName(element.options[element.selectedIndex].value);
-        if (element.__targetNameInput &amp;&amp; this.targetsWithName.indexOf(element.options[element.selectedIndex].value) &lt; 0) {
-          element.__targetNameInput.addClassName('hidden');
-        } else {
-          element.__targetNameInput.removeClassName('hidden');
-        }
-      }.bindAsEventListener(this));
+      element.observe('change', this.prepareTargetInput.bindAsEventListener(this, element));
+      this.prepareTargetInput(null, element);
     }.bind(this));
   },
   prepareForms: function() {

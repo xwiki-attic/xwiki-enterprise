@@ -458,7 +458,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:Sandbox.WebHome@XWikiLogo.png]]>>XWiki.Register]]");
+        assertSourceText("[[[[image:Sandbox.WebHome@XWikiLogo.png]]>>doc:XWiki.Register]]");
     }
 
     /**

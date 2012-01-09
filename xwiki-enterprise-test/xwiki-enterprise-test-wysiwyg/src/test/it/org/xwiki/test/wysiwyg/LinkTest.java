@@ -112,7 +112,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + selectedSpace + "." + selectedPage + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:" + selectedSpace + "." + selectedPage + "]]");
     }
 
     /**
@@ -142,7 +142,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + space + "." + page + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:" + space + "." + page + "]]");
     }
 
     /**
@@ -169,7 +169,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + space + "." + newPageName + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:" + space + "." + newPageName + "]]");
     }
 
     /**
@@ -197,7 +197,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + newSpace + "." + newPage + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:" + newSpace + "." + newPage + "]]");
     }
 
     /**
@@ -218,7 +218,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + url + "]]");
+        assertSourceText("[[" + linkLabel + ">>url:" + url + "]]");
     }
 
     /**
@@ -240,7 +240,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + newLabel + ">>" + url + "]]");
+        assertSourceText("[[" + newLabel + ">>url:" + url + "]]");
     }
 
     /**
@@ -277,7 +277,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>http://" + linkURL + "]]");
+        assertSourceText("[[" + linkLabel + ">>url:http://" + linkURL + "]]");
     }
 
     /**
@@ -302,7 +302,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         waitForDialogToClose();
         switchToSource();
-        assertSourceText("[[1**2**3>>http://www.xwiki.org]]");
+        assertSourceText("[[1**2**3>>url:http://www.xwiki.org]]");
     }
 
     /**
@@ -335,7 +335,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK_REMOVE);
         typeText("2");
         switchToSource();
-        assertSourceText("1[[" + linkLabel + ">>" + linkURL + "]]2");
+        assertSourceText("1[[" + linkLabel + ">>url:" + linkURL + "]]2");
         switchToWysiwyg();
 
         select("XWE.body.firstChild", 1, "XWE.body.firstChild.childNodes[1].firstChild", 5);
@@ -350,7 +350,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("1[[" + linkLabel + ">>" + newLinkURL + "]]2");
+        assertSourceText("1[[" + linkLabel + ">>url:" + newLinkURL + "]]2");
     }
 
     /**
@@ -412,7 +412,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>Blog.Photos]]");
+        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:Blog.Photos]]");
         switchToWysiwyg();
 
         // Move caret at the end and type some text.
@@ -442,8 +442,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>" + newSpaceName + "." + newPageName
-            + "]]x[[bar>>http://bar.myxwiki.org]]");
+        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:" + newSpaceName + "." + newPageName
+            + "]]x[[bar>>url:http://bar.myxwiki.org]]");
     }
 
     /**
@@ -593,7 +593,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[foo>>" + space + "." + page + "]]");
+        assertSourceText("[[foo>>doc:" + space + "." + page + "]]");
 
         // clean up
         setSourceText("");
@@ -622,7 +622,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_CREATE_LINK);
 
         switchToSource();
-        assertSourceText("[[foo>>" + space + "." + page + "]]");
+        assertSourceText("[[foo>>doc:" + space + "." + page + "]]");
 
         // clean up
         setSourceText("");
@@ -652,7 +652,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[xwiki>>http://www.xwiki.org]]");
+        assertSourceText("[[xwiki>>url:http://www.xwiki.org]]");
 
         // clean up
         setSourceText("");
@@ -748,7 +748,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + changedSpace + "." + changedPage + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:" + changedSpace + "." + changedPage + "]]");
     }
 
     /**
@@ -968,7 +968,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + url + "||rel=\"__blank\"]]");
+        assertSourceText("[[" + linkLabel + ">>url:" + url + "||rel=\"__blank\"]]");
         switchToWysiwyg();
 
         // now edit
@@ -1003,7 +1003,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + url + "||title=\"our xwiki ~\"rox~\"\"]]");
+        assertSourceText("[[" + linkLabel + ">>url:" + url + "||title=\"our xwiki ~\"rox~\"\"]]");
         switchToWysiwyg();
 
         // now test the link is correctly parsed back
@@ -1088,7 +1088,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + getName() + "]]");
+        assertSourceText("[[" + label + ">>doc:" + getName() + "]]");
     }
 
     /**
@@ -1117,7 +1117,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + newPageName + "]]");
+        assertSourceText("[[" + label + ">>doc:" + newPageName + "]]");
     }
 
     /**
@@ -1167,7 +1167,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>Main.WebHome]]");
+        assertSourceText("[[" + label + ">>doc:Main.WebHome]]");
     }
 
     /**
@@ -1200,7 +1200,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + newPageName + "]]");
+        assertSourceText("[[" + label + ">>doc:" + newPageName + "]]");
     }
 
     /**
@@ -1674,7 +1674,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + getName() + "]]");
+        assertSourceText("[[" + label + ">>doc:" + getName() + "]]");
 
         setSourceText("");
         switchToWysiwyg();
@@ -1697,7 +1697,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + newPageName + "]]");
+        assertSourceText("[[" + label + ">>doc:" + newPageName + "]]");
     }
 
     /**
@@ -1731,7 +1731,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>Main.WebHome]]");
+        assertSourceText("[[" + label + ">>doc:Main.WebHome]]");
 
         setSourceText("");
         switchToWysiwyg();
@@ -1754,7 +1754,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>" + newPageName + "]]");
+        assertSourceText("[[" + label + ">>doc:" + newPageName + "]]");
     }
 
     /**
@@ -1784,7 +1784,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertEquals("3", getEval("window.XWE.body.getElementsByTagName('a').length"));
         // Check the source text.
         switchToSource();
-        assertSourceText("**[[a>>http://www.xwiki.org]][[b>>http://www.xwiki.org]]**");
+        assertSourceText("**[[a>>url:http://www.xwiki.org]][[b>>url:http://www.xwiki.org]]**");
     }
 
     /**
@@ -1810,8 +1810,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String escapedSpaceName = spaceName.replaceAll("([\\:\\.])", "\\\\$1");
         String pageName = getName() + ":a.b@c?d=e&f=g#h";
         String escapedPageName = pageName.replace(".", "\\.");
-        String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
-        String linkReference = pageFullName.replaceAll("([@\\?\\#])", "\\\\$1");
+        String linkReference = String.format("%s.%s", escapedSpaceName, escapedPageName);
         open("Main", "WebHome");
         createPage(spaceName, pageName, "");
 
@@ -1837,7 +1836,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText(String.format("[[%s>>%s]]", label, linkReference));
+        assertSourceText(String.format("[[%s>>doc:%s]]", label, linkReference));
         switchToWysiwyg();
 
         // Edit the created link.
@@ -1856,7 +1855,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // Check the result.
         switchToSource();
-        assertSourceText(String.format("[[%s>>%s||rel=\"__blank\"]]", label, linkReference));
+        assertSourceText(String.format("[[%s>>doc:%s||rel=\"__blank\"]]", label, linkReference));
     }
 
     /**
@@ -1865,8 +1864,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testCreateLinkToNewPageWithSpecialCharactersInName()
     {
         String pageName = getName() + ":a.b@c?d=e&f=g#h";
-        String escapedPageName = pageName.replace(".", "\\.");
-        String linkReference = escapedPageName.replaceAll("([@\\?\\#])", "\\\\$1");
+        String linkReference = pageName.replace(".", "\\.");
         String label = "x";
 
         typeText(label);
@@ -1883,7 +1881,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText(String.format("[[%s>>%s]]", label, linkReference));
+        assertSourceText(String.format("[[%s>>doc:%s]]", label, linkReference));
     }
 
     /**
@@ -1917,7 +1915,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>" + currentPageName + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:" + currentPageName + "]]");
     }
 
     /**

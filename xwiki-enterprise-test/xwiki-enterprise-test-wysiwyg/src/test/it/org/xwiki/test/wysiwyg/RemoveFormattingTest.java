@@ -105,7 +105,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
         clickRemoveFormattingButton();
         switchToSource();
         assertSourceText("[[(% style=\"color: red; font-size: 18pt;\" %)12(%%)34"
-            + "(% style=\"color: red; font-size: 18pt;\" %)56>>http://www.xwiki.org]]");
+            + "(% style=\"color: red; font-size: 18pt;\" %)56>>url:http://www.xwiki.org]]");
     }
 
     /**

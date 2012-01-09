@@ -32,7 +32,30 @@
 <defaultWeb></defaultWeb>
 <nameField></nameField>
 <validationScript></validationScript>
+<action>
+<cache>0</cache>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>action</name>
+<number>5</number>
+<picker>0</picker>
+<prettyName>Action on create</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<sort>none</sort>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<values>edit|saveandedit</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</action>
 <name>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
 <name>name</name>
 <number>1</number>
 <picker>0</picker>
@@ -46,11 +69,13 @@
 <spaces>
 <cache>0</cache>
 <classname></classname>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
 <displayType>checkbox</displayType>
 <idField></idField>
 <multiSelect>1</multiSelect>
 <name>spaces</name>
-<number>3</number>
+<number>4</number>
 <picker>0</picker>
 <prettyName>spaces</prettyName>
 <relationalStorage>0</relationalStorage>
@@ -66,6 +91,8 @@
 <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
 </spaces>
 <template>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
 <name>template</name>
 <number>2</number>
 <picker>0</picker>
@@ -76,11 +103,35 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </template>
+<type>
+<cache>0</cache>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>type</name>
+<number>3</number>
+<picker>0</picker>
+<prettyName>type</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<sort>none</sort>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<values>page|space</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</type>
 </class>
 <name>XWiki.TemplateProviderTemplate</name>
 <number>0</number>
 <className>XWiki.TemplateProviderClass</className>
 <guid>e581a7b1-73d8-4491-9542-d9c6654a0f0b</guid>
+<property>
+<action>edit</action>
+</property>
 <property>
 <name></name>
 </property>
@@ -89,6 +140,9 @@
 </property>
 <property>
 <template></template>
+</property>
+<property>
+<type>page</type>
 </property>
 </object>
 <content>{{include document="XWiki.TemplateProviderSheet"/}}

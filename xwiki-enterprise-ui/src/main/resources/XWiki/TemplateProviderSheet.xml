@@ -50,7 +50,120 @@
 <defaultEditMode>inline</defaultEditMode>
 </property>
 </object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.TemplateProviderSheet</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>d5d86859-b40a-4566-8765-653581793652</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>document.observe('xwiki:dom:loaded', function() {
+  // ----------------------------------------------------------------------------------------------------
+  // TODO: Remove this code when XWiki starts supporting nested spaces:
+  //   If the template type is set to 'Space', hide from the user the
+  //   list of spaces where the template should be active
+  // ----------------------------------------------------------------------------------------------------
+  var typeElement = document.documentElement.down('select[name$=_type]');
+  var enabledSpacesFields = $('enabled-spaces');
+  var toggleSpaces = function() {
+    var templateType = typeElement.options[typeElement.selectedIndex].value;
+    if (templateType == 'space') {
+       enabledSpacesFields.addClassName('hidden');
+    } else {
+       enabledSpacesFields.removeClassName('hidden');
+    }
+  }
+  if (typeElement &amp;&amp; enabledSpacesFields) {
+    toggleSpaces();
+    typeElement.observe('change', toggleSpaces);
+  }
+});</code>
+</property>
+<property>
+<name></name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
 <content>{{velocity}}
+$xwiki.jsx.use('XWiki.TemplateProviderSheet')##
 #set($providerObj = $doc.getObject("XWiki.TemplateProviderClass"))
 #if ($context.action != 'view')
   ; $msg.get('xe.templateprovider.name')
@@ -73,12 +186,20 @@
   #set($templateDocName = $providerObj.getProperty('template').value)
   : [[$templateDocName&gt;&gt;$templateDocName]]
 #end
+; $msg.get('xe.templateprovider.templatetype')
+#if ($context.action == 'inline' || $context.action == 'edit')
+
+  $msg.get('xe.templateprovider.templatetype.info')
+#end
+: $doc.display('type')
+(% id="enabled-spaces" %)(((
 ; $msg.get('xe.templateprovider.spaces')
 #if ($context.action == 'inline' || $context.action == 'edit')
 
   $msg.get('xe.templateprovider.spaces.info')
 #end
 : $doc.display('spaces')
+)))
 ; $msg.get('xe.templateprovider.action') 
 
 #if ($context.action == 'inline' || $context.action == 'edit')

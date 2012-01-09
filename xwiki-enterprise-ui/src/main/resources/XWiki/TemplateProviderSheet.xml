@@ -132,6 +132,53 @@
 <property>
 <code>document.observe('xwiki:dom:loaded', function() {
   // ----------------------------------------------------------------------------------------------------
+  // Suggest document names in the name field of the template provider
+  // ----------------------------------------------------------------------------------------------------
+  var templateElement = document.documentElement.down('input[name$=_template]');
+  if (templateElement) {
+    if (typeof(XWiki.widgets.Suggest) != 'undefined') {
+      new XWiki.widgets.Suggest(templateElement, {
+        script           : XWiki.Document.getRestSearchURL("scope=name&amp;number=10&amp;media=json&amp;"),
+        varname          : "q",
+        icon             : "$xwiki.getSkinFile('icons/silk/page_white_text.png')",
+        noresults        : "Document not found",
+        json             : true,
+        resultsParameter : "searchResults",
+        resultId         : "id",
+        resultValue      : "pageFullName",
+        resultInfo       : "pageFullName"
+      });
+    }
+
+    if (typeof(XWiki.Document) != 'undefined') {
+      var enableTemplateEditLink = function() {
+        if (templateElement.value == '') {
+          if (templateElement.__x_editLink) {
+            templateElement.__x_editLink.hide();
+          }
+        } else {
+          var resource = XWiki.resource.get(templateElement.value);
+          var url = new XWiki.Document(resource.name, resource.space, resource.wiki).getURL('edit');
+          if (templateElement.__x_editLink) {
+            templateElement.__x_editLink.down('a').setAttribute('href', url);
+            templateElement.__x_editLink.show();
+          } else {
+            templateElement.__x_editLink = new Element('a', {
+              'href'   : url,
+              'title'  : "$msg.get('xe.templateprovider.template.edit')" ,
+              'target' : "__blank" ,
+              'class'  : 'button'
+            }).update("$msg.get('xe.templateprovider.template.edit')").wrap('span', {'class' : 'buttonwrapper'});
+            templateElement.insert({'after' : templateElement.__x_editLink});
+            templateElement.insert({'after' : ' '});
+          }
+        }
+      };
+      enableTemplateEditLink();
+      templateElement.observe('blur', enableTemplateEditLink);
+    }
+  }
+  // ----------------------------------------------------------------------------------------------------
   // TODO: Remove this code when XWiki starts supporting nested spaces:
   //   If the template type is set to 'Space', hide from the user the
   //   list of spaces where the template should be active

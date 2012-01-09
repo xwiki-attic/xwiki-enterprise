@@ -1691,7 +1691,7 @@ $xwiki.ssx.use("Main.Activity")##
         #else
           $!msg.get("xe.activity.action.${event.type}", [$relatedEventsNo])
           #if ($event.type == 'update' &amp;&amp; $event.version != '1.1')
-            &amp;#183; &lt;a href="$xwiki.getDocument($event.page).getURL('view', "viewer=changes&amp;rev2=${event.version}")"&gt;$msg.get('xe.activity.action.seechanges')&lt;/a&gt;
+            &amp;#183; &lt;a href="$xwiki.getDocument("$!{event.wiki}:$event.page").getURL('view', "viewer=changes&amp;rev2=${event.version}")"&gt;$msg.get('xe.activity.action.seechanges')&lt;/a&gt;
           #end
         #end
       &lt;/span&gt;

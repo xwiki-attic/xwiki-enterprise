@@ -53,7 +53,7 @@
       <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <!-- Components to install before the test -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

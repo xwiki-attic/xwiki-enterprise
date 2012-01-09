@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.extension.repository.xwiki.Resources;
+import org.xwiki.extension.repository.xwiki.internal.XWikiRepositoryModel;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionAuthor;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionDependency;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
@@ -124,35 +125,41 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         ExtensionPage extensionPage = extensionInline.clickSaveAndView();
 
         // Test summary
-        getUtil().findElementsWithoutWaiting(getDriver(), By.xpath("//tt[text()=\""+this.baseExtension.getSummary()+"\"]"));
+        getUtil().findElementsWithoutWaiting(getDriver(),
+            By.xpath("//tt[text()=\"" + this.baseExtension.getSummary() + "\"]"));
 
         Assert.assertFalse(extensionPage.isValidExtension());
 
         // Add version
         // TODO: add XR UI to manipulate versions
 
-        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionVersionClass",
-            "version", "1.0");
+        getUtil().addObject("Extension", this.baseExtension.getName(), XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME,
+            XWikiRepositoryModel.PROP_VERSION_VERSION, "1.0");
         getUtil()
             .addObject(
                 "Extension",
                 this.baseExtension.getName(),
-                "ExtensionCode.ExtensionVersionClass",
-                "version",
+                XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME,
+                XWikiRepositoryModel.PROP_VERSION_VERSION,
                 this.baseExtension.getVersion(),
                 "download",
                 getUtil().getAttachmentURL("Extension", this.baseExtension.getName(),
                     "prefix-macro-jar-extension-1.0.jar"));
-        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionVersionClass",
-            "version", "2.0", "download", "attach:prefix-macro-jar-extension-1.0.jar");
+        getUtil().addObject("Extension", this.baseExtension.getName(), XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME,
+            XWikiRepositoryModel.PROP_VERSION_VERSION, "2.0", XWikiRepositoryModel.PROP_VERSION_DOWNLOAD,
+            "attach:prefix-macro-jar-extension-1.0.jar");
 
         // Add dependencies
         // TODO: add XR UI to manipulate versions
 
-        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionDependencyClass",
-            "version", "1.0", "id", "dependencyid1", "extensionVersion", this.baseExtension.getVersion());
-        getUtil().addObject("Extension", this.baseExtension.getName(), "ExtensionCode.ExtensionDependencyClass",
-            "version", "2.0", "id", "dependencyid2", "extensionVersion", this.baseExtension.getVersion());
+        getUtil().addObject("Extension", this.baseExtension.getName(),
+            XWikiRepositoryModel.EXTENSIONDEPENDENCY_CLASSNAME, XWikiRepositoryModel.PROP_DEPENDENCY_CONSTRAINT, "1.0",
+            XWikiRepositoryModel.PROP_DEPENDENCY_ID, "dependencyid1",
+            XWikiRepositoryModel.PROP_DEPENDENCY_EXTENSIONVERSION, this.baseExtension.getVersion());
+        getUtil().addObject("Extension", this.baseExtension.getName(),
+            XWikiRepositoryModel.EXTENSIONDEPENDENCY_CLASSNAME, XWikiRepositoryModel.PROP_DEPENDENCY_CONSTRAINT, "2.0",
+            XWikiRepositoryModel.PROP_DEPENDENCY_ID, "dependencyid2",
+            XWikiRepositoryModel.PROP_DEPENDENCY_EXTENSIONVERSION, this.baseExtension.getVersion());
 
         // Add attachment
 
@@ -247,13 +254,13 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(this.baseExtension.getVersion(), extension.getVersion());
 
         Assert.assertEquals(getUtil().getURL("Extension", this.baseExtension.getName()), extension.getWebsite());
-        
+
         ExtensionDependency dependency1 = extension.getDependencies().get(0);
         Assert.assertEquals("dependencyid1", dependency1.getId());
-        Assert.assertEquals("1.0", dependency1.getVersion());
+        Assert.assertEquals("1.0", dependency1.getConstraint());
         ExtensionDependency dependency2 = extension.getDependencies().get(1);
         Assert.assertEquals("dependencyid2", dependency2.getId());
-        Assert.assertEquals("2.0", dependency2.getVersion());
+        Assert.assertEquals("2.0", dependency2.getConstraint());
 
         // File
 

@@ -211,14 +211,14 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         // Verify we can search for a specific attachment name in the whole wiki
-        // Matches Sandbox.WebHome@XWikLogo.png
+        // Matches Sandbox.WebHome@XWikLogo.png and ColorThemes.DefaultColorTheme@logo.png
         getMethod =
             executeGet(String.format("%s?name=Logo", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        Assert.assertEquals(getAttachmentsInfo(attachments), 1, attachments.getAttachments().size());
+        Assert.assertEquals(getAttachmentsInfo(attachments), 2, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);

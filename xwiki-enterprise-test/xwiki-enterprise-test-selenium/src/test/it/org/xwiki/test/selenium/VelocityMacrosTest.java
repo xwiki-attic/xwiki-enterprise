@@ -52,14 +52,14 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
     }
 
     public void testMacros() throws Exception
-    {        
+    {
         editInWikiEditor("Test", "VelocityMacrosTest", SYNTAX);
-        
+
         // TODO: Add more macro tests here (for performance reasons it's much faster to have more
         // tests in a single junit test) and modify thet assert so that it checks for exact content
         setFieldValue("content", "#mimetypeimg(\"image/jpeg\" \"photo.jpeg\")");
         clickEditSaveAndView();
-        assertGeneratedHTML("img[@src='/xwiki/resources/icons/silk/picture.gif' "
+        assertGeneratedHTML("img[@src='/xwiki/resources/icons/silk/picture.png' "
             + "and @alt='Image' and @title='Image']");
     }
 

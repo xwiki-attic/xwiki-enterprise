@@ -41,6 +41,9 @@ public class TemplateProviderInlinePage extends InlinePage
     @FindBy(name = "XWiki.TemplateProviderClass_0_name")
     private WebElement templateNameInput;
 
+    @FindBy(name = "XWiki.TemplateProviderClass_0_type")
+    private WebElement templateTypeSelect;
+
     @FindBy(name = "XWiki.TemplateProviderClass_0_action")
     private WebElement templateActionSelect;
 
@@ -64,6 +67,11 @@ public class TemplateProviderInlinePage extends InlinePage
     {
         this.templateInput.clear();
         this.templateInput.sendKeys(value);
+    }
+
+    public boolean isPageTemplate()
+    {
+        return this.templateTypeSelect.findElement(By.xpath("//option[@value='page']")).isSelected();
     }
 
     private List<WebElement> getSpacesInput()

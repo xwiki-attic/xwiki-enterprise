@@ -319,8 +319,10 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
             ViewPage templateViewPage = new ViewPage();
             templateViewPage.editInline();
             TemplateProviderInlinePage providerEditPage = new TemplateProviderInlinePage();
-            providerEditPage.excludeSpaces(spacesToExclude);
-            providerEditPage.clickSaveAndView();
+            if (providerEditPage.isPageTemplate()) {
+                providerEditPage.excludeSpaces(spacesToExclude);
+                providerEditPage.clickSaveAndView();
+            }
 
             // go back to the admin page, to leave this in a valid state
             sectionPage = TemplatesAdministrationSectionPage.gotoPage();

@@ -21,7 +21,7 @@
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
+<syntaxId>xwiki/2.1</syntaxId>
 <hidden>true</hidden>
 <object>
 <class>
@@ -34,8 +34,9 @@
 <nameField></nameField>
 <validationScript></validationScript>
 <backgroundSecondaryColor>
+<disabled>0</disabled>
 <name>backgroundSecondaryColor</name>
-<number>30</number>
+<number>32</number>
 <picker>0</picker>
 <prettyName>Secondary background color (table headers, message boxes, administration boxes)</prettyName>
 <size>7</size>
@@ -45,6 +46,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </backgroundSecondaryColor>
 <borderColor>
+<disabled>0</disabled>
 <name>borderColor</name>
 <number>7</number>
 <picker>0</picker>
@@ -56,8 +58,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </borderColor>
 <buttonPrimaryBackgroundColor>
+<disabled>0</disabled>
 <name>buttonPrimaryBackgroundColor</name>
-<number>27</number>
+<number>29</number>
 <picker>0</picker>
 <prettyName>Primary action button background color</prettyName>
 <size>7</size>
@@ -67,8 +70,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonPrimaryBackgroundColor>
 <buttonPrimaryTextColor>
+<disabled>0</disabled>
 <name>buttonPrimaryTextColor</name>
-<number>26</number>
+<number>28</number>
 <picker>0</picker>
 <prettyName>Primary action button text color</prettyName>
 <size>7</size>
@@ -78,8 +82,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonPrimaryTextColor>
 <buttonSecondaryBackgroundColor>
+<disabled>0</disabled>
 <name>buttonSecondaryBackgroundColor</name>
-<number>29</number>
+<number>31</number>
 <picker>0</picker>
 <prettyName>Secondary action button background color</prettyName>
 <size>7</size>
@@ -89,8 +94,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonSecondaryBackgroundColor>
 <buttonSecondaryTextColor>
+<disabled>0</disabled>
 <name>buttonSecondaryTextColor</name>
-<number>28</number>
+<number>30</number>
 <picker>0</picker>
 <prettyName>Secondary action button text color</prettyName>
 <size>7</size>
@@ -100,6 +106,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonSecondaryTextColor>
 <headerBackgroundImage>
+<disabled>0</disabled>
 <name>headerBackgroundImage</name>
 <number>13</number>
 <picker>0</picker>
@@ -111,6 +118,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </headerBackgroundImage>
 <headerBackgroundPosition>
+<disabled>0</disabled>
 <name>headerBackgroundPosition</name>
 <number>14</number>
 <picker>0</picker>
@@ -122,6 +130,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </headerBackgroundPosition>
 <highlightColor>
+<disabled>0</disabled>
 <name>highlightColor</name>
 <number>15</number>
 <picker>0</picker>
@@ -133,6 +142,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </highlightColor>
 <linkColor>
+<disabled>0</disabled>
 <name>linkColor</name>
 <number>5</number>
 <picker>0</picker>
@@ -144,6 +154,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </linkColor>
 <logoImage>
+<disabled>0</disabled>
 <name>logoImage</name>
 <number>11</number>
 <picker>0</picker>
@@ -155,6 +166,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </logoImage>
 <menuAddEntryBackgroundColor>
+<disabled>0</disabled>
 <name>menuAddEntryBackgroundColor</name>
 <number>21</number>
 <picker>0</picker>
@@ -166,6 +178,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuAddEntryBackgroundColor>
 <menuAddEntryLinkColor>
+<disabled>0</disabled>
 <name>menuAddEntryLinkColor</name>
 <number>20</number>
 <picker>0</picker>
@@ -177,6 +190,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuAddEntryLinkColor>
 <menuBackgroundColor>
+<disabled>0</disabled>
 <name>menuBackgroundColor</name>
 <number>16</number>
 <picker>0</picker>
@@ -188,6 +202,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuBackgroundColor>
 <menuLinkColor>
+<disabled>0</disabled>
 <name>menuLinkColor</name>
 <number>17</number>
 <picker>0</picker>
@@ -199,6 +214,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuLinkColor>
 <menuSelectedEntryBackgroundColor>
+<disabled>0</disabled>
 <name>menuSelectedEntryBackgroundColor</name>
 <number>18</number>
 <picker>0</picker>
@@ -210,6 +226,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuSelectedEntryBackgroundColor>
 <menuSelectedEntryLinkColor>
+<disabled>0</disabled>
 <name>menuSelectedEntryLinkColor</name>
 <number>19</number>
 <picker>0</picker>
@@ -220,7 +237,56 @@
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuSelectedEntryLinkColor>
+<notificationErrorColor>
+<disabled>0</disabled>
+<name>notificationErrorColor</name>
+<number>36</number>
+<picker>0</picker>
+<prettyName>Error notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationErrorColor>
+<notificationInfoColor>
+<disabled>0</disabled>
+<name>notificationInfoColor</name>
+<number>33</number>
+<picker>0</picker>
+<prettyName>Informational notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationInfoColor>
+<notificationSuccessColor>
+<disabled>0</disabled>
+<name>notificationSuccessColor</name>
+<number>34</number>
+<picker>0</picker>
+<prettyName>Success notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationSuccessColor>
+<notificationWarningColor>
+<disabled>0</disabled>
+<name>notificationWarningColor</name>
+<number>35</number>
+<picker>0</picker>
+<prettyName>Warning notifications color</prettyName>
+<size>7</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</notificationWarningColor>
 <pageBackgroundColor>
+<disabled>0</disabled>
 <name>pageBackgroundColor</name>
 <number>8</number>
 <picker>0</picker>
@@ -232,6 +298,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageBackgroundColor>
 <pageBackgroundImage>
+<disabled>0</disabled>
 <name>pageBackgroundImage</name>
 <number>9</number>
 <picker>0</picker>
@@ -243,6 +310,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageBackgroundImage>
 <pageBackgroundPosition>
+<disabled>0</disabled>
 <name>pageBackgroundPosition</name>
 <number>10</number>
 <picker>0</picker>
@@ -254,6 +322,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageBackgroundPosition>
 <pageContentBackgroundColor>
+<disabled>0</disabled>
 <name>pageContentBackgroundColor</name>
 <number>1</number>
 <picker>0</picker>
@@ -265,6 +334,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageContentBackgroundColor>
 <pageHeaderBackgroundColor>
+<disabled>0</disabled>
 <name>pageHeaderBackgroundColor</name>
 <number>12</number>
 <picker>0</picker>
@@ -276,8 +346,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageHeaderBackgroundColor>
 <panelBackgroundColor>
+<disabled>0</disabled>
 <name>panelBackgroundColor</name>
-<number>20</number>
+<number>22</number>
 <picker>0</picker>
 <prettyName>Panel background color</prettyName>
 <size>7</size>
@@ -287,8 +358,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelBackgroundColor>
 <panelCollapsedBackgroundColor>
+<disabled>0</disabled>
 <name>panelCollapsedBackgroundColor</name>
-<number>24</number>
+<number>26</number>
 <picker>0</picker>
 <prettyName>Collapsed panel background color</prettyName>
 <size>7</size>
@@ -298,8 +370,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelCollapsedBackgroundColor>
 <panelCollapsedTextColor>
+<disabled>0</disabled>
 <name>panelCollapsedTextColor</name>
-<number>25</number>
+<number>27</number>
 <picker>0</picker>
 <prettyName>Collapsed panel text color</prettyName>
 <size>7</size>
@@ -309,8 +382,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelCollapsedTextColor>
 <panelHeaderBackgroundColor>
+<disabled>0</disabled>
 <name>panelHeaderBackgroundColor</name>
-<number>22</number>
+<number>24</number>
 <picker>0</picker>
 <prettyName>Panel header background color</prettyName>
 <size>7</size>
@@ -320,8 +394,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelHeaderBackgroundColor>
 <panelHeaderTextColor>
+<disabled>0</disabled>
 <name>panelHeaderTextColor</name>
-<number>23</number>
+<number>25</number>
 <picker>0</picker>
 <prettyName>Panel header text color</prettyName>
 <size>7</size>
@@ -331,8 +406,9 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelHeaderTextColor>
 <panelTextColor>
+<disabled>0</disabled>
 <name>panelTextColor</name>
-<number>21</number>
+<number>23</number>
 <picker>0</picker>
 <prettyName>Panel text color</prettyName>
 <size>7</size>
@@ -342,6 +418,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelTextColor>
 <textColor>
+<disabled>0</disabled>
 <name>textColor</name>
 <number>2</number>
 <picker>0</picker>
@@ -353,6 +430,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </textColor>
 <textPrimaryColor>
+<disabled>0</disabled>
 <name>textPrimaryColor</name>
 <number>3</number>
 <picker>0</picker>
@@ -364,6 +442,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </textPrimaryColor>
 <textSecondaryColor>
+<disabled>0</disabled>
 <name>textSecondaryColor</name>
 <number>4</number>
 <picker>0</picker>
@@ -375,6 +454,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </textSecondaryColor>
 <titleColor>
+<disabled>0</disabled>
 <name>titleColor</name>
 <number>6</number>
 <picker>0</picker>
@@ -391,22 +471,22 @@
 <className>ColorThemes.ColorThemeClass</className>
 <guid>e658ee3f-cf58-44ff-a87d-73e6ceea8181</guid>
 <property>
-<backgroundSecondaryColor>#EFEFEF</backgroundSecondaryColor>
+<backgroundSecondaryColor>#F3F3F3</backgroundSecondaryColor>
 </property>
 <property>
-<borderColor>#CCCCCC</borderColor>
+<borderColor>#E8E8E8</borderColor>
 </property>
 <property>
-<buttonPrimaryBackgroundColor>#0089DC</buttonPrimaryBackgroundColor>
+<buttonPrimaryBackgroundColor>#528BA1</buttonPrimaryBackgroundColor>
 </property>
 <property>
 <buttonPrimaryTextColor>#FFFFFF</buttonPrimaryTextColor>
 </property>
 <property>
-<buttonSecondaryBackgroundColor>#FFFFFF</buttonSecondaryBackgroundColor>
+<buttonSecondaryBackgroundColor>#ECECEC</buttonSecondaryBackgroundColor>
 </property>
 <property>
-<buttonSecondaryTextColor>#0089DC</buttonSecondaryTextColor>
+<buttonSecondaryTextColor>#4D5860</buttonSecondaryTextColor>
 </property>
 <property>
 <headerBackgroundImage></headerBackgroundImage>
@@ -418,7 +498,7 @@
 <highlightColor>#FFFFDD</highlightColor>
 </property>
 <property>
-<linkColor>#0089DC</linkColor>
+<linkColor>#528BA1</linkColor>
 </property>
 <property>
 <logoImage></logoImage>
@@ -430,19 +510,31 @@
 <menuAddEntryLinkColor>#FFFFFF</menuAddEntryLinkColor>
 </property>
 <property>
-<menuBackgroundColor>#CCCCCC</menuBackgroundColor>
+<menuBackgroundColor>#EAEAEA</menuBackgroundColor>
 </property>
 <property>
-<menuLinkColor>#FFFFFF</menuLinkColor>
+<menuLinkColor>#4D5860</menuLinkColor>
 </property>
 <property>
-<menuSelectedEntryBackgroundColor>#EFEFEF</menuSelectedEntryBackgroundColor>
+<menuSelectedEntryBackgroundColor>#FFFFFF</menuSelectedEntryBackgroundColor>
 </property>
 <property>
-<menuSelectedEntryLinkColor>#888888</menuSelectedEntryLinkColor>
+<menuSelectedEntryLinkColor>#4D5860</menuSelectedEntryLinkColor>
 </property>
 <property>
-<pageBackgroundColor>#DDDDDD</pageBackgroundColor>
+<notificationErrorColor>#CC3333</notificationErrorColor>
+</property>
+<property>
+<notificationInfoColor>#336699</notificationInfoColor>
+</property>
+<property>
+<notificationSuccessColor>#008000</notificationSuccessColor>
+</property>
+<property>
+<notificationWarningColor>#D09000</notificationWarningColor>
+</property>
+<property>
+<pageBackgroundColor>#ECECEC</pageBackgroundColor>
 </property>
 <property>
 <pageBackgroundImage></pageBackgroundImage>
@@ -460,31 +552,31 @@
 <panelBackgroundColor>#FFFFFF</panelBackgroundColor>
 </property>
 <property>
-<panelCollapsedBackgroundColor>#CCCCCC</panelCollapsedBackgroundColor>
+<panelCollapsedBackgroundColor>#ECECEC</panelCollapsedBackgroundColor>
 </property>
 <property>
-<panelCollapsedTextColor>#FFFFFF</panelCollapsedTextColor>
+<panelCollapsedTextColor>#4D5860</panelCollapsedTextColor>
 </property>
 <property>
 <panelHeaderBackgroundColor>#FFFFFF</panelHeaderBackgroundColor>
 </property>
 <property>
-<panelHeaderTextColor>#888888</panelHeaderTextColor>
+<panelHeaderTextColor>#4D5860</panelHeaderTextColor>
 </property>
 <property>
-<panelTextColor>#000000</panelTextColor>
+<panelTextColor>#4D4D4D</panelTextColor>
 </property>
 <property>
-<textColor>#000000</textColor>
+<textColor>#4D4D4D</textColor>
 </property>
 <property>
-<textPrimaryColor>#888888</textPrimaryColor>
+<textPrimaryColor>#656565</textPrimaryColor>
 </property>
 <property>
-<textSecondaryColor>#B3B3B3</textSecondaryColor>
+<textSecondaryColor>#656565</textSecondaryColor>
 </property>
 <property>
-<titleColor>#888888</titleColor>
+<titleColor>#4D5860</titleColor>
 </property>
 </object>
 <content>{{include document="ColorThemes.ColorThemeSheet"/}}</content>

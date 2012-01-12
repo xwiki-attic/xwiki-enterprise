@@ -9,3 +9,8 @@ rm -rf /usr/share/xwiki
 if [ "$1" = "purge" ]; then
 	rm -rf /etc/xwiki
 fi
+
+if [ "$1" = purge ] && [ -e /usr/share/debconf/confmodule ]; then
+	. /usr/share/debconf/confmodule
+	db_purge
+fi

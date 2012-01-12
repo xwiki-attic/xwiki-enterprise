@@ -6,6 +6,7 @@ set -e
 if [ -f /usr/share/debconf/confmodule ]; then
     . /usr/share/debconf/confmodule
 fi
+
 if [ -f /usr/share/dbconfig-common/dpkg/postrm.pgsql ]; then
     . /usr/share/dbconfig-common/dpkg/postrm.pgsql
     dbc_go xwiki $@
@@ -14,7 +15,8 @@ fi
 rm -f /etc/tomcat6/Catalina/localhost/xwiki.xml
 
 if [ "$1" = "purge" ]; then
-	rm -f rm -f /etc/xwiki/hibernate.cfg.xml
+	rm -f /etc/xwiki/hibernate.cfg.xml
+	db_purge
 fi
 
 #########################

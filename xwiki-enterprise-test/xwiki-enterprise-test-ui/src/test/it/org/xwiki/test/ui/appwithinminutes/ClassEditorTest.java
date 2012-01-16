@@ -363,6 +363,7 @@ public class ClassEditorTest extends AbstractAdminAuthenticatedTest
 
         // Add a new field of the type implied by the name set to the previous field.
         field = editor.addField("Number");
+        getUtil().takeScreenshot();
         field.openConfigPanel();
         Assert.assertEquals("number2", field.getName());
 

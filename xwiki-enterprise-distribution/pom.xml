@@ -33,22 +33,6 @@
   <name>XWiki Enterprise - Distribution - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Parent POM</description>
-  <dependencies>
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-web</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-tool-rootwebapp</artifactId>
-      <version>${platform.version}</version>
-      <type>war</type>
-      <optional>true</optional>
-    </dependency>
-  </dependencies>
   <modules>
     <module>xwiki-enterprise-ui-all</module>
   </modules>

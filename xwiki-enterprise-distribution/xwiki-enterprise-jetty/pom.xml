@@ -35,6 +35,20 @@
   <description>XWiki Enterprise - Distribution - Jetty</description>
   <dependencies>
     <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-tool-rootwebapp</artifactId>
+      <version>${platform.version}</version>
+      <type>war</type>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-tool-jetty-resources</artifactId>
       <version>${platform.version}</version>

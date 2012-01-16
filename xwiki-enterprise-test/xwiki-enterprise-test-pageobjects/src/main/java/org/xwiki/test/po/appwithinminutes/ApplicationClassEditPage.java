@@ -97,7 +97,11 @@ public class ApplicationClassEditPage extends InlinePage
     {
         String fieldXPath = "//span[@class = 'field' and normalize-space(.) = '%s']";
         WebElement field = palette.findElement(By.xpath(String.format(fieldXPath, fieldType)));
+        int fieldCount = getUtil().findElementsWithoutWaiting(getDriver(), fields, By.xpath("li")).size();
         new Actions(getDriver().getWrappedDriver()).dragAndDrop(field, fields).perform();
+        if (getUtil().findElementsWithoutWaiting(getDriver(), fields, By.xpath("li")).size() != (fieldCount + 1)) {
+            throw new RuntimeException("Failed to drag and drop a class field from the palette to the canvas.");
+        }
         final WebElement addedField = fields.findElement(By.xpath("li[last()]"));
 
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()

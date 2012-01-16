@@ -25,14 +25,14 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
 import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.LongTextClassFieldEditPane;
+import org.xwiki.test.po.xe.ClassSheetPage;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
-import org.xwiki.test.po.xe.ClassSheetPage;
 
 /**
  * Tests the application class editor.
@@ -356,6 +356,7 @@ public class ClassEditorTest extends AbstractAdminAuthenticatedTest
         ClassFieldEditPane field = editor.addField("Short Text");
         field.openConfigPanel();
         field.setName("number1");
+        field.closeConfigPanel();
 
         // Save and continue.
         editor.clickSaveAndContinue();
@@ -363,7 +364,6 @@ public class ClassEditorTest extends AbstractAdminAuthenticatedTest
 
         // Add a new field of the type implied by the name set to the previous field.
         field = editor.addField("Number");
-        getUtil().takeScreenshot();
         field.openConfigPanel();
         Assert.assertEquals("number2", field.getName());
 

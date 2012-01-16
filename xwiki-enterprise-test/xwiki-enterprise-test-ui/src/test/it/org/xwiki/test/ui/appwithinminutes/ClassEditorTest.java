@@ -356,7 +356,6 @@ public class ClassEditorTest extends AbstractAdminAuthenticatedTest
         ClassFieldEditPane field = editor.addField("Short Text");
         field.openConfigPanel();
         field.setName("number1");
-        field.closeConfigPanel();
 
         // Save and continue.
         editor.clickSaveAndContinue();

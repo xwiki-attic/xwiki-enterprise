@@ -251,10 +251,15 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         String rowXPath = "//td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/Admin']";
         this.clickLinkWithText("XWikiAdminGroup");
         this.waitForCondition("selenium.isElementPresent(\"" + rowXPath + "\")");
-        this.getSelenium().typeKeys("member", "Ad");
-        this.waitForCondition("selenium.isElementPresent(\"" + rowXPath + "\")");
+
+        this.getSelenium().focus("member");
         this.getSelenium().typeKeys("member", "zzz");
         this.waitForCondition("!selenium.isElementPresent(\"" + rowXPath + "\")");
+
+        this.getSelenium().focus("member");
+        // Type Backspace 3 times to delete the previous text.
+        this.getSelenium().typeKeys("member", "\b\b\bAd");
+        this.waitForCondition("selenium.isElementPresent(\"" + rowXPath + "\")");
     }
 
     // Helper methods

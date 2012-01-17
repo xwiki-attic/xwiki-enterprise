@@ -104,11 +104,9 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
 
     public void testEscapedHtmlElement()
     {
-        // NOTE 1: Selenium has a problem with "y" character, so we need to use "Y" instead.
-        // NOTE 2: Selenium skips the first "/" character it finds in a string. So we need to append an
-        // extra "/" character to the first "/" sequence in a string.
-        typeInWysiwyg("http:///\\<Yourserver\\>:8080/something");
-        assertWikiTextGeneratedByWysiwyg("http://\\<Yourserver\\>:8080/something");
+        String text = "http://\\<yourserver\\>:8080/something";
+        typeInWysiwyg(text);
+        assertWikiTextGeneratedByWysiwyg(text);
     }
 
     public void testHtmlElementIsRendered()

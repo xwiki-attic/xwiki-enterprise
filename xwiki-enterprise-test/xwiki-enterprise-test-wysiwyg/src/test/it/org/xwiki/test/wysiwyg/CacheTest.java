@@ -72,6 +72,8 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitForEditorToLoad();
 
         // Type text and leave the editing by clicking on a link.
+        // NOTE: The source text area is not focused when we go back.
+        getSelenium().focus(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "b");
         getSelenium().click("//a[@title = 'Home']");
         waitPage();
@@ -80,6 +82,7 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitForEditorToLoad();
 
         // Check the result.
+        getSelenium().focus(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "c");
         assertSourceText("cba");
     }

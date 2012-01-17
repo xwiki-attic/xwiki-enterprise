@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import java.awt.event.KeyEvent;
+
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -102,11 +104,23 @@ public class HistoryTest extends AbstractWysiwygTestCase
     public void testUndoRepeatedPaste()
     {
         typeText("q");
-        selectNodeContents(getDOMLocator("body.firstChild"));
-        getSelenium().controlKeyDown();
-        typeText("c");
-        typeText("vvvv");
-        getSelenium().controlKeyUp();
+
+        // NOTE: We have to use native keyboard events because otherwise the native copy & paste behavior is not
+        // triggered. Also, the shortcut keys must use upper case letters.
+        // Select all text.
+        getSelenium().keyDownNative(String.valueOf(KeyEvent.VK_CONTROL));
+        getSelenium().keyPressNative(String.valueOf((int) 'A'));
+        // Copy selected text.
+        getSelenium().keyPressNative(String.valueOf((int) 'C'));
+        // Paste selected text 4 times.
+        for (int i = 0; i < 4; i++) {
+            getSelenium().keyPressNative(String.valueOf((int) 'V'));
+        }
+        getSelenium().keyUpNative(String.valueOf(KeyEvent.VK_CONTROL));
+
+        // Native keyboard events are sent asynchronously so we must wait for the browser to handle them.
+        waitForTextContains(getDOMLocator("body"), "qqqq");
+
         // The undo tool bar button is initially disabled because no action has been taken on the edited document. We
         // have to wait for it to become enabled because the tool bar is updated with delay after each edit action.
         waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);

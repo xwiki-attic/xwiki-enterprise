@@ -1563,7 +1563,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void filterMacrosContaining(String filter)
     {
-        focus(MACRO_LIVE_FILTER_SELECTOR);
+        getSelenium().focus(MACRO_LIVE_FILTER_SELECTOR);
         getSelenium().typeKeys(MACRO_LIVE_FILTER_SELECTOR, filter);
     }
 

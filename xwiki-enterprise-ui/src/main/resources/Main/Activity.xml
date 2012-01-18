@@ -1871,7 +1871,7 @@ $xwiki.ssx.use("Main.Activity")##
 {{velocity}}
 {{html}}
 &lt;div class="activity"&gt;
-#if ($isMessageStreamActive &amp;&amp; !$isGuest &amp;&amp; $context.action != 'inline')
+#if ($isMessageStreamActive &amp;&amp; !$isGuest &amp;&amp; $xcontext.action != 'inline' &amp;&amp; $xcontext.action != 'edit')
   #if ("$!{request.xaction}" == 'postMessage')
     #set ($message = "$!{request.messagestream_message.trim()}")
     #if ($message == '')

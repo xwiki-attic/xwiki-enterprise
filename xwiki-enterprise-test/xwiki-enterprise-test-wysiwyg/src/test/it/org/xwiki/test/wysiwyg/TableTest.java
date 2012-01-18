@@ -138,35 +138,6 @@ public class TableTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @see XWIKI-4230: "Tab" doesn't work in the Table Dialog in FF 3.5.2
-     */
-    public void testTabInTableConfigDialog()
-    {
-        if (!isBrowserWindowFocused()) {
-            // We can't test the behavior of the Tab key if the browser window is not focused.
-            return;
-        }
-
-        openInsertTableDialog();
-        focus(ROWS_SELECTOR);
-
-        // There's no API for testing if an element is focused. We have to catch the focus event.
-        StringBuffer script = new StringBuffer();
-        script.append("var columns = selenium.browserbot.findElement(\"" + COLUMNS_SELECTOR + "\");\n");
-        script.append("columns.addEventListener('focus', function() {columns.value = '12345';}, false);");
-        getSelenium().getEval(script.toString());
-
-        // Make sure the COLUMNS_SELECTOR input is not focused before pressing the Tab key.
-        assertFalse("12345".equals(getSelenium().getValue(COLUMNS_SELECTOR)));
-
-        // Press the Tab key and wait for the COLUMNS_SELECTOR to receive the focus.
-        getSelenium().keyPressNative("9");
-        waitForCondition("selenium.getValue(\"" + COLUMNS_SELECTOR + "\") == '12345'");
-
-        closeDialog();
-    }
-
-    /**
      * @see XWIKI-4231: "Enter" doesn't work in the Table Dialog
      */
     public void testEnterInTableConfigDialog()

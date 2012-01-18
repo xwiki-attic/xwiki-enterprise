@@ -119,75 +119,6 @@ public class CacheTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test that the content of the rich text area is preserved when the user refreshes the page.
-     */
-    public void testPreserveUnsavedRichContentAgainstRefresh()
-    {
-        if (!isBrowserWindowFocused()) {
-            // Refreshing the page by pressing F5 requires the browser window to be focused.
-            return;
-        }
-
-        // Type text and refresh the page.
-        typeText("2");
-        refresh();
-
-        // Type more text and check the result.
-        typeText("1");
-        switchToSource();
-        assertSourceText("12");
-    }
-
-    /**
-     * Test that the content of the source text area is preserved when the user refreshes the page.
-     */
-    public void testPreserveUnsavedSourceAgainstRefresh()
-    {
-        if (!isBrowserWindowFocused()) {
-            // Refreshing the page by pressing F5 requires the browser window to be focused.
-            return;
-        }
-
-        // Type text and refresh the page.
-        switchToSource();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "1");
-        refresh();
-
-        // Type more text and check the result.
-        switchToSource();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "2");
-        assertSourceText("12");
-    }
-
-    /**
-     * Tests that the currently active editor (WYSIWYG or Source) is preserved when the user refreshes the page.
-     */
-    public void testPreserveSelectedEditorAgainstRefresh()
-    {
-        if (!isBrowserWindowFocused()) {
-            // Refreshing the page by pressing F5 requires the browser window to be focused.
-            return;
-        }
-
-        // The WYSIWYG editor should be initially active.
-        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
-
-        // Switch to Source editor and refresh the page.
-        switchToSource();
-        refresh();
-
-        // The Source editor should be active now because it was selected before the refresh.
-        assertTrue(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
-
-        // Switch to WYSIWYG editor and refresh the page again.
-        switchToWysiwyg();
-        refresh();
-
-        // The WYSIWYG editor should be active now because it was selected before the refresh.
-        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
-    }
-
-    /**
      * @see XWIKI-4162: When in edit mode (all editors) back/forward looses the content you have changed
      */
     public void testBackForwardCache()
@@ -210,20 +141,5 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitForEditorToLoad();
         // Assert the text content.
         assertEquals("123", getSelenium().getEval("window." + getDOMLocator("body.textContent")));
-    }
-
-    /**
-     * Refreshes the current page by pressing the F5 key, which is not the same as calling {@code
-     * getSelenium().refresh()}.
-     */
-    private void refresh()
-    {
-        // Make sure only the window caches the F5 key.
-        getSelenium().focus("document.defaultView");
-        // Press the F5 key.
-        getSelenium().keyPressNative("116");
-        // Wait for the page to load.
-        waitPage();
-        waitForEditorToLoad();
     }
 }

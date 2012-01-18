@@ -19,8 +19,6 @@
  */
 package org.xwiki.test.wysiwyg;
 
-import java.awt.event.KeyEvent;
-
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -633,28 +631,6 @@ public class ListTest extends AbstractWysiwygTestCase
         clickOutdentButton();
         assertContent("<ul><li>one<br>before<ul><li>two</li></ul></li><li>three<ul><li>four</li></ul>"
             + "after</li></ul>");
-    }
-
-    /**
-     * Test that hitting the . key at the end of a list item does not act as delete.
-     * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
-     */
-    public void testDotAtEndDoesNotDelete()
-    {
-        if (!isBrowserWindowFocused()) {
-            // We haven't found a way to run this test in background (it uses the native key press).
-            return;
-        }
-
-        switchToSource();
-        setSourceText("* foo\n* bar");
-        switchToWysiwyg();
-        // Set the selection at the end of the first item
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
-        // type the dot native, to make sure it goes through the browser's key handling code
-        getSelenium().keyPressNative(Integer.toString(KeyEvent.VK_PERIOD));
-        assertContent("<ul><li>foo.</li><li>bar</li></ul>");
     }
 
     /**

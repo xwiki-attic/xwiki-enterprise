@@ -29,6 +29,7 @@ import org.xwiki.test.ui.po.editor.ProfileEditPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
 import org.xwiki.test.ui.po.editor.wysiwyg.RichTextAreaElement;
+import org.xwiki.test.ui.po.editor.wysiwyg.TableConfigPane;
 import org.xwiki.test.ui.po.editor.wysiwyg.UploadImagePane;
 
 /**
@@ -89,6 +90,81 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
+     * Test that the content of the rich text area is preserved when the user refreshes the page.
+     */
+    @Test
+    public void testPreserveUnsavedRichContentAgainstRefresh()
+    {
+        // Type text and refresh the page.
+        this.editPage.getContentEditor().getRichTextArea().sendKeys("2");
+        this.editPage.sendKeys(Keys.F5);
+
+        this.editPage = new WYSIWYGEditPage();
+        EditorElement editor = this.editPage.getContentEditor();
+        editor.waitToLoad();
+
+        // Type more text and check the result.
+        RichTextAreaElement textArea = editor.getRichTextArea();
+        textArea.sendKeys("1");
+        Assert.assertEquals("12", textArea.getText());
+    }
+
+    /**
+     * Test that the content of the source text area is preserved when the user refreshes the page.
+     */
+    @Test
+    public void testPreserveUnsavedSourceAgainstRefresh()
+    {
+        EditorElement editor = this.editPage.getContentEditor();
+        editor.switchToSource();
+
+        // Type text and refresh the page.
+        editor.getSourceTextArea().sendKeys("1" + Keys.F5);
+
+        this.editPage = new WYSIWYGEditPage();
+        editor = this.editPage.getContentEditor();
+        editor.waitToLoad();
+        editor.switchToSource();
+
+        // Type more text and check the result.
+        editor.getSourceTextArea().sendKeys("2");
+        Assert.assertEquals("12", editor.getSourceTextArea().getAttribute("value"));
+    }
+
+    /**
+     * Tests that the currently active editor (WYSIWYG or Source) is preserved when the user refreshes the page.
+     */
+    @Test
+    public void testPreserveSelectedEditorAgainstRefresh()
+    {
+        // The WYSIWYG editor should be initially active.
+        EditorElement editor = this.editPage.getContentEditor();
+        Assert.assertFalse(editor.getSourceTextArea().isEnabled());
+
+        // Switch to Source editor and refresh the page.
+        editor.switchToSource();
+        editor.getSourceTextArea().sendKeys(Keys.F5);
+
+        this.editPage = new WYSIWYGEditPage();
+        editor = this.editPage.getContentEditor();
+        editor.waitToLoad();
+
+        // The Source editor should be active now because it was selected before the refresh.
+        Assert.assertTrue(editor.getSourceTextArea().isEnabled());
+
+        // Switch to WYSIWYG editor and refresh the page again.
+        editor.switchToWysiwyg();
+        this.editPage.sendKeys(Keys.F5);
+
+        this.editPage = new WYSIWYGEditPage();
+        editor = this.editPage.getContentEditor();
+        editor.waitToLoad();
+
+        // The WYSIWYG editor should be active now because it was selected before the refresh.
+        Assert.assertFalse(editor.getSourceTextArea().isEnabled());
+    }
+
+    /**
      * Test if an undo step reverts only one paste operation from a sequence, and not all of them.
      */
     @Test
@@ -101,5 +177,47 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         // Undo the last paste.
         editor.getToolBar().clickUndoButton();
         Assert.assertEquals("qqq", textArea.getText());
+    }
+
+    /**
+     * @see XWIKI-4230: "Tab" doesn't work in the Table Dialog in FF 3.5.2
+     */
+    @Test
+    public void testTabInTableConfigDialog()
+    {
+        TableConfigPane tableConfig = this.editPage.insertTable();
+
+        // Assert that the row count input has the focus.
+        Assert.assertEquals(tableConfig.getRowCountInput(), getDriver().switchTo().activeElement());
+        getDriver().switchTo().defaultContent();
+
+        // Press Tab to move the focus to the next input.
+        tableConfig.getRowCountInput().sendKeys(Keys.TAB);
+
+        // Assert that the column count input has the focus.
+        Assert.assertEquals(tableConfig.getColumnCountInput(), getDriver().switchTo().activeElement());
+        getDriver().switchTo().defaultContent();
+    }
+
+    /**
+     * Test that hitting the . (dot) key at the end of a list item does not act as delete.
+     * 
+     * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
+     */
+    @Test
+    public void testDotAtEndDoesNotDelete()
+    {
+        EditorElement editor = this.editPage.getContentEditor();
+
+        // Create a list with two items.
+        editor.switchToSource();
+        editor.getSourceTextArea().sendKeys("* foo\n* bar");
+        editor.switchToWysiwyg();
+
+        // Place the caret at the end of the first item and type dot.
+        RichTextAreaElement textArea = editor.getRichTextArea();
+        textArea.sendKeys(Keys.chord(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT) + ".");
+
+        Assert.assertEquals("foo.\nbar", textArea.getText());
     }
 }

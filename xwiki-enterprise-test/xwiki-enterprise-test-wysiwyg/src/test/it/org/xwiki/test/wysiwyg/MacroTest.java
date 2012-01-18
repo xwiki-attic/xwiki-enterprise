@@ -1563,7 +1563,10 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void filterMacrosContaining(String filter)
     {
-        getSelenium().focus(MACRO_LIVE_FILTER_SELECTOR);
+        // In order for the filter to work without real focus we must set the filter value and simulate the keyboard
+        // events separately. First let's set the filter value.
+        getSelenium().type(MACRO_LIVE_FILTER_SELECTOR, filter);
+        // Then let's simulate each keyboard event.
         getSelenium().typeKeys(MACRO_LIVE_FILTER_SELECTOR, filter);
     }
 

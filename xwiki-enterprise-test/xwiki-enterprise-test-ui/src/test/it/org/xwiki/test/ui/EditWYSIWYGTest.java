@@ -23,9 +23,12 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Keys;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.ui.po.editor.ProfileEditPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
+import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
+import org.xwiki.test.ui.po.editor.wysiwyg.RichTextAreaElement;
 import org.xwiki.test.ui.po.editor.wysiwyg.UploadImagePane;
 
 /**
@@ -83,5 +86,20 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         profileEditPage = new ProfileEditPage();
         Assert.assertEquals(about, profileEditPage.getUserAbout());
         Assert.assertEquals(address, profileEditPage.getUserAddress());
+    }
+
+    /**
+     * Test if an undo step reverts only one paste operation from a sequence, and not all of them.
+     */
+    @Test
+    public void testUndoRepeatedPaste()
+    {
+        EditorElement editor = this.editPage.getContentEditor();
+        RichTextAreaElement textArea = editor.getRichTextArea();
+        // Type text, select it (Control+A), copy it (Control+C) and paste it 4 times (Control+V).
+        textArea.sendKeys("q" + Keys.chord(Keys.CONTROL + "acvvvv"));
+        // Undo the last paste.
+        editor.getToolBar().clickUndoButton();
+        Assert.assertEquals("qqq", textArea.getText());
     }
 }

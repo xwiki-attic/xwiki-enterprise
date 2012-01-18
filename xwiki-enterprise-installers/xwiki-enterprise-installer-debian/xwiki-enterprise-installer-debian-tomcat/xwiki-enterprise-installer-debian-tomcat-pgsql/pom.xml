@@ -37,7 +37,7 @@
     <xwiki.db.connection.url>jdbc:postgresql:_DBC_DBNAME_</xwiki.db.connection.url>
     <xwiki.db.connection.username>_DBC_DBUSER_</xwiki.db.connection.username>
     <xwiki.db.connection.password>_DBC_DBPASS_</xwiki.db.connection.password>
-    <xwiki.db.connection.driver_class>com.mysql.jdbc.Driver</xwiki.db.connection.driver_class>
+    <xwiki.db.connection.driver_class>org.postgresql.Driver</xwiki.db.connection.driver_class>
     <xwiki.db.dialect>org.hibernate.dialect.PostgreSQLDialect</xwiki.db.dialect>
     <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
     <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>

@@ -65,7 +65,7 @@
               <type>directory</type>
               <mapper>
                 <type>perm</type>
-                <prefix></prefix>
+                <prefix />
               </mapper>
             </data>
             <data>

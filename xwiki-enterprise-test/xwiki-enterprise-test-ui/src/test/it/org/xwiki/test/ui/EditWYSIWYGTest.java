@@ -172,8 +172,9 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     {
         EditorElement editor = this.editPage.getContentEditor();
         RichTextAreaElement textArea = editor.getRichTextArea();
-        // Type text, select it (Control+A), copy it (Control+C) and paste it 4 times (Control+V).
-        textArea.sendKeys("q" + Keys.chord(Keys.CONTROL + "acvvvv"));
+        // Type text, select it (Shift+LeftArrow), copy it (Control+C) and paste it 4 times (Control+V).
+        // NOTE: We don't use Control+A to select the text because it selects also the BR element.
+        textArea.sendKeys("q" + Keys.chord(Keys.SHIFT, Keys.ARROW_LEFT) + Keys.chord(Keys.CONTROL, "cvvvv"));
         // Undo the last paste.
         editor.getToolBar().clickUndoButton();
         Assert.assertEquals("qqq", textArea.getText());

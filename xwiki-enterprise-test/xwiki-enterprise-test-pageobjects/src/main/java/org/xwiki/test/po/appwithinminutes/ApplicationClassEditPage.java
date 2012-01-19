@@ -20,6 +20,7 @@
 package org.xwiki.test.po.appwithinminutes;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -98,6 +99,9 @@ public class ApplicationClassEditPage extends InlinePage
         String fieldXPath = "//span[@class = 'field' and normalize-space(.) = '%s']";
         WebElement field = palette.findElement(By.xpath(String.format(fieldXPath, fieldType)));
         int fieldCount = getUtil().findElementsWithoutWaiting(getDriver(), fields, By.xpath("li")).size();
+        // NOTE: We scroll the page up because the drag&drop fails sometimes if the dragged field and the canvas (drop
+        // target) are not fully visible.
+        palette.sendKeys(Keys.HOME);
         new Actions(getDriver().getWrappedDriver()).dragAndDrop(field, fields).perform();
         final WebElement addedField = fields.findElement(By.xpath("li[" + (fieldCount + 1) + "]"));
 

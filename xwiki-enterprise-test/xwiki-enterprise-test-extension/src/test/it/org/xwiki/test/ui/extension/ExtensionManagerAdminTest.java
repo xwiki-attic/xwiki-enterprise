@@ -21,6 +21,7 @@ package org.xwiki.test.ui.extension;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.extension.client.ExtensionsAdminPage;
@@ -46,10 +47,11 @@ public class ExtensionManagerAdminTest extends AbstractAdminAuthenticatedTest
     /**
      * Test resolve of core extension.
      */
-    // @Test
-    // FIXME: See XE-1062 (Fix failing Extension Manager tests). Don't forget to put back the @Test annotation.
+    @Test
+    @Ignore
     public void testResolveCore() throws Exception
     {
+        // FIXME: See XE-1062 (Fix failing Extension Manager tests). Don't forget to remove the @Ignore annotation.
         String version = getUtil().getMavenVersion();
 
         this.extensionsPage.setExtensionId("org.xwiki.commons:xwiki-commons-component-api");
@@ -98,7 +100,6 @@ public class ExtensionManagerAdminTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testInstallRemote()
     {
-        
     }
 
     /**
@@ -107,6 +108,5 @@ public class ExtensionManagerAdminTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testInstallLocal()
     {
-        
     }
 }

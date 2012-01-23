@@ -100,7 +100,7 @@ public class ApplicationClassEditPage extends InlinePage
         WebElement field = palette.findElement(By.xpath(String.format(fieldXPath, fieldType)));
         int fieldCount = getUtil().findElementsWithoutWaiting(getDriver(), fields, By.xpath("li")).size();
         // NOTE: We scroll the page up because the drag&drop fails sometimes if the dragged field and the canvas (drop
-        // target) are not fully visible.
+        // target) are not fully visible. See https://code.google.com/p/selenium/issues/detail?id=3075 .
         palette.sendKeys(Keys.HOME);
         new Actions(getDriver().getWrappedDriver()).dragAndDrop(field, fields).perform();
         final WebElement addedField = fields.findElement(By.xpath("li[" + (fieldCount + 1) + "]"));

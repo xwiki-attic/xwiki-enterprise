@@ -18,7 +18,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-index</artifactId>
+      <artifactId>xwiki-platform-index-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

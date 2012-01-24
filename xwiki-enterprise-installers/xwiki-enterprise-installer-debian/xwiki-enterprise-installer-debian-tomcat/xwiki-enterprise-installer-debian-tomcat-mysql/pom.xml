@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
-    <version>3.4-SNAPSHOT</version>
+    <version>3.4</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-tomcat-mysql</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat - MySQL</name>

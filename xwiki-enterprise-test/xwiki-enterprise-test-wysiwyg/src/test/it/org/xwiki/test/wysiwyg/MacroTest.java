@@ -71,20 +71,18 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that by holding the Delete key down before a macro the caret doesn't get inside the macro, but, instead,
      * the macro is deleted.
      */
-    // @Ignored because it fails erroniously when run on the CI server.
-    // see: http://jira.xwiki.org/jira/browse/XE-949
-    /*
     public void testHoldDeleteKeyBeforeMacro()
     {
         switchToSource();
-        setSourceText("c{{html}}def{{/html}}g");
+        setSourceText("bc{{html}}def{{/html}}g");
         switchToWysiwyg();
+        // Place the caret between "b" and "c".
+        moveCaret("XWE.body.firstChild.firstChild", 1);
         typeDelete(2, true);
         typeText("x");
         switchToSource();
-        assertSourceText("xg");
+        assertSourceText("bxg");
     }
-    */
 
     /**
      * Tests that after deleting with Backspace a text selection ending before a macro the caret remains before the

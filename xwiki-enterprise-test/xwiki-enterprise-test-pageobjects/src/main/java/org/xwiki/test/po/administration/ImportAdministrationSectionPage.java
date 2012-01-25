@@ -24,8 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.xwiki.test.ui.XWikiWrappingDriver;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -84,11 +87,19 @@ public class ImportAdministrationSectionPage extends ViewPage
 
     public void deletePackage(String packageName)
     {
-        makeConfirmDialogSilent(true);
+        // FIXME: Remove the following check when we drop support for Firefox 3.6.x.
+        WebDriver driver = ((XWikiWrappingDriver) getDriver()).getWrappedDriver();
+        if (((RemoteWebDriver) driver).getCapabilities().getVersion().startsWith("3.6.")) {
+            // We access the delete attachment URL directly on Firefox 3.6.x because Selenium clicks the delete link
+            // twice. See http://code.google.com/p/selenium/issues/detail?id=2628 .
+            String qs = "xredirect=" + getUtil().escapeURL(getDriver().getCurrentUrl());
+            getDriver().get(getUtil().getAttachmentURL("XWiki", "XWikiPreferences", packageName, "delattachment", qs));
+        } else {
+            makeConfirmDialogSilent(true);
 
-        this.packageList.findElement(By.xpath(
-            "//ul[@class='xlist']//a[contains(@class, 'package') and contains(text(), '" + packageName
-                + "')]/../span/a[contains(@class, 'deletelink')]")).click();
+            String xpath = "//ul[@class='xlist']//a[@class='package' and contains(.,'%s')]/..//a[@class='deletelink']";
+            this.packageList.findElement(By.xpath(String.format(xpath, packageName))).click();
+        }
     }
 
     public void importPackage()

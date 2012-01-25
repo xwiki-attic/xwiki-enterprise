@@ -24,6 +24,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.ui.po.editor.ProfileEditPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
@@ -186,6 +188,14 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testTabInTableConfigDialog()
     {
+        // FIXME: Remove the following check when native events will be supported across all major platforms.
+        WebDriver driver = ((XWikiWrappingDriver) getDriver()).getWrappedDriver();
+        if (((RemoteWebDriver) driver).getCapabilities().getVersion().startsWith("3.6.")) {
+            // Currently we don't run this test on Firefox 3.6.x because the Tab key is not properly simulated when
+            // native events aren't enabled. See http://code.google.com/p/selenium/issues/detail?id=368 .
+            return;
+        }
+
         TableConfigPane tableConfig = this.editPage.insertTable();
 
         // Assert that the row count input has the focus.

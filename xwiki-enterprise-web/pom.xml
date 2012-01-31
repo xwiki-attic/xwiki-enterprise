@@ -453,6 +453,13 @@
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- ZIP Explorer -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-zipexplorer</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Mailsender -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

@@ -14,7 +14,7 @@
 <date>1300321645000</date>
 <contentUpdateDate>1300321645000</contentUpdateDate>
 <version>1.1</version>
-<title>#if($request.docname) $xwiki.getDocument($request.docname).displayTitle ($request.docname): #end $msg.get("xe.attachmentSelector.gallery.title")</title>
+<title>#if($request.docname)$xwiki.getDocument($request.docname).displayTitle ($request.docname): #end$msg.get("xe.attachmentSelector.gallery.title")</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>

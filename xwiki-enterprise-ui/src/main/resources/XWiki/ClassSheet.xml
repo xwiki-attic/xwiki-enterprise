@@ -15,7 +15,7 @@
 <date>1253198440000</date>
 <contentUpdateDate>1253198440000</contentUpdateDate>
 <version>1.1</version>
-<title>#if($doc.fullName == 'XWiki.ClassSheet')Default Class Sheet#{else}$doc.title#end</title>
+<title>#if($doc.fullName == 'XWiki.ClassSheet')Default Class Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
 <template></template>
 <defaultTemplate></defaultTemplate>
 <validationScript></validationScript>
@@ -92,11 +92,7 @@
 
 {{velocity}}
 #if($doc.fullName != 'XWiki.ClassSheet')
-  #if($doc.name.endsWith('Class'))
-    #set($className = $doc.name.substring(0, $doc.name.lastIndexOf('Class')))
-  #else
-    #set($className = $doc.name)
-  #end
+  #set($className = $stringtool.removeEnd($doc.name, 'Class'))
   ## Determine the class sheets.
   #set($classSheetReferences = $services.sheet.getClassSheets($doc))
   #if ($classSheetReferences.isEmpty())
@@ -179,7 +175,7 @@
           &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
           &lt;input type="hidden" name="xredirect" value="${doc.URL}"/&gt;
           &lt;input type="hidden" name="content" value="$escapetool.xml($xwiki.getDocument('XWiki.ObjectSheet').getContent().replace('XWiki.MyClass', $doc.fullName))"/&gt;
-          &lt;input type="hidden" name="title" value="$doc.name Sheet"/&gt;
+          &lt;input type="hidden" name="title" value="${escapetool.h}if(${escapetool.d}doc.name == '$escapetool.xml($defaultClassSheetReference.name)')$escapetool.xml($className) Sheet${escapetool.h}{else}${escapetool.d}services.display.title(${escapetool.d}doc, {'displayerHint': 'default'})${escapetool.h}end"/&gt;
           &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create the document sheet" class="button"/&gt;&lt;/span&gt;
         &lt;/div&gt;
       &lt;/form&gt;
@@ -222,7 +218,7 @@
           &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
           &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
           &lt;input type="hidden" name="xredirect" value="${doc.URL}"/&gt;
-          &lt;input type="hidden" name="title" value="$doc.name Template"/&gt;
+          &lt;input type="hidden" name="title" value="$className Template"/&gt;
           &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create the document template" class="button"/&gt;&lt;/span&gt;
         &lt;/div&gt;
       &lt;/form&gt;

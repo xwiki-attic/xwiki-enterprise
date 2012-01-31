@@ -25,13 +25,11 @@
 <hidden>false</hidden>
 <content>{{velocity}}
 #if($request.space &amp;&amp; $request.name)
-  #if($request.name.endsWith("Class"))
-    #set($targetClassName="${request.space}.${request.name}")
-  #else
-    #set($targetClassName="${request.space}.${request.name}Class")
-  #end
-  #if($xwiki.hasAccessLevel('edit', $context.user, $targetClassName))
-    $response.sendRedirect($xwiki.getURL($context.util.noaccents($targetClassName), 'edit', "editor=wiki&amp;template=$!{request.template}&amp;sheet=$!{request.sheet}&amp;parent=$!{request.parent}"))
+  #set($className = "#toXMLName($stringtool.removeEnd($request.name, 'Class'))")
+  #set($classTitle = "$className Class")
+  #set($classReference = $services.model.createDocumentReference('', $request.space, "${className}Class"))
+  #if($xwiki.hasAccessLevel('edit', $context.user, $services.model.serialize($classReference)))
+    $response.sendRedirect($xwiki.getURL($classReference, 'edit', "editor=wiki&amp;template=$!{request.template}&amp;parent=$!{request.parent}&amp;title=$escapetool.url($classTitle)"))
     ## Stop processing, since we already sent a redirect.
     #stop
   #end
@@ -59,7 +57,6 @@ Choose a simple name, such as //Article//, //Book//, //Employee//. '//Class//' w
   &lt;div&gt;
     &lt;input type="hidden" name="parent" value="XWiki.XWikiClasses"/&gt;
     &lt;input type="hidden" name="template" value="XWiki.ClassTemplate"/&gt;
-    &lt;input type="hidden" name="sheet" value="1"/&gt;
     &lt;label for="space"&gt;Space:&lt;/label&gt; &lt;input type="text" id="space" name="space" value="XWiki"/&gt;
     &lt;label for="name"&gt;Class:&lt;/label&gt; &lt;input type="text" id="name" name="name" value="Name of the class" class="withTip"/&gt;
     &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create this Class" class="button"/&gt;&lt;/span&gt;

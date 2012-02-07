@@ -3,7 +3,7 @@ Version: [[version]]
 Section: java
 Priority: optional
 Architecture: all
-Depends: xwiki-enterprise-common ([[version]]), postgresql (>= 8.4), tomcat6 ( >= 6.0.20), libpg-java ( >= 8.4)
+Depends: xwiki-enterprise-common ([[version]]), postgresql, tomcat6, libpg-java
 Maintainer: XWiki Team (devs@xwiki.org)
 License: LGPL 2.1
 Description: XWiki enterprise Tomcat/PostgreSQL

@@ -26,39 +26,42 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-installers</artifactId>
+    <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
     <version>3.5-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer-debian</artifactId>
-  <name>XWiki Enterprise - Installer - Debian</name>
+  <artifactId>xwiki-enterprise-installer-debian-tomcat-common</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Tomcat - Common</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian</description>
-  <modules>
-    <module>xwiki-enterprise-installer-debian-common</module>
-    <module>xwiki-enterprise-installer-debian-mysql-common</module>
-    <module>xwiki-enterprise-installer-debian-pgsql-common</module>
-    <module>xwiki-enterprise-installer-debian-tomcat</module>
-  </modules>
+  <description>XWiki Enterprise - Installer - Debian - Tomcat - Common</description>
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>jdeb</artifactId>
-          <groupId>org.vafer</groupId>
-          <version>0.9.1-SNAPSHOT</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>jdeb</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-          <timestamped>true</timestamped>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <!-- Unpack the war -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <!-- Prepare hibernate configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+      </plugin>
+      <!-- Produce deb package -->
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+        <configuration>
+          <dataSet>
+            <data>
+              <src>${project.basedir}/src/deb/resources/</src>
+              <type>directory</type>
+              <mapper>
+                <type>perm</type>
+                <prefix />
+              </mapper>
+            </data>
+          </dataSet>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

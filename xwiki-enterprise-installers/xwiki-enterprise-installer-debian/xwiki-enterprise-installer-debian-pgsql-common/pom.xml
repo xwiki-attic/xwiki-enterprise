@@ -29,19 +29,45 @@
     <artifactId>xwiki-enterprise-installer-debian</artifactId>
     <version>3.5-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
-  <name>XWiki Enterprise - Installer - Debian - Tomcat</name>
+  <artifactId>xwiki-enterprise-installer-debian-pgsql-common</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Postgres SQL - Common</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian - Tomcat</description>
-  <modules>
-    <module>xwiki-enterprise-installer-debian-tomcat-common</module>
-    <module>xwiki-enterprise-installer-debian-tomcat5-mysql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat5-pgsql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat6-mysql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat6-pgsql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat7-mysql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat7-pgsql</module>
-  </modules>
+  <description>XWiki Enterprise - Installer - Debian - Postgres SQL - Common</description>
+  <properties>
+    <xwiki.db.connection.url>jdbc:postgresql:_DBC_DBNAME_</xwiki.db.connection.url>
+    <xwiki.db.connection.username>_DBC_DBUSER_</xwiki.db.connection.username>
+    <xwiki.db.connection.password>_DBC_DBPASS_</xwiki.db.connection.password>
+    <xwiki.db.connection.driver_class>org.postgresql.Driver</xwiki.db.connection.driver_class>
+    <xwiki.db.dialect>org.hibernate.dialect.PostgreSQLDialect</xwiki.db.dialect>
+    <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
+    <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+  </properties>
+  <build>
+    <plugins>
+      <!-- Prepare hibernate configuration -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+      </plugin>
+      <!-- Produce deb package -->
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+        <configuration>
+          <dataSet>
+            <data>
+              <src>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</src>
+              <type>file</type>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/share/xwiki/templates/pgsql</prefix>
+              </mapper>
+            </data>
+          </dataSet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>

@@ -6,11 +6,11 @@ set -e
 rm -rf /usr/lib/xwiki/
 rm -rf /usr/share/xwiki
 
-if [ "$1" = "purge" ]; then
-	rm -rf /etc/xwiki
-fi
+if [ "$1" = "purge"  ]; then
+	rm -rf /var/lib/xwiki
 
-if [ "$1" = purge ] && [ -e /usr/share/debconf/confmodule ]; then
-	. /usr/share/debconf/confmodule
-	db_purge
+	if [ -e /usr/share/debconf/confmodule ]; then
+		. /usr/share/debconf/confmodule
+		db_purge
+	fi
 fi

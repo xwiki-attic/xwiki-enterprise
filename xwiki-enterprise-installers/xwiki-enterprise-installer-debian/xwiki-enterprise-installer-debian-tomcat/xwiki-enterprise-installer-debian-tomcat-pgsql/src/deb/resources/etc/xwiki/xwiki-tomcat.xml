@@ -1,9 +1,0 @@
-<!--
-    Context configuration file for the XWiki Web App
--->
-
-<Context path="/xwiki" docBase="/usr/lib/xwiki"
-   debug="0" privileged="true" allowLinking="true" crossContext="true">
-  <!-- make symlinks work in Tomcat -->
-  <Resources className="org.apache.naming.resources.FileDirContext" allowLinking="true" />
-</Context>

@@ -26,39 +26,20 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-installers</artifactId>
+    <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
     <version>3.5-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer-debian</artifactId>
-  <name>XWiki Enterprise - Installer - Debian</name>
+  <artifactId>xwiki-enterprise-installer-debian-tomcat7-pgsql</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Tomcat 7 - Postgres SQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian</description>
-  <modules>
-    <module>xwiki-enterprise-installer-debian-common</module>
-    <module>xwiki-enterprise-installer-debian-mysql-common</module>
-    <module>xwiki-enterprise-installer-debian-pgsql-common</module>
-    <module>xwiki-enterprise-installer-debian-tomcat</module>
-  </modules>
+  <description>XWiki Enterprise - Installer - Debian - Tomcat 7 - Postgres SQL</description>
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>jdeb</artifactId>
-          <groupId>org.vafer</groupId>
-          <version>0.9.1-SNAPSHOT</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>jdeb</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-          <timestamped>true</timestamped>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <!-- Produce deb package -->
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+      </plugin>
+    </plugins>
   </build>
 </project>

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -e
+#set -x
+
+#########################
+# Links
+# TODO: get rid of them when jdeb add support for symbolic links
+#       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
+#########################
+
+# Custom tomcat context configuration
+ln -sf /etc/xwiki/xwiki-tomcat.xml  /etc/tomcat7/Catalina/localhost/xwiki.xml
+
+#########################
+# Rights
+#########################
+
+## Make sure tomcat is able to write in the data folder
+chown tomcat7.tomcat7 /var/lib/xwiki/data
+
+#########################
+# Configuration
+#########################
+
+. /usr/share/debconf/confmodule
+
+#########################
+# Restart Tomcat
+#########################
+
+invoke-rc.d --quiet tomcat6 restart || {
+    RESULT=$?
+    # Ignore if tomcat6 init script does not exist (yet)
+    if [ $RESULT != 100 ]; then
+	exit $RESULT
+    fi
+}

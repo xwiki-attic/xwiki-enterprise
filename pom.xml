@@ -105,7 +105,7 @@
     <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
     <xwiki.cfg.additionalproperties>xwiki.work.dir=data</xwiki.cfg.additionalproperties>
-    <xwiki.properties.container.persistentDirectory>data</xwiki.properties.container.persistentDirectory>
+    <xwiki.properties.environment.permanentDirectory>data</xwiki.properties.environment.permanentDirectory>
   </properties>
   <build>
     <pluginManagement>
@@ -156,7 +156,9 @@
                   <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
                   <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
                   <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
-                  <xwikiPropertiesContainerPersistentDirectory>${xwiki.properties.container.persistentDirectory}</xwikiPropertiesContainerPersistentDirectory>
+
+                  <!-- Default configuration data for xwiki.properties -->
+                  <xwikiPropertiesEnvironmentPermanentDirectory>${xwiki.properties.environment.permanentDirectory}</xwikiPropertiesEnvironmentPermanentDirectory>
                 </properties>
               </configuration>
             </execution>

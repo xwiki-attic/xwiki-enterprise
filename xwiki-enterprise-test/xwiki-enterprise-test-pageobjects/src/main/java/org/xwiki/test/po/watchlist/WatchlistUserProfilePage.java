@@ -45,7 +45,7 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
     public static WatchlistUserProfilePage gotoPage(String username)
     {
         WatchlistUserProfilePage page = new WatchlistUserProfilePage(username);
-        getUtil().gotoPage("XWiki", page.getUsername(), "view", "category", "watchlist");
+        getUtil().gotoPage("XWiki", page.getUsername(), "view", "category=watchlist");
         return page;
     }
 

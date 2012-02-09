@@ -89,6 +89,13 @@
               <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
               <version>${xwiki.db.jdbc.version}</version>
             </dependency>
+            <!-- Since we're building XWiki Enterprise, we need to add the ActivityStream plugin as a dependency,
+                 which has its own mapping and migrators. -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-activitystream</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
             <dependency>

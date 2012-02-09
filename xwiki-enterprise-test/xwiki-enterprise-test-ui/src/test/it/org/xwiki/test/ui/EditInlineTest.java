@@ -26,11 +26,11 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
+import org.xwiki.test.po.tag.TaggablePage;
 import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
-import org.xwiki.test.po.tag.TaggablePage;
 
 /**
  * Test Inline editing.

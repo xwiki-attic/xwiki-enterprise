@@ -76,7 +76,7 @@ public class ExtensionsAdminPage extends AdministrationSectionPage
     public ExtensionsAdminPage clickSearchButton()
     {
         this.searchButton.click();
-        
+
         return new ExtensionsAdminPage();
     }
 
@@ -101,18 +101,18 @@ public class ExtensionsAdminPage extends AdministrationSectionPage
         this.extensionVersion.clear();
         this.extensionVersion.sendKeys(extensionVersion);
     }
-    
+
     public ResolveExtensionsAdminPage clickResolveButton()
     {
         this.resolveButton.click();
-        
+
         return new ResolveExtensionsAdminPage();
     }
 
     public ExtensionsAdminPage clickInstallButton()
     {
         this.installButton.click();
-        
+
         return new ExtensionsAdminPage();
     }
 }

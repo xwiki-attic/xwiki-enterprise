@@ -19,14 +19,12 @@
  */
 package org.xwiki.test.po.watchlist;
 
-import java.util.Collections;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.test.po.administration.AbstractUserProfilePage;
-import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.po.watchlist.editor.WatchlistPreferencesEditPage;
+import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
  * Represents the User Profile Watchlist Tab.
@@ -47,7 +45,7 @@ public class WatchlistUserProfilePage extends AbstractUserProfilePage
     public static WatchlistUserProfilePage gotoPage(String username)
     {
         WatchlistUserProfilePage page = new WatchlistUserProfilePage(username);
-        getUtil().gotoPage("XWiki", page.getUsername(), "view", Collections.singletonMap("category", "watchlist"));
+        getUtil().gotoPage("XWiki", page.getUsername(), "view", "category", "watchlist");
         return page;
     }
 

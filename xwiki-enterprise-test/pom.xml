@@ -179,7 +179,6 @@
                 <name>debug</name>
                 <value>${debug}</value>
               </property>
-              <!-- TODO: Find way to have maven merge properties and move this to the selenium-tests module -->
               <property>
                 <name>browser</name>
                 <value>${browser}</value>
@@ -464,6 +463,40 @@
           <scope>test</scope>
         </dependency>
       </dependencies>
+    </profile>
+    <!-- Browser profiles (used for Selenium1 and Selenium2 tests) -->
+    <profile>
+      <id>firefox</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <browser>*firefox</browser>
+      </properties>
+    </profile>
+    <profile>
+      <id>iexplore</id>
+      <properties>
+        <browser>*iexplore</browser>
+      </properties>
+    </profile>
+    <profile>
+      <id>chrome</id>
+      <properties>
+        <browser>*chrome</browser>
+      </properties>
+    </profile>
+    <profile>
+      <id>konqueror</id>
+      <properties>
+        <browser>*konqueror</browser>
+      </properties>
+    </profile>
+    <profile>
+      <id>otherbrowser</id>
+      <properties>
+        <browser>*custom ${browserPath}</browser>
+      </properties>
     </profile>
   </profiles>
   <modules>

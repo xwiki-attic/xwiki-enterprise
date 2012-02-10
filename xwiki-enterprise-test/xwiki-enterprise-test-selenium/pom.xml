@@ -74,33 +74,4 @@
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>firefox</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <browser>*firefox</browser>
-      </properties>
-    </profile>
-    <profile>
-      <id>iexplore</id>
-      <properties>
-        <browser>*iexplore</browser>
-      </properties>
-    </profile>
-    <profile>
-      <id>konqueror</id>
-      <properties>
-        <browser>*konqueror</browser>
-      </properties>
-    </profile>
-    <profile>
-      <id>otherbrowser</id>
-      <properties>
-        <browser>*custom ${browserPath}</browser>
-      </properties>
-    </profile>
-  </profiles>
 </project>

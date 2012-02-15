@@ -464,40 +464,6 @@
         </dependency>
       </dependencies>
     </profile>
-    <!-- Browser profiles (used for Selenium1 and Selenium2 tests) -->
-    <profile>
-      <id>firefox</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <browser>*firefox</browser>
-      </properties>
-    </profile>
-    <profile>
-      <id>iexplore</id>
-      <properties>
-        <browser>*iexplore</browser>
-      </properties>
-    </profile>
-    <profile>
-      <id>chrome</id>
-      <properties>
-        <browser>*chrome</browser>
-      </properties>
-    </profile>
-    <profile>
-      <id>konqueror</id>
-      <properties>
-        <browser>*konqueror</browser>
-      </properties>
-    </profile>
-    <profile>
-      <id>otherbrowser</id>
-      <properties>
-        <browser>*custom ${browserPath}</browser>
-      </properties>
-    </profile>
   </profiles>
   <modules>
     <module>xwiki-enterprise-test-misc</module>

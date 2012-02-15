@@ -84,8 +84,6 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         String about = profileEditPage.getUserAbout();
         String address = profileEditPage.getUserAddress();
         getDriver().navigate().back();
-        // Confirm that we want to leave the page.
-        getDriver().switchTo().alert().accept();
         getDriver().navigate().forward();
         new ProfileUserProfilePage("Admin").waitForProfileEditionToLoad();
         profileEditPage = new ProfileEditPage();
@@ -102,9 +100,6 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         // Type text and refresh the page.
         this.editPage.getContentEditor().getRichTextArea().sendKeys("2");
         this.editPage.sendKeys(Keys.F5);
-
-        // Confirm that we want to leave the page.
-        getDriver().switchTo().alert().accept();
 
         this.editPage = new WYSIWYGEditPage();
         EditorElement editor = this.editPage.getContentEditor();
@@ -127,9 +122,6 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
 
         // Type text and refresh the page.
         editor.getSourceTextArea().sendKeys("1" + Keys.F5);
-
-        // Confirm that we want to leave the page.
-        getDriver().switchTo().alert().accept();
 
         this.editPage = new WYSIWYGEditPage();
         editor = this.editPage.getContentEditor();
@@ -155,9 +147,6 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         editor.switchToSource();
         editor.getSourceTextArea().sendKeys(Keys.F5);
 
-        // Confirm that we want to leave the page.
-        getDriver().switchTo().alert().accept();
-
         this.editPage = new WYSIWYGEditPage();
         editor = this.editPage.getContentEditor();
         editor.waitToLoad();
@@ -168,9 +157,6 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         // Switch to WYSIWYG editor and refresh the page again.
         editor.switchToWysiwyg();
         this.editPage.sendKeys(Keys.F5);
-
-        // Confirm that we want to leave the page.
-        getDriver().switchTo().alert().accept();
 
         this.editPage = new WYSIWYGEditPage();
         editor = this.editPage.getContentEditor();

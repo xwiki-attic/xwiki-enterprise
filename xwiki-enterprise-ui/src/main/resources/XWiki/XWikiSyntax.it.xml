@@ -28,7 +28,7 @@
 {{toc depth="1"/}}
 {{/box}}
 
-A partire dalla versione 1.7 di XWiki Enterprise abbiamo introdotto una nuova sintassi di xwiki. Per cui adesso la sintassi corrente è chiamata //Sintassi di XWiki v1.0// e la nuova sintassi si chiama conseguentemente //Sintassi di XWiki v2.0//. I principali motivi per l'introduzione di una nuova sintassi sono stati i seguenti:
+A partire dalla versione 1.7 di XWiki Enterprise abbiamo introdotto una nuova sintassi di xwiki. La vecchia sintassi si chiama //Sintassi di XWiki 1.0// e la nuova sintassi si chiama conseguentemente //Sintassi di XWiki 2.0//. I principali motivi per l'introduzione di una nuova sintassi sono stati i seguenti:
 * Superare i limiti e le ambiguità della sintassi XWiki 1.0 (che fu ispirata sia da Radeox - il motore di rendering sottostante- e da TWiki).
 ** Simboli non ottimali. Per esempio il simbolo per il grassetto era un asterisco singolo. Ciò causava problemi se gli utenti inserivano del testo che conteneva degli asterischi dal momento che il testo seguente veniva considerato erroneamente in grassetto mentre non lo era affatto. Per cui abbiamo razionalizzato la sintassi usando almeno un carattere doppio ovunque possibile.
 ** Ambiguità. Per esempio c'era ambiguità tra una voce in grassetto all'inizio di una riga ed un elenco puntato. Era necessario risolvere le ambiguità per poter riscrivere l'editor WYSIWYG in modo che fosse deterministico.
@@ -40,11 +40,11 @@ Dall'introduzione della sintassi XWiki 2.0 abbiamo scoperto alcuni difetti di qu
 
 {{info}}Dal momento che la sintassi XWiki 2.1 si basa sulla sintassi XWiki 2.0, tutti i costrutti con sintassi XWiki 2.0 rimangono validi a meno che le specifiche della sintassi XWiki 2.1 indichino diversamente.{{/info}}
 
-Oltre a queste due sintassi specifiche di XWiki abbiamo modificato anche il motore di rendering sottostante a partire da XWiki Enterprise versione 1.7 (precedentemente era Radeox) in favore di un nostro motore che è un superset wrapper attorno a [[Wikmodel&gt;&gt;http://code.google.com/p/wikimodel/]] e [[Doxia&gt;&gt;http://maven.apache.org/doxia/]]  (e si spera altri in futuro). Qeusto ci ha consentito di poter usare anche altre sintassi nel wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki and more&gt;&gt;#syntaxes]].
+Oltre a queste due sintassi specifiche di XWiki abbiamo modificato anche il motore di rendering sottostante a partire da XWiki Enterprise versione 1.7 (precedentemente era Radeox) in favore di un nostro motore che è un superset wrapper attorno a [[Wikmodel&gt;&gt;http://code.google.com/p/wikimodel/]] e [[Doxia&gt;&gt;http://maven.apache.org/doxia/]]  (e si spera altri in futuro). Qeusto ci ha consentito di poter usare anche altre sintassi nel wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki e altre&gt;&gt;#syntaxes]].
 
 = Considerazioni Generali =
 
-La sintassi XWiki v2.0 corregge alcuni errori o ambiguità che gli utenti potevano inserire come mostrato negli esempi della tabella seguente.
+La sintassi XWiki 2.0 corregge alcuni errori o ambiguità che gli utenti potevano inserire come mostrato negli esempi della tabella seguente.
 
 |=Descrizione|=Esempio di sintassi non valida o ambigua|=Risolto con Sintassi XWiki 2.0
 |Stili di testo non chiusi|{{{**bold}}}|{{{**bold**}}}
@@ -477,9 +477,14 @@ Con la Sintassi XWiki 2.0 le nuove righe vengono rispettate, cosa che non accade
 {{{{attach:text|file=img.png}}}}
 )))|{{{[[text&gt;&gt;attach:img.png]]}}}|[[text&gt;&gt;attach:img.png]]|[[text&gt;&gt;attach:img.png]]
 |Link ad un allegato in una pagina diversa|(((
-{{info}}Vedere [[Attach Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] fper ulteriori dettagli{{/info}}
+{{info}}Vedere [[Attach Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Attach+Macro+%28Radeox%29]] per ulteriori dettagli{{/info}}
 {{{{attach:text|document=Space.Page|file=img.png}}}}
 )))|{{{[[text&gt;&gt;attach:Space.Page@img.png]]}}}|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]|[[text&gt;&gt;attach:XWiki.XWikiSyntax@img.png]]
+|Link ad una Ancora in una pagina|{{{[label&amp;gt;Space.Page#anchor]}}}|{{{[[label&amp;gt;&amp;gt;Space.Page#anchor]]}}}|[[label&amp;gt;&amp;gt;XWiki.XWikiSyntax#HLinks]]|[[label&amp;gt;&amp;gt;XWiki.XWikiSyntax#HLinks]]
+|Link ad un Titolo in una pagina|(((
+{{info}}Quando s'inserisce un Titolo, si crea un'ancora di nome "H" seguita dal testo dell'intestazione di sole lettere. Per esempio, per Titolo "My heading", l'ancora generata sarà "HMyheading".{{/info}}
+{{{[label&amp;gt;Space.Page#HMyheading]}}}
+)))|{{{[[label&amp;gt;&amp;gt;Space.Page#HMyheading]]}}}|[[label&amp;gt;&amp;gt;XWiki.XWikiSyntax#HLinks]]|[[label&amp;gt;&amp;gt;XWiki.XWikiSyntax#HLinks]]
 
 == Specifiche dei link con la Sintassi XWiki 1.0 ==
 
@@ -669,6 +674,61 @@ $xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
 |Immagine da un allegato di un altro documento|{{{{image:img.png|document=Space.Page}}}}|{{{image:Space.Page@img.png}}}|image:img.png
 |Immagine con parametri|{{{{image:img.png|width=25|height=25}}}}|{{{[[image:img.png||width="25" height="25"]]}}}|[[image:img.png||height="25" width="25"]]
 |Immagini raggiungibili con un URL|{{{http://some/url/img.png}}}|{{{image:http://some/url/img.png}}}|image:img.png
+
+== Specifiche per le Immagini in Sintassi XWiki 2.0 ==
+
+{{info}}
+La parte tra ##( )## è richiesta, mentre le parti tra ##{ }## sono opzionali.
+{{/info}}
+
+Il formato completo di un'immagine è **##image~: (riferimento)##** oppure **##~[~[image~: (riferimento) {||parametri}]]##**
+
+* **##image~:##** Stringa richiesta che identifica la risora come immagine.
+* **##riferimento##**: Il riferimento all'immagine che sarà mostrata in una delle forme seguenti:
+** **URL**: Un qualunque URL ad un'immagine nel formato **##http:~/~/percorso/Nomeimmagine##**. Esempio: ##http:~/~/domain.org/path/img.png##
+** **Allegato** riferimento nel formato **##~{~{~{wikiName:} space.} page@} (imageName)##**
+*** **##wikiName##**: Stringa opzionale contenente il nome di un virtual wiki. Il riferimento all'immagine punterà ad un'immagine allegata a una pagina all'interno di quel virtual wiki. Esempio: mywiki
+*** **##spazio##**: Nome opzionale di uno spazio del wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: Main
+*** **##pagina##**: Stringa opzionale che contiene il nome di una pagina del wiki a cui l'immagine fa riferimento come allegato. Esempio: WebHome
+*** **##Nomeimmagine##**: Stringa richiesta con il nome dell'immagine allegata alla pagina così come è memorizzato nel wiki.
+* **##parametri##**: Elenco opzionale di parametri separati da uno spazio passati all'immagine. Esempio: ##width="800" height="600" alt="img.png" title="My nice image"##
+** **Attributi HTML**: Tutti gli attributi definiti dallo standard HTML saranno aggiunti al codice HTML renderizzato ##&amp;lt;img&amp;gt;## tag.
+*** **##style##**: Informazioni sullo stile CSS che si deve applicare all'immagine. Esempio: ##style="float:right;height:50"## (immagina a destra, altezza 50 pixel), ##style="style="display:block;margin-left:auto;margin-right:auto;width:80%"## (immagine centrata, larghezza 80% del blocco), ##style="vertical-align:bottom"## (il testo inzia in basso all'immagine)
+*** **##height##**: Parametro che definisce l'altezza visualizzata dell'immagine. Il valore dovrebbe essere in pixel (esempio: ##height="80"##) o in pixel relativi all'altezza del blocco contenente l'immagine (esempio: ##height="40%"##).
+*** **##width##**: Parametro che definisce la larghezza visualizzata dell'immagine. Il valore dovrebbe essere in pixel (esempio: ##width="80"##) o in pixel relativi alla larghezza del blocco contenente l'immagine (esempio: ##width="40%"##).
+*** **##title##**: Parametro che definisce il titolo visualizzato dell'immagine che sarà visibile quando ci si passa sopra con il mouse, per esempio. Esempio: ##title="La mia bella immagine"##
+*** **##alt##**: Parametro che definisce quale testo deve essere mostrato se il browser non è in grado di visualizzare l'immagine. Dal momento che questo è un attributo HTML richiesto XWiki userà il nome del file se il parametro ##alt## non è definito. Esempio: ##alt="img.png"##
+*** **Altro**: Una spiegazione più approfondita sul tag HTML ##&amp;lt;img&amp;gt;## tag che comprende altri attributi si può trovare su [[on w3.org&amp;gt;&amp;gt;http://www.w3.org/TR/html4/struct/objects.html#h-13.2]].
+
+== Specifiche per le Immagini in Sintassi XWiki 2.1 ==
+
+{{info}}
+La parte tra ##( )## è richiesta, mentre le parti tra ##{ }## sono opzionali.
+{{/info}}
+
+Il formato completo di un'immagine è **##image~: (riferimento)##** oppure **##~[~[image~: (riferimento) {||parametri}]]##**
+
+* **##image~:##** Stringa richiesta che identifica la risora come immagine.
+* **##riferimento##**: Il riferimento all'immagine che sarà mostrata in una delle forme seguenti:
+** **URL**: Un qualunque URL ad un'immagine nel formato **##protocollo:~/~/percorso/Nomeimmagine##**. Esempio: ##http:~/~/domain.org/path/img.png##
+** **Allegato** riferimento nel formato **##~{~{~{wikiName:} space.} page@} (imageName)##**
+*** **##wikiName##**: Stringa opzionale contenente il nome di un virtual wiki. Il riferimento all'immagine punterà ad un'immagine allegata a una pagina all'interno di quel virtual wiki. Esempio: mywiki
+*** **##spazio##**: Nome opzionale di uno spazio del wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: Main
+*** **##pagina##**: Stringa opzionale che contiene il nome di una pagina del wiki a cui l'immagine fa riferimento come allegato. Esempio: WebHome
+*** **##Nomeimmagine##**: Stringa richiesta con il nome dell'immagine allegata alla pagina così come è memorizzato nel wiki.
+** **Icona** riferimento nel formato **##{{{(icon:)}}} (iconName)##**. Esempio: **##icon:accept##**
+*** **##icon:##** Stringa richiesta che identifica il riferimento come un'icona da [[XWiki Icon Set&amp;gt;&amp;gt;http://www.famfamfam.com/lab/icons/silk/previews/index_abc.png]].
+*** **##iconName##**: Stringa richiesta che identifica l'icona cui si fa riferimento. Esempio: ##accept##
+* **##parametri##**: Elenco opzionale di parametri separati da uno spazio passati all'immagine. Esempio: ##width="800" height="600" alt="img.png" title="My nice image"##
+** **Attributi HTML**: Tutti gli attributi definiti dallo standard HTML saranno aggiunti al codice HTML renderizzato ##&amp;lt;img&amp;gt;## tag.
+*** **##style##**: Informazioni sullo stile CSS che si deve applicare all'immagine. Esempio: ##style="float:right;height:50"## (immagina a destra, altezza 50 pixel), ##style="style="display:block;margin-left:auto;margin-right:auto;width:80%"## (immagine centrata, larghezza 80% del blocco), ##style="vertical-align:bottom"## (il testo inzia in basso all'immagine)
+*** **##height##**: Parametro che definisce l'altezza visualizzata dell'immagine. Il valore dovrebbe essere in pixel (esempio: ##height="80"##) o in pixel relativi all'altezza del blocco contenente l'immagine (esempio: ##height="40%"##).
+*** **##width##**: Parametro che definisce la larghezza visualizzata dell'immagine. Il valore dovrebbe essere in pixel (esempio: ##width="80"##) o in pixel relativi alla larghezza del blocco contenente l'immagine (esempio: ##width="40%"##).
+*** **##title##**: Parametro che definisce il titolo visualizzato dell'immagine che sarà visibile quando ci si passa sopra con il mouse, per esempio. Esempio: ##title="La mia bella immagine"##
+*** **##alt##**: Parametro che definisce quale testo deve essere mostrato se il browser non è in grado di visualizzare l'immagine. Dal momento che questo è un attributo HTML richiesto XWiki userà il nome del file se il parametro ##alt## non è definito. Esempio: ##alt="img.png"##
+*** **Altro**: Una spiegazione più approfondita sul tag HTML ##&amp;lt;img&amp;gt;## tag che comprende altri attributi si può trovare su [[on w3.org&amp;gt;&amp;gt;http://www.w3.org/TR/html4/struct/objects.html#h-13.2]].
+** **##queryString##**: Consente di inviare richieste al server quando si crea il link per il download dell'immagine referenziata. Esempio: ##queryString="width=100&amp;amp;height=800&amp;amp;keepAspectRatio=true"## (**##keepAspectRatio=true## non avrà successo se i parametri ##width## e ##height## non vengono specificati oltre a ##queryString##!**)
+
 
 = Contenuto testuale, //verbatim// cioè //parola per parola// =
 

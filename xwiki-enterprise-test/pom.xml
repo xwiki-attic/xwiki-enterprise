@@ -464,6 +464,32 @@
         </dependency>
       </dependencies>
     </profile>
+    <!-- Browser profiles for both Selenium 1 and Selenium 2 tests. Note that children POM need to activate default
+         profiles since profiles aren't inherited. -->
+    <profile>
+      <id>firefox</id>
+      <properties>
+        <browser>*firefox</browser>
+      </properties>
+    </profile>
+    <profile>
+      <id>iexplore</id>
+      <properties>
+        <browser>*iexplore</browser>
+      </properties>
+    </profile>
+    <profile>
+      <id>chrome</id>
+      <properties>
+        <browser>*chrome</browser>
+      </properties>
+    </profile>
+    <profile>
+      <id>otherbrowser</id>
+      <properties>
+        <browser>*custom ${browserPath}</browser>
+      </properties>
+    </profile>
   </profiles>
   <modules>
     <module>xwiki-enterprise-test-misc</module>

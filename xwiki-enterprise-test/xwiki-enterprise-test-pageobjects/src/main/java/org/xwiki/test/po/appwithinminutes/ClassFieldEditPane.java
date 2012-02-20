@@ -86,6 +86,14 @@ public class ClassFieldEditPane extends BaseElement
     }
 
     /**
+     * @return the default value of this field
+     */
+    public String getDefaultValue()
+    {
+        return getDefaultValueInput().getAttribute("value");
+    }
+
+    /**
      * @return the element used to input the default field value
      */
     protected WebElement getDefaultValueInput()

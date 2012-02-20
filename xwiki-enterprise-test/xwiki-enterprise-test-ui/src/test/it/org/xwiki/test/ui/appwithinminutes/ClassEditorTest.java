@@ -23,14 +23,12 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
 import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.LongTextClassFieldEditPane;
 import org.xwiki.test.po.xe.ClassSheetPage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
 
@@ -40,31 +38,12 @@ import org.xwiki.test.ui.po.editor.ObjectEditPage;
  * @version $Id$
  * @since 3.4M1
  */
-public class ClassEditorTest extends AbstractAdminAuthenticatedTest
+public class ClassEditorTest extends AbstractClassEditorTest
 {
     /**
      * The message displayed when the canvas is empty.
      */
     private static final String EMPTY_CANVAS_HINT = "Drag fields from the palette and drop them in this area.";
-
-    /**
-     * The page being tested.
-     */
-    private ApplicationClassEditPage editor;
-
-    @Before
-    @Override
-    public void setUp()
-    {
-        super.setUp();
-
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
-        getUtil().deletePage(getTestClassName(), getTestMethodName() + "Sheet");
-        getUtil().deletePage(getTestClassName(), getTestMethodName() + "Template");
-        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit",
-            "editor=inline&template=AppWithinMinutes.ClassTemplate&title=" + getTestMethodName() + " Class");
-        editor = new ApplicationClassEditPage();
-    }
 
     /**
      * Tests that the hint is displayed only when the canvas is empty.

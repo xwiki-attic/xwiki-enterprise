@@ -468,6 +468,9 @@
          profiles since profiles aren't inherited. -->
     <profile>
       <id>firefox</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <properties>
         <browser>*firefox</browser>
       </properties>

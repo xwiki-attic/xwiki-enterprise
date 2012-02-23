@@ -357,6 +357,8 @@
     <stopport>8079</stopport>
     <rmiport>6666</rmiport>
     <seleniumPort>4444</seleniumPort>
+    <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile, e.g. -Pchrome -->
+    <browser>*firefox</browser>
   </properties>
   <profiles>
     <profile>
@@ -464,13 +466,9 @@
         </dependency>
       </dependencies>
     </profile>
-    <!-- Browser profiles for both Selenium 1 and Selenium 2 tests. Note that children POM need to activate default
-         profiles since profiles aren't inherited. -->
+    <!-- Browser profiles for both Selenium 1 and Selenium 2 tests. -->
     <profile>
       <id>firefox</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <properties>
         <browser>*firefox</browser>
       </properties>

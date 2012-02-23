@@ -33,6 +33,10 @@
   <name>XWiki Enterprise - Functional Tests - Office Importer</name>
   <packaging>pom</packaging>
   <description>Selenium tests for office importer application</description>
+  <properties>
+    <!-- Only the chrome browser allows client side JS file uploads. -->
+    <browser>*chrome</browser>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -80,16 +84,4 @@
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <!-- Only the chrome* profile allows client side JS file uploads -->
-    <profile>
-      <id>firefox</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <browser>*chrome</browser>
-      </properties>
-    </profile>
-  </profiles>
 </project>

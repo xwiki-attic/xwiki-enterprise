@@ -174,7 +174,7 @@ public class ClassFieldEditPane extends BaseElement
     }
 
     /**
-     * @return the field name
+     * @return the current value of the 'name' field meta property
      */
     public String getName()
     {
@@ -225,5 +225,23 @@ public class ClassFieldEditPane extends BaseElement
 
         // Reset the tool box display. Remove this line when the :hover CSS class will be triggered by mouse over.
         hideToolBox();
+    }
+
+    /**
+     * @return the element that wraps the class field edit pane
+     */
+    protected WebElement getContainer()
+    {
+        return container;
+    }
+
+    /**
+     * Do not mistaken this with {@link #getName()}.
+     * 
+     * @return the name of the edited field
+     */
+    protected String getFieldName()
+    {
+        return fieldName;
     }
 }

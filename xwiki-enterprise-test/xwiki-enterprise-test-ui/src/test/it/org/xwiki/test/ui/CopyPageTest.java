@@ -63,4 +63,29 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(PAGE_TITLE, viewPage.getDocumentTitle());
         Assert.assertEquals(PAGE_CONTENT, viewPage.getContent());
     }
+
+    @Test
+    public void testRenameTitleOfCopiedPage()
+    {
+        // Delete page that may already exist
+        String copiedPageName = getTestMethodName() + "1";
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().deletePage(getTestClassName(), copiedPageName);
+
+        // Create a new page that will be copied.
+        ViewPage viewPage =
+            getUtil().createPage(getTestClassName(), getTestMethodName(), PAGE_CONTENT, getTestMethodName());
+
+        // Click on Copy from the Page top menu.
+        CopyPage copyPage = viewPage.copy();
+
+        // Fill the target destination the page to be copied to.
+        copyPage.setTargetSpaceName(getTestClassName());
+        copyPage.setTargetPageName(copiedPageName);
+        CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
+        Assert.assertTrue(copyConfirmationPage.getInfoMessage().contains(COPY_SUCCESSFUL));
+        viewPage = copyConfirmationPage.goToNewPage();
+        Assert.assertEquals("Failed to rename document title", getTestMethodName() + "1", viewPage.getDocumentTitle());
+        Assert.assertEquals(PAGE_CONTENT, viewPage.getContent());
+    }
 }

@@ -21,5 +21,3 @@ invoke-rc.d --quiet tomcat5 restart || {
 	exit $RESULT
     fi
 }
-
-#DEBHELPER#

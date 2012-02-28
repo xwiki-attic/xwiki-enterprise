@@ -69,11 +69,7 @@ public class DefaultValidationTest extends AbstractValidationTest
         this.validator = validator;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -91,11 +87,7 @@ public class DefaultValidationTest extends AbstractValidationTest
         System.setErr(new PrintStream(this.err));
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
+    @Override
     protected void tearDown() throws Exception
     {
         // Restore original stdout and stderr streams.
@@ -118,11 +110,7 @@ public class DefaultValidationTest extends AbstractValidationTest
         super.tearDown();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#getName()
-     */
+    @Override
     public String getName()
     {
         return "Validating " + this.validator.getName() + " validity for: " + this.target.getName() + " executed "

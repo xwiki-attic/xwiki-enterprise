@@ -41,11 +41,6 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         return suite;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.test.selenium.framework.AbstractXWikiTestCase#setUp()
-     */
     @Override
     public void setUp() throws Exception
     {

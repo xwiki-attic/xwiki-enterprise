@@ -33,11 +33,7 @@ public class URLPathTarget implements Target
         return urlPath;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Target#getName()
-     */
+    @Override
     public String getName()
     {
         return getUrlPath();

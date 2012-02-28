@@ -33,11 +33,6 @@ public class CustomDutchWebGuidelinesValidationTest extends DefaultValidationTes
         super(target, client, validator, credentials);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.test.webstandards.framework.DefaultValidationTest#testDocumentValidity()
-     */
     @Override
     public void testDocumentValidity() throws Exception
     {

@@ -43,11 +43,13 @@ public class LightBoxRegistrationPage extends AbstractRegistrationPage
         return registrationPage;
     }
 
+    @Override
     public void clickRegister()
     {
         this.submitButton.click();
     }
 
+    @Override
     public boolean isLiveValidationEnabled()
     {
         return !getDriver().findElements(By.xpath("//div[@id='lb']/div[@id='lb-content']/script[3]")).isEmpty();

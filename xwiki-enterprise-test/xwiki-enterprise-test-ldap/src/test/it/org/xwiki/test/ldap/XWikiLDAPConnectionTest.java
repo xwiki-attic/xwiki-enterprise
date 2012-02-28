@@ -38,11 +38,6 @@ public class XWikiLDAPConnectionTest extends AbstractLDAPTestCase
      */
     private XWikiContext context;
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
     @Override
     public void setUp() throws Exception
     {

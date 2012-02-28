@@ -57,11 +57,6 @@ public class XWikiTestSuite extends TestSuite
         super(name);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see junit.framework.TestSuite#runTest(junit.framework.Test, junit.framework.TestResult)
-     */
     @Override
     public void runTest(Test test, TestResult result)
     {

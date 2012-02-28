@@ -43,6 +43,7 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
 
     private ProfileUserProfilePage profilePage;
 
+    @Override
     @Before
     public void setUp()
     {

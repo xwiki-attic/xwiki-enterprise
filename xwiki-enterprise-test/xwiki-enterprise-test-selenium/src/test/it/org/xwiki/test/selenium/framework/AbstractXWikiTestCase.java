@@ -813,11 +813,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         clickEditPreview();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#copyPage(String, String, String, String)
-     */
+    @Override
     public boolean copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
     {
         return getSkinExecutor().copyPage(spaceName, pageName, targetSpaceName, targetPageName);

@@ -54,6 +54,7 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
 
     private static final String PAGE_TITLE = "Page title that will be deleted";
 
+    @Override
     @Before
     public void setUp()
     {

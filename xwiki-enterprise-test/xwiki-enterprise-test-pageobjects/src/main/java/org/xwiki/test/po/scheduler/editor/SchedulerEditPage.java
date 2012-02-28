@@ -60,11 +60,6 @@ public class SchedulerEditPage extends EditPage
         this.cron.sendKeys(cron);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.test.ui.po.editor.EditPage#clickSaveAndView()
-     */
     @Override
     public SchedulerPage clickSaveAndView()
     {

@@ -27,6 +27,7 @@ package org.xwiki.test.ui;
  */
 public class RegisterWithoutLiveValidationTest extends RegisterTest
 {
+    @Override
     protected boolean useLiveValidation()
     {
         return false;

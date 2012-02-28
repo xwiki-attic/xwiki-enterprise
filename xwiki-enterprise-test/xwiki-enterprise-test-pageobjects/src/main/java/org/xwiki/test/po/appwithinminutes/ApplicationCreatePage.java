@@ -80,6 +80,7 @@ public class ApplicationCreatePage extends ViewPage
         final String appName = appNameInput.getAttribute("value");
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
         {
+            @Override
             public Boolean apply(WebDriver driver)
             {
                 List<WebElement> previews = driver.findElements(By.className("appName-preview"));

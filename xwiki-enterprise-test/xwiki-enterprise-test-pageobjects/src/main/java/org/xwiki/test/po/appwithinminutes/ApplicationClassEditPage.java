@@ -107,6 +107,7 @@ public class ApplicationClassEditPage extends InlinePage
 
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
         {
+            @Override
             public Boolean apply(WebDriver driver)
             {
                 try {

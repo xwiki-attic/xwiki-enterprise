@@ -53,6 +53,7 @@ public class PreferencesUserProfilePage extends AbstractUserProfilePage
         return this.defaultEditorToUse.getText();
     }
 
+    @Override
     public String getUserType()
     {
         return this.userType.getText();

@@ -56,9 +56,7 @@ public class XWikiOfficeImporterTestSetup extends TestSetup
         this.project.init();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     protected void setUp() throws Exception
     {
         Thread startThread = new Thread(new Runnable()

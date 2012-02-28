@@ -41,6 +41,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
 
     private static final String CATEGORY_RENAME = "New \"categor'y\"";
 
+    @Override
     @Before
     public void setUp()
     {

@@ -353,11 +353,6 @@ public abstract class AbstractEscapingTest implements FileTest
         return AbstractEscapingTest.client;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {

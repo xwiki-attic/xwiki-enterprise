@@ -38,6 +38,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
 {
     private HomePage homePage;
 
+    @Override
     @Before
     public void setUp()
     {

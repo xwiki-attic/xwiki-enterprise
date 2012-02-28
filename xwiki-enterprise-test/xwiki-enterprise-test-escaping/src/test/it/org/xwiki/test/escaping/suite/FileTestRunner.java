@@ -50,30 +50,18 @@ public class FileTestRunner extends BlockJUnit4ClassRunner
         this.test = fileTest;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.BlockJUnit4ClassRunner#createTest()
-     */
     @Override
     protected Object createTest() throws Exception
     {
         return this.test;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.ParentRunner#getName()
-     */
     @Override
     protected String getName()
     {
         return this.test.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see org.junit.runners.BlockJUnit4ClassRunner#testName(org.junit.runners.model.FrameworkMethod)
-     */
     @Override
     protected String testName(FrameworkMethod method)
     {

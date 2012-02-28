@@ -102,6 +102,7 @@ public abstract class InspectInvitationsPage extends BasePage
 
     public static class AsAdmin extends InspectInvitationsPage
     {
+        @Override
         public OneMessage getMessageWhere(String column, String value)
         {
             super.getMessageWhere(column, value);
@@ -116,21 +117,25 @@ public abstract class InspectInvitationsPage extends BasePage
             @FindBy(name = "doAction_notSpam")
             private WebElement notSpamButton;
 
+            @Override
             public InvitationMessageDisplayElement getMessage()
             {
                 return new InvitationMessageDisplayElement(preview);
             }
 
+            @Override
             public TableElement clickMessageHistory()
             {
                 return super.clickMessageHistory();
             }
 
+            @Override
             public InvitationActionConfirmationElement cancel()
             {
                 throw new WebDriverException("Invitation cannot be canceled as an admin");
             }
 
+            @Override
             public String notSpam(String message)
             {
                 notSpamButton.click();
@@ -150,6 +155,7 @@ public abstract class InspectInvitationsPage extends BasePage
         @FindBy(name = "doAction_cancel")
         protected WebElement cancelButton;
 
+        @Override
         public OneMessage getMessageWhere(String column, String value)
         {
             super.getMessageWhere(column, value);
@@ -161,22 +167,26 @@ public abstract class InspectInvitationsPage extends BasePage
             @FindBy(id = "invitation-displaymessage")
             private WebElement preview;
 
+            @Override
             public InvitationMessageDisplayElement getMessage()
             {
                 return new InvitationMessageDisplayElement(preview);
             }
 
+            @Override
             public TableElement clickMessageHistory()
             {
                 return super.clickMessageHistory();
             }
 
+            @Override
             public InvitationActionConfirmationElement cancel()
             {
                 cancelButton.click();
                 return new InvitationActionConfirmationElement();
             }
 
+            @Override
             public String notSpam(String message)
             {
                 throw new WebDriverException("Function only possible for admin.");

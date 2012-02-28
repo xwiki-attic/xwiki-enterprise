@@ -34,9 +34,7 @@ public class TempFileTest extends AbstractWebDAVTest
      */
     public static final String TEMP_ROOT = ROOT + "/.temp";
     
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -77,9 +75,7 @@ public class TempFileTest extends AbstractWebDAVTest
         delete(destinationUrl, DavServletResponse.SC_NO_CONTENT);
     }
     
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

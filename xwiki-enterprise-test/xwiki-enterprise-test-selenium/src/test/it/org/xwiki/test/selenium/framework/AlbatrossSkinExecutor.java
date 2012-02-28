@@ -44,32 +44,20 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         return this.test;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickEditPage()
-     */
+    @Override
     public void clickEditPage()
     {
         getTest().clickLinkWithLocator("//a[string() = 'Edit']");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickEditPageInWikiSyntaxEditor()
-     */
+    @Override
     public void clickEditPageInWikiSyntaxEditor()
     {
         // In order for this method to work both in view and edit modes we have to locate the link by its text.
         getTest().clickLinkWithText("Wiki");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickEditPageInWysiwyg()
-     */
+    @Override
     public void clickEditPageInWysiwyg()
     {
         // In order for this method to work both in view and edit modes we have to locate the link by its text.
@@ -86,41 +74,25 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().clickLinkWithLocator("//a[string() = 'Copy']");
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see SkinExecutor#clickShowComments()
-     */
+    @Override
     public void clickShowComments()
     {
         getTest().clickLinkWithLocator("//a[@id = 'tmShowComments']", false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see SkinExecutor#clickShowAttachments()
-     */
+    @Override
     public void clickShowAttachments()
     {
         getTest().clickLinkWithLocator("//a[@id = 'tmShowAttachments']", false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see SkinExecutor#clickShowHistory()
-     */
+    @Override
     public void clickShowHistory()
     {
         getTest().clickLinkWithLocator("//a[@id = 'tmShowHistory']", false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see SkinExecutor#clickShowInformation()
-     */
+    @Override
     public void clickShowInformation()
     {
         getTest().clickLinkWithLocator("//a[@id = 'tmShowInformation']", false);
@@ -152,11 +124,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().submit("xpath=//input[@name='formactionsave' or @name='action_save' or @name='action_propupdate']");
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see SkinExecutor#clickEditAddProperty()
-     */
+    @Override
     public void clickEditAddProperty()
     {
         getTest().getSelenium().click("//input[@value = 'Add']");
@@ -164,11 +132,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
             + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see SkinExecutor#clickEditAddObject()
-     */
+    @Override
     public void clickEditAddObject()
     {
         getTest().getSelenium().click("//input[@value = 'Add']");
@@ -181,17 +145,13 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         return !getTest().isElementPresent("headerlogin") && !getTest().isElementPresent("headerregister");
     }
     
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean isAuthenticated(String username)
     {
         return getTest().isElementPresent("//a[@id='headeruser' and contains(@href, 'XWiki/" + username + "')]");
     }
     
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean isAuthenticationMenuPresent()
     {
         return getTest().isElementPresent("headerlogin") || getTest().isElementPresent("headerlogout");
@@ -439,11 +399,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#copyPage(String, String, String, String)
-     */
+    @Override
     public boolean copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
     {
         getTest().open(spaceName, pageName);

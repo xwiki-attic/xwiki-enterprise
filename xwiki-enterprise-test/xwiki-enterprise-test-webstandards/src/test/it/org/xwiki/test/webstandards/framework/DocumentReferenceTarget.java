@@ -35,11 +35,7 @@ public class DocumentReferenceTarget implements Target
         return documentReference;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see Target#getName()
-     */
+    @Override
     public String getName()
     {
         return "space=" + this.documentReference.getLastSpaceReference().getName() + ", page="

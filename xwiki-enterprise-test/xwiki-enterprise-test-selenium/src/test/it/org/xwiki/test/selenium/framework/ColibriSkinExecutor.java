@@ -33,18 +33,12 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         super(test);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isAuthenticated()
     {
         return getTest().isElementPresent("tmUser");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isAuthenticated(String username)
     {
@@ -52,58 +46,36 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
             "//div[@id='tmUser']/a[contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isAuthenticationMenuPresent()
     {
         return getTest().isElementPresent("//div[@id='tmLogin' or @id='tmLogout']/a");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickShowComments()
-     */
+    @Override
     public void clickShowComments()
     {
         getTest().clickLinkWithLocator("//span[@id = 'commentsshortcut']/a", false);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickShowAttachments()
-     */
+    @Override
     public void clickShowAttachments()
     {
         getTest().clickLinkWithLocator("//span[@id = 'attachmentsshortcut']/a", false);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickShowHistory()
-     */
+    @Override
     public void clickShowHistory()
     {
         getTest().clickLinkWithLocator("//span[@id = 'historyshortcut']/a", false);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see SkinExecutor#clickShowInformation()
-     */
+    @Override
     public void clickShowInformation()
     {
         getTest().clickLinkWithLocator("//span[@id = 'informationshortcut']/a", false);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void loginAsAdmin()
     {
@@ -116,9 +88,6 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         super.loginAsAdmin();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void login(String username, String password, boolean rememberme)
     {
@@ -147,9 +116,6 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         Assert.assertTrue("User has not been authenticated", isAuthenticated());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void logout()
     {
@@ -158,9 +124,6 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         Assert.assertFalse("The user is still authenticated after a logout.", isAuthenticated());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void clickLogin()
     {
@@ -168,9 +131,6 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         assertIsLoginPage();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void clickRegister()
     {
@@ -178,11 +138,6 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         assertIsRegisterPage();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AlbatrossSkinExecutor#clickEditPageInWikiSyntaxEditor()
-     */
     @Override
     public void clickEditPageInWikiSyntaxEditor()
     {
@@ -190,11 +145,6 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
         getTest().clickLinkWithLocator("tmEditWiki");
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see AlbatrossSkinExecutor#clickEditPageInWysiwyg()
-     */
     @Override
     public void clickEditPageInWysiwyg()
     {

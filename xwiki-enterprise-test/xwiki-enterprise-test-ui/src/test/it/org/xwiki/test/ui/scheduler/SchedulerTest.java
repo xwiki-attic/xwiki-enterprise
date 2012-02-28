@@ -39,6 +39,7 @@ import org.xwiki.test.po.scheduler.editor.SchedulerEditPage;
  */
 public class SchedulerTest extends AbstractAdminAuthenticatedTest
 {
+    @Override
     @Before
     public void setUp()
     {

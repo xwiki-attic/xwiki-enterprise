@@ -156,11 +156,6 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         return !getDocument(documentFullName).isNew();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xwiki.test.ldap.framework.AbstractLDAPTestCase#setUp()
-     */
     @Override
     public void setUp() throws Exception
     {

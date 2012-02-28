@@ -68,34 +68,34 @@ public class AddTagsPane extends BaseElement
     /**
      * Click on the add button to add the typed tags.
      * 
-     * @return {@code true} if any of the typed tags have been added,
-     *         {@code false} if an error occurs such as an existing tag is saved.
+     * @return {@code true} if any of the typed tags have been added, {@code false} if an error occurs such as an
+     *         existing tag is saved.
      */
     public boolean add()
     {
         // Wait for no error notifications to be displayed because after that we wait for one to show up.
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            @Override
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    return getDriver().findElements(By.className("xnotification-error")).size() == 0;
-                }
+                return getDriver().findElements(By.className("xnotification-error")).size() == 0;
             }
-        );
+        });
 
         addTagsForm.findElement(addButtonLocator).click();
-        
+
         // Wait until the add tags panel disappears or
         // an error notification is shown to indicate something is wrong and the tag cannot be saved.
         getUtil().waitUntilCondition(new ExpectedCondition<Boolean>()
+        {
+            @Override
+            public Boolean apply(WebDriver driver)
             {
-                public Boolean apply(WebDriver driver)
-                {
-                    return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0
-                        || getDriver().findElements(By.className("xnotification-error")).size() > 0;
-                }
+                return getDriver().findElements(By.className(FORM_CLASS_NAME)).size() == 0
+                    || getDriver().findElements(By.className("xnotification-error")).size() > 0;
             }
-        );
+        });
 
         // If the add tags panel is still visible then there was a problem adding the tags.
         return getUtil().findElementsWithoutWaiting(getDriver(), By.className(FORM_CLASS_NAME)).size() == 0;

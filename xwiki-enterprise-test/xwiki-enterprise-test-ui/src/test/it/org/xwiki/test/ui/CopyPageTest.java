@@ -36,36 +36,10 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
 {
     private static final String PAGE_CONTENT = "This page is used for copying purposes";
 
-    private static final String PAGE_TITLE = "Page title that will be copied";
-
     private static final String COPY_SUCCESSFUL = "successfully copied to";
 
     @Test
     public void testCopyPage()
-    {
-        // Delete page that may already exist
-        String copiedPageName = getTestMethodName() + "1";
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
-        getUtil().deletePage(getTestClassName(), copiedPageName);
-
-        // Create a new page that will be copied.
-        ViewPage viewPage = getUtil().createPage(getTestClassName(), getTestMethodName(), PAGE_CONTENT, PAGE_TITLE);
-
-        // Click on Copy from the Page top menu.
-        CopyPage copyPage = viewPage.copy();
-
-        // Fill the target destination the page to be copied to.
-        copyPage.setTargetSpaceName(getTestClassName());
-        copyPage.setTargetPageName(copiedPageName);
-        CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
-        Assert.assertTrue(copyConfirmationPage.getInfoMessage().contains(COPY_SUCCESSFUL));
-        viewPage = copyConfirmationPage.goToNewPage();
-        Assert.assertEquals(PAGE_TITLE, viewPage.getDocumentTitle());
-        Assert.assertEquals(PAGE_CONTENT, viewPage.getContent());
-    }
-
-    @Test
-    public void testRenameTitleOfCopiedPage()
     {
         // Delete page that may already exist
         String copiedPageName = getTestMethodName() + "1";
@@ -85,7 +59,9 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
         CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
         Assert.assertTrue(copyConfirmationPage.getInfoMessage().contains(COPY_SUCCESSFUL));
         viewPage = copyConfirmationPage.goToNewPage();
-        Assert.assertEquals("Failed to rename document title", getTestMethodName() + "1", viewPage.getDocumentTitle());
+        // Verify that the copied title is modified to be the new page name since it was set to be the page name
+        // originally.
+        Assert.assertEquals(copiedPageName, viewPage.getDocumentTitle());
         Assert.assertEquals(PAGE_CONTENT, viewPage.getContent());
     }
 }

@@ -5,17 +5,19 @@ set -e
 
 if [ -f /usr/share/debconf/confmodule ]; then
     . /usr/share/debconf/confmodule
+    
+	if [ -f /usr/share/dbconfig-common/dpkg/postrm.mysql ]; then
+    	. /usr/share/dbconfig-common/dpkg/postrm.mysql
+    	dbc_go xwiki $@
+	fi
+
 	if [ "$1" = "purge" ]; then
 		db_purge
 	fi
 fi
 
-if [ -f /usr/share/dbconfig-common/dpkg/postrm.mysql ]; then
-    . /usr/share/dbconfig-common/dpkg/postrm.mysql
-    dbc_go xwiki $@
-fi
-
 # Remove hibernate configuration
 if [ "$1" = "purge" ]; then
-	rm -f /etc/xwiki/hibernate.cfg.xml
+	ucf --purge /etc/xwiki/hibernate.cfg.xml
+ 	rm -f /etc/xwiki/hibernate.cfg.xml
 fi

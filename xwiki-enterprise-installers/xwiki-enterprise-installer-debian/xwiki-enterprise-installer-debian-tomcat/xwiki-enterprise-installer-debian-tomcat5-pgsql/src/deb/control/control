@@ -1,4 +1,4 @@
-Package: xwiki-enterprise-tomcat-pgsql
+Package: xwiki-enterprise-tomcat5-pgsql
 Version: [[version]]
 Section: java
 Priority: optional
@@ -16,4 +16,3 @@ Description: XWiki enterprise Tomcat/PostgreSQL
  .
  XWiki Enterprise is designed to help teams collaborate more efficiently. It
  runs in a Java servlet container such as Tomcat.
- 

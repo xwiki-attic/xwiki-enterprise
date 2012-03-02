@@ -1983,6 +1983,31 @@ public class LinkTest extends AbstractWysiwygTestCase
         }
     }
 
+    /**
+     * @see XWIKI-7593: Links from other WYSIWYG fields are removed if the page is saved while a WYSIWYG field is edited
+     *      in full screen
+     */
+    public void testEmptyLinkFilterWhenEditingFullScreen()
+    {
+        // Add a link to the summary field. We use the object editor because the current WYSIWYG test API works only
+        // with the first WYSIWYG editor/field.
+        open("Blog", "BlogIntroduction", "edit", "editor=object");
+        setFieldValue("Blog.BlogPostClass_0_extract", "[[XWiki>>http://www.xwiki.org]]");
+        clickEditSaveAndContinue();
+
+        // Edit in "Inline form" edit mode.
+        open("Blog", "BlogIntroduction", "edit", "editor=inline");
+        // Edit the blog post content field in full screen mode and save.
+        // Note: The following works because the content field is the first WYSIWYG field.
+        waitForEditorToLoad();
+        clickEditInFullScreen();
+        clickEditSaveAndView();
+
+        // Check if the link is still present.
+        open("Blog", "BlogIntroduction", "edit", "editor=object");
+        assertEquals("[[XWiki>>http://www.xwiki.org]]", getFieldValue("Blog.BlogPostClass_0_extract"));
+    }
+
     protected void waitForStepToLoad(String name)
     {
         waitForElement("//*[contains(@class, '" + name + "')]");

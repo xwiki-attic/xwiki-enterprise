@@ -21,6 +21,7 @@ package org.xwiki.test.wysiwyg;
 
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
+import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
 /**
@@ -918,6 +919,64 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Check the result.
         switchToSource();
         assertSourceText("{{error}}x{{/error}}{{info}}z{{/info}}");
+    }
+
+    /**
+     * Sometimes when you double click a macro the browser selects the macro container (i.e. the DOM selection wraps the
+     * element that contains the macro output). Test if the macro edit box is still triggered.
+     */
+    public void testDoubleClickToEditMacroWhenDOMSelectionWrapsTheMacroContainer()
+    {
+        // Insert a macro.
+        switchToSource();
+        setSourceText("before {{error}}currently{{/error}} after");
+        switchToWysiwyg();
+
+        // Double click to edit the macro.
+        // Each double click event should be preceded by a click event.
+        selectMacro(0);
+        // Simulate the fact that browsers select the entire macro container when a macro is double clicked.
+        // Put the selection start at the end of the first text node and the selection end after the macro container.
+        select(getDOMLocator("body.firstChild.firstChild"), 7, getDOMLocator("body.firstChild"), 2);
+        // Fire the double click event on the macro.
+        getSelenium().doubleClick(getMacroLocator(0));
+        waitForDialogToLoad();
+
+        // Fill the macro content.
+        setFieldValue("pd-content-input", "now");
+        applyMacroChanges();
+
+        // Check the result.
+        switchToSource();
+        assertSourceText("before {{error}}now{{/error}} after");
+    }
+
+    /**
+     * @see XWIKI-6121: Double clicking on text makes macro edit box appear
+     */
+    public void testDoubleClickOutsideSelectedMacro()
+    {
+        // Insert a macro.
+        switchToSource();
+        setSourceText("{{info}}before{{/info}}\n\nafter");
+        switchToWysiwyg();
+
+        // Select the macro.
+        selectMacro(0);
+        waitForSelectedMacroCount(1);
+
+        // Double click on the paragraph outside of the macro output.
+        String locator = getDOMLocator("body.lastChild");
+        // Unfortunately double click doesn't update the selection so we have to do it..
+        selectNodeContents(locator);
+        getSelenium().doubleClick(locator);
+
+        try {
+            waitForDialogToLoad();
+            fail("The macro edit box shouldn't be triggered by double clicking outside of the macro output.");
+        } catch (SeleniumException e) {
+            assertEquals("Timed out after 30000ms", e.getMessage());
+        }
     }
 
     /**

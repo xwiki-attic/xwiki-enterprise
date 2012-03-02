@@ -1401,6 +1401,65 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4461: Cannot have a cursor around macro blocks in Wysiwyg
+     * @see XWIKI-3335: Cannot move the caret with the right arrow key after a macro ending the document
+     */
+    public void testTypeAroundMacro()
+    {
+        switchToSource();
+        setSourceText("{{info}}one{{/info}}{{warning}}two{{/warning}}{{error}}three{{/error}}"
+            + "\n\n{{info}}four{{/info}}\n\n{{warning}}five{{/warning}}");
+        switchToWysiwyg();
+
+        // Place the caret at the start of the first macro.
+        moveCaret(getMacroLocator(0) + ".lastChild.firstChild.firstChild", 0);
+        typeText("1");
+
+        // Place the caret at the end of the first macro.
+        moveCaret(getMacroLocator(0) + ".lastChild.firstChild.firstChild", 3);
+        typeText(" ");
+        // Check that Space didn't toggle the macro collapsed state.
+        // Note: We have to select the rich text area frame because the visibility of an element is evaluated relative
+        // to the current window.
+        try {
+            selectRichTextAreaFrame();
+            assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
+            assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
+        } finally {
+            selectTopFrame();
+        }
+
+        // Place the caret at the start of the third macro.
+        moveCaret(getMacroLocator(2) + ".lastChild.firstChild.firstChild", 0);
+        typeText("3");
+
+        // Place the caret at the end of the third macro.
+        moveCaret(getMacroLocator(2) + ".lastChild.firstChild.firstChild", 5);
+        typeEnter();
+        try {
+            waitForDialogToLoad();
+            fail("The macro edit box shouldn't be triggered by pressing Enter at the end of the output.");
+        } catch (SeleniumException e) {
+            assertEquals("Timed out after 30000ms", e.getMessage());
+        }
+        typeText("2");
+
+        // Place the caret at the start of the last macro.
+        moveCaret(getMacroLocator(4) + ".lastChild.firstChild.firstChild", 0);
+        typeEnter();
+        typeText("4");
+
+        // Place the caret at the end of the last macro.
+        moveCaret(getMacroLocator(4) + ".lastChild.firstChild.firstChild", 4);
+        typeEnter();
+        typeText("5");
+
+        switchToSource();
+        assertSourceText("1{{info}}one{{/info}} {{warning}}two{{/warning}}3{{error}}three{{/error}}\n\n2"
+            + "\n\n{{info}}\nfour\n{{/info}}\n\n4\n\n{{warning}}\nfive\n{{/warning}}\n\n5");
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

@@ -387,27 +387,36 @@ public class MacroTest extends AbstractWysiwygTestCase
         // By default macros are expanded. Let's check this.
         // Note: We have to select the rich text area frame because the visibility of an element is evaluated relative
         // to the current window.
-        selectRichTextAreaFrame();
-        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
-        assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
-        selectTopFrame();
+        try {
+            selectRichTextAreaFrame();
+            assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
+            assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
+        } finally {
+            selectTopFrame();
+        }
 
         // Select the macro.
         selectMacro(0);
 
         // Let's collapse the selected macro and check its state.
         toggleMacroCollapsedState();
-        selectRichTextAreaFrame();
-        assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
-        assertFalse(getSelenium().isVisible(getMacroOutputLocator(0)));
-        selectTopFrame();
+        try {
+            selectRichTextAreaFrame();
+            assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
+            assertFalse(getSelenium().isVisible(getMacroOutputLocator(0)));
+        } finally {
+            selectTopFrame();
+        }
 
         // Let's expand the selected macro and check its state.
         toggleMacroCollapsedState();
-        selectRichTextAreaFrame();
-        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
-        assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
-        selectTopFrame();
+        try {
+            selectRichTextAreaFrame();
+            assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
+            assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
+        } finally {
+            selectTopFrame();
+        }
     }
 
     /**
@@ -434,16 +443,22 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Collapse the second macro.
-        selectRichTextAreaFrame();
-        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
-        assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
-        selectTopFrame();
+        try {
+            selectRichTextAreaFrame();
+            assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
+            assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
+        } finally {
+            selectTopFrame();
+        }
         selectMacro(1);
         toggleMacroCollapsedState();
-        selectRichTextAreaFrame();
-        assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
-        assertFalse(getSelenium().isVisible(getMacroOutputLocator(1)));
-        selectTopFrame();
+        try {
+            selectRichTextAreaFrame();
+            assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
+            assertFalse(getSelenium().isVisible(getMacroOutputLocator(1)));
+        } finally {
+            selectTopFrame();
+        }
 
         // Unselect the macro.
         clearMacroSelection();
@@ -452,10 +467,13 @@ public class MacroTest extends AbstractWysiwygTestCase
         refreshMacros();
 
         // Check if the second macro is expanded.
-        selectRichTextAreaFrame();
-        assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
-        assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
-        selectTopFrame();
+        try {
+            selectRichTextAreaFrame();
+            assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
+            assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
+        } finally {
+            selectTopFrame();
+        }
     }
 
     /**
@@ -646,7 +664,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        assertSourceText("= Title 1 =\n\n{{toc start=\"2\"/}}\n\n== Title 2 ==");
+        // Note: The empty lines around ToC macro are badly converted due to XRENDERING-177.
+        assertSourceText("= Title 1 =\n\n{{toc start=\"2\"/}}\n\n\n\n== Title 2 ==");
     }
 
     /**
@@ -1279,7 +1298,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-content-input", "$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\")");
         applyMacroChanges();
         // Check the displayed text.
-        assertEquals("velocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));
+        // Note: The \u200B character comes from the macro place-holder which needs it to prevent the caret from
+        // disappearing when the user deletes the text before a macro.
+        assertEquals("\u200BvelocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));
     }
 
     /**
@@ -1381,6 +1402,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         getSelenium().click(locator);
         getSelenium().mouseMove(locator);
         getSelenium().mouseOut(locator);
+        // Select the macro container to be sure that the shortcut keys (Enter, Space) work. The click usually places
+        // the caret at the start of the macro content when typing is allowed.
+        selectNodeContents(locator);
     }
 
     /**

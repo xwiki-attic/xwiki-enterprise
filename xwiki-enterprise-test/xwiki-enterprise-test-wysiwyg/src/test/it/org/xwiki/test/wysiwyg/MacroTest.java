@@ -665,8 +665,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Check the XWiki syntax.
         switchToSource();
-        // Note: The empty lines around ToC macro are badly converted due to XRENDERING-177.
-        assertSourceText("= Title 1 =\n\n{{toc start=\"2\"/}}\n\n\n\n== Title 2 ==");
+        assertSourceText("= Title 1 =\n\n\n{{toc start=\"2\"/}}\n\n\n== Title 2 ==");
     }
 
     /**

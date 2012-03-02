@@ -591,7 +591,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("{{velocity}}#if($hasEdit)1#{else}2#end{{/velocity}}");
         switchToWysiwyg();
-        assertEquals("velocity1", getEval("window.XWE.body.textContent"));
+        // Note: The \u200B character comes from the macro place-holder which needs it to prevent the caret from
+        // disappearing when the user deletes the text before a macro.
+        assertEquals("\u200Bvelocity1", getEval("window.XWE.body.textContent"));
     }
 
     /**

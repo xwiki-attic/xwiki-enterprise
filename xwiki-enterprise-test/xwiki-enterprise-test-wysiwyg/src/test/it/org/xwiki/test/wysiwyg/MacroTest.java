@@ -669,6 +669,30 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-4048: Automatically add empty new line before/after macros when inserting standalone macros
+     */
+    public void testInsertStandAloneMacroInline()
+    {
+        switchToSource();
+        setSourceText("= Heading =\n\nparagraph");
+        switchToWysiwyg();
+
+        // Place the caret inside the paragraph.
+        moveCaret("XWE.body.lastChild.firstChild", 4);
+
+        // Insert the ToC macro
+        insertMacro("Table Of Contents");
+        applyMacroChanges();
+
+        // Check the output of the ToC macro.
+        assertEquals("1", getSelenium().getEval("window." + getDOMLocator("getElementsByTagName('li')") + ".length"));
+
+        // Check the XWiki syntax.
+        switchToSource();
+        assertSourceText("= Heading =\n\npara\n\n{{toc/}}\n\ngraph");
+    }
+
+    /**
      * Inserts a HTML macro, whose output contains block-level elements, in the middle of a paragraph's text and tests
      * if the macro can be fixed by separating it in an empty paragraph.
      * 

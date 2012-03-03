@@ -19,6 +19,9 @@ ln -sf /etc/xwiki/xwiki-tomcat.xml  /etc/tomcat6/Catalina/localhost/xwiki.xml
 ## Make sure tomcat is able to write in the data folder
 chown tomcat6.tomcat6 /var/lib/xwiki/data
 
+## Give proper rights to configuration folder
+chown -R tomcat6.tomcat6 /etc/xwiki
+
 #########################
 # Configuration
 #########################

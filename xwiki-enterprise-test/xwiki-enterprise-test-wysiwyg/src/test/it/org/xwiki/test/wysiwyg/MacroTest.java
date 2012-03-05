@@ -1380,9 +1380,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-content-input", "$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\")");
         applyMacroChanges();
         // Check the displayed text.
-        // Note: The \u200B character comes from the macro place-holder which needs it to prevent the caret from
-        // disappearing when the user deletes the text before a macro.
-        assertEquals("\u200BvelocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));
+        // Note: The non-breaking space character comes from the macro place-holder which needs it to prevent the caret
+        // from disappearing when the user deletes the text before a macro.
+        assertEquals("\u00A0velocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));
     }
 
     /**

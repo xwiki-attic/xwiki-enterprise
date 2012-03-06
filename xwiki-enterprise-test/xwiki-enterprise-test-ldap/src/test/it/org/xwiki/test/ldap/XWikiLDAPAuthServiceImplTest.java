@@ -162,7 +162,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         super.setUp();
 
         this.localEntityReferenceSerializer = Utils.getComponent(
-                EntityReferenceSerializer.class, "local");
+                EntityReferenceSerializer.TYPE_STRING, "local");
         
         this.userClass = new BaseClass();
         this.groupClass = new BaseClass();

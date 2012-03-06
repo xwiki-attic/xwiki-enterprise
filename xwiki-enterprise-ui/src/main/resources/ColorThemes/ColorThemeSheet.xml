@@ -63,6 +63,7 @@
 <validationScript></validationScript>
 <cache>
 <cache>0</cache>
+<disabled>0</disabled>
 <displayType>select</displayType>
 <multiSelect>0</multiSelect>
 <name>cache</name>
@@ -77,6 +78,7 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </cache>
 <code>
+<disabled>0</disabled>
 <name>code</name>
 <number>2</number>
 <prettyName>Code</prettyName>
@@ -86,6 +88,7 @@
 <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
 </code>
 <name>
+<disabled>0</disabled>
 <name>name</name>
 <number>1</number>
 <prettyName>Name</prettyName>
@@ -94,6 +97,7 @@
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 <parse>
+<disabled>0</disabled>
 <displayFormType>select</displayFormType>
 <displayType>yesno</displayType>
 <name>parse</name>
@@ -104,6 +108,7 @@
 </parse>
 <use>
 <cache>0</cache>
+<disabled>0</disabled>
 <displayType>select</displayType>
 <multiSelect>0</multiSelect>
 <name>use</name>
@@ -496,6 +501,7 @@ document.observe('dom:loaded', function(){
 <validationScript></validationScript>
 <cache>
 <cache>0</cache>
+<disabled>0</disabled>
 <displayType>select</displayType>
 <multiSelect>0</multiSelect>
 <name>cache</name>
@@ -510,6 +516,7 @@ document.observe('dom:loaded', function(){
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </cache>
 <code>
+<disabled>0</disabled>
 <name>code</name>
 <number>2</number>
 <prettyName>Code</prettyName>
@@ -519,6 +526,7 @@ document.observe('dom:loaded', function(){
 <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
 </code>
 <name>
+<disabled>0</disabled>
 <name>name</name>
 <number>1</number>
 <prettyName>Name</prettyName>
@@ -527,6 +535,7 @@ document.observe('dom:loaded', function(){
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </name>
 <parse>
+<disabled>0</disabled>
 <displayFormType>select</displayFormType>
 <displayType>yesno</displayType>
 <name>parse</name>
@@ -537,6 +546,7 @@ document.observe('dom:loaded', function(){
 </parse>
 <use>
 <cache>0</cache>
+<disabled>0</disabled>
 <displayType>select</displayType>
 <multiSelect>0</multiSelect>
 <name>use</name>
@@ -584,9 +594,9 @@ document.observe('dom:loaded', function(){
 #set($ie7 = '*+html')
 ##
 ## Elements with large padding.
-#set($paddedElements = ['mainmenu', 'panelheader', 'panelcontents', 'collapsedpanel', 'textlink', 'titlebox', 'info', 'details', 'highlight'])
+#set($paddedElements = ['mainmenu', 'panelheader', 'panelcontents', 'collapsedpanel', 'contentmenu', 'textlink', 'titlebox', 'info', 'details', 'highlight'])
 ## Elements without padding.
-#set($notPaddedElements = ['headerbox', 'boxes', 'buttonbox', 'secondaryButtonbox'])
+#set($notPaddedElements = ['headerbox', 'boxes', 'buttonbox', 'secondaryButtonbox', 'extratabs'])
 ## Large containers.
 #set($largeContainers = ['page', 'content'])
 ##
@@ -1488,6 +1498,7 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
        $msg.get('xe.themes.colors.wizard.menu')
        &lt;span #elementMetaData('menuentry')&gt;$msg.get('xe.themes.colors.wizard.menuEntry')#1&lt;/span&gt;
        &lt;span #elementMetaData('menuentry')&gt;$msg.get('xe.themes.colors.wizard.menuEntry')#2&lt;/span&gt;
+       #printColorThemeWizard('contentmenu')
       &lt;/div&gt;
       &lt;div #elementMetaData('xwikicontent')&gt;
         &lt;div #elementMetaData('titlebox')&gt;
@@ -1542,6 +1553,7 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
         &lt;span #elementMetaData('tabentry')&gt;$msg.get('xe.themes.colors.wizard.tab') &lt;span #elementMetaData('tabdetails')&gt;#2&lt;/span&gt;&lt;/span&gt;
       &lt;/div&gt;
       &lt;div #elementMetaData('tabscontent')&gt;$msg.get('xe.themes.colors.wizard.tab.text')&lt;/div&gt;
+      #printColorThemeWizard('extratabs')
     &lt;/div&gt;
   &lt;/div&gt; ## main column
   &lt;div class="clearfloats" &gt;&lt;/div&gt;

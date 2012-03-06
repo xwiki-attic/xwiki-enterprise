@@ -23,6 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.test.ui.po.CommentForm;
 import org.xwiki.test.ui.po.CommentsTab;
 import org.xwiki.test.ui.po.ViewPage;
 
@@ -115,5 +116,34 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
             this.commentsTab.getCommentContentByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
         Assert.assertEquals(ADMIN,
             this.commentsTab.getCommentAuthorByID(this.commentsTab.getCommentID(COMMENT_CONTENT)));
+    }
+
+    /**
+     * Preview a comment on a plain wiki page.
+     */
+    @Test
+    public void testPreviewComment()
+    {
+        CommentForm addCommentForm = commentsTab.getAddCommentForm();
+        addCommentForm.getContentField().sendKeys("one **two** three");
+        Assert.assertEquals("one two three", addCommentForm.clickPreview().getText());
+        addCommentForm.clickBack();
+        addCommentForm.getContentField().sendKeys(" //four//");
+        addCommentForm.clickPreview();
+        addCommentForm.clickSubmit();
+        Assert.assertTrue(commentsTab.getCommentID("one two three four") >= 0);
+    }
+
+    /**
+     * Preview a comment on a wiki page that has a sheet applied.
+     */
+    @Test
+    public void testPreviewCommentOnPageWithSheet()
+    {
+        // We know Blog.BlogIntroduction has a sheet applied.
+        commentsTab = getUtil().gotoPage("Blog", "BlogIntroduction").openCommentsDocExtraPane();
+        CommentForm addCommentForm = commentsTab.getAddCommentForm();
+        addCommentForm.getContentField().sendKeys("xyz");
+        Assert.assertEquals("xyz", addCommentForm.clickPreview().getText());
     }
 }

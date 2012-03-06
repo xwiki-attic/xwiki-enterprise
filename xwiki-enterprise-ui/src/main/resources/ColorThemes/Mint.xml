@@ -562,6 +562,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <nameField></nameField>
 <validationScript></validationScript>
 <backgroundSecondaryColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>backgroundSecondaryColor</name>
 <number>32</number>
@@ -574,6 +575,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </backgroundSecondaryColor>
 <borderColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>borderColor</name>
 <number>7</number>
@@ -586,6 +588,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </borderColor>
 <buttonPrimaryBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>buttonPrimaryBackgroundColor</name>
 <number>29</number>
@@ -597,7 +600,21 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonPrimaryBackgroundColor>
+<buttonPrimaryGradientColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>buttonPrimaryGradientColor</name>
+<number>37</number>
+<picker>0</picker>
+<prettyName>Primary action button gradient color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</buttonPrimaryGradientColor>
 <buttonPrimaryTextColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>buttonPrimaryTextColor</name>
 <number>28</number>
@@ -610,6 +627,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonPrimaryTextColor>
 <buttonSecondaryBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>buttonSecondaryBackgroundColor</name>
 <number>31</number>
@@ -621,7 +639,21 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonSecondaryBackgroundColor>
+<buttonSecondaryGradientColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>buttonSecondaryGradientColor</name>
+<number>38</number>
+<picker>0</picker>
+<prettyName>Secondary action button gradient color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</buttonSecondaryGradientColor>
 <buttonSecondaryTextColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>buttonSecondaryTextColor</name>
 <number>30</number>
@@ -633,7 +665,21 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </buttonSecondaryTextColor>
+<fieldGradientColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>fieldGradientColor</name>
+<number>45</number>
+<picker>0</picker>
+<prettyName>Field gradient color (for form elements: input, select, textarea, etc.)</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</fieldGradientColor>
 <headerBackgroundImage>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>headerBackgroundImage</name>
 <number>13</number>
@@ -646,6 +692,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </headerBackgroundImage>
 <headerBackgroundPosition>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>headerBackgroundPosition</name>
 <number>14</number>
@@ -658,6 +705,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </headerBackgroundPosition>
 <highlightColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>highlightColor</name>
 <number>15</number>
@@ -670,6 +718,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </highlightColor>
 <linkColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>linkColor</name>
 <number>5</number>
@@ -682,6 +731,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </linkColor>
 <logoImage>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>logoImage</name>
 <number>11</number>
@@ -694,6 +744,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </logoImage>
 <menuAddEntryBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>menuAddEntryBackgroundColor</name>
 <number>21</number>
@@ -706,6 +757,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuAddEntryBackgroundColor>
 <menuAddEntryLinkColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>menuAddEntryLinkColor</name>
 <number>20</number>
@@ -718,6 +770,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuAddEntryLinkColor>
 <menuBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>menuBackgroundColor</name>
 <number>16</number>
@@ -729,7 +782,60 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuBackgroundColor>
+<menuContentBackgroundColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>menuContentBackgroundColor</name>
+<number>42</number>
+<picker>0</picker>
+<prettyName>Content menu background color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuContentBackgroundColor>
+<menuContentGradientColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>menuContentGradientColor</name>
+<number>44</number>
+<picker>0</picker>
+<prettyName>Content menu gradient color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuContentGradientColor>
+<menuContentLinkColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>menuContentLinkColor</name>
+<number>43</number>
+<picker>0</picker>
+<prettyName>Content menu text color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuContentLinkColor>
+<menuGradientColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>menuGradientColor</name>
+<number>39</number>
+<picker>0</picker>
+<prettyName>Menu gradient color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</menuGradientColor>
 <menuLinkColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>menuLinkColor</name>
 <number>17</number>
@@ -742,6 +848,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuLinkColor>
 <menuSelectedEntryBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>menuSelectedEntryBackgroundColor</name>
 <number>18</number>
@@ -754,6 +861,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuSelectedEntryBackgroundColor>
 <menuSelectedEntryLinkColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>menuSelectedEntryLinkColor</name>
 <number>19</number>
@@ -766,6 +874,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </menuSelectedEntryLinkColor>
 <notificationErrorColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>notificationErrorColor</name>
 <number>36</number>
@@ -778,6 +887,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </notificationErrorColor>
 <notificationInfoColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>notificationInfoColor</name>
 <number>33</number>
@@ -790,6 +900,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </notificationInfoColor>
 <notificationSuccessColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>notificationSuccessColor</name>
 <number>34</number>
@@ -802,6 +913,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </notificationSuccessColor>
 <notificationWarningColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>notificationWarningColor</name>
 <number>35</number>
@@ -814,6 +926,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </notificationWarningColor>
 <pageBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>pageBackgroundColor</name>
 <number>8</number>
@@ -826,6 +939,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageBackgroundColor>
 <pageBackgroundImage>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>pageBackgroundImage</name>
 <number>9</number>
@@ -838,6 +952,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageBackgroundImage>
 <pageBackgroundPosition>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>pageBackgroundPosition</name>
 <number>10</number>
@@ -850,6 +965,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageBackgroundPosition>
 <pageContentBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>pageContentBackgroundColor</name>
 <number>1</number>
@@ -862,6 +978,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageContentBackgroundColor>
 <pageHeaderBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>pageHeaderBackgroundColor</name>
 <number>12</number>
@@ -874,6 +991,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </pageHeaderBackgroundColor>
 <panelBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>panelBackgroundColor</name>
 <number>22</number>
@@ -886,6 +1004,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelBackgroundColor>
 <panelCollapsedBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>panelCollapsedBackgroundColor</name>
 <number>26</number>
@@ -897,7 +1016,21 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelCollapsedBackgroundColor>
+<panelCollapsedGradientColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>panelCollapsedGradientColor</name>
+<number>41</number>
+<picker>0</picker>
+<prettyName>Collapsed panel gradient color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</panelCollapsedGradientColor>
 <panelCollapsedTextColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>panelCollapsedTextColor</name>
 <number>27</number>
@@ -910,6 +1043,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelCollapsedTextColor>
 <panelHeaderBackgroundColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>panelHeaderBackgroundColor</name>
 <number>24</number>
@@ -921,7 +1055,21 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelHeaderBackgroundColor>
+<panelHeaderGradientColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>panelHeaderGradientColor</name>
+<number>40</number>
+<picker>0</picker>
+<prettyName>Panel header gradient color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</panelHeaderGradientColor>
 <panelHeaderTextColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>panelHeaderTextColor</name>
 <number>25</number>
@@ -934,6 +1082,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelHeaderTextColor>
 <panelTextColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>panelTextColor</name>
 <number>23</number>
@@ -945,7 +1094,21 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <validationRegExp></validationRegExp>
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </panelTextColor>
+<submenuContentBackgroundColor>
+<customDisplay></customDisplay>
+<disabled>0</disabled>
+<name>submenuContentBackgroundColor</name>
+<number>46</number>
+<picker>0</picker>
+<prettyName>Content submenu background color</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<validationMessage></validationMessage>
+<validationRegExp></validationRegExp>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</submenuContentBackgroundColor>
 <textColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>textColor</name>
 <number>2</number>
@@ -958,6 +1121,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </textColor>
 <textPrimaryColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>textPrimaryColor</name>
 <number>3</number>
@@ -970,6 +1134,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </textPrimaryColor>
 <textSecondaryColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>textSecondaryColor</name>
 <number>4</number>
@@ -982,6 +1147,7 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
 </textSecondaryColor>
 <titleColor>
+<customDisplay></customDisplay>
 <disabled>0</disabled>
 <name>titleColor</name>
 <number>6</number>
@@ -1008,10 +1174,16 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <buttonPrimaryBackgroundColor>#4D9244</buttonPrimaryBackgroundColor>
 </property>
 <property>
+<buttonPrimaryGradientColor>#276400</buttonPrimaryGradientColor>
+</property>
+<property>
 <buttonPrimaryTextColor>#F3F3F3</buttonPrimaryTextColor>
 </property>
 <property>
 <buttonSecondaryBackgroundColor>#E1E1E1</buttonSecondaryBackgroundColor>
+</property>
+<property>
+<buttonSecondaryGradientColor>#FFFFFF</buttonSecondaryGradientColor>
 </property>
 <property>
 <buttonSecondaryTextColor>#4D5860</buttonSecondaryTextColor>
@@ -1039,6 +1211,18 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 </property>
 <property>
 <menuBackgroundColor>#276400</menuBackgroundColor>
+</property>
+<property>
+<menuContentBackgroundColor>#E1E1E1</menuContentBackgroundColor>
+</property>
+<property>
+<menuContentGradientColor>#FFFFFF</menuContentGradientColor>
+</property>
+<property>
+<menuContentLinkColor>#4D5860</menuContentLinkColor>
+</property>
+<property>
+<menuGradientColor>#427D3B</menuGradientColor>
 </property>
 <property>
 <menuLinkColor>#F3F3F3</menuLinkColor>
@@ -1071,16 +1255,25 @@ ksT5AbWhTQAAAABAkf8HQ9KhZ4UQB8EAAAAASUVORK5CYII=
 <panelCollapsedBackgroundColor>#E1E1E1</panelCollapsedBackgroundColor>
 </property>
 <property>
+<panelCollapsedGradientColor>#FFFFFF</panelCollapsedGradientColor>
+</property>
+<property>
 <panelCollapsedTextColor>#16620F</panelCollapsedTextColor>
 </property>
 <property>
-<panelHeaderBackgroundColor>#16620F</panelHeaderBackgroundColor>
+<panelHeaderBackgroundColor>#E1E1E1</panelHeaderBackgroundColor>
 </property>
 <property>
-<panelHeaderTextColor>#FFFFFF</panelHeaderTextColor>
+<panelHeaderGradientColor>#FFFFFF</panelHeaderGradientColor>
+</property>
+<property>
+<panelHeaderTextColor>#4D5860</panelHeaderTextColor>
 </property>
 <property>
 <panelTextColor>#636B75</panelTextColor>
+</property>
+<property>
+<submenuContentBackgroundColor>#F5F5F5</submenuContentBackgroundColor>
 </property>
 <property>
 <textColor>#636B75</textColor>

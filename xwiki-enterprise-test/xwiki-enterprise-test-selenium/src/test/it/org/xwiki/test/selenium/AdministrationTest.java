@@ -504,13 +504,17 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         String space = "Main";
         String page = "TestConfigurable";
+        // Note: We are forced to use the silent notation because Selenium 2.20.0 doesn't escape properly the string
+        // passed to the Selenium.type() method and it seems ${...} has a special meaning, throwing an exception with
+        // the message "replacement is undefined". Escaping the value using backslash or doubling the { didn't work.
+        // See http://code.google.com/p/selenium/issues/detail?id=3510 .
         String codeToExecute = "#set($code = 's sh')"
-                             + "Thi${code}ould be displayed."
+                             + "Thi$!{code}ould be displayed."
                              + "#if($xcontext.hasProgrammingRights())"
                              + "This should not be displayed."
                              + "#end";
         String heading = "#set($code = 'his sho')"
-                       + "T${code}uld also be displayed.";
+                       + "T$!{code}uld also be displayed.";
         createConfigurableApplication(space, page, "TestSection6", true);
         open(space, page, "edit", "editor=object");
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", codeToExecute);
@@ -522,9 +526,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
 
         // Since we modify ConfigurableClass, we must modify it back after to prevent polluting further tests.
-        String originalContent = getFieldValue("content");
+        // See the previous note about silent notation to understand why we perform a string replacement.
+        String originalContent = getFieldValue("content").replace("${", "$!{");
         try {
-            setFieldValue("content", getFieldValue("content")
+            setFieldValue("content", originalContent
                           + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
             clickEditSaveAndContinue();
 

@@ -135,4 +135,18 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(editPage.hasLiveTableColumn("Page name"));
         Assert.assertFalse(editPage.hasLiveTableColumn("foo"));
     }
+
+    /**
+     * Tests that the live table isn't generated if the list of columns is empty.
+     */
+    @Test
+    public void testNoColumns()
+    {
+        // Make sure the list of columns is empty.
+        editQueryStringParameters.put("AppWithinMinutes.LiveTableClass_0_columns", "");
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", editQueryStringParameters);
+        ApplicationHomePage viewPage = new ApplicationHomeEditPage().clickSaveAndView();
+        Assert.assertFalse(viewPage.hasEntriesLiveTable());
+        Assert.assertEquals("", viewPage.editWiki().getContent());
+    }
 }

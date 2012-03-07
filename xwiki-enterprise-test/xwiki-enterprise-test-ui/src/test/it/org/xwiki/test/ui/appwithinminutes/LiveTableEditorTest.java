@@ -88,8 +88,11 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
     public void testSaveAndContinue()
     {
         editPage.clickSaveAndContinue();
+        editPage.waitForNotificationSuccessMessage("Saved");
         ApplicationHomePage viewPage = editPage.clickCancel();
-        Assert.assertTrue(viewPage.getEntriesLiveTable().hasColumn("Page name"));
+        LiveTableElement liveTable = viewPage.getEntriesLiveTable();
+        liveTable.waitUntilReady();
+        Assert.assertTrue(liveTable.hasColumn("Page name"));
     }
 
     /**

@@ -34,7 +34,7 @@
   'page'            : {'background': ['pageBackgroundColor', 'pageBackgroundImage', 'pageBackgroundPosition'], 'color': ['textColor']},
   'mainmenu'        : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
   'menuaddentry'    : {'background': ['menuAddEntryBackgroundColor'], 'color': ['menuAddEntryLinkColor']},
-  'contentmenu'     : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
+  'contentmenu'     : {'background': ['menuContentBackgroundColor'], 'color': ['menuContentLinkColor']},
   'header'          : {'background': ['pageHeaderBackgroundColor', 'headerBackgroundImage', 'headerBackgroundPosition']},
   'panelheader'     : {'background': ['panelHeaderBackgroundColor'], 'color': ['panelHeaderTextColor'], 'border-color': ['borderColor']},
   'panelcontents'   : {'background': ['panelBackgroundColor'], 'color': ['panelTextColor']},
@@ -51,7 +51,7 @@
   'message'         : {'background': ['backgroundSecondaryColor'], 'border-color': ['borderColor']},
   'button'          : {'background': ['buttonPrimaryBackgroundColor'], 'color': ['buttonPrimaryTextColor']},
   'secondaryButton' : {'background': ['buttonSecondaryBackgroundColor'], 'color': ['buttonSecondaryTextColor']},
-  'tabshead'        : {'background': ['menuBackgroundColor'], 'color': ['menuLinkColor']},
+  'tabshead'        : {'background': ['menuContentBackgroundColor'], 'color': ['menuContentLinkColor']},
   'tabentryactive'  : {'background': ['pageContentBackgroundColor'], 'color': ['menuSelectedEntryLinkColor']},
   'tabdetails'      : {'color': ['textSecondaryColor']},
   'tabscontent'     : {'background': ['pageContentBackgroundColor'], 'color': ['textColor']}
@@ -65,20 +65,22 @@
 ##
 #set($elementPropertyMap = {
   'page'               : ['pageBackgroundColor', 'pageBackgroundImage', 'pageBackgroundPosition'],
-  'mainmenu'           : ['menuBackgroundColor', 'menuLinkColor', 'menuSelectedEntryLinkColor', 'menuAddEntryLinkColor', 'menuAddEntryBackgroundColor'],
+  'mainmenu'           : ['menuBackgroundColor', 'menuGradientColor', 'menuLinkColor', 'menuAddEntryLinkColor', 'menuAddEntryBackgroundColor'],
   'headerbox'          : ['logoImage', 'pageHeaderBackgroundColor', 'headerBackgroundImage', 'headerBackgroundPosition'],
-  'panelheader'        : ['panelHeaderBackgroundColor', 'panelHeaderTextColor'],
+  'panelheader'        : ['panelHeaderBackgroundColor', 'panelHeaderGradientColor', 'panelHeaderTextColor'],
   'panelcontents'      : ['panelBackgroundColor', 'panelTextColor'],
-  'collapsedpanel'     : ['panelCollapsedBackgroundColor', 'panelCollapsedTextColor'],
+  'collapsedpanel'     : ['panelCollapsedBackgroundColor', 'panelCollapsedGradientColor', 'panelCollapsedTextColor'],
   'content'            : ['pageContentBackgroundColor'],
+  'contentmenu'        : ['menuContentBackgroundColor', 'menuContentGradientColor', 'menuContentLinkColor', 'submenuContentBackgroundColor'],
   'textlink'           : ['textColor', 'linkColor'],
   'titlebox'           : ['titleColor'],
   'info'               : ['textPrimaryColor'],
   'details'            : ['textSecondaryColor'],
   'highlight'          : ['highlightColor'],
   'boxes'              : ['backgroundSecondaryColor', 'borderColor'],
-  'buttonbox'          : ['buttonPrimaryBackgroundColor', 'buttonPrimaryTextColor'],
-  'secondaryButtonbox' : ['buttonSecondaryBackgroundColor', 'buttonSecondaryTextColor']
+  'buttonbox'          : ['buttonPrimaryBackgroundColor','buttonPrimaryGradientColor', 'buttonPrimaryTextColor'],
+  'secondaryButtonbox' : ['buttonSecondaryBackgroundColor', 'buttonSecondaryGradientColor', 'buttonSecondaryTextColor'],
+  'extratabs'          : ['menuSelectedEntryLinkColor']
 })
 {{/velocity}}</content>
 </xwikidoc>

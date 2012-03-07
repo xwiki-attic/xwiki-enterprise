@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.po.appwithinminutes;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -50,6 +52,12 @@ public class ApplicationHomeEditPage extends InlinePage
      */
     @FindBy(name = "xaction_save")
     private WebElement saveButton;
+
+    /**
+     * @see #saveButton
+     */
+    @FindBy(name = "xaction_saveandcontinue")
+    private WebElement saveAndContinueButton;
 
     @FindBy(id = "availableColumns")
     private WebElement availableColumns;
@@ -84,11 +92,23 @@ public class ApplicationHomeEditPage extends InlinePage
         return new ApplicationHomePage();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T extends ViewPage> T clickSaveAndView()
     {
         saveButton.click();
+        return createViewPage();
+    }
+
+    @Override
+    public void clickSaveAndContinue()
+    {
+        saveAndContinueButton.click();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected <T extends ViewPage> T createViewPage()
+    {
         return (T) new ApplicationHomePage();
     }
 
@@ -124,12 +144,78 @@ public class ApplicationHomeEditPage extends InlinePage
      */
     public void removeLiveTableColumn(String columnLabel)
     {
-        String escapedColumnLabel = columnLabel.replace("\\", "\\\\").replace("'", "\\'");
-        String xpath = "//ul[@class = 'hList']/li[starts-with(., '" + escapedColumnLabel + "')]";
-        WebElement column = getForm().findElement(By.xpath(xpath));
+        WebElement column = getLiveTableColumn(columnLabel);
         // FIXME: This doesn't trigger the :hover CSS pseudo class. The click still works because the delete X (text) is
         // not really hidden: it is displayed with white color (the page background-color).
         new Actions(getDriver().getWrappedDriver()).moveToElement(column).perform();
         column.findElement(By.className("delete")).click();
+    }
+
+    /**
+     * Reorders the live table columns by moving one column before another.
+     * 
+     * @param columnToMove the label of the live table column to be moved
+     * @param beforeColumn the label of the reference column
+     */
+    public void moveLiveTableColumnBefore(String columnToMove, String beforeColumn)
+    {
+        new Actions(getDriver().getWrappedDriver()).clickAndHold(getLiveTableColumn(columnToMove))
+            .moveToElement(getLiveTableColumn(beforeColumn), 0, 0).perform();
+    }
+
+    /**
+     * @param columnLabel the label of a live table column
+     * @return the element that represents the specified live table column
+     */
+    private WebElement getLiveTableColumn(String columnLabel)
+    {
+        String escapedColumnLabel = columnLabel.replace("\\", "\\\\").replace("'", "\\'");
+        String xpath = "//ul[@class = 'hList']/li[starts-with(., '" + escapedColumnLabel + "')]";
+        return getUtil().findElementWithoutWaiting(getDriver(), getForm(), By.xpath(xpath));
+    }
+
+    /**
+     * @param columnLabel the label of the live table column to check for
+     * @return {@code true} if the specified column was selected (i.e. included in the live table), {@code false}
+     *         otherwise
+     */
+    public boolean hasLiveTableColumn(String columnLabel)
+    {
+        String escapedColumnLabel = columnLabel.replace("\\", "\\\\").replace("'", "\\'");
+        String xpath = "//ul[@class = 'hList']/li[starts-with(., '" + escapedColumnLabel + "')]";
+        return getUtil().findElementsWithoutWaiting(getDriver(), getForm(), By.xpath(xpath)).size() > 0;
+    }
+
+    /**
+     * @param columnLabel the label of a live table column
+     * @return {@code true} if the specified column is displayed as deprecated in the list of selected live table
+     *         columns, {@code false} otherwise
+     */
+    public boolean isLiveTableColumnDeprecated(String columnLabel)
+    {
+        return "deprecated".equals(getLiveTableColumn(columnLabel).getAttribute("class"));
+    }
+
+    /**
+     * Removes all deprecated columns or simply hides the warning message based on the given boolean value.
+     * 
+     * @param yes {@code true} to remove all deprecated columns, {@code false} to just hide the warning message
+     */
+    public void removeAllDeprecatedLiveTableColumns(boolean yes)
+    {
+        WebElement warningMessage =
+            getUtil().findElementWithoutWaiting(getDriver(), getForm(), By.className("warningmessage"));
+        getUtil().findElementWithoutWaiting(getDriver(), warningMessage, By.linkText(yes ? "Yes" : "No")).click();
+    }
+
+    /**
+     * @return {@code true} if the warning message about deprecated live table columns is displayed, {@code false}
+     *         otherwise
+     */
+    public boolean isDeprecatedLiveTableColumnsWarningDisplayed()
+    {
+        List<WebElement> warnings =
+            getUtil().findElementsWithoutWaiting(getDriver(), getForm(), By.className("warningmessage"));
+        return warnings.size() == 1 && warnings.get(0).isDisplayed();
     }
 }

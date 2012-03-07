@@ -22,8 +22,8 @@ package org.xwiki.test.ui.appwithinminutes;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.po.appwithinminutes.AppWithinMinutesHomePage;
 import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
 import org.xwiki.test.po.appwithinminutes.ApplicationCreatePage;
@@ -32,6 +32,7 @@ import org.xwiki.test.po.appwithinminutes.ApplicationHomePage;
 import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.EntryNamePane;
+import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
@@ -43,10 +44,12 @@ import org.xwiki.test.ui.po.LiveTableElement;
 public class WizardTest extends AbstractTest
 {
     /**
-     * Tests the application creation process from start to end.
+     * The first step of the wizard.
      */
-    @Test
-    public void testCreateApplication()
+    private ApplicationCreatePage appCreatePage;
+
+    @Before
+    public void setUp()
     {
         // Register a simple user, login and go to the App Within Minutes home page.
         String userName = RandomStringUtils.randomAlphanumeric(5);
@@ -55,8 +58,15 @@ public class WizardTest extends AbstractTest
         getUtil().registerLoginAndGotoPage(userName, password, appWithinMinutesHomePage.getURL());
 
         // Click the Create Application button.
-        ApplicationCreatePage appCreatePage = appWithinMinutesHomePage.clickCreateApplication();
+        appCreatePage = appWithinMinutesHomePage.clickCreateApplication();
+    }
 
+    /**
+     * Tests the application creation process from start to end.
+     */
+    @Test
+    public void testCreateApplication()
+    {
         // Step 1
         // Enter the application name (random name).
         String appName = RandomStringUtils.randomAlphabetic(6);
@@ -182,11 +192,44 @@ public class WizardTest extends AbstractTest
         Assert.assertTrue(entriesLiveTable.hasRow("Page name", secondEntryName));
 
         // Go to the App Within Minutes home page.
-        appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
+        AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
 
         // Assert that the created application is listed in the live table.
         LiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();
         appsLiveTable.waitUntilReady();
         Assert.assertTrue(appsLiveTable.hasRow("Application name", appName));
+    }
+
+    /**
+     * @see XWIKI-7380: Cannot go back from step 2 to step 1
+     */
+    @Test
+    public void testGoBackToFirstStep()
+    {
+        // Step 1
+        String appName = RandomStringUtils.randomAlphabetic(6);
+        appCreatePage.setApplicationName(appName);
+        appCreatePage.waitForApplicationNamePreview();
+
+        // Step 2
+        ApplicationClassEditPage classEditPage = appCreatePage.clickNextStep();
+        classEditPage.addField("Short Text");
+
+        // Back to Step 1
+        appCreatePage = classEditPage.clickPreviousStep();
+        appCreatePage.setApplicationName(appName);
+        appCreatePage.waitForApplicationNamePreview();
+        // Test that the application wasn't created.
+        Assert.assertFalse(appCreatePage.getContent().contains(ApplicationNameTest.APP_NAME_USED_WARNING_MESSAGE));
+
+        // Step 2 again
+        classEditPage = appCreatePage.clickNextStep();
+        Assert.assertTrue(classEditPage.getContent().contains(ClassEditorTest.EMPTY_CANVAS_HINT));
+        classEditPage.addField("Number");
+
+        // Step 3 and back to Step 2
+        classEditPage = classEditPage.clickNextStep().clickPreviousStep();
+        Assert.assertFalse(classEditPage.getContent().contains(ClassEditorTest.EMPTY_CANVAS_HINT));
+        Assert.assertFalse(classEditPage.hasPreviousStep());
     }
 }

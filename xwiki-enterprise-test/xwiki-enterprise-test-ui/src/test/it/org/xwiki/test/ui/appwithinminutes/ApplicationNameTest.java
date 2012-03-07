@@ -49,7 +49,7 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
     /**
      * The warning message displayed when we input the name of an existing application.
      */
-    private static final String APP_NAME_USED_WARNING_MESSAGE = "This application already exists.";
+    public static final String APP_NAME_USED_WARNING_MESSAGE = "This application already exists.";
 
     /**
      * Try to create an application with an empty name using the next step button.

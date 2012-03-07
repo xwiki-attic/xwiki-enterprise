@@ -43,7 +43,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
     /**
      * The message displayed when the canvas is empty.
      */
-    private static final String EMPTY_CANVAS_HINT = "Drag fields from the palette and drop them in this area.";
+    public static final String EMPTY_CANVAS_HINT = "Drag fields from the palette and drop them in this area.";
 
     /**
      * Tests that the hint is displayed only when the canvas is empty.

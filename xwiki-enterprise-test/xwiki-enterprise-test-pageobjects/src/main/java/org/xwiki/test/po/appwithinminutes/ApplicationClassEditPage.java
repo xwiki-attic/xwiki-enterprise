@@ -43,6 +43,9 @@ public class ApplicationClassEditPage extends InlinePage
     @FindBy(id = "wizard-next")
     private WebElement nextStepButton;
 
+    @FindBy(linkText = "PREVIOUS STEP")
+    private WebElement previousStepButton;
+
     /**
      * The form used to edit the application class overwrites the save button because it needs to process the submitted
      * data. Otherwise the request is forwarded by the action filter to the save action.
@@ -74,6 +77,25 @@ public class ApplicationClassEditPage extends InlinePage
     {
         nextStepButton.click();
         return new ApplicationHomeEditPage();
+    }
+
+    /**
+     * Clicks on the Previous Step button.
+     * 
+     * @return the page that represents the previous step of the App Within Minutes wizard
+     */
+    public ApplicationCreatePage clickPreviousStep()
+    {
+        previousStepButton.click();
+        return new ApplicationCreatePage();
+    }
+
+    /**
+     * @return {@code true} if the Previous Step button is present, {@code false} otherwise
+     */
+    public boolean hasPreviousStep()
+    {
+        return getUtil().findElementsWithoutWaiting(getDriver(), By.linkText("PREVIOUS STEP")).size() > 0;
     }
 
     @Override

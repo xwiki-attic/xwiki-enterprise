@@ -23,6 +23,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
+import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.ui.po.ViewPage;
 
@@ -77,5 +78,12 @@ public class ApplicationHomePage extends ViewPage
             entriesLiveTable = new LiveTableElement(table.getAttribute("id"));
         }
         return entriesLiveTable;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected <T extends InlinePage> T createInlinePage()
+    {
+        return (T) new ApplicationHomeEditPage();
     }
 }

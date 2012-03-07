@@ -80,6 +80,14 @@ public class ApplicationHomePage extends ViewPage
         return entriesLiveTable;
     }
 
+    /**
+     * @return {@code true} if the entries live table is displayed on the home page, {@code false} otherwise
+     */
+    public boolean hasEntriesLiveTable()
+    {
+        return getDriver().findElements(By.className("xwiki-livetable")).size() > 0;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     protected <T extends InlinePage> T createInlinePage()

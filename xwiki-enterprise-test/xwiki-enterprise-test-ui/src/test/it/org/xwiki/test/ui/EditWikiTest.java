@@ -21,11 +21,13 @@ package org.xwiki.test.ui;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.EditPage.Editor;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
-import org.xwiki.test.ui.po.editor.EditPage.Editor;
 
 /**
  * Test wiki editing.
@@ -83,5 +85,18 @@ public class EditWikiTest extends AbstractAdminAuthenticatedTest
         WYSIWYGEditPage wysiwygEditPage = this.editPage.editWYSIWYG();
         // Check that we are indeed in WYSIWYG edit mode.
         Assert.assertEquals(Editor.WYSIWYG, wysiwygEditPage.getEditor());
+    }
+
+    /**
+     * @see XWIKI-6934: Preview action doesn't displays the page's title
+     */
+    @Test
+    public void testPreviewDisplaysPageTitle()
+    {
+        String title = RandomStringUtils.randomAlphanumeric(3);
+        this.editPage.setTitle(title);
+        this.editPage.clickPreview();
+        // The preview page has the action buttons but otherwise it is similar to a view page.
+        Assert.assertEquals(title, new ViewPage().getDocumentTitle());
     }
 }

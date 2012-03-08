@@ -159,11 +159,24 @@
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- ClassLoader -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-classloader-xwiki</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-classloader-protocol-attachmentjar</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Extension Manager -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-extension-handler-jar</artifactId>
-      <version>${platform.version}</version>
+      <version>${commons.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -181,13 +194,13 @@
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-extension-repository-aether</artifactId>
-      <version>${platform.version}</version>
+      <version>${commons.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-extension-repository-xwiki-handler</artifactId>
-      <version>${platform.version}</version>
+      <version>${commons.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

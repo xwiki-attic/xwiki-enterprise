@@ -198,4 +198,28 @@ public class TableTest extends AbstractWysiwygTestCase
         switchToSource();
         assertSourceText("|= ");
     }
+
+    /**
+     * @see XWIKI-7606: Cannot delete a table row when the selection spans across multiple cells
+     */
+    public void testDeleteRowWhenSelectionSpansAcrossMultipleCells()
+    {
+        // Insert a table.
+        switchToSource();
+        setSourceText("|=A|=B|=C\n|1|2|3\n|x|y|z");
+        switchToWysiwyg();
+
+        // Select the text from the first two cells of the second row.
+        select("XWE.body.getElementsByTagName('td')[0].firstChild", 0,
+            "XWE.body.getElementsByTagName('td')[1].firstChild", 1);
+
+        // Delete the row.
+        clickMenu("Table");
+        assertTrue(isMenuEnabled("Delete Row"));
+        clickMenu("Delete Row");
+
+        // Check the result.
+        switchToSource();
+        assertSourceText("|=A|=B|=C\n|x|y|z");
+    }
 }

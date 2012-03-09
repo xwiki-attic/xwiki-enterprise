@@ -1195,7 +1195,15 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
   #set($propValue = "$!{requestDefinedValues.get($propname)}")
   #if($propValue == '')
     #if("$!{obj.getProperty($propname).value}" == '')
-      #set($propValue = $theme.get($propname))
+      ##Old colorthemes (before 3.4) shared values for #mainmenu and #contentmenu
+      #if ($propname.equals('menuContentLinkColor'))
+        #set($propValue = $!{obj.getProperty('menuLinkColor').value})
+      #elseif ($propname.equals('menuContentBackgroundColor') || $propname.equals('submenuContentBackgroundColor'))
+        #set($propValue = $!{obj.getProperty('menuBackgroundColor').value})
+      #elseif (!$propname.endsWith('GradientColor'))
+        ## Old colorthemes (before 3.4) don t have values set for GradientColor variables - leave this inputs empty
+        #set($propValue = $theme.get($propname))
+      #end
     #end
   #end
   #if($propValue != '')
@@ -1369,6 +1377,14 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
       #set($themeValue = "$!{requestDefinedValues.get($themeProp)}")
       #if($themeValue == '')
         #set($themeValue = "$!{obj.getProperty($themeProp).value}")
+        #if($themeValue == '')
+          ## Old colorthemes (before 3.4) shared values for #mainmenu and #contentmenu
+          #if ($themeProp.equals('menuContentLinkColor'))
+            #set($themeValue = "$!{obj.getProperty('menuLinkColor').value}")
+          #elseif ($themeProp.equals('menuContentBackgroundColor'))
+            #set($themeValue = "$!{obj.getProperty('menuBackgroundColor').value}")
+          #end
+        #end
       #end
       #if($themeValue == '')
         #set($themeValue = "${theme.get($themeProp)}")

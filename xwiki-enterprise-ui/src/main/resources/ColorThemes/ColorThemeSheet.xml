@@ -1386,7 +1386,8 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
           #end
         #end
       #end
-      #if($themeValue == '')
+      ## Get fallback values just for 'Color' properties
+      #if($themeValue == '' &amp;&amp; $themeProp.indexOf('Color') &gt;= 0)
         #set($themeValue = "${theme.get($themeProp)}")
       #end
       #if($themeValue != '' &amp;&amp; $themeProp.indexOf('Image') &gt;= 0)
@@ -1479,8 +1480,8 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
         #set($themeLogoImage = $doc.getAttachmentURL($!{obj.getProperty('logoImage').value}))
       #else
         ## If the logo is not configured, use the one in the skin or the one set by default
-        ## For this, $logourl is already set in global.vm
-        #set($themeLogoImage = "$!{logourl}")
+        ## For this, $logoname is already set in global.vm
+        #set($themeLogoImage = "$xwiki.getSkinFile($logoname)")
       #end
       &lt;img id="colorthemewizard-logo" src="$themeLogoImage" alt="$msg.get('xe.themes.colors.wizard.logo')"/&gt;
     &lt;/div&gt;

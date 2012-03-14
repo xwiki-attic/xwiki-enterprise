@@ -419,8 +419,9 @@ XWiki.editors.ColorThemeWizard = Class.create({
           if (input) {
             propvalue = input.value;
           }
-          if (!propvalue || propvalue == '') {
-             propvalue = this.defaultValues[themeProp];
+          // Old themes don't have values for gradients
+          if ((!propvalue || propvalue == '') &amp;&amp; (themeProp.indexOf('Gradient') == 0)){
+            propvalue = this.defaultValues[themeProp];
           }
           if (propvalue &amp;&amp; propvalue != '') {
             value += ' ' + this.wrapCSSPropertyValue(themeProp, propvalue);
@@ -429,13 +430,43 @@ XWiki.editors.ColorThemeWizard = Class.create({
         value = value.strip();
         if (value != '') {
           try {
-            item.style[prop] = value;
+            if (prop === 'backgroundImage') {
+              // Gradients need a special wrapping to assure cross browser support (adding browser specific sufixes)
+              value = this.wrapGradients(value);
+              item.style.cssText = item.style.cssText + ' ' + value;
+            }
+            else {
+              item.style[prop] = value;
+            }
           } catch (exception) {
             // Ignore invalid values, for example when the user is typing and the value is still incomplete
           }
         }
       }.bind(this));
     }
+  },
+  wrapGradients : function(value) {
+    // Gradients are using 2 values that are passed to #css3_backgroundLinearGradient macro found in macros.vm
+    #set($gradient1Placeholder = '__gradient1__name__placeholder__')
+    #set($gradient2Placeholder = '__gradient2__name__placeholder__')
+    var gradient1PlaceholderRegEx = new RegExp("$gradient1Placeholder",'g');
+    var gradient2PlaceholderRegEx = new RegExp("$gradient2Placeholder",'g');
+    #set($cachedRaw= "#css3_backgroundLinearGradient({
+         'angle': 'top',
+         'colors': [
+          {'color': ${gradient1Placeholder}, 'position': '0%'},
+          {'color': ${gradient2Placeholder}, 'position': '100%'}
+        ]
+      })")
+    var cached = "$escapetool.javascript($cachedRaw)";
+    var gradientValues = value.split(' ');
+    if (gradientValues.size() &gt;= 2) {
+      if (gradientValues[0] != '' &amp;&amp; gradientValues[1] != '') {
+        return cached.replace(gradient1PlaceholderRegEx,gradientValues[1]).replace(gradient2PlaceholderRegEx,gradientValues[0]);
+      }
+    }
+    // Other values remain unchanged
+    return value;
   },
   wrapCSSPropertyValue : function(propName, value) {
     // Images need to be referenced using 'url()' and their full path
@@ -1386,7 +1417,8 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
           #end
         #end
       #end
-      #if($themeValue == '')
+      #if($themeValue == '' &amp;&amp; !$themeProp.endsWith('GradientColor'))
+        ## Old colorthemes (before 3.4) don t have values set for GradientColor variables - don t fallback on these values
         #set($themeValue = "${theme.get($themeProp)}")
       #end
       #if($themeValue != '' &amp;&amp; $themeProp.indexOf('Image') &gt;= 0)
@@ -1395,7 +1427,23 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
       #set($cssValue = "${cssValue} $!{themeValue}")
     #end
     #if($cssValue.trim() != '')
-      #set($style = "$!{style} ${cssProp}:${cssValue};")
+      #if (!$cssProp.equals('background-image'))
+        #set($style = "$!{style} ${cssProp}:${cssValue};")
+      #else
+        ## 'background-image' css properties need to be specially constructed in order to add the gradient definition 
+        #set ($gradientValues = $cssValue.trim().split(' '))
+        #if ($gradientValues.size() &gt;= 2)
+          #if ($gradientValues[0] != '' &amp;&amp; $gradientValues[1] != '')
+            #set($style = "$!{style} #css3_backgroundLinearGradient({
+               'angle': 'top',
+               'colors': [
+                {'color': $gradientValues[1], 'position': '0%'},
+                {'color': $gradientValues[0], 'position': '100%'}
+              ]
+            })")
+          #end
+        #end
+      #end
     #end
   #end
   #if ("$!{style}" != '')

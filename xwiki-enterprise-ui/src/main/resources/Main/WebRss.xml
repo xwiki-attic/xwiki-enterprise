@@ -39,7 +39,7 @@
     #set ($query = "where doc.space='${request.space}' order by doc.date desc")
     #set ($description = $msg.get('xe.rss.space.description', [$request.space]))
   #end
-  #set ($feed = $xwiki.feed.getWebFeed($query, 20, 0, $util.getHashMap()))
+  #set ($feed = $xwiki.feed.getWebFeed($query, 20, 0, {}))
   #set ($feedURI = $xwiki.getDocument('Main.WebHome').getExternalURL('view'))
   #set ($discard = $feed.setLink($feedURI))
   #set ($discard = $feed.setUri($feedURI))

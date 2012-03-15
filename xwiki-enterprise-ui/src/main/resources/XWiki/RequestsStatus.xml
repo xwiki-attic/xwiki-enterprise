@@ -52,8 +52,8 @@
   #else
     == $msg.get("xe.monitor.consolidateddata") ==
 
-    #set($dur = $util.parseInt("${monitor.duration}"))
-    #set($nbreq = $util.parseInt("${monitor.requests}"))
+    #set($dur = $mathtool.toInteger("${monitor.duration}"))
+    #set($nbreq = $mathtool.toInteger("${monitor.requests}"))
     #set($avg = ($dur/$nbreq))
 
     * $msg.get("xe.monitor.duration") ${monitor.getDuration()} ms
@@ -61,8 +61,8 @@
     * $msg.get("xe.monitor.average") ${avg} ms
 
     #foreach($timer in $monitor.getTimerSummaries())
-      #set($dur = $util.parseInt("${timer.duration}"))
-      #set($nbreq = $util.parseInt("${timer.requests}"))
+      #set($dur = $mathtool.toInteger("${timer.duration}"))
+      #set($nbreq = $mathtool.toInteger("${timer.requests}"))
       #set($avg = ($dur/$nbreq))
       * $timer.name $msg.get("xe.monitor.duration.small") ${timer.duration} $msg.get("xe.monitor.ms") $msg.get("xe.monitor.calls") $timer.nbCalls $msg.get("xe.monitor.requests") $timer.requests $msg.get("xe.monitor.average") ${avg} $msg.get("xe.monitor.ms")
     #end

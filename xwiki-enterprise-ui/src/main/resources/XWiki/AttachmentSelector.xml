@@ -961,7 +961,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
 ##
 #set ($classname = "$!{xcontext.macro.params.classname}")
 #set ($property = "$!{xcontext.macro.params.property}")
-#set ($object = $util.parseInt("$!{xcontext.macro.params.object}"))
+#set ($object = $mathtool.toInteger("$!{xcontext.macro.params.object}"))
 #if ("$!{object}" != $!{xcontext.macro.params.object})
   #set ($object = ${doc.getObject($classname).number})
   #if ("$!{object}" == '')
@@ -2090,7 +2090,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
    'value' : $msg.get("${translationPrefix}.upload.title"),
    'text' : $msg.get("${translationPrefix}.upload.title"),
    'cssClass' : 'gallery_upload'
-  } $targetDocument $util.null)
+  } $targetDocument $NULL)
 {{html clean="false"}}
 &lt;form action="$targetDocument.getURL('upload')" enctype="multipart/form-data" method="post" id="uploadAttachment" class="uploadAttachment xform"&gt;
   &lt;div class="gallery_upload_input"&gt;
@@ -2178,7 +2178,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
   #end
   #set ($options = {
     'classname' : ${request.get('classname')},
-    'object' : ${util.parseInt($request.object)},
+    'object' : $!{mathtool.toInteger($request.object)},
     'property' : ${request.property},
     'displayImage' : ${displayImage},
     'docAction' : ${docAction},

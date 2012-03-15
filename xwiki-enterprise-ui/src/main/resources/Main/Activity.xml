@@ -1094,12 +1094,12 @@ $xwiki.ssx.use("Main.Activity")##
 ## Number of entries to display
 #readVariableFromRequest('aEntries' 'entries' 20)
 #if ($aEntries == 20 &amp;&amp; $context.macro.params.get('entries'))
-  #set ($aEntries  = $util.parseInt($context.macro.params.get('entries')))
+  #set ($aEntries = $mathtool.toInteger($context.macro.params.get('entries')))
 #end
 ## Number of activities to display for each entry
 #readVariableFromRequest('aSubEntries' 'subentries' 10)
 #if ($aSubEntries == 10 &amp;&amp; $context.macro.params.get('subentries'))
-  #set ($aSubEntries = $util.parseInt($context.macro.params.get('subentries')))
+  #set ($aSubEntries = $mathtool.toInteger($context.macro.params.get('subentries')))
 #end
 ## Wikis
 #readVariableFromRequest('aWikis' 'wikis' [])
@@ -1189,7 +1189,7 @@ $xwiki.ssx.use("Main.Activity")##
 #updateFilterClause('wiki' $aWikis false)
 ## Tags
 #if ($xwiki.getPlugin('tag') &amp;&amp; $aTags.size() &gt; 0)
-  #set ($docsWithTag = $util.getArrayList())
+  #set ($docsWithTag = [])
   #foreach ($item in $aTags)
     #set ($discard = $docsWithTag.addAll($xwiki.tag.getDocumentsWithTag($item)))
   #end
@@ -1426,7 +1426,7 @@ $xwiki.ssx.use("Main.Activity")##
   #isDocumentVersionValid($event)
   #if ($isDocumentVersionValid)
     #set ($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
-    #set ($commentContent = $!pageDocRevision.getObject('XWiki.XWikiComments', $util.parseInt($event.param2)).getProperty('comment').value)
+    #set ($commentContent = $!pageDocRevision.getObject('XWiki.XWikiComments', $mathtool.toInteger($event.param2)).getProperty('comment').value)
   #end
 #end
 #**
@@ -1438,8 +1438,8 @@ $xwiki.ssx.use("Main.Activity")##
   #isDocumentVersionValid($event)
   #if ($isDocumentVersionValid)
     #set ($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
-    #set ($annotationSelection = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('selection').value)
-    #set ($annotationText = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $util.parseInt($event.param2)).getProperty('annotation').value)
+    #set ($annotationSelection = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $mathtool.toInteger($event.param2)).getProperty('selection').value)
+    #set ($annotationText = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $mathtool.toInteger($event.param2)).getProperty('annotation').value)
   #end
 #end
 #**
@@ -1450,8 +1450,8 @@ $xwiki.ssx.use("Main.Activity")##
   ## TO DO - fix XWIKI-5632
   ## Because of this issue, related 'updateAnnotation' events are not included in the list (for flooding reasons)
   #set ($newList = [])
-  #set ($previousEventInOldList = $util.null)
-  #set ($previousEventInNewList = $util.null)
+  #set ($previousEventInOldList = $NULL)
+  #set ($previousEventInNewList = $NULL)
   #foreach ($event in $events)
     #set ($isUpdateRelatedEvent = false)
     #set ($isConsecutiveUpdateEvent = false)
@@ -1814,7 +1814,7 @@ $xwiki.ssx.use("Main.Activity")##
 #macro (displayActivity)
   #set ($iterationDate = '')
   #set ($displayDate = '')
-  #set ($iterationDocuments = $util.arrayList)
+  #set ($iterationDocuments = [])
   #set ($displayToday = true)
   #set ($displayYesterday = true)
   #set ($closeList = false)

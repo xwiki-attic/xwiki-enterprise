@@ -1138,13 +1138,13 @@ $xwiki.ssx.use('ColorThemes.ColorThemeSheet')##
 ## Hashmap: property number -&gt; property name
 ## In the request string, the ids are used because they are much shorter,
 ## thus allowing more parameters to fit in the restricted size of the query string.
-#set($propNumberNameMap = $util.hashMap)
+#set($propNumberNameMap = {})
 #foreach($prop in $class.properties)
   #set($discard = $propNumberNameMap.put(${prop.number}, ${prop.name}))
 #end
 ##
 ## The property values given as query parameters
-#set($requestDefinedValues = $util.hashMap)
+#set($requestDefinedValues = {})
 #foreach($propID in $request.getParameterNames())
   #set($propname = "$!{propNumberNameMap.get($mathtool.toInteger($propID))}")
   #if($propname.indexOf('Color') &gt;= 0)

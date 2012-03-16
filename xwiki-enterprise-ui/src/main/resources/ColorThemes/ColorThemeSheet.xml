@@ -419,10 +419,10 @@ XWiki.editors.ColorThemeWizard = Class.create({
           if (input) {
             propvalue = input.value;
           }
-          // Old themes don't have values for gradients
           if (!propvalue || propvalue == ''){
             propvalue = this.defaultValues[themeProp];
-            if (themeProp.indexOf('Gradient') &gt;= 0) {
+            // Old themes don't have values for gradients. Also images are theme dependant, so gradient colors and images are not inherited from DefaultColorTheme
+            if ((themeProp.indexOf('Gradient') &gt;= 0) || (themeProp.indexOf('Image') &gt;= 0)) {
               propvalue = '';
             }
           }

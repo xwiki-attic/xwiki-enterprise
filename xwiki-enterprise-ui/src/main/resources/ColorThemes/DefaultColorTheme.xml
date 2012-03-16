@@ -1285,7 +1285,7 @@ RK5CYII=
 <linkColor>#0089DC</linkColor>
 </property>
 <property>
-<logoImage>logo</logoImage>
+<logoImage>logo.png</logoImage>
 </property>
 <property>
 <menuAddEntryBackgroundColor>#4D9244</menuAddEntryBackgroundColor>
@@ -1342,7 +1342,7 @@ RK5CYII=
 <pageContentBackgroundColor>#FFFFFF</pageContentBackgroundColor>
 </property>
 <property>
-<pageHeaderBackgroundColor>#3A8ABC</pageHeaderBackgroundColor>
+<pageHeaderBackgroundColor>#FFFFFF</pageHeaderBackgroundColor>
 </property>
 <property>
 <panelBackgroundColor>#FFFFFF</panelBackgroundColor>

@@ -522,7 +522,7 @@
     <!-- LinkChecker -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-linkchecker-refresher</artifactId>
+      <artifactId>xwiki-platform-linkchecker-api</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

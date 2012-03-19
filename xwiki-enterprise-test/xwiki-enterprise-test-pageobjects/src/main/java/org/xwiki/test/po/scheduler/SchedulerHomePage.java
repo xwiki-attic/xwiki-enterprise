@@ -22,7 +22,7 @@ package org.xwiki.test.po.scheduler;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.po.DeletePage;
+import org.xwiki.test.ui.po.ConfirmationPage;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.po.scheduler.editor.SchedulerEditPage;
 
@@ -69,10 +69,10 @@ public class SchedulerHomePage extends ViewPage
         return sep;
     }
 
-    public DeletePage clickJobActionDelete(String jobName)
+    public ConfirmationPage clickJobActionDelete(String jobName)
     {
         clickAction(jobName, "delete");
-        return new DeletePage();
+        return new ConfirmationPage();
     }
 
     public void clickJobActionScheduler(String jobName)

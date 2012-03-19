@@ -21,7 +21,6 @@ package org.xwiki.test.po.appwithinminutes;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -43,7 +42,7 @@ public class AppWithinMinutesHomePage extends ViewPage
     /**
      * The live table that lists the existing applications.
      */
-    private LiveTableElement appsLiveTable = new LiveTableElement("livetable");
+    private ApplicationsLiveTableElement appsLiveTable = new ApplicationsLiveTableElement();
 
     /**
      * Opens the App Within Minutes home page.
@@ -78,7 +77,7 @@ public class AppWithinMinutesHomePage extends ViewPage
     /**
      * @return the live table that list existing applications
      */
-    public LiveTableElement getAppsLiveTable()
+    public ApplicationsLiveTableElement getAppsLiveTable()
     {
         return appsLiveTable;
     }

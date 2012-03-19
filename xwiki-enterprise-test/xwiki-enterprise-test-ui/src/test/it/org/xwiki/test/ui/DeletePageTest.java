@@ -25,10 +25,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.ui.po.DeleteConfirmationPage;
-import org.xwiki.test.ui.po.DeletePage;
-import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.po.xe.HomePage;
+import org.xwiki.test.ui.po.ConfirmationPage;
+import org.xwiki.test.ui.po.DeletePageOutcomePage;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Tests the Delete button present in the top level menu.
@@ -67,13 +67,14 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testDeleteOkWhenConfirming()
     {
-        DeletePage deletePage = this.viewPage.delete();
+        ConfirmationPage confirmationPage = this.viewPage.delete();
         // This tests for regression of XWIKI-1388
         Assert.assertNotNull("The interface should not show the user as logged out while deleting page",
-            this.viewPage.getCurrentUser());
-        DeleteConfirmationPage deleteConfirmationPage = deletePage.confirm();
-        Assert.assertEquals(LOGGED_USERNAME, deleteConfirmationPage.getPageDeleter());
-        Assert.assertEquals(CONFIRMATION, deleteConfirmationPage.getConfirmationMessage());
+            confirmationPage.getCurrentUser());
+        confirmationPage.clickYes();
+        DeletePageOutcomePage deleteOutcome = new DeletePageOutcomePage();
+        Assert.assertEquals(LOGGED_USERNAME, deleteOutcome.getPageDeleter());
+        Assert.assertEquals(CONFIRMATION, deleteOutcome.getMessage());
     }
 
     /**
@@ -108,8 +109,7 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testDeletePageGoesToOriginalPageWhenCancelled()
     {
-        DeletePage deletePage = this.viewPage.delete();
-        deletePage.cancel();
+        this.viewPage.delete().clickNo();
         Assert.assertTrue(getDriver().getCurrentUrl().equals(getUtil().getURL(SPACE_VALUE, PAGE_VALUE)));
     }
 

@@ -29,6 +29,7 @@ import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
 import org.xwiki.test.po.appwithinminutes.ApplicationCreatePage;
 import org.xwiki.test.po.appwithinminutes.ApplicationHomeEditPage;
 import org.xwiki.test.po.appwithinminutes.ApplicationHomePage;
+import org.xwiki.test.po.appwithinminutes.ApplicationsLiveTableElement;
 import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.EntryNamePane;
@@ -196,9 +197,9 @@ public class WizardTest extends AbstractTest
         AppWithinMinutesHomePage appWithinMinutesHomePage = new AppWithinMinutesHomePage();
 
         // Assert that the created application is listed in the live table.
-        LiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();
+        ApplicationsLiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();
         appsLiveTable.waitUntilReady();
-        Assert.assertTrue(appsLiveTable.hasRow("Application name", appName));
+        Assert.assertTrue(appsLiveTable.isApplicationListed(appName));
     }
 
     /**

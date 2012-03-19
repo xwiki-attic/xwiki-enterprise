@@ -159,8 +159,8 @@ public class WizardTest extends AbstractTest
         entriesLiveTable.waitUntilReady();
         Assert.assertFalse(entriesLiveTable.hasColumn("Actions"));
 
-        // Click the link to edit the application class.
-        classEditPage = homePage.clickEditClass();
+        // Click the link to edit the application.
+        classEditPage = homePage.clickEditApplication();
 
         // Drag a Number field.
         fieldEditPane = classEditPage.addField("Number");
@@ -168,9 +168,8 @@ public class WizardTest extends AbstractTest
         // Set the field pretty name.
         fieldEditPane.setPrettyName("Population Size");
 
-        // Save and go back to the application home page.
-        classEditPage.clickSaveAndView().clickBreadcrumbLink(appHomePageTitle);
-        homePage = new ApplicationHomePage();
+        // Fast forward.
+        homePage = classEditPage.clickNextStep().clickFinish();
 
         // Add a new entry.
         String secondEntryName = RandomStringUtils.randomAlphanumeric(6);

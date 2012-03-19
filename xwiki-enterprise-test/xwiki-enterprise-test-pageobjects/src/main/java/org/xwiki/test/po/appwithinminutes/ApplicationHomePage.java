@@ -62,7 +62,7 @@ public class ApplicationHomePage extends ViewPage
      * 
      * @return the page used to edit the application class
      */
-    public ApplicationClassEditPage clickEditClass()
+    public ApplicationClassEditPage clickEditApplication()
     {
         editClassLink.click();
         return new ApplicationClassEditPage();

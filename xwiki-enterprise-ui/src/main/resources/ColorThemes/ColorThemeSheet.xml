@@ -449,23 +449,30 @@ XWiki.editors.ColorThemeWizard = Class.create({
     }
   },
   wrapGradients : function(value) {
-    // Gradients are using 2 values that are passed to #css3_backgroundLinearGradient macro found in macros.vm
     #set($gradient1Placeholder = '__gradient1__name__placeholder__')
     #set($gradient2Placeholder = '__gradient2__name__placeholder__')
     var gradient1PlaceholderRegEx = new RegExp("$gradient1Placeholder",'g');
     var gradient2PlaceholderRegEx = new RegExp("$gradient2Placeholder",'g');
-    #set($cachedRaw= "#css3_backgroundLinearGradient({
+    ## #css3_backgroundLinearGradient macro (defined in macros.vm) used for the majority of browsers (FF, Chrome, Opera, IE10) that support CSS3 properties
+    #set($backgroundLinearGradientRaw= "#css3_backgroundLinearGradient({
          'angle': 'top',
          'colors': [
           {'color': ${gradient1Placeholder}, 'position': '0%'},
           {'color': ${gradient2Placeholder}, 'position': '100%'}
         ]
       })")
-    var cached = "$escapetool.javascript($cachedRaw)";
+    var backgroundLinearGradient = "$escapetool.javascript($backgroundLinearGradientRaw)";
+    ## #css_filterGradient macro (defined in macros.vm) used for the IE8, IE9 browsers that don t support CSS3 properties
+    #set($filterGradientRaw= "#css_filterGradient(${gradient1Placeholder}, ${gradient2Placeholder})")
+    var filterGradient = "$escapetool.javascript($filterGradientRaw)";
+    ## Gradients are using 2 values that are passed to the suggested macros
     var gradientValues = value.split(' ');
     if (gradientValues.size() &gt;= 2) {
       if (gradientValues[0] != '' &amp;&amp; gradientValues[1] != '') {
-        return cached.replace(gradient1PlaceholderRegEx,gradientValues[1]).replace(gradient2PlaceholderRegEx,gradientValues[0]);
+        var constructedStyle = backgroundLinearGradient.replace(gradient1PlaceholderRegEx,gradientValues[1]).replace(gradient2PlaceholderRegEx,gradientValues[0]);
+        ## for IE browsers
+        constructedStyle = constructedStyle + filterGradient.replace(gradient1PlaceholderRegEx,gradientValues[1]).replace(gradient2PlaceholderRegEx,gradientValues[0]);
+        return constructedStyle;
       }
     }
     // Other values remain unchanged
@@ -1437,6 +1444,7 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
         #set ($gradientValues = $cssValue.trim().split(' '))
         #if ($gradientValues.size() &gt;= 2)
           #if ($gradientValues[0] != '' &amp;&amp; $gradientValues[1] != '')
+            ## #css3_backgroundLinearGradient macro (defined in macros.vm) used for the majority of browsers (FF, Chrome, Opera, IE10) that support CSS3 properties
             #set($style = "$!{style} #css3_backgroundLinearGradient({
                'angle': 'top',
                'colors': [
@@ -1444,6 +1452,8 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
                 {'color': $gradientValues[0], 'position': '100%'}
               ]
             })")
+            ## #css_filterGradient macro (defined in macros.vm) used for the IE 6-9 browsers that don't support CSS3 properties
+            #set($style = "$!{style} #css_filterGradient(${gradientValues[1]}, ${gradientValues[0]})")
           #end
         #end
       #end

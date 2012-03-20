@@ -612,11 +612,12 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToSource();
         assertSourceText("x");
         // Now check that the "Jump to page" feature works indeed.
-        assertElementNotPresent("//div[@class = 'xdialog-title' and . = 'Go to:']");
+        String jumpToPageTitleXPath = "//div[@class = 'xdialog-title' and starts-with(., 'Go to:')]";
+        assertElementNotPresent(jumpToPageTitleXPath);
         getSelenium().metaKeyDown();
         getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "g");
         getSelenium().metaKeyUp();
-        assertElementPresent("//div[@class = 'xdialog-title' and . = 'Go to:']");
+        assertElementPresent(jumpToPageTitleXPath);
     }
 
     /**

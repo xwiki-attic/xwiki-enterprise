@@ -110,9 +110,10 @@
 }
 
 .x-theme-create {
-  background: transparent url("$xwiki.getSkinFile('icons/silk/add.gif')") 2px center no-repeat;
+  background: url("$xwiki.getSkinFile('icons/silk/add.gif')") no-repeat .2em center $theme.backgroundSecondaryColor;
   border: 1px dotted $theme.borderColor;
-  padding: 4px 22px;
+  display: inline-block;
+  padding: .5em .5em .5em 22px;
   margin-bottom: 1em;
 }
 .x-theme-create .buttonwrapper {
@@ -132,6 +133,13 @@
 
 .x-theme-info {
   margin-left: 60px;
+  color: $theme.textSecondaryColor;
+  font-size: .9em;
+}
+
+.x-theme-set {
+  font-size: 1.1em;
+  margin-top: .3em;
 }
 
 .x-demo-page {

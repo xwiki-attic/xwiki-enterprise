@@ -330,7 +330,7 @@ $xwiki.ssx.use('Main.Spaces')##
             ## If the user has admin right on the space display links to administration and delete.
             #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))
               &lt;a href="{{html wiki="false"}}$xwiki.getURL("${space}.WebPreferences", 'admin'){{/html}}" title="$msg.get('xe.spaces.action.admin')"&gt;
-                &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/cog.gif'){{/html}}" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
+                &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/wrench.gif'){{/html}}" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
               &lt;/a&gt;
             #end
           &lt;/div&gt;

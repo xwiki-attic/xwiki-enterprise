@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.escaping.framework;
 
+import java.util.Properties;
+
 import org.xwiki.test.integration.XWikiExecutor;
 
 /**
@@ -67,6 +69,13 @@ public final class SingleXWikiExecutor extends XWikiExecutor
     public synchronized void start() throws Exception
     {
         if (counter == 0) {
+            // Disable extensions manager external repositories
+            Properties properties = loadXWikiProperties();
+            if (!properties.containsKey("extension.repositories")) {
+                properties.setProperty("extension.repositories", "");
+            }
+            saveXWikiProperties(properties);
+
             super.start();
         }
         counter++;

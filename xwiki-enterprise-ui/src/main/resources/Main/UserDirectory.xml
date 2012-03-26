@@ -21,7 +21,180 @@
 <validationScript></validationScript>
 <comment></comment>
 <minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
+<syntaxId>xwiki/2.1</syntaxId>
 <hidden>false</hidden>
-<content>{{include document="XWiki.XWikiGroupSheet"}}
-</content></xwikidoc>
+<content>{{velocity}}
+#set ($xwikiUsersClassReference = $services.model.createDocumentReference($xcontext.database, 'XWiki', 'XWikiUsers'))
+#set ($xwikiUsersClassName = $services.model.serialize($xwikiUsersClassReference))
+#set ($xwikiUsersClass = $xwiki.getClass($xwikiUsersClassName))
+#set ($directoryPreferencesClassReference = $services.model.createDocumentReference($xcontext.database, 'XWiki', 'UserDirectoryPreferencesClass'))
+#set ($directoryPreferencesClassName = $services.model.serialize($directoryPreferencesClassReference))
+##
+## Set the fixed columns that we want the user directory to always show.
+#set ($columns = ['_avatar', 'doc.fullName'])
+##
+## The columns that the user directory will default to when no user preferences exist or when the user resets to default.
+#set ($defaultColumns = ['first_name', 'last_name'])
+#set ($defaultColumnsString = $stringtool.join($defaultColumns, ' '))
+#set ($isCustomized = false)
+##
+#if ($isGuest || $isSuperAdmin)
+  #if ($isGuest)
+    {{info}}$msg.get('xe.userdirectory.canCustomizeInfoGuest', "path:$doc.getURL('login')"){{/info}}
+  #end
+  ## Use the default columns for guests or superadmin.
+  #set ($discard = $columns.addAll($defaultColumns))
+  ## Fake a user (in-memory) object inside a fake user profile page in order to be able to nicely display translated property pretty names of the XWikiUsers class.
+  #set ($userPreferences = $doc)
+  #set ($fakeUser = $doc.newObject($xwikiUsersClassName))
+#else
+  ## User is logged in.
+  #set ($userPreferences = $xwiki.getDocument($xcontext.userReference))
+  #set ($userPreference = $userPreferences.getObject($directoryPreferencesClassName))
+  #if (!$userPreference)
+    ## Fake a user directory preference (in-memory) object just to be able to display the default values nicely.
+    #set ($userPreference = $userPreferences.newObject($directoryPreferencesClassName))
+    #set ($discard = $userPreference.set('columns', $defaultColumnsString))
+  #end
+  ##
+  ## Read the user's preferences and build the list of columns to display.
+  #set ($userColumnsString = $!{userPreference.getProperty('columns').value.trim()})
+  #foreach ($column in $userColumnsString.split('\s+'))
+    ## Skip invalid or duplicate columns. Duplicate columns break the livetable filtering query.
+    #if ($column.trim() != '' &amp;&amp; $xwikiUsersClass.get($column) &amp;&amp; !$columns.contains($column))
+      #set ($discard = $columns.add($column))
+    #end
+  #end
+  ##
+  ## Check if they are the default preferences.
+  #if ($userColumnsString != $defaultColumnsString)
+    ## Mark it as a customized user directory.
+    #set ($isCustomized = true)
+  #end
+  ##
+  #set ($xredirect = $doc.getURL($xcontext.action, ${request.queryString}))
+  ##
+  ## Ability to customize the view.
+  ##
+  #if ($request.customize == 'true')
+    #if ("$!request.action" != '')
+      #if ($request.action == 'add')
+        #set ($columnToAdd = $request.value.trim())
+        #if (!$columns.contains($columnToAdd))
+          #set ($userColumnsString = "$!userColumnsString $columnToAdd")
+          #set ($userColumnsString = $userColumnsString.trim())
+          #set ($discard = $userPreference.set('columns', $userColumnsString))
+          #set ($discard = $userPreferences.save('Updated user directory preferences.'))
+        #end
+      #elseif ($request.action == 'reset')
+        #set ($discard = $userPreferences.removeObject($userPreference))
+        #set ($discard = $userPreferences.save('Reset user directory preferences.'))
+      #elseif ($request.action == 'save')
+        #set ($discard = $userPreferences.updateObjectFromRequest($directoryPreferencesClassName))
+        #set ($discard = $userPreferences.save('Updated user directory preferences.'))
+      #end
+      ## Redirect using xredirect so that the page can be safely refreshed after an action.
+      $response.sendRedirect($request.xredirect)
+      #stop()
+    #end
+    ##
+    ## Customize form. Note: Using 2 forms to be able to do everything without JavaScript.
+    ##
+    {{html clean='false' wiki='true'}}
+    &lt;h2&gt;$msg.get('xe.userdirectory.customizeColumnsTitle')&lt;/h2&gt;
+    &lt;form class='xform half' action="$doc.getURL($xcontext.action, $request.queryString)" method='post'&gt;
+      &lt;dl&gt;
+        &lt;dt class='label'&gt;
+          &lt;label&gt;$msg.get('xe.userdirectory.customizeAvailableColumnsLabel')&lt;/label&gt;
+          &lt;span class='xHint'&gt;$msg.get('xe.userdirectory.customizeAvailableColumnsHint')&lt;/span&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;
+          &lt;select name='value'&gt;
+          #foreach ($property in $xwikiUsersClass.properties)
+            ## Display translated class property pretty names.
+            &lt;option value="$property.name"&gt;$userPreferences.displayPrettyName($property.name)&lt;/option&gt;
+          #end
+          &lt;/select&gt;
+        &lt;/dd&gt;
+        &lt;dt&gt;
+          &lt;input type='hidden' name='xredirect' value="$xredirect" /&gt;
+          &lt;input type='hidden' name='action' value='add' /&gt;
+          &lt;span class='buttonwrapper'&gt;
+            &lt;input type='submit' class='button' name='submit' value='$msg.get('xe.userdirectory.customizeAddColumnButtonLabel')' /&gt;
+          &lt;/span&gt;
+        &lt;/dt&gt;
+      &lt;/dl&gt;
+    &lt;/form&gt;
+    &lt;form class='xform half' action="$doc.getURL($xcontext.action, $request.queryString)" method='post'&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;
+          &lt;label&gt;$msg.get('xe.userdirectory.customizeSelectedColumnsLabel')&lt;/label&gt;
+          &lt;span class='xHint'&gt;$msg.get('xe.userdirectory.customizeSelectedColumnsHint')&lt;/span&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;$userPreferences.display('columns', 'edit', $userPreference)&lt;/dd&gt;
+        &lt;dt&gt;
+          &lt;input type='hidden' name='xredirect' value="$xredirect" /&gt;
+          &lt;input type='hidden' name='action' value='save' /&gt;
+          &lt;span class='buttonwrapper'&gt;
+            &lt;input class='button' type='submit' name='submit' value="$msg.get('xe.userdirectory.customizeSaveButtonLabel')"/&gt;
+          &lt;/span&gt;
+          &lt;span class="buttonwrapper"&gt;
+            &lt;a href="$doc.getURL($xcontext.action, "$request.queryString&amp;amp;action=reset&amp;amp;xredirect=$escapetool.url($xredirect)")" class='button secondary'&gt;$msg.get('xe.userdirectory.customizeResetButtonLabel')&lt;/a&gt;
+          &lt;/span&gt;
+        &lt;/dt&gt;
+      &lt;/dl&gt;
+    &lt;/form&gt;
+    ##
+    &lt;h2&gt;$msg.get('xe.userdirectory.customizePreviewTitle')&lt;/h2&gt;
+    {{/html}}
+  #elseif ($isCustomized)
+    {{warning}}$msg.get('xe.userdirectory.isCustomizedWarning', ["$doc.fullName", "customize=true&amp;action=reset&amp;xredirect=$escapetool.url($xredirect)", "$doc.fullName", 'customize=true']){{/warning}}
+  #else
+    {{info}}$msg.get('xe.userdirectory.canCustomizeInfo', ["$doc.fullName", 'customize=true']){{/info}}
+  #end
+#end
+##
+## Build and display the resulting livetable.
+##
+#set($columnsProperties = {})
+##
+#foreach ($column in $columns)
+  #set ($filterable = true)
+  #set ($sortable = true)
+  #set ($type = 'text')
+  #set ($link = '')
+  #set ($html = false)
+  #set ($displayName = $userPreferences.displayPrettyName($column))
+  #set ($classPropertyType = $xwikiUsersClass.get($column).type)
+  #if ($column == '_avatar')
+    #set ($type = 'none')
+    #set ($html = true)
+    #set ($sortable = false)
+    #set ($link = 'view')
+  #elseif ($column == 'doc.fullName')
+    #set ($link = 'view')
+  #elseif ($classPropertyType.endsWith('ListClass'))
+    #set($type = 'list')
+  #elseif ($classPropertyType.endsWith('NumberClass'))
+    #set($type = 'number')
+  #elseif ($classPropertyType.endsWith('PasswordClass'))
+    #set($sortable = false)
+  #end
+  #set ($columnValue = { 'type' : $type, 'link' : $link, 'html' : $html, 'sortable' : $sortable, 'displayName' : $displayName })
+  #set ($discard = $columnsProperties.put($column, $columnValue))
+#end
+##
+## Allow other applications to provide a different data source for the user directory livetable. For example, some application might define a different membership relation.
+#set ($userDirectoryLivetableResultsReference = $services.model.createDocumentReference($xcontext.database, 'XWiki', 'UserDirectoryLivetableResultsOverride'))
+#if (!$xwiki.exists($userDirectoryLivetableResultsReference))
+  ## If no override is present, use the default data source.
+  #set ($userDirectoryLivetableResultsReference = $services.model.createDocumentReference($xcontext.database, 'XWiki', 'UserDirectoryLivetableResults'))
+#end
+#set ($options = {
+   'resultPage' : "$services.model.serialize($userDirectoryLivetableResultsReference)",
+   'translationPrefix' : 'xe.userdirectory.',
+   'tagCloud' : true,
+   'rowCount': 10
+})
+#livetable('userdirectory' $columns $columnsProperties $options)
+{{/velocity}}</content></xwikidoc>

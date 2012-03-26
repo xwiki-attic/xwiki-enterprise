@@ -38,6 +38,7 @@
 #set ($defaultColumnsString = $stringtool.join($defaultColumns, ' '))
 #set ($isCustomized = false)
 ##
+## Guests and superadmin don't have an user profile and, therefore, no preferences. Offer default.
 #if ($isGuest || $isSuperAdmin)
   #if ($isGuest)
     {{info}}$msg.get('xe.userdirectory.canCustomizeInfoGuest', "path:$doc.getURL('login')"){{/info}}
@@ -100,8 +101,8 @@
     ##
     ## Customize form. Note: Using 2 forms to be able to do everything without JavaScript.
     ##
+    == $msg.get('xe.userdirectory.customizeColumnsTitle') ==
     {{html clean='false' wiki='true'}}
-    &lt;h2&gt;$msg.get('xe.userdirectory.customizeColumnsTitle')&lt;/h2&gt;
     &lt;form class='xform half' action="$doc.getURL($xcontext.action, $request.queryString)" method='post'&gt;
       &lt;dl&gt;
         &lt;dt class='label'&gt;

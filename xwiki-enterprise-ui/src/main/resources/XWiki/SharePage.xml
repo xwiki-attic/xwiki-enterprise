@@ -132,7 +132,7 @@
           new XWiki.widgets.Suggest(this.input, {
             script: XWiki.currentDocument.getURL('get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=local&amp;uorg=user&amp;'),
             varname: "input",
-            icon: "$xwiki.getSkinFile('icons/silk/user.gif')",
+            icon: "$xwiki.getSkinFile('icons/silk/user.png')",
             shownoresults : false,
             timeout : 30000
           });
@@ -582,13 +582,13 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
   padding: 0px 1px 0px 18px;
 }
 .targets-container .target-user {
-  background-image: url("$xwiki.getSkinFile('icons/silk/user.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/user.png')");
 }
 .targets-container .target-group {
-  background-image: url("$xwiki.getSkinFile('icons/silk/group.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/group.png')");
 }
 .targets-container .target-email {
-  background-image: url("$xwiki.getSkinFile('icons/silk/email.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/email.png')");
 }
 
 .target-item .delete, .target-item .delete:visited {

@@ -724,7 +724,7 @@ h1:hover .toolFilter .toolExpand {
 }
 
 .typePage {
-  background-image:url("$xwiki.getSkinFile('icons/silk/page_white_text.gif')");
+  background-image:url("$xwiki.getSkinFile('icons/silk/page_white_text.png')");
 }
 
 /** &lt;/end&gt; Action Types **/
@@ -1038,22 +1038,22 @@ $xwiki.ssx.use("Main.Activity")##
 ##--------------------------------------------------------------
 ## Some events are not implemented yet in the activitystream plugin: TODO: application | activityApplication, user | activityUser
 #set ($activityActionsMap = {
-  'create':           'icons/silk/page_white_add.gif',
-  'delete':           'icons/silk/page_white_delete.gif',
-  'update':           'icons/silk/page_white_edit.gif',
-  'addAnnotation':    'icons/silk/note_add.gif',
-  'deleteAnnotation': 'icons/silk/note_delete.gif',
-  'updateAnnotation': 'icons/silk/note_edit.gif',
+  'create':           'icons/silk/page_white_add.png',
+  'delete':           'icons/silk/page_white_delete.png',
+  'update':           'icons/silk/page_white_edit.png',
+  'addAnnotation':    'icons/silk/note_add.png',
+  'deleteAnnotation': 'icons/silk/note_delete.png',
+  'updateAnnotation': 'icons/silk/note_edit.png',
   'addAttachment':    'icons/xwiki/attach_add.png',
   'deleteAttachment': 'icons/xwiki/attach_delete.png',
   'updateAttachment': 'icons/xwiki/attach_edit.png',
-  'addComment':       'icons/silk/comment_add.gif',
-  'deleteComment':    'icons/silk/comment_delete.gif',
-  'updateComment':    'icons/silk/comment_edit.gif',
-  'publicMessage':    'icons/silk/user_comment.gif',
-  'personalMessage':  'icons/silk/user_comment.gif',
-  'directMessage':    'icons/silk/user_go.gif',
-  'groupMessage':     'icons/silk/group_go.gif'
+  'addComment':       'icons/silk/comment_add.png',
+  'deleteComment':    'icons/silk/comment_delete.png',
+  'updateComment':    'icons/silk/comment_edit.png',
+  'publicMessage':    'icons/silk/user_comment.png',
+  'personalMessage':  'icons/silk/user_comment.png',
+  'directMessage':    'icons/silk/user_go.png',
+  'groupMessage':     'icons/silk/group_go.png'
 })
 #macro (initDateVariables)
 ##
@@ -1562,7 +1562,7 @@ $xwiki.ssx.use("Main.Activity")##
   #end
   #set ($rssURL = $xwiki.getURL('Main.WebRss', 'view', $parameters))
   &lt;div class="rssURL"&gt;
-    &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile("icons/silk/feed.gif")" alt="RSS icon"/&gt;$msg.get("xe.activity.rssfeed")&lt;/a&gt;
+    &lt;a href="${rssURL}"&gt;&lt;img src="$xwiki.getSkinFile('icons/silk/feed.png')" alt="RSS icon"/&gt;$msg.get('xe.activity.rssfeed')&lt;/a&gt;
   &lt;/div&gt;
 #end
 #**

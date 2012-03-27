@@ -110,7 +110,7 @@
 }
 
 .x-theme-create {
-  background: url("$xwiki.getSkinFile('icons/silk/add.gif')") no-repeat .2em center $theme.backgroundSecondaryColor;
+  background: url("$xwiki.getSkinFile('icons/silk/add.png')") no-repeat .2em center $theme.backgroundSecondaryColor;
   border: 1px dotted $theme.borderColor;
   display: inline-block;
   padding: .5em .5em .5em 22px;

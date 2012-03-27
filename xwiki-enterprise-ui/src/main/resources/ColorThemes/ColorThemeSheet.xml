@@ -658,7 +658,7 @@ document.observe('dom:loaded', function(){
 .colorthemewizard-reset input {
   border: none;
   padding: 4px 0 4px 18px;
-  background: transparent url("$xwiki.getSkinFile('icons/silk/cancel.gif')") left center no-repeat;
+  background: transparent url("$xwiki.getSkinFile('icons/silk/cancel.png')") left center no-repeat;
   color: $theme.linkColor;
   cursor: pointer;
 }
@@ -679,7 +679,7 @@ document.observe('dom:loaded', function(){
   z-index: 9998;
   width: 18px;
   height: 18px;
-  background: $widgetsColors.background url("$xwiki.getSkinFile('icons/silk/palette.gif')") 1px 1px no-repeat;
+  background: $widgetsColors.background url("$xwiki.getSkinFile('icons/silk/palette.png')") 1px 1px no-repeat;
   border: 1px outset $widgetsColors.border;
   cursor: pointer;
   /* Overrides styles inherited from the parent elements. */
@@ -730,7 +730,7 @@ $ie .colorthemewizard-trigger {
   left: -1px;
   /* Z-index higher than the triggers', to prevent other triggers from appearing through the visible pickers. */
   z-index: 9999;
-  background: $widgetsColors.background url("$xwiki.getSkinFile('icons/silk/palette.gif')") 1px 1px no-repeat;
+  background: $widgetsColors.background url("$xwiki.getSkinFile('icons/silk/palette.png')") 1px 1px no-repeat;
   border: 1px solid $widgetsColors.border;
   padding: 6px;
   width: 160px;
@@ -770,7 +770,7 @@ $ie .colorthemewizard-trigger {
   left: 20px;
   width: 200px;
   padding: 4px 6px 4px 24px;
-  background: $widgetsColors.tipBackground url("$xwiki.getSkinFile('icons/silk/information.gif')") 5px 5px no-repeat;
+  background: $widgetsColors.tipBackground url("$xwiki.getSkinFile('icons/silk/information.png')") 5px 5px no-repeat;
   border: 1px outset $widgetsColors.border;
 }
 .colorthemewizard-tip ul {
@@ -784,7 +784,7 @@ $ie .colorthemewizard-trigger {
 .colorthemewizard-picker .undo {
   width: 18px;
   height: 18px;
-  background: $widgetsColors.background url("$xwiki.getSkinFile('icons/silk/arrow_undo.gif')") center center no-repeat;
+  background: $widgetsColors.background url("$xwiki.getSkinFile('icons/silk/arrow_undo.png')") center center no-repeat;
   border: 1px solid $widgetsColors.background;
   text-indent: -1000em;
   cursor: pointer;
@@ -1026,7 +1026,7 @@ $ie7 .colorthemewizard-content {
   margin: 0 0 1em;
   padding: 8px 8px 8px 22px;
   /* Rules set with !important so they won't be overwritten by the inline background rule */
-  background-image: url($xwiki.getSkinFile('icons/silk/information.gif')) !important;
+  background-image: url($xwiki.getSkinFile('icons/silk/information.png')) !important;
   background-position: 2px center !important;
   background-repeat: no-repeat !important;
   border: 1px dotted;

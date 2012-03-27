@@ -753,16 +753,16 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
   opacity: 1;
 }
 .gallery_actions .select {
-  background-image: url("$xwiki.getSkinFile('icons/silk/tick.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/tick.png')");
 }
 .gallery_actions .delete {
-  background-image: url("$xwiki.getSkinFile('icons/silk/cross.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/cross.png')");
 }
 .gallery_actions .view {
-  background-image: url("$xwiki.getSkinFile('icons/silk/link.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/link.png')");
 }
 .gallery_actions .download {
-  background-image: url("$xwiki.getSkinFile('icons/silk/arrow_down.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/arrow_down.png')");
 }
 /*--------------------------------------------------*/
 /* Upload form                                      */
@@ -779,7 +779,7 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
 
 .gallery_upload .gallery_attachmenttitle {
   background-position: 1px center;
-  background-image: url("$xwiki.getSkinFile('icons/silk/bullet_add.gif')");
+  background-image: url("$xwiki.getSkinFile('icons/silk/bullet_add.png')");
   background-repeat: no-repeat;
   padding-left: 16px;
 }

@@ -38,7 +38,7 @@ public class AnnotationsWindow extends BaseElement
     @FindBy(xpath = "//div[contains(@class, 'annotation-box')]//input[@type='reset']")
     private WebElement cancelButton;
 
-    @FindBy(xpath = "//textarea[@id='annotation']")
+    @FindBy(xpath = "//textarea[@id='comment']")
     private WebElement inputText;
 
     public AnnotationsWindow()

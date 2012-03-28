@@ -603,7 +603,7 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
   color: $theme.textPrimaryColor;
 }
 .target-item .delete:hover {
-  color: #C00;
+  color: $theme.notificationErrorColor;
 }
 </code></property><property><name>Toolbox style</name>
 </property>

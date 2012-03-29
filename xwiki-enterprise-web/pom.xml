@@ -597,12 +597,13 @@
           </webResources>
           <!-- - Exclude JCL and LOG4J since we want all logging to go through SLF4J. Note that we're excluding
                  log4j-<version>.jar but keeping log4j-over-slf4j-<version>.jar
-               - Exclude xwiki-platform-olcore because it's already included in xwiki-platform-legacy-oldcore
+               - Exclude xwiki-platform-oldcore when the legacy artifacts are added because it's already included in
+                 xwiki-platform-legacy-oldcore
                - Exclude batik-js to prevent conflict with the patched version of Rhino used by yuicompressor used for
                  JSX. See http://jira.xwiki.org/jira/browse/XWIKI-6151 for more details.
           -->
           <packagingExcludes>
-            WEB-INF/lib/xwiki-platform-oldcore-*.jar,
+            ${xwiki.war.exclude.oldcore}
             WEB-INF/lib/batik-js-*.jar,
             WEB-INF/lib/commons-logging-*.jar,
             %regex[WEB-INF/lib/log4j-(?!over-slf4j).*.jar]
@@ -660,6 +661,25 @@
     </plugins>
   </build>
   <profiles>
+    <!-- Add the oldcore JAR only if the legacy jars are not added, because the oldcore legacy JAR includes the oldcore
+         JAR -->
+    <profile>
+      <id>no-legacy</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <xwiki.war.exclude.oldcore></xwiki.war.exclude.oldcore>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-oldcore</artifactId>
+          <version>${platform.version}</version>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
     <!-- We only include legacy modules in the "ci" or "release" profiles since they're not needed when developing
          day to day and it speeds up the build (and allows us to verify that our distribution works fine without
          them) -->
@@ -672,6 +692,9 @@
           <name>performRelease</name>
         </property>
       </activation>
+      <properties>
+        <xwiki.war.exclude.oldcore>WEB-INF/lib/xwiki-platform-oldcore-*.jar,</xwiki.war.exclude.oldcore>
+      </properties>
       <dependencies>
         <dependency>
           <groupId>org.xwiki.commons</groupId>

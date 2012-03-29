@@ -1438,8 +1438,10 @@ $xwiki.ssx.use("Main.Activity")##
   #isDocumentVersionValid($event)
   #if ($isDocumentVersionValid)
     #set ($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
-    #set ($annotationSelection = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $mathtool.toInteger($event.param2)).getProperty('selection').value)
-    #set ($annotationText = $pageDocRevision.getObject('AnnotationCode.AnnotationClass', $mathtool.toInteger($event.param2)).getProperty('annotation').value)
+    ## FIXME: Should we query the Annotations application's' configuration for the configured annotation class instead of hardcoding the default one? What about custom annotations?
+    #set ($annotationObject = $pageDocRevision.getObject('XWiki.XWikiComments', $mathtool.toInteger($event.param2)))
+    #set ($annotationSelection = $annotationObject.getProperty('selection').value)
+    #set ($annotationText = $annotationObject.getProperty('comment').value)
   #end
 #end
 #**

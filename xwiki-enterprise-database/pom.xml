@@ -135,8 +135,12 @@
   <profiles>
     <profile>
       <id>hsqldb</id>
+      <!-- Activate this profile by default by using the trick of activating it when a non existent property isn't
+           defined! -->
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>!ignoreHSQLDB</name>
+        </property>
       </activation>
       <modules>
         <module>xwiki-enterprise-database-hsqldb</module>

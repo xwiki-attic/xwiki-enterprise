@@ -357,20 +357,11 @@
     <stopport>8079</stopport>
     <rmiport>6666</rmiport>
     <seleniumPort>4444</seleniumPort>
-    <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile, e.g. -Pchrome -->
+    <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile,
+         e.g. -Pchrome -->
     <browser>*firefox</browser>
   </properties>
   <profiles>
-    <profile>
-      <id>ci</id>
-      <activation>
-        <!-- This property is automatically defined by the Maven release plugin when executing
-             a release. Thus this profile will be automatically enabled when releasing -->
-        <property>
-          <name>performRelease</name>
-        </property>
-      </activation>
-    </profile>
     <profile>
       <id>unix</id>
       <activation>
@@ -461,7 +452,6 @@
         <dependency>
           <groupId>com.cenqua.clover</groupId>
           <artifactId>clover</artifactId>
-          <version>3.0.2</version>
           <scope>test</scope>
         </dependency>
       </dependencies>
@@ -469,9 +459,8 @@
     <!-- Browser profiles for both Selenium 1 and Selenium 2 tests. -->
     <profile>
       <id>firefox</id>
-      <properties>
-        <browser>*firefox</browser>
-      </properties>
+      <!-- Not necessary to define the browser property since it's defined to be firefox by default. We keep this
+           profile simply to be symmetrical with other profiles -->
     </profile>
     <profile>
       <id>iexplore</id>

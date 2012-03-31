@@ -33,6 +33,11 @@
   <name>XWiki Enterprise - Web</name>
   <packaging>war</packaging>
   <description>XWiki Enterprise - Web</description>
+  <properties>
+    <!-- By default we don't include Legacy modules and thus we don't need to exclude the oldcore JAR (We need to
+         exclude it when we add the Legacy JARs because the Legacy oldcore already includes the oldcore. -->
+    <xwiki.war.exclude.oldcore></xwiki.war.exclude.oldcore>
+  </properties>
   <dependencies>
     <!-- Depend on the platform WAR to get all web resources. We then need to add all libraries we need for XE. -->
     <dependency>
@@ -661,37 +666,9 @@
     </plugins>
   </build>
   <profiles>
-    <!-- Add the oldcore JAR only if the legacy jars are not added, because the oldcore legacy JAR includes the oldcore
-         JAR -->
+    <!-- Add Legacy modules -->
     <profile>
-      <id>no-legacy</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <xwiki.war.exclude.oldcore></xwiki.war.exclude.oldcore>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-oldcore</artifactId>
-          <version>${platform.version}</version>
-          <scope>runtime</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    <!-- We only include legacy modules in the "ci" or "release" profiles since they're not needed when developing
-         day to day and it speeds up the build (and allows us to verify that our distribution works fine without
-         them) -->
-    <profile>
-      <id>ci</id>
-      <activation>
-        <!-- This property is automatically defined by the Maven release plugin when executing
-             a release. Thus this profile will be automatically enabled when releasing -->
-        <property>
-          <name>performRelease</name>
-        </property>
-      </activation>
+      <id>legacy</id>
       <properties>
         <xwiki.war.exclude.oldcore>WEB-INF/lib/xwiki-platform-oldcore-*.jar,</xwiki.war.exclude.oldcore>
       </properties>
@@ -742,7 +719,6 @@
         <dependency>
           <groupId>com.cenqua.clover</groupId>
           <artifactId>clover</artifactId>
-          <version>3.1.4</version>
         </dependency>
       </dependencies>
     </profile>

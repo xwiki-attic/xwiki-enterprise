@@ -213,15 +213,7 @@
       </exclusions>
     </dependency>
   </dependencies>
-  <profiles>
-    <profile>
-      <id>derby</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <modules>
-        <module>xwiki-enterprise-glassfish-derby</module>
-      </modules>
-    </profile>
-  </profiles>
+  <modules>
+    <module>xwiki-enterprise-glassfish-derby</module>
+  </modules>
 </project>

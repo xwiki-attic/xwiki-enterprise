@@ -45,10 +45,12 @@
     <url>http://jira.xwiki.org/jira/browse/XE</url>
   </issueManagement>
   <modules>
-    <module>xwiki-enterprise-web</module>
-    <module>xwiki-enterprise-ui</module>
+    <!-- Sorted Alphabetically -->
     <module>xwiki-enterprise-database</module>
     <module>xwiki-enterprise-distribution</module>
+    <module>xwiki-enterprise-installers</module>
+    <module>xwiki-enterprise-ui</module>
+    <module>xwiki-enterprise-web</module>
   </modules>
   <properties>
     <!-- Useful for Enterprise extensions -->
@@ -104,26 +106,6 @@
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
     <xwiki.cfg.additionalproperties>xwiki.work.dir=data</xwiki.cfg.additionalproperties>
     <xwiki.properties.environment.permanentDirectory>data</xwiki.properties.environment.permanentDirectory>
-
-    <!-- Sets the Hibernate Properties for HSQLDB. All other Hibernate Properties for other Databases are specified
-         in profiles in this POM file but for HSQLDB we put it here because we want those to be the default even
-         when a profile is specified on the command line. More specifically when running "mvn -Pci" (for example) we
-         want HSQLDB to be used as the default -->
-    <xwiki.db>hsqldb</xwiki.db>
-    <xwiki.db.jdbc.groupId>org.hsqldb</xwiki.db.jdbc.groupId>
-    <xwiki.db.jdbc.artifactId>hsqldb</xwiki.db.jdbc.artifactId>
-    <xwiki.db.jdbc.version>2.2.8</xwiki.db.jdbc.version>
-    <xwiki.db.connection.url>jdbc:hsqldb:file:database/xwiki_db;shutdown=true</xwiki.db.connection.url>
-    <xwiki.db.connection.username>sa</xwiki.db.connection.username>
-    <xwiki.db.connection.password />
-    <xwiki.db.connection.driver_class>org.hsqldb.jdbcDriver</xwiki.db.connection.driver_class>
-    <xwiki.db.dialect>org.hibernate.dialect.HSQLDialect</xwiki.db.dialect>
-    <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
-    <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
-
-    <!-- Sets Jetty as the default container to use. All other containers are specified in profiles in this POM. -->
-    <xe.container>jetty</xe.container>
-
   </properties>
   <build>
     <pluginManagement>
@@ -195,51 +177,35 @@
   </build>
   <profiles>
     <profile>
-      <id>ci</id>
-      <activation>
-        <!-- This property is automatically defined by the Maven release plugin when executing
-             a release. Thus this profile will be automatically enabled when releasing -->
-        <property>
-          <name>performRelease</name>
-        </property>
-      </activation>
+      <id>integration-tests</id>
       <modules>
-        <module>xwiki-enterprise-installers</module>
         <module>xwiki-enterprise-test</module>
       </modules>
     </profile>
-    <profile>
-      <!-- Run the installers only -->
-      <id>installers</id>
-      <modules>
-        <module>xwiki-enterprise-installers</module>
-      </modules>
-    </profile>
-    <profile>
-      <!-- This profile is not required (since Jetty is defined by default in the global properties) but we have it to
-           be symmetrical with the other container profiles -->
-      <id>jetty</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-    <profile>
-      <id>glassfish</id>
-      <properties>
-        <xe.container>glassfish</xe.container>
-      </properties>
-    </profile>
     <!-- Database Profiles used in several module builds -->
     <profile>
-      <!-- This profile is not required (since HSQLDB is defined by default in the global properties) but we have it to
-           be symmetrical with the other database profiles -->
       <id>hsqldb</id>
+      <!-- Activate this profile by default by using the trick of activating it when a non existent property isn't
+           defined! -->
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>!ignoreHSQLDB</name>
+        </property>
       </activation>
+      <properties>
+        <xwiki.db>hsqldb</xwiki.db>
+        <xwiki.db.jdbc.groupId>org.hsqldb</xwiki.db.jdbc.groupId>
+        <xwiki.db.jdbc.artifactId>hsqldb</xwiki.db.jdbc.artifactId>
+        <xwiki.db.jdbc.version>2.2.8</xwiki.db.jdbc.version>
+        <xwiki.db.connection.url>jdbc:hsqldb:file:database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+        <xwiki.db.connection.username>sa</xwiki.db.connection.username>
+        <xwiki.db.connection.password />
+        <xwiki.db.connection.driver_class>org.hsqldb.jdbcDriver</xwiki.db.connection.driver_class>
+        <xwiki.db.dialect>org.hibernate.dialect.HSQLDialect</xwiki.db.dialect>
+        <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>
+        <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+      </properties>
     </profile>
-    <!-- There's no HSQLDB profile since it's the default and the properties for HSQLDB are defined in the general
-         properties and are overwritten by specific profile properties when other DB profiles are used -->
     <profile>
       <id>mysql</id>
       <properties>

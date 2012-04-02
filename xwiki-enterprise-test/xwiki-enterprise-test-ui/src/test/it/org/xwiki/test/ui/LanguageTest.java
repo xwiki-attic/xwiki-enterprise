@@ -27,6 +27,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.po.administration.AdministrationPage;
 import org.xwiki.test.po.administration.LocalizationAdministrationSectionPage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
 
@@ -60,6 +61,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeLanguageInMonolingualModeUsingTheAdministrationPreference()
     {
         WikiEditPage edit = WikiEditPage.gotoPage("Test", "LanguageTest");
@@ -86,6 +88,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testPassingLanguageInRequestHasNoEffectInMonoligualMode()
     {
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
@@ -93,6 +96,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeLanguageInMultilingualModeUsingTheLanguageRequestParameter()
     {
         setLanguageSettings(true, "en");
@@ -102,6 +106,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testHeaderCorrectLanguage()
     {
         setLanguageSettings(true, "en");

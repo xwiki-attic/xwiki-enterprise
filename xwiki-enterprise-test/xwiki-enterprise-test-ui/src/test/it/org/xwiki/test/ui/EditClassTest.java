@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.FormElement;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ClassEditPage;
@@ -46,6 +47,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testAddProperty()
     {
         // We verify that we can click on Edit Class from View Page (we need to test this at
@@ -70,6 +72,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testDeleteProperty()
     {
         // Create a class with two string properties

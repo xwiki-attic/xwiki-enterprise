@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.po.administration.TemplateProviderInlinePage;
 import org.xwiki.test.po.administration.TemplatesAdministrationSectionPage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.CreatePagePage;
 import org.xwiki.test.ui.po.CreateSpacePage;
 import org.xwiki.test.ui.po.DocumentDoesNotExistPage;
@@ -83,6 +84,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests if a new page can be created from a template.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreatePageFromTemplate()
     {
         // Setup the correct environment for the test
@@ -205,6 +207,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests that creating a space works fine.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateSpace()
     {
         // create a random space
@@ -230,6 +233,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests that creating a page or a space that already exists displays an error.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateExistingPage()
     {
         String space = this.getClass().getSimpleName();
@@ -293,6 +297,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests what happens when creating a page when no template is available in the specific space.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreatePageWhenNoTemplateAvailable()
     {
         // prepare the test environment, create a test space and exclude all templates for this space
@@ -391,6 +396,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests the creation of a page from a save and edit template, tests that the page is indeed saved.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreatePageWithSaveAndEditTemplate()
     {
         String space = this.getClass().getSimpleName();

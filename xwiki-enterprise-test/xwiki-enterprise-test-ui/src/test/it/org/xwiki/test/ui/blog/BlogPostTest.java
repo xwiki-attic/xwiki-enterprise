@@ -26,6 +26,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.po.blog.BlogHomePage;
 import org.xwiki.test.po.blog.BlogPostInlinePage;
 import org.xwiki.test.po.blog.BlogPostViewPage;
@@ -43,6 +44,7 @@ public class BlogPostTest extends AbstractAdminAuthenticatedTest
      * Tests how a blog post is created and then edited.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateAndEditBlogPost()
     {
         getUtil().deletePage("Blog", getTestMethodName());

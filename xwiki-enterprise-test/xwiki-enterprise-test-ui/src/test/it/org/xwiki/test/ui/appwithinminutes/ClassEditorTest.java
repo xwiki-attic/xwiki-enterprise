@@ -29,6 +29,7 @@ import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.LongTextClassFieldEditPane;
 import org.xwiki.test.po.xe.ClassSheetPage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
 
@@ -49,6 +50,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that the hint is displayed only when the canvas is empty.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testEmptyCanvasHint()
     {
         Assert.assertTrue(editor.getContent().contains(EMPTY_CANVAS_HINT));
@@ -62,6 +64,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that the field display is updated when the configuration panel is closed.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testApplyConfigurationChanges()
     {
         LongTextClassFieldEditPane longTextField =
@@ -77,6 +80,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that class fields can be deleted and that documents having objects of that class are updated.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testDeleteField()
     {
         // Add two fields.
@@ -108,6 +112,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that class fields can be reordered.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testReorderFields()
     {
         // Add two class fields.
@@ -146,6 +151,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that class fields can be renamed.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testRenameField()
     {
         // Add a class field.
@@ -178,6 +184,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that invalid field names are not allowed.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testInvalidFieldName()
     {
         String invalidFieldNameErrorMessage = "Property names must follow these naming rules:";
@@ -211,6 +218,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that two class fields can't have the same name.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testDuplicateFieldName()
     {
         ClassFieldEditPane field = editor.addField("Short Text");
@@ -231,6 +239,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that swapping field names is not allowed.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testSwapFieldNames()
     {
         ClassFieldEditPane field = editor.addField("Short Text");
@@ -260,6 +269,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests the options to update the class sheet and the class template.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testUpdateSheetAndTemplate()
     {
         // The options panel is not displayed if the class template and sheet don't exists.
@@ -299,6 +309,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests the Save & Continue button.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testSaveAndContinue()
     {
         editor.addField("Date");
@@ -329,6 +340,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Tests that fields names are auto-generated properly.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testFieldNameAutoGeneration()
     {
         // Add a class field and set its name to an auto-generated field name for a different type.
@@ -355,6 +367,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      * Test that Save And Continue supports field renames.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testRenameWithSaveAndContinue()
     {
         // Add a class field.

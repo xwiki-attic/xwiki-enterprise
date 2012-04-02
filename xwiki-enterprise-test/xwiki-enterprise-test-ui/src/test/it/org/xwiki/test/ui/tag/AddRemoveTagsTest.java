@@ -25,6 +25,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.po.tag.AddTagsPane;
 import org.xwiki.test.po.tag.TaggablePage;
 
@@ -115,6 +116,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      * Tests that a tag can't be added twice to the same page.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testAddExistingTag()
     {
         String tag = RandomStringUtils.randomAlphanumeric(4);

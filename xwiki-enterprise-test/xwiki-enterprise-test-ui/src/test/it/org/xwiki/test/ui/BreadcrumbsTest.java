@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -37,6 +38,7 @@ public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
     private static final String CHILD_TITLE = "Child page";
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testBreadcrumbs()
     {
         // Delete the page to reset the rights on it (since the test below modifies them).

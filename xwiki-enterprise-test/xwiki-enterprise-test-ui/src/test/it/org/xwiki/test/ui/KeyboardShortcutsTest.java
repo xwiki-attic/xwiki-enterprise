@@ -23,6 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.openqa.selenium.Keys;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -36,6 +37,7 @@ public class KeyboardShortcutsTest extends AbstractAdminAuthenticatedTest
     private TestUtils util = new TestUtils();
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testKeyboardShortcuts()
     {
         ViewPage vp = util.gotoPage("Sandbox", "WebHome");

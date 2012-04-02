@@ -29,6 +29,7 @@ import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.AdministrationPage;
 import org.xwiki.test.po.administration.ImportAdministrationSectionPage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.HistoryTab;
 import org.xwiki.test.ui.po.ViewPage;
 
@@ -86,6 +87,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testImportWithHistory()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITH_HISTORY);
@@ -109,6 +111,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testImportWithNewHistoryVersion()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + PACKAGE_WITHOUT_HISTORY);
@@ -130,6 +133,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testImportAsBackup()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);
@@ -153,6 +157,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testImportWhenImportAsBackupIsNotSelected()
     {
         URL fileUrl = this.getClass().getResource("/administration/" + BACKUP_PACKAGE);

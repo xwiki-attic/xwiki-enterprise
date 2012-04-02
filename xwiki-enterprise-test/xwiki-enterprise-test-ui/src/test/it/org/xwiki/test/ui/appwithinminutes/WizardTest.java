@@ -34,6 +34,7 @@ import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.EntryNamePane;
 import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
@@ -66,6 +67,7 @@ public class WizardTest extends AbstractTest
      * Tests the application creation process from start to end.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateApplication()
     {
         // Step 1
@@ -205,6 +207,7 @@ public class WizardTest extends AbstractTest
      * @see XWIKI-7380: Cannot go back from step 2 to step 1
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testGoBackToFirstStep()
     {
         // Step 1

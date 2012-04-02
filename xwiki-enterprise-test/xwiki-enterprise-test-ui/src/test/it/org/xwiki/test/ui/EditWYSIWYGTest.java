@@ -27,6 +27,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.editor.ProfileEditPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
@@ -64,6 +65,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      *      and previewing it without saving the page first makes the XWiki page corrupt.
      **/
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testUploadImageAfterPreview()
     {
         this.editPage.clickPreview().clickBackToEdit();
@@ -78,6 +80,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      * @see XWIKI:7028: Strange behaviour when pressing back and forward on a page that has 2 WYSIWYG editors displayed.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testBackForwardCache()
     {
         ProfileEditPage profileEditPage = ProfileUserProfilePage.gotoPage("Admin").editProfile();
@@ -95,6 +98,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      * Test that the content of the rich text area is preserved when the user refreshes the page.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testPreserveUnsavedRichContentAgainstRefresh()
     {
         // Type text and refresh the page.
@@ -115,6 +119,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      * Test that the content of the source text area is preserved when the user refreshes the page.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testPreserveUnsavedSourceAgainstRefresh()
     {
         EditorElement editor = this.editPage.getContentEditor();
@@ -137,6 +142,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      * Tests that the currently active editor (WYSIWYG or Source) is preserved when the user refreshes the page.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testPreserveSelectedEditorAgainstRefresh()
     {
         // The WYSIWYG editor should be initially active.
@@ -170,6 +176,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      * Test if an undo step reverts only one paste operation from a sequence, and not all of them.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testUndoRepeatedPaste()
     {
         EditorElement editor = this.editPage.getContentEditor();
@@ -216,6 +223,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testDotAtEndDoesNotDelete()
     {
         EditorElement editor = this.editPage.getContentEditor();

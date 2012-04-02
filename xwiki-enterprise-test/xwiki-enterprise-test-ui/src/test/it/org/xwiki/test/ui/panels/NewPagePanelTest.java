@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.panels.NewPagePanel;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 
 /**
@@ -37,6 +38,7 @@ public class NewPagePanelTest extends AbstractAdminAuthenticatedTest
      * Tests if a new page can be created using the create page panel.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreatePageFromPanel()
     {
         NewPagePanel newPagePanel = NewPagePanel.gotoPage();

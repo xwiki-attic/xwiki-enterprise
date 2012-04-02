@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.CreatePagePage;
 import org.xwiki.test.ui.po.CreateSpacePage;
 import org.xwiki.test.ui.po.ViewPage;
@@ -54,6 +55,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
      * Checks that non-ASCII characters are allowed in the space name.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateNonAsciiSpace()
     {
         CreateSpacePage createSpacePage = this.homePage.createSpace();
@@ -74,6 +76,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
      * Checks that non-ASCII characters are allowed in the page name.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateNonAsciiPage()
     {
         CreatePagePage createPagePage = this.homePage.createPage();

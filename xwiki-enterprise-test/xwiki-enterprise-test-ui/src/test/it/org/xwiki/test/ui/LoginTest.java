@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.po.administration.GlobalRightsAdministrationSectionPage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.LoginPage;
 import org.xwiki.test.ui.po.ResubmissionPage;
 import org.xwiki.test.ui.po.ViewPage;
@@ -52,6 +53,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testLoginLogoutAsAdmin()
     {
         LoginPage loginPage = this.vp.login();
@@ -71,6 +73,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testLoginWithInvalidCredentials()
     {
         LoginPage loginPage = this.vp.login();
@@ -79,6 +82,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testLoginWithInvalidUsername()
     {
         LoginPage loginPage = this.vp.login();
@@ -123,6 +127,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testRedirectPreservesPOSTParameters()
     {
         String test = "Test string " + System.currentTimeMillis();
@@ -154,6 +159,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCorrectUrlIsAccessedAfterLogin()
     {
         // We will choose the Scheduler.WebHome page to make our testing
@@ -168,6 +174,7 @@ public class LoginTest extends AbstractTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testDataIsPreservedAfterLogin()
     {
         getUtil().gotoPage("Test", "TestData", "save", "content=this+should+not+be+saved");

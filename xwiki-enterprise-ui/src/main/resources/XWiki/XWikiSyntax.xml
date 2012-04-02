@@ -1,133 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
-<web>XWiki</web>
-<name>XWikiSyntax</name>
-<language></language>
-<defaultLanguage></defaultLanguage>
-<translation>0</translation>
-<parent>XWiki.WebHome</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1203507376000</creationDate>
-<date>1253107969000</date>
-<contentUpdateDate>1253107969000</contentUpdateDate>
-<version>1.1</version>
-<title>XWiki Syntaxes</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<attachment>
-<filename>img.png</filename>
-<filesize>959</filesize>
-<author>xwiki:XWiki.Admin</author>
-<date>1238497750000</date>
-<version>1.1</version>
-<comment></comment>
-<content>iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAAAAADgE0Q3AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfWBxcOEy+3/bdlAAADUElEQVRIx52WTW/cVBSG32tfezxJZiaT0EwnCkVKgVZI3cFAVYkFLEFCKoI/wz9Bgh/ApqqEWLQLFmUHAtJKqKIqMKhSJ50R+aCTTHzPey4L2/PVIru9C8u6Po/f83XtYzxefAUvwcACAMZPjrXc1gfJVm0VgPHA+HCQGmOMKcfQ6jYypeO/jQ1tWAGCng1sHRY4ehzYuBbUwzIojb1nOkmMBf5xNonW46iCUhoxPY3WLPBvEK826lFQAUq8xhawgNrE1muBqZJsFwVQWMAE8Vq0xIxv7a+rjhN38Z3Ezu3HQORgPO6G7VYSLjD9Gx92SJK8e//z15KFF3qJAgBmOZz+d5+ec8455+TSe18/mCw8NEAAPFvXGx9Z55yIiHPr79/suwq9d+fd0ImIc86JuFbrx5EvhwY7LndORCS9uPfo7HkNu7goQiWZXWhOn5wmpZB3M4JK6kTKleAKHVGSozAMKkCS6YiSSh4mjbiyUu4b03qjVpq98eMs3yLihCKj+lpUqvRzV0hRKkmlsjV8epaUKR2tO+co4kQoItJ1fx2Vutc9dCJ5F4mI7FPKO2JrNI+IjNrbjVLovP81s6aIk8HoaXc7KYXsZ40D5hhl8OjC5XNhKWQ2r0ym7k2423urgfLixu2sGZTKk/obVzq2AgRkZVKqnq502hZVoFcPEyU9VVVXl3vo//4aTVJIISmTqBaiktKBcapUVVXWrKkGfdNkjmhkjDcVoOGXJioYjf54uL1iyqDht7+3QdUsD/TRzb2Pdxc/lzAe9+xGM9/t//bLSQuFilIzsvN275VZaC6ag/o//MkVy4Iorqr0Pn7zg0tJsAyN7txn02R29My8o5+iCC/0crkCSm/3NyLmZizc0iIyVQAIbOdarxMUUP2r8wHpqXO+Kf0UmZ7BcOuLTbjIAsDDDQinxpr7VUQ2d2w5fLBZpHzsnV8MfuagLhx1OZjWSZpHupjnWUyLVdxJ84Y1uPa6kJSsRUmhZvdcZnD1kxyqAX6XuX1mKxSKyDNML/sVGo/RsN38CXv76mflVFX1y8jOVVwHXBgYj5NR1EqC732+FF7hvX/OTHd91ns4OV4tn3Gm+QsNjAcwUSSm2vBhYTIlAGk1xmQzinmZcfQ/40v+ffqYGLoAAAAASUVORK5CYII=</content>
-</attachment>
-<object>
-<class>
-<name>XWiki.StyleSheetExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<disabled>0</disabled>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>XWiki.XWikiSyntax</name>
-<number>0</number>
-<className>XWiki.StyleSheetExtension</className>
-<guid>5164c7fb-18e0-4164-b970-893bd212bf11</guid>
-<property>
-<cache>long</cache>
-</property>
-<property>
-<code>/* Firefox panics when it has an overflowing table but the content is pre-formatted. */
+  <web>XWiki</web>
+  <name>XWikiSyntax</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>XWiki.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1203507376000</creationDate>
+  <date>1253107969000</date>
+  <contentUpdateDate>1253107969000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Syntaxes</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>img.png</filename>
+    <filesize>959</filesize>
+    <author>xwiki:XWiki.Admin</author>
+    <date>1238497750000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAAAAADgE0Q3AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfWBxcOEy+3/bdlAAADUElEQVRIx52WTW/cVBSG32tfezxJZiaT0EwnCkVKgVZI3cFAVYkFLEFCKoI/wz9Bgh/ApqqEWLQLFmUHAtJKqKIqMKhSJ50R+aCTTHzPey4L2/PVIru9C8u6Po/f83XtYzxefAUvwcACAMZPjrXc1gfJVm0VgPHA+HCQGmOMKcfQ6jYypeO/jQ1tWAGCng1sHRY4ehzYuBbUwzIojb1nOkmMBf5xNonW46iCUhoxPY3WLPBvEK826lFQAUq8xhawgNrE1muBqZJsFwVQWMAE8Vq0xIxv7a+rjhN38Z3Ezu3HQORgPO6G7VYSLjD9Gx92SJK8e//z15KFF3qJAgBmOZz+d5+ec8455+TSe18/mCw8NEAAPFvXGx9Z55yIiHPr79/suwq9d+fd0ImIc86JuFbrx5EvhwY7LndORCS9uPfo7HkNu7goQiWZXWhOn5wmpZB3M4JK6kTKleAKHVGSozAMKkCS6YiSSh4mjbiyUu4b03qjVpq98eMs3yLihCKj+lpUqvRzV0hRKkmlsjV8epaUKR2tO+co4kQoItJ1fx2Vutc9dCJ5F4mI7FPKO2JrNI+IjNrbjVLovP81s6aIk8HoaXc7KYXsZ40D5hhl8OjC5XNhKWQ2r0ym7k2423urgfLixu2sGZTKk/obVzq2AgRkZVKqnq502hZVoFcPEyU9VVVXl3vo//4aTVJIISmTqBaiktKBcapUVVXWrKkGfdNkjmhkjDcVoOGXJioYjf54uL1iyqDht7+3QdUsD/TRzb2Pdxc/lzAe9+xGM9/t//bLSQuFilIzsvN275VZaC6ag/o//MkVy4Iorqr0Pn7zg0tJsAyN7txn02R29My8o5+iCC/0crkCSm/3NyLmZizc0iIyVQAIbOdarxMUUP2r8wHpqXO+Kf0UmZ7BcOuLTbjIAsDDDQinxpr7VUQ2d2w5fLBZpHzsnV8MfuagLhx1OZjWSZpHupjnWUyLVdxJ84Y1uPa6kJSsRUmhZvdcZnD1kxyqAX6XuX1mKxSKyDNML/sVGo/RsN38CXv76mflVFX1y8jOVVwHXBgYj5NR1EqC732+FF7hvX/OTHd91ns4OV4tn3Gm+QsNjAcwUSSm2vBhYTIlAGk1xmQzinmZcfQ/40v+ffqYGLoAAAAASUVORK5CYII=</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>XWiki.XWikiSyntax</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>5164c7fb-18e0-4164-b970-893bd212bf11</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>/* Firefox panics when it has an overflowing table but the content is pre-formatted. */
 tbody&gt;tr&gt;td&gt;tt {
     white-space: normal !important;
 }</code>
-</property>
-<property>
-<name>FF_table_fix</name>
-</property>
-<property>
-<parse></parse>
-</property>
-<property>
-<use>onDemand</use>
-</property>
-</object>
-<content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
+    </property>
+    <property>
+      <name>FF_table_fix</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
 
 {{box cssClass="floatinginfobox" title="**Contents**"}}
 {{toc depth="1"/}}
@@ -1036,4 +1036,5 @@ The following other syntaxes are implemented in XWiki Enterprise 1.6 and later:
 * [[Creole 1.0&gt;&gt;http://www.wikicreole.org/wiki/Creole1.0]]
 * [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
 
-{{warning}}The implementation for these syntaxes is not fully finished yet. For example support for links is not working perfectly yet. We also need to define if we want to extend the original syntaxes to support XWiki-specific features like ability to link to another sub-wiki.{{/warning}}</content></xwikidoc>
+{{warning}}The implementation for these syntaxes is not fully finished yet. For example support for links is not working perfectly yet. We also need to define if we want to extend the original syntaxes to support XWiki-specific features like ability to link to another sub-wiki.{{/warning}}</content>
+</xwikidoc>

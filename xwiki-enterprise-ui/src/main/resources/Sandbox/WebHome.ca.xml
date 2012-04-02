@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>Sandbox</web>
-<name>WebHome</name>
-<language>ca</language>
-<defaultLanguage>en</defaultLanguage>
-<translation>1</translation>
-<parent>Main.WebHome</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
-<version>1.1</version>
-<title>Sandbox</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>El calaix és una part de la vostra wiki que podeu modificar lliurement. Es tracta de deixar-vos practicar l'edició. Podreu descobrir com treballa l'edició de pàgines i crear-n'hi de noves. Per a començar simplement cliqueu al damunt d' **Editar**!
+  <web>Sandbox</web>
+  <name>WebHome</name>
+  <language>ca</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1252454400000</date>
+  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Sandbox</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>El calaix és una part de la vostra wiki que podeu modificar lliurement. Es tracta de deixar-vos practicar l'edició. Podreu descobrir com treballa l'edició de pàgines i crear-n'hi de noves. Per a començar simplement cliqueu al damunt d' **Editar**!
 
 {{info}}No us preocupeu de sobreescriure o de perdre coses quant editeu la pàgina, sempre podreu retrocedir a la primera versió de la pàgina des de la pestanya "Històric" que es troba en la part inferior de la pàgina.{{/info}}
 
@@ -140,4 +141,5 @@ Aquesta macro us permet cridar l'atenció als usuaris amb trossos d'informació:
 
 Aquesta macro genera automàticament la taula de continguts basada amb encapçalaments de la vostra pàgina wiki:
 
-{{toc/}}</content></xwikidoc>
+{{toc/}}</content>
+</xwikidoc>

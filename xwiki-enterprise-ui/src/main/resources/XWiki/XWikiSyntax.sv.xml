@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>XWiki</web>
-<name>XWikiSyntax</name>
-<language>sv</language>
-<defaultLanguage></defaultLanguage>
-<translation>1</translation>
-<parent>XWiki.WebHome</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1203507376000</creationDate>
-<date>1253107969000</date>
-<contentUpdateDate>1253107969000</contentUpdateDate>
-<version>1.1</version>
-<title>XWiki Syntaxes</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
+  <web>XWiki</web>
+  <name>XWikiSyntax</name>
+  <language>sv</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>XWiki.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1203507376000</creationDate>
+  <date>1253107969000</date>
+  <contentUpdateDate>1253107969000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Syntaxes</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
 
 {{box cssClass="floatinginfobox" title="**Innehåll**"}}
 {{toc depth="1"/}}
@@ -932,4 +933,5 @@ Följande syntaxer finns implementerade i XWiki enterprise 1.6 och senare:
 * [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
 
 {{warning}}Implementationen för dessa syntaxer är ej kompletta ännu.  Länkar fungerar exempelvis inte alltid som förväntat.  Vi måste även bestämma om syntaxerna skall utökas för att stödja XWiki-specifik funktionalitet såsom möjligheten att länka till en annan virtuell wiki.{{/warning}}
-</content></xwikidoc>
+</content>
+</xwikidoc>

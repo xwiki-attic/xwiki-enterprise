@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>Sandbox</web>
-<name>WebHome</name>
-<language>zh_TW</language>
-<defaultLanguage>en</defaultLanguage>
-<translation>1</translation>
-<parent>Main.WebHome</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
-<version>1.1</version>
-<title>Sandbox</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>The sandbox is a part of your wiki that you can freely modify. It’s meant to let you practice editing. You will discover how page editing works and create new pages. Simply click on **Edit** to get started!
+  <web>Sandbox</web>
+  <name>WebHome</name>
+  <language>zh_TW</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1252454400000</date>
+  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Sandbox</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>The sandbox is a part of your wiki that you can freely modify. It’s meant to let you practice editing. You will discover how page editing works and create new pages. Simply click on **Edit** to get started!
 
 {{info}}Don’t worry about overwriting or losing stuff when editing the page, you can always roll back to the first version of the page from the "History" tab at the bottom of the page.{{/info}}
 
@@ -140,4 +141,5 @@ This macro allows you to draw users’ attention to a specific piece of informat
 
 This macro automatically generates a table of contents of your wiki page based on headings:
 
-{{toc/}}</content></xwikidoc>
+{{toc/}}</content>
+</xwikidoc>

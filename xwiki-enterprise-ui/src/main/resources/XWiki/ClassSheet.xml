@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
-<web>XWiki</web>
-<name>ClassSheet</name>
-<language></language>
-<defaultLanguage></defaultLanguage>
-<translation>0</translation>
-<parent>XWiki.XWikiClasses</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1253198440000</date>
-<contentUpdateDate>1253198440000</contentUpdateDate>
-<version>1.1</version>
-<title>#if($doc.fullName == 'XWiki.ClassSheet')Default Class Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<object>
-<class>
-<name>XWiki.SheetDescriptorClass</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<action>
-<customDisplay></customDisplay>
-<disabled>0</disabled>
-<name>action</name>
-<number>1</number>
-<picker>0</picker>
-<prettyName>Action</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<validationMessage></validationMessage>
-<validationRegExp></validationRegExp>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</action>
-</class>
-<name>XWiki.ClassSheet</name>
-<number>0</number>
-<className>XWiki.SheetDescriptorClass</className>
-<guid>4d854769-efce-441c-8594-349c458b880e</guid>
-<property>
-<action>view</action>
-</property>
-</object>
-<content>{{velocity}}
+  <web>XWiki</web>
+  <name>ClassSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>XWiki.XWikiClasses</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1253198440000</date>
+  <contentUpdateDate>1253198440000</contentUpdateDate>
+  <version>1.1</version>
+  <title>#if($doc.fullName == 'XWiki.ClassSheet')Default Class Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.SheetDescriptorClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <action>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>action</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Action</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </action>
+    </class>
+    <name>XWiki.ClassSheet</name>
+    <number>0</number>
+    <className>XWiki.SheetDescriptorClass</className>
+    <guid>4d854769-efce-441c-8594-349c458b880e</guid>
+    <property>
+      <action>view</action>
+    </property>
+  </object>
+  <content>{{velocity}}
 #if($doc.fullName == 'XWiki.ClassSheet')
   ## Viewing the sheet document itself
   You can edit this document to change the default presentation of classes, or you can copy it to create a customized view just for one or several classes.

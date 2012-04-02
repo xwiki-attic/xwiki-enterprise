@@ -1,108 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>XWiki</web>
-<name>SharePage</name>
-<language></language>
-<defaultLanguage></defaultLanguage>
-<translation>0</translation>
-<parent>XWiki.Mail</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1289259615000</creationDate>
-<date>1289523463000</date>
-<contentUpdateDate>1289523463000</contentUpdateDate>
-<version>1.1</version>
-<title></title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<object>
-<class>
-<name>XWiki.JavaScriptExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<disabled>0</disabled>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>XWiki.SharePage</name>
-<number>0</number>
-<className>XWiki.JavaScriptExtension</className>
-<guid>6a871119-c483-4cd8-aa24-f72c236c979b</guid>
-<property>
-<cache>long</cache>
-</property>
-<property>
-<code>var XWiki = (function(XWiki) {
+  <web>XWiki</web>
+  <name>SharePage</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>XWiki.Mail</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1289259615000</creationDate>
+  <date>1289523463000</date>
+  <contentUpdateDate>1289523463000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>XWiki.SharePage</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>6a871119-c483-4cd8-aa24-f72c236c979b</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>var XWiki = (function(XWiki) {
   XWiki.SharePage = Class.create({
     input : false,
     form : false,
@@ -233,72 +234,72 @@
   });
   return XWiki;
 }(XWiki || {}));</code>
-</property>
-<property>
-<name></name>
-</property>
-<property>
-<parse>1</parse>
-</property>
-<property>
-<use>currentPage</use>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.Mail</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<html>
-<disabled>0</disabled>
-<name>html</name>
-<number>4</number>
-<prettyName>HTML</prettyName>
-<rows>15</rows>
-<size>80</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</html>
-<language>
-<disabled>0</disabled>
-<name>language</name>
-<number>2</number>
-<prettyName>Language</prettyName>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</language>
-<subject>
-<disabled>0</disabled>
-<name>subject</name>
-<number>1</number>
-<prettyName>Subject</prettyName>
-<size>40</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</subject>
-<text>
-<disabled>0</disabled>
-<name>text</name>
-<number>3</number>
-<prettyName>Text</prettyName>
-<rows>15</rows>
-<size>80</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</text>
-</class>
-<name>XWiki.SharePage</name>
-<number>0</number>
-<className>XWiki.Mail</className>
-<guid>de72bc55-5b53-4659-a48d-27bb768146f5</guid>
-<property>
-<html>&lt;p&gt;Hello ${recipientName},&lt;/p&gt;
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.Mail</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <html>
+        <disabled>0</disabled>
+        <name>html</name>
+        <number>4</number>
+        <prettyName>HTML</prettyName>
+        <rows>15</rows>
+        <size>80</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </html>
+      <language>
+        <disabled>0</disabled>
+        <name>language</name>
+        <number>2</number>
+        <prettyName>Language</prettyName>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </language>
+      <subject>
+        <disabled>0</disabled>
+        <name>subject</name>
+        <number>1</number>
+        <prettyName>Subject</prettyName>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </subject>
+      <text>
+        <disabled>0</disabled>
+        <name>text</name>
+        <number>3</number>
+        <prettyName>Text</prettyName>
+        <rows>15</rows>
+        <size>80</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </text>
+    </class>
+    <name>XWiki.SharePage</name>
+    <number>0</number>
+    <className>XWiki.Mail</className>
+    <guid>de72bc55-5b53-4659-a48d-27bb768146f5</guid>
+    <property>
+      <html>&lt;p&gt;Hello ${recipientName},&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;${xwiki.getUserName($context.user)}&lt;/strong&gt; thought you might be interested in the document &lt;a href="${doc.getExternalURL()}"&gt;$!{escapetool.xml(${doc.displayTitle})}&lt;/a&gt; on &lt;a href="${xwiki.getDocument('Main.WebHome').getExternalURL()}"&gt;${request.getServerName()}&lt;/a&gt;.&lt;/p&gt;
 
@@ -325,15 +326,15 @@ $!{escapetool.xml($message)}
 
 &lt;hr /&gt;
 &lt;p&gt;This message was generated by XWiki at ${request.serverName} on behalf of ${xwiki.getUserName($context.user)}.&lt;/p&gt;</html>
-</property>
-<property>
-<language>en</language>
-</property>
-<property>
-<subject>$xwiki.getUserName($context.user, false) wants to share a document with you</subject>
-</property>
-<property>
-<text>Hello ${recipientName},
+    </property>
+    <property>
+      <language>en</language>
+    </property>
+    <property>
+      <subject>$xwiki.getUserName($context.user, false) wants to share a document with you</subject>
+    </property>
+    <property>
+      <text>Hello ${recipientName},
 
 ${xwiki.getUserName($context.user, false)} thought you might be interested in the document "$!{escapetool.xml(${doc.displayTitle})}" (${doc.getExternalURL()}) on ${request.getServerName()}.
 
@@ -358,63 +359,63 @@ $doc.getRenderedContent()
 
 -----------------------------------------------------
 This message was generated by XWiki at ${request.serverName} on behalf of ${xwiki.getUserName($context.user, false)}.</text>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.Mail</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<html>
-<disabled>0</disabled>
-<name>html</name>
-<number>4</number>
-<prettyName>HTML</prettyName>
-<rows>15</rows>
-<size>80</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</html>
-<language>
-<disabled>0</disabled>
-<name>language</name>
-<number>2</number>
-<prettyName>Language</prettyName>
-<size>5</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</language>
-<subject>
-<disabled>0</disabled>
-<name>subject</name>
-<number>1</number>
-<prettyName>Subject</prettyName>
-<size>40</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</subject>
-<text>
-<disabled>0</disabled>
-<name>text</name>
-<number>3</number>
-<prettyName>Text</prettyName>
-<rows>15</rows>
-<size>80</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</text>
-</class>
-<name>XWiki.SharePage</name>
-<number>1</number>
-<className>XWiki.Mail</className>
-<guid>3c186334-ece1-4caa-b452-651bbe106695</guid>
-<property>
-<html>&lt;p&gt;Bonjour ${recipientName},&lt;/p&gt;
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.Mail</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <html>
+        <disabled>0</disabled>
+        <name>html</name>
+        <number>4</number>
+        <prettyName>HTML</prettyName>
+        <rows>15</rows>
+        <size>80</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </html>
+      <language>
+        <disabled>0</disabled>
+        <name>language</name>
+        <number>2</number>
+        <prettyName>Language</prettyName>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </language>
+      <subject>
+        <disabled>0</disabled>
+        <name>subject</name>
+        <number>1</number>
+        <prettyName>Subject</prettyName>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </subject>
+      <text>
+        <disabled>0</disabled>
+        <name>text</name>
+        <number>3</number>
+        <prettyName>Text</prettyName>
+        <rows>15</rows>
+        <size>80</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </text>
+    </class>
+    <name>XWiki.SharePage</name>
+    <number>1</number>
+    <className>XWiki.Mail</className>
+    <guid>3c186334-ece1-4caa-b452-651bbe106695</guid>
+    <property>
+      <html>&lt;p&gt;Bonjour ${recipientName},&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;${xwiki.getUserName($context.user)}&lt;/strong&gt; a pensé que vous pourriez être intéressé par le document &lt;a href="${doc.getExternalURL()}"&gt;$!{escapetool.xml(${doc.displayTitle})}&lt;/a&gt; sur &lt;a href="${xwiki.getDocument('Main.WebHome').getExternalURL()}"&gt;${request.getServerName()}&lt;/a&gt;.&lt;/p&gt;
 
@@ -441,15 +442,15 @@ $!{escapetool.xml($message)}
 
 &lt;hr /&gt;
 &lt;p&gt;Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${xwiki.getUserName($context.user)}.&lt;/p&gt;</html>
-</property>
-<property>
-<language>fr</language>
-</property>
-<property>
-<subject>$xwiki.getUserName($context.user, false) souhaite partager un document avec vous</subject>
-</property>
-<property>
-<text>Bonjour ${recipientName},
+    </property>
+    <property>
+      <language>fr</language>
+    </property>
+    <property>
+      <subject>$xwiki.getUserName($context.user, false) souhaite partager un document avec vous</subject>
+    </property>
+    <property>
+      <text>Bonjour ${recipientName},
 
 ${xwiki.getUserName($context.user, false)} a pensé que vous pourriez être intéressé par le document "$!{escapetool.xml(${doc.displayTitle})}" (${doc.getExternalURL()}) sur ${request.getServerName()}.
 
@@ -474,89 +475,89 @@ $doc.getRenderedContent()
 
 -----------------------------------------------------
 Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${xwiki.getUserName($context.user, false)}.</text>
-</property>
-</object>
-<object>
-<class>
-<name>XWiki.StyleSheetExtension</name>
-<customClass></customClass>
-<customMapping></customMapping>
-<defaultViewSheet></defaultViewSheet>
-<defaultEditSheet></defaultEditSheet>
-<defaultWeb></defaultWeb>
-<nameField></nameField>
-<validationScript></validationScript>
-<cache>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>cache</name>
-<number>5</number>
-<prettyName>Caching policy</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>long|short|default|forbid</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</cache>
-<code>
-<disabled>0</disabled>
-<name>code</name>
-<number>2</number>
-<prettyName>Code</prettyName>
-<rows>20</rows>
-<size>50</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-</code>
-<name>
-<disabled>0</disabled>
-<name>name</name>
-<number>1</number>
-<prettyName>Name</prettyName>
-<size>30</size>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-</name>
-<parse>
-<disabled>0</disabled>
-<displayFormType>select</displayFormType>
-<displayType>yesno</displayType>
-<name>parse</name>
-<number>4</number>
-<prettyName>Parse content</prettyName>
-<unmodifiable>0</unmodifiable>
-<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-</parse>
-<use>
-<cache>0</cache>
-<disabled>0</disabled>
-<displayType>select</displayType>
-<multiSelect>0</multiSelect>
-<name>use</name>
-<number>3</number>
-<prettyName>Use this extension</prettyName>
-<relationalStorage>0</relationalStorage>
-<separator> </separator>
-<separators> ,|</separators>
-<size>1</size>
-<unmodifiable>0</unmodifiable>
-<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-</use>
-</class>
-<name>XWiki.SharePage</name>
-<number>0</number>
-<className>XWiki.StyleSheetExtension</className>
-<guid>9a3e3cf0-3ae2-4321-8284-d14640ddcbd1</guid>
-<property>
-<cache>long</cache>
-</property>
-<property>
-<code>#template("colorThemeInit.vm")
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>XWiki.SharePage</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>9a3e3cf0-3ae2-4321-8284-d14640ddcbd1</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>#template("colorThemeInit.vm")
 .xdialog-modal-container .share-dialog {
   min-width: 500px;
 }
@@ -605,13 +606,17 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
 .target-item .delete:hover {
   color: $theme.notificationErrorColor;
 }
-</code></property><property><name>Toolbox style</name>
-</property>
-<property>
-<parse>1</parse>
-</property>
-<property>
-<use>always</use>
-</property>
-</object>
-<content></content></xwikidoc>
+</code>
+    </property>
+    <property>
+      <name>Toolbox style</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>always</use>
+    </property>
+  </object>
+  <content/>
+</xwikidoc>

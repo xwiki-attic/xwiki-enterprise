@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xwikidoc>
-<web>Sandbox</web>
-<name>WebHome</name>
-<language></language>
-<defaultLanguage>en</defaultLanguage>
-<translation>0</translation>
-<parent>Main.WebHome</parent>
-<creator>XWiki.Admin</creator>
-<author>XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
-<version>1.1</version>
-<title>Sandbox</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<attachment>
-<filename>XWikiLogo.png</filename>
-<filesize>1390</filesize>
-<author>XWiki.Admin</author>
-<date>1252454400000</date>
-<version>1.1</version>
-<comment></comment>
-<content>iVBORw0KGgoAAAANSUhEUgAAAIgAAACFCAYAAACAJLCMAAAFNUlEQVR4Xu2dsY3rRhRF1YDB3AlL
+  <web>Sandbox</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1252454400000</date>
+  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Sandbox</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>XWikiLogo.png</filename>
+    <filesize>1390</filesize>
+    <author>XWiki.Admin</author>
+    <date>1252454400000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>iVBORw0KGgoAAAANSUhEUgAAAIgAAACFCAYAAACAJLCMAAAFNUlEQVR4Xu2dsY3rRhRF1YDB3AlL
 UAksYUtg8uFUJTBzaGVOWQJLYAEOWAIBN0D8CsZvARoLCNKDPsXZq8c5HzjJj3aJo+WcR83wxL/T
 6e/xt8bojItx/v//ATHOxmSkGwajQoCy5aiMxUgPGBGgbEGuqwgeHwhQKF+3FpcrAhSKIwW3GUAQ
 GT9+/FEZjXExOuPDqBFkt+tbr9e0W69xE0WM2uiN9IBx+y+DIKsU04Nruxi94aS5/odfjPQEPYL8
@@ -56,8 +56,8 @@ vPyNPyybXjknDEGy5O8YazuDbzeC+JJ0cc6G9yWZnvrhVzkQJMutfHz3R/7tA1Fm4+osSBHkuede
 vbE8KME24CG4hi8FgmyXpbkzCAMEAQQBPV+bpVwGBChXkOEJQS4IUK4gjZEcFqNCgLIlaR05OIrS
 +A9RR3TQati61AAAAABJRU5ErkJggg==
 </content>
-</attachment>
-<content>The sandbox is a part of your wiki that you can freely modify. It's meant to let you practice editing. You will discover how page editing works and create new pages. Simply click on **Edit** to get started!
+  </attachment>
+  <content>The sandbox is a part of your wiki that you can freely modify. It's meant to let you practice editing. You will discover how page editing works and create new pages. Simply click on **Edit** to get started!
 
 {{info}}Don't worry about overwriting or losing stuff when editing the page, you can always roll back to the first version of the page from the "History" tab at the bottom of the page.{{/info}}
 

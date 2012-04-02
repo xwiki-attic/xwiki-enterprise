@@ -45,13 +45,7 @@ public class AllTests extends TestCase
     {
         TestSuite suite = new TestSuite();
 
-        // TODO: I don't like listing tests here as it means we can add a new TestCase class and
-        // forget to add it here and the tests won't be run but we'll not know about it and we'll
-        // think the tests are all running fine. I haven't found a simple solution to this yet
-        // (there are complex solutions like searching for all tests by parsing the source tree).
-        // I think there are TestSuite that do this out there but I haven't looked for them yet.
-        addTest(suite, OrphanedPageTest.suite(), OrphanedPageTest.class);
-
+        // TODO: Refactor this to use XWikiExecutorSuite instead
         addTestCase(suite, AnonymousAccessTest.class);
         addTestCase(suite, AttachmentsTest.class);
         addTestCase(suite, CommentsTest.class);

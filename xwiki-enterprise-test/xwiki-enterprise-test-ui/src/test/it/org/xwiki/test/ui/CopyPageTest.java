@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.CopyConfirmationPage;
 import org.xwiki.test.ui.po.CopyPage;
 import org.xwiki.test.ui.po.ViewPage;
@@ -39,6 +40,7 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
     private static final String COPY_SUCCESSFUL = "successfully copied to";
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCopyPage()
     {
         // Delete page that may already exist

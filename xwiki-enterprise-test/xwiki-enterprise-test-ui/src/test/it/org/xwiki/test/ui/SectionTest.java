@@ -20,6 +20,7 @@
 package org.xwiki.test.ui;
 
 import org.junit.Test;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
@@ -68,6 +69,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-174: Sectional editing.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testSectionEditInEditorWhenSyntax10()
     {
         ViewPage vp = createTestPages("xwiki/1.0");
@@ -101,6 +103,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-2881: Implement Section editing.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testSectionEditInWikiEditorWhenSyntax2x()
     {
         testSectionEditInWikiEditorWhenSyntax2x("xwiki/2.0");
@@ -141,6 +144,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-4033: When saving after section edit entire page is overwritten.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax10()
     {
         ViewPage vp = createTestPages("xwiki/1.0");
@@ -155,6 +159,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-4033: When saving after section edit entire page is overwritten.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax20()
     {
         ViewPage vp = createTestPages("xwiki/2.0");

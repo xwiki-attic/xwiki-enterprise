@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.FormElement;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ClassEditPage;
@@ -73,6 +74,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
      * Tests that XWIKI-1621 remains fixed.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeMultiselectProperty()
     {
         // Create a class with a database list property set to return all documents
@@ -111,6 +113,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
      * Tests that XWIKI-2214 remains fixed.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeNumberType()
     {
         // Create class page
@@ -167,6 +170,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
      * XWIKI-299 test
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeListMultipleSelect()
     {
         // Create class page
@@ -216,6 +220,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
      * XWIKI-1621: Changing parameters of list properties fails
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeListTypeRelationalStorage()
     {
         // Create class page
@@ -272,6 +277,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testObjectAddAndRemove()
     {
         ObjectEditPage oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");

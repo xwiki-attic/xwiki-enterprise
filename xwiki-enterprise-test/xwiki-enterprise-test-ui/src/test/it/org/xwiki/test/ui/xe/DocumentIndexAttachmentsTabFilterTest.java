@@ -27,6 +27,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.index.test.po.AllDocsPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
@@ -46,6 +47,7 @@ public class DocumentIndexAttachmentsTabFilterTest extends AbstractAdminAuthenti
     // WARN: calling isReady() and waitUntilReady() from LiveTableElement.java inside this class fails.
     // Used example from JIRA issue
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testAttachmentsPane()
     {
         AllDocsPage docsPage = AllDocsPage.gotoPage();

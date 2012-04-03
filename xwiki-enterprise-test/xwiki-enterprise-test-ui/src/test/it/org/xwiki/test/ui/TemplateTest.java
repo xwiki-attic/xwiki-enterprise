@@ -23,6 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
@@ -40,6 +41,7 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
      * Test that velocity is rendered
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testHelloVelocity()
     {
         String hello = "Hello Velocity Test Test Test";
@@ -51,6 +53,7 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
      * Test that an included existing template is displayed correctly
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testCorrectTemplate()
     {
         saveVelocity(includeTemplate("code.vm"), true);
@@ -62,6 +65,7 @@ public class TemplateTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-2580
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testWrongTemplate()
     {
         saveVelocity(includeTemplate("../../"));

@@ -29,6 +29,7 @@ import org.xwiki.test.po.scheduler.SchedulerHomePage;
 import org.xwiki.test.po.scheduler.SchedulerPage;
 import org.xwiki.test.po.scheduler.editor.SchedulerEditPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -64,6 +65,7 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testJobActions()
     {
         // Create Job

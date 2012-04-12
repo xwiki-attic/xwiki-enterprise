@@ -671,7 +671,9 @@
       <id>legacy</id>
       <properties>
         <xwiki.war.exclude.oldcore>
-          WEB-INF/lib/xwiki-platform-oldcore-*.jar,
+          WEB-INF/lib/xwiki-commons-component-api-*.jar,
+          WEB-INF/lib/xwiki-commons-component-default-*.jar,
+          WEB-INF/lib/xwiki-platform-oldcore-*.jar
         </xwiki.war.exclude.oldcore>
       </properties>
       <dependencies>

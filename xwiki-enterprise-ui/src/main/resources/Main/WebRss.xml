@@ -22,7 +22,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{velocity}}
 ## Backward compatibility redirect, if the RSS feed is called without the outputSyntax query argument, force it.
 #if (("$!request.xpage" == 'plain' || "$!request.xpage" == 'rdf') &amp;&amp; "$!request.outputSyntax" != 'plain')

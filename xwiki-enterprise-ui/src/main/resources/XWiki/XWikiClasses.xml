@@ -22,7 +22,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{velocity}}
 #if($request.space &amp;&amp; $request.name)
   #set($className = "#toXMLName($stringtool.removeEnd($request.name, 'Class'))")

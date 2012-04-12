@@ -670,12 +670,14 @@
     <profile>
       <id>legacy</id>
       <properties>
-        <xwiki.war.exclude.oldcore>WEB-INF/lib/xwiki-platform-oldcore-*.jar,</xwiki.war.exclude.oldcore>
+        <xwiki.war.exclude.oldcore>
+          WEB-INF/lib/xwiki-platform-oldcore-*.jar,
+        </xwiki.war.exclude.oldcore>
       </properties>
       <dependencies>
         <dependency>
           <groupId>org.xwiki.commons</groupId>
-          <artifactId>xwiki-commons-legacy-component</artifactId>
+          <artifactId>xwiki-commons-legacy-component-default</artifactId>
           <version>${commons.version}</version>
           <scope>runtime</scope>
         </dependency>

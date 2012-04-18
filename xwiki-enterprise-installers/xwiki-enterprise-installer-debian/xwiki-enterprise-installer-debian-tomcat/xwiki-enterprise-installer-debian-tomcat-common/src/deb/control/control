@@ -8,7 +8,7 @@ Replaces: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-tomcat-pgsql 
 Breaks: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-tomcat-pgsql (<< 3.5)
 Maintainer: XWiki Team (devs@xwiki.org)
 License: LGPL 2.1
-Description: XWiki enterprise Tomcat/MySQL based package
+Description: XWiki enterprise Tomcat common package
  XWiki is a free wiki software platform written in Java with a design emphasis
  on extensibility.
  .

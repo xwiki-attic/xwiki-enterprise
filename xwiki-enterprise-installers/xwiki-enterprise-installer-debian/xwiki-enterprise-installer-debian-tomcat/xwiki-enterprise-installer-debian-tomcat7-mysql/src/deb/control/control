@@ -1,4 +1,4 @@
-Package: xwiki-enterprise-tomcat6-mysql
+Package: xwiki-enterprise-tomcat7-mysql
 Version: [[version]]
 Section: java
 Priority: optional

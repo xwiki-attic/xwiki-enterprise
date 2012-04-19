@@ -1460,6 +1460,18 @@ public class MacroTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see XWIKI-7743: Wrong editor width when returning from full screen edit after editing/adding a macro
+     */
+    public void testEditorWidthIsRestoredAfterFullScreenEdit()
+    {
+        clickEditInFullScreen();
+        refreshMacros();
+        clickExitFullScreen();
+        // The width of the rich text area should be reset after exiting the full screen edit.
+        assertEquals("", getSelenium().getEval("window.document.getElementsByTagName('iframe')[0].style.width"));
+    }
+
+    /**
      * @param index the index of a macro inside the edited document
      * @return a {@link String} representing a DOM locator for the specified macro
      */

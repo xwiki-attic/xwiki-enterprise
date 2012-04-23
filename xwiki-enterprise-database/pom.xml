@@ -92,6 +92,12 @@
               <artifactId>xwiki-platform-activitystream</artifactId>
               <version>${platform.version}</version>
             </dependency>
+            <!-- Annotation has it own migrator that we need to execute to set the rigth version to the DB. -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-annotation-io</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
             <dependency>

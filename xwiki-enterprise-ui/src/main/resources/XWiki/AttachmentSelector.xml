@@ -390,7 +390,7 @@
           }
           // Manually convert the special rel values into target attributes for the newly inserted content (rel="_something" =&gt; target="something")
           if (typeof (XWiki.fixLinksTargetAttribute) == 'function') {
-            // Trick the function into updating link targets in inline mode; normally the conversion only takes place in view mode
+            // Trick the function into updating link targets in edit mode; normally the conversion only takes place in view mode
             var __tmp = XWiki.contextaction;
             XWiki.contextaction = 'view';
             XWiki.fixLinksTargetAttribute(dialog.dialog);
@@ -2160,7 +2160,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
   #if ("$!{request.savemode}" == 'direct')
     #set($docAction = 'save')
   #else
-    #set($docAction = 'inline')
+    #set($docAction = $targetDocument.getDefaultEditMode())
   #end
   #set ($filter = [])
   #set ($rawfilter = '')

@@ -673,6 +673,7 @@
         <xwiki.war.exclude.oldcore>
           WEB-INF/lib/xwiki-commons-component-api-*.jar,
           WEB-INF/lib/xwiki-commons-component-default-*.jar,
+          WEB-INF/lib/xwiki-rendering-api-*.jar,
           WEB-INF/lib/xwiki-platform-oldcore-*.jar,
         </xwiki.war.exclude.oldcore>
       </properties>
@@ -687,6 +688,12 @@
           <groupId>org.xwiki.commons</groupId>
           <artifactId>xwiki-commons-legacy-configuration</artifactId>
           <version>${commons.version}</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>xwiki-rendering-legacy-api</artifactId>
+          <version>${rendering.version}</version>
           <scope>runtime</scope>
         </dependency>
         <dependency>

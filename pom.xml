@@ -87,7 +87,6 @@
   com.xpn.xwiki.plugin.userdirectory.UserDirectoryPlugin,\
   com.xpn.xwiki.plugin.usertools.XWikiUserManagementToolsImpl,\
   com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
-  com.xpn.xwiki.plugin.autotag.AutoTagPlugin,\
   com.xpn.xwiki.plugin.lucene.LucenePlugin,\
   com.xpn.xwiki.plugin.diff.DiffPlugin,\
   com.xpn.xwiki.plugin.rightsmanager.RightsManagerPlugin,\

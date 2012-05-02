@@ -82,13 +82,14 @@ public class DatePicker extends BaseElement
     }
 
     /**
-     * Selects the specified day.
+     * Selects the specified day from the current month.
      * 
      * @param day the day to select
      */
     public void setDay(String day)
     {
-        container.findElement(By.xpath("//*[@class = 'cds_body']//tbody//*[. = '" + day + "']")).click();
+        container.findElement(By.xpath("//*[@class = 'cds_body']//tbody//div[. = '" + day + "' and not(@class)]"))
+            .click();
     }
 
     /**

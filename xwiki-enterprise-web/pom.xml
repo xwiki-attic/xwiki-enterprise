@@ -741,6 +741,7 @@
           WEB-INF/lib/xwiki-commons-component-default-*.jar,
           WEB-INF/lib/xwiki-rendering-api-*.jar,
           WEB-INF/lib/xwiki-platform-oldcore-*.jar,
+          WEB-INF/lib/xwiki-platform-office-importer-*.jar
         </xwiki.war.exclude.oldcore>
       </properties>
       <dependencies>
@@ -783,6 +784,12 @@
         <dependency>
           <groupId>org.xwiki.platform</groupId>
           <artifactId>xwiki-platform-legacy-model</artifactId>
+          <version>${platform.version}</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-legacy-office-importer</artifactId>
           <version>${platform.version}</version>
           <scope>runtime</scope>
         </dependency>

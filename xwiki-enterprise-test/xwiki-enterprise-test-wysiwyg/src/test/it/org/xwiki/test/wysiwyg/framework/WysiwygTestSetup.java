@@ -55,6 +55,9 @@ public class WysiwygTestSetup extends TestSetup
             return;
         }
 
+        // Make sure the hidden documents are displayed to the Admin user.
+        displayHiddenDocumentsForAdmin(firstXWikiTest);
+
         // Set up the WYSIWYG tests using the first WYSIWYG Test case for Selenium and skin executor API.
         enableAllEditingFeatures(firstXWikiTest);
     }
@@ -82,14 +85,28 @@ public class WysiwygTestSetup extends TestSetup
     }
 
     /**
+     * Sets the Admin user preference to display the hidden documents.
+     * 
+     * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
+     */
+    private void displayHiddenDocumentsForAdmin(AbstractWysiwygTestCase helperTest)
+    {
+        helperTest.loginAsAdmin();
+        helperTest.open("XWiki", "Admin", "edit", "editor=object");
+        String propertyId = "XWiki.XWikiUsers_0_displayHiddenDocuments";
+        if (!"1".equals(helperTest.getSelenium().getSelectedValue(propertyId))) {
+            helperTest.setFieldValue(propertyId, "1");
+            helperTest.clickEditSaveAndContinue();
+        }
+    }
+
+    /**
      * Enables all editing features so they are accessible for testing.
      * 
      * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
      */
     private void enableAllEditingFeatures(AbstractWysiwygTestCase helperTest)
     {
-        // Login as admin and enable editing features.
-        helperTest.loginAsAdmin();
         Map<String, String> config = new HashMap<String, String>();
         config.put("plugins", "submit readonly line separator embed text valign list "
             + "indent history format symbol link image " + "table macro import color justify font");

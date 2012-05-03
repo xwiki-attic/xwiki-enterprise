@@ -741,7 +741,8 @@
           WEB-INF/lib/xwiki-commons-component-default-*.jar,
           WEB-INF/lib/xwiki-rendering-api-*.jar,
           WEB-INF/lib/xwiki-platform-oldcore-*.jar,
-          WEB-INF/lib/xwiki-platform-office-importer-*.jar
+          WEB-INF/lib/xwiki-platform-office-importer-*.jar,
+          <!-- Leave the ending comma because this list is concatenated with another one. -->
         </xwiki.war.exclude.oldcore>
       </properties>
       <dependencies>

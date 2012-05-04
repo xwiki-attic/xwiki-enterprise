@@ -90,11 +90,13 @@ public class KeyboardShortcutsTest extends AbstractAdminAuthenticatedTest
         // Test Delete key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys(Keys.DELETE);
+        vp.waitUntilPageIsLoaded();
         Assert.assertTrue(util.isInDeleteMode());
 
         // Test Rename key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys(Keys.F2);
+        vp.waitUntilPageIsLoaded();
         Assert.assertTrue(util.isInRenameMode());
     }
 }

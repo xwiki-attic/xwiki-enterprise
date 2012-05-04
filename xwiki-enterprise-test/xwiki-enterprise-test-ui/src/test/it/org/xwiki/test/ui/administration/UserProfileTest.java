@@ -269,6 +269,10 @@ public class UserProfileTest extends AbstractTest
         //    Assert.assertEquals("The password cannot be empty.", alert.getText());
         //    alert.accept();
 
+        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
+        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
+        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
+        changePasswordPage.waitUntilPageIsLoaded();
         String currentURL = getDriver().getCurrentUrl();
         changePasswordPage.makeAlertDialogSilent();
         changePasswordPage.submit();

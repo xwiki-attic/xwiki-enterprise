@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.po.administration.TemplateProviderInlinePage;
 import org.xwiki.test.po.administration.TemplatesAdministrationSectionPage;
+import org.xwiki.test.po.xe.HomePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.CreatePagePage;
 import org.xwiki.test.ui.po.CreateSpacePage;
@@ -35,7 +36,6 @@ import org.xwiki.test.ui.po.DocumentDoesNotExistPage;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
-import org.xwiki.test.po.xe.HomePage;
 
 /**
  * Tests page creation using a Template Provider and a Template.
@@ -84,7 +84,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests if a new page can be created from a template.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testCreatePageFromTemplate()
     {
         // Setup the correct environment for the test
@@ -133,9 +133,13 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertFalse(getUtil().gotoPage(getTestClassName(), TEMPLATE_NAME + "UnexistingInstance").exists());
         DocumentDoesNotExistPage unexistingPage = new DocumentDoesNotExistPage();
         unexistingPage.clickEditThisPageToCreate();
-        // make sure we're in create mode
-        Assert.assertTrue(getUtil().isInCreateMode());
         CreatePagePage createUnexistingPage = new CreatePagePage();
+        // Make sure we're in create mode.
+        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
+        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
+        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
+        createUnexistingPage.waitUntilPageIsLoaded();
+        Assert.assertTrue(getUtil().isInCreateMode());
         // count the available templates, make sure they're as many as before and that our template is among them
         templates = getDriver().findElements(By.name("templateprovider"));
         // Note: We need to remove 1 to exclude the "Empty Page" template entry
@@ -181,9 +185,12 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
 
         // Verify we can still create a page from template in the test space
         createPagePage = templateProviderView.createPage();
-        // make sure we get in create mode
+        // Make sure we get in create mode.
+        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
+        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
+        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
+        createPagePage.waitUntilPageIsLoaded();
         Assert.assertTrue(getUtil().isInCreateMode());
-        createPagePage = new CreatePagePage();
         Assert.assertEquals(availableTemplateSize, createPagePage.getAvailableTemplateSize());
         Assert.assertTrue(createPagePage.getAvailableTemplates().contains(templateProviderFullName));
 
@@ -207,7 +214,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests that creating a space works fine.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateSpace()
     {
         // create a random space
@@ -233,7 +240,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests that creating a page or a space that already exists displays an error.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testCreateExistingPage()
     {
         String space = this.getClass().getSimpleName();
@@ -278,6 +285,10 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // 3/ create a space that already exists
         homePage = HomePage.gotoPage();
         CreateSpacePage createSpace = homePage.createSpace();
+        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
+        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
+        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
+        createSpace.waitUntilPageIsLoaded();
         currentURL = getDriver().getCurrentUrl();
         // strip the parameters out of this URL
         currentURL =
@@ -297,7 +308,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests what happens when creating a page when no template is available in the specific space.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testCreatePageWhenNoTemplateAvailable()
     {
         // prepare the test environment, create a test space and exclude all templates for this space
@@ -396,7 +407,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests the creation of a page from a save and edit template, tests that the page is indeed saved.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testCreatePageWithSaveAndEditTemplate()
     {
         String space = this.getClass().getSimpleName();

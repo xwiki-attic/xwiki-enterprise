@@ -26,6 +26,7 @@ import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
 import org.xwiki.test.po.xe.HomePage;
+import org.xwiki.test.po.xe.SpaceIndexPage;
 
 /**
  * Tests the Space Dashboard.
@@ -68,7 +69,11 @@ public class SpacesTest extends AbstractAdminAuthenticatedTest
 
         // Navigate to the Home Page and click on the SpaceIndex.
         HomePage homePage = HomePage.gotoPage();
-        homePage.getSpacesPane().clickSpaceIndex(spaceName);
+        SpaceIndexPage spaceIndexPage = homePage.getSpacesPane().clickSpaceIndex(spaceName);
+        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
+        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
+        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
+        spaceIndexPage.waitUntilPageIsLoaded();
 
         // TODO: Improve the following test by asserting the content of the Livetable in the SpaceIndexPage
         Assert.assertEquals(getUtil().getURL("Main", "SpaceIndex", "view", "space=" + getUtil().escapeURL(spaceName)),

@@ -170,11 +170,9 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Wait for the data to arrive.
         waitForNodeToLoad("xwiki:Blog");
+        waitForNodeToLoad("xwiki:Dashboard");
         waitForNodeToLoad("xwiki:Main");
-        waitForNodeToLoad("xwiki:Panels");
         waitForNodeToLoad("xwiki:Sandbox");
-        waitForNodeToLoad("xwiki:Scheduler");
-        waitForNodeToLoad("xwiki:Stats");
         waitForNodeToLoad("xwiki:XWiki");
 
         // We can't use Selenium to generate events (clicks and keys) for Smartclient widgets.

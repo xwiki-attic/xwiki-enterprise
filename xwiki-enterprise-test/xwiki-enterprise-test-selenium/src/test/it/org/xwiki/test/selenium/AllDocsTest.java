@@ -59,103 +59,109 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // Validate absence of "Actions" column for users without administration rights and verify there are
         // elements in the table
         open("Main", "AllDocs");
-        // We verify we have a least 3 pages displayed
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
+        // We verify we have a least 2 pages displayed
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         if (isAuthenticated()) {
             logout();
         }
         assertElementNotPresent("//td[text()='Actions']");
 
-        // Validate presence of "Actions" column in table view for administrator.
+        // Create a new page that will be used in this test.
         loginAsAdmin();
+        String spaceName = this.getClass().getSimpleName();
+        String pageName = getName();
+        open(spaceName, getName(), "edit", "editor=wiki&title=Actions+test");
+        clickEditSaveAndContinue();
+
+        // Validate presence of "Actions" column in table view for administrator.
         open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         assertElementPresent("//th[normalize-space(text())='Actions']");
 
         // Validate input suggest for Page field.
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "Treeview");
+        getSelenium().typeKeys("doc.name", "ViewActions");
         // Note: We wait on the pagination result since it's the last element updated and it's done after the
         // table rows have been updated so this allows us to wait on it. In the code below "1" represents the
         // displayed pages.
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
 
         // Validate input suggest for Space field.
         open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
-        getSelenium().type("xpath=//input[@name='doc.space']", "XWiki");
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
+        getSelenium().type("xpath=//input[@name='doc.space']", spaceName);
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "treeview");
+        getSelenium().typeKeys("doc.name", "table");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
 
         // Validate input suggest for Last Author field.
         open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         getSelenium().focus("doc.author");
         getSelenium().typeKeys("doc.author", "SomeUnknownAuthor");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "");
-        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
+        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
 
         // Validate Copy link action.
         open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "treeview");
+        getSelenium().typeKeys("doc.name", "view");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='Treeview']");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
         clickLinkWithText("copy");
         // The copy page form doesn't allow us to copy to a new space.
         setFieldValue("targetSpaceName", "Sandbox");
-        setFieldValue("targetPageName", "TreeviewNew");
+        setFieldValue("targetPageName", pageName + "New");
         clickLinkWithLocator("//input[@value='Copy']");
         open("Main", "AllDocs");
         getSelenium().focus("doc.space");
         getSelenium().typeKeys("doc.space", "Sandbox");
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "treeviewnew");
+        getSelenium().typeKeys("doc.name", "new");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewNew']");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "New']");
 
         // Validate Rename link action.
         open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "TreeviewNew");
+        getSelenium().typeKeys("doc.name", "actionsNew");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rename']");
-        setFieldValue("newPageName", "TreeviewNewRenamed");
+        setFieldValue("newPageName", pageName + "NewRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
         open("Main", "AllDocs");
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "TreeviewNewRenamed");
+        getSelenium().typeKeys("doc.name", "renamed");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewNewRenamed']");
+        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "NewRenamed']");
 
         // Validate Delete link action.
         open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "Treeviewnewrenamed");
+        getSelenium().typeKeys("doc.name", "renamed");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='delete']");
         clickLinkWithLocator("//input[@value='yes']");
         assertTextPresent("The document has been deleted.");
         open("Main", "AllDocs");
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "treeview");
+        getSelenium().typeKeys("doc.name", "actions");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='TreeviewNewRenamed']");
+        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "NewRenamed']");
 
         // Validate Rights link action.
         open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2 3");
+        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "Treeview");
+        getSelenium().typeKeys("doc.name", pageName);
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rights']");
-        Assert.assertEquals("Editing Rights for Tree", getTitle());
+        Assert.assertEquals("Editing Rights for Actions test", getTitle());
     }
 
     /**

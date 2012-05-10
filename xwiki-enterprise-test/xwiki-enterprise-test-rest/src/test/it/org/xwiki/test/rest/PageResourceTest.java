@@ -138,8 +138,8 @@ public class PageResourceTest extends AbstractHttpTest
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
-        Assert.assertEquals(modifiedPage.getContent(), CONTENT);
-        Assert.assertEquals(modifiedPage.getTitle(), TITLE);
+        Assert.assertEquals(CONTENT, modifiedPage.getContent());
+        Assert.assertEquals(TITLE, modifiedPage.getTitle());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class PageResourceTest extends AbstractHttpTest
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
-        Assert.assertEquals(modifiedPage.getContent(), CONTENT);
+        Assert.assertEquals(CONTENT, modifiedPage.getContent());
     }
 
     @Test
@@ -424,8 +424,8 @@ public class PageResourceTest extends AbstractHttpTest
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
 
-        Assert.assertEquals(modifiedPage.getContent(), CONTENT);
-        Assert.assertEquals(modifiedPage.getTitle(), TITLE);
+        Assert.assertEquals(CONTENT, modifiedPage.getContent());
+        Assert.assertEquals(TITLE, modifiedPage.getTitle());
     }
 
     @Test

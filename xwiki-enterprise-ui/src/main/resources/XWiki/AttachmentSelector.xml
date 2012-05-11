@@ -2,7 +2,7 @@
 
 <xwikidoc>
   <web>XWiki</web>
-  <name>AttachmentSelectorT</name>
+  <name>AttachmentSelector</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -95,7 +95,7 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
     <guid>caa5337b-fad4-4c21-8ef4-9e7e1c44dbfe</guid>
@@ -486,7 +486,7 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>1</number>
     <className>XWiki.JavaScriptExtension</className>
     <guid>2aa565e6-b9bd-4095-a7a9-bbf47d75d079</guid>
@@ -611,7 +611,7 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>0</number>
     <className>XWiki.StyleSheetExtension</className>
     <guid>2a28ce9c-ab00-4847-936d-53e4f2acbfe0</guid>
@@ -943,7 +943,7 @@ XWiki.widgets.ModalPopup.prototype.closeDialog = function(event) {
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </visibility>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>0</number>
     <className>XWiki.WikiMacroClass</className>
     <guid>7f67fdfc-a67a-4166-b7c1-6d572ee54719</guid>
@@ -963,16 +963,19 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
 ##
 ## Prepare parameters
 ##
-## Set the targetdoc we want to save to (default to current doc if not set)
+## Assume we the user has edit and view permissions for targetdocname
 #set ($targetPermView = true)
 #set ($targetPermEdit = true)
+## Keep track for when we have a target document
 #set ($hasTargetDoc = false)
 #set ($targetdoc = "$!{xcontext.macro.params.targetdocname}")
+###
+## Set the targetdoc we want to save to (default to current doc if not set)
 #if ("$!{targetdoc}" != '')
-  ## Check access on target
+  ## Check access on targetdocname
   #set ($targetPermView = $xwiki.hasAccessLevel('view',$xcontext.user,${targetdoc}))
   #set ($targetPermEdit = $xwiki.hasAccessLevel('edit',$xcontext.user,${targetdoc}))
-  #set ($targetdoc = $xwiki.getDocument(${targetdoc}) )
+  #set ($targetdoc = $xwiki.getDocument($targetdoc) )
   #set ($hasTargetDoc = true)
 #else
   #set($targetdoc = $doc)
@@ -1065,8 +1068,11 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
   #end
 #end
 
+## Display the "Choose an attachment" button if they can:
+##  1. Edit the current page
+##  2. View the target attachment page. (can be the same page)
 #macro (attachmentPicker_displayButton)
-  #if ($hasEdit &amp;&amp; $targetPermEdit &amp;&amp; $targetPermView)(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}?#if ($hasTargetDoc)targetdocname=${escapetool.url($targetdoc.fullName)}&amp;#{end}docname=${escapetool.url($doc.fullName)}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}||class="attachment-picker-start button" title="${buttontext}"]](%%)#end
+  #if ($hasEdit &amp;&amp; $targetPermView)(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}?#if ($hasTargetDoc)targetdocname=${escapetool.url($targetdoc.fullName)}&amp;#{end}docname=${escapetool.url($doc.fullName)}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}||class="attachment-picker-start button" title="${buttontext}"]](%%)#end
 #end
 {{/velocity}}
 
@@ -1096,7 +1102,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
       <description>A control to be used for object properties that are supposed to contain the name of an attachment of the containing document.</description>
     </property>
     <property>
-      <id>attachmentSelectorT</id>
+      <id>attachmentSelector</id>
     </property>
     <property>
       <name>Attachment Selector</name>
@@ -1157,7 +1163,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>0</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>bb1b9208-3b4a-43e4-8a69-603281ca1412</guid>
@@ -1223,7 +1229,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>1</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>c51517fc-93e9-4594-8b10-b014a8907452</guid>
@@ -1289,7 +1295,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>2</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>b43c2df7-9941-4941-834b-0236424cfaa9</guid>
@@ -1355,7 +1361,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>5</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>a35e6fcc-b5e9-4c49-a601-cead93cba813</guid>
@@ -1421,7 +1427,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>6</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>2dcec651-66b9-4d7c-9ac6-2578a426a5f4</guid>
@@ -1487,7 +1493,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>7</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>a932ece6-3c6d-48c7-a717-536317705f71</guid>
@@ -1553,7 +1559,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>10</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>5c3f5b0d-1d0d-4820-8985-13d779972acb</guid>
@@ -1619,7 +1625,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>12</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>aa252c40-59a0-4e82-a94b-e133862fe082</guid>
@@ -1685,7 +1691,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>13</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>e31c42de-47d7-4a73-a236-b99c2231dca7</guid>
@@ -1751,7 +1757,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>14</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>0b2cea67-1942-4ce2-9f5e-90907033c92c</guid>
@@ -1817,7 +1823,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>15</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>003ab606-5c72-465d-bfd6-bd21262be502</guid>
@@ -1883,7 +1889,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>16</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>9ca8402c-6df8-4068-b00f-1f9bb18f38a9</guid>
@@ -1949,7 +1955,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
-    <name>XWiki.AttachmentSelectorT</name>
+    <name>XWiki.AttachmentSelector</name>
     <number>17</number>
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>54e733cd-f755-4dee-8629-b713f685790a</guid>
@@ -1964,6 +1970,72 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
     </property>
     <property>
       <name>link</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb></defaultWeb>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>XWiki.AttachmentSelector</name>
+    <number>18</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>99b73453-120c-481a-8889-1a7efc7b73f2</guid>
+    <property>
+      <defaultValue></defaultValue>
+    </property>
+    <property>
+      <description>The target document name to save/list attachments from</description>
+    </property>
+    <property>
+      <mandatory>0</mandatory>
+    </property>
+    <property>
+      <name>targetdocname</name>
     </property>
   </object>
   <content>{{velocity output="false"}}
@@ -1988,7 +2060,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
 ## Macros
 ##
 #set ($translationPrefix = 'xe.attachmentSelector')
-#set ($attachmentPickerDocName = 'XWiki.AttachmentSelectorT')
+#set ($attachmentPickerDocName = 'XWiki.AttachmentSelector')
 
 $xwiki.ssx.use($attachmentPickerDocName)
 $xwiki.jsx.use($attachmentPickerDocName)
@@ -2006,7 +2078,10 @@ $xwiki.jsx.use($attachmentPickerDocName)
     #set ($currentValue = "$!{options.defaultValue}")
   #end
   (% class="gallery" %)(((
-  #attachmentPicker_displayUploadForm($targetDocument, $targetAttachDocument, $options)
+  ## Only display the upload form if they have edit permission on targetAttachDocument
+  #if ($xwiki.hasAccessLevel('edit',$xcontext.user,${targetAttachDocument})))
+    #attachmentPicker_displayUploadForm($targetDocument, $targetAttachDocument, $options)
+  #end
   #attachmentPicker_displayAttachmentGalleryEmptyValue($targetDocument, $targetAttachDocument, $options, $currentValue)
   #set ($sortedAttachments = $sorttool.sort($targetAttachDocument.getAttachmentList(), 'date:desc') )
   #foreach ($attachment in $sortedAttachments)

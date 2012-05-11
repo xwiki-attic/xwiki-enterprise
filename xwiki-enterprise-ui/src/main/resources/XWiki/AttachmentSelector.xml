@@ -21,7 +21,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <object>
     <class>
@@ -1072,7 +1072,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
 ##  1. Edit the current page
 ##  2. View the target attachment page. (can be the same page)
 #macro (attachmentPicker_displayButton)
-  #if ($hasEdit &amp;&amp; $targetPermView)(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}?#if ($hasTargetDoc)targetdocname=${escapetool.url($targetdoc.fullName)}&amp;#{end}docname=${escapetool.url($doc.fullName)}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}||class="attachment-picker-start button" title="${buttontext}"]](%%)#end
+  #if ($hasEdit &amp;&amp; $targetPermView)(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}||queryString="#if ($hasTargetDoc)targetdocname=${escapetool.url($targetdoc.fullName)}&amp;#{end}docname=${escapetool.url($doc.fullName)}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}" class="attachment-picker-start button" title="${buttontext}"]](%%)#end
 #end
 {{/velocity}}
 
@@ -2168,7 +2168,8 @@ $xwiki.jsx.use($attachmentPickerDocName)
     )))## attachmentframe
     (% class="gallery_actions" %)(((
       #foreach ($action in $actions)
-        {{html}}&lt;a href="${action.url}" class="tool ${action.name}" title="$msg.get("${translationPrefix}.actions.${action.name}")" #if($action.rel) rel="${action.rel}"#end&gt;$msg.get("${translationPrefix}.actions.${action.name}")&lt;/a&gt;{{/html}} ##
+        #set( $actionname = $msg.get("${translationPrefix}.actions.${action.name}") )
+        [[${actionname}&gt;&gt;path:${action.url}||class="tool ${action.name}" title="${actionname}" #if($action.rel) rel="${action.rel}"#end]]##
       #end
     )))## actions
   )))## attachmentbox

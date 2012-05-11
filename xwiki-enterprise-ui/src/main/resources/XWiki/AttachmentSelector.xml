@@ -2079,7 +2079,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
   #end
   (% class="gallery" %)(((
   ## Only display the upload form if they have edit permission on targetAttachDocument
-  #if ($xwiki.hasAccessLevel('edit',$xcontext.user,${targetAttachDocument})))
+  #if ($xwiki.hasAccessLevel('edit',$xcontext.user,${targetAttachDocument.fullName}))
     #attachmentPicker_displayUploadForm($targetDocument, $targetAttachDocument, $options)
   #end
   #attachmentPicker_displayAttachmentGalleryEmptyValue($targetDocument, $targetAttachDocument, $options, $currentValue)

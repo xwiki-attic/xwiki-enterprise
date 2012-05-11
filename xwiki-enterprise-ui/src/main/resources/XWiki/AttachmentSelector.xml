@@ -963,9 +963,6 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
 ##
 ## Prepare parameters
 ##
-## Assume we the user has edit and view permissions for targetdocname
-#set ($targetPermView = true)
-#set ($targetPermEdit = true)
 ## Keep track for when we have a target document
 #set ($hasTargetDoc = false)
 #set ($targetdoc = "$!{xcontext.macro.params.targetdocname}")
@@ -978,6 +975,9 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
   #set ($targetdoc = $xwiki.getDocument($targetdoc) )
   #set ($hasTargetDoc = true)
 #else
+  ## The user should have edit and view permissions for the current doc
+  #set ($targetPermView = true)
+  #set ($targetPermEdit = true)
   #set($targetdoc = $doc)
 #end
 #set ($classname = "$!{xcontext.macro.params.classname}")

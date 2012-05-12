@@ -63,33 +63,45 @@ public class PageResourceTest extends AbstractHttpTest
 
         Wikis wikis = (Wikis) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         Assert.assertTrue(wikis.getWikis().size() > 0);
-
         Wiki wiki = wikis.getWikis().get(0);
-        Link link = getFirstLinkByRelation(wiki, Relations.SPACES);
-        Assert.assertNotNull(link);
 
-        getMethod = executeGet(link.getHref());
+        // Get a link to an index of spaces (http://localhost:8080/xwiki/rest/wikis/xwiki/spaces)
+        Link spacesLink = getFirstLinkByRelation(wiki, Relations.SPACES);
+        Assert.assertNotNull(spacesLink);
+        Link spaceLink = null;
+        getMethod = executeGet(spacesLink.getHref());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
-
         Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-
         Assert.assertTrue(spaces.getSpaces().size() > 0);
 
-        Space space = spaces.getSpaces().get(0);
-        link = getFirstLinkByRelation(space, Relations.PAGES);
-        Assert.assertNotNull(link);
+        Space space = null;
+        for (final Space s : spaces.getSpaces()) {
+            if ("Main".equals(s.getName())) {
+                space = s;
+                break;
+            }
+        }
 
-        getMethod = executeGet(link.getHref());
+        // get the pages list for the space
+        // eg: http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main/pages
+        Link pagesInSpace = getFirstLinkByRelation(space, Relations.PAGES);
+        Assert.assertNotNull(pagesInSpace);
+        getMethod = executeGet(pagesInSpace.getHref());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
-
         Pages pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
         Assert.assertTrue(pages.getPageSummaries().size() > 0);
 
-        PageSummary pageSummary = pages.getPageSummaries().get(0);
-        link = getFirstLinkByRelation(pageSummary, Relations.PAGE);
-        Assert.assertNotNull(link);
+        Link pageLink = null;
+        for (final PageSummary ps : pages.getPageSummaries()) {
+            if ("WebHome".equals(ps.getName())) {
+                pageLink = getFirstLinkByRelation(ps, Relations.PAGE);
+                Assert.assertNotNull(pageLink);
+                break;
+            }
+        }
+        Assert.assertNotNull(pageLink);
 
-        getMethod = executeGet(link.getHref());
+        getMethod = executeGet(pageLink.getHref());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -135,7 +147,6 @@ public class PageResourceTest extends AbstractHttpTest
 
         PutMethod putMethod = executePutXml(link.getHref(), newPage, "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
-
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
         Assert.assertEquals(CONTENT, modifiedPage.getContent());

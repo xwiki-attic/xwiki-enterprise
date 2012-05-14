@@ -93,11 +93,12 @@
               <goal>copy</goal>
             </goals>
             <configuration>
+              <stripVersion>true</stripVersion>
               <artifactItems>
                 <artifactItem>
                   <groupId>launch4j</groupId>
                   <artifactId>launch4j</artifactId>
-                  <version>3.0.1</version>
+                  <version>3.0.2</version>
                 </artifactItem>
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
@@ -119,7 +120,7 @@
                 <artifactItem>
                   <groupId>launch4j</groupId>
                   <artifactId>launch4j</artifactId>
-                  <version>3.0.1</version>
+                  <version>3.0.2</version>
                   <classifier>${launch4jOs}</classifier>
                   <type>zip</type>
                 </artifactItem>
@@ -146,7 +147,7 @@
                 <chmod file="${project.build.directory}/dependency/bin/ld" perm="ugo+rx" />
                 
                 <property name="classpath.compile" refid="maven.compile.classpath" />
-                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${classpath.compile}:${project.build.directory}/dependency/launch4j-3.0.1.jar" />
+                <taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${classpath.compile}:${project.build.directory}/dependency/launch4j.jar" />
                 <launch4j configFile="${project.build.directory}/classes/launch4j.xml" />
               </tasks>
             </configuration>
@@ -197,7 +198,7 @@
         </os>        
       </activation>
       <properties>
-        <launch4jOs>macosx</launch4jOs>
+        <launch4jOs>macosx-x86</launch4jOs>
       </properties>
     </profile>
     <profile>

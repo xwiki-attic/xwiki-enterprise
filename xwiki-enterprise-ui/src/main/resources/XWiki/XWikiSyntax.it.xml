@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>XWiki</web>
-  <name>XWikiSyntax</name>
-  <language>it</language>
-  <defaultLanguage/>
-  <translation>1</translation>
-  <parent>XWiki.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1203507376000</creationDate>
-  <date>1253107969000</date>
-  <contentUpdateDate>1253107969000</contentUpdateDate>
-  <version>1.1</version>
-  <title>XWiki Syntaxes</title>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
-  <content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
+<web>XWiki</web>
+<name>XWikiSyntax</name>
+<language>it</language>
+<defaultLanguage></defaultLanguage>
+<translation>1</translation>
+<parent>XWiki.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1203507376000</creationDate>
+<date>1253107969000</date>
+<contentUpdateDate>1253107969000</contentUpdateDate>
+<version>1.1</version>
+<title>XWiki Syntaxes</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
 
 {{box cssClass="floatinginfobox" title="**Indice**"}}
 {{toc depth="1"/}}
 {{/box}}
 
-A partire dalla versione 1.7 di XWiki Enterprise abbiamo introdotto una nuova sintassi di xwiki. La vecchia sintassi si chiama //Sintassi di XWiki 1.0// e la nuova sintassi si chiama conseguentemente //Sintassi di XWiki 2.0//. I principali motivi per l'introduzione di una nuova sintassi sono stati i seguenti:
+A partire dalla versione 1.7 di XWiki Enterprise abbiamo introdotto una nuova sintassi di xwiki. La vecchia sintassi era stata chiamata //Sintassi XWiki 1.0// e la nuova sintassi fu chiamata conseguentemente //Sintassi XWiki 2.0//. I motivi principali per l'introduzione di una nuova sintassi sono stati i seguenti:
 * Superare i limiti e le ambiguità della sintassi XWiki 1.0 (che fu ispirata sia da Radeox - il motore di rendering sottostante- e da TWiki).
-** Simboli non ottimali. Per esempio il simbolo per il grassetto era un asterisco singolo. Ciò causava problemi se gli utenti inserivano del testo che conteneva degli asterischi dal momento che il testo seguente veniva considerato erroneamente in grassetto mentre non lo era affatto. Per cui abbiamo razionalizzato la sintassi usando almeno un carattere doppio ovunque possibile.
+** Simboli non ottimali. Per esempio il simbolo per il grassetto era un asterisco singolo. Ciò causava problemi quando gli utenti inserivano del testo che conteneva degli asterischi, dal momento che il testo seguente veniva considerato erroneamente in grassetto, mentre non lo era affatto. Per cui abbiamo razionalizzato la sintassi usando almeno caratteri doppi ovunque possibile.
 ** Ambiguità. Per esempio c'era ambiguità tra una voce in grassetto all'inizio di una riga ed un elenco puntato. Era necessario risolvere le ambiguità per poter riscrivere l'editor WYSIWYG in modo che fosse deterministico.
 * Per essere più vicini alla [[Sintassi Creole 1.0&gt;&gt;http://www.wikicreole.org/]] che sta diventando lo standard delle sintasssi per i wiki. Inoltre la comunità di Creole ha speso del tempo per analizzare tutte le sintassi dei wiki esistenti prima di decidere i simboli da usare. Per cui le scelte fatte sono molto buone.
 
-Dall'introduzione della sintassi XWiki 2.0 abbiamo scoperto alcuni difetti di questa sintassi. Per risolverli è stata introdotta, per il momento //in via sperimentale//, la sintassi XWiki 2.1 a partire dalla versione 3.0 di XWiki Enterprise. Ecco alcuni dei motivi per l'introduzione di questa nuova sintassi:
-* Omogeneizzare la sintassi per i link e le immgini per maggiore chiarezza, consistenza ed estendibilità.
-* Aggiunta la possibilità di mostrare icone, di fare collegamenti a file usando la notazione UNC e fare link a URL relativi.
+Dopo l'introduzione della sintassi XWiki 2.0 abbiamo scoperto alcuni difetti di questa sintassi. Per risolverli è stata introdotta, per il momento //in via sperimentale//, la sintassi XWiki 2.1 a partire dalla versione 3.0 di XWiki Enterprise. Ecco alcuni dei motivi per l'introduzione di questa nuova sintassi:
+* Omogeneizzare la sintassi per i link e per le immagini, così da ottenere maggiore chiarezza, consistenza ed estendibilità.
+* Aggiungere la possibilità di mostrare icone, di fare collegamenti a file usando la notazione UNC e fare link a URL relativi.
 
 {{info}}Dal momento che la sintassi XWiki 2.1 si basa sulla sintassi XWiki 2.0, tutti i costrutti con sintassi XWiki 2.0 rimangono validi a meno che le specifiche della sintassi XWiki 2.1 indichino diversamente.{{/info}}
 
-Oltre a queste due sintassi specifiche di XWiki abbiamo modificato anche il motore di rendering sottostante a partire da XWiki Enterprise versione 1.7 (precedentemente era Radeox) in favore di un nostro motore che è un superset wrapper attorno a [[Wikmodel&gt;&gt;http://code.google.com/p/wikimodel/]] e [[Doxia&gt;&gt;http://maven.apache.org/doxia/]]  (e si spera altri in futuro). Qeusto ci ha consentito di poter usare anche altre sintassi nel wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki e altre&gt;&gt;#syntaxes]].
+Oltre a queste due sintassi specifiche di XWiki abbiamo modificato anche il motore di rendering sottostante con XWiki Enterprise versione 1.7 (precedentemente era Radeox) in favore di un nostro motore che è un superset wrapper attorno a [[Wikimodel&gt;&gt;http://code.google.com/p/wikimodel/]] e [[Doxia&gt;&gt;http://maven.apache.org/doxia/]] (e si spera altri in futuro). Questo ci ha consentito di poter usare anche altre sintassi nel wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki e altre&gt;&gt;#syntaxes]].
 
 = Considerazioni Generali =
 
 La sintassi XWiki 2.0 corregge alcuni errori o ambiguità che gli utenti potevano inserire come mostrato negli esempi della tabella seguente.
 
 |=Descrizione|=Esempio di sintassi non valida o ambigua|=Risolto con Sintassi XWiki 2.0
-|Stili di testo non chiusi|{{{**bold}}}|{{{**bold**}}}
+|Stili di testo non chiusi|{{{**grassetto}}}|{{{**grassetto**}}}
 |Due elementi isolati non separati da 2 nuove righe|{{{| cella tabella}}}\\{{{* voce elenco}}}|{{{| cella tabella}}}\\\\{{{* voce elenco}}}
 |Due elementi isolati non separati da 2 nuove righe|{{{paragrafo}}}\\{{{----}}}\\{{{paragrafo}}}|{{{paragrafo}}}\\\\{{{----}}}\\\\{{{paragrafo}}}
 |Nuova riga ignorata all'inizio del documento|&lt;nuova riga all'inizio del documento&gt;\\paragrafo|paragrafo
@@ -59,15 +58,15 @@ La sintassi XWiki 2.0 corregge alcuni errori o ambiguità che gli utenti potevan
 I paragrafi sono elementi di testo separati da 2 o più righe vuote.
 
 {{info}}
-Nella nuova Sintassi XWiki 2.0 le nuove righe sono rispettate al contrario della Sintassi XWiki Syntax 1.0 e della sintassi di Creole.
+Nella nuova Sintassi XWiki 2.0 le nuove righe sono rispettate al contrario della Sintassi XWiki 1.0 e della sintassi di Creole.
 {{/info}}
 
 (% style="width: 100%;" %)
-|=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato con Sintassi XWiki 1.0|=Risultato con Sintassi XWiki 1.2
+|=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato con Sintassi XWiki 1.0|=Risultato con Sintassi XWiki 2.0
 |Semplice paragrafo|Questo è un paragrafo|Questo è un paragrafo|Questo è un paragrafo|Questo è un paragrafo
 |Paragrafo su più righe|Paragrafo su{{{\\}}}\\più righe|Paragrafo su\\più righe|Paragrafo su\\più righe|Paragrafo su\\più righe
 |Due paragrafi|Paragrafo uno\\\\Paragrafo due|Paragrafo uno\\\\Paragrafo due|Paragrafo uno\\\\Paragrafo due|Paragrafo uno\\\\Paragrafo due
-|Paragrafo parametrizzato|&lt;p style="text-align:center;color:blue"&gt;Paragrafo centrato e blu&lt;/p&gt;|{{{(% style="text-align:center;color:blue" %)}}}\\Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)\\Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)\\Paragrafo centrato e blu
+|Paragrafo con parametri|&lt;p style="text-align:center;color:blue"&gt;Paragrafo centrato e blu&lt;/p&gt;|{{{(% style="text-align:center;color:blue" %)}}}\\Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)\\Paragrafo centrato e blu|(% style="text-align: center; color: blue;" %)\\Paragrafo centrato e blu
 
 = Titoli=
 
@@ -80,8 +79,8 @@ Nella nuova Sintassi XWiki 2.0 le nuove righe sono rispettate al contrario della
 1.1.1.1 livello 4
 1.1.1.1.1 livello 5
 1.1.1.1.1.1 livello 6
-)))|(((
-{{{= livello 1 = 
+)))|((({{{
+= livello 1 = 
 == livello 2 ==
 === livello 3 ===
 ==== livello 4 ====
@@ -102,9 +101,9 @@ Nella nuova Sintassi XWiki 2.0 le nuove righe sono rispettate al contrario della
 
 {{info}}
 Novità della Sintassi XWiki 2.0 rispetto alla Sintassi XWiki 1.0:
-* Sono consentiti degli spazi subito dopo il simbolo sintattico (per esempio in Sinatssi XWiki 1.0, questo non era possibile: * grassetto *).
+* Sono consentiti degli spazi subito dopo il simbolo sintattico (per esempio in Sintassi XWiki 1.0, questo non era possibile: * grassetto *).
 * Uso di doppi simboli quando nella Sintassi XWiki 1.0 ce n'era solo uno cosicché è meno probabile che l'utente li usi erroneamente nel testo.
-* Possibilità di dividersi su più righe (non era possibile con la Sintassi XWiki 1.0).
+* Possibilità di dividere il testo su più righe (non era possibile con la Sintassi XWiki 1.0).
 {{/info}}
 
 (% style="width: 100%;" %)
@@ -112,7 +111,7 @@ Novità della Sintassi XWiki 2.0 rispetto alla Sintassi XWiki 1.0:
 |Grassetto|{{{*Grassetto*}}}|{{{**Grassetto**}}}|**Grassetto**
 |Sottolineato|{{{__Sottolineato___}}}|{{{__Sottolineato__}}}|__Sottolineato__
 |Corsivo|{{{~~Corsivo~~}}}|{{{//Corsivo//}}}|//Corsivo//
-|Barrato|{{{--Barrato--}}}|{{{--Barrato--}}}|--Barrato--
+|Sbarrato|{{{--Sbarrato--}}}|{{{--Sbarrato--}}}|--Sbarrato--
 |Monospazio|&lt;tt&gt;Monospazio&lt;/tt&gt;|{{{##Monospazio##}}}|##Monospazio##
 |Apice|testo &lt;sup&gt;in apice&lt;/sup&gt;|{{{testo ^^in apice^^}}}|testo ^^in apice^^
 |Pedice|testo &lt;sub&gt;in pedice&lt;/sub&gt;|{{{testo ,,in pedice,,}}}|testo ,,in pedice,,
@@ -136,7 +135,7 @@ Novità della Sintassi XWiki 2.0 rispetto alla Sintassi XWiki 1.0:
 
 = Elenchi =
 
-{{info}}Alcuni degli stili elencati non funzionano con tutti i browser. Per un elenco completo seguire [[questo link&gt;&gt;http://www.quirksmode.org/css/lists.html]].{{/info}}
+{{info}}Alcuni degli stili mostrati non funzionano con tutti i browser. Per un elenco completo seguire [[questo link&gt;&gt;http://www.quirksmode.org/css/lists.html]].{{/info}}
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
@@ -459,15 +458,15 @@ Con la Sintassi XWiki 2.0 le nuove righe vengono rispettate, cosa che non accade
 (% style="width: 100%;table-layout:fixed;overflow:hidden;word-wrap:break-word" %)
 |=(% style="width:10%" %)Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=(% style="width:15%" %)Risultato con Sintassi XWiki 1.0|=(% style="width:15%" %)Risultato con Sintassi XWiki 2.0
 |Link ad una pagina nello Spazio corrente|{{{[WebHome]}}}|{{{[[WebHome]]}}}|[[Web Home&gt;&gt;WebHome]]|[[WebHome]]
-|Link con etichetta|{{{[label&gt;WebHome]}}}|(((
-{{{[[label&gt;&gt;WebHome]]}}}
+|Link con etichetta|{{{[etichetta&gt;WebHome]}}}|(((
+{{{[[etichetta&gt;&gt;WebHome]]}}}
 {{info}}La sintassi XWiki è supportata anche all'interno delle etichette{{/info}}
-)))|[[label&gt;&gt;WebHome]]|[[label&gt;&gt;WebHome]]
+)))|[[etichetta&gt;&gt;WebHome]]|[[etichetta&gt;&gt;WebHome]]
 |Link con sintassi XWiki nell'etichetta|{{{&lt;a href="$xwiki.getURL("WebHome")"&gt;&lt;strong&gt;etichetta in grassetto&lt;/strong&gt;&lt;/a&gt;}}}|{{{[[**etichetta in grassetto**&gt;&gt;WebHome]]}}}|[[**etichetta in grassetto**&gt;&gt;WebHome]]|[[**etichetta in grassetto**&gt;&gt;WebHome]]
 |Link ad una pagina di uno spazio specificato|{{{[Main.WebHome]}}}|{{{[[Main.WebHome]]}}}|[[Web Home&gt;&gt;Main.WebHome]]|[[Main.WebHome]]
 |Link ad un subwiki|{{{[subwiki:Main.WebHome]}}}|{{{[[subwiki:Main.WebHome]]}}}|[[Web Home&gt;&gt;xwiki:Main.WebHome]]|[[xwiki:Main.WebHome]]
-|Link che si apre in una nuova pagina|{{{[label&gt;WebHome&gt;_blank]}}}|{{{[[label&gt;&gt;WebHome||rel="__blank"]]}}}|[[label&gt;&gt;WebHome||rel="__blank"]]|[[label&gt;&gt;WebHome||rel="__blank"]]
-|Link ad un URL direttamente nel testo|{{{Questo è un URL: http://xwiki.org}}}|{{{Questo è un URL: http://xwiki.org}}}|This is a URL: http://xwiki.org|This is a URL: http://xwiki.org
+|Link che si apre in una nuova pagina|{{{[etichetta&gt;WebHome&gt;_blank]}}}|{{{[[etichetta&gt;&gt;WebHome||rel="__blank"]]}}}|[[etichetta&gt;&gt;WebHome||rel="__blank"]]|[[etichetta&gt;&gt;WebHome||rel="__blank"]]
+|Link ad un URL direttamente nel testo|{{{Questo è un URL: http://xwiki.org}}}|{{{Questo è un URL: http://xwiki.org}}}|Questo è un URL: http://xwiki.org|Questo è un URL: http://xwiki.org
 |Link ad un URL|{{{[http://xwiki.org]}}}|{{{[[http://xwiki.org]]}}}|[[http://xwiki.org]]|[[http://xwiki.org]]
 |Link ad un URL con etichetta|{{{[XWiki&gt;http://xwiki.org]}}}|{{{[[XWiki&gt;&gt;http://xwiki.org]]}}}|[[XWiki&gt;&gt;http://xwiki.org]]|[[XWiki&gt;&gt;http://xwiki.org]]
 |Link ad un indirizzo email|{{{[john@smith.net&gt;mailto:john@smith.net]}}}|{{{[[john@smith.net&gt;&gt;mailto:john@smith.net]]}}}|[[john@smith.net&gt;&gt;mailto:john@smith.net]]|[[john@smith.net&gt;&gt;mailto:john@smith.net]]
@@ -493,20 +492,20 @@ Con la Sintassi XWiki 2.0 le nuove righe vengono rispettate, cosa che non accade
 Le parti tra ##( )## sono richieste, le parti tra ##[ ]## sono opzionali e si deve aggiungere uno dei due caratteri in ##{ }## se si usano parti opzionali.
 {{/info}}
 
-Il formato completo di un link è **##[label {&gt; or |}] (resource) [@interWikiAlias] [{&gt; or |} target]##**
+Il formato completo di un link è **##[etichetta {&gt; o |}] (risorsa) [@interWikiAlias] [{&gt; o |} obbiettivo]##**
 
-* **##label##**: Una stringa opzionale che viene mostrata all'utente come nome del link quando è renderizzata. Esempio: ##Pagina personale##
-* **##resource##**: Il riferimento completo al link usando la seguente sintassi: **##(reference) [?queryString] [#anchor]##**
-** **##reference##**: Il riferimento del link. Esso può essere indifferentemente
-*** **un URI** nella forma **##protocol:path##** (esempi: ##http:~/~/xwiki.org##, ##mailto~:john@smith.com##), o
-*** **una pagina wiki ** riferimento nella forma **##~[~[wikiName:] space.] (page)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
-**** **##wikiName##**: Stringa opzionale che contiene il nome di un virtual wiki (animal). Il link punterà ad una pagina all'interno di quel virtual wiki. Esempio: ##miowiki##
-**** **##space##: Nome opzionale dello Spazio del wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: ##Main##
-**** **##page##**: Stringa obbligatoria che contiene il nome della pagina del wiki da collegare. Esempio: ##WebHome##
-** **##queryString##: Stringa opzionale di query per specificare dei parametri che saranno usati nel rendering dell'URL. Esempio: ##mydata1=5&amp;mydata2=Hello##
-** **##anchor##: Nome opzionale di un'ancora che punta ad un'altra ancora definita nel link in oggetto. Notare che in XWiki le ancore sono create automaticamente per i titoli. Esempio: ##HTableOfContents##
+* **##etichetta##**: Una stringa opzionale che viene mostrata all'utente come nome del link quando è renderizzata. Esempio: ##Pagina personale##
+* **##risorsa##**: Il riferimento completo al link usando la seguente sintassi: **##(riferimento) [?Stringaquery] [#ancora]##**
+** **##riferimento##**: Il riferimento del link. Esso può essere indifferentemente
+*** **un URI** nella forma **##protocollo:percorso##** (esempi: ##http:~/~/xwiki.org##, ##mailto~:john@smith.com##), o
+*** **una pagina wiki ** riferimento nella forma **##~[~[NomeWiki:] spazio.] (pagina)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+**** **##NomeWiki##**: Stringa opzionale che contiene il nome di un subwiki (animal) di una 'farm' di wiki. Il link punterà ad una pagina all'interno di quel subwiki. Esempio: ##miowiki##
+**** **##spazio##: Nome opzionale dello Spazio del wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: ##Main##
+**** **##pagina##**: Stringa obbligatoria che contiene il nome della pagina del wiki da collegare. Esempio: ##WebHome##
+** **##Stringaquery##: Stringa opzionale di query per specificare dei parametri che saranno usati nel rendering dell'URL. Esempio: ##mydata1=5&amp;mydata2=Hello##
+** **##ancora##: Nome opzionale di un'ancora che punta ad un'altra ancora definita nel link in oggetto. Notare che in XWiki le ancore sono create automaticamente per i titoli. Esempio: ##HTableOfContents##
 * **##interWikiAlias##: Un alias opzionale [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] come definito nella InterWiki Map (vedere la  [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]).Questo vale solo per i nomi delle pagine wiki. Esempio: ##wikipedia##
-* **##target##: Stringa opzionale che corrisponde all'atttributo HTML ##target## per un elemento link HTML ##A## . Questo elemento viene usato quando si fa il render del link. Di default apre il link nella pagina corrente. Esempi: ##_self##, ##_blank##
+* **##obbiettivo##: Stringa opzionale che corrisponde all'atttributo HTML ##target## per un elemento link HTML ##A## . Questo elemento viene usato quando si fa il render del link. Di default apre il link nella pagina corrente. Esempi: ##_self##, ##_blank##
 
 == Specifiche dei link con la Sintassi XWiki 2.0  ==
 
@@ -514,16 +513,16 @@ Il formato completo di un link è **##[label {&gt; or |}] (resource) [@interWiki
 Le parti tra ##( )## sono richieste, le parti tra ##[ ]## sono opzionali.
 {{/info}}
 
-Il formato completo di un link è **##[label&gt;&gt;] (resource) [@interWikiAlias] [||parameters]##**
+Il formato completo di un link è **##[etichetta&gt;&gt;] (risorsa) [@interWikiAlias] [||parametri]##**
 
-* **##label##: Stringa opzionale che sarà mostrata all'utente dopo il render del link. L'etichetta può contenere della sintassi XWiki. Se non viene specificata un'etichetta sarà generata un'etichetta predefinita. Il modello di generazione può essere cambiato, vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Esempio: ##My Page##
-* **##resource##**: Il riferimento completo al link con la sintassi seguente: **##(reference) [?queryString] [#anchor]##**
-** **##reference##**: Il riferimento al collegamento in una delle forme seguenti:
-*** **URL**: qualsiasi URL nella forma **##protocol:~/~/path##**. Esempi: ##http:~/~/xwiki.org##, ##https:~/~/svn.xwiki.org/##
-*** **Nome pagina Wiki** riferimento nella forma **##~[~[wikiName:] space.] (page)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
-**** **##wikiName##**: Stringa opzionale che contiene il nome di un virtual wiki (animal). Il link punterà ad una pagina all'interno di quel virtual wiki. Esempio: ##mywiki##
-**** **##space##**: Nome opzionale di uno Spazio del wiki. Se non si specifica nessun spazio verrà usato lo spazio corrente. Esempio: ##Main##
-**** **##page##**: Stringa obbligatoria che contiene il nome della pagina del wiki cui si vuole collegarsi. Esempio: ##WebHome##
+* **##etichetta##: Stringa opzionale che sarà mostrata all'utente dopo il render del link. L'etichetta può contenere della sintassi XWiki. Se non viene specificata un'etichetta sarà generata un'etichetta predefinita. Il modello di generazione può essere cambiato, vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Esempio: ##My Page##
+* **##risorsa##**: Il riferimento completo al link con la sintassi seguente: **##(riferimento) [?Stringaquery] [#ancora]##**
+** **##riferimento##**: Il riferimento al collegamento in una delle forme seguenti:
+*** **URL**: qualsiasi URL nella forma **##protocollo:~/~/percorso##**. Esempi: ##http:~/~/xwiki.org##, ##https:~/~/svn.xwiki.org/##
+*** **Nome pagina Wiki** riferimento nella forma **##~[~[NomeWiki:] spazio.] (pagina)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+**** **##NomeWiki##**: Stringa opzionale che contiene il nome di un subwiki (animal) di una 'farm' di wiki. Il link punterà ad una pagina all'interno di quel subwiki. Esempio: ##miowiki##
+**** **##spazio##**: Nome opzionale di uno Spazio del wiki. Se non si specifica uno spazio verrà usato lo spazio corrente. Esempio: ##Main##
+**** **##pagina##**: Stringa obbligatoria che contiene il nome della pagina del wiki cui si vuole collegarsi. Esempio: ##WebHome##
 *** **Allegato** riferimento nella forma **##attach~: [wikiPageName@] (attachmentName)##**. Esempi: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
 **** **##attach~:##**: Stringa richiesta che identifica la risorsa come allegato.
 **** **##wikiPageName##**: Stringa opzionale con il riferimento al documento che contiene l'allegato, vedere sopra "Wiki page name".
@@ -531,10 +530,10 @@ Il formato completo di un link è **##[label&gt;&gt;] (resource) [@interWikiAlia
 *** **indirizzo Email** nella forma **##mailto~: (emailAddress)##** (###anchor## non è valido). Esempio: ##mailto~:john@smith.com##
 **** **##mailto~:##**: Stringa richiesta che identifica la risorsa come email.
 **** **##emailAddress##**: Indirizzo del destinatario dell'email. Esempio: "##john@smith.com##"
-** **##queryString##**: Stringa opzionale di query per specificare parametri che saranno usati nel rendering dell'URL. Esempio: ##mydata1=5&amp;mydata2=Hello##
-** **##anchor##**: Nome di un'ancora opzionale che punta ad un'ancora definita nel link cui si fa riferimento. Notare che in XWiki le ancore sono create automaticamente per i titoli. Esempio: ##HTableOfContents##
+** **##Stringaquery##**: Stringa opzionale di query per specificare parametri che saranno usati nel rendering dell'URL. Esempio: ##mydata1=5&amp;mydata2=Hello##
+** **##anchra##**: Nome di un'ancora opzionale che punta ad un'ancora definita nel link cui si fa riferimento. Notare che in XWiki le ancore sono create automaticamente per i titoli. Esempio: ##HTableOfContents##
 * **##interWikiAlias##**: Alias opzionale [[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] come definito nella InterWiki Map (vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Questo vale solo per i nomi delle pagine wiki. Esempio: ##wikipedia##
-* **##parameters##: elenco opzionale di parametri che si possono passare al link. Esempio: ##rel="~_~_blank"## (apri in una nuova finestra)
+* **##parametri##: elenco opzionale di parametri che si possono passare al link. Esempio: ##rel="~_~_blank"## (apri in una nuova finestra)
 
 == Specifiche dei link con la Sintassi XWiki 2.1 ==
 
@@ -542,23 +541,23 @@ Il formato completo di un link è **##[label&gt;&gt;] (resource) [@interWikiAlia
 Le parti tra ##( )## sono richieste, le parti tra ##[ ]## sono opzionali.
 {{/info}}
 
-Il formato completo di un link è **##[label&gt;&gt;] (resource) [||parameters]##**
+Il formato completo di un link è **##[etichetta&gt;&gt;] (risorsa) [||parametri]##**
 
 
-* **##label##**: Stringa opzionale che sarà mostrata all'utente dopo il render del link. L'etichetta può contenere della sintassi XWiki. Se non viene specificata un'etichetta sarà generata un'etichetta predefinita. Il modello di generazione può essere cambiato, vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Esempio: ##My Page##
-* **##resource##**: Stringa richiesta con il riferimento al link in una delle forma seguenti
-** **URL**: qualsiasi URL nella forma **##[url:] (protocol:~/~/path)##**. Esempi: ##http:~/~/xwiki.org##, ##url:https:~/~/svn.xwiki.org/##
+* **##etichetta##**: Stringa opzionale che sarà mostrata all'utente dopo il render del link. L'etichetta può contenere della sintassi XWiki. Se non viene specificata un'etichetta sarà generata un'etichetta predefinita. Il modello di generazione può essere cambiato, vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]. Esempio: ##My Page##
+* **##risorsa##**: Stringa richiesta con il riferimento al link in una delle forma seguenti
+** **URL**: qualsiasi URL nella forma **##[url:] (protocollo:~/~/percorso)##**. Esempi: ##http:~/~/xwiki.org##, ##url:https:~/~/svn.xwiki.org/##
 *** **##url:##** Stringa opzionale che identifica la risorsa come un URL.
-** **Wiki page name** Nome pagina WIki, riferimento nella forma **##[doc:] ~[~[wikiName:] space.] (page)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
+** **Wiki page name** Nome pagina WIki, riferimento nella forma **##[doc:] ~[~[wikiName:] spazio.] (pagina)##**. Esempi: ##WebHome##, ##Main.WebHome##, ##mywiki:Main.WebHome##
 *** **##doc:##** Stringa opzionale che identifica la risorsa come documento XWiki.
-*** **##wikiName##**: Stringa opzionale contenente il nome di un virtual wiki (animal). Il link punterà ad una pagina all'interno di quel virtual wiki. Esempio: ##mywiki##
-*** **##space##**: Nome opzionale di uno Spazio del wiki. Se non si specifica nessun spazio verrà usato lo spazio corrente. Esempio: ##Main##
-*** **##page##**: Stringa richiesta con il nome della pagina wiki cui punta il link. Esempio: ##WebHome##
+*** **##wikiName##**: Stringa opzionale contenente il nome di un subwiki (animal) di una 'farm' di wiki. Il link punterà ad una pagina all'interno di quel subwiki. Esempio: ##miowiki##
+*** **##spazio##**: Nome opzionale di uno Spazio del wiki. Se non si specifica uno spazio verrà usato lo spazio corrente. Esempio: ##Main##
+*** **##pagina##**: Stringa richiesta con il nome della pagina wiki cui punta il link. Esempio: ##WebHome##
 ** **InterWiki page name** Nome pagina Interwiki, riferimento nella forma **##interwiki: {{{(interWikiAlias:)}}} (page)##**. Esempio: ##interwiki:wikipedia:XWiki##
 *** **##interwiki:##** Stringa richiesta che identifica la risorsa come un link InterWiki.
 *** **##interWikiAlias##**: Alias opzionale dell'[[Inter Wiki&gt;&gt;http://en.wikipedia.org/wiki/InterWiki]] come definito dall'InterWiki Map (vedere la [[Admin Guide&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]]). Esempio: ##wikipedia##
-*** **##page##**: Stringa richiesta con il nome della pagina wiki cui punta il link. Esempio:: ##XWiki##
-** **Attachment** Allegato, riferimento nella forma **##attach~: [wikiPageName@] (attachmentName)##**. Esempi: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
+*** **##pagina##**: Stringa richiesta con il nome della pagina wiki cui punta il link. Esempio:: ##XWiki##
+** **Allegato** Allegato, riferimento nella forma **##attach~: [wikiPageName@] (attachmentName)##**. Esempi: ##attach~:img.png##, ##attach~:mywiki:Main.WebHome@img.png##
 *** **##attach~:##**: Stringa richiesta che identifica la risorsa come un allegato.
 *** **##wikiPageName##**: Stringa opzionale che indica il riferimento al documento che contiene l'allegato, vedere "Wiki page name" precedente.
 *** **##attachmentName##**: Nome dell'alllegato come memorizzato nel wiki.
@@ -571,14 +570,14 @@ Il formato completo di un link è **##[label&gt;&gt;] (resource) [||parameters]#
 ** **UNC (Windows Explorer)** riferimento nella forma **##unc: (path)##**. Il link è reso come un link ad un ##file:~/~/## . Esempi: ##unc:C:\Windows\##, ##unc:~\~\myserver\path\img.png##, ##unc:home/user/somefile##
 *** **##unc:##** Stringa richiesta che identifica la risorsa come un percorso UNC (Windows Explorer).
 *** **##path##**: Stringa richiesta contenente il percorso locale della risorsa acessibile dall'utente. Esempi: ##C:\Windows\##, ##~\~\myserver\path\img.png##, ##home/user/somefile##
-* **##parameters##**: Lista opzionale separata da spazi di parametri passati al link. Esempio: ##queryString="mydata1=5&amp;mydata2=Hello" anchor="HTableOfContents" rel="~_~_blank"##
-** **##queryString##**: Stringa opzionale di query per specifici parametri che saranno appesi all'indirizzo del link e usati nel rendering dell'URL. Eaempio: ##url:http:~/~/domain.com/path||queryString="mydata1=5&amp;mydata2=Hello"## produce l'indirizzo di destinazione ##http:~/~/domain.com/path?mydata1=5&amp;mydata2=Hello##
-** **##anchor##**: Nome opzionale di un ancora che punta ad un ancora definita nel link cui si riferisce. Notare che in XWiki le ancore per i titoli sono create automaticamente. Esempio: ##url:http:~/~/domain.com/path||anchor="HTableOfContents"## produce l'indirizzo di destinazione ##http:~/~/domain.com/path#HTableOfContents##
+* **##parametri##**: Lista opzionale separata da spazi di parametri passati al link. Esempio: ##queryString="mydata1=5&amp;mydata2=Hello" anchor="HTableOfContents" rel="~_~_blank"##
+** **##Stringaquery##**: Stringa opzionale di query per specifici parametri che saranno appesi all'indirizzo del link e usati nel rendering dell'URL. Eaempio: ##url:http:~/~/domain.com/path||queryString="mydata1=5&amp;mydata2=Hello"## produce l'indirizzo di destinazione ##http:~/~/domain.com/path?mydata1=5&amp;mydata2=Hello##
+** **##ancora##**: Nome opzionale di un ancora che punta ad un ancora definita nel link cui si riferisce. Notare che in XWiki le ancore per i titoli sono create automaticamente. Esempio: ##url:http:~/~/domain.com/path||anchor="HTableOfContents"## produce l'indirizzo di destinazione ##http:~/~/domain.com/path#HTableOfContents##
 ** **##rel##**: Parametro opzionale che consente di aprire il link in una nuova finestra. Esempio: ##rel="~_~_blank"##
 
 = Tabelle =
 
-È possibile creare facilmente del testo in forma tabellare. Con la Sintassi XWiki 2.0 sono supportati anche parametri per la tabella, le righe o celle.
+È possibile creare facilmente del testo in forma tabellare. Con la Sintassi XWiki 2.0 sono supportati anche parametri per la tabella, le righe o le celle.
 
 (% style="width: 100%;" %)
 |=Caratteristica|=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
@@ -687,8 +686,8 @@ Il formato completo di un'immagine è **##image~: (riferimento)##** oppure **##~
 * **##image~:##** Stringa richiesta che identifica la risora come immagine.
 * **##riferimento##**: Il riferimento all'immagine che sarà mostrata in una delle forme seguenti:
 ** **URL**: Un qualunque URL ad un'immagine nel formato **##http:~/~/percorso/Nomeimmagine##**. Esempio: ##http:~/~/domain.org/path/img.png##
-** **Allegato** riferimento nel formato **##~{~{~{wikiName:} space.} page@} (imageName)##**
-*** **##wikiName##**: Stringa opzionale contenente il nome di un virtual wiki. Il riferimento all'immagine punterà ad un'immagine allegata a una pagina all'interno di quel virtual wiki. Esempio: mywiki
+** **Allegato** riferimento nel formato **##~{~{~{Nomewiki:} spazio.} pagina@} (Nomeimmagine)##**
+*** **##NomeWiki##**: Stringa opzionale che contiene il nome di un subwiki (animal) di una 'farm' di wiki. Il link punterà ad una pagina all'interno di quel subwiki. Esempio: ##miowiki##
 *** **##spazio##**: Nome opzionale di uno spazio del wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: Main
 *** **##pagina##**: Stringa opzionale che contiene il nome di una pagina del wiki a cui l'immagine fa riferimento come allegato. Esempio: WebHome
 *** **##Nomeimmagine##**: Stringa richiesta con il nome dell'immagine allegata alla pagina così come è memorizzato nel wiki.
@@ -712,8 +711,8 @@ Il formato completo di un'immagine è **##image~: (riferimento)##** oppure **##~
 * **##image~:##** Stringa richiesta che identifica la risora come immagine.
 * **##riferimento##**: Il riferimento all'immagine che sarà mostrata in una delle forme seguenti:
 ** **URL**: Un qualunque URL ad un'immagine nel formato **##protocollo:~/~/percorso/Nomeimmagine##**. Esempio: ##http:~/~/domain.org/path/img.png##
-** **Allegato** riferimento nel formato **##~{~{~{wikiName:} space.} page@} (imageName)##**
-*** **##wikiName##**: Stringa opzionale contenente il nome di un virtual wiki. Il riferimento all'immagine punterà ad un'immagine allegata a una pagina all'interno di quel virtual wiki. Esempio: mywiki
+** **Allegato** riferimento nel formato **##~{~{~{Nomewiki:} spazio.} pagina@} (Nomeimmagine)##**
+*** **##NomeWiki##**: Stringa opzionale che contiene il nome di un subwiki (animal) di una 'farm' di wiki. Il link punterà ad una pagina all'interno di quel subwiki. Esempio: ##miowiki##
 *** **##spazio##**: Nome opzionale di uno spazio del wiki. Se non si specifica uno spazio viene usato lo spazio corrente. Esempio: Main
 *** **##pagina##**: Stringa opzionale che contiene il nome di una pagina del wiki a cui l'immagine fa riferimento come allegato. Esempio: WebHome
 *** **##Nomeimmagine##**: Stringa richiesta con il nome dell'immagine allegata alla pagina così come è memorizzato nel wiki.
@@ -728,15 +727,15 @@ Il formato completo di un'immagine è **##image~: (riferimento)##** oppure **##~
 *** **##title##**: Parametro che definisce il titolo visualizzato dell'immagine che sarà visibile quando ci si passa sopra con il mouse, per esempio. Esempio: ##title="La mia bella immagine"##
 *** **##alt##**: Parametro che definisce quale testo deve essere mostrato se il browser non è in grado di visualizzare l'immagine. Dal momento che questo è un attributo HTML richiesto XWiki userà il nome del file se il parametro ##alt## non è definito. Esempio: ##alt="img.png"##
 *** **Altro**: Una spiegazione più approfondita sul tag HTML ##&amp;lt;img&amp;gt;## tag che comprende altri attributi si può trovare su [[on w3.org&amp;gt;&amp;gt;http://www.w3.org/TR/html4/struct/objects.html#h-13.2]].
-** **##queryString##**: Consente di inviare richieste al server quando si crea il link per il download dell'immagine referenziata. Esempio: ##queryString="width=100&amp;amp;height=800&amp;amp;keepAspectRatio=true"## (**##keepAspectRatio=true## non avrà successo se i parametri ##width## e ##height## non vengono specificati oltre a ##queryString##!**)
+** **##queryStringa##**: Consente di inviare richieste al server quando si crea il link per il download dell'immagine referenziata. Esempio: ##queryString="width=100&amp;amp;height=800&amp;amp;keepAspectRatio=true"## (**##keepAspectRatio=true## non avrà successo se i parametri ##width## e ##height## non vengono specificati oltre a ##queryString##!**)
 
 
 = Contenuto testuale, //verbatim// cioè //parola per parola// =
 
-Consente di inserire del contenuto che non sarà formattato (in altre parole non viene considerata la sintassi wiki).
+Consente di inserire del contenuto che non sarà formattato (in altre parole non viene considerata la sintassi XWiki).
 
 {{info}}
-Con la Sintassi XWiki 1.0 la [[Pre macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Pre+Macro+%28Radeox%29]] preserva solo la sintassi wiki e le macro Radeox. Per cui gli snippets HTML e gli script Groovy/Velocity sono comunque eseguiti.
+Con la Sintassi XWiki 1.0 la [[Pre macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/Pre+Macro+%28Radeox%29]] preserva solo la sintassi XWiki e le macro Radeox. Per cui gli snippets HTML e gli script Groovy/Velocity sono comunque eseguiti.
 {{/info}}
 
 (% style="width: 100%;" %)
@@ -877,7 +876,7 @@ contenuto java
 
 = HTML =
 
-{{info}}Con la Sintassi XWiki 2.0 si deve inserire il codice HTML o XHTML usando la macro HTML mentre con la Sintassi XWiki 1.0 era possibile inserire direttamente il codice HTML direttamente nel testo.{{/info}}
+{{info}}Con la Sintassi XWiki 2.0 si deve inserire il codice HTML o XHTML usando la macro HTML mentre con la Sintassi XWiki 1.0 era possibile inserire il codice HTML direttamente nel testo.{{/info}}
 
 (% style="width: 100%;" %)
 |=Sintassi XWiki 1.0|=Sintassi XWiki 2.0|=Risultato
@@ -934,5 +933,4 @@ A partire da XWiki Enterprise 1.6 sono implementate anche queste altre sintassi:
 * [[Creole 1.0&gt;&gt;http://www.wikicreole.org/wiki/Creole1.0]]
 * [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
 
-{{warning}}L'implementazione di queste sintassi non è stata ancora completata. Per esempio il supporto ai link non funziona ancora perfettamente. Dobbiamo anche definire se estendere le sintassi originali per supportare le caratteristiche specifiche di XWiki come la possibilità di fare un link ad un altro sub-wiki.{{/warning}}</content>
-</xwikidoc>
+{{warning}}L'implementazione di queste sintassi non è stata ancora completata. Per esempio il supporto ai link non funziona ancora perfettamente. Dobbiamo anche definire se estendere le sintassi originali per supportare le caratteristiche specifiche di XWiki come la possibilità di fare un link ad un altro sub-wiki.{{/warning}}</content></xwikidoc>

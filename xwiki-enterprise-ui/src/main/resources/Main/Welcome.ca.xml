@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>Main</web>
-  <name>Welcome</name>
-  <language>ca</language>
-  <defaultLanguage/>
-  <translation>1</translation>
-  <parent>Main.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1297866863000</date>
-  <contentUpdateDate>1297866863000</contentUpdateDate>
-  <version>1.1</version>
-  <title>$msg.get("xe.dashboard.wiki.welcome")</title>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
-  <content>Aquest és un lloc web d'edició senzilla, que a la vegada us ajudarà a treballar millor. Aquesta Wiki està feta de //pàgines// ordenades amb //espais//. Actualment esteu en l'espai **Main**, observant la seva pàgina d'inici (**WebHome**).
+<web>Main</web>
+<name>Welcome</name>
+<language>ca</language>
+<defaultLanguage></defaultLanguage>
+<translation>1</translation>
+<parent>Main.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1297866863000</date>
+<contentUpdateDate>1297866863000</contentUpdateDate>
+<version>1.1</version>
+<title>$msg.get("xe.dashboard.wiki.welcome")</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>Aquest és un lloc web d'edició senzilla, que a la vegada us ajudarà a treballar millor. Aquesta Wiki està feta de //pàgines// ordenades amb //espais//. Actualment esteu en l'espai **Main**, observant la seva pàgina d'inici (**WebHome**).
 
 {{velocity}}
 #if($hasEdit) Podeu utilitzar l'[[espai del calaix&gt;&gt;Sandbox.WebHome]] per a provar les característiques de la vostra wiki. #end
 {{/velocity}}
 
-</content>
-</xwikidoc>
+</content></xwikidoc>

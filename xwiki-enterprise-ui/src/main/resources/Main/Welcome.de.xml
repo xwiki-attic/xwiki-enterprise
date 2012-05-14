@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>Main</web>
-  <name>Welcome</name>
-  <language>de</language>
-  <defaultLanguage/>
-  <translation>1</translation>
-  <parent>Main.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1297866863000</date>
-  <contentUpdateDate>1297866863000</contentUpdateDate>
-  <version>1.1</version>
-  <title>$msg.get("xe.dashboard.wiki.welcome")</title>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
-  <content>XWiki ist eine einfach veränderbare Webseite die Ihnen die Zusammenarbeit erleichtern wird. Dieses Wiki ist aus //Seiten// aufgebaut, die in //Spaces// einsortiert sind. Sie sind momentan im **Main**-Space und sehen dessen Startseite (**WebHome**).
+<web>Main</web>
+<name>Welcome</name>
+<language>de</language>
+<defaultLanguage></defaultLanguage>
+<translation>1</translation>
+<parent>Main.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1297866863000</date>
+<contentUpdateDate>1297866863000</contentUpdateDate>
+<version>1.1</version>
+<title>$msg.get("xe.dashboard.wiki.welcome")</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>XWiki ist eine einfach veränderbare Webseite die Ihnen die Zusammenarbeit erleichtern wird. Dieses Wiki ist aus //Seiten// aufgebaut, die in //Spaces// einsortiert sind. Sie sind momentan im **Main**-Space und sehen dessen Startseite (**WebHome**).
 
 {{velocity}}
 #if($hasEdit)Sie können den [[Sandbox Space&gt;&gt;Sandbox.WebHome]] verwenden um die Funktionen Ihres Wiki's auszuprobieren.#end
 {{/velocity}}
 
-</content>
-</xwikidoc>
+</content></xwikidoc>

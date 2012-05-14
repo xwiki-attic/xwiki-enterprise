@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>XWiki</web>
-  <name>XWikiSyntax</name>
-  <language>lv</language>
-  <defaultLanguage/>
-  <translation>1</translation>
-  <parent>XWiki.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1203507376000</creationDate>
-  <date>1253107969000</date>
-  <contentUpdateDate>1253107969000</contentUpdateDate>
-  <version>1.1</version>
-  <title>XWiki Syntaxes</title>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
-  <content>{{box cssClass="floatinginfobox" title="**Saturs**"}}{{toc depth="1"/}}{{/box}}
+<web>XWiki</web>
+<name>XWikiSyntax</name>
+<language>lv</language>
+<defaultLanguage></defaultLanguage>
+<translation>1</translation>
+<parent>XWiki.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1203507376000</creationDate>
+<date>1253107969000</date>
+<contentUpdateDate>1253107969000</contentUpdateDate>
+<version>1.1</version>
+<title>XWiki Syntaxes</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{box cssClass="floatinginfobox" title="**Saturs**"}}{{toc depth="1"/}}{{/box}}
 
 = Versiju izmaiņas =
 
@@ -835,5 +834,4 @@ Sākot ar XWiki Enterprise 1.6 ir atbalstītas arī sekojošas sintakses:
 * [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
 
 {{warning}}Šīs sintakses pilnībā vēl netiek atbalstītas. Piemēram, pilnībā nestrādā hipersaites. Mums arī ir nepieciešams vienoties, vai mēs vēlamies šajās sintaksēs atbalstīt Xwiki specifiskās lietas, piemēram, saiti uz citu subviki.{{/warning}}
-</content>
-</xwikidoc>
+</content></xwikidoc>

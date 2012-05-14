@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>XWiki</web>
-  <name>XWikiSyntax</name>
-  <language>de</language>
-  <defaultLanguage/>
-  <translation>1</translation>
-  <parent>XWiki.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1203507376000</creationDate>
-  <date>1253107969000</date>
-  <contentUpdateDate>1253107969000</contentUpdateDate>
-  <version>1.1</version>
-  <title>XWiki Syntaxes</title>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
-  <content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
+<web>XWiki</web>
+<name>XWikiSyntax</name>
+<language>de</language>
+<defaultLanguage></defaultLanguage>
+<translation>1</translation>
+<parent>XWiki.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1203507376000</creationDate>
+<date>1253107969000</date>
+<contentUpdateDate>1253107969000</contentUpdateDate>
+<version>1.1</version>
+<title>XWiki Syntaxes</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}$xwiki.get('ssx').use($doc.getFullName()){{/velocity}}
 
 {{box cssClass="floatinginfobox" title="**Inhaltsverzeichnis**"}}{{toc depth="1"/}}{{/box}}
 
@@ -875,5 +874,4 @@ Die folgenden weiteren Syntaxen sind in XWiki Enterprise 1.6 und später impleme
 * [[Creole 1.0&gt;&gt;http://www.wikicreole.org/wiki/Creole1.0]]
 * [[XHTML 1.0&gt;&gt;http://www.w3.org/TR/xhtml1/]]
 
-{{warning}}Die Implementation einiger dieser Syntaxen ist noch nicht vollständig fertig. Beispielsweise funktioniert die Unterstützung für Links noch nicht perfekt. Wir müssen zu dem definieren, ob wir die originalen Syntaxen erweitern wollen um XWiki-spezifische Funktionen, wie die Möglichkeit zu einem anderen Unterwiki zu verlinken, zu unterstützen.{{/warning}}</content>
-</xwikidoc>
+{{warning}}Die Implementation einiger dieser Syntaxen ist noch nicht vollständig fertig. Beispielsweise funktioniert die Unterstützung für Links noch nicht perfekt. Wir müssen zu dem definieren, ob wir die originalen Syntaxen erweitern wollen um XWiki-spezifische Funktionen, wie die Möglichkeit zu einem anderen Unterwiki zu verlinken, zu unterstützen.{{/warning}}</content></xwikidoc>

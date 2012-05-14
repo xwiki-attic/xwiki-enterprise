@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>Sandbox</web>
-  <name>WebHome</name>
-  <language>zh</language>
-  <defaultLanguage/>
-  <translation>1</translation>
-  <parent>Main.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1252454400000</date>
-  <contentUpdateDate>1252454400000</contentUpdateDate>
-  <version>1.1</version>
-  <title>Sandbox</title>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
-  <content>沙箱是您的wiki中可以任意改动的部分。您可以用它来练习和测试wiki页面的编辑。通过这些练习，你能够学习和发现页面是怎样被创建和修改的。让我们从点击 **编辑** 链接开始！
+<web>Sandbox</web>
+<name>WebHome</name>
+<language>zh</language>
+<defaultLanguage></defaultLanguage>
+<translation>1</translation>
+<parent>Main.WebHome</parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
+<version>1.1</version>
+<title>Sandbox</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.0</syntaxId>
+<hidden>false</hidden>
+<content>沙箱是您的wiki中可以任意改动的部分。您可以用它来练习和测试wiki页面的编辑。通过这些练习，你能够学习和发现页面是怎样被创建和修改的。让我们从点击 **编辑** 链接开始！
 
 {{info}}请不用担心您的修改会覆盖或者删除页面的原有内容，您总可以通过页面底部的”历史“标签页回滚到该页面的最初版本。{{/info}}
 
@@ -141,5 +140,4 @@ Macros allow you to make wiki content look better and to add additional features
 
 该宏能够根据wiki页面中的标题自动生成页面目录列表：
 
-{{toc/}}</content>
-</xwikidoc>
+{{toc/}}</content></xwikidoc>

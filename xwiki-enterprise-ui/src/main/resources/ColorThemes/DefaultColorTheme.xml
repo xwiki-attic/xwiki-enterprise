@@ -26,7 +26,7 @@
   <attachment>
     <filename>header.png</filename>
     <filesize>31799</filesize>
-    <author>XWiki.Admin</author>
+    <author>xwiki:XWiki.Admin</author>
     <date>1324487279000</date>
     <version>1.1</version>
     <comment/>
@@ -593,7 +593,7 @@ JB+c1NM62E24I6RhRDBxq0NfFDe4ClSsv8TDMIzfoQ0Tt+s6Zh8AAAAASUVORK5CYII=
   <attachment>
     <filename>logo.png</filename>
     <filesize>2228</filesize>
-    <author>XWiki.Admin</author>
+    <author>xwiki:XWiki.Admin</author>
     <date>1324487222000</date>
     <version>1.1</version>
     <comment/>

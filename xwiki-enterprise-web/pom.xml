@@ -69,6 +69,13 @@
       <type>war</type>
       <scope>runtime</scope>
     </dependency>
+    <!-- Component Module -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-component-script</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- WebDAV module -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

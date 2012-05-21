@@ -95,6 +95,7 @@ public class LoginTest extends AbstractTest
      * See XWIKI-5317.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testRedirectBackAfterLogin()
     {
         try {

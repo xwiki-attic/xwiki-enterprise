@@ -135,10 +135,6 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         unexistingPage.clickEditThisPageToCreate();
         CreatePagePage createUnexistingPage = new CreatePagePage();
         // Make sure we're in create mode.
-        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
-        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
-        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
-        createUnexistingPage.waitUntilPageIsLoaded();
         Assert.assertTrue(getUtil().isInCreateMode());
         // count the available templates, make sure they're as many as before and that our template is among them
         templates = getDriver().findElements(By.name("templateprovider"));
@@ -186,10 +182,6 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // Verify we can still create a page from template in the test space
         createPagePage = templateProviderView.createPage();
         // Make sure we get in create mode.
-        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
-        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
-        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
-        createPagePage.waitUntilPageIsLoaded();
         Assert.assertTrue(getUtil().isInCreateMode());
         Assert.assertEquals(availableTemplateSize, createPagePage.getAvailableTemplateSize());
         Assert.assertTrue(createPagePage.getAvailableTemplates().contains(templateProviderFullName));
@@ -285,10 +277,6 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // 3/ create a space that already exists
         homePage = HomePage.gotoPage();
         CreateSpacePage createSpace = homePage.createSpace();
-        // FIXME: It seems that in Firefox 3.6.x if you call Driver#getCurrentURL() immediately after you trigger the
-        // load of a new page you get the old URL instead of the new one. This forces us to explicitly wait for the new
-        // page to load. Remove the wait when we drop the support for Firefox 3.6.x.
-        createSpace.waitUntilPageIsLoaded();
         currentURL = getDriver().getCurrentUrl();
         // strip the parameters out of this URL
         currentURL =

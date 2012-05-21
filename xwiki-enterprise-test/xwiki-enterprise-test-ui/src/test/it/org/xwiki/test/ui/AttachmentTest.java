@@ -73,9 +73,6 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
         // Verify attachment contents
 
-        // Note: With Firefox 3.x the following click() generates 2 calls to the server side at once which can cause
-        // concurrency issues. Using Firefox 6.0 (and possibly other versions) generates only a single call, as it
-        // should be. I've opened http://code.google.com/p/selenium/issues/detail?id=2320
         ap.getAttachmentLink(this.testAttachment).click();
 
         Assert.assertEquals("This is a small attachment.", getDriver().findElement(By.tagName("html")).getText());

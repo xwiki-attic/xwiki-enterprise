@@ -25,6 +25,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.po.administration.AdministrationPage;
 import org.xwiki.test.po.administration.WYSIWYGEditorAdministrationSectionPage;
 
@@ -56,6 +57,7 @@ public class WYSIWYGEditorConfigTest extends AbstractAdminAuthenticatedTest
      * @since 3.3M2
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testEnablePlugin()
     {
         String pluginName = RandomStringUtils.randomAlphabetic(5);

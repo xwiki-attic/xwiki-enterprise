@@ -108,12 +108,18 @@
 XWiki.Activity = Class.create({
   initialize : function() {
     this.initHandlers();
+    this.attachDeleteHandlers();
   },
   initHandlers: function() {
     $$('.activityHeader').each(function(activityHeader){
       if(activityHeader.up().hasClassName('collapsed')){
         activityHeader.observe('click', this.toggle.bind(this, activityHeader.up()));
       }
+    }.bind(this));
+
+    document.observe('xwiki:messagestream:messageSent', function(event) {
+      // Update all activity streams to display the new message
+      $$('.activity').each(this.updateActivity.bind(this));
     }.bind(this));
   },
   toggle: function() {
@@ -125,228 +131,59 @@ XWiki.Activity = Class.create({
       collapsable.addClassName('collapsed');
       collapsable.down('.toolExpand').update('&amp;#9660;');
     }
-  }
-});
-// End XWiki augmentation.
-return XWiki;
-}(XWiki || {}));
-
-document.observe('xwiki:dom:loaded', function() {
-  new XWiki.Activity();
-});</code>
-    </property>
-    <property>
-      <name>Expand and Collapse</name>
-    </property>
-    <property>
-      <parse>0</parse>
-    </property>
-    <property>
-      <use>onDemand</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.JavaScriptExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>Main.Activity</name>
-    <number>1</number>
-    <className>XWiki.JavaScriptExtension</className>
-    <guid>59b5afe8-fb0e-4c4a-b92d-5b2f5ab58132</guid>
-    <property>
-      <cache>long</cache>
-    </property>
-    <property>
-      <code>var XWiki = (function (XWiki) {
-// Start XWiki augmentation.
-XWiki.MessageStream = Class.create({
-  targetsWithName : ['user', 'group'],
-  suggestParameters : {
-      "user" : {
-            script: "$xwiki.getURL('Main.Activity', 'get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=local&amp;uorg=user')&amp;",
-            varname: "input",
-            icon: "$xwiki.getSkinFile('icons/silk/user.png')",
-            noresults: "User not found",
-            timeout : 30000,
-      },
-      "group" : {
-            script: "$xwiki.getURL('Main.Activity', 'get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiGroups&amp;wiki=local&amp;uorg=group')&amp;",
-            varname: "input",
-            icon: "$xwiki.getSkinFile('icons/silk/group.png')",
-            noresults: "Group not found",
-            timeout : 30000,
-      }
   },
-  initialize : function() {
-    this.prepareForms();
-    this.enhanceSelect();
-    this.attachDeleteHandlers();
-  },
-  prepareTargetInput : function(event, element) {
-    if (event) {
-      element.blur();
-    }
-    $w(element.className).each(function(classname) {
-      element.removeClassName(classname)
-    });
-    var targetType = element.options[element.selectedIndex].value;
-    element.addClassName(targetType);
-    if (!element.__targetNameInput) {return;}
-    if (this.targetsWithName.indexOf(targetType) &lt; 0) {
-      element.__targetNameInput.addClassName('hidden');
-      if (element.__targetNameInput.__x_suggest) {
-        element.__targetNameInput.__x_suggest.detach();
-      }
-    } else {
-      element.__targetNameInput.removeClassName('hidden');
-      if (this.suggestParameters[targetType]) {
-        new XWiki.widgets.Suggest(element.__targetNameInput, this.suggestParameters[targetType]);
-      }
-    }
-  },
-  enhanceSelect: function () {
-    $$('form.messagestream select[name="visibilityLevel"]').each(function(element) {
-      element.addClassName(element.options[element.selectedIndex].value);
-      element.__targetNameInput = element.up('form').down('input[name="targetName"]');
-      if (element.__targetNameInput &amp;&amp; this.targetsWithName.indexOf(element.options[element.selectedIndex].value) &lt; 0) {
-        element.__targetNameInput.addClassName('hidden');
-      }
-      element.observe('change', this.prepareTargetInput.bindAsEventListener(this, element));
-      this.prepareTargetInput(null, element);
-    }.bind(this));
-  },
-  prepareForms: function() {
-    $$('.activity form.messagestream').each(function(msForm) {
-      msForm.action = msForm.action.replace(/xredirect=.*$/, 'xpage=plain')
-      msForm._activityContainer = msForm.up('.msForm-activityContainer');
-      if (!msForm._activityContainer) {
-        msForm._activityContainer = Element.wrap(msForm.up('.activity'), 'div');
-        msForm._activityContainer.addClassName('msForm-activityContainer');
-        msForm._activityContainer.insertBefore(msForm, msForm._activityContainer.firstChild);
-      }
-      msForm.observe('submit', function(event) {
-        event.stop();
-        if (msForm._disabled == true || msForm.down('textarea').value.strip() == '') {
-          return;
-        }
-        new Ajax.Updater(
-          {success: msForm._activityContainer},
-          msForm.action, {
-            parameters: msForm.serialize(true),
-            onCreate: function() {
-              msForm._disabled = true;
-              msForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.inProgress')", 'inprogress');
-            },
-            onSuccess: function() {
-              if (msForm) {
-                msForm.messagestream_message.value = '';
-              }
-              if (msForm &amp;&amp; msForm._notification) {
-                msForm._notification.hide();
-              }
-            },
-            onFailure: function(response) {
-              var failureReason = '';
-              if (response.statusText == '' /* No response */ || response.status == 12031 /* In IE */) {
-                failureReason = 'Server not responding';
-              } else {
-                failureReason = response.statusText;
-              }
-              if (msForm) {
-                msForm._disabled = false
-                if (msForm._notification) {
-                  msForm._notification.hide();
-                }
-                msForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.failed')" + failureReason, 'error');
-              }
-            },
-            on1223 : function(response) { /*SUCCESS*/
-              response.request.options.onSuccess(response);
-            },
-            on0 : function(response) {  /*FAILURE*/
-              response.request.options.onFailure(response);
-            },
-            onComplete: function() {
-              msForm._disabled = false;
-              while (msForm._activityContainer.select('.activity').length &gt; 1) {
-                msForm._activityContainer.down('.activity').remove();
-              }
-              msForm._activityContainer.down('.activity form').remove();
-              this.attachDeleteHandlers();
-            }.bind(this),
-            insertion: 'bottom'
+  updateActivity: function(activityContainer) {
+    var updateURL = activityContainer.down('.updateURL').value;
+    new Ajax.Updater(
+      {success: activityContainer},
+      updateURL, {
+        onCreate: function() {
+          // NOTE: Do we need any progress/success notification at this level or do we do it only in the "calling" component?
+          //activityContainer._notification = new XWiki.widgets.Notification("$msg.get('core.widgets.confirmationBox.notification.inProgress')", 'inprogress');
+        },
+        onSuccess: function() {
+          if (activityContainer &amp;&amp; activityContainer._notification) {
+            activityContainer._notification.hide();
           }
-        );
-      }.bindAsEventListener(this));
-    }.bind(this));
+        },
+        onFailure: function(response) {
+          var failureReason = '';
+          if (response.statusText == '' /* No response */ || response.status == 12031 /* In IE */) {
+            failureReason = 'Server not responding';
+          } else {
+            failureReason = response.statusText;
+          }
+          if (activityContainer) {
+            if (activityContainer._notification) {
+              activityContainer._notification.hide();
+            }
+            activityContainer._notification = new XWiki.widgets.Notification("$msg.get('core.widgets.confirmationBox.notification.failed')" + failureReason, 'error');
+          }
+        },
+        on1223 : function(response) { /*SUCCESS*/
+          response.request.options.onSuccess(response);
+        },
+        on0 : function(response) {  /*FAILURE*/
+          response.request.options.onFailure(response);
+        },
+        onComplete: function(response) {
+          // The newly retrieved activity element is inserted after onSuccess is called, so we must handle it here instead of in onSuccess.
+          if (response.request.success()) {
+            // The remplacement activity has a default updateURL. We discard that and replace it with the updateURL of the original activity so that, at each update, the URL stays the same.
+            var newActivity = activityContainer.next();
+            if (newActivity) {
+              newActivity.down('.updateURL').value = updateURL;
+            }
+
+            // Remove the old activity element.
+            activityContainer.remove();
+
+            this.attachDeleteHandlers();
+          }
+        }.bind(this),
+        insertion: 'after'
+      }
+    );
   },
   attachDeleteHandlers : function () {
     $$('.activity .activityItem .toolDelete').invoke('observe', 'click', function (event) {
@@ -389,17 +226,17 @@ return XWiki;
 }(XWiki || {}));
 
 document.observe('xwiki:dom:loaded', function() {
-  new XWiki.MessageStream();
-}); </code>
+  new XWiki.Activity();
+});</code>
     </property>
     <property>
-      <name>User status update</name>
+      <name>Expand and Collapse</name>
     </property>
     <property>
       <parse>1</parse>
     </property>
     <property>
-      <use>currentPage</use>
+      <use>onDemand</use>
     </property>
   </object>
   <object>
@@ -693,7 +530,7 @@ ul.activityList {
 .activityList:hover .toolExpand  {
   visibility: visible;
 }
-/** &lt;end&gt; Expand Tool **/
+/** &lt;/end&gt; Expand Tool **/
 /** &lt;start&gt; Filter Tool **/
 .toolFilter {
   cursor: pointer;
@@ -716,6 +553,28 @@ h1:hover .toolFilter .toolExpand {
   top: 5px;
 }
 /** &lt;/end&gt; Filter Tool **/
+/** &lt;start&gt; Delete Tool **/
+.toolDelete {
+  color: $theme.notificationErrorColor !important;
+  cursor: pointer;
+  font-size: .9em;
+  font-weight: bold;
+  padding: 0 4px;
+  position: absolute;
+  right: 0;
+  top: 2px;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.activityItem:hover .toolDelete {
+  visibility: visible;
+}
+
+.toolDelete:hover {
+  text-decoration: none;
+}
+/** &lt;/end&gt; Delete Tool **/
 /** &lt;/end&gt; Tools **/
 
 /** &lt;start&gt; Action Types **/
@@ -785,134 +644,6 @@ h1:hover .toolFilter .toolExpand {
     </property>
     <property>
       <use>onDemand</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.StyleSheetExtension</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <cache>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>cache</name>
-        <number>5</number>
-        <prettyName>Caching policy</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>long|short|default|forbid</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </cache>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>2</number>
-        <prettyName>Code</prettyName>
-        <rows>20</rows>
-        <size>50</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>1</number>
-        <prettyName>Name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parse>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>parse</name>
-        <number>4</number>
-        <prettyName>Parse content</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </parse>
-      <use>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>use</name>
-        <number>3</number>
-        <prettyName>Use this extension</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </use>
-    </class>
-    <name>Main.Activity</name>
-    <number>1</number>
-    <className>XWiki.StyleSheetExtension</className>
-    <guid>4667bba6-1665-4993-9337-73d1eb0663c1</guid>
-    <property>
-      <cache>long</cache>
-    </property>
-    <property>
-      <code>#template('colorThemeInit.vm')
-
-.messagestream-tools {
-  position: relative;
-  margin: 2px 0;
-}
-.messagestream-tools, .messagestream-tools * {
-  vertical-align: middle;
-}
-
-.messagestream select {
-  width: auto;
-}
-.messagestream input.targetName {
-  width: auto;
-}
-
-.toolDelete {
-  color: $theme.notificationErrorColor !important;
-  cursor: pointer;
-  font-size: .9em;
-  font-weight: bold;
-  padding: 0 4px;
-  position: absolute;
-  right: 0;
-  top: 2px;
-  visibility: hidden;
-  z-index: 1;
-}
-
-.activityItem:hover .toolDelete {
-  visibility: visible;
-}
-
-.toolDelete:hover {
-  text-decoration: none;
-}</code>
-    </property>
-    <property>
-      <name>Message stream form styling</name>
-    </property>
-    <property>
-      <parse>1</parse>
-    </property>
-    <property>
-      <use>currentPage</use>
     </property>
   </object>
   <object>
@@ -1035,8 +766,8 @@ h1:hover .toolFilter .toolExpand {
 ##
 ## Skin Extensions
 ##--------------------------------------------------------------
-$xwiki.jsx.use("Main.Activity")##
-$xwiki.ssx.use("Main.Activity")##
+$xwiki.jsx.use('Main.Activity')##
+$xwiki.ssx.use('Main.Activity')##
 ##
 ## Icons
 ##--------------------------------------------------------------
@@ -1086,7 +817,7 @@ $xwiki.ssx.use("Main.Activity")##
 ## TODO: filter out user statuses from the activity stream if inactive
 ##
 ##
-#set ($currentUser = $services.model.serialize($services.model.resolveDocument($context.user), 'default'))
+#set ($currentUser = $services.model.serialize($context.userReference, 'default'))
 ##
 ## Filter clause
 ##--------------------------------------------------------------
@@ -1141,6 +872,11 @@ $xwiki.ssx.use("Main.Activity")##
 #readVariableFromRequest('aRSS' 'rss' false)
 #if (!$aRSS &amp;&amp; $context.macro.params.get('rss'))
   #set ($aRSS = $context.macro.params.get('rss'))
+#end
+## Display message sender input
+#readVariableFromRequest('aMessageSender' 'messageSender' true)
+#if ($aMessageSender == true &amp;&amp; $context.macro.params.get('messageSender'))
+  #set ($aMessageSender = $util.parseBoolean($context.macro.params.get('messageSender')))
 #end
 ##
 ## Filter by
@@ -1552,7 +1288,7 @@ $xwiki.ssx.use("Main.Activity")##
   * Display the delete tool for own event messages
   *#
 #macro(toolDelete $eventID)
-  &lt;a class='toolDelete' href="$doc.getURL($context.action, "$request.queryString&amp;amp;xaction=deleteMessage&amp;amp;id=$eventID&amp;amp;xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")" title="$msg.get('xe.activity.messages.delete')"&gt;x&lt;/a&gt;
+  &lt;a class='toolDelete' href="$doc.getURL($context.action, "$!{request.queryString}&amp;amp;xaction=deleteMessage&amp;amp;id=$eventID&amp;amp;xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")" title="$msg.get('xe.activity.messages.delete')"&gt;x&lt;/a&gt;
 #end
 #**
   * Display RSS URL
@@ -1872,124 +1608,109 @@ $xwiki.ssx.use("Main.Activity")##
     #displayRSSURL()
   #end
 #end
+#**
+  * Handle a message (delete) request if the MessageStream module is active.
+  * @param displayUI output parameter that is true if the Activity Stream UI should be displayed, false otherwise.
+  *          Deppending on the current request, handling the message action could not require displaying the UI (and making all the Activity Stream queries).
+  *#
+#macro(handleMessageAction $displayUI)
+  #set ($displayUI = $NULL)
+  #setVariable("$displayUI", true)
+  #if ($isMessageStreamActive)
+    #set ($xredirect = $doc.getURL($context.action, $!{request.queryString}))
+    #set ($errorMessageKeyPrefix = "activity.deleteMessage.error.")
+    #set ($errorMessage = $request.session.getAttribute("${errorMessageKeyPrefix}${xredirect}"))
+    #if ("$!errorMessage" != '')
+      ## Clean the error and display the message.
+      #set ($discard = $request.session.removeAttribute("${errorMessageKeyPrefix}${xredirect}"))
+      {{error}}$errorMessage{{/error}}
+
+    #elseif ("$!{request.xaction}" == 'deleteMessage')
+      #if ($request.confirm == '1')
+        #if (!$services.messageStream.deleteMessage(${request.id}))
+          #if ($request.xpage == 'plain')
+            $response.setStatus(403)## Forbidden
+            $msg.get('xe.activity.messages.delete.failed')
+          #elseif ("$!{request.xredirect}" != '')
+            ## Pass the error message in the xredirect so that we display it in the calling page and not in the macro page.
+            $request.session.setAttribute("${errorMessageKeyPrefix}${request.xredirect}", $msg.get('xe.activity.messages.delete.failed'))
+            $response.sendRedirect($request.xredirect)
+          #else
+            {{error}}$msg.get('xe.activity.messages.delete.failed'){{/error}}
+
+          #end
+        #elseif ("$!{request.xredirect}" != '')
+          $response.sendRedirect(${request.xredirect})
+        #elseif ($request.xpage == 'plain')
+          ## Just print something for confirmation.
+          $msg.get('xe.activity.messages.delete.success')
+        #end
+        ## Suppress the UI to avoid useless DB or network access.
+        #if ($request.xpage == 'plain' || "$!{request.xredirect}" != '')
+          #set ($displayUI = $NULL)
+          #setVariable("$displayUI", false)
+        #end
+      #else
+        {{html}}
+        &lt;form action="$doc.getURL($context.action, $!request.queryString))"&gt;
+          &lt;div class='xdialog-box xdialog-box-confirmation'&gt;
+            &lt;div class='xdialog-content'&gt;
+              &lt;div class='question'&gt;$msg.get('xe.activity.messages.delete.confirm')&lt;/div&gt;
+              &lt;div class='buttons'&gt;
+                &lt;input type='hidden' name='confirm' value='1'/&gt;
+                &lt;input type='hidden' name='xaction' value='deleteMessage'/&gt;
+                &lt;input type='hidden' name='id' value="$!request.id"/&gt;
+                &lt;input type='hidden' name='xredirect' value="$!request.xredirect"/&gt;
+                &lt;span class='xbuttonwrapper'&gt;&lt;input type='submit' value="$msg.get('core.widgets.confirmationBox.button.yes')" class='button'/&gt;&lt;/span&gt;
+                &lt;a class='secondary button' href="$!request.xredirect"/&gt;$msg.get('core.widgets.confirmationBox.button.no')&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+       {{/html}}
+
+      #end
+    #end
+  #end
+#end
+#**
+  * Preserves Activity Stream's state (values of macro parameters) in the updateURL that is to be used if the ActivityStream needs to be refreshed.
+  **#
+#macro (addStateHiddenInput)
+  #set ($extraQueryString = '')
+  #foreach ($param in $xcontext.macro.params.getParameterNames())
+    #set ($value = "$!{xcontext.macro.params.get($param)}")
+    #if ($param == 'messageSender')
+      ## Force messageSender to not show up, since the Ajax call does not need it.
+      #set ($value = 'false')
+    #end
+    #if ($value != '')
+      #foreach($piece in $value.split('\s*,\s*'))
+        #set($extraQueryString = "${param}=$!{piece}&amp;$!{extraQueryString}")
+      #end
+    #end
+  #end
+  #set ($updateURL = $xwiki.getURL('Main.Activity', 'view', "$!{extraQueryString}&amp;xpage=plain"))
+  &lt;input type='hidden' class='updateURL' value="$updateURL" /&gt;
+#end
 {{/velocity}}
 
 {{velocity}}
-{{html}}
-&lt;div class="activity"&gt;
-#if ($isMessageStreamActive &amp;&amp; !$isGuest &amp;&amp; $xcontext.action != 'inline' &amp;&amp; $xcontext.action != 'edit')
-  #if ("$!{request.xaction}" == 'postMessage')
-    #set ($message = "$!{request.messagestream_message.trim()}")
-    #if ($message == '')
-      ## Do nothing with empty messages
-      #if ("$!{request.xredirect}" != '')
-        $response.sendRedirect(${request.xredirect})
-      #end
-    #else
-      #set ($messageType = "$!{request.visibilityLevel}")
-      #set ($success = false)
-      #if ($messageType == 'everyone')
-        #set ($success = $services.messageStream.postPublicMessage($message))
-      #elseif ($messageType == 'followers')
-        #set ($success = $services.messageStream.postPersonalMessage($message))
-      #elseif ($messageType == 'group')
-        #set ($success = $services.messageStream.postMessageToGroup($message, $services.model.resolveDocument("$!{request.targetName}")))
-      #elseif ($messageType == 'user')
-        #set ($success = $services.messageStream.postDirectMessageToUser($message, $services.model.resolveDocument("$!{request.targetName}")))
-      #end
-      #if (!$success)
-        #if ($request.xpage == 'plain')
-          $response.setStatus(403)## Forbidden
-          #stop
-        #else
-          {{error}}$msg.get('xe.activity.messages.submit.failed'){{/error}}
-        #end
-      #elseif ("$!{request.xredirect}" != '')
-        $response.sendRedirect(${request.xredirect})
-      #end
-    #end
-  #elseif ("$!{request.xaction}" == 'deleteMessage')
-    #if ($request.confirm == '1')
-      #if (!$services.messageStream.deleteMessage(${request.id}))
-        {{error}}$msg.get('xe.activity.messages.delete.failed'){{/error}}
-      #elseif ("$!{request.xredirect}" != '')
-        $response.sendRedirect(${request.xredirect})
-      #end
-    #else
-      &lt;form action="$doc.getURL($context.action, $!request.queryString))"&gt;
-        &lt;div class="xdialog-box xdialog-box-confirmation"&gt;&lt;div&gt;
-          &lt;div class="question"&gt;$msg.get('xe.activity.messages.delete.confirm')&lt;/div&gt;
-          &lt;div class="buttons"&gt;
-            &lt;input type="hidden" name="confirm" value="1"/&gt;
-            &lt;input type="hidden" name="xaction" value="deleteMessage"/&gt;
-            &lt;input type="hidden" name="id" value="$request.id"/&gt;
-            &lt;input type="hidden" name="xredirect" value="$request.xredirect"/&gt;
-            &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="$msg.get('core.widgets.confirmationBox.button.yes')" class="button"/&gt;&lt;/span&gt;
-            &lt;a class="secondary button" href="$request.xredirect"/&gt;$msg.get('core.widgets.confirmationBox.button.no')&lt;/a&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;&lt;/div&gt;
-      &lt;/form&gt;
-    #end
+#set ($displayUI = true)
+#handleMessageAction($displayUI)
+#if ($displayUI)
+  #if ($aMessageSender)
+    {{messageSender /}}
+
   #end
-  #set ($actionQueryString = "xredirect=$escapetool.url($doc.getURL($context.action, $request.queryString))")
-  #foreach ($param in $xcontext.macro.params.getParameterNames())
-    #set ($value = "$!{xcontext.macro.params.get($param)}")
-    #if ($value != '')
-      #foreach($piece in $value.split("\s*,\s*"))
-        #set($actionQueryString = "${param}=$!{piece}&amp;$!{actionQueryString}")
-      #end
-    #end
-  #end
-  &lt;form action="${xwiki.getURL('Main.Activity', 'view', $actionQueryString)}" method="post" class="messagestream activityUser xform"&gt;
-    &lt;div class="activityContent"&gt;
-      &lt;input type="hidden" name="xaction" value="postMessage" /&gt;
-      #activitySnapshot($context.user, 'personalMessage')
-      &lt;div class="messagestram-data"&gt;
-        &lt;textarea name="messagestream_message" rows="3" cols="40"&gt;&lt;/textarea&gt;
-      &lt;/div&gt;
-      &lt;div class="messagestream-tools"&gt;
-        #set ($targetName = ${msg.get('xe.activity.messages.visibility.targetName.tip')})
-        #set ($targetClassName = 'withTip')
-        #set ($possibleTargets = $configClass.get('visibilityLevel').getListValues())
-        #if ($doc.getObject('XWiki.XWikiGroups'))
-          #set ($defaultTarget = 'group')
-          #set ($targetName = $doc.prefixedFullName)
-          #set ($targetClassName = '')
-        #elseif ($aAuthors.size() &gt; 0)
-          #if ($doc.prefixedFullName == $currentUser)
-            #set ($defaultTarget = 'followers')
-          #else
-            #set ($defaultTarget = 'user')
-            #set ($targetName = $doc.prefixedFullName)
-            #set ($targetClassName = '')
-          #end
-        #else
-          #set ($defaultTarget = 'everyone')
-        #end
-        &lt;label&gt;$msg.get('xe.activity.messages.visibility')
-          &lt;select name="visibilityLevel"&gt;
-          #foreach ($target in $possibleTargets)
-            &lt;option value="${target}"#if ($defaultTarget == $target) selected="selected"#end&gt;$msg.get("XWiki.MessageStreamConfig_visibilityLevel_${target}")&lt;/option&gt;
-          #end
-          &lt;/select&gt;
-        &lt;/label&gt;
-        &lt;label for="targetName$!{targetNameCounter}"&gt;&lt;span class="hidden"&gt;Name:&lt;/span&gt;&lt;input type="text" name="targetName" id="targetName$!{targetNameCounter}" class="targetName $!{targetClassName}" value="$!{targetName}" size="15"/&gt;&lt;/label&gt;
-        #if (!$targetNameCounter)
-          #set ($targetNameCounter = 1)
-        #else
-          #set ($targetNameCounter = $targetNameCounter + 1)
-        #end
-      &lt;/div&gt;
-      &lt;div class="messagestream-buttons"&gt;
-        &lt;span class="butonwrapper"&gt;&lt;input type="submit" value="$msg.get('xe.activity.messages.submit')" class="button"/&gt;&lt;/span&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/form&gt;
+  {{html}}
+  &lt;div class='activity'&gt;
+    #initDateVariables()
+    #addStateHiddenInput()
+    #displayActivity()
+  &lt;/div&gt;
+  {{/html}}
 #end
-  #initDateVariables()
-  #displayActivity()
-&lt;/div&gt;
-{{/html}}
 {{/velocity}}</code>
     </property>
     <property>
@@ -2545,6 +2266,72 @@ $xwiki.ssx.use("Main.Activity")##
       <name>rss</name>
     </property>
   </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.Activity</name>
+    <number>8</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>fb5bf3df-9be7-42fb-844b-140a6a3ce05c</guid>
+    <property>
+      <defaultValue>true</defaultValue>
+    </property>
+    <property>
+      <description>Whether or not to display the message sender input.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>messageSender</name>
+    </property>
+  </object>
   <content>{{velocity}}
 ##
 ## Activity Macro
@@ -2559,6 +2346,7 @@ $xwiki.ssx.use("Main.Activity")##
 ##  - tags (List of string[s]): comma separated list of tags to display activity for.
 ##  - minor (String set to "true" or "false"): whether to show modifications that create minor versions or not.
 ##  - rss (String set to "true" or "false"): whether to show activity rss link or not.
+##  - messageSender (String set to "true" or "false"): whether or not to display the message sender input.
 ##
 {{/velocity}}
 

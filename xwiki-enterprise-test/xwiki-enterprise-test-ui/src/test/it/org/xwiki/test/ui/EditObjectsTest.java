@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.FormElement;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ClassEditPage;
@@ -74,7 +75,10 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
      * Tests that XWIKI-1621 remains fixed.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangeMultiselectProperty()
     {
         // Create a class with a database list property set to return all documents
@@ -277,7 +281,10 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testObjectAddAndRemove()
     {
         ObjectEditPage oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");

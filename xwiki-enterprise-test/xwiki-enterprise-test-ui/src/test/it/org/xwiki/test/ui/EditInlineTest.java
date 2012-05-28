@@ -27,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.po.tag.TaggablePage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
@@ -80,6 +81,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
 
     /* See XWIKI-2389 */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void testInlineEditPreservesTitle()
     {
         String title = RandomStringUtils.randomAlphanumeric(4);
@@ -105,6 +107,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
 
     /* See XWIKI-2199 */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void testInlineEditPreservesTags()
     {
         String tag1 = RandomStringUtils.randomAlphanumeric(4);

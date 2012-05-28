@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.po.scheduler.SchedulerHomePage;
 import org.xwiki.test.po.watchlist.WatchlistUserProfilePage;
@@ -83,7 +84,10 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testWatchThisPageAndWholeSpace() throws Exception
     {
         // Clear the list of watched documents and spaces

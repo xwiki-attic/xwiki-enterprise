@@ -33,6 +33,7 @@ import org.xwiki.test.po.appwithinminutes.EntryEditPage;
 import org.xwiki.test.po.appwithinminutes.EntryNamePane;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
@@ -67,7 +68,10 @@ public class AddEntryTest extends AbstractAdminAuthenticatedTest
      * Tests that entry name is URL encoded.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testEntryNameWithURLSpecialCharacters()
     {
         EntryNamePane entryNamePane = homePage.clickAddNewEntry();

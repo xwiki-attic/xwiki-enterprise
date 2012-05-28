@@ -29,6 +29,7 @@ import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.po.administration.PreferencesUserProfilePage;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.editor.ChangeAvatarPage;
 import org.xwiki.test.ui.po.editor.ChangePasswordPage;
 import org.xwiki.test.ui.po.editor.PreferencesEditPage;
@@ -94,7 +95,10 @@ public class UserProfileTest extends AbstractTest
 
     /** Functionality check: changing profile information. */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testEditProfile()
     {
         ProfileEditPage profileEditPage = this.customProfilePage.editProfile();
@@ -125,7 +129,10 @@ public class UserProfileTest extends AbstractTest
 
     /** Functionality check: changing the profile picture. */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangeAvatarImage()
     {
         ChangeAvatarPage changeAvatarImage = this.customProfilePage.changeAvatarImage();

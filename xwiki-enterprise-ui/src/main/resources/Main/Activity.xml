@@ -117,7 +117,7 @@ XWiki.Activity = Class.create({
       }
     }.bind(this));
 
-    document.observe('xwiki:messagestream:messageSent', function(event) {
+    document.observe('xwiki:activity:newActivity', function(event) {
       // Update all activity streams to display the new message
       $$('.activity').each(this.updateActivity.bind(this));
     }.bind(this));

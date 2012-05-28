@@ -183,8 +183,8 @@ XWiki.MessageStream = Class.create({
                 msForm._notification.hide();
               }
               msForm._notification = new XWiki.widgets.Notification("$msg.get('xe.activity.messages.submit.success')", 'done');
-              
-              document.fire('xwiki:messagestream:messageSent', msForm);
+
+              document.fire('xwiki:activity:newActivity', msForm);
             },
             onFailure: function(response) {
               var failureReason = '';

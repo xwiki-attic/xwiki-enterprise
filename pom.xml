@@ -194,7 +194,7 @@
         <xwiki.db.jdbc.groupId>org.hsqldb</xwiki.db.jdbc.groupId>
         <xwiki.db.jdbc.artifactId>hsqldb</xwiki.db.jdbc.artifactId>
         <xwiki.db.jdbc.version>2.2.8</xwiki.db.jdbc.version>
-        <xwiki.db.connection.url>jdbc:hsqldb:file:database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+        <xwiki.db.connection.url>jdbc:hsqldb:file:${environment.permanentDirectory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
         <xwiki.db.connection.username>sa</xwiki.db.connection.username>
         <xwiki.db.connection.password />
         <xwiki.db.connection.driver_class>org.hsqldb.jdbcDriver</xwiki.db.connection.driver_class>

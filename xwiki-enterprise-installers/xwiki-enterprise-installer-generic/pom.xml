@@ -96,7 +96,7 @@
                   <version>${project.version}</version>
                   <type>zip</type>
                   <!-- Extracts everything excepts database -->
-                  <excludes>*/database,*/database/**/*</excludes>
+                  <excludes>*/${xwiki.properties.environment.permanentDirectory},*/${xwiki.properties.environment.permanentDirectory}/**/*</excludes>
                   <outputDirectory>${project.build.directory}/container</outputDirectory>
                 </artifactItem>
                 <artifactItem>
@@ -105,7 +105,7 @@
                   <version>${project.version}</version>
                   <type>zip</type>
                   <!-- Only extract database -->
-                  <includes>*/database/**/*</includes>
+                  <includes>*/${xwiki.properties.environment.permanentDirectory}/**/*</includes>
                   <outputDirectory>${project.build.directory}/database</outputDirectory>
                 </artifactItem>
               </artifactItems>
@@ -141,7 +141,7 @@
     <xwiki.license>${project.build.directory}/classes/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</xwiki.container>
-    <xwiki.database>${project.build.directory}/database/xwiki-enterprise-jetty-${xwiki.db}-${project.version}/database</xwiki.database>
+    <xwiki.database>${project.build.directory}/database/xwiki-enterprise-jetty-${xwiki.db}-${project.version}/data/database</xwiki.database>
     <xwiki.png>${project.build.directory}/classes/images/xwiki.png</xwiki.png>
     <xwiki.border1.png>${project.build.directory}/classes/images/border1.png</xwiki.border1.png>
     <xwiki.border2.png>${project.build.directory}/classes/images/border2.png</xwiki.border2.png>

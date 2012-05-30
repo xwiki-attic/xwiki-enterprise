@@ -34,7 +34,7 @@
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Database - HSQLDB</description>
   <properties>
-    <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+    <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/${xwiki.properties.environment.permanentDirectory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
   </properties>
   <!-- Required for the exec:exec plugin execution below. Doesn't seem to work as an exec plugin
        dependency -->
@@ -88,7 +88,7 @@
             <argument>-driver</argument>
             <argument>org.hsqldb.jdbcDriver</argument>
             <argument>-url</argument>
-            <argument>jdbc:hsqldb:target/database/xwiki_db</argument>
+            <argument>jdbc:hsqldb:target/${xwiki.properties.environment.permanentDirectory}/database/xwiki_db</argument>
             <argument>-user</argument>
             <argument>sa</argument>
           </arguments>

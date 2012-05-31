@@ -70,7 +70,7 @@
     </pack>
     <pack name="Default Wiki" required="no">
       <description>A set of default Wiki pages. If you don't install this you'll get an empty Wiki. To be used when upgrading an existing XWiki installation so that your current pages are kept and not overwritten.</description>
-      <file src="${xwiki.database}" targetdir="$INSTALL_PATH"/>
+      <file src="${xwiki.database}" targetdir="$INSTALL_PATH/${xwiki.properties.environment.permanentDirectory}"/>
     </pack>
   </packs>
   <!-- The native libraries to add. This is required for creating shortcuts on Windows -->

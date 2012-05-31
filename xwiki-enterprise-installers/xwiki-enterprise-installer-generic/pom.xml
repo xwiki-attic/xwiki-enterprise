@@ -95,8 +95,9 @@
                   <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
                   <version>${project.version}</version>
                   <type>zip</type>
-                  <!-- Extracts everything excepts database -->
-                  <excludes>*/${xwiki.properties.environment.permanentDirectory},*/${xwiki.properties.environment.permanentDirectory}/**/*</excludes>
+                  <!-- Extracts everything except the database directory since we want to make it an optional install
+                       Pack. -->
+                  <excludes>*/${xwiki.properties.environment.permanentDirectory}/database/**/*</excludes>
                   <outputDirectory>${project.build.directory}/container</outputDirectory>
                 </artifactItem>
                 <artifactItem>
@@ -104,8 +105,8 @@
                   <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
                   <version>${project.version}</version>
                   <type>zip</type>
-                  <!-- Only extract database -->
-                  <includes>*/${xwiki.properties.environment.permanentDirectory}/**/*</includes>
+                  <!-- Only extract the database directory -->
+                  <includes>*/${xwiki.properties.environment.permanentDirectory}/database/**/*</includes>
                   <outputDirectory>${project.build.directory}/database</outputDirectory>
                 </artifactItem>
               </artifactItems>
@@ -141,7 +142,7 @@
     <xwiki.license>${project.build.directory}/classes/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/classes/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</xwiki.container>
-    <xwiki.database>${project.build.directory}/database/xwiki-enterprise-jetty-${xwiki.db}-${project.version}/data/database</xwiki.database>
+    <xwiki.database>${project.build.directory}/database/xwiki-enterprise-jetty-${xwiki.db}-${project.version}/${xwiki.properties.environment.permanentDirectory}/database</xwiki.database>
     <xwiki.png>${project.build.directory}/classes/images/xwiki.png</xwiki.png>
     <xwiki.border1.png>${project.build.directory}/classes/images/border1.png</xwiki.border1.png>
     <xwiki.border2.png>${project.build.directory}/classes/images/border2.png</xwiki.border2.png>

@@ -29,8 +29,8 @@
   <fileSets>
     <!-- Database files -->
     <fileSet>
-      <directory>${basedir}/target/${xwiki.properties.environment.permanentDirectory}/database</directory>
-      <outputDirectory>/${xwiki.properties.environment.permanentDirectory}/database</outputDirectory>
+      <directory>${basedir}/target/database</directory>
+      <outputDirectory>/</outputDirectory>
     </fileSet>
     <!-- Add License/Notice files -->
     <fileSet>

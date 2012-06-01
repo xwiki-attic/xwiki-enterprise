@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.xwiki.test.po.appwithinminutes.DateClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.DatePicker;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 
 /**
  * Special class editor tests that address only the Date class field type.
@@ -41,7 +42,10 @@ public class DateClassFieldTest extends AbstractClassEditorTest
      * Tests that the user can select a date using the date picker.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testDatePicker()
     {
         // First select a date using the picker and assert the value of the date input.
@@ -76,7 +80,10 @@ public class DateClassFieldTest extends AbstractClassEditorTest
      * serialized using the specified date format.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testDateFormat()
     {
         // Add a date field and change the date format.

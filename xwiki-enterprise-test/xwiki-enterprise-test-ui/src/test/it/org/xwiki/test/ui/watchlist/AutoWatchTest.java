@@ -24,6 +24,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
 import org.xwiki.test.po.watchlist.WatchlistUserProfilePage;
@@ -57,6 +58,7 @@ public class AutoWatchTest extends AbstractTest
      * Tests that a scheduler job page default edit mode is "inline".
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void testAutomaticWatchNewPage()
     {
         // create a new page

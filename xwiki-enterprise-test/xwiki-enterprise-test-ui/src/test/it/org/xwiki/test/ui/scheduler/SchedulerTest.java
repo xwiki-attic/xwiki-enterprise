@@ -30,6 +30,7 @@ import org.xwiki.test.po.scheduler.SchedulerPage;
 import org.xwiki.test.po.scheduler.editor.SchedulerEditPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -58,6 +59,7 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
      * Tests that a scheduler job page default edit mode is "inline"
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void testSchedulerJobDefaultEditMode()
     {
         getUtil().gotoPage("Scheduler", "WatchListDailyNotifier");
@@ -65,7 +67,10 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testJobActions()
     {
         // Create Job

@@ -33,6 +33,7 @@ import org.xwiki.test.po.appwithinminutes.ApplicationsLiveTableElement;
 import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
 import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 
 /**
  * Tests the live table that lists the existing applications on the AppWithinMinutes home page.
@@ -60,7 +61,10 @@ public class AppsLiveTableTest extends AbstractTest
      * Creates an application and deletes it using the Actions column from the applications live table.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testDeleteApplication()
     {
         // Create the application.
@@ -99,7 +103,10 @@ public class AppsLiveTableTest extends AbstractTest
      * Creates an application and edits it using the Actions column from the applications live table.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testEditApplication()
     {
         // Create the application.
@@ -130,7 +137,10 @@ public class AppsLiveTableTest extends AbstractTest
      * Tests that the actions are displayed only when the current user has the right to perform them.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testActionRights()
     {
         // Create the application.

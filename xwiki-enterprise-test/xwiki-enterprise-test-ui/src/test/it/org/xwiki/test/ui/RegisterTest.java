@@ -29,6 +29,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
 import org.xwiki.test.po.administration.AdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.AbstractRegistrationPage;
 import org.xwiki.test.ui.po.RegistrationPage;
 
@@ -93,7 +94,10 @@ public class RegisterTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRegisterJohnSmith()
     {
         Assert.assertTrue(validateAndRegister());
@@ -101,7 +105,10 @@ public class RegisterTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRegisterExistingUser()
     {
         registrationPage.fillRegisterForm(null, null, "Admin", null, null, null);
@@ -111,7 +118,10 @@ public class RegisterTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRegisterPasswordTooShort()
     {
         this.registrationPage.fillRegisterForm(null, null, null, "short", "short", null);
@@ -120,7 +130,10 @@ public class RegisterTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRegisterDifferentPasswords()
     {
         this.registrationPage.fillRegisterForm(null, null, null, null, "DifferentPassword", null);
@@ -129,7 +142,10 @@ public class RegisterTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRegisterEmptyPassword()
     {
         this.registrationPage.fillRegisterForm(null, null, null, "", "", null);
@@ -138,7 +154,10 @@ public class RegisterTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRegisterEmptyUserName()
     {
         // A piece of javascript fills in the username with the first and last names so we will empty them.
@@ -148,7 +167,10 @@ public class RegisterTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRegisterInvalidEmail()
     {
         this.registrationPage.fillRegisterForm(null, null, null, null, null, "not an email address");

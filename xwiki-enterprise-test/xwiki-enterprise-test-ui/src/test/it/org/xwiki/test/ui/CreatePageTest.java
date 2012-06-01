@@ -30,6 +30,7 @@ import org.xwiki.test.po.administration.TemplateProviderInlinePage;
 import org.xwiki.test.po.administration.TemplatesAdministrationSectionPage;
 import org.xwiki.test.po.xe.HomePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.CreatePagePage;
 import org.xwiki.test.ui.po.CreateSpacePage;
 import org.xwiki.test.ui.po.DocumentDoesNotExistPage;
@@ -84,7 +85,10 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests if a new page can be created from a template.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testCreatePageFromTemplate()
     {
         // Setup the correct environment for the test
@@ -395,7 +399,10 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests the creation of a page from a save and edit template, tests that the page is indeed saved.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testCreatePageWithSaveAndEditTemplate()
     {
         String space = this.getClass().getSimpleName();

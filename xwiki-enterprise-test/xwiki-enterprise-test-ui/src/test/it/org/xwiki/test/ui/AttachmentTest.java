@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.AttachmentsPane;
 import org.xwiki.test.ui.po.ViewPage;
 
@@ -52,7 +53,10 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testUploadDownloadTwoAttachments()
     {
         ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), null,
@@ -85,7 +89,10 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
      * See XWIKI-5896: The image handling in the WYSIWYG-editor with GIF images is buggy.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testAttachAndViewGifImage()
     {
         // Prepare the page to display the GIF image. We explicitly set the width to a value greater than the actual

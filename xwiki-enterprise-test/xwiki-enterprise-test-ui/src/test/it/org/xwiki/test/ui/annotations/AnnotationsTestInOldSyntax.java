@@ -25,6 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.po.administration.AdministrationPage;
 import org.xwiki.test.po.administration.AnnotationsPage;
 import org.xwiki.test.po.annotations.AnnotatableViewPage;
@@ -66,6 +67,7 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
      * are shown This test is against XAANNOTATIONS-17
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void xwikiPageSyntaxAnnotations()
     {
         annotatableViewPage.showAnnotationsPane();

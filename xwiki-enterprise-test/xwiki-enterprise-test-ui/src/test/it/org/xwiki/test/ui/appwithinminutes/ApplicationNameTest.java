@@ -26,6 +26,7 @@ import org.openqa.selenium.Keys;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.appwithinminutes.ApplicationCreatePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -56,7 +57,10 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
      * Try to create an application with an empty name using the next step button.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testEmptyAppNameWithNextStepButton()
     {
         ApplicationCreatePage appCreatePage = ApplicationCreatePage.gotoPage();
@@ -91,7 +95,10 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
      * Try to create an application with an empty name using the Enter key.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testEmptyAppNameWithEnter()
     {
         ApplicationCreatePage appCreatePage = ApplicationCreatePage.gotoPage();
@@ -127,7 +134,10 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
      * Try to create an application with a name that can't be used to compute a valid class name.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testInvalidAppName()
     {
         ApplicationCreatePage appCreatePage = ApplicationCreatePage.gotoPage();
@@ -163,7 +173,10 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
      * Try to input the name of an existing application.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testExistingAppName()
     {
         ApplicationCreatePage appCreatePage = ApplicationCreatePage.gotoPage();

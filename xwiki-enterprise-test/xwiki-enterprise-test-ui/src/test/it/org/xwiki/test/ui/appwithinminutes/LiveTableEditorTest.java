@@ -30,6 +30,7 @@ import org.xwiki.test.po.appwithinminutes.ApplicationHomeEditPage;
 import org.xwiki.test.po.appwithinminutes.ApplicationHomePage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.LiveTableElement;
 
 /**
@@ -68,7 +69,10 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
      * Adds, removes and reorders live table columns.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testManageColumns()
     {
         editPage.addLiveTableColumn("First Name");
@@ -87,7 +91,10 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
      * Tests that Save & Continue works fine.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testSaveAndContinue()
     {
         editPage.setDescription("wait for WYSIWYG to load");

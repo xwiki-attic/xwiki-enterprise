@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.po.administration.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.CommentsTab;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.EditRightsPane.Right;
@@ -81,7 +82,10 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testPostCommentAsGuest()
     {
         CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();
@@ -92,7 +96,10 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testPostCommentAsGuestNoJs()
     {
         getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
@@ -108,7 +115,10 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testReplyCommentAsAnonymous()
     {
         CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();
@@ -122,7 +132,10 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testCannotEditCommentAsAnonymous()
     {
         CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();

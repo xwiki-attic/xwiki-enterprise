@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.po.xe.HomePage;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ConfirmationPage;
 import org.xwiki.test.ui.po.DeletePageOutcomePage;
 import org.xwiki.test.ui.po.ViewPage;
@@ -114,6 +115,7 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
     }
 
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void testDeletePageIsImpossibleWhenNoDeleteRights()
     {
         // Logs out to be guest and not have the right to delete

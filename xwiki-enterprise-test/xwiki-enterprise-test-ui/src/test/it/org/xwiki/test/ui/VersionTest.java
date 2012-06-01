@@ -23,6 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.HistoryTab;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
@@ -46,7 +47,10 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
     private static final String CONTENT2 = "Second version of Content";
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testRollbackToFirstVersion() throws Exception
     {
         getUtil().deletePage(SPACE_NAME, PAGE_NAME);

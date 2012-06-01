@@ -42,6 +42,7 @@ import org.xwiki.test.po.invitation.InvitationGuestActionsPage;
 import org.xwiki.test.po.invitation.InvitationMessageDisplayElement;
 import org.xwiki.test.po.invitation.InvitationSenderPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.RegistrationPage;
 import org.xwiki.test.ui.po.TableElement;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
@@ -235,7 +236,10 @@ public class InvitationTest extends AbstractTest
      * will work and message will say mail was sent.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testUnpermittedUserCannotSendToMultipleAddresses() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();
@@ -287,7 +291,10 @@ public class InvitationTest extends AbstractTest
      * 4. After an admin marks the message as not spam, the sender can again send mail.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testSpamReporting() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();
@@ -454,7 +461,10 @@ public class InvitationTest extends AbstractTest
      * 4. An invitation once accepted can still be reported as spam.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testAcceptInvitation() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();
@@ -511,7 +521,10 @@ public class InvitationTest extends AbstractTest
      * 2. Upon recieving an email invitation the guest can register even without register premission.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testAcceptInvitationToClosedWiki() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();

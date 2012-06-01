@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.xwiki.test.po.appwithinminutes.StaticListClassFieldEditPane;
 import org.xwiki.test.po.appwithinminutes.StaticListItemsEditor;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.browser.IgnoreBrowsers;
 
 /**
  * Special class editor tests that address only the Static List class field type.
@@ -41,7 +42,10 @@ public class StaticListClassFieldTest extends AbstractClassEditorTest
      * be preserved.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testDisplayType()
     {
         // Add a new static list field.
@@ -84,7 +88,10 @@ public class StaticListClassFieldTest extends AbstractClassEditorTest
      * Tests that multiple select state is synchronized with the rest of the meta properties.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testMultipleSelect()
     {
         // Add a new static list field.
@@ -115,7 +122,10 @@ public class StaticListClassFieldTest extends AbstractClassEditorTest
      * Tests the ability to add, edit and remove list items.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testItemsEditor()
     {
         // Add a new static list field.

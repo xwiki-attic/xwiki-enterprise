@@ -215,9 +215,31 @@ public class DefaultWebDAVTest extends AbstractWebDAVTest
      */
     public void testMakingAttachment()
     {
+        testMakingAttachmentFile("attachment.txt","normal text file")        
+    }
+
+    /**
+     * Test making attachments with unsafe characters in filename.
+     * These characters should also always be encoded.
+     */
+    public void testMakingAttachmentsUnsafeChars()
+    {
+        testMakingAttachmentFile("my attach.txt","space");
+        testMakingAttachmentFile("[bracket].txt","brackets");
+        testMakingAttachmentFile("{brace}.txt","braces");
+        testMakingAttachmentFile("^caret.txt","caret");
+        testMakingAttachmentFile("#pound.txt","pound");
+        testMakingAttachmentFile("%percent.txt","percent");
+    }
+
+    /**
+     * Test making attachment with filename given under /TestSpace/TestPage
+     */
+    protected void testMakingAttachmentFile(String filename, String testing)
+    {
         String spaceUrl = SPACES + "/TestSpace";
         String pageUrl = spaceUrl + "/TestPage";
-        String attachmentUrl = pageUrl + "/attachment.txt";
+        String attachmentUrl = pageUrl + "/"+filename;
         String attachmentContent = "Attachment Content";
         DeleteMethod deleteMethod = new DeleteMethod();
         deleteMethod.setDoAuthentication(true);
@@ -250,9 +272,9 @@ public class DefaultWebDAVTest extends AbstractWebDAVTest
             deleteMethod.setPath(spaceUrl);
             assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
-            fail(ex.getMessage());
+            fail("Failed '"+testing+"' attachment: "+ex.getMessage());
         } catch (IOException ex) {
-            fail(ex.getMessage());
+            fail("Failed '"+testing+"' attachment: "+ex.getMessage());
         }
-    }
+    }       
 }

@@ -230,6 +230,7 @@ public class DefaultWebDAVTest extends AbstractWebDAVTest
         testMakingAttachmentFile("^caret.txt","caret");
         testMakingAttachmentFile("#pound.txt","pound");
         testMakingAttachmentFile("%percent.txt","percent");
+        testMakingAttachmentFile("plus+plus.txt","plus");
     }
 
     /**

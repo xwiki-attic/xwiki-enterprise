@@ -49,6 +49,23 @@ public class AbstractWebDAVTest extends TestCase
      * Root webdav view.
      */
     public static final String ROOT = "http://localhost:8080/xwiki/webdav";
+    
+    /** Build a correct escaped URI from the URI constructor */
+    
+    /** URI scheme */
+    public static final String URI_SCHEME = "http";
+
+    /** URI host */
+    public static final String URI_HOST = "localhost";
+    
+    /** URI port */
+    public static final int URI_PORT = 8080;
+    
+    /** URI webdav root */
+    public static final String URI_WEBDAV_ROOT = "/xwiki/webdav";
+    
+    /** location of the spaces view (uri construction) */
+    public static final String PATH_SPACES_VIEW = "/spaces";
 
     /**
      * location of the home view.

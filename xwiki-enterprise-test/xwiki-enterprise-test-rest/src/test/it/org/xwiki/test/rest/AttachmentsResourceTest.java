@@ -38,6 +38,7 @@ import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
@@ -72,25 +73,29 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String randomStr = String.format("%s.txt", UUID.randomUUID());
         /* Test filenames requiring url encoding */
         putAttachmentFilename(randomStr,"random");
-        putAttachmentFilename("my attach.txt","space");
-        putAttachmentFilename("[bracket].txt","brackets");
-        putAttachmentFilename("{brace}.txt","braces");
+        putAttachmentFilename("my attach.txt","space");                
         putAttachmentFilename("^caret.txt","caret");
         putAttachmentFilename("#pound.txt","pound");
         putAttachmentFilename("%percent.txt","percent");
-        putAttachmentFilename("plus+plus.txt","plus");
-    }
+        putAttachmentFilename("{brace}.txt","braces");
+        putAttachmentFilename("[bracket].txt","brackets"); /** Causes XWIKI-7874 **/
+        putAttachmentFilename("plus+plus.txt","plus");        
+    }   
 
     protected void putAttachmentFilename(String attachmentName, String type) throws Exception{        
         String content = "ATTACHMENT CONTENT";
 
-        /* Encode the filename ourselves, UriBuilder.build() doesn't seem to encode all chars. eg [ */
-        String encodedAttachmentName = java.net.URLEncoder.encode(attachmentName, "UTF-8");
+        /* Encode the filename ourselves, UriBuilder.build() doesn't seem to encode all chars. eg '[' */
+        String encodedAttachmentName = URIUtil.encodePath(attachmentName);
+        String encodedPageName = URIUtil.encodePath(PAGE_NAME);
+        String encodedSpaceName = URIUtil.encodePath(SPACE_NAME);
 
         /* Use UriBuilder.buildFromEncoded so we don't double encode the % */
         String attachmentUri =
-            getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), SPACE_NAME, PAGE_NAME, encodedAttachmentName).toString();               
+            getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName, encodedAttachmentName).toString();               
 
+        /** DEBUG URI System.out.println("attachmentUri: "+attachmentUri); */
+        
         GetMethod getMethod = executeGet(attachmentUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 

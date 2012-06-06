@@ -390,7 +390,10 @@ public class InvitationTest extends AbstractTest
      * 5. A guest cannot accept a message which has already been declined.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testDeclineInvitation() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();
@@ -596,7 +599,10 @@ public class InvitationTest extends AbstractTest
      * 4. A canceled invitation can still be reported as spam.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testCancelInvitation() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();
@@ -659,6 +665,7 @@ public class InvitationTest extends AbstractTest
      * 1. A user cannot send to the same address multiple (8000) times which would be very annoying for the recipient.
      */
     @Test
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void testSendManyToOneAddress() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();

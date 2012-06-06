@@ -143,7 +143,10 @@ public class UserProfileTest extends AbstractTest
 
     /** Functionality check: changing the password. */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangePassword()
     {
         // Change the password
@@ -166,7 +169,10 @@ public class UserProfileTest extends AbstractTest
 
     /** Functionality check: changing the user type. */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangeUserProfile()
     {
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
@@ -187,7 +193,10 @@ public class UserProfileTest extends AbstractTest
 
     /** Functionality check: changing the default editor. */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangeDefaultEditor()
     {
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
@@ -238,7 +247,10 @@ public class UserProfileTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangePasswordWithTwoDifferentPasswords()
     {
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
@@ -261,7 +273,10 @@ public class UserProfileTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangePasswordWithoutEnteringPasswords()
     {
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
@@ -283,7 +298,10 @@ public class UserProfileTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testChangePasswordOfAnotherUserWithTwoDifferentPasswords()
     {
         // Login as Admin and change the password of another user

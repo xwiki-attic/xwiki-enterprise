@@ -300,7 +300,10 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
      * Tests what happens when creating a page when no template is available in the specific space.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testCreatePageWhenNoTemplateAvailable()
     {
         // prepare the test environment, create a test space and exclude all templates for this space

@@ -190,7 +190,10 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
      * Test if an undo step reverts only one paste operation from a sequence, and not all of them.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
     public void testUndoRepeatedPaste()
     {
         EditorElement editor = this.editPage.getContentEditor();

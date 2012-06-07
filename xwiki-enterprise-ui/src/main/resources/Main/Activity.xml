@@ -1332,7 +1332,7 @@ $xwiki.ssx.use('Main.Activity')##
   #getCommentContent($event $commentContent)
   #if ("$!commentContent" != '')
     &lt;div class="comment"&gt;
-     $!commentContent
+     $doc.getRenderedContentRestricted($commentContent, $doc.getSyntax().toIdString())
     &lt;/div&gt;
   #end
 #end

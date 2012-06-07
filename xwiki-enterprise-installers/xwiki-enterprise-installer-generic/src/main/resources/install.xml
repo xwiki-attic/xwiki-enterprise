@@ -26,6 +26,8 @@
   <info>
     <appname>XWiki Enterprise</appname>
     <appversion>${project.version}</appversion>
+    <!-- Default directory name contains the version so that we can easily install several versions -->
+    <appsubpath>$APP_NAME $APP_VER</appsubpath>
     <url>http://xwiki.org/</url>
     <javaversion>1.5</javaversion>
     <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>

@@ -24,6 +24,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.index.test.po.SpaceIndexPage;
 import org.xwiki.test.po.appwithinminutes.AppWithinMinutesHomePage;
 import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
 import org.xwiki.test.po.appwithinminutes.ApplicationCreatePage;
@@ -144,6 +145,17 @@ public class WizardTest extends AbstractTest
         LiveTableElement entriesLiveTable = homePage.getEntriesLiveTable();
         entriesLiveTable.waitUntilReady();
         Assert.assertTrue(entriesLiveTable.hasRow("City Name", "London"));
+
+        // Assert that the application space index lists only the home page and the entry we have just created. The rest
+        // of the documents (class, template, sheet, preferences) should be marked as hidden.
+        LiveTableElement appSpaceIndexLiveTable = SpaceIndexPage.gotoPage(appName).getLiveTable();
+        appSpaceIndexLiveTable.waitUntilReady();
+        Assert.assertEquals(2, appSpaceIndexLiveTable.getRowCount());
+        Assert.assertTrue(appSpaceIndexLiveTable.hasRow("Page", "WebHome"));
+        Assert.assertTrue(appSpaceIndexLiveTable.hasRow("Page", firstEntryName));
+
+        // Go back to the application home page.
+        getDriver().navigate().back();
 
         // Click the edit button.
         homePage.edit();

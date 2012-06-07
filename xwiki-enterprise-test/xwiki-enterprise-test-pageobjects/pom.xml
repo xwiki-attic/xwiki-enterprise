@@ -39,6 +39,11 @@
       <artifactId>xwiki-platform-test</artifactId>
       <version>${platform.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-index-test-pageobjects</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>

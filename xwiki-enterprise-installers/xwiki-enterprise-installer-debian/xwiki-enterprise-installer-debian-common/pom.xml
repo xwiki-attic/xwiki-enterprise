@@ -37,7 +37,6 @@
     <war.path>${project.build.directory}/war</war.path>
 
     <xwiki.properties.environment.permanentDirectory>/var/lib/xwiki/data</xwiki.properties.environment.permanentDirectory>
-    <xwiki.cfg.additionalproperties>wiki.work.dir=${xwiki.properties.environment.permanentDirectory}</xwiki.cfg.additionalproperties>
   </properties>
   <dependencies>
     <dependency>

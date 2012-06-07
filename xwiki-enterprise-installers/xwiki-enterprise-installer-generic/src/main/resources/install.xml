@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
 
 <installation version="1.0">
   <info>
@@ -17,9 +39,11 @@
   <variables>
     <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
   </variables>
-  <!--
-      The ids must be these ones if you want to use the LicencePanel and/or the InfoPanel.
-  -->
+  <dynamicvariables>
+    <!-- Used to replace the xwikiDataDir variable in Jetty start shell scripts -->
+    <variable name="xwikiDataDir" value="data" condition="!izpack.windowsinstall.7"/>
+    <variable name="xwikiDataDir" value="%APPDATA%\XWiki\${project.version}\data" condition="izpack.windowsinstall.7"/>
+  </dynamicvariables>
   <resources>
     <res id="LicencePanel.licence" src="${xwiki.license}"/>
     <res id="HTMLInfoPanel.info" src="${xwiki.readme}"/>
@@ -56,10 +80,19 @@
   </listeners>
   <packs>
     <pack name="Core" required="yes">
-      <description>The core files</description>
+      <description>The Core files</description>
       <file src="${xwiki.readme}" targetdir="$INSTALL_PATH"/>
       <file src="${xwiki.license}" targetdir="$INSTALL_PATH"/>
-      <fileset dir="${xwiki.container}" targetdir="$INSTALL_PATH" override="true"/>
+      <!-- Copy container files -->
+      <fileset dir="${xwiki.container}" targetdir="$INSTALL_PATH" override="true">
+        <!-- Exclude database files -->
+        <exclude name="${xwikiDataDir}/**/*"/>
+      </fileset>
+      <!-- Replace xwikiDataDir variables in Jetty start shell scripts -->
+      <parsable targetfile="$INSTALL_PATH/start_xwiki.sh"/>
+      <parsable targetfile="$INSTALL_PATH/start_xwiki_debug.sh"/>
+      <parsable targetfile="$INSTALL_PATH/start_xwiki.bat"/>
+      <parsable targetfile="$INSTALL_PATH/start_xwiki_debug.bat"/>
       <!-- Set execute permissions for .sh files -->
       <executable targetfile="$INSTALL_PATH/start_xwiki.sh" stage="never"/>
       <executable targetfile="$INSTALL_PATH/stop_xwiki.sh" stage="never"/>
@@ -70,7 +103,10 @@
     </pack>
     <pack name="Default Wiki" required="no">
       <description>A set of default Wiki pages. If you don't install this you'll get an empty Wiki. To be used when upgrading an existing XWiki installation so that your current pages are kept and not overwritten.</description>
-      <file src="${xwiki.database}" targetdir="$INSTALL_PATH/${xwiki.properties.environment.permanentDirectory}"/>
+      <!-- On Windows 7, copy the database to the %PROGRAMDATA%\XWiki\database directory since Windows 7 doesn't allow
+           writing in the Program Files directory -->
+      <file src="${xwiki.database}" targetdir="${ENV[APPDATA]}/XWiki/${project.version}/data" condition="izpack.windowsinstall.7"/>
+      <file src="${xwiki.database}" targetdir="$INSTALL_PATH/${xwikiDataDir}" condition="!izpack.windowsinstall.7"/>
     </pack>
   </packs>
   <!-- The native libraries to add. This is required for creating shortcuts on Windows -->

@@ -48,13 +48,40 @@
       <outputDirectory>webapps/root</outputDirectory>
       <unpack>true</unpack>
     </dependencySet>
-    <!-- Unpack Jetty files -->
+    <!-- Unpack Jetty files
+         Note1: We need to apply filtering to resolve the "xwikiDataDir" property in start shell scripts.
+         Note2: Since the Assembly plugin doesn't allow us to specify which files should be filtered we need two
+                definitions, one with only start shell scripts and one without them.
+    -->
     <dependencySet>
       <includes>
         <include>org.xwiki.platform:xwiki-platform-tool-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>
+      <!-- TODO: This shouldn't be needed but there's a bug see http://jira.codehaus.org/browse/MASSEMBLY-554 -->
+      <outputFileNameMapping>/</outputFileNameMapping>
+      <unpackOptions>
+        <filtered>true</filtered>
+        <includes>
+          <include>**/start_xwiki*.*</include>
+        </includes>
+      </unpackOptions>
+    </dependencySet>
+    <dependencySet>
+      <includes>
+        <include>org.xwiki.platform:xwiki-platform-tool-jetty-resources</include>
+      </includes>
+      <outputDirectory>/</outputDirectory>
+      <unpack>true</unpack>
+      <!-- TODO: This shouldn't be needed but there's a bug see http://jira.codehaus.org/browse/MASSEMBLY-554 -->
+      <outputFileNameMapping>/</outputFileNameMapping>
+      <unpackOptions>
+        <filtered>false</filtered>
+        <excludes>
+          <exclude>**/start_xwiki*.*</exclude>
+        </excludes>
+      </unpackOptions>
     </dependencySet>
     <!-- Add JDBC driver for the database to use. -->
     <dependencySet>
@@ -69,7 +96,7 @@
       <includes>
         <include>org.xwiki.enterprise:xwiki-enterprise-database-${xwiki.db}</include>
       </includes>
-      <outputDirectory>/${xwiki.properties.environment.permanentDirectory}/database</outputDirectory>
+      <outputDirectory>/${xwikiDataDir}/database</outputDirectory>
       <unpack>true</unpack>
     </dependencySet>
   </dependencySets>

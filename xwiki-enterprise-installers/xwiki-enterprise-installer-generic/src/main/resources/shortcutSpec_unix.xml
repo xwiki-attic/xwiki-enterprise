@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
 <shortcuts>
   <skipIfNotSupported/>
   <programGroup defaultName="XWiki Enterprise" location="applications"/>
@@ -21,7 +44,7 @@
       KdeSubstUID="false"
       initialState="normal"
       categories=""
-      createForAll="true"/>
+      createForAll="false"/>
   <shortcut
       name="Stop XWiki Enterprise"
       programGroup="yes"
@@ -41,7 +64,7 @@
       KdeSubstUID="false"
       initialState="normal"
       categories=""
-      createForAll="true"/>
+      createForAll="false"/>
   <!-- TODO: I'd like to use "My Wiki" (with a space) but it fails for some reason if there's a space -->
   <shortcut
       name="MyWiki"
@@ -63,7 +86,7 @@
       KdeSubstUID="false"
       initialState="normal"
       categories=""
-      createForAll="true"/>
+      createForAll="false"/>
   <shortcut
       name="Documentation"
       programGroup="yes"
@@ -84,7 +107,7 @@
       KdeSubstUID="false"
       initialState="normal"
       categories=""
-      createForAll="true"/>
+      createForAll="false"/>
   <shortcut
       name="Uninstall"
       programGroup="yes"
@@ -102,5 +125,5 @@
       encoding="UTF-8"
       description="Uninstall XWiki"
       categories=""
-      createForAll="true"/>
+      createForAll="false"/>
 </shortcuts>

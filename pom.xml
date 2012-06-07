@@ -103,8 +103,9 @@
     <xwiki.cfg.defaultbaseskin>colibri</xwiki.cfg.defaultbaseskin>
     <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
-    <xwiki.cfg.additionalproperties>xwiki.work.dir=data</xwiki.cfg.additionalproperties>
-    <xwiki.properties.environment.permanentDirectory>data</xwiki.properties.environment.permanentDirectory>
+    <xwiki.cfg.additionalproperties></xwiki.cfg.additionalproperties>
+    <!-- Default location for XWiki's Data directory -->
+    <xwikiDataDir>data</xwikiDataDir>
   </properties>
   <build>
     <pluginManagement>
@@ -155,9 +156,6 @@
                   <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
                   <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
                   <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
-
-                  <!-- Default configuration data for xwiki.properties -->
-                  <xwikiPropertiesEnvironmentPermanentDirectory>${xwiki.properties.environment.permanentDirectory}</xwikiPropertiesEnvironmentPermanentDirectory>
                 </properties>
               </configuration>
             </execution>

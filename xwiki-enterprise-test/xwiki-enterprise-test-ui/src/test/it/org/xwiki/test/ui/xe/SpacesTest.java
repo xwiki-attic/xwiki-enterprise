@@ -21,10 +21,12 @@ package org.xwiki.test.ui.xe;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.xwiki.index.test.po.SpaceIndexPage;
 import org.xwiki.test.po.xe.HomePage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
+import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
 
@@ -77,8 +79,11 @@ public class SpacesTest extends AbstractAdminAuthenticatedTest
         HomePage homePage = HomePage.gotoPage();
         homePage.getSpacesPane().clickSpaceIndex(spaceName);
 
-        // TODO: Improve the following test by asserting the content of the Livetable in the SpaceIndexPage
-        Assert.assertEquals(getUtil().getURL("Main", "SpaceIndex", "view", "space=" + getUtil().escapeURL(spaceName)),
-            getDriver().getCurrentUrl());
+        // Assert the content of the space index live table.
+        LiveTableElement spaceIndexLiveTable = new SpaceIndexPage().getLiveTable();
+        spaceIndexLiveTable.waitUntilReady();
+        Assert.assertEquals(1, spaceIndexLiveTable.getRowCount());
+        Assert.assertTrue(spaceIndexLiveTable.hasRow("Page", "WebHome"));
+        Assert.assertTrue(spaceIndexLiveTable.hasRow("Space", spaceName));
     }
 }

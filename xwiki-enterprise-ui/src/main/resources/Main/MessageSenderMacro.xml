@@ -150,9 +150,9 @@ XWiki.MessageStream = Class.create({
     }
   },
   enhanceSelect: function () {
-    $$('form.messagestream select[name="visibilityLevel"]').each(function(element) {
+    $$('.messagestream select[name="visibilityLevel"]').each(function(element) {
       element.addClassName(element.options[element.selectedIndex].value);
-      element.__targetNameInput = element.up('form').down('input[name="targetName"]');
+      element.__targetNameInput = element.up('.messagestream').down('input[name="targetName"]');
       if (element.__targetNameInput &amp;&amp; this.targetsWithName.indexOf(element.options[element.selectedIndex].value) &lt; 0) {
         element.__targetNameInput.addClassName('hidden');
       }
@@ -161,7 +161,7 @@ XWiki.MessageStream = Class.create({
     }.bind(this));
   },
   prepareForms: function() {
-    $$('form.messagestream').each(function(msForm) {
+    $$('.messagestream form').each(function(msForm) {
       msForm.action = msForm.action.replace(/xredirect=.*$/, 'xpage=plain')
       msForm.observe('submit', function(event) {
         event.stop();
@@ -559,17 +559,25 @@ document.observe('xwiki:dom:loaded', function() {
     #end
   #end
   ##
-  ## Display the UI. Don't display it for AJAX calls, guests and inline mode.
+  ## Display the UI. Don't display it for AJAX calls and guests.
   ##
-  #if ($request.xpage != 'plain' &amp;&amp; !$isGuest &amp;&amp; $xcontext.action != 'inline' &amp;&amp; $xcontext.action != 'edit')
+  #if ($request.xpage != 'plain' &amp;&amp; !$isGuest)
+    ## When this macro is displayed in edit/inline mode, we disable the inputs and no longer display the form (because it would clash with the main form of inline edit).
+    #set ($inEditMode = ($xcontext.action == 'inline' || $xcontext.action == 'edit'))
     #set ($actionQueryString = "xredirect=$escapetool.url($xredirect)")
     {{html}}
-    &lt;form action="${xwiki.getURL('Main.MessageSenderMacro', 'view', $!{actionQueryString})}" method='post' class='messagestream activityUser xform'&gt;
+    ## Wrap the form in a div so that the layout is preserved in inline mode (where the form is stripped by the rendering).
+    &lt;div class='messagestream activityUser xform'&gt;
+    #if (!$inEditMode)
+    &lt;form action="${xwiki.getURL('Main.MessageSenderMacro', 'view', $!{actionQueryString})}" method='post'&gt;
+    #end
       &lt;div class='activityContent'&gt;
+        #if(!$inEditMode)
         &lt;input type='hidden' name='xaction' value='postMessage' /&gt;
+        #end
         #activitySnapshot($context.user, 'personalMessage')
         &lt;div class='messagestram-data'&gt;
-          &lt;textarea name='messagestream_message' rows='3' cols='40'&gt;&lt;/textarea&gt;
+          &lt;textarea name='messagestream_message' rows='3' cols='40'#if($inEditMode) disabled='disabled'#end&gt;&lt;/textarea&gt;
         &lt;/div&gt;
         &lt;div class='messagestream-tools'&gt;
           #set ($targetName = ${msg.get('xe.activity.messages.visibility.targetName.tip')})
@@ -591,13 +599,16 @@ document.observe('xwiki:dom:loaded', function() {
             #set ($defaultTarget = 'everyone')
           #end
           &lt;label&gt;$msg.get('xe.activity.messages.visibility')
-            &lt;select name='visibilityLevel'&gt;
+            &lt;select name='visibilityLevel'#if($inEditMode) disabled='disabled'#end&gt;
             #foreach ($target in $possibleTargets)
               &lt;option value="${target}"#if ($defaultTarget == $target) selected='selected'#end&gt;$msg.get("XWiki.MessageStreamConfig_visibilityLevel_${target}")&lt;/option&gt;
             #end
             &lt;/select&gt;
           &lt;/label&gt;
-          &lt;label for="targetName$!{targetNameCounter}"&gt;&lt;span class='hidden'&gt;Name:&lt;/span&gt;&lt;input type='text' name='targetName' id="targetName$!{targetNameCounter}" class="targetName $!{targetClassName}" value="$!{targetName}" size='15'/&gt;&lt;/label&gt;
+          &lt;label for="targetName$!{targetNameCounter}"&gt;
+            &lt;span class='hidden'&gt;Name:&lt;/span&gt;
+            &lt;input type='text' name='targetName' id="targetName$!{targetNameCounter}" class="targetName $!{targetClassName}" value="$!{targetName}" size='15'#if($inEditMode) disabled='disabled'#end/&gt;
+          &lt;/label&gt;
           #if (!$targetNameCounter)
             #set ($targetNameCounter = 1)
           #else
@@ -605,10 +616,13 @@ document.observe('xwiki:dom:loaded', function() {
           #end
         &lt;/div&gt;
         &lt;div class='messagestream-buttons'&gt;
-          &lt;span class='butonwrapper'&gt;&lt;input type='submit' value="$msg.get('xe.activity.messages.submit')" class='button'/&gt;&lt;/span&gt;
+          &lt;span class='butonwrapper'&gt;&lt;input type='submit' value="$msg.get('xe.activity.messages.submit')" class='button'#if($inEditMode) disabled='disabled'#end/&gt;&lt;/span&gt;
         &lt;/div&gt;
       &lt;/div&gt;
+    #if (!$inEditMode)
     &lt;/form&gt;
+    #end
+    &lt;/div&gt;
     {{/html}}
   #end
 #end

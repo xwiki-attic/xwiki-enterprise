@@ -157,5 +157,6 @@
     <xwiki.shortcut.icon.unix>${project.build.directory}/classes/images/xe.png</xwiki.shortcut.icon.unix>
     <xwiki.shortcut.icon.windows>${project.build.directory}/classes/images/xe.ico</xwiki.shortcut.icon.windows>
     <xwiki.registrySpec>${project.build.directory}/classes/registrySpec.xml</xwiki.registrySpec>
+    <xwiki.defaultDirWindows>${project.build.directory}/classes/defaultDirWindows.txt</xwiki.defaultDirWindows>
   </properties>
 </project>

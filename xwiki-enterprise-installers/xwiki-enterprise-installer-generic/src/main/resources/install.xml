@@ -6,7 +6,7 @@
     <appversion>${project.version}</appversion>
     <url>http://xwiki.org/</url>
     <javaversion>1.5</javaversion>
-    <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>
+    <run-privileged condition="izpack.windowsinstall"/>
   </info>
   <guiprefs width="800" height="600" resizable="yes">
   </guiprefs>
@@ -37,16 +37,18 @@
     <res id="Installer.image.7" src="${xwiki.border8.png}" />
     <res id="ImgPacksPanel.img.0" src="${xwiki.core.png}" />
     <res id="ImgPacksPanel.img.1" src="${xwiki.core.png}" />
+    <res id="TargetPanel.dir.windows" src="${xwiki.defaultDirWindows}"/>
   </resources>
   <panels>
-    <panel classname="CheckedHelloPanel" id="hellopanel"/>
-    <panel classname="HTMLInfoPanel" id="htmlinfopanel"/>
-    <panel classname="LicencePanel" id="licensepanel"/>
-    <panel classname="TargetPanel" id="targetpanel"/>
-    <panel classname="ImgPacksPanel" id="packspanel"/>
-    <panel classname="InstallPanel" id="installpanel"/>
-    <panel classname="ShortcutPanel" id="shortcutpanel"/>
-    <panel classname="FinishPanel" id="finishpanel"/>
+    <panel classname="CheckedHelloPanel"/>
+    <panel classname="HTMLInfoPanel"/>
+    <panel classname="LicencePanel"/>
+    <panel classname="DefaultTargetPanel" condition="izpack.windowsinstall"/>
+    <panel classname="TargetPanel" condition="!izpack.windowsinstall"/>
+    <panel classname="ImgPacksPanel"/>
+    <panel classname="InstallPanel"/>
+    <panel classname="ShortcutPanel"/>
+    <panel classname="FinishPanel"/>
   </panels>
   <listeners>
     <!-- Add support for installing/uninstalling through the Windows Install Control Panel location -->

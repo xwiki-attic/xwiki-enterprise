@@ -142,7 +142,9 @@
     </plugins>
   </build>
   <properties>
-    <izpack.compiler.version>4.3.5</izpack.compiler.version>
+    <!-- TODO: We cannot upgrade to 4.3.4 nor 4.3.5 since they have a regression on shortcuts, see
+         http://jira.codehaus.org/browse/IZPACK-808 -->
+    <izpack.compiler.version>4.3.2</izpack.compiler.version>
     <xwiki.license>${project.build.directory}/izpack/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/izpack/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</xwiki.container>

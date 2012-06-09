@@ -1167,9 +1167,10 @@ $xwiki.ssx.use('Main.Activity')##
 #**
   * Get annotation text and selection
   *#
-#macro(getAnnotation $event $annotationText $annotationSelection)
+#macro(getAnnotation $event $annotationText $annotationSelection $annotationTextSyntaxId)
   #set ($annotationText = '')
   #set ($annotationSelection = '')
+  #set ($annotationTextSyntaxId = '')
   #isDocumentVersionValid($event)
   #if ($isDocumentVersionValid)
     #set ($pageDocRevision = $xwiki.getDocument($xwiki.getDocument($event.page), $event.version))
@@ -1177,6 +1178,7 @@ $xwiki.ssx.use('Main.Activity')##
     #set ($annotationObject = $pageDocRevision.getObject('XWiki.XWikiComments', $mathtool.toInteger($event.param2)))
     #set ($annotationSelection = $annotationObject.getProperty('selection').value)
     #set ($annotationText = $annotationObject.getProperty('comment').value)
+    #set ($annotationTextSyntaxId = $pageDocRevision.getSyntax().toIdString())
   #end
 #end
 #**
@@ -1311,9 +1313,9 @@ $xwiki.ssx.use('Main.Activity')##
   &lt;div class="attachment"&gt;
     #mimetypeimg($attach.getMimeType().toLowerCase() $event.param2)
     #if ($attach.version)
-      &lt;a href="$pageDoc.getAttachmentURL($event.param2)"&gt;$!event.param2&lt;/a&gt;
+      &lt;a href="$pageDoc.getAttachmentURL($event.param2)"&gt;$!{escapetool.xml($event.param2)}&lt;/a&gt;
     #else
-      $!event.param2
+      $!{escapetool.xml($event.param2)}
     #end
   &lt;/div&gt;
 #end
@@ -1322,7 +1324,7 @@ $xwiki.ssx.use('Main.Activity')##
   *#
 #macro(displayMessage $event)
   &lt;div class="message"&gt;
-   $!event.getBody()
+   $!{escapetool.xml($event.getBody())}
   &lt;/div&gt;
 #end
 #**
@@ -1342,8 +1344,8 @@ $xwiki.ssx.use('Main.Activity')##
 #macro(displayAnnotation $event)
   #getAnnotation($event $annotationText $annotationSelection)
   #if ("$!annotationText" != '' || "$!annotationSelection" != '')
-    &lt;div class="annotated"&gt;$!annotationSelection&lt;/div&gt;
-    &lt;div class="annotation"&gt;$!annotationText&lt;/div&gt;
+    &lt;div class="annotated"&gt;$!{escapetool.xml($annotationSelection)}&lt;/div&gt;
+    &lt;div class="annotation"&gt;$!{doc.getRenderedContentRestricted($annotationText, $annotationTextSyntaxId)}&lt;/div&gt;
   #end
 #end
 #**

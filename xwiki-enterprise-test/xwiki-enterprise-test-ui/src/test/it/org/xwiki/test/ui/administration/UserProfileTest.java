@@ -25,16 +25,17 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.ui.AbstractTest;
+import org.openqa.selenium.Alert;
 import org.xwiki.test.po.administration.PreferencesUserProfilePage;
 import org.xwiki.test.po.administration.ProfileUserProfilePage;
+import org.xwiki.test.po.xe.HomePage;
+import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.editor.ChangeAvatarPage;
 import org.xwiki.test.ui.po.editor.ChangePasswordPage;
 import org.xwiki.test.ui.po.editor.PreferencesEditPage;
 import org.xwiki.test.ui.po.editor.ProfileEditPage;
-import org.xwiki.test.po.xe.HomePage;
 
 /**
  * Test the User Profile.
@@ -264,22 +265,13 @@ public class UserProfileTest extends AbstractTest
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
     public void testChangePasswordWithoutEnteringPasswords()
     {
-        PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
-        ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
-
-        // The submit will popup a dialog box mentioning that the password cannot be empty.
-        // Since there's currently an issue with closing dialog box with Selenium, we're not asserting the content
-        // of the dialog box and instead we're verifying that the URL is still the same (ie that no action was
-        // performed - when the password change is effective the main profile page is displayed).
-        // We would normally have written:
-        //    Alert alert = getDriver().switchTo().alert();
-        //    Assert.assertEquals("The password cannot be empty.", alert.getText());
-        //    alert.accept();
-
-        String currentURL = getDriver().getCurrentUrl();
-        changePasswordPage.makeAlertDialogSilent();
-        changePasswordPage.submit();
-        Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
+        this.customProfilePage.switchToPreferences().changePassword().submit();
+        Alert alert = getDriver().switchTo().alert();
+        try {
+            Assert.assertEquals("The password cannot be empty.", alert.getText());
+        } finally {
+            alert.accept();
+        }
     }
 
     @Test

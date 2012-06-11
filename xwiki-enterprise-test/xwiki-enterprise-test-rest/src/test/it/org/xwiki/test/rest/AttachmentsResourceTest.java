@@ -38,6 +38,7 @@ import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
@@ -55,26 +56,48 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
     private final String PAGE_NAME = "WebHome";
 
+    private final String ADMIN_USERNAME = "Admin";
+    private final String ADMIN_PASSWORD = "admin";
+
     @Override
     @Test
     public void testRepresentation() throws Exception
     {
         /* Everything is done in test methods */
     }
-
+    
     @Test
     public void testPUTAttachment() throws Exception
     {
-        String attachmentName = String.format("%s.txt", UUID.randomUUID());
+        /* Test normal random UUID method */
+        String randomStr = String.format("%s.txt", UUID.randomUUID());
+        /* Test filenames requiring url encoding */
+        putAttachmentFilename(randomStr,"random");
+        putAttachmentFilename("my attach.txt","space");                
+        putAttachmentFilename("^caret.txt","caret");
+        putAttachmentFilename("#pound.txt","pound");
+        putAttachmentFilename("%percent.txt","percent");
+        putAttachmentFilename("{brace}.txt","braces");
+        putAttachmentFilename("[bracket].txt","brackets"); /** Causes XWIKI-7874 **/
+        putAttachmentFilename("plus+plus.txt","plus");        
+    }   
+
+    protected void putAttachmentFilename(String attachmentName, String type) throws Exception{        
         String content = "ATTACHMENT CONTENT";
 
+        /* Encode the filename ourselves, UriBuilder.build() doesn't seem to encode all chars. eg '[' */
+        String encodedAttachmentName = URIUtil.encodePath(attachmentName);
+        String encodedPageName = URIUtil.encodePath(PAGE_NAME);
+        String encodedSpaceName = URIUtil.encodePath(SPACE_NAME);
+
+        /* Use UriBuilder.buildFromEncoded so we don't double encode the % */
         String attachmentUri =
-            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
+            getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName, encodedAttachmentName).toString();
 
         GetMethod getMethod = executeGet(attachmentUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
-        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
+        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         getMethod = executeGet(attachmentUri);
@@ -131,7 +154,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String attachmentUri =
             getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
-        DeleteMethod deleteMethod = executeDelete(attachmentUri, "Admin", "admin");
+        DeleteMethod deleteMethod = executeDelete(attachmentUri, ADMIN_USERNAME, ADMIN_PASSWORD);
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         getMethod = executeGet(attachmentUri);
@@ -147,7 +170,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String attachmentUri =
             getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
-        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
+        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         DeleteMethod deleteMethod = executeDelete(attachmentUri);
@@ -176,7 +199,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                 getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentNames[i])
                     .toString();
 
-            PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
+            PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
             Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
             Attachment attachment = (Attachment) this.unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -237,7 +260,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                     .toString();
 
             String content = String.format("CONTENT %d", i);
-            PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, "Admin", "admin");
+            PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
             if (i == 0) {
                 Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
             } else {
@@ -276,7 +299,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         HttpClient httpClient = new HttpClient();
-        httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("Admin", "admin"));
+        httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(ADMIN_USERNAME, ADMIN_PASSWORD));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
         Part[] parts = new Part[1];

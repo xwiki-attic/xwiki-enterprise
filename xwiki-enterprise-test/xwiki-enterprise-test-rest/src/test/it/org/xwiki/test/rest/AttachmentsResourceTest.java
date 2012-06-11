@@ -92,10 +92,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         /* Use UriBuilder.buildFromEncoded so we don't double encode the % */
         String attachmentUri =
-            getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName, encodedAttachmentName).toString();               
+            getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName, encodedAttachmentName).toString();
 
-        /** DEBUG URI System.out.println("attachmentUri: "+attachmentUri); */
-        
         GetMethod getMethod = executeGet(attachmentUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 

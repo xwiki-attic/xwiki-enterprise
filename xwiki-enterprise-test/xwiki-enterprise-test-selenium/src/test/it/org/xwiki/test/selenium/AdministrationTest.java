@@ -256,62 +256,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Make sure some joker can't edit an application of he doesn't have permission.
-     * <p>
-     * This test depends on the "Presentation" section existing.<br/>
-     * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.<br/>
-     * Tests: XWiki.ConfigurableClass
-     */
-    public void testConfigurationNotEditableWithoutPermission()
-    {
-        String nonExistingSection = "HopingThereIsNoSectionByThisName";
-        String existingSection = "Presentation";
-        // Create the configurable for global admin.
-        createConfigurableApplication("Main", "TestConfigurable", nonExistingSection, true);
-        loginAndRegisterUser("someJoker", "bentOnMalice", false);
-        loginAsAdmin();
-
-        // Add an XWikiRights object giving someJoker access.
-        open("XWiki", "XWikiPreferences", "edit", "editor=object");
-        setFieldValue("classname", "XWiki.XWikiRights");
-        clickButtonAndContinue("//input[@name='action_objectadd']");
-        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_levels']", "admin");
-        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_users']", "someJoker");
-        clickEditSaveAndView();
-
-        // Add an XWikiRights object to make sure someJoker has no edit access to Main.TestConfigurable
-        open("Main", "TestConfigurable", "edit", "editor=object");
-        setFieldValue("classname", "XWiki.XWikiRights");
-        clickButtonAndContinue("//input[@name='action_objectadd']");
-        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_levels']", "edit");
-        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_users']", "someJoker");
-        getSelenium().select("//dd/select[@name='XWiki.XWikiRights_0_allow']", "Deny");
-        clickEditSaveAndView();
-
-        loginAndRegisterUser("someJoker", "bentOnMalice", false);
-        open("XWiki", "XWikiPreferences", "admin");
-        assertTrue(isAdminMenuItemPresent(nonExistingSection));
-
-        // Make sure the error message is displayed.
-        // FIXME In 3.0 inaccessible sections don't appear anymore
-        // assertElementPresent("//ul[@id='admin-icons']/li[@class='" + nonExistingSection +
-        // "']/a/span[@class='errormessage']");
-
-        // If someJoker is clever enough to try the url of the section...
-        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + nonExistingSection);
-        assertConfigurationNotEditable("Main", "TestConfigurable");
-
-        // Now we'll make sure someJoker can't edit an application in an existing section
-        loginAsAdmin();
-        open("Main", "TestConfigurable", "edit", "editor=object");
-        setFieldValue("XWiki.ConfigurableClass_0_displayInSection", existingSection);
-        clickEditSaveAndView();
-        loginAndRegisterUser("someJoker", "bentOnMalice", false);
-        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + existingSection);
-        assertConfigurationNotEditable("Main", "TestConfigurable");
-    }
-
-    /**
      * Fails if a user can create a Configurable application without having edit access to the configuration page (in
      * this case: XWikiPreferences)
      * <p>

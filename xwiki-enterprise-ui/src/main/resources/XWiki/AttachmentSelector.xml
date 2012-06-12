@@ -982,6 +982,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
   #set ($alt = "$!{xcontext.macro.params.alternateText}")
   #set ($width = "$!{xcontext.macro.params.width}")
   #set ($height = "$!{xcontext.macro.params.height}")
+  #set ($imageParams = '')
   #if ("${width}" != '')
     #set($imageParams = "$!{imageParams} width=${width}")
   #end

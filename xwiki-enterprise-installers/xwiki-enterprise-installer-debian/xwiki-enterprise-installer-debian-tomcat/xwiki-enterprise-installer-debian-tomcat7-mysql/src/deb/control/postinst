@@ -10,7 +10,7 @@ set -e
 #########################
 
 # Custom tomcat context configuration
-ln -sf /etc/xwiki/xwiki-tomcat.xml  /etc/tomcat6/Catalina/localhost/xwiki.xml
+ln -sf /etc/xwiki/xwiki-tomcat.xml  /etc/tomcat7/Catalina/localhost/xwiki.xml
 
 #########################
 # Rights

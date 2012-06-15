@@ -67,6 +67,9 @@
           <include>**/start_xwiki*.*</include>
         </includes>
       </unpackOptions>
+      <!-- Extracting some resources from the dependency somehow looses the file permissions, so we need to set them
+           again so that the start xwiki scripts are executable... -->
+      <fileMode>755</fileMode>
     </dependencySet>
     <dependencySet>
       <includes>

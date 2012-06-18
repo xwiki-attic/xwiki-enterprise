@@ -2083,7 +2083,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
     #attachmentPicker_displayUploadForm($targetDocument, $targetAttachDocument, $options)
   #end
   #attachmentPicker_displayAttachmentGalleryEmptyValue($targetDocument, $targetAttachDocument, $options, $currentValue)
-  #set ($sortedAttachments = $sorttool.sort($targetAttachDocument.getAttachmentList(), 'date:desc') )
+  #set ($sortedAttachments = $sorttool.sort($targetAttachDocument.getAttachmentList(), "${options.sortAttachmentsBy}") )
   #foreach ($attachment in $sortedAttachments)
     #set ($extension = $attachment.getFilename())
     #set ($extension = $extension.substring($mathtool.add($extension.lastIndexOf('.'), 1)).toLowerCase())
@@ -2281,6 +2281,21 @@ $xwiki.jsx.use($attachmentPickerDocName)
   #else
     #set ($displayImage = false)
   #end
+  ### Determine attachment sorting
+  #set($sortAttachmentsBy = "$!{request.sortAttachmentsBy}")
+  #set ($validAttachmentProperties = ['filename', 'date', 'filesize', 'author', 'version', 'mimeType'])
+  #if($sortAttachmentsBy == '' || $validAttachmentProperties.indexOf($sortAttachmentsBy) == -1)
+    ### Default to sorting by filename, sort not requested.
+    #set($sortAttachmentsBy = "filename")
+  #end
+  ### Set attachment sorting direction
+  #if($sortAttachmentsBy == 'date')
+    ### Sort the date descending
+    #set($sortAttachmentsBy = "date:desc")
+  #else
+    ### Sort everything else ascending
+    #set($sortAttachmentsBy = "${sortAttachmentsBy}:asc")
+  #end
   #set ($options = {
     'classname' : ${request.get('classname')},
     'object' : $!{mathtool.toInteger($request.object)},
@@ -2289,7 +2304,8 @@ $xwiki.jsx.use($attachmentPickerDocName)
     'docAction' : ${docAction},
     'defaultValue' : "$!{request.defaultValue}",
     'rawfilter': "$!{rawfilter}",
-    'filter': ${filter}
+    'filter': ${filter},
+    'sortAttachmentsBy': ${sortAttachmentsBy}
   })
   $!targetDocument.use($targetDocument.getObject($options.classname, $options.object))##
   #attachmentPicker_displayAttachmentGallery($targetDocument, $targetAttachDocument, $options)

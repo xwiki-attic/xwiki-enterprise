@@ -265,14 +265,16 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         // Make sure the configurable page doesn't exist because otherwise we may fail to overwrite it with a
         // non-administrator user.
-        deletePage("Main", "TestConfigurable");
+        deletePage("Main", "testConfigurableCreatedByUnauthorizedWillNotExecute");
         // Create the configurable for global administrator.
         loginAndRegisterUser("anotherJoker", "bentOnMalice", false);
         String nonExistingSection = "HopingThereIsNoSectionByThisName";
-        createConfigurableApplication("Main", "TestConfigurable", nonExistingSection, true);
+        createConfigurableApplication("Main",
+                                      "testConfigurableCreatedByUnauthorizedWillNotExecute",
+                                       nonExistingSection, true);
         loginAsAdmin();
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=" + nonExistingSection);
-        assertConfigurationNotEditable("Main", "TestConfigurable");
+        assertConfigurationNotEditable("Main", "testConfigurableCreatedByUnauthorizedWillNotExecute");
     }
 
     /*
@@ -691,6 +693,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open(space, page, "edit", "editor=object");
 
         // Add an object of the new class.
+        waitForElement("classname");
         setFieldValue("classname", space + "." + page);
         clickButtonAndContinue("//input[@name='action_objectadd']");
 

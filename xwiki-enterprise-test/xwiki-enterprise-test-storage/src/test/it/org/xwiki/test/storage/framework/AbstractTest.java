@@ -40,7 +40,7 @@ public class AbstractTest
     private static XWikiExecutor executor;
 
     @Rule
-    private TestName testName = new TestName();
+    public TestName testName = new TestName();
 
     /** Cached secret token. TODO cache for each user. */
     private String secretToken = null;

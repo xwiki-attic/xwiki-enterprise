@@ -90,14 +90,15 @@ public class DocumentTest extends AbstractTest
     @Test
     public void testSaveOfThreeHundredKilobyteDocument() throws Exception
     {
-        final String spaceName = "DocumentTest";
-        final String pageName = "testSaveOfthreeHundredKilobyteDocument";
+        final String spaceName = this.getClass().getSimpleName();
+        final String pageName = this.getTestMethodName();
         final String content = RandomStringUtils.randomAlphanumeric(300000);
         final HttpMethod ret =
-            doPostAsAdmin(spaceName, pageName, null, "save", null,
+            this.doPostAsAdmin(spaceName, pageName, null, "save", null,
                 new HashMap<String, String>() {{
                     put("content", content);
                 }});
-        Assert.assertEquals(200, ret.getStatusCode());
+        // save forwards the user to view, if it's too big, jetty gives you a 500
+        Assert.assertEquals(302, ret.getStatusCode());
     }
 }

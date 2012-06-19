@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -e
+#set -x
+
+#########################
+# Links
+# TODO: get rid of them when jdeb add support for symbolic links
+#       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
+#########################
+
+rm -rf /usr/lib/xwiki/WEB-INF/cache
+rm -rf /usr/lib/xwiki/WEB-INF/fonts
+rm -rf /usr/lib/xwiki/WEB-INF/classes
+rm -rf /usr/lib/xwiki/WEB-INF/observation
+
+rm -f /usr/lib/xwiki/WEB-INF/portlet.xml
+rm -f /usr/lib/xwiki/WEB-INF/struts-config.xml
+rm -f /usr/lib/xwiki/WEB-INF/struts-html.tld
+rm -f /usr/lib/xwiki/WEB-INF/struts-template.tld
+rm -f /usr/lib/xwiki/WEB-INF/sun-web.xml
+rm -f /usr/lib/xwiki/WEB-INF/web.xml
+rm -f /usr/lib/xwiki/WEB-INF/xwiki.properties
+rm -f /usr/lib/xwiki/WEB-INF/struts-bean.tld
+rm -f /usr/lib/xwiki/WEB-INF/struts-form.tld
+rm -f /usr/lib/xwiki/WEB-INF/struts-logic.tld
+rm -f /usr/lib/xwiki/WEB-INF/struts.tld
+rm -f /usr/lib/xwiki/WEB-INF/version.properties
+rm -f /usr/lib/xwiki/WEB-INF/xwiki.cfg
+
+rm -f /usr/lib/xwiki/WEB-INF/hibernate.cfg.xml

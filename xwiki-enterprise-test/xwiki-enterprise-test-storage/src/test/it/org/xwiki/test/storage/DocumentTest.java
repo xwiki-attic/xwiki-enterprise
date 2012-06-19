@@ -87,6 +87,7 @@ public class DocumentTest extends AbstractTest
      * @since 4.1.1
      * @since 4.0.1
      */
+    @Test
     public void testSaveOfThreeHundredKilobyteDocument() throws Exception
     {
         final String spaceName = "DocumentTest";

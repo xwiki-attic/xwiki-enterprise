@@ -25,6 +25,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.httpclient.HttpMethod;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 import org.xwiki.test.integration.XWikiExecutor;
 
 /**
@@ -36,6 +38,9 @@ import org.xwiki.test.integration.XWikiExecutor;
 public class AbstractTest
 {
     private static XWikiExecutor executor;
+
+    @Rule
+    private TestName testName = new TestName();
 
     /** Cached secret token. TODO cache for each user. */
     private String secretToken = null;
@@ -54,6 +59,11 @@ public class AbstractTest
     protected String getAddressPrefix()
     {
         return "http://127.0.0.1:" + this.getPort() + "/xwiki/bin/";
+    }
+
+    protected String getTestMethodName()
+    {
+        return this.testName.getMethodName();
     }
 
     protected HttpMethod doPostAsAdmin(final String space,

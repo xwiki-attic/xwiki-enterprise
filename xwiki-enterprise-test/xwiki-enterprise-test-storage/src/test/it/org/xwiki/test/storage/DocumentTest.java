@@ -22,6 +22,7 @@ package org.xwiki.test.storage;
 import java.util.HashMap;
 
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.test.storage.framework.AbstractTest;
@@ -77,5 +78,25 @@ public class DocumentTest extends AbstractTest
                     put("content", "{{velocity}}$doc.getVersion(){{/velocity}}");
                 }});
         Assert.assertEquals("<p>3.1</p>", new String(ret.getResponseBody(), "UTF-8"));
+    }
+
+    /**
+     * check that http://jira.xwiki.org/browse/XWIKI-7943 has not regressed.
+     * Jetty prevents saving of large documents unless you specify max form size on the command line.
+     *
+     * @since 4.1.1
+     * @since 4.0.1
+     */
+    public void testSaveOfThreeHundredKilobyteDocument() throws Exception
+    {
+        final String spaceName = "DocumentTest";
+        final String pageName = "testSaveOfthreeHundredKilobyteDocument";
+        final String content = RandomStringUtils.randomAlphanumeric(300000);
+        final HttpMethod ret =
+            doPostAsAdmin(spaceName, pageName, null, "save", null,
+                new HashMap<String, String>() {{
+                    put("content", content);
+                }});
+        Assert.assertEquals(200, ret.getStatusCode());
     }
 }

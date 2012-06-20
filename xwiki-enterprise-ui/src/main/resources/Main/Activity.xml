@@ -241,6 +241,382 @@ document.observe('xwiki:dom:loaded', function() {
   </object>
   <object>
     <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>Main.Activity</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>7920f87d-78c2-4b46-a286-f9f5a08ba939</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>var XWiki = (function (XWiki) {
+// Start XWiki augmentation.
+XWiki.ActivityFilters = Class.create({
+  // Do a lazy initialization of the suggestParameters since we need to use XWiki.Document and that is initialized after xwiki:dom:loaded.
+  suggestParameters : null,
+  initialize : function() {
+    this.initHandlers();
+    this.enhanceSelect();
+    this.attachAddHandlers();
+    this.attachRemoveHandlers();
+  },
+  initHandlers: function() {
+    $$('.activityContainer .toggleFilters').each(function(toggleFilterButton){
+      toggleFilterButton.observe('click', this.toggleFilters.bindAsEventListener(this, toggleFilterButton.up('.activityContainer')));
+    }.bind(this));
+  },
+  toggleFilters: function(event, activityContainer) {
+    event.stop();
+    var toggleFiltersButton = activityContainer.down('.toggleFilters');
+    var activityFilters = activityContainer.down('.activityFilters');
+    if (activityFilters.hasClassName('hidden')) {
+      activityFilters.removeClassName('hidden');
+      toggleFiltersButton.update("$msg.get('xe.activity.filters.showFilters.false')");
+    } else {
+      activityFilters.addClassName('hidden');
+      toggleFiltersButton.update("$msg.get('xe.activity.filters.showFilters.true')");
+    }
+  },
+  enhanceSelect: function() {
+    this.initSuggestParameters();
+
+    $$('.activityContainer .addFilters .filterName').each(function(filterNameSelect){
+      var filterValueInput = filterNameSelect.next('.filterValue');
+
+      // Register the change listener
+      filterNameSelect.observe('change', this.updateSuggestion.bindAsEventListener(this, filterValueInput, filterNameSelect));
+
+      // Update the suggestion to the default value
+      this.updateSuggestion(null, filterValueInput, filterNameSelect);
+    }.bind(this));
+  },
+  initSuggestParameters: function() {
+    #set ($activityFilterValueSuggestServiceReference = $services.model.createDocumentReference($xcontext.database, 'XWiki', 'ActivityFilterValueSuggestService'))
+    #set ($userSuggestScope = 'local')
+    #if ($services.workspace &amp;&amp; $services.workspace.isWorkspace($xcontext.database))
+      #set ($userSuggestScope = 'global')
+    #end
+
+    this.suggestParameters  = {
+      'authors' : {
+          script: XWiki.currentDocument.getURL('get', "xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=${userSuggestScope}&amp;uorg=user&amp;"),
+          varname: 'input',
+          icon: "$xwiki.getSkinFile('icons/silk/user.png')",
+          noresults: "$msg.get('xe.activity.filters.authors.noResults')",
+          timeout : 30000
+      },
+      'wikis' : {
+          script: "${xwiki.getURL($activityFilterValueSuggestServiceReference, 'get', 'outputSyntax=plain&amp;filterName=wikis')}&amp;",
+          varname: 'input',
+          icon: "$xwiki.getSkinFile('icons/silk/world.png')",
+          highlight : true,
+          noresults: "$msg.get('xe.activity.filters.wikis.noResults')",
+          timeout : 30000
+      },
+      'spaces' : {
+          script: XWiki.Document.getRestSearchURL('scope=spaces&amp;number=10&amp;media=json&amp;'),
+          varname: 'q',
+          icon: "$xwiki.getSkinFile('icons/silk/folder.png')",
+          noresults: "$msg.get('xe.activity.filters.spaces.noResults')",
+          json: true,
+          resultsParameter : 'searchResults',
+          resultId : 'id',
+          resultValue : 'space',
+          resultInfo : 'space',
+          timeout : 30000
+      },
+      'documents' : {
+          script: XWiki.Document.getRestSearchURL('scope=name&amp;number=10&amp;media=json&amp;'),
+          varname: 'q',
+          icon: "$xwiki.getSkinFile('icons/silk/page_white_text.png')",
+          noresults: "$msg.get('xe.activity.filters.documents.noResults')",
+          json: true,
+          resultsParameter : 'searchResults',
+          resultId : 'id',
+          resultValue : 'pageFullName',
+          resultInfo : 'pageFullName',
+          timeout : 30000
+      },
+      'documentTitles': {
+          script: XWiki.Document.getRestSearchURL('scope=title&amp;number=10&amp;media=json&amp;'),
+          varname: 'q',
+          icon: "$xwiki.getSkinFile('icons/silk/page_white_h.png')",
+          highlight : false,
+          noresults: "$msg.get('xe.activity.filters.documentTitles.noResults')",
+          json: true,
+          resultsParameter : 'searchResults',
+          resultId : 'id',
+          resultValue : 'pageFullName',
+          resultInfo : 'pageFullName',
+          timeout : 30000
+      },
+      'tags' : {
+          script: XWiki.currentDocument.getURL('get', 'xpage=suggest&amp;classname=XWiki.TagClass&amp;fieldname=tags&amp;firCol=-&amp;secCol=-&amp;'),
+          varname: 'input',
+          icon: "${xwiki.getSkinFile('icons/silk/tag_yellow.png')}",
+          noresults: "$msg.get('xe.activity.filters.tags.noResults')",
+          timeout : 30000
+      },
+      'applications': {
+          script: "${xwiki.getURL($activityFilterValueSuggestServiceReference, 'get', 'outputSyntax=plain&amp;filterName=applications')}&amp;",
+          varname: 'input',
+          icon: "$xwiki.getSkinFile('icons/silk/application.png')",
+          highlight : true,
+          noresults: "$msg.get('xe.activity.filters.applications.noResults')",
+          timeout : 30000
+      },
+      'types': {
+          script: "${xwiki.getURL($activityFilterValueSuggestServiceReference, 'get', 'outputSyntax=plain&amp;filterName=types')}&amp;",
+          varname: 'input',
+          icon: "$xwiki.getSkinFile('icons/silk/bullet_blue.png')",
+          highlight : true,
+          noresults: "$msg.get('xe.activity.filters.types.noResults')",
+          timeout : 30000
+      },
+      'related' : {
+          script: "${xwiki.getURL($activityFilterValueSuggestServiceReference, 'get', 'outputSyntax=plain&amp;filterName=related')}&amp;",
+          varname: 'input',
+          icon: "$xwiki.getSkinFile('icons/silk/arrow_right.png')",
+          highlight : true,
+          noresults: "$msg.get('xe.activity.filters.related.noResults')",
+          timeout : 30000
+      }
+    };
+  },
+  updateSuggestion: function(event, suggestInput, suggestTypeSelect) {
+    // Clean old suggest
+    if (suggestInput.__x_suggest) {
+      suggestInput.__x_suggest.detach();
+    }
+
+    // Add new suggest
+    var filterName = suggestTypeSelect.options[suggestTypeSelect.selectedIndex].value;
+    if (this.suggestParameters[filterName]) {
+      new XWiki.widgets.Suggest(suggestInput, this.suggestParameters[filterName]);
+    }
+  },
+  attachAddHandlers: function() {
+    $$('.activityContainer .addFilter').each(function(addFilterButton){
+      addFilterButton.observe('click', function(event) {
+        event.stop();
+        var activityContainer = addFilterButton.up('.activityContainer');
+
+        // Get the filter name and value from the inputs
+        var filterNameSelect = activityContainer.down('.addFilters .filterName');
+        var filterName = filterNameSelect.options[filterNameSelect.selectedIndex].value;
+        var filterNameLabel = filterNameSelect.options[filterNameSelect.selectedIndex].innerHTML;
+        var filterValueElement = activityContainer.down('.addFilters .filterValue');
+        var filterValue = filterValueElement.value;
+
+        // Empty filter value check
+        if (filterValue.replace(/\s*/,'') == '') {
+          return;
+        }
+
+        // Add the new filter to the UI (if it did not already exist) and notify ActivityStream that it needs to update the view
+        var currentFilters = activityContainer.down('.currentFilters');
+
+        var newFilterNameElement = currentFilters.down('.filterName-'+filterName);
+        if (!newFilterNameElement) {
+          newFilterNameElement = new Element('dl', {'class' : 'filterName filterName-'+filterName}).update('&lt;dt&gt;&lt;label&gt;' + filterNameLabel + '&lt;/label&gt;&lt;/dt&gt;');
+          currentFilters.insert(newFilterNameElement);
+        }
+
+        var newFilterValueElement;
+        var previousFilterValueElement;
+        for (var i = newFilterNameElement.down('.filterValue'); i; i = i.next()) {
+          if (decodeURIComponent(this.getPrefixedValueFromClassNameOfElement(i, 'filterValue-')) == filterValue) {
+            // Stop if the filter value element already exists.
+            newFilterValueElement = i;
+            break;
+          } else {
+            previousFilterValueElement = i;
+          }
+        }
+        if (!newFilterValueElement) {
+          newFilterValueElement = new Element('dd', {'class' : 'filterValue filterValue-'+encodeURIComponent(filterValue)});
+
+          var newFilterValueElementSpan = new Element('span', {'class' : 'tag-wrapper'}).update(filterValue.escapeHTML().replace(/\s/g, '&amp;nbsp;') + ' ');
+          newFilterValueElement.insert(newFilterValueElementSpan);
+
+          var newFilterValueElementRemoveLink = new Element('a', {'class' : 'removeFilter tag-tool tag-delete', 'href' : '#'}).update('X');
+          newFilterValueElementSpan.insert(newFilterValueElementRemoveLink);
+
+          if (previousFilterValueElement) {
+            // Other filter value elements exist. Insert as next sibling of the last filter value element
+            previousFilterValueElement.insert({after : newFilterValueElement});
+          } else {
+            // This is the first filter value element. Insert as first child of the filter name element.
+            newFilterNameElement.insert({bottom : newFilterValueElement});
+          }
+
+          // Clear the filter value element's input and current suggestions if any.
+          activityContainer.down('.addFilters .filterValue').value = '';
+          if (filterValueElement.__x_suggest) {
+            filterValueElement.__x_suggest.clearSuggestions();
+          }
+
+          // Add the new filter to the activity's updateURL
+          var filter = filterName + '=' + encodeURIComponent(filterValue);
+          var updateURLInput = activityContainer.down('.updateURL');
+          if (updateURLInput.value.indexOf(filter) == -1) {
+            updateURLInput.value += '&amp;' + filter;
+
+            // URL cleanup
+            updateURLInput.value = updateURLInput.value.replace(/&amp;&amp;/, '&amp;');
+            updateURLInput.value = updateURLInput.value.replace(/&amp;$/, '');
+          }
+
+          // Register remove listener for the new filter value
+          this.attachRemoveHandler(newFilterValueElement.down('.removeFilter'));
+
+          // Launch activity update event that uses the new updateURL
+          document.fire('xwiki:activity:newActivity');
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+  attachRemoveHandlers: function() {
+    $$('.activityContainer .removeFilter').each(this.attachRemoveHandler.bind(this));
+  },
+  /**
+   * Utility method to extract a value from a class name in the form of '&lt;prefix&gt;&lt;value&gt;'.
+   * All the classes of the specified element are iterated until one is found to have the specified prefix and the value is extracted.
+   * 
+   * @param element dom element having the prefixed value class name specified amongst its classes
+   * @param prefix string that is the prefix part of the prefixed-value-class-name that is to be removed in order to obtain the value.
+   **/
+  getPrefixedValueFromClassNameOfElement: function(element, prefix) {
+    var value;
+    $w(element.className).each(function(className) {
+      if (className.indexOf(prefix) == 0) {
+        value = className.substring(prefix.length, className.length);
+      }
+    });
+    return value;
+  },
+  attachRemoveHandler: function(removeButton) {
+    removeButton.observe('click', function(event) {
+      event.stop();
+      var activityContainer = removeButton.up('.activityContainer');
+
+      var filterValueElement = removeButton.up('.filterValue');
+      var filterValue = decodeURIComponent(this.getPrefixedValueFromClassNameOfElement(filterValueElement, 'filterValue-'));
+
+      var filterNameElement = filterValueElement.up('.filterName')
+      var filterName = this.getPrefixedValueFromClassNameOfElement(filterNameElement, 'filterName-');
+
+      // Remove the filter value element
+      filterValueElement.remove();
+
+      // If there are no more filter value elements, also remove the corresponding filter name element
+      if (!filterNameElement.down('.filterValue')) {
+        filterNameElement.remove();
+      }
+
+      // Remove the filter from the activity's updateURL
+      var updateURLInput = activityContainer.down('.updateURL');
+      var replaceRegexp = new RegExp(filterName + '=' + encodeURIComponent(filterValue) + '(&amp;|$)');
+      updateURLInput.value = updateURLInput.value.replace(replaceRegexp, '');
+      // URL cleanup
+      updateURLInput.value = updateURLInput.value.replace(/&amp;&amp;/, '&amp;');
+      updateURLInput.value = updateURLInput.value.replace(/&amp;$/, '');
+
+      // Launch activity update event that uses the new updateURL
+      document.fire('xwiki:activity:newActivity');
+    }.bind(this));
+  },
+});
+// End XWiki augmentation.
+return XWiki;
+}(XWiki || {}));
+
+document.observe('xwiki:dom:loaded', function() {
+  new XWiki.ActivityFilters();
+});</code>
+    </property>
+    <property>
+      <name>Filters</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
       <name>XWiki.RequiredRightClass</name>
       <customClass/>
       <customMapping/>
@@ -648,6 +1024,192 @@ h1:hover .toolFilter .toolExpand {
   </object>
   <object>
     <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>Main.Activity</name>
+    <number>1</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>8041535c-90df-4022-addb-a699d60ce4c6</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>#template('colorThemeInit.vm')
+
+input.blurred { /* Functionality form WysiwygEditorConfigSheet jsx */
+  color: $theme.textSecondaryColor;
+}
+
+.filterName {
+  padding: .2em 0;
+}
+
+.activityContainer {
+  position: relative;
+}
+
+.activityContainer .toggleFilters {
+  margin-top: 0.5em;
+  padding-right: 3px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: .8em;
+  line-height: 1.6em;
+  color: $theme.textSecondaryColor;
+  text-decoration: none;
+}
+
+.activityContainer .toggleFilters span {
+  font-size: .8em;
+  color: $theme.textColor;
+}
+
+.iconPreferencesSmall {
+  background-image: url("$xwiki.getSkinFile('icons/silk/bullet_wrench.png')");
+}
+
+.activityFilters {
+  background-color: #F7F7F7;
+  border-color: $theme.borderColor;
+  border-style: dotted;
+  border-width: 0 1px 1px;
+  margin: 20px 0 1em;
+  padding: 0.5em;
+}
+
+.currentFilters dl {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+
+.currentFilters dd {
+  display: inline-block;
+}
+
+.currentFilters .tag-wrapper:hover {
+  background-color: $theme.highlightColor;
+}
+
+.activityContainer {
+  margin-bottom: 1em;
+}</code>
+    </property>
+    <property>
+      <name>Filters</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Main.Activity</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>dc7e7201-94ca-487c-a4cd-990de5533606</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <object>
+    <class>
       <name>XWiki.WikiMacroClass</name>
       <customClass/>
       <customMapping/>
@@ -825,6 +1387,9 @@ $xwiki.ssx.use('Main.Activity')##
 #set ($filterParameters = [])
 ##
 ## Get values from request/macro param
+##
+## TODO: Refactor this section to avoid copy/paste coding.
+##
 ##--------------------------------------------------------------
 ## Number of entries to display
 #readVariableFromRequest('aEntries' 'entries' 20)
@@ -872,6 +1437,41 @@ $xwiki.ssx.use('Main.Activity')##
 #readVariableFromRequest('aRSS' 'rss' false)
 #if (!$aRSS &amp;&amp; $context.macro.params.get('rss'))
   #set ($aRSS = $context.macro.params.get('rss'))
+#end
+## Applications
+#readVariableFromRequest('aApplications' 'applications' [])
+#if ($aApplications.size() == 0)
+  #set ($aApplicationsString = $context.macro.params.get('applications'))
+  #asList('aApplications' $aApplicationsString)
+#end
+## Event types
+#readVariableFromRequest('aTypes' 'types' [])
+#if ($aTypes.size() == 0)
+  #set ($aTypesString = $context.macro.params.get('types'))
+  #asList('aTypes' $aTypesString)
+#end
+## Document titles
+#readVariableFromRequest('aDocumentTitles' 'documentTitles' [])
+#if ($aDocumentTitles.size() == 0)
+  #set ($aDocumentTitlesString = $context.macro.params.get('documentTitles'))
+  #asList('aDocumentTitles' $aDocumentTitlesString)
+#end
+## Documents
+#readVariableFromRequest('aDocuments' 'documents' [])
+#if ($aDocuments.size() == 0)
+  #set ($aDocumentsString = $context.macro.params.get('documents'))
+  #asList('aDocuments' $aDocumentsString)
+#end
+## Related entities
+#readVariableFromRequest('aRelated' 'related' [])
+#if ($aRelated.size() == 0)
+  #set ($aRelatedString = $context.macro.params.get('related'))
+  #asList('aRelated' $aRelatedString)
+#end
+## Display filters
+#set ($aFilterable = $request.filterable)
+#if ("$!aFilterable" == '' &amp;&amp; $context.macro.params.get('filterable'))
+  #set ($aFilterable = $context.macro.params.get('filterable'))
 #end
 ##
 ## Filter by
@@ -934,6 +1534,16 @@ $xwiki.ssx.use('Main.Activity')##
 #if ("$!aMinor" == 'false')
   #set ($filterClause = $filterClause + " and not (act.version not like '%.1' and act.type = 'update')")
 #end
+## Applications
+#updateFilterClause('application' $aApplications false)
+## Event types
+#updateFilterClause('type' $aTypes false)
+## Document titles
+#updateFilterClause('param1' $aDocumentTitles false)
+## Documents
+#updateFilterClause('page' $aDocuments false)
+## Related entities
+#updateFilterClause('param2' $aRelated false)
 ##
 ## MessageStream filtering
 ## ------------------------------------------------------------
@@ -1561,7 +2171,7 @@ $xwiki.ssx.use('Main.Activity')##
   ## Get distinct pages with activity
   ## -------------------------------------------------------------------
   #set ($pages = $xwiki.activitystream.searchDailyPages("$!filterClause", $filterParameters, $aEntries, 0))
-  #if ($pages.size() &gt; 0)
+  #if ($pages &amp;&amp; $pages.size() &gt; 0)
     #foreach ($page in $pages)
       ##
       ## Extract page name and event date
@@ -1677,27 +2287,143 @@ $xwiki.ssx.use('Main.Activity')##
   #set ($extraQueryString = '')
   #foreach ($param in $xcontext.macro.params.getParameterNames())
     #set ($value = "$!{xcontext.macro.params.get($param)}")
+    #if ($param == 'filterable')
+      ## Force filters to not show up, since the Ajax call does not need to display them twice.
+      #set ($value = 'false')
+    #end
     #if ($value != '')
-      #foreach($piece in $value.split('\s*,\s*'))
-        #set($extraQueryString = "${param}=$!{piece}&amp;$!{extraQueryString}")
+      #foreach ($piece in $value.split('\s*,\s*'))
+        #set ($extraQueryString = "${param}=$!{piece}&amp;$!{extraQueryString}")
       #end
     #end
   #end
   #set ($updateURL = $xwiki.getURL('Main.Activity', 'view', "$!{extraQueryString}&amp;xpage=plain"))
   &lt;input type='hidden' class='updateURL' value="$updateURL" /&gt;
 #end
+#**
+  * Displays the filters area and 'show filters' button, if the activity stream is filterable.
+  **#
+#macro (displayFilters)
+  #if ("$aFilterable" == 'true')
+    ##
+    ## Show filters button
+    #set ($queryString = "$!request.queryString")
+    #if ($request.showFilters == 'true')
+      #set ($oppositeShowFiltersState = 'false')
+      #set ($queryString = $queryString.replaceAll('showFilters=true', ''))
+      ## cosmetic cleanup of possible leftover '&amp;' characters.
+      #set ($queryString = $queryString.replaceAll('&amp;&amp;', '&amp;'))
+      #set ($queryString = $stringtool.removeEnd($queryString, '&amp;'))
+    #else
+      #set ($oppositeShowFiltersState = 'true')
+      #set ($queryString = "$queryString&amp;amp;showFilters=true")
+    #end
+    #set ($showFiltersURL = $doc.getURL($xcontext.action, $queryString))
+    ##
+    ## Toggle filters button
+    &lt;a class='toggleFilters hasIcon iconPreferencesSmall' href="$showFiltersURL"&gt;$msg.get("xe.activity.filters.showFilters.$oppositeShowFiltersState")&lt;/a&gt;
+    ##
+    ## Filters section
+    &lt;div class='activityFilters#if ($request.showFilters != 'true') hidden#end'&gt;
+      #set ($parameterNames = ['authors', 'wikis', 'spaces', 'documents', 'documentTitles', 'tags', 'applications', 'types', 'related'])
+      #if (!$xwiki.isVirtualMode())
+        ## Remove the wikis filter if this is not in virtual mode since there are no other wikis around.
+        #set ($discard = $parameterNames.remove('wikis'))
+      #end
+      ##
+      ## Add filters
+      &lt;div class='xformInline addFilters'&gt;
+        &lt;form method='post' action="$xwiki.getURL('Main.Activity', 'get')" &gt;
+          &lt;label&gt;$msg.get("xe.activity.filters.title")&lt;/label&gt;
+          &lt;select class='filterName' name='filterName' size='1'&gt;
+            #foreach ($param in $parameterNames)
+            &lt;option value="$param"&gt;$msg.get("xe.activity.filters.$param")&lt;/option&gt;
+            #end
+          &lt;/select&gt;
+          &lt;input class='filterValue' type='text' name='filterValue' size='30' /&gt;
+          &lt;input type='hidden' name='xaction' value='addFilter' /&gt;
+          &lt;input type='hidden' name='xredirect' value="$doc.getURL($xcontext.action, $!request.queryString)" /&gt;
+          &lt;input type='submit' class='icon-button add-button addFilter' title="$msg.get('xe.activity.filters.addButton')" /&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+      ##
+      ## Display current/active filters
+      &lt;div class='currentFilters xform'&gt;
+        #foreach ($param in $parameterNames)
+          #set ($values = $NULL)
+          #evaluate("${escapetool.h}set(${escapetool.d}values=${escapetool.d}a$stringtool.capitalize($param))")
+          #if ($values &amp;&amp; $values.size() &gt; 0)
+            &lt;dl class="filterName filterName-$param"&gt;
+              &lt;dt&gt;
+                &lt;label&gt;$msg.get("xe.activity.filters.$param")&lt;/label&gt;
+              &lt;/dt&gt;
+              #foreach ($value in $values)
+                #set ($removeFilterURL = $xwiki.getURL('Main.Activity', 'get', "xaction=removeFilter&amp;amp;filterName=$escapetool.url($param)&amp;amp;filterValue=$escapetool.url($value)&amp;amp;xredirect=$escapetool.url($doc.getURL($xcontext.action, $!request.queryString))"))
+                &lt;dd class="filterValue filterValue-$escapetool.url($value)"&gt;
+                  &lt;span class='tag-wrapper'&gt;
+                    $escapetool.html($value)
+                    &lt;a href="$removeFilterURL" class='removeFilter tag-tool tag-delete'&gt;X&lt;/a&gt;
+                  &lt;/span&gt;
+                &lt;/dd&gt;
+              #end
+            &lt;/dl&gt;
+          #end
+        #end
+        &lt;/dl&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  #end
+#end
+#**
+  * Handle a filter (add/remove) request.
+  * @param displayUI output parameter that is true if the Activity Stream UI should be displayed, false otherwise.
+  *          Deppending on the current request, handling the filter action could not require displaying the UI (and making all the Activity Stream queries).
+  *#
+#macro(handleFilterAction $displayUI)
+  #if ("$!request.xaction" == 'addFilter' || "$!request.xaction" == 'removeFilter')
+    #set ($xredirect = "$!request.xredirect")
+    #set ($filter = "${request.filterName}=${request.filterValue}")
+    #if ("$!request.filterName" != '' &amp;&amp; "$!request.filterValue" != '')
+      #if ("$!request.xaction" == 'addFilter')
+        #if (!$xredirect.contains($filter))
+          #set ($xredirect = "$xredirect#if ($xredirect.contains('?'))&amp;#{else}?#end${filter}")
+        #end
+      #else
+        ## removeFilter
+        ## Use stringtool because String.replaceAll uses regex and we could have special regex chars in the filter value (example: '^')
+        #set ($xredirect = $stringtool.remove($xredirect, $filter))
+        ## cosmetic cleanup of possible leftover '&amp;' characters.
+        #set ($xredirect = $xredirect.replaceAll('&amp;&amp;', '&amp;'))
+        #set ($xredirect = $stringtool.removeEnd($xredirect, '&amp;'))
+      #end
+    #end
+
+    ## Don't display the UI since we are going to redirect anyway.
+    #set ($displayUI = $NULL)
+    #setVariable("$displayUI", false)
+    $response.sendRedirect($xredirect)
+  #end
+#end
 {{/velocity}}
 
 {{velocity}}
 #set ($displayUI = true)
 #handleMessageAction($displayUI)
+#handleFilterAction($displayUI)
 #if ($displayUI)
   {{html}}
-  &lt;div class='activity'&gt;
-    #initDateVariables()
-    #addStateHiddenInput()
-    #displayActivity()
+  #if ("$aFilterable" == 'true')
+  &lt;div class='activityContainer'&gt;
+  #end
+    #displayFilters()
+    &lt;div class='activity'&gt;
+      #initDateVariables()
+      #addStateHiddenInput()
+      #displayActivity()
+    &lt;/div&gt;
+  #if ("$aFilterable" == 'true')
   &lt;/div&gt;
+  #end
   {{/html}}
 #end
 {{/velocity}}</code>
@@ -2255,6 +2981,402 @@ $xwiki.ssx.use('Main.Activity')##
       <name>rss</name>
     </property>
   </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.Activity</name>
+    <number>9</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>16e9a6eb-af56-4a73-b7a0-eb4036cfcb07</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Comma separated list of application names for which to display activity.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>applications</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.Activity</name>
+    <number>10</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>27768420-fd99-41df-a4be-13efac553bb6</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Comma separated list of activity types to display.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>types</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.Activity</name>
+    <number>11</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>76461fa0-f3c0-474e-ab5d-b57d33c57c75</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Comma separated list of titles of the documents for which to display activity.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>documentTitles</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.Activity</name>
+    <number>12</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>0d3ec9a9-5665-46ef-b0b5-a34f8473bf5c</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Comma separated list of related entities for which to display activity. In the form of documentFullName^classFullName. Example: XWiki.Admin^XWiki.XWikiUsers, XWiki.XWikiAllGroup^XWiki.XWikiGroups, etc.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>related</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.Activity</name>
+    <number>13</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>beba6b25-ff29-4f32-9705-95fab83aee34</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Comma separated list of document full names for which to display activity.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>documents</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.Activity</name>
+    <number>14</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>b285e677-a030-497d-97cc-992281939ab4</guid>
+    <property>
+      <defaultValue>true</defaultValue>
+    </property>
+    <property>
+      <description>Whether to show activity filters or not.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>filterable</name>
+    </property>
+  </object>
   <content>{{velocity}}
 ##
 ## Activity Macro
@@ -2265,11 +3387,17 @@ $xwiki.ssx.use('Main.Activity')##
 ##  - subentries (String set to a numerical value): number of activities to show for each entry.
 ##  - wikis (List of string[s]): comma separated list of wikis to display activity for.
 ##  - spaces (List of string[s]): comma separated list of spaces to display the activity for.
+##  - documents (List of string[s]): comma separated list of document full names for which to display activity.
+##  - documentTitles (List of string[s]): comma separated list of titles of the documents for which to display activity.
 ##  - authors (List of string[s]): comma separated list of authors whose modifications to show.
+##  - applications (List of string[s]): comma separated list of application names for which to display activity.
+##  - types (List of string[s]): comma separated list of activity types to display.
+##  - related (List of string[s]): comma separated list of related entities for which to display activity. 
+##        In the form of documentFullName^classFullName. Example: XWiki.Admin^XWiki.XWikiUsers, XWiki.XWikiAllGroup^XWiki.XWikiGroups, etc.
 ##  - tags (List of string[s]): comma separated list of tags to display activity for.
 ##  - minor (String set to "true" or "false"): whether to show modifications that create minor versions or not.
 ##  - rss (String set to "true" or "false"): whether to show activity rss link or not.
-##  - messageSender (String set to "true" or "false"): whether or not to display the message sender input.
+##  - filterable (String set to "true" or "false"): whether to show activity filters or not.
 ##
 {{/velocity}}
 

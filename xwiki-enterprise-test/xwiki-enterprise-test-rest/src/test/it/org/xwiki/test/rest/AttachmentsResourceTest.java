@@ -87,24 +87,15 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     protected void putAttachmentFilename(String attachmentName, String type) throws Exception
     {
         String content = "ATTACHMENT CONTENT";
+        String attachmentURI = buildAttachmentURI(attachmentName);
 
-        /* Encode the filename ourselves, UriBuilder.build() doesn't seem to encode all chars. eg '[' */
-        String encodedAttachmentName = URIUtil.encodePath(attachmentName);
-        String encodedPageName = URIUtil.encodePath(PAGE_NAME);
-        String encodedSpaceName = URIUtil.encodePath(SPACE_NAME);
-
-        /* Use UriBuilder.buildFromEncoded so we don't double encode the % */
-        String attachmentUri =
-            getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName,
-                encodedAttachmentName).toString();
-
-        GetMethod getMethod = executeGet(attachmentUri);
+        GetMethod getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
-        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+        PutMethod putMethod = executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
-        getMethod = executeGet(attachmentUri);
+        getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Assert.assertEquals(content, getMethod.getResponseBodyAsString());
@@ -114,15 +105,14 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testPUTAttachmentNoRights() throws Exception
     {
         String attachmentName = String.format("%s.txt", UUID.randomUUID());
+        String attachmentURI = buildAttachmentURI(attachmentName);
+
         String content = "ATTACHMENT CONTENT";
 
-        String attachmentUri =
-            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
-
-        GetMethod getMethod = executeGet(attachmentUri);
+        GetMethod getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
-        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN);
+        PutMethod putMethod = executePut(attachmentURI, content, MediaType.TEXT_PLAIN);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_UNAUTHORIZED, putMethod.getStatusCode());
     }
 
@@ -154,14 +144,12 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         Assert.assertTrue(attachments.getAttachments().size() > 0);
 
         String attachmentName = attachments.getAttachments().get(0).getName();
+        String attachmentURI = buildAttachmentURI(attachmentName);
 
-        String attachmentUri =
-            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
-
-        DeleteMethod deleteMethod = executeDelete(attachmentUri, ADMIN_USERNAME, ADMIN_PASSWORD);
+        DeleteMethod deleteMethod = executeDelete(attachmentURI, ADMIN_USERNAME, ADMIN_PASSWORD);
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
-        getMethod = executeGet(attachmentUri);
+        getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
     }
 
@@ -169,18 +157,17 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testDELETEAttachmentNoRights() throws Exception
     {
         String attachmentName = String.format("%d.txt", System.currentTimeMillis());
+        String attachmentURI = buildAttachmentURI(attachmentName);
+
         String content = "ATTACHMENT CONTENT";
 
-        String attachmentUri =
-            getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
-
-        PutMethod putMethod = executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+        PutMethod putMethod = executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
-        DeleteMethod deleteMethod = executeDelete(attachmentUri);
+        DeleteMethod deleteMethod = executeDelete(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
 
-        GetMethod getMethod = executeGet(attachmentUri);
+        GetMethod getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
     }
 
@@ -199,12 +186,10 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
-            String attachmentUri =
-                getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentNames[i])
-                    .toString();
+            String attachmentURI = buildAttachmentURI(attachmentNames[i]);
 
             PutMethod putMethod =
-                executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+                executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
             Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
             Attachment attachment = (Attachment) this.unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -260,13 +245,10 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_VERSIONS; i++) {
-            String attachmentUri =
-                getUriBuilder(AttachmentResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
-                    .toString();
-
+            String attachmentURI = buildAttachmentURI(attachmentName);
             String content = String.format("CONTENT %d", i);
             PutMethod putMethod =
-                executePut(attachmentUri, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+                executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
             if (i == 0) {
                 Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
             } else {
@@ -328,5 +310,22 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Assert.assertEquals(content, getMethod.getResponseBodyAsString());
+    }
+
+    /**
+     * @param attachmentName the attachment name
+     * @return an URI to access the {@link AttachmentResource} associated with 'Main.WebHome@attachmentName' file
+     * @throws Exception if encoding the file name fails
+     */
+    private String buildAttachmentURI(String attachmentName) throws Exception
+    {
+        // Encode the filename ourselves, UriBuilder.build() doesn't seem to encode all chars, e.g. '['.
+        String encodedAttachmentName = URIUtil.encodePath(attachmentName);
+        String encodedPageName = URIUtil.encodePath(PAGE_NAME);
+        String encodedSpaceName = URIUtil.encodePath(SPACE_NAME);
+
+        // Use UriBuilder.buildFromEncoded so we don't double encode the %.
+        return getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName,
+            encodedAttachmentName).toString();
     }
 }

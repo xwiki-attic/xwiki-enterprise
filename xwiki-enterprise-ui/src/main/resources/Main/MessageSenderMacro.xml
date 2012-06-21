@@ -103,13 +103,17 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>var XWiki = (function (XWiki) {
+      <code>#set ($userSuggestScope = 'local')
+#if ($services.workspace &amp;&amp; $services.workspace.isWorkspace($xcontext.database))
+  #set ($userSuggestScope = 'global')
+#end
+var XWiki = (function (XWiki) {
 // Start XWiki augmentation.
 XWiki.MessageStream = Class.create({
   targetsWithName : ['user', 'group'],
   suggestParameters : {
       "user" : {
-            script: "$xwiki.getURL('Main.MessageSenderMacro', 'get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=local&amp;uorg=user')&amp;",
+            script: "$xwiki.getURL('Main.MessageSenderMacro', 'get', "xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=${userSuggestScope}&amp;uorg=user")&amp;",
             varname: "input",
             icon: "$xwiki.getSkinFile('icons/silk/user.png')",
             noresults: "User not found",

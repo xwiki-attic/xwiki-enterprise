@@ -686,6 +686,13 @@
             WEB-INF/lib/commons-logging-*.jar,
             %regex[WEB-INF/lib/log4j-(?!over-slf4j).*.jar]
           </packagingExcludes>
+          <!-- Make some project related informations easier to find at runtime. -->
+          <!-- FIXME: ideally this should be located in xwiki-enterprise root pom but I can't make it work -->
+          <archive>
+            <manifestEntries>
+              <XWiki-Extension-Id>${project.groupId}:${project.artifactId}</XWiki-Extension-Id>
+            </manifestEntries>
+          </archive>
         </configuration>
       </plugin>
       <!-- Ensure that some modules are not added as dependencies. -->

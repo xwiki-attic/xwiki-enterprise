@@ -54,7 +54,7 @@ public class ImportTest extends AbstractAdminAuthenticatedTest
 
     @Override
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

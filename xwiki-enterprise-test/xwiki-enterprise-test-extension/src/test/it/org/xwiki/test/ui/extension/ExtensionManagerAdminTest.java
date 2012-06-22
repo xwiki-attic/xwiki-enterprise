@@ -37,7 +37,7 @@ public class ExtensionManagerAdminTest extends AbstractAdminAuthenticatedTest
     private ExtensionsAdminPage extensionsPage;
 
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

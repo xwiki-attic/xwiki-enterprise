@@ -41,10 +41,11 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 {
     /**
      * Ensure the default language is English and that the wiki is in monolingual mode
+     * @throws Exception 
      */
     @Override
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

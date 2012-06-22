@@ -36,12 +36,12 @@ import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionDependency;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
 import org.xwiki.extension.repository.xwiki.model.jaxb.License;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.po.extension.server.ExtensionPage;
 import org.xwiki.test.po.extension.server.ExtensionsLiveTableElement;
 import org.xwiki.test.po.extension.server.ExtensionsPage;
 import org.xwiki.test.po.extension.server.RepositoryAdminPage;
 import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
+import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 
 /**
  * Repository Test.
@@ -60,7 +60,7 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

@@ -45,7 +45,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

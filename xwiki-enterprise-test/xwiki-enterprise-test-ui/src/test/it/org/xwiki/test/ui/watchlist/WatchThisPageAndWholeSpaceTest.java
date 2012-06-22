@@ -47,7 +47,7 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
 
     @Override
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

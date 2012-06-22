@@ -55,7 +55,7 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
 
     @Override
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         getUtil().deletePage(SPACE_NAME, DOC_NAME);

@@ -38,7 +38,7 @@ public abstract class AbstractClassEditorTest extends AbstractAdminAuthenticated
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

@@ -64,6 +64,9 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
 
+        // Make sure to have the proper token
+        getUtil().recacheSecretToken();
+
         // base extension informations
 
         this.baseExtension = new ExtensionVersion();

@@ -32,6 +32,8 @@ import org.xwiki.extension.repository.xwiki.internal.XWikiRepositoryModel;
  */
 public class RepositoryTestUtils
 {
+    private final static String SPACENAME_EXTENSION = "Extension";
+
     private final TestUtils testUtils;
 
     public RepositoryTestUtils(TestUtils testUtils)
@@ -53,6 +55,7 @@ public class RepositoryTestUtils
     {
         // Add the Extension object
         Map<String, Object> queryParameters = new HashMap<String, Object>();
+
         queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_ID, extension.getId().getId());
         queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_TYPE, extension.getType());
 
@@ -68,39 +71,72 @@ public class RepositoryTestUtils
                 .getName());
         }
 
-        this.testUtils.addObject("Extension", getPageName(extension), XWikiRepositoryModel.EXTENSION_CLASSNAME,
+        this.testUtils.addObject(SPACENAME_EXTENSION, getPageName(extension), XWikiRepositoryModel.EXTENSION_CLASSNAME,
             queryParameters);
 
         // Add the ExtensionVersion object
         addVersionObject(extension);
 
         // Add the ExtensionDependency objects
-        for (ExtensionDependency dependency : extension.getDependencies()) {
-            addDependency(extension, dependency);
-        }
+        addDependencies(extension);
 
         // Attach the file
-        InputStream is = extension.getFile().openStream();
-        try {
-            this.testUtils.attachFile("Extension", getPageName(extension), extension.getId().getId() + "-"
-                + extension.getId().getVersion() + "." + extension.getType(), is, true);
-        } finally {
-            is.close();
-        }
+        attachFile(extension);
     }
 
     public void addVersionObject(Extension extension)
     {
-        this.testUtils.addObject("Extension", getPageName(extension), XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME,
-            XWikiRepositoryModel.PROP_VERSION_VERSION, extension.getId().getVersion());
+        addVersionObject(extension, extension.getId().getVersion(), null);
+    }
+
+    public void addVersionObject(Extension extension, Object version, Object download)
+    {
+        Map<String, Object> queryParameters = new HashMap<String, Object>();
+
+        if (version != null) {
+            queryParameters.put(XWikiRepositoryModel.PROP_VERSION_VERSION, version);
+        }
+        if (download != null) {
+            queryParameters.put(XWikiRepositoryModel.PROP_VERSION_DOWNLOAD, download);
+        }
+
+        this.testUtils.addObject(SPACENAME_EXTENSION, getPageName(extension),
+            XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME, queryParameters);
+    }
+
+    public void addDependencies(Extension extension)
+    {
+        addDependencies(extension, extension.getId().getVersion());
+    }
+
+    public void addDependencies(Extension extension, Object version)
+    {
+        for (ExtensionDependency dependency : extension.getDependencies()) {
+            addDependency(extension, version, dependency);
+        }
     }
 
     public void addDependency(Extension extension, ExtensionDependency dependency)
     {
-        this.testUtils.addObject("Extension", getPageName(extension),
-            XWikiRepositoryModel.EXTENSIONDEPENDENCY_CLASSNAME, XWikiRepositoryModel.PROP_DEPENDENCY_CONSTRAINT,
-            dependency.getVersionConstraint(), XWikiRepositoryModel.PROP_DEPENDENCY_ID, extension.getId().getId(),
-            XWikiRepositoryModel.PROP_DEPENDENCY_EXTENSIONVERSION, extension.getId().getVersion());
+        addDependency(extension, extension.getId().getVersion(), dependency);
+    }
 
+    public void addDependency(Extension extension, Object version, ExtensionDependency dependency)
+    {
+        this.testUtils.addObject(SPACENAME_EXTENSION, getPageName(extension),
+            XWikiRepositoryModel.EXTENSIONDEPENDENCY_CLASSNAME, XWikiRepositoryModel.PROP_DEPENDENCY_CONSTRAINT,
+            dependency.getVersionConstraint(), XWikiRepositoryModel.PROP_DEPENDENCY_ID, dependency.getId(),
+            XWikiRepositoryModel.PROP_DEPENDENCY_EXTENSIONVERSION, version);
+    }
+
+    public void attachFile(Extension extension) throws Exception
+    {
+        InputStream is = extension.getFile().openStream();
+        try {
+            this.testUtils.attachFile(SPACENAME_EXTENSION, getPageName(extension), extension.getId().getId() + "-"
+                + extension.getId().getVersion() + "." + extension.getType(), is, true);
+        } finally {
+            is.close();
+        }
     }
 }

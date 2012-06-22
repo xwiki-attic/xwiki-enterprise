@@ -49,7 +49,7 @@ public class AllTests
         // build test extensions
 
         ExtensionPackager extensionPackager =
-            new ExtensionPackager(new File("target/"), new File("target/extensions/"));
+            new ExtensionPackager(new File("target/"), new File(TestExtension.FOLDERNAME_EXETENSIONS));
         extensionPackager.generateExtensions();
     }
 

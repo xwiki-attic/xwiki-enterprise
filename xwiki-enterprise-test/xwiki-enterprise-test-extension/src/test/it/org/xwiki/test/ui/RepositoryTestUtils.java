@@ -44,6 +44,11 @@ public class RepositoryTestUtils
         return extension.getName() != null ? extension.getName() : extension.getId().getId();
     }
 
+    public void deleteExtension(Extension extension)
+    {
+        this.testUtils.deletePage("Extension", getPageName(extension));
+    }
+
     public void addExtension(Extension extension) throws Exception
     {
         // Add the Extension object

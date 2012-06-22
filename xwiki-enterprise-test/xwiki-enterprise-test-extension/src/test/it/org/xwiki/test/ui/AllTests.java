@@ -37,7 +37,7 @@ import org.xwiki.test.integration.XWikiExecutorSuite;
 public class AllTests
 {
     @XWikiExecutorSuite.PreStart
-    public void preInitialize(List<XWikiExecutor> executors) throws Exception
+    public void preStart(List<XWikiExecutor> executors) throws Exception
     {
         XWikiExecutor executor = executors.get(0);
 
@@ -51,5 +51,18 @@ public class AllTests
         ExtensionPackager extensionPackager =
             new ExtensionPackager(new File("target/"), new File("target/extensions/"));
         extensionPackager.generateExtensions();
+    }
+
+    @PageObjectSuite.PostStart
+    public void postStart(PersistentTestContext context) throws Exception
+    {
+        // Import XR
+        if (!context.getUtil().pageExists("Extension", "WebHome")) {
+            context.getDriver().get(
+                context.getUtil().getURLToLoginAsAdminAndGotoPage(context.getUtil().getURLToNonExistentPage()));
+            context.getUtil().recacheSecretToken();
+            context.getUtil().importXar(
+                new File("target/dependency/xwiki-platform-extension-repository-xwiki-server-ui.xar"));
+        }
     }
 }

@@ -64,17 +64,6 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
 
-        // Import XR xar
-        // TODO: use packager maven plugin instead of doing that during tests
-        if (!getUtil().pageExists("Extension", "WebHome")) {
-            try {
-                getUtil().importXar(
-                    new File("target/dependency/xwiki-platform-extension-repository-xwiki-server-ui.xar"));
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to import XR xar", e);
-            }
-        }
-
         // base extension informations
 
         this.baseExtension = new ExtensionVersion();

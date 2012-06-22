@@ -24,7 +24,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.ui.po.HistoryTab;
+import org.xwiki.test.ui.po.HistoryPane;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
 
@@ -68,7 +68,7 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
         vp.waitForDocExtraPaneActive("comments");
 
         // Verify that we can rollback to the first version
-        HistoryTab historyTab = vp.openHistoryDocExtraPane();
+        HistoryPane historyTab = vp.openHistoryDocExtraPane();
         vp = historyTab.rollbackToVersion("1.1");
 
         // Rollback doesn't wait...

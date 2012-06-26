@@ -580,27 +580,38 @@ document.observe('xwiki:dom:loaded', function() {
         &lt;input type='hidden' name='xaction' value='postMessage' /&gt;
         #end
         #activitySnapshot($context.user, 'personalMessage')
-        &lt;div class='messagestram-data'&gt;
+        &lt;div class='messagestream-data'&gt;
           &lt;textarea name='messagestream_message' rows='3' cols='40'#if($inEditMode) disabled='disabled'#end&gt;&lt;/textarea&gt;
         &lt;/div&gt;
         &lt;div class='messagestream-tools'&gt;
-          #set ($targetName = ${msg.get('xe.activity.messages.visibility.targetName.tip')})
-          #set ($targetClassName = 'withTip')
-          #set ($possibleTargets = $configClass.get('visibilityLevel').getListValues())
-          #if ($doc.getObject('XWiki.XWikiGroups'))
-            #set ($defaultTarget = 'group')
-            #set ($targetName = $doc.prefixedFullName)
-            #set ($targetClassName = '')
-          #elseif ($doc.getObject('XWiki.XWikiUsers'))
-            #if ($doc.prefixedFullName == $currentUser)
-              #set ($defaultTarget = 'followers')
-            #else
-              #set ($defaultTarget = 'user')
+          #set ($targetClassName = '')
+          ##
+          #set ($possibleTargets = $context.macro.params.get('visibilityOptions').split('\s*,\s*'))
+          #if (!$possibleTargets)
+            #set ($possibleTargets = $configClass.get('visibilityLevel').getListValues())
+          #end
+          ##
+          #set ($targetName = $context.macro.params.get('visibilityParameter'))
+          ##
+          #set ($defaultTarget = $context.macro.params.get('visibility'))
+          #if (!$defaultTarget)
+            #if ($doc.getObject('XWiki.XWikiGroups'))
+              #set ($defaultTarget = 'group')
               #set ($targetName = $doc.prefixedFullName)
-              #set ($targetClassName = '')
+            #elseif ($doc.getObject('XWiki.XWikiUsers'))
+              #if ($doc.prefixedFullName == $currentUser)
+                #set ($defaultTarget = 'followers')
+              #else
+                #set ($defaultTarget = 'user')
+                #set ($targetName = $doc.prefixedFullName)
+              #end
+            #else
+              #set ($defaultTarget = 'everyone')
             #end
-          #else
-            #set ($defaultTarget = 'everyone')
+          #end
+          #if (!$targetName)
+            #set ($targetName = ${msg.get('xe.activity.messages.visibility.targetName.tip')})
+            #set ($targetClassName = 'withTip')
           #end
           &lt;label&gt;$msg.get('xe.activity.messages.visibility')
             &lt;select name='visibilityLevel'#if($inEditMode) disabled='disabled'#end&gt;
@@ -655,6 +666,210 @@ document.observe('xwiki:dom:loaded', function() {
     </property>
     <property>
       <visibility>Current Wiki</visibility>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.MessageSenderMacro</name>
+    <number>0</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>615acf22-2c34-4197-9255-d3539674457a</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Default selected visibility when the macro is displayed.
+
+If not specified, it is determined automatically based on the page where the macro is used.
+
+Valid values are: 'everyone', 'followers', 'group' or 'user'. </description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>visibility</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.MessageSenderMacro</name>
+    <number>1</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>feced613-3e36-40e2-a0db-71d91b3c5bb9</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Some visibility levels (like 'user' and 'group') accept a parameter. In the case of the 2 mentioned levels, the value can be a serialized reference of a user or a group document.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>visibilityParameter</name>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+    </class>
+    <name>Main.MessageSenderMacro</name>
+    <number>2</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>72674ec2-6bd1-4735-a395-15a5ccac6aac</guid>
+    <property>
+      <defaultValue/>
+    </property>
+    <property>
+      <description>Comma separated list of visibility options that the macro should allow the user to choose from.
+
+This list should be a sublist of the defualt ones: 'everyone', 'followers', 'group', 'user'.</description>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>visibilityOptions</name>
     </property>
   </object>
   <content>{{messageSender/}}</content>

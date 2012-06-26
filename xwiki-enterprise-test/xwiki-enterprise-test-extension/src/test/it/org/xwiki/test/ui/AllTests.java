@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.junit.runner.RunWith;
-import org.xwiki.extension.test.ExtensionPackager;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
 
@@ -45,12 +44,6 @@ public class AllTests
         Properties properties = executor.loadXWikiProperties();
         properties.setProperty("extension.repositories", "self:xwiki:http://localhost:8080/xwiki/rest");
         executor.saveXWikiProperties(properties);
-
-        // build test extensions
-
-        ExtensionPackager extensionPackager =
-            new ExtensionPackager(new File("target/"), new File(TestExtension.FOLDERNAME_EXETENSIONS));
-        extensionPackager.generateExtensions();
     }
 
     @PageObjectSuite.PostStart
@@ -64,5 +57,12 @@ public class AllTests
             context.getUtil().importXar(
                 new File("target/dependency/xwiki-platform-extension-repository-xwiki-server-ui.xar"));
         }
+
+        // Initialize extensions and repositories
+        RepositoryTestUtils repositoryUtil = new RepositoryTestUtils(context.getUtil());
+        repositoryUtil.init();
+
+        // Set integration repository util
+        context.getProperties().put(RepositoryTestUtils.PROPERTY_KEY, repositoryUtil);
     }
 }

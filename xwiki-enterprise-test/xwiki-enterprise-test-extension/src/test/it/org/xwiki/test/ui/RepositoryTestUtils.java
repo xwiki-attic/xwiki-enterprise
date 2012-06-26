@@ -18,13 +18,16 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */package org.xwiki.test.ui;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.xwiki.extension.Extension;
 import org.xwiki.extension.ExtensionDependency;
+import org.xwiki.extension.ExtensionId;
 import org.xwiki.extension.repository.xwiki.internal.XWikiRepositoryModel;
+import org.xwiki.extension.test.RepositoryUtil;
 
 /**
  * @version $Id$
@@ -32,13 +35,35 @@ import org.xwiki.extension.repository.xwiki.internal.XWikiRepositoryModel;
  */
 public class RepositoryTestUtils
 {
+    public final static String PROPERTY_KEY = "repositoryutils";
+
     private final static String SPACENAME_EXTENSION = "Extension";
 
     private final TestUtils testUtils;
 
+    private RepositoryUtil repositoryUtil;
+
     public RepositoryTestUtils(TestUtils testUtils)
     {
         this.testUtils = testUtils;
+        this.repositoryUtil = new RepositoryUtil();
+    }
+
+    // Test init
+
+    public void init() throws Exception
+    {
+        // Initialize extensions and repositories
+        this.repositoryUtil.setup();
+    }
+
+    // Test utils
+
+    public TestExtension getTestExtension(ExtensionId id, String type)
+    {
+        File extensionFile = this.repositoryUtil.getExtensionPackager().getExtensionFile(id);
+
+        return extensionFile != null ? new TestExtension(id, type, extensionFile) : null;
     }
 
     private String getPageName(Extension extension)

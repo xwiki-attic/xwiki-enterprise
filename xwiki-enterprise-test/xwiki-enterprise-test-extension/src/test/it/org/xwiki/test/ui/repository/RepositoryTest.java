@@ -43,8 +43,7 @@ import org.xwiki.test.po.extension.server.ExtensionsLiveTableElement;
 import org.xwiki.test.po.extension.server.ExtensionsPage;
 import org.xwiki.test.po.extension.server.RepositoryAdminPage;
 import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.RepositoryTestUtils;
+import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
 import org.xwiki.test.ui.TestExtension;
 
 /**
@@ -52,7 +51,7 @@ import org.xwiki.test.ui.TestExtension;
  * 
  * @version $Id$
  */
-public class RepositoryTest extends AbstractAdminAuthenticatedTest
+public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
 {
     private static final String IDPREFIX = "prefix-";
 
@@ -62,8 +61,6 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
     private DefaultExtensionAuthor baseAuthor;
 
-    private RepositoryTestUtils repositoryUtils;
-
     private long sizeOfFile;
 
     @Before
@@ -72,14 +69,10 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
     {
         super.setUp();
 
-        this.repositoryUtils = new RepositoryTestUtils(getUtil());
-
-        // Make sure to have the proper token
-        getUtil().recacheSecretToken();
-
         // base extension informations
 
-        this.baseExtension = new TestExtension(new ExtensionId(IDPREFIX + "macro-jar-extension", "1.0"), "jar");
+        this.baseExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId(IDPREFIX + "macro-jar-extension", "1.0"), "jar");
 
         this.baseExtension.setName("Macro JAR extension");
         this.baseExtension.setDescription("extension description");
@@ -134,21 +127,21 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         // Add versions
         // TODO: add XR UI to manipulate versions
-        this.repositoryUtils.addVersionObject(this.baseExtension);
-        this.repositoryUtils.addVersionObject(
+        getRepositoryTestUtils().addVersionObject(this.baseExtension);
+        getRepositoryTestUtils().addVersionObject(
             this.baseExtension,
             "10.0",
             getUtil().getAttachmentURL("Extension", this.baseExtension.getName(),
                 this.baseExtension.getFile().getName()));
-        this.repositoryUtils.addVersionObject(this.baseExtension, "2.0", "attach:"
-            + this.baseExtension.getFile().getName());
+        getRepositoryTestUtils().addVersionObject(this.baseExtension, "2.0",
+            "attach:" + this.baseExtension.getFile().getName());
 
         // Add dependencies
         // TODO: add XR UI to manipulate dependencies
-        this.repositoryUtils.addDependencies(this.baseExtension, "10.0");
+        getRepositoryTestUtils().addDependencies(this.baseExtension, "10.0");
 
         // Add attachment
-        this.repositoryUtils.attachFile(this.baseExtension);
+        getRepositoryTestUtils().attachFile(this.baseExtension);
 
         // Check livetable
 

@@ -20,8 +20,6 @@
 package org.xwiki.test.ui;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import org.xwiki.extension.AbstractExtension;
 import org.xwiki.extension.ExtensionId;
@@ -33,36 +31,17 @@ import org.xwiki.extension.ExtensionId;
 public class TestExtension extends AbstractExtension
 {
     public final static String FOLDERNAME_EXETENSIONS = "target/extensions/";
-    
-    public TestExtension(ExtensionId id, String type)
+
+    protected TestExtension(ExtensionId id, String type, File file)
     {
         super(null, id, type);
 
-        setFile(new TestExtensionFile(new File(FOLDERNAME_EXETENSIONS + encode(id.getId()) + '-'
-            + encode(id.getVersion().getValue()) + '.' + type)));
+        setFile(new TestExtensionFile(file));
     }
 
     @Override
     public TestExtensionFile getFile()
     {
         return (TestExtensionFile) super.getFile();
-    }
-
-    /**
-     * @param name the file or directory name to encode
-     * @return the encoding name
-     */
-    private String encode(String name)
-    {
-        String encoded;
-        try {
-            encoded = URLEncoder.encode(name, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // Should never happen
-
-            encoded = name;
-        }
-
-        return encoded;
     }
 }

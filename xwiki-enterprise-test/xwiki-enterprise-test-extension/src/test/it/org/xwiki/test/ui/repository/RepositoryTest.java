@@ -38,11 +38,11 @@ import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
 import org.xwiki.extension.version.internal.DefaultVersionConstraint;
 import org.xwiki.repository.Resources;
-import org.xwiki.test.po.extension.server.ExtensionPage;
-import org.xwiki.test.po.extension.server.ExtensionsLiveTableElement;
-import org.xwiki.test.po.extension.server.ExtensionsPage;
-import org.xwiki.test.po.extension.server.RepositoryAdminPage;
-import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
+import org.xwiki.repository.test.po.ExtensionPage;
+import org.xwiki.repository.test.po.ExtensionsLiveTableElement;
+import org.xwiki.repository.test.po.ExtensionsPage;
+import org.xwiki.repository.test.po.RepositoryAdminPage;
+import org.xwiki.repository.test.po.editor.ExtensionInlinePage;
 import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
 import org.xwiki.test.ui.TestExtension;
 

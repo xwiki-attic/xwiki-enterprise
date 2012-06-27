@@ -28,10 +28,10 @@ import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.po.blog.BlogHomePage;
-import org.xwiki.test.po.blog.BlogPostInlinePage;
-import org.xwiki.test.po.blog.BlogPostViewPage;
-import org.xwiki.test.po.blog.CreateBlogPostPane;
+import org.xwiki.blog.test.po.BlogHomePage;
+import org.xwiki.blog.test.po.BlogPostInlinePage;
+import org.xwiki.blog.test.po.BlogPostViewPage;
+import org.xwiki.blog.test.po.CreateBlogPostPane;
 
 /**
  * Functional tests for blog posts.

@@ -56,6 +56,11 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-blog-test-pageobjects</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-index-test-pageobjects</artifactId>
       <version>${platform.version}</version>
     </dependency>

@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.po.blog.ManageCategoriesPage;
+import org.xwiki.blog.test.po.ManageCategoriesPage;
 
 /**
  * Test Blog categories. Tested features: add, rename, delete.

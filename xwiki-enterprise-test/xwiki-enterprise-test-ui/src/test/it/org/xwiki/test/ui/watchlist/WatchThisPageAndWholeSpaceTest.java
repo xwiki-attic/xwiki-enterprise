@@ -25,7 +25,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.administration.test.po.ProfileUserProfilePage;
 import org.xwiki.scheduler.test.po.SchedulerHomePage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -43,8 +42,6 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
 
     private WatchlistUserProfilePage watchlistPage;
 
-    private ProfileUserProfilePage profilePage;
-
     @Override
     @Before
     public void setUp() throws Exception
@@ -60,15 +57,15 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
 
         // Create a user for the test
         String userName = RandomStringUtils.randomAlphanumeric(5);
-        this.profilePage = new ProfileUserProfilePage(userName);
-        getUtil().registerLoginAndGotoPage(profilePage.getUsername(), "password", profilePage.getURL());
+        WatchlistUserProfilePage profilePage = new WatchlistUserProfilePage(userName);
+        getUtil().registerLoginAndGotoPage(profilePage.getUsername(), "password",
+            getUtil().getURL("XWiki", profilePage.getUsername()));
 
         // Set the Admin user's email address to use a localhost domain so that the mail is caught by our
         // GreenMail Mock mail server.
-        getUtil().updateObject("XWiki", this.profilePage.getUsername(), "XWiki.XWikiUsers", 0, "email",
-            "admin@localhost");
+        getUtil().updateObject("XWiki", profilePage.getUsername(), "XWiki.XWikiUsers", 0, "email", "admin@localhost");
 
-        this.watchlistPage = this.profilePage.switchToWatchlist();
+        this.watchlistPage = profilePage.switchToWatchlist();
 
         // Disable auto watch
         WatchlistPreferencesEditPage watchlistPreferences = this.watchlistPage.editPreferences();
@@ -85,13 +82,12 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
 
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testWatchThisPageAndWholeSpace() throws Exception
     {
         // Clear the list of watched documents and spaces
-        getUtil().updateObject("XWiki", this.profilePage.getUsername(), "XWiki.WatchListClass", 0, "spaces", "",
+        getUtil().updateObject("XWiki", this.watchlistPage.getUsername(), "XWiki.WatchListClass", 0, "spaces", "",
             "documents", "");
 
         // Watch Test.TestWatchThisPage

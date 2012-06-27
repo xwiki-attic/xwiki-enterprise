@@ -24,9 +24,8 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.administration.test.po.ProfileUserProfilePage;
-import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.watchlist.test.po.WatchlistUserProfilePage;
 
 /**
@@ -45,9 +44,10 @@ public class AutoWatchTest extends AbstractTest
     {
         String userName = RandomStringUtils.randomAlphanumeric(5);
 
-        ProfileUserProfilePage profilePage = new ProfileUserProfilePage(userName);
+        WatchlistUserProfilePage profilePage = new WatchlistUserProfilePage(userName);
 
-        getUtil().registerLoginAndGotoPage(profilePage.getUsername(), "password", profilePage.getURL());
+        getUtil().registerLoginAndGotoPage(profilePage.getUsername(), "password",
+            getUtil().getURL("XWiki", profilePage.getUsername()));
 
         this.watchlistPage = profilePage.switchToWatchlist();
 
@@ -58,7 +58,7 @@ public class AutoWatchTest extends AbstractTest
      * Tests that a scheduler job page default edit mode is "inline".
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     public void testAutomaticWatchNewPage()
     {
         // create a new page

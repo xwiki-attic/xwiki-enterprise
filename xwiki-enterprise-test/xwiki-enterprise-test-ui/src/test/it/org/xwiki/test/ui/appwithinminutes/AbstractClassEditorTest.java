@@ -20,7 +20,7 @@
 package org.xwiki.test.ui.appwithinminutes;
 
 import org.junit.Before;
-import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
+import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 
 /**

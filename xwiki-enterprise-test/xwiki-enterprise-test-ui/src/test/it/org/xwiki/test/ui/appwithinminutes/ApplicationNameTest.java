@@ -23,8 +23,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.openqa.selenium.Keys;
+import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.appwithinminutes.ApplicationCreatePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;

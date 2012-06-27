@@ -24,10 +24,10 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.administration.test.po.ProfileUserProfilePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.AbstractTest;
-import org.xwiki.test.po.administration.ProfileUserProfilePage;
-import org.xwiki.test.po.watchlist.WatchlistUserProfilePage;
+import org.xwiki.watchlist.test.po.WatchlistUserProfilePage;
 
 /**
  * Tests Watchlist application features.

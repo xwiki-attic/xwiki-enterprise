@@ -23,10 +23,10 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.annotation.test.po.AnnotatableViewPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.po.annotations.AnnotatableViewPage;
 
 /**
  * Annotation Test.

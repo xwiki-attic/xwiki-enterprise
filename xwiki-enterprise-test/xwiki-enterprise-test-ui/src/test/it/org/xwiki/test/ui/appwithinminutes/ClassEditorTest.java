@@ -24,10 +24,10 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.xwiki.test.po.appwithinminutes.ApplicationClassEditPage;
-import org.xwiki.test.po.appwithinminutes.ClassFieldEditPane;
-import org.xwiki.test.po.appwithinminutes.EntryEditPage;
-import org.xwiki.test.po.appwithinminutes.LongTextClassFieldEditPane;
+import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
+import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
+import org.xwiki.appwithinminutes.test.po.EntryEditPage;
+import org.xwiki.appwithinminutes.test.po.LongTextClassFieldEditPane;
 import org.xwiki.test.po.xe.ClassSheetPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;

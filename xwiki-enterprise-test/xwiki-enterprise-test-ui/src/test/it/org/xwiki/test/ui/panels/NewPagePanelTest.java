@@ -21,8 +21,8 @@ package org.xwiki.test.ui.panels;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.xwiki.panels.test.po.NewPagePanel;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.panels.NewPagePanel;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;

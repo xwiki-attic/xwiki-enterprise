@@ -29,8 +29,8 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.tag.AddTagsPane;
-import org.xwiki.test.po.tag.TaggablePage;
+import org.xwiki.tag.test.po.AddTagsPane;
+import org.xwiki.tag.test.po.TaggablePage;
 import org.xwiki.test.ui.po.AttachmentsPane;
 import org.xwiki.test.ui.po.ChangesPane;
 import org.xwiki.test.ui.po.CommentsTab;

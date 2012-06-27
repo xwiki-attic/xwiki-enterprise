@@ -24,10 +24,10 @@ import junit.framework.Assert;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.administration.test.po.AdministrationPage;
+import org.xwiki.administration.test.po.WYSIWYGEditorAdministrationSectionPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
-import org.xwiki.test.po.administration.AdministrationPage;
-import org.xwiki.test.po.administration.WYSIWYGEditorAdministrationSectionPage;
 
 /**
  * Test the WYSIWYG Editor administration section.

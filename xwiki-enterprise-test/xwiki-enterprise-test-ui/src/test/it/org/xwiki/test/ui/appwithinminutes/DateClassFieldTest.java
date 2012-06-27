@@ -25,8 +25,8 @@ import java.util.Calendar;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.xwiki.test.po.appwithinminutes.DateClassFieldEditPane;
-import org.xwiki.test.po.appwithinminutes.DatePicker;
+import org.xwiki.appwithinminutes.test.po.DateClassFieldEditPane;
+import org.xwiki.appwithinminutes.test.po.DatePicker;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 

@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriverException;
-import org.xwiki.test.po.administration.AdministrationSectionPage;
+import org.xwiki.administration.test.po.AdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.AbstractRegistrationPage;

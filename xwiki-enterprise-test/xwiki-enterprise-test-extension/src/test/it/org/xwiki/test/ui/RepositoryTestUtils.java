@@ -26,8 +26,8 @@ import java.util.Map;
 import org.xwiki.extension.Extension;
 import org.xwiki.extension.ExtensionDependency;
 import org.xwiki.extension.ExtensionId;
-import org.xwiki.extension.repository.xwiki.internal.XWikiRepositoryModel;
 import org.xwiki.extension.test.RepositoryUtil;
+import org.xwiki.repository.internal.XWikiRepositoryModel;
 
 /**
  * @version $Id$

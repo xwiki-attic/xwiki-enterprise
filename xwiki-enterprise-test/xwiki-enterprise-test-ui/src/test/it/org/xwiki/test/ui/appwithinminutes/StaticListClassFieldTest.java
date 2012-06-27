@@ -24,8 +24,8 @@ import java.util.Arrays;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.xwiki.test.po.appwithinminutes.StaticListClassFieldEditPane;
-import org.xwiki.test.po.appwithinminutes.StaticListItemsEditor;
+import org.xwiki.appwithinminutes.test.po.StaticListClassFieldEditPane;
+import org.xwiki.appwithinminutes.test.po.StaticListItemsEditor;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 

@@ -55,7 +55,7 @@ public class AllTests
                 context.getUtil().getURLToLoginAsAdminAndGotoPage(context.getUtil().getURLToNonExistentPage()));
             context.getUtil().recacheSecretToken();
             context.getUtil().importXar(
-                new File("target/dependency/xwiki-platform-extension-repository-xwiki-server-ui.xar"));
+                new File("target/dependency/xwiki-platform-repository-server-ui.xar"));
         }
 
         // Initialize extensions and repositories

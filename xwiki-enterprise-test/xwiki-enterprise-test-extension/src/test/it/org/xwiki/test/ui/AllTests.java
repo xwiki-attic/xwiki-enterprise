@@ -20,12 +20,14 @@
 package org.xwiki.test.ui;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.junit.runner.RunWith;
 import org.xwiki.extension.ExtensionId;
+import org.xwiki.extension.test.RepositoryUtil;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
 
@@ -42,9 +44,14 @@ public class AllTests
     {
         XWikiExecutor executor = executors.get(0);
 
+        RepositoryUtil repositoryUtil = new RepositoryUtil();
+
         // Put self as extensions repository
-        Properties properties = executor.loadXWikiProperties();
-        properties.setProperty("extension.repositories", "self:xwiki:http://localhost:8080/xwiki/rest");
+        PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
+        properties.setProperty(
+            "extension.repositories",
+            Arrays.asList("self:xwiki:http://localhost:8080/xwiki/rest", "test-maven:maven:"
+                + repositoryUtil.getMavenRepository().toURI()));
         executor.saveXWikiProperties(properties);
     }
 
@@ -56,8 +63,7 @@ public class AllTests
             context.getDriver().get(
                 context.getUtil().getURLToLoginAsAdminAndGotoPage(context.getUtil().getURLToNonExistentPage()));
             context.getUtil().recacheSecretToken();
-            context.getUtil().importXar(
-                new File("target/dependency/xwiki-platform-repository-server-ui.xar"));
+            context.getUtil().importXar(new File("target/dependency/xwiki-platform-repository-server-ui.xar"));
         }
 
         // Initialize extensions and repositories
@@ -74,10 +80,15 @@ public class AllTests
         context.getProperties().put(RepositoryTestUtils.PROPERTY_KEY, repositoryUtil);
 
         // Populate maven repository
-        File extensionFile = repositoryUtil.getTestExtension(new ExtensionId("emptyjar", "1.0"), "jar").getFile().getFile();
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/extension/1.0/extension-1.0.jar"));
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/extension/2.0/extension-2.0.jar"));
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/oldextension/0.9/oldextension-0.9.jar"));
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/dependency/version/dependency-version.jar"));
+        File extensionFile =
+            repositoryUtil.getTestExtension(new ExtensionId("emptyjar", "1.0"), "jar").getFile().getFile();
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+            "maven/extension/1.0/extension-1.0.jar"));
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+            "maven/extension/2.0/extension-2.0.jar"));
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+            "maven/oldextension/0.9/oldextension-0.9.jar"));
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+            "maven/dependency/version/dependency-version.jar"));
     }
 }

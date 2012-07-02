@@ -50,11 +50,7 @@ public class AbstractExtensionAdminAuthenticatedTest extends AbstractAdminAuthen
 
         // This will not be null if we are in the middle of allTests
         if (repositoryUtils == null) {
-            RepositoryTestUtils repositoryUtil = new RepositoryTestUtils(context.getUtil());
-            repositoryUtil.init();
-
-            // Set integration repository util
-            context.getProperties().put(RepositoryTestUtils.PROPERTY_KEY, repositoryUtil);
+            AllTests.initExtensions(context);
         }
     }
 

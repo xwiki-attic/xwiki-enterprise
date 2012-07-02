@@ -328,4 +328,11 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals(0, result.getOffset());
         Assert.assertEquals(0, result.getExtensions().size());
     }
+    
+
+    @Test
+    public void testImportExtension() throws Exception
+    {
+        
+    }
 }

@@ -49,6 +49,11 @@ public class RepositoryTestUtils
         this.repositoryUtil = new RepositoryUtil();
     }
 
+    public RepositoryUtil getRepositoryUtil()
+    {
+        return this.repositoryUtil;
+    }
+
     // Test init
 
     public void init() throws Exception

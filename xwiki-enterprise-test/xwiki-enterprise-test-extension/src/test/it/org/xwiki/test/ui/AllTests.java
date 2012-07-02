@@ -23,7 +23,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.runner.RunWith;
+import org.xwiki.extension.ExtensionId;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
 
@@ -59,10 +61,23 @@ public class AllTests
         }
 
         // Initialize extensions and repositories
+        initExtensions(context);
+    }
+
+    public static void initExtensions(PersistentTestContext context) throws Exception
+    {
+        // Initialize extensions and repositories
         RepositoryTestUtils repositoryUtil = new RepositoryTestUtils(context.getUtil());
         repositoryUtil.init();
 
         // Set integration repository util
         context.getProperties().put(RepositoryTestUtils.PROPERTY_KEY, repositoryUtil);
+
+        // Populate maven repository
+        File extensionFile = repositoryUtil.getTestExtension(new ExtensionId("emptyjar", "1.0"), "jar").getFile().getFile();
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/extension/1.0/extension-1.0.jar"));
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/extension/2.0/extension-2.0.jar"));
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/oldextension/0.9/oldextension-0.9.jar"));
+        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(), "maven/dependency/version/dependency-version.jar"));
     }
 }

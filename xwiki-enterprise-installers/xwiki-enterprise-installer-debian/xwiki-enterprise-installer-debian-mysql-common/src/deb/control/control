@@ -11,7 +11,7 @@ Breaks: xwiki-enterprise-tomcat-mysql (<< 3.5)
 Conflicts: xwiki-enterprise-database
 Maintainer: XWiki Team (devs@xwiki.org)
 License: LGPL 2.1
-Description: XWiki enterprise Tomcat common package
+Description: XWiki enterprise MySQL common package
  XWiki is a free wiki software platform written in Java with a design emphasis
  on extensibility.
  .

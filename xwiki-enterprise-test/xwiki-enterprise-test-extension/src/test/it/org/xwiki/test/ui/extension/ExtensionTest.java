@@ -107,18 +107,18 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // Check if the tip is displayed.
         Assert.assertEquals("search extension...", searchBar.getSearchInput().getAttribute("value"));
 
-        SearchResultsPane searchResults = searchBar.search("platform");
+        SearchResultsPane searchResults = searchBar.search("XWiki Rendering");
         Assert.assertTrue(searchResults.getPagination().getResultsCount() < coreExtensionCount);
 
         // Make sure the search input is not cleared.
         searchBar = new SimpleSearchPane();
-        Assert.assertEquals("platform", searchBar.getSearchInput().getAttribute("value"));
+        Assert.assertEquals("XWiki Rendering", searchBar.getSearchInput().getAttribute("value"));
 
         Assert.assertNull(searchResults.getNoResultsMessage());
 
         // Check that the result matches the search query.
         ExtensionPane extension = searchResults.getExtension(RandomUtils.nextInt(20));
-        Assert.assertTrue(extension.getName().toLowerCase().contains("platform"));
+        Assert.assertTrue(extension.getName().toLowerCase().contains("rendering"));
         Assert.assertEquals("core", extension.getStatus());
 
         // Test search query with no results.
@@ -137,7 +137,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         extension = searchResults.getExtension(0);
         Assert.assertEquals("core", extension.getStatus());
-        Assert.assertEquals("Restlet Core", extension.getName());
+        Assert.assertTrue(extension.getName().toLowerCase().contains("restlet"));
     }
 
     /**
@@ -156,7 +156,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertNull(searchResults.getNoResultsMessage());
         ExtensionPane extension = searchResults.getExtension(0);
         Assert.assertEquals("core", extension.getStatus());
-        Assert.assertEquals("Restlet Core", extension.getName());
+        Assert.assertTrue(extension.getName().toLowerCase().contains("restlet"));
         Assert.assertEquals(version, extension.getVersion());
 
         searchResults = new SimpleSearchPane().clickAdvancedSearch().search("foo", "bar");

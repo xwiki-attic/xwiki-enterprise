@@ -446,13 +446,12 @@
       </properties>
     </profile>
     <profile>
-      <!-- Make sure we add the Clover JAR to the test classpath since instrumented code will need it -->
+      <!-- Make sure we add the Clover JAR to the classpath since instrumented code will need it -->
       <id>clover</id>
       <dependencies>
         <dependency>
           <groupId>com.cenqua.clover</groupId>
           <artifactId>clover</artifactId>
-          <scope>test</scope>
         </dependency>
       </dependencies>
     </profile>

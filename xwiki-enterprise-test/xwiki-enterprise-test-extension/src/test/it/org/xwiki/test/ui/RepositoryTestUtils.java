@@ -83,6 +83,8 @@ public class RepositoryTestUtils
 
     public void addExtension(Extension extension) throws Exception
     {
+        this.testUtils.deletePage("Extension", getPageName(extension));
+
         // Add the Extension object
         Map<String, Object> queryParameters = new HashMap<String, Object>();
 

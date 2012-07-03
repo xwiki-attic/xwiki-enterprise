@@ -21,12 +21,32 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>dgroupid</groupId>
-  <artifactId>dartifactid</artifactId>
-  <version>dversion</version>
-  <packaging>type</packaging>
-  <name>dependency name</name>
-  <description>dependency summary</description>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>groupid</groupId>
+	<artifactId>artifactid</artifactId>
+	<name>name</name>
+	<version>2.0</version>
+	<packaging>jar</packaging>
+	<description>summary2</description>
+	<url>http://website2</url>
+    <developers>
+      <developer>
+        <name>Full Name 2</name>
+        <url>http://profile2</url>
+      </developer>
+    </developers>
+    <licenses>
+      <license>
+        <name>LGPL 2.1</name>
+      </license>
+    </licenses>
+	<dependencies>
+	  <dependency>
+	    <groupId>oldmaven</groupId>
+	    <artifactId>olddependency</artifactId>
+	    <version>oldversion</version>
+	    <type>type</type>
+	  </dependency>
+	</dependencies>
 </project>

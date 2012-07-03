@@ -20,6 +20,7 @@
 package org.xwiki.test.ui.repository;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -338,11 +339,68 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionImportPage importPage = extensionsPage.clickImport();
 
         importPage.setExtensionId("maven:extension");
-        importPage.setSourceRepository("test-maven");
-        importPage.clickImport();
-        
+        importPage.setSourceRepository("maven-test");
+        ExtensionPage extensionPage = importPage.clickImport();
+
         // Check
-        
-        
+
+        Assert.assertTrue(extensionPage.isValidExtension());
+
+        // 2.0
+
+        TestExtension emptyExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId("emptyjar", "1.0"), "jar");
+
+        long fileSize = FileUtils.sizeOf(emptyExtension.getFile().getFile());
+
+        ExtensionVersion extension =
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, "maven:extension", "2.0");
+
+        Assert.assertEquals("maven:extension", extension.getId());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("2.0", extension.getVersion());
+        Assert.assertEquals("summary2", extension.getSummary());
+        Assert.assertEquals("name", extension.getName());
+        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("Full Name 2", extension.getAuthors().get(0).getName());
+        Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());
+        Assert.assertEquals("GNU Lesser General Public License 2.1", extension.getLicenses().get(0).getName());
+
+        Assert.assertEquals(fileSize,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, "maven:extension", "2.0").length);
+
+        // 1.0
+
+        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, "maven:extension", "1.0");
+
+        Assert.assertEquals("maven:extension", extension.getId());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("1.0", extension.getVersion());
+        Assert.assertEquals("summary2", extension.getSummary());
+        Assert.assertEquals("name", extension.getName());
+        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("Full Name 2", extension.getAuthors().get(0).getName());
+        Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());
+        Assert.assertEquals("GNU Lesser General Public License 2.1", extension.getLicenses().get(0).getName());
+
+        Assert.assertEquals(FileUtils.sizeOf(emptyExtension.getFile().getFile()),
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, "maven:extension", "1.0").length);
+
+        // 0.9
+
+        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, "maven:extension", "0.9");
+
+        Assert.assertEquals("maven:extension", extension.getId());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("0.9", extension.getVersion());
+        Assert.assertEquals("summary2", extension.getSummary());
+        Assert.assertEquals("name", extension.getName());
+        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("Full Name 2", extension.getAuthors().get(0).getName());
+        Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());
+        Assert.assertEquals("GNU Lesser General Public License 2.1", extension.getLicenses().get(0).getName());
+
+        Assert.assertEquals(fileSize,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, "maven:extension", "0.9").length);
     }
 }

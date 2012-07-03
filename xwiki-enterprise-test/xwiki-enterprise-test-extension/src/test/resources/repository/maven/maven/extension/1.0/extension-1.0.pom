@@ -26,19 +26,16 @@
 	<groupId>groupid</groupId>
 	<artifactId>artifactid</artifactId>
 	<name>name</name>
-	<version>2.0</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
-	<description>summary2</description>
-	<url>http://website2</url>
+	<description>summary</description>
+	<url>http://website</url>
     <developers>
       <developer>
-        <name>Full Name 2</name>
-        <url>http://profile2</url>
+        <name>Full Name</name>
+        <url>http://profile</url>
       </developer>
     </developers>
-    <properties>
-      <xwiki.extension.features>groupidold:featureold</xwiki.extension.features>
-    </properties>
     <licenses>
       <license>
         <name>LGPL 2.1</name>
@@ -46,10 +43,10 @@
     </licenses>
 	<dependencies>
 	  <dependency>
-	    <groupId>dgroupid</groupId>
-	    <artifactId>dartifactid</artifactId>
-	    <version>dversion</version>
-	    <type>type</type>
+	    <groupId>maven</groupId>
+	    <artifactId>dependency1</artifactId>
+	    <version>1.0</version>
+	    <type>jar</type>
 	  </dependency>
 	</dependencies>
 </project>

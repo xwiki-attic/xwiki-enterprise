@@ -37,7 +37,7 @@
       </developer>
     </developers>
     <properties>
-      <xwiki.extension.features>groupidold:artifactidold</xwiki.extension.features>
+      <xwiki.extension.features>maven:oldextension</xwiki.extension.features>
     </properties>
     <licenses>
       <license>
@@ -47,8 +47,8 @@
 	<dependencies>
 	  <dependency>
 	    <groupId>maven</groupId>
-	    <artifactId>dependency</artifactId>
-	    <version>version</version>
+	    <artifactId>dependency2</artifactId>
+	    <version>2.0</version>
 	    <type>jar</type>
 	  </dependency>
 	</dependencies>

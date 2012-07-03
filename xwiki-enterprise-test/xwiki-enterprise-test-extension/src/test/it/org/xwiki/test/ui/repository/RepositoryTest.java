@@ -38,6 +38,7 @@ import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
 import org.xwiki.extension.version.internal.DefaultVersionConstraint;
 import org.xwiki.repository.Resources;
+import org.xwiki.repository.test.po.ExtensionImportPage;
 import org.xwiki.repository.test.po.ExtensionPage;
 import org.xwiki.repository.test.po.ExtensionsLiveTableElement;
 import org.xwiki.repository.test.po.ExtensionsPage;
@@ -328,11 +329,20 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals(0, result.getOffset());
         Assert.assertEquals(0, result.getExtensions().size());
     }
-    
 
     @Test
     public void testImportExtension() throws Exception
     {
+        ExtensionsPage extensionsPage = ExtensionsPage.gotoPage();
+
+        ExtensionImportPage importPage = extensionsPage.clickImport();
+
+        importPage.setExtensionId("maven:extension");
+        importPage.setSourceRepository("test-maven");
+        importPage.clickImport();
+        
+        // Check
+        
         
     }
 }

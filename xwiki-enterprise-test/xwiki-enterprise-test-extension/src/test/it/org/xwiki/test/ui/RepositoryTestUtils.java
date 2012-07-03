@@ -45,8 +45,13 @@ public class RepositoryTestUtils
 
     public RepositoryTestUtils(TestUtils testUtils)
     {
+        this(testUtils, null);
+    }
+
+    public RepositoryTestUtils(TestUtils testUtils, RepositoryUtil repositoryUtil)
+    {
         this.testUtils = testUtils;
-        this.repositoryUtil = new RepositoryUtil();
+        this.repositoryUtil = repositoryUtil != null ? repositoryUtil : new RepositoryUtil();
     }
 
     public RepositoryUtil getRepositoryUtil()

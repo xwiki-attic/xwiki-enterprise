@@ -39,12 +39,14 @@ import org.xwiki.test.integration.XWikiExecutorSuite;
 @RunWith(PageObjectSuite.class)
 public class AllTests
 {
+    private static RepositoryUtil repositoryUtil;
+
     @XWikiExecutorSuite.PreStart
     public void preStart(List<XWikiExecutor> executors) throws Exception
     {
         XWikiExecutor executor = executors.get(0);
 
-        RepositoryUtil repositoryUtil = new RepositoryUtil();
+        repositoryUtil = new RepositoryUtil();
 
         // Put self as extensions repository
         PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
@@ -73,22 +75,22 @@ public class AllTests
     public static void initExtensions(PersistentTestContext context) throws Exception
     {
         // Initialize extensions and repositories
-        RepositoryTestUtils repositoryUtil = new RepositoryTestUtils(context.getUtil());
-        repositoryUtil.init();
+        RepositoryTestUtils repositoryTestUtil = new RepositoryTestUtils(context.getUtil(), repositoryUtil);
+        repositoryTestUtil.init();
 
         // Set integration repository util
-        context.getProperties().put(RepositoryTestUtils.PROPERTY_KEY, repositoryUtil);
+        context.getProperties().put(RepositoryTestUtils.PROPERTY_KEY, repositoryTestUtil);
 
         // Populate maven repository
         File extensionFile =
-            repositoryUtil.getTestExtension(new ExtensionId("emptyjar", "1.0"), "jar").getFile().getFile();
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+            repositoryTestUtil.getTestExtension(new ExtensionId("emptyjar", "1.0"), "jar").getFile().getFile();
+        FileUtils.copyFile(extensionFile, new File(repositoryTestUtil.getRepositoryUtil().getMavenRepository(),
             "maven/extension/1.0/extension-1.0.jar"));
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+        FileUtils.copyFile(extensionFile, new File(repositoryTestUtil.getRepositoryUtil().getMavenRepository(),
             "maven/extension/2.0/extension-2.0.jar"));
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+        FileUtils.copyFile(extensionFile, new File(repositoryTestUtil.getRepositoryUtil().getMavenRepository(),
             "maven/oldextension/0.9/oldextension-0.9.jar"));
-        FileUtils.copyFile(extensionFile, new File(repositoryUtil.getRepositoryUtil().getMavenRepository(),
+        FileUtils.copyFile(extensionFile, new File(repositoryTestUtil.getRepositoryUtil().getMavenRepository(),
             "maven/dependency/version/dependency-version.jar"));
     }
 }

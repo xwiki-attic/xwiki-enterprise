@@ -20,7 +20,7 @@
 package org.xwiki.test.ui.administration;
 
 import org.openqa.selenium.By;
-import org.xwiki.test.po.administration.LightBoxRegistrationPage;
+import org.xwiki.administration.test.po.LightBoxRegistrationPage;
 import org.xwiki.test.ui.po.AbstractRegistrationPage;
 import org.xwiki.test.ui.RegisterTest;
 

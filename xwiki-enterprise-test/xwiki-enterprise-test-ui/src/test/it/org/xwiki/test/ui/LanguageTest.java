@@ -25,8 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.xwiki.test.po.administration.AdministrationPage;
-import org.xwiki.test.po.administration.LocalizationAdministrationSectionPage;
+import org.xwiki.administration.test.po.AdministrationPage;
+import org.xwiki.administration.test.po.LocalizationAdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
@@ -41,10 +41,11 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 {
     /**
      * Ensure the default language is English and that the wiki is in monolingual mode
+     * @throws Exception 
      */
     @Override
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

@@ -46,7 +46,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());

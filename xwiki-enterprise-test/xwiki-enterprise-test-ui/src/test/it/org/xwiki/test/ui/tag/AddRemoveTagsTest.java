@@ -24,11 +24,11 @@ import junit.framework.Assert;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.tag.test.po.AddTagsPane;
+import org.xwiki.tag.test.po.TaggablePage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.po.tag.AddTagsPane;
-import org.xwiki.test.po.tag.TaggablePage;
 
 /**
  * Several tests for adding and removing tags to/from a wiki page.
@@ -45,7 +45,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

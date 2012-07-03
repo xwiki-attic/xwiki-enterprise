@@ -24,11 +24,11 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.administration.test.po.AdministrationPage;
+import org.xwiki.administration.test.po.AnnotationsPage;
+import org.xwiki.annotation.test.po.AnnotatableViewPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
-import org.xwiki.test.po.administration.AdministrationPage;
-import org.xwiki.test.po.administration.AnnotationsPage;
-import org.xwiki.test.po.annotations.AnnotatableViewPage;
 
 /**
  * Annotations in XWiki 1.0 syntax pages.
@@ -42,7 +42,7 @@ public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());

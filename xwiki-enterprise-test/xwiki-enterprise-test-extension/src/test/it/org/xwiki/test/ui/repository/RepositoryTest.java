@@ -19,7 +19,8 @@
  */
 package org.xwiki.test.ui.repository;
 
-import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,72 +30,68 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.xwiki.extension.repository.xwiki.Resources;
-import org.xwiki.extension.repository.xwiki.internal.XWikiRepositoryModel;
-import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionAuthor;
+import org.xwiki.extension.DefaultExtensionAuthor;
+import org.xwiki.extension.DefaultExtensionDependency;
+import org.xwiki.extension.ExtensionId;
+import org.xwiki.extension.ExtensionLicense;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionDependency;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionVersion;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
-import org.xwiki.extension.repository.xwiki.model.jaxb.License;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.po.extension.server.ExtensionPage;
-import org.xwiki.test.po.extension.server.ExtensionsLiveTableElement;
-import org.xwiki.test.po.extension.server.ExtensionsPage;
-import org.xwiki.test.po.extension.server.RepositoryAdminPage;
-import org.xwiki.test.po.extension.server.editor.ExtensionInlinePage;
+import org.xwiki.extension.version.internal.DefaultVersionConstraint;
+import org.xwiki.repository.Resources;
+import org.xwiki.repository.test.po.ExtensionImportPage;
+import org.xwiki.repository.test.po.ExtensionPage;
+import org.xwiki.repository.test.po.ExtensionsLiveTableElement;
+import org.xwiki.repository.test.po.ExtensionsPage;
+import org.xwiki.repository.test.po.RepositoryAdminPage;
+import org.xwiki.repository.test.po.editor.ExtensionInlinePage;
+import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
+import org.xwiki.test.ui.TestExtension;
 
 /**
  * Repository Test.
  * 
  * @version $Id$
  */
-public class RepositoryTest extends AbstractAdminAuthenticatedTest
+public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
 {
     private static final String IDPREFIX = "prefix-";
 
-    private ExtensionVersion baseExtension;
+    private TestExtension baseExtension;
 
-    private License baseLicense;
+    private ExtensionLicense baseLicense;
 
-    private ExtensionAuthor baseAuthor;
+    private DefaultExtensionAuthor baseAuthor;
+
+    private long sizeOfFile;
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 
-        // Import XR xar
-        // TODO: use packager maven plugin instead of doing that during tests
-        if (!getUtil().pageExists("Extension", "WebHome")) {
-            try {
-                getUtil().importXar(
-                    new File("target/dependency/xwiki-platform-extension-repository-xwiki-server-ui.xar"));
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to import XR xar", e);
-            }
-        }
-
         // base extension informations
 
-        this.baseExtension = new ExtensionVersion();
+        this.baseExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId(IDPREFIX + "macro-jar-extension", "1.0"), "jar");
 
-        this.baseExtension.setId(IDPREFIX + "macro-jar-extension");
-        this.baseExtension.setType("jar");
         this.baseExtension.setName("Macro JAR extension");
         this.baseExtension.setDescription("extension description");
         this.baseExtension.setSummary("extension summary, **not bold**");
 
-        this.baseLicense = new License();
-        this.baseLicense.setName("Do What The Fuck You Want To Public License 2");
-        this.baseExtension.getLicenses().add(this.baseLicense);
+        this.baseLicense = new ExtensionLicense("Do What The Fuck You Want To Public License 2", null);
+        this.baseExtension.addLicense(this.baseLicense);
 
-        this.baseAuthor = new ExtensionAuthor();
-        this.baseAuthor.setName("Administrator");
-        this.baseAuthor.setUrl(getUtil().getURL("XWiki", "Admin"));
-        this.baseExtension.getAuthors().add(this.baseAuthor);
+        this.baseAuthor = new DefaultExtensionAuthor("Administrator", new URL(getUtil().getURL("XWiki", "Admin")));
+        this.baseExtension.addAuthor(this.baseAuthor);
 
-        this.baseExtension.setVersion("10.0");
+        this.baseExtension.addDependency(new DefaultExtensionDependency("dependencyid1", new DefaultVersionConstraint(
+            "1.0")));
+        this.baseExtension.addDependency(new DefaultExtensionDependency("dependencyid2", new DefaultVersionConstraint(
+            "2.0")));
+
+        this.sizeOfFile = FileUtils.sizeOf(this.baseExtension.getFile().getFile());
     }
 
     @Test
@@ -130,42 +127,23 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         Assert.assertFalse(extensionPage.isValidExtension());
 
-        // Add version
+        // Add versions
         // TODO: add XR UI to manipulate versions
-
-        getUtil().addObject("Extension", this.baseExtension.getName(), XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME,
-            XWikiRepositoryModel.PROP_VERSION_VERSION, "1.0");
-        getUtil()
-            .addObject(
-                "Extension",
-                this.baseExtension.getName(),
-                XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME,
-                XWikiRepositoryModel.PROP_VERSION_VERSION,
-                this.baseExtension.getVersion(),
-                "download",
-                getUtil().getAttachmentURL("Extension", this.baseExtension.getName(),
-                    "prefix-macro-jar-extension-1.0.jar"));
-        getUtil().addObject("Extension", this.baseExtension.getName(), XWikiRepositoryModel.EXTENSIONVERSION_CLASSNAME,
-            XWikiRepositoryModel.PROP_VERSION_VERSION, "2.0", XWikiRepositoryModel.PROP_VERSION_DOWNLOAD,
-            "attach:prefix-macro-jar-extension-1.0.jar");
+        getRepositoryTestUtils().addVersionObject(this.baseExtension);
+        getRepositoryTestUtils().addVersionObject(
+            this.baseExtension,
+            "10.0",
+            getUtil().getAttachmentURL("Extension", this.baseExtension.getName(),
+                this.baseExtension.getFile().getName()));
+        getRepositoryTestUtils().addVersionObject(this.baseExtension, "2.0",
+            "attach:" + this.baseExtension.getFile().getName());
 
         // Add dependencies
-        // TODO: add XR UI to manipulate versions
-
-        getUtil().addObject("Extension", this.baseExtension.getName(),
-            XWikiRepositoryModel.EXTENSIONDEPENDENCY_CLASSNAME, XWikiRepositoryModel.PROP_DEPENDENCY_CONSTRAINT, "1.0",
-            XWikiRepositoryModel.PROP_DEPENDENCY_ID, "dependencyid1",
-            XWikiRepositoryModel.PROP_DEPENDENCY_EXTENSIONVERSION, this.baseExtension.getVersion());
-        getUtil().addObject("Extension", this.baseExtension.getName(),
-            XWikiRepositoryModel.EXTENSIONDEPENDENCY_CLASSNAME, XWikiRepositoryModel.PROP_DEPENDENCY_CONSTRAINT, "2.0",
-            XWikiRepositoryModel.PROP_DEPENDENCY_ID, "dependencyid2",
-            XWikiRepositoryModel.PROP_DEPENDENCY_EXTENSIONVERSION, this.baseExtension.getVersion());
+        // TODO: add XR UI to manipulate dependencies
+        getRepositoryTestUtils().addDependencies(this.baseExtension, "10.0");
 
         // Add attachment
-
-        File extensionFile = new File("target/extensions/prefix-macro-jar-extension-1.0.jar");
-        getUtil().attachFile("Extension", this.baseExtension.getName(), "prefix-macro-jar-extension-1.0.jar",
-            extensionFile, true);
+        getRepositoryTestUtils().attachFile(this.baseExtension);
 
         // Check livetable
 
@@ -192,23 +170,26 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         // Resolve
 
         ExtensionVersion extension =
-            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId(), "1.0");
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId().getId(), "1.0");
 
-        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getId().getId(), extension.getId());
         Assert.assertEquals(this.baseExtension.getType(), extension.getType());
         Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
         Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
         Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
         Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
-        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals(this.baseAuthor.getURL().toString(), extension.getAuthors().get(0).getUrl());
         Assert.assertEquals("1.0", extension.getVersion());
 
         Assert.assertEquals(getUtil().getURL("Extension", this.baseExtension.getName()), extension.getWebsite());
 
         // File
 
-        Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
-            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId(), "1.0").length);
+        Assert
+            .assertEquals(
+                this.sizeOfFile,
+                getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId().getId(),
+                    "1.0").length);
 
         // //////////////////////////////////////////
         // 2.0
@@ -216,23 +197,27 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
 
         // Resolve
 
-        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId(), "2.0");
+        extension =
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId().getId(), "2.0");
 
-        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getId().getId(), extension.getId());
         Assert.assertEquals(this.baseExtension.getType(), extension.getType());
         Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
         Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
         Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
         Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
-        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals(this.baseAuthor.getURL().toString(), extension.getAuthors().get(0).getUrl());
         Assert.assertEquals("2.0", extension.getVersion());
 
         Assert.assertEquals(getUtil().getURL("Extension", this.baseExtension.getName()), extension.getWebsite());
 
         // File
 
-        Assert.assertEquals(FileUtils.readFileToByteArray(extensionFile).length,
-            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId(), "2.0").length);
+        Assert
+            .assertEquals(
+                this.sizeOfFile,
+                getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId().getId(),
+                    "2.0").length);
 
         // //////////////////////////////////////////
         // 10.0
@@ -241,17 +226,16 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         // Resolve
 
         extension =
-            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId(),
-                this.baseExtension.getVersion());
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, this.baseExtension.getId().getId(), "10.0");
 
-        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getId().getId(), extension.getId());
         Assert.assertEquals(this.baseExtension.getType(), extension.getType());
         Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
         Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
         Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
         Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
-        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
-        Assert.assertEquals(this.baseExtension.getVersion(), extension.getVersion());
+        Assert.assertEquals(this.baseAuthor.getURL().toString(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals("10.0", extension.getVersion());
 
         Assert.assertEquals(getUtil().getURL("Extension", this.baseExtension.getName()), extension.getWebsite());
 
@@ -265,9 +249,9 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         // File
 
         Assert.assertEquals(
-            FileUtils.readFileToByteArray(extensionFile).length,
-            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId(),
-                this.baseExtension.getVersion()).length);
+            this.sizeOfFile,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, this.baseExtension.getId().getId(),
+                this.baseExtension.getId().getVersion().getValue()).length);
 
         // //////////////////////////////////////////
         // Search
@@ -282,14 +266,14 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(0, result.getOffset());
         extension = result.getExtensions().get(0);
 
-        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getId().getId(), extension.getId());
         Assert.assertEquals(this.baseExtension.getType(), extension.getType());
         Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
         Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
         Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
         Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
-        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
-        Assert.assertEquals(this.baseExtension.getVersion(), extension.getVersion());
+        Assert.assertEquals(this.baseAuthor.getURL().toString(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals("10.0", extension.getVersion());
 
         // TODO: add support for dependencies in XR search
 
@@ -304,14 +288,14 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(0, result.getOffset());
         extension = result.getExtensions().get(0);
 
-        Assert.assertEquals(this.baseExtension.getId(), extension.getId());
+        Assert.assertEquals(this.baseExtension.getId().getId(), extension.getId());
         Assert.assertEquals(this.baseExtension.getType(), extension.getType());
         Assert.assertEquals(this.baseExtension.getSummary(), extension.getSummary());
         Assert.assertEquals(this.baseLicense.getName(), extension.getLicenses().get(0).getName());
         Assert.assertEquals(this.baseExtension.getDescription(), extension.getDescription());
         Assert.assertEquals(this.baseAuthor.getName(), extension.getAuthors().get(0).getName());
-        Assert.assertEquals(this.baseAuthor.getUrl(), extension.getAuthors().get(0).getUrl());
-        Assert.assertEquals(this.baseExtension.getVersion(), extension.getVersion());
+        Assert.assertEquals(this.baseAuthor.getURL().toString(), extension.getAuthors().get(0).getUrl());
+        Assert.assertEquals("10.0", extension.getVersion());
 
         // Wrong search pattern
 
@@ -345,5 +329,78 @@ public class RepositoryTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(1, result.getTotalHits());
         Assert.assertEquals(0, result.getOffset());
         Assert.assertEquals(0, result.getExtensions().size());
+    }
+
+    @Test
+    public void testImportExtension() throws Exception
+    {
+        ExtensionsPage extensionsPage = ExtensionsPage.gotoPage();
+
+        ExtensionImportPage importPage = extensionsPage.clickImport();
+
+        importPage.setExtensionId("maven:extension");
+        importPage.setSourceRepository("maven-test");
+        ExtensionPage extensionPage = importPage.clickImport();
+
+        // Check
+
+        Assert.assertTrue(extensionPage.isValidExtension());
+
+        // 2.0
+
+        TestExtension emptyExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId("emptyjar", "1.0"), "jar");
+
+        long fileSize = FileUtils.sizeOf(emptyExtension.getFile().getFile());
+
+        ExtensionVersion extension =
+            getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, "maven:extension", "2.0");
+
+        Assert.assertEquals("maven:extension", extension.getId());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("2.0", extension.getVersion());
+        Assert.assertEquals("summary2", extension.getSummary());
+        Assert.assertEquals("name", extension.getName());
+        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("Full Name 2", extension.getAuthors().get(0).getName());
+        Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());
+        Assert.assertEquals("GNU Lesser General Public License 2.1", extension.getLicenses().get(0).getName());
+
+        Assert.assertEquals(fileSize,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, "maven:extension", "2.0").length);
+
+        // 1.0
+
+        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, "maven:extension", "1.0");
+
+        Assert.assertEquals("maven:extension", extension.getId());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("1.0", extension.getVersion());
+        Assert.assertEquals("summary2", extension.getSummary());
+        Assert.assertEquals("name", extension.getName());
+        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("Full Name 2", extension.getAuthors().get(0).getName());
+        Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());
+        Assert.assertEquals("GNU Lesser General Public License 2.1", extension.getLicenses().get(0).getName());
+
+        Assert.assertEquals(FileUtils.sizeOf(emptyExtension.getFile().getFile()),
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, "maven:extension", "1.0").length);
+
+        // 0.9
+
+        extension = getUtil().getRESTResource(Resources.EXTENSION_VERSION, null, "maven:extension", "0.9");
+
+        Assert.assertEquals("maven:extension", extension.getId());
+        Assert.assertEquals("jar", extension.getType());
+        Assert.assertEquals("0.9", extension.getVersion());
+        Assert.assertEquals("summary2", extension.getSummary());
+        Assert.assertEquals("name", extension.getName());
+        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("Full Name 2", extension.getAuthors().get(0).getName());
+        Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());
+        Assert.assertEquals("GNU Lesser General Public License 2.1", extension.getLicenses().get(0).getName());
+
+        Assert.assertEquals(fileSize,
+            getUtil().getRESTBuffer(Resources.EXTENSION_VERSION_FILE, null, "maven:extension", "0.9").length);
     }
 }

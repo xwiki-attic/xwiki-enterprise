@@ -41,6 +41,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-extension-test-pageobjects</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-repository-test-pageobjects</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-extension-api</artifactId>
       <version>${commons.version}</version>
@@ -49,7 +61,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-extension-repository-xwiki-api</artifactId>
+      <artifactId>xwiki-commons-repository-api</artifactId>
       <version>${commons.version}</version>
       <scope>test</scope>
     </dependency>
@@ -57,13 +69,13 @@
     <!-- Components to install before the test -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-extension-repository-xwiki-server-api</artifactId>
+      <artifactId>xwiki-platform-repository-server-api</artifactId>
       <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-extension-repository-xwiki-server-ui</artifactId>
+      <artifactId>xwiki-platform-repository-server-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
       <scope>test</scope>
@@ -107,7 +119,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-extension-repository-xwiki-server-api</artifactId>
+                  <artifactId>xwiki-platform-repository-server-api</artifactId>
                   <version>${platform.version}</version>
                   <type>jar</type>
                 </artifactItem>
@@ -125,7 +137,7 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-extension-repository-xwiki-server-ui</artifactId>
+                  <artifactId>xwiki-platform-repository-server-ui</artifactId>
                   <version>${platform.version}</version>
                   <type>xar</type>
                 </artifactItem>

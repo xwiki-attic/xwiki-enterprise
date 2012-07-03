@@ -3,7 +3,7 @@ Version: [[version]]
 Section: java
 Priority: optional
 Architecture: all
-Depends: xwiki-enterprise-common ([[version]]), mysql-server, libmysql-java
+Depends: xwiki-enterprise-common (= [[version]]), mysql-server, libmysql-java
 Provides: xwiki-enterprise-database
 Recommends: xwiki-enterprise-tomcat5-mysql | xwiki-enterprise-tomcat6-mysql | xwiki-enterprise-tomcat7-mysql
 Replaces: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-database
@@ -11,7 +11,7 @@ Breaks: xwiki-enterprise-tomcat-mysql (<< 3.5)
 Conflicts: xwiki-enterprise-database
 Maintainer: XWiki Team (devs@xwiki.org)
 License: LGPL 2.1
-Description: XWiki enterprise Tomcat common package
+Description: XWiki enterprise MySQL common package
  XWiki is a free wiki software platform written in Java with a design emphasis
  on extensibility.
  .

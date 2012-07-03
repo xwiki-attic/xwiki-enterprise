@@ -27,10 +27,10 @@ import junit.framework.Assert;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.xwiki.test.po.appwithinminutes.ApplicationHomeEditPage;
-import org.xwiki.test.po.appwithinminutes.ApplicationHomePage;
-import org.xwiki.test.po.appwithinminutes.EntryEditPage;
-import org.xwiki.test.po.appwithinminutes.EntryNamePane;
+import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
+import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
+import org.xwiki.appwithinminutes.test.po.EntryEditPage;
+import org.xwiki.appwithinminutes.test.po.EntryNamePane;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -51,7 +51,7 @@ public class AddEntryTest extends AbstractAdminAuthenticatedTest
 
     @Before
     @Override
-    public void setUp()
+    public void setUp() throws Exception
     {
         super.setUp();
 

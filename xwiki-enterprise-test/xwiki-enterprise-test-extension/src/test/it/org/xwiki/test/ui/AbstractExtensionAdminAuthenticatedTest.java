@@ -45,11 +45,12 @@ public class AbstractExtensionAdminAuthenticatedTest extends AbstractAdminAuthen
         // Require some AbstractTest initialization
         AbstractTest.init();
 
-        // Make sure repository utils is initialized and set
-        RepositoryTestUtils repositoryUtils = getRepositoryTestUtils();
+        // Make sure repository and extension utils are initialized and set.
+        RepositoryTestUtils repositoryTestUtils = getRepositoryTestUtils();
+        ExtensionTestUtils extensionTestUtils = getExtensionTestUtils();
 
         // This will not be null if we are in the middle of allTests
-        if (repositoryUtils == null) {
+        if (repositoryTestUtils == null || extensionTestUtils == null) {
             AllTests.initExtensions(context);
         }
     }
@@ -57,5 +58,10 @@ public class AbstractExtensionAdminAuthenticatedTest extends AbstractAdminAuthen
     protected static RepositoryTestUtils getRepositoryTestUtils()
     {
         return (RepositoryTestUtils) context.getProperties().get(RepositoryTestUtils.PROPERTY_KEY);
+    }
+
+    protected static ExtensionTestUtils getExtensionTestUtils()
+    {
+        return (ExtensionTestUtils) context.getProperties().get(ExtensionTestUtils.PROPERTY_KEY);
     }
 }

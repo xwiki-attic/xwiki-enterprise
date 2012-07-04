@@ -77,9 +77,11 @@ public class AllTests
         // Initialize extensions and repositories
         RepositoryTestUtils repositoryTestUtil = new RepositoryTestUtils(context.getUtil(), repositoryUtil);
         repositoryTestUtil.init();
+        ExtensionTestUtils extensionTestUtil = new ExtensionTestUtils(context.getUtil());
 
-        // Set integration repository util
+        // Set integration repository and extension utils.
         context.getProperties().put(RepositoryTestUtils.PROPERTY_KEY, repositoryTestUtil);
+        context.getProperties().put(ExtensionTestUtils.PROPERTY_KEY, extensionTestUtil);
 
         // Populate maven repository
         File extensionFile =
@@ -92,5 +94,11 @@ public class AllTests
             "maven/oldextension/0.9/oldextension-0.9.jar"));
         FileUtils.copyFile(extensionFile, new File(repositoryTestUtil.getRepositoryUtil().getMavenRepository(),
             "maven/dependency/version/dependency-version.jar"));
+
+        // Used in the Extension Manager functional tests.
+        FileUtils.copyFile(extensionFile, new File(repositoryTestUtil.getRepositoryUtil().getMavenRepository(),
+            "org/xwiki/commons/xwiki-commons-diff-api/2.7/xwiki-commons-diff-api-2.7.jar"));
+        FileUtils.copyFile(extensionFile, new File(repositoryTestUtil.getRepositoryUtil().getMavenRepository(),
+            "org/xwiki/platform/xwiki-platform-display-api/100.1/xwiki-platform-display-api-100.1.jar"));
     }
 }

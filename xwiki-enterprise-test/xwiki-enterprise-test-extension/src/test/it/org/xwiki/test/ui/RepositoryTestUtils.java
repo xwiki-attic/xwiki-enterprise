@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.xwiki.extension.Extension;
+import org.xwiki.extension.ExtensionAuthor;
 import org.xwiki.extension.ExtensionDependency;
 import org.xwiki.extension.ExtensionId;
 import org.xwiki.extension.test.RepositoryUtil;
@@ -103,10 +104,15 @@ public class RepositoryTestUtils
                 .next().getName());
         }
         queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_FEATURES, extension.getFeatures());
-        if (!extension.getAuthors().isEmpty()) {
-            queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_AUTHORS, extension.getAuthors().iterator().next()
-                .getName());
+        StringBuilder authors = new StringBuilder();
+        for (ExtensionAuthor author : extension.getAuthors()) {
+            if (authors.length() > 0) {
+                authors.append(',');
+            }
+            authors.append(author.getName());
         }
+        queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_AUTHORS, authors.toString());
+        queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_WEBSITE, extension.getWebSite());
 
         this.testUtils.addObject(SPACENAME_EXTENSION, getPageName(extension), XWikiRepositoryModel.EXTENSION_CLASSNAME,
             queryParameters);

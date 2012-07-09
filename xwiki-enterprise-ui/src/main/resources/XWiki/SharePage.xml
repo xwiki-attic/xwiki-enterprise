@@ -135,7 +135,8 @@
             varname: "input",
             icon: "$xwiki.getSkinFile('icons/silk/user.png')",
             shownoresults : false,
-            timeout : 30000
+            timeout : 30000,
+            parentContainer : this.input.up()
           });
         }
         this.input.focus();

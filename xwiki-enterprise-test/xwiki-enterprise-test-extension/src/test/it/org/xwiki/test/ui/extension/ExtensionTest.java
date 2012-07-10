@@ -655,8 +655,56 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
      * Tests how an extension is downgraded.
      */
     @Test
-    public void testDowngrade()
+    public void testDowngrade() throws Exception
     {
-        // TODO
+        // Setup the extension.
+        String extensionId = "alice-xar-extension";
+        String oldVersion = "1.3";
+        String newVersion = "2.1.4";
+        TestExtension oldExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, oldVersion), "xar");
+        getRepositoryTestUtils().addExtension(oldExtension);
+        TestExtension newExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, newVersion), "xar");
+        getRepositoryTestUtils().attachFile(newExtension);
+        getRepositoryTestUtils().addVersionObject(newExtension, newVersion,
+            "attach:" + newExtension.getFile().getName());
+
+        // Make sure the new version is installed.
+        getExtensionTestUtils().uninstall(extensionId);
+        getExtensionTestUtils().install(extensionId, newVersion);
+
+        // Downgrade the extension.
+        ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
+        ExtensionPane extensionPane =
+            adminPage.getSearchBar().clickAdvancedSearch().search(extensionId, oldVersion).getExtension(0);
+        Assert.assertEquals("remote-installed", extensionPane.getStatus());
+        Assert.assertEquals("Version 2.1.4 is installed", extensionPane.getStatusMessage());
+        extensionPane = extensionPane.downgrade();
+
+        // Check the downgrade plan.
+        List<DependencyPane> downgradePlan = extensionPane.openProgressSection().getJobPlan();
+        Assert.assertEquals(1, downgradePlan.size());
+        Assert.assertEquals(extensionId, downgradePlan.get(0).getName());
+        Assert.assertEquals(oldVersion, downgradePlan.get(0).getVersion());
+        Assert.assertEquals("remote-installed", downgradePlan.get(0).getStatus());
+        Assert.assertEquals("Version 2.1.4 is installed", downgradePlan.get(0).getStatusMessage());
+
+        // Finish the downgrade and check the downgrade log.
+        extensionPane = extensionPane.confirm();
+        Assert.assertEquals("installed", extensionPane.getStatus());
+        Assert.assertEquals("Installed", extensionPane.getStatusMessage());
+        List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
+        Assert.assertTrue(log.size() > 1);
+        Assert.assertEquals("info", log.get(0).getLevel());
+        Assert.assertEquals("Applying DOWNGRADE for extension [alice-xar-extension-1.3]", log.get(0).getMessage());
+        Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
+        Assert.assertEquals("Successfully applied DOWNGRADE for extension [alice-xar-extension-1.3]",
+            log.get(log.size() - 1).getMessage());
+
+        // Assert the changes.
+        ViewPage viewPage = getUtil().gotoPage("ExtensionTest", "Alice");
+        Assert.assertEquals("Alice Macro", viewPage.getDocumentTitle());
+        Assert.assertTrue(viewPage.getContent().contains("Alice says hello!"));
     }
 }

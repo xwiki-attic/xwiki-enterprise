@@ -162,7 +162,7 @@
       <supportsInlineMode>0</supportsInlineMode>
     </property>
     <property>
-      <visibility>Current User</visibility>
+      <visibility>Global</visibility>
     </property>
   </object>
   <content>{{bob/}}</content>

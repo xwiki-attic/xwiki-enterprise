@@ -20,7 +20,9 @@
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.xwiki.extension.Extension;
@@ -104,14 +106,11 @@ public class RepositoryTestUtils
                 .next().getName());
         }
         queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_FEATURES, extension.getFeatures());
-        StringBuilder authors = new StringBuilder();
+        List<String> authors = new ArrayList<String>();
         for (ExtensionAuthor author : extension.getAuthors()) {
-            if (authors.length() > 0) {
-                authors.append(',');
-            }
-            authors.append(author.getName());
+            authors.add(author.getName());
         }
-        queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_AUTHORS, authors.toString());
+        queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_AUTHORS, authors);
         queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_WEBSITE, extension.getWebSite());
 
         this.testUtils.addObject(SPACENAME_EXTENSION, getPageName(extension), XWikiRepositoryModel.EXTENSION_CLASSNAME,

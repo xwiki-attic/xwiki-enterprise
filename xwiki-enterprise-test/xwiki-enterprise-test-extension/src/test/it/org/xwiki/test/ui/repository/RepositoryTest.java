@@ -262,9 +262,19 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         Map<String, Object[]> queryParams = new HashMap<String, Object[]>();
         ExtensionsSearchResult result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
 
-        Assert.assertEquals(1, result.getTotalHits());
+        Assert.assertTrue(result.getTotalHits() >= 0);
         Assert.assertEquals(0, result.getOffset());
-        extension = result.getExtensions().get(0);
+
+        extension = null;
+        for (ExtensionVersion extensionVersion : result.getExtensions()) {
+            if (extensionVersion.getId().equals(this.baseExtension.getId().getId())) {
+                extension = extensionVersion;
+                break;
+            }
+        }
+        if (extension == null) {
+            Assert.fail("Count not find extension [" + this.baseExtension.getId().getId() + "]");
+        }
 
         Assert.assertEquals(this.baseExtension.getId().getId(), extension.getId());
         Assert.assertEquals(this.baseExtension.getType(), extension.getType());

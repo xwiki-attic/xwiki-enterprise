@@ -290,7 +290,7 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         // Search pattern
 
         queryParams.clear();
-        queryParams.put("q", new Object[] {"macro"});
+        queryParams.put(Resources.QPARAM_SEARCH_QUERY, new Object[] {"macro"});
 
         result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
 
@@ -310,7 +310,7 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         // Wrong search pattern
 
         queryParams.clear();
-        queryParams.put("q", new Object[] {"notexisting"});
+        queryParams.put(Resources.QPARAM_SEARCH_QUERY, new Object[] {"notexisting"});
 
         result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
 
@@ -321,7 +321,7 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         // Search limit offset
 
         queryParams.clear();
-        queryParams.put("start", new Object[] {1});
+        queryParams.put(Resources.QPARAM_LIST_START, new Object[] {1});
 
         result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
 
@@ -331,7 +331,7 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         // Search limit nb
 
         queryParams.clear();
-        queryParams.put("number", new Object[] {0});
+        queryParams.put(Resources.QPARAM_LIST_NUMBER, new Object[] {0});
 
         result = getUtil().getRESTResource(Resources.SEARCH, queryParams);
 

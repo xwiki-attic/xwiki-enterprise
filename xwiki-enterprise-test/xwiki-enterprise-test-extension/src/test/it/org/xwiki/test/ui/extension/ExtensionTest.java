@@ -64,6 +64,12 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // don't set the extension name but some do and we end up with two extensions (two pages) with the same id.
         getUtil().deletePage("Extension", "Alice Wiki Macro");
         getUtil().deletePage("Extension", "Bob Wiki Macro");
+        getUtil().deletePage("Extension", "alice-xar-extension");
+        getUtil().deletePage("Extension", "bob-xar-extension");
+
+        // Make sure the extensions we are playing with are not already installed.
+        getExtensionTestUtils().uninstall("alice-xar-extension");
+        getExtensionTestUtils().uninstall("bob-xar-extension");
     }
 
     /**
@@ -260,7 +266,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertNull(new SimpleSearchPane().selectRepository("local").getExtension(extensionId));
 
         // Check that an installed extension appears also in "Installed Extensions" and "Local Extensions".
-        getExtensionTestUtils().install(extensionId.getId(), extensionId.getVersion().getValue());
+        getExtensionTestUtils().install(extensionId);
         adminPage = ExtensionAdministrationPage.gotoPage().clickInstalledExtensionsSection();
         searchResults = adminPage.getSearchBar().search("alice");
         Assert.assertNotNull(searchResults.getExtension(extensionId));
@@ -268,7 +274,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertNotNull(new SimpleSearchPane().selectRepository("").getExtension(extensionId));
 
         // Check local extension.
-        getExtensionTestUtils().uninstall(extensionId.getId());
+        getExtensionTestUtils().uninstall(extensionId.getId(), true);
         adminPage = ExtensionAdministrationPage.gotoPage().clickInstalledExtensionsSection();
         searchResults = adminPage.getSearchBar().search("alice");
         Assert.assertNull(searchResults.getExtension(extensionId));
@@ -410,10 +416,6 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             new DefaultVersionConstraint("[3.2,)")));
         getRepositoryTestUtils().addExtension(extension);
 
-        // Make sure the extensions we are playing with are not already installed.
-        getExtensionTestUtils().uninstall(dependencyId.getId());
-        getExtensionTestUtils().uninstall(extensionId.getId());
-
         // Search the extension and install it.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
         ExtensionPane extensionPane =
@@ -431,11 +433,11 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         int logSize = log.size();
         Assert.assertTrue(logSize > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying INSTALL for extension [bob-xar-extension-2.5-milestone-2]", log.get(0)
-            .getMessage());
+        Assert.assertEquals("Applying INSTALL for extension [bob-xar-extension-2.5-milestone-2]"
+            + " on namespace [wiki:xwiki]", log.get(0).getMessage());
         Assert.assertEquals("info", log.get(logSize - 1).getLevel());
-        Assert.assertEquals("Successfully applied INSTALL for extension [alice-xar-extension-1.3]", log
-            .get(logSize - 1).getMessage());
+        Assert.assertEquals("Successfully applied INSTALL for extension "
+            + "[alice-xar-extension-1.3] on namespace [wiki:xwiki]", log.get(logSize - 1).getMessage());
 
         // Test that both extensions are usable.
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save",
@@ -468,11 +470,11 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         log = extensionPane.openProgressSection().getJobLog();
         Assert.assertEquals(logSize, log.size());
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying INSTALL for extension [bob-xar-extension-2.5-milestone-2]", log.get(0)
-            .getMessage());
+        Assert.assertEquals("Applying INSTALL for extension [bob-xar-extension-2.5-milestone-2]"
+            + " on namespace [wiki:xwiki]", log.get(0).getMessage());
         Assert.assertEquals("info", log.get(logSize - 1).getLevel());
-        Assert.assertEquals("Successfully applied INSTALL for extension [alice-xar-extension-1.3]", log
-            .get(logSize - 1).getMessage());
+        Assert.assertEquals("Successfully applied INSTALL for extension "
+            + "[alice-xar-extension-1.3] on namespace [wiki:xwiki]", log.get(logSize - 1).getMessage());
 
         // Check if the dependency is properly listed as installed.
         List<DependencyPane> dependencies = extensionPane.openDependenciesSection().getDirectDependencies();
@@ -508,7 +510,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         getRepositoryTestUtils().addExtension(extension);
 
         // Install the extensions.
-        getExtensionTestUtils().install(extensionId.getId(), extensionId.getVersion().getValue());
+        getExtensionTestUtils().install(extensionId);
 
         // Check if the installed pages are present.
         Assert.assertTrue(getUtil().pageExists("ExtensionTest", "Alice"));
@@ -538,17 +540,18 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying UNINSTALL for extension [alice-xar-extension-1.3]", log.get(0).getMessage());
+        Assert.assertEquals("Applying UNINSTALL for extension [alice-xar-extension-1.3] on namespace [wiki:xwiki]", log
+            .get(0).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Successfully applied UNINSTALL for extension [bob-xar-extension-2.5-milestone-2]", log
-            .get(log.size() - 1).getMessage());
+        Assert.assertEquals("Successfully applied UNINSTALL for extension "
+            + "[bob-xar-extension-2.5-milestone-2] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Check if the uninstalled pages have been deleted.
         Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
         Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Bob"));
 
         // Install both extension again and uninstall only the one with the dependency.
-        getExtensionTestUtils().install(extensionId.getId(), extensionId.getVersion().getValue());
+        getExtensionTestUtils().install(extensionId);
 
         adminPage = ExtensionAdministrationPage.gotoPage().clickInstalledExtensionsSection();
         extensionPane = adminPage.getSearchBar().clickAdvancedSearch().search(extensionId).getExtension(0);
@@ -563,10 +566,11 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         log = extensionPane.confirm().openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying UNINSTALL for extension [alice-xar-extension-1.3]", log.get(0).getMessage());
+        Assert.assertEquals("Applying UNINSTALL for extension [alice-xar-extension-1.3] on namespace [wiki:xwiki]", log
+            .get(0).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Successfully applied UNINSTALL for extension [alice-xar-extension-1.3]",
-            log.get(log.size() - 1).getMessage());
+        Assert.assertEquals("Successfully applied UNINSTALL for extension "
+            + "[alice-xar-extension-1.3] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Check if the uninstalled pages have been deleted.
         Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
@@ -605,8 +609,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             "attach:" + newExtension.getFile().getName());
 
         // Make sure the old version is installed.
-        getExtensionTestUtils().uninstall(extensionId);
-        getExtensionTestUtils().install(extensionId, oldVersion);
+        getExtensionTestUtils().install(new ExtensionId(extensionId, oldVersion));
 
         // Upgrade the extension.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -631,10 +634,11 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying UPGRADE for extension [alice-xar-extension-2.1.4]", log.get(0).getMessage());
+        Assert.assertEquals("Applying UPGRADE for extension [alice-xar-extension-2.1.4] on namespace [wiki:xwiki]", log
+            .get(0).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Successfully applied UPGRADE for extension [alice-xar-extension-2.1.4]",
-            log.get(log.size() - 1).getMessage());
+        Assert.assertEquals("Successfully applied UPGRADE for extension "
+            + "[alice-xar-extension-2.1.4] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Assert the changes.
         ViewPage viewPage = getUtil().gotoPage("ExtensionTest", "Alice");
@@ -671,8 +675,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             "attach:" + newExtension.getFile().getName());
 
         // Make sure the new version is installed.
-        getExtensionTestUtils().uninstall(extensionId);
-        getExtensionTestUtils().install(extensionId, newVersion);
+        getExtensionTestUtils().install(new ExtensionId(extensionId, newVersion));
 
         // Downgrade the extension.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -697,10 +700,11 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying DOWNGRADE for extension [alice-xar-extension-1.3]", log.get(0).getMessage());
+        Assert.assertEquals("Applying DOWNGRADE for extension [alice-xar-extension-1.3] on namespace [wiki:xwiki]", log
+            .get(0).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Successfully applied DOWNGRADE for extension [alice-xar-extension-1.3]",
-            log.get(log.size() - 1).getMessage());
+        Assert.assertEquals("Successfully applied DOWNGRADE for extension "
+            + "[alice-xar-extension-1.3] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Assert the changes.
         ViewPage viewPage = getUtil().gotoPage("ExtensionTest", "Alice");

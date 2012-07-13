@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.xwiki.extension.ExtensionId;
+
 /**
  * Utility methods for extension manager functional tests.
  * 
@@ -61,27 +63,46 @@ public class ExtensionTestUtils
         this.utils = utils;
 
         // Create the service page.
-        StringBuilder code = new StringBuilder("{{velocity output=\"false\"}}\n");
-        code.append("#if ($request.action == 'uninstall')\n");
-        code.append("  $services.extension.uninstall($request.extensionId, $NULL).join()\n");
-        code.append("#elseif ($request.action == 'install')\n");
-        code.append("  $services.extension.install($request.extensionId, $request.extensionVersion, $NULL).join()\n");
-        code.append("#end\n");
-        code.append("{{/velocity}}");
+        StringBuilder code = new StringBuilder("{{groovy output=\"false\"}}\n");
+        code.append("import org.xwiki.extension.ExtensionManager;\n\n");
+        code.append("if (request.action == 'uninstall') {\n");
+        code.append("  services.extension.uninstall(request.extensionId, 'wiki:xwiki').join();\n");
+        code.append("  if (!Boolean.valueOf(request.keepLocalCache)) {\n");
+        code.append("    def localRepo = services.component.getInstance(ExtensionManager.class).getRepository('local');\n");
+        code.append("    for (extension in new ArrayList(localRepo.getLocalExtensionVersions(request.extensionId))) {\n");
+        code.append("      localRepo.removeExtension(extension);\n");
+        code.append("    }\n");
+        code.append("  }\n");
+        code.append("} else if (request.action == 'install') {\n");
+        code.append("  services.extension.install(request.extensionId, request.extensionVersion, 'wiki:xwiki').join();\n");
+        code.append("}\n");
+        code.append("{{/groovy}}");
         utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "save",
             Collections.singletonMap("content", code.toString()));
     }
 
     /**
-     * Uninstalls the specified extension.
+     * Uninstalls the specified extension removing it also from the local cache.
      * 
      * @param extensionId the id of the extension to uninstall
      */
     public void uninstall(String extensionId)
     {
+        uninstall(extensionId, false);
+    }
+
+    /**
+     * Uninstalls the specified extension, optionally removing it from the local cache.
+     * 
+     * @param extensionId the id of the extension to uninstall
+     * @param keepLocalCache whether to keep the local cached extension or not
+     */
+    public void uninstall(String extensionId, boolean keepLocalCache)
+    {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("action", "uninstall");
         parameters.put("extensionId", extensionId);
+        parameters.put("keepLocalCache", String.valueOf(keepLocalCache));
         utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", parameters);
     }
 
@@ -89,14 +110,13 @@ public class ExtensionTestUtils
      * Installs the specified extension.
      * 
      * @param extensionId the id of the extension to install
-     * @param extensionVersion the version to install
      */
-    public void install(String extensionId, String extensionVersion)
+    public void install(ExtensionId extensionId)
     {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("action", "install");
-        parameters.put("extensionId", extensionId);
-        parameters.put("extensionVersion", extensionVersion);
+        parameters.put("extensionId", extensionId.getId());
+        parameters.put("extensionVersion", extensionId.getVersion().getValue());
         utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", parameters);
     }
 }

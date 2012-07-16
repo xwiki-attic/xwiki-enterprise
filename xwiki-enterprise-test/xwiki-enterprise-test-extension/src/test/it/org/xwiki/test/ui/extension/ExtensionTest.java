@@ -20,7 +20,9 @@
 package org.xwiki.test.ui.extension;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -38,13 +40,17 @@ import org.xwiki.extension.test.po.ExtensionAdministrationPage;
 import org.xwiki.extension.test.po.ExtensionDependenciesPane;
 import org.xwiki.extension.test.po.ExtensionDescriptionPane;
 import org.xwiki.extension.test.po.ExtensionPane;
+import org.xwiki.extension.test.po.ExtensionProgressPane;
 import org.xwiki.extension.test.po.LogItemPane;
+import org.xwiki.extension.test.po.MergeConflictPane;
 import org.xwiki.extension.test.po.PaginationFilterPane;
+import org.xwiki.extension.test.po.ProgressBarPane;
 import org.xwiki.extension.test.po.SearchResultsPane;
 import org.xwiki.extension.test.po.SimpleSearchPane;
 import org.xwiki.extension.version.internal.DefaultVersionConstraint;
 import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
 import org.xwiki.test.ui.TestExtension;
+import org.xwiki.test.ui.po.ChangesPane;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -68,6 +74,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         getUtil().deletePage("Extension", "bob-xar-extension");
 
         // Make sure the extensions we are playing with are not already installed.
+        getExtensionTestUtils().finishCurrentJob();
         getExtensionTestUtils().uninstall("alice-xar-extension");
         getExtensionTestUtils().uninstall("bob-xar-extension");
     }
@@ -650,9 +657,107 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
      * Tests how an extension is upgraded when there is a merge conflict.
      */
     @Test
-    public void testUpgradeWithMergeConflict()
+    public void testUpgradeWithMergeConflict() throws Exception
     {
-        // TODO
+        // Setup the extension.
+        String extensionId = "alice-xar-extension";
+        String oldVersion = "1.3";
+        String newVersion = "2.1.4";
+        TestExtension oldExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, oldVersion), "xar");
+        getRepositoryTestUtils().addExtension(oldExtension);
+        TestExtension newExtension =
+            getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, newVersion), "xar");
+        getRepositoryTestUtils().attachFile(newExtension);
+        getRepositoryTestUtils().addVersionObject(newExtension, newVersion,
+            "attach:" + newExtension.getFile().getName());
+
+        // Make sure the old version is installed.
+        getExtensionTestUtils().install(new ExtensionId(extensionId, oldVersion));
+
+        // Edit the installed version so that we have a merge conflict.
+        Map<String, String> queryParameters = new HashMap<String, String>();
+        queryParameters.put("title", "Alice Extension");
+        queryParameters.put("content", "== Usage ==\n\n{{code language=\"none\"}}\n"
+            + "{{alice/}}\n{{/code}}\n\n== Output ==\n\n{{alice/}}");
+        queryParameters.put("XWiki.WikiMacroClass_0_code", "{{info}}Alice says hello!{{/info}}");
+        getUtil().gotoPage("ExtensionTest", "Alice", "save", queryParameters);
+
+        // Initiate the upgrade process.
+        ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
+        ExtensionPane extensionPane =
+            adminPage.getSearchBar().clickAdvancedSearch().search(extensionId, newVersion).getExtension(0);
+        extensionPane = extensionPane.upgrade().confirm();
+
+        // Check the merge conflict UI.
+        Assert.assertEquals("loading", extensionPane.getStatus());
+        Assert.assertNull(extensionPane.getStatusMessage());
+
+        ProgressBarPane progressBar = extensionPane.getProgressBar();
+        Assert.assertEquals(83, progressBar.getPercent());
+        Assert.assertEquals("Importing document [name = [Alice], type = [DOCUMENT], parent = [name = [ExtensionTest], "
+            + "type = [SPACE], parent = [name = [xwiki], type = [WIKI], parent = [null]]]] in language []...",
+            progressBar.getMessage());
+
+        ExtensionProgressPane progressPane = extensionPane.openProgressSection();
+        List<LogItemPane> upgradeLog = progressPane.getJobLog();
+        LogItemPane lastLogItem = upgradeLog.get(upgradeLog.size() - 1);
+        Assert.assertEquals("loading", lastLogItem.getLevel());
+        Assert.assertEquals(progressBar.getMessage(), lastLogItem.getMessage());
+
+        MergeConflictPane mergeConflictPane = progressPane.getMergeConflict();
+        ChangesPane changesPane = mergeConflictPane.getChanges();
+        Assert.assertEquals("Alice <ins>Wiki </ins>Extension<ins> (upgraded)</ins>",
+            changesPane.getMetaDataChanges("Title"));
+        Assert.assertFalse(changesPane.getContentChanges().isEmpty());
+        Assert.assertEquals("@@ -1,1 +1,1 @@\n-<del>Test</del> macro.\n+<ins>A</ins> <ins>cool </ins>macro.",
+            changesPane.getObjectChanges("XWiki.WikiMacroClass", 0, "Macro description"));
+
+        mergeConflictPane.getFromVersionSelect().selectByVisibleText("Previous version");
+        mergeConflictPane.getToVersionSelect().selectByVisibleText("Current version");
+        mergeConflictPane = mergeConflictPane.clickShowChanges();
+
+        // TODO: Clean this when the changes are computed asynchronously.
+        extensionPane = new ExtensionAdministrationPage().getSearchResults().getExtension(0);
+        mergeConflictPane = extensionPane.openProgressSection().getMergeConflict();
+
+        changesPane = mergeConflictPane.getChanges();
+        StringBuilder expectedDiff = new StringBuilder();
+        expectedDiff.append("@@ -1,9 +1,9 @@\n");
+        expectedDiff.append("-= Usage =\n");
+        expectedDiff.append("+=<ins>=</ins> Usage =<ins>=</ins>\n");
+        expectedDiff.append(" \n");
+        expectedDiff.append("-{{code}}\n");
+        expectedDiff.append("+{{code<ins> language=\"none\"</ins>}}\n");
+        expectedDiff.append(" {{alice/}}\n");
+        expectedDiff.append(" {{/code}}\n");
+        expectedDiff.append(" \n");
+        expectedDiff.append("-= <del>Res</del>u<del>l</del>t =\n");
+        expectedDiff.append("+=<ins>=</ins> <ins>O</ins>ut<ins>put</ins> =<ins>=</ins>\n");
+        expectedDiff.append(" \n");
+        expectedDiff.append(" {{alice/}}");
+        Assert.assertEquals(expectedDiff.toString(), changesPane.getContentChanges());
+        Assert.assertEquals(1, changesPane.getObjectChangeSummaries().size());
+        Assert.assertEquals(
+            "@@ -1,1 +1,1 @@\n-Alice says hello!\n+<ins>{{info}}</ins>Alice says hello!<ins>{{/info}}</ins>",
+            changesPane.getObjectChanges("XWiki.WikiMacroClass", 0, "Macro code"));
+
+        // Finish the merge.
+        mergeConflictPane.getVersionToKeepSelect().selectByValue("NEXT");
+        extensionPane = extensionPane.confirm();
+
+        Assert.assertEquals("installed", extensionPane.getStatus());
+        Assert.assertNull(extensionPane.getProgressBar());
+        upgradeLog = extensionPane.openProgressSection().getJobLog();
+        lastLogItem = upgradeLog.get(upgradeLog.size() - 1);
+        Assert.assertEquals("info", lastLogItem.getLevel());
+        Assert.assertEquals(
+            "Successfully applied UPGRADE for extension [alice-xar-extension-2.1.4] on namespace [wiki:xwiki]",
+            lastLogItem.getMessage());
+
+        // Check the merge result.
+        ViewPage mergedPage = getUtil().gotoPage("ExtensionTest", "Alice");
+        Assert.assertEquals("Alice Wiki Macro (upgraded)", mergedPage.getDocumentTitle());
     }
 
     /**

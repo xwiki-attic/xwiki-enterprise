@@ -165,13 +165,13 @@
       <visibility>Current User</visibility>
     </property>
   </object>
-  <content>= Usage example =
+  <content>== Usage example ==
 
 {{code}}
 {{alice/}}
 {{/code}}
 
-= Output =
+== Output ==
 
 This is what you get:
 

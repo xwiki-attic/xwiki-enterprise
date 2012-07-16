@@ -64,7 +64,8 @@ public class ExtensionTestUtils
 
         // Create the service page.
         StringBuilder code = new StringBuilder("{{groovy output=\"false\"}}\n");
-        code.append("import org.xwiki.extension.ExtensionManager;\n\n");
+        code.append("import org.xwiki.extension.ExtensionManager;\n");
+        code.append("import org.xwiki.job.event.status.JobStatus;\n\n");
         code.append("if (request.action == 'uninstall') {\n");
         code.append("  services.extension.uninstall(request.extensionId, 'wiki:xwiki').join();\n");
         code.append("  if (!Boolean.valueOf(request.keepLocalCache)) {\n");
@@ -75,6 +76,13 @@ public class ExtensionTestUtils
         code.append("  }\n");
         code.append("} else if (request.action == 'install') {\n");
         code.append("  services.extension.install(request.extensionId, request.extensionVersion, 'wiki:xwiki').join();\n");
+        code.append("} else if (request.action == 'finish') {\n");
+        code.append("  def currentJob = services.extension.getCurrentJob();\n");
+        code.append("  if (currentJob != null && currentJob.getStatus().getState() == JobStatus.State.WAITING) {\n");
+        code.append("    currentJob.getRequest().setInteractive(false);\n");
+        code.append("    currentJob.getStatus().answered();\n");
+        code.append("    currentJob.join();\n");
+        code.append("  }\n");
         code.append("}\n");
         code.append("{{/groovy}}");
         utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "save",
@@ -118,5 +126,13 @@ public class ExtensionTestUtils
         parameters.put("extensionId", extensionId.getId());
         parameters.put("extensionVersion", extensionId.getVersion().getValue());
         utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", parameters);
+    }
+
+    /**
+     * Finishes the current job if there is one and its current state is WAITING.
+     */
+    public void finishCurrentJob()
+    {
+        utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", "action=finish");
     }
 }

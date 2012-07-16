@@ -330,11 +330,13 @@ public class AttachmentTest extends AbstractTest
     {
         final String test1 =
             "{{groovy}}\n"
-          + "doc.addAttachment('" + FILENAME + "', '" + ATTACHMENT_CONTENT +"'.getBytes('UTF-8'));\n"
+          + "content = '" + ATTACHMENT_CONTENT + "'\n"
+          + "doc.addAttachment('" + FILENAME + "', content.getBytes('UTF-8'));\n"
           + "print(doc.getDocument().getAttachmentList().get(0).isContentDirty());\n"
           + "doc.saveAsAuthor();\n"
-          + "print(' ');"
-          + "print(doc.getDocument().getAttachmentList().get(0).isContentDirty());\n"
+          + "print(' ');\n"
+          + "print(xwiki.getDocument(doc.getFullName())"
+          + ".getDocument().getAttachmentList().get(0).isContentDirty());\n"
           + "{{/groovy}}\n";
 
         final String spaceName = "Test";

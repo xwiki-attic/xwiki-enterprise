@@ -24,6 +24,7 @@ import java.util.HashMap;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.storage.framework.AbstractTest;
 import org.xwiki.test.storage.framework.TestUtils;
@@ -36,6 +37,16 @@ import org.xwiki.test.storage.framework.TestUtils;
  */
 public class DocumentTest extends AbstractTest
 {
+    private String spaceName;
+    private String pageName;
+
+    @Before
+    public void setUp()
+    {
+        this.spaceName = this.getClass().getSimpleName();
+        this.pageName = this.getTestMethodName();
+    }
+
     @Test
     public void testRollback() throws Exception
     {
@@ -90,15 +101,66 @@ public class DocumentTest extends AbstractTest
     @Test
     public void testSaveOfThreeHundredKilobyteDocument() throws Exception
     {
-        final String spaceName = this.getClass().getSimpleName();
-        final String pageName = this.getTestMethodName();
         final String content = RandomStringUtils.randomAlphanumeric(300000);
         final HttpMethod ret =
-            this.doPostAsAdmin(spaceName, pageName, null, "save", null,
+            this.doPostAsAdmin(this.spaceName, this.pageName, null, "save", null,
                 new HashMap<String, String>() {{
                     put("content", content);
                 }});
         // save forwards the user to view, if it's too big, jetty gives you a 500
         Assert.assertEquals(302, ret.getStatusCode());
+    }
+
+    @Test
+    public void testDocumentIsSameAfterSaving() throws Exception
+    {
+        final String content =
+              "{{groovy}}\n"
+            + "def content = 'test content'\n"
+            + "doc.setContent(content);\n"
+            + "doc.saveAsAuthor();\n"
+            + "println(doc.getContent());\n"
+            + "{{/groovy}}";
+
+        // Delete the document if it exists.
+        doPostAsAdmin(this.spaceName, this.pageName, null, "delete", "confirm=1", null);
+
+        // Create a document.
+        doPostAsAdmin(this.spaceName, this.pageName, null, "save", null,
+            new HashMap<String, String>(){{
+                put("content", content);
+            }});
+
+        final String url =
+            this.getAddressPrefix() + "view/" + this.spaceName + "/" + this.pageName + "?xpage=plain";
+
+        Assert.assertEquals("<p>test content</p>", TestUtils.getPageAsString(url));
+    }
+
+    @Test
+    public void testOtherDocumentIsSameAfterSaving() throws Exception
+    {
+        final String content =
+              "{{groovy}}\n"
+            + "def content = 'test content'\n"
+            + "otherDoc = xwiki.getDocument('" + this.spaceName + "','" + this.pageName + "x')\n"
+            + "otherDoc.setContent(content);\n"
+            + "otherDoc.saveAsAuthor();\n"
+            + "println(otherDoc.getContent());\n"
+            + "{{/groovy}}";
+
+        // Delete the document if it exists.
+        doPostAsAdmin(this.spaceName, this.pageName, null, "delete", "confirm=1", null);
+
+        // Create a document.
+        doPostAsAdmin(this.spaceName, this.pageName, null, "save", null,
+            new HashMap<String, String>(){{
+                put("content", content);
+            }});
+
+        final String url =
+            this.getAddressPrefix() + "view/" + this.spaceName + "/" + this.pageName + "?xpage=plain";
+
+        Assert.assertEquals("<p>test content</p>", TestUtils.getPageAsString(url));
     }
 }

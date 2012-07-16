@@ -77,6 +77,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         getExtensionTestUtils().finishCurrentJob();
         getExtensionTestUtils().uninstall("alice-xar-extension");
         getExtensionTestUtils().uninstall("bob-xar-extension");
+        getExtensionTestUtils().uninstall("scriptServiceJarExtension");
     }
 
     /**
@@ -815,5 +816,31 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ViewPage viewPage = getUtil().gotoPage("ExtensionTest", "Alice");
         Assert.assertEquals("Alice Macro", viewPage.getDocumentTitle());
         Assert.assertTrue(viewPage.getContent().contains("Alice says hello!"));
+    }
+
+    /**
+     * Tests if a Java component script service is properly installed.
+     */
+    @Test
+    public void testInstallScriptService() throws Exception
+    {
+        // Make sure the script service is not available before the extension is installed.
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save",
+            Collections.singletonMap("content", "{{velocity}}$services.greeter.greet('world'){{/velocity}}"));
+        Assert.assertFalse(new ViewPage().getContent().contains("Hello world!"));
+
+        // Setup the extension.
+        ExtensionId extensionId = new ExtensionId("scriptServiceJarExtension", "4.2-milestone-1");
+        TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "jar");
+        getRepositoryTestUtils().addExtension(extension);
+
+        // Search the extension and install it.
+        ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
+        ExtensionPane extensionPane =
+            adminPage.getSearchBar().clickAdvancedSearch().search(extensionId).getExtension(0);
+        extensionPane.install().confirm();
+
+        // Check the result.
+        Assert.assertEquals("Hello world!", getUtil().gotoPage(getTestClassName(), getTestMethodName()).getContent());
     }
 }

@@ -686,8 +686,9 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Initiate the upgrade process.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
-        ExtensionPane extensionPane =
-            adminPage.getSearchBar().clickAdvancedSearch().search(extensionId, newVersion).getExtension(0);
+        SearchResultsPane searchResults =
+            adminPage.getSearchBar().clickAdvancedSearch().search(extensionId, newVersion);
+        ExtensionPane extensionPane = searchResults.getExtension(0);
         extensionPane = extensionPane.upgrade().confirm();
 
         // Check the merge conflict UI.
@@ -716,10 +717,6 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         mergeConflictPane.getToVersionSelect().selectByVisibleText("Current version");
         mergeConflictPane = mergeConflictPane.clickShowChanges();
 
-        // TODO: Clean this when the changes are computed asynchronously.
-        extensionPane = new ExtensionAdministrationPage().getSearchResults().getExtension(0);
-        mergeConflictPane = extensionPane.openProgressSection().getMergeConflict();
-
         changesPane = mergeConflictPane.getChanges();
         StringBuilder expectedDiff = new StringBuilder();
         expectedDiff.append("@@ -1,9 +1,9 @@\n");
@@ -743,7 +740,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Finish the merge.
         mergeConflictPane.getVersionToKeepSelect().selectByValue("NEXT");
-        extensionPane = extensionPane.confirm();
+        // FIXME: We get the extension pane from the search results because it is reloaded when we compare the versions.
+        extensionPane = searchResults.getExtension(0).confirm();
 
         Assert.assertEquals("installed", extensionPane.getStatus());
         Assert.assertNull(extensionPane.getProgressBar());

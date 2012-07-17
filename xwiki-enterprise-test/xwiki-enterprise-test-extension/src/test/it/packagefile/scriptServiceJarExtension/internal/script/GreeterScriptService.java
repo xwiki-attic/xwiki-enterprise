@@ -24,6 +24,8 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
+import org.xwiki.component.manager.ComponentLookupException;
+import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.script.service.ScriptService;
 
 import packagefile.scriptServiceJarExtension.Greeter;
@@ -43,6 +45,12 @@ public class GreeterScriptService implements ScriptService
     private Greeter greeter;
 
     /**
+     * The component manager, used to perform dynamic component lookups.
+     */
+    @Inject
+    private ComponentManager componentManager;
+
+    /**
      * Greets the specified person.
      * 
      * @param name the name of the person to greet
@@ -50,6 +58,24 @@ public class GreeterScriptService implements ScriptService
      */
     public String greet(String name)
     {
+        // Test component injection.
         return greeter.greet(name);
+    }
+
+    /**
+     * Greets the specified person.
+     * 
+     * @param name the name of the person to greet
+     * @return the greet message
+     */
+    public String greet(String name, String hint)
+    {
+        try {
+            // Test dynamic component lookup.
+            Greeter greeter = componentManager.getInstance(Greeter.class, hint);
+            return greeter.greet(name);
+        } catch (ComponentLookupException e) {
+            return null;
+        }
     }
 }

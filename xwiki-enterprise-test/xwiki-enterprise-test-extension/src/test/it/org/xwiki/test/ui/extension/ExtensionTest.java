@@ -19,7 +19,6 @@
  */
 package org.xwiki.test.ui.extension;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -448,9 +447,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             + "[alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(logSize - 1).getMessage());
 
         // Test that both extensions are usable.
-        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save",
-            Collections.singletonMap("content", "{{alice/}}\n\n{{bob/}}"));
-        String content = new ViewPage().getContent();
+        ViewPage viewPage = getUtil().createPage(getTestClassName(), getTestMethodName(), "{{alice/}}\n\n{{bob/}}", "");
+        String content = viewPage.getContent();
         Assert.assertTrue(content.contains("Alice says hello!"));
         Assert.assertTrue(content.contains("Bob says hi!"));
 
@@ -821,9 +819,13 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
     public void testInstallScriptService() throws Exception
     {
         // Make sure the script service is not available before the extension is installed.
-        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save",
-            Collections.singletonMap("content", "{{velocity}}$services.greeter.greet('world'){{/velocity}}"));
-        Assert.assertFalse(new ViewPage().getContent().contains("Hello world!"));
+        ViewPage viewPage =
+            getUtil().createPage(
+                getTestClassName(),
+                getTestMethodName(),
+                "{{velocity}}$services.greeter.greet('world') "
+                    + "$services.greeter.greet('XWiki', 'default'){{/velocity}}", "");
+        Assert.assertFalse(viewPage.getContent().contains("Hello world! Hello XWiki!"));
 
         // Setup the extension.
         ExtensionId extensionId = new ExtensionId("scriptServiceJarExtension", "4.2-milestone-1");
@@ -837,6 +839,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         extensionPane.install().confirm();
 
         // Check the result.
-        Assert.assertEquals("Hello world!", getUtil().gotoPage(getTestClassName(), getTestMethodName()).getContent());
+        Assert.assertEquals("Hello world! Hello XWiki!", getUtil().gotoPage(getTestClassName(), getTestMethodName())
+            .getContent());
     }
 }

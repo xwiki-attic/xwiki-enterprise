@@ -30,6 +30,9 @@
 #set ($directoryPreferencesClassReference = $services.model.createDocumentReference($xcontext.database, 'XWiki', 'UserDirectoryPreferencesClass'))
 #set ($directoryPreferencesClassName = $services.model.serialize($directoryPreferencesClassReference))
 ##
+## Fake user used in some cases to properly display class properties
+#set ($fakeUser = false)
+##
 ## Set the fixed columns that we want the user directory to always show.
 #set ($columns = ['_avatar', 'doc.fullName'])
 ##
@@ -198,5 +201,10 @@
    'rowCount': 10
 })
 #livetable('userdirectory' $columns $columnsProperties $options)
+##
+## Clean up any existing fake user from the current in-memory document to avoid side-effects
+#if ($fakeUser)
+  #set ($discard = $doc.removeObject($fakeUser))
+#end
 {{/velocity}}</content>
 </xwikidoc>

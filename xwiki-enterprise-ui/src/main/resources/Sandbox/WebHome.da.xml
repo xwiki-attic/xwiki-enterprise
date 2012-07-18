@@ -24,7 +24,7 @@
 <hidden>false</hidden>
 <content>Sandkassen er en del af denne wiki, som du frit kan ændre. Formålet er du kan prøve at redigere. Du kan lære hvordan redigering sker og hvordan man opretter nye side. Klik blot på **Redigér** for at komme igang!
 
-{{info}} Vær ikke bank for at overskrive eller miste indhold, når du redigerer siden. Du kan altid rulle rettelser tilbage til de originale ved at vælge den første version under "Historik" i bunden af siden.{{/info}}
+{{info}} Vær ikke bange for at overskrive eller miste indhold, når du redigerer siden. Du kan altid rulle rettelser tilbage til de originale ved at vælge den første version under "Historik" i bunden af siden.{{/info}}
 
 Hvis du vil smugkigge på den underliggende [[Xwiki-kode&gt;&gt;XWiki.XWikiSyntax]] kan du klikke på "Vis kode" under menupunkt "Flere aktiviteter" øverst eller klik på "Kildekode" når du redigerer siden.
 
@@ -139,4 +139,6 @@ Denne makro markerer tekst på en måde, så læserens opmærksomhed fanges:
 
 Denne makro laver automatisk en indholdsfortegnelse baseret på overskrifter i wiki-siden:
 
-{{toc/}} </content></xwikidoc>
+{{toc/}}
+
+</content></xwikidoc>

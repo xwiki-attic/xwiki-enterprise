@@ -110,8 +110,8 @@
                   </artifactItem>
                 </artifactItems>
                 <outputDirectory>${project.build.directory}</outputDirectory>
-		<!-- Allow skipping the unzip -->
-	        <skip>${xe.unpack.skip}</skip>
+                <!-- Allow skipping the unpack -->
+                <skip>${xe.unpack.skip}</skip>
               </configuration>
             </execution>
           </executions>
@@ -359,7 +359,7 @@
     <stopport>8079</stopport>
     <rmiport>6666</rmiport>
     <seleniumPort>4444</seleniumPort>
-    <!-- Allow skipping the unzip -->
+    <!-- Allow skipping the unpack -->
     <xe.unpack.skip>false</xe.unpack.skip>
     <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile,
          e.g. -Pchrome -->

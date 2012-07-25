@@ -146,6 +146,14 @@
                 <value>${patternMethod}</value>
               </property>
               <property>
+                <name>xe.url</name>
+                <value>${xe.url}</value>
+              </property>
+              <property>
+                <name>xe.start.skip</name>
+                <value>${xe.start.skip}</value>
+              </property>
+              <property>
                 <name>xwikiPort</name>
                 <value>${port}</value>
               </property>
@@ -361,6 +369,17 @@
     <seleniumPort>4444</seleniumPort>
     <!-- Allow skipping the unpack -->
     <xe.unpack.skip>false</xe.unpack.skip>
+    <!-- Specify the part of the URL before the port number where the XWiki instance is running. This is used when running tests on a remote instance.
+         Do not add a trailing slash. Example:
+         http://localhost
+         https://testmachine.mynetwork.net
+         See also "port" for defining the port to connect to.
+    -->
+    <xe.url>http://localhost</xe.url>
+    <!-- Skip starting the XE instance. This is used when there is an instance already running on the local machine
+         or when there is a started instance on another machine
+    -->
+    <xe.start.skip>false</xe.start.skip>
     <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile,
          e.g. -Pchrome -->
     <browser>*firefox</browser>

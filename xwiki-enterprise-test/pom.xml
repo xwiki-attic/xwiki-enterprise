@@ -111,7 +111,7 @@
                 </artifactItems>
                 <outputDirectory>${project.build.directory}</outputDirectory>
                 <!-- Allow skipping the unpack -->
-                <skip>${xe.unpack.skip}</skip>
+                <skip>${xwiki.test.skipUnpack}</skip>
               </configuration>
             </execution>
           </executions>
@@ -146,12 +146,12 @@
                 <value>${patternMethod}</value>
               </property>
               <property>
-                <name>xe.url</name>
-                <value>${xe.url}</value>
+                <name>xwiki.test.baseURL</name>
+                <value>${xwiki.test.baseURL}</value>
               </property>
               <property>
-                <name>xe.start.skip</name>
-                <value>${xe.start.skip}</value>
+                <name>xwiki.test.skipStart</name>
+                <value>${xwiki.test.skipStart}</value>
               </property>
               <property>
                 <name>xwikiPort</name>
@@ -368,18 +368,18 @@
     <rmiport>6666</rmiport>
     <seleniumPort>4444</seleniumPort>
     <!-- Allow skipping the unpack -->
-    <xe.unpack.skip>false</xe.unpack.skip>
+    <xwiki.test.skipUnpack>false</xwiki.test.skipUnpack>
     <!-- Specify the part of the URL before the port number where the XWiki instance is running. This is used when running tests on a remote instance.
          Do not add a trailing slash. Example:
          http://localhost
          https://testmachine.mynetwork.net
          See also "port" for defining the port to connect to.
     -->
-    <xe.url>http://localhost</xe.url>
+    <xwiki.test.baseURL>http://localhost</xwiki.test.baseURL>
     <!-- Skip starting the XE instance. This is used when there is an instance already running on the local machine
          or when there is a started instance on another machine
     -->
-    <xe.start.skip>false</xe.start.skip>
+    <xwiki.test.skipStart>false</xwiki.test.skipStart>
     <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile,
          e.g. -Pchrome -->
     <browser>*firefox</browser>

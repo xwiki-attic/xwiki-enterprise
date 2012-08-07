@@ -19,25 +19,34 @@
  */
 package org.xwiki.test.rest;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.PageSummary;
 import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.SearchResult;
 import org.xwiki.rest.model.jaxb.SearchResults;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
+import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.wikis.WikiAttachmentsResource;
 import org.xwiki.rest.resources.wikis.WikiPagesResource;
+import org.xwiki.rest.resources.wikis.WikiResource;
 import org.xwiki.rest.resources.wikis.WikiSearchResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
@@ -251,5 +260,25 @@ public class WikisResourceTest extends AbstractHttpTest
         for (Attachment attachment : attachments.getAttachments()) {
             checkLinks(attachment);
         }
+    }
+
+    @Test
+    public void testImportXAR() throws Exception
+    {
+        InputStream is = this.getClass().getResourceAsStream("/Main.Foo.xar");
+        String wiki = getWiki();
+
+        PostMethod postMethod = executePost(getUriBuilder(WikiResource.class).build(wiki).toString(), is, "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(postMethod),HttpStatus.SC_OK, postMethod.getStatusCode());
+
+        GetMethod getMethod = executeGet(getUriBuilder(PageResource.class).build(wiki, "Main", "Foo").toString(), "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(getMethod),HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(wiki, page.getWiki());
+        Assert.assertEquals("Main", page.getSpace());
+        Assert.assertEquals("Foo", page.getName());
+        Assert.assertEquals("Foo", page.getContent());
     }
 }

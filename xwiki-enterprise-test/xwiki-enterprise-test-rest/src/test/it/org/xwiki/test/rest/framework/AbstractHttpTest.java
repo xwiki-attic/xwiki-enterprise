@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.rest.framework;
 
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -190,6 +192,23 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
 
         RequestEntity entity =
             new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+        postMethod.setRequestEntity(entity);
+
+        httpClient.executeMethod(postMethod);
+
+        return postMethod;
+    }
+
+    protected PostMethod executePost(String uri, InputStream is, String userName, String password) throws Exception
+    {
+        HttpClient httpClient = new HttpClient();
+        httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
+        httpClient.getParams().setAuthenticationPreemptive(true);
+
+        PostMethod postMethod = new PostMethod(uri);
+        postMethod.addRequestHeader("Accept", MediaType.APPLICATION_XML.toString());
+
+        RequestEntity entity = new InputStreamRequestEntity(is);
         postMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(postMethod);

@@ -52,7 +52,7 @@
   </modules>
   <properties>
     <!-- Useful for Enterprise extensions -->
-    <enterprise.version>${commons.version}</enterprise.version>
+    <enterprise.version>portlet-3.5-SNAPSHOT</enterprise.version>
     <!-- Versions of XWiki dependencies used in Enterprise modules -->
     <rendering.version>${enterprise.version}</rendering.version>
     <platform.version>${enterprise.version}</platform.version>

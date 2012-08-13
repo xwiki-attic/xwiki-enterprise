@@ -54,7 +54,7 @@
     <!-- Useful for Enterprise extensions -->
     <enterprise.version>portlet-3.5-SNAPSHOT</enterprise.version>
     <!-- Versions of XWiki dependencies used in Enterprise modules -->
-    <rendering.version>${enterprise.version}</rendering.version>
+    <rendering.version>${commons.version}</rendering.version>
     <platform.version>${enterprise.version}</platform.version>
 
     <smartgwt.version>3.0</smartgwt.version>

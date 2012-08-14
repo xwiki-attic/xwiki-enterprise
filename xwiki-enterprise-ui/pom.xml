@@ -140,7 +140,7 @@
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-logging-ui</artifactId>
       <version>${platform.version}</version>
-      <scope>runtime</scope>
+      <type>xar</type>
     </dependency>
   </dependencies>
 </project>

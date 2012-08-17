@@ -503,7 +503,7 @@ XWiki.editors.ColorThemeWizard = Class.create({
   }
 });
 
-document.observe('dom:loaded', function(){
+document.observe('xwiki:dom:loaded', function(){
   /** Force ProColor to fire an event when changing the input value */
   if (ProColor) {
     ProColor.prototype.options.onChanged = function(t, evtname) {

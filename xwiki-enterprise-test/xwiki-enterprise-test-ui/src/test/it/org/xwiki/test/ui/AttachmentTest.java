@@ -59,7 +59,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
     @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     })
-    public void testUploadDownloadTwoAttachments()
+    public void testUploadDownloadTwoAttachmentsInParallel()
     {
         ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), null,
             getTestClassName() + "#" + getTestMethodName());
@@ -73,6 +73,39 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         ap.addAnotherFile();
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment2).getPath());
         ap.clickAttachFiles();
+
+        Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment));
+        Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment2));
+
+        // Verify attachment contents
+
+        ap.getAttachmentLink(this.testAttachment).click();
+
+        Assert.assertEquals("This is a small attachment.", getDriver().findElement(By.tagName("html")).getText());
+        getDriver().navigate().back();
+        ap.getAttachmentLink(this.testAttachment2).click();
+        Assert.assertEquals("This is another small attachment.", getDriver().findElement(By.tagName("html")).getText());
+    }
+
+    @Test
+    @IgnoreBrowsers( {
+        @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+        @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
+    public void testUploadDownloadTwoAttachmentsInSequence()
+    {
+        ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), null,
+            getTestClassName() + "#" + getTestMethodName());
+
+        // TODO: Remove when XWIKI-6688 (Possible race condition when clicking on a tab at the bottom of a page in
+        // view mode) is fixed.
+        vp.waitForDocExtraPaneActive("comments");
+
+        AttachmentsPane ap = vp.openAttachmentsDocExtraPane();
+        ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment).getPath());
+        ap.waitForUploadToFinish();
+        ap.clickHideProgress();
+        ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment2).getPath());
+        ap.waitForUploadToFinish();
 
         Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment));
         Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment2));
@@ -103,9 +136,14 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         ViewPage viewPage = getUtil().createPage(getClass().getSimpleName(), getTestMethodName(),
             String.format("[[image:image.gif||width=%s]]", (20 + RandomUtils.nextInt(200))), getTestClassName());
 
+        // TODO: Remove when XWIKI-6688 (Possible race condition when clicking on a tab at the bottom of a page in
+        // view mode) is fixed.
+        viewPage.waitForDocExtraPaneActive("comments");
+
         // Attach the GIF image.
         AttachmentsPane attachmentsPane = viewPage.openAttachmentsDocExtraPane();
         attachmentsPane.setFileToUpload(getClass().getResource("/image.gif").getPath());
+        attachmentsPane.waitForUploadToFinish();
         Assert.assertTrue(attachmentsPane.attachmentExistsByFileName("image.gif"));
     }
 }

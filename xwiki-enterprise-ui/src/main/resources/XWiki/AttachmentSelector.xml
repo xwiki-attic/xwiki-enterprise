@@ -2043,7 +2043,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
 #if ($request.xaction == 'postUpload')
   #set ($targetDocument = $xwiki.getDocument($request.get('docname')))
   #set ($targetAttachDocument = $xwiki.getDocument($request.get('targetdocname')))
-  
+
   #set ($fieldname = $request.get('fieldname'))
   #set ($docAction = $request.get('docAction'))
   #set ($attachmentList = $targetAttachDocument.getAttachmentList())
@@ -2068,7 +2068,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
 
 #**
  * Displays the attachment gallery as a list of attachment boxes, starting with special boxes for uploading a new attachment and for setting a default value.
- * 
+ *
  * @param $targetDocument the document to recieve the field value being modified
  * @param $targetAttachDocument the document to list/save attachments to
  * @param $options generic picker options
@@ -2097,7 +2097,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
 
 #**
  * Displays an attachment box.
- * 
+ *
  * @param $attachment the target attachment to display
  * @param $targetDocument the document being modified
  * @param $options generic picker options
@@ -2108,7 +2108,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
     #set ($cssClass = 'gallery_image')
   #else
     #set ($cssClass = '')
-  #end  
+  #end
   #attachmentPicker_displayStartFrame({'value' : $attachment.filename, 'text' : $attachment.filename, 'cssClass' : "$!{cssClass}"} $currentValue)
   #attachmentPicker_displayAttachmentDetails($attachment $options)
   #set ($returnURL = $escapetool.url($doc.getURL('view', $request.queryString)))
@@ -2120,7 +2120,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
 
 #**
  * Writes the wiki code used at the start of an attachment box. Outputs the attachment title bar, and opens the inner frame div.
- * 
+ *
  * @param $boxOptions a map of parameters/options for the current attachment, holding, for example, the attachment name (boxOptions.value),
  *        the title to display (boxOptions.text), optional extra CSS classnames to put on the box (boxOptions.cssClass)
  * @param $currentValue the currently selected file, used for determining if this attachment should be highlighted as the current value
@@ -2134,7 +2134,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
 #**
  * Displays details about an attachment inside the attachment box. If the attachment is an image and the "displayImage" option is on,
  * then the image is displayed. Otherwise, some basic information is displayed: the version, the size, the date and the author.
- * 
+ *
  * @param $attachment the target attachment to display
  * @param $options generic picker options
  *#
@@ -2154,7 +2154,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
 
 #**
  * Writes the wiki code used at the end of an attachment box. Closes the inner frame div, and outputs the attachment actions.
- * 
+ *
  * @param $actions a list of maps defining action buttons, where each entry contains a subset of the following:
  *        &lt;dl&gt;
  *          &lt;dt&gt;name&lt;/dt&gt;
@@ -2178,7 +2178,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
 
 #**
  * Displays the upload box used for adding and selecting a new attachment.
- * 
+ *
  * @param $targetDocument the document with the property being modified
  * @param $targetAttachDocument the document to upload the attachment to
  * @param $options generic picker options
@@ -2215,7 +2215,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
 
 #**
  * Displays the "empty value" box, used for unsetting the field value.
- * 
+ *
  * @param $targetDocument the document being modified
  * @param $targetAttachDocument the document that the attachments will the loaded from/saved to
  * @param $options generic picker options

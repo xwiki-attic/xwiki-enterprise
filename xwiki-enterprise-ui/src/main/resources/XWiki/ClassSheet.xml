@@ -154,8 +154,8 @@
 
     = Existing documents =
 
-    #set($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className='${doc.fullName}' and obj.name&lt;&gt;'${classTemplateDoc.fullName}'")
-    #foreach ($item in $xwiki.searchDocuments($sql))
+    #set($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className=? and obj.name&lt;&gt;?")
+    #foreach ($item in $xwiki.searchDocuments($sql, [$doc.fullName, $classTemplateDoc.fullName]))
       * [[$item]]
     #end
   #end ## has class sheet and class template

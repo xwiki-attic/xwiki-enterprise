@@ -36,6 +36,9 @@
   <properties>
     <!-- By default we don't include Legacy modules and thus we don't need to exclude the non legacy JARs -->
     <xwiki.war.legacy.excludes />
+
+    <!-- The default UI associated to this WAR -->
+    <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui</xwiki.extension.distribution.ui>
   </properties>
   <dependencies>
     <!-- Depend on the platform WAR to get all web resources. We then need to add all libraries we need for XE. -->

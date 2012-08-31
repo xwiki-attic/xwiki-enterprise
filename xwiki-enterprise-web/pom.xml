@@ -36,6 +36,9 @@
   <properties>
     <!-- By default we don't include Legacy modules and thus we don't need to exclude the non legacy JARs -->
     <xwiki.war.legacy.excludes />
+
+    <!-- The default UI associated to this WAR -->
+    <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui</xwiki.extension.distribution.ui>
   </properties>
   <dependencies>
     <!-- Depend on the platform WAR to get all web resources. We then need to add all libraries we need for XE. -->
@@ -692,13 +695,6 @@
             WEB-INF/lib/commons-logging-*.jar,
             %regex[WEB-INF/lib/log4j-(?!over-slf4j).*.jar]
           </packagingExcludes>
-          <!-- Make some project related informations easier to find at runtime. -->
-          <!-- FIXME: ideally this should be located in xwiki-enterprise root pom but I can't make it work -->
-          <archive>
-            <manifestEntries>
-              <XWiki-Extension-Id>${project.groupId}:${project.artifactId}</XWiki-Extension-Id>
-            </manifestEntries>
-          </archive>
         </configuration>
       </plugin>
       <!-- Ensure that some modules are not added as dependencies. -->

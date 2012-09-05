@@ -185,6 +185,12 @@
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-extension-distribution</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
 
     <!-- Default Rendering Macros we want available by default in XE.
          Please keep them in alphabetical order -->

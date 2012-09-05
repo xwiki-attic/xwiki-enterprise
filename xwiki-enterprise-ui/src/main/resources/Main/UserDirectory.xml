@@ -1,29 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xwikidoc>
-  <web>Main</web>
-  <name>UserDirectory</name>
-  <language/>
-  <defaultLanguage/>
-  <translation>0</translation>
-  <parent>Main.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1252454400000</date>
-  <contentUpdateDate>1252454400000</contentUpdateDate>
-  <version>1.1</version>
-  <title>$msg.get("xe.userdirectory.title")</title>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
-  <comment/>
-  <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
-  <content>{{velocity}}
+<web>Main</web>
+<name>UserDirectory</name>
+<language></language>
+<defaultLanguage></defaultLanguage>
+<translation>0</translation>
+<parent>Main.WebHome</parent>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+<creationDate>1252454400000</creationDate>
+<date>1252454400000</date>
+<contentUpdateDate>1252454400000</contentUpdateDate>
+<version>1.1</version>
+<title>$msg.get("xe.userdirectory.title")</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>true</hidden>
+<object>
+<class>
+<name>XWiki.UIExtensionClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<content>
+<disabled>0</disabled>
+<name>content</name>
+<number>3</number>
+<prettyName>Extension content</prettyName>
+<rows>10</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</content>
+<parameters>
+<disabled>0</disabled>
+<name>parameters</name>
+<number>4</number>
+<prettyName>Extension Parameters</prettyName>
+<rows>10</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</parameters>
+<extensionPointId>
+<disabled>0</disabled>
+<name>extensionPointId</name>
+<number>2</number>
+<prettyName>Extension Point ID</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</extensionPointId>
+<id>
+<disabled>0</disabled>
+<name>id</name>
+<number>1</number>
+<prettyName>Extension ID (must be unique)</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</id>
+</class>
+<name>Main.UserDirectory</name>
+<number>0</number>
+<className>XWiki.UIExtensionClass</className>
+<guid>391472d5-30e8-4351-ae7f-a4d72394a4ce</guid>
+<property>
+<content></content>
+</property>
+<property>
+<parameters>label=$msg.get('xe.panels.quicklinks.userdirectory')
+target=Main.UserDirectory
+icon=group</parameters>
+</property>
+<property>
+<extensionPointId>org.xwiki.platform.panels.Applications</extensionPointId>
+</property>
+<property>
+<id>org.xwiki.platform.panels.Applications.UserDirectory</id>
+</property>
+</object>
+<content>{{velocity}}
 #set ($xwikiUsersClassReference = $services.model.createDocumentReference($xcontext.database, 'XWiki', 'XWikiUsers'))
 #set ($xwikiUsersClassName = $services.model.serialize($xwikiUsersClassReference))
 #set ($xwikiUsersClass = $xwiki.getClass($xwikiUsersClassName))
@@ -206,5 +273,4 @@
 #if ($fakeUser)
   #set ($discard = $doc.removeObject($fakeUser))
 #end
-{{/velocity}}</content>
-</xwikidoc>
+{{/velocity}}</content></xwikidoc>

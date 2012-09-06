@@ -81,7 +81,7 @@
 <property>
 <parameters>label=$msg.get('xe.panels.quicklinks.userdirectory')
 target=Main.UserDirectory
-icon=group</parameters>
+icon=icon:group</parameters>
 </property>
 <property>
 <extensionPointId>org.xwiki.platform.panels.Applications</extensionPointId>

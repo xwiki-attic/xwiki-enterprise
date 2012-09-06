@@ -48,12 +48,14 @@ public class AllTests
 
         repositoryUtil = new RepositoryUtil();
 
-        // Put self as extensions repository
         PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
+        // Put self as extensions repository
         properties.setProperty(
             "extension.repositories",
             Arrays.asList("self:xwiki:http://localhost:8080/xwiki/rest", "maven-test:maven:"
                 + repositoryUtil.getMavenRepository().toURI()));
+        // Skip the distribution wizard.
+        properties.setProperty("extension.distribution.redirectViewAction", false);
         executor.saveXWikiProperties(properties);
     }
 

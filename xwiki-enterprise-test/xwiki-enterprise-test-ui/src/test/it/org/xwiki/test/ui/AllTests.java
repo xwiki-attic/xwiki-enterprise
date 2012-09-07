@@ -42,7 +42,7 @@ public class AllTests
 
         PropertiesConfiguration propertiesConfiguration = executor.loadXWikiPropertiesConfiguration();
         // Skip the distribution wizard.
-        propertiesConfiguration.setProperty("extension.distribution.skipWizard", false);
+        propertiesConfiguration.setProperty("extension.distribution.skipWizard", true);
         executor.saveXWikiProperties(propertiesConfiguration);
     }
 }

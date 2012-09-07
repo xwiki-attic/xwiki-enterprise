@@ -55,7 +55,7 @@ public class AllTests
             Arrays.asList("self:xwiki:http://localhost:8080/xwiki/rest", "maven-test:maven:"
                 + repositoryUtil.getMavenRepository().toURI()));
         // Skip the distribution wizard.
-        properties.setProperty("extension.distribution.redirectViewAction", false);
+        properties.setProperty("extension.distribution.skipWizard", true);
         executor.saveXWikiProperties(properties);
     }
 

@@ -208,6 +208,7 @@
                     templates/editgroup.vm <!-- TODO test with deleted XWiki.XWikiGroupSheet and 'inline' action -->
                     templates/editmodes.vm
                     templates/editpanelsvars.vm
+                    templates/extension.vm <!-- Contains only Velocity macros -->
                     templates/fakeleftpanels.vm
                     templates/fakerightpanels.vm
                     templates/frequentlyUsedDocs.vm

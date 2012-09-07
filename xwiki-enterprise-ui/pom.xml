@@ -145,7 +145,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-uiextension-api</artifactId>
+      <artifactId>xwiki-platform-uiextension-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

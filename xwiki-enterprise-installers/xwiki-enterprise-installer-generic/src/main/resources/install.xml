@@ -87,7 +87,7 @@
       <file src="${xwiki.license}" targetdir="$INSTALL_PATH"/>
       <!-- Copy container files -->
       <fileset dir="${xwiki.container}" targetdir="$INSTALL_PATH" override="true">
-        <!-- Exclude database files -->
+        <!-- Exclude data files -->
         <exclude name="${xwikiDataDir}/**/*"/>
       </fileset>
       <!-- Replace xwikiDataDir variables in Jetty start shell scripts -->
@@ -107,8 +107,8 @@
       <description>A set of default Wiki pages. If you don't install this you'll get an empty Wiki. To be used when upgrading an existing XWiki installation so that your current pages are kept and not overwritten.</description>
       <!-- On Windows 7, copy the database to the %PROGRAMDATA%\XWiki\database directory since Windows 7 doesn't allow
            writing in the Program Files directory -->
-      <file src="${xwiki.database}" targetdir="${ENV[APPDATA]}/XWiki/${project.version}/data" condition="izpack.windowsinstall.7"/>
-      <file src="${xwiki.database}" targetdir="$INSTALL_PATH/${xwikiDataDir}" condition="!izpack.windowsinstall.7"/>
+      <fileset dir="${xwiki.data}" targetdir="${ENV[APPDATA]}/XWiki/${project.version}/data" condition="izpack.windowsinstall.7"/>
+      <fileset dir="${xwiki.data}" targetdir="$INSTALL_PATH/${xwikiDataDir}" condition="!izpack.windowsinstall.7"/>
     </pack>
   </packs>
   <!-- The native libraries to add. This is required for creating shortcuts on Windows -->

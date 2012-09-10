@@ -55,7 +55,7 @@
     </dependency>
   </dependencies>
   <properties>
-    <database.directory>${project.build.directory}/database</database.directory>
+    <database.directory>${project.build.directory}/data/database</database.directory>
     <application.directory>${project.build.directory}/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</application.directory>
   </properties>
   <build>
@@ -97,13 +97,13 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Step 4: Unpack the database and XWiki distribution -->
+      <!-- Step 4: Unpack the data and XWiki distribution -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>unzip-database</id>
+            <id>unzip-data</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>unpack</goal>
@@ -112,12 +112,12 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
-                  <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
+                  <artifactId>xwiki-enterprise-data-hsqldb</artifactId>
                   <version>${project.version}</version>
                   <type>zip</type>
                 </artifactItem>
               </artifactItems>
-              <outputDirectory>${project.build.directory}/database</outputDirectory>
+              <outputDirectory>${project.build.directory}/data</outputDirectory>
             </configuration>
           </execution>
           <execution>
@@ -150,7 +150,7 @@
             <configuration>
               <tasks>
                 <copy overwrite="true" file="${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml" todir="${application.directory}/webapps/xwiki/WEB-INF" />
-                <delete dir="${application.directory}/database" />
+                <delete dir="${application.directory}/data/database" />
                 <copy todir="${application.directory}-1">
                   <fileset dir="${application.directory}" />
                 </copy>

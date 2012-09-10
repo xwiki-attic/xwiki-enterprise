@@ -34,7 +34,7 @@
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - GlassFish - Derby</description>
   <properties>
-    <xwiki.db.connection.url>jdbc:derby:../database;create=true</xwiki.db.connection.url>
+    <xwiki.db.connection.url>jdbc:derby:../data/database;create=true</xwiki.db.connection.url>
     <xwiki.db.connection.username />
     <xwiki.db.connection.password />
     <xwiki.db.connection.driver_class>org.apache.derby.jdbc.EmbeddedDriver</xwiki.db.connection.driver_class>
@@ -45,7 +45,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-database-derby</artifactId>
+      <artifactId>xwiki-enterprise-data-derby</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
       <optional>true</optional>

@@ -37,9 +37,9 @@
     </dependencySet>
     <dependencySet>
       <includes>
-        <include>org.xwiki.enterprise:xwiki-enterprise-database-derby</include>
+        <include>org.xwiki.enterprise:xwiki-enterprise-data-derby</include>
       </includes>
-      <outputDirectory>${glassfish.database.folder}</outputDirectory>
+      <outputDirectory>${glassfish.data.folder}</outputDirectory>
       <unpack>true</unpack>
     </dependencySet>
   </dependencySets>

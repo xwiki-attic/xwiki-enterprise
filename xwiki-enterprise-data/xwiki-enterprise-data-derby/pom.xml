@@ -26,25 +26,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-database</artifactId>
+    <artifactId>xwiki-enterprise-data</artifactId>
     <version>4.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-database-hsqldb</artifactId>
-  <name>XWiki Enterprise - Database - HSQLDB</name>
+  <artifactId>xwiki-enterprise-data-derby</artifactId>
+  <name>XWiki Enterprise - Data - Derby</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Database - HSQLDB</description>
+  <description>XWiki Enterprise - Data - Derby</description>
   <properties>
-    <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+    <xwiki.db.connection.url>jdbc:derby:${project.build.directory}/data/database;create=true</xwiki.db.connection.url>
   </properties>
-  <!-- Required for the exec:exec plugin execution below. Doesn't seem to work as an exec plugin
-       dependency -->
-  <dependencies>
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <version>2.2.8</version>
-    </dependency>
-  </dependencies>
   <build>
     <plugins>
       <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
@@ -68,31 +59,10 @@
         <groupId>org.xwiki.platform</groupId>
         <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
       </plugin>
-      <!-- Step 4: Zip the generated database -->
+      <!-- Step 4: Zip the generated data -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-      </plugin>
-      <!-- Useful for debugging. Starts a GUI admin application to browse the HSQL DB -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <configuration>
-          <executable>java</executable>
-          <arguments>
-            <argument>-classpath</argument>
-            <!-- automatically creates the classpath using all project dependencies,
-                 also adding the project build directory -->
-            <classpath />
-            <argument>org.hsqldb.util.DatabaseManager</argument>
-            <argument>-driver</argument>
-            <argument>org.hsqldb.jdbcDriver</argument>
-            <argument>-url</argument>
-            <argument>jdbc:hsqldb:target/database/xwiki_db</argument>
-            <argument>-user</argument>
-            <argument>sa</argument>
-          </arguments>
-        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-database-${xwiki.db}</artifactId>
+      <artifactId>xwiki-enterprise-data-${xwiki.db}</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
       <optional>true</optional>

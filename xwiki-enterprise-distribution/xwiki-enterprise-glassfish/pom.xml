@@ -34,7 +34,8 @@
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - GlassFish</description>
   <properties>
-    <glassfish.database.folder>glassfish/domains/domain1/database</glassfish.database.folder>
+    <glassfish.data.folder>glassfish/domains/domain1/data</glassfish.data.folder>
+    <glassfish.database.folder>glassfish/domains/domain1/data/database</glassfish.database.folder>
     <glassfish.war.folder>glassfish/domains/domain1/autodeploy</glassfish.war.folder>
   </properties>
   <dependencies>

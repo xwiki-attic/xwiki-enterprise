@@ -28,6 +28,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +39,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.InvalidRedirectLocationException;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -370,7 +372,21 @@ public abstract class AbstractEscapingTest implements FileTest
         // TODO better use XWiki logging
         System.out.println("Testing URL: " + url);
 
-        InputStream content = AbstractEscapingTest.getUrlContent(url);
+        InputStream content = null;
+        try {
+            content = AbstractEscapingTest.getUrlContent(url);
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof InvalidRedirectLocationException) {
+                // Don't fail the test if we can't follow a redirect because the redirect location can be taken from the
+                // request parameters which are controlled by the test and most of the tests use values that are not
+                // valid URLs. The code that performs the redirect always assumes the redirect URL is valid.
+                System.out.println(e.getCause().getMessage());
+                return Collections.emptyList();
+            } else {
+                throw e;
+            }
+        }
+
         String where = "  Template: " + this.name + "\n  URL: " + url;
         Assert.assertNotNull("Response is null\n" + where, content);
         XMLEscapingValidator validator = new XMLEscapingValidator();

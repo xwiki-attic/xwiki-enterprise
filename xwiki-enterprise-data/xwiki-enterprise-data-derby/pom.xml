@@ -49,17 +49,12 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Step 2: Expand the XAR file -->
-      <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-      </plugin>
-      <!-- Step 3: Import the XAR content into the Database -->
+      <!-- Step 2: Import the XAR dependencies into the database -->
       <plugin>
         <groupId>org.xwiki.platform</groupId>
         <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
       </plugin>
-      <!-- Step 4: Zip the generated data -->
+      <!-- Step 3: Zip the generated data -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>

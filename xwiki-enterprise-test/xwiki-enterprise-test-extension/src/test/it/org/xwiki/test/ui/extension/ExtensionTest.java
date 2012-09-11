@@ -165,7 +165,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         searchResults = new SimpleSearchPane().search("blahblah");
         Assert.assertEquals(0, searchResults.getDisplayedResultsCount());
         Assert.assertNull(searchResults.getPagination());
-        Assert.assertEquals("There were no extensions found matching 'blahblah'. Try different keywords.\n"
+        Assert.assertEquals("There were no extensions found matching 'blahblah'. Try different keywords. "
             + "Alternatively, if you know the identifier and the version of the extension you're "
             + "looking for, you can use the Advanced Search form above.", searchResults.getNoResultsMessage());
 

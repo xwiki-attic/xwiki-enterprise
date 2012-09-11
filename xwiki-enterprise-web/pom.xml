@@ -501,6 +501,14 @@
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Portlet Integration -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-portlet</artifactId>
+      <!-- Use the XWiki Commons version because xwiki-platform-portlet is not yet integrated in the XWiki Platform. -->
+      <version>${commons.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Logging Dependencies. Ensures all logging goes through SLF4J and Logback. -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>

@@ -87,7 +87,7 @@ icon=icon:group</parameters>
 <extensionPointId>org.xwiki.platform.panels.Applications</extensionPointId>
 </property>
 <property>
-<name>platform.panels.Applications.UserDirectory</name>
+<name>platform.panels.userDirectoryApplication</name>
 </property>
 </object>
 <content>{{velocity}}

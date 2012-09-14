@@ -1443,7 +1443,7 @@ $xwiki.ssx.use('Main.Activity')##
             #set ($pageTitle = $pageName)
           #end
           &lt;a href="$xwiki.getURL(${pageFullName})" class="typePage type"&gt;
-            $!{escapetool.xml($pageTitle)}
+            $pageTitle
           &lt;/a&gt;
         #end
       #else

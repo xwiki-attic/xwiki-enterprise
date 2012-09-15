@@ -1438,12 +1438,12 @@ $xwiki.ssx.use('Main.Activity')##
       #if ($isFirstEntry)
         #if ($event.application != 'MessageStream')
           #set ($pageFullName = "$!{event.wiki}:$!{pageName}")
-          #set ($pageTitle = "$!{xwiki.getDocument($pageFullName).displayTitle}")
+          #set ($pageTitle = "$!{xwiki.getDocument($pageFullName).plainTitle}")
           #if ($pageTitle == '')
             #set ($pageTitle = $pageName)
           #end
           &lt;a href="$xwiki.getURL(${pageFullName})" class="typePage type"&gt;
-            $pageTitle
+            $!{escapetool.xml($pageTitle)}
           &lt;/a&gt;
         #end
       #else

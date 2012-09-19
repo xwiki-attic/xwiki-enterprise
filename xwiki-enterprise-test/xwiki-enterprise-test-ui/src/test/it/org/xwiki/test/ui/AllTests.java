@@ -19,12 +19,7 @@
  */
 package org.xwiki.test.ui;
 
-import java.util.List;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.runner.RunWith;
-import org.xwiki.test.integration.XWikiExecutor;
-import org.xwiki.test.integration.XWikiExecutorSuite;
 
 /**
  * Runs all functional tests found in the classpath.
@@ -35,14 +30,4 @@ import org.xwiki.test.integration.XWikiExecutorSuite;
 @RunWith(PageObjectSuite.class)
 public class AllTests
 {
-    @XWikiExecutorSuite.PreStart
-    public void preStart(List<XWikiExecutor> executors) throws Exception
-    {
-        XWikiExecutor executor = executors.get(0);
-
-        PropertiesConfiguration propertiesConfiguration = executor.loadXWikiPropertiesConfiguration();
-        // Skip the distribution wizard.
-        propertiesConfiguration.setProperty("extension.distribution.skipWizard", true);
-        executor.saveXWikiProperties(propertiesConfiguration);
-    }
 }

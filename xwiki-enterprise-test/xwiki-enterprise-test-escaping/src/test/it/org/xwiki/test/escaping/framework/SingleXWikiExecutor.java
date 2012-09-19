@@ -73,8 +73,6 @@ public final class SingleXWikiExecutor extends XWikiExecutor
             if (!properties.containsKey("extension.repositories")) {
                 properties.setProperty("extension.repositories", "");
             }
-            // Skip the distribution wizard.
-            properties.setProperty("extension.distribution.skipWizard", true);
             saveXWikiProperties(properties);
 
             super.start();

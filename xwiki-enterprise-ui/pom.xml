@@ -12,6 +12,8 @@
   </description>
   <dependencies>
     <!-- Other UIs -->
+    <!-- Put administration ui first to have default users and rights imported before most of the other pages
+     in case some of them needs to be checked for special right like wiki components etc. -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-administration-ui</artifactId>

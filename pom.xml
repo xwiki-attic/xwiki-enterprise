@@ -39,6 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise</url>
+    <tag>stable-4.2.x</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -105,7 +106,7 @@
     <xwiki.cfg.defaultbaseskin>colibri</xwiki.cfg.defaultbaseskin>
     <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
-    <xwiki.cfg.additionalproperties></xwiki.cfg.additionalproperties>
+    <xwiki.cfg.additionalproperties />
     <!-- Default location for XWiki's Data directory -->
     <xwikiDataDir>data</xwikiDataDir>
   </properties>

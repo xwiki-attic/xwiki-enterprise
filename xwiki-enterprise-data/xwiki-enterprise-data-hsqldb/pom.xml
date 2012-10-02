@@ -80,7 +80,7 @@
             <!-- automatically creates the classpath using all project dependencies,
                  also adding the project build directory -->
             <classpath />
-            <argument>org.hsqldb.util.DatabaseManager</argument>
+            <argument>org.hsqldb.util.DatabaseManagerSwing</argument>
             <argument>-driver</argument>
             <argument>org.hsqldb.jdbcDriver</argument>
             <argument>-url</argument>

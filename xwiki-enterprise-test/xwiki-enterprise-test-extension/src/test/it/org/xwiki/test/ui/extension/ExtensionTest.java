@@ -202,8 +202,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         searchResults = new SimpleSearchPane().clickAdvancedSearch().search("foo", "bar");
         Assert.assertEquals(0, searchResults.getDisplayedResultsCount());
         Assert.assertNull(searchResults.getPagination());
-        Assert.assertEquals("We couldn't find any extension with id 'foo' and version 'bar'.",
-            searchResults.getNoResultsMessage());
+        Assert.assertEquals("We couldn't find any extension with id 'foo' and version 'bar'. "
+            + "Make sure you have the right extension repositories configured.", searchResults.getNoResultsMessage());
 
         // Test cancel advanced search.
         AdvancedSearchPane advancedSearchPane = new SimpleSearchPane().clickAdvancedSearch();
@@ -314,7 +314,10 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertNull(extensionPane.getStatusMessage());
         Assert.assertEquals(extension.getName(), extensionPane.getName());
         Assert.assertEquals(extensionId.getVersion().getValue(), extensionPane.getVersion());
-        Assert.assertEquals("by: Thomas, Marius", extensionPane.getAuthors());
+        List<WebElement> authors = extensionPane.getAuthors();
+        Assert.assertEquals(2, authors.size());
+        Assert.assertEquals("Thomas", authors.get(0).getText());
+        Assert.assertEquals("Marius", authors.get(1).getText());
         Assert.assertEquals(extension.getSummary(), extensionPane.getSummary());
 
         // Check the extension details.
@@ -440,8 +443,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         int logSize = log.size();
         Assert.assertTrue(logSize > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying INSTALL for extension [bob-xar-extension 2.5-milestone-2]"
-            + " on namespace [wiki:xwiki]", log.get(0).getMessage());
+        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(0)
+            .getMessage());
         Assert.assertEquals("info", log.get(logSize - 1).getLevel());
         Assert.assertEquals("Successfully applied INSTALL for extension "
             + "[alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(logSize - 1).getMessage());
@@ -476,8 +479,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         log = extensionPane.openProgressSection().getJobLog();
         Assert.assertEquals(logSize, log.size());
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying INSTALL for extension [bob-xar-extension 2.5-milestone-2]"
-            + " on namespace [wiki:xwiki]", log.get(0).getMessage());
+        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(0)
+            .getMessage());
         Assert.assertEquals("info", log.get(logSize - 1).getLevel());
         Assert.assertEquals("Successfully applied INSTALL for extension "
             + "[alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(logSize - 1).getMessage());
@@ -546,7 +549,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying UNINSTALL for extension [alice-xar-extension 1.3] on namespace [wiki:xwiki]", log
+        Assert.assertEquals("Resolving extension [bob-xar-extension 2.5-milestone-2] from namespace [wiki:xwiki]", log
             .get(0).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Successfully applied UNINSTALL for extension "
@@ -572,8 +575,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         log = extensionPane.confirm().openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying UNINSTALL for extension [alice-xar-extension 1.3] on namespace [wiki:xwiki]", log
-            .get(0).getMessage());
+        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [wiki:xwiki]", log.get(0)
+            .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Successfully applied UNINSTALL for extension "
             + "[alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
@@ -640,8 +643,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying UPGRADE for extension [alice-xar-extension 2.1.4] on namespace [wiki:xwiki]", log
-            .get(0).getMessage());
+        Assert.assertEquals("Resolving extension [alice-xar-extension 2.1.4] on namespace [wiki:xwiki]", log.get(0)
+            .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Successfully applied UPGRADE for extension "
             + "[alice-xar-extension 2.1.4] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
@@ -800,8 +803,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 1);
         Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Applying DOWNGRADE for extension [alice-xar-extension 1.3] on namespace [wiki:xwiki]", log
-            .get(0).getMessage());
+        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(0)
+            .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Successfully applied DOWNGRADE for extension "
             + "[alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());

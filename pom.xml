@@ -107,6 +107,9 @@
     <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
     <xwiki.cfg.additionalproperties />
+
+    <xwiki.properties.environment.permanentDirectory/>
+
     <!-- Default location for XWiki's Data directory -->
     <xwikiDataDir>data</xwikiDataDir>
 
@@ -163,6 +166,9 @@
                   <xwikiCfgDefaultBaseSkin>${xwiki.cfg.defaultbaseskin}</xwikiCfgDefaultBaseSkin>
                   <xwikiCfgEncoding>${xwiki.cfg.encoding}</xwikiCfgEncoding>
                   <xwikiCfgAdditionalProperties>${xwiki.cfg.additionalproperties}</xwikiCfgAdditionalProperties>
+
+                  <!-- Default configuration data for xwiki.properties -->
+                  <xwikiPropertiesEnvironmentPermanentDirectory>${xwiki.properties.environment.permanentDirectory}</xwikiPropertiesEnvironmentPermanentDirectory>
                 </properties>
               </configuration>
             </execution>

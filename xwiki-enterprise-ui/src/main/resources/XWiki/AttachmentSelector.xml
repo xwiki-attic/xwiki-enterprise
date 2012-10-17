@@ -1980,7 +1980,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
       <customMapping/>
       <defaultViewSheet/>
       <defaultEditSheet/>
-      <defaultWeb></defaultWeb>
+      <defaultWeb/>
       <nameField/>
       <validationScript/>
       <defaultValue>
@@ -2027,7 +2027,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
     <className>XWiki.WikiMacroParameterClass</className>
     <guid>99b73453-120c-481a-8889-1a7efc7b73f2</guid>
     <property>
-      <defaultValue></defaultValue>
+      <defaultValue/>
     </property>
     <property>
       <description>The target document name to save/list attachments from</description>

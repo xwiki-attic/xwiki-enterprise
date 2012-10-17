@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>Sandbox</web>
-<name>WebHome</name>
-<language>it</language>
-<defaultLanguage></defaultLanguage>
-<translation>1</translation>
-<parent>Main.WebHome</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
-<version>1.1</version>
-<title>Sandbox</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>L'area test o sandbox è una parte del wiki che si può modificare liberamente. Il suo scopo è quello di aiutarvi nell'imparare a fare modifiche. Si scoprirà come è possibile modificare le pagine e come crearne di nuove. Cliccate **Modifica** per iniziare!
+  <web>Sandbox</web>
+  <name>WebHome</name>
+  <language>it</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1252454400000</date>
+  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Sandbox</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>L'area test o sandbox è una parte del wiki che si può modificare liberamente. Il suo scopo è quello di aiutarvi nell'imparare a fare modifiche. Si scoprirà come è possibile modificare le pagine e come crearne di nuove. Cliccate **Modifica** per iniziare!
 
 {{info}}Non preoccupatevi di sovrascrivere o cancellare qualcosa nella pagina, è sempre possibile tornare indietro alla versione originale della pagina attraverso la scheda "Cronologia" in fondo alla pagina.{{/info}}
 
@@ -126,4 +127,5 @@ Questa Macro consente di attirare l'attenzione del lettore su una specifica info
 == Indice della pagina (Toc) ==
 Questa Macro genera automaticamente l'indice della pagina in base ai livelli dei titoli:
 
-{{toc/}}</content></xwikidoc>
+{{toc/}}</content>
+</xwikidoc>

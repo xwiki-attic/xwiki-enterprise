@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>Sandbox</web>
-<name>WebHome</name>
-<language>da</language>
-<defaultLanguage></defaultLanguage>
-<translation>1</translation>
-<parent>Main.WebHome</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
-<version>1.1</version>
-<title>Sandbox</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>Sandkassen er en del af denne wiki, som du frit kan ændre. Formålet er du kan prøve at redigere. Du kan lære hvordan redigering sker og hvordan man opretter nye side. Klik blot på **Redigér** for at komme igang!
+  <web>Sandbox</web>
+  <name>WebHome</name>
+  <language>da</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1252454400000</date>
+  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Sandbox</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>Sandkassen er en del af denne wiki, som du frit kan ændre. Formålet er du kan prøve at redigere. Du kan lære hvordan redigering sker og hvordan man opretter nye side. Klik blot på **Redigér** for at komme igang!
 
 {{info}} Vær ikke bange for at overskrive eller miste indhold, når du redigerer siden. Du kan altid rulle rettelser tilbage til de originale ved at vælge den første version under "Historik" i bunden af siden.{{/info}}
 
@@ -141,4 +142,5 @@ Denne makro laver automatisk en indholdsfortegnelse baseret på overskrifter i w
 
 {{toc/}}
 
-</content></xwikidoc>
+</content>
+</xwikidoc>

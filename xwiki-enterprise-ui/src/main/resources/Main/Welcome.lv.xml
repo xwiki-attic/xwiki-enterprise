@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>Main</web>
-<name>Welcome</name>
-<language>lv</language>
-<defaultLanguage></defaultLanguage>
-<translation>1</translation>
-<parent>Main.WebHome</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1297866863000</date>
-<contentUpdateDate>1297866863000</contentUpdateDate>
-<version>1.1</version>
-<title>$msg.get("xe.dashboard.wiki.welcome")</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>Šī tīmekļa vietne jums ļauj ērtā veidā rediģēt lapu saturu un sadarboties. Šajā viki ir //lapas//, kas tiek glabātas //vietās//. Šobrīd jūs esat vietas **Main** mājas lapā (**WebHome**).
+  <web>Main</web>
+  <name>Welcome</name>
+  <language>lv</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1297866863000</date>
+  <contentUpdateDate>1297866863000</contentUpdateDate>
+  <version>1.1</version>
+  <title>$msg.get("xe.dashboard.wiki.welcome")</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>Šī tīmekļa vietne jums ļauj ērtā veidā rediģēt lapu saturu un sadarboties. Šajā viki ir //lapas//, kas tiek glabātas //vietās//. Šobrīd jūs esat vietas **Main** mājas lapā (**WebHome**).
 
 {{velocity wiki="true"}}
 #if($hasEdit) Lai pārbaudītu šī viki iespējas, jūs varat rediģēt mēģinājumu vietas mājas lapu jeb [[Smilšu kasti&gt;&gt;Sandbox.WebHome]]. #end
 {{/velocity}}
 
-</content></xwikidoc>
+</content>
+</xwikidoc>

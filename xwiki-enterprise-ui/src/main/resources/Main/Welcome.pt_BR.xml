@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>Main</web>
-<name>Welcome</name>
-<language>pt_BR</language>
-<defaultLanguage></defaultLanguage>
-<translation>1</translation>
-<parent>Main.WebHome</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1297866863000</date>
-<contentUpdateDate>1297866863000</contentUpdateDate>
-<version>1.1</version>
-<title>$msg.get("xe.dashboard.wiki.welcome")</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>É um site fácil de editar que ajudará você a trabalhar de forma colaborativa. Este Wiki é feito de //páginas// armazenadas em //espaços//. Você está agora no espaço **principal**, olhando para a home page (**WebHome**).
+  <web>Main</web>
+  <name>Welcome</name>
+  <language>pt_BR</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1297866863000</date>
+  <contentUpdateDate>1297866863000</contentUpdateDate>
+  <version>1.1</version>
+  <title>$msg.get("xe.dashboard.wiki.welcome")</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>É um site fácil de editar que ajudará você a trabalhar de forma colaborativa. Este Wiki é feito de //páginas// armazenadas em //espaços//. Você está agora no espaço **principal**, olhando para a home page (**WebHome**).
 
 Aprenda a usar o XWiki com o {{velocity}}[[Guia de Introdução&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
 
 {{velocity}}
 #if($hasEdit)Você pode usar o [[Espaço Sandbox&gt;&gt;Sandbox.WebHome]] para experimentar as funcionalidades sua wiki.#end
-{{/velocity}}</content></xwikidoc>
+{{/velocity}}</content>
+</xwikidoc>

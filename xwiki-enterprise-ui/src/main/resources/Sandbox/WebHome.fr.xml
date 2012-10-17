@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <xwikidoc>
-<web>Sandbox</web>
-<name>WebHome</name>
-<language>fr</language>
-<defaultLanguage></defaultLanguage>
-<translation>1</translation>
-<parent>Main.WebHome</parent>
-<creator>xwiki:XWiki.Admin</creator>
-<author>xwiki:XWiki.Admin</author>
-<customClass></customClass>
-<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1252454400000</creationDate>
-<date>1252454400000</date>
-<contentUpdateDate>1252454400000</contentUpdateDate>
-<version>1.1</version>
-<title>Sandbox</title>
-<template></template>
-<defaultTemplate></defaultTemplate>
-<validationScript></validationScript>
-<comment></comment>
-<minorEdit>false</minorEdit>
-<syntaxId>xwiki/2.0</syntaxId>
-<hidden>false</hidden>
-<content>Le Bac à Sable est l'endroit que vous pouvez librement modifier car son but est de vous faire habituer avec l'édition des documents wiki. De cette façon vous découvrirez comment créer et éditer des pages. Pour commencer, cliquez tout simplement sur "Éditer".
+  <web>Sandbox</web>
+  <name>WebHome</name>
+  <language>fr</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1252454400000</date>
+  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Sandbox</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>Le Bac à Sable est l'endroit que vous pouvez librement modifier car son but est de vous faire habituer avec l'édition des documents wiki. De cette façon vous découvrirez comment créer et éditer des pages. Pour commencer, cliquez tout simplement sur "Éditer".
 
 {{info}}Ne vous inquiétez pas d'écraser ou de perdre des informations lors de l'édition de la page car vous pouvez toujours revenir à la version initiale du document via l'onglet "Historique" en bas de page.{{/info}}
 
@@ -129,4 +130,5 @@ Cette macro vous permet d'attirer l'attention des utilisateurs sur un certain d�
 
 Cette macro génère automatiquement une table de matières à partir des titres présentes dans le contenu de votre page wiki:
 
-{{toc/}} </content></xwikidoc>
+{{toc/}} </content>
+</xwikidoc>

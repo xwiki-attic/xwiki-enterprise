@@ -455,7 +455,7 @@ XWiki.editors.ColorThemeWizard = Class.create({
     var gradient2PlaceholderRegEx = new RegExp("$gradient2Placeholder",'g');
     ## #css3_backgroundLinearGradient macro (defined in macros.vm) used for the majority of browsers (FF, Chrome, Opera, IE10) that support CSS3 properties
     #set($backgroundLinearGradientRaw= "#css3_backgroundLinearGradient({
-         'angle': 'top',
+         'to': 'bottom',
          'colors': [
           {'color': ${gradient1Placeholder}, 'position': '0%'},
           {'color': ${gradient2Placeholder}, 'position': '100%'}
@@ -1446,7 +1446,7 @@ $xwiki.jsx.use('ColorThemes.ColorThemeSheet', {
           #if ($gradientValues[0] != '' &amp;&amp; $gradientValues[1] != '')
             ## #css3_backgroundLinearGradient macro (defined in macros.vm) used for the majority of browsers (FF, Chrome, Opera, IE10) that support CSS3 properties
             #set($style = "$!{style} #css3_backgroundLinearGradient({
-               'angle': 'top',
+               'to': 'bottom',
                'colors': [
                 {'color': $gradientValues[1], 'position': '0%'},
                 {'color': $gradientValues[0], 'position': '100%'}

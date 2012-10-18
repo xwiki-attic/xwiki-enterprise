@@ -220,7 +220,7 @@
         <xwiki.db>mysql</xwiki.db>
         <xwiki.db.jdbc.groupId>mysql</xwiki.db.jdbc.groupId>
         <xwiki.db.jdbc.artifactId>mysql-connector-java</xwiki.db.jdbc.artifactId>
-        <xwiki.db.jdbc.version>5.1.6</xwiki.db.jdbc.version>
+        <xwiki.db.jdbc.version>5.1.21</xwiki.db.jdbc.version>
         <xwiki.db.connection.url>jdbc:mysql://localhost/xwiki?useServerPrepStmts=false&amp;amp;amp;useUnicode=true&amp;amp;amp;characterEncoding=UTF-8</xwiki.db.connection.url>
         <xwiki.db.connection.username>xwiki</xwiki.db.connection.username>
         <xwiki.db.connection.password>xwiki</xwiki.db.connection.password>

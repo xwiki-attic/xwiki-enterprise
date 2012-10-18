@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installers</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-generic</artifactId>
   <name>XWiki Enterprise - Installers - Generic</name>
@@ -106,12 +106,12 @@
                   <unpack>true</unpack>
                   <zipEntry>**/start_xwiki*.*</zipEntry>
                 </resource>
-                <!-- Step 4: Copy the database files so that they can be easily handled by izpac as a separate Pack -->
+                <!-- Step 4: Copy the data files so that they can be easily handled by izpack as a separate Pack -->
                 <resource>
-                  <targetPath>${project.build.directory}/database</targetPath>
-                  <directory>${project.build.directory}/container</directory>
-                  <include>**/${xwikiDataDir}/database/**/*</include>
+                  <targetPath>${xwiki.data}</targetPath>
+                  <directory>${xwiki.container}/data</directory>
                   <exclude>**/META-INF/**/*</exclude>
+                  <preservePath>true</preservePath>
                 </resource>
               </resources>
             </configuration>
@@ -148,7 +148,7 @@
     <xwiki.license>${project.build.directory}/izpack/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/izpack/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</xwiki.container>
-    <xwiki.database>${project.build.directory}/database</xwiki.database>
+    <xwiki.data>${project.build.directory}/data</xwiki.data>
     <xwiki.png>${project.build.directory}/izpack/images/xwiki.png</xwiki.png>
     <xwiki.border1.png>${project.build.directory}/izpack/images/border1.png</xwiki.border1.png>
     <xwiki.border2.png>${project.build.directory}/izpack/images/border2.png</xwiki.border2.png>

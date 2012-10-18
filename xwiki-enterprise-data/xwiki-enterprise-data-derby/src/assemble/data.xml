@@ -21,20 +21,20 @@
 -->
 
 <assembly>
-  <id>distribution</id>
+  <id>data</id>
   <formats>
     <format>zip</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
-    <!-- Database files -->
+    <!-- Data files -->
     <fileSet>
-      <directory>${basedir}/target/database</directory>
+      <directory>${project.build.directory}/data/</directory>
       <outputDirectory>/</outputDirectory>
     </fileSet>
     <!-- Add License/Notice files -->
     <fileSet>
-      <directory>${basedir}/target/maven-shared-archive-resources/META-INF</directory>
+      <directory>${project.build.directory}/maven-shared-archive-resources/META-INF</directory>
       <outputDirectory>META-INF</outputDirectory>
     </fileSet>
   </fileSets>

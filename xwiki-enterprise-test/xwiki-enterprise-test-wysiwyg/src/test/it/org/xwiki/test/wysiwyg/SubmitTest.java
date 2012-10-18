@@ -22,7 +22,7 @@ package org.xwiki.test.wysiwyg;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -173,6 +173,5 @@ public class SubmitTest extends AbstractWysiwygTestCase
         // Wait for the confirmation.
         waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
             + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");
-
     }
 }

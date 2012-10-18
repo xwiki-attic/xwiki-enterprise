@@ -26,15 +26,15 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-database</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <artifactId>xwiki-enterprise-data</artifactId>
+    <version>4.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-database-derby</artifactId>
-  <name>XWiki Enterprise - Database - Derby</name>
+  <artifactId>xwiki-enterprise-data-derby</artifactId>
+  <name>XWiki Enterprise - Data - Derby</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Database - Derby</description>
+  <description>XWiki Enterprise - Data - Derby</description>
   <properties>
-    <xwiki.db.connection.url>jdbc:derby:${project.build.directory}/database;create=true</xwiki.db.connection.url>
+    <xwiki.db.connection.url>jdbc:derby:${project.build.directory}/data/database;create=true</xwiki.db.connection.url>
   </properties>
   <build>
     <plugins>
@@ -49,17 +49,12 @@
           </execution>
         </executions>
       </plugin>
-      <!-- Step 2: Expand the XAR file -->
-      <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-      </plugin>
-      <!-- Step 3: Import the XAR content into the Database -->
+      <!-- Step 2: Import the XAR dependencies into the database -->
       <plugin>
         <groupId>org.xwiki.platform</groupId>
         <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
       </plugin>
-      <!-- Step 4: Zip the generated database -->
+      <!-- Step 3: Zip the generated data -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>

@@ -67,6 +67,9 @@
           <include>**/start_xwiki*.*</include>
         </includes>
       </unpackOptions>
+      <!-- Extracting some resources from the dependency somehow looses the file permissions, so we need to set them
+           again so that the start xwiki scripts are executable... -->
+      <fileMode>755</fileMode>
     </dependencySet>
     <dependencySet>
       <includes>
@@ -91,12 +94,12 @@
       <outputDirectory>webapps/xwiki/WEB-INF/lib</outputDirectory>
       <unpack>false</unpack>
     </dependencySet>
-    <!-- Unpack the Derby database files to package it in the distribution -->
+    <!-- Unpack the data files to package it in the distribution -->
     <dependencySet>
       <includes>
-        <include>org.xwiki.enterprise:xwiki-enterprise-database-${xwiki.db}</include>
+        <include>org.xwiki.enterprise:xwiki-enterprise-data-${xwiki.db}</include>
       </includes>
-      <outputDirectory>/database</outputDirectory>
+      <outputDirectory>/${xwikiDataDir}/</outputDirectory>
       <unpack>true</unpack>
     </dependencySet>
   </dependencySets>

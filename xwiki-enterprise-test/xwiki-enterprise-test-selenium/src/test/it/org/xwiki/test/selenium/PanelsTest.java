@@ -66,10 +66,11 @@ public class PanelsTest extends AbstractXWikiTestCase
             setFieldValue("panelTitle", "Thesecondpaneltobecreated");
             clickLinkWithXPath("//input[@value='Create']");
             setFieldValue("Panels.PanelClass_0_description", "Tester panel");
-            setFieldValue("Panels.PanelClass_0_content", "#panelheader(\"Test panel\")\nTest Panel\n#panelfooter()");
+            setFieldValue("Panels.PanelClass_0_content",
+              "{{velocity}}\n#panelheader(\"Test panel\")\nTest Panel\n#panelfooter()\n{{/velocity}}");
             clickEditSaveAndView();
             open("Panels", "WebHome");
-            assertElementPresent("//a[text()='Thesecondpaneltobecreated']");
+            assertElementPresent("//a[. = 'Thesecondpaneltobecreated']");
         } finally {
             deletePage("Panels", "Thesecondpaneltobecreated");
         }

@@ -21,7 +21,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <object>
     <class>
@@ -179,139 +179,139 @@ ul.xlist li.xitem div.xshowonhover img {
   float: right;
   padding: 0 .2em;
 }</code>
-    </property>
-    <property>
-      <name>Spaces list CSS</name>
-    </property>
-    <property>
-      <parse>1</parse>
-    </property>
-    <property>
-      <use>onDemand</use>
-    </property>
-  </object>
-  <object>
-    <class>
-      <name>XWiki.WikiMacroClass</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <code>
-        <disabled>0</disabled>
-        <name>code</name>
-        <number>9</number>
-        <prettyName>Macro code</prettyName>
-        <rows>20</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </code>
-      <contentDescription>
-        <disabled>0</disabled>
-        <name>contentDescription</name>
-        <number>8</number>
-        <prettyName>Content description (Not applicable for "No content" type)</prettyName>
-        <rows>5</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </contentDescription>
-      <contentType>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>contentType</name>
-        <number>7</number>
-        <prettyName>Macro content type</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator>|</separator>
-        <separators>|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>Optional|Mandatory|No content</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </contentType>
-      <defaultCategory>
-        <disabled>0</disabled>
-        <name>defaultCategory</name>
-        <number>4</number>
-        <prettyName>Default category</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </defaultCategory>
-      <description>
-        <disabled>0</disabled>
-        <name>description</name>
-        <number>3</number>
-        <prettyName>Macro description</prettyName>
-        <rows>5</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </description>
-      <id>
-        <disabled>0</disabled>
-        <name>id</name>
-        <number>1</number>
-        <prettyName>Macro id</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </id>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>2</number>
-        <prettyName>Macro name</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <supportsInlineMode>
-        <disabled>0</disabled>
-        <displayFormType>select</displayFormType>
-        <displayType>yesno</displayType>
-        <name>supportsInlineMode</name>
-        <number>5</number>
-        <prettyName>Supports inline mode</prettyName>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-      </supportsInlineMode>
-      <visibility>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>visibility</name>
-        <number>6</number>
-        <prettyName>Macro visibility</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator>|</separator>
-        <separators>|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>Current User|Current Wiki|Global</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </visibility>
-    </class>
-    <name>Main.Spaces</name>
-    <number>0</number>
-    <className>XWiki.WikiMacroClass</className>
-    <guid>e990e6f7-1eff-40d8-9699-9052e36b5802</guid>
-    <property>
-      <code>{{velocity}}
+</property>
+<property>
+<name>Spaces list CSS</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.WikiMacroClass</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>9</number>
+<prettyName>Macro code</prettyName>
+<rows>20</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<contentDescription>
+<disabled>0</disabled>
+<name>contentDescription</name>
+<number>8</number>
+<prettyName>Content description (Not applicable for "No content" type)</prettyName>
+<rows>5</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</contentDescription>
+<contentType>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>contentType</name>
+<number>7</number>
+<prettyName>Macro content type</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator>|</separator>
+<separators>|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>Optional|Mandatory|No content</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</contentType>
+<defaultCategory>
+<disabled>0</disabled>
+<name>defaultCategory</name>
+<number>4</number>
+<prettyName>Default category</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</defaultCategory>
+<description>
+<disabled>0</disabled>
+<name>description</name>
+<number>3</number>
+<prettyName>Macro description</prettyName>
+<rows>5</rows>
+<size>40</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</description>
+<id>
+<disabled>0</disabled>
+<name>id</name>
+<number>1</number>
+<prettyName>Macro id</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</id>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>2</number>
+<prettyName>Macro name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<supportsInlineMode>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>supportsInlineMode</name>
+<number>5</number>
+<prettyName>Supports inline mode</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</supportsInlineMode>
+<visibility>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>visibility</name>
+<number>6</number>
+<prettyName>Macro visibility</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator>|</separator>
+<separators>|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>Current User|Current Wiki|Global</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</visibility>
+</class>
+<name>Main.Spaces</name>
+<number>0</number>
+<className>XWiki.WikiMacroClass</className>
+<guid>e990e6f7-1eff-40d8-9699-9052e36b5802</guid>
+<property>
+<code>{{velocity}}
 ##
 ## List spaces within the wiki.
 ##
 $xwiki.ssx.use('Main.Spaces')##
 #set($spaceList = $xwiki.getSpaces())
-{{html wiki="true"}}
+{{html}}
 &lt;ul class="xlist"&gt;
   ##
   ## List spaces.
@@ -322,16 +322,16 @@ $xwiki.ssx.use('Main.Spaces')##
     #if($xwiki.hasAccessLevel('view', "${space}.WebHome") &amp;&amp; !$blacklistedSpaces.contains($space))
       &lt;li class="xitem xunderline xhighlight space"&gt;
         &lt;div class="xitemcontainer"&gt;
-          &lt;div class="spSpaceName"&gt;[[${space}&gt;&gt;${space}.WebHome]]&lt;/div&gt;
+          &lt;div class="spSpaceName"&gt;&lt;a href="$xwiki.getURL($services.model.createDocumentReference('', $space, 'WebHome'))"&gt;${escapetool.xml($space)}&lt;/a&gt;&lt;/div&gt;
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
-            &lt;a href="{{html wiki="false"}}$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)"){{/html}}" title="$msg.get('xe.spaces.action.index')"&gt;
-              &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/book_open.png'){{/html}}" alt="$msg.get('xe.spaces.action.index.alt')"/&gt;
+            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$msg.get('xe.spaces.action.index')"&gt;
+              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.png')" alt="$msg.get('xe.spaces.action.index.alt')"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.
             #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))
-              &lt;a href="{{html wiki="false"}}$xwiki.getURL("${space}.WebPreferences", 'admin'){{/html}}" title="$msg.get('xe.spaces.action.admin')"&gt;
-                &lt;img src="{{html wiki="false"}}$xwiki.getSkinFile('icons/silk/wrench.png'){{/html}}" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
+              &lt;a href="$xwiki.getURL($services.model.createDocumentReference('', $space, 'WebPreferences'), 'admin', '')" title="$msg.get('xe.spaces.action.admin')"&gt;
+                &lt;img src="$xwiki.getSkinFile('icons/silk/wrench.png')" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
               &lt;/a&gt;
             #end
           &lt;/div&gt;
@@ -347,10 +347,10 @@ $xwiki.ssx.use('Main.Spaces')##
   #if($xwiki.hasAdminRights() &amp;&amp; "$!context.action" != "inline")
     &lt;li id="spSpaceCreateItem" class="xitem space"&gt;
       &lt;div class="xitemcontainer"&gt;
-        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="{{html wiki="false"}}$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space'){{/html}}" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
+        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space')" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;
         &lt;div id="spSpaceCreateForm" class="hidden"&gt;
-          &lt;form method="post" action="{{html wiki="false"}}$doc.getURL('create'){{/html}}" class="xformInline"&gt;
+          &lt;form method="post" action="$doc.getURL('create')" class="xformInline"&gt;
             &lt;div&gt;
               &lt;input name="tocreate" type="hidden" value="space" /&gt;
               #set($newSpaceName = $escapetool.xml($msg.get('xe.spaces.createspace.defaultname')))

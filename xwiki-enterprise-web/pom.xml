@@ -27,15 +27,21 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-web</artifactId>
   <name>XWiki Enterprise - Web</name>
   <packaging>war</packaging>
-  <description>XWiki Enterprise - Web</description>
+  <description>The XWiki Enterprise base package. It contains the full XWiki Enterprise runtime except for wiki pages.
+
+If you wish to have the default wiki pages, which contain both content pages and some default applications you also need to install the "XWiki Enterprise - UI" package. Alternatively you can start with an empty wiki without any page and thus no application pre-installed.
+  </description>
   <properties>
     <!-- By default we don't include Legacy modules and thus we don't need to exclude the non legacy JARs -->
     <xwiki.war.legacy.excludes />
+
+    <!-- The default UI associated to this WAR -->
+    <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui</xwiki.extension.distribution.ui>
   </properties>
   <dependencies>
     <!-- Depend on the platform WAR to get all web resources. We then need to add all libraries we need for XE. -->
@@ -68,10 +74,16 @@
       <type>war</type>
       <scope>runtime</scope>
     </dependency>
-    <!-- Component Module -->
+    <!-- Components Modules -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-component-script</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-component-wiki</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -176,6 +188,12 @@
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-extension-distribution</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
 
     <!-- Default Rendering Macros we want available by default in XE.
          Please keep them in alphabetical order -->
@@ -218,6 +236,12 @@
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-macro-toc</artifactId>
+      <version>${rendering.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-macro-content</artifactId>
       <version>${rendering.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -476,6 +500,19 @@
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- User Interface extensions -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-uiextension-api</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-panels-api</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Activity Stream -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -577,6 +614,12 @@
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-logging-logback</artifactId>
       <version>${commons.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-logging-script</artifactId>
+      <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

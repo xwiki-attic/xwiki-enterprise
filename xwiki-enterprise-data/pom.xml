@@ -27,16 +27,16 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>4.3-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-database</artifactId>
-  <name>XWiki Enterprise - Database - Parent POM</name>
+  <artifactId>xwiki-enterprise-data</artifactId>
+  <name>XWiki Enterprise - Data - Parent POM</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Database - Parent POM</description>
+  <description>XWiki Enterprise - Data - Parent POM</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-all</artifactId>
+      <artifactId>xwiki-enterprise-ui</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
       <scope>provided</scope>
@@ -46,35 +46,13 @@
     <pluginManagement>
       <plugins>
         <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
-       plugin -->
-        <!-- Step 2: Expand the XAR file -->
-        <plugin>
-          <groupId>org.xwiki.commons</groupId>
-          <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-          <version>${commons.version}</version>
-          <configuration>
-            <groupId>org.xwiki.enterprise</groupId>
-            <artifactId>xwiki-enterprise-ui-all</artifactId>
-            <outputDirectory>${project.build.directory}/xar</outputDirectory>
-          </configuration>
-          <executions>
-            <execution>
-              <!-- Right phase is prepare-package, but it is only in maven-2.1
-              <phase>prepare-package</phase>-->
-              <phase>package</phase>
-              <goals>
-                <goal>unxar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <!-- Step 3: Import the XAR content into the Database -->
+           plugin -->
+        <!-- Step 2: Import the XAR dependencies into the database -->
         <plugin>
           <groupId>org.xwiki.platform</groupId>
           <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
-          <version>${commons.version}</version>
+          <version>${platform.version}</version>
           <configuration>
-            <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
             <hibernateConfig>
               ${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml
             </hibernateConfig>
@@ -114,22 +92,20 @@
           </dependencies>
           <executions>
             <execution>
-              <!-- Right phase is prepare-package, but it is only in maven-2.1
-              <phase>prepare-package</phase>-->
-              <phase>package</phase>
+              <phase>prepare-package</phase>
               <goals>
                 <goal>import</goal>
               </goals>
             </execution>
           </executions>
         </plugin>
-        <!-- Step 4: Zip the generated database (for embedded databases only) -->
+        <!-- Step 3: Zip the generated data -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
           <configuration>
             <descriptors>
-              <descriptor>${basedir}/src/assemble/database.xml</descriptor>
+              <descriptor>${basedir}/src/assemble/data.xml</descriptor>
             </descriptors>
           </configuration>
           <executions>
@@ -153,26 +129,24 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>xwiki-enterprise-database-hsqldb</module>
+        <module>xwiki-enterprise-data-hsqldb</module>
       </modules>
     </profile>
     <profile>
       <id>derby</id>
       <modules>
-        <module>xwiki-enterprise-database-derby</module>
+        <module>xwiki-enterprise-data-derby</module>
       </modules>
     </profile>
     <profile>
-      <id>pgsql</id>
-      <modules>
-        <module>xwiki-enterprise-database-pgsql</module>
-      </modules>
-    </profile>
-    <profile>
+      <!-- Note: Even though this profile doesn't do much it's required to allow not activating the HSQLDB profile
+           when building for MySQL -->
       <id>mysql</id>
-      <modules>
-        <module>xwiki-enterprise-database-mysql</module>
-      </modules>
+    </profile>
+    <profile>
+      <!-- Note: Even though this profile doesn't do much it's required to allow not activating the HSQLDB profile
+           when building for PostgreSQL -->
+      <id>pgsql</id>
     </profile>
     <profile>
       <id>clover</id>

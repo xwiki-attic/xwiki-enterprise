@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test</artifactId>
   <name>XWiki Enterprise - Functional Tests - Parent POM</name>
@@ -208,6 +208,7 @@
                     templates/editgroup.vm <!-- TODO test with deleted XWiki.XWikiGroupSheet and 'inline' action -->
                     templates/editmodes.vm
                     templates/editpanelsvars.vm
+                    templates/extension.vm <!-- Contains only Velocity macros -->
                     templates/fakeleftpanels.vm
                     templates/fakerightpanels.vm
                     templates/frequentlyUsedDocs.vm

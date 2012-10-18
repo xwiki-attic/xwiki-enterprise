@@ -3,13 +3,23 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-ui</artifactId>
   <name>XWiki Enterprise - UI</name>
   <packaging>xar</packaging>
-  <description>Default UI for XWiki Enterprise</description>
+  <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise.
+  </description>
   <dependencies>
+    <!-- Other UIs -->
+    <!-- Put administration ui first to have default users and rights imported before most of the other pages
+     in case some of them needs to be checked for special right like wiki components etc. -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-administration-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-livetable-ui</artifactId>
@@ -25,12 +35,6 @@
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-panels-ui</artifactId>
-      <version>${platform.version}</version>
-      <type>xar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-administration-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
@@ -135,6 +139,28 @@
       <artifactId>xwiki-platform-user-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-logging-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-uiextension-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
+
+    <!-- JAR dependencies -->
+    <!-- With strict versions so that XE XAR extension is marked as invalid when they change (upgrading the WAR) -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-oldcore</artifactId>
+      <version>[${platform.version}]</version>
+      <type>jar</type>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
 </project>

@@ -176,7 +176,6 @@ public class AllDocsTest extends AbstractXWikiTestCase
 
         // Wait for the data to arrive.
         waitForNodeToLoad("xwiki:Blog");
-        waitForNodeToLoad("xwiki:Dashboard");
         waitForNodeToLoad("xwiki:Main");
         waitForNodeToLoad("xwiki:Sandbox");
         waitForNodeToLoad("xwiki:XWiki");

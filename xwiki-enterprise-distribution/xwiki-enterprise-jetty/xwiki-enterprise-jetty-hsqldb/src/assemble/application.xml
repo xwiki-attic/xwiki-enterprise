@@ -94,12 +94,12 @@
       <outputDirectory>webapps/xwiki/WEB-INF/lib</outputDirectory>
       <unpack>false</unpack>
     </dependencySet>
-    <!-- Unpack the HSQLDB database files to package it in the distribution -->
+    <!-- Unpack the data files to package it in the distribution -->
     <dependencySet>
       <includes>
-        <include>org.xwiki.enterprise:xwiki-enterprise-database-${xwiki.db}</include>
+        <include>org.xwiki.enterprise:xwiki-enterprise-data-${xwiki.db}</include>
       </includes>
-      <outputDirectory>/${xwikiDataDir}/database</outputDirectory>
+      <outputDirectory>/${xwikiDataDir}/</outputDirectory>
       <unpack>true</unpack>
     </dependencySet>
   </dependencySets>

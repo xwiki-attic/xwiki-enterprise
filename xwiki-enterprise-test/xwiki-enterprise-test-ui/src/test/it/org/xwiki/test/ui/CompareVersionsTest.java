@@ -116,12 +116,12 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
 
         // Attach files.
         AttachmentsPane attachmentsPane = testPage.openAttachmentsDocExtraPane();
-        attachmentsPane.setFileToUpload(this.getClass().getResource("/SmallAttachment.txt").getPath());
-        attachmentsPane.addAnotherFile();
-        attachmentsPane.setFileToUpload(this.getClass().getResource("/SmallAttachment2.txt").getPath());
-        attachmentsPane.clickAttachFiles();
-        attachmentsPane.setFileToUpload(this.getClass().getResource("/SmallAttachment.txt").getPath());
-        attachmentsPane.clickAttachFiles();
+        // TODO: Update this code when we (re)add support for uploading multiple files at once.
+        for (String fileName : new String[] {"SmallAttachment.txt", "SmallAttachment2.txt", "SmallAttachment.txt"}) {
+            attachmentsPane.setFileToUpload(this.getClass().getResource('/' + fileName).getPath());
+            attachmentsPane.waitForUploadToFinish();
+            attachmentsPane.clickHideProgress();
+        }
         attachmentsPane.deleteAttachmentByFileByName("SmallAttachment2.txt");
 
         // Add comments.
@@ -142,7 +142,14 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
     {
         HistoryPane historyTab = testPage.openHistoryDocExtraPane().showMinorEdits();
         String currentVersion = historyTab.getCurrentVersion();
-        ChangesPane changesPane = historyTab.compare("1.1", currentVersion).getChangesPane();
+
+        // TODO: If the document has many versions, like in this case, the versions are paginated and currently there's
+        // no way to compare two versions from two different pagination pages using the UI. Thus we have to build the
+        // URL and load the compare page manually. Update the code when we remove this UI limitation.
+        // ChangesPane changesPane = historyTab.compare("1.1", currentVersion).getChangesPane();
+        String queryString = String.format("viewer=changes&rev1=1.1&rev2=%s", currentVersion);
+        getUtil().gotoPage(getTestClassName(), testPage.getMetaDataValue("page"), "view", queryString);
+        ChangesPane changesPane = new ChangesPane();
 
         // Version summary.
         String today = new SimpleDateFormat("yyyy/MM/dd").format(new Date());

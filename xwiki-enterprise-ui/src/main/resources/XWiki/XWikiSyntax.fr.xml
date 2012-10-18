@@ -35,6 +35,12 @@
 ** Ambiguïtés. Par exemple il y avait une ambiguïté entre un élément de gras placé au début d'une ligne et une liste à puces. La résolution du problème des ambiguïtés était nécessaire pour réécrire l'éditeur WYSIWYG afin qu'il puisse être déterministe.
 * Être plus près de la syntaxe [[Creole 1.0&gt;&gt;http://www.wikicreole.org/]] qui devient une norme pour la syntaxe wiki. En outre, la communauté Creole a pris son temps d'analyser toutes les syntaxes wiki existantes avant de décider sur les symboles. 
 
+Depuis l'introduction de la syntaxe XWiki 2.0, quelques lacunes de cette syntaxe ont été trouvées. Pour y remédier, la syntaxe XWiki 2.1, actuellement //expérimentale//, a été ajoutée dans XWiki Enterprise version 3.0. Cette nouvelle syntaxe a été notamment développée pour les raisons suivantes:
+* Homogénéiser la syntaxe des liens et des images pour plus de cohérence et de clarté, ainsi que la possibilité de l'étendre ultérieurement.
+* Ajouter la possibilité d'afficher des icônes, d'utiliser la notation UNC pour ajouter des liens, et de créer des liens vers des adresses relatives.
+
+{{info}} La syntaxe XWiki 2.1 étant basée sur la syntaxe XWiki 2.0, toute la syntaxe XWiki 2.0 reste valable sauf si les caractéristiques de la syntaxe XWiki 2.1 précisent un changement. {{/info}}
+
 (((
 En plus de ces 2 syntaxes XWiki, nous avons aussi changé notre moteur de rendu sous-jacent (précédemment c'était Radeox) en faveur de notre propre moteur, qui est un sur-ensemble emballé autour de [[Wikimodel&gt;&gt;http://code.google.com/p/wikimodel/]] et [[Doxia&gt;&gt;http://maven.apache.org/doxia/]] (et éventuellement d'autres dans le futur). Cela nous a permis de fournir d'autres syntaxes dans le wiki: [[MediaWiki, Confluence, JSPWiki, Creole, TWiki et plus&gt;&gt;#HD'autressyntaxes]].
 )))

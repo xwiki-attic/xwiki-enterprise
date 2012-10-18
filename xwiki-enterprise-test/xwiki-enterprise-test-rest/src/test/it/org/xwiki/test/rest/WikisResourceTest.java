@@ -138,6 +138,34 @@ public class WikisResourceTest extends AbstractHttpTest
     }
 
     @Test
+    public void testObjectSearchNotAuthenticated() throws Exception
+    {
+        /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
+        GetMethod getMethod =
+            executeGet(String.format("%s?q=XWiki.Admin&scope=objects", getUriBuilder(WikiSearchResource.class).build(getWiki())));
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 0);        
+    }
+    
+    @Test
+    public void testObjectSearchAuthenticated() throws Exception
+    {
+        /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
+        GetMethod getMethod =
+            executeGet(String.format("%s?q=XWiki.Admin&scope=objects", getUriBuilder(WikiSearchResource.class).build(getWiki())), "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);        
+    }
+    
+    @Test
     public void testPages() throws Exception
     {
         // Get all pages
@@ -295,7 +323,7 @@ public class WikisResourceTest extends AbstractHttpTest
     }
 
     @Test
-    public void testHQLQuerySearchWithClassnameAndEditRights() throws Exception
+    public void testHQLQuerySearchWithClassnameAuthenticated() throws Exception
     {
         GetMethod getMethod =
             executeGet(URIUtil.encodeQuery(String.format(
@@ -312,7 +340,7 @@ public class WikisResourceTest extends AbstractHttpTest
     }
 
     @Test
-    public void testHQLQuerySearchWithClassnameWithoutEditRights() throws Exception
+    public void testHQLQuerySearchWithClassnameNotAuthenticated() throws Exception
     {
         GetMethod getMethod =
             executeGet(URIUtil.encodeQuery(String.format(

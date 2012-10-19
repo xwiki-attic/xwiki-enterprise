@@ -24,9 +24,16 @@ import java.util.List;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.internal.resources.wikis.WikiAttachmentsResource;
+import org.xwiki.rest.internal.resources.wikis.WikiPagesResource;
+import org.xwiki.rest.internal.resources.wikis.WikiSearchQueryResource;
+import org.xwiki.rest.internal.resources.wikis.WikiSearchResource;
+import org.xwiki.rest.internal.resources.wikis.WikisResource;
+import org.xwiki.rest.internal.resources.wikis.WikisSearchQueryResource;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -36,10 +43,6 @@ import org.xwiki.rest.model.jaxb.SearchResult;
 import org.xwiki.rest.model.jaxb.SearchResults;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
-import org.xwiki.rest.resources.wikis.WikiAttachmentsResource;
-import org.xwiki.rest.resources.wikis.WikiPagesResource;
-import org.xwiki.rest.resources.wikis.WikiSearchResource;
-import org.xwiki.rest.resources.wikis.WikisResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class WikisResourceTest extends AbstractHttpTest
@@ -65,6 +68,9 @@ public class WikisResourceTest extends AbstractHttpTest
             Assert.assertNotNull(link);
 
             link = getFirstLinkByRelation(wiki, Relations.SEARCH);
+            Assert.assertNotNull(link);
+
+            link = getFirstLinkByRelation(wiki, Relations.QUERY);
             Assert.assertNotNull(link);
 
             checkLinks(wiki);
@@ -129,6 +135,40 @@ public class WikisResourceTest extends AbstractHttpTest
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);
         }
+    }
+
+    @Test
+    public void testObjectSearchNotAuthenticated() throws Exception
+    {
+        /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
+        GetMethod getMethod =
+            executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
+                getUriBuilder(WikiSearchResource.class).build(getWiki())));
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 0);
+    }
+
+    @Test
+    public void testObjectSearchAuthenticated() throws Exception
+    {
+        /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
+        GetMethod getMethod =
+            executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
+                getUriBuilder(WikiSearchResource.class).build(getWiki())), "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        /*
+         * We get more results because previous tests have also created comments on behalf of XWiki.Admin. They will
+         * appear in the results.
+         */
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize >= 1);
     }
 
     @Test
@@ -252,4 +292,106 @@ public class WikisResourceTest extends AbstractHttpTest
             checkLinks(attachment);
         }
     }
+
+    @Test
+    public void testHQLQuerySearch() throws Exception
+    {
+        GetMethod getMethod =
+            executeGet(URIUtil.encodeQuery(String.format(
+                "%s?q=where doc.name='WebHome' order by doc.space desc&type=hql",
+                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize >= 1);
+
+        // Verify that some WebHomes we expect are found.
+        int foundCounter = 0;
+        List<String> expectedWebHomes =
+            Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
+                "Scheduler.WebHome", "Sandbox.WebHome", "XWiki.WebHome");
+        for (SearchResult searchResult : searchResults.getSearchResults()) {
+            checkLinks(searchResult);
+
+            if (expectedWebHomes.contains(searchResult.getPageFullName())) {
+                foundCounter++;
+            }
+
+            Assert.assertTrue(searchResult.getPageFullName().endsWith(".WebHome"));
+        }
+
+        // Note: since we can have translations, the number of found pages can be greater than the expected size.
+        Assert.assertTrue("Some WebHome pages were not found!", foundCounter >= expectedWebHomes.size());
+
+        Assert.assertEquals("XWiki.WebHome", searchResults.getSearchResults().get(0).getPageFullName());
+    }
+
+    @Test
+    public void testHQLQuerySearchWithClassnameAuthenticated() throws Exception
+    {
+        GetMethod getMethod =
+            executeGet(URIUtil.encodeQuery(String.format(
+                "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&classname=XWiki.XWikiUsers",
+                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))), "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
+
+        Assert.assertNotNull(searchResults.getSearchResults().get(0).getObject());
+    }
+
+    @Test
+    public void testHQLQuerySearchWithClassnameNotAuthenticated() throws Exception
+    {
+        GetMethod getMethod =
+            executeGet(URIUtil.encodeQuery(String.format(
+                "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&classname=XWiki.XWikiUsers",
+                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
+
+        Assert.assertNull(searchResults.getSearchResults().get(0).getObject());
+    }
+
+    @Test
+    public void testLuceneSearch() throws Exception
+    {
+        GetMethod getMethod =
+            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=lucene",
+                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
+
+        Assert.assertEquals("Main.Welcome", searchResults.getSearchResults().get(0).getPageFullName());
+    }
+
+    @Test
+    public void testGlobalLuceneSearch() throws Exception
+    {
+        GetMethod getMethod =
+            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=lucene&wikis=xwiki",
+                getUriBuilder(WikisSearchQueryResource.class).build(getWiki()))));
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
+
+        Assert.assertEquals("Main.Welcome", searchResults.getSearchResults().get(0).getPageFullName());
+    }
+
 }

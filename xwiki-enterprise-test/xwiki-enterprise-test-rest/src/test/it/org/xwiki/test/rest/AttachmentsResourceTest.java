@@ -42,12 +42,12 @@ import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.internal.resources.attachments.AttachmentHistoryResource;
+import org.xwiki.rest.internal.resources.attachments.AttachmentResource;
+import org.xwiki.rest.internal.resources.attachments.AttachmentsAtPageVersionResource;
+import org.xwiki.rest.internal.resources.attachments.AttachmentsResource;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
-import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
-import org.xwiki.rest.resources.attachments.AttachmentResource;
-import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
-import org.xwiki.rest.resources.attachments.AttachmentsResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class AttachmentsResourceTest extends AbstractHttpTest

@@ -23,10 +23,10 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.Assert;
 import org.junit.Test;
+import org.xwiki.rest.internal.resources.classes.ClassesResource;
 import org.xwiki.rest.model.jaxb.Class;
 import org.xwiki.rest.model.jaxb.Classes;
 import org.xwiki.rest.model.jaxb.Property;
-import org.xwiki.rest.resources.classes.ClassesResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class ClassesResourceTest extends AbstractHttpTest

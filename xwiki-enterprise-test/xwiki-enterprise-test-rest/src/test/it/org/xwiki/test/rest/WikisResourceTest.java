@@ -142,29 +142,35 @@ public class WikisResourceTest extends AbstractHttpTest
     {
         /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
         GetMethod getMethod =
-            executeGet(String.format("%s?q=XWiki.Admin&scope=objects", getUriBuilder(WikiSearchResource.class).build(getWiki())));
+            executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
+                getUriBuilder(WikiSearchResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         int resultSize = searchResults.getSearchResults().size();
-        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 0);        
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 0);
     }
-    
+
     @Test
     public void testObjectSearchAuthenticated() throws Exception
     {
         /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
         GetMethod getMethod =
-            executeGet(String.format("%s?q=XWiki.Admin&scope=objects", getUriBuilder(WikiSearchResource.class).build(getWiki())), "Admin", "admin");
+            executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
+                getUriBuilder(WikiSearchResource.class).build(getWiki())), "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
+        /*
+         * We get more results because previous tests have also created comments on behalf of XWiki.Admin. They will
+         * appear in the results.
+         */
         int resultSize = searchResults.getSearchResults().size();
-        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);        
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize >= 1);
     }
-    
+
     @Test
     public void testPages() throws Exception
     {

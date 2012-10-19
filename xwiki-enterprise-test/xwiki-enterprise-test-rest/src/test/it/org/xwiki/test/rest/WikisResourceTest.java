@@ -28,6 +28,12 @@ import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.internal.resources.wikis.WikiAttachmentsResource;
+import org.xwiki.rest.internal.resources.wikis.WikiPagesResource;
+import org.xwiki.rest.internal.resources.wikis.WikiSearchQueryResource;
+import org.xwiki.rest.internal.resources.wikis.WikiSearchResource;
+import org.xwiki.rest.internal.resources.wikis.WikisResource;
+import org.xwiki.rest.internal.resources.wikis.WikisSearchQueryResource;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -37,12 +43,6 @@ import org.xwiki.rest.model.jaxb.SearchResult;
 import org.xwiki.rest.model.jaxb.SearchResults;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
-import org.xwiki.rest.resources.wikis.WikiAttachmentsResource;
-import org.xwiki.rest.resources.wikis.WikiPagesResource;
-import org.xwiki.rest.resources.wikis.WikiSearchQueryResource;
-import org.xwiki.rest.resources.wikis.WikiSearchResource;
-import org.xwiki.rest.resources.wikis.WikisResource;
-import org.xwiki.rest.resources.wikis.WikisSearchQueryResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class WikisResourceTest extends AbstractHttpTest

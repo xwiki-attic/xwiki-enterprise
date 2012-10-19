@@ -44,6 +44,8 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.restlet.data.MediaType;
+import org.xwiki.rest.internal.resources.pages.PageResource;
+import org.xwiki.rest.internal.resources.wikis.WikisResource;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -53,8 +55,6 @@ import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.PageSummary;
 import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.Wikis;
-import org.xwiki.rest.resources.pages.PageResource;
-import org.xwiki.rest.resources.wikis.WikisResource;
 import org.xwiki.test.AbstractComponentTestCase;
 import org.xwiki.test.integration.XWikiExecutor;
 

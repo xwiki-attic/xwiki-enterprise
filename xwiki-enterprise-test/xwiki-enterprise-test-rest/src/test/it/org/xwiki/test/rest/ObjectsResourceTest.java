@@ -35,16 +35,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.internal.resources.objects.ObjectAtPageVersionResource;
+import org.xwiki.rest.internal.resources.objects.ObjectResource;
+import org.xwiki.rest.internal.resources.objects.ObjectsResource;
+import org.xwiki.rest.internal.resources.pages.PageResource;
 import org.xwiki.rest.model.jaxb.Link;
 import org.xwiki.rest.model.jaxb.Object;
 import org.xwiki.rest.model.jaxb.ObjectSummary;
 import org.xwiki.rest.model.jaxb.Objects;
 import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.Property;
-import org.xwiki.rest.resources.objects.ObjectAtPageVersionResource;
-import org.xwiki.rest.resources.objects.ObjectResource;
-import org.xwiki.rest.resources.objects.ObjectsResource;
-import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class ObjectsResourceTest extends AbstractHttpTest

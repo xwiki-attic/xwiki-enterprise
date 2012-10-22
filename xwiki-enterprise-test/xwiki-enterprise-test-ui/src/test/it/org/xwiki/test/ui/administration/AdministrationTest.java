@@ -24,8 +24,6 @@ import org.xwiki.administration.test.po.AdministrablePage;
 import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 
-import com.google.code.tempusfugit.concurrency.annotations.Intermittent;
-
 /**
  * Verify the overall Administration application features.
  *
@@ -44,7 +42,6 @@ public class AdministrationTest extends AbstractAdminAuthenticatedTest
      * </ul>
      */
     @Test
-    @Intermittent
     public void globalAndSpaceSections()
     {
         // Go to any page. Note that we go to a not existing page for 2 reasons:
@@ -75,7 +72,7 @@ public class AdministrationTest extends AbstractAdminAuthenticatedTest
         AdministrationPage spaceAdministrationPage = administrationPage.selectSpaceToAdminister("Main");
 
         // Note: I'm not sure this is good enough since waitUntilPageIsLoaded() tests for the existence of the footer
-        // but if the page hasn't started reloading then the footer will be present... However I ran this test 100
+        // but if the page hasn't started reloading then the footer will be present... However I ran this test 300
         // times in a row without any failure...
         spaceAdministrationPage.waitUntilPageIsLoaded();
 

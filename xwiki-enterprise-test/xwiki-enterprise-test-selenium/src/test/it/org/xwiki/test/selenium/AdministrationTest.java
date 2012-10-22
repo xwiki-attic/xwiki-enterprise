@@ -108,7 +108,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//div[@id='bothcolumns']", false);
         waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
+        getSelenium().dragAndDropToObject("//div[@class='panel expanded CategoriesPanel']", "//div[@id='leftPanels']");
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
@@ -142,16 +142,16 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//div[@id='leftcolumn']", false);
         waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
+        getSelenium().dragAndDropToObject("//div[@class='panel expanded CategoriesPanel']", "//div[@id='leftPanels']");
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForCondition("selenium.isAlertPresent()");
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("TestPanelsAdmin", "WebHome");
         assertElementPresent("leftPanels");
-        assertElementPresent("//div[@class='panel expanded QuickLinks']");
+        assertElementPresent("//div[@class='panel expanded CategoriesPanel']");
         open("XWiki", "WebHome");
         assertElementNotPresent("leftPanels");
-        assertElementNotPresent("//div[@class='panel expanded QuickLinks']");
+        assertElementNotPresent("//div[@class='panel expanded CategoriesPanel']");
     }
 
     /*

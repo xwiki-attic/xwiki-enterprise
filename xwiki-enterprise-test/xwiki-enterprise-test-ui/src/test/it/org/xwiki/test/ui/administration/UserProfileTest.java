@@ -176,20 +176,25 @@ public class UserProfileTest extends AbstractTest
     })
     public void testChangeUserProfile()
     {
+        String timezone = "Europe/Paris";
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
-        // Setting to Simple user
+        Assert.assertEquals("", preferencesPage.getTimezone());
+
+        // Setting to Simple user and setting the timezone to Europe/Paris
         PreferencesEditPage preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setSimpleUserType();
+        preferencesEditPage.setTimezone(timezone);
         preferencesEditPage.clickSaveAndView();
         preferencesPage = this.customProfilePage.switchToPreferences();
-        Assert.assertEquals(SIMPLE_USER, this.customProfilePage.getUserType());
+        Assert.assertEquals(SIMPLE_USER, preferencesPage.getUserType());
+        Assert.assertEquals(timezone, preferencesPage.getTimezone());
 
         // Setting to Advanced user
         preferencesEditPage = preferencesPage.editPreferences();
         preferencesEditPage.setAdvancedUserType();
         preferencesEditPage.clickSaveAndView();
         this.customProfilePage.switchToPreferences();
-        Assert.assertEquals(ADVANCED_USER, this.customProfilePage.getUserType());
+        Assert.assertEquals(ADVANCED_USER, preferencesPage.getUserType());
     }
 
     /** Functionality check: changing the default editor. */
@@ -207,7 +212,7 @@ public class UserProfileTest extends AbstractTest
         preferencesEditPage.setDefaultEditorText();
         preferencesEditPage.clickSaveAndView();
         preferencesPage = this.customProfilePage.switchToPreferences();
-        Assert.assertEquals(TEXT_EDITOR, this.customProfilePage.getDefaultEditorToUse());
+        Assert.assertEquals(TEXT_EDITOR, preferencesPage.getDefaultEditor());
 
         // Setting to WYSIWYG Editor
         this.customProfilePage = ProfileUserProfilePage.gotoPage(this.userName);
@@ -216,7 +221,7 @@ public class UserProfileTest extends AbstractTest
         preferencesEditPage.setDefaultEditorWysiwyg();
         preferencesEditPage.clickSaveAndView();
         preferencesPage = this.customProfilePage.switchToPreferences();
-        Assert.assertEquals(WYSIWYG_EDITOR, this.customProfilePage.getDefaultEditorToUse());
+        Assert.assertEquals(WYSIWYG_EDITOR, preferencesPage.getDefaultEditor());
 
         // Setting to Default Editor
         this.customProfilePage = ProfileUserProfilePage.gotoPage(this.userName);
@@ -225,7 +230,7 @@ public class UserProfileTest extends AbstractTest
         preferencesEditPage.setDefaultEditorDefault();
         preferencesEditPage.clickSaveAndView();
         preferencesPage = this.customProfilePage.switchToPreferences();
-        Assert.assertEquals(DEFAULT_EDITOR, this.customProfilePage.getDefaultEditorToUse());
+        Assert.assertEquals(DEFAULT_EDITOR, preferencesPage.getDefaultEditor());
     }
 
     /**

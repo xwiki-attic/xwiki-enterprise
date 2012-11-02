@@ -33,12 +33,6 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.rest.internal.resources.SyntaxesResource;
-import org.xwiki.rest.internal.resources.pages.PageChildrenResource;
-import org.xwiki.rest.internal.resources.pages.PageHistoryResource;
-import org.xwiki.rest.internal.resources.pages.PageResource;
-import org.xwiki.rest.internal.resources.pages.PageTranslationResource;
-import org.xwiki.rest.internal.resources.wikis.WikisResource;
 import org.xwiki.rest.model.jaxb.History;
 import org.xwiki.rest.model.jaxb.HistorySummary;
 import org.xwiki.rest.model.jaxb.Link;
@@ -51,6 +45,12 @@ import org.xwiki.rest.model.jaxb.Syntaxes;
 import org.xwiki.rest.model.jaxb.Translation;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
+import org.xwiki.rest.resources.SyntaxesResource;
+import org.xwiki.rest.resources.pages.PageChildrenResource;
+import org.xwiki.rest.resources.pages.PageHistoryResource;
+import org.xwiki.rest.resources.pages.PageResource;
+import org.xwiki.rest.resources.pages.PageTranslationResource;
+import org.xwiki.rest.resources.wikis.WikisResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.test.rest.framework.TestConstants;
 
@@ -125,9 +125,8 @@ public class PageResourceTest extends AbstractHttpTest
     public void testGETNotExistingPage() throws Exception
     {
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageResource.class).build(getWiki(), "NOTEXISTING", "NOTEXISTING").toString());
+                executeGet(getUriBuilder(PageResource.class).build(getWiki(), "NOTEXISTING", "NOTEXISTING").toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
-
     }
 
     @Test
@@ -199,8 +198,9 @@ public class PageResourceTest extends AbstractHttpTest
         page.setParent(PARENT);
 
         PutMethod putMethod =
-            executePutXml(getUriBuilder(PageResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString(), page,
-                "Admin", "admin");
+                executePutXml(getUriBuilder(PageResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString(),
+                        page,
+                        "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -218,10 +218,10 @@ public class PageResourceTest extends AbstractHttpTest
         Link link = getFirstLinkByRelation(page, Relations.SELF);
 
         PutMethod putMethod =
-            executePut(link.getHref(),
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><invalidPage><content/></invalidPage>", MediaType.TEXT_XML);
+                executePut(link.getHref(),
+                        "<?xml version=\"1.0\" encoding=\"UTF-8\"?><invalidPage><content/></invalidPage>",
+                        MediaType.TEXT_XML);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_BAD_REQUEST, putMethod.getStatusCode());
-
     }
 
     private void createPageIfDoesntExist(String spaceName, String pageName, String content) throws Exception
@@ -246,7 +246,7 @@ public class PageResourceTest extends AbstractHttpTest
     public void testPUTTranslation() throws Exception
     {
         String[] languages = Locale.getISOLanguages();
-        final String languageId = languages[random.nextInt(languages.length)]; 
+        final String languageId = languages[random.nextInt(languages.length)];
 
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, TestConstants.TRANSLATIONS_PAGE_NAME, "Translations");
 
@@ -254,13 +254,14 @@ public class PageResourceTest extends AbstractHttpTest
         page.setContent(languageId);
 
         PutMethod putMethod =
-            executePutXml(getUriBuilder(PageTranslationResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                TestConstants.TRANSLATIONS_PAGE_NAME, languageId).toString(), page, "Admin", "admin");
+                executePutXml(
+                        getUriBuilder(PageTranslationResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                                TestConstants.TRANSLATIONS_PAGE_NAME, languageId).toString(), page, "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageTranslationResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                TestConstants.TRANSLATIONS_PAGE_NAME, languageId).toString());
+                executeGet(getUriBuilder(PageTranslationResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                        TestConstants.TRANSLATIONS_PAGE_NAME, languageId).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -272,8 +273,8 @@ public class PageResourceTest extends AbstractHttpTest
     public void testGETTranslations() throws Exception
     {
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                TestConstants.TRANSLATIONS_PAGE_NAME).toString());
+                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                        TestConstants.TRANSLATIONS_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -296,15 +297,14 @@ public class PageResourceTest extends AbstractHttpTest
     public void testGETNotExistingTranslation() throws Exception
     {
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                TestConstants.TRANSLATIONS_PAGE_NAME).toString());
+                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                        TestConstants.TRANSLATIONS_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         getMethod =
-            executeGet(getUriBuilder(PageTranslationResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                TestConstants.TRANSLATIONS_PAGE_NAME, "NOT_EXISTING").toString());
+                executeGet(getUriBuilder(PageTranslationResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                        TestConstants.TRANSLATIONS_PAGE_NAME, "NOT_EXISTING").toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
-
     }
 
     @Test
@@ -315,13 +315,14 @@ public class PageResourceTest extends AbstractHttpTest
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, pageName, "Test page");
 
         DeleteMethod deleteMethod =
-            executeDelete(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
-                .toString(), "Admin", "admin");
+                executeDelete(
+                        getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
+                                .toString(), "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
-                .toString());
+                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
+                        .toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
     }
 
@@ -333,13 +334,14 @@ public class PageResourceTest extends AbstractHttpTest
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, pageName, "Test page");
 
         DeleteMethod deleteMethod =
-            executeDelete(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
-                .toString());
+                executeDelete(
+                        getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
+                                .toString());
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_UNAUTHORIZED, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
-                .toString());
+                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
+                        .toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
     }
 
@@ -347,15 +349,16 @@ public class PageResourceTest extends AbstractHttpTest
     public void testPageHistory() throws Exception
     {
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
+                executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
 
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page originalPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         String pageHistoryUri =
-            getUriBuilder(PageHistoryResource.class).build(getWiki(), originalPage.getSpace(), originalPage.getName())
-                .toString();
+                getUriBuilder(PageHistoryResource.class)
+                        .build(getWiki(), originalPage.getSpace(), originalPage.getName())
+                        .toString();
 
         getMethod = executeGet(pageHistoryUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -380,8 +383,8 @@ public class PageResourceTest extends AbstractHttpTest
     public void testPageTranslationHistory() throws Exception
     {
         String pageHistoryUri =
-            getUriBuilder(PageHistoryResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                TestConstants.TRANSLATIONS_PAGE_NAME).toString();
+                getUriBuilder(PageHistoryResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                        TestConstants.TRANSLATIONS_PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -403,7 +406,7 @@ public class PageResourceTest extends AbstractHttpTest
     public void testGETPageChildren() throws Exception
     {
         GetMethod getMethod =
-            executeGet(getUriBuilder(PageChildrenResource.class).build(getWiki(), "Main", "WebHome").toString());
+                executeGet(getUriBuilder(PageChildrenResource.class).build(getWiki(), "Main", "WebHome").toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Pages pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -430,7 +433,7 @@ public class PageResourceTest extends AbstractHttpTest
         nameValuePairs[1] = new NameValuePair("content", CONTENT);
 
         PostMethod postMethod =
-            executePostForm(String.format("%s?method=PUT", link.getHref()), nameValuePairs, "Admin", "admin");
+                executePostForm(String.format("%s?method=PUT", link.getHref()), nameValuePairs, "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());

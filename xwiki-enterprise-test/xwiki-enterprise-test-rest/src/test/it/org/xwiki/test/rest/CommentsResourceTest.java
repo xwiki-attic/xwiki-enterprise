@@ -28,13 +28,13 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.rest.internal.resources.comments.CommentsResource;
-import org.xwiki.rest.internal.resources.pages.PageHistoryResource;
 import org.xwiki.rest.model.jaxb.Comment;
 import org.xwiki.rest.model.jaxb.Comments;
 import org.xwiki.rest.model.jaxb.History;
 import org.xwiki.rest.model.jaxb.HistorySummary;
 import org.xwiki.rest.model.jaxb.Page;
+import org.xwiki.rest.resources.comments.CommentsResource;
+import org.xwiki.rest.resources.pages.PageHistoryResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class CommentsResourceTest extends AbstractHttpTest
@@ -118,7 +118,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     public void testGETCommentsAtPreviousVersions() throws Exception
     {
         String pageHistoryUri =
-            getUriBuilder(PageHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+                getUriBuilder(PageHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -163,5 +163,4 @@ public class CommentsResourceTest extends AbstractHttpTest
 
         Assert.assertEquals(numberOfComments + 1, comments.getComments().size());
     }
-
 }

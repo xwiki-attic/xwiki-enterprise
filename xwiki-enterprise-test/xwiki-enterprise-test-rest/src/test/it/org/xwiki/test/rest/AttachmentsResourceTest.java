@@ -42,12 +42,12 @@ import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
-import org.xwiki.rest.internal.resources.attachments.AttachmentHistoryResource;
-import org.xwiki.rest.internal.resources.attachments.AttachmentResource;
-import org.xwiki.rest.internal.resources.attachments.AttachmentsAtPageVersionResource;
-import org.xwiki.rest.internal.resources.attachments.AttachmentsResource;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
+import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
+import org.xwiki.rest.resources.attachments.AttachmentResource;
+import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
+import org.xwiki.rest.resources.attachments.AttachmentsResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 
 public class AttachmentsResourceTest extends AbstractHttpTest
@@ -120,7 +120,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testGETAttachments() throws Exception
     {
         String attachmentsUri =
-            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+                getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -134,7 +134,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testDELETEAttachment() throws Exception
     {
         String attachmentsUri =
-            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+                getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -189,7 +189,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             String attachmentURI = buildAttachmentURI(attachmentNames[i]);
 
             PutMethod putMethod =
-                executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+                    executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
             Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
             Attachment attachment = (Attachment) this.unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -202,8 +202,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
          */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
             String attachmentsUri =
-                getUriBuilder(AttachmentsAtPageVersionResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME,
-                    pageVersions[i]).toString();
+                    getUriBuilder(AttachmentsAtPageVersionResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME,
+                            pageVersions[i]).toString();
 
             GetMethod getMethod = executeGet(attachmentsUri);
             Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -225,7 +225,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                     }
                 }
                 Assert.assertTrue(String.format("%s is not present in attachments list of the page at version %s",
-                    attachmentNames[j], pageVersions[i]), found);
+                        attachmentNames[j], pageVersions[i]), found);
             }
 
             /* Check links */
@@ -248,7 +248,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             String attachmentURI = buildAttachmentURI(attachmentName);
             String content = String.format("CONTENT %d", i);
             PutMethod putMethod =
-                executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+                    executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
             if (i == 0) {
                 Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
             } else {
@@ -261,8 +261,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         }
 
         String attachmentsUri =
-            getUriBuilder(AttachmentHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
-                .toString();
+                getUriBuilder(AttachmentHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
+                        .toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -284,11 +284,12 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         final String content = "ATTACHMENT CONTENT";
 
         String attachmentsUri =
-            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
+                getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
+                        .toString();
 
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY,
-            new UsernamePasswordCredentials(ADMIN_USERNAME, ADMIN_PASSWORD));
+                new UsernamePasswordCredentials(ADMIN_USERNAME, ADMIN_PASSWORD));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
         Part[] parts = new Part[1];
@@ -326,6 +327,6 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         // Use UriBuilder.buildFromEncoded so we don't double encode the %.
         return getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName,
-            encodedAttachmentName).toString();
+                encodedAttachmentName).toString();
     }
 }

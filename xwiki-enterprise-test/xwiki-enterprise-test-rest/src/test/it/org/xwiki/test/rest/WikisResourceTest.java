@@ -19,17 +19,21 @@
  */
 package org.xwiki.test.rest;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.internal.resources.pages.PageResource;
 import org.xwiki.rest.internal.resources.wikis.WikiAttachmentsResource;
 import org.xwiki.rest.internal.resources.wikis.WikiPagesResource;
+import org.xwiki.rest.internal.resources.wikis.WikiResource;
 import org.xwiki.rest.internal.resources.wikis.WikiSearchQueryResource;
 import org.xwiki.rest.internal.resources.wikis.WikiSearchResource;
 import org.xwiki.rest.internal.resources.wikis.WikisResource;
@@ -37,6 +41,7 @@ import org.xwiki.rest.internal.resources.wikis.WikisSearchQueryResource;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
+import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.model.jaxb.PageSummary;
 import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.SearchResult;
@@ -81,7 +86,8 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(String.format("%s?q=easy-to-edit", getUriBuilder(WikiSearchResource.class).build(getWiki())));
+                executeGet(
+                        String.format("%s?q=easy-to-edit", getUriBuilder(WikiSearchResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -94,8 +100,8 @@ public class WikisResourceTest extends AbstractHttpTest
         }
 
         getMethod =
-            executeGet(String.format("%s?q=WebHome&scope=name", getUriBuilder(WikiSearchResource.class)
-                .build(getWiki())));
+                executeGet(String.format("%s?q=WebHome&scope=name", getUriBuilder(WikiSearchResource.class)
+                        .build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -110,7 +116,8 @@ public class WikisResourceTest extends AbstractHttpTest
         // Note: we use $msg.get(...) a bit everywhere in our title for the moment... The search is a search in the DB
         // and not on the rendered content. Thus for our tests we search on msg...
         getMethod =
-            executeGet(String.format("%s?q=msg&scope=title", getUriBuilder(WikiSearchResource.class).build(getWiki())));
+                executeGet(String.format("%s?q=msg&scope=title",
+                        getUriBuilder(WikiSearchResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -124,7 +131,8 @@ public class WikisResourceTest extends AbstractHttpTest
 
         /* Check search for space names. Here we should get at least Sandbox as a result */
         getMethod =
-            executeGet(String.format("%s?q=db&scope=spaces", getUriBuilder(WikiSearchResource.class).build(getWiki())));
+                executeGet(String.format("%s?q=db&scope=spaces",
+                        getUriBuilder(WikiSearchResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -142,8 +150,8 @@ public class WikisResourceTest extends AbstractHttpTest
     {
         /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
         GetMethod getMethod =
-            executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
-                getUriBuilder(WikiSearchResource.class).build(getWiki())));
+                executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
+                        getUriBuilder(WikiSearchResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -157,8 +165,8 @@ public class WikisResourceTest extends AbstractHttpTest
     {
         /* Check search for an object containing XWiki.Admin (i.e., the admin profile) */
         GetMethod getMethod =
-            executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
-                getUriBuilder(WikiSearchResource.class).build(getWiki())), "Admin", "admin");
+                executeGet(String.format("%s?q=XWiki.Admin&scope=objects",
+                        getUriBuilder(WikiSearchResource.class).build(getWiki())), "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -188,7 +196,7 @@ public class WikisResourceTest extends AbstractHttpTest
 
         // Get all pages having a document name that contains "WebHome" (for all spaces)
         getMethod =
-            executeGet(String.format("%s?name=WebHome", getUriBuilder(WikiPagesResource.class).build(getWiki())));
+                executeGet(String.format("%s?name=WebHome", getUriBuilder(WikiPagesResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -210,8 +218,8 @@ public class WikisResourceTest extends AbstractHttpTest
 
         // Get all pages having a document name that contains "WebHome" and a space with an "s" in its name.
         getMethod =
-            executeGet(String
-                .format("%s?name=WebHome&space=s", getUriBuilder(WikiPagesResource.class).build(getWiki())));
+                executeGet(String
+                        .format("%s?name=WebHome&space=s", getUriBuilder(WikiPagesResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         pages = (Pages) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -221,8 +229,8 @@ public class WikisResourceTest extends AbstractHttpTest
         // Verify that some WebHomes we expect are found.
         foundCounter = 0;
         expectedWebHomes =
-            Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
-                "Scheduler.WebHome", "Sandbox.WebHome");
+                Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
+                        "Scheduler.WebHome", "Sandbox.WebHome");
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             if (expectedWebHomes.contains(pageSummary.getFullName())) {
                 foundCounter++;
@@ -239,7 +247,7 @@ public class WikisResourceTest extends AbstractHttpTest
     {
         // Verify there are attachments in the whole wiki
         GetMethod getMethod =
-            executeGet(String.format("%s", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+                executeGet(String.format("%s", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -253,7 +261,8 @@ public class WikisResourceTest extends AbstractHttpTest
         // Verify we can search for a specific attachment name in the whole wiki
         // Matches Sandbox.WebHome@XWikiLogo.png
         getMethod =
-            executeGet(String.format("%s?name=iLogo", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+                executeGet(
+                        String.format("%s?name=iLogo", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -267,7 +276,8 @@ public class WikisResourceTest extends AbstractHttpTest
         // Verify we can search for all attachments in a given space (sandbox)
         // Also verify that a space can be looked up independtly of its case ("sandbox" will match the "Sandbox" space)
         getMethod =
-            executeGet(String.format("%s?space=sandbox", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+                executeGet(String.format("%s?space=sandbox",
+                        getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -280,8 +290,8 @@ public class WikisResourceTest extends AbstractHttpTest
 
         // Verify we can search for an attachment in a given space (sandbox)
         getMethod =
-            executeGet(String.format("%s?name=Logo&space=Sandbox",
-                getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+                executeGet(String.format("%s?name=Logo&space=Sandbox",
+                        getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -297,9 +307,9 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testHQLQuerySearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format(
-                "%s?q=where doc.name='WebHome' order by doc.space desc&type=hql",
-                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
+                executeGet(URIUtil.encodeQuery(String.format(
+                        "%s?q=where doc.name='WebHome' order by doc.space desc&type=hql",
+                        getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -310,8 +320,8 @@ public class WikisResourceTest extends AbstractHttpTest
         // Verify that some WebHomes we expect are found.
         int foundCounter = 0;
         List<String> expectedWebHomes =
-            Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
-                "Scheduler.WebHome", "Sandbox.WebHome", "XWiki.WebHome");
+                Arrays.asList("ColorThemes.WebHome", "Stats.WebHome", "Sandbox.WebHome", "Panels.WebHome",
+                        "Scheduler.WebHome", "Sandbox.WebHome", "XWiki.WebHome");
         for (SearchResult searchResult : searchResults.getSearchResults()) {
             checkLinks(searchResult);
 
@@ -332,9 +342,9 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testHQLQuerySearchWithClassnameAuthenticated() throws Exception
     {
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format(
-                "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&classname=XWiki.XWikiUsers",
-                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))), "Admin", "admin");
+                executeGet(URIUtil.encodeQuery(String.format(
+                        "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&classname=XWiki.XWikiUsers",
+                        getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))), "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -349,9 +359,9 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testHQLQuerySearchWithClassnameNotAuthenticated() throws Exception
     {
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format(
-                "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&classname=XWiki.XWikiUsers",
-                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
+                executeGet(URIUtil.encodeQuery(String.format(
+                        "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&classname=XWiki.XWikiUsers",
+                        getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -366,8 +376,8 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testLuceneSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=lucene",
-                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
+                executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=lucene",
+                        getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -382,8 +392,8 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testGlobalLuceneSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=lucene&wikis=xwiki",
-                getUriBuilder(WikisSearchQueryResource.class).build(getWiki()))));
+                executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=lucene&wikis=xwiki",
+                        getUriBuilder(WikisSearchQueryResource.class).build(getWiki()))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -394,4 +404,25 @@ public class WikisResourceTest extends AbstractHttpTest
         Assert.assertEquals("Main.Welcome", searchResults.getSearchResults().get(0).getPageFullName());
     }
 
+    @Test
+    public void testImportXAR() throws Exception
+    {
+        InputStream is = this.getClass().getResourceAsStream("/Main.Foo.xar");
+        String wiki = getWiki();
+
+        PostMethod postMethod =
+                executePost(getUriBuilder(WikiResource.class).build(wiki).toString(), is, "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_OK, postMethod.getStatusCode());
+
+        GetMethod getMethod =
+                executeGet(getUriBuilder(PageResource.class).build(wiki, "Main", "Foo").toString(), "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(wiki, page.getWiki());
+        Assert.assertEquals("Main", page.getSpace());
+        Assert.assertEquals("Foo", page.getName());
+        Assert.assertEquals("Foo", page.getContent());
+    }
 }

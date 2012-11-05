@@ -343,7 +343,7 @@ public class WikisResourceTest extends AbstractHttpTest
     {
         GetMethod getMethod =
                 executeGet(URIUtil.encodeQuery(String.format(
-                        "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&classname=XWiki.XWikiUsers",
+                        "%s?q=where doc.space='XWiki' and doc.name='Admin'&type=hql&className=XWiki.XWikiUsers",
                         getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))), "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 

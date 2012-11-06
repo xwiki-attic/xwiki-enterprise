@@ -617,16 +617,16 @@ public class AdministrationTest extends AbstractXWikiTestCase
             createPage(space, page, "Test configurable application.", "xwiki/2.0");
             open(space, page, "edit", "editor=class");
             setFieldValue("propname", "String");
-            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StringClass");
+            setFieldValue("proptype", "String");
             clickButtonAndContinue("//input[@name='action_propadd']");
             setFieldValue("propname", "Boolean");
-            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.BooleanClass");
+            setFieldValue("proptype", "Boolean");
             clickButtonAndContinue("//input[@name='action_propadd']");
             setFieldValue("propname", "TextArea");
-            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.TextAreaClass");
+            setFieldValue("proptype", "TextArea");
             clickButtonAndContinue("//input[@name='action_propadd']");
             setFieldValue("propname", "Select");
-            setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StaticListClass");
+            setFieldValue("proptype", "StaticList");
             clickButtonAndContinue("//input[@name='action_propadd']");
 
             // Go to the object section.

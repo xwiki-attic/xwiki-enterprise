@@ -53,7 +53,7 @@ public class ValidationTest extends AbstractXWikiTestCase
         deletePage("Main", "ValidatedClass");
         open("Main", "ValidatedClass", "edit", "editor=class");
         setFieldValue("propname", "prop");
-        setFieldValue("proptype", "com.xpn.xwiki.objects.classes.StringClass");
+        setFieldValue("proptype", "String");
         clickButtonAndContinue("//input[@name='action_propadd']");
         setFieldValue("prop_validationRegExp", "/^[0-4][0-2]$/");
         setFieldValue("prop_validationMessage", "invalid value for prop");

@@ -83,7 +83,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     {
         // Create a class with a database list property set to return all documents
         ClassEditPage cep = ClassEditPage.gotoPage("Test", "EditObjectsTestClass");
-        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.DBListClass");
+        cep.addProperty("prop", "DBList");
         cep.getDatabaseListClassEditElement("prop").setHibernateQuery(
             "select doc.fullName from XWikiDocument doc where doc.space = 'Test'");
         cep.clickSaveAndView();
@@ -127,7 +127,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
 
         // Add class
         ClassEditPage cep = vp.editClass();
-        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.NumberClass");
+        cep.addProperty("prop", "Number");
         cep.getNumberClassEditElement("prop").setNumberType("integer");
         vp = cep.clickSaveAndView();
         Assert.assertEquals("this is the content", vp.getContent());
@@ -184,7 +184,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
 
         // Add class
         ClassEditPage cep = vp.editClass();
-        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StaticListClass");
+        cep.addProperty("prop", "StaticList");
         StaticListClassEditElement slcee = cep.getStaticListClassEditElement("prop");
         slcee.setMultiSelect(false);
         slcee.setValues("choice 1|choice 2|choice 3|choice 4|choice 5");
@@ -234,7 +234,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
 
         // Add class
         ClassEditPage cep = vp.editClass();
-        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StaticListClass");
+        cep.addProperty("prop", "StaticList");
         StaticListClassEditElement slcee = cep.getStaticListClassEditElement("prop");
         slcee.setMultiSelect(true);
         slcee.setDisplayType(StaticListClassEditElement.DisplayType.INPUT);

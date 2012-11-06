@@ -100,8 +100,8 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
 
         // Create class.
         ClassEditPage classEditPage = objectEditPage.editClass();
-        classEditPage.addProperty("age", "com.xpn.xwiki.objects.classes.NumberClass");
-        classEditPage.addProperty("color", "com.xpn.xwiki.objects.classes.StringClass");
+        classEditPage.addProperty("age", "Number");
+        classEditPage.addProperty("color", "String");
         classEditPage.getNumberClassEditElement("age").setNumberType("integer");
         classEditPage.clickSaveAndContinue();
         classEditPage.deleteProperty("color");

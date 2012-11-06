@@ -55,7 +55,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
         ClassEditPage cep = getUtil().gotoPage("Test", "EditObjectsTestClass").editClass();
 
         // Create a class with a string property
-        cep.addProperty("prop", "com.xpn.xwiki.objects.classes.StringClass");
+        cep.addProperty("prop", "String");
         cep.clickSaveAndView();
 
         // Create object page
@@ -76,10 +76,8 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     public void testDeleteProperty()
     {
         // Create a class with two string properties
-        getUtil().addClassProperty("Test", "EditObjectsTestClass",
-            "prop1", "com.xpn.xwiki.objects.classes.StringClass");
-        getUtil().addClassProperty("Test", "EditObjectsTestClass",
-            "prop2", "com.xpn.xwiki.objects.classes.StringClass");
+        getUtil().addClassProperty("Test", "EditObjectsTestClass", "prop1", "String");
+        getUtil().addClassProperty("Test", "EditObjectsTestClass", "prop2", "String");
 
         // Create object page
         ViewPage vp = getUtil().createPage("Test", "EditObjectsTestObject",
@@ -119,7 +117,7 @@ public class EditClassTest extends AbstractAdminAuthenticatedTest
     public void addInvalidProperty()
     {
         ClassEditPage cep = getUtil().editClass("Test", "EditObjectsTestClass");
-        cep.addPropertyWithoutWaiting("a<b c", "com.xpn.xwiki.objects.classes.StringClass");
+        cep.addPropertyWithoutWaiting("a<b c", "String");
         cep.waitForNotificationErrorMessage("Failed: Property names must follow these naming rules:");
     }
 }

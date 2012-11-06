@@ -26,10 +26,10 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.rest.internal.resources.attachments.AttachmentResource;
-import org.xwiki.rest.internal.resources.attachments.AttachmentsResource;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
+import org.xwiki.rest.resources.attachments.AttachmentResource;
+import org.xwiki.rest.resources.attachments.AttachmentsResource;
 import org.xwiki.test.cluster.framework.AbstractClusterHttpTest;
 
 /**

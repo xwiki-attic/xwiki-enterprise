@@ -104,106 +104,105 @@
     </property>
     <property>
       <code>var XWiki = (function(XWiki) {
-  XWiki.SharePage = Class.create({
-    input : false,
-    form : false,
-    addedTargets : [],
-    container : false,
+  /**
+   * Extends the SuggestPicker to customize the way the selected targets (users or email addresses) are displayed.
+   */
+  var TargetSelectionManager = Class.create(XWiki.widgets.SuggestPicker, {
+    // @Override
+    initialize: function($super, element, suggest, options) {
+      $super(element, suggest, options);
+      this.list.addClassName('targets-container');
+    },
 
-    initialize : function () {
-      this.input = $$('#target.suggestUsers')[0];
-      if (!this.input) {
-        return;
-      }
-      this.addedTargets = [];
-      this.container = new Element('div', {'class': 'targets-container'});
-      if (this.input) {
-        this.input.insert({'before' : this.container});
-        this.container.hide();
-        this.form = this.input.up('form');
+    // @Override
+    displayItem: function(suggestion) {
+      var targetInfo = new Element('span').update(suggestion.info).insert(this.createDeleteTool());
+      var targetClass = 'target-item ' + (suggestion.value.indexOf('@') &gt; 0 ? 'target-email' : 'target-user');
+      return new Element('li', {'class': targetClass}).insert(targetInfo).insert(this.createItemInput(suggestion));
+    }
+  });
 
-        this.input.observe('xwiki:suggest:selected', this.addTarget.bindAsEventListener(this));
-        this.input.parentNode.observe('keypress', function (event) {
-          if (event.keyCode == Event.KEY_RETURN) {
-            this.addTarget(event);
-            event.stop();
-          }
-        }.bindAsEventListener(this));
-        if (!this.input.hasClassName('initialized')) {
-          new XWiki.widgets.Suggest(this.input, {
-            script: XWiki.currentDocument.getURL('get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=local&amp;uorg=user&amp;'),
-            varname: "input",
-            icon: "$xwiki.getSkinFile('icons/silk/user.png')",
-            shownoresults : false,
-            timeout : 30000,
-            parentContainer : this.input.up()
-          });
-        }
-        this.input.focus();
+  /**
+   * Extends the UserPicker to change the selection manager.
+   */
+  var UserAndEmailPicker = Class.create(XWiki.widgets.UserPicker, {
+    // @Override
+    _createSelectionManager: function(options) {
+      return new TargetSelectionManager(this.fld, this, options);
+    },
 
-        if (this.form) {
-          this.form.observe('submit', function(event) {
-            event.stop();
-            if (this.addedTargets.length == 0 &amp;&amp; this.input.value.strip().length == 0) {
-              this.input.addClassName('xErrorField');
-              this.input.insert({'after' : '&lt;div class="xErrorMsg"&gt;$msg.get('core.viewers.share.error.missingRecipient')&lt;/div&gt;'});
-              return;
-            }
-            var params = this.form.serialize();
-            this.form.up().update(loading);
-            new Ajax.Updater(loading.up(), XWiki.currentDocument.getURL('get', 'xpage=shareinline'), {
-              parameters: params,
-              onComplete : function() {
-                if (dialog) {
-                  dialog.dialog.down('.share-backlink').observe('click', dialog.closeDialog.bind(dialog));
-                }
-              }
-            });
-          }.bindAsEventListener(this));
-          this.form.down('.secondary').observe('click', function(event) {
-            if (dialog) {
-              dialog.closeDialog();
-              event.stop();
-            }
-          }.bindAsEventListener(this));
-        }
+    // @Override
+    setHighlightedValue: function ($super) {
+      if (!this.iHighlighted) {
+        // Select the current input value when there is no highlighted suggestion to allow the user to enter free
+        // text (e.g. an email address).
+        this.clearSuggestions();
+        typeof this.options.callback == "function" &amp;&amp; this.options.callback({
+          'id': this.fld.value,
+          'value': this.fld.value,
+          'info': this.fld.value,
+        });
+      } else {
+        $super();
       }
     },
 
-    deleteTarget : function(event, target) {
-      var container = target.up();
-      target.remove();
-      if (container.empty()) {
-        container.hide();
-      }
-      this.addedTargets = this.addedTargets.without(target.down('input').value);
-    }, 
+    // @Override
+    clearSuggestions: function($super) {
+      $super();
+      // Keep the picker active even after clearing the list of suggestions to force it to handle the Enter key. This
+      // way the user can enter free text (e.g. an email address) without submitting the form.
+      this.isActive = true;
+    }
+  });
 
-    addTarget : function(event) {
-      if (this.input.value == '') {
+  XWiki.SharePage = Class.create({
+    initialize : function () {
+      this.input = $('shareTarget');
+      if (!this.input) {
         return;
       }
-      if (this.addedTargets.indexOf(this.input.value.strip()) &gt;= 0) {
-        this.input.value = '';
+
+      new UserAndEmailPicker(this.input, {
+        script: XWiki.currentDocument.getURL('get', 'xpage=uorgsuggest&amp;uorg=user&amp;wiki=local&amp;'),
+        shownoresults : false
+      });
+      this.input.focus();
+
+      document.observe('xwiki:multisuggestpicker:selectionchanged', this._onSelectionChanged.bindAsEventListener(this));
+
+      this.form = this.input.up('form');
+      if (this.form) {
+        this.form.observe('submit', this._onSubmit.bindAsEventListener(this));
+        dialog &amp;&amp; this.form.down('.secondary').observe('click', function(event) {
+          event.stop();
+          dialog.closeDialog();
+        }.bindAsEventListener(this));
+      }
+    },
+
+    _onSubmit : function(event) {
+      event.stop();
+      if (!this.form.down('.target-item') &amp;&amp; this.input.value.strip().length == 0) {
+        this.input.addClassName('xErrorField');
+        this.input.insert({'after' : '&lt;div class="xErrorMsg"&gt;$msg.get('core.viewers.share.error.missingRecipient')&lt;/div&gt;'});
         return;
       }
-      var target = new Element('span').update(this.input.value.escapeHTML());
-      target = new Element('span', {'class' : 'target-item'}).update(target).insert(new Element('input', {'type': 'hidden', 'name' : 'target', 'value': this.input.value}));
-      if (this.input.value.indexOf('@') &gt; 0) {
-        target.addClassName('target-email');
-      } else {
-        target.addClassName('target-user');
-      }
-      var del = new Element('a', {'class' : 'delete'}).update('X');
-      del.observe('click', this.deleteTarget.bindAsEventListener(this, target));
-      target.insert(del);
-      this.container.insert(target);
-      this.container.show();
-      this.addedTargets.push(this.input.value.strip());
-      this.input.value = '';
-      this.input.removeClassName('xErrorField');
-      if (this.input.next('.xErrorMsg')) {
-        this.input.next('.xErrorMsg').remove();
+      var params = this.form.serialize();
+      this.form.up().update(loading);
+      new Ajax.Updater(loading.up(), XWiki.currentDocument.getURL('get', 'xpage=shareinline'), {
+        parameters: params,
+        onComplete : function() {
+          dialog &amp;&amp; dialog.dialog.down('.share-backlink').observe('click', dialog.closeDialog.bind(dialog));
+        }
+      });
+    },
+
+    _onSelectionChanged : function(event) {
+      if (event.memo.trigger == this.input) {
+        this.input.removeClassName('xErrorField');
+        var errorMessage = this.input.next('.xErrorMsg');
+        errorMessage &amp;&amp; errorMessage.remove();
       }
     }
   });
@@ -212,9 +211,7 @@
   var dialog;
 
   document.observe('xwiki:dom:loaded', function() {
-    if ($$('#target.suggestUsers').size() &gt; 0) {
-      new XWiki.SharePage();
-    }
+    $('shareTarget') &amp;&amp; new XWiki.SharePage();
     if ($('tmActionShare')) {
       $('tmActionShare').observe('click', function(event) {
         event.stop();
@@ -243,7 +240,7 @@
       <parse>1</parse>
     </property>
     <property>
-      <use>currentPage</use>
+      <use>onDemand</use>
     </property>
   </object>
   <object>
@@ -616,7 +613,7 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
       <parse>1</parse>
     </property>
     <property>
-      <use>always</use>
+      <use>onDemand</use>
     </property>
   </object>
   <content/>

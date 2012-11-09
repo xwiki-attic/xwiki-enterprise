@@ -202,7 +202,6 @@
                     skins/toucan/editmodes.vm
                     skins/toucan/editpanelsvars.vm
                     skins/toucan/shortcuts.vm
-                    templates/adduorg.vm
                     templates/colorThemeInit.vm
                     templates/deprecatedVars.vm
                     templates/editgroup.vm <!-- TODO test with deleted XWiki.XWikiGroupSheet and 'inline' action -->

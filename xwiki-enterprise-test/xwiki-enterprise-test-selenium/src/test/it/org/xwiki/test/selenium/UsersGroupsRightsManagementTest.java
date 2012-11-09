@@ -204,9 +204,9 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         System.out.println("XPATH: " + xpath);
         waitForCondition("selenium.isElementPresent(\"" + xpath + "\")");
         getSelenium().click("//tbody/tr[td/a=\"" + group + "\"]/td[3]/img[@title=\"Edit\"]");
-        waitForLightbox("Add user to group");
-        setFieldValue("groupSuggest", "XWiki.XWikiAllGroup");
-        clickLinkWithLocator("addNewGroup", false);
+        waitForLightbox("Subgroups to add");
+        setFieldValue("groupInput", "XWiki.XWikiAllGroup");
+        clickLinkWithLocator("addMembers", false);
         String xpathPrefix = "//div[@id='lb-content']/div/div/table/tbody/tr/td/table/tbody/tr";
         String adminGroupXPath = xpathPrefix + "/td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/XWikiAllGroup']";
         // this xpath expression is fragile, but we have to start as up as the lightbox does, because
@@ -220,8 +220,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // Now same test, but from the group document UI in inline mode
         clickLinkWithText(group);
         this.clickLinkWithText("Inline form");
-        setFieldValue("groupSuggest", "XWiki.XWikiAdminGroup");
-        clickLinkWithLocator("addNewGroup", false);
+        setFieldValue("groupInput", "XWiki.XWikiAdminGroup");
+        clickLinkWithLocator("addMembers", false);
         waitForCondition("selenium.isTextPresent('XWiki.XWikiAdminGroup')");
 
         // cleanup
@@ -333,9 +333,9 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         String xpath = "//tbody/tr[td/a='" + group + "']/td[3]/img[@title='Edit']";
         waitForCondition("selenium.isElementPresent(\"" + xpath + "\")");
         getSelenium().click(xpath);
-        waitForLightbox("Add user to group");
-        setFieldValue("userSuggest", "XWiki." + user);
-        clickLinkWithLocator("addNewUser", false);
+        waitForLightbox("Users to add");
+        setFieldValue("userInput", "XWiki." + user);
+        clickLinkWithLocator("addMembers", false);
 
         String xpathPrefix = "//div[@id='lb-content']/div/div/table/tbody/tr/td/table/tbody/tr";
         String newGroupMemberXPath =

@@ -195,8 +195,13 @@
               </property>
               <!-- Used only in escaping tests -->
               <property>
-                <name>filesProduceNoOutput</name><!-- NOTE: Only affects automatic tests -->
-                <!-- list of file names -->
+                <!-- List of Velocity templates that don't generate any output when applied with xpage. The templates
+                     normally generate output, and the escaping tests verifies this, so we need to specify the
+                     ones that don't generate output so that the test doesn't assert for an output. Now, a template
+                     doesn't have to generate the output by itself, it can do for instance a redirect, and since the
+                     redirects are followed transparently, for the client (the test that makes the HTTP request) it's
+                     the same thing. -->
+                <name>filesProduceNoOutput</name>
                 <value>
                     skins/toucan/contentmenu.vm
                     skins/toucan/editmodes.vm

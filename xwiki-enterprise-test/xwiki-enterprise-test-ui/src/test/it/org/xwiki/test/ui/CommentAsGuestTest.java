@@ -140,6 +140,6 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     {
         CommentsTab commentsTab = this.vp.openCommentsDocExtraPane();
         commentsTab.postCommentAsGuest(COMMENT_CONTENT, COMMENT_AUTHOR, true);
-        Assert.assertFalse(commentsTab.hasEditbuttonForCommentByID(commentsTab.getCommentID(COMMENT_CONTENT)));
+        Assert.assertFalse(commentsTab.hasEditButtonForCommentByID(commentsTab.getCommentID(COMMENT_CONTENT)));
     }
 }

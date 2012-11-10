@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xwiki.administration.test.po.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -37,10 +38,6 @@ import org.xwiki.test.ui.po.EditRightsPane.State;
  */
 public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
 {
-    private static final String SPACE_NAME = "TestSpace";
-
-    private static final String DOC_NAME = "TestComments";
-
     private static final String CONTENT = "Some dummy Content";
 
     private static final String TITLE = "CommentsTest Page";
@@ -53,17 +50,24 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
 
     private ViewPage vp;
 
+    @BeforeClass
+    public static void initializeCommentRights()
+    {
+        // We need to Admin user to be logged in to set the rights...
+        loginAdminUser();
+
+        // Ensure that guest user has comment permission
+        setRightsOnGuest(Right.COMMENT, State.ALLOW);
+    }
+
     @Override
     @Before
     public void setUp() throws Exception
     {
         super.setUp();
 
-        // Ensure that guest user has comment permission
-        setRightsOnGuest(Right.COMMENT, State.ALLOW);
-
-        getUtil().deletePage(SPACE_NAME, DOC_NAME);
-        this.vp = getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        this.vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);
 
         // Set Guest user
         getUtil().forceGuestUser();
@@ -74,7 +78,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
         getDriver().navigate().refresh();
     }
 
-    private void setRightsOnGuest(Right right, State state)
+    private static void setRightsOnGuest(Right right, State state)
     {
         GlobalRightsAdministrationSectionPage globalRights = GlobalRightsAdministrationSectionPage.gotoPage();
         globalRights.getEditRightsPane().switchToUsers();
@@ -102,7 +106,7 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     })
     public void testPostCommentAsGuestNoJs()
     {
-        getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "view", "xpage=xpart&vm=commentsinline.vm");
         CommentsTab commentsTab = new CommentsTab();
 
         commentsTab.postComment(COMMENT_CONTENT, false);

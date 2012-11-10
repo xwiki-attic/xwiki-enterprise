@@ -23,6 +23,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.po.CommentForm;
 import org.xwiki.test.ui.po.CommentsTab;
 import org.xwiki.test.ui.po.ViewPage;
@@ -37,10 +38,6 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
 {
     private CommentsTab commentsTab;
 
-    private static final String SPACE_NAME = "TestSpace";
-
-    private static final String DOC_NAME = "TestComments";
-
     private static final String CONTENT = "Some dummy Content";
 
     private static final String TITLE = "CommentsTest Page";
@@ -53,13 +50,12 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
 
     private static final String COMMENT_REPLY = "Comment Reply";
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
         super.setUp();
-        getUtil().deletePage(SPACE_NAME, DOC_NAME);
-        ViewPage vp = getUtil().createPage(SPACE_NAME, DOC_NAME, CONTENT, TITLE);
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);
         this.commentsTab = vp.openCommentsDocExtraPane();
     }
 
@@ -107,7 +103,7 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
     public void testPostCommentAsAdminNoJs()
     {
         // In this test class, the only user who logs in is admin.
-        getUtil().gotoPage(SPACE_NAME, DOC_NAME, "view", "xpage=xpart&vm=commentsinline.vm");
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "view", "xpage=xpart&vm=commentsinline.vm");
         this.commentsTab.postComment(COMMENT_CONTENT, false);
         ViewPage vp = new ViewPage();
         // This opens with ?viewer=comments, don't explicitly load the comments tab

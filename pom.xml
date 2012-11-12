@@ -31,7 +31,7 @@
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>
-  <version>4.3-SNAPSHOT</version>
+  <version>4.3-milestone-2</version>
   <packaging>pom</packaging>
   <name>XWiki Enterprise - Parent POM</name>
   <description>XWiki Enterprise - Parent POM</description>
@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise</url>
-    <tag>HEAD</tag>
+    <tag>xwiki-enterprise-4.3-milestone-2</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -106,7 +106,7 @@
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
     <xwiki.cfg.additionalproperties />
 
-    <xwiki.properties.environment.permanentDirectory/>
+    <xwiki.properties.environment.permanentDirectory />
 
     <!-- Default location for XWiki's Data directory -->
     <xwikiDataDir>data</xwikiDataDir>

@@ -516,7 +516,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <!-- Activity Stream -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-activitystream</artifactId>
+      <artifactId>xwiki-platform-activitystream-api</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

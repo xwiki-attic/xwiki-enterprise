@@ -67,7 +67,7 @@
                  which has its own mapping and migrators. -->
             <dependency>
               <groupId>org.xwiki.platform</groupId>
-              <artifactId>xwiki-platform-activitystream</artifactId>
+              <artifactId>xwiki-platform-activitystream-api</artifactId>
               <version>${platform.version}</version>
             </dependency>
             <!-- Annotation has it own migrator that we need to execute to set the rigth version to the DB. -->

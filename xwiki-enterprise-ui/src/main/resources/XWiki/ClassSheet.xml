@@ -184,7 +184,7 @@
     #set($defaultClassSheetDoc = $xwiki.getDocument($defaultClassSheetReference))
     #if($classSheetReferences.isEmpty() &amp;&amp; !$defaultClassSheetDoc.getObject('XWiki.SheetClass'))
       ## The sheet is not bound to the class.
-      #set($xredirect = $request.relativeRequestURL)
+      #set($xredirect = $xwiki.relativeRequestURL)
       #set($defaultClassSheetStringReference = $services.model.serialize($defaultClassSheetReference, "default"))
       #set($bindURL = $doc.getURL('view', "bindSheet=${escapetool.url($defaultClassSheetStringReference)}&amp;xredirect=${escapetool.url($xredirect)}&amp;form_token=$!{services.csrf.getToken()}"))
       {{warning}}
@@ -225,7 +225,7 @@
     {{/html}}
   #else
     #if(!$classTemplateDoc.getObject(${doc.fullName}))
-      #set($xredirect = $request.relativeRequestURL)
+      #set($xredirect = $xwiki.relativeRequestURL)
       #set($createUrl = $classTemplateDoc.getURL('objectadd', "classname=${doc.fullName}&amp;amp;xredirect=${escapetool.url($xredirect)}&amp;amp;form_token=$!{services.csrf.getToken()}"))
       {{warning}}
         The template does not contain an object of type //$doc.fullName//. {{html}}&lt;a href="$createUrl"&gt;Add a ${className} object to the template »&lt;/a&gt;.{{/html}}

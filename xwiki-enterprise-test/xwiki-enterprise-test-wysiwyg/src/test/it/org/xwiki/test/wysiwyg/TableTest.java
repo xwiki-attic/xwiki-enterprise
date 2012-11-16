@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -71,43 +72,33 @@ public class TableTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Place the caret in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
+        moveCaret("document.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
 
         // Move the caret before the table and type some text. This time using Control+Up.
-        getSelenium().controlKeyDown();
-        typeUpArrow();
-        getSelenium().controlKeyUp();
-        typeText("1");
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.ARROW_UP), "1");
 
         // Place the caret again in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
+        moveCaret("document.body.getElementsByTagName('table')[0].rows[0].cells[0].firstChild", 2);
 
         // Move the caret before the table and type some text. This time using Meta+Up.
-        getSelenium().metaKeyDown();
-        typeUpArrow();
-        getSelenium().metaKeyUp();
-        typeText("2");
+        // FIXME: Selenium doesn't simulate correctly the Meta key.
+        // getRichTextArea().sendKeys(Keys.chord(Keys.META, Keys.ARROW_UP), "2");
 
         // Place the caret again in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
+        moveCaret("document.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
 
         // Move the caret after the table and type some text. This time using Control+Down.
-        getSelenium().controlKeyDown();
-        typeDownArrow();
-        getSelenium().controlKeyUp();
-        typeText("4");
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.ARROW_DOWN), "4");
 
         // Place the caret again in one of the table cells.
-        moveCaret("XWE.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
+        moveCaret("document.body.getElementsByTagName('table')[0].rows[1].cells[1].firstChild", 3);
 
         // Move the caret after the table and type some text. This time using Meta+Down.
-        getSelenium().metaKeyDown();
-        typeDownArrow();
-        getSelenium().metaKeyUp();
-        typeText("3");
+        // FIXME: Selenium doesn't simulate correctly the Meta key.
+        // getRichTextArea().sendKeys(Keys.chord(Keys.META, Keys.ARROW_DOWN), "3");
 
         switchToSource();
-        assertSourceText("1\n\n2\n\n|=Space|=Page\n|Main|WebHome\n\n3\n\n4");
+        assertSourceText("1\n\n|=Space|=Page\n|Main|WebHome\n\n4");
     }
 
     /**
@@ -124,9 +115,7 @@ public class TableTest extends AbstractWysiwygTestCase
         insertTable();
 
         // Move the caret after the table.
-        getSelenium().controlKeyDown();
-        typeDownArrow();
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.ARROW_DOWN));
 
         openInsertTableDialog();
         // Cancel the insert table operation again.
@@ -148,7 +137,7 @@ public class TableTest extends AbstractWysiwygTestCase
         getSelenium().type(COLUMNS_SELECTOR, "1");
         getSelenium().uncheck("//div[@class = 'xDialogBody']//input[@type = 'checkbox']");
         // Press Enter
-        getSelenium().keyUp(ROWS_SELECTOR, "\\13");
+        getSelenium().typeKeys(ROWS_SELECTOR, "\\13");
         // Check the result.
         waitForDialogToClose();
         switchToSource();
@@ -210,8 +199,8 @@ public class TableTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Select the text from the first two cells of the second row.
-        select("XWE.body.getElementsByTagName('td')[0].firstChild", 0,
-            "XWE.body.getElementsByTagName('td')[1].firstChild", 1);
+        select("document.body.getElementsByTagName('td')[0].firstChild", 0,
+            "document.body.getElementsByTagName('td')[1].firstChild", 1);
 
         // Delete the row.
         clickMenu("Table");

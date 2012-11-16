@@ -71,7 +71,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // Give "comment" page right to XWikiNewGroup on Test.TestCreateAndDeleteGroup page
         createPage("Test", "TestCreateAndDeleteGroup", "whatever");
-        clickLinkWithText("Access Rights");
+        clickEditPageAccessRights();
         clickGroupsRadioButton();
         clickCommentRightsCheckbox("XWikiNewGroup", "allow");
 
@@ -100,8 +100,9 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         getSelenium().click("//input[@value='Create group']");
         // We need to wait till the alert appears since when the user clicks on the "Create Group" button there's
         // an Ajax call made to the server.
-        waitForCondition("try {selenium.getAlert() == 'testCreateGroupWhenGroupAlreadyExists cannot be used for the "
-            + "group name, as another document with this name already exists.'} catch(err) { false;}");
+        waitForAlert();
+        assertEquals("testCreateGroupWhenGroupAlreadyExists cannot be used for the "
+            + "group name, as another document with this name already exists.", getSelenium().getAlert());
     }
 
     /**
@@ -204,11 +205,12 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         System.out.println("XPATH: " + xpath);
         waitForCondition("selenium.isElementPresent(\"" + xpath + "\")");
         getSelenium().click("//tbody/tr[td/a=\"" + group + "\"]/td[3]/img[@title=\"Edit\"]");
-        waitForLightbox("Subgroups to add");
+        waitForLightbox("SUBGROUPS TO ADD");
         setFieldValue("groupInput", "XWiki.XWikiAllGroup");
         clickLinkWithLocator("addMembers", false);
         String xpathPrefix = "//div[@id='lb-content']/div/div/table/tbody/tr/td/table/tbody/tr";
-        String adminGroupXPath = xpathPrefix + "/td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/XWikiAllGroup']";
+        String adminGroupXPath =
+            xpathPrefix + "/td[contains(@class, 'member')]/a[@href='/xwiki/bin/view/XWiki/XWikiAllGroup']";
         // this xpath expression is fragile, but we have to start as up as the lightbox does, because
         // the same table with same ids and classes is already displayed in the Preferences page
         // (that is, the list of existing groups).
@@ -219,7 +221,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
         // Now same test, but from the group document UI in inline mode
         clickLinkWithText(group);
-        this.clickLinkWithText("Inline form");
+        clickEditPageInlineForm();
         setFieldValue("groupInput", "XWiki.XWikiAdminGroup");
         clickLinkWithLocator("addMembers", false);
         waitForCondition("selenium.isTextPresent('XWiki.XWikiAdminGroup')");
@@ -283,7 +285,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
             openGroupsPage();
             getSelenium().chooseOkOnNextConfirmation();
             clickLinkWithLocator("//tbody/tr[td/a='" + groupname + "']//img[@title='Delete']", false);
-            waitForCondition("selenium.isConfirmationPresent()");
+            waitForConfirmation();
             assertEquals("The group XWiki." + groupname + " will be deleted. Are you sure you want to proceed?",
                 getSelenium().getConfirmation());
             // Wait till the group has been deleted.
@@ -317,9 +319,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         if (!deleteOnlyIfExists || (deleteOnlyIfExists && isExistingPage("XWiki", login))) {
             openUsersPage();
-            getSelenium().chooseOkOnNextConfirmation();
             clickLinkWithLocator("//tbody/tr[td/a='" + login + "']//img[@title='Delete']", false);
-            waitForCondition("selenium.isConfirmationPresent()");
+            waitForConfirmation();
             assertEquals("The user XWiki." + login + " will be deleted and removed from all groups he belongs to. "
                 + "Are you sure you want to proceed?", getSelenium().getConfirmation());
             // Wait till the user has been deleted.
@@ -333,7 +334,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         String xpath = "//tbody/tr[td/a='" + group + "']/td[3]/img[@title='Edit']";
         waitForCondition("selenium.isElementPresent(\"" + xpath + "\")");
         getSelenium().click(xpath);
-        waitForLightbox("Users to add");
+        waitForLightbox("USERS TO ADD");
         setFieldValue("userInput", "XWiki." + user);
         clickLinkWithLocator("addMembers", false);
 
@@ -354,7 +355,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 
     private void waitForLightbox(String lightboxName)
     {
-        waitForCondition("selenium.page().bodyText().indexOf('" + lightboxName + "') != -1;");
+        waitForBodyContains(lightboxName);
     }
 
     private void clickGroupsRadioButton()

@@ -64,11 +64,11 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("= a(% style=\"color:green\" %)b**cd**(%%)e =\n\nf(% style=\"font-size:36pt\" %)g//hi//(%%)j");
         switchToWysiwyg();
-        select("XWE.body.getElementsByTagName('strong')[0].firstChild", 1,
-            "XWE.body.getElementsByTagName('em')[0].firstChild", 1);
+        select("document.body.getElementsByTagName('strong')[0].firstChild", 1,
+            "document.body.getElementsByTagName('em')[0].firstChild", 1);
         clickRemoveFormattingButton();
         switchToSource();
-        assertSourceText("= a(% style=\"color: green;\" %)b**c**(%%)de =\n\nfgh(% style=\"font-size: 36pt;\" %)//i//(%%)j");
+        assertSourceText("= a(% style=\"color:green\" %)b**c**(%%)de =\n\nfgh(% style=\"font-size:36pt\" %)//i//(%%)j");
     }
 
     /**
@@ -88,8 +88,8 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
         // Selection is included in the anchor.
         setSourceText("1**2[[3//456//7>>http://www.xwiki.org]]8**9");
         switchToWysiwyg();
-        select(getDOMLocator("getElementsByTagName('em')[0].firstChild"), 1,
-            getDOMLocator("getElementsByTagName('em')[0].firstChild"), 2);
+        select("document.getElementsByTagName('em')[0].firstChild", 1,
+            "document.getElementsByTagName('em')[0].firstChild", 2);
         clickRemoveFormattingButton();
         switchToSource();
         assertSourceText("1**2**[[**3//4//**5**//6//7**>>http://www.xwiki.org]]**8**9");
@@ -101,7 +101,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     public void testRemoveFormattingFromStandaloneAnchor()
     {
         setContent("<a href=\"http://www.xwiki.org\" style=\"color: red; font-size: 18pt;\">123456</a>");
-        select("XWE.body.firstChild.firstChild", 2, "XWE.body.firstChild.firstChild", 4);
+        select("document.body.firstChild.firstChild", 2, "document.body.firstChild.firstChild", 4);
         clickRemoveFormattingButton();
         switchToSource();
         assertSourceText("[[(% style=\"color: red; font-size: 18pt;\" %)12(%%)34"

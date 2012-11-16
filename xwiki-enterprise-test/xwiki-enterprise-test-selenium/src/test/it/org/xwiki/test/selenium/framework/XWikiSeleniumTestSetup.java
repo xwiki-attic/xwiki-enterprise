@@ -19,29 +19,34 @@
  */
 package org.xwiki.test.selenium.framework;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Enumeration;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverBackedSelenium;
+import org.xwiki.test.ui.WebDriverFactory;
 
 import com.thoughtworks.selenium.Selenium;
-import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
  * Starts the Browser only once per Test Suite.
  */
 public class XWikiSeleniumTestSetup extends TestSetup
 {
-    private static final int SELENIUM_PORT = Integer.parseInt(System.getProperty("seleniumPort", "4444"));
-
     private static final String PORT = System.getProperty("xwikiPort", "8080");
 
     private static final String BASE_URL = "http://localhost:" + PORT;
 
-    private static final String BROWSER = System.getProperty("browser", "*firefox"); 
+    /**
+     * Decide on which browser to run the tests and defaults to Firefox if no system property is defined (useful
+     * for running in your IDE for example).
+     */
+    private static final String BROWSER_NAME_SYSTEM_PROPERTY = System.getProperty("browser", "*firefox"); 
 
     private Selenium selenium;
 
@@ -52,28 +57,13 @@ public class XWikiSeleniumTestSetup extends TestSetup
 
     protected void setUp() throws Exception
     {
-        this.selenium = new DefaultSelenium("localhost", SELENIUM_PORT, BROWSER, BASE_URL) {
-            /**
-             * Selenium RC Java Client Driver has introduced a non-backward compatible change: open() nows checks
-             * for error code and throw an error if a non 200 is found. Since our XWiki pages return non 200 codes
-             * in some cases our tests now fail. See http://jira.openqa.org/browse/SEL-684
-             * What's strange is that the source code shows that a new open(String, String ignoreErrorCode) has been
-             * introduced (see http://bit.ly/cU58WO). However we don't get it in the released 1.0.2 version for
-             * some unknown reason.
-             */
-            // TODO: Remove this when Selenium fixes the problem.
-            @Override public void open(String url)
-            {
-                commandProcessor.doCommand("open", new String[] {url, "true"});
-            }
-        };
+        WebDriver driver = new WebDriverFactory().createWebDriver(BROWSER_NAME_SYSTEM_PROPERTY);
+        this.selenium = new WebDriverBackedSelenium(driver, BASE_URL);
 
         // Sets the Selenium object in all tests
         for (AbstractXWikiTestCase test: getTests(getTest())) {
             test.setSelenium(this.selenium);
         }
-
-        this.selenium.start();
     }
 
     protected void tearDown() throws Exception

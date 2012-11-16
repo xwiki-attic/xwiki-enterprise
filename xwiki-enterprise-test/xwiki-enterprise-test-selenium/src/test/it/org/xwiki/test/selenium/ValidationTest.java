@@ -61,7 +61,7 @@ public class ValidationTest extends AbstractXWikiTestCase
         createPage("Main", "ValidatedObject",
             "value: $doc.display('prop')\n\n#foreach($e in $context.validationStatus.errors)$e #end", SYNTAX);
         open("Main", "ValidatedObject", "edit", "editor=object");
-        setFieldValue("classname", "Main.ValidatedClass");
+        getSelenium().select("classname", "value=Main.ValidatedClass");
         clickButtonAndContinue("//input[@name='action_objectadd']");
         setFieldValue("Main.ValidatedClass_0_prop", "22");
         clickEditSaveAndView();

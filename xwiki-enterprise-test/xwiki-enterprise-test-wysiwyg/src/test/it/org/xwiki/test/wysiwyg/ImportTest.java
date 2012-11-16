@@ -44,7 +44,7 @@ public class ImportTest extends AbstractWysiwygTestCase
         clickButtonWithText(IMPORT_BUTTON);
         waitForDialogToClose();
         switchToSource();
-        assertSourceText("Hello (% style=\"color: rgb(255, 0, 0);\" %)World");
+        assertSourceText("Hello (% style=\"color:#ff0000;\" %)World");
     }
 
     /**
@@ -80,11 +80,10 @@ public class ImportTest extends AbstractWysiwygTestCase
      */
     private void populateOfficeContentEditor(String innerHTML)
     {
-        StringBuffer script = new StringBuffer();
-        String locator = "//iframe[contains(@class, 'xImportOfficeContentEditor')]";
-        script.append(String.format("var eframe = this.browserbot.findElement(\"%s\")", locator)).append("\n");
-        script.append("var rte = eframe.contentWindow.document.body;").append("\n");
-        script.append(String.format("rte.innerHTML = '%s';", innerHTML));
+        StringBuilder script = new StringBuilder();
+        script.append("var eframe = document.getElementsByClassName('xImportOfficeContentEditor')[0];\n");
+        script.append("var rte = eframe.contentWindow.document.body;\n");
+        script.append(String.format("rte.innerHTML = '%s';\n", innerHTML));
         getSelenium().getEval(script.toString());
     }
 }

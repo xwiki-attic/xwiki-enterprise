@@ -21,6 +21,7 @@ package org.xwiki.test.wysiwyg;
 
 import java.util.Date;
 
+import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 import com.thoughtworks.selenium.Wait;
@@ -98,10 +99,10 @@ public class TabsTest extends AbstractWysiwygTestCase
         setFieldValue("content", "{{velocity}}$doc.fullName{{/velocity}}");
         clickEditPageInWysiwyg();
         waitForEditorToLoad();
-        String expected = getEval("window.XWE.body.textContent");
+        String expected = getRichTextArea().getText();
         switchToSource();
         switchToWysiwyg();
-        assertEquals(expected, getEval("window.XWE.body.textContent"));
+        assertEquals(expected, getRichTextArea().getText());
     }
 
     /**
@@ -117,17 +118,17 @@ public class TabsTest extends AbstractWysiwygTestCase
         sourceText.append("}\n");
         sourceText.append("{{/code}}");
         setSourceText(sourceText.toString());
-        int cursorPosition = 7;
-        // Set the cursor position to see if it is preserved.
-        getSelenium().setCursorPosition(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, String.valueOf(cursorPosition));
+        // Set the cursor position before "language" to see if it is preserved.
+        getSourceTextArea().sendKeys(Keys.HOME, Keys.PAGE_UP, Keys.chord(Keys.CONTROL, Keys.ARROW_RIGHT),
+            Keys.ARROW_RIGHT);
         // Switch to WYSIWYG tab but don't wait for the rich text area to load.
         switchToWysiwyg(false);
         // Switch back to source tab.
         switchToSource();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
+        getSourceTextArea().sendKeys("x");
         // Check the source text. We don't assert the cursor position directly because it isn't available when the test
         // is run in background.
-        assertSourceText(sourceText.substring(0, cursorPosition) + "x" + sourceText.substring(cursorPosition));
+        assertSourceText(sourceText.substring(0, 7) + "x" + sourceText.substring(7));
     }
 
     /**
@@ -140,7 +141,7 @@ public class TabsTest extends AbstractWysiwygTestCase
         typeText("1");
         applyStyleTitle1();
         switchToSource();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
+        getSourceTextArea().sendKeys("x");
         assertSourceText("x= 1 =");
     }
 
@@ -152,14 +153,14 @@ public class TabsTest extends AbstractWysiwygTestCase
         switchToSource();
         String sourceText = "one **two** three";
         setSourceText(sourceText);
-        int cursorPosition = 5;
-        getSelenium().setCursorPosition(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, String.valueOf(cursorPosition));
+        // Move the caret between the first two *.
+        getSourceTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.ARROW_LEFT, Keys.ARROW_LEFT), Keys.ARROW_LEFT);
         switchToWysiwyg();
         // Switch back to source tab without changing the HTML.
         switchToSource();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
+        getSourceTextArea().sendKeys("x");
         // Check the source text.
-        assertSourceText(sourceText.substring(0, cursorPosition) + "x" + sourceText.substring(cursorPosition));
+        assertSourceText(sourceText.substring(0, 5) + "x" + sourceText.substring(5));
     }
 
     /**
@@ -167,8 +168,8 @@ public class TabsTest extends AbstractWysiwygTestCase
      */
     public void testSwitchToSourceWithHTMLChangesAndDontWait()
     {
-        setContent("<!--startmacro:code|-|language=\"java\"|-|public class Apple extends Fruit {\\n"
-            + "  public String getColor() {\\n    return Colors.RED;\\n  }\\n}--><!--stopmacro-->");
+        setContent("<!--startmacro:code|-|language=\"java\"|-|public class Apple extends Fruit {\n"
+            + "  public String getColor() {\n    return Colors.RED;\n  }\n}--><!--stopmacro-->");
         // Switch to source tab but don't wait for the conversion result.
         switchToSource(false);
         // Switch back to WYSIWYG tab.
@@ -183,8 +184,8 @@ public class TabsTest extends AbstractWysiwygTestCase
         }.wait("Conversion takes too long!");
         // Switch to source tab without waiting. The source text was already received.
         switchToSource(false);
-        assertTrue(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
+        assertTrue(getSourceTextArea().isEnabled());
+        getSourceTextArea().sendKeys("x");
         assertSourceText("x{{code language=\"java\"}}\npublic class Apple extends Fruit {\n"
             + "  public String getColor() {\n    return Colors.RED;\n  }\n}\n{{/code}}");
     }
@@ -217,7 +218,7 @@ public class TabsTest extends AbstractWysiwygTestCase
         // Put some content in the rich text area.
         setContent("<h1>Heading</h1><p>paragraph</p><ul><li>list</li></ul><table><tr><td>cell</td></tr></table>");
         // Place the caret inside the heading.
-        moveCaret("XWE.body.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild", 3);
         // Switch to source but don't wait till the conversion is done.
         switchToSource(false);
         // Switch back to rich text area, before receiving the source text.
@@ -242,8 +243,6 @@ public class TabsTest extends AbstractWysiwygTestCase
             "{{code}}long x = 1L;{{/code}}\n\n{{html}}" + new Date().getTime()
                 + "{{/html}}\n\n{{velocity}}$doc.name{{/velocity}}";
         setSourceText(sourceText);
-        // Blur the plain text area to "submit" its value.
-        blur(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
         clickEditSaveAndContinue();
         // Reload the page to be able to switch to source tab before the rich text area finishes loading.
         getSelenium().runScript("window.location.reload(true)");
@@ -266,11 +265,11 @@ public class TabsTest extends AbstractWysiwygTestCase
     public void testSwitchToWysiwygWhileSourceIsLoading()
     {
         String content =
-            "before <!--startmacro:code|-|language=\"java\"|-|\\npublic class Apple extends Fruit {\\n"
-                + "  public String getColor() {\\n    return Colors.RED;\\n  }\\n}\\n--><!--stopmacro--> after";
+            "before <!--startmacro:code|-|language=\"java\"|-|\\npublic class Apple extends Fruit {\n"
+                + "  public String getColor() {\n    return Colors.RED;\n  }\n}\n--><!--stopmacro--> after";
         setContent(content);
         // Select some text to see if the selection is preserved.
-        select("XWE.body.firstChild", 3, "XWE.body.firstChild", 6);
+        select("document.body.firstChild", 3, "document.body.firstChild", 6);
         // Switch to source but don't wait for the conversion result.
         switchToSource(false);
         // Switch back to WYSIWYG tab before the conversion result is received.
@@ -278,7 +277,6 @@ public class TabsTest extends AbstractWysiwygTestCase
         // Overwrite the selected text.
         typeText("#");
         // Check the result.
-        content = content.replace("\\n", "\n");
         assertContent(content.substring(0, 3) + "#" + content.substring(6));
     }
 
@@ -288,7 +286,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     public void testSwitchToWysiwygWithoutSourceChanges()
     {
         setContent("<em>alice</em> and <strong>bob</strong>");
-        select("XWE.body.firstChild.firstChild", 3, "XWE.body.lastChild.firstChild", 1);
+        select("document.body.firstChild.firstChild", 3, "document.body.lastChild.firstChild", 1);
         // Switch to source and wait for the conversion result.
         switchToSource();
         assertSourceText("//alice// and **bob**");
@@ -345,7 +343,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     {
         // Switch to source tab and insert some content that takes time to render. A code macro is perfect for this.
         switchToSource();
-        StringBuffer sourceText = new StringBuffer();
+        StringBuilder sourceText = new StringBuilder();
         sourceText.append("{{code language=\"java\"}}\n");
         sourceText.append("public final class Apple extends Fruit {\n");
         sourceText.append("  public String getColor() {\n");
@@ -354,20 +352,21 @@ public class TabsTest extends AbstractWysiwygTestCase
         sourceText.append("}\n");
         sourceText.append("{{/code}}");
         setSourceText(sourceText.toString());
-        int cursorPosition = 44;
-        getSelenium().setCursorPosition(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, String.valueOf(cursorPosition));
+        // Place the caret before "Apple".
+        getSourceTextArea().sendKeys(Keys.HOME, Keys.PAGE_UP, Keys.ARROW_DOWN,
+            Keys.chord(Keys.CONTROL, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT), Keys.ARROW_RIGHT);
         // Switch to rich text but don't wait till the rich text area finishes loading.
         switchToWysiwyg(false);
         // Switch back to source before the rich text area is reloaded.
         switchToSource();
         // Change the content.
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "X");
+        getSourceTextArea().sendKeys("X");
         // Switch to WYSIWYG tab again, this time with a different source text. Wait for the rich text area to load.
         switchToWysiwyg();
         // Check the result.
         switchToSource();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "Y");
-        assertSourceText(sourceText.substring(0, cursorPosition) + "XY" + sourceText.substring(cursorPosition));
+        getSourceTextArea().sendKeys("Y");
+        assertSourceText(sourceText.substring(0, 44) + "XY" + sourceText.substring(44));
     }
 
     /**
@@ -379,8 +378,7 @@ public class TabsTest extends AbstractWysiwygTestCase
         applyStyleTitle1();
         switchToSource();
         // Change the source text.
-        getSelenium().setCursorPosition(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "3");
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "2");
+        getSourceTextArea().sendKeys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, "2");
         // Switch to WYSIWYG tab and undo the change.
         switchToWysiwyg();
         // The tool bar is not updated right away. We have to wait for the undo push button to become enabled.
@@ -388,7 +386,7 @@ public class TabsTest extends AbstractWysiwygTestCase
         clickUndoButton();
         // Check the result.
         switchToSource();
-        // NOTE: This is not the right result since the heading style was removes also. This needs to be fixed.
+        // NOTE: This is not the right result since the heading style was removed also. This needs to be fixed.
         assertSourceText("1");
     }
 }

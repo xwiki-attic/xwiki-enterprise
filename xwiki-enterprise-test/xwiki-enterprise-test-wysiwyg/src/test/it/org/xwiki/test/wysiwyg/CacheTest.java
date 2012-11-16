@@ -65,16 +65,14 @@ public class CacheTest extends AbstractWysiwygTestCase
         switchToSource();
 
         // Type text and cancel edition.
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "a");
+        getSourceTextArea().sendKeys("a");
         clickEditCancelEdition();
         getSelenium().goBack();
         waitPage();
         waitForEditorToLoad();
 
         // Type text and leave the editing by clicking on a link.
-        // NOTE: The source text area is not focused when we go back.
-        getSelenium().focus(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "b");
+        getSourceTextArea().sendKeys("b");
         getSelenium().click("//a[@title = 'Home']");
         waitPage();
         getSelenium().goBack();
@@ -82,9 +80,8 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitForEditorToLoad();
 
         // Check the result.
-        getSelenium().focus(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "c");
-        assertSourceText("cba");
+        getSourceTextArea().sendKeys("c");
+        assertSourceText("abc");
     }
 
     /**
@@ -94,7 +91,7 @@ public class CacheTest extends AbstractWysiwygTestCase
     public void testPreserveSelectedEditorAgainstBackButton()
     {
         // The WYSIWYG editor should be initially active.
-        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+        assertFalse(getSourceTextArea().isEnabled());
 
         // Switch to Source editor, cancel the edition and then come back.
         switchToSource();
@@ -104,7 +101,7 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitForEditorToLoad();
 
         // The Source editor should be active now because it was selected before canceling the edition.
-        assertTrue(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+        assertTrue(getSourceTextArea().isEnabled());
 
         // Switch to WYSIWYG editor, leave editing and then come back.
         switchToWysiwyg();
@@ -115,7 +112,7 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitForEditorToLoad();
 
         // The WYSIWYG editor should be active now because it was selected before we left the edit mode.
-        assertFalse(getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA));
+        assertFalse(getSourceTextArea().isEnabled());
     }
 
     /**
@@ -135,11 +132,11 @@ public class CacheTest extends AbstractWysiwygTestCase
         waitPage();
         // Go forward.
         // See http://jira.openqa.org/browse/SEL-543 (Simulate forward button in browser).
-        getSelenium().getEval("selenium.browserbot.goForward()");
+        getSelenium().runScript("window.history.forward()");
         waitPage();
         // Make sure the rich text area is loaded.
         waitForEditorToLoad();
         // Assert the text content.
-        assertEquals("123", getSelenium().getEval("window." + getDOMLocator("body.textContent")));
+        assertEquals("123", getRichTextArea().getText());
     }
 }

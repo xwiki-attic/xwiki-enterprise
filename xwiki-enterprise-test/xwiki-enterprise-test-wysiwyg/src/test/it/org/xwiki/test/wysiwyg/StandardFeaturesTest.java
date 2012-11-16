@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 public class StandardFeaturesTest extends AbstractWysiwygTestCase
@@ -32,8 +33,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testTypingAndDeletion()
     {
         String text = "az";
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText(text);
         assertContent(text);
         typeBackspace(text.length());
@@ -42,66 +41,54 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
     public void testBold()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         applyStyleTitle5();
-        selectElement("h5", 1);
+        selectAllContent();
         clickBoldButton();
         assertContent("<h5><strong>x</strong></h5>");
     }
 
     public void testItalics()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         applyStyleTitle5();
-        selectElement("h5", 1);
+        selectAllContent();
         clickItalicsButton();
         assertContent("<h5><em>x</em></h5>");
     }
 
     public void testUnderline()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         applyStyleTitle5();
-        selectElement("h5", 1);
+        selectAllContent();
         clickUnderlineButton();
         assertContent("<h5><ins>x</ins></h5>");
     }
 
     public void testStrikethrough()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         applyStyleTitle5();
-        selectElement("h5", 1);
+        selectAllContent();
         clickStrikethroughButton();
         assertContent("<h5><del>x</del></h5>");
     }
 
     public void testSubscript()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         applyStyleTitle5();
-        selectElement("h5", 1);
+        selectAllContent();
         clickSubscriptButton();
         assertContent("<h5><sub>x</sub></h5>");
     }
 
     public void testSuperscript()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         applyStyleTitle5();
-        selectElement("h5", 1);
+        selectAllContent();
         clickSuperscriptButton();
         assertContent("<h5><sup>x</sup></h5>");
     }
@@ -160,8 +147,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
 
     public void testStyle()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         selectAllContent();
 
@@ -211,7 +196,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeEnter();
         typeBackspace();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        moveCaret("XWE.body.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild", 1);
         clickHRButton();
         assertContent("<h1>a</h1><hr><h1>z</h1>");
     }
@@ -242,8 +227,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testTabDefault()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("a");
         typeTab();
         typeText("b");
@@ -259,8 +242,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      */
     public void testTabInListItem()
     {
-        // Select all content to overwrite the bogus BR.
-        selectAllContent();
         typeText("x");
         typeShiftEnter();
         // "y" (lower case only) is misinterpreted.
@@ -270,7 +251,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         selectAllContent();
         clickUnorderedListButton();
         // Since the left arrow key doesn't move the caret we have to use the Range API instead.
-        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
+        moveCaret("document.body.firstChild.childNodes[1].firstChild", 0);
         typeTab();
         assertContent("<ul><li>x<ul><li>Y</li></ul></li></ul>");
         typeShiftTab();
@@ -365,13 +346,13 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         clickHRButton();
 
         // Move the caret between x and Y.
-        moveCaret("XWE.body.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild", 1);
 
         // Insert HR in the middle of the paragraph.
         clickHRButton();
 
         // Move the caret before x.
-        moveCaret("XWE.body.firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild", 0);
 
         // Insert HR at the beginning of the paragraph.
         clickHRButton();
@@ -404,7 +385,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Select the word in bold.
-        selectNodeContents("XWE.body.firstChild.childNodes[1]");
+        selectNodeContents("document.body.firstChild.childNodes[1]");
         waitForBoldDetected(true);
 
         // Remove the bold style.
@@ -427,7 +408,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Select a part of the heading.
-        select("XWE.body.firstChild.firstChild.firstChild", 3, "XWE.body.firstChild.firstChild.firstChild", 5);
+        select("document.body.firstChild.firstChild.firstChild", 3, "document.body.firstChild.firstChild.firstChild", 5);
         waitForBoldDetected(true);
 
         // Remove the bold style.
@@ -451,7 +432,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Select the text of the link.
-        selectNode("XWE.body.getElementsByTagName('a')[0]");
+        selectNode("document.body.getElementsByTagName('a')[0]");
         waitForUnderlineDetected(true);
 
         // Remove the underline style.
@@ -538,7 +519,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         typeText("> 1");
         switchToSource();
         switchToWysiwyg();
-        assertEquals("> 1", getEval("window.XWE.body.textContent"));
+        assertEquals("> 1", getRichTextArea().getText());
     }
 
     /**
@@ -550,7 +531,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         // Make sure the definitions are displayed with italics to avoid depending on the current skin.
         setSourceText("(% style=\"font-style: italic;\" %)\n(((\n; term1\n: definition1\n:; term2\n:: definition2\n)))");
         switchToWysiwyg();
-        selectNodeContents("XWE.document.getElementsByTagName('dd')[0].firstChild");
+        selectNodeContents("document.getElementsByTagName('dd')[0].firstChild");
         clickItalicsButton();
         switchToSource();
         assertSourceText("(% style=\"font-style: italic;\" %)\n(((\n; term1\n"
@@ -591,9 +572,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("{{velocity}}#if($hasEdit)1#{else}2#end{{/velocity}}");
         switchToWysiwyg();
-        // Note: The non-breaking space character comes from the macro place-holder which needs it to prevent the caret
-        // from disappearing when the user deletes the text before a macro.
-        assertEquals("\u00A0velocity1", getEval("window.XWE.body.textContent"));
+        assertEquals("1", getRichTextArea().getText());
     }
 
     /**
@@ -604,19 +583,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         // Type some text to be sure the conversion is triggered when switching to source.
         typeText("x");
-        // Type Meta+G to open the "Jump to page" dialog.
-        getSelenium().metaKeyDown();
-        typeText("g");
-        getSelenium().metaKeyUp();
+        // Type Ctrl+G to open the "Jump to page" dialog.
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "g"));
         // Switch to source and check the result.
         switchToSource();
         assertSourceText("x");
         // Now check that the "Jump to page" feature works indeed.
         String jumpToPageTitleXPath = "//div[@class = 'xdialog-title' and starts-with(., 'Go to:')]";
         assertElementNotPresent(jumpToPageTitleXPath);
-        getSelenium().metaKeyDown();
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "g");
-        getSelenium().metaKeyUp();
+        getSourceTextArea().sendKeys(Keys.chord(Keys.CONTROL, "g"));
         assertElementPresent(jumpToPageTitleXPath);
     }
 
@@ -629,7 +604,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     {
         typeText("abc");
         // Select 'b' to check if the selection is preserved when we switch to full screen editing.
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        select("document.body.firstChild", 1, "document.body.firstChild", 2);
         clickEditInFullScreen();
         typeText("1");
         clickExitFullScreen();
@@ -644,6 +619,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testEditPageWithSpecialSymbolsInName()
     {
         open("Main", "WebHome");
+        getSelenium().mouseOver("tmCreate");
         clickLinkWithLocator("tmCreatePage");
         waitPage();
         setFieldValue("page", "#\"&\u00A7-_\\");
@@ -663,9 +639,9 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         setContent("<p>ab<span style=\"color: red\">cd<span style=\"background-color: yellow\">ef</span>gh</span>"
             + "ij<span style=\"font-family: monospace\">kl<span style=\"font-size: 24pt\">mn</span>op</span>rs</p>");
         switchToSource();
-        assertEquals("ab(% style=\"color: red;\" %)cd(% style=\"color: red; "
-            + "background-color: yellow\" %)ef(% style=\"color: red;\" %)gh(%%)"
-            + "ij(% style=\"font-family: monospace;\" %)kl(% style=\"font-family: monospace;"
-            + " font-size: 24pt\" %)mn(% style=\"font-family: monospace;\" %)op(%%)rs", getSourceText());
+        assertEquals("ab(% style=\"color: red\" %)cd(% style=\"color: red; "
+            + "background-color: yellow\" %)ef(% style=\"color: red\" %)gh(%%)"
+            + "ij(% style=\"font-family: monospace\" %)kl(% style=\"font-family: monospace;"
+            + " font-size: 24pt\" %)mn(% style=\"font-family: monospace\" %)op(%%)rs", getSourceText());
     }
 }

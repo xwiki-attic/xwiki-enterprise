@@ -36,7 +36,7 @@ public class ColorTest extends AbstractWysiwygTestCase
         typeText("abc");
 
         // Select 'b'.
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        select("document.body.firstChild", 1, "document.body.firstChild", 2);
 
         // Change the text color to red.
         clickForegroundColorButton();
@@ -48,7 +48,7 @@ public class ColorTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Place the caret after 'b' in order to check if the current color is detected.
-        moveCaret("XWE.body.getElementsByTagName('span')[0].firstChild", 1);
+        moveCaret("document.body.getElementsByTagName('span')[0].firstChild", 1);
 
         // Check if the editor detects the right color.
         clickForegroundColorButton();
@@ -64,7 +64,7 @@ public class ColorTest extends AbstractWysiwygTestCase
         typeText("abc");
 
         // Select 'b'.
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        select("document.body.firstChild", 1, "document.body.firstChild", 2);
 
         // Change the text color to red.
         clickBackgroundColorButton();
@@ -76,7 +76,7 @@ public class ColorTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Place the caret after 'b' in order to check if the current color is detected.
-        moveCaret("XWE.body.getElementsByTagName('span')[0].firstChild", 1);
+        moveCaret("document.body.getElementsByTagName('span')[0].firstChild", 1);
 
         // Check if the editor detects the right color.
         clickBackgroundColorButton();
@@ -94,7 +94,7 @@ public class ColorTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Select the text.
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
 
         // Change the text color.
         clickForegroundColorButton();
@@ -141,12 +141,12 @@ public class ColorTest extends AbstractWysiwygTestCase
         typeText("a z");
 
         // Select the first word and change its color to red.
-        select("XWE.body.firstChild", 0, "XWE.body.firstChild", 1);
+        select("document.body.firstChild", 0, "document.body.firstChild", 1);
         clickForegroundColorButton();
         selectColor("rgb(255, 0, 0)");
 
         // Select the second word and change its color to blue.
-        select("XWE.body.childNodes[1]", 1, "XWE.body.childNodes[1]", 2);
+        select("document.body.childNodes[1]", 1, "document.body.childNodes[1]", 2);
         clickForegroundColorButton();
         selectColor("rgb(0, 0, 255)");
 
@@ -171,7 +171,7 @@ public class ColorTest extends AbstractWysiwygTestCase
             + "(% style=\"background-color:red;color:yellow\" %)56 **78** 90");
         switchToWysiwyg();
         // Place the caret between 7 and 8
-        moveCaret("XWE.body.getElementsByTagName('strong')[0].firstChild", 1);
+        moveCaret("document.body.getElementsByTagName('strong')[0].firstChild", 1);
         // Check the detected background color.
         clickBackgroundColorButton();
         assertSelectedColor("rgb(255, 0, 0)", true);
@@ -222,6 +222,6 @@ public class ColorTest extends AbstractWysiwygTestCase
      */
     protected void hideColorPicker()
     {
-        pushButton(getDOMLocator("body"));
+        getRichTextArea().click();
     }
 }

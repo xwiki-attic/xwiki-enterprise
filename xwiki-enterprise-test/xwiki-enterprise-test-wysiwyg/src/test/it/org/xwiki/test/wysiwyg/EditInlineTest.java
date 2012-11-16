@@ -65,7 +65,7 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         // Edit the object in-line.
         open(spaceName.toString(), pageName.toString(), "inline");
         waitForEditorToLoad();
-        assertEquals(propertyValue, getEval("window.XWE.body.textContent"));
+        assertEquals(propertyValue, getRichTextArea().getText());
 
         // Change the property value.
         propertyValue = new StringBuffer(propertyValue).reverse().toString();
@@ -116,7 +116,7 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         // Create a new page from template.
         open(spaceName, pageName, "inline", "template=" + templateName);
         waitForEditorToLoad();
-        assertEquals(propertyValue, getEval("window.XWE.body.textContent"));
+        assertEquals(propertyValue, getRichTextArea().getText());
     }
 
     /**
@@ -129,6 +129,8 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         setFieldValue("propname", propertyName);
         getSelenium().select("proptype", "TextArea");
         clickEditAddProperty();
+        // Expand the added XClass property to modify its 'editor' meta property.
+        getSelenium().click("xproperty_" + propertyName);
         getSelenium().select(propertyName + "_editor", "Wysiwyg");
     }
 

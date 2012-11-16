@@ -19,9 +19,14 @@
  */
 package org.xwiki.test.wysiwyg.framework;
 
+import java.util.Arrays;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 
-import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.Wait;
 
 /**
@@ -31,17 +36,9 @@ import com.thoughtworks.selenium.Wait;
  */
 public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 {
-    private static final String WYSIWYG_LOCATOR_FOR_KEY_EVENTS =
-        "document.getElementsByTagName('iframe')[0].contentWindow.document.body";
-
     private static final String WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='WYSIWYG']";
 
     private static final String WYSIWYG_LOCATOR_FOR_SOURCE_TAB = "//div[@role='tab'][@tabIndex=0]/div[.='Source']";
-
-    /**
-     * Locates the text area used in the Source tab.
-     */
-    public static final String WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA = "//textarea[contains(@class, 'xPlainTextEditor')]";
 
     /**
      * The title of the indent tool bar button. This title is used in XPath locators to access the indent button.
@@ -97,59 +94,21 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         // Nothing here. Use the default login in the WYSIWYG test setup.
     }
 
-    protected void runScript(String script)
+    /**
+     * @return the rich text area element
+     */
+    protected RichTextAreaElement getRichTextArea()
     {
-        maybeInitializeJavaScriptApi();
-        getSelenium().runScript(script);
-    }
-
-    protected String getEval(String script)
-    {
-        maybeInitializeJavaScriptApi();
-        return getSelenium().getEval(script);
+        WebDriver driver = getDriver();
+        return new RichTextAreaElement(driver, driver.findElement(By.className("gwt-RichTextArea")));
     }
 
     /**
-     * Initializes the {@code XWE} object if it doesn't exist already. This object can be used to quickly access the
-     * edited document or the selection from JavaScript code when using {@link #getEval(String)} or
-     * {@link #runScript(String)} methods. Note that the {@code XWE} object caches some references and thus needs to be
-     * updated whenever those reference become obsolete. To force an update please call
-     * {@link #invalidateJavaScriptApi()}.
+     * @return the source text area
      */
-    protected void maybeInitializeJavaScriptApi()
+    protected WebElement getSourceTextArea()
     {
-        // Don't recreate the XWE object if it exists already, to speed up the tests.
-        if ("undefined".equals(getSelenium().getEval("typeof window.XWE"))) {
-            StringBuffer script = new StringBuffer();
-            script.append("var XWE = function() {\n");
-            script.append("  var iwnd = window." + getDOMLocator("defaultView") + ";\n");
-            script.append("  var idoc = iwnd.document;\n");
-            script.append("  return {\n");
-            script.append("    document : idoc,\n");
-            script.append("    body : idoc.body,\n");
-            script.append("    selection : iwnd.getSelection(),\n");
-            script.append("    selectAll : function() { idoc.execCommand('selectall', false, null) }\n");
-            script.append("  };\n");
-            script.append("}();");
-            getSelenium().runScript(script.toString());
-        }
-    }
-
-    /**
-     * Invalidates the JavaScript API previously initialized by {@link #maybeInitializeJavaScriptApi()}. This method
-     * must be called whenever one of the references cached by the {@code XWE} object becomes obsolete. There are three
-     * cases when this can happen:
-     * <ul>
-     * <li>The rich text area is replaced or renewed. In this case the reference to the edited document becomes
-     * obsolete.</li>
-     * <li>The rich text area is reloaded. In this case either the reference to the edited document or the reference to
-     * the edited document body becomes obsolete.</li>
-     * <li>The rich text area is redisplayed. In this case the reference to the selection object becomes obsolete.</li>
-     * </ul>
-     */
-    protected void invalidateJavaScriptApi()
-    {
-        getSelenium().runScript("window.XWE = undefined");
+        return getDriver().findElement(By.className("xPlainTextEditor"));
     }
 
     /**
@@ -159,15 +118,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void setContent(String html)
     {
-        runScript("XWE.body.innerHTML = '" + html + "';");
-    }
-
-    /**
-     * @return the content of the rich text area
-     */
-    public String getContent()
-    {
-        return getEval("window.XWE.body.innerHTML");
+        getRichTextArea().setContent(html);
     }
 
     /**
@@ -187,157 +138,36 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void selectAllContent()
     {
-        runScript("XWE.selectAll();");
-        triggerToolbarUpdate();
-    }
-
-    private void selectElement(String tagName, int occurence, boolean includeElement)
-    {
-        String locator = getDOMLocator("getElementsByTagName('" + tagName + "')[" + (occurence - 1) + "]");
-        if (includeElement) {
-            selectNode(locator);
-        } else {
-            selectNodeContents(locator);
-        }
-    }
-
-    /**
-     * Select the nth element of the given tagName (p, div, etc.), including the element itself. This method will throw
-     * a JavaScript exception (which is reported) if the element does not exist.
-     * <p>
-     * Example:
-     * 
-     * <pre>
-     * {@code selectElement("p", 2);
-     * -------------------
-     * <p>first paragraph</p>
-     * <ul>...</ul>
-     * [<p>second paragraph</p>]
-     * <p>third
-     * paragraph</p>
-     * -------------------
-     * }
-     * </pre>
-     * 
-     * @param tagName tagName (p, div, etc) to look for
-     * @param occurence number of the occurence to select (from 1 to n).
-     */
-    public void selectElement(String tagName, int occurence)
-    {
-        selectElement(tagName, occurence, true);
-    }
-
-    /**
-     * Select the content of the nth element of the given tagName (p, div, etc.). This method will throw a JavaScript
-     * exception (which is reported) if the element does not exist.
-     * <p>
-     * Example:
-     * 
-     * <pre>
-     * {@code selectElement("p", 2);
-     * -------------------
-     * <p>first paragraph</p>
-     * <ul>...</ul>
-     * <p>[second paragraph]</p>
-     * <p>third
-     * paragraph</p>
-     * -------------------
-     * }
-     * </pre>
-     * 
-     * @param tagName tagName (p, div, etc) to look for
-     * @param occurence number of the occurence to select (from 1 to n).
-     */
-    public void selectElementContent(String tagName, int occurence)
-    {
-        selectElement(tagName, occurence, false);
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "a"));
     }
 
     public void typeText(String text)
     {
-        // We have to simulate each keyPress so that the RTE get them well.
-        char[] chars = text.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            char tChar = chars[i];
-            typeKey(Character.toString(tChar), true);
-        }
+        getRichTextArea().sendKeys(text);
     }
 
     public void typeTextThenEnter(String text)
     {
-        typeText(text);
-        typeEnter();
-    }
-
-    /**
-     * Presses the specified key for the given number of times.
-     * 
-     * @param key the key to be pressed
-     * @param fireKeyPress {@code true} if the specified key should generate a key press event, {@code false} otherwise.
-     *            Normally only printable keys generate a key press event.
-     * @param count the number of times to press the specified key
-     * @param hold {@code false} if the key should be released after each key press, {@code true} if it should be hold
-     *            down and released just at the end
-     * @param locator the locator for type keys
-     */
-    public void typeKey(String key, boolean fireKeyPress, int count, boolean hold, String locator)
-    {
-        for (int i = 0; i < count; i++) {
-            getSelenium().keyDown(locator, key);
-            if (fireKeyPress) {
-                getSelenium().keyPress(locator, key);
-            }
-            if (!hold) {
-                getSelenium().keyUp(locator, key);
-            }
-        }
-        if (hold && count > 0) {
-            getSelenium().keyUp(locator, key);
-        }
-    }
-
-    /**
-     * Presses the specified key for the given number of times in WYSIWYG source editor.
-     * 
-     * @param key the key to be pressed
-     * @param fireKeyPress {@code true} if the specified key should generate a key press event, {@code false} otherwise.
-     *            Normally only printable keys generate a key press event.
-     * @param count the number of times to press the specified key
-     * @param hold {@code false} if the key should be released after each key press, {@code true} if it should be hold
-     *            down and released just at the end
-     */
-
-    public void typeKeyInSource(String key, boolean fireKeyPress, int count, boolean hold)
-    {
-        typeKey(key, fireKeyPress, count, hold, WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
+        getRichTextArea().sendKeys(text, Keys.RETURN);
     }
 
     /**
      * Presses the specified key for the given number of times in WYSIWYG rich text editor.
      * 
      * @param key the key to be pressed
-     * @param fireKeyPress {@code true} if the specified key should generate a key press event, {@code false} otherwise.
-     *            Normally only printable keys generate a key press event.
      * @param count the number of times to press the specified key
      * @param hold {@code false} if the key should be released after each key press, {@code true} if it should be hold
      *            down and released just at the end
      */
-    public void typeKey(String key, boolean fireKeyPress, int count, boolean hold)
+    public void sendKey(Keys key, int count, boolean hold)
     {
-        typeKey(key, fireKeyPress, count, hold, WYSIWYG_LOCATOR_FOR_KEY_EVENTS);
-    }
-
-    /**
-     * Presses the specified key.
-     * 
-     * @param key the key to be pressed
-     * @param fireKeyPress {@code true} to fire a KeyPress event, {@code false} otherwise. Normally only printable keys
-     *            generate a key press event.
-     */
-    public void typeKey(String key, boolean fireKeyPress)
-    {
-        typeKey(key, fireKeyPress, 1, false);
+        Keys[] sequence = new Keys[count];
+        Arrays.fill(sequence, key);
+        if (hold) {
+            getRichTextArea().sendKeys(Keys.chord(sequence));
+        } else {
+            getRichTextArea().sendKeys(sequence);
+        }
     }
 
     public void typeEnter()
@@ -347,28 +177,22 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeEnter(int nb)
     {
-        typeKey("\\13", true, nb, false);
+        sendKey(Keys.RETURN, nb, false);
     }
 
     public void typeShiftEnter()
     {
-        getSelenium().shiftKeyDown();
-        typeEnter();
-        getSelenium().shiftKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.SHIFT, Keys.RETURN));
     }
 
     public void typeControlEnter()
     {
-        getSelenium().controlKeyDown();
-        typeEnter();
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.RETURN));
     }
 
     public void typeMetaEnter()
     {
-        getSelenium().metaKeyDown();
-        typeEnter();
-        getSelenium().metaKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.META, Keys.RETURN));
     }
 
     public void typeBackspace()
@@ -383,28 +207,27 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeBackspace(int count, boolean hold)
     {
-        // Although Backspace is not a printable key, it affects the displayed text so we must fire KeyPress event too.
-        typeKey("\\8", true, count, hold);
+        sendKey(Keys.BACK_SPACE, count, hold);
     }
 
     public void typeLeftArrow()
     {
-        typeKey("\\37", false);
+        getRichTextArea().sendKeys(Keys.ARROW_LEFT);
     }
 
     public void typeUpArrow()
     {
-        typeKey("\\38", false);
+        getRichTextArea().sendKeys(Keys.ARROW_UP);
     }
 
     public void typeRightArrow()
     {
-        typeKey("\\39", false);
+        getRichTextArea().sendKeys(Keys.ARROW_RIGHT);
     }
 
     public void typeDownArrow()
     {
-        typeKey("\\40", false);
+        getRichTextArea().sendKeys(Keys.ARROW_DOWN);
     }
 
     public void typeDelete()
@@ -419,8 +242,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeDelete(int count, boolean hold)
     {
-        // Although Delete is not a printable key, it affects the displayed text so we must fire KeyPress event too.
-        typeKey("\\46", true, count, hold);
+        sendKey(Keys.DELETE, count, hold);
     }
 
     public void typeTab()
@@ -430,14 +252,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public void typeTab(int count)
     {
-        typeKey("\\9", true, count, false);
+        sendKey(Keys.TAB, count, false);
     }
 
     public void typeShiftTab()
     {
-        getSelenium().shiftKeyDown();
-        typeTab();
-        getSelenium().shiftKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.SHIFT, Keys.TAB));
     }
 
     public void typeShiftTab(int count)
@@ -677,7 +497,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void closeMenuContaining(String menuLabel)
     {
-        getSelenium().keyDown(String.format(MENU_ITEM_BY_LABEL, menuLabel), "\\27");
+        getSelenium().typeKeys(String.format(MENU_ITEM_BY_LABEL, menuLabel), "\\27");
     }
 
     /**
@@ -702,12 +522,10 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             {
                 public boolean until()
                 {
-                    return !getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
+                    return !getSourceTextArea().isEnabled();
                 }
             }.wait("Source text area is still editable!", Wait.DEFAULT_TIMEOUT, SMALL_WAIT_INTERVAL);
         }
-        // The rich text area is redisplayed (and possibly reloaded) so we have to invalidate the JavaScript API.
-        invalidateJavaScriptApi();
     }
 
     /**
@@ -732,10 +550,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             {
                 public boolean until()
                 {
-                    return getSelenium().isEditable(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA);
+                    return getDriver().findElement(By.className("xPlainTextEditor")).isEnabled();
                 }
             }.wait("Source text area is not editable!", Wait.DEFAULT_TIMEOUT, SMALL_WAIT_INTERVAL);
-            getSelenium().fireEvent(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "focus");
+            // Focus the source text area.
+            getSourceTextArea().sendKeys("");
         }
     }
 
@@ -861,25 +680,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void assertContent(String expectedHTML)
     {
-        assertEquals(expectedHTML, getContent());
-    }
-
-    @Override
-    public void clickEditPreview()
-    {
-        updateRichTextAreaFormField();
-        super.clickEditPreview();
-    }
-
-    /**
-     * The rich text area is not a ordinary HTML input. To be able to submit its value we use a hidden HTML input which
-     * is updated each time the rich text area looses the focus. Let's update this hidden input by clicking outside of
-     * the rich text area.
-     */
-    public void updateRichTextAreaFormField()
-    {
-        blurRichTextArea();
-        focusRichTextArea();
+        assertEquals(expectedHTML, getRichTextArea().getContent());
     }
 
     /**
@@ -890,17 +691,17 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void moveCaret(String containerJSLocator, int offset)
     {
-        StringBuffer script = new StringBuffer();
-        script.append("var range = XWE.document.createRange();\n");
+        StringBuilder script = new StringBuilder();
+        script.append("var range = document.createRange();\n");
         script.append("range.setStart(");
         script.append(containerJSLocator);
         script.append(", ");
         script.append(offset);
         script.append(");\n");
         script.append("range.collapse(true);\n");
-        script.append("XWE.selection.removeAllRanges();\n");
-        script.append("XWE.selection.addRange(range);");
-        runScript(script.toString());
+        script.append("window.getSelection().removeAllRanges();\n");
+        script.append("window.getSelection().addRange(range);");
+        getRichTextArea().executeScript(script.toString());
         triggerToolbarUpdate();
     }
 
@@ -914,8 +715,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void select(String startContainerJSLocator, int startOffset, String endContainerJSLocator, int endOffset)
     {
-        StringBuffer script = new StringBuffer();
-        script.append("var range = XWE.document.createRange();\n");
+        StringBuilder script = new StringBuilder();
+        script.append("var range = document.createRange();\n");
         script.append("range.setStart(");
         script.append(startContainerJSLocator);
         script.append(", ");
@@ -926,9 +727,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         script.append(", ");
         script.append(endOffset);
         script.append(");\n");
-        script.append("XWE.selection.removeAllRanges();\n");
-        script.append("XWE.selection.addRange(range);");
-        runScript(script.toString());
+        script.append("window.getSelection().removeAllRanges();\n");
+        script.append("window.getSelection().addRange(range);\n");
+        getRichTextArea().executeScript(script.toString());
         triggerToolbarUpdate();
     }
 
@@ -939,14 +740,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void selectNode(String jsLocator)
     {
-        StringBuffer script = new StringBuffer();
-        script.append("var range = XWE.document.createRange();\n");
+        StringBuilder script = new StringBuilder();
+        script.append("var range = document.createRange();\n");
         script.append("range.selectNode(");
         script.append(jsLocator);
         script.append(");\n");
-        script.append("XWE.selection.removeAllRanges();\n");
-        script.append("XWE.selection.addRange(range);");
-        runScript(script.toString());
+        script.append("window.getSelection().removeAllRanges();\n");
+        script.append("window.getSelection().addRange(range);\n");
+        getRichTextArea().executeScript(script.toString());
         triggerToolbarUpdate();
     }
 
@@ -957,28 +758,15 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void selectNodeContents(String jsLocator)
     {
-        StringBuffer script = new StringBuffer();
-        script.append("var range = XWE.document.createRange();\n");
+        StringBuilder script = new StringBuilder();
+        script.append("var range = document.createRange();\n");
         script.append("range.selectNodeContents(");
         script.append(jsLocator);
         script.append(");\n");
-        script.append("XWE.selection.removeAllRanges();\n");
-        script.append("XWE.selection.addRange(range);");
-        runScript(script.toString());
+        script.append("window.getSelection().removeAllRanges();\n");
+        script.append("window.getSelection().addRange(range);\n");
+        getRichTextArea().executeScript(script.toString());
         triggerToolbarUpdate();
-    }
-
-    /**
-     * Converts a DOM locator relative to the document edited by the WYSIWYG editor to a DOM locator relative to the
-     * document hosting the WYSIWYG editor. The returned locator can be used in Selenium methods like
-     * {@link Selenium#click(String)}.
-     * 
-     * @param domLocator a Selenium DOM locator relative to the document edited with the WYSIWYG editor
-     * @return a Selenium DOM locator relative to the document hosting the WYSIWYG editor
-     */
-    public String getDOMLocator(String domLocator)
-    {
-        return "document.getElementsByTagName('iframe')[0].contentWindow.document." + domLocator;
     }
 
     /**
@@ -989,7 +777,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void triggerToolbarUpdate()
     {
-        typeLeftArrow();
+        getRichTextArea().sendKeys(Keys.SHIFT);
     }
 
     /**
@@ -998,7 +786,13 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForDialogToClose()
     {
-        waitForCondition("!selenium.isElementPresent('//div[contains(@class, \"xDialogBox\")]')");
+        new Wait()
+        {
+            public boolean until()
+            {
+                return !getSelenium().isElementPresent("//div[contains(@class, 'xDialogBox')]");
+            }
+        }.wait("The dialog didn't close in a decent amount of time!");
     }
 
     /**
@@ -1007,8 +801,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForDialogToLoad()
     {
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xDialogBody\")"
-            + " and not(contains(@class, \"loading\"))]')");
+        new Wait()
+        {
+            public boolean until()
+            {
+                return getSelenium().isElementPresent(
+                    "//div[contains(@class, 'xDialogBody') and not(contains(@class, 'loading'))]");
+            }
+        }.wait("The dialog didn't load in a decent amount of time!");
     }
 
     /**
@@ -1087,7 +887,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void focusRichTextArea()
     {
-        getSelenium().focus(getDOMLocator("body"));
+        getRichTextArea().sendKeys("");
     }
 
     /**
@@ -1096,7 +896,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void blurRichTextArea()
     {
-        blur(getDOMLocator("defaultView"));
+        getDriver().findElement(By.id("xwikidoctitleinput")).sendKeys("");
     }
 
     /**
@@ -1119,38 +919,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     }
 
     /**
-     * Focuses the specified element by triggering a focus event instead of calling its {@code focus()} method. This
-     * method manages to focus the specified element even if the browser window doesn't have the focus which happens
-     * when the tests are ran in background.
-     * 
-     * @param locator identifies the element to focus
-     */
-    protected void focus(String locator)
-    {
-        getSelenium().fireEvent(locator, "focus");
-    }
-
-    /**
-     * Blurs the specified element by triggering a blur event instead of calling its {@code blur()} method. This method
-     * manages to blur the specified element even if the browser window doesn't have the focus which happens when the
-     * tests are ran in background.
-     * 
-     * @param locator identifies the element to blur
-     */
-    protected void blur(String locator)
-    {
-        getSelenium().fireEvent(locator, "blur");
-    }
-
-    /**
      * @return the text from the source text area
      */
     protected String getSourceText()
     {
-        // Note: We could use getSelenium().getValue() here. However getValue() is stripping spaces
-        // and some of our tests verify that there are leading spaces/empty lines.
-        return getSelenium().getEval(
-            "getInputValue(selenium.browserbot.findElement(\"" + WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA + "\"))");
+        return getDriver().findElement(By.className("xPlainTextEditor")).getAttribute("value");
     }
 
     /**
@@ -1160,7 +933,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void setSourceText(String sourceText)
     {
-        getSelenium().type(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, sourceText);
+        getSourceTextArea().clear();
+        getSourceTextArea().sendKeys(sourceText);
     }
 
     /**
@@ -1187,14 +961,11 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
             {
                 // Either the source tab is present and selected and the plain text area can be edited or the rich text
                 // area is not loading (with or without tabs).
-                return (getSelenium().isElementPresent(sourceTabSelected) && getSelenium().isEditable(
-                    WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA))
+                return (getSelenium().isElementPresent(sourceTabSelected) && getSourceTextArea().isEnabled())
                     || (getSelenium().isElementPresent(richTextArea) && !getSelenium().isElementPresent(
                         richTextAreaLoader));
             }
         }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
-        // The rich text area has been (re)loaded so we have to invalidate the JavaScript API.
-        invalidateJavaScriptApi();
     }
 
     /**
@@ -1238,6 +1009,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void createSpace(String spaceName)
     {
+        getSelenium().runScript("window.scrollTo(0, 0)");
+        getSelenium().mouseOver("tmCreate");
         clickLinkWithLocator("tmCreateSpace");
         getSelenium().type("space", spaceName);
         clickLinkWithLocator("//input[@value='Create']");
@@ -1257,6 +1030,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void createPage(String spaceName, String pageName, String content)
     {
+        getSelenium().runScript("window.scrollTo(0, 0)");
+        getSelenium().mouseOver("tmCreate");
         clickLinkWithLocator("tmCreatePage");
         getSelenium().type("space", spaceName);
         getSelenium().type("page", pageName);
@@ -1277,7 +1052,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void selectRichTextAreaFrame()
     {
-        getSelenium().selectFrame("document.getElementsByClassName('gwt-RichTextArea')[0]");
+        WebDriver driver = getDriver();
+        driver.switchTo().frame(driver.findElement(By.className("gwt-RichTextArea")));
     }
 
     /**

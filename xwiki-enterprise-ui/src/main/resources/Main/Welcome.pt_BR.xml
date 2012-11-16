@@ -23,11 +23,11 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
-  <content>É um site fácil de editar que ajudará você a trabalhar de forma colaborativa. Este Wiki é feito de //páginas// armazenadas em //espaços//. Você está agora no espaço **principal**, olhando para a home page (**WebHome**).
+  <content>É um site fácil de editar que ajudará você a trabalhar de forma colaborativa. Este Wiki é feito de //páginas// armazenadas em //espaços//. Você está agora no espaço **principal**, olhando para a página inicial (**WebHome**).
 
-Aprenda a usar o XWiki com o {{velocity}}[[Guia de Introdução&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
+Aprenda a usar o XWiki com o {{velocity}}[[Guia Rápido&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
 
 {{velocity}}
-#if($hasEdit)Você pode usar o [[Espaço Sandbox&gt;&gt;Sandbox.WebHome]] para experimentar as funcionalidades sua wiki.#end
+#if($hasEdit)Você pode usar o [[Espaço Sandbox&gt;&gt;Sandbox.WebHome]] para experimentar as funcionalidades do seu wiki.#end
 {{/velocity}}</content>
 </xwikidoc>

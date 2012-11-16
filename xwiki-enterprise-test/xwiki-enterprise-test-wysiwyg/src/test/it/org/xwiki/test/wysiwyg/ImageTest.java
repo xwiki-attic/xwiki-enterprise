@@ -132,11 +132,11 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
         clickButtonWithText(BUTTON_INSERT_IMAGE);
-        moveCaret("XWE.body", 1);
+        moveCaret("document.body", 1);
         typeText("x");
 
         // cannot select the image otherwise but like this: click won't work, nor push button
-        selectNode("XWE.body.firstChild");
+        selectNode("document.body.firstChild");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the page is the right page
@@ -179,7 +179,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
 
         // Place the caret after the inserted image.
-        runScript("XWE.selection.collapseToEnd()");
+        getRichTextArea().executeScript("window.getSelection().collapseToEnd()");
 
         typeText("x");
 
@@ -189,7 +189,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // now edit
-        selectNode("XWE.body.getElementsByTagName('img')[0]");
+        selectNode("document.body.getElementsByTagName('img')[0]");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the page is the right page
@@ -234,7 +234,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        moveCaret("XWE.body", 1);
+        moveCaret("document.body", 1);
 
         typeText("x");
 
@@ -307,7 +307,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         setSourceText("[[image:xwiki:XWiki.AdminSheet@import.png]]Mmmh, cheese!"
             + "[[image:xwiki:XWiki.AdminSheet@export.png]]");
         switchToWysiwyg();
-        selectNode("XWE.body.firstChild.childNodes[2]");
+        selectNode("document.body.firstChild.childNodes[2]");
         clickMenu(MENU_IMAGE);
         assertTrue(isMenuEnabled(MENU_REMOVE_IMAGE));
         clickMenu(MENU_REMOVE_IMAGE);
@@ -316,7 +316,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         assertSourceText("[[image:xwiki:XWiki.AdminSheet@import.png]]Mmmh, cheese!");
         switchToWysiwyg();
 
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         typeDelete();
 
         switchToSource();
@@ -345,8 +345,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_EXPLORER);
 
         // wait for the default option to show up and then click it
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xNewImagePreview\")]')");
-        getSelenium().click("//div[contains(@class, \"xNewImagePreview\")]");
+        String newImageLocator = "//div[@class = 'xImagesExplorer']//div[@class = 'xNewImagePreview']";
+        waitForElement(newImageLocator);
+        getSelenium().click(newImageLocator);
         clickButtonWithText(BUTTON_SELECT);
 
         waitForStepToLoad(STEP_UPLOAD);
@@ -364,7 +365,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // edit first image
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
@@ -377,7 +378,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // edit second image too
-        selectNode("XWE.body.firstChild.childNodes[2]");
+        selectNode("document.body.firstChild.childNodes[2]");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
@@ -413,7 +414,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
-        selectNode("XWE.body.firstChild");
+        selectNode("document.body.firstChild");
 
         // add link around the image
         clickMenu(LinkTest.MENU_LINK);
@@ -437,7 +438,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // edit image
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
@@ -484,7 +485,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[image:xwiki:Sandbox.WebHome@XWikiLogo.png]]");
         switchToWysiwyg();
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         // Look on the current page selector.
@@ -546,7 +547,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
         getSelenium().click("//div[contains(@class, \"xNewImagePreview\")]");
-        getSelenium().keyUp(IMAGES_LIST, "\\13");
+        getSelenium().typeKeys(IMAGES_LIST, "\\13");
         waitForStepToLoad(STEP_UPLOAD);
         closeDialog();
 
@@ -565,7 +566,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Reset the image selection.
-        moveCaret("XWE.body", 0);
+        moveCaret("document.body", 0);
 
         // enter to test enter upload in all pages
         openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
@@ -573,7 +574,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickTab(TAB_ALL_PAGES);
         selectLocation("XWiki", "AdminSheet");
         getSelenium().click("//div[@class = '" + STEP_EXPLORER + "']//div[contains(@class, \"xNewImagePreview\")]");
-        getSelenium().keyUp(IMAGES_LIST, "\\13");
+        getSelenium().typeKeys("//div[@class = '" + STEP_EXPLORER + "']" + IMAGES_LIST, "\\13");
         waitForStepToLoad(STEP_UPLOAD);
         closeDialog();
     }
@@ -590,7 +591,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Select the image and edit it.
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_EXPLORER);
         clickButtonWithText(BUTTON_SELECT);
@@ -671,7 +672,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Edit the first image and check if it is selected in the image selector wizard step.
-        selectNode("XWE.body.getElementsByTagName('img')[0]");
+        selectNode("document.body.getElementsByTagName('img')[0]");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
@@ -679,7 +680,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         closeDialog();
 
         // Edit the second image and check if it is selected in the image selector wizard step.
-        selectNode("XWE.body.getElementsByTagName('img')[1]");
+        selectNode("document.body.getElementsByTagName('img')[1]");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_SELECTOR);
         waitForStepToLoad(STEP_EXPLORER);
@@ -735,7 +736,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Edit the external image and change its location.
-        selectNode("XWE.body.getElementsByTagName('img')[0]");
+        selectNode("document.body.getElementsByTagName('img')[0]");
         openImageDialog(MENU_EDIT_IMAGE);
         waitForStepToLoad(STEP_EXTERNAL_IMAGE);
         assertEquals(imageURL, getSelenium().getValue(INPUT_EXTERNAL_IMAGE_LOCATION));
@@ -769,6 +770,8 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Change the configuration.
         open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+        // Expand the configuration object.
+        getSelenium().click("xobject_XWiki.WysiwygEditorConfigClass_0");
         checkField("XWiki.WysiwygEditorConfigClass_0_imageSelectionLimited");
         clickEditSaveAndContinue();
 
@@ -783,6 +786,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         } finally {
             // Restore the configuration.
             open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+            // Expand the configuration object.
+            getSelenium().click("xobject_XWiki.WysiwygEditorConfigClass_0");
             checkField("XWiki.WysiwygEditorConfigClass_0_imageSelectionLimited_false");
             clickEditSaveAndContinue();
         }

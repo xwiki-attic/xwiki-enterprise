@@ -48,7 +48,7 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testSetFontSizeOnAPlainTextSelection()
     {
         typeText("abc");
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        select("document.body.firstChild", 1, "document.body.firstChild", 2);
         applyFontSize("24px");
         switchToSource();
         assertSourceText("a(% style=\"font-size: 24px;\" %)b(%%)c");
@@ -60,7 +60,7 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testSetFontNameOnAPlainTextSelection()
     {
         typeText("abc");
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        select("document.body.firstChild", 1, "document.body.firstChild", 2);
         applyFontName("Georgia");
         switchToSource();
         assertSourceText("a(% style=\"font-family: Georgia;\" %)b(%%)c");
@@ -72,7 +72,7 @@ public class FontTest extends AbstractWysiwygTestCase
     public void testSetFontNameAndSizeOnAPlainTextSelection()
     {
         typeText("abc");
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        select("document.body.firstChild", 1, "document.body.firstChild", 2);
         applyFontName("Arial");
         applyFontSize("18px");
         switchToSource();
@@ -149,12 +149,12 @@ public class FontTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("(% style=\"font-family: courier new\" %)\nabc\n\n(% style=\"font-family: times new roman\" %)\nxyz");
         switchToWysiwyg();
-        moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
+        moveCaret("document.body.getElementsByTagName('p')[0].firstChild", 1);
         waitForDetectedFontName("Courier New");
-        moveCaret("XWE.body.getElementsByTagName('p')[1].firstChild", 1);
+        moveCaret("document.body.getElementsByTagName('p')[1].firstChild", 1);
         waitForDetectedFontName("Times New Roman");
-        select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
-            "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
+        select("document.body.getElementsByTagName('p')[0].firstChild", 1,
+            "document.body.getElementsByTagName('p')[1].firstChild", 1);
         waitForDetectedFontName("");
     }
 

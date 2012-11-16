@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -43,7 +44,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
         clickEditPageInWysiwyg();
         waitForEditorToLoad();
         // Focus the editor.
-        focus(getDOMLocator("defaultView"));
+        focusRichTextArea();
         // Switch back to Wiki editor and assert the content.
         clickEditPageInWikiSyntaxEditor();
         assertEquals("a**b**c", getFieldValue("content"));
@@ -72,11 +73,11 @@ public class SubmitTest extends AbstractWysiwygTestCase
     public void testSubmitAfterChangingContentWithFocus()
     {
         // Focus the editor.
-        focus(getDOMLocator("defaultView"));
+        focusRichTextArea();
         // Change the content of the rich text area.
         setContent("x<em>y</em>z");
         // Blur the rich text area to save the new content.
-        blur(getDOMLocator("defaultView"));
+        blurRichTextArea();
         // Switch back to Wiki editor and assert the content.
         clickEditPageInWikiSyntaxEditor();
         assertEquals("x//y//z", getFieldValue("content"));
@@ -152,9 +153,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
      */
     private void typeShortcutsForSaveAndView()
     {
-        getSelenium().altKeyDown();
-        typeKeyInSource("s", true, 1, false);
-        getSelenium().altKeyUp();
+        getSourceTextArea().sendKeys(Keys.chord(Keys.ALT, "s"));
         // Wait for view page to load.
         waitPage();
     }
@@ -164,12 +163,7 @@ public class SubmitTest extends AbstractWysiwygTestCase
      */
     private void typeShortcutsForSaveAndContinue()
     {
-        getSelenium().altKeyDown();
-        getSelenium().shiftKeyDown();
-        // Don't fire KeyPress event because the KeyDown event is stopped by the shortcut key handler.
-        typeKeyInSource("s", false, 1, false);
-        getSelenium().shiftKeyUp();
-        getSelenium().altKeyUp();
+        getSourceTextArea().sendKeys(Keys.chord(Keys.ALT, Keys.SHIFT, "s"));
         // Wait for the confirmation.
         waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
             + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");

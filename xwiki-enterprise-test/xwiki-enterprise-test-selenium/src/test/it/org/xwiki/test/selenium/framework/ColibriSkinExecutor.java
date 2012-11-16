@@ -79,11 +79,9 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     @Override
     public void loginAsAdmin()
     {
-        // Verify if the login or logout links are available and if not go to the home page to make it available
-        // (for ex it's not available in edit mode)
-        if (!isAuthenticationMenuPresent()) {
-            getTest().open("Main", "WebHome");
-        }
+        // Open a missing page because it loads quickly and it has the login and logout links. Note that it's not enough
+        // to test if the authentication menu is present because it can be blocked by a lightbox for instance.
+        getTest().open("Sandbox", "PageThatDoesNotExist");
 
         super.loginAsAdmin();
     }
@@ -141,14 +139,50 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
     @Override
     public void clickEditPageInWikiSyntaxEditor()
     {
-        // Colibri skin uses the same id for the edit Wiki link in view and edit modes.
-        getTest().clickLinkWithLocator("tmEditWiki");
+        clickEditMenuItem("tmEditWiki");
     }
 
     @Override
     public void clickEditPageInWysiwyg()
     {
+        clickEditMenuItem("tmEditWysiwyg");
+    }
+
+    @Override
+    public void clickEditPageInlineForm()
+    {
+        clickEditMenuItem("tmEditInline");
+    }
+
+    @Override
+    public void clickEditPageAccessRights()
+    {
+        clickEditMenuItem("tmEditRights");
+    }
+
+    /**
+     * Clicks on the edit menu item with the given ID.
+     * 
+     * @param menuItemId the menu item identifier
+     */
+    private void clickEditMenuItem(String menuItemId)
+    {
+        // Scroll to the top of the page.
+        getTest().getSelenium().runScript("window.scrollTo(0, 0)");
+        // Hover the edit menu.
+        String menuId = getTest().getSelenium().isElementPresent("tmEdit") ? "tmEdit" : "tmCurrentEditor";
+        getTest().getSelenium().mouseOver(menuId);
         // Colibri skin uses the same id for the edit WYSIWYG link in view and edit modes.
-        getTest().clickLinkWithLocator("tmEditWysiwyg");
+        getTest().clickLinkWithLocator(menuItemId);
+    }
+
+    @Override
+    public void clickCopyPage()
+    {
+        // Scroll to the top of the page.
+        getTest().getSelenium().runScript("window.scrollTo(0, 0)");
+        // Hover the page menu.
+        getTest().getSelenium().mouseOver("tmPage");
+        getTest().clickLinkWithLocator("tmActionCopy");
     }
 }

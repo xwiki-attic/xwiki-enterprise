@@ -73,7 +73,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         typeText("abc");
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild", 2);
+        select("document.body.firstChild", 1, "document.body.firstChild", 2);
         // Wait for the tool bar to be updated, otherwise clicking on the toggle button has no effect.
         waitForToggleButton(TOOLBAR_BUTTON_ALIGN_FULL_TITLE, true);
         clickAlignFullButton();
@@ -87,7 +87,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         typeText("a");
         typeShiftEnter();
         typeText("b");
-        selectNode("XWE.body.childNodes[2]");
+        selectNode("document.body.childNodes[2]");
         // Wait for the tool bar to be updated, otherwise clicking on the toggle button has no effect.
         waitForToggleButton(TOOLBAR_BUTTON_ALIGN_LEFT_TITLE, true);
         clickAlignLeftButton();
@@ -132,7 +132,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         waitForAlignRightDetected(true);
 
-        selectNode("XWE.body.firstChild.childNodes[2]");
+        selectNode("document.body.firstChild.childNodes[2]");
         clickAlignFullButton();
         typeText("c");
         waitForAlignFullDetected(true);
@@ -186,14 +186,14 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         assertSourceText("|=(% style=\"text-align: justify;\" %)x\na|=b\n|c|d");
         switchToWysiwyg();
 
-        selectNodeContents("XWE.body.getElementsByTagName('td')[0]");
+        selectNodeContents("document.body.getElementsByTagName('td')[0]");
         clickAlignCenterButton();
         waitForAlignCenterDetected(true);
         switchToSource();
         assertSourceText("|=(% style=\"text-align: justify;\" %)x\na|=b\n|(% style=\"text-align: center;\" %)c|d");
         switchToWysiwyg();
 
-        selectNodeContents("XWE.body.getElementsByTagName('td')[0]");
+        selectNodeContents("document.body.getElementsByTagName('td')[0]");
         waitForAlignCenterDetected(true);
     }
 
@@ -206,12 +206,12 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         setSourceText("ab\n\ncd");
         switchToWysiwyg();
 
-        moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 1);
+        moveCaret("document.body.getElementsByTagName('p')[0].firstChild", 1);
         clickAlignCenterButton();
         waitForAlignCenterDetected(true);
 
-        select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
-            "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
+        select("document.body.getElementsByTagName('p')[0].firstChild", 1,
+            "document.body.getElementsByTagName('p')[1].firstChild", 1);
         waitForAlignCenterDetected(false);
         clickAlignRightButton();
         waitForAlignRightDetected(true);
@@ -223,8 +223,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         waitForAlignRightDetected(true);
 
         // Remove the right alignment (toggle off the 'Align right' button).
-        select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
-            "XWE.body.getElementsByTagName('p')[1].firstChild", 1);
+        select("document.body.getElementsByTagName('p')[0].firstChild", 1,
+            "document.body.getElementsByTagName('p')[1].firstChild", 1);
         clickAlignRightButton();
         waitForAlignRightDetected(false);
         switchToSource();
@@ -240,12 +240,12 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         setSourceText("|ab|cd");
         switchToWysiwyg();
 
-        moveCaret("XWE.body.getElementsByTagName('td')[1].firstChild", 2);
+        moveCaret("document.body.getElementsByTagName('td')[1].firstChild", 2);
         clickAlignRightButton();
         waitForAlignRightDetected(true);
 
-        select("XWE.body.getElementsByTagName('td')[0].firstChild", 0,
-            "XWE.body.getElementsByTagName('td')[1].firstChild", 1);
+        select("document.body.getElementsByTagName('td')[0].firstChild", 0,
+            "document.body.getElementsByTagName('td')[1].firstChild", 1);
         waitForAlignRightDetected(false);
         clickAlignCenterButton();
         waitForAlignCenterDetected(true);
@@ -257,8 +257,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         waitForAlignCenterDetected(true);
 
         // Remove the center alignment (toggle off the 'Align center' button).
-        select("XWE.body.getElementsByTagName('td')[0].firstChild", 1,
-            "XWE.body.getElementsByTagName('td')[1].firstChild", 2);
+        select("document.body.getElementsByTagName('td')[0].firstChild", 1,
+            "document.body.getElementsByTagName('td')[1].firstChild", 2);
         clickAlignCenterButton();
         waitForAlignCenterDetected(false);
         switchToSource();
@@ -279,8 +279,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         waitForAlignRightDetected(true);
 
         // Select the paragraph and the first table cell and align them full.
-        select("XWE.body.getElementsByTagName('p')[0].lastChild", 2,
-            "XWE.body.getElementsByTagName('td')[0].firstChild", 0);
+        select("document.body.getElementsByTagName('p')[0].lastChild", 2,
+            "document.body.getElementsByTagName('td')[0].firstChild", 0);
         waitForAlignRightDetected(false);
         clickAlignFullButton();
         waitForAlignFullDetected(true);
@@ -292,8 +292,8 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         waitForAlignFullDetected(true);
 
         // Remove the full alignment (toggle off the 'Align full' button).
-        select("XWE.body.getElementsByTagName('p')[0].firstChild", 1,
-            "XWE.body.getElementsByTagName('td')[0].lastChild", 0);
+        select("document.body.getElementsByTagName('p')[0].firstChild", 1,
+            "document.body.getElementsByTagName('td')[0].lastChild", 0);
         clickAlignFullButton();
         waitForAlignFullDetected(false);
         switchToSource();
@@ -310,7 +310,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Place the caret inside the first paragraph from the first table cell.
-        moveCaret("XWE.body.getElementsByTagName('p')[0].firstChild", 2);
+        moveCaret("document.body.getElementsByTagName('p')[0].firstChild", 2);
         clickAlignRightButton();
         waitForAlignRightDetected(true);
         switchToSource();

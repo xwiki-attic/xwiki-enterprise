@@ -21,6 +21,8 @@ package org.xwiki.test.selenium;
 
 import junit.framework.Test;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
@@ -53,7 +55,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         // Delete the Blog.Categories page and test it's not present in the admin global menu anymore
         deletePage("XWiki", "SearchAdmin");
-        clickLinkWithText("Administer Wiki");
+        clickAdministerWiki();
         assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Search')]");
         restorePage("XWiki", "SearchAdmin");
     }
@@ -63,7 +65,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      */
     public void testSettingXWikiPreferences()
     {
-        clickLinkWithText("Administer Wiki");
+        clickAdministerWiki();
         getSelenium().select("goto-select", "label=Wiki administration");
         clickLinkWithXPath("//a[text()='Localization']", true);
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");
@@ -102,15 +104,15 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // test panel wizard at global level
         clickLinkWithLocator("//a[text()='Panel Wizard']");
-        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
+        waitForBodyContains("Panel List".toUpperCase());
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
         clickLinkWithXPath("//div[@id='bothcolumns']", false);
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
+        waitForBodyContains("Page Layout".toUpperCase());
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
+        dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("leftPanels"));
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
-        waitForCondition("selenium.isAlertPresent()");
+        waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
         assertElementPresent("leftPanels");
@@ -119,12 +121,12 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Revert changes
         open("XWiki", "XWikiPreferences", "admin");
         clickLinkWithLocator("//a[text()='Panel Wizard']");
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
+        waitForBodyContains("Page Layout".toUpperCase());
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
         clickLinkWithXPath("//div[@id='rightcolumn']", false);
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
-        waitForCondition("selenium.isAlertPresent()");
+        waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
         assertElementNotPresent("leftPanels");
@@ -136,22 +138,22 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
         open("TestPanelsAdmin", "WebPreferences", "admin");
         clickLinkWithLocator("//a[text()='Panel Wizard']");
-        waitForCondition("selenium.page().bodyText().indexOf('Page Layout')!=-1;");
+        waitForBodyContains("Page Layout".toUpperCase());
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='leftcolumn']\")!=false;");
         clickLinkWithXPath("//div[@id='leftcolumn']", false);
-        waitForCondition("selenium.page().bodyText().indexOf('Panel List')!=-1;");
+        waitForBodyContains("Panel List".toUpperCase());
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        getSelenium().dragAndDropToObject("//div[@class='panel expanded QuickLinks']", "//div[@id='leftPanels']");
+        dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("leftPanels"));
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
-        waitForCondition("selenium.isAlertPresent()");
+        waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("TestPanelsAdmin", "WebHome");
         assertElementPresent("leftPanels");
-        assertElementPresent("//div[@class='panel expanded QuickLinks']");
+        assertElementPresent("//div[@class='panel expanded CategoriesPanel']");
         open("XWiki", "WebHome");
         assertElementNotPresent("leftPanels");
-        assertElementNotPresent("//div[@class='panel expanded QuickLinks']");
+        assertElementNotPresent("//div[@class='panel expanded CategoriesPanel']");
     }
 
     /*
@@ -172,6 +174,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationNotPresent("Main", "TestConfigurable");
         // Switch application to non-global
         open("Main", "TestConfigurable", "edit", "editor=object");
+        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
         getSelenium().uncheck("XWiki.ConfigurableClass_0_configureGlobally");
         clickEditSaveAndView();
         // Check that it is available in space section.
@@ -197,7 +200,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Create the configurable for global admin.
         createConfigurableApplication("Main", "TestConfigurable", section, true);
         // Check it's available in global section.
-        clickLinkWithText("Administer Wiki");
+        clickAdministerWiki();
         assertTrue(isAdminMenuItemPresent(section));
         clickLinkWithText(section);
         assertConfigurationPresent("Main", "TestConfigurable");
@@ -244,7 +247,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
         // Add a second configurable object.
-        setFieldValue("classname", "XWiki.ConfigurableClass");
+        getSelenium().select("classname", "value=XWiki.ConfigurableClass");
         clickButtonAndContinue("//input[@name='action_objectadd']");
         setFieldValue("XWiki.ConfigurableClass_1_displayInSection", "TestSection2");
         setFieldValue("XWiki.ConfigurableClass_1_heading", "Some Other Heading");
@@ -312,6 +315,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
+        // Expand the object.
+        getSelenium().click("xobject_" + fullName + "_0");
         setFieldValue(fullName + "_0_TextArea", test);
         setFieldValue(fullName + "_0_String", test);
         clickEditSaveAndView();
@@ -402,19 +407,17 @@ public class AdministrationTest extends AbstractXWikiTestCase
     {
         String space = "Main";
         String page = "TestConfigurable";
-        // Note: We are forced to use the silent notation because Selenium 2.20.0 doesn't escape properly the string
-        // passed to the Selenium.type() method and it seems ${...} has a special meaning, throwing an exception with
-        // the message "replacement is undefined". Escaping the value using backslash or doubling the { didn't work.
-        // See http://code.google.com/p/selenium/issues/detail?id=3510 .
         String codeToExecute = "#set($code = 's sh')"
-                             + "Thi$!{code}ould be displayed."
+                             + "Thi${code}ould be displayed."
                              + "#if($xcontext.hasProgrammingRights())"
                              + "This should not be displayed."
                              + "#end";
         String heading = "#set($code = 'his sho')"
-                       + "T$!{code}uld also be displayed.";
+                       + "T${code}uld also be displayed.";
         createConfigurableApplication(space, page, "TestSection6", true);
         open(space, page, "edit", "editor=object");
+        // Expand the edited object.
+        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", codeToExecute);
         setFieldValue("XWiki.ConfigurableClass_0_heading", heading);
         setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
@@ -423,12 +426,12 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
         open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
 
-        // Since we modify ConfigurableClass, we must modify it back after to prevent polluting further tests.
-        // See the previous note about silent notation to understand why we perform a string replacement.
-        String originalContent = getFieldValue("content").replace("${", "$!{");
         try {
-            setFieldValue("content", originalContent
-                          + "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
+            // Since we modify ConfigurableClass, we must modify it back after to prevent polluting further tests.
+            // See http://code.google.com/p/selenium/issues/detail?id=2876 .
+            getDriver().findElement(By.id("content")).sendKeys(Keys.chord(Keys.CONTROL, "a"),
+                Keys.chord(Keys.CONTROL, "c"), Keys.ARROW_RIGHT,
+                "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
             clickEditSaveAndContinue();
 
             // Now we look at the section for our configurable.
@@ -442,7 +445,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
             assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
         } finally {
             open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
-            setFieldValue("content", originalContent);
+            getDriver().findElement(By.id("content")).sendKeys(Keys.chord(Keys.CONTROL, "a"),
+                Keys.chord(Keys.CONTROL, "v"));
             clickEditSaveAndContinue();
         }
     }
@@ -461,6 +465,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open(space, page, "delete", "confirm=1");
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
+        // Expand the edited object.
+        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
         setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
         clickEditSaveAndView();
@@ -482,11 +488,13 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
-        setFieldValue("classname", "XWiki.ConfigurableClass");
-        clickButtonAndContinue("//input[@name='action_objectadd']");
+        // Expand the edited object.
+        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
         setFieldValue("XWiki.ConfigurableClass_0_propertiesToShow", "String, Boolean");
-
+        
+        getSelenium().select("classname", "value=XWiki.ConfigurableClass");
+        clickButtonAndContinue("//input[@name='action_objectadd']");
         setFieldValue("XWiki.ConfigurableClass_1_displayInSection", "TestSection1");
         setFieldValue("XWiki.ConfigurableClass_1_configurationClass", space + "." + page);
         setFieldValue("XWiki.ConfigurableClass_1_propertiesToShow", "TextArea, Select");
@@ -633,7 +641,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
             open(space, page, "edit", "editor=object");
 
             // Add a configurable object which points to the new class as the configuration class.
-            setFieldValue("classname", "XWiki.ConfigurableClass");
+            getSelenium().select("classname", "value=XWiki.ConfigurableClass");
             clickButtonAndContinue("//input[@name='action_objectadd']");
             clickEditSaveAndView();
 
@@ -646,7 +654,9 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // Add an object of the new class.
         waitForElement("classname");
-        setFieldValue("classname", space + "." + page);
+        getSelenium().select("classname", "value=" + space + "." + page);
+        // Scroll the page to the top because the edit menu can be activated when we hover over the add button.
+        getSelenium().runScript("window.scrollTo(0, 0)");
         clickButtonAndContinue("//input[@name='action_objectadd']");
 
         setFieldValue("XWiki.ConfigurableClass_0_displayInSection", section);
@@ -673,5 +683,15 @@ public class AdministrationTest extends AbstractXWikiTestCase
             return false;
         }
         return copyPage(fromSpace, fromPage, toSpace, toPage);
+    }
+
+    private void clickAdministerWiki()
+    {
+        // Scroll the page to the top.
+        getSelenium().runScript("window.scrollTo(0, 0)");
+        // Hover the wiki top menu.
+        getSelenium().mouseOver("tmWiki");
+        // Click the "Administer Wiki" link.
+        getSelenium().click("tmAdminWiki");
     }
 }

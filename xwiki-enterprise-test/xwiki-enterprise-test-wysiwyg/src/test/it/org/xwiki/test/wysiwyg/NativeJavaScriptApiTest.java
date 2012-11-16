@@ -41,12 +41,12 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         insertEditor("editor", "displayTabs: true");
 
         // Test plain text editor.
-        assertEquals("xPlainTextEditor", getEval("window.editor.getPlainTextArea().className"));
-        assertEquals("textarea", getEval("window.editor.getPlainTextArea().nodeName").toLowerCase());
+        assertEquals("xPlainTextEditor", getSelenium().getEval("window.editor.getPlainTextArea().className"));
+        assertEquals("textarea", getSelenium().getEval("window.editor.getPlainTextArea().nodeName").toLowerCase());
 
         // Test rich text editor.
-        assertEquals("gwt-RichTextArea", getEval("window.editor.getRichTextArea().className"));
-        assertEquals("iframe", getEval("window.editor.getRichTextArea().nodeName").toLowerCase());
+        assertEquals("gwt-RichTextArea", getSelenium().getEval("window.editor.getRichTextArea().className"));
+        assertEquals("iframe", getSelenium().getEval("window.editor.getRichTextArea().nodeName").toLowerCase());
     }
 
     /**
@@ -72,7 +72,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         assertEquals("= Veni, //vidi//, vici =", getSourceText("editor"));
 
         // Type something in the plain text area and see if we get it.
-        getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_SOURCE_TEXTAREA, "x");
+        getSourceTextArea().sendKeys("x");
         assertEquals("x= Veni, //vidi//, vici =", getSourceText("editor"));
     }
 
@@ -177,7 +177,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         insertEditor("editor", "syntax: 'xwiki/2.0'");
         focusRichTextArea();
         typeText("x");
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
         assertTrue(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isSupported('bold')")));
         assertTrue(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isEnabled('bold')")));
         assertFalse(Boolean.valueOf(getSelenium().getEval("window.editor.getCommandManager().isExecuted('bold')")));
@@ -273,7 +273,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     {
         // Insert the code that creates the editor.
         switchToSource();
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         content.append("{{velocity}}\n");
         content.append("{{html}}\n");
         content.append("#wysiwyg_import(false)\n");
@@ -302,8 +302,9 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      */
     protected String getSourceText(String editorName)
     {
-        getEval("window['" + editorName + "'].getSourceText(function(result){window.sourceText = result;})");
+        getSelenium().getEval(
+            "window['" + editorName + "'].getSourceText(function(result){window.sourceText = result;})");
         waitForCondition("typeof window.sourceText == 'string'");
-        return getEval("window.sourceText");
+        return getSelenium().getEval("window.sourceText");
     }
 }

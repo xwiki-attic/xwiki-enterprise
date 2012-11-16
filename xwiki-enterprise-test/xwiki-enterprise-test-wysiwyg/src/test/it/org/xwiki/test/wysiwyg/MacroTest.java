@@ -19,10 +19,11 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
-import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
+import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
 /**
  * Integration tests for macro support inside the WYSIWYG editor.
@@ -78,7 +79,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("bc{{html}}def{{/html}}g");
         switchToWysiwyg();
         // Place the caret between "b" and "c".
-        moveCaret("XWE.body.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild", 1);
         typeDelete(2, true);
         typeText("x");
         switchToSource();
@@ -95,7 +96,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("g{{html}}h{{/html}}");
         switchToWysiwyg();
         // Select the character preceding the macro.
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         typeBackspace();
         typeText("x");
         switchToSource();
@@ -112,7 +113,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("i{{html}}j{{/html}}");
         switchToWysiwyg();
         // Select the character preceding the macro.
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         typeText("x");
@@ -129,7 +130,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("j{{html}}k{{/html}}l");
         switchToWysiwyg();
         // Move the caret just before the macro.
-        moveCaret("XWE.body.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild", 1);
         typeDelete();
         typeText("x");
         switchToSource();
@@ -146,7 +147,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("a{{html}}b{{/html}}c");
         switchToWysiwyg();
         // Move the caret at the end.
-        moveCaret("XWE.body.firstChild.lastChild", 1);
+        moveCaret("document.body.firstChild.lastChild", 1);
         typeBackspace();
         typeText("x");
         switchToSource();
@@ -163,7 +164,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("c{{html}}def{{/html}}g");
         switchToWysiwyg();
         // Move the caret at the end.
-        moveCaret("XWE.body.firstChild.lastChild", 1);
+        moveCaret("document.body.firstChild.lastChild", 1);
         typeBackspace(2, true);
         typeText("x");
         switchToSource();
@@ -180,7 +181,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("g{{html}}h{{/html}}i");
         switchToWysiwyg();
         // Select the character following the macro.
-        selectNode("XWE.body.firstChild.lastChild");
+        selectNode("document.body.firstChild.lastChild");
         typeDelete();
         typeText("x");
         switchToSource();
@@ -197,7 +198,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("i{{html}}j{{/html}}k");
         switchToWysiwyg();
         // Select the character following the macro.
-        selectNode("XWE.body.firstChild.lastChild");
+        selectNode("document.body.firstChild.lastChild");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         typeText("x");
@@ -214,7 +215,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setSourceText("k{{html}}l{{/html}}m");
         switchToWysiwyg();
         // Move the caret at the end.
-        moveCaret("XWE.body.firstChild.lastChild", 0);
+        moveCaret("document.body.firstChild.lastChild", 0);
         typeBackspace();
         typeText("x");
         switchToSource();
@@ -231,7 +232,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
         // We have to manually place the caret to be sure it is before the macro. The caret is before the macro when the
         // browser window is focused but inside the macro when the tests run in background.
-        moveCaret("XWE.body", 0);
+        moveCaret("document.body", 0);
         typeText("uv");
         clickUndoButton();
         clickRedoButton();
@@ -247,8 +248,13 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("{{html}}<p>foo</p>{{/html}}\n\nbar");
         switchToWysiwyg();
-        getSelenium().clickAt(getMacroLocator(0), "0, 0");
-        typeDelete();
+        selectRichTextAreaFrame();
+        try {
+            getSelenium().click(getMacroLocator(0));
+        } finally {
+            selectTopFrame();
+        }
+        typeBackspace();
         switchToSource();
         assertSourceText("bar");
     }
@@ -388,8 +394,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         // By default macros are expanded. Let's check this.
         // Note: We have to select the rich text area frame because the visibility of an element is evaluated relative
         // to the current window.
+        selectRichTextAreaFrame();
         try {
-            selectRichTextAreaFrame();
             assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
             assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
         } finally {
@@ -401,8 +407,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Let's collapse the selected macro and check its state.
         toggleMacroCollapsedState();
+        selectRichTextAreaFrame();
         try {
-            selectRichTextAreaFrame();
             assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
             assertFalse(getSelenium().isVisible(getMacroOutputLocator(0)));
         } finally {
@@ -411,8 +417,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Let's expand the selected macro and check its state.
         toggleMacroCollapsedState();
+        selectRichTextAreaFrame();
         try {
-            selectRichTextAreaFrame();
             assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
             assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
         } finally {
@@ -427,11 +433,11 @@ public class MacroTest extends AbstractWysiwygTestCase
     {
         String text = "a b";
         typeText(text);
-        assertEquals(text, getEval("window.XWE.body.textContent"));
+        assertEquals(text, getRichTextArea().getText());
 
         // If no macros are present then the refresh shoudn't affect too much the edited content.
         refreshMacros();
-        assertEquals(text, getEval("window.XWE.body.textContent"));
+        assertEquals(text, getRichTextArea().getText());
     }
 
     /**
@@ -444,8 +450,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Collapse the second macro.
+        selectRichTextAreaFrame();
         try {
-            selectRichTextAreaFrame();
             assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
             assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
         } finally {
@@ -453,8 +459,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         }
         selectMacro(1);
         toggleMacroCollapsedState();
+        selectRichTextAreaFrame();
         try {
-            selectRichTextAreaFrame();
             assertTrue(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
             assertFalse(getSelenium().isVisible(getMacroOutputLocator(1)));
         } finally {
@@ -468,8 +474,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         refreshMacros();
 
         // Check if the second macro is expanded.
+        selectRichTextAreaFrame();
         try {
-            selectRichTextAreaFrame();
             assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(1)));
             assertTrue(getSelenium().isVisible(getMacroOutputLocator(1)));
         } finally {
@@ -487,11 +493,11 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // We should have two list items in the edited document.
-        String listItemCountExpression = "window." + getDOMLocator("getElementsByTagName('li')") + ".length";
-        assertEquals("2", getSelenium().getEval(listItemCountExpression));
+        String listItemCountExpression = "return document.getElementsByTagName('li').length";
+        assertEquals(2L, getRichTextArea().executeScript(listItemCountExpression));
 
         // Place the caret after the second heading and insert a new one.
-        moveCaret(getDOMLocator("getElementsByTagName('h2')[0].firstChild.firstChild"), 7);
+        moveCaret("document.getElementsByTagName('h2')[0].firstChild.firstChild", 7);
         // Wait for the macro to be unselected.
         waitForSelectedMacroCount(0);
         typeEnter();
@@ -502,7 +508,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         refreshMacros();
 
         // We should have three list items in the edited document now.
-        assertEquals("3", getSelenium().getEval(listItemCountExpression));
+        assertEquals(3L, getRichTextArea().executeScript(listItemCountExpression));
     }
 
     /**
@@ -651,7 +657,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // Let's insert a ToC macro between the two headings.
         // First, place the caret at the end of first heading.
-        moveCaret("XWE.body.getElementsByTagName('h1')[0].firstChild", 7);
+        moveCaret("document.body.getElementsByTagName('h1')[0].firstChild", 7);
         // Get out of the heading.
         typeEnter();
         // Insert the ToC macro
@@ -661,7 +667,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // Check the output of the ToC macro.
-        assertEquals("1", getSelenium().getEval("window." + getDOMLocator("getElementsByTagName('li')") + ".length"));
+        assertEquals(1L, getRichTextArea().executeScript("return document.getElementsByTagName('li').length"));
 
         // Check the XWiki syntax.
         switchToSource();
@@ -678,14 +684,14 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Place the caret inside the paragraph.
-        moveCaret("XWE.body.lastChild.firstChild", 4);
+        moveCaret("document.body.lastChild.firstChild", 4);
 
         // Insert the ToC macro
         insertMacro("Table Of Contents");
         applyMacroChanges();
 
         // Check the output of the ToC macro.
-        assertEquals("1", getSelenium().getEval("window." + getDOMLocator("getElementsByTagName('li')") + ".length"));
+        assertEquals(1L, getRichTextArea().executeScript("return document.getElementsByTagName('li').length"));
 
         // Check the XWiki syntax.
         switchToSource();
@@ -706,7 +712,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyStylePlainText();
 
         // Place the caret in the middle of the paragraph.
-        moveCaret("XWE.body.firstChild.firstChild", 6);
+        moveCaret("document.body.firstChild.firstChild", 6);
 
         // Insert the HTML macro.
         insertMacro("HTML");
@@ -715,22 +721,22 @@ public class MacroTest extends AbstractWysiwygTestCase
         applyMacroChanges();
 
         // At this point the macro should render an error message instead of the list.
-        String listItemCountExpression = "window." + getDOMLocator("getElementsByTagName('li')") + ".length";
-        assertEquals("0", getSelenium().getEval(listItemCountExpression));
+        String listItemCountExpression = "return document.getElementsByTagName('li').length";
+        assertEquals(0L, getRichTextArea().executeScript(listItemCountExpression));
 
         // Let's fix the macro by separating it in an empty paragraph.
         // Move the caret before the macro and press Enter to move it into a new paragraph.
-        moveCaret("XWE.body.firstChild.firstChild", 6);
+        moveCaret("document.body.firstChild.firstChild", 6);
         typeEnter();
         // Move the caret after the macro and press Enter to move the following text in a new paragraph.
-        moveCaret("XWE.body.lastChild.lastChild", 0);
+        moveCaret("document.body.lastChild.lastChild", 0);
         typeEnter();
 
         // Now the macro should be in an empty paragraph.
         // Let's refresh the content to see if the macro was fixed.
         refreshMacros();
         // Check the output of the HTML macro.
-        assertEquals("1", getSelenium().getEval(listItemCountExpression));
+        assertEquals(1L, getRichTextArea().executeScript(listItemCountExpression));
 
         // Check the XWiki syntax.
         switchToSource();
@@ -841,7 +847,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void testNestedMacrosAreNotDuplicated()
     {
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         content.append("{{html wiki=\"true\"}}\n\n");
         content.append("= Hello title 1 =\n\n");
         content.append("{{toc start=\"2\"/}}\n\n");
@@ -906,7 +912,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Select a macro.
         getSelenium().click(getMacroListItemLocator("HTML"));
         // Press Enter to choose the selected macro.
-        getSelenium().keyUp("//div[@class = 'xListBox']", "\\13");
+        getSelenium().typeKeys("//div[@class = 'xListBox']", "\\13");
         waitForDialogToLoad();
 
         // Fill the macro content.
@@ -929,10 +935,13 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Double click to edit the second macro.
-        // Each double click event should be preceded by a click event.
-        selectMacro(1);
-        // Fire the double click event on the macro.
-        getSelenium().doubleClick(getMacroLocator(1));
+        selectRichTextAreaFrame();
+        try {
+            // Fire the double click event on the macro.
+            getSelenium().doubleClick(getMacroLocator(1));
+        } finally {
+            selectTopFrame();
+        }
         waitForDialogToLoad();
 
         // Fill the macro content.
@@ -956,13 +965,13 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Double click to edit the macro.
-        // Each double click event should be preceded by a click event.
-        selectMacro(0);
-        // Simulate the fact that browsers select the entire macro container when a macro is double clicked.
-        // Put the selection start at the end of the first text node and the selection end after the macro container.
-        select(getDOMLocator("body.firstChild.firstChild"), 7, getDOMLocator("body.firstChild"), 2);
-        // Fire the double click event on the macro.
-        getSelenium().doubleClick(getMacroLocator(0));
+        selectRichTextAreaFrame();
+        try {
+            // Fire the double click event on the macro.
+            getSelenium().doubleClick(getMacroLocator(0));
+        } finally {
+            selectTopFrame();
+        }
         waitForDialogToLoad();
 
         // Fill the macro content.
@@ -989,16 +998,18 @@ public class MacroTest extends AbstractWysiwygTestCase
         waitForSelectedMacroCount(1);
 
         // Double click on the paragraph outside of the macro output.
-        String locator = getDOMLocator("body.lastChild");
-        // Unfortunately double click doesn't update the selection so we have to do it..
-        selectNodeContents(locator);
-        getSelenium().doubleClick(locator);
+        selectRichTextAreaFrame();
+        try {
+            getSelenium().doubleClick("document.body.lastChild");
+        } finally {
+            selectTopFrame();
+        }
 
         try {
             waitForDialogToLoad();
             fail("The macro edit box shouldn't be triggered by double clicking outside of the macro output.");
-        } catch (SeleniumException e) {
-            assertEquals("Timed out after 30000ms", e.getMessage());
+        } catch (WaitTimedOutException e) {
+            assertEquals("The dialog didn't load in a decent amount of time!", e.getMessage());
         }
     }
 
@@ -1262,9 +1273,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("{{velocity}}$doc.fullName{{/velocity}}");
         switchToWysiwyg();
-        String expected = getEval("window.XWE.body.textContent");
+        String expected = getRichTextArea().getText();
         refreshMacrosUsingShortcutKey();
-        assertEquals(expected, getEval("window.XWE.body.textContent"));
+        assertEquals(expected, getRichTextArea().getText());
     }
 
     /**
@@ -1278,8 +1289,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Make sure the rich text area is focused. We need to do this to be sure the blur event has any effect.
         focusRichTextArea();
         // Check if the link is present before collapsing the macro.
-        String linkCountExpression = "window." + getDOMLocator("getElementsByTagName('a').length");
-        assertEquals("1", getSelenium().getEval(linkCountExpression));
+        String linkCountExpression = "return document.getElementsByTagName('a').length";
+        assertEquals(1L, getRichTextArea().executeScript(linkCountExpression));
         // Select the macro.
         selectMacro(0);
         // Collapse the macro.
@@ -1290,7 +1301,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Expand the macro.
         toggleMacroCollapsedState();
         // The link should have been preserved.
-        assertEquals("1", getSelenium().getEval(linkCountExpression));
+        assertEquals(1L, getRichTextArea().executeScript(linkCountExpression));
     }
 
     /**
@@ -1299,7 +1310,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testHTMLMacroWithStyleTag()
     {
         switchToSource();
-        StringBuffer sourceText = new StringBuffer();
+        StringBuilder sourceText = new StringBuilder();
         sourceText.append("{{html clean=\"false\"}}\n");
         sourceText.append("<style type=\"text/css\">\n");
         sourceText.append(".test {\n");
@@ -1380,9 +1391,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-content-input", "$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\")");
         applyMacroChanges();
         // Check the displayed text.
-        // Note: The non-breaking space character comes from the macro place-holder which needs it to prevent the caret
-        // from disappearing when the user deletes the text before a macro.
-        assertEquals("\u00A0velocityAdmin is the default Wiki Admin.", getEval("window.XWE.body.textContent"));
+        assertEquals("Admin is the default Wiki Admin.", getRichTextArea().getText());
     }
 
     /**
@@ -1421,8 +1430,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Check that Space didn't toggle the macro collapsed state.
         // Note: We have to select the rich text area frame because the visibility of an element is evaluated relative
         // to the current window.
+        selectRichTextAreaFrame();
         try {
-            selectRichTextAreaFrame();
             assertFalse(getSelenium().isVisible(getMacroPlaceHolderLocator(0)));
             assertTrue(getSelenium().isVisible(getMacroOutputLocator(0)));
         } finally {
@@ -1439,8 +1448,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         try {
             waitForDialogToLoad();
             fail("The macro edit box shouldn't be triggered by pressing Enter at the end of the output.");
-        } catch (SeleniumException e) {
-            assertEquals("Timed out after 30000ms", e.getMessage());
+        } catch (WaitTimedOutException e) {
+            assertEquals("The dialog didn't load in a decent amount of time!", e.getMessage());
         }
         typeText("2");
 
@@ -1477,25 +1486,24 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public String getMacroLocator(int index)
     {
-        return getDOMLocator("getElementsByClassName('macro')[" + index + "]");
+        return "document.getElementsByClassName('macro')[" + index + "]";
     }
 
     /**
      * @return the number of macros detected in the edited document
      */
-    public int getMacroCount()
+    public long getMacroCount()
     {
-        String expression = "window." + getDOMLocator("getElementsByClassName('macro').length");
-        return Integer.parseInt(getSelenium().getEval(expression));
+        return (Long) getRichTextArea().executeScript("return document.getElementsByClassName('macro').length");
     }
 
     /**
      * @return the number of selected macros in the edited document
      */
-    public int getSelectedMacroCount()
+    public long getSelectedMacroCount()
     {
-        String expression = "window." + getDOMLocator("getElementsByClassName('macro-selected').length");
-        return Integer.parseInt(getSelenium().getEval(expression));
+        return (Long) getRichTextArea()
+            .executeScript("return document.getElementsByClassName('macro-selected').length");
     }
 
     /**
@@ -1546,15 +1554,18 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void selectMacro(int index)
     {
         String locator = getMacroLocator(index);
-        getSelenium().mouseOver(locator);
-        getSelenium().mouseMove(locator);
-        getSelenium().mouseDown(locator);
-        // Simulate the fact that the caret is moved inside the macro.
-        moveCaret(locator, 0);
-        getSelenium().mouseUp(locator);
-        getSelenium().click(locator);
-        getSelenium().mouseMove(locator);
-        getSelenium().mouseOut(locator);
+        selectRichTextAreaFrame();
+        try {
+            getSelenium().mouseOver(locator);
+            getSelenium().mouseMove(locator);
+            getSelenium().mouseDown(locator);
+            getSelenium().mouseUp(locator);
+            getSelenium().click(locator);
+            getSelenium().mouseMove(locator);
+            getSelenium().mouseOut(locator);
+        } finally {
+            selectTopFrame();
+        }
         // Select the macro container to be sure that the shortcut keys (Enter, Space) work. The click usually places
         // the caret at the start of the macro content when typing is allowed.
         selectNodeContents(locator);
@@ -1565,11 +1576,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void collapseMacrosUsingShortcutKey()
     {
-        getSelenium().controlKeyDown();
-        getSelenium().shiftKeyDown();
-        typeText("C");
-        getSelenium().shiftKeyUp();
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.SHIFT, "c"));
     }
 
     /**
@@ -1577,11 +1584,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void expandMacrosUsingShortcutKey()
     {
-        getSelenium().controlKeyDown();
-        getSelenium().shiftKeyDown();
-        typeText("E");
-        getSelenium().shiftKeyUp();
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.SHIFT, "e"));
     }
 
     /**
@@ -1589,7 +1592,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void toggleMacroCollapsedState()
     {
-        typeText(" ");
+        getRichTextArea().sendKeys(Keys.SPACE);
     }
 
     /**
@@ -1660,11 +1663,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void refreshMacrosUsingShortcutKey()
     {
-        getSelenium().controlKeyDown();
-        getSelenium().shiftKeyDown();
-        typeText("R");
-        getSelenium().shiftKeyUp();
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, Keys.SHIFT, "r"));
         waitForEditorToLoad();
     }
 
@@ -1710,7 +1709,8 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public String getMacroListItemLocator(String macroName)
     {
-        return "//div[contains(@class, 'xListBox')]//div[text() = '" + macroName + "']";
+        return "//div[contains(@class, 'xListBox')]//div[contains(@class, 'xMacroLabel') and text() = '" + macroName
+            + "']";
     }
 
     /**
@@ -1738,10 +1738,6 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void filterMacrosContaining(String filter)
     {
-        // In order for the filter to work without real focus we must set the filter value and simulate the keyboard
-        // events separately. First let's set the filter value.
-        getSelenium().type(MACRO_LIVE_FILTER_SELECTOR, filter);
-        // Then let's simulate each keyboard event.
         getSelenium().typeKeys(MACRO_LIVE_FILTER_SELECTOR, filter);
     }
 
@@ -1778,7 +1774,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void clearMacroSelection()
     {
-        moveCaret("XWE.body", 0);
+        moveCaret("document.body", 0);
         triggerToolbarUpdate();
         waitForSelectedMacroCount(0);
     }

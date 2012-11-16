@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
+import junit.framework.Test;
+
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Tests the WYSIWYG editor (content edited in WYSIWYG mode).
@@ -45,7 +45,7 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
     {
         super.setUp();
         loginAsAdmin();
-        editInWysiwyg("Test", "TestWysiwyg", SYNTAX);
+        editInWysiwyg(this.getClass().getSimpleName(), getName(), SYNTAX);
         clearWysiwygContent();
     }
 
@@ -99,7 +99,8 @@ public class WysiwygEditorTest extends AbstractXWikiTestCase
         clickWysiwygUnorderedListButton();
         typeInWysiwyg("Text");
 
-        assertWikiTextGeneratedByWysiwyg("Text\n\n* item\n\nText");
+        // Pressing the Enter key generates paragraphs with a non-breaking space, which you can see at the end.
+        assertWikiTextGeneratedByWysiwyg("Text\n\n* item\n\nText ");
     }
 
     public void testEscapedHtmlElement()

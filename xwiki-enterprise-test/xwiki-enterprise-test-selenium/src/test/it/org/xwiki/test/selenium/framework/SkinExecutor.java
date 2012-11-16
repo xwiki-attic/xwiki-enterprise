@@ -47,6 +47,20 @@ public interface SkinExecutor
     void clickEditPageInWysiwyg();
 
     /**
+     * Clicks on the link that leads to the page access rights editor for the current page.
+     * 
+     * @since 4.3RC1
+     */
+    void clickEditPageAccessRights();
+    
+    /**
+     * Clicks on the link that leads to the Inline Form edit mode for the current page.
+     * 
+     * @since 4.3RC1
+     */
+    void clickEditPageInlineForm();
+
+    /**
      * Click on the Delete button leading to the page for deleting the current page.
      */
     void clickDeletePage();

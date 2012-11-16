@@ -42,7 +42,7 @@ public class ListTest extends AbstractWysiwygTestCase
         // Check that a br is added in the parent list item so that it becomes editable
         assertContent("<ul><li><br><ul><li>rox</li></ul></li></ul>");
         // Place the caret in the first list item
-        moveCaret("XWE.body.firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild", 0);
         typeText("x");
         assertContent("<ul><li>x<br><ul><li>rox</li></ul></li></ul>");
     }
@@ -57,11 +57,11 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* x\n** rox");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 1);
         typeEnter();
         // Check the created item is editable
         assertContent("<ul><li>x</li><li><br><ul><li>rox</li></ul></li></ul>");
-        moveCaret("XWE.body.firstChild.childNodes[1]", 0);
+        moveCaret("document.body.firstChild.childNodes[1]", 0);
         typeText("w");
         assertContent("<ul><li>x</li><li>w<br><ul><li>rox</li></ul></li></ul>");
     }
@@ -76,7 +76,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n* bar");
         switchToWysiwyg();
         // Set the selection around the list
-        select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.lastChild.firstChild", 3);
+        select("document.body.firstChild.firstChild.firstChild", 0, "document.body.firstChild.lastChild.firstChild", 3);
         typeEnter();
         typeText("x");
         assertContent("<p><br></p>x");
@@ -91,12 +91,12 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo**bar**\n** far");
         switchToWysiwyg();
         // Set the selection inside the foo text
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 1);
         typeDelete();
         assertContent("<ul><li>fo<strong>bar</strong><ul><li>far</li></ul></li></ul>");
 
         // set the selection just before the bold text but inside the text before
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 2);
         typeDelete();
         assertContent("<ul><li>fo<strong>ar</strong><ul><li>far</li></ul></li></ul>");
     }
@@ -110,7 +110,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n** b//arf//ar");
         switchToWysiwyg();
         // Set the selection in the "ar" text in the second list item
-        moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.lastChild", 1);
+        moveCaret("document.body.firstChild.firstChild.lastChild.firstChild.lastChild", 1);
         typeBackspace();
         assertContent("<ul><li>foo<ul><li>b<em>arf</em>r</li></ul></li></ul>");
         // delete again, now it should delete inside the em
@@ -127,7 +127,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n* bar");
         switchToWysiwyg();
         // Set the selection at the end of the first item
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>foobar</li></ul>");
     }
@@ -142,7 +142,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n* bar");
         switchToWysiwyg();
         // Set the selection at the end of the first item
-        moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
+        moveCaret("document.body.firstChild.lastChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foobar</li></ul>");
     }
@@ -157,7 +157,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n\n* bar");
         switchToWysiwyg();
         // Set the selection at the end of the first item
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>foo</li><li>bar</li></ul>");
     }
@@ -172,7 +172,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n\n* bar");
         switchToWysiwyg();
         // Set the selection at the end of the first item
-        moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
+        moveCaret("document.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foo</li><li>bar</li></ul>");
     }
@@ -186,7 +186,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* foo\n* bar (((\n* foo 2\n1. bar 2)))");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.childNodes[1].childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foo</li><li>bar<div><ul><li>foo 2</li><li>bar 2</li></ul></div></li></ul>");
     }
@@ -201,7 +201,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* foo\n* bar (((\n1. foo 2\n* bar 2)))");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild.firstChild", 5);
+        moveCaret("document.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild.firstChild", 5);
         typeDelete();
         assertContent("<ul><li>foo</li><li>bar<div><ol><li>foo 2</li><li>bar 2</li></ol></div></li></ul>");
     }
@@ -211,7 +211,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* foo(((bar\n* foar)))");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foo<div><p>bar</p>foar</div></li></ul>");
     }
@@ -224,7 +224,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* foo(((bar\n* foar)))");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         typeBackspace();
         typeDelete();
         assertContent("<ul><li>foo<div><p>barfoar</p></div></li></ul>");
@@ -238,7 +238,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* foo(((* bar\n\nfoar)))");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>foo<div><ul><li>barfoar</li></ul></div></li></ul>");
     }
@@ -253,7 +253,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n** bar\n");
         switchToWysiwyg();
         // Set the selection at the end of the first item
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>foobar</li></ul>");
 
@@ -262,7 +262,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n** bar\n** far");
         switchToWysiwyg();
         // Set the selection at the end of the first item
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>foobar<ul><li>far</li></ul></li></ul>");
     }
@@ -278,7 +278,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n** bar\n");
         switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
-        moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foobar</li></ul>");
 
@@ -287,7 +287,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n** bar\n** far");
         switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
-        moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild.lastChild.firstChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foobar<ul><li>far</li></ul></li></ul>");
     }
@@ -302,7 +302,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n*** bar\n");
         switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>foo<br><ul><li>bar</li></ul></li></ul>");
     }
@@ -317,7 +317,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n*** bar\n");
         switchToWysiwyg();
         // Set the selection at beginning of the first item in sublist
-        moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild.lastChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foo<br><ul><li>bar</li></ul></li></ul>");
     }
@@ -334,7 +334,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n** bar\n* bar minus one");
         switchToWysiwyg();
         // Set the selection at the end of "bar"
-        moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>foo<ul><li>barbar minus one</li></ul></li></ul>");
     }
@@ -352,7 +352,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* foo\n** bar\n* bar minus one");
         switchToWysiwyg();
         // Set the selection at the end of "bar"
-        moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
+        moveCaret("document.body.firstChild.lastChild.firstChild", 0);
         typeBackspace();
         assertContent("<ul><li>foo<ul><li>barbar minus one</li></ul></li></ul>");
     }
@@ -369,12 +369,12 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection at the beginning of the text in the second list item
-        moveCaret("XWE.body.firstChild.lastChild.firstChild", 0);
+        moveCaret("document.body.firstChild.lastChild.firstChild", 0);
         typeDelete();
         // test that the list structure is correct: two items one with a sublist
         assertContent("<ul><li>foo</li><li><br><ul><li>ar</li></ul></li></ul>");
         // type in the empty list item
-        moveCaret("XWE.body.firstChild.lastChild", 0);
+        moveCaret("document.body.firstChild.lastChild", 0);
         typeText("x");
         assertContent("<ul><li>foo</li><li>x<br><ul><li>ar</li></ul></li></ul>");
         // now delete, to test that it jumps the <br>
@@ -394,16 +394,16 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection at the end of the text in the second list item
-        moveCaret("XWE.body.firstChild.lastChild.firstChild", 1);
+        moveCaret("document.body.firstChild.lastChild.firstChild", 1);
         typeBackspace();
         // test that the list structure is correct: two items one with a sublist
         assertContent("<ul><li>foo</li><li><br><ul><li>ar</li></ul></li></ul>");
         // type in the empty list item
-        moveCaret("XWE.body.firstChild.lastChild", 0);
+        moveCaret("document.body.firstChild.lastChild", 0);
         typeText("x");
         assertContent("<ul><li>foo</li><li>x<br><ul><li>ar</li></ul></li></ul>");
         // Put the caret at the beginning of the sublist
-        moveCaret("XWE.body.firstChild.lastChild.lastChild.firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.lastChild.lastChild.firstChild.firstChild", 0);
         // now backspace, to test that it jumps the <br>
         typeBackspace();
         assertContent("<ul><li>foo</li><li>xar</li></ul>");
@@ -420,7 +420,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection at the end of the "two" list item
-        moveCaret("XWE.body.firstChild.lastChild.firstChild", 3);
+        moveCaret("document.body.firstChild.lastChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>one</li><li>twoFoobar</li></ul>");
 
@@ -430,7 +430,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection at the end of the "two" list item
-        moveCaret("XWE.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.lastChild.firstChild.firstChild", 3);
         typeDelete();
         assertContent("<ul><li>one<ul><li>twoFoobar</li></ul></li></ul>");
     }
@@ -445,7 +445,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection at the beginning of the "one" list item
-        moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
+        moveCaret("document.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
         assertContent("<p>Foobarone</p><ul><li>two</li></ul>");
 
@@ -457,7 +457,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection at the beginning of the "one" list item
-        moveCaret("XWE.body.lastChild.firstChild.firstChild", 0);
+        moveCaret("document.body.lastChild.firstChild.firstChild", 0);
         typeBackspace();
         assertContent("<p>Foobarone</p><ul><li><br><ul><li>two</li></ul></li></ul>");
     }
@@ -473,8 +473,8 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection starting in the one element and ending in the four element
-        select("XWE.body.firstChild.firstChild.firstChild", 2,
-            "XWE.body.firstChild.firstChild.lastChild.lastChild.lastChild.firstChild.firstChild", 2);
+        select("document.body.firstChild.firstChild.firstChild", 2,
+            "document.body.firstChild.firstChild.lastChild.lastChild.lastChild.firstChild.firstChild", 2);
         typeDelete();
         assertContent("<ul><li>onur<ul><li><br><ul><li>five</li></ul></li></ul></li></ul>");
     }
@@ -490,7 +490,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Set the selection starting in the one element and ending in the six element
-        select("XWE.body.firstChild.firstChild.firstChild", 2, "XWE.body.firstChild.lastChild.firstChild", 1);
+        select("document.body.firstChild.firstChild.firstChild", 2, "document.body.firstChild.lastChild.firstChild", 1);
         typeDelete();
         assertContent("<ul><li>onix</li></ul>");
     }
@@ -501,8 +501,6 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentNoSublist()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText("1");
         clickUnorderedListButton();
         typeEnter();
@@ -515,7 +513,7 @@ public class ListTest extends AbstractWysiwygTestCase
         assertContent("<ul><li>1<ul><li>2<br></li></ul></li></ul>");
         // test that the indented item cannot be indented once more
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, false);
-        moveCaret("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0);
         typeTab();
         // check that nothing happened
         assertContent("<ul><li>1<ul><li>2<br></li></ul></li></ul>");
@@ -530,8 +528,6 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentUnderSublist()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText("1");
         clickUnorderedListButton();
         typeEnter();
@@ -555,8 +551,6 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testIndentOutdentWithSublist()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText("1");
         clickUnorderedListButton();
         typeEnter();
@@ -567,9 +561,9 @@ public class ListTest extends AbstractWysiwygTestCase
         clickIndentButton();
         // move to the end of the "1" element, hit enter, tab and type. Should create a new list item, parent of the "2"
         // sublist, tab should indent and type should add content
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 1);
         typeText("3");
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 1);
         typeEnter();
         assertContent("<ul><li>1</li><li>3<ul><li>2<br></li></ul></li></ul>");
         // check that the list item is indentable, the list plugin is correctly recognizing lists (XWIKI-3061)
@@ -580,14 +574,14 @@ public class ListTest extends AbstractWysiwygTestCase
         assertSourceText("* 1\n** 3\n*** 2");
         switchToWysiwyg();
         // select second element "3"
-        select("XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0,
-            "XWE.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 1);
+        select("document.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 0,
+            "document.body.firstChild.firstChild.childNodes[1].firstChild.firstChild", 1);
         // Check that the list item is outdentable i.e. the list plugin is correctly recognizing lists (XWIKI-3061).
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
         clickOutdentButton();
         assertContent("<ul><li>1</li><li>3<ul><li>2<br></li></ul></li></ul>");
-        moveCaret("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
+        moveCaret("document.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0);
         clickOutdentButton();
         assertContent("<ul><li>1</li><li>3</li><li>2<br></li></ul>");
         switchToSource();
@@ -600,8 +594,6 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testOutdentOnFirstLevel()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText("1");
         clickUnorderedListButton();
         typeEnter();
@@ -611,7 +603,7 @@ public class ListTest extends AbstractWysiwygTestCase
         typeShiftTab();
         typeText("3");
         // move caret at the beginning of the "two" item
-        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 0);
+        moveCaret("document.body.firstChild.childNodes[1].firstChild", 0);
         typeShiftTab();
         assertContent("<ul><li>1</li></ul><p>2</p><ul><li>+</li><li>3<br></li></ul>");
         switchToSource();
@@ -625,7 +617,7 @@ public class ListTest extends AbstractWysiwygTestCase
     public void testOutdentWithContentAfter()
     {
         setContent("<ul><li>one<br />before<ul><li>two</li><li>three</li><li>four</li></ul>after</li></ul>");
-        moveCaret("XWE.body.firstChild.firstChild.childNodes[3].childNodes[1].firstChild", 0);
+        moveCaret("document.body.firstChild.firstChild.childNodes[3].childNodes[1].firstChild", 0);
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
         clickOutdentButton();
@@ -644,25 +636,25 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Outside lists
-        moveCaret("XWE.body.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild", 3);
         waitForOrderedListDetected(false);
         waitForUnorderedListDetected(false);
 
         // Inside unordered list item
-        moveCaret("XWE.body.childNodes[1].firstChild.firstChild", 4);
+        moveCaret("document.body.childNodes[1].firstChild.firstChild", 4);
         waitForOrderedListDetected(false);
         waitForUnorderedListDetected(true);
         // Inside ordered sub-list item
-        moveCaret("XWE.body.childNodes[1].firstChild.lastChild.firstChild.firstChild", 7);
+        moveCaret("document.body.childNodes[1].firstChild.lastChild.firstChild.firstChild", 7);
         waitForOrderedListDetected(true);
         waitForUnorderedListDetected(true);
 
         // Inside ordered list item
-        moveCaret("XWE.body.childNodes[2].firstChild.firstChild", 10);
+        moveCaret("document.body.childNodes[2].firstChild.firstChild", 10);
         waitForOrderedListDetected(true);
         waitForUnorderedListDetected(false);
         // Inside unordered sub-list item
-        moveCaret("XWE.body.childNodes[2].firstChild.lastChild.firstChild.firstChild", 9);
+        moveCaret("document.body.childNodes[2].firstChild.lastChild.firstChild.firstChild", 9);
         waitForOrderedListDetected(true);
         waitForUnorderedListDetected(true);
     }
@@ -689,7 +681,7 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* one\n* two\n* three\n* three point one\n* three point two\n* three point three\n* four");
         switchToWysiwyg();
-        select("XWE.body.firstChild.childNodes[3].firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 17);
+        select("document.body.firstChild.childNodes[3].firstChild", 0, "document.body.firstChild.childNodes[5].firstChild", 17);
         // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
@@ -708,12 +700,12 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* one\n* two\n* three\n** three point one\n** three point two\n** three point three\n* four");
         switchToWysiwyg();
-        select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[2].firstChild", 5);
+        select("document.body.firstChild.childNodes[2].firstChild", 0, "document.body.firstChild.childNodes[2].firstChild", 5);
         // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
-        select("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].firstChild.firstChild", 0,
-            "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[2].firstChild", 17);
+        select("document.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].firstChild.firstChild", 0,
+            "document.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[2].firstChild", 17);
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
         clickOutdentButton();
@@ -729,15 +721,15 @@ public class ListTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("* one\n* two\n* three\n** foo\n** bar\n* four\n* four\n* five");
         switchToWysiwyg();
-        select("XWE.body.firstChild.childNodes[2].firstChild", 0, "XWE.body.firstChild.childNodes[3].firstChild", 4);
+        select("document.body.firstChild.childNodes[2].firstChild", 0, "document.body.firstChild.childNodes[3].firstChild", 4);
         // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
         switchToSource();
         assertSourceText("* one\n* two\n** three\n*** foo\n*** bar\n** four\n* four\n* five");
         switchToWysiwyg();
-        select("XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0,
-            "XWE.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[1].firstChild", 3);
+        select("document.body.firstChild.childNodes[1].childNodes[1].firstChild.firstChild", 0,
+            "document.body.firstChild.childNodes[1].childNodes[1].firstChild.childNodes[1].childNodes[1].firstChild", 3);
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
         clickOutdentButton();
@@ -755,9 +747,9 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("|(((* item 1\n* item 2)))|(((* one\n** one plus one\n** one plus two\n* two\n* three)))\n| | ");
         switchToWysiwyg();
         select(
-            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
+            "document.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
                 + "childNodes[1].firstChild", 0,
-            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
+            "document.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
                 + "firstChild", 3);
         // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
@@ -767,9 +759,9 @@ public class ListTest extends AbstractWysiwygTestCase
             + "|(((\n* one\n** one plus one\n*** one plus two\n** two\n* three\n)))\n| | ");
         switchToWysiwyg();
         select(
-            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
+            "document.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.firstChild.childNodes[1]."
                 + "childNodes[1].firstChild", 0,
-            "XWE.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
+            "document.body.firstChild.firstChild.firstChild.childNodes[1].firstChild.firstChild.childNodes[1]."
                 + "firstChild", 5);
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
@@ -791,7 +783,7 @@ public class ListTest extends AbstractWysiwygTestCase
         setSourceText("* one\n* two\n* three\n** three plus one\n"
             + "* four\n* (((before\n* inner five\n* inner five + 1\n\nafter)))\n* six");
         switchToWysiwyg();
-        select("XWE.body.firstChild.firstChild.firstChild", 0, "XWE.body.firstChild.childNodes[5].firstChild", 3);
+        select("document.body.firstChild.firstChild.firstChild", 0, "document.body.firstChild.childNodes[5].firstChild", 3);
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
         clickOutdentButton();
@@ -808,12 +800,10 @@ public class ListTest extends AbstractWysiwygTestCase
      */
     public void testBackspaceBetweenHeadingListItems()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText("abc");
         clickUnorderedListButton();
         applyStyleTitle1();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeEnter();
         typeBackspace();
         // expecting a single list item, with 2 headings
@@ -837,7 +827,7 @@ public class ListTest extends AbstractWysiwygTestCase
         typeText("abc");
         clickUnorderedListButton();
         applyStyleTitle1();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeEnter();
         typeBackspace();
         typeDelete();
@@ -858,9 +848,9 @@ public class ListTest extends AbstractWysiwygTestCase
         typeText("cba");
         clickUnorderedListButton();
         applyStyleTitle1();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeEnter();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeDelete();
         // expecting a single list item, with 2 headings
         assertContent("<ul><li><h1>cb</h1><h1>a</h1></li></ul>");
@@ -874,9 +864,9 @@ public class ListTest extends AbstractWysiwygTestCase
         typeText("cba");
         clickUnorderedListButton();
         applyStyleTitle1();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeEnter();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild.firstChild", 2);
         typeDelete();
         typeDelete();
         // expecting a single list item, with 2 headings

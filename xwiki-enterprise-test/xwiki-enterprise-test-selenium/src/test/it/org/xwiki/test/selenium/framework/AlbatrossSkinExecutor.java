@@ -21,6 +21,11 @@ package org.xwiki.test.selenium.framework;
 
 import junit.framework.Assert;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 /**
  * Implementation of skin-related actions for the Albatross skin.
  * 
@@ -28,8 +33,6 @@ import junit.framework.Assert;
  */
 public class AlbatrossSkinExecutor implements SkinExecutor
 {
-    private static final String WYSIWYG_LOCATOR_FOR_KEY_EVENTS = "mceSpanFonts";
-
     private static final String WIKI_LOCATOR_FOR_KEY_EVENTS = "content";
 
     private AbstractXWikiTestCase test;
@@ -62,6 +65,18 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         // In order for this method to work both in view and edit modes we have to locate the link by its text.
         getTest().clickLinkWithText("WYSIWYG");
+    }
+
+    @Override
+    public void clickEditPageInlineForm()
+    {
+        getTest().clickLinkWithText("Inline form");
+    }
+
+    @Override
+    public void clickEditPageAccessRights()
+    {
+        getTest().clickLinkWithText("Access Rights");
     }
 
     public void clickDeletePage()
@@ -109,8 +124,9 @@ public class AlbatrossSkinExecutor implements SkinExecutor
             getTest().submit("xpath=//input[@name='formactionsac']");
         } else {
             getTest().submit("xpath=//input[@name='action_saveandcontinue']", false);
-            getTest().waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
-                 + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");
+            getTest().waitForCondition(
+                "(window.document.getElementsByClassName('xnotification-done')[0] != null "
+                    + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");
         }
     }
 
@@ -128,29 +144,31 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     public void clickEditAddProperty()
     {
         getTest().getSelenium().click("//input[@value = 'Add']");
-        getTest().waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
-            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
+        getTest().waitForCondition(
+            "(window.document.getElementsByClassName('xnotification-done')[0] != null "
+                + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
     }
 
     @Override
     public void clickEditAddObject()
     {
         getTest().getSelenium().click("//input[@value = 'Add']");
-        getTest().waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
-            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Object created')");
+        getTest().waitForCondition(
+            "(window.document.getElementsByClassName('xnotification-done')[0] != null "
+                + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Object created')");
     }
 
     public boolean isAuthenticated()
     {
         return !getTest().isElementPresent("headerlogin") && !getTest().isElementPresent("headerregister");
     }
-    
+
     @Override
     public boolean isAuthenticated(String username)
     {
         return getTest().isElementPresent("//a[@id='headeruser' and contains(@href, 'XWiki/" + username + "')]");
     }
-    
+
     @Override
     public boolean isAuthenticationMenuPresent()
     {
@@ -225,52 +243,52 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     }
 
     public String getEditorSyntax()
-    {        
-        return getTest().getFieldValue("xwikidocsyntaxinput2");        
+    {
+        return getTest().getFieldValue("xwikidocsyntaxinput2");
     }
-    
+
     public void setEditorSyntax(String syntax)
     {
-        if (!syntax.equals(getEditorSyntax())) {            
+        if (!syntax.equals(getEditorSyntax())) {
             getTest().getSelenium().select("name=syntaxId", "value=" + syntax);
             clickEditSaveAndContinue();
             getTest().getSelenium().refresh();
             getTest().waitPage();
         }
     }
-    
+
     public void editInWikiEditor(String space, String page)
     {
-        getTest().open("/xwiki/bin/edit/" + space + "/" + page + "?editor=wiki");        
+        getTest().open("/xwiki/bin/edit/" + space + "/" + page + "?editor=wiki");
     }
-    
+
     public void editInWikiEditor(String space, String page, String syntax)
     {
         editInWikiEditor(space, page);
-        setEditorSyntax(syntax);        
+        setEditorSyntax(syntax);
     }
-    
+
     // For WYSIWYG editor
-    
+
     public void editInWysiwyg(String space, String page)
-    {        
+    {
         getTest().open("/xwiki/bin/edit/" + space + "/" + page + "?editor=wysiwyg");
     }
 
     public void editInWysiwyg(String space, String page, String syntax)
     {
         editInWysiwyg(space, page);
-        setEditorSyntax(syntax);                
-    }   
+        setEditorSyntax(syntax);
+    }
 
     public void clearWysiwygContent()
     {
-        getTest().waitForCondition("selenium.browserbot.getCurrentWindow().tinyMCE.setContent(\"\"); true");
+        getTest().waitForCondition("window.tinyMCE.setContent(\"\"); true");
     }
 
     public void typeInWysiwyg(String text)
     {
-        getTest().getSelenium().typeKeys(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, text);
+        sendKeysToTinyMCE(text);
     }
 
     public void typeInWiki(String text)
@@ -280,14 +298,24 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     public void typeEnterInWysiwyg()
     {
-        getTest().getSelenium().keyPress(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, "\\13");
+        sendKeysToTinyMCE(Keys.ENTER);
     }
 
     public void typeShiftEnterInWysiwyg()
     {
-        getTest().getSelenium().shiftKeyDown();
-        getTest().getSelenium().keyPress(WYSIWYG_LOCATOR_FOR_KEY_EVENTS, "\\13");
-        getTest().getSelenium().shiftKeyUp();
+        sendKeysToTinyMCE(Keys.chord(Keys.SHIFT, Keys.ENTER));
+    }
+
+    private void sendKeysToTinyMCE(CharSequence keysToSend)
+    {
+        WebDriver driver = getTest().getDriver();
+        String windowHandle = driver.getWindowHandle();
+        try {
+            WebElement iframe = driver.findElement(By.className("mceEditorIframe"));
+            driver.switchTo().frame(iframe).switchTo().activeElement().sendKeys(keysToSend);
+        } finally {
+            driver.switchTo().window(windowHandle);
+        }
     }
 
     public void clickWysiwygUnorderedListButton()
@@ -367,11 +395,11 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     {
         getTest().open("XWiki", "XWikiPreferences", "admin");
     }
-    
+
     public void openAdministrationSection(String section)
     {
         this.openAdministrationPage();
-        
+
         getTest().clickLinkWithLocator("//li[@class='" + section + "']/a");
     }
 

@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -33,9 +34,7 @@ public class HistoryTest extends AbstractWysiwygTestCase
      */
     public void testUndoRedo()
     {
-        typeText("a b");
-        typeTab();
-        typeText("c");
+        getRichTextArea().sendKeys("a b", Keys.TAB, "c");
         clickSymbolButton();
         getSelenium().click("//div[@title='copyright sign']");
         applyStyleTitle1();
@@ -59,38 +58,30 @@ public class HistoryTest extends AbstractWysiwygTestCase
     public void testUndoRedoShortcutKeys()
     {
         setContent("March 9th, 2009");
-        select("XWE.body.firstChild", 0, "XWE.body.firstChild", 5);
+        select("document.body.firstChild", 0, "document.body.firstChild", 5);
 
         // Make text bold.
-        getSelenium().controlKeyDown();
-        typeText("B");
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "b"));
 
         // Make text italic.
-        getSelenium().metaKeyDown();
-        typeText("I");
-        getSelenium().metaKeyUp();
+        // FIXME: getRichTextArea().sendKeys(Keys.chord(Keys.META, "i"));
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "i"));
 
         // Make text underline.
-        getSelenium().controlKeyDown();
-        typeText("U");
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "u"));
 
         // Undo last 3 steps.
         // The undo tool bar button is initially disabled because no action has been taken on the edited document. We
         // have to wait for it to become enabled because the tool bar is updated with delay after each edit action.
         waitForPushButton(TOOLBAR_BUTTON_UNDO_TITLE, true);
-        getSelenium().metaKeyDown();
-        typeText("ZZZ");
-        getSelenium().metaKeyUp();
+        // FIXME: getRichTextArea().sendKeys(Keys.chord(Keys.META, "zzz"));
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "zzz"));
 
         // Redo 2 steps.
         // We have to wait for the redo tool bar button to become enabled because the tool bar is updated with delay
         // after an undo operation.
         waitForPushButton(TOOLBAR_BUTTON_REDO_TITLE, true);
-        getSelenium().controlKeyDown();
-        typeText("YY");
-        getSelenium().controlKeyUp();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "yy"));
 
         switchToSource();
         assertSourceText("**//March//** 9th, 2009");

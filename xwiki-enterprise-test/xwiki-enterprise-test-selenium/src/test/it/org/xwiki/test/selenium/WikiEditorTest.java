@@ -23,6 +23,9 @@ import java.io.IOException;
 
 import junit.framework.Test;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
@@ -35,7 +38,7 @@ import org.xwiki.test.selenium.framework.XWikiTestSuite;
 public class WikiEditorTest extends AbstractXWikiTestCase
 {
     private static final String SYNTAX = "xwiki/1.0";
-    
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
@@ -58,106 +61,38 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     }
 
     public void testBoldButton()
-    {        
-        editInWikiEditor("Test", "WikiBoldButton", SYNTAX);
-        setFieldValue("content", "Here follows a bold text: ");
-        clickWikiBoldButton();
-        assertEquals("Failed to append bold marker", "Here follows a bold text: *Text in Bold*", 
-            getFieldValue("content"));
-        setFieldValue("content", "Here follows a bold text: \nAnd some content after...");
-        getSelenium().setCursorPosition("id=content", "26");
-        clickWikiBoldButton();
-        assertEquals("Failed to insert bold marker",
-            "Here follows a bold text: *Text in Bold*\nAnd some content after...", getFieldValue("content"));
-        // TODO: We need to find out how to make a text selection in Selenium
+    {
+        testToolBarButton("Bold", "*%s*", "Text in Bold");
     }
 
     public void testItalicsButton()
-    {        
-        editInWikiEditor("Test", "WikiItalicsButton", SYNTAX);
-        setFieldValue("content", "Here follows an italics text: ");
-        clickWikiItalicsButton();
-        assertEquals("Failed to append italics marker", "Here follows an italics text: ~~Text in Italics~~",
-            getFieldValue("content"));
-        setFieldValue("content", "Here follows an italics text: \nAnd some content after...");
-        getSelenium().setCursorPosition("id=content", "30");
-        clickWikiItalicsButton();
-        assertEquals("Failed to insert italics marker",
-            "Here follows an italics text: ~~Text in Italics~~\nAnd some content after...", getFieldValue("content"));
-        // TODO: We need to find out how to make a text selection in Selenium
+    {
+        testToolBarButton("Italics", "~~%s~~", "Text in Italics");
     }
 
     public void testUnderlineButton()
-    {        
-        editInWikiEditor("Test", "WikiUnderlineButton", SYNTAX);
-        setFieldValue("content", "Here follows an underlined text: ");
-        clickWikiUnderlineButton();
-        assertEquals("Failed to append underline marker", "Here follows an underlined text: __Text in Underline__",
-            getFieldValue("content"));
-        setFieldValue("content", "Here follows an underlined text: \nAnd some content after...");
-        getSelenium().setCursorPosition("id=content", "33");
-        clickWikiUnderlineButton();
-        assertEquals("Failed to insert underline marker",
-            "Here follows an underlined text: __Text in Underline__\nAnd some content after...",
-            getFieldValue("content"));
-        // TODO: We need to find out how to make a text selection in Selenium
+    {
+        testToolBarButton("Underline", "__%s__", "Text in Underline");
     }
 
     public void testLinkButton()
     {
-        editInWikiEditor("Test", "WikiLinkButton", SYNTAX);
-        setFieldValue("content", "Here follows a link: ");
-        clickWikiLinkButton();
-        assertEquals("Failed to append link marker", "Here follows a link: [Link Example]", getFieldValue("content"));
-        setFieldValue("content", "Here follows a link: \nAnd some content after...");
-        getSelenium().setCursorPosition("id=content", "21");
-        clickWikiLinkButton();
-        assertEquals("Failed to insert link marker", "Here follows a link: [Link Example]\nAnd some content after...",
-            getFieldValue("content"));
-        // TODO: We need to find out how to make a text selection in Selenium
+        testToolBarButton("Internal Link", "[%s]", "Link Example");
     }
 
     public void testHRButton()
     {
-        editInWikiEditor("Test", "WikiHRButton", SYNTAX);
-        setFieldValue("content", "Here follows a ruler: ");
-        clickWikiHRButton();
-        assertEquals("Failed to append ruler marker", "Here follows a ruler: \n----\n", getFieldValue("content"));
-        setFieldValue("content", "Here follows a ruler: \nAnd some content after...");
-        getSelenium().setCursorPosition("id=content", "22");
-        clickWikiHRButton();
-        assertEquals("Failed to insert ruler marker", "Here follows a ruler: \n----\n\nAnd some content after...",
-            getFieldValue("content"));
+        testToolBarButton("Horizontal ruler", "\n----\n", "");
     }
 
     public void testImageButton()
     {
-        editInWikiEditor("Test", "WikiImageButton", SYNTAX);
-        setFieldValue("content", "Here follows an image: ");
-        clickWikiImageButton();
-        assertEquals("Failed to append image marker", "Here follows an image: {image:example.jpg}",
-            getFieldValue("content"));
-        setFieldValue("content", "Here follows an image: \nAnd some content after...");
-        getSelenium().setCursorPosition("id=content", "23");
-        clickWikiImageButton();
-        assertEquals("Failed to insert image marker",
-            "Here follows an image: {image:example.jpg}\nAnd some content after...", getFieldValue("content"));
-        // TODO: We need to find out how to make a text selection in Selenium
+        testToolBarButton("Attached Image", "{image:%s}", "example.jpg");
     }
 
     public void testSignatureButton()
     {
-        editInWikiEditor("Test", "WikiSignatureButton", SYNTAX);
-        setFieldValue("content", "Here follows a signature: ");
-        clickWikiSignatureButton();
-        assertEquals("Failed to append signature marker", "Here follows a signature: #sign(\"XWiki.Admin\")",
-            getFieldValue("content"));
-        setFieldValue("content", "Here follows a signature: \nAnd some content after...");
-        getSelenium().setCursorPosition("id=content", "26");
-        clickWikiSignatureButton();
-        assertEquals("Failed to insert signature marker",
-            "Here follows a signature: #sign(\"XWiki.Admin\")\nAnd some content after...", getFieldValue("content"));
-        // TODO: We need to find out how to make a text selection in Selenium
+        testToolBarButton("Signature", "#sign(\"XWiki.Admin\")", "");
     }
 
     /**
@@ -205,7 +140,6 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         assertTextPresent("true XWiki.Admin XWiki.Admin XWiki.Admin");
     }
 
-
     /**
      * Verify minor edit feature is working
      */
@@ -213,7 +147,8 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     {
         try {
             editInWikiEditor("Test", "MinorEdit", SYNTAX);
-            // Note: Revision 2.1 is used since starting with 1.9-rc-1 editInWikiEditor creates an initial version to set the syntax.
+            // Note: Revision 2.1 is used since starting with 1.9-rc-1 editInWikiEditor creates an initial version to
+            // set the syntax.
             setFieldValue("content", "version=1.2");
             // Save & Continue = minor edit.
             clickEditSaveAndContinue();
@@ -232,6 +167,36 @@ public class WikiEditorTest extends AbstractXWikiTestCase
             assertTextPresent("version=2.2");
         } finally {
             deletePage("Test", "MinorEdit");
+        }
+    }
+
+    /**
+     * Tests that the specified tool bar button works.
+     * 
+     * @param buttonTitle the title of a tool bar button
+     * @param format the format of the text inserted by the specified button
+     * @param defaultText the default text inserted if there's no text selected in the text area
+     */
+    private void testToolBarButton(String buttonTitle, String format, String defaultText)
+    {
+        editInWikiEditor(this.getClass().getSimpleName(), getName(), SYNTAX);
+        WebElement textArea = getDriver().findElement(By.id("content"));
+        textArea.clear();
+        textArea.sendKeys("a");
+        String buttonLocator = "//img[@title = '" + buttonTitle + "']";
+        getSelenium().click(buttonLocator);
+        // Type b and c on two different lines and move the caret after b.
+        textArea.sendKeys("b", Keys.ENTER, "c", Keys.ARROW_LEFT, Keys.ARROW_LEFT);
+        getSelenium().click(buttonLocator);
+        // Move the caret after c, type d and e, then select d.
+        textArea.sendKeys(Keys.PAGE_DOWN, Keys.END, "de", Keys.ARROW_LEFT, Keys.chord(Keys.SHIFT, Keys.ARROW_LEFT));
+        getSelenium().click(buttonLocator);
+        if (defaultText.isEmpty()) {
+            assertEquals("a" + format + "b" + format + "\nc" + format + "de", textArea.getAttribute("value"));
+        } else {
+            assertEquals(
+                String.format("a" + format + "b" + format + "\nc" + format + "e", defaultText, defaultText, "d"),
+                textArea.getAttribute("value"));
         }
     }
 }

@@ -91,7 +91,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "x";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
 
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
@@ -122,7 +122,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "x";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
@@ -154,7 +154,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String space = "Main";
         String newPageName = "AliceInWonderwiki";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
@@ -183,7 +183,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String newSpace = "Bob";
         String newPage = "Cat";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
@@ -208,7 +208,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String linkLabel = "x";
         String url = "http://www.xwiki.org";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
 
         openLinkDialog(MENU_WEB_PAGE);
         // ensure wizard step is loaded
@@ -251,7 +251,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String linkLabel = "c";
         String email = "carol@xwiki.org";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
         openLinkDialog(MENU_EMAIL_ADDRESS);
 
         typeInInput("Email address", email);
@@ -285,8 +285,6 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testCreateLinkPreservesLabelFormatting()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText("1");
         clickBoldButton();
         typeText("2");
@@ -326,7 +324,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
-        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 5);
+        moveCaret("document.body.firstChild.childNodes[1].firstChild", 5);
         triggerToolbarUpdate();
 
         clickMenu(MENU_LINK);
@@ -338,7 +336,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertSourceText("1[[" + linkLabel + ">>url:" + linkURL + "]]2");
         switchToWysiwyg();
 
-        select("XWE.body.firstChild", 1, "XWE.body.firstChild.childNodes[1].firstChild", 5);
+        select("document.body.firstChild", 1, "document.body.firstChild.childNodes[1].firstChild", 5);
 
         openLinkDialog(MENU_LINK_EDIT);
 
@@ -416,7 +414,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Move caret at the end and type some text.
-        moveCaret("XWE.body", 1);
+        moveCaret("document.body", 1);
         typeText("x");
 
         openLinkDialog(MENU_WEB_PAGE);
@@ -426,7 +424,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // Now go on and edit the inserted image.
-        selectNode("XWE.body.firstChild.firstChild");
+        selectNode("document.body.firstChild.firstChild");
         openLinkDialog(MENU_LINK_EDIT);
 
         // Check the page selected in the XWiki Explorer tree.
@@ -459,7 +457,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // put selection inside first text
-        moveCaret("XWE.body.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild", 2);
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
         assertTrue(isMenuEnabled(MENU_WIKI_PAGE));
@@ -468,7 +466,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
 
         // put selection inside the first link
-        moveCaret("XWE.body.firstChild.childNodes[1].firstChild", 2);
+        moveCaret("document.body.firstChild.childNodes[1].firstChild", 2);
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -476,7 +474,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK_REMOVE);
 
         // put selection around the second link, in the parent
-        select("XWE.body.firstChild", 3, "XWE.body.firstChild", 4);
+        select("document.body.firstChild", 3, "document.body.firstChild", 4);
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -484,7 +482,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK_REMOVE);
 
         // put selection with ends at the end of previous text and at the beginning of the next text
-        select("XWE.body.firstChild.childNodes[4]", 1, "XWE.body.firstChild.childNodes[6]", 0);
+        select("document.body.firstChild.childNodes[4]", 1, "document.body.firstChild.childNodes[6]", 0);
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -492,7 +490,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK_REMOVE);
 
         // put selection with one end inside the anchor and one end at the end of the text before or after
-        select("XWE.body.firstChild.childNodes[6]", 1, "XWE.body.firstChild.childNodes[7].firstChild", 5);
+        select("document.body.firstChild.childNodes[6]", 1, "document.body.firstChild.childNodes[7].firstChild", 5);
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -500,8 +498,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK_REMOVE);
 
         // put selection around the bold text inside a link label
-        select("XWE.body.firstChild.childNodes[9].childNodes[1].firstChild", 0,
-            "XWE.body.firstChild.childNodes[9].childNodes[1].firstChild", 1);
+        select("document.body.firstChild.childNodes[9].childNodes[1].firstChild", 0,
+            "document.body.firstChild.childNodes[9].childNodes[1].firstChild", 1);
         clickMenu(MENU_LINK);
         assertTrue(isMenuEnabled(MENU_LINK_EDIT));
         assertTrue(isMenuEnabled(MENU_LINK_REMOVE));
@@ -509,7 +507,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK_REMOVE);
 
         // set selection starting in the text before the link and ending in the link
-        select("XWE.body.firstChild.childNodes[12]", 5, "XWE.body.firstChild.childNodes[13].firstChild.firstChild", 4);
+        select("document.body.firstChild.childNodes[12]", 5,
+            "document.body.firstChild.childNodes[13].firstChild.firstChild", 4);
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_LINK_EDIT));
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
@@ -519,7 +518,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickMenu(MENU_LINK);
 
         // set selection in two different links
-        select("XWE.body.firstChild.childNodes[13].firstChild.firstChild", 4, "XWE.body.firstChild.childNodes[15]", 1);
+        select("document.body.firstChild.childNodes[13].firstChild.firstChild", 4,
+            "document.body.firstChild.childNodes[15]", 1);
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_LINK_EDIT));
         assertFalse(isMenuEnabled(MENU_LINK_REMOVE));
@@ -527,7 +527,6 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertFalse(isMenuEnabled(MENU_EMAIL_ADDRESS));
         assertFalse(isMenuEnabled(MENU_WIKI_PAGE));
 
-        closeMenuContaining(MENU_WEB_PAGE);
         switchToSource();
         assertSourceText("foo bar far alice carol b**o**b blog webhome [[Blog.WebHome]] "
             + "[[image:XWiki.AdminSheet@presentation.png>>Blog.Photos]]");
@@ -544,7 +543,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // now edit the link in the second list item
-        moveCaret("XWE.body.firstChild.childNodes[1].firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.childNodes[1].firstChild.firstChild", 1);
 
         openLinkDialog(MENU_LINK_EDIT);
 
@@ -691,7 +690,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testCannotCreateLinkAroundBlockElements()
     {
         setContent("<p>foo</p><p>bar</p>");
-        select("XWE.body.firstChild.firstChild", 2, "XWE.body.childNodes[1].firstChild", 2);
+        select("document.body.firstChild.firstChild", 2, "document.body.childNodes[1].firstChild", 2);
         clickMenu(MENU_LINK);
         assertFalse(isMenuEnabled(MENU_WEB_PAGE));
         assertFalse(isMenuEnabled(MENU_WIKI_PAGE));
@@ -709,7 +708,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "x";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
 
         openLinkDialog(MENU_WIKI_PAGE);
         // get the all pages tree
@@ -758,7 +757,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     {
         String linkLabel = "x";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
 
         openLinkDialog(MENU_ATTACHMENT);
 
@@ -882,7 +881,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[foobar>>attach:Sandbox.WebHome@XWikiLogo.png]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
@@ -908,7 +907,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[test>>mailto:test@xwiki.org]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 2);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xLinkToUrl");
         assertEquals("test@xwiki.org", getInputValue("Email address"));
@@ -930,7 +929,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[foobar>>Main.Activity||class=\"foobarLink\"]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
@@ -972,7 +971,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // now edit
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
+        moveCaret("document.body.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
 
         assertEquals(linkLabel, getInputValue(LABEL_INPUT_TITLE));
@@ -993,7 +992,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String tooltip = "our xwiki \"rox\"";
         String tooltipTitle = "Type the tooltip of the created link, which appears when mouse is over the link.";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
         openLinkDialog(MENU_WEB_PAGE);
         // ensure wizard step is loaded
         waitForStepToLoad("xLinkToUrl");
@@ -1007,7 +1006,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // now test the link is correctly parsed back
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild", 1);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xLinkToUrl");
         assertEquals(tooltip, getInputValue(tooltipTitle));
@@ -1178,11 +1177,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         String newPageName = "AnotherNewPage";
         String label = "x";
 
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText(label);
         // Select the text.
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
 
         openLinkDialog(MENU_WIKI_PAGE);
 
@@ -1254,7 +1251,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[the main page>>" + pageToLinkTo + "]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
@@ -1289,7 +1286,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[XWiki Logo>>attach:" + pageToLinkTo + "@" + fileToLinkTo + "]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         // assert the content of the suggest and the position on the tree
@@ -1323,7 +1320,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // ensure this opens on the current page selector
         setSourceText("[[attach.png>>attach:attach.png]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xAttachmentsSelector");
         // The option for uploading a new attachment should be selected.
@@ -1341,7 +1338,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[Export>>attach:XWiki.AdminSheet@export.png]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 3);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         assertEquals(String.format(ABSOLUTE_ATTACHMENT_REFERENCE, "XWiki", "AdminSheet", "export.png"),
@@ -1382,7 +1379,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Edit first link, a link to an existing page.
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 1);
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
@@ -1394,7 +1391,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // Edit second link, a link to a new page.
-        moveCaret("XWE.body.firstChild.childNodes[2].firstChild", 2);
+        moveCaret("document.body.firstChild.childNodes[2].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         assertEquals("xwiki:Sandbox.NewPage", explorer.getSelectedEntityReference());
@@ -1405,7 +1402,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // Edit third link, a link to an existing file.
-        moveCaret("XWE.body.firstChild.childNodes[4].firstChild", 2);
+        moveCaret("document.body.firstChild.childNodes[4].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
         assertEquals("xwiki:Sandbox.WebHome@XWikiLogo.png", explorer.getSelectedEntityReference());
@@ -1544,7 +1541,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[the sandbox>>Sandbox.WebHome]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         clickButtonWithText(BUTTON_SELECT);
@@ -1589,7 +1586,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         switchToSource();
         setSourceText("[[the blog>>Blog.WebHome]]");
         switchToWysiwyg();
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 4);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         explorer.waitForPageSelected("Blog", "WebHome");
@@ -1644,7 +1641,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_ATTACHMENT);
         waitForStepToLoad("xAttachmentsSelector");
         getSelenium().click(NEW_ATTACHMENT);
-        getSelenium().keyUp(ITEMS_LIST, "\\13");
+        getSelenium().typeKeys(ITEMS_LIST, "\\13");
         waitForStepToLoad("xUploadPanel");
         closeDialog();
     }
@@ -1687,7 +1684,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepAggregatorAndAssertSelectedStep(RECENT_PAGES_TAB);
         // select the current page
         getSelenium().click("//div[contains(@class, 'xListItem')]/div[contains(@class, 'xNewPagePreview')]");
-        getSelenium().keyUp(ITEMS_LIST, "\\13");
+        getSelenium().typeKeys(ITEMS_LIST, "\\13");
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
         clickButtonWithText(BUTTON_LINK_SETTINGS);
@@ -1723,7 +1720,7 @@ public class LinkTest extends AbstractWysiwygTestCase
                 + String.format(PAGE_LOCATION, "Main", "WebHome") + "']";
         waitForElement(targetPageLocator);
         getSelenium().click(targetPageLocator);
-        getSelenium().keyUp(ITEMS_LIST, "\\13");
+        getSelenium().typeKeys("//div[contains(@class, 'xPagesSearch')]" + ITEMS_LIST, "\\13");
 
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, label);
@@ -1762,11 +1759,9 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     public void testFilterEmptyLink()
     {
-        // Select the bogus BR to overwrite it.
-        selectAllContent();
         typeText("ab");
         // Select the text.
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
         // Make it bold.
         clickBoldButton();
         // Make it a link to a web page.
@@ -1777,11 +1772,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
         // Place the caret inside the text.
-        moveCaret("XWE.body.firstChild.firstChild.firstChild", 1);
+        moveCaret("document.body.firstChild.firstChild.firstChild", 1);
         // Remove the bold style around the caret (not for the entire link).
         clickBoldButton();
         // The link must have been split in three.
-        assertEquals("3", getEval("window.XWE.body.getElementsByTagName('a').length"));
+        assertEquals(3L, getRichTextArea().executeScript("return document.body.getElementsByTagName('a').length"));
         // Check the source text.
         switchToSource();
         assertSourceText("**[[a>>url:http://www.xwiki.org]][[b>>url:http://www.xwiki.org]]**");
@@ -1868,7 +1863,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String label = "x";
 
         typeText(label);
-        selectNode("XWE.body.firstChild");
+        selectNode("document.body.firstChild");
 
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xSelectorAggregatorStep");
@@ -1896,7 +1891,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         String linkLabel = "x";
         typeText(linkLabel);
-        selectNodeContents("XWE.body.firstChild");
+        selectNodeContents("document.body.firstChild");
 
         openLinkDialog(MENU_WIKI_PAGE);
         clickTab(ALL_PAGES_TAB);
@@ -1964,6 +1959,8 @@ public class LinkTest extends AbstractWysiwygTestCase
 
         // Change the configuration.
         open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+        // Expand the configuration object.
+        getSelenium().click("xobject_XWiki.WysiwygEditorConfigClass_0");
         checkField("XWiki.WysiwygEditorConfigClass_0_attachmentSelectionLimited");
         clickEditSaveAndContinue();
 
@@ -1978,6 +1975,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         } finally {
             // Restore the configuration.
             open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
+            // Expand the configuration object.
+            getSelenium().click("xobject_XWiki.WysiwygEditorConfigClass_0");
             checkField("XWiki.WysiwygEditorConfigClass_0_attachmentSelectionLimited_false");
             clickEditSaveAndContinue();
         }

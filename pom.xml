@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise</url>
-    <tag>HEAD</tag>
+    <tag>stable-4.3.x</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -106,7 +106,7 @@
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
     <xwiki.cfg.additionalproperties />
 
-    <xwiki.properties.environment.permanentDirectory/>
+    <xwiki.properties.environment.permanentDirectory />
 
     <!-- Default location for XWiki's Data directory -->
     <xwikiDataDir>data</xwikiDataDir>

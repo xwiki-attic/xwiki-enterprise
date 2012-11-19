@@ -164,8 +164,19 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         }
 
         /* Add a translation in a fake language */
+        // Get the list of ISO 639 language codes. Unfortunately this list contains some deprecated codes.
         String[] languages = Locale.getISOLanguages();
-        String fakeLanguage = languages[random.nextInt(languages.length)]; 
+        // We need to use the deprecated language codes because the Locale class rewrites the language codes even if you
+        // construct your own Locale object, not just for instances returned by the various lookup methods.
+        Map<String, String> deprecatedCodes = new HashMap<String, String>();
+        deprecatedCodes.put("he", "iw");
+        deprecatedCodes.put("id", "in");
+        deprecatedCodes.put("yi", "ji");
+        String fakeLanguage = languages[random.nextInt(languages.length)];
+        if (deprecatedCodes.containsKey(fakeLanguage)) {
+            // Use the deprecated language code instead.
+            fakeLanguage = deprecatedCodes.get(fakeLanguage);
+        }
         String translatedContent =
             String.format("This is the content in the '%s' language. (This will be version: %d)", fakeLanguage,
                 page.getVersion() + 1);

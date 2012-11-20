@@ -1053,7 +1053,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void selectRichTextAreaFrame()
     {
         WebDriver driver = getDriver();
-        driver.switchTo().frame(driver.findElement(By.className("gwt-RichTextArea")));
+        driver.switchTo().frame(driver.findElement(By.className("gwt-RichTextArea"))).switchTo().activeElement();
     }
 
     /**

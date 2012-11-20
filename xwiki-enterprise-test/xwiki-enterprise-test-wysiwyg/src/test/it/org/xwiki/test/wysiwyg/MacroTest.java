@@ -990,7 +990,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     {
         // Insert a macro.
         switchToSource();
-        setSourceText("{{info}}before{{/info}}\n\nafter");
+        setSourceText("{{info}}before{{/info}}\n\n(% id=\"outside\" %)after");
         switchToWysiwyg();
 
         // Select the macro.
@@ -1000,7 +1000,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Double click on the paragraph outside of the macro output.
         selectRichTextAreaFrame();
         try {
-            getSelenium().doubleClick("document.body.lastChild");
+            getSelenium().doubleClick("document.getElementById('outside')");
         } finally {
             selectTopFrame();
         }
@@ -1126,13 +1126,15 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testReturnToSelectMacroStep()
     {
         openSelectMacroDialog();
+        waitForMacroListItem("Velocity", true);
 
         // Filter the macros.
+        int scriptMacroCount = getMacroListItemCount("script");
         selectMacroCategory("Development");
         filterMacrosContaining("script");
+        waitForMacroListItemCount(scriptMacroCount);
 
         // Select the "Groovy" macro.
-        waitForMacroListItem("Groovy", true);
         getSelenium().click(getMacroListItemLocator("Groovy"));
         getSelenium().click("//div[@class = 'xDialogFooter']/button[text() = 'Select']");
         waitForDialogToLoad();
@@ -1240,7 +1242,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // The "Previously Inserted Macros" category should be initially empty.
         selectMacroCategory("Previously Inserted Macros");
-        assertEquals(0, getMacroListItemCount());
+        waitForMacroListItemCount(0);
 
         // Insert a macro to see if it appears under the "Previously Inserted Macros" category.
         selectMacroCategory("All Macros");
@@ -1254,10 +1256,11 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Check if the inserted macro is listed under the "Previously Inserted Macros" category.
         openSelectMacroDialog();
         selectMacroCategory("Previously Inserted Macros");
-        // Wait for the macro list to be updated. Velocity macro shouldn't be present among the previously used macros.
-        waitForMacroListItem("Velocity", false);
-        waitForMacroListItem("HTML", true);
-        assertEquals(1, getMacroListItemCount());
+        // Wait for the macro list to be updated.
+        waitForMacroListItemCount(1);
+        // Velocity macro shouldn't be present among the previously used macros.
+        assertFalse(getSelenium().isElementPresent(getMacroListItemLocator("Velocity")));
+        assertTrue(getSelenium().isElementPresent(getMacroListItemLocator("HTML")));
 
         // Close the dialog and check the result.
         closeDialog();
@@ -1669,6 +1672,8 @@ public class MacroTest extends AbstractWysiwygTestCase
 
     /**
      * Selects the specified macro category.
+     * <p>
+     * NOTE: This method doesn't wait for the category to be loaded!
      * 
      * @param category the name of the macro category to select
      */
@@ -1701,6 +1706,22 @@ public class MacroTest extends AbstractWysiwygTestCase
                 return present == getSelenium().isElementPresent(getMacroListItemLocator(macroName));
             }
         }.wait("'" + macroName + "' macro is still " + (present ? "not" : "") + " present in the list.");
+    }
+
+    /**
+     * Waits for the specified number of macros to be listed on the "Select Macro" dialog.
+     * 
+     * @param count the expected number of macros currently displayed on the "Select Macro" dialog
+     */
+    public void waitForMacroListItemCount(final int count)
+    {
+        new Wait()
+        {
+            public boolean until()
+            {
+                return count == getMacroListItemCount();
+            }
+        }.wait("The number of listed macros doesn't match.");
     }
 
     /**

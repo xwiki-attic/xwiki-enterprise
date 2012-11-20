@@ -86,6 +86,8 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
         // Validate XE-136: log with LDAP user then search for provided user uid/pass
         loginAsAdmin();
         open("XWiki", "XWikiPreferences", "edit", "editor=object");
+        // Expand the edited object.
+        getSelenium().click("xobject_XWiki.XWikiPreferences_0");
         setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_DN", LDAPTestSetup.HORATIOHORNBLOWER_DN);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_bind_pass", LDAPTestSetup.HORATIOHORNBLOWER_PWD);
         setFieldValue("XWiki.XWikiPreferences_0_ldap_UID_attr", LDAPTestSetup.LDAP_USERUID_FIELD_UID);

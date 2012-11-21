@@ -71,6 +71,8 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     public void testUploadImageAfterPreview()
     {
         this.editPage.clickPreview().clickBackToEdit();
+        // Recreate the page object because the page has been reloaded.
+        this.editPage = new WYSIWYGEditPage();
         this.editPage.getContentEditor().waitToLoad();
         UploadImagePane uploadImagePane = this.editPage.insertAttachedImage().selectFromCurrentPage().uploadImage();
         uploadImagePane.setImageToUpload(this.getClass().getResource("/administration/avatar.png").getPath());

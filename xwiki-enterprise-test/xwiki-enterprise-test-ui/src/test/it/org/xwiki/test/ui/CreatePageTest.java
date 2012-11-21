@@ -113,6 +113,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
             createPagePage.createPageFromTemplate(getTestClassName(), templateInstanceName, templateProviderFullName);
+        templateInstanceEditWysiwyg.getContentEditor().waitToLoad();
         WikiEditPage templateInstanceEdit = templateInstanceEditWysiwyg.clickSaveAndView().editWiki();
 
         // Verify template instance content
@@ -150,6 +151,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // and create
         createUnexistingPage.clickCreate();
         WYSIWYGEditPage unexistingPageEditWysiwyg = new WYSIWYGEditPage();
+        unexistingPageEditWysiwyg.getContentEditor().waitToLoad();
         WikiEditPage unexistingPageEdit = unexistingPageEditWysiwyg.clickSaveAndView().editWiki();
 
         // Verify template instance content
@@ -371,14 +373,12 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertFalse(getUtil().isInCreateMode());
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         WYSIWYGEditPage editNewPage = new WYSIWYGEditPage();
+        editNewPage.getContentEditor().waitToLoad();
         Assert.assertEquals(space, editNewPage.getMetaDataValue("space"));
         Assert.assertEquals("NewPage", editNewPage.getMetaDataValue("page"));
 
         // 3/ create a page from a link in another page
-        // we're in edit mode of the newly created page from template
-        WYSIWYGEditPage editNewPageWysiwyg = new WYSIWYGEditPage();
-        // sometimes this fails to find the edit button, for a reason for which I don't understand...
-        WikiEditPage editNewPageWiki = editNewPageWysiwyg.clickSaveAndView().editWiki();
+        WikiEditPage editNewPageWiki = editNewPage.clickSaveAndView().editWiki();
         // put a link to the new page to create
         editNewPageWiki.setContent("[[NewLinkedPage]]");
         ViewPage newPage = editNewPageWiki.clickSaveAndView();

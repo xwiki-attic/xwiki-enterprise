@@ -102,10 +102,10 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
         AttachmentsPane ap = vp.openAttachmentsDocExtraPane();
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment).getPath());
-        ap.waitForUploadToFinish();
+        ap.waitForUploadToFinish(this.testAttachment);
         ap.clickHideProgress();
         ap.setFileToUpload(this.getClass().getResource("/" + this.testAttachment2).getPath());
-        ap.waitForUploadToFinish();
+        ap.waitForUploadToFinish(this.testAttachment2);
 
         Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment));
         Assert.assertEquals("1.1", ap.getLatestVersionOfAttachment(this.testAttachment2));
@@ -143,7 +143,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
         // Attach the GIF image.
         AttachmentsPane attachmentsPane = viewPage.openAttachmentsDocExtraPane();
         attachmentsPane.setFileToUpload(getClass().getResource("/image.gif").getPath());
-        attachmentsPane.waitForUploadToFinish();
+        attachmentsPane.waitForUploadToFinish("image.gif");
         Assert.assertTrue(attachmentsPane.attachmentExistsByFileName("image.gif"));
     }
 }

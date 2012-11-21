@@ -119,7 +119,7 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
         // TODO: Update this code when we (re)add support for uploading multiple files at once.
         for (String fileName : new String[] {"SmallAttachment.txt", "SmallAttachment2.txt", "SmallAttachment.txt"}) {
             attachmentsPane.setFileToUpload(this.getClass().getResource('/' + fileName).getPath());
-            attachmentsPane.waitForUploadToFinish();
+            attachmentsPane.waitForUploadToFinish(fileName);
             attachmentsPane.clickHideProgress();
         }
         attachmentsPane.deleteAttachmentByFileByName("SmallAttachment2.txt");

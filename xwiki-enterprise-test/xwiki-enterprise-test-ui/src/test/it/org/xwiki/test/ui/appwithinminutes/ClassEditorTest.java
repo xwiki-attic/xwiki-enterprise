@@ -23,7 +23,11 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
@@ -212,7 +216,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.openConfigPanel();
         field.setName("3times");
         editor.clickSaveAndView();
-        Assert.assertTrue(getDriver().getPageSource().contains(invalidFieldNameErrorMessage));
+        waitForPageSourceContains(invalidFieldNameErrorMessage);
 
         getDriver().navigate().back();
         editor = new ApplicationClassEditPage();
@@ -222,7 +226,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         // See XWIKI-7306: The class editor doesn't validate properly the field names
         field.setName("\u021Bar\u0103");
         editor.clickSaveAndView();
-        Assert.assertTrue(getDriver().getPageSource().contains(invalidFieldNameErrorMessage));
+        waitForPageSourceContains(invalidFieldNameErrorMessage);
 
         getDriver().navigate().back();
         editor = new ApplicationClassEditPage();
@@ -230,7 +234,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.openConfigPanel();
         field.setName("alice>bob");
         editor.clickSaveAndView();
-        Assert.assertTrue(getDriver().getPageSource().contains(invalidFieldNameErrorMessage));
+        waitForPageSourceContains(invalidFieldNameErrorMessage);
     }
 
     /**
@@ -254,7 +258,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.setName("carol");
 
         editor.clickSaveAndView();
-        Assert.assertTrue(getDriver().getPageSource().contains("The class has two fields with the same name: carol"));
+        waitForPageSourceContains("The class has two fields with the same name: carol");
     }
 
     /**
@@ -287,7 +291,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.setName("alice");
 
         editor.clickSaveAndView();
-        Assert.assertTrue(getDriver().getPageSource().contains("The class has two fields with the same name: alice"));
+        waitForPageSourceContains("The class has two fields with the same name: alice");
     }
 
     /**
@@ -428,5 +432,23 @@ public class ClassEditorTest extends AbstractClassEditorTest
 
         // Save and assert the field was added with the right name.
         Assert.assertTrue(editor.clickSaveAndView().getContent().contains("Short Text (city: String)"));
+    }
+
+    /**
+     * Waits until the page source contains the given text or the timeout expires.
+     * <p>
+     * NOTE: Normally we shoudn't need to use this method, i.e. we should be able to assert the source page directly
+     * because Selenium should wait until the page is loaded but this doesn't happen all the time for some reason..
+     */
+    private void waitForPageSourceContains(final String text)
+    {
+        new WebDriverWait(getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
+        {
+            @Override
+            public Boolean apply(WebDriver driver)
+            {
+                return StringUtils.contains(getDriver().getPageSource(), text);
+            }
+        });
     }
 }

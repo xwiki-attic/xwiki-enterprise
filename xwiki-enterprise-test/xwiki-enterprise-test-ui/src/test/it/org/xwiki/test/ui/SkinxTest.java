@@ -19,10 +19,15 @@
  */
 package org.xwiki.test.ui;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xwiki.test.po.xe.HomePage;
 import org.xwiki.test.ui.po.FormElement;
 import org.xwiki.test.ui.po.ViewPage;
@@ -61,28 +66,47 @@ public class SkinxTest extends AbstractAdminAuthenticatedTest
         FormElement objectForm = oep.addObject("XWiki.JavaScriptExtension");
         objectForm.setFieldValue(By.id("XWiki.JavaScriptExtension_0_code"), SCRIPT);
         objectForm.getSelectElement(By.id("XWiki.JavaScriptExtension_0_use")).select("always");
-        vp = oep.clickSaveAndView();
-        Assert.assertTrue(isScriptActive(vp));
-        vp = HomePage.gotoPage();
-        Assert.assertTrue(isScriptActive(vp));
+        oep.clickSaveAndView();
+        waitForScriptResult();
+        HomePage.gotoPage();
+        waitForScriptResult();
 
         oep = ObjectEditPage.gotoPage("Test", "SkinxTest");
         objectForm = oep.getObjectsOfClass("XWiki.JavaScriptExtension").get(0);
         objectForm.getSelectElement(By.id("XWiki.JavaScriptExtension_0_use")).select("currentPage");
-        vp = oep.clickSaveAndView();
-        Assert.assertTrue(isScriptActive(vp));
-        vp = HomePage.gotoPage();
-        Assert.assertFalse(isScriptActive(vp));
+        oep.clickSaveAndView();
+        waitForScriptResult();
+        HomePage.gotoPage();
+        try {
+            waitForScriptResult();
+            Assert.fail("The JSX should be active only on the current page.");
+        } catch (TimeoutException e) {
+        }
 
         oep = ObjectEditPage.gotoPage("Test", "SkinxTest");
         objectForm = oep.getObjectsOfClass("XWiki.JavaScriptExtension").get(0);
         objectForm.getSelectElement(By.id("XWiki.JavaScriptExtension_0_use")).select("onDemand");
-        vp = oep.clickSaveAndView();
-        Assert.assertFalse(isScriptActive(vp));
+        oep.clickSaveAndView();
+        try {
+            waitForScriptResult();
+            Assert.fail("The JSX should be active only on demand.");
+        } catch (TimeoutException e) {
+        }
     }
 
-    private static boolean isScriptActive(ViewPage vp)
+    /**
+     * We need to wait for the script result, especially after clicking Save & View (looks like Selenium is not always
+     * waiting for the scripts to be loaded).
+     */
+    private void waitForScriptResult()
     {
-        return "script active".equals(vp.getPageTitle());
+        new WebDriverWait(getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
+        {
+            @Override
+            public Boolean apply(WebDriver driver)
+            {
+                return StringUtils.equals("script active", driver.getTitle());
+            }
+        });
     }
 }

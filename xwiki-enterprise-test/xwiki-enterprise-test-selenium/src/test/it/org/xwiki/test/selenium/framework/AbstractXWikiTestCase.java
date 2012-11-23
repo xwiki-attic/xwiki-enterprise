@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -950,6 +951,21 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         WebElement source = driver.findElement(sourceLocator);
         WebElement target = driver.findElement(targetLocator);
         // Don't click in the middle of the element because it can contain a link.
-        new Actions(getDriver()).moveToElement(source, 1, 1).clickAndHold().release(target).perform();
+        new Actions(driver).moveToElement(source, 1, 1).clickAndHold().release(target).perform();
+    }
+
+    /**
+     * Makes sure the specified element is not covered by the floating menu which is displayed at the top of the window.
+     * Use this method before clicking on an element that can end up beneath the floating menu.
+     * 
+     * @param locator an element locator
+     */
+    public void ensureElementIsNotCoveredByFloatingMenu(By locator)
+    {
+        WebDriver driver = getDriver();
+        // First scroll the element into view, if needed, by moving the mouse to the top left corner of the element.
+        new Actions(driver).moveToElement(driver.findElement(locator), 0, 0).perform();
+        // Then scroll the page up a bit so that the element is not at the top of the window where the floating menu is.
+        driver.findElement(By.xpath("//body")).sendKeys(Keys.ARROW_UP);
     }
 }

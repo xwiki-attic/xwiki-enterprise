@@ -201,13 +201,13 @@ public class AdministrationTest extends AbstractXWikiTestCase
         createConfigurableApplication("Main", "TestConfigurable", section, true);
         // Check it's available in global section.
         clickAdministerWiki();
-        assertTrue(isAdminMenuItemPresent(section));
+        waitForElement(getAdminMenuItemLocator(section));
         clickLinkWithText(section);
         assertConfigurationPresent("Main", "TestConfigurable");
         // Check that it's not available in space section.
         open("Main", "WebPreferences", "admin");
         // Assert there is no menu item in the administration menu for our configurable application.
-        assertFalse(isAdminMenuItemPresent(section));
+        assertElementNotPresent(getAdminMenuItemLocator(section));
     }
 
     /**
@@ -551,11 +551,11 @@ public class AdministrationTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Asserts that a menu item with the given label is present on the administration menu.
+     * @return an XPath to locate the item with the specified label in the administration vertical menu
      */
-    public boolean isAdminMenuItemPresent(String label)
+    public String getAdminMenuItemLocator(String label)
     {
-        return isElementPresent("//*[contains(@class, 'admin-menu')]//a[. = '" + label + "']");
+        return "//*[contains(@class, 'admin-menu')]//a[. = '" + label + "']";
     }
 
     /*

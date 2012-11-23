@@ -516,6 +516,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void switchToWysiwyg(boolean wait)
     {
+        ensureElementIsNotCoveredByFloatingMenu(By.xpath(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB));
         getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
         if (wait) {
             new Wait()
@@ -544,6 +545,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void switchToSource(boolean wait)
     {
+        ensureElementIsNotCoveredByFloatingMenu(By.xpath(WYSIWYG_LOCATOR_FOR_SOURCE_TAB));
         getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
         if (wait) {
             new Wait()
@@ -966,6 +968,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                         richTextAreaLoader));
             }
         }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
+
+        // Move the mouse on top of the editor to make sure there are no menus opened which may cover the editor tool
+        // bar or menu bar thus preventing us from clicking on them.
+        if (getSelenium().isElementPresent(sourceTabSelected) && getSourceTextArea().isEnabled()) {
+            getSelenium().mouseOver("css=.xPlainTextEditor");
+        } else {
+            getSelenium().mouseOver("css=.gwt-RichTextArea");
+        }
     }
 
     /**

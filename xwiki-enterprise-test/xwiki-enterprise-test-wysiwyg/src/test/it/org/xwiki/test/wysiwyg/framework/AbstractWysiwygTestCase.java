@@ -968,14 +968,6 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                         richTextAreaLoader));
             }
         }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
-
-        // Move the mouse on top of the editor to make sure there are no menus opened which may cover the editor tool
-        // bar or menu bar thus preventing us from clicking on them.
-        if (getSelenium().isElementPresent(sourceTabSelected) && getSourceTextArea().isEnabled()) {
-            getSelenium().mouseOver("css=.xPlainTextEditor");
-        } else {
-            getSelenium().mouseOver("css=.gwt-RichTextArea");
-        }
     }
 
     /**

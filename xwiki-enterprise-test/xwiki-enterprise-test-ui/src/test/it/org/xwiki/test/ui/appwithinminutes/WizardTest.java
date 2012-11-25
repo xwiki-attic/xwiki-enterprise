@@ -187,7 +187,11 @@ public class WizardTest extends AbstractTest
         fieldEditPane.setPrettyName("Population Size");
 
         // Fast forward.
-        homePage = classEditPage.clickNextStep().clickFinish();
+        homeEditPage = classEditPage.clickNextStep();
+        // Just wait for the WYSIWYG editor (which is used for setting the application description) to load so that the
+        // page layout is stable before we click on the Finish button.
+        homeEditPage.setDescription(appDescription);
+        homePage = homeEditPage.clickFinish();
 
         // Add a new entry.
         String secondEntryName = RandomStringUtils.randomAlphanumeric(6);

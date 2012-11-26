@@ -78,6 +78,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <systemPropertyVariables>
+            <!-- Use a custom log configuration that sets the log level to INFO for tests. We need this for a TestRule
+              that logs debugging information on test failure. -->
             <logback.configurationFile>logback.xml</logback.configurationFile>
           </systemPropertyVariables>
         </configuration>

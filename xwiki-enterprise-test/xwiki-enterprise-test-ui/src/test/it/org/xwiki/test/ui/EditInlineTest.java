@@ -19,9 +19,6 @@
  */
 package org.xwiki.test.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,8 +27,6 @@ import org.xwiki.tag.test.po.TaggablePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.ViewPage;
-import org.xwiki.test.ui.po.editor.ObjectEditPage;
-import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
  * Test Inline editing.
@@ -120,43 +115,5 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         taggablePage = new TaggablePage();
         Assert.assertTrue(taggablePage.hasTag(tag1));
         Assert.assertTrue(taggablePage.hasTag(tag2));
-    }
-
-    /**
-     * Tests that pages can override the default property display mode using $context.setDisplayMode. See XWIKI-2436.
-     */
-    @Test
-    public void testEditModeCanBeSet()
-    {
-        int step = 0;
-        try {
-            ProfileUserProfilePage pupp = ProfileUserProfilePage.gotoPage("Admin");
-
-            // Overwrite the sheet that is automatically applied.
-            ObjectEditPage objectEditor = pupp.editObjects();
-            objectEditor.addObject("XWiki.DocumentSheetBinding");
-            step++;
-
-            WikiEditPage wep = objectEditor.editWiki();
-            // Overwrite the default display mode and manually call the sheet.
-            wep.setContent("{{velocity}}$xcontext.setDisplayMode('edit'){{/velocity}}\n\n"
-                + "{{include document=\"XWiki.XWikiUserSheet\" /}}");
-            wep.clickSaveAndView();
-            step++;
-
-            Assert.assertTrue(getDriver().getPageSource().contains("XWiki.XWikiUsers_0_last_name"));
-        } finally {
-            if (step > 0) {
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("classname", "XWiki.DocumentSheetBinding");
-                parameters.put("classid", "0");
-                if (step > 1) {
-                    // Reset the content.
-                    parameters.put("xredirect", getUtil().getURL("XWiki", "Admin", "save", "content="));
-                }
-                // Reset the default sheet.
-                getUtil().gotoPage("XWiki", "Admin", "objectremove", parameters);
-            }
-        }
     }
 }

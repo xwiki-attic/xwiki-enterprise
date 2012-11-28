@@ -18,15 +18,9 @@ ln -sf /etc/xwiki/observation /usr/lib/xwiki/WEB-INF/
 
 ln -sf /etc/xwiki/portlet.xml /usr/lib/xwiki/WEB-INF/
 ln -sf /etc/xwiki/struts-config.xml /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/struts-html.tld /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/struts-template.tld /usr/lib/xwiki/WEB-INF/
 ln -sf /etc/xwiki/sun-web.xml /usr/lib/xwiki/WEB-INF/
 ln -sf /etc/xwiki/web.xml /usr/lib/xwiki/WEB-INF/
 ln -sf /etc/xwiki/xwiki.properties /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/struts-bean.tld /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/struts-form.tld /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/struts-logic.tld /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/struts.tld /usr/lib/xwiki/WEB-INF/
 ln -sf /etc/xwiki/version.properties /usr/lib/xwiki/WEB-INF/
 ln -sf /etc/xwiki/xwiki.cfg /usr/lib/xwiki/WEB-INF/
 

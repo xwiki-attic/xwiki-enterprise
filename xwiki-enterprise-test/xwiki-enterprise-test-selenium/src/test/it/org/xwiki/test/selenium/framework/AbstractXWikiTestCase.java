@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -413,7 +414,12 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         {
             public boolean until()
             {
-                return getSelenium().getBodyText().indexOf(containsValue) > -1;
+                try {
+                    return getSelenium().getBodyText().indexOf(containsValue) > -1;
+                } catch (NoSuchElementException e) {
+                    // The page might not be loaded yet and so the BODY element is missing. Try again later.
+                    return false;
+                }
             }
         }.wait("Body text doesn't contain the value [" + containsValue + "]");
     }

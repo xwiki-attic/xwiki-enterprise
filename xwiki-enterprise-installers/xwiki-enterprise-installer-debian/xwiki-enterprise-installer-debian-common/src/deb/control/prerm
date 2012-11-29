@@ -16,15 +16,9 @@ rm -rf /usr/lib/xwiki/WEB-INF/observation
 
 rm -f /usr/lib/xwiki/WEB-INF/portlet.xml
 rm -f /usr/lib/xwiki/WEB-INF/struts-config.xml
-rm -f /usr/lib/xwiki/WEB-INF/struts-html.tld
-rm -f /usr/lib/xwiki/WEB-INF/struts-template.tld
 rm -f /usr/lib/xwiki/WEB-INF/sun-web.xml
 rm -f /usr/lib/xwiki/WEB-INF/web.xml
 rm -f /usr/lib/xwiki/WEB-INF/xwiki.properties
-rm -f /usr/lib/xwiki/WEB-INF/struts-bean.tld
-rm -f /usr/lib/xwiki/WEB-INF/struts-form.tld
-rm -f /usr/lib/xwiki/WEB-INF/struts-logic.tld
-rm -f /usr/lib/xwiki/WEB-INF/struts.tld
 rm -f /usr/lib/xwiki/WEB-INF/version.properties
 rm -f /usr/lib/xwiki/WEB-INF/xwiki.cfg
 

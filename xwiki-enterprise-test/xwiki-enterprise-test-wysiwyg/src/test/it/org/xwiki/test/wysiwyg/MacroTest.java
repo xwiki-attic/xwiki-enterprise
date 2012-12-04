@@ -990,7 +990,10 @@ public class MacroTest extends AbstractWysiwygTestCase
     {
         // Insert a macro.
         switchToSource();
-        setSourceText("{{info}}before{{/info}}\n\n(% id=\"outside\" %)after");
+        // Put the outside text before the macro to overcome an issue in Selenium's MouseMoveAction.
+        // See http://code.google.com/p/selenium/issues/detail?id=4863 (Move mouse action fails inside an iframe if the
+        // x/y coordinates of the target element on the screen are greater than the width/height of the iframe)
+        setSourceText("(% id=\"outside\" %)after\n\n{{info}}before{{/info}}");
         switchToWysiwyg();
 
         // Select the macro.

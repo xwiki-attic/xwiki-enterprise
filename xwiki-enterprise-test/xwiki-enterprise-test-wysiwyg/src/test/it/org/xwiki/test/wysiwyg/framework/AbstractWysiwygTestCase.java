@@ -397,7 +397,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         {
             public boolean until()
             {
-                return Integer.valueOf(getSelenium().getSelectedIndex(TOOLBAR_SELECT_STYLE)) >= 0
+                return getSelenium().isSomethingSelected(TOOLBAR_SELECT_STYLE)
                     && style.equals(getSelenium().getSelectedLabel(TOOLBAR_SELECT_STYLE));
             }
         }.wait("The specified style, '" + style + "', wasn't detected!");

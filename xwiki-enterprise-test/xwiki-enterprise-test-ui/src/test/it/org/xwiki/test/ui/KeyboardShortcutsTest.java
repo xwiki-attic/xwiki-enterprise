@@ -26,6 +26,7 @@ import org.openqa.selenium.Keys;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 
 /**
  * Verify the keyboard shortcuts feature of XWiki.
@@ -46,13 +47,13 @@ public class KeyboardShortcutsTest extends AbstractAdminAuthenticatedTest
     {
         ViewPage vp = util.gotoPage("Sandbox", "WebHome");
 
-        // Test default edit mode (WYSIWYG for sandbox webhome) key
+        // Test default edit mode (WYSIWYG for Sandbox.WebHome) key
         vp.sendKeys("e");
-        vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInWYSIWYGEditMode());
+        // The WYSIWYG editor can steal the focus so it's better to wait for it to load before trying the next shortcut.
+        new WYSIWYGEditPage().getContentEditor().waitToLoad();
 
         // Test Cancel key
-        vp.sendKeys(Keys.ALT, "c");
+        vp.sendKeys(Keys.chord(Keys.ALT, "c"));
         vp.waitUntilPageIsLoaded();
         Assert.assertTrue(util.isInViewMode());
 
@@ -63,11 +64,11 @@ public class KeyboardShortcutsTest extends AbstractAdminAuthenticatedTest
 
         // Test WYSIWYG edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");
-        vp.sendKeys("e");
-        vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInWYSIWYGEditMode());
+        vp.sendKeys("g");
+        // The WYSIWYG editor can steal the focus so it's better to wait for it to load before trying the next shortcut.
+        new WYSIWYGEditPage().getContentEditor().waitToLoad();
 
-        // Test Inline edit mode key
+        // Test Inline Form edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");
         vp.sendKeys("f");
         vp.waitUntilPageIsLoaded();

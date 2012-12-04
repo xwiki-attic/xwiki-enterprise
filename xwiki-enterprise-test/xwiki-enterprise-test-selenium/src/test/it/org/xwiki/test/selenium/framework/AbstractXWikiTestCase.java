@@ -978,4 +978,28 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         // Then scroll the page up a bit so that the element is not at the top of the window where the floating menu is.
         driver.findElement(By.xpath("//body")).sendKeys(Keys.ARROW_UP);
     }
+
+    /**
+     * Expands the object with the given number of the specified XClass. You need to call this method before editing any
+     * of the properties of the specified object using the object editor because the form elements used to edit the
+     * object properties have to be visible.
+     * 
+     * @param className the XClass name
+     * @param objectNumber the object number
+     */
+    public void expandObject(String className, int objectNumber)
+    {
+        String objectContentId = String.format("xobject_%s_%s_content", className, objectNumber);
+        if (!getDriver().findElement(By.id(objectContentId)).isDisplayed()) {
+            // First make sure that the group of objects of the specified class is expanded.
+            String objectTitleId = String.format("xobject_%s_%s_title", className, objectNumber);
+            WebElement objectTitle = getDriver().findElement(By.id(objectTitleId));
+            if (!objectTitle.isDisplayed()) {
+                // Expand the group of objects of the specified type.
+                getDriver().findElement(By.id(String.format("xclass_%s_title", className))).click();
+            }
+            // Expand the specified object.
+            objectTitle.click();
+        }
+    }
 }

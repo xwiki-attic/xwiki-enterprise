@@ -174,7 +174,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertConfigurationNotPresent("Main", "TestConfigurable");
         // Switch application to non-global
         open("Main", "TestConfigurable", "edit", "editor=object");
-        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
+        expandObject("XWiki.ConfigurableClass", 0);
         getSelenium().uncheck("XWiki.ConfigurableClass_0_configureGlobally");
         clickEditSaveAndView();
         // Check that it is available in space section.
@@ -315,8 +315,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
-        // Expand the object.
-        getSelenium().click("xobject_" + fullName + "_0");
+        expandObject(fullName, 0);
         setFieldValue(fullName + "_0_TextArea", test);
         setFieldValue(fullName + "_0_String", test);
         clickEditSaveAndView();
@@ -416,8 +415,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
                        + "T${code}uld also be displayed.";
         createConfigurableApplication(space, page, "TestSection6", true);
         open(space, page, "edit", "editor=object");
-        // Expand the edited object.
-        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
+        expandObject("XWiki.ConfigurableClass", 0);
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", codeToExecute);
         setFieldValue("XWiki.ConfigurableClass_0_heading", heading);
         setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
@@ -465,8 +463,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open(space, page, "delete", "confirm=1");
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
-        // Expand the edited object.
-        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
+        expandObject("XWiki.ConfigurableClass", 0);
         setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
         clickEditSaveAndView();
@@ -488,8 +485,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         createConfigurableApplication(space, page, "TestSection1", true);
         open(space, page, "edit", "editor=object");
-        // Expand the edited object.
-        getSelenium().click("xobject_XWiki.ConfigurableClass_0");
+        expandObject("XWiki.ConfigurableClass", 0);
         setFieldValue("XWiki.ConfigurableClass_0_codeToExecute", test);
         setFieldValue("XWiki.ConfigurableClass_0_propertiesToShow", "String, Boolean");
         

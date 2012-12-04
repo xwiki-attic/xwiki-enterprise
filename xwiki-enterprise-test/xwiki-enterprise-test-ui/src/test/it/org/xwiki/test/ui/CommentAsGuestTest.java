@@ -28,9 +28,9 @@ import org.xwiki.administration.test.po.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.CommentsTab;
-import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.EditRightsPane.Right;
 import org.xwiki.test.ui.po.EditRightsPane.State;
+import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * @version $Id$
@@ -81,6 +81,8 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     private static void setRightsOnGuest(Right right, State state)
     {
         GlobalRightsAdministrationSectionPage globalRights = GlobalRightsAdministrationSectionPage.gotoPage();
+        // Wait for the rights live table to load before switching in order to prevent any possible race conditions.
+        globalRights.getEditRightsPane().getRightsTable().waitUntilReady();
         globalRights.getEditRightsPane().switchToUsers();
         globalRights.getEditRightsPane().setGuestRight(right, state);
     }

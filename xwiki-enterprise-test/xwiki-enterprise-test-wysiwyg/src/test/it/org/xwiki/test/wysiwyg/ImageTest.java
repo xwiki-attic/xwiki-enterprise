@@ -770,8 +770,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         // Change the configuration.
         open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
-        // Expand the configuration object.
-        getSelenium().click("xobject_XWiki.WysiwygEditorConfigClass_0");
+        expandObject("XWiki.WysiwygEditorConfigClass", 0);
         checkField("XWiki.WysiwygEditorConfigClass_0_imageSelectionLimited");
         clickEditSaveAndContinue();
 
@@ -786,8 +785,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         } finally {
             // Restore the configuration.
             open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
-            // Expand the configuration object.
-            getSelenium().click("xobject_XWiki.WysiwygEditorConfigClass_0");
+            expandObject("XWiki.WysiwygEditorConfigClass", 0);
             checkField("XWiki.WysiwygEditorConfigClass_0_imageSelectionLimited_false");
             clickEditSaveAndContinue();
         }

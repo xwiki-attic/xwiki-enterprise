@@ -94,8 +94,7 @@ public class WysiwygTestSetup extends TestSetup
         helperTest.loginAsAdmin();
         helperTest.open("XWiki", "Admin", "edit", "editor=object");
         String propertyId = "XWiki.XWikiUsers_0_displayHiddenDocuments";
-        // Expand the XWiki.XWikiUsers object.
-        helperTest.getSelenium().click("xobject_XWiki.XWikiUsers_0");
+        helperTest.expandObject("XWiki.XWikiUsers", 0);
         if (!"1".equals(helperTest.getSelenium().getSelectedValue(propertyId))) {
             helperTest.getSelenium().select(propertyId, "value=1");
             helperTest.clickEditSaveAndContinue();
@@ -129,8 +128,7 @@ public class WysiwygTestSetup extends TestSetup
     private void updateConfiguration(Map<String, String> config, AbstractWysiwygTestCase helperTest)
     {
         helperTest.open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
-        // Expand the configuration object.
-        helperTest.getSelenium().click("xobject_XWiki.WysiwygEditorConfigClass_0");
+        helperTest.expandObject("XWiki.WysiwygEditorConfigClass", 0);
         for (Map.Entry<String, String> entry : config.entrySet()) {
             String propertyId = "XWiki.WysiwygEditorConfigClass_0_" + entry.getKey();
             if (!entry.getValue().equals(helperTest.getFieldValue(propertyId))) {

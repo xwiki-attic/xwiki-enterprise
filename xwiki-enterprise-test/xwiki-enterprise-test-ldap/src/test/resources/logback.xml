@@ -31,7 +31,8 @@
   </appender>
   
   <logger name="org.xwiki.test" level="info" />
-  
+
+  <!-- Special logging for LDAP to see the maximum of details in the test results -->
   <logger name="com.xpn.xwiki.user.impl.LDAP" level="trace"/>
   <logger name="com.xpn.xwiki.plugin.ldap" level="trace"/>
   

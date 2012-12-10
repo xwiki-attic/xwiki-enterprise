@@ -374,7 +374,7 @@
       );
       dialog.shortcuts.close.keys = [];
       dialog.showDialog();
-      if (window.browser.isIE6x) {
+      if (browser.isIE6x) {
         dialog.dialog.down().setStyle({position: "absolute"});
       } else {
         dialog.dialog.down().setStyle({position: "fixed"});
@@ -1047,8 +1047,28 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
   #end
 #end
 
+#macro (computeXBack)
+  #set ($xback = "$!{request.xback}")
+  #if ($xback == '')
+    #set ($params = '')
+    #set ($ignoredParams = ['org.xwiki.portlet.url.parameter.dispatchURL'])
+    #foreach ($parameterName in $request.parameterNames)
+      #if (!$ignoredParams.contains($parameterName))
+        #foreach ($value in $request.getParameterValues($parameterName))
+          #set ($params = "$params&amp;$parameterName=$escapetool.url($value)")
+        #end
+      #end
+    #end
+    #if ($params.length() &gt; 0)
+      ## Remove the first &amp;
+      #set ($params = $params.substring(1))
+    #end
+    #set ($xback = $doc.getURL($xcontext.action, $params))
+  #end
+#end
+
 #macro (attachmentPicker_displayButton)
-  #if ($hasEdit)(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}?docname=${escapetool.url($doc.fullName)}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}||class="attachment-picker-start button" title="${buttontext}"]](%%)#end
+  #if ($hasEdit)#set ($discard = "#computeXBack()")(% class="buttonwrapper" %)[[${buttontext}&gt;&gt;${xcontext.macro.doc.fullName}?docname=${escapetool.url($doc.fullName)}&amp;classname=${classname}&amp;property=${property}&amp;object=${object}&amp;savemode=${savemode}&amp;defaultValue=$escapetool.url($defaultValue)&amp;filter=$!{filter}&amp;displayImage=${displayImage}&amp;xback=$escapetool.url($xback)||class="attachment-picker-start button" title="${buttontext}"]](%%)#end
 #end
 {{/velocity}}
 
@@ -1958,7 +1978,7 @@ $xwiki.jsfx.use('js/scriptaculous/builder.js')##
     #set ($sortedAttachments = $sorttool.sort($attachmentList, 'date:desc'))
     #set ($lastAttachment = $sortedAttachments.get(0))
   #end
-  $response.sendRedirect($targetDocument.getURL($docAction, "$!{fieldname}=$!{lastAttachment.filename}&amp;form_token=$!{escapetool.url($request.get('form_token'))}"))
+  $response.sendRedirect($targetDocument.getURL($docAction, "$!{fieldname}=$!{lastAttachment.filename}&amp;form_token=$!{escapetool.url($request.get('form_token'))}&amp;xredirect=$!escapetool.url($request.xback)"))
   #stop
 #end
 {{/velocity}}
@@ -2098,7 +2118,7 @@ $xwiki.jsx.use($attachmentPickerDocName)
       &lt;span class="xHint"&gt;$msg.get("${translationPrefix}.upload.hint", [${options.rawfilter}])&lt;/span&gt;
     #end
     &lt;input type="file" name="filepath" id="attachfile" class="attachment" size="30" title="$!{escapetool.xml($options.rawfilter)}"/&gt;
-    &lt;input type="hidden" name="xredirect" value="$xwiki.getDocument($attachmentPickerDocName).getURL('get', "xaction=postUpload&amp;amp;docAction=$!{escapetool.url($options.get('docAction'))}&amp;amp;docname=$!{escapetool.url($targetDocument.fullName)}&amp;amp;fieldname=$!{escapetool.url($options.get('classname'))}_$!{escapetool.url($options.get('object'))}_$!{escapetool.url($options.get('property'))}&amp;amp;form_token=$!{services.csrf.getToken()}")" /&gt;
+    &lt;input type="hidden" name="xredirect" value="$xwiki.getDocument($attachmentPickerDocName).getURL('get', "xaction=postUpload&amp;amp;docAction=$!{escapetool.url($options.get('docAction'))}&amp;amp;docname=$!{escapetool.url($targetDocument.fullName)}&amp;amp;fieldname=$!{escapetool.url($options.get('classname'))}_$!{escapetool.url($options.get('object'))}_$!{escapetool.url($options.get('property'))}&amp;amp;form_token=$!{services.csrf.getToken()}&amp;amp;xback=$!escapetool.url($request.xback)")" /&gt;
     &lt;input type="hidden" name="docname" value="$!{escapetool.xml($targetDocument.fullName)}" /&gt;
     &lt;input type="hidden" name="classname" value="$!{escapetool.xml($options.get('classname'))}" /&gt;
     &lt;input type="hidden" name="object" value="$!{escapetool.xml($options.get('object'))}" /&gt;
@@ -2190,7 +2210,11 @@ $xwiki.jsx.use($attachmentPickerDocName)
   #attachmentPicker_displayAttachmentGallery($targetDocument, $options)
 
   (% class="gallery_buttons buttons" %)(((
-  (% class="buttonwrapper secondary" %)[[$msg.get("${translationPrefix}.cancel")&gt;&gt;$targetDocument||class="button secondary" id="attachment-picker-close"]]
+    #set ($cancelURL = $request.xback)
+    #if ("$!cancelURL" == '')
+      #set ($cancelURL = $targetDocument.getURL())
+    #end
+    (% class="buttonwrapper" %){{html}}&lt;a href="$cancelURL" class="button secondary" id="attachment-picker-close"&gt;$msg.get("${translationPrefix}.cancel")&lt;/a&gt;{{/html}}
   )))
 #end
 {{/velocity}}</content></xwikidoc>

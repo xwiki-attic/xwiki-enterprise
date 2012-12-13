@@ -19,9 +19,15 @@
  */
 package org.xwiki.test.ui.administration;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.xwiki.administration.test.po.AdministrablePage;
 import org.xwiki.administration.test.po.AdministrationPage;
+import org.xwiki.administration.test.po.PageElementsAdministrationSectionPage;
+import org.xwiki.panels.test.po.PageWithPanels;
+import org.xwiki.panels.test.po.PanelEditPage;
+import org.xwiki.panels.test.po.PanelsHomePage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 
 /**
@@ -93,5 +99,34 @@ public class AdministrationTest extends AbstractAdminAuthenticatedTest
         spaceAdministrationPage.hasNotSection("Export");
         spaceAdministrationPage.hasNotSection("Templates");
         spaceAdministrationPage.hasNotSection("MessageStream");
+    }
+
+    /**
+     * @see "XWIKI-8591: Cannot use a panel with a name containing spaces"
+     */
+    @Test
+    public void addPanelWithSpacesInName()
+    {
+        // Create a panel whose name contain spaces.
+        String panelName = "My First Panel";
+        getUtil().deletePage("Panels", panelName);
+        PanelEditPage panelEditPage = PanelsHomePage.gotoPage().createPanel(panelName);
+        panelEditPage.setContent(String.format(PanelEditPage.DEFAULT_CONTENT_FORMAT, panelName, getTestMethodName()));
+        panelEditPage.clickSaveAndContinue();
+
+        // Add the panel to the right column from the administration.
+        PageElementsAdministrationSectionPage pageElements =
+            new AdministrablePage().clickAdministerWiki().clickPageElementsSection();
+        String rightPanels = pageElements.getRightPanels();
+        pageElements.setRightPanels(rightPanels + ",Panels." + panelName);
+        try {
+            pageElements.clickSave();
+            Assert.assertTrue(new PageWithPanels().hasPanel(panelName));
+        } finally {
+            // Restore the right panels.
+            pageElements = PageElementsAdministrationSectionPage.gotoPage();
+            pageElements.setRightPanels(rightPanels);
+            pageElements.clickSave();
+        }
     }
 }

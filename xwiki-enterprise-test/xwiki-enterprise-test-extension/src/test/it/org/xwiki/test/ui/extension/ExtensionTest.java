@@ -146,6 +146,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Check if the tip is displayed.
         Assert.assertEquals("search extension...", searchBar.getSearchInput().getAttribute("placeholder"));
+        // Check that the input is empty
+        Assert.assertEquals("", searchBar.getSearchInput().getAttribute("value"));
 
         SearchResultsPane searchResults = searchBar.search("XWiki Rendering");
         Assert.assertTrue(searchResults.getPagination().getResultsCount() < coreExtensionCount);

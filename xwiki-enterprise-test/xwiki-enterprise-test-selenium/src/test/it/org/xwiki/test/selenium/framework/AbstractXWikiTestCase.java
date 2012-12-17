@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -39,6 +38,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsDriver;
 
 import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
 /**
@@ -416,7 +416,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
             {
                 try {
                     return getSelenium().getBodyText().indexOf(containsValue) > -1;
-                } catch (NoSuchElementException e) {
+                } catch (SeleniumException e) {
                     // The page might not be loaded yet and so the BODY element is missing. Try again later.
                     return false;
                 }

@@ -61,7 +61,8 @@ public class AddEntryTest extends AbstractAdminAuthenticatedTest
         editQueryStringParameters.put("template", "AppWithinMinutes.LiveTableTemplate");
         editQueryStringParameters.put("AppWithinMinutes.LiveTableClass_0_class", "Panels.PanelClass");
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", editQueryStringParameters);
-        homePage = new ApplicationHomeEditPage().clickSaveAndView();
+        // Wait for the page to load before clicking on the save button to make sure the page layout is stable.
+        homePage = new ApplicationHomeEditPage().waitUntilPageIsLoaded().clickSaveAndView();
     }
 
     /**

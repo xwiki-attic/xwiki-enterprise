@@ -62,7 +62,7 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
         editQueryStringParameters.put("template", "AppWithinMinutes.LiveTableTemplate");
         editQueryStringParameters.put("AppWithinMinutes.LiveTableClass_0_class", "XWiki.XWikiUsers");
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", editQueryStringParameters);
-        editPage = new ApplicationHomeEditPage();
+        editPage = new ApplicationHomeEditPage().waitUntilPageIsLoaded();
     }
 
     /**
@@ -115,7 +115,7 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
         // Fake a deprecated column by using a column that doesn't exist.
         editQueryStringParameters.put("AppWithinMinutes.LiveTableClass_0_columns", "doc.name foo");
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", editQueryStringParameters);
-        editPage = new ApplicationHomeEditPage();
+        editPage = new ApplicationHomeEditPage().waitUntilPageIsLoaded();
 
         Assert.assertTrue(editPage.isDeprecatedLiveTableColumnsWarningDisplayed());
         Assert.assertFalse(editPage.isLiveTableColumnDeprecated("Page name"));
@@ -140,7 +140,7 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
 
         // Reload and remove all deprecated columns.
         getDriver().navigate().refresh();
-        editPage = new ApplicationHomeEditPage();
+        editPage = new ApplicationHomeEditPage().waitUntilPageIsLoaded();
         editPage.removeAllDeprecatedLiveTableColumns(true);
         Assert.assertFalse(editPage.isDeprecatedLiveTableColumnsWarningDisplayed());
         Assert.assertTrue(editPage.hasLiveTableColumn("Page name"));
@@ -156,7 +156,8 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
         // Make sure the list of columns is empty.
         editQueryStringParameters.put("AppWithinMinutes.LiveTableClass_0_columns", "");
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", editQueryStringParameters);
-        ApplicationHomePage viewPage = new ApplicationHomeEditPage().clickSaveAndView();
+        // Wait for the page to load before clicking on the save button to be sure the page layout is stable.
+        ApplicationHomePage viewPage = new ApplicationHomeEditPage().waitUntilPageIsLoaded().clickSaveAndView();
         Assert.assertFalse(viewPage.hasEntriesLiveTable());
         Assert.assertEquals("", viewPage.editWiki().getContent());
     }

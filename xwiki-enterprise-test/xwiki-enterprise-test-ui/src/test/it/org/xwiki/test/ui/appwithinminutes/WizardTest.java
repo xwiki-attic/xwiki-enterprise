@@ -95,7 +95,7 @@ public class WizardTest extends AbstractTest
         fieldEditPane.setDefaultValue("Paris");
 
         // Move to the next step.
-        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep();
+        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().waitUntilPageIsLoaded();
 
         // Move back to the second step.
         classEditPage = homeEditPage.clickPreviousStep();

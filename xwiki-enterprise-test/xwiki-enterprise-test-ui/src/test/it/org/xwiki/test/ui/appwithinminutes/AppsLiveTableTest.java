@@ -185,11 +185,9 @@ public class AppsLiveTableTest extends AbstractTest
         appCreatePage.waitForApplicationNamePreview();
         ApplicationClassEditPage classEditPage = appCreatePage.clickNextStep();
         classEditPage.addField("Short Text");
-        ApplicationHomeEditPage appHomeEditPage = classEditPage.clickNextStep();
-        // For some reason Selenium doesn't always find the finish button if the page is not fully loaded. Let's type
-        // some text into the rich text area to make sure the WYSIWYG editor is loaded.
-        appHomeEditPage.setDescription(appName + " App");
-        appHomeEditPage.clickFinish().clickBreadcrumbLink(AppWithinMinutesHomePage.TITLE);
+        // Wait for the application home edit page to load before clicking finish to be sure the page layout is stable.
+        classEditPage.clickNextStep().waitUntilPageIsLoaded().clickFinish()
+            .clickBreadcrumbLink(AppWithinMinutesHomePage.TITLE);
         homePage = new AppWithinMinutesHomePage();
     }
 }

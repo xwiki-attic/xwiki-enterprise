@@ -22,18 +22,14 @@ package org.xwiki.test.ui.appwithinminutes;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
-import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
 import org.xwiki.panels.test.po.ApplicationsPanel;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
-import org.xwiki.test.ui.browser.IgnoreBrowser;
-import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.ui.po.ViewPage;
-
-import junit.framework.Assert;
 
 /**
  * Tests the applications panel entry. This test needs its own class because it needs to be in a separated space in the
@@ -66,7 +62,7 @@ public class ApplicationsPanelEntryTest extends AbstractAdminAuthenticatedTest
         editQueryStringParameters.put("template", "AppWithinMinutes.LiveTableTemplate");
         editQueryStringParameters.put("AppWithinMinutes.LiveTableClass_0_class", "XWiki.XWikiUsers");
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", editQueryStringParameters);
-        editPage = new ApplicationHomeEditPage();
+        editPage = new ApplicationHomeEditPage().waitUntilPageIsLoaded();
     }
 
     @Test

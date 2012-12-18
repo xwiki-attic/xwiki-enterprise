@@ -262,20 +262,12 @@ public class UserProfileTest extends AbstractTest
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
         ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
         changePasswordPage.changePassword(PASSWORD_1, PASSWORD_2);
-
-        // The submit will popup a dialog box mentioning that the password cannot be empty.
-        // Since there's currently an issue with closing dialog box with Selenium, we're not asserting the content
-        // of the dialog box and instead we're verifying that the URL is still the same (ie that no action was
-        // performed - when the password change is effective the main profile page is displayed).
-        // We would normally have written:
-        //    Alert alert = getDriver().switchTo().alert();
-        //    Assert.assertEquals("The two passwords do not match.", alert.getText());
-        //    alert.accept();
-
-        String currentURL = getDriver().getCurrentUrl();
-        changePasswordPage.makeAlertDialogSilent();
         changePasswordPage.submit();
-        Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
+
+        Alert alert = getDriver().switchTo().alert();
+        String alertText = alert.getText();
+        alert.accept();
+        Assert.assertEquals("The two passwords do not match.", alertText);
     }
 
     @Test
@@ -287,11 +279,9 @@ public class UserProfileTest extends AbstractTest
     {
         this.customProfilePage.switchToPreferences().changePassword().submit();
         Alert alert = getDriver().switchTo().alert();
-        try {
-            Assert.assertEquals("The password cannot be empty.", alert.getText());
-        } finally {
-            alert.accept();
-        }
+        String alertText = alert.getText();
+        alert.accept();
+        Assert.assertEquals("The password cannot be empty.", alertText);
     }
 
     @Test
@@ -301,25 +291,18 @@ public class UserProfileTest extends AbstractTest
     })
     public void testChangePasswordOfAnotherUserWithTwoDifferentPasswords()
     {
-        // Login as Admin and change the password of another user
-        getUtil().getURLToLoginAsAdminAndGotoPage(this.customProfilePage.getURL());
+        // Login as Admin and change the password of another user.
+        getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(this.customProfilePage.getURL()));
         getUtil().recacheSecretToken();
+
         PreferencesUserProfilePage preferencesPage = this.customProfilePage.switchToPreferences();
         ChangePasswordPage changePasswordPage = preferencesPage.changePassword();
         changePasswordPage.changePassword(PASSWORD_1, PASSWORD_2);
-
-        // The submit will popup a dialog box mentioning that the password cannot be empty.
-        // Since there's currently an issue with closing dialog box with Selenium, we're not asserting the content
-        // of the dialog box and instead we're verifying that the URL is still the same (ie that no action was
-        // performed - when the password change is effective the main profile page is displayed).
-        // We would normally have written:
-        //    Alert alert = getDriver().switchTo().alert();
-        //    Assert.assertEquals("The two passwords do not match.", alert.getText());
-        //    alert.accept();
-
-        String currentURL = getDriver().getCurrentUrl();
-        changePasswordPage.makeAlertDialogSilent();
         changePasswordPage.submit();
-        Assert.assertEquals(currentURL, getDriver().getCurrentUrl());
+
+        Alert alert = getDriver().switchTo().alert();
+        String alertText = alert.getText();
+        alert.accept();
+        Assert.assertEquals("The two passwords do not match.", alertText);
     }
 }

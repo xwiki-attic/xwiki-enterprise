@@ -108,6 +108,9 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
         // Reset the mouse position before each test to avoid having hovered elements at the start of the test (e.g.
         // menus that react to mouse hover can hide page elements that the test is going to click on).
+        if (!selenium.isElementPresent("//body")) {
+            open(getName(), "PageThatDoesNotExist");
+        }
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//body")), 0, 0).perform();
     }
 

@@ -21,8 +21,6 @@ package org.xwiki.test.ui.scheduler;
 
 import junit.framework.Assert;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.scheduler.test.po.SchedulerHomePage;
@@ -40,21 +38,6 @@ import org.xwiki.test.ui.po.ViewPage;
  */
 public class SchedulerTest extends AbstractAdminAuthenticatedTest
 {
-    @Override
-    @Before
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        
-        getUtil().deletePage("Scheduler", "SchedulerTestJob");
-    }
-
-    @After
-    public void tearDown()
-    {
-        getUtil().deletePage("Scheduler", "SchedulerTestJob");
-    }
-
     /**
      * Tests that a scheduler job page default edit mode is "inline"
      */
@@ -73,6 +56,12 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     })
     public void testJobActions()
     {
+        // Make sure the job doesn't exist. Note that we don't delete the job after the test is executed (@After)
+        // because we want to remain on the same page in case of a test failure so that our TestDebugger rule can
+        // collect accurate information about the failure. It's not a problem if the job remains scheduled because it
+        // does nothing. Other tests should not rely on the number of scheduler jobs though.
+        getUtil().deletePage("Scheduler", "SchedulerTestJob");
+
         // Create Job
         SchedulerHomePage schedulerHomePage = SchedulerHomePage.gotoPage();
         schedulerHomePage.setJobName("SchedulerTestJob");

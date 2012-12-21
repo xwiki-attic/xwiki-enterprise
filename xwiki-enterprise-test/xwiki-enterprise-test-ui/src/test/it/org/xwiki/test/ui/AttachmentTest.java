@@ -83,6 +83,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
         Assert.assertEquals("This is a small attachment.", getDriver().findElement(By.tagName("html")).getText());
         getDriver().navigate().back();
+        vp.waitForDocExtraPaneActive("attachments");
         ap.getAttachmentLink(this.testAttachment2).click();
         Assert.assertEquals("This is another small attachment.", getDriver().findElement(By.tagName("html")).getText());
     }
@@ -116,6 +117,7 @@ public class AttachmentTest extends AbstractAdminAuthenticatedTest
 
         Assert.assertEquals("This is a small attachment.", getDriver().findElement(By.tagName("html")).getText());
         getDriver().navigate().back();
+        vp.waitForDocExtraPaneActive("attachments");
         ap.getAttachmentLink(this.testAttachment2).click();
         Assert.assertEquals("This is another small attachment.", getDriver().findElement(By.tagName("html")).getText());
     }

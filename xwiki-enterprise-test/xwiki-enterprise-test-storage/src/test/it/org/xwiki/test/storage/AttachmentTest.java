@@ -377,13 +377,10 @@ public class AttachmentTest extends AbstractTest
                             TestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
 
         // Reupload the attachment and make sure the version is incremented.
-        doPostAsAdmin(spaceName, pageName, null, "save", null,
+        doPostAsAdmin(spaceName, pageName, null, "preview", null,
             new HashMap<String, String>(){{
                 put("content", test1);
             }});
-        Assert.assertEquals("<p>true false</p>",
-                            TestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
-
 
         doPostAsAdmin(spaceName, pageName, null, "save", null,
             new HashMap<String, String>(){{

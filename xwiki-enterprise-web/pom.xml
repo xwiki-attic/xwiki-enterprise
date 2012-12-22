@@ -458,13 +458,6 @@ If you wish to have the default wiki pages, which contain both content pages and
       <type>zip</type>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-toucan</artifactId>
-      <version>${platform.version}</version>
-      <type>zip</type>
-      <scope>runtime</scope>
-    </dependency>
     <!-- Captcha component -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -712,13 +705,6 @@ If you wish to have the default wiki pages, which contain both content pages and
             </goals>
             <configuration>
               <artifactItems>
-                <!-- Unpack the Toucan skin -->
-                <artifactItem>
-                  <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-toucan</artifactId>
-                  <type>zip</type>
-                  <outputDirectory>${project.build.directory}/skin</outputDirectory>
-                </artifactItem>
                 <!-- Unpack the Colibri skin -->
                 <artifactItem>
                   <groupId>org.xwiki.platform</groupId>

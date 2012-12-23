@@ -64,6 +64,9 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
         // Check if the test page exists.
         testPage = getUtil().gotoPage(getTestClassName(), pageName);
         if (testPage.exists()) {
+            // TODO: Remove when XWIKI-6688 (Possible race condition when clicking on a tab at the bottom of a page in
+            // view mode) is fixed.
+            testPage.waitForDocExtraPaneActive("comments");
             // NOTE: We use the same page for all tests because tests don't modify the test page. They only compare two
             // versions of the test page.
             return;

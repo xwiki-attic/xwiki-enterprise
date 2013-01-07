@@ -839,6 +839,32 @@ If you wish to have the default wiki pages, which contain both content pages and
           </execution>
         </executions>
       </plugin>
+      <!-- Ensure we don't have duplicates in WEB-INF/lib -->
+      <plugin>
+        <groupId>org.jboss.tattletale</groupId>
+        <artifactId>tattletale-maven</artifactId>
+        <version>1.2.0.Beta2</version>
+        <executions>
+          <execution>
+            <phase>verify</phase> <!-- needs to run after WAR package has been built -->
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <source>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</source>
+          <destination>${project.reporting.outputDirectory}/tattletale</destination>
+          <reports>
+            <report>jar</report>
+            <report>multiplejars</report>
+          </reports>
+          <profiles>
+            <profile>java6</profile>
+          </profiles>
+          <failOnWarn>true</failOnWarn>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>

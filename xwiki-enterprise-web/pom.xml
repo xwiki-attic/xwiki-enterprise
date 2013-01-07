@@ -863,6 +863,15 @@ If you wish to have the default wiki pages, which contain both content pages and
             <profile>java6</profile>
           </profiles>
           <failOnWarn>true</failOnWarn>
+          <!-- excluding some jars, if jar name contains any of these strings it won't be analyzed -->
+          <excludes>
+            <!-- Xalan bundles a lot of other projects: org/apache/xml/**, org/apache/bcel/**, JLex/**,
+                 java_cup/**, org/apache/regexp/**. In addition, it even has these jars in its source tree without
+                 any indication about their versions... Thus there's isn't much we can do ATM but it means there's
+                 an uncertainty about which version of those classes are used at runtime.
+                 TODO: Find an alternative to Xalan or find a good maven packaging of it -->
+            <exclude>xalan</exclude>
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
@@ -931,6 +940,24 @@ If you wish to have the default wiki pages, which contain both content pages and
           <scope>runtime</scope>
         </dependency>
       </dependencies>
+      <build>
+        <plugins>
+          <!-- Ensure we don't have duplicates in WEB-INF/lib -->
+          <plugin>
+            <groupId>org.jboss.tattletale</groupId>
+            <artifactId>tattletale-maven</artifactId>
+            <configuration>
+              <excludes combine.children="append">
+                <!-- Since we exclude some JARs when we generate the WAR we also need to exclude them here since
+                     tattletale works on the generated expanded WAR and **not** on the generated WAR file. -->
+                <exclude>xwiki-platform-legacy</exclude>
+                <exclude>xwiki-commons-legacy</exclude>
+                <exclude>xwiki-rendering-legacy</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>clover</id>

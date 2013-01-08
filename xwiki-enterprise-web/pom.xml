@@ -1121,6 +1121,26 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <resource>simplelog.properties</resource>
                   </resources>
                 </exception>
+                <!-- The files are different but removing them would mean repackaging the JARs which is PITA.
+                     Since the versions are the same (1.45) there's a good chance the files are compatible. -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>org.bouncycastle</groupId>
+                      <artifactId>bcmail-jdk15</artifactId>
+                      <version>1.45</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>org.bouncycastle</groupId>
+                      <artifactId>bcprov-jdk15</artifactId>
+                      <version>1.45</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <resources>
+                    <resource>META-INF/BCKEY.DSA</resource>
+                    <resource>META-INF/BCKEY.SF</resource>
+                  </resources>
+                </exception>
               </exceptions>
               <ignoredResources>
                 <!-- Exclude XWiki's Component registration file -->
@@ -1129,6 +1149,9 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <ignoredResource>META-INF/README.txt</ignoredResource>
                 <!-- Several libs have a RELEASENOTES file -->
                 <ignoredResource>RELEASE_NOTES.TXT</ignoredResource>
+                <!-- JAXB2 plugin resources. TODO: Exclude them from the XWiki JARs -->
+                <ignoredResource>META-INF/sun-jaxb.episode</ignoredResource>
+                <ignoredResource>simple.xjb</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

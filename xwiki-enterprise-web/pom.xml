@@ -1082,6 +1082,10 @@ If you wish to have the default wiki pages, which contain both content pages and
               <ignoredResources>
                 <!-- Exclude XWiki's Component registration file -->
                 <ignoredResource>META-INF/components.txt</ignoredResource>
+                <!-- Several libs have a README file -->
+                <ignoredResource>META-INF/README.txt</ignoredResource>
+                <!-- Several libs have a RELEASENOTES file -->
+                <ignoredResource>RELEASE_NOTES.TXT</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

@@ -993,7 +993,8 @@ If you wish to have the default wiki pages, which contain both content pages and
                      don't see a solution ATM... In addition these classes are also present in the JDK, see
                      http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/package-summary.html which may yet be
                      another version and I don't have any clue which version is actually used at runtime...
-                     xmlbeans is drawn by org.apache.poi:poi-ooxml itself drawn by tika parsers -->
+                     Note that the XMLBeans issue is fixed in https://issues.apache.org/jira/browse/XMLBEANS-484 but
+                     it's drawn by org.apache.poi:poi-ooxml itself drawn by tika parsers and they need to release -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>

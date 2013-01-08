@@ -1102,6 +1102,25 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <package>org.apache.jackrabbit</package>
                   </packages>
                 </exception>
+                <!-- Logging shouldn't be configured by libraries! In any case since we route everything through
+                     SLF4J, logging is configured by the SLF4J implementation used (e.g. Logback). -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>org.apache.axis</groupId>
+                      <artifactId>axis</artifactId>
+                      <version>1.4</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>radeox</groupId>
+                      <artifactId>radeox</artifactId>
+                      <version>1.0-b2</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <resources>
+                    <resource>simplelog.properties</resource>
+                  </resources>
+                </exception>
               </exceptions>
               <ignoredResources>
                 <!-- Exclude XWiki's Component registration file -->

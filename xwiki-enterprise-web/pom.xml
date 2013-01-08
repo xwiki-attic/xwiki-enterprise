@@ -841,38 +841,85 @@ If you wish to have the default wiki pages, which contain both content pages and
       </plugin>
       <!-- Ensure we don't have duplicates in WEB-INF/lib -->
       <plugin>
-        <groupId>org.jboss.tattletale</groupId>
-        <artifactId>tattletale-maven</artifactId>
-        <version>1.2.0.Beta2</version>
+        <groupId>com.ning.maven.plugins</groupId>
+        <artifactId>maven-duplicate-finder-plugin</artifactId>
+        <version>1.0.3</version>
         <executions>
           <execution>
-            <phase>verify</phase> <!-- needs to run after WAR package has been built -->
+            <phase>verify</phase>
             <goals>
-              <goal>report</goal>
+              <goal>check</goal>
             </goals>
+            <configuration>
+              <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
+              <exceptions>
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>com.google.guava</groupId>
+                      <artifactId>guava</artifactId>
+                      <version>13.0.1</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>org.python</groupId>
+                      <artifactId>jython-standalone</artifactId>
+                      <version>2.5.3</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <classes>
+                    <class>com.google.common.base.package-info</class>
+                    <class>com.google.common.collect.package-info</class>
+                    <class>com.google.common.io.package-info</class>
+                    <class>com.google.common.net.package-info</class>
+                    <class>com.google.common.primitives.package-info</class>
+                    <class>com.google.common.util.concurrent.package-info</class>
+                  </classes>
+                </exception>
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>commons-beanutils</groupId>
+                      <artifactId>commons-beanutils</artifactId>
+                      <version>1.8.3</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>commons-collections</groupId>
+                      <artifactId>commons-collections</artifactId>
+                      <version>3.2.1</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <classes>
+                    <class>org.apache.commons.collections.ArrayStack</class>
+                    <class>org.apache.commons.collections.Buffer</class>
+                    <class>org.apache.commons.collections.BufferUnderflowException</class>
+                    <class>org.apache.commons.collections.FastHashMap</class>
+                  </classes>
+                </exception>
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>xalan</groupId>
+                      <artifactId>xalan</artifactId>
+                      <version>2.7.1</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>jakarta-regexp</groupId>
+                      <artifactId>jakarta-regexp</artifactId>
+                      <version>1.4</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <packages>
+                    <package>org.apache.regexp</package>
+                  </packages>
+                </exception>
+              </exceptions>
+              <!-- Exclude XWiki's Component registration file -->
+              <ignoredResources>
+                <ignoredResource>META-INF/components.txt</ignoredResource>
+              </ignoredResources>
+            </configuration>
           </execution>
         </executions>
-        <configuration>
-          <source>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</source>
-          <destination>${project.reporting.outputDirectory}/tattletale</destination>
-          <reports>
-            <report>jar</report>
-            <report>multiplejars</report>
-          </reports>
-          <profiles>
-            <profile>java6</profile>
-          </profiles>
-          <failOnWarn>true</failOnWarn>
-          <!-- excluding some jars, if jar name contains any of these strings it won't be analyzed -->
-          <excludes>
-            <!-- Xalan bundles a lot of other projects: org/apache/xml/**, org/apache/bcel/**, JLex/**,
-                 java_cup/**, org/apache/regexp/**. In addition, it even has these jars in its source tree without
-                 any indication about their versions... Thus there's isn't much we can do ATM but it means there's
-                 an uncertainty about which version of those classes are used at runtime.
-                 TODO: Find an alternative to Xalan or find a good maven packaging of it -->
-            <exclude>xalan</exclude>
-          </excludes>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -944,16 +991,42 @@ If you wish to have the default wiki pages, which contain both content pages and
         <plugins>
           <!-- Ensure we don't have duplicates in WEB-INF/lib -->
           <plugin>
-            <groupId>org.jboss.tattletale</groupId>
-            <artifactId>tattletale-maven</artifactId>
+            <groupId>com.ning.maven.plugins</groupId>
+            <artifactId>maven-duplicate-finder-plugin</artifactId>
             <configuration>
-              <excludes combine.children="append">
-                <!-- Since we exclude some JARs when we generate the WAR we also need to exclude them here since
-                     tattletale works on the generated expanded WAR and **not** on the generated WAR file. -->
-                <exclude>xwiki-platform-legacy</exclude>
-                <exclude>xwiki-commons-legacy</exclude>
-                <exclude>xwiki-rendering-legacy</exclude>
-              </excludes>
+              <!-- Ignore non legacy modules that have legacy modules wrapping them -->
+              <ignoredDependencies combine.children="append">
+                <dependency>
+                  <groupId>org.xwiki.commons</groupId>
+                  <artifactId>xwiki-commons-component-api</artifactId>
+                  <version>${commons.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.xwiki.commons</groupId>
+                  <artifactId>xwiki-commons-component-default</artifactId>
+                  <version>${commons.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.xwiki.commons</groupId>
+                  <artifactId>xwiki-commons-observation-api</artifactId>
+                  <version>${commons.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.xwiki.platform</groupId>
+                  <artifactId>xwiki-platform-oldcore</artifactId>
+                  <version>${platform.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.xwiki.platform</groupId>
+                  <artifactId>xwiki-platform-office-importer</artifactId>
+                  <version>${platform.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.xwiki.rendering</groupId>
+                  <artifactId>xwiki-rendering-api</artifactId>
+                  <version>${rendering.version}</version>
+                </dependency>
+              </ignoredDependencies>
             </configuration>
           </plugin>
         </plugins>

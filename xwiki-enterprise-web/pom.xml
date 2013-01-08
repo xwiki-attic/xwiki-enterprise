@@ -1141,6 +1141,26 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <resource>META-INF/BCKEY.SF</resource>
                   </resources>
                 </exception>
+                <!-- XStream includes both xapp and xmlpull and XAPP bundle somes classes of xmlpull.
+                     See http://jira.codehaus.org/browse/XSTR-689 for more.
+                 -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>xmlpull</groupId>
+                      <artifactId>xmlpull</artifactId>
+                      <version>1.1.3.1</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>xpp3</groupId>
+                      <artifactId>xpp3_min</artifactId>
+                      <version>1.1.4c</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <packages>
+                    <package>org.xmlpull.v1</package>
+                  </packages>
+                </exception>
               </exceptions>
               <ignoredResources>
                 <!-- Exclude XWiki's Component registration file -->

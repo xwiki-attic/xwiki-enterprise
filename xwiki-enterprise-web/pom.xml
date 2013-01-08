@@ -1015,7 +1015,9 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>org.w3c.dom.UserDataHandler</class>
                   </classes>
                 </exception>
-                <!-- None of these should bundle org.w3c classes but at least they seem compatible -->
+                <!-- None of these should bundle org.w3c classes but at least they seem compatible.
+                     See https://issues.apache.org/bugzilla/show_bug.cgi?id=49897 and
+                     https://issues.apache.org/bugzilla/show_bug.cgi?id=49206 -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>

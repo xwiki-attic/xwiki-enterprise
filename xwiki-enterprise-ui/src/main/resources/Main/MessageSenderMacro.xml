@@ -112,20 +112,14 @@ var XWiki = (function (XWiki) {
 XWiki.MessageStream = Class.create({
   targetsWithName : ['user', 'group'],
   suggestParameters : {
-      "user" : {
-            script: "$xwiki.getURL('Main.MessageSenderMacro', 'get', "xpage=uorgsuggest&amp;classname=XWiki.XWikiUsers&amp;wiki=${userSuggestScope}&amp;uorg=user")&amp;",
-            varname: "input",
-            icon: "$xwiki.getSkinFile('icons/silk/user.png')",
-            noresults: "User not found",
-            timeout : 30000,
-      },
-      "group" : {
-            script: "$xwiki.getURL('Main.MessageSenderMacro', 'get', 'xpage=uorgsuggest&amp;classname=XWiki.XWikiGroups&amp;wiki=local&amp;uorg=group')&amp;",
-            varname: "input",
-            icon: "$xwiki.getSkinFile('icons/silk/group.png')",
-            noresults: "Group not found",
-            timeout : 30000,
-      }
+    user : {
+      script: '$doc.getURL("get", "xpage=uorgsuggest&amp;uorg=user&amp;wiki=${userSuggestScope}")&amp;',
+      noresults: "$escapetool.javascript($msg.get('core.widgets.userPicker.noResults'))"
+    },
+    group : {
+      script: "$doc.getURL('get', 'xpage=uorgsuggest&amp;uorg=group')&amp;",
+      noresults: "$escapetool.javascript($msg.get('core.widgets.groupPicker.noResults'))"
+    }
   },
   initialize : function() {
     this.prepareForms();
@@ -149,7 +143,7 @@ XWiki.MessageStream = Class.create({
     } else {
       element.__targetNameInput.removeClassName('hidden');
       if (this.suggestParameters[targetType]) {
-        new XWiki.widgets.Suggest(element.__targetNameInput, this.suggestParameters[targetType]);
+        new XWiki.widgets.UserPicker(element.__targetNameInput, this.suggestParameters[targetType]);
       }
     }
   },
@@ -220,13 +214,15 @@ XWiki.MessageStream = Class.create({
     }.bind(this));
   }
 });
+
+var init = function() {
+  return new XWiki.MessageStream();
+};
+(XWiki.domIsLoaded &amp;&amp; init()) || document.observe('xwiki:dom:loaded', init);
+
 // End XWiki augmentation.
 return XWiki;
-}(XWiki || {}));
-
-document.observe('xwiki:dom:loaded', function() {
-  new XWiki.MessageStream();
-}); </code>
+}(XWiki || {}));</code>
     </property>
     <property>
       <name>User status update</name>
@@ -324,8 +320,9 @@ document.observe('xwiki:dom:loaded', function() {
   position: relative;
   margin: 2px 0;
 }
-.messagestream-tools, .messagestream-tools * {
-  vertical-align: middle;
+.messagestream-tools label {
+  display: block;
+  margin-top: 2px;
 }
 
 .messagestream select {

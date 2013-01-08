@@ -853,6 +853,8 @@ If you wish to have the default wiki pages, which contain both content pages and
             <configuration>
               <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
               <exceptions>
+                <!-- Exclude package-info classes which are just javadoc files, see
+                     http://docs.oracle.com/javase/7/docs/technotes/tools/solaris/javadoc.html#packagecomment -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>
@@ -875,6 +877,9 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>com.google.common.util.concurrent.package-info</class>
                   </classes>
                 </exception>
+                <!-- Commons Beanutils bundles some classes from Commons Collections, apparently to avoid drawing
+                     a dependency to it... However those classes are the same for us since commons-beanutils:1.8.3
+                     depends on commons-collections:3.2.1 -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>
@@ -895,6 +900,11 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>org.apache.commons.collections.FastHashMap</class>
                   </classes>
                 </exception>
+                <!-- Xalan bundles a lot of other projects: org/apache/xml/**, org/apache/bcel/**, JLex/**,
+                     java_cup/**, org/apache/regexp/**. In addition, it even has these jars in its source tree without
+                     any indication about their versions... Thus there's isn't much we can do ATM but it means there's
+                     an uncertainty about which version of those classes are used at runtime.
+                     TODO: Find an alternative to Xalan or find a good maven packaging of it -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>
@@ -910,6 +920,44 @@ If you wish to have the default wiki pages, which contain both content pages and
                   </conflictingDependencies>
                   <packages>
                     <package>org.apache.regexp</package>
+                  </packages>
+                </exception>
+                <!-- css4j:0.13 depends on jclf:2.3.0 so the duplicate classes must be the same ones. -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>info.informatica</groupId>
+                      <artifactId>css4j</artifactId>
+                      <version>0.13</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>info.informatica</groupId>
+                      <artifactId>jclf</artifactId>
+                      <version>2.3.0</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <classes>
+                    <class>info.informatica.doc.DocumentException</class>
+                    <class>info.informatica.doc.RenderingException</class>
+                  </classes>
+                </exception>
+                <!-- org.sonatype.sisu:sisu-inject-bean:2.2.3 bundles some javax.inject classes. Fortunately it
+                     depends on javax.inject:javax.inject:1 -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>org.sonatype.sisu</groupId>
+                      <artifactId>sisu-inject-bean</artifactId>
+                      <version>2.2.3</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>javax.inject</groupId>
+                      <artifactId>javax.inject</artifactId>
+                      <version>1</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <packages>
+                    <package>javax.inject</package>
                   </packages>
                 </exception>
               </exceptions>

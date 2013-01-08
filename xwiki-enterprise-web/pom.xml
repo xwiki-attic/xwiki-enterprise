@@ -989,10 +989,12 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <package>javax.xml.stream</package>
                   </packages>
                 </exception>
-            </exceptions>
-              <!-- Exclude XWiki's Component registration file -->
+              </exceptions>
               <ignoredResources>
+                <!-- Exclude XWiki's Component registration file -->
                 <ignoredResource>META-INF/components.txt</ignoredResource>
+                <!-- Exclude AspectJ build configuration file -->
+                <ignoredResource>builddef.lst</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

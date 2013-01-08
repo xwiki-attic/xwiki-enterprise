@@ -989,6 +989,75 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <package>javax.xml.stream</package>
                   </packages>
                 </exception>
+                <!-- This is a PITA. The classes are actually incompatible! We should do something about it but I
+                     don't see a solution ATM... In addition these classes are also present in the JDK, see
+                     http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/package-summary.html which may yet be
+                     another version and I don't have any clue which version is actually used at runtime...
+                     xmlbeans is drawn by org.apache.poi:poi-ooxml itself drawn by tika parsers -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>org.apache.xmlbeans</groupId>
+                      <artifactId>xmlbeans</artifactId>
+                      <version>2.3.0</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>xml-apis</groupId>
+                      <artifactId>xml-apis</artifactId>
+                      <version>1.4.01</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <classes>
+                    <class>org.w3c.dom.DOMConfiguration</class>
+                    <class>org.w3c.dom.DOMStringList</class>
+                    <class>org.w3c.dom.TypeInfo</class>
+                    <class>org.w3c.dom.UserDataHandler</class>
+                  </classes>
+                </exception>
+                <!-- None of these should bundle org.w3c classes but at least they seem compatible -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>org.apache.xmlgraphics</groupId>
+                      <artifactId>batik-ext</artifactId>
+                      <version>1.7</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>xml-apis</groupId>
+                      <artifactId>xml-apis</artifactId>
+                      <version>1.4.01</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <classes>
+                    <class>org.w3c.dom.ElementTraversal</class>
+                    <class>org.w3c.dom.events.DocumentEvent</class>
+                    <class>org.w3c.dom.events.Event</class>
+                    <class>org.w3c.dom.events.EventException</class>
+                    <class>org.w3c.dom.events.EventListener</class>
+                    <class>org.w3c.dom.events.EventTarget</class>
+                    <class>org.w3c.dom.events.MouseEvent</class>
+                    <class>org.w3c.dom.events.MutationEvent</class>
+                    <class>org.w3c.dom.events.UIEvent</class>
+                  </classes>
+                </exception>
+                <!-- None of these should bundle org.w3c classes but at least they seem compatible -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>org.python</groupId>
+                      <artifactId>jython-standalone</artifactId>
+                      <version>2.5.3</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>xerces</groupId>
+                      <artifactId>xercesImpl</artifactId>
+                      <version>2.10.0</version>
+                    </dependency>
+                  </conflictingDependencies>
+                  <classes>
+                    <class>org.w3c.dom.html.HTMLDOMImplementation</class>
+                  </classes>
+                </exception>
               </exceptions>
               <ignoredResources>
                 <!-- Exclude XWiki's Component registration file -->

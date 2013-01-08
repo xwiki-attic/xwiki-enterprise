@@ -942,7 +942,10 @@ If you wish to have the default wiki pages, which contain both content pages and
                   </classes>
                 </exception>
                 <!-- org.sonatype.sisu:sisu-inject-bean:2.2.3 bundles some javax.inject classes. Fortunately it
-                     depends on javax.inject:javax.inject:1 -->
+                     depends on javax.inject:javax.inject:1. Note that sisu-inject-bean is an aggregated JAR and
+                     there's an other artifact to use: http://search.maven.org/#browse%7C-1073437006. The problem
+                     is that we don't control this since it's drawn by both the Maven Plugin API which we need for
+                     our plugins and by the Aether Wagon connector which we need for the Commons Extension module. -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>

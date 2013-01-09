@@ -109,6 +109,26 @@
 #end
 var XWiki = (function (XWiki) {
 // Start XWiki augmentation.
+/**
+ * Extends the UserPicker in order to display the selected user/group inline after the target text input.
+ */
+var CustomUserPicker = Class.create(XWiki.widgets.UserPicker, {
+  // @Override
+  _createSelectionManager: function($super, options) {
+    var selectionManager = $super(Object.extend(options, {
+      listInsertionPosition : 'after',
+      acceptFreeText : false
+    }));
+    // Overwrite the way the selected item is displayed.
+    selectionManager.displayItem = function(suggestion) {
+      var targetInfo = new Element('span').update(suggestion.info).insert(this.createDeleteTool());
+      var targetClass = this.suggest.sources[0].script.indexOf('uorg=group') &gt; 0 ? 'target-group' : 'target-user';
+      return new Element('li', {'class': targetClass}).insert(targetInfo).insert(this.createItemInput(suggestion));
+    }.bind(selectionManager);
+    return selectionManager;
+  }
+});
+
 XWiki.MessageStream = Class.create({
   targetsWithName : ['user', 'group'],
   suggestParameters : {
@@ -143,7 +163,7 @@ XWiki.MessageStream = Class.create({
     } else {
       element.__targetNameInput.removeClassName('hidden');
       if (this.suggestParameters[targetType]) {
-        new XWiki.widgets.UserPicker(element.__targetNameInput, this.suggestParameters[targetType]);
+        new CustomUserPicker(element.__targetNameInput, this.suggestParameters[targetType]);
       }
     }
   },
@@ -320,15 +340,28 @@ return XWiki;
   position: relative;
   margin: 2px 0;
 }
-.messagestream-tools label {
-  display: block;
-  margin-top: 2px;
+.messagestream-tools .accepted-suggestions {
+  display: inline;
 }
-
+.messagestream-tools .accepted-suggestions .target-user,
+.messagestream-tools .accepted-suggestions .target-group {
+  background: none no-repeat scroll left center transparent;
+  display: inline-block;
+  margin-right: 1em;
+  padding: 0 1px 0 18px;
+}
+.messagestream-tools .accepted-suggestions .target-user {
+  background-image: url("$xwiki.getSkinFile('icons/silk/user.png')");
+}
+.messagestream-tools .accepted-suggestions .target-group {
+  background-image: url("$xwiki.getSkinFile('icons/silk/group.png')");
+}
 .messagestream select {
+  padding: .2em;
   width: auto;
 }
 .messagestream input.targetName {
+  margin-right: .3em;
   width: auto;
 }</code>
     </property>

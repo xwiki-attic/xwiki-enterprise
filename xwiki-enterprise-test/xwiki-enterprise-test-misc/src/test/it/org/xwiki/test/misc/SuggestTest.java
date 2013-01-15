@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  * Test that the suggest service works without programming rights on Main.WebHome. (See http://jira.xwiki.org/browse/XE-539)
  *
  * @version $Id$
- * @since 4.4.1
+ * @since 4.5M1
  */
 public class SuggestTest extends TestCase
 {

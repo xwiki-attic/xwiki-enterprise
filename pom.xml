@@ -107,6 +107,7 @@
     <xwiki.cfg.additionalproperties />
 
     <xwiki.properties.environment.permanentDirectory />
+    <xwiki.properties.additionalproperties />
 
     <!-- Default location for XWiki's Data directory -->
     <xwikiDataDir>data</xwikiDataDir>
@@ -167,6 +168,7 @@
 
                   <!-- Default configuration data for xwiki.properties -->
                   <xwikiPropertiesEnvironmentPermanentDirectory>${xwiki.properties.environment.permanentDirectory}</xwikiPropertiesEnvironmentPermanentDirectory>
+                  <xwikiPropertiesAdditionalProperties>${xwiki.properties.additionalproperties}</xwikiPropertiesAdditionalProperties>
                 </properties>
               </configuration>
             </execution>

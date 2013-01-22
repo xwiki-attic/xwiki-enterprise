@@ -505,8 +505,8 @@
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-portlet</artifactId>
-      <!-- Use the XWiki Commons version because xwiki-platform-portlet is not yet integrated in the XWiki Platform. -->
-      <version>${commons.version}</version>
+      <!-- Use a different version because xwiki-platform-portlet is not yet integrated in the XWiki Platform. -->
+      <version>3.5-SNAPSHOT</version>
       <scope>runtime</scope>
     </dependency>
     <!-- Logging Dependencies. Ensures all logging goes through SLF4J and Logback. -->

@@ -10,6 +10,14 @@
   <packaging>xar</packaging>
   <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise.
   </description>
+  <properties>
+    <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
+    <xwiki.extension.features>
+        com.xpn.xwiki.products:xwiki-enterprise-wiki,
+        org.xwiki.enterprise:xwiki-enterprise-wiki,
+        org.xwiki.enterprise:xwiki-enterprise-ui
+    </xwiki.extension.features>
+  </properties>
   <dependencies>
     <!-- Other UIs -->
     <!-- Put administration ui first to have default users and rights imported before most of the other pages

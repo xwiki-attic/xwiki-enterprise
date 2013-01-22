@@ -10,8 +10,8 @@
   <packaging>xar</packaging>
   <description>All in one XWiki Enterprise XAR package</description>
   <properties>
-    <!-- Embedded extensions -->
     <xwiki.extension.features>
+      <!-- Embedded extensions -->
       org.xwiki.enterprise:xwiki-enterprise-ui,
       org.xwiki.platform:xwiki-platform-livetable-ui,
       org.xwiki.platform:xwiki-platform-index-ui,
@@ -35,7 +35,12 @@
       org.xwiki.platform:xwiki-platform-linkchecker-ui,
       org.xwiki.platform:xwiki-platform-dashboard-ui,
       org.xwiki.platform:xwiki-platform-user-ui,
-      org.xwiki.platform:xwiki-platform-logging-ui
+      org.xwiki.platform:xwiki-platform-logging-ui,
+
+      <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
+      com.xpn.xwiki.products:xwiki-enterprise-wiki,
+      org.xwiki.enterprise:xwiki-enterprise-wiki,
+      org.xwiki.enterprise:xwiki-enterprise-ui
     </xwiki.extension.features>
   </properties>
   <dependencies>

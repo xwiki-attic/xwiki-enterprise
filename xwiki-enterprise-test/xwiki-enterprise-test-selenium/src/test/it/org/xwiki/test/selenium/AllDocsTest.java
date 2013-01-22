@@ -111,7 +111,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         getSelenium().typeKeys("doc.name", "view");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
-        clickLinkWithText("copy");
+        clickLinkWithLocator("//a[contains(@class, 'actioncopy') and contains(@href, '" + pageName + "')]");
         // The copy page form doesn't allow us to copy to a new space.
         setFieldValue("targetSpaceName", "Sandbox");
         setFieldValue("targetPageName", pageName + "New");

@@ -173,7 +173,8 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("<ins>bar</ins>", changesPane.getMetaDataChanges("Tags"));
 
         // Content changes.
-        Assert.assertEquals("@@ -1,3 +1,3 @@\n one\n-two\n-three\n+**two**\n+four", changesPane.getContentChanges());
+        Assert.assertEquals("@@ -1,3 +1,3 @@\n one\n-two\n-<del>th</del>r<del>ee</del>\n"
+            + "+<ins>**</ins>two<ins>**</ins>\n+<ins>fou</ins>r", changesPane.getContentChanges());
 
         // Attachment changes.
         Assert.assertEquals(Arrays.asList("SmallAttachment.txt: Attachment has been added"),

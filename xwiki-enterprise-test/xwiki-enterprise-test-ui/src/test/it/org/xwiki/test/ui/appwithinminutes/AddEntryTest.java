@@ -86,6 +86,7 @@ public class AddEntryTest extends AbstractAdminAuthenticatedTest
         homePage = new ApplicationHomePage();
         LiveTableElement entriesLiveTable = homePage.getEntriesLiveTable();
         entriesLiveTable.waitUntilReady();
-        Assert.assertTrue(entriesLiveTable.hasRow("Page name", entryName));
+        // The column title is not translated because we haven't generated the document translation bundle.
+        Assert.assertTrue(entriesLiveTable.hasRow("panel.livetable.doc.name", entryName));
     }
 }

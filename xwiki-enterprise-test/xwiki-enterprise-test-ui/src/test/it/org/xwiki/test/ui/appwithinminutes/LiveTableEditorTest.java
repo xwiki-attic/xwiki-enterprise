@@ -82,9 +82,10 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
         Assert.assertFalse(editPage.hasLiveTableColumn("Page name"));
         LiveTableElement liveTable = ((ApplicationHomePage) editPage.clickSaveAndView()).getEntriesLiveTable();
         liveTable.waitUntilReady();
-        Assert.assertFalse(liveTable.hasColumn("Page name"));
-        Assert.assertEquals(0, liveTable.getColumnIndex("First Name"));
-        Assert.assertEquals(1, liveTable.getColumnIndex("Update date"));
+        // The column titles aren't translated because we haven't generated the document translation bundle.
+        Assert.assertFalse(liveTable.hasColumn("xwikiusers.livetable.doc.name"));
+        Assert.assertEquals(0, liveTable.getColumnIndex("xwikiusers.livetable.first_name"));
+        Assert.assertEquals(1, liveTable.getColumnIndex("xwikiusers.livetable.doc.date"));
     }
 
     /**
@@ -103,7 +104,8 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
         ApplicationHomePage viewPage = editPage.clickCancel();
         LiveTableElement liveTable = viewPage.getEntriesLiveTable();
         liveTable.waitUntilReady();
-        Assert.assertTrue(liveTable.hasColumn("Page name"));
+        // The column title isn't translated because we haven't generated the document translation bundle.
+        Assert.assertTrue(liveTable.hasColumn("xwikiusers.livetable.doc.name"));
     }
 
     /**
@@ -128,7 +130,8 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
         ApplicationHomePage viewPage = editPage.clickSaveAndView();
         LiveTableElement liveTable = viewPage.getEntriesLiveTable();
         liveTable.waitUntilReady();
-        Assert.assertTrue(liveTable.hasColumn("foo"));
+        // The column title isn't translated because we haven't generated the document translation bundle.
+        Assert.assertTrue(liveTable.hasColumn("xwikiusers.livetable.foo"));
 
         // Edit again and remove the deprecated column.
         editPage = viewPage.editInline();

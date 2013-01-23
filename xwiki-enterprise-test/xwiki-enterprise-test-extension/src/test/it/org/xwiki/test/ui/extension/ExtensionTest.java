@@ -554,8 +554,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals("Resolving extension [bob-xar-extension 2.5-milestone-2] from namespace [wiki:xwiki]", log
             .get(0).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Successfully applied UNINSTALL for extension "
-            + "[bob-xar-extension 2.5-milestone-2] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
+        Assert.assertEquals("Successfully deleted document [ExtensionTest.Bob] in language []", log.get(log.size() - 1)
+            .getMessage());
 
         // Check if the uninstalled pages have been deleted.
         Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
@@ -580,8 +580,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [wiki:xwiki]", log.get(0)
             .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Successfully applied UNINSTALL for extension "
-            + "[alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(log.size() - 1).getMessage());
+        Assert.assertEquals("Successfully deleted document [ExtensionTest.Alice] in language []",
+            log.get(log.size() - 1).getMessage());
 
         // Check if the uninstalled pages have been deleted.
         Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));

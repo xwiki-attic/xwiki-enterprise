@@ -14,8 +14,7 @@
     <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
     <xwiki.extension.features>
         com.xpn.xwiki.products:xwiki-enterprise-wiki,
-        org.xwiki.enterprise:xwiki-enterprise-wiki,
-        org.xwiki.enterprise:xwiki-enterprise-ui
+        org.xwiki.enterprise:xwiki-enterprise-wiki
     </xwiki.extension.features>
   </properties>
   <dependencies>

@@ -570,7 +570,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <!-- Search -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-search-lucene</artifactId>
+      <artifactId>xwiki-platform-search-lucene-api</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

@@ -59,17 +59,21 @@
 #if($doc.fullName == 'XWiki.ClassSheet')
   ## Viewing the sheet document itself
   You can edit this document to change the default presentation of classes, or you can copy it to create a customized view just for one or several classes.
-#elseif("$!request.bindSheet" != '')
-  ## Bind the sheet to the class
-  #set($classSheetReference = $services.model.resolveDocument($request.bindSheet))
-  #if($services.sheet.bindClassSheet($doc, $classSheetReference))
-    $doc.save("Bind class sheet.")
+#elseif ("$!request.bindSheet" != '' &amp;&amp; $hasEdit)
+  #if ($services.csrf.isTokenValid($request.getParameter('form_token')))
+    ## Bind the sheet to the class.
+    #set ($classSheetReference = $services.model.resolveDocument($request.bindSheet))
+    #if ($services.sheet.bindClassSheet($doc, $classSheetReference))
+      $doc.save('Bind class sheet.')
+    #end
+    $response.sendRedirect($request.xredirect)
+  #else
+    $response.sendRedirect($services.csrf.getResubmissionURL())
   #end
-  $response.sendRedirect($request.xredirect)
   ## Stop processing, since we already sent a redirect.
   #stop
 #elseif("$!request.docName" != '')
-  ## Request for creating a new instance
+  ## Request for creating a new instance. We don't actually create a new instance here, we just redirect to the edit mode.
   #set($targetDocName = "${request.spaceName}.${request.docName}")
   #if(!$xwiki.exists($targetDocName) &amp;&amp; $xwiki.hasAccessLevel('edit', $context.user, $targetDocName))
     ## Compute the default edit mode to ensure backward compatibility with documents still using the deprecated inline action.
@@ -188,7 +192,7 @@
       #set($defaultClassSheetStringReference = $services.model.serialize($defaultClassSheetReference, "default"))
       #set($bindURL = $doc.getURL('view', "bindSheet=${escapetool.url($defaultClassSheetStringReference)}&amp;xredirect=${escapetool.url($xredirect)}&amp;form_token=$!{services.csrf.getToken()}"))
       {{warning}}
-        The sheet is not bound to the class so it won't be applied automatically when a document that has an object of this class is displayed. {{html}}&lt;a href="$bindURL"&gt;Bind the sheet to the class »&lt;/a&gt;.{{/html}}
+        The sheet is not bound to the class so it won't be applied automatically when a document that has an object of this class is displayed.#if ($hasEdit) {{html}}&lt;a href="$bindURL"&gt;Bind the sheet to the class »&lt;/a&gt;.{{/html}}#end
       {{/warning}}
 
     #end

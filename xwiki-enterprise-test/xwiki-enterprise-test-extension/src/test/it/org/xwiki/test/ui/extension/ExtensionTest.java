@@ -601,6 +601,26 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
     }
 
     /**
+     * Tests that an extension can be installed and uninstalled without reloading the extension manager UI.
+     */
+    @Test
+    public void testInstallAndUninstallWithoutReload() throws Exception
+    {
+        // Setup the extension.
+        ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
+        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(extensionId, "xar"));
+
+        // Search the extension to install.
+        ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
+        ExtensionPane extensionPane =
+            adminPage.getSearchBar().clickAdvancedSearch().search(extensionId).getExtension(0);
+
+        // Install and uninstall.
+        extensionPane = extensionPane.install().confirm().uninstall().confirm().install();
+        Assert.assertEquals("remote", extensionPane.getStatus());
+    }
+
+    /**
      * Tests how an extension is upgraded.
      */
     @Test

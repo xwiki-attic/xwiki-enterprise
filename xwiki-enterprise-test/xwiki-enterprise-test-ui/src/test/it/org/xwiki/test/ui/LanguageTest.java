@@ -154,7 +154,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
     private boolean isPageInFrench()
     {
         return getDriver().findElement(By.xpath("//div[@id='tmLogout']//strong")).getText().toLowerCase().contains(
-            "quitter la session");
+            "se déconnecter");
     }
 
     private void setLanguageSettings(boolean isMultiLingual, String defaultLanguages)

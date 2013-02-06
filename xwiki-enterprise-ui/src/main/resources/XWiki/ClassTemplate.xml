@@ -56,10 +56,10 @@
     </property>
   </object>
   <content>{{velocity}}
-## Replace Main with the Space where you want your documents to be created.
+## Replace the default space with the space where you want your documents to be created.
 ## Replace the default parent with the one of your choice and save the document.
 ##
+#set($defaultSpace = $doc.space)
 #set($defaultParent = $doc.fullName)
-#set($defaultSpace = 'Main')
 {{/velocity}}</content>
 </xwikidoc>

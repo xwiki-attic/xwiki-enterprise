@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.HistoryPane;
@@ -30,7 +31,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
  * Verify versioning features of documents and attachments.
- *
+ * 
  * @version $Id$
  * @since 3.1M2
  */
@@ -48,8 +49,8 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
 
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     })
     public void testRollbackToFirstVersion() throws Exception
     {
@@ -80,6 +81,40 @@ public class VersionTest extends AbstractAdminAuthenticatedTest
 
         historyTab = vp.openHistoryDocExtraPane();
         Assert.assertEquals("Rollback to version 1.1", historyTab.getCurrentVersionComment());
+        Assert.assertEquals("Administrator", historyTab.getCurrentAuthor());
+    }
+
+    /**
+     * See XWIKI-8781
+     */
+    @Test
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
+    })
+    public void testDeleteLatestVersion() throws Exception
+    {
+        getUtil().deletePage(SPACE_NAME, PAGE_NAME);
+
+        // Create first version of the page
+        ViewPage vp = getUtil().createPage(SPACE_NAME, PAGE_NAME, CONTENT1, TITLE);
+
+        // Adds second version
+        WikiEditPage wikiEditPage = vp.editWiki();
+        wikiEditPage.setContent(CONTENT2);
+        wikiEditPage.clickSaveAndView();
+
+        // TODO: Remove when XWIKI-6688 (Possible race condition when clicking on a tab at the bottom of a page in
+        // view mode) is fixed.
+        vp.waitForDocExtraPaneActive("comments");
+
+        // Verify and delete the latest version.
+        HistoryPane historyTab = vp.openHistoryDocExtraPane();
+        Assert.assertEquals("2.1", historyTab.getCurrentVersion());
+        historyTab = historyTab.deleteVersion("2.1");
+
+        // Verify that the current version is now the previous one.
+        Assert.assertEquals("1.1", historyTab.getCurrentVersion());
         Assert.assertEquals("Administrator", historyTab.getCurrentAuthor());
     }
 }

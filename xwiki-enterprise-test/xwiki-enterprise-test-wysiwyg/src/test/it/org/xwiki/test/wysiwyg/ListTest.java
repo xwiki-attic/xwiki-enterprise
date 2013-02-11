@@ -566,8 +566,9 @@ public class ListTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.firstChild.firstChild", 1);
         typeEnter();
         assertContent("<ul><li>1</li><li>3<ul><li>2<br></li></ul></li></ul>");
-        // check that the list item is indentable, the list plugin is correctly recognizing lists (XWIKI-3061)
-        assertTrue(isIndentButtonEnabled());
+        // Check that the list item is indentable i.e. the list plugin is correctly recognizing lists (XWIKI-3061).
+        // The tool bar is not updated instantly and thus we have to wait for the indent button to become enabled.
+        waitForPushButton(TOOLBAR_BUTTON_INDENT_TITLE, true);
         clickIndentButton();
         assertContent("<ul><li>1<ul><li>3<ul><li>2<br></li></ul></li></ul></li></ul>");
         switchToSource();

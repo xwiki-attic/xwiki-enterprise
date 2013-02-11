@@ -4,15 +4,6 @@ set -e
 #set -x
 
 #########################
-# Links
-# TODO: get rid of them when jdeb add support for symbolic links
-#       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
-#########################
-
-# Add MySQL connector
-ln -sf /usr/share/java/mysql.jar /usr/lib/xwiki/WEB-INF/lib/
-
-#########################
 # Configuration
 #########################
 
@@ -20,7 +11,7 @@ ln -sf /usr/share/java/mysql.jar /usr/lib/xwiki/WEB-INF/lib/
 if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
   . /usr/share/dbconfig-common/dpkg/postinst.mysql
 
-  dbc_mysql_createdb_encoding="UTF8 COLLATE utf8_bin"
+  dbc_mysql_createdb_encoding="utf8"
 
   dbc_generate_include='template:/etc/xwiki/hibernate.cfg.xml'
   dbc_generate_include_perms='644'

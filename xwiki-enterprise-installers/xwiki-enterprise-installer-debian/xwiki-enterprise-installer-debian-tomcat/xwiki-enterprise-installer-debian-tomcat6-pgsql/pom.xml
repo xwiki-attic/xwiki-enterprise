@@ -39,6 +39,17 @@
       <plugin>
         <artifactId>jdeb</artifactId>
         <groupId>org.vafer</groupId>
+        <configuration>
+          <dataSet>
+            <!--Custom tomcat context configuration -->
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/etc/tomcat6/Catalina/localhost/xwiki.xml</linkName>
+              <linkTarget>/etc/xwiki/xwiki-tomcat.xml</linkTarget>
+            </data>
+          </dataSet>
+        </configuration>
       </plugin>
     </plugins>
   </build>

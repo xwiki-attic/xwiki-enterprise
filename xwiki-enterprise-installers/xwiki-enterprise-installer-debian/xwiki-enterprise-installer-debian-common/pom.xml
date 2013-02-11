@@ -120,6 +120,79 @@
                 <prefix>/etc/xwiki</prefix>
               </mapper>
             </data>
+            <!-- Links to /usr/lib/xwiki/WEB-INF files/folders -->
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/cache</linkName>
+              <linkTarget>/etc/xwiki/cache</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/fonts</linkName>
+              <linkTarget>/etc/xwiki/fonts</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/classes</linkName>
+              <linkTarget>/etc/xwiki/classes</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/observation</linkName>
+              <linkTarget>/etc/xwiki/observation</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/portlet.xml</linkName>
+              <linkTarget>/etc/xwiki/portlet.xml</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/struts-config.xml</linkName>
+              <linkTarget>/etc/xwiki/struts-config.xml</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/sun-web.xml</linkName>
+              <linkTarget>/etc/xwiki/sun-web.xml</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/web.xml</linkName>
+              <linkTarget>/etc/xwiki/web.xml</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/xwiki.properties</linkName>
+              <linkTarget>/etc/xwiki/xwiki.properties</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/version.properties</linkName>
+              <linkTarget>/etc/xwiki/version.properties</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/xwiki.cfg</linkName>
+              <linkTarget>/etc/xwiki/xwiki.cfg</linkTarget>
+            </data>
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/hibernate.cfg.xml</linkName>
+              <linkTarget>/etc/xwiki/hibernate.cfg.xml</linkTarget>
+            </data>
           </dataSet>
         </configuration>
       </plugin>

@@ -54,6 +54,7 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
      */
     private ViewPage testPage;
 
+    @Override
     @Before
     public void setUp() throws Exception
     {

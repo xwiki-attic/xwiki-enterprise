@@ -51,6 +51,7 @@ public class LiveTableGeneratorTest extends AbstractAdminAuthenticatedTest
      */
     private String appName;
 
+    @Override
     @Before
     public void setUp() throws Exception
     {
@@ -104,7 +105,7 @@ public class LiveTableGeneratorTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * @see "XWIKI-8728: AWM home page does not list entries when "Title" column is set to be the first one"
+     * @see "XWIKI-8728: AWM home page does not list entries when \"Title\" column is set to be the first one"
      */
     @Test
     public void titleField()

@@ -231,7 +231,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     /**
      * Test that hitting the . (dot) key at the end of a list item does not act as delete.
      * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3304
+     * @see "http://jira.xwiki.org/jira/browse/XWIKI-3304"
      */
     @Test
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")

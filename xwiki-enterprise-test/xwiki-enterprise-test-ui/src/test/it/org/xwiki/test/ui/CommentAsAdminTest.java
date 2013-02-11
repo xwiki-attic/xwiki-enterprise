@@ -49,6 +49,7 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
 
     private static final String COMMENT_REPLY = "Comment Reply";
 
+    @Override
     @Before
     public void setUp() throws Exception
     {

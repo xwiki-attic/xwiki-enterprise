@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-data</artifactId>
-    <version>4.5-SNAPSHOT</version>
+    <version>4.5.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-data-derby</artifactId>
   <name>XWiki Enterprise - Data - Derby</name>

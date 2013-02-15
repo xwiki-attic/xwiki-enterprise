@@ -39,6 +39,8 @@
           <exclude>**/hibernate.cfg.xml</exclude>
         </excludes>
       </unpackOptions>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
     <!-- ROOT webapp, redirecting to /xwiki/ when no application is specified. -->
     <dependencySet>
@@ -47,6 +49,8 @@
       </includes>
       <outputDirectory>webapps/root</outputDirectory>
       <unpack>true</unpack>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
     <!-- Unpack Jetty files
          Note1: We need to apply filtering to resolve the "xwikiDataDir" property in start shell scripts.
@@ -70,6 +74,8 @@
       <!-- Extracting some resources from the dependency somehow looses the file permissions, so we need to set them
            again so that the start xwiki scripts are executable... -->
       <fileMode>755</fileMode>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
     <dependencySet>
       <includes>
@@ -85,6 +91,8 @@
           <exclude>**/start_xwiki*.*</exclude>
         </excludes>
       </unpackOptions>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
     <!-- Add JDBC driver for the database to use. -->
     <dependencySet>
@@ -93,6 +101,8 @@
       </includes>
       <outputDirectory>webapps/xwiki/WEB-INF/lib</outputDirectory>
       <unpack>false</unpack>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
     <!-- Unpack the data files to package it in the distribution -->
     <dependencySet>
@@ -101,6 +111,8 @@
       </includes>
       <outputDirectory>/${xwikiDataDir}/</outputDirectory>
       <unpack>true</unpack>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
   </dependencySets>
   <!-- Add Hibernate configuration file -->

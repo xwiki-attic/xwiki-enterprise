@@ -812,6 +812,28 @@ public class LinkTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see <a href="http://jira.xwiki.org/browse/XWIKI-8465">Unable to upload a new attachment using the "All pages"
+     *      tab in the WYSIWYG editor</a>
+     */
+    public void testCreateLinkToNewAttachment()
+    {
+        // We have to save the page in order to appear in the tree.
+        clickEditSaveAndContinue();
+        clickEditPageInWysiwyg();
+        waitForEditorToLoad();
+
+        openLinkDialog(MENU_ATTACHMENT);
+        clickTab(ALL_PAGES_TAB);
+        waitForStepToLoad("xExplorerPanel");
+
+        explorer.selectUploadFileIn(this.getClass().getSimpleName(), getName());
+        assertEquals("", explorer.getSelectedEntityReference());
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad("xUploadPanel");
+        // TODO: Test real file upload.
+    }
+
+    /**
      * Test the basic feature of adding a link to an attached file, configuring its parameters in the parameter panel.
      */
     public void testCreateLinkToAttachmentWithParameters()

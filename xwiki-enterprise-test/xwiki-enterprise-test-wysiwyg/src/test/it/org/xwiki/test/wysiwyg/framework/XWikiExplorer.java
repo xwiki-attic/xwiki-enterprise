@@ -169,4 +169,18 @@ public class XWikiExplorer
         // text from the input, which will leave the "New page..." node selected.
         lookupEntity("");
     }
+
+    /**
+     * Selects the "Upload file..." node for the specified page.
+     * 
+     * @param spaceName the page name
+     * @param pageName the space name
+     */
+    public void selectUploadFileIn(String spaceName, String pageName)
+    {
+        lookupEntity(spaceName + "." + pageName + "#Attachments");
+        waitForAttachmentsSelected(spaceName, pageName);
+        // This works if the "Upload file..." node is right below the "Attachments" node.
+        test.getSelenium().typeKeys("//*[@class = 'xExplorerPanel']//*[@class = 'gridBody']", "\\40");
+    }
 }

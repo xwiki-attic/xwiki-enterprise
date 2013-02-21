@@ -785,6 +785,33 @@ public class LinkTest extends AbstractWysiwygTestCase
     }
 
     /**
+     * @see <a href="http://jira.xwiki.org/browse/XWIKI-8440">XWIKI-8440: Unable to link to an attachment from the
+     *      current page in the WYSIWYG Editor using "All Pages" tab</a>
+     */
+    public void testCreateLinkToAttachmentFromCurrentPage()
+    {
+        // Edit a page that has an attachment.
+        open("Sandbox", "WebHome", "edit", "editor=wysiwyg");
+        waitForEditorToLoad();
+
+        // Insert a link to the attached file using the All Pages tab.
+        openLinkDialog(MENU_ATTACHMENT);
+        clickTab(ALL_PAGES_TAB);
+        waitForStepToLoad("xExplorerPanel");
+
+        explorer.lookupEntity("Sandbox.WebHome@XWikiLogo.png");
+        explorer.waitForAttachmentSelected("Sandbox", "WebHome", "XWikiLogo.png");
+
+        clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad("xLinkConfig");
+        clickButtonWithText(BUTTON_CREATE_LINK);
+        waitForDialogToClose();
+
+        switchToSource();
+        assertTrue(getSourceText().startsWith("[[XWikiLogo.png>>attach:XWikiLogo.png"));
+    }
+
+    /**
      * Test the basic feature of adding a link to an attached file, configuring its parameters in the parameter panel.
      */
     public void testCreateLinkToAttachmentWithParameters()

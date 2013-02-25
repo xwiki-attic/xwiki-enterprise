@@ -35,6 +35,7 @@ import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
 import org.xwiki.cache.internal.DefaultCache;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
 
@@ -70,7 +71,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
      * Used to convert a proper Document Reference to a string but without the wiki name.
      */
     private EntityReferenceSerializer<String> localEntityReferenceSerializer;
-    
+
     private XWikiLDAPAuthServiceImpl ldapAuth;
 
     private CacheFactory cacheFactory = new CacheFactory()
@@ -131,7 +132,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         return getDocument(document);
     }
-    
+
     private XWikiDocument getDocument(XWikiDocument document) throws XWikiException
     {
         Map<String, XWikiDocument> docs = getDocuments(document.getDatabase(), false);
@@ -210,6 +211,10 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
                 
                 if (document instanceof String) {
                     return getDocument((String) document);
+                } else if (document instanceof EntityReference) {
+                    DocumentReferenceResolver<EntityReference> resolver = Utils.getComponent(
+                        DocumentReferenceResolver.TYPE_REFERENCE, "current");
+                    return getDocument(resolver.resolve((EntityReference) document));
                 } else {
                     return getDocument((DocumentReference) document);
                 }

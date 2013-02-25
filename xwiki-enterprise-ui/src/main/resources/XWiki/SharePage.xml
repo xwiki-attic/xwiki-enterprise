@@ -115,6 +115,12 @@
     },
 
     // @Override
+    matchesSelectedValue: function(value, suggestion) {
+      // The given value can be a relative user reference. We need to parse it and match only the user alias.
+      return XWiki.Model.resolve(value, XWiki.EntityType.DOCUMENT).name == suggestion.id;
+    },
+
+    // @Override
     displayItem: function(suggestion) {
       var targetInfo = new Element('span').update(suggestion.info).insert(this.createDeleteTool());
       var targetClass = 'target-item ' + (suggestion.value.indexOf('@') &gt; 0 ? 'target-email' : 'target-user');

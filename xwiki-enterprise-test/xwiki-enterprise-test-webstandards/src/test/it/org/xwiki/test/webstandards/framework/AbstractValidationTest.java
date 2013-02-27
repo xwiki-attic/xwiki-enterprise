@@ -119,7 +119,7 @@ public class AbstractValidationTest extends TestCase
         } catch (Exception e) {
             method.releaseConnection();
 
-            throw e;
+            throw new Exception(String.format("Failed to get response for URL [%s]", method.getURI()), e);
         }
     }
 

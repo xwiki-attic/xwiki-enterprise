@@ -325,6 +325,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // Check the extension details.
         ExtensionDescriptionPane descriptionPane = extensionPane.openDescriptionSection();
         Assert.assertEquals(extension.getLicenses().iterator().next().getName(), descriptionPane.getLicense());
+        Assert.assertEquals(extension.getId().getId(), descriptionPane.getId());
+        Assert.assertEquals(extension.getType(), descriptionPane.getType());
         WebElement webSiteLink = descriptionPane.getWebSite();
         Assert.assertEquals(extension.getWebSite().substring("http://".length()), webSiteLink.getText());
         Assert.assertEquals(extension.getWebSite() + '/', webSiteLink.getAttribute("href"));
@@ -551,7 +553,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 2);
         Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [bob-xar-extension 2.5-milestone-2] from namespace [wiki:xwiki]", log
+        Assert.assertEquals("Resolving extension [bob-xar-extension 2.5-milestone-2] from namespace [xwiki]", log
             .get(2).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Finished job of type [uninstall] with identifier "
@@ -577,7 +579,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         log = extensionPane.confirm().openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 2);
         Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [wiki:xwiki]", log.get(2)
+        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [xwiki]", log.get(2)
             .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Finished job of type [uninstall] with identifier "
@@ -665,7 +667,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 2);
         Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [alice-xar-extension 2.1.4] on namespace [wiki:xwiki]", log.get(2)
+        Assert.assertEquals("Resolving extension [alice-xar-extension 2.1.4] on namespace [xwiki]", log.get(2)
             .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Finished job of type [install] with identifier "
@@ -824,7 +826,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 2);
         Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] on namespace [wiki:xwiki]", log.get(2)
+        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] on namespace [xwiki]", log.get(2)
             .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Finished job of type [install] with identifier "

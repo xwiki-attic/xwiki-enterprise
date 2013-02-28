@@ -221,7 +221,8 @@ public class AllDocsTest extends AbstractXWikiTestCase
             + "== 'WebHome'");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('attachment') "
             + "== 'XWikiLogo.png'");
-        waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('anchor') == ''");
+        // The anchor is undefined in this case.
+        waitForCondition("!selenium.browserbot.getCurrentWindow().Treeview.getSelectedResourceProperty('anchor')");
         waitForCondition("selenium.browserbot.getCurrentWindow().Treeview.getValue() == 'Sandbox.WebHome@XWikiLogo.png'");
     }
 

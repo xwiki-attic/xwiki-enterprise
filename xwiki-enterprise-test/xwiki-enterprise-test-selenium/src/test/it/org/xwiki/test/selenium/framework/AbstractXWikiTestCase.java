@@ -111,7 +111,8 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         if (!selenium.isElementPresent("//body")) {
             open(getName(), "PageThatDoesNotExist");
         }
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//body")), 0, 0).perform();
+        // (0, 0) is sometimes interpreted as (0, -1) which is outside of the window so we're using (1, 1) for now.
+        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//body")), 1, 1).perform();
     }
 
     /**

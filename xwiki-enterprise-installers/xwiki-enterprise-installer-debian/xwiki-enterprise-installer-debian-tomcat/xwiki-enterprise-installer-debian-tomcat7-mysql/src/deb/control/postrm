@@ -3,7 +3,7 @@
 set -e
 #set -x
 
-rm -f /etc/tomcat5/Catalina/localhost/xwiki.xml
+rm -f /etc/tomcat7/Catalina/localhost/xwiki.xml
 
 if [ "$1" = "purge" ] && [ -f /usr/share/debconf/confmodule ]; then
 	. /usr/share/debconf/confmodule
@@ -14,9 +14,9 @@ fi
 # Restart Tomcat
 #########################
 
-invoke-rc.d --quiet tomcat5 restart || {
+invoke-rc.d --quiet tomcat7 restart || {
     RESULT=$?
-    # Ignore if tomcat5 init script does not exist (yet)
+    # Ignore if tomcat7 init script does not exist (yet)
     if [ $RESULT != 100 ]; then
 	exit $RESULT
     fi

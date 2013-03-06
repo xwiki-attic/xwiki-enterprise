@@ -78,7 +78,7 @@
   #if(!$xwiki.exists($targetDocName) &amp;&amp; $xwiki.hasAccessLevel('edit', $context.user, $targetDocName))
     ## Compute the default edit mode to ensure backward compatibility with documents still using the deprecated inline action.
     #set($editAction = $xwiki.getDocument($request.template).getDefaultEditMode())
-    $response.sendRedirect($xwiki.getURL($targetDocName, $editAction, "template=${request.template}&amp;parent=${request.parent}"))
+    $response.sendRedirect($xwiki.getURL($targetDocName, $editAction, "template=$!escapetool.url($request.template)&amp;parent=$!escapetool.url($request.parent)&amp;title=$!escapetool.url($request.docName)"))
     ## Stop processing, since we already sent a redirect.
     #stop
   #end

@@ -42,9 +42,7 @@ public abstract class AbstractClassEditorTest extends AbstractAdminAuthenticated
     {
         super.setUp();
 
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
-        getUtil().deletePage(getTestClassName(), getTestMethodName() + "Sheet");
-        getUtil().deletePage(getTestClassName(), getTestMethodName() + "Template");
+        getUtil().deleteSpace(getTestClassName());
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit",
             "editor=inline&template=AppWithinMinutes.ClassTemplate&title=" + getTestMethodName() + " Class");
         editor = new ApplicationClassEditPage();

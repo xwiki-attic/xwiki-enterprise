@@ -4,15 +4,6 @@ set -e
 #set -x
 
 #########################
-# Links
-# TODO: get rid of them when jdeb add support for symbolic links
-#       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
-#########################
-
-# Add MySQL connector
-ln -sf /usr/share/java/mysql.jar /usr/lib/xwiki/WEB-INF/lib/
-
-#########################
 # Configuration
 #########################
 

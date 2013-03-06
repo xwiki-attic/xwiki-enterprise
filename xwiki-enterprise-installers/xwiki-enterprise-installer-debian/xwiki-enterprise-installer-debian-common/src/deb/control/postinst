@@ -3,28 +3,7 @@
 set -e
 #set -x
 
-#########################
-# Links
-# TODO: get rid of them when jdeb add support for symbolic links
-#       see https://github.com/tcurdt/jdeb/blob/master/TODO.md
-#########################
-
 rm -rf /etc/xwiki/lib
-
-ln -sf /etc/xwiki/cache /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/fonts /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/classes /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/observation /usr/lib/xwiki/WEB-INF/
-
-ln -sf /etc/xwiki/portlet.xml /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/struts-config.xml /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/sun-web.xml /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/web.xml /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/xwiki.properties /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/version.properties /usr/lib/xwiki/WEB-INF/
-ln -sf /etc/xwiki/xwiki.cfg /usr/lib/xwiki/WEB-INF/
-
-ln -sf /etc/xwiki/hibernate.cfg.xml /usr/lib/xwiki/WEB-INF/
 
 #########################
 # var

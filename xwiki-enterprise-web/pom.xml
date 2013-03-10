@@ -528,7 +528,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-messagestream</artifactId>
+      <artifactId>xwiki-platform-messagestream-api</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

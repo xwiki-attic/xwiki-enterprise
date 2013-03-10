@@ -22,7 +22,6 @@ package org.xwiki.test.ui;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xwiki.administration.test.po.ProfileUserProfilePage;
 import org.xwiki.tag.test.po.TaggablePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.InlinePage;
@@ -41,10 +40,10 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     @Test
     public void testEditButtonTriggersInlineEditing()
     {
-        ProfileUserProfilePage pupp = ProfileUserProfilePage.gotoPage("Admin");
-        // Clicking edit should perform inline editing.
-        pupp.edit();
-        pupp.waitForProfileEditionToLoad();
+        // Go to the Admin user profile page and edit it since editing a user profile page is supposed to go in inline
+        // editing by default
+        ViewPage vp = getUtil().gotoPage("XWiki", "Admin");
+        vp.edit();
         Assert.assertTrue(new ViewPage().isInlinePage());
     }
 

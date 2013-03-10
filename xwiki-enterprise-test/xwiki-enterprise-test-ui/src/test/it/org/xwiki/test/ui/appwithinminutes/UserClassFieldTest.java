@@ -28,14 +28,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.xwiki.administration.test.po.ProfileUserProfilePage;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.UserClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.UserPicker;
 import org.xwiki.appwithinminutes.test.po.UserPicker.UserElement;
 import org.xwiki.test.po.xe.ClassSheetPage;
-import org.xwiki.test.ui.po.editor.ChangeAvatarPage;
-import org.xwiki.test.ui.po.editor.ProfileEditPage;
 
 /**
  * Special class editor tests that address only the User class field type.
@@ -48,29 +45,15 @@ public class UserClassFieldTest extends AbstractClassEditorTest
     @BeforeClass
     public static void setUpClass() throws Exception
     {
-        // Create a few users.
-        createUser("Thomas", "Mortagne", "tmortagne");
-        createUser("Eduard", "Moraru", "Enygma2002");
-    }
-
-    /**
-     * Creates the specified user if it doesn't exist.
-     * 
-     * @param firstName the first name
-     * @param lastName the last name
-     * @param alias the user alias
-     */
-    private static void createUser(String firstName, String lastName, String alias)
-    {
-        ProfileUserProfilePage profileViewPage = new ProfileUserProfilePage(alias);
-        getUtil().registerLoginAndGotoPage(alias, alias, profileViewPage.getURL());
-        ProfileEditPage profileEditPage = profileViewPage.editProfile();
-        profileEditPage.setUserFirstName(firstName);
-        profileEditPage.setUserLastName(lastName);
-        profileEditPage.clickSaveAndView();
-        ChangeAvatarPage changeAvatarImage = profileViewPage.changeAvatarImage();
-        changeAvatarImage.setAvatarImage("appwithinminutes/" + alias + ".png");
-        changeAvatarImage.submit();
+        // Create 2 users.
+        getUtil().createUser("tmortagne", "tmortagne", "first_name", "Thomas", "last_name", "Mortagne",
+            "avatar", "tmortagne.png");
+        getUtil().attachFile("XWiki", "tmortagne", "tmortagne.png",
+            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/tmortagne.png"), false);
+        getUtil().createUser("Enygma2002", "Enygma2002", "first_name", "Eduard", "last_name", "Moraru",
+            "avatar", "Enygma2002.png");
+        getUtil().attachFile("XWiki", "Enygma2002", "Enygma2002.png",
+            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/Enygma2002.png"), false);
     }
 
     @Test

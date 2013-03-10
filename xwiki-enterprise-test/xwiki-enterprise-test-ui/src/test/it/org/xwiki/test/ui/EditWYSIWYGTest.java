@@ -24,15 +24,14 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
-import org.xwiki.administration.test.po.ProfileUserProfilePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.ui.po.editor.ProfileEditPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.wysiwyg.EditorElement;
 import org.xwiki.test.ui.po.editor.wysiwyg.RichTextAreaElement;
 import org.xwiki.test.ui.po.editor.wysiwyg.TableConfigPane;
 import org.xwiki.test.ui.po.editor.wysiwyg.UploadImagePane;
+import org.xwiki.user.test.po.ProfileUserProfilePage;
 
 /**
  * Test WYSIWYG content editing.
@@ -75,13 +74,14 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         this.editPage = new WYSIWYGEditPage();
         this.editPage.getContentEditor().waitToLoad();
         UploadImagePane uploadImagePane = this.editPage.insertAttachedImage().selectFromCurrentPage().uploadImage();
-        uploadImagePane.setImageToUpload(this.getClass().getResource("/administration/avatar.png").getPath());
+        uploadImagePane.setImageToUpload(this.getClass().getResource("/image.gif").getPath());
         // Fails if the image configuration step doesn't load in a decent amount of time.
         uploadImagePane.configureImage();
     }
 
     /**
-     * @see XWIKI:7028: Strange behaviour when pressing back and forward on a page that has 2 WYSIWYG editors displayed.
+     * @see "XWIKI:7028: Strange behaviour when pressing back and forward on a page that has 2 WYSIWYG editors
+     * displayed."
      */
     @Test
     @IgnoreBrowsers({
@@ -90,15 +90,27 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     })
     public void testBackForwardCache()
     {
-        ProfileEditPage profileEditPage = ProfileUserProfilePage.gotoPage("Admin").editProfile();
-        String about = profileEditPage.getUserAbout();
-        String address = profileEditPage.getUserAddress();
+        ProfileUserProfilePage.gotoPage("Admin").editProfile();
+        waitForProfileEditionToLoad();
+        EditorElement userAbout = new EditorElement("XWiki.XWikiUsers_0_comment");
+        EditorElement userAddress = new EditorElement("XWiki.XWikiUsers_0_address");
+        String about = userAbout.getRichTextArea().getText();
+        String address = userAddress.getRichTextArea().getText();
         getDriver().navigate().back();
         getDriver().navigate().forward();
-        new ProfileUserProfilePage("Admin").waitForProfileEditionToLoad();
-        profileEditPage = new ProfileEditPage();
-        Assert.assertEquals(about, profileEditPage.getUserAbout());
-        Assert.assertEquals(address, profileEditPage.getUserAddress());
+        waitForProfileEditionToLoad();
+        Assert.assertEquals(about, userAbout.getRichTextArea().getText());
+        Assert.assertEquals(address, userAddress.getRichTextArea().getText());
+    }
+
+    /**
+     * The ProfileUserProfilePage page is made to work when when there's no WYSIWYG editor. Since here we use the
+     * WYSIWYG editor we need to wait for the 2 editors to be loaded before continuing.
+     */
+    private void waitForProfileEditionToLoad()
+    {
+        new EditorElement("XWiki.XWikiUsers_0_comment").waitToLoad();
+        new EditorElement("XWiki.XWikiUsers_0_address").waitToLoad();
     }
 
     /**
@@ -209,7 +221,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * @see XWIKI-4230: "Tab" doesn't work in the Table Dialog in FF 3.5.2
+     * @see "XWIKI-4230: 'Tab' doesn't work in the Table Dialog in FF 3.5.2"
      */
     @Test
     public void testTabInTableConfigDialog()

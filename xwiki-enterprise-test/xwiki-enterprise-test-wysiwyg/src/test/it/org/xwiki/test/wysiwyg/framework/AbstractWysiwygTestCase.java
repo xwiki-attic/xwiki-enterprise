@@ -22,6 +22,7 @@ package org.xwiki.test.wysiwyg.framework;
 import java.util.Arrays;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -925,7 +926,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected String getSourceText()
     {
-        return getDriver().findElement(By.className("xPlainTextEditor")).getAttribute("value");
+        return getSourceTextArea().getAttribute("value");
     }
 
     /**
@@ -935,8 +936,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void setSourceText(String sourceText)
     {
-        getSourceTextArea().clear();
-        getSourceTextArea().sendKeys(sourceText);
+        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].value = arguments[1]", getSourceTextArea(),
+            sourceText);
     }
 
     /**

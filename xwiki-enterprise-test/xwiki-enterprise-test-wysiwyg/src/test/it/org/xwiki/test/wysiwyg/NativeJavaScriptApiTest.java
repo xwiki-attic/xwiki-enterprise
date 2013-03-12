@@ -198,7 +198,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("{{html}}\n");
         content.append("#wysiwyg_import(false)\n");
         content.append("<div id=\"log\"></div>\n");
-        content.append("<textarea id=\"editor\"></textarea>\n");
+        content.append("<textarea id=\"source\"></textarea>\n");
         content.append("<script type=\"text/javascript\">\n");
         content.append("['created', 'loaded', 'showingSource', 'showSource',"
             + " 'showingWysiwyg', 'showWysiwyg'].each(function(actionName) {\n");
@@ -211,7 +211,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("document.observe('xwiki:dom:loaded', function() {\n");
         content.append("  Wysiwyg.onModuleLoad(function() {\n");
         content.append("    editor = new WysiwygEditor({\n");
-        content.append("      hookId: 'editor',\n");
+        content.append("      hookId: 'source',\n");
         content.append("      syntax: 'xwiki/2.0',\n");
         String inputURL = getUrl(this.getClass().getSimpleName(), "_" + getName(), "edit", "xpage=wysiwyginput");
         content.append("      inputURL: '" + inputURL + "',\n");

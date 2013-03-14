@@ -154,7 +154,7 @@ public class ClassSheetPage extends ViewPage
     {
         // Pretty Name (Name: Type)
         String xpath = String.format("//li[. = '%s (%s: %s)']", prettyName, name, type);
-        return getDriver().findElements(By.xpath(xpath)).size() == 1;
+        return getUtil().findElementsWithoutWaiting(getDriver(), By.xpath(xpath)).size() == 1;
     }
 
     /**
@@ -254,6 +254,13 @@ public class ClassSheetPage extends ViewPage
     public boolean hasDocument(String documentName)
     {
         String xpath = String.format("//li//a[. = '%s']", documentName);
-        return getDriver().findElements(By.xpath(xpath)).size() == 1;
+        return getUtil().findElementsWithoutWaiting(getDriver(), By.xpath(xpath)).size() == 1;
+    }
+
+    @Override
+    public ClassSheetPage waitUntilPageIsLoaded()
+    {
+        waitUntilElementIsVisible(By.id("HTheclasstemplate"));
+        return this;
     }
 }

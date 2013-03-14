@@ -322,7 +322,8 @@ public class UserClassFieldTest extends AbstractClassEditorTest
 
         // Change the selected user.
         userPicker.sendKeys("eduard").waitForSuggestions().sendKeys(Keys.ENTER).waitForSuggestionsToFadeOut();
-        entryEditPage.clickSaveAndView();
+        // We wait for the page to load because Selenium doesn't do it all the time when Save & View is clicked.
+        entryEditPage.clickSaveAndView().waitUntilPageIsLoaded();
 
         // Assert the view mode.
         List<WebElement> users = getDriver().findElements(By.className("user"));

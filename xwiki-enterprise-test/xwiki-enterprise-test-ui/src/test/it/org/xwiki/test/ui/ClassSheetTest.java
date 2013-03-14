@@ -70,6 +70,11 @@ public class ClassSheetTest extends AbstractAdminAuthenticatedTest
         classEditor.addProperty("age", "Number").setPrettyName("Your current age");
         classEditor.clickSaveAndView();
 
+        // We have to wait for the page to load because Selenium doesn't do it all the time when we click on Save & View
+        // (even if the Save & View button triggers a plain form submit; there must be something with the JavaScript
+        // code that is executed on submit that interferes with Selenium).
+        classSheetPage.waitUntilPageIsLoaded();
+
         // Assert that the properties are listed.
         Assert.assertTrue(classSheetPage.hasProperty("color", "Your favorite color", "String"));
         Assert.assertTrue(classSheetPage.hasProperty("age", "Your current age", "Number"));

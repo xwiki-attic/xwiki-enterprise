@@ -19,14 +19,19 @@
  */
 package org.xwiki.test.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
+import org.xwiki.administration.test.po.AdministrationPage;
+import org.xwiki.administration.test.po.LocalizationAdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
-
-import junit.framework.Assert;
 
 /**
  * Test the section editing feature.
@@ -180,5 +185,50 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
         WikiEditPage wep = vp.editWiki();
         Assert.assertEquals("= Section1 = Content1 = Section2 = Content2 == Section3 == Content3 "
             + "{{include document=\"Test.SectionEditingIncluded\"/}} = Section7 = Content7", wep.getContent());
+    }
+
+    /**
+     * Verify that the document title is not overwritten when saving a section.
+     * 
+     * @see <a href="http://jira.xwiki.org/browse/XWIKI-8938">XWIKI-8938: Translated title is overwritten by the default
+     *      translation title when editing a document section</a>
+     */
+    @Test
+    public void testSectionSaveDoesNotOverwriteTheTitle()
+    {
+        // Create the English version.
+        setLanguageSettings(false, "en", "en");
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().createPage(getTestClassName(), getTestMethodName(), "Original content", "Original title");
+
+        try {
+            // Create the French version.
+            setLanguageSettings(true, "en", "en,fr");
+            Map<String, String> parameters = new HashMap<String, String>();
+            parameters.put("language", "fr");
+            parameters.put("title", "Translated title");
+            parameters.put("content", "= Chapter 1 =\n\n Once upon a time ...");
+            getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", parameters);
+
+            // Switch back to monolingual with French as default language.
+            setLanguageSettings(false, "fr", "fr");
+
+            // Edit and save a document section and check if the document title was overwritten.
+            getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", "editor=wiki&section=1");
+            Assert.assertEquals("Translated title", new WikiEditPage().clickSaveAndView().getDocumentTitle());
+        } finally {
+            // Restore language settings.
+            setLanguageSettings(false, "en", "en");
+        }
+    }
+
+    private void setLanguageSettings(boolean isMultiLingual, String defaultLanguage, String supportedLanguages)
+    {
+        AdministrationPage adminPage = AdministrationPage.gotoPage();
+        LocalizationAdministrationSectionPage localizationSection = adminPage.clickLocalizationSection();
+        localizationSection.setMultiLingual(isMultiLingual);
+        localizationSection.setDefaultLanguage(defaultLanguage);
+        localizationSection.setSupportedLanguages(supportedLanguages);
+        localizationSection.clickSave();
     }
 }

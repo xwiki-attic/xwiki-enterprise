@@ -78,7 +78,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
         // Change default language to "fr"
         AdministrationPage adminPage = AdministrationPage.gotoPage();
         LocalizationAdministrationSectionPage sectionPage = adminPage.clickLocalizationSection();
-        sectionPage.setDefaultLanguages("fr");
+        sectionPage.setDefaultLanguage("fr");
         sectionPage.clickSave();
 
         // Now language must be "fr"
@@ -157,12 +157,12 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
             "se déconnecter");
     }
 
-    private void setLanguageSettings(boolean isMultiLingual, String defaultLanguages)
+    private void setLanguageSettings(boolean isMultiLingual, String defaultLanguage)
     {
         AdministrationPage adminPage = AdministrationPage.gotoPage();
         LocalizationAdministrationSectionPage sectionPage = adminPage.clickLocalizationSection();
         sectionPage.setMultiLingual(isMultiLingual);
-        sectionPage.setDefaultLanguages(defaultLanguages);
+        sectionPage.setDefaultLanguage(defaultLanguage);
         sectionPage.clickSave();
     }
 }

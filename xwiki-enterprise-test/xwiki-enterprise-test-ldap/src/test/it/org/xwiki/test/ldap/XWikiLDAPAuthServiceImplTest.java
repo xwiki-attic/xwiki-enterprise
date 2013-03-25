@@ -38,16 +38,16 @@ import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
 import org.xwiki.model.reference.EntityReferenceSerializer;
+import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
+import org.xwiki.test.ldap.framework.LDAPTestSetup;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.doc.XWikiDocument;
-
-import org.xwiki.rendering.syntax.Syntax;
-import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
-import org.xwiki.test.ldap.framework.LDAPTestSetup;
 import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.objects.classes.BaseClass;
+import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
 import com.xpn.xwiki.store.XWikiStoreInterface;
 import com.xpn.xwiki.user.api.XWikiGroupService;
 import com.xpn.xwiki.user.impl.LDAP.LDAPProfileXClass;
@@ -125,7 +125,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         return getDocument(document);
     }
-    
+
     private XWikiDocument getDocument(DocumentReference documentReference) throws XWikiException
     {
         XWikiDocument document = new XWikiDocument(documentReference);
@@ -162,9 +162,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     {
         super.setUp();
 
-        this.localEntityReferenceSerializer = Utils.getComponent(
-                EntityReferenceSerializer.TYPE_STRING, "local");
-        
+        this.localEntityReferenceSerializer = Utils.getComponent(EntityReferenceSerializer.TYPE_STRING, "local");
+
         this.userClass = new BaseClass();
         this.groupClass = new BaseClass();
 
@@ -208,12 +207,12 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
             public Object invoke(Invocation invocation) throws Throwable
             {
                 Object document = invocation.parameterValues.get(0);
-                
+
                 if (document instanceof String) {
                     return getDocument((String) document);
                 } else if (document instanceof EntityReference) {
-                    DocumentReferenceResolver<EntityReference> resolver = Utils.getComponent(
-                        DocumentReferenceResolver.TYPE_REFERENCE, "current");
+                    DocumentReferenceResolver<EntityReference> resolver =
+                        Utils.getComponent(DocumentReferenceResolver.TYPE_REFERENCE, "current");
                     return getDocument(resolver.resolve((EntityReference) document));
                 } else {
                     return getDocument((DocumentReference) document);
@@ -240,7 +239,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         {
             public Object invoke(Invocation invocation) throws Throwable
             {
-                return getDocument(localEntityReferenceSerializer.serialize((EntityReference) invocation.parameterValues.get(0))).getXClass();
+                return getDocument(
+                    localEntityReferenceSerializer.serialize((EntityReference) invocation.parameterValues.get(0)))
+                    .getXClass();
             }
         });
         mockXWiki.stubs().method("search").will(returnValue(Collections.EMPTY_LIST));
@@ -295,6 +296,15 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
             "last_name=sn,first_name=givenName,fullname=cn,email=mail");
 
         this.ldapAuth = new XWikiLDAPAuthServiceImpl();
+    }
+
+    @Override
+    public void tearDown() throws Exception
+    {
+        // Make sure to reset group cache so that one test data is not reused in another test
+        XWikiLDAPUtils.resetGroupCache();
+
+        super.tearDown();
     }
 
     private void assertAuthenticate(String login, String password, String storedDn) throws XWikiException
@@ -369,8 +379,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
 
-        this.mockStore.stubs().method("searchDocuments").will(
-            returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
+        this.mockStore.stubs().method("searchDocuments")
+            .will(returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
@@ -385,8 +395,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
 
-        this.mockStore.stubs().method("searchDocuments").will(
-            returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
+        this.mockStore.stubs().method("searchDocuments")
+            .will(returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN.toUpperCase(), LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             "XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_DN,
@@ -485,14 +495,14 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.properties.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1="
             + LDAPTestSetup.HMSLYDIA_DN);
 
-        this.mockGroupService.stubs().method("getAllMatchedGroups").will(
-            returnValue(Collections.singletonList("XWiki.Group1")));
+        this.mockGroupService.stubs().method("getAllMatchedGroups")
+            .will(returnValue(Collections.singletonList("XWiki.Group1")));
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
 
-        this.mockGroupService.stubs().method("getAllGroupsNamesForMember").will(
-            returnValue(Collections.singletonList("XWiki.Group1")));
+        this.mockGroupService.stubs().method("getAllGroupsNamesForMember")
+            .will(returnValue(Collections.singletonList("XWiki.Group1")));
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
@@ -573,7 +583,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
     }
-    
+
     public void testAuthenticateWhenLDAPDNChanged() throws XWikiException
     {
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
@@ -582,9 +592,9 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         XWikiDocument userProfile = getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN);
         BaseObject ldapProfileObj = userProfile.getObject(LDAPProfileXClass.LDAP_XCLASS);
         ldapProfileObj.setStringValue(LDAPProfileXClass.LDAP_XFIELD_DN, "oldDN");
-        
-        this.mockStore.stubs().method("searchDocuments").will(
-            returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
+
+        this.mockStore.stubs().method("searchDocuments")
+            .will(returnValue(Collections.singletonList(getDocument("XWiki." + LDAPTestSetup.HORATIOHORNBLOWER_CN))));
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);
@@ -594,8 +604,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     {
         saveDocument(getDocument("XWiki.Group1"));
 
-        this.properties.setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1="
-            + LDAPTestSetup.USERS_OU);
+        this.properties
+            .setProperty("xwiki.authentication.ldap.group_mapping", "XWiki.Group1=" + LDAPTestSetup.USERS_OU);
 
         assertAuthenticate(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HORATIOHORNBLOWER_PWD,
             LDAPTestSetup.HORATIOHORNBLOWER_DN);

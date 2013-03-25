@@ -33,12 +33,11 @@ import org.xwiki.cache.CacheException;
 import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
 import org.xwiki.cache.internal.DefaultCache;
-
-import com.xpn.xwiki.XWiki;
-import com.xpn.xwiki.XWikiContext;
-import com.xpn.xwiki.XWikiException;
 import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
 import org.xwiki.test.ldap.framework.LDAPTestSetup;
+
+import com.xpn.xwiki.XWiki;
+import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
@@ -120,6 +119,9 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
     {
         this.connection.close();
 
+        // Make sure to reset group cache so that one test data is not reused in another test
+        XWikiLDAPUtils.resetGroupCache();
+
         super.tearDown();
     }
 
@@ -189,25 +191,42 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
     }
 
     /**
-     * Test {@link XWikiLDAPUtils#isUidInGroup(String, String, XWikiContext)}.
+     * Test {@link XWikiLDAPUtils#isUidInGroup(String, String, XWikiContext)} by passing CN value.
      * 
      * @throws XWikiException error when getting group members from cache.
      */
-    public void testIsUserInGroup() throws XWikiException
+    public void testIsUserInGroupByCN() throws XWikiException
     {
         String userDN =
             this.ldapUtils.isUidInGroup(LDAPTestSetup.HORATIOHORNBLOWER_CN, LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + LDAPTestSetup.HORATIOHORNBLOWER_CN + " not found", userDN);
         assertEquals(LDAPTestSetup.HORATIOHORNBLOWER_DN.toLowerCase(), userDN);
+    }
 
+    /**
+     * Test {@link XWikiLDAPUtils#isUidInGroup(String, String, XWikiContext)} by passing UID value.
+     * 
+     * @throws XWikiException error when getting group members from cache.
+     */
+    public void testIsUserInGroupByUID() throws XWikiException
+    {
         this.ldapUtils.setUidAttributeName(LDAPTestSetup.LDAP_USERUID_FIELD_UID);
 
-        userDN = this.ldapUtils.isUidInGroup(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.HMSLYDIA_DN, getContext());
+        String userDN =
+            this.ldapUtils.isUidInGroup(LDAPTestSetup.WILLIAMBUSH_UID, LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNotNull("User " + LDAPTestSetup.WILLIAMBUSH_UID + " not found", userDN);
         assertEquals(LDAPTestSetup.WILLIAMBUSH_DN.toLowerCase(), userDN);
+    }
 
+    /**
+     * Test {@link XWikiLDAPUtils#isUidInGroup(String, String, XWikiContext)} by passing UID value.
+     * 
+     * @throws XWikiException error when getting group members from cache.
+     */
+    public void testIsUserInGroupWithWrongId() throws XWikiException
+    {
         String wrongUserDN = this.ldapUtils.isUidInGroup("wronguseruid", LDAPTestSetup.HMSLYDIA_DN, getContext());
 
         assertNull("Should return null if user is not in the group", wrongUserDN);
@@ -234,10 +253,10 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
      */
     public void testIsMemberOfGroups() throws XWikiException
     {
-        assertTrue(this.ldapUtils.isMemberOfGroups(LDAPTestSetup.HORATIOHORNBLOWER_DN, Arrays.asList(
-            LDAPTestSetup.HMSLYDIA_DN, LDAPTestSetup.EXCLUSIONGROUP_DN), getContext()));
+        assertTrue(this.ldapUtils.isMemberOfGroups(LDAPTestSetup.HORATIOHORNBLOWER_DN,
+            Arrays.asList(LDAPTestSetup.HMSLYDIA_DN, LDAPTestSetup.EXCLUSIONGROUP_DN), getContext()));
 
-        assertTrue(this.ldapUtils.isMemberOfGroups(LDAPTestSetup.HORATIOHORNBLOWER_DN, Arrays.asList(
-            LDAPTestSetup.EXCLUSIONGROUP_DN, LDAPTestSetup.HMSLYDIA_DN), getContext()));
+        assertTrue(this.ldapUtils.isMemberOfGroups(LDAPTestSetup.HORATIOHORNBLOWER_DN,
+            Arrays.asList(LDAPTestSetup.EXCLUSIONGROUP_DN, LDAPTestSetup.HMSLYDIA_DN), getContext()));
     }
 }

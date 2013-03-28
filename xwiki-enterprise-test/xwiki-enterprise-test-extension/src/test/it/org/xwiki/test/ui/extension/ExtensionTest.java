@@ -23,9 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang.math.RandomUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -557,7 +556,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             .get(2).getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Finished job of type [uninstall] with identifier "
-            + "[extension/action/bob-xar-extension]", log.get(log.size() - 1).getMessage());
+            + "[extension/action/bob-xar-extension/wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Check if the uninstalled pages have been deleted.
         Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
@@ -583,7 +582,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Finished job of type [uninstall] with identifier "
-            + "[extension/action/alice-xar-extension]", log.get(log.size() - 1).getMessage());
+            + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Check if the uninstalled pages have been deleted.
         Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));

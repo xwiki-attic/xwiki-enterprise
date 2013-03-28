@@ -57,8 +57,8 @@ import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.Wikis;
 import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
-import org.xwiki.test.jmock.AbstractComponentTestCase;
 import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.test.jmock.AbstractComponentTestCase;
 
 public abstract class AbstractHttpTest extends AbstractComponentTestCase
 {
@@ -127,7 +127,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         return "http://localhost:" + this.port + TestConstants.RELATIVE_REST_API_ENTRYPOINT;
     }
 
-    protected String getFullUri(Class<?> resourceClass)
+    protected String getFullUri(Class< ? > resourceClass)
     {
         return String.format("%s%s", getBaseURL(), UriBuilder.fromResource(resourceClass).build());
     }
@@ -169,7 +169,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         marshaller.marshal(object, writer);
 
         RequestEntity entity =
-                new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         postMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(postMethod);
@@ -190,7 +190,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         marshaller.marshal(object, writer);
 
         RequestEntity entity =
-                new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         postMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(postMethod);
@@ -216,7 +216,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
     }
 
     protected PostMethod executePost(String uri, String string, String mediaType, String userName, String password)
-            throws Exception
+        throws Exception
     {
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
@@ -234,7 +234,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
     }
 
     protected PostMethod executePostForm(String uri, NameValuePair[] nameValuePairs, String userName, String password)
-            throws Exception
+        throws Exception
     {
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
@@ -262,7 +262,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         marshaller.marshal(object, writer);
 
         RequestEntity entity =
-                new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         putMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(putMethod);
@@ -283,7 +283,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         marshaller.marshal(object, writer);
 
         RequestEntity entity =
-                new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
+            new StringRequestEntity(writer.toString(), MediaType.APPLICATION_XML.toString(), "UTF-8");
         putMethod.setRequestEntity(entity);
 
         httpClient.executeMethod(putMethod);
@@ -305,7 +305,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
     }
 
     protected PutMethod executePut(String uri, String string, String mediaType, String userName, String password)
-            throws Exception
+        throws Exception
     {
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(userName, password));
@@ -364,7 +364,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         }
     }
 
-    protected UriBuilder getUriBuilder(Class<?> resource)
+    protected UriBuilder getUriBuilder(Class< ? > resource)
     {
         return UriBuilder.fromUri(getBaseURL()).path(resource);
     }
@@ -393,7 +393,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
 
         int code = putMethod.getStatusCode();
         Assert.assertTrue(String.format("Failed to set page content, %s", getHttpMethodInfo(putMethod)),
-                code == HttpStatus.SC_ACCEPTED || code == HttpStatus.SC_CREATED);
+            code == HttpStatus.SC_ACCEPTED || code == HttpStatus.SC_CREATED);
 
         return code;
     }
@@ -401,7 +401,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
     protected String getHttpMethodInfo(HttpMethod method) throws Exception
     {
         return String.format("\nName: %s\nURI: %s\nStatus code: %d\nStatus text: %s", method.getName(),
-                method.getURI(), method.getStatusCode(), method.getStatusText());
+            method.getURI(), method.getStatusCode(), method.getStatusText());
     }
 
     protected String getAttachmentsInfo(Attachments attachments)
@@ -424,5 +424,34 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         }
 
         return sb.toString();
+    }
+
+    protected void createPage(String spaceName, String pageName, String content) throws Exception
+    {
+        String uri = getUriBuilder(PageResource.class).build(getWiki(), spaceName, pageName).toString();
+
+        Page page = this.objectFactory.createPage();
+        page.setContent(content);
+
+        PutMethod putMethod = executePutXml(uri, page, "Admin", "admin");
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+    }
+    
+    protected boolean createPageIfDoesntExist(String spaceName, String pageName, String content) throws Exception
+    {
+        String uri = getUriBuilder(PageResource.class).build(getWiki(), spaceName, pageName).toString();
+
+        GetMethod getMethod = executeGet(uri);
+
+        if (getMethod.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+            createPage(spaceName, pageName, content);
+
+            getMethod = executeGet(uri);
+            Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -220,28 +220,6 @@ public class PageResourceTest extends AbstractHttpTest
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?><invalidPage><content/></invalidPage>", MediaType.TEXT_XML);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_BAD_REQUEST, putMethod.getStatusCode());
     }
-
-    private boolean createPageIfDoesntExist(String spaceName, String pageName, String content) throws Exception
-    {
-        String uri = getUriBuilder(PageResource.class).build(getWiki(), spaceName, pageName).toString();
-
-        GetMethod getMethod = executeGet(uri);
-
-        if (getMethod.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
-            Page page = objectFactory.createPage();
-            page.setContent(content);
-
-            PutMethod putMethod = executePutXml(uri, page, "Admin", "admin");
-            Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
-
-            getMethod = executeGet(uri);
-            Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
-
-            return true;
-        }
-
-        return false;
-    }
     
     @Test
     public void testPUTGETTranslation() throws Exception

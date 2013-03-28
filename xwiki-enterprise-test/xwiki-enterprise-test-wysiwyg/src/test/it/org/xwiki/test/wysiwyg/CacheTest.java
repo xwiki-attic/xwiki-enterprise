@@ -44,7 +44,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Type text and leave the editing by clicking on a link.
         typeText("2");
-        getSelenium().click("//a[@title = 'Home']");
+        getSelenium().click("//a[. = '" + getName() + "']");
         waitPage();
         getSelenium().goBack();
         waitPage();
@@ -73,7 +73,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Type text and leave the editing by clicking on a link.
         getSourceTextArea().sendKeys("b");
-        getSelenium().click("//a[@title = 'Home']");
+        getSelenium().click("//a[. = '" + getName() + "']");
         waitPage();
         getSelenium().goBack();
         waitPage();
@@ -105,7 +105,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Switch to WYSIWYG editor, leave editing and then come back.
         switchToWysiwyg();
-        getSelenium().click("//a[@title = 'Home']");
+        getSelenium().click("//a[. = '" + getName() + "']");
         waitPage();
         getSelenium().goBack();
         waitPage();

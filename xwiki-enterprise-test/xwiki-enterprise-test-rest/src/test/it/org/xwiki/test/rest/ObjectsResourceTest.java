@@ -292,7 +292,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         final String TAG_VALUE = UUID.randomUUID().toString();
 
         /* Make sure that an Object with the TagClass exists. */
-        createObjectIfDoesNotExists("Main", "WebHome", "XWiki.TagClass");
+        createObjectIfDoesNotExists("XWiki.TagClass", "Main", "WebHome");
 
         GetMethod getMethod =
             executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());
@@ -518,7 +518,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
         final String TAG_VALUE = UUID.randomUUID().toString();
 
         /* Make sure that an Object with the TagClass exists. */
-        createObjectIfDoesNotExists("Main", "WebHome", "XWiki.TagClass");
+        createObjectIfDoesNotExists("XWiki.TagClass", "Main", "WebHome");
 
         GetMethod getMethod =
             executeGet(getUriBuilder(PageResource.class).build(getWiki(), "Main", "WebHome").toString());

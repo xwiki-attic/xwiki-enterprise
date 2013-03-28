@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.PageSummary;
 import org.codehaus.swizzle.confluence.SpaceSummary;
 import org.xwiki.xmlrpc.model.Utils;
@@ -43,31 +44,38 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
     {
         super.setUp();
 
+        createPage(TestConstants.TEST_PAGE, "Test page",
+            String.format("Modified by org.xwiki.xmlrpc @ %s (This is the first version)\n", new Date()));
+        createPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS, "Test page",
+            String.format("Modified by org.xwiki.xmlrpc @ %s (This is the first version)\n", new Date()));
+        // Make sure the test page has at least one translation.
+        addTranslation("ro", "Titlul paginii", "Continutul paginii");
+    }
+
+    private void createPage(String id, String title, String content) throws Exception
+    {
         try {
-            this.rpc.getPage(TestConstants.TEST_PAGE);
-        } catch (Exception e) {
-            XWikiPage page = new XWikiPage();
-            page.setId(TestConstants.TEST_PAGE);
-            page.setTitle("Test page");
-            String content =
-                String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(),
-                    page.getVersion() + 1);
-            page.setContent(content);
-            this.rpc.storePage(page);
+            this.rpc.removePage(id);
+        } catch (XmlRpcException e) {
+            // Page doesn't exist.
         }
 
-        try {
-            this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
-        } catch (Exception e) {
-            XWikiPage page = new XWikiPage();
-            page.setId(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
-            page.setTitle("Test page");
-            String content =
-                String.format("Modified by org.xwiki.xmlrpc @ %s (This will be version: %d)\n", new Date(),
-                    page.getVersion() + 1);
-            page.setContent(content);
-            this.rpc.storePage(page);
-        }
+        XWikiPage page = new XWikiPage();
+        page.setId(id);
+        page.setTitle(title);
+        page.setContent(content);
+        this.rpc.storePage(page);
+    }
+
+    private XWikiPage addTranslation(String language, String title, String content) throws Exception
+    {
+        XWikiPage translatedPage = new XWikiPage();
+        translatedPage.setId(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
+        translatedPage.setSpace(TestConstants.TEST_SPACE);
+        translatedPage.setTitle(title);
+        translatedPage.setContent(content);
+        translatedPage.setLanguage(language);
+        return this.rpc.storePage(translatedPage);
     }
 
     public void testGetPages() throws Exception
@@ -180,14 +188,7 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
         String translatedContent =
             String.format("This is the content in the '%s' language. (This will be version: %d)", fakeLanguage,
                 page.getVersion() + 1);
-        XWikiPage translatedPage = new XWikiPage();
-
-        translatedPage.setId(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
-        translatedPage.setSpace(TestConstants.TEST_SPACE);
-        translatedPage.setTitle("Translated page");
-        translatedPage.setContent(translatedContent);
-        translatedPage.setLanguage(fakeLanguage);
-        translatedPage = this.rpc.storePage(translatedPage);
+        addTranslation(fakeLanguage, "Translated page", translatedContent);
 
         /* Re-get the page and all its translations */
         page = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
@@ -239,20 +240,11 @@ public class PagesTest extends AbstractXWikiXmlRpcTest
             String.format("This is a new translation for language '%s' @ %s (this will be version %d)", targetLanguage,
                 new Date(), page.getVersion() + 1);
 
-        XWikiPage translatedPage = new XWikiPage();
-
-        translatedPage.setId(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
-        translatedPage.setSpace(TestConstants.TEST_SPACE);
-        translatedPage.setTitle("Translated page");
-        translatedPage.setContent(content);
-        translatedPage.setLanguage(targetLanguage);
-        translatedPage = this.rpc.storePage(translatedPage);
+        addTranslation(targetLanguage, "Translated page", content);
 
         System.out.format("New content: %s\n", content);
         System.out.format("%s\n", page);
 
-        /* The following command could be removed. Check it! */
-        translatedPage = this.rpc.getPage(TestConstants.TEST_PAGE_WITH_TRANSLATIONS);
         Map<String, String> newTranslatedContents = new HashMap<String, String>();
         newTranslatedContents.put("", page.getContent());
         for (String l : page.getTranslations()) {

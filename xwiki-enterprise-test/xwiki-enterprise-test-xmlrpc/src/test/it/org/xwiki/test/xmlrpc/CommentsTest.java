@@ -21,6 +21,7 @@ package org.xwiki.test.xmlrpc;
 
 import java.util.List;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.Comment;
 import org.xwiki.xmlrpc.model.XWikiPage;
 
@@ -34,24 +35,32 @@ public class CommentsTest extends AbstractXWikiXmlRpcTest
         super.setUp();
 
         try {
-            rpc.getPage(TestConstants.TEST_PAGE_WITH_COMMENTS);
-        } catch (Exception e) {
-            XWikiPage page = new XWikiPage();
-            page.setId(TestConstants.TEST_PAGE_WITH_COMMENTS);
-            page.setTitle("Test page");
-            page.setContent("Test page");
-            rpc.storePage(page);
+            rpc.removePage(TestConstants.TEST_PAGE_WITH_COMMENTS);
+        } catch (XmlRpcException e) {
+            // Page doesn't exist.
         }
+
+        XWikiPage page = new XWikiPage();
+        page.setId(TestConstants.TEST_PAGE_WITH_COMMENTS);
+        rpc.storePage(page);
+
+        // Make sure the test page has at least one comment.
+        addComment("This is the first comment.");
+    }
+
+    private Comment addComment(String content) throws Exception
+    {
+        Comment comment = new Comment();
+        comment.setPageId(TestConstants.TEST_PAGE_WITH_COMMENTS);
+        comment.setContent(content);
+        return rpc.addComment(comment);
     }
 
     public void testAddComment() throws Exception
     {
         String content = String.format("This is a new comment!!! %s", random.nextInt());
-        Comment comment = new Comment();
-        comment.setPageId(TestConstants.TEST_PAGE_WITH_COMMENTS);
-        comment.setContent(content);
+        Comment comment = addComment(content);
 
-        comment = rpc.addComment(comment);
         TestUtils.banner("TEST: getComments()");
         System.out.format("%s\n", comment);
 

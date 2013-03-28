@@ -21,6 +21,7 @@ package org.xwiki.test.xmlrpc;
 
 import java.util.List;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.Attachment;
 import org.xwiki.xmlrpc.model.Utils;
 import org.xwiki.xmlrpc.model.XWikiPage;
@@ -35,36 +36,42 @@ public class AttachmentsTest extends AbstractXWikiXmlRpcTest
         super.setUp();
 
         try {
-            rpc.getPage(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
-        } catch (Exception e) {
-            XWikiPage page = new XWikiPage();
-            page.setId(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
-            page.setTitle("Test page");
-            page.setContent("Test page");
-            rpc.storePage(page);
+            rpc.removePage(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
+        } catch (XmlRpcException e) {
+            // Page doesn't exist.
         }
+
+        XWikiPage page = new XWikiPage();
+        page.setId(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
+        rpc.storePage(page);
+
+        // Make sure the test page has at least one attachment.
+        addAttachment("first.txt", "Content of first attachment.");
+    }
+
+    private Attachment addAttachment(String fileName, String content) throws Exception
+    {
+        Attachment attachment = new Attachment();
+        attachment.setPageId(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
+        attachment.setFileName(fileName);
+        return rpc.addAttachment(0, attachment, content.getBytes());
     }
 
     public void testAddAttachment() throws Exception
     {
         String attachmentName = String.format("test_attachment_%d.png", random.nextInt());
-        byte[] data = ("Data for " + attachmentName).getBytes();
-
-        Attachment attachment = new Attachment();
-        attachment.setPageId(TestConstants.TEST_PAGE_WITH_ATTACHMENTS);
-        attachment.setFileName(attachmentName);
-
-        attachment = rpc.addAttachment(0, attachment, data);
+        String attachmentData = "Data for " + attachmentName;
+        Attachment attachment = addAttachment(attachmentName, "Data for " + attachmentName);
 
         TestUtils.banner("TEST: addAttachment()");
         System.out.format("%s\n", attachment);
 
         // We can't assert the file name because it can be transformed (e.g. some characters could be removed).
-        assertEquals(data.length, Integer.parseInt(attachment.getFileSize()));
+        assertEquals(attachmentData.getBytes().length, Integer.parseInt(attachment.getFileSize()));
 
         // Let's see if the attachment was properly added.
-        assertEquals(new String(data), new String(rpc.getAttachmentData(attachment.getPageId(), attachment
-            .getFileName(), "1.1")));
+        assertEquals(attachmentData,
+            new String(rpc.getAttachmentData(attachment.getPageId(), attachment.getFileName(), "1.1")));
     }
 
     public void testGetAttachments() throws Exception
@@ -88,8 +95,8 @@ public class AttachmentsTest extends AbstractXWikiXmlRpcTest
 
         TestUtils.banner("getAttachmentData()");
         System.out.format("%s\n", attachment);
-        System.out.format("Content = %s\n", Utils.truncateToFirstLine(new String(content, 0, content.length > 32 ? 32
-            : content.length)));
+        System.out.format("Content = %s\n",
+            Utils.truncateToFirstLine(new String(content, 0, content.length > 32 ? 32 : content.length)));
 
         int contentLength = new Integer(attachment.getFileSize());
         assertTrue(content.length == contentLength);

@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252450800000</creationDate>
-  <date>1266601716000</date>
-  <contentUpdateDate>1266601716000</contentUpdateDate>
+  <creationDate>1364502214000</creationDate>
+  <date>1364569881000</date>
+  <contentUpdateDate>1364569881000</contentUpdateDate>
   <version>1.1</version>
-  <title>$msg.get("xe.rss.pages.modified")</title>
-  <template/>
+  <title>$services.localization.render('xe.rss.pages.modified')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -33,18 +32,18 @@
   #if("$!{request.space}" == '')
     ## RSS feed for the whole wiki
     #set ($query = 'where 1=1 order by doc.date desc')
-    #set ($description = $msg.get('xe.rss.feed.description'))
+    #set ($description = $services.localization.render('xe.rss.feed.description'))
   #else
     ## RSS feed for a single space
     #set ($query = "where doc.space='${request.space}' order by doc.date desc")
-    #set ($description = $msg.get('xe.rss.space.description', [$request.space]))
+    #set ($description = $services.localization.render('xe.rss.space.description', [$request.space]))
   #end
   #set ($feed = $xwiki.feed.getWebFeed($query, 20, 0, {}))
   #set ($feedURI = $xwiki.getDocument('Main.WebHome').getExternalURL('view'))
   #set ($discard = $feed.setLink($feedURI))
   #set ($discard = $feed.setUri($feedURI))
   #set ($discard = $feed.setAuthor('XWiki'))
-  #set ($discard = $feed.setTitle($msg.get('xe.rss.feed.description', [$text])))
+  #set ($discard = $feed.setTitle($services.localization.render('xe.rss.feed.description', [$text])))
   #set ($discard = $feed.setDescription($description))
   #set ($discard = $feed.setLanguage($context.language))
   #set ($discard = $feed.setCopyright($xwiki.getXWikiPreference('copyright')))

@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1252454400000</date>
-  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <creationDate>1364502210000</creationDate>
+  <date>1364571056000</date>
+  <contentUpdateDate>1364571056000</contentUpdateDate>
   <version>1.1</version>
-  <title>$msg.get("xe.xwiki.space")</title>
-  <template/>
+  <title>$services.localization.render('xe.xwiki.space')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -24,7 +23,7 @@
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
   <content>{{velocity}}
-#set($administration = "[[$msg.get('xe.xwiki.administration')&gt;&gt;XWiki.XWikiPreferences]]")
-{{info}}$msg.get("xe.xwiki.administration.install", [$administration]){{/info}}
+#set($administration = '[[{{translation key="xe.xwiki.administration"/}}&gt;&gt;XWiki.XWikiPreferences]]')
+{{info}}$services.localization.render('xe.xwiki.administration.install', [$administration]){{/info}}
 {{/velocity}}</content>
 </xwikidoc>

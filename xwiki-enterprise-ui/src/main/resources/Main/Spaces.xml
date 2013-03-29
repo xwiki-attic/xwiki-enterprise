@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1305191339000</date>
-  <contentUpdateDate>1305191339000</contentUpdateDate>
+  <creationDate>1364502215000</creationDate>
+  <date>1364570212000</date>
+  <contentUpdateDate>1364570127000</contentUpdateDate>
   <version>1.1</version>
-  <title>$msg.get("xe.spaces")</title>
-  <template/>
+  <title>$services.localization.render('xe.spaces')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -325,13 +324,13 @@ $xwiki.ssx.use('Main.Spaces')##
           &lt;div class="spSpaceName"&gt;&lt;a href="$xwiki.getURL($services.model.createDocumentReference('', $space, 'WebHome'))"&gt;${escapetool.xml($space)}&lt;/a&gt;&lt;/div&gt;
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
-            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$msg.get('xe.spaces.action.index')"&gt;
-              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.png')" alt="$msg.get('xe.spaces.action.index.alt')"/&gt;
+            &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$services.localization.render('xe.spaces.action.index')"&gt;
+              &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.png')" alt="$services.localization.render('xe.spaces.action.index.alt')"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.
             #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))
-              &lt;a href="$xwiki.getURL($services.model.createDocumentReference('', $space, 'WebPreferences'), 'admin', '')" title="$msg.get('xe.spaces.action.admin')"&gt;
-                &lt;img src="$xwiki.getSkinFile('icons/silk/wrench.png')" alt="$msg.get('xe.spaces.action.admin.alt')"/&gt;
+              &lt;a href="$xwiki.getURL($services.model.createDocumentReference('', $space, 'WebPreferences'), 'admin', '')" title="$services.localization.render('xe.spaces.action.admin')"&gt;
+                &lt;img src="$xwiki.getSkinFile('icons/silk/wrench.png')" alt="$services.localization.render('xe.spaces.action.admin.alt')"/&gt;
               &lt;/a&gt;
             #end
           &lt;/div&gt;
@@ -347,17 +346,17 @@ $xwiki.ssx.use('Main.Spaces')##
   #if($xwiki.hasAdminRights() &amp;&amp; "$!context.action" != "inline")
     &lt;li id="spSpaceCreateItem" class="xitem space"&gt;
       &lt;div class="xitemcontainer"&gt;
-        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space')" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$msg.get('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
+        &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space')" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$services.localization.render('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;
         &lt;div class="spacer"&gt;&amp;nbsp;&lt;/div&gt;
         &lt;div id="spSpaceCreateForm" class="hidden"&gt;
           &lt;form method="post" action="$doc.getURL('create')" class="xformInline"&gt;
             &lt;div&gt;
               &lt;input name="tocreate" type="hidden" value="space" /&gt;
-              #set($newSpaceName = $escapetool.xml($msg.get('xe.spaces.createspace.defaultname')))
+              #set($newSpaceName = $escapetool.xml($services.localization.render('xe.spaces.createspace.defaultname')))
               &lt;label class="hidden" for="spSpaceCreateTextInput"&gt;$newSpaceName&lt;/label&gt;
               &lt;input id="spSpaceCreateTextInput" type="text" name="space" value="$newSpaceName" class="panelinput withTip" /&gt;
               &lt;span class="buttonwrapper"&gt;
-                &lt;input type="submit" value="$msg.get('xe.spaces.createspace.submit')" class="button" /&gt;
+                &lt;input type="submit" value="$services.localization.render('xe.spaces.createspace.submit')" class="button" /&gt;
               &lt;/span&gt;
             &lt;/div&gt;
           &lt;/form&gt;

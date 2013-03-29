@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1252454400000</date>
-  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <creationDate>1364502211000</creationDate>
+  <date>1364571947000</date>
+  <contentUpdateDate>1364571947000</contentUpdateDate>
   <version>1.1</version>
-  <title>$msg.get("xe.monitor")</title>
-  <template/>
+  <title>$services.localization.render('xe.monitor')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -41,73 +40,73 @@
     #foreach($thread in $activeTimers.keySet())
       #set($req = $activeTimers.get($thread))
       #if($req.threadName.equals($threadname))
-        * $msg.get("xe.monitor.url") $req.getURL() Page: $req.getWikiPage()
-        * $msg.get("xe.monitor.startdate") $req.startTime
-        * $msg.get("xe.monitor.state") $thread.getState() $msg.get("xe.monitor.alive") $thread.isAlive() [[${threadname}&gt;&gt;${doc.fullName}?thread=${threadname}&amp;kill=1]]
+        * {{translation key="xe.monitor.url"/}} $req.getURL() Page: $req.getWikiPage()
+        * {{translation key="xe.monitor.startdate"/}} $req.startTime
+        * {{translation key="xe.monitor.state"/}} $thread.getState() {{translation key="xe.monitor.alive"/}} $thread.isAlive() [[${threadname}&gt;&gt;${doc.fullName}?thread=${threadname}&amp;kill=1]]
         #if($request.kill)
-          $msg.get("xe.monitor.interrupt") $thread.stop()
+          {{translation key="xe.monitor.interrupt"/}} $thread.stop()
         #end
       #end
     #end
   #else
-    == $msg.get("xe.monitor.consolidateddata") ==
+    == {{translation key="xe.monitor.consolidateddata"/}} ==
 
     #set($dur = $mathtool.toInteger("${monitor.duration}"))
     #set($nbreq = $mathtool.toInteger("${monitor.requests}"))
     #set($avg = ($dur/$nbreq))
 
-    * $msg.get("xe.monitor.duration") ${monitor.getDuration()} ms
-    * $msg.get("xe.monitor.requests") $monitor.getRequests()
-    * $msg.get("xe.monitor.average") ${avg} ms
+    * {{translation key="xe.monitor.duration"/}} ${monitor.getDuration()} ms
+    * {{translation key="xe.monitor.requests"/}} $monitor.getRequests()
+    * {{translation key="xe.monitor.average"/}} ${avg} ms
 
     #foreach($timer in $monitor.getTimerSummaries())
       #set($dur = $mathtool.toInteger("${timer.duration}"))
       #set($nbreq = $mathtool.toInteger("${timer.requests}"))
       #set($avg = ($dur/$nbreq))
-      * $timer.name $msg.get("xe.monitor.duration.small") ${timer.duration} $msg.get("xe.monitor.ms") $msg.get("xe.monitor.calls") $timer.nbCalls $msg.get("xe.monitor.requests") $timer.requests $msg.get("xe.monitor.average") ${avg} $msg.get("xe.monitor.ms")
+      * $timer.name {{translation key="xe.monitor.duration.small"/}} ${timer.duration} {{translation key="xe.monitor.ms"/}} {{translation key="xe.monitor.calls"/}} $timer.nbCalls {{translation key="xe.monitor.requests"/}} $timer.requests {{translation key="xe.monitor.average"/}} ${avg} {{translation key="xe.monitor.ms"/}}
     #end
 
-    == $msg.get("xe.monitor.requests.active") ==
+    == {{translation key="xe.monitor.requests.active"/}} ==
 
-    $msg.get("xe.monitor.requests.currentlyrunning")
+    {{translation key="xe.monitor.requests.currentlyrunning"/}}
 
     #set($timerdata = $monitor.getActiveTimerData())
-    $msg.get("xe.monitor.requests.size") $timerdata.size()
+    {{translation key="xe.monitor.requests.size"/}} $timerdata.size()
 
     #foreach($req in $timerdata)
-      * $msg.get("xe.monitor.requests.page") $req.getWikiPage()
-      * $msg.get("xe.monitor.url") $req.getURL()
-      * $msg.get("xe.monitor.thread") [[$req.threadName&gt;&gt;${doc.fullName}?thread=${req.threadName}]]
-      * $msg.get("xe.monitor.startdate") $req.startTime
+      * {{translation key="xe.monitor.requests.page"/}} $req.getWikiPage()
+      * {{translation key="xe.monitor.url"/}} $req.getURL()
+      * {{translation key="xe.monitor.thread"/}} [[$req.threadName&gt;&gt;${doc.fullName}?thread=${req.threadName}]]
+      * {{translation key="xe.monitor.startdate"/}} $req.startTime
     #end
 
-    == $msg.get("xe.monitor.requests.unfinished") ==
+    == {{translation key="xe.monitor.requests.unfinished"/}} ==
 
-    $msg.get("xe.monitor.requests.unfinished.description")
+    {{translation key="xe.monitor.requests.unfinished.description"/}}
 
     #set($timerdata = $monitor.getLastUnfinishedTimerData())
-    $msg.get("xe.monitor.requests.active.size") $timerdata.size()
+    {{translation key="xe.monitor.requests.active.size"/}} $timerdata.size()
 
     #foreach($req in $timerdata)
-      * $msg.get("xe.monitor.requests.page") $req.getWikiPage()
-      * $msg.get("xe.monitor.url") $req.getURL()
-      * $msg.get("xe.monitor.thread") [[$req.threadName&gt;&gt;${doc.fullName}?thread=${req.threadName}]]
-      * $msg.get("xe.monitor.startdate") $req.startTime
+      * {{translation key="xe.monitor.requests.page"/}} $req.getWikiPage()
+      * {{translation key="xe.monitor.url"/}} $req.getURL()
+      * {{translation key="xe.monitor.thread"/}} [[$req.threadName&gt;&gt;${doc.fullName}?thread=${req.threadName}]]
+      * {{translation key="xe.monitor.startdate"/}} $req.startTime
     #end
 
-    == $msg.get("xe.monitor.requests.latest") ==
+    == {{translation key="xe.monitor.requests.latest"/}} ==
 
-    $msg.get("xe.monitor.requests.latest.description", [$timerdata.maxSize()])
+    {{translation key="xe.monitor.requests.latest.description" parameters="$timerdata.maxSize()"/}}
 
     #set($timerdata = $monitor.getLastTimerData())
-    $msg.get("xe.monitor.requests.number") $timerdata.size() 
+    {{translation key="xe.monitor.requests.number"/}} $timerdata.size() 
     #foreach($req in $timerdata)
-      * $msg.get("xe.monitor.url") $req.getURL()
-      * $msg.get("xe.monitor.requests.page") $req.getWikiPage()
-      * $msg.get("xe.monitor.thread") $req.threadName
-      * $msg.get("xe.monitor.duration") $req.duration
-      * $msg.get("xe.monitor.startdate") $req.startTime
-      * $msg.get("xe.monitor.enddate") $req.endTime
+      * {{translation key="xe.monitor.url"/}} $req.getURL()
+      * {{translation key="xe.monitor.requests.page"/}} $req.getWikiPage()
+      * {{translation key="xe.monitor.thread"/}} $req.threadName
+      * {{translation key="xe.monitor.duration"/}} $req.duration
+      * {{translation key="xe.monitor.startdate"/}} $req.startTime
+      * {{translation key="xe.monitor.enddate"/}} $req.endTime
       #foreach($timer in $req.timerList)
         ** $timer
       #end
@@ -115,7 +114,7 @@
     #end
   #end
 #else
-  {{warning}}$msg.get("xe.monitor.disabled"){{/warning}}
+  {{warning}}{{translation key="xe.monitor.disabled"/}}{{/warning}}
 #end
 {{/velocity}}</content>
 </xwikidoc>

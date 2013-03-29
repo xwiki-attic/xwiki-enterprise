@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1252454400000</date>
-  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <creationDate>1364502215000</creationDate>
+  <date>1364569715000</date>
+  <contentUpdateDate>1364569684000</contentUpdateDate>
   <version>1.1</version>
-  <title>$msg.get("xe.userdirectory.title")</title>
-  <template/>
+  <title>$services.localization.render('xe.userdirectory.title')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -37,22 +36,12 @@
         <disabled>0</disabled>
         <name>content</name>
         <number>3</number>
-        <prettyName>Extension content</prettyName>
+        <prettyName>Extension Content</prettyName>
         <rows>10</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </content>
-      <parameters>
-        <disabled>0</disabled>
-        <name>parameters</name>
-        <number>4</number>
-        <prettyName>Extension Parameters</prettyName>
-        <rows>10</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </parameters>
       <extensionPointId>
         <disabled>0</disabled>
         <name>extensionPointId</name>
@@ -66,11 +55,21 @@
         <disabled>0</disabled>
         <name>name</name>
         <number>2</number>
-        <prettyName>Extension Name</prettyName>
+        <prettyName>Extension ID</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
+      <parameters>
+        <disabled>0</disabled>
+        <name>parameters</name>
+        <number>4</number>
+        <prettyName>Extension Parameters</prettyName>
+        <rows>10</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </parameters>
       <scope>
         <cache>0</cache>
         <disabled>0</disabled>
@@ -96,15 +95,15 @@
       <content/>
     </property>
     <property>
-      <parameters>label=$msg.get('xe.panels.quicklinks.userdirectory')
-target=Main.UserDirectory
-icon=icon:group</parameters>
-    </property>
-    <property>
       <extensionPointId>org.xwiki.platform.panels.Applications</extensionPointId>
     </property>
     <property>
       <name>platform.panels.userDirectoryApplication</name>
+    </property>
+    <property>
+      <parameters>label=$services.localization.render('xe.panels.quicklinks.userdirectory')
+target=Main.UserDirectory
+icon=icon:group</parameters>
     </property>
     <property>
       <scope>wiki</scope>
@@ -131,7 +130,7 @@ icon=icon:group</parameters>
 ## Guests and superadmin don't have an user profile and, therefore, no preferences. Offer default.
 #if ($isGuest || $isSuperAdmin)
   #if ($isGuest)
-    {{info}}$msg.get('xe.userdirectory.canCustomizeInfoGuest', "path:$doc.getURL('login')"){{/info}}
+    {{info}}$services.localization.render('xe.userdirectory.canCustomizeInfoGuest', "path:$doc.getURL('login')"){{/info}}
   #end
   ## Use the default columns for guests or superadmin.
   #set ($discard = $columns.addAll($defaultColumns))
@@ -191,13 +190,13 @@ icon=icon:group</parameters>
     ##
     ## Customize form. Note: Using 2 forms to be able to do everything without JavaScript.
     ##
-    == $msg.get('xe.userdirectory.customizeColumnsTitle') ==
+    == {{translation key="xe.userdirectory.customizeColumnsTitle"/}} ==
     {{html clean='false' wiki='true'}}
     &lt;form class='xform half' action="$doc.getURL($xcontext.action, $request.queryString)" method='post'&gt;
       &lt;dl&gt;
         &lt;dt class='label'&gt;
-          &lt;label&gt;$msg.get('xe.userdirectory.customizeAvailableColumnsLabel')&lt;/label&gt;
-          &lt;span class='xHint'&gt;$msg.get('xe.userdirectory.customizeAvailableColumnsHint')&lt;/span&gt;
+          &lt;label&gt;{{translation key="xe.userdirectory.customizeAvailableColumnsLabel"/}}&lt;/label&gt;
+          &lt;span class='xHint'&gt;{{translation key="xe.userdirectory.customizeAvailableColumnsHint"/}}&lt;/span&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
           &lt;select name='value'&gt;
@@ -211,7 +210,7 @@ icon=icon:group</parameters>
           &lt;input type='hidden' name='xredirect' value="$xredirect" /&gt;
           &lt;input type='hidden' name='action' value='add' /&gt;
           &lt;span class='buttonwrapper'&gt;
-            &lt;input type='submit' class='button' name='submit' value='$msg.get('xe.userdirectory.customizeAddColumnButtonLabel')' /&gt;
+            &lt;input type="submit" class="button" name="submit" value="$services.localization.render('xe.userdirectory.customizeAddColumnButtonLabel')" /&gt;
           &lt;/span&gt;
         &lt;/dt&gt;
       &lt;/dl&gt;
@@ -219,29 +218,29 @@ icon=icon:group</parameters>
     &lt;form class='xform half' action="$doc.getURL($xcontext.action, $request.queryString)" method='post'&gt;
       &lt;dl&gt;
         &lt;dt&gt;
-          &lt;label&gt;$msg.get('xe.userdirectory.customizeSelectedColumnsLabel')&lt;/label&gt;
-          &lt;span class='xHint'&gt;$msg.get('xe.userdirectory.customizeSelectedColumnsHint')&lt;/span&gt;
+          &lt;label&gt;{{translation key="xe.userdirectory.customizeSelectedColumnsLabel"/}}&lt;/label&gt;
+          &lt;span class='xHint'&gt;{{translation key="xe.userdirectory.customizeSelectedColumnsHint"/}}&lt;/span&gt;
         &lt;/dt&gt;
         &lt;dd&gt;$userPreferences.display('columns', 'edit', $userPreference)&lt;/dd&gt;
         &lt;dt&gt;
           &lt;input type='hidden' name='xredirect' value="$xredirect" /&gt;
           &lt;input type='hidden' name='action' value='save' /&gt;
           &lt;span class='buttonwrapper'&gt;
-            &lt;input class='button' type='submit' name='submit' value="$msg.get('xe.userdirectory.customizeSaveButtonLabel')"/&gt;
+            &lt;input class='button' type='submit' name='submit' value="$services.localization.render('xe.userdirectory.customizeSaveButtonLabel')"/&gt;
           &lt;/span&gt;
           &lt;span class="buttonwrapper"&gt;
-            &lt;a href="$doc.getURL($xcontext.action, "$request.queryString&amp;amp;action=reset&amp;amp;xredirect=$escapetool.url($xredirect)")" class='button secondary'&gt;$msg.get('xe.userdirectory.customizeResetButtonLabel')&lt;/a&gt;
+            &lt;a href="$doc.getURL($xcontext.action, "$request.queryString&amp;amp;action=reset&amp;amp;xredirect=$escapetool.url($xredirect)")" class='button secondary'&gt;{{translation key="xe.userdirectory.customizeResetButtonLabel"/}}&lt;/a&gt;
           &lt;/span&gt;
         &lt;/dt&gt;
       &lt;/dl&gt;
     &lt;/form&gt;
     ##
-    &lt;h2&gt;$msg.get('xe.userdirectory.customizePreviewTitle')&lt;/h2&gt;
+    == {{translation key="xe.userdirectory.customizePreviewTitle"/}} ==
     {{/html}}
   #elseif ($isCustomized)
-    {{warning}}$msg.get('xe.userdirectory.isCustomizedWarning', ["$doc.fullName", "customize=true&amp;action=reset&amp;xredirect=$escapetool.url($xredirect)", "$doc.fullName", 'customize=true']){{/warning}}
+    {{warning}}$services.localization.render('xe.userdirectory.isCustomizedWarning', ["$doc.fullName", "customize=true&amp;action=reset&amp;xredirect=$escapetool.url($xredirect)", "$doc.fullName", 'customize=true']){{/warning}}
   #else
-    {{info}}$msg.get('xe.userdirectory.canCustomizeInfo', ["$doc.fullName", 'customize=true']){{/info}}
+    {{info}}$services.localization.render('xe.userdirectory.canCustomizeInfo', ["$doc.fullName", 'customize=true']){{/info}}
   #end
 #end
 ##

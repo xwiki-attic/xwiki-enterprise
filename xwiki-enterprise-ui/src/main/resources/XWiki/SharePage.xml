@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1289259615000</creationDate>
-  <date>1289523463000</date>
-  <contentUpdateDate>1289523463000</contentUpdateDate>
+  <creationDate>1364502211000</creationDate>
+  <date>1364571178000</date>
+  <contentUpdateDate>1289519863000</contentUpdateDate>
   <version>1.1</version>
   <title/>
-  <template/>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -191,7 +190,7 @@
       event.stop();
       if (!this.form.down('.target-item') &amp;&amp; this.input.value.strip().length == 0) {
         this.input.addClassName('xErrorField');
-        this.input.insert({'after' : '&lt;div class="xErrorMsg"&gt;$msg.get('core.viewers.share.error.missingRecipient')&lt;/div&gt;'});
+        this.input.insert({'after' : '&lt;div class="xErrorMsg"&gt;$services.localization.render('core.viewers.share.error.missingRecipient')&lt;/div&gt;'});
         return;
       }
       var params = this.form.serialize();
@@ -224,7 +223,7 @@
         dialog = new XWiki.widgets.ModalPopup(
           loading, {}, {
             'verticalPosition' : 'top',
-            'title' : "$msg.get('core.viewers.share.dialogTitle')",
+            'title' : "$services.localization.render('core.viewers.share.dialogTitle')",
             'removeOnClose' : true
           }
         );

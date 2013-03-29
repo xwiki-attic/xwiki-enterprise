@@ -15,7 +15,7 @@
   <date>1321284472000</date>
   <contentUpdateDate>1321284472000</contentUpdateDate>
   <version>1.1</version>
-  <title>$msg.get("xe.home.title")</title>
+  <title>$services.localization.render('xe.home.title')</title>
   <template/>
   <defaultTemplate/>
   <validationScript/>

@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1252454400000</date>
-  <contentUpdateDate>1252454400000</contentUpdateDate>
+  <creationDate>1364502214000</creationDate>
+  <date>1364570945000</date>
+  <contentUpdateDate>1364570945000</contentUpdateDate>
   <version>1.1</version>
-  <title>$msg.get("xe.rss.feeds")</title>
-  <template/>
+  <title>$services.localization.render('xe.rss.feeds')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -24,14 +23,13 @@
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
   <content>{{velocity}}
-$msg.get('xe.rss.feeds.description')
-#set($blog = "[[$msg.get('xe.rss.blog')&gt;&gt;Blog.WebHome]]")
+{{translation key="xe.rss.feeds.description"/}}
 #set($search = "[[Main.Search]]")
 #set($tags = "[[Main.Tags]]")
 
-* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile('icons/xwiki/rss-mini.png')" title="$msg.get('xe.rss.pages.modified')" alt=""/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.global')&lt;/a&gt;&lt;/strong&gt; $msg.get('xe.rss.global.description'){{/html}}
-* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile('icons/xwiki/rss-mini.png')" title="$msg.get('xe.rss.blog.feed')" alt=""/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;$msg.get('xe.rss.blog')&lt;/a&gt;&lt;/strong&gt; $msg.get('xe.rss.blog.description', [$blog]){{/html}}
-* **[[$msg.get('xe.rss.search')&gt;&gt;Main.Search]]** $msg.get('xe.rss.search.description', [$search])
-* **[[$msg.get('xe.rss.tags')&gt;&gt;Main.Tags]]** $msg.get('xe.rss.tags.description', [$tags])
+* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile('icons/xwiki/rss-mini.png')" title="$services.localization.render('xe.rss.pages.modified')" alt=""/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Main.WebRss', 'view', 'xpage=plain')"&gt;$services.localization.render('xe.rss.global')&lt;/a&gt;&lt;/strong&gt; $services.localization.render('xe.rss.global.description'){{/html}}
+* {{html}}&lt;strong&gt;&lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;&lt;img src="$xwiki.getSkinFile('icons/xwiki/rss-mini.png')" title="$services.localization.render('xe.rss.blog.feed')" alt=""/&gt;&lt;/a&gt; &lt;a href="$xwiki.getURL('Blog.GlobalBlogRss', 'view', 'xpage=plain')"&gt;$services.localization.render('xe.rss.blog')&lt;/a&gt;&lt;/strong&gt; $services.localization.render('xe.rss.blog.description'){{/html}}
+* **[[{{translation key="xe.rss.search"/}}&gt;&gt;Main.Search]]** $services.localization.render('xe.rss.search.description', [$search])
+* **[[{{translation key="xe.rss.tags"/}}&gt;&gt;Main.Tags]]** $services.localization.render('xe.rss.tags.description', [$tags])
 {{/velocity}}</content>
 </xwikidoc>

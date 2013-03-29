@@ -30,9 +30,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.UserClassFieldEditPane;
-import org.xwiki.appwithinminutes.test.po.UserPicker;
-import org.xwiki.appwithinminutes.test.po.UserPicker.UserElement;
 import org.xwiki.test.po.xe.ClassSheetPage;
+import org.xwiki.test.ui.po.editor.UserPicker;
+import org.xwiki.test.ui.po.editor.UserPicker.UserElement;
 
 /**
  * Special class editor tests that address only the User class field type.

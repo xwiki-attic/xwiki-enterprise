@@ -37,7 +37,7 @@ import org.xwiki.test.selenium.framework.XWikiTestSuite;
  */
 public class WikiEditorTest extends AbstractXWikiTestCase
 {
-    private static final String SYNTAX = "xwiki/1.0";
+    private static final String SYNTAX = "xwiki/2.1";
 
     public static Test suite()
     {
@@ -55,19 +55,19 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testEmptyLineAndSpaceCharactersBeforeSectionTitleIsNotRemoved()
     {
-        createPage("Test", "WikiEdit", "\n  1.1 Section\n\ntext", SYNTAX);
+        createPage("Test", "WikiEdit", "\n== Section ==\n\ntext", SYNTAX);
         open("Test", "WikiEdit", "edit", "editor=wiki");
-        assertEquals("\n  1.1 Section\n\ntext", getFieldValue("content"));
+        assertEquals("\n== Section ==\n\ntext", getFieldValue("content"));
     }
 
     public void testBoldButton()
     {
-        testToolBarButton("Bold", "*%s*", "Text in Bold");
+        testToolBarButton("Bold", "**%s**", "Text in Bold");
     }
 
     public void testItalicsButton()
     {
-        testToolBarButton("Italics", "~~%s~~", "Text in Italics");
+        testToolBarButton("Italics", "//%s//", "Text in Italics");
     }
 
     public void testUnderlineButton()
@@ -77,7 +77,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testLinkButton()
     {
-        testToolBarButton("Internal Link", "[%s]", "Link Example");
+        testToolBarButton("Internal Link", "[[%s]]", "Link Example");
     }
 
     public void testHRButton()
@@ -87,12 +87,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 
     public void testImageButton()
     {
-        testToolBarButton("Attached Image", "{image:%s}", "example.jpg");
-    }
-
-    public void testSignatureButton()
-    {
-        testToolBarButton("Signature", "#sign(\"XWiki.Admin\")", "");
+        testToolBarButton("Attached Image", "[[image:%s]]", "example.jpg");
     }
 
     /**
@@ -135,7 +130,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     public void testPreviewModeWithContentRequiringProgrammingRights()
     {
         editInWikiEditor("Test", "PreviewMode", SYNTAX);
-        setFieldValue("content", "$xwiki.hasAccessLevel('programming') $doc.author $doc.contentAuthor $doc.creator");
+        setFieldValue("content", "{{velocity}}$xwiki.hasAccessLevel('programming') $tdoc.author $tdoc.contentAuthor $tdoc.creator{{/velocity}}");
         clickEditPreview();
         assertTextPresent("true XWiki.Admin XWiki.Admin XWiki.Admin");
     }

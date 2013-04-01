@@ -32,8 +32,8 @@ import org.xwiki.test.selenium.framework.XWikiTestSuite;
  */
 public class CacheTest extends AbstractXWikiTestCase
 {
-    private static final String SYNTAX = "xwiki/1.0";
-    
+    private static final String SYNTAX = "xwiki/2.1";
+
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the caching features of XWiki");
@@ -54,8 +54,8 @@ public class CacheTest extends AbstractXWikiTestCase
      */
     public void testDateClass()
     {
-        createPage("Main", "TestDateClass", "$xwiki.flushCache()\n$xwiki.getDocument(\"Main.WebHome\").date.class",
-            SYNTAX);
+        createPage("Main", "TestDateClass",
+            "{{velocity}}$xwiki.flushCache()\n$xwiki.getDocument('Main.WebHome').date.class{{/velocity}}", SYNTAX);
         waitForBodyContains("java.util.Date");
     }
 }

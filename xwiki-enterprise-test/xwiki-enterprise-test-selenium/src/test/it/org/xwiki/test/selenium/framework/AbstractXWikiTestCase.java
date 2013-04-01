@@ -884,13 +884,12 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         // with a different xwiki.cfg file for each test that requires a configuration change, we use the following
         // trick: We create a document and we access the XWiki object with a Velocity script inside that document.
         for (Entry<Object, Object> param : properties.entrySet()) {
-            sb.append("$xwiki.xWiki.config.setProperty('").append(param.getKey()).append("', '")
-                .append(param.getValue()).append("')").append('\n');
+            sb.append("{{velocity}}$xwiki.xWiki.config.setProperty('").append(param.getKey()).append("', '")
+                .append(param.getValue()).append("')").append("\n{{/velocity}}");
         }
-        editInWikiEditor("Test", "XWikiConfigurationPageForTest", "xwiki/1.0");
+        editInWikiEditor("Test", "XWikiConfigurationPageForTest", "xwiki/2.1");
         setFieldValue("content", sb.toString());
-        // We can execute the script in preview mode. Thus we don't need to save the document.
-        clickEditPreview();
+        clickEditSaveAndView();
     }
 
     @Override

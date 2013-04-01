@@ -51,8 +51,6 @@ public class AllTests extends TestCase
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
         addTestCase(suite, WikiEditorTest.class);
-        addTestCase(suite, WysiwygEditorFromWikiTest.class);
-        addTestCase(suite, WysiwygEditorTest.class);
         addTestCase(suite, VelocityMacrosTest.class);
         addTestCase(suite, CacheTest.class);
         addTestCase(suite, UsersGroupsRightsManagementTest.class);

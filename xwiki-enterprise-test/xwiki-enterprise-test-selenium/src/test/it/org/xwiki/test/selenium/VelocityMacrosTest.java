@@ -35,7 +35,7 @@ import org.xwiki.test.selenium.framework.XWikiTestSuite;
  */
 public class VelocityMacrosTest extends AbstractXWikiTestCase
 {
-    private static final String SYNTAX = "xwiki/1.0";
+    private static final String SYNTAX = "xwiki/2.1";
 
     public static Test suite()
     {
@@ -57,9 +57,9 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
 
         // TODO: Add more macro tests here (for performance reasons it's much faster to have more
         // tests in a single junit test) and modify thet assert so that it checks for exact content
-        setFieldValue("content", "#mimetypeimg(\"image/jpeg\" \"photo.jpeg\")");
+        setFieldValue("content", "{{velocity}}{{html}}#mimetypeimg('image/jpeg' 'photo.jpeg'){{/html}}{{/velocity}}");
         clickEditSaveAndView();
-        assertGeneratedHTML("img[@src='/xwiki/resources/icons/silk/picture.png' "
+        assertGeneratedHTML("p/img[@src='/xwiki/resources/icons/silk/picture.png' "
             + "and @alt='Image' and @title='Image']");
     }
 
@@ -67,12 +67,12 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
      * Verify that we can create macros in a document and including them into another document.
      */
     public void testIncludeMacrosInPage()
-    {        
-        editInWikiEditor("Test", "Macro", SYNTAX);       
-        setFieldValue("content", "#macro(testIncludeMacrosInPage)hellomacro#end");
-        clickEditSaveAndView();        
+    {
+        editInWikiEditor("Test", "Macro", SYNTAX);
+        setFieldValue("content", "{{velocity}}#macro(testIncludeMacrosInPage)hellomacro#end{{/velocity}}");
+        clickEditSaveAndView();
         editInWikiEditor("Test", "IncludeMacroTest", SYNTAX);
-        setFieldValue("content", "#includeMacros(\"Test.Macro\")\n#testIncludeMacrosInPage()");
+        setFieldValue("content", "{{velocity}}#includeMacros(\"Test.Macro\")\n#testIncludeMacrosInPage(){{/velocity}}");
         clickEditSaveAndView();
         assertTextPresent("hellomacro");
     }
@@ -83,11 +83,11 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
      */
     public void testMacrosAreLocal()
     {
-        editInWikiEditor("Test", "TestMacrosAreLocal1", SYNTAX);        
-        setFieldValue("content", "#macro(testMacrosAreLocal)mymacro#end");
+        editInWikiEditor("Test", "TestMacrosAreLocal1", SYNTAX);
+        setFieldValue("content", "{{velocity}}#macro(testMacrosAreLocal)mymacro#end{{/velocity}}");
         clickEditSaveAndView();
-        editInWikiEditor("Test", "TestMacrosAreLocal2", SYNTAX);        
-        setFieldValue("content", "#testMacrosAreLocal()");
+        editInWikiEditor("Test", "TestMacrosAreLocal2", SYNTAX);
+        setFieldValue("content", "{{velocity}}#testMacrosAreLocal(){{/velocity}}");
         clickEditSaveAndView();
         assertTextNotPresent("mymacro");
     }
@@ -104,13 +104,13 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
 
         // Overwrite view template in custom skin to add macro definition.
         open("Sandbox", "testUsingMacroInGetRenderedContentSkin", "edit", "editor=object");
-        setFieldValue("XWiki.XWikiSkins_0_view.vm", "#macro(testSkinObjectMacro)skin object macro content#end"
-            + "\n$cdoc.getRenderedContent()");
+        setFieldValue("XWiki.XWikiSkins_0_view.vm",
+            "#macro(testSkinObjectMacro)skin object macro content#end\n$cdoc.getRenderedContent()");
         clickEditSaveAndContinue();
 
         // Create a wiki page which uses the defined macro.
         editInWikiEditor("Test", "testUsingMacroInGetRenderedContent", SYNTAX);
-        setFieldValue("content", "#testSkinObjectMacro()");
+        setFieldValue("content", "{{velocity}}#testSkinObjectMacro(){{/velocity}}");
         clickEditSaveAndContinue();
 
         // Validate if the macros works

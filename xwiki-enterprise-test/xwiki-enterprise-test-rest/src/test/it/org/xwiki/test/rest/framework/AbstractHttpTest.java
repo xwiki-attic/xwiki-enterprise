@@ -127,7 +127,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
 
     protected String getBaseURL()
     {
-        return TestUtils.BASE_REST_URL;
+        return TestUtils.BASE_REST_URL.substring(0, TestUtils.BASE_REST_URL.length() - 1);
     }
 
     protected String getFullUri(Class< ? > resourceClass)

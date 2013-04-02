@@ -113,8 +113,8 @@ public class WikisResourceTest extends AbstractHttpTest
             checkLinks(searchResult);
         }
 
-        // Note: we use $msg.get(...) a bit everywhere in our title for the moment... The search is a search in the DB
-        // and not on the rendered content. Thus for our tests we search on msg...
+        // Note: we use $services.<service> a bit everywhere in our title for the moment... The search is a search in the DB
+        // and not on the rendered content. Thus for our tests we search on services...
         getMethod =
             executeGet(String.format("%s?q=services&scope=title", getUriBuilder(WikiSearchResource.class).build(getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());

@@ -59,6 +59,7 @@ import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.jmock.AbstractComponentTestCase;
+import org.xwiki.test.ui.TestUtils;
 
 public abstract class AbstractHttpTest extends AbstractComponentTestCase
 {
@@ -389,7 +390,9 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
     {
         String uri = getUriBuilder(PageResource.class).build(wikiName, spaceName, pageName).toString();
 
-        PutMethod putMethod = executePut(uri, content, javax.ws.rs.core.MediaType.TEXT_PLAIN, "Admin", "admin");
+        PutMethod putMethod =
+            executePut(uri, content, javax.ws.rs.core.MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
 
         int code = putMethod.getStatusCode();
         Assert.assertTrue(String.format("Failed to set page content, %s", getHttpMethodInfo(putMethod)),
@@ -433,10 +436,12 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
         Page page = this.objectFactory.createPage();
         page.setContent(content);
 
-        PutMethod putMethod = executePutXml(uri, page, "Admin", "admin");
+        PutMethod putMethod =
+            executePutXml(uri, page, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
     }
-    
+
     protected boolean createPageIfDoesntExist(String spaceName, String pageName, String content) throws Exception
     {
         String uri = getUriBuilder(PageResource.class).build(getWiki(), spaceName, pageName).toString();

@@ -36,6 +36,7 @@ import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.rest.resources.comments.CommentsResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
+import org.xwiki.test.ui.TestUtils;
 
 public class CommentsResourceTest extends AbstractHttpTest
 {
@@ -65,7 +66,9 @@ public class CommentsResourceTest extends AbstractHttpTest
         Comment comment = objectFactory.createComment();
         comment.setText("Comment");
 
-        PostMethod postMethod = executePostXml(commentsUri, comment, "Admin", "admin");
+        PostMethod postMethod =
+            executePostXml(commentsUri, comment, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         getMethod = executeGet(commentsUri);
@@ -88,7 +91,9 @@ public class CommentsResourceTest extends AbstractHttpTest
 
         int numberOfComments = comments.getComments().size();
 
-        PostMethod postMethod = executePost(commentsUri, "Comment", MediaType.TEXT_PLAIN, "Admin", "admin");
+        PostMethod postMethod =
+            executePost(commentsUri, "Comment", MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         getMethod = executeGet(commentsUri);
@@ -118,7 +123,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     public void testGETCommentsAtPreviousVersions() throws Exception
     {
         String pageHistoryUri =
-                getUriBuilder(PageHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+            getUriBuilder(PageHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -153,7 +158,9 @@ public class CommentsResourceTest extends AbstractHttpTest
         NameValuePair[] nameValuePairs = new NameValuePair[1];
         nameValuePairs[0] = new NameValuePair("text", "Comment");
 
-        PostMethod postMethod = executePostForm(commentsUri, nameValuePairs, "Admin", "admin");
+        PostMethod postMethod =
+            executePostForm(commentsUri, nameValuePairs, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         getMethod = executeGet(commentsUri);

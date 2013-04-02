@@ -43,6 +43,7 @@ import org.xwiki.rest.resources.tags.PagesForTagsResource;
 import org.xwiki.rest.resources.tags.TagsResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.test.rest.framework.TestConstants;
+import org.xwiki.test.ui.TestUtils;
 
 /**
  * @version $Id$
@@ -58,8 +59,8 @@ public class TagsResourceTest extends AbstractHttpTest
         createPageIfDoesntExist(TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME, "Test");
 
         GetMethod getMethod =
-                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                TestConstants.TEST_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Tags tags = objectFactory.createTags();
@@ -68,13 +69,15 @@ public class TagsResourceTest extends AbstractHttpTest
         tags.getTags().add(tag);
 
         PutMethod putMethod =
-                executePutXml(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString(), tags, "Admin", "admin");
+            executePutXml(
+                getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                    TestConstants.TEST_PAGE_NAME).toString(), tags, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
-                executeGet(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString());
+            executeGet(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                TestConstants.TEST_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         tags = (Tags) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -108,16 +111,15 @@ public class TagsResourceTest extends AbstractHttpTest
         found = false;
         for (PageSummary pageSummary : pages.getPageSummaries()) {
             if (pageSummary.getFullName().equals(
-                    String.format("%s.%s", TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME)))
-            {
+                String.format("%s.%s", TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME))) {
                 found = true;
             }
         }
         Assert.assertTrue(found);
 
         getMethod =
-                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                TestConstants.TEST_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -133,18 +135,20 @@ public class TagsResourceTest extends AbstractHttpTest
         String tagName = UUID.randomUUID().toString();
 
         GetMethod getMethod =
-                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                TestConstants.TEST_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         PutMethod putMethod =
-                executePut(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString(), tagName, MediaType.TEXT_PLAIN, "Admin", "admin");
+            executePut(
+                getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                    TestConstants.TEST_PAGE_NAME).toString(), tagName, MediaType.TEXT_PLAIN,
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
-                executeGet(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString());
+            executeGet(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                TestConstants.TEST_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Tags tags = (Tags) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -166,23 +170,25 @@ public class TagsResourceTest extends AbstractHttpTest
         String tagName = UUID.randomUUID().toString();
 
         GetMethod getMethod =
-                executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString());
+            executeGet(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                TestConstants.TEST_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         NameValuePair[] nameValuePairs = new NameValuePair[1];
         nameValuePairs[0] = new NameValuePair("tags", tagName);
 
         PostMethod postMethod =
-                executePostForm(String.format("%s?method=PUT", getUriBuilder(PageTagsResource.class).build(getWiki(),
-                        TestConstants.TEST_SPACE_NAME, TestConstants.TEST_PAGE_NAME).toString()), nameValuePairs,
-                        "Admin",
-                        "admin");
+            executePostForm(
+                String.format(
+                    "%s?method=PUT",
+                    getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                        TestConstants.TEST_PAGE_NAME).toString()), nameValuePairs,
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
         getMethod =
-                executeGet(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                        TestConstants.TEST_PAGE_NAME).toString());
+            executeGet(getUriBuilder(PageTagsResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
+                TestConstants.TEST_PAGE_NAME).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Tags tags = (Tags) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());

@@ -53,6 +53,7 @@ import org.xwiki.rest.resources.pages.PageTranslationResource;
 import org.xwiki.rest.resources.wikis.WikisResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.test.rest.framework.TestConstants;
+import org.xwiki.test.ui.TestUtils;
 
 public class PageResourceTest extends AbstractHttpTest
 {
@@ -143,7 +144,9 @@ public class PageResourceTest extends AbstractHttpTest
         Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
         Assert.assertNotNull(link);
 
-        PutMethod putMethod = executePutXml(link.getHref(), newPage, "Admin", "admin");
+        PutMethod putMethod =
+            executePutXml(link.getHref(), newPage, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
@@ -161,7 +164,9 @@ public class PageResourceTest extends AbstractHttpTest
         Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
         Assert.assertNotNull(link);
 
-        PutMethod putMethod = executePut(link.getHref(), CONTENT, MediaType.TEXT_PLAIN, "Admin", "admin");
+        PutMethod putMethod =
+            executePut(link.getHref(), CONTENT, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -198,7 +203,7 @@ public class PageResourceTest extends AbstractHttpTest
 
         PutMethod putMethod =
             executePutXml(getUriBuilder(PageResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString(), page,
-                "Admin", "admin");
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -220,7 +225,7 @@ public class PageResourceTest extends AbstractHttpTest
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?><invalidPage><content/></invalidPage>", MediaType.TEXT_XML);
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_BAD_REQUEST, putMethod.getStatusCode());
     }
-    
+
     @Test
     public void testPUTGETTranslation() throws Exception
     {
@@ -236,7 +241,8 @@ public class PageResourceTest extends AbstractHttpTest
         PutMethod putMethod =
             executePutXml(
                 getUriBuilder(PageTranslationResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME,
-                    TestConstants.TRANSLATIONS_PAGE_NAME, languageId).toString(), page, "Admin", "admin");
+                    TestConstants.TRANSLATIONS_PAGE_NAME, languageId).toString(), page,
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         // GET
@@ -288,7 +294,7 @@ public class PageResourceTest extends AbstractHttpTest
 
         DeleteMethod deleteMethod =
             executeDelete(getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, pageName)
-                .toString(), "Admin", "admin");
+                .toString(), TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
@@ -402,7 +408,8 @@ public class PageResourceTest extends AbstractHttpTest
         nameValuePairs[1] = new NameValuePair("content", CONTENT);
 
         PostMethod postMethod =
-            executePostForm(String.format("%s?method=PUT", link.getHref()), nameValuePairs, "Admin", "admin");
+            executePostForm(String.format("%s?method=PUT", link.getHref()), nameValuePairs,
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
@@ -432,7 +439,9 @@ public class PageResourceTest extends AbstractHttpTest
         Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
         Assert.assertNotNull(link);
 
-        PutMethod putMethod = executePutXml(link.getHref(), originalPage, "Admin", "admin");
+        PutMethod putMethod =
+            executePutXml(link.getHref(), originalPage, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());

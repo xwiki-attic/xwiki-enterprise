@@ -46,6 +46,7 @@ import org.xwiki.rest.resources.objects.ObjectResource;
 import org.xwiki.rest.resources.objects.ObjectsResource;
 import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
+import org.xwiki.test.ui.TestUtils;
 
 public class ObjectsResourceTest extends AbstractHttpTest
 {
@@ -69,7 +70,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
             PostMethod postMethod =
                 executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(),
-                    object, "Admin", "admin");
+                    object, TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
             Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_CREATED, postMethod.getStatusCode());
         }
     }
@@ -142,7 +143,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         PostMethod postMethod =
             executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(), object,
-                "Admin", "admin");
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         object = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
@@ -172,7 +173,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         PostMethod postMethod =
             executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(), object,
-                "Admin", "admin");
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_BAD_REQUEST, postMethod.getStatusCode());
     }
 
@@ -211,7 +212,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         PutMethod putMethod =
             executePutXml(
                 getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome", objectToBePut.getClassName(),
-                    objectToBePut.getNumber()).toString(), objectSummary, "Admin", "admin");
+                    objectToBePut.getNumber()).toString(), objectSummary, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         Object updatedObjectSummary = (Object) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -261,7 +263,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         DeleteMethod deleteMethod =
             executeDelete(
                 getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
-                    objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString(), "Admin", "admin");
+                    objectToBeDeleted.getClassName(), objectToBeDeleted.getNumber()).toString(),
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         GetMethod getMethod =
@@ -336,7 +339,9 @@ public class ObjectsResourceTest extends AbstractHttpTest
         Property newTags = objectFactory.createProperty();
         newTags.setValue(TAG_VALUE);
 
-        PutMethod putMethod = executePutXml(tagsPropertyLink.getHref(), newTags, "Admin", "admin");
+        PutMethod putMethod =
+            executePutXml(tagsPropertyLink.getHref(), newTags, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
@@ -398,7 +403,9 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         Assert.assertNotNull(tagsPropertyLink);
 
-        PutMethod putMethod = executePut(tagsPropertyLink.getHref(), TAG_VALUE, MediaType.TEXT_PLAIN, "Admin", "admin");
+        PutMethod putMethod =
+            executePut(tagsPropertyLink.getHref(), TAG_VALUE, MediaType.TEXT_PLAIN,
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
         getMethod =
@@ -442,7 +449,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         PostMethod postMethod =
             executePostXml(getUriBuilder(ObjectsResource.class).build(getWiki(), spaceName, pageName).toString(),
-                object, "Admin", "admin");
+                object, TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         object = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
@@ -472,8 +479,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
                 String.format(
                     "%s?method=PUT",
                     getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
-                        objectToBePut.getClassName(), objectToBePut.getNumber()).toString()), nameValuePairs, "Admin",
-                "admin");
+                        objectToBePut.getClassName(), objectToBePut.getNumber()).toString()), nameValuePairs,
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
 
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
@@ -495,7 +502,7 @@ public class ObjectsResourceTest extends AbstractHttpTest
 
         PostMethod postMethod =
             executePostForm(getUriBuilder(ObjectsResource.class).build(getWiki(), "Main", "WebHome").toString(),
-                nameValuePairs, "Admin", "admin");
+                nameValuePairs, TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_CREATED, postMethod.getStatusCode());
 
         Object object = (Object) unmarshaller.unmarshal(postMethod.getResponseBodyAsStream());
@@ -563,8 +570,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
         nameValuePairs[0] = new NameValuePair("property#tags", TAG_VALUE);
 
         PostMethod postMethod =
-            executePostForm(String.format("%s?method=PUT", tagsPropertyLink.getHref()), nameValuePairs, "Admin",
-                "admin");
+            executePostForm(String.format("%s?method=PUT", tagsPropertyLink.getHref()), nameValuePairs,
+                TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(postMethod), HttpStatus.SC_ACCEPTED, postMethod.getStatusCode());
 
         getMethod =
@@ -594,8 +601,8 @@ public class ObjectsResourceTest extends AbstractHttpTest
             PutMethod putMethod =
                 executePutXml(
                     getUriBuilder(ObjectResource.class).build(getWiki(), "Main", "WebHome",
-                        objectToBePut.getClassName(), objectToBePut.getNumber()).toString(), objectToBePut, "Admin",
-                    "admin");
+                        objectToBePut.getClassName(), objectToBePut.getNumber()).toString(), objectToBePut,
+                    TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS.getPassword());
             Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
 
             GetMethod getMethod =

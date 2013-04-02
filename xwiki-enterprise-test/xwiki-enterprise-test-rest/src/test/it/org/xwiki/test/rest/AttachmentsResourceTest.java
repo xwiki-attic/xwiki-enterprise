@@ -49,16 +49,13 @@ import org.xwiki.rest.resources.attachments.AttachmentResource;
 import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
+import org.xwiki.test.ui.TestUtils;
 
 public class AttachmentsResourceTest extends AbstractHttpTest
 {
     private final String SPACE_NAME = "Main";
 
     private final String PAGE_NAME = "WebHome";
-
-    private final String ADMIN_USERNAME = "Admin";
-
-    private final String ADMIN_PASSWORD = "admin";
 
     @Override
     @Test
@@ -92,7 +89,9 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         GetMethod getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
 
-        PutMethod putMethod = executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+        PutMethod putMethod =
+            executePut(attachmentURI, content, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         getMethod = executeGet(attachmentURI);
@@ -120,7 +119,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testGETAttachments() throws Exception
     {
         String attachmentsUri =
-                getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -134,7 +133,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testDELETEAttachment() throws Exception
     {
         String attachmentsUri =
-                getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -146,7 +145,9 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         String attachmentName = attachments.getAttachments().get(0).getName();
         String attachmentURI = buildAttachmentURI(attachmentName);
 
-        DeleteMethod deleteMethod = executeDelete(attachmentURI, ADMIN_USERNAME, ADMIN_PASSWORD);
+        DeleteMethod deleteMethod =
+            executeDelete(attachmentURI, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
 
         getMethod = executeGet(attachmentURI);
@@ -161,7 +162,9 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         String content = "ATTACHMENT CONTENT";
 
-        PutMethod putMethod = executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+        PutMethod putMethod =
+            executePut(attachmentURI, content, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
         DeleteMethod deleteMethod = executeDelete(attachmentURI);
@@ -189,7 +192,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             String attachmentURI = buildAttachmentURI(attachmentNames[i]);
 
             PutMethod putMethod =
-                    executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+                executePut(attachmentURI, content, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                    TestUtils.ADMIN_CREDENTIALS.getPassword());
             Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
 
             Attachment attachment = (Attachment) this.unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
@@ -202,8 +206,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
          */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
             String attachmentsUri =
-                    getUriBuilder(AttachmentsAtPageVersionResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME,
-                            pageVersions[i]).toString();
+                getUriBuilder(AttachmentsAtPageVersionResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME,
+                    pageVersions[i]).toString();
 
             GetMethod getMethod = executeGet(attachmentsUri);
             Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -225,7 +229,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
                     }
                 }
                 Assert.assertTrue(String.format("%s is not present in attachments list of the page at version %s",
-                        attachmentNames[j], pageVersions[i]), found);
+                    attachmentNames[j], pageVersions[i]), found);
             }
 
             /* Check links */
@@ -248,7 +252,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             String attachmentURI = buildAttachmentURI(attachmentName);
             String content = String.format("CONTENT %d", i);
             PutMethod putMethod =
-                    executePut(attachmentURI, content, MediaType.TEXT_PLAIN, ADMIN_USERNAME, ADMIN_PASSWORD);
+                executePut(attachmentURI, content, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                    TestUtils.ADMIN_CREDENTIALS.getPassword());
             if (i == 0) {
                 Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
             } else {
@@ -261,8 +266,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         }
 
         String attachmentsUri =
-                getUriBuilder(AttachmentHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
-                        .toString();
+            getUriBuilder(AttachmentHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
+                .toString();
 
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -284,12 +289,13 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         final String content = "ATTACHMENT CONTENT";
 
         String attachmentsUri =
-                getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
-                        .toString();
+            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
 
         HttpClient httpClient = new HttpClient();
-        httpClient.getState().setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(ADMIN_USERNAME, ADMIN_PASSWORD));
+        httpClient.getState().setCredentials(
+            AuthScope.ANY,
+            new UsernamePasswordCredentials(TestUtils.ADMIN_CREDENTIALS.getUserName(), TestUtils.ADMIN_CREDENTIALS
+                .getPassword()));
         httpClient.getParams().setAuthenticationPreemptive(true);
 
         Part[] parts = new Part[1];
@@ -327,6 +333,6 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         // Use UriBuilder.buildFromEncoded so we don't double encode the %.
         return getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName,
-                encodedAttachmentName).toString();
+            encodedAttachmentName).toString();
     }
 }

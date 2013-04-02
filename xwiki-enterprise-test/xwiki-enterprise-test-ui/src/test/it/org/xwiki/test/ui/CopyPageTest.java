@@ -19,10 +19,10 @@
  */
 package org.xwiki.test.ui;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
+import org.xwiki.test.ui.po.AttachmentsPane;
 import org.xwiki.test.ui.po.CopyConfirmationPage;
 import org.xwiki.test.ui.po.CopyPage;
 import org.xwiki.test.ui.po.ViewPage;
@@ -40,17 +40,25 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
     private static final String COPY_SUCCESSFUL = "successfully copied to";
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testCopyPage()
     {
         // Delete page that may already exist
-        String copiedPageName = getTestMethodName() + "1";
+        String copiedPageName = getTestMethodName() + "Copy";
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         getUtil().deletePage(getTestClassName(), copiedPageName);
 
         // Create a new page that will be copied.
         ViewPage viewPage =
             getUtil().createPage(getTestClassName(), getTestMethodName(), PAGE_CONTENT, getTestMethodName());
+
+        // Add an attachment to verify that it's version is not incremented in the target document (XWIKI-8157).
+        // FIXME: Remove the following wait when XWIKI-6688 is fixed.
+        viewPage.waitForDocExtraPaneActive("comments");
+        AttachmentsPane attachmentsPane = viewPage.openAttachmentsDocExtraPane();
+        attachmentsPane.setFileToUpload(getClass().getResource("/image.gif").getPath());
+        attachmentsPane.waitForUploadToFinish("image.gif");
+        Assert.assertEquals("1.1", attachmentsPane.getLatestVersionOfAttachment("image.gif"));
 
         // Click on Copy from the Page top menu.
         CopyPage copyPage = viewPage.copy();
@@ -61,9 +69,16 @@ public class CopyPageTest extends AbstractAdminAuthenticatedTest
         CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
         Assert.assertTrue(copyConfirmationPage.getInfoMessage().contains(COPY_SUCCESSFUL));
         viewPage = copyConfirmationPage.goToNewPage();
+
         // Verify that the copied title is modified to be the new page name since it was set to be the page name
         // originally.
         Assert.assertEquals(copiedPageName, viewPage.getDocumentTitle());
         Assert.assertEquals(PAGE_CONTENT, viewPage.getContent());
+
+        // Verify the attachment version is the same (XWIKI-8157).
+        // FIXME: Remove the following wait when XWIKI-6688 is fixed.
+        viewPage.waitForDocExtraPaneActive("comments");
+        attachmentsPane = viewPage.openAttachmentsDocExtraPane();
+        Assert.assertEquals("1.1", attachmentsPane.getLatestVersionOfAttachment("image.gif"));
     }
 }

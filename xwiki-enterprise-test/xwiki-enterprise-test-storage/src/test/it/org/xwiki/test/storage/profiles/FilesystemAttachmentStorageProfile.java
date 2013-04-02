@@ -25,12 +25,13 @@ import org.xwiki.test.integration.XWikiExecutor;
 
 /**
  * Test profile for running tests with filesystem attachment storage enabled.
- *
+ * 
  * @version $Id$
  * @since 3.0RC1
  */
 public class FilesystemAttachmentStorageProfile implements Profile
 {
+    @Override
     public void apply(final XWikiExecutor executor) throws Exception
     {
         final Properties conf = executor.loadXWikiCfg();

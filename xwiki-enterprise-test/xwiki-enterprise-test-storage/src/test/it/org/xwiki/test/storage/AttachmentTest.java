@@ -112,17 +112,16 @@ public class AttachmentTest extends AbstractTest
         // Delete the document if it exists.
         doPostAsAdmin(spaceName, pageName, null, "delete", "confirm=1", null);
 
-        HttpMethod ret = null;
         // Upload the XAR to import.
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         IOUtils.copy(this.getClass().getResourceAsStream("/Test.Attachment2.xar"), baos);
-        ret = doUploadAsAdmin("XWiki", "XWikiPreferences",
+        doUploadAsAdmin("XWiki", "XWikiPreferences",
             new HashMap<String, byte[]>() {{
                 put("Test.Attachment2.xar", baos.toByteArray());
             }});
 
         // Do the import.
-        ret = doPostAsAdmin("XWiki", "XWikiPreferences", null, "import", null,
+        doPostAsAdmin("XWiki", "XWikiPreferences", null, "import", null,
             new HashMap<String, String>() {{
                 put("action", "import");
                 put("name", "Test.Attachment2.xar");
@@ -148,9 +147,8 @@ public class AttachmentTest extends AbstractTest
         // Create a document.
         doPostAsAdmin(spaceName, pageName, null, "save", null, null);
 
-        HttpMethod ret = null;
         // Upload the attachment
-        ret = doUploadAsAdmin(spaceName, pageName,
+        doUploadAsAdmin(spaceName, pageName,
             new HashMap<String, byte[]>() {{
                 put(FILENAME, ATTACHMENT_CONTENT.getBytes());
             }});
@@ -185,7 +183,8 @@ public class AttachmentTest extends AbstractTest
         // Create a document.
         doPostAsAdmin(spaceName, pageName, null, "save", null, null);
 
-        HttpMethod ret = null;
+        HttpMethod ret;
+
         // Upload the attachment
         ret = doUploadAsAdmin(spaceName, pageName,
             new HashMap<String, byte[]>() {{
@@ -220,9 +219,8 @@ public class AttachmentTest extends AbstractTest
         // Create a document.
         doPostAsAdmin(spaceName, pageName, null, "save", null, null);
 
-        HttpMethod ret = null;
         // Upload the attachment
-        ret = doUploadAsAdmin(spaceName, pageName,
+        doUploadAsAdmin(spaceName, pageName,
             new HashMap<String, byte[]>() {{
                 put(FILENAME, ATTACHMENT_CONTENT.getBytes());
             }});
@@ -231,7 +229,7 @@ public class AttachmentTest extends AbstractTest
         Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
 
         // Overwrite
-        ret = doUploadAsAdmin(spaceName, pageName,
+        doUploadAsAdmin(spaceName, pageName,
             new HashMap<String, byte[]>() {{
                 put(FILENAME, versionTwo.getBytes());
             }});
@@ -269,7 +267,8 @@ public class AttachmentTest extends AbstractTest
         // Create a document. v1.1
         doPostAsAdmin(spaceName, pageName, null, "save", null, null);
 
-        HttpMethod ret = null;
+        HttpMethod ret;
+
         // Upload the attachment v2.1
         ret = doUploadAsAdmin(spaceName, pageName,
             new HashMap<String, byte[]>() {{

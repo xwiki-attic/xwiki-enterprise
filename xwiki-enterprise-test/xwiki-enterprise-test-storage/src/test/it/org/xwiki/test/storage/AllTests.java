@@ -29,7 +29,7 @@ import org.xwiki.test.storage.profiles.ForEachProfileSuite;
 
 /**
  * Runs all functional tests found in the classpath.
- *
+ * 
  * @version $Id$
  * @since 3.0RC1
  */
@@ -39,6 +39,7 @@ public class AllTests implements Initializable
     @Inject
     private XWikiExecutor executor;
 
+    @Override
     public void initialize()
     {
         AbstractTest.setExecutor(executor);

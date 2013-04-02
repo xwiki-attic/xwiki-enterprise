@@ -23,12 +23,13 @@ import org.xwiki.test.integration.XWikiExecutor;
 
 /**
  * Everything is default, nothing is changed in configuration.
- *
+ * 
  * @version $Id$
  * @since 3.0RC1
  */
 public class DefaultProfile implements Profile
 {
+    @Override
     public void apply(final XWikiExecutor executor) throws Exception
     {
     }

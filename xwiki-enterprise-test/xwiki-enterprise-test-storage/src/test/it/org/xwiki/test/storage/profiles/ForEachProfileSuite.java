@@ -27,9 +27,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.junit.extensions.cpsuite.ClasspathSuite;
-import org.junit.extensions.cpsuite.ClasspathClassesFinder;
 import org.junit.extensions.cpsuite.ClassTester;
+import org.junit.extensions.cpsuite.ClasspathClassesFinder;
+import org.junit.extensions.cpsuite.ClasspathSuite;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
@@ -38,12 +38,10 @@ import org.xwiki.component.phase.Initializable;
 import org.xwiki.test.integration.XWikiExecutor;
 
 /**
- * Run all tests in multiple configuration profiles and start/stop XWiki for each profile.
- * Run all tests found in the current classloader using
- * <a href="http://www.johanneslink.net/projects/cpsuite.jsp">cpsuite</a> (we extend it).
- *
+ * Run all tests in multiple configuration profiles and start/stop XWiki for each profile. Run all tests found in the
+ * current classloader using <a href="http://www.johanneslink.net/projects/cpsuite.jsp">cpsuite</a> (we extend it).
  * Tests can be filtered by passing the "pattern" System Property.
- *
+ * 
  * @version $Id$
  * @since 3.0RC1
  */
@@ -51,7 +49,7 @@ public class ForEachProfileSuite extends ClasspathSuite
 {
     public static final String PATTERN = ".*" + System.getProperty("pattern", "");
 
-    public ForEachProfileSuite(Class<?> klass, RunnerBuilder builder) throws InitializationError
+    public ForEachProfileSuite(Class< ? > klass, RunnerBuilder builder) throws InitializationError
     {
         super(klass, builder);
     }
@@ -75,15 +73,14 @@ public class ForEachProfileSuite extends ClasspathSuite
     public void run(RunNotifier notifier)
     {
         // Get the list of test profiles.
-        final List<Class<?>> profiles =
+        final List<Class< ? >> profiles =
             new ClasspathClassesFinder(IsProfileTester.INSTANCE, "java.class.path").find();
 
         final Map<Profile, XWikiExecutor> executorByProfile = new HashMap<Profile, XWikiExecutor>();
         for (int i = 0; i < profiles.size(); i++) {
             try {
                 // All executors are #0 because they will not be run in parallel.
-                executorByProfile.put(((Class<Profile>)profiles.get(i)).newInstance(),
-                                      new XWikiExecutor(0));
+                executorByProfile.put(((Class<Profile>) profiles.get(i)).newInstance(), new XWikiExecutor(0));
             } catch (Exception e) {
                 throw new RuntimeException("Failed to instanciate configuration profile.", e);
             }
@@ -97,7 +94,6 @@ public class ForEachProfileSuite extends ClasspathSuite
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize XWiki Executors", e);
         }
-
 
         for (final Profile profile : executorByProfile.keySet()) {
             final XWikiExecutor executor = executorByProfile.get(profile);
@@ -115,16 +111,14 @@ public class ForEachProfileSuite extends ClasspathSuite
                     // If there is a field which is an XWikiExecutor type
                     // and has an @Inject annotation, inject the current executor.
                     for (Field field : this.getTestClass().getJavaClass().getDeclaredFields()) {
-                        if (field.getType() == XWikiExecutor.class
-                            && field.getAnnotation(Inject.class) != null)
-                        {
+                        if (field.getType() == XWikiExecutor.class && field.getAnnotation(Inject.class) != null) {
                             field.setAccessible(true);
                             field.set(instance, executor);
                         }
                     }
 
                     // If the class is initializable then call initialize.
-                    final Class[] interfaces = this.getTestClass().getJavaClass().getInterfaces();
+                    final Class< ? >[] interfaces = this.getTestClass().getJavaClass().getInterfaces();
                     for (int i = 0; i < interfaces.length; i++) {
                         if (interfaces[i] == Initializable.class) {
                             this.getTestClass().getJavaClass().getMethod("initialize").invoke(instance);
@@ -155,9 +149,10 @@ public class ForEachProfileSuite extends ClasspathSuite
 
         private final String packageName = this.getClass().getPackage().getName();
 
-        public boolean acceptClass(Class<?> klass)
+        @Override
+        public boolean acceptClass(Class< ? > klass)
         {
-            final Class[] interfaces = klass.getInterfaces();
+            final Class< ? >[] interfaces = klass.getInterfaces();
             for (int i = 0; i < interfaces.length; i++) {
                 if (interfaces[i] == Profile.class) {
                     return true;
@@ -166,16 +161,19 @@ public class ForEachProfileSuite extends ClasspathSuite
             return false;
         }
 
+        @Override
         public boolean acceptClassName(String className)
         {
             return className.startsWith(this.packageName);
         }
 
+        @Override
         public boolean acceptInnerClass()
         {
             return false;
         }
 
+        @Override
         public boolean searchInJars()
         {
             return false;

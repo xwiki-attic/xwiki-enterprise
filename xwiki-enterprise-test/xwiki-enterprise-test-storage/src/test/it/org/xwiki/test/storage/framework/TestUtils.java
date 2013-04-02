@@ -27,14 +27,16 @@ import java.util.Map;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.methods.MultipartPostMethod;
+import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
 
 /**
  * Test saving and downloading of attachments.
- *
+ * 
  * @version $Id$
  * @since 3.2M1
  */
@@ -49,19 +51,16 @@ public final class TestUtils
     }
 
     /** Method to easily do a post request to the site. */
-    public static HttpMethod doPost(final String address,
-                                    final String[] userNameAndPassword,
-                                    final Map<String, String> parameters)
-        throws IOException
+    public static HttpMethod doPost(final String address, final String[] userNameAndPassword,
+        final Map<String, String> parameters) throws IOException
     {
         final HttpClient client = new HttpClient();
         final PostMethod method = new PostMethod(address);
 
         if (userNameAndPassword != null && userNameAndPassword.length == 2) {
-            client.getState().setCredentials(null,
-                                             null,
-                                             new UsernamePasswordCredentials(userNameAndPassword[0],
-                                                                             userNameAndPassword[1]));
+            client.getState().setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(userNameAndPassword[0], userNameAndPassword[1]));
+            client.getParams().setAuthenticationPreemptive(true);
         }
 
         if (parameters != null) {
@@ -73,25 +72,26 @@ public final class TestUtils
         return method;
     }
 
-    public static HttpMethod doUpload(final String address,
-                                      final String[] userNameAndPassword,
-                                      final Map<String, byte[]> uploads)
-        throws IOException
+    public static HttpMethod doUpload(final String address, final String[] userNameAndPassword,
+        final Map<String, byte[]> uploads) throws IOException
     {
         final HttpClient client = new HttpClient();
-        final MultipartPostMethod method = new MultipartPostMethod(address);
+        final PostMethod method = new PostMethod(address);
 
         if (userNameAndPassword != null && userNameAndPassword.length == 2) {
-            client.getState().setCredentials(null,
-                                             null,
-                                             new UsernamePasswordCredentials(userNameAndPassword[0],
-                                                                             userNameAndPassword[1]));
+            client.getState().setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(userNameAndPassword[0], userNameAndPassword[1]));
+            client.getParams().setAuthenticationPreemptive(true);
         }
 
+        Part[] parts = new Part[uploads.size()];
+        int i = 0;
         for (Map.Entry<String, byte[]> e : uploads.entrySet()) {
-            method.addPart(new FilePart("filepath",
-                           new ByteArrayPartSource(e.getKey(), e.getValue())));
+            parts[i++] = new FilePart("filepath", new ByteArrayPartSource(e.getKey(), e.getValue()));
         }
+        MultipartRequestEntity entity = new MultipartRequestEntity(parts, method.getParams());
+        method.setRequestEntity(entity);
+
         client.executeMethod(method);
         return method;
     }

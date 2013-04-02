@@ -32,6 +32,7 @@ import org.xwiki.test.rest.framework.AbstractHttpTest;
 public abstract class AbstractClusterHttpTest extends AbstractHttpTest
 {
     @Test
+    @Override
     public void testRepresentation() throws Exception
     {
     }

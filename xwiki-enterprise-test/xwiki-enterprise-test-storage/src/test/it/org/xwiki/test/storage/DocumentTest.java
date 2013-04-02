@@ -27,7 +27,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.storage.framework.AbstractTest;
-import org.xwiki.test.storage.framework.TestUtils;
+import org.xwiki.test.storage.framework.StoreTestUtils;
 
 /**
  * Test saving and downloading of attachments.
@@ -74,13 +74,13 @@ public class DocumentTest extends AbstractTest
             }});
 
         // Make sure it's version 2.
-        Assert.assertEquals("<p>" + versionTwo + "</p>", TestUtils.getPageAsString(pageURL));
+        Assert.assertEquals("<p>" + versionTwo + "</p>", StoreTestUtils.getPageAsString(pageURL));
 
         // Do a rollback. v3.1
         doPostAsAdmin(spaceName, pageName, null, "rollback", "rev=1.1&confirm=1", null);
 
         // Make sure it's the same as version 1.
-        Assert.assertEquals("<p>" + versionOne + "</p>", TestUtils.getPageAsString(pageURL));
+        Assert.assertEquals("<p>" + versionOne + "</p>", StoreTestUtils.getPageAsString(pageURL));
 
         // Make sure the latest current version is actually v3.1
         HttpMethod ret =
@@ -134,7 +134,7 @@ public class DocumentTest extends AbstractTest
         final String url =
             this.getAddressPrefix() + "view/" + this.spaceName + "/" + this.pageName + "?xpage=plain";
 
-        Assert.assertEquals("<p>test content</p>", TestUtils.getPageAsString(url));
+        Assert.assertEquals("<p>test content</p>", StoreTestUtils.getPageAsString(url));
     }
 
     @Test
@@ -161,6 +161,6 @@ public class DocumentTest extends AbstractTest
         final String url =
             this.getAddressPrefix() + "view/" + this.spaceName + "/" + this.pageName + "?xpage=plain";
 
-        Assert.assertEquals("<p>test content</p>", TestUtils.getPageAsString(url));
+        Assert.assertEquals("<p>test content</p>", StoreTestUtils.getPageAsString(url));
     }
 }

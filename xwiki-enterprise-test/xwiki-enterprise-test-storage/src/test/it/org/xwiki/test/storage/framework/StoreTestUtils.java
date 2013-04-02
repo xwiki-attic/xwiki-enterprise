@@ -38,12 +38,10 @@ import org.apache.commons.httpclient.methods.multipart.Part;
  * Test saving and downloading of attachments.
  * 
  * @version $Id$
- * @since 3.2M1
+ * @since 5.0M2
  */
-public final class TestUtils
+public final class StoreTestUtils
 {
-    public static final String[] ADMIN_CREDENTIALS = new String[] {"Admin", "admin"};
-
     public static String getPageAsString(final String address) throws IOException
     {
         final HttpMethod ret = doPost(address, null, null);
@@ -51,15 +49,14 @@ public final class TestUtils
     }
 
     /** Method to easily do a post request to the site. */
-    public static HttpMethod doPost(final String address, final String[] userNameAndPassword,
+    public static HttpMethod doPost(final String address, final UsernamePasswordCredentials userNameAndPassword,
         final Map<String, String> parameters) throws IOException
     {
         final HttpClient client = new HttpClient();
         final PostMethod method = new PostMethod(address);
 
-        if (userNameAndPassword != null && userNameAndPassword.length == 2) {
-            client.getState().setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(userNameAndPassword[0], userNameAndPassword[1]));
+        if (userNameAndPassword != null) {
+            client.getState().setCredentials(AuthScope.ANY, userNameAndPassword);
             client.getParams().setAuthenticationPreemptive(true);
         }
 
@@ -72,15 +69,14 @@ public final class TestUtils
         return method;
     }
 
-    public static HttpMethod doUpload(final String address, final String[] userNameAndPassword,
+    public static HttpMethod doUpload(final String address, final UsernamePasswordCredentials userNameAndPassword,
         final Map<String, byte[]> uploads) throws IOException
     {
         final HttpClient client = new HttpClient();
         final PostMethod method = new PostMethod(address);
 
-        if (userNameAndPassword != null && userNameAndPassword.length == 2) {
-            client.getState().setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(userNameAndPassword[0], userNameAndPassword[1]));
+        if (userNameAndPassword != null) {
+            client.getState().setCredentials(AuthScope.ANY, userNameAndPassword);
             client.getParams().setAuthenticationPreemptive(true);
         }
 

@@ -28,7 +28,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xwiki.test.storage.framework.AbstractTest;
-import org.xwiki.test.storage.framework.TestUtils;
+import org.xwiki.test.storage.framework.StoreTestUtils;
 
 /**
  * Test saving and downloading of attachments.
@@ -130,7 +130,7 @@ public class AttachmentTest extends AbstractTest
             }});
 
         // Check for attachment content.
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
     }
 
     @Test
@@ -154,19 +154,19 @@ public class AttachmentTest extends AbstractTest
             }});
 
         // Make sure it's there.
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
 
         // Delete it
         doPostAsAdmin(spaceName, pageName, FILENAME, "delattachment", null, null);
 
         // Make sure it's nolonger there.
-        Assert.assertFalse(ATTACHMENT_CONTENT.equals(TestUtils.getPageAsString(attachURL)));
+        Assert.assertFalse(ATTACHMENT_CONTENT.equals(StoreTestUtils.getPageAsString(attachURL)));
 
         // Do a rollback.
         doPostAsAdmin(spaceName, pageName, null, "rollback", "rev=2.1&confirm=1", null);
 
         // Make sure the content is back again.
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
     }
 
     @Test
@@ -192,7 +192,7 @@ public class AttachmentTest extends AbstractTest
             }});
 
         // Make sure it's there.
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
 
         // Do a rollback.
         doPostAsAdmin(spaceName, pageName, null, "rollback", "?rev=1.1&confirm=1", null);
@@ -226,7 +226,7 @@ public class AttachmentTest extends AbstractTest
             }});
 
         // Make sure it's there.
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
 
         // Overwrite
         doUploadAsAdmin(spaceName, pageName,
@@ -235,13 +235,13 @@ public class AttachmentTest extends AbstractTest
             }});
 
         // Make sure it is now version2
-        Assert.assertEquals(versionTwo, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(versionTwo, StoreTestUtils.getPageAsString(attachURL));
 
         // Do a rollback.
         doPostAsAdmin(spaceName, pageName, null, "rollback", "rev=2.1&confirm=1", null);
 
         // Make sure it is version1
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
     }
 
     /**
@@ -276,7 +276,7 @@ public class AttachmentTest extends AbstractTest
             }});
 
         // Make sure it's there.
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
 
         // Delete it v3.1
         doPostAsAdmin(spaceName, pageName, FILENAME, "delattachment", null, null);
@@ -288,7 +288,7 @@ public class AttachmentTest extends AbstractTest
             }});
 
         // Make sure it's there.
-        Assert.assertEquals(versionTwo, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(versionTwo, StoreTestUtils.getPageAsString(attachURL));
 
         // Do a rollback. v5.1
         doPostAsAdmin(spaceName, pageName, null, "rollback", "rev=2.1&confirm=1", null);
@@ -301,13 +301,13 @@ public class AttachmentTest extends AbstractTest
         Assert.assertEquals("<p>5.1</p>", new String(ret.getResponseBody(), "UTF-8"));
 
         // Make sure it is version1
-        Assert.assertEquals(ATTACHMENT_CONTENT, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(ATTACHMENT_CONTENT, StoreTestUtils.getPageAsString(attachURL));
 
         // Do rollback to version2. v6.1
         doPostAsAdmin(spaceName, pageName, null, "rollback", "rev=4.1&confirm=1", null);
 
         // Make sure it is version2
-        Assert.assertEquals(versionTwo, TestUtils.getPageAsString(attachURL));
+        Assert.assertEquals(versionTwo, StoreTestUtils.getPageAsString(attachURL));
 
         // Make sure the latest current version is actually v6.1
         ret = doPostAsAdmin(spaceName, pageName, null, "preview", "xpage=plain",
@@ -351,7 +351,7 @@ public class AttachmentTest extends AbstractTest
             }});
 
         Assert.assertEquals("<p>true false</p>",
-                            TestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
+                            StoreTestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
 
 
         // Make sure that on load the attach content isn't dirty.
@@ -363,7 +363,7 @@ public class AttachmentTest extends AbstractTest
                 put("content", test2);
             }});
         Assert.assertEquals("<p>false</p>",
-                            TestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
+                            StoreTestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
 
         // Make sure the version of the attachment has not been incremented.
         final String test3 =
@@ -373,7 +373,7 @@ public class AttachmentTest extends AbstractTest
                 put("content", test3);
             }});
         Assert.assertEquals("<p>1.1</p>",
-                            TestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
+                            StoreTestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
 
         // Reupload the attachment and make sure the version is incremented.
         doPostAsAdmin(spaceName, pageName, null, "preview", null,
@@ -386,6 +386,6 @@ public class AttachmentTest extends AbstractTest
                 put("content", test3);
             }});
         Assert.assertEquals("<p>1.2</p>",
-                            TestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
+                            StoreTestUtils.getPageAsString(this.getAddressPrefix() + "view/" + spaceName + "/" + pageName + "?xpage=plain"));
     }
 }

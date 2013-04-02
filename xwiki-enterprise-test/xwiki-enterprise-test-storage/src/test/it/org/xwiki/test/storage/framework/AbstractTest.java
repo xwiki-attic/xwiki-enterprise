@@ -28,10 +28,11 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.test.ui.TestUtils;
 
 /**
  * To be extended by all Test Classes. Provides access to information such as the port number.
- *
+ * 
  * @version $Id$
  * @since 3.0RC1
  */
@@ -58,7 +59,7 @@ public class AbstractTest
 
     protected String getAddressPrefix()
     {
-        return "http://127.0.0.1:" + this.getPort() + "/xwiki/bin/";
+        return TestUtils.URL + ':' + this.getPort() + "/xwiki/bin/";
     }
 
     protected String getTestMethodName()
@@ -66,23 +67,18 @@ public class AbstractTest
         return this.testName.getMethodName();
     }
 
-    protected HttpMethod doPostAsAdmin(final String space,
-                                       final String page,
-                                       final String filename,
-                                       final String action,
-                                       final String query,
-                                       final Map<String, String> postParameters) throws IOException
+    protected HttpMethod doPostAsAdmin(final String space, final String page, final String filename,
+        final String action, final String query, final Map<String, String> postParameters) throws IOException
     {
         String url = getURL(space, page, filename, action, addBasicauth(query));
-        return TestUtils.doPost(url, TestUtils.ADMIN_CREDENTIALS, postParameters);
+        return StoreTestUtils.doPost(url, TestUtils.ADMIN_CREDENTIALS, postParameters);
     }
 
-    public HttpMethod doUploadAsAdmin(final String space,
-                                      final String page,
-                                      final Map<String, byte[]> uploads) throws IOException
+    public HttpMethod doUploadAsAdmin(final String space, final String page, final Map<String, byte[]> uploads)
+        throws IOException
     {
         String url = getURL(space, page, null, "upload", addBasicauth(null));
-        return TestUtils.doUpload(url, TestUtils.ADMIN_CREDENTIALS, uploads);
+        return StoreTestUtils.doUpload(url, TestUtils.ADMIN_CREDENTIALS, uploads);
     }
 
     /**
@@ -97,6 +93,7 @@ public class AbstractTest
         if (query == null || query.isEmpty()) {
             return basicauth;
         }
+
         return query + "&" + basicauth;
     }
 
@@ -117,12 +114,12 @@ public class AbstractTest
 
         builder.append(action);
         builder.append('/');
-        builder.append(TestUtils.escapeURL(space));
+        builder.append(StoreTestUtils.escapeURL(space));
         builder.append('/');
-        builder.append(TestUtils.escapeURL(page));
+        builder.append(StoreTestUtils.escapeURL(page));
         if (filename != null && !filename.isEmpty()) {
             builder.append('/');
-            builder.append(TestUtils.escapeURL(filename));
+            builder.append(StoreTestUtils.escapeURL(filename));
         }
 
         boolean needToAddSecretToken = !("view".equals(action) || "edit".equals(action));
@@ -154,7 +151,9 @@ public class AbstractTest
         if (this.secretToken == null) {
             String body = null;
             try {
-                body = new String(doPostAsAdmin("Main", "WebHome", null, "edit", "editor=wiki", null).getResponseBody(), "UTF-8");
+                body =
+                    new String(doPostAsAdmin("Main", "WebHome", null, "edit", "editor=wiki", null).getResponseBody(),
+                        "UTF-8");
                 Matcher matcher = Pattern.compile("<input[^>]+form_token[^>]+value=('|\")([^'\"]+)").matcher(body);
                 if (matcher.find() && matcher.groupCount() == 2) {
                     this.secretToken = matcher.group(2);
@@ -163,10 +162,13 @@ public class AbstractTest
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+
             // something went really wrong
             System.out.println("Warning: Failed to cache anti-CSRF secret token, some tests might fail!");
+
             return "";
         }
+
         return this.secretToken;
     }
 }

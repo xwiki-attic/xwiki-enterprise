@@ -73,6 +73,8 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
 
     protected int port = Integer.valueOf(XWikiExecutor.DEFAULT_PORT);
 
+    protected TestUtils testUtils = new TestUtils();
+
     @Override
     @Before
     public void setUp() throws Exception
@@ -125,7 +127,7 @@ public abstract class AbstractHttpTest extends AbstractComponentTestCase
 
     protected String getBaseURL()
     {
-        return "http://localhost:" + this.port + TestConstants.RELATIVE_REST_API_ENTRYPOINT;
+        return TestUtils.BASE_REST_URL;
     }
 
     protected String getFullUri(Class< ? > resourceClass)

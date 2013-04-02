@@ -59,7 +59,7 @@ public class AbstractTest
 
     protected String getAddressPrefix()
     {
-        return TestUtils.URL + ':' + this.getPort() + "/xwiki/bin/";
+        return TestUtils.BASE_BIN_URL;
     }
 
     protected String getTestMethodName()

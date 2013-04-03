@@ -19,9 +19,9 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Assert;
 import junit.framework.Test;
 
+import org.junit.Assert;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
@@ -161,7 +161,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
         getSelenium().typeKeys("doc.name", pageName);
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rights']");
-        Assert.assertEquals("Editing Rights for Actions test", getTitle());
+        Assert.assertEquals("Editing access rights for Actions test", getTitle());
     }
 
     /**

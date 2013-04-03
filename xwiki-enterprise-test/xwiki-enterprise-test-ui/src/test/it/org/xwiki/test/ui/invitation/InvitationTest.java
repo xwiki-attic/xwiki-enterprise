@@ -243,6 +243,13 @@ public class InvitationTest extends AbstractTest
     public void testUnpermittedUserCannotSendToMultipleAddresses() throws Exception
     {
         TestUtils.Session admin = getUtil().getSession();
+
+        // Make sure users don't have the right to send to multiple.
+        AdministrationSectionPage config = AdministrationSectionPage.gotoPage("Invitation");
+        config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
+            + "usersMaySendToMultiple"), "false");
+        config.clickSave();
+
         try {
             getUtil().forceGuestUser();
             getUtil().registerLoginAndGotoPage("NonMailAdminUser", "WeakPassword", getSenderPage().getURL());
@@ -260,7 +267,7 @@ public class InvitationTest extends AbstractTest
             // Become admin and allow users to send to multiple.
             TestUtils.Session nonAdmin = getUtil().getSession();
             getUtil().setSession(admin);
-            AdministrationSectionPage config = AdministrationSectionPage.gotoPage("Invitation");
+            config = AdministrationSectionPage.gotoPage("Invitation");
             config.getForm().setFieldValue(By.id("Invitation.InvitationConfig_Invitation.WebHome_0_"
                 + "usersMaySendToMultiple"), "true");
             config.clickSave();

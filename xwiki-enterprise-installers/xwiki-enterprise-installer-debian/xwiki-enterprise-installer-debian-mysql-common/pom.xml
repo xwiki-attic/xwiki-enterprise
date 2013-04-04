@@ -64,12 +64,12 @@
               </mapper>
             </data>
             <!-- MySQL connector -->
-            <!-- <data>
+            <data>
               <type>link</type>
               <symlink>true</symlink>
               <linkName>/usr/lib/xwiki/WEB-INF/lib/mysql.jar</linkName>
               <linkTarget>/usr/share/java/mysql.jar</linkTarget>
-            </data> -->
+            </data>
           </dataSet>
         </configuration>
       </plugin>

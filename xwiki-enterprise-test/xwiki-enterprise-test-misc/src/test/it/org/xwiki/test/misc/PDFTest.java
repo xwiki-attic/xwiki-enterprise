@@ -53,6 +53,6 @@ public class PDFTest extends TestCase
         is.close();
 
         assertTrue("Invalid content", text.contains("Welcome to your wiki"));
-        assertFalse("Invalid content", text.contains("$msg.get(\""));
+        assertFalse("Invalid content", text.contains("$services.localization.render("));
     }
 }

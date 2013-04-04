@@ -155,6 +155,7 @@
                   <xwikiDbHbmXwiki>${xwiki.db.hbm.xwiki}</xwikiDbHbmXwiki>
                   <xwikiDbHbmFeeds>${xwiki.db.hbm.feeds}</xwikiDbHbmFeeds>
                   <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
+                  <xwikiDbVirtualMode>${xwiki.db.hbm.virtualMode}</xwikiDbVirtualMode>
 
                   <!-- Default configuration data for xwiki.cfg -->
                   <xwikiCfgPlugins>${xwiki.cfg.plugins}</xwikiCfgPlugins>
@@ -244,6 +245,7 @@
         <xwiki.db.dialect>org.hibernate.dialect.PostgreSQLDialect</xwiki.db.dialect>
         <xwiki.db.hbm.xwiki>xwiki.postgresql.hbm.xml</xwiki.db.hbm.xwiki>
         <xwiki.db.hbm.feeds>feeds.hbm.xml</xwiki.db.hbm.feeds>
+        <xwiki.db.hbm.virtualMode>schema</xwiki.db.hbm.virtualMode>
       </properties>
     </profile>
     <profile>

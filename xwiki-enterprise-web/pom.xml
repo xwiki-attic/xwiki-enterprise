@@ -1122,18 +1122,18 @@ If you wish to have the default wiki pages, which contain both content pages and
                   </resources>
                 </exception>
                 <!-- The files are different but removing them would mean repackaging the JARs which is PITA.
-                     Since the versions are the same (1.45) there's a good chance the files are compatible. -->
+                     Since the versions are the same (1.46) there's a good chance the files are compatible. -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>
                       <groupId>org.bouncycastle</groupId>
-                      <artifactId>bcmail-jdk15</artifactId>
-                      <version>1.45</version>
+                      <artifactId>bcmail-jdk16</artifactId>
+                      <version>1.46</version>
                     </dependency>
                     <dependency>
                       <groupId>org.bouncycastle</groupId>
-                      <artifactId>bcprov-jdk15</artifactId>
-                      <version>1.45</version>
+                      <artifactId>bcprov-jdk16</artifactId>
+                      <version>1.46</version>
                     </dependency>
                   </conflictingDependencies>
                   <resources>

@@ -54,10 +54,17 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>pdfbox</groupId>
+      <groupId>org.apache.pdfbox</groupId>
       <artifactId>pdfbox</artifactId>
-      <version>0.7.3</version>
+      <version>1.8.0</version>
       <scope>test</scope>
+      <exclusions>
+        <!-- We want to choose the SLF4J binding only when XWiki is packaged. -->
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>

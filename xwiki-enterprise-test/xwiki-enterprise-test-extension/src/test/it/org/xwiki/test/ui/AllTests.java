@@ -27,7 +27,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.junit.runner.RunWith;
 import org.xwiki.extension.ExtensionId;
-import org.xwiki.extension.test.RepositoryUtil;
+import org.xwiki.extension.test.RepositoryUtils;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
 
@@ -39,14 +39,14 @@ import org.xwiki.test.integration.XWikiExecutorSuite;
 @RunWith(PageObjectSuite.class)
 public class AllTests
 {
-    private static RepositoryUtil repositoryUtil;
+    private static RepositoryUtils repositoryUtil;
 
     @XWikiExecutorSuite.PreStart
     public void preStart(List<XWikiExecutor> executors) throws Exception
     {
         XWikiExecutor executor = executors.get(0);
 
-        repositoryUtil = new RepositoryUtil();
+        repositoryUtil = new RepositoryUtils();
 
         PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
         // Put self as extensions repository

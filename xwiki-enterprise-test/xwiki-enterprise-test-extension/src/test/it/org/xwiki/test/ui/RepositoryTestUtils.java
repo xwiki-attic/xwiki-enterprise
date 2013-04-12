@@ -29,7 +29,7 @@ import org.xwiki.extension.Extension;
 import org.xwiki.extension.ExtensionAuthor;
 import org.xwiki.extension.ExtensionDependency;
 import org.xwiki.extension.ExtensionId;
-import org.xwiki.extension.test.RepositoryUtil;
+import org.xwiki.extension.test.RepositoryUtils;
 import org.xwiki.repository.internal.XWikiRepositoryModel;
 
 /**
@@ -44,20 +44,20 @@ public class RepositoryTestUtils
 
     private final TestUtils testUtils;
 
-    private RepositoryUtil repositoryUtil;
+    private RepositoryUtils repositoryUtil;
 
     public RepositoryTestUtils(TestUtils testUtils)
     {
         this(testUtils, null);
     }
 
-    public RepositoryTestUtils(TestUtils testUtils, RepositoryUtil repositoryUtil)
+    public RepositoryTestUtils(TestUtils testUtils, RepositoryUtils repositoryUtil)
     {
         this.testUtils = testUtils;
-        this.repositoryUtil = repositoryUtil != null ? repositoryUtil : new RepositoryUtil();
+        this.repositoryUtil = repositoryUtil != null ? repositoryUtil : new RepositoryUtils();
     }
 
-    public RepositoryUtil getRepositoryUtil()
+    public RepositoryUtils getRepositoryUtil()
     {
         return this.repositoryUtil;
     }

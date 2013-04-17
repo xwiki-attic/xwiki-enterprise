@@ -21,9 +21,8 @@ package org.xwiki.test.ui.appwithinminutes;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;

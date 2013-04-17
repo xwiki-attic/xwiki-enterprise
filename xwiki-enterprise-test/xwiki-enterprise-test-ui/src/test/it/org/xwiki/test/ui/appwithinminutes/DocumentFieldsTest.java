@@ -19,9 +19,8 @@
  */
 package org.xwiki.test.ui.appwithinminutes;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;

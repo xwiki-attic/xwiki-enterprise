@@ -22,9 +22,8 @@ package org.xwiki.test.ui.appwithinminutes;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;

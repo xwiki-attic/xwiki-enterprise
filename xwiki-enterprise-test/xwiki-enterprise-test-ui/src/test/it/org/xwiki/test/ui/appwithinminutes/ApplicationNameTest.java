@@ -19,8 +19,7 @@
  */
 package org.xwiki.test.ui.appwithinminutes;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;

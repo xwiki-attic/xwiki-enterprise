@@ -19,9 +19,8 @@
  */
 package org.xwiki.test.ui.appwithinminutes;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.AppWithinMinutesHomePage;
@@ -54,7 +53,8 @@ public class AppsLiveTableTest extends AbstractTest
         // Register a simple user, login and go to the AppWithinMinutes home page.
         String userName = RandomStringUtils.randomAlphanumeric(5);
         String password = RandomStringUtils.randomAlphanumeric(6);
-        getUtil().registerLoginAndGotoPage(userName, password, homePage.getURL());
+        getUtil().createUser(userName, password);
+        homePage = AppWithinMinutesHomePage.gotoPage();
     }
 
     /**
@@ -165,8 +165,8 @@ public class AppsLiveTableTest extends AbstractTest
         Assert.assertFalse(appsLiveTable.canDeleteApplication(appName));
 
         // Login with a different user. The new user shouldn't be able to delete the application.
-        getUtil().registerLoginAndGotoPage("someOtherUser", "somePassword", homePage.getURL());
-        appsLiveTable = new AppWithinMinutesHomePage().getAppsLiveTable();
+        getUtil().createUser("someOtherUser", "somePassword");
+        appsLiveTable = AppWithinMinutesHomePage.gotoPage().getAppsLiveTable();
         appsLiveTable.waitUntilReady();
         appsLiveTable.filterApplicationName(appName);
         Assert.assertTrue(appsLiveTable.canEditApplication(appName));

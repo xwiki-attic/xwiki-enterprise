@@ -19,9 +19,8 @@
  */
 package org.xwiki.test.ui.appwithinminutes;
 
-import junit.framework.Assert;
-
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.AppWithinMinutesHomePage;
@@ -58,8 +57,8 @@ public class WizardTest extends AbstractTest
         // Register a simple user, login and go to the App Within Minutes home page.
         String userName = RandomStringUtils.randomAlphanumeric(5);
         String password = RandomStringUtils.randomAlphanumeric(6);
-        AppWithinMinutesHomePage appWithinMinutesHomePage = new AppWithinMinutesHomePage();
-        getUtil().registerLoginAndGotoPage(userName, password, appWithinMinutesHomePage.getURL());
+        getUtil().createUser(userName, password);
+        AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
 
         // Click the Create Application button.
         appCreatePage = appWithinMinutesHomePage.clickCreateApplication();

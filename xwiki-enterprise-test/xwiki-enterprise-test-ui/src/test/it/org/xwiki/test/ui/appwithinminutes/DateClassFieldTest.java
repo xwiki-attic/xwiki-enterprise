@@ -22,8 +22,7 @@ package org.xwiki.test.ui.appwithinminutes;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.DateClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.DatePicker;

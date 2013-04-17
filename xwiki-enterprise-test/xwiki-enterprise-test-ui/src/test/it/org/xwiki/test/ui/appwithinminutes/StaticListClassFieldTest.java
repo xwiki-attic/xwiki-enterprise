@@ -21,8 +21,7 @@ package org.xwiki.test.ui.appwithinminutes;
 
 import java.util.Arrays;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.StaticListClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.StaticListItemsEditor;

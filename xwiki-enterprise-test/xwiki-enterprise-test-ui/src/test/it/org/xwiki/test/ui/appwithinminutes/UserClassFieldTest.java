@@ -21,8 +21,7 @@ package org.xwiki.test.ui.appwithinminutes;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;

@@ -69,7 +69,8 @@ public class PDFTest extends TestCase
         Map<String, String> urls =
             extractURLs(new URL("http://localhost:8080/xwiki/bin/export/Sandbox/WebHome?format=pdf"));
         assertTrue(urls.containsKey("XWikiLogo.png"));
-        assertEquals("http://localhost:8080/xwiki/bin/downloadrev/Sandbox/WebHome/XWikiLogo.png?rev=1.1",            urls.get("XWikiLogo.png"));
+        assertEquals("http://localhost:8080/xwiki/bin/download/Sandbox/WebHome/XWikiLogo.png",
+            urls.get("XWikiLogo.png"));
     }
 
     private String getPDFContent(URL url) throws Exception

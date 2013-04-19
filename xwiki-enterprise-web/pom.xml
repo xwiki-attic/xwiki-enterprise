@@ -503,10 +503,9 @@
     </dependency>
     <!-- Portlet Integration -->
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-portlet</artifactId>
-      <!-- Use a different version because xwiki-platform-portlet is not yet integrated in the XWiki Platform. -->
-      <version>3.5-SNAPSHOT</version>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>portlet-proxy</artifactId>
+      <version>1.0</version>
       <scope>runtime</scope>
     </dependency>
     <!-- Logging Dependencies. Ensures all logging goes through SLF4J and Logback. -->

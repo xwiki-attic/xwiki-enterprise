@@ -1299,6 +1299,19 @@ If you wish to have the default wiki pages, which contain both content pages and
           <artifactId>clover</artifactId>
         </dependency>
       </dependencies>
+      <!-- Skip Duplicate class finder since it's causing duplicate problems with Clovered jars containing dups and we
+           don't need it -->
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.ning.maven.plugins</groupId>
+            <artifactId>maven-duplicate-finder-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

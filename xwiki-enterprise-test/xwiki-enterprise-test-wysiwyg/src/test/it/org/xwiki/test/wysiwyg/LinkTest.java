@@ -22,6 +22,8 @@ package org.xwiki.test.wysiwyg;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
+import com.thoughtworks.selenium.Wait;
+
 public class LinkTest extends AbstractWysiwygTestCase
 {
     public static final String MENU_LINK = "Link";
@@ -1523,6 +1525,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertFieldErrorIsPresentInStep("The file path was not set", FILE_UPLOAD_INPUT, "xUploadPanel");
         // Go to the previous step and come back: the error should be gone.
         clickButtonWithText("Previous");
+        // We need to wait for the previous step to load because it is reinitialized (the list of attachments is fetched
+        // again with an asynchronous request).
+        waitForStepToLoad("xAttachmentsSelector");
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xUploadPanel");
         // Get the error again to check that closing it and displaying this step again makes it go away.
@@ -2056,7 +2061,14 @@ public class LinkTest extends AbstractWysiwygTestCase
 
     protected void waitForStepToLoad(String name)
     {
-        waitForElement("//*[contains(@class, '" + name + "')]");
+        final String locator = "//*[contains(@class, '" + name + "')]";
+        new Wait()
+        {
+            public boolean until()
+            {
+                return getSelenium().isElementPresent(locator) && getSelenium().isVisible(locator);
+            }
+        }.wait("The step [" + name + "] didn't load in a decent amount of time.");
     }
 
     private void clickTab(String tabName)

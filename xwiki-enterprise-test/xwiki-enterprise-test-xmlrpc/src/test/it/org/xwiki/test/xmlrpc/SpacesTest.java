@@ -21,7 +21,7 @@ package org.xwiki.test.xmlrpc;
 
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.codehaus.swizzle.confluence.Space;

@@ -22,7 +22,7 @@ package org.xwiki.test.ui.blog;
 import java.util.Arrays;
 import java.util.Collections;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;

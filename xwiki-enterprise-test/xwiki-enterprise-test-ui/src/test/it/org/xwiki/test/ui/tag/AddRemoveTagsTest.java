@@ -19,7 +19,7 @@
  */
 package org.xwiki.test.ui.tag;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;

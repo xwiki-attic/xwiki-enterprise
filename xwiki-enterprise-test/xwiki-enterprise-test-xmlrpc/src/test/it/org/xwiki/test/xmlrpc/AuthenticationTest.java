@@ -22,7 +22,7 @@ package org.xwiki.test.xmlrpc;
 import java.net.MalformedURLException;
 import java.util.List;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 import org.apache.xmlrpc.XmlRpcException;

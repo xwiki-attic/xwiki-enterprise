@@ -19,7 +19,7 @@
  */
 package org.xwiki.test.selenium.framework;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Implementation of skin-related actions for the Colibri skin.

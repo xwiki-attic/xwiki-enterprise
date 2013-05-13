@@ -19,14 +19,15 @@
  */
 package org.xwiki.test.po.xe;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.xwiki.index.test.po.SpaceIndexPage;
 import org.xwiki.test.ui.po.BaseElement;
+import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
-
-import java.util.List;
 
 /**
  * Represents the part of the home page that lists the existing spaces and allows the user to create a new space.
@@ -87,5 +88,17 @@ public class SpacesPane extends BaseElement
         }
 
         throw new RuntimeException("Was unable to click on space index for [" + spaceName + "]");
+    }
+
+    /**
+     * Clicks on the link to the space home page.
+     * 
+     * @param spaceName the space name
+     * @return the page object corresponding to the space home page
+     */
+    public ViewPage clickSpaceHome(String spaceName)
+    {
+        getDriver().findElement(By.xpath("//div[@class = 'spSpaceName']/a[. = '" + spaceName + "']")).click();
+        return new ViewPage();
     }
 }

@@ -106,7 +106,7 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
     {
         String tag1 = RandomStringUtils.randomAlphanumeric(4);
         String tag2 = RandomStringUtils.randomAlphanumeric(4);
-        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "tags=" + tag1 + "|" + tag2);
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "tags=" + tag1 + "%7C" + tag2);
         TaggablePage taggablePage = new TaggablePage();
         Assert.assertTrue(taggablePage.hasTag(tag1));
         Assert.assertTrue(taggablePage.hasTag(tag2));

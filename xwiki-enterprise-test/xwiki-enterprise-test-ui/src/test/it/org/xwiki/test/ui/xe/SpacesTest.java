@@ -27,6 +27,7 @@ import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.LiveTableElement;
+import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
 
@@ -85,5 +86,18 @@ public class SpacesTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(1, spaceIndexLiveTable.getRowCount());
         Assert.assertTrue(spaceIndexLiveTable.hasRow("Page", "WebHome"));
         Assert.assertTrue(spaceIndexLiveTable.hasRow("Space", spaceName));
+    }
+
+    /**
+     * @see XE-1228: Broken links displayed in the Spaces widget if a space name contains a colon
+     * @see XE-1298: Spaces macro doesn't list spaces that contain a colon in their name
+     */
+    @Test
+    public void testColonInSpaceName()
+    {
+        String spaceName = getTestClassName() + ":" + getTestMethodName();
+        getUtil().createPage(spaceName, "WebHome", getTestMethodName() + " content", getTestMethodName() + " Title");
+        ViewPage spaceHomePage = HomePage.gotoPage().getSpacesPane().clickSpaceHome(spaceName);
+        Assert.assertEquals(getTestMethodName() + " Title", spaceHomePage.getDocumentTitle());
     }
 }

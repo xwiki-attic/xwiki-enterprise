@@ -3,8 +3,6 @@
 set -e
 #set -x
 
-rm -f /etc/tomcat7/Catalina/localhost/xwiki.xml
-
 if [ "$1" = "purge" ] && [ -f /usr/share/debconf/confmodule ]; then
 	. /usr/share/debconf/confmodule
 	db_purge

@@ -318,18 +318,20 @@ $xwiki.ssx.use('Main.Spaces')##
   #foreach($space in $spaceList)
     ## Display space only if the user has view right on space home and if the space is not blacklisted.
     ## $blacklistedSpaces is set in xwikivars.vm
-    #if($xwiki.hasAccessLevel('view', "${space}.WebHome") &amp;&amp; !$blacklistedSpaces.contains($space))
+    #set ($spaceHomeDocumentReference = $services.model.createDocumentReference($xcontext.database, $space, 'WebHome'))
+    #if($xwiki.hasAccessLevel('view', $services.model.serialize($spaceHomeDocumentReference)) &amp;&amp; !$blacklistedSpaces.contains($space))
       &lt;li class="xitem xunderline xhighlight space"&gt;
         &lt;div class="xitemcontainer"&gt;
-          &lt;div class="spSpaceName"&gt;&lt;a href="$xwiki.getURL($services.model.createDocumentReference('', $space, 'WebHome'))"&gt;${escapetool.xml($space)}&lt;/a&gt;&lt;/div&gt;
+          &lt;div class="spSpaceName"&gt;&lt;a href="$xwiki.getURL($spaceHomeDocumentReference)"&gt;${escapetool.xml($space)}&lt;/a&gt;&lt;/div&gt;
           &lt;div class="xshowonhover spSpaceActions"&gt;
             ## Link to the space index.
             &lt;a href="$xwiki.getURL('Main.SpaceIndex', 'view', "space=$escapetool.url($space)")" title="$services.localization.render('xe.spaces.action.index')"&gt;
               &lt;img src="$xwiki.getSkinFile('icons/silk/book_open.png')" alt="$services.localization.render('xe.spaces.action.index.alt')"/&gt;
             &lt;/a&gt;
             ## If the user has admin right on the space display links to administration and delete.
-            #if($xwiki.hasAccessLevel('admin', "${space}.XWikiPreferences"))
-              &lt;a href="$xwiki.getURL($services.model.createDocumentReference('', $space, 'WebPreferences'), 'admin', '')" title="$services.localization.render('xe.spaces.action.admin')"&gt;
+            #set ($spacePreferencesDocumentReference = $services.model.createDocumentReference($xcontext.database, $space, 'WebPreferences'))
+            #if($xwiki.hasAccessLevel('admin', $services.model.serialize($spacePreferencesDocumentReference)))
+              &lt;a href="$xwiki.getURL($spacePreferencesDocumentReference, 'admin', '')" title="$services.localization.render('xe.spaces.action.admin')"&gt;
                 &lt;img src="$xwiki.getSkinFile('icons/silk/wrench.png')" alt="$services.localization.render('xe.spaces.action.admin.alt')"/&gt;
               &lt;/a&gt;
             #end

@@ -130,28 +130,41 @@ public class PageResourceTest extends AbstractHttpTest
     }
 
     @Test
-    public void testPUTPage() throws Exception
+    public void testPUTGETPage() throws Exception
     {
-        final String CONTENT = String.format("This is a content (%d)", System.currentTimeMillis());
-        final String TITLE = String.format("Title (%s)", UUID.randomUUID().toString());
+        final String title = String.format("Title (%s)", UUID.randomUUID().toString());
+        final String content = String.format("This is a content (%d)", System.currentTimeMillis());
+        final String comment = String.format("Updated title and content (%d)", System.currentTimeMillis());
 
         Page originalPage = getFirstPage();
 
         Page newPage = objectFactory.createPage();
-        newPage.setContent(CONTENT);
-        newPage.setTitle(TITLE);
+        newPage.setTitle(title);
+        newPage.setContent(content);
+        newPage.setComment(comment);
 
         Link link = getFirstLinkByRelation(originalPage, Relations.SELF);
         Assert.assertNotNull(link);
 
+        // PUT
         PutMethod putMethod =
             executePutXml(link.getHref(), newPage, TestUtils.ADMIN_CREDENTIALS.getUserName(),
                 TestUtils.ADMIN_CREDENTIALS.getPassword());
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_ACCEPTED, putMethod.getStatusCode());
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
-        Assert.assertEquals(CONTENT, modifiedPage.getContent());
-        Assert.assertEquals(TITLE, modifiedPage.getTitle());
+        Assert.assertEquals(title, modifiedPage.getTitle());
+        Assert.assertEquals(content, modifiedPage.getContent());
+        Assert.assertEquals(comment, modifiedPage.getComment());
+
+        // GET
+        GetMethod getMethod = executeGet(link.getHref());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        modifiedPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(title, modifiedPage.getTitle());
+        Assert.assertEquals(content, modifiedPage.getContent());
+        Assert.assertEquals(comment, modifiedPage.getComment());
     }
 
     @Test
@@ -340,7 +353,12 @@ public class PageResourceTest extends AbstractHttpTest
 
         History history = (History) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
+        HistorySummary firstVersion = null;
         for (HistorySummary historySummary : history.getHistorySummaries()) {
+            if ("1.1".equals(historySummary.getVersion())) {
+                firstVersion = historySummary;
+            }
+
             getMethod = executeGet(getFirstLinkByRelation(historySummary, Relations.PAGE).getHref());
             Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -352,6 +370,9 @@ public class PageResourceTest extends AbstractHttpTest
                 checkLinks(translation);
             }
         }
+
+        Assert.assertNotNull(firstVersion);
+        Assert.assertEquals("Imported from XAR", firstVersion.getComment());
     }
 
     @Test

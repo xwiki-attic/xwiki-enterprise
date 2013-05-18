@@ -22,6 +22,7 @@ package org.xwiki.test.misc;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -61,6 +62,7 @@ public class HTMLExportTest extends TestCase
         boolean foundResourcesDirectory = false;
         boolean foundAttachmentDirectory = false;
         boolean foundSkinsDirectory = false;
+        boolean foundColibriCSS = false;
 
         // We must read the full stream as otherwise if we close it before we've fully read it
         // then the server side will get a broken pipe since it's still trying to send data on it.
@@ -77,10 +79,20 @@ public class HTMLExportTest extends TestCase
                 foundWebHome = true;
             } else if (entry.getName().startsWith("resources/")) {
                 foundResourcesDirectory = true;
+                IOUtils.readLines(zis);
             } else if (entry.getName().startsWith("skins/")) {
                 foundSkinsDirectory = true;
+                // Verify that the skin is correctly going to be applied by verifyin the colibri.css file is found
+                // and is correctly referenced. This fixes http://jira.xwiki.org/browse/XWIKI-9145
+                if (entry.getName().equals("skins/colibri/style.css")) {
+                    assertSkinIsActive(IOUtils.readLines(zis));
+                    foundColibriCSS = true;
+                } else {
+                    IOUtils.readLines(zis);
+                }
             } else if (entry.getName().startsWith("attachment/")) {
                 foundAttachmentDirectory = true;
+                IOUtils.readLines(zis);
             } else {
                 IOUtils.readLines(zis);
             }
@@ -90,7 +102,19 @@ public class HTMLExportTest extends TestCase
         assertTrue("Failed to find the resources/ directory entry", foundResourcesDirectory);
         assertTrue("Failed to find the skins/ directory entry", foundSkinsDirectory);
         assertTrue("Failed to find the attachment/ directory entry", foundAttachmentDirectory);
+        assertTrue("Failed to find the link to colibri.css in style.css", foundColibriCSS);
 
         zis.close();
+    }
+
+    private void assertSkinIsActive(List<String> content) throws Exception
+    {
+        // Verify that the link to the Skin CSS (i.e. colibri.css) is relative and leads to
+        // skins/colibri/colibri.css
+        // Note that the reason we have "../.." is because at runtime the path is going to be resolved relative to
+        // the style.css file (from where it's referenced) and since style.css is in skins/colibri and colibri.css is
+        // also in that directory, we need the "../..." to point to the right location...
+        assertTrue("style.css doesn't contain a link to the colibri.css file",
+            content.contains("@import \"../../skins/colibri/colibri.css\";"));
     }
 }

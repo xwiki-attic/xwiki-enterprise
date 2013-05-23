@@ -169,7 +169,7 @@
       }
 
       new UserAndEmailPicker(this.input, {
-        script: XWiki.currentDocument.getURL('get', 'xpage=uorgsuggest&amp;uorg=user&amp;wiki=local&amp;'),
+        script: XWiki.currentDocument.getURL('get', 'xpage=uorgsuggest&amp;uorg=user&amp;'),
         shownoresults : false
       });
       this.input.focus();
@@ -574,6 +574,9 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
   box-shadow: inset 0 0 7px $theme.borderColor;
   padding: 0 10px;
 }
+#shareTarget.withScope {
+  border-left-width: 25px;
+}
 .targets-container {
   background: $theme.highlightColor;
   border: 1px dotted $theme.borderColor;
@@ -608,8 +611,7 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
 }
 .target-item .delete:hover {
   color: $theme.notificationErrorColor;
-}
-</code>
+}</code>
     </property>
     <property>
       <name>Toolbox style</name>

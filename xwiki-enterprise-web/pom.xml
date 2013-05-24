@@ -1180,6 +1180,8 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <!-- JAXB2 plugin resources. TODO: Exclude them from the XWiki JARs -->
                 <ignoredResource>META-INF/sun-jaxb.episode</ignoredResource>
                 <ignoredResource>simple.xjb</ignoredResource>
+                <!-- JDOM resources -->
+                <ignoredResource>META-INF/jdom-info.xml</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

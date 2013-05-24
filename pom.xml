@@ -146,6 +146,8 @@
                   <resourceBundle>org.xwiki.platform:xwiki-platform-tool-configuration-resources:${platform.version}</resourceBundle>
                 </resourceBundles>
                 <properties>
+                  <xwikiDb>${xwiki.db}</xwikiDb>
+
                   <!-- Default configuration data for hibernate.cfg.xml -->
                   <xwikiDbConnectionUrl>${xwiki.db.connection.url}</xwikiDbConnectionUrl>
                   <xwikiDbConnectionUsername>${xwiki.db.connection.username}</xwikiDbConnectionUsername>

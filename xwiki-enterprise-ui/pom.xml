@@ -155,7 +155,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-user-ui</artifactId>
+      <artifactId>xwiki-platform-user-profile-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

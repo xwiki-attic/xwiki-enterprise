@@ -36,6 +36,7 @@
       org.xwiki.platform:xwiki-platform-linkchecker-ui,
       org.xwiki.platform:xwiki-platform-dashboard-ui,
       org.xwiki.platform:xwiki-platform-user-profile-ui,
+      org.xwiki.platform:xwiki-platform-user-directory-ui,
       org.xwiki.platform:xwiki-platform-logging-ui,
 
       <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->

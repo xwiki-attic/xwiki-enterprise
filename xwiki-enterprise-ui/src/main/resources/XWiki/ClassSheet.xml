@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1252454400000</creationDate>
-  <date>1253198440000</date>
-  <contentUpdateDate>1253198440000</contentUpdateDate>
+  <creationDate>1369738881000</creationDate>
+  <date>1369832299000</date>
+  <contentUpdateDate>1369832299000</contentUpdateDate>
   <version>1.1</version>
   <title>#if($doc.fullName == 'XWiki.ClassSheet')Default Class Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
-  <template/>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -178,7 +177,12 @@
           &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" /&gt;
           &lt;input type="hidden" name="parent" value="${doc.fullName}"/&gt;
           &lt;input type="hidden" name="xredirect" value="${doc.URL}"/&gt;
-          &lt;input type="hidden" name="content" value="$escapetool.xml($xwiki.getDocument('XWiki.ObjectSheet').getContent().replace('XWiki.MyClass', $doc.fullName))"/&gt;
+          #set ($sheetContent = $xwiki.getDocument('XWiki.ObjectSheet').getContent().replace('XWiki.MyClass', $doc.fullName))
+          ## We have to encode the new line characters in order to preserve them, otherwise they are replace with a
+          ## space when the HTML is cleaned.
+          ## FIXME: Use a dedicated escape tool method when XCOMMONS-405 is implemented.
+          #set ($sheetContent = $escapetool.xml($sheetContent).replaceAll("\n", '&amp;#10;'))
+          &lt;input type="hidden" name="content" value="$sheetContent"/&gt;
           &lt;input type="hidden" name="title" value="${escapetool.h}if(${escapetool.d}doc.name == '$escapetool.xml($defaultClassSheetReference.name)')$escapetool.xml($className) Sheet${escapetool.h}{else}${escapetool.d}services.display.title(${escapetool.d}doc, {'displayerHint': 'default'})${escapetool.h}end"/&gt;
           &lt;span class="buttonwrapper"&gt;&lt;input type="submit" value="Create the document sheet" class="button"/&gt;&lt;/span&gt;
         &lt;/div&gt;

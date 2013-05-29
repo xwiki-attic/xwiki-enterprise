@@ -307,7 +307,8 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     protected String getSourceText(String editorName)
     {
         getSelenium().getEval(
-            "window['" + editorName + "'].getSourceText(function(result){window.sourceText = result;})");
+            "delete window.sourceText;\nwindow['" + editorName
+                + "'].getSourceText(function(result){window.sourceText = result;})");
         waitForCondition("typeof window.sourceText == 'string'");
         return getSelenium().getEval("window.sourceText");
     }

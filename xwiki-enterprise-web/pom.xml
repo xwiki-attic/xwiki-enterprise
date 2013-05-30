@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>5.1-SNAPSHOT</version>
+    <version>5.1-milestone-1</version>
   </parent>
   <artifactId>xwiki-enterprise-web</artifactId>
   <name>XWiki Enterprise - Web</name>
@@ -690,7 +690,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-url-standard</artifactId>
-      <version>${project.version}</version>
+      <version>5.1-milestone-1</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>

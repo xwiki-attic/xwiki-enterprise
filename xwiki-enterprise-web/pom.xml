@@ -690,7 +690,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-url-standard</artifactId>
-      <version>${project.version}</version>
+      <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>

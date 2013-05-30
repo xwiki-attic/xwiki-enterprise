@@ -15,7 +15,7 @@
   <date>1369832299000</date>
   <contentUpdateDate>1369832299000</contentUpdateDate>
   <version>1.1</version>
-  <title>#if($doc.fullName == 'XWiki.ClassSheet')Default Class Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <title>#sheetTitle('Default Class Sheet')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -55,8 +55,11 @@
     </property>
   </object>
   <content>{{velocity}}
-#if($doc.fullName == 'XWiki.ClassSheet')
-  ## Viewing the sheet document itself
+## This document can be copied in order to be customized so we cannot rely on its name to determine if the currently
+## displayed document is a class or the class sheet itself. We look for the sheet descriptor instead.
+#set ($isSheet = $doc.getObject('XWiki.SheetDescriptorClass'))
+#if ($isSheet)
+  ## Viewing the sheet document itself.
   You can edit this document to change the default presentation of classes, or you can copy it to create a customized view just for one or several classes.
 #elseif ("$!request.bindSheet" != '' &amp;&amp; $hasEdit)
   #if ($services.csrf.isTokenValid($request.getParameter('form_token')))
@@ -85,16 +88,16 @@
 {{/velocity}}
 
 {{velocity}}
-## If XWiki.ClassSheet is explicitly bound to the displayed class then print the class document content before the
+## If this sheet is explicitly bound to the displayed class then print the class document content before the
 ## sheet output. Class authors can put the description of the class in the class document content.
 #set($classSheetReference = $services.model.createDocumentReference($doc.wiki, 'XWiki', 'ClassSheet'))
 #if($services.sheet.getDocumentSheets($doc).contains($classSheetReference))
-  {{include document="$doc.name" /}}
+  {{include document="" /}}
 #end
 {{/velocity}}
 
 {{velocity}}
-#if($doc.fullName != 'XWiki.ClassSheet')
+#if (!$isSheet)
   #set($className = $stringtool.removeEnd($doc.name, 'Class'))
   ## Determine the class sheets.
   #set($classSheetReferences = $services.sheet.getClassSheets($doc))
@@ -243,6 +246,6 @@
     [[View the template document (${classTemplateDoc.fullName}) »&gt;&gt;${classTemplateDoc.fullName}]]
   #end
 
-#end ## doc == XWiki.ClassSheet
+#end ## !$isSheet
 {{/velocity}}</content>
 </xwikidoc>

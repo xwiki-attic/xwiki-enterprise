@@ -111,7 +111,7 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
     public void testDeletePageGoesToOriginalPageWhenCancelled()
     {
         this.viewPage.delete().clickNo();
-        Assert.assertTrue(getDriver().getCurrentUrl().equals(getUtil().getURL(SPACE_VALUE, PAGE_VALUE)));
+        Assert.assertEquals(getUtil().getURL(SPACE_VALUE, PAGE_VALUE), getDriver().getCurrentUrl());
     }
 
     @Test

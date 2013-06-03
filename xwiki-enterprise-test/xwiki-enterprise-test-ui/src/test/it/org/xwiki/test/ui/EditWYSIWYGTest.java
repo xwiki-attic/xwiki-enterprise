@@ -250,7 +250,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
     /**
      * Test that hitting the . (dot) key at the end of a list item does not act as delete.
      * 
-     * @see "http://jira.xwiki.org/jira/browse/XWIKI-3304"
+     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3304">XWIKI-3304</a>
      */
     @Test
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
@@ -265,7 +265,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
 
         // Place the caret at the end of the first item and type dot.
         RichTextAreaElement textArea = editor.getRichTextArea();
-        textArea.sendKeys(Keys.chord(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT) + ".");
+        textArea.sendKeys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, Keys.ARROW_RIGHT, ".");
 
         Assert.assertEquals("foo.\nbar", textArea.getText());
     }

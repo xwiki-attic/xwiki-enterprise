@@ -24,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
@@ -214,7 +215,7 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
         RichTextAreaElement textArea = editor.getRichTextArea();
         // Type text, select it (Shift+LeftArrow) and copy it (Control+C).
         // NOTE: We don't use Control+A to select the text because it selects also the BR element.
-        textArea.sendKeys("q" + Keys.chord(Keys.SHIFT, Keys.ARROW_LEFT) + Keys.chord(Keys.CONTROL, "c"));
+        textArea.sendKeys("q", Keys.chord(Keys.SHIFT, Keys.ARROW_LEFT), Keys.chord(Keys.CONTROL, "c"));
         // Then paste it 4 times (Control+V).
         for (int i = 0; i < 4; i++) {
             // Release the key after each paste so that the history records an entry for each paste. In case the paste
@@ -260,7 +261,9 @@ public class EditWYSIWYGTest extends AbstractAdminAuthenticatedTest
 
         // Create a list with two items.
         editor.switchToSource();
-        editor.getSourceTextArea().sendKeys("* foo\n* bar");
+        WebElement sourceTextArea = editor.getSourceTextArea();
+        sourceTextArea.clear();
+        sourceTextArea.sendKeys("* foo\n* bar");
         editor.switchToWysiwyg();
 
         // Place the caret at the end of the first item and type dot.

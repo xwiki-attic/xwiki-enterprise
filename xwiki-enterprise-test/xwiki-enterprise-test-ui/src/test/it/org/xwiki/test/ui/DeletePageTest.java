@@ -99,7 +99,7 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
     {
         HomePage homePage = new HomePage();
         getUtil().gotoPage(SPACE_VALUE, PAGE_VALUE, DELETE_ACTION, "xredirect=" + homePage.getURL());
-        WebElement yesButton = getDriver().findElement(By.xpath("//input[@value='yes']"));
+        WebElement yesButton = getDriver().findElement(By.xpath("//input[@value='Yes']"));
         yesButton.click();
         Assert.assertTrue(homePage.isOnHomePage());
     }

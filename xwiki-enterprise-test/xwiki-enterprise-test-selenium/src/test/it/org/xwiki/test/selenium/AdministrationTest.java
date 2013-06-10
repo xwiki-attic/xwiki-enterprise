@@ -106,11 +106,14 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithLocator("//a[text()='Panel Wizard']");
         waitForBodyContains("Panel List".toUpperCase());
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
-        waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
+        waitForElement("//div[@id = 'bothcolumns']");
         clickLinkWithXPath("//div[@id='bothcolumns']", false);
         waitForBodyContains("Page Layout".toUpperCase());
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("leftPanels"));
+        // Check if the drag & drop succeeded. I think this fails from time to time for some reason and I want to know
+        // if this is the real cause of the test flickering.
+        assertElementPresent("//div[@id = 'leftPanels']/div[contains(@class, 'CategoriesPanel')]");
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());

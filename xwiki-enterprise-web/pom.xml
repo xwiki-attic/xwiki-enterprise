@@ -1252,6 +1252,13 @@ If you wish to have the default wiki pages, which contain both content pages and
           <version>${platform.version}</version>
           <scope>runtime</scope>
         </dependency>
+        <dependency>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-legacy-web</artifactId>
+          <version>${platform.version}</version>
+          <type>war</type>
+          <scope>runtime</scope>
+        </dependency>
       </dependencies>
       <build>
         <plugins>

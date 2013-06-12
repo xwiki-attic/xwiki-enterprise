@@ -247,9 +247,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the selectors are positioned to the old page
-        waitForCondition("selenium.isElementPresent('" + SPACE_SELECTOR + "/option[@value=\"" + imageSpace + "\"]');");
+        waitForElement(SPACE_SELECTOR + "/option[@value = '" + imageSpace + "']");
         assertEquals(imageSpace, getSelenium().getSelectedValue(SPACE_SELECTOR));
-        waitForCondition("selenium.isElementPresent('" + PAGE_SELECTOR + "/option[@value=\"" + imagePage + "\"]');");
+        waitForElement(PAGE_SELECTOR + "/option[@value = '" + imagePage + "']");
         assertEquals(imagePage, getSelenium().getSelectedValue(PAGE_SELECTOR));
         // and select the new one
         selectImage(imageSpace, imagePage, imageFile2);
@@ -806,20 +806,20 @@ public class ImageTest extends AbstractWysiwygTestCase
     {
         // Note: The wiki selector is generated only in multiwiki mode, so for XE the first HTML select from the page
         // chooser panel is in fact the space selector.
-        waitForCondition("selenium.isElementPresent('" + SPACE_SELECTOR + "/option[@value=\"" + space + "\"]');");
+        waitForElement(SPACE_SELECTOR + "/option[@value = '" + space + "']");
         getSelenium().select(SPACE_SELECTOR, space);
 
-        waitForCondition("selenium.isElementPresent('" + PAGE_SELECTOR + "/option[@value=\"" + page + "\"]');");
+        waitForElement(PAGE_SELECTOR + "/option[@value = '" + page + "']");
         getSelenium().select(PAGE_SELECTOR, page);
 
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
-        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
-            + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
+        waitForElement("//*[contains(@class, '" + STEP_EXPLORER + "')]//*[contains(@class, '"
+            + STEP_CURRENT_PAGE_SELECTOR + "')]");
     }
 
     private void selectImage(String filename)
     {
-        waitForCondition("selenium.isElementPresent('" + getImageLocator(filename) + "');");
+        waitForElement(getImageLocator(filename));
         getSelenium().click(getImageLocator(filename));
     }
 

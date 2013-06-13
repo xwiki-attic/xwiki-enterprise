@@ -124,9 +124,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
             getTest().submit("xpath=//input[@name='formactionsac']");
         } else {
             getTest().submit("xpath=//input[@name='action_saveandcontinue']", false);
-            getTest().waitForCondition(
-                "(window.document.getElementsByClassName('xnotification-done')[0] != null "
-                    + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");
+            getTest().waitForNotificationSuccessMessage("Saved");
         }
     }
 
@@ -144,18 +142,14 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     public void clickEditAddProperty()
     {
         getTest().getSelenium().click("//input[@value = 'Add']");
-        getTest().waitForCondition(
-            "(window.document.getElementsByClassName('xnotification-done')[0] != null "
-                + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Property added')");
+        getTest().waitForNotificationSuccessMessage("Property added");
     }
 
     @Override
     public void clickEditAddObject()
     {
         getTest().getSelenium().click("//input[@value = 'Add']");
-        getTest().waitForCondition(
-            "(window.document.getElementsByClassName('xnotification-done')[0] != null "
-                + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Object created')");
+        getTest().waitForNotificationSuccessMessage("Object created");
     }
 
     public boolean isAuthenticated()

@@ -469,11 +469,45 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         }.wait("The confirmation didn't appear.");
     }
 
+    /**
+     * Waits for a notification message of the specified type with the given message to be displayed.
+     * 
+     * @param level the notification type (one of error, warning, done)
+     * @param message the notification message
+     */
+    private void waitForNotificationMessage(String level, String message)
+    {
+        String xpath = String.format("//div[contains(@class,'xnotification-%s') and contains(.,'%s')]", level, message);
+        waitForElement(xpath);
+        // In order to improve test speed, clicking on the notification will make it disappear. This also ensures that
+        // this method always waits for the last notification message of the specified level.
+        try {
+            // The notification message may disappear before we get to click on it.
+            getSelenium().click(xpath);
+        } catch (Exception e) {
+            // Ignore.
+        }
+    }
+
+    public void waitForNotificationErrorMessage(String message)
+    {
+        waitForNotificationMessage("error", message);
+    }
+
+    public void waitForNotificationWarningMessage(String message)
+    {
+        waitForNotificationMessage("warning", message);
+    }
+
+    public void waitForNotificationSuccessMessage(String message)
+    {
+        waitForNotificationMessage("done", message);
+    }
+
     public void clickButtonAndContinue(String locator)
     {
-        waitForCondition("window.document.getElementsByClassName('xnotification-done')[0] == null");
         submit(locator, false);
-        waitForCondition("window.document.getElementsByClassName('xnotification-done')[0] != null");
+        waitForNotificationSuccessMessage("");
     }
 
     @Override

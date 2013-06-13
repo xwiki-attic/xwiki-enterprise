@@ -164,8 +164,6 @@ public class SubmitTest extends AbstractWysiwygTestCase
     private void typeShortcutsForSaveAndContinue()
     {
         getSourceTextArea().sendKeys(Keys.chord(Keys.ALT, Keys.SHIFT, "s"));
-        // Wait for the confirmation.
-        waitForCondition("(window.document.getElementsByClassName('xnotification-done')[0] != null "
-            + "&& window.document.getElementsByClassName('xnotification-done')[0].innerHTML == 'Saved')");
+        waitForNotificationSuccessMessage("Saved");
     }
 }

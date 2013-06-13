@@ -219,7 +219,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String imageSpace = "XWiki";
         String imagePage = "AdminSheet";
         String imageFile1 = "import.png";
-        String imageFile2 = "export.png";
+        String imageFile2 = "lf.png";
 
         openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
         waitForStepSelector();
@@ -247,19 +247,17 @@ public class ImageTest extends AbstractWysiwygTestCase
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(STEP_EXPLORER);
         // test that the selectors are positioned to the old page
-        waitForElement(SPACE_SELECTOR + "/option[@value = '" + imageSpace + "']");
         assertEquals(imageSpace, getSelenium().getSelectedValue(SPACE_SELECTOR));
-        waitForElement(PAGE_SELECTOR + "/option[@value = '" + imagePage + "']");
         assertEquals(imagePage, getSelenium().getSelectedValue(PAGE_SELECTOR));
         // and select the new one
-        selectImage(imageSpace, imagePage, imageFile2);
+        selectImage(imageFile2);
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad(STEP_CONFIG);
         clickButtonWithText(BUTTON_INSERT_IMAGE);
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[image:XWiki.AdminSheet@import.png]]x[[image:XWiki.AdminSheet@export.png]]");
+        assertSourceText("[[image:XWiki.AdminSheet@import.png]]x[[image:XWiki.AdminSheet@lf.png]]");
     }
 
     /**
@@ -813,8 +811,8 @@ public class ImageTest extends AbstractWysiwygTestCase
         getSelenium().select(PAGE_SELECTOR, page);
 
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
-        waitForElement("//*[contains(@class, '" + STEP_EXPLORER + "')]//*[contains(@class, '"
-            + STEP_CURRENT_PAGE_SELECTOR + "')]");
+        waitForElement("//*[@class = '" + STEP_EXPLORER + "']//*[contains(@class, '" + STEP_CURRENT_PAGE_SELECTOR
+            + "')]");
     }
 
     private void selectImage(String filename)

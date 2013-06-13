@@ -91,17 +91,20 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         String propertyName = "myproperty";
 
         // Create the class.
+        deletePage(spaceName, className);
         open(spaceName, className, "edit", "editor=class");
         addWysiwygProperty(propertyName);
         clickEditSaveAndContinue();
 
         // Create the sheet.
+        deletePage(spaceName, sheetName);
         open(spaceName, sheetName, "edit", "editor=wiki");
         setFieldValue("content", display(className, propertyName));
         clickEditSaveAndContinue();
 
         // Create the template.
         // Add the object.
+        deletePage(spaceName, templateName);
         open(spaceName, templateName, "edit", "editor=object");
         addObject(className);
         String propertyValue = String.valueOf(new Date().getTime());

@@ -31,7 +31,7 @@
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>
-  <version>5.1-SNAPSHOT</version>
+  <version>5.1-milestone-2</version>
   <packaging>pom</packaging>
   <name>XWiki Enterprise - Parent POM</name>
   <description>XWiki Enterprise - Parent POM</description>
@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise</url>
-    <tag>HEAD</tag>
+    <tag>xwiki-enterprise-5.1-milestone-2</tag>
   </scm>
   <issueManagement>
     <system>jira</system>

@@ -57,9 +57,8 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
 
         // Create a user for the test
         String userName = RandomStringUtils.randomAlphanumeric(5);
-        WatchlistUserProfilePage profilePage = new WatchlistUserProfilePage(userName);
-        getUtil().registerLoginAndGotoPage(profilePage.getUsername(), "password",
-            getUtil().getURL("XWiki", profilePage.getUsername()));
+        getUtil().createUser(userName, "password");
+        WatchlistUserProfilePage profilePage = WatchlistUserProfilePage.gotoPage(userName);
 
         // Set the Admin user's email address to use a localhost domain so that the mail is caught by our
         // GreenMail Mock mail server.

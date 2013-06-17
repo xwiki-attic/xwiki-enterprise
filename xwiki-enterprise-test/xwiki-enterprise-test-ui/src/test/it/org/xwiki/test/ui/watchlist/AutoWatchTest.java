@@ -19,9 +19,8 @@
  */
 package org.xwiki.test.ui.watchlist;
 
-import org.junit.Assert;
-
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.test.ui.AbstractTest;
@@ -44,10 +43,8 @@ public class AutoWatchTest extends AbstractTest
     {
         String userName = RandomStringUtils.randomAlphanumeric(5);
 
-        WatchlistUserProfilePage profilePage = new WatchlistUserProfilePage(userName);
-
-        getUtil().registerLoginAndGotoPage(profilePage.getUsername(), "password",
-            getUtil().getURL("XWiki", profilePage.getUsername()));
+        getUtil().createUser(userName, "password");
+        WatchlistUserProfilePage profilePage = WatchlistUserProfilePage.gotoPage(userName);
 
         this.watchlistPage = profilePage.switchToWatchlist();
 

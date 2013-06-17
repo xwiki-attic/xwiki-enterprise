@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.administration.test.po.LocalizationAdministrationSectionPage;
@@ -128,7 +127,7 @@ public class SectionTest extends AbstractAdminAuthenticatedTest
 
         // Edit the second section in the wysiwyg editor
         WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
-        wysiwygEditPage.getContentEditor().waitToLoad();
+        wysiwygEditPage.waitUntilPageIsLoaded();
         Assert.assertEquals("Section2\nContent2\nSection3\nContent3\nSection4\nContent4\nSection5\nContent5\n"
             + "Section6\nContent6", wysiwygEditPage.getContent());
 

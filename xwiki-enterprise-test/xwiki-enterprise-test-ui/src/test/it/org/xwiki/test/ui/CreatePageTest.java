@@ -113,7 +113,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
             createPagePage.createPageFromTemplate(getTestClassName(), templateInstanceName, templateProviderFullName);
-        templateInstanceEditWysiwyg.getContentEditor().waitToLoad();
+        templateInstanceEditWysiwyg.waitUntilPageIsLoaded();
         WikiEditPage templateInstanceEdit = templateInstanceEditWysiwyg.clickSaveAndView().editWiki();
 
         // Verify template instance content
@@ -151,7 +151,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // and create
         createUnexistingPage.clickCreate();
         WYSIWYGEditPage unexistingPageEditWysiwyg = new WYSIWYGEditPage();
-        unexistingPageEditWysiwyg.getContentEditor().waitToLoad();
+        unexistingPageEditWysiwyg.waitUntilPageIsLoaded();
         WikiEditPage unexistingPageEdit = unexistingPageEditWysiwyg.clickSaveAndView().editWiki();
 
         // Verify template instance content
@@ -167,7 +167,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         // wait to load editor to make sure that what we're saving is the content that is supposed to be in this
         // document
-        editEmptyPage.getContentEditor().waitToLoad();
+        editEmptyPage.waitUntilPageIsLoaded();
         ViewPage emptyPage = editEmptyPage.clickSaveAndView();
         // make sure it's empty
         Assert.assertEquals("", emptyPage.getContent());
@@ -373,7 +373,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertFalse(getUtil().isInCreateMode());
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         WYSIWYGEditPage editNewPage = new WYSIWYGEditPage();
-        editNewPage.getContentEditor().waitToLoad();
+        editNewPage.waitUntilPageIsLoaded();
         Assert.assertEquals(space, editNewPage.getMetaDataValue("space"));
         Assert.assertEquals("NewPage", editNewPage.getMetaDataValue("page"));
 
@@ -426,7 +426,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // ensure that we're indeed in edit mode
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         // wait for editor to load (so that content is loaded)
-        editCreatedPage.getContentEditor().waitToLoad();
+        editCreatedPage.waitUntilPageIsLoaded();
         // and now cancel it
         ViewPage newPage = editCreatedPage.clickCancel();
         // make sure we're not in unexisting page

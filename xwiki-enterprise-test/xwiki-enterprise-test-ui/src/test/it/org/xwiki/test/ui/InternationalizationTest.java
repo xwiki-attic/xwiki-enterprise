@@ -22,12 +22,12 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.test.po.xe.HomePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.CreatePagePage;
 import org.xwiki.test.ui.po.CreateSpacePage;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
-import org.xwiki.test.po.xe.HomePage;
 
 /**
  * Validates the support for non-ASCII characters.
@@ -68,7 +68,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("\u0219", editPage.getMetaDataValue("space"));
 
         // Save the space to verify it can be saved with a non-ascii name
-        ViewPage savedPage = editPage.save();
+        ViewPage savedPage = editPage.clickSaveAndView();
         Assert.assertEquals("\u0219", savedPage.getMetaDataValue("space"));
     }
 
@@ -89,7 +89,7 @@ public class InternationalizationTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals("\u0219", editPage.getMetaDataValue("page"));
 
         // Save the page to verify it can be saved with a non-ascii name
-        ViewPage savedPage = editPage.save();
+        ViewPage savedPage = editPage.clickSaveAndView();
         Assert.assertEquals("\u0219", savedPage.getMetaDataValue("page"));
     }
 }

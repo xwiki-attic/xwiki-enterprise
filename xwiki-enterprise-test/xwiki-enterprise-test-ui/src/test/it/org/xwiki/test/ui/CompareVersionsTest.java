@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.tag.test.po.AddTagsPane;
@@ -129,8 +128,8 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
         attachmentsPane.deleteAttachmentByFileByName("SmallAttachment2.txt");
 
         // Add comments.
-        getUtil().registerLoginAndGotoPage("Alice", "ecila", getUtil().getURL(getTestClassName(), pageName));
-        testPage = new ViewPage();
+        getUtil().createUser("Alice", "ecila");
+        testPage = getUtil().gotoPage(getTestClassName(), pageName);
         CommentsTab commentsTab = testPage.openCommentsDocExtraPane();
         commentsTab.postComment("first line\nsecond line", true);
         commentsTab.editCommentByID(0, "first line\nline in between\nsecond line");

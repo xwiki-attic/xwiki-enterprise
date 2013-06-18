@@ -1598,6 +1598,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.firstChild.firstChild", 4);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
+        explorer.waitForPageSelected("Sandbox", "WebHome");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "");
@@ -1607,6 +1608,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // previous, next => error is not present
         clickButtonWithText("Previous");
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
+        explorer.waitForPageSelected("Sandbox", "WebHome");
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // error, again, to close this time
@@ -1618,6 +1620,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // now again, check that the error is no longer there
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
+        explorer.waitForPageSelected("Sandbox", "WebHome");
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         // get an error
@@ -1631,6 +1634,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // now open again, check error is not there anymore
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
+        explorer.waitForPageSelected("Sandbox", "WebHome");
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsNotPresentInStep("xLinkConfig");
         closeDialog();

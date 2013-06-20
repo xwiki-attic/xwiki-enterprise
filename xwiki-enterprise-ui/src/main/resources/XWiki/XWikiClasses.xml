@@ -73,12 +73,14 @@ Choose a simple name, such as //Article//, //Book//, //Employee//. '//Class//' w
 ##
 #set($prevSpace = '')
 #foreach ($classname in $xwiki.classList)
-    #set($classdoc = $xwiki.getDocument($classname))
+  #set($classdoc = $xwiki.getDocument($classname))
+  #if($classdoc)
     #if($classdoc.space != $prevSpace)
       ; [[$classdoc.space&gt;&gt;${classdoc.space}.WebHome]] space:
       #set($prevSpace = $classdoc.space)
     #end
     : [[$classdoc.name&gt;&gt;$classdoc.fullName]]
+  #end
 #end
 {{/velocity}}</content>
 </xwikidoc>

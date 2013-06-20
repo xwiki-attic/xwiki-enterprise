@@ -73,14 +73,19 @@ Choose a simple name, such as //Article//, //Book//, //Employee//. '//Class//' w
 ##
 #set($prevSpace = '')
 #foreach ($classname in $xwiki.classList)
-  #set($classdoc = $xwiki.getDocument($classname))
-  #if($classdoc)
-    #if($classdoc.space != $prevSpace)
-      ; [[$classdoc.space&gt;&gt;${classdoc.space}.WebHome]] space:
-      #set($prevSpace = $classdoc.space)
+  #set($classReference = $services.model.resolveDocument($classname))
+  #set($classRepresentation = $services.model.serialize($classReference))
+  ##
+  ## Let check the user right to see the class
+  ##
+  #if($xwiki.getUser().hasAccessLevel('view', $classRepresentation))
+    #set($space = $classReference.getLastSpaceReference().name)
+    #if($space != $prevSpace)
+      ; [[$space&gt;&gt;${space}.WebHome]] space:
+      #set($prevSpace = $space)
     #end
-    : [[$classdoc.name&gt;&gt;$classdoc.fullName]]
-  #end
+    : [[$classReference.name&gt;&gt;$classRepresentation]]
+  #end  
 #end
 {{/velocity}}</content>
 </xwikidoc>

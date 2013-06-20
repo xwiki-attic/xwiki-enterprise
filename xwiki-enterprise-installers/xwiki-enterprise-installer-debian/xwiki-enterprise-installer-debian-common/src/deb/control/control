@@ -5,7 +5,7 @@ Priority: optional
 Provides: xwiki, xwiki-enterprise
 Recommends: xwiki-enterprise-tomcat5-mysql | xwiki-enterprise-tomcat5-pgsql | xwiki-enterprise-tomcat6-mysql | xwiki-enterprise-tomcat6-pgsql | xwiki-enterprise-tomcat7-mysql | xwiki-enterprise-tomcat7-pgsql
 Architecture: all
-Depends: dbconfig-common ( >= 1.8.0), java6-runtime-headless | java6-runtime | java-6-runtime
+Depends: dbconfig-common (>= 1.8.0), java6-runtime-headless | java6-runtime | java-6-runtime
 Maintainer: XWiki Team (devs@xwiki.org)
 License: LGPL 2.1
 Description: XWiki enterprise common package

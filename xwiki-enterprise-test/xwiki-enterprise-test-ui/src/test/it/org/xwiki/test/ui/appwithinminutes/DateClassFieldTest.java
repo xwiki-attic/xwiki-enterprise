@@ -25,9 +25,9 @@ import java.util.Calendar;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.DateClassFieldEditPane;
-import org.xwiki.appwithinminutes.test.po.DatePicker;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
+import org.xwiki.test.ui.po.editor.DatePicker;
 
 /**
  * Special class editor tests that address only the Date class field type.

@@ -31,6 +31,7 @@ import org.xwiki.test.ui.po.FormElement;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ClassEditPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
+import org.xwiki.test.ui.po.editor.ObjectEditPane;
 import org.xwiki.test.ui.po.editor.StaticListClassEditElement;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
 
@@ -304,7 +305,7 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
 
         // Let's save the form and check that changes were persisted.
         oep = oep.clickSaveAndView().editObjects();
-        List<FormElement> xwikiUsersForms = oep.getObjectsOfClass("XWiki.XWikiUsers");
+        List<ObjectEditPane> xwikiUsersForms = oep.getObjectsOfClass("XWiki.XWikiUsers");
         Assert.assertEquals(1, xwikiUsersForms.size());
         Assert.assertEquals("John", xwikiUsersForms.get(0).getFieldValue(By.id("XWiki.XWikiUsers_0_first_name")));
     }
@@ -315,5 +316,32 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
         ObjectEditPage oep = ObjectEditPage.gotoPage("Test", "EditObjectsTestObject");
         oep.addObject("XWiki.XWikiUsers");
         oep.addObjectFromInlineLink("XWiki.XWikiUsers");
+    }
+
+    /**
+     * @see XWIKI-9061: Property displayers don't work in the object editor for objects that have just been added
+     */
+    @Test
+    public void testPropertyDisplayersForNewObjects()
+    {
+        getUtil().deletePage(getTestClassName(), getTestMethodName());
+
+        // Create a class with two properties: a date and a list of users.
+        ClassEditPage classEditor = ClassEditPage.gotoPage(getTestClassName(), getTestMethodName());
+        classEditor.addProperty("date", "Date");
+        classEditor.addProperty("author", "Users");
+
+        // Add an object of this class and set its properties.
+        String className = getTestClassName() + "." + getTestMethodName();
+        ObjectEditPage objectEditor = ObjectEditPage.gotoPage(getTestClassName(), getTestMethodName());
+        ObjectEditPane object = objectEditor.addObject(className);
+        object.openDatePicker("date").setDay("15");
+        object.getUserPicker("author").sendKeys("ad").waitForSuggestions().select("Admin");
+
+        // Save, edit again and check the values.
+        object = objectEditor.clickSaveAndView().editObjects().getObjectsOfClass(className).get(0);
+        Assert.assertEquals("15", object.openDatePicker("date").getDay());
+        Assert.assertEquals("Administrator", object.getUserPicker("author").waitToLoad().getAcceptedSuggestions()
+            .get(0).getName());
     }
 }

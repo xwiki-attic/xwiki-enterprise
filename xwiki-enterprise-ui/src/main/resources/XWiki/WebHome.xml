@@ -21,7 +21,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{velocity}}
 #set($administration = '[[{{translation key="xe.xwiki.administration"/}}&gt;&gt;XWiki.XWikiPreferences]]')
 {{info}}$services.localization.render('xe.xwiki.administration.install', [$administration]){{/info}}

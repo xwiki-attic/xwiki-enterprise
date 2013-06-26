@@ -60,6 +60,12 @@ public class DocumentFieldsTest extends AbstractAdminAuthenticatedTest
         ClassFieldEditPane titleField = classEditPage.addField("Title");
         ClassFieldEditPane contentField = classEditPage.addField("Content");
 
+        // Change the default field pretty names.
+        // See XWIKI-9154: The application live table uses the standard 'Page title' heading instead of the pretty name
+        // set for the Title field
+        titleField.setPrettyName("My Title");
+        contentField.setPrettyName("My Content");
+
         // Set the default values that will be saved in the template.
         numberField.setDefaultValue("13");
         String defaultTitle = "Enter title here";
@@ -69,8 +75,8 @@ public class DocumentFieldsTest extends AbstractAdminAuthenticatedTest
 
         // Add live table columns for Title and Content.
         ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().waitUntilPageIsLoaded();
-        homeEditPage.addLiveTableColumn("Title");
-        homeEditPage.addLiveTableColumn("Content");
+        homeEditPage.addLiveTableColumn("My Title");
+        homeEditPage.addLiveTableColumn("My Content");
 
         // Add an application entry.
         EntryNamePane entryNamePane = homeEditPage.clickFinish().clickAddNewEntry();
@@ -94,8 +100,8 @@ public class DocumentFieldsTest extends AbstractAdminAuthenticatedTest
         LiveTableElement liveTable = new ApplicationHomePage().getEntriesLiveTable();
         liveTable.waitUntilReady();
         Assert.assertEquals(1, liveTable.getRowCount());
-        Assert.assertTrue(liveTable.hasRow("Page title", "Foo"));
-        Assert.assertTrue(liveTable.hasRow("Content", "Bar"));
+        Assert.assertTrue(liveTable.hasRow("My Title", "Foo"));
+        Assert.assertTrue(liveTable.hasRow("My Content", "Bar"));
 
         // Check that the title and the content of the class have not been changed.
         getUtil().gotoPage(appName, appName + "Class", "edit", "editor=wiki");

@@ -64,9 +64,7 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         checkSpaceInSearchResults("Panels", false);
         checkSpaceInSearchResults("Scheduler", false);
         checkSpaceInSearchResults("Stats", false);
-        // TODO: XWiki space should not be listed but currently there are few pages in this space that are not marked as
-        // hidden/technical. Update this check as soon as the XWiki space is completely hidden.
-        checkSpaceInSearchResults("XWiki", true);
+        checkSpaceInSearchResults("XWiki", false);
 
         closeDialog();
     }

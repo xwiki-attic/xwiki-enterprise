@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
-    <version>5.1-SNAPSHOT</version>
+    <version>5.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-tomcat6-pgsql</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat 6 - Postgres SQL</name>

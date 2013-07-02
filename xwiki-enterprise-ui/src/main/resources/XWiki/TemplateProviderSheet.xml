@@ -212,12 +212,12 @@
   <content>{{velocity}}
 $xwiki.jsx.use('XWiki.TemplateProviderSheet')##
 #set($providerObj = $doc.getObject("XWiki.TemplateProviderClass"))
-#if ($context.action != 'view')
+#if ($xcontext.action != 'view')
   ; {{translation key="xe.templateprovider.name"/}}
   : {{html}}&lt;input type="text" value="$!{doc.getTitle()}" name="title" /&gt;{{/html}}
 #end
 ; {{translation key="xe.templateprovider.templatename"/}}
-#if ($context.action == 'inline' || $context.action == 'edit')
+#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
 
   {{translation key="xe.templateprovider.templatename.info"/}}
   : $doc.display('name')
@@ -227,21 +227,21 @@ $xwiki.jsx.use('XWiki.TemplateProviderSheet')##
   : {{{{{translation key="$providerName"/}}}}}
 #end
 ; {{translation key="xe.templateprovider.template"/}}
-#if ($context.action == 'inline' || $context.action == 'edit')
+#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
   : $doc.display('template')
 #else
   #set($templateDocName = $providerObj.getProperty('template').value)
   : [[$templateDocName&gt;&gt;$templateDocName]]
 #end
 ; {{translation key="xe.templateprovider.templatetype"/}}
-#if ($context.action == 'inline' || $context.action == 'edit')
+#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
 
   {{translation key="xe.templateprovider.templatetype.info"/}}
 #end
 : $doc.display('type')
 (% id="enabled-spaces" %)(((
 ; {{translation key="xe.templateprovider.spaces"/}}
-#if ($context.action == 'inline' || $context.action == 'edit')
+#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
 
   {{translation key="xe.templateprovider.spaces.info"/}}
 #end
@@ -249,13 +249,13 @@ $xwiki.jsx.use('XWiki.TemplateProviderSheet')##
 )))
 ; {{translation key="xe.templateprovider.action"/}}
 
-#if ($context.action == 'inline' || $context.action == 'edit')
+#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
   {{translation key="xe.templateprovider.action.info"/}}
 #end
 : $doc.display('action')
 
 
-#if ($context.action == 'view')
+#if ($xcontext.action == 'view')
 
   {{html wiki="true"}}
     &lt;span class="buttonwrapper"&gt;

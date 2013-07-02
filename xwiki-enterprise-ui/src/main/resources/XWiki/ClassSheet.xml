@@ -77,7 +77,7 @@
 #elseif("$!request.docName" != '')
   ## Request for creating a new instance. We don't actually create a new instance here, we just redirect to the edit mode.
   #set($targetDocName = "${request.spaceName}.${request.docName}")
-  #if(!$xwiki.exists($targetDocName) &amp;&amp; $xwiki.hasAccessLevel('edit', $context.user, $targetDocName))
+  #if(!$xwiki.exists($targetDocName) &amp;&amp; $xwiki.hasAccessLevel('edit', $xcontext.user, $targetDocName))
     ## Compute the default edit mode to ensure backward compatibility with documents still using the deprecated inline action.
     #set($editAction = $xwiki.getDocument($request.template).getDefaultEditMode())
     $response.sendRedirect($xwiki.getURL($targetDocName, $editAction, "template=$!escapetool.url($request.template)&amp;parent=$!escapetool.url($request.parent)&amp;title=$!escapetool.url($request.docName)"))

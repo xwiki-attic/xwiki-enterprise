@@ -28,7 +28,7 @@
   #set($className = "#toXMLName($stringtool.removeEnd($request.name, 'Class'))")
   #set($classTitle = "$className Class")
   #set($classReference = $services.model.createDocumentReference('', $request.space, "${className}Class"))
-  #if($xwiki.hasAccessLevel('edit', $context.user, $services.model.serialize($classReference)))
+  #if($xwiki.hasAccessLevel('edit', $xcontext.user, $services.model.serialize($classReference)))
     $response.sendRedirect($xwiki.getURL($classReference, 'edit', "editor=wiki&amp;template=$!{request.template}&amp;parent=$!{request.parent}&amp;title=$escapetool.url($classTitle)"))
     ## Stop processing, since we already sent a redirect.
     #stop

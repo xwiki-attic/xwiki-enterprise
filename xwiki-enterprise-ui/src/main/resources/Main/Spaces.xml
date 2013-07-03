@@ -345,7 +345,7 @@ $xwiki.ssx.use('Main.Spaces')##
   ## Space creation.
   ##
   ## Only if the current user has admin rights and the current action is not inline. If it's inline, then there is already a form, and if we render the second, nested one, the DOM is messed up in IE.
-  #if($xwiki.hasAdminRights() &amp;&amp; "$!context.action" != "inline" &amp;&amp; "$!context.action" != "edit")
+  #if($xwiki.hasAdminRights() &amp;&amp; "$!xcontext.action" != "inline" &amp;&amp; "$!xcontext.action" != "edit")
     &lt;li id="spSpaceCreateItem" class="xitem space"&gt;
       &lt;div class="xitemcontainer"&gt;
         &lt;div id="spSpaceCreateLabel" class="spSpaceName"&gt;&lt;a href="$xwiki.getURL('XWiki.CreatePage', 'view', 'tocreate=space')" onclick="toggleClass($('spSpaceCreateForm'), 'hidden'); return false;"&gt;$services.localization.render('xe.spaces.createspace')&lt;/a&gt;&lt;/div&gt;

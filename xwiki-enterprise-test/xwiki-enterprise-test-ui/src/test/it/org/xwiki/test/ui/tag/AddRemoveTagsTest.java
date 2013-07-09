@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.tag.test.po.AddTagsPane;
 import org.xwiki.tag.test.po.TaggablePage;
+import org.xwiki.tag.test.po.TagPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -42,6 +43,8 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      * The test page.
      */
     private TaggablePage taggablePage;
+    
+    private TagPage tagPage;
 
     @Before
     @Override
@@ -59,7 +62,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      * Adds and removes a tag.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     public void testAddRemoveTag()
     {
         String tag = RandomStringUtils.randomAlphanumeric(4);
@@ -76,7 +79,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      * Open the add tag panel, cancel then open again the add tag panel and add a new tag.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     public void testCancelAddTag()
     {
         String firstTag = RandomStringUtils.randomAlphanumeric(4);
@@ -99,9 +102,8 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testAddManyRemoveOneTag()
     {
         String firstTag = RandomStringUtils.randomAlphanumeric(4);
@@ -124,9 +126,8 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testAddExistingTag()
     {
         String tag = RandomStringUtils.randomAlphanumeric(4);
@@ -146,7 +147,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      * Add a tag that contains the pipe character, which is used to separate stored tags.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     public void testAddTagContainingPipe()
     {
         String tag = RandomStringUtils.randomAlphanumeric(3) + "|" + RandomStringUtils.randomAlphanumeric(3);
@@ -167,7 +168,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      *      spaces to tags when white space is not the separator
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     public void testStripLeadingAndTrailingSpacesFromTags()
     {
         String firstTag = RandomStringUtils.randomAlphanumeric(4);
@@ -187,7 +188,7 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
      *      equal ignoring case with existing tags
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     public void testTagCaseIsIgnored()
     {
         String firstTag = "taG1";
@@ -205,4 +206,40 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
         Assert.assertFalse(taggablePage.hasTag(secondTag));
         Assert.assertTrue(taggablePage.hasTag(thirdTag));
     }
+
+    @Test
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
+    public void addAndRenameTagFromTagPage()
+    {
+      String tag = "MyTag";
+      AddTagsPane addTagsPane = taggablePage.addTags();
+      addTagsPane.setTags(tag);
+      Assert.assertTrue(addTagsPane.add());
+      Assert.assertTrue(taggablePage.hasTag(tag));
+      tagPage = taggablePage.clickOnTag(tag);
+      tagPage.clickRenameButton();
+      tagPage.setNewTagName("MyTagRenamed");
+      tagPage.clickConfirmRenameTagButton();
+      Assert.assertTrue(tagPage.hasTagHighlight("MyTagRenamed"));
+    }
+    
+    @Test
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
+    public void addAndDeleteTagFromTagPage()
+    {
+      String tag = "MyTagToBeDeleted";
+      AddTagsPane addTagsPane = taggablePage.addTags();
+      addTagsPane.setTags(tag);
+      Assert.assertTrue(addTagsPane.add());
+      Assert.assertTrue(taggablePage.hasTag(tag));
+      tagPage = taggablePage.clickOnTag(tag);
+      tagPage.clickDeleteButton();
+      tagPage.clickConfirmDeleteTag();
+       Assert.assertTrue(tagPage.hasConfirmationMessage(tag));
+    }
+
 }

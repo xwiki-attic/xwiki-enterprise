@@ -97,5 +97,11 @@ public class KeyboardShortcutsTest extends AbstractAdminAuthenticatedTest
         vp.sendKeys(Keys.F2);
         vp.waitUntilPageIsLoaded();
         Assert.assertTrue(util.isInRenameMode());
+
+        // Test View Source key
+        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp.sendKeys("d");
+        vp.waitUntilPageIsLoaded();
+        Assert.assertTrue(util.isInSourceViewMode());
     }
 }

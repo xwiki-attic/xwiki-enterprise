@@ -693,6 +693,22 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Old XEM -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-application-manager-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-manager-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-workspace-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -1182,6 +1198,8 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <ignoredResource>simple.xjb</ignoredResource>
                 <!-- JDOM resources -->
                 <ignoredResource>META-INF/jdom-info.xml</ignoredResource>
+                <!-- ApplicationResources.properties is in every XWiki JARs -->
+                <ignoredResource>ApplicationResources*.properties</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

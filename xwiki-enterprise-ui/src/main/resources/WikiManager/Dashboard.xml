@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WikiManager</web>
+  <name>Dashboard</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166007764000</creationDate>
+  <date>1204110875000</date>
+  <contentUpdateDate>1204211840000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/1.0</syntaxId>
+  <hidden>false</hidden>
+  <content>1 Welcome to your wiki administrator
+
+Welcome to the wiki administrator of your wiki farm! It is a space that will allow you to create as many wikis as you want and manage them. Each wiki is a shared workspace that will allow you to collaborate effectively with others. You will be able to use it for many purposes:
+
+* Project Management
+* Collaborative Writing
+* Efficient Document Sharing
+* Knowledge Management
+
+1 One farm, 3 types of XWiki
+
+* Wiki administrator: this is the current wiki and it's used to manage your wiki farm
+* Wiki templates: models of wikis used when you create a new wiki instance
+* Wiki instances: a wiki created from a wiki template and on which users will work
+
+1 News and information from your wikis
+
+#############################################################################
+
+#includeMacros("WikiCode.Macros")
+#set($WikiManager = $services.wikimanager)
+
+#set($nb = 5)
+#set($wikilist = $WikiManager.getAllWikis())
+#set ($creationsortedwikilist = $sorttool.sort($wikilist, 'creationDate:desc'))
+
+#############################################################################
+
+#displayPanelLayout(2, ["WikiCode.UserWikisIsAdminWidget", "WikiCode.UserWikisIsUserWidget", "WikiCode.UserWikisIsOwnerWidget", "WikiCode.MyLastWikiModificationsWidget", "WikiCode.LastWikiModificationsWidget", "WikiCode.LastCreatedWikisWidget"])
+
+#############################################################################
+
+
+1 How to start
+
+Because you are on the wiki administrator, the steps that you may want to go through are:
+
+* Go to the [Installation&gt;XemManager.Install] page to check if your installation is correct.
+* Create a new wiki on your farm by clicking on the [Create a new wiki&gt;WikiManager.CreateNewWiki] link
+* Manage the existing wikis of your farms by clicking on the [Wiki Farm&gt;WikiManager.WebHome] link
+* Change your general farm settings by clicking on the "Administration" link
+
+For more information you can visit the documentation on [xwiki.org&gt;http://xwiki.org].
+
+This XWiki is yours, we hope you'll enjoy it ...
+
+Congratulations,
+The XWiki Team</content>
+</xwikidoc>

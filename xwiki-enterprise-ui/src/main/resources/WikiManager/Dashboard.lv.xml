@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WikiManager</web>
+  <name>Dashboard</name>
+  <language>lv</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166007764000</creationDate>
+  <date>1204110875000</date>
+  <contentUpdateDate>1204211840000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/1.0</syntaxId>
+  <hidden>false</hidden>
+  <content>1 Sveicināti jūsu viki pārvaldniekā
+
+Sveicināti jūsu viki saimniecības pārvaldniekā! Tā ir vieta, kas jauj jums veidot tik daudzus viki, cik jus vēlaties un spējat pārvaldīt. Katrs viki ir atsevišķi izmantojama darba vieta, kurā jūs varat efektīvi sadarboties ar citiem. Jūs varēsiet to izmantot visdažādākajiem nolūkiem:
+
+* Projektu pārvaldībai
+* Kopīgai rakstīšanai
+* Efektīvai dokumentu koplietošanai
+* Zināšanu pārvaldībai
+
+1 Viena saimniecība, 3 veidu viki
+
+* Viki administrators: tas ir tekošais viki, kas tiek izmantots visu viki pārvaldībai
+* Viki veidnes: viki veidnes, kuraas var izmantot jaunu viki veidošanai
+* Viki instances: viki, kas ir izveidoti no veidnēm, un kurus izmanto viki lietotāji
+
+1 Jaunumi un informācija no jūsu viki
+
+#############################################################################
+
+#includeMacros("WikiCode.Macros")
+#set($WikiManager = $services.wikimanager)
+
+#set($nb = 5)
+#set($wikilist = $WikiManager.getAllWikis())
+#set ($creationsortedwikilist = $sorttool.sort($wikilist, 'creationDate:desc'))
+
+#############################################################################
+
+#displayPanelLayout(2, ["WikiCode.UserWikisIsAdminWidget", "WikiCode.UserWikisIsUserWidget", "WikiCode.UserWikisIsOwnerWidget", "WikiCode.MyLastWikiModificationsWidget", "WikiCode.LastWikiModificationsWidget", "WikiCode.LastCreatedWikisWidget"])
+
+#############################################################################
+
+
+1 Kā sākt
+
+Tā kā jūs esat viki administrators, jums b/utu nepieciešams veikt sekojošas darbības:
+
+* Dodieties uz [Uzstādīšana&gt;XemManager.Install] lapu, lai pārliecinātos, ka šis viki ir uzstādīts pareizi.
+* Klikšķiniet uz [Izveidojiet jaunu viki&gt;WikiManager.CreateNewWiki] saetes, lai izveidotu jaunu viki
+* Pārvaldiet esošos viki, klikšķinot uz [Viki saimniecība&gt;WikiManager.WebHome] saites
+* Izmainiet vispārējos iestatījumus, klikšķinot uz "Pārvaldība" saites
+
+Lai gūtu papildu informāciju, dodieties uz [xwiki.org&gt;http://xwiki.org].
+
+Šis ir jūsu viki, mēs ceram, ka jums patiks to lietot.
+
+Vēlam veiksmi!
+
+XWiki komanda</content>
+</xwikidoc>

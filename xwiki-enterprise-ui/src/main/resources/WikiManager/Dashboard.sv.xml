@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WikiManager</web>
+  <name>Dashboard</name>
+  <language>sv</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166007764000</creationDate>
+  <date>1204110875000</date>
+  <contentUpdateDate>1204211840000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/1.0</syntaxId>
+  <hidden>false</hidden>
+  <content>1 Startsida för wikiadministrering
+
+Det här är administrationsverktyget för wikifarmen. Här kan du skapa nya och redigera egenskaperna för befintliga wikis.
+
+1 Nyheter och information om dina wikis
+
+#############################################################################
+
+#includeMacros("WikiCode.Macros")
+#set($WikiManager = $services.wikimanager)
+
+#set($nb = 5)
+#set($wikilist = $WikiManager.getAllWikis())
+#set ($creationsortedwikilist = $sorttool.sort($wikilist, 'creationDate:desc'))
+
+#############################################################################
+
+#displayPanelLayout(2, ["WikiCode.UserWikisIsAdminWidget", "WikiCode.UserWikisIsUserWidget", "WikiCode.UserWikisIsOwnerWidget", "WikiCode.MyLastWikiModificationsWidget", "WikiCode.LastWikiModificationsWidget", "WikiCode.LastCreatedWikisWidget"])
+
+#############################################################################
+
+1 Komma igång
+
+Som wikiadministratör kan du välja något av följande:
+
+* [Kontrollera att installationen är korrekt.&gt;XemManager.Install]
+* [Skapa en ny wiki på farmen.&gt;WikiManager.CreateNewWiki]
+* [Hantera befintliga wikis på farmen.&gt;WikiManager.WebHome]
+* Ändra generella wikiinställningar för farmen genom att välja "administrera wiki" i menyn högst upp.
+
+Mer information finns på [xwiki.org&gt;http://xwiki.org].
+</content>
+</xwikidoc>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>XemManager</web>
+  <name>Install</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>XemManager.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1187017247000</creationDate>
+  <date>1204110536000</date>
+  <contentUpdateDate>1204110536000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>XemManager.Install</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>#set($WikiManager = $services.wikimanager)
+#if(!$WikiManager)
+  #error($services.localization.render('wikimanager.pluginnotenabled'))
+#end
+#if(!$services.applicationmanager)
+  #error($services.localization.render('xapp.pluginnotenabled'))
+#end
+
+#set($Exception = $WikiManager.DefaultException)
+
+#set($confirm = $request.getParameter("confirm"))
+
+###############################################
+
+#set($templateName = "templatexe")
+
+#set($templateList = $WikiManager.getWikiTemplateList())
+
+#set($templateExists = false)
+#foreach($template in $templateList)
+  #if($template.wikiName == $templateName)
+    #set($templateExists = true)
+  #end
+#end
+
+#if($templateExists == false)
+  #if($confirm &amp;&amp; $confirm == 1)
+    #set($result = $WikiManager.createWikiTemplate($templateName, "XWiki Entreprise (default xwiki)", "template-xe.xar"))
+    #if ($result == $Exception.ERROR_NOERROR)
+      #info($services.localization.render('xem.install.success'))
+    #elseif ($result == $Exception.ERROR_XWIKI_ACCESS_DENIED)
+      #error($services.localization.render('notallowed'))
+    #else
+      #error($services.localization.render('xem.install.error', [$xcontext.lastexception]))
+    #end
+  #else
+    #set($urlyes = $doc.getURL("view", "confirm=1"))
+    #set($urlno = $doc.getURL("view"))
+
+    #xwikimessageboxstart($services.localization.render('xem.answer.install.title') $services.localization.render('xem.answer.install.actions'))
+      $services.localization.render('xem.answer.install.actions.template')
+      &lt;div class="buttons"&gt;
+        &lt;a href="$urlyes"&gt;&lt;input type="button" class="button" value="$services.localization.render('yes')" onclick="location='$urlyes'; return false;"/&gt;&lt;/a&gt;&lt;a href="$urlno"&gt;&lt;input type="button" class="button" value="$services.localization.render('no')" onclick="location='$urlno'; return false;"/&gt;&lt;/a&gt;
+      &lt;/div&gt;
+    #xwikimessageboxend()
+  #end
+#else
+  #info($services.localization.render('xem.install.noneed'))
+#end</content>
+</xwikidoc>

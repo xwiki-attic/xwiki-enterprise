@@ -12,10 +12,10 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1252454400000</creationDate>
-  <date>1297866863000</date>
-  <contentUpdateDate>1297866863000</contentUpdateDate>
+  <date>1322402602000</date>
+  <contentUpdateDate>1322402602000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render('xe.dashboard.wiki.welcome')</title>
+  <title>$services.localization.render('manager.dashboard.welcome')</title>
   <template/>
   <defaultTemplate/>
   <validationScript/>
@@ -23,11 +23,12 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
-  <content>Questo è un sito web facile da modificare che vi aiuterà a lavorare meglio assieme. Questo wiki è formato da //pagine// ordinate in //spazi//. Attualmente state usando lo spazio **Main** e state guardando la sua home page (**WebHome**).
+  <content>Uno Spazio di Lavoro è qualcosa che si può creare per favorire la collaborazione con altri utenti in modo da:
+* strutturare meglio i contenuti del wiki aldilà della divisione in pagine e spazi
+* iniziare velocemente a lavorare su un nuovo progetto o idea
+* collaborare più efficacemente su un argomento specifico usando le applicazioni che servono senza interferire con altri progetti
 
-Imparate ad usare XWiki consultando la guida {{velocity}}[[Getting Started Guide&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
+Qualunque utente registrato può creare uno spazio di lavoro e invitare altri utenti a unirsi.
 
-{{velocity}}
-#if($hasEdit)Si può usare lo [[Spazio Sandbox&gt;&gt;Sandbox.WebHome]] per scoprire e provare tutte le caratteristiche del wiki.#end
-{{/velocity}}</content>
+Nota: Si può ancora accedere alla vecchia homepage di XEM all'indirizzo [[Wiki Dashboard&gt;&gt;WikiManager.Dashboard]].</content>
 </xwikidoc>

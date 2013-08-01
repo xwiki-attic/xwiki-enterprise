@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>XemResources</web>
+  <name>Translations</name>
+  <language>it</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>XemResources.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1188318798000</creationDate>
+  <date>1278346211000</date>
+  <contentUpdateDate>1278346211000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>true</hidden>
+  <content>## XWiki Translation for language it generated from http://www.l10n.xwiki.org
+xem.answer.install.actions=Per completare l'installazione XWiki Enterprise Manager deve\:
+xem.answer.install.actions.template=* Aggiungi modello di default
+xem.answer.install.title=Installazione di XWiki Enterprise Manager
+xem.install.error=Installazione di XWiki Enterprise Manager fallita ({0}).
+xem.install.noneed=Nessuna azione richiesta
+xem.install.success=Installazione di XWiki Enterprise Manager completata con successo.
+xem.xem=XWiki Enterprise Manager
+</content>
+</xwikidoc>

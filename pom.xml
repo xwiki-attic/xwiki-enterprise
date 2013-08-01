@@ -50,6 +50,7 @@
     <module>xwiki-enterprise-data</module>
     <module>xwiki-enterprise-distribution</module>
     <module>xwiki-enterprise-installers</module>
+    <module>xwiki-enterprise-workspace-ui</module>
     <module>xwiki-enterprise-ui</module>
     <module>xwiki-enterprise-web</module>
   </modules>
@@ -95,7 +96,9 @@
   com.xpn.xwiki.plugin.mailsender.MailSenderPlugin,\
   com.xpn.xwiki.plugin.activitystream.plugin.ActivityStreamPlugin, \
   com.xpn.xwiki.plugin.watchlist.WatchListPlugin, \
-  com.xpn.xwiki.plugin.tag.TagPlugin
+  com.xpn.xwiki.plugin.tag.TagPlugin, \
+  com.xpn.xwiki.plugin.wikimanager.WikiManagerPlugin,\
+  com.xpn.xwiki.plugin.applicationmanager.ApplicationManagerPlugin
     </xe.xwiki.cfg.plugins>
     <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins}
     </xwiki.cfg.plugins>

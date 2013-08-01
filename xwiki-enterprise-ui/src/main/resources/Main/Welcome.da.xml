@@ -12,10 +12,10 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1252454400000</creationDate>
-  <date>1297866863000</date>
-  <contentUpdateDate>1297866863000</contentUpdateDate>
+  <date>1322402602000</date>
+  <contentUpdateDate>1322402602000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render('xe.dashboard.wiki.welcome')</title>
+  <title>$services.localization.render('manager.dashboard.welcome')</title>
   <template/>
   <defaultTemplate/>
   <validationScript/>
@@ -23,12 +23,12 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
-  <content>Dette er websider der kan rettes hurtigt og let. Denne wiki består af //sider// opdelt i //områder//. Du er i øjeblikket i **Main**-området og ser på dets startside (**WebHome**).
+  <content>Du kan oprettet et arbejdsfelt ("workspace") for at bedre samarbejde med andre brugere ved:
+* at få en bedres struktur af indholdet ud over blot sider og områder.
+* at komme igang med nye projekter og ideer hurtigere.
+* at samarbejde mere effektivt om et bestemt med værktøj som du har brug for og kan lide, uden at det kollidere med andre projekter.
 
-Lær at bruge Xwiki-systemet med {{velocity}}[[Getting Started Guide&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
+Alle registrerede brugere kan oprette et arbejdsfelt og invitere andre brugere med i det.
 
-{{velocity}}
-#if($hasEdit)Du kan så bruge [[Sandkasseområdet&gt;&gt;Sandbox.WebHome]] til at øve dig i.#end
-{{/velocity}}
-</content>
+Bemærk: Den gamle XEM-hjemmeside kan stadig ses på [[Wikikontrol siden&gt;&gt;WikiManager.Dashboard]].  </content>
 </xwikidoc>

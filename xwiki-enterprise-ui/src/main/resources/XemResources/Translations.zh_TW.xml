@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>XemResources</web>
+  <name>Translations</name>
+  <language>zh_TW</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>XemResources.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1188318798000</creationDate>
+  <date>1278346211000</date>
+  <contentUpdateDate>1278346211000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>true</hidden>
+  <content>## XWiki Translation for language zh_TW generated from http://www.l10n.xwiki.org
+xem.answer.install.actions.template=* 新增預設模板
+xem.answer.install.title=XWiki Enterprise Manager 安裝
+xem.install.error=XWiki Enterprise Manager 安裝失敗 ({0})。
+xem.install.success=XWiki Enterprise Manager 安裝成功。
+xem.xem=XWiki Enterprise Manager
+</content>
+</xwikidoc>

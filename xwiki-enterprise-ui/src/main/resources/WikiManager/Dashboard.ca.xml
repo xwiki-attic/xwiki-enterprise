@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WikiManager</web>
+  <name>Dashboard</name>
+  <language>ca</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166007764000</creationDate>
+  <date>1204110875000</date>
+  <contentUpdateDate>1204211840000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/1.0</syntaxId>
+  <hidden>false</hidden>
+  <content>1 Benvinguts al vostre administrador wiki
+
+Benvinguts al vostre administrador wiki de la vostra granja wiki! Aquest és un espai que us permetrà crear tantes wikis com  desitgeu i gestionar-les. Cada wiki és un espai de treball compartit que us permetrà col·laborar de forma eficaç amb altres persones. Podreu utilitzar-ho per a diversos propòsits:
+
+* Gestió de projectes
+* Redacció col·lavorativa
+* Compartició eficaç de documents
+* Gestió del coneixement
+
+1 Una granja, 3 tipus d'XWiki
+
+* Wiki, administrador: aquesta és l'actual wiki, i s'utilitza per gestionar la vostra granja wiki
+* Wiki, plantilles: models de wikis que s'utilitzen quant creeu una nova instància wiki
+* Wiki, instàncies: una wiki des d'una plantilla wiki i on la qual els usuaris hi treballaran
+
+1 Novetats i informació des de les vostres wikis
+
+#############################################################################
+
+#includeMacros("WikiCode.Macros")
+#set($WikiManager = $services.wikimanager)
+
+#set($nb = 5)
+#set($wikilist = $WikiManager.getAllWikis())
+#set ($creationsortedwikilist = $sorttool.sort($wikilist, 'creationDate:desc'))
+
+#############################################################################
+
+#displayPanelLayout(2, ["WikiCode.UserWikisIsAdminWidget", "WikiCode.UserWikisIsUserWidget", "WikiCode.UserWikisIsOwnerWidget", "WikiCode.MyLastWikiModificationsWidget", "WikiCode.LastWikiModificationsWidget", "WikiCode.LastCreatedWikisWidget"])
+
+#############################################################################
+
+
+1 Com començar
+
+Ja que us trobeu en l'administrador wiki, els passos als quals voldreu dirigir-vos són:
+
+* Anar a la pàgina d'[Instal·lació&gt;XemManager.Install] per tal de comprovar si la vostra instal·lació és correcta.
+* Crear una nova wiki en la vostra granja, tot clicant a l'enllaç [Crear una nova wiki&gt;WikiManager.CreateNewWiki]
+* Gestionar les wikis existents de les vostres granges, tot clicant a l'enllaç [Granja wiki&gt;WikiManager.WebHome]
+* Canviar les vostres preferències generals de la granja, tot clicant a l'enllaç "Administration"
+
+Per a més informació, doneu un cop d'ull a la documentació de [xwiki.org&gt;http://xwiki.org].
+
+Aquesta XWiki és vostra, esperem que la gaudiu ...
+
+Enhorabona,
+L'equip XWiki</content>
+</xwikidoc>

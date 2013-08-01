@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Main</web>
+  <name>Welcome</name>
+  <language>da</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1297866863000</date>
+  <contentUpdateDate>1297866863000</contentUpdateDate>
+  <version>1.1</version>
+  <title>$services.localization.render('xe.dashboard.wiki.welcome')</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>Dette er websider der kan rettes hurtigt og let. Denne wiki består af //sider// opdelt i //områder//. Du er i øjeblikket i **Main**-området og ser på dets startside (**WebHome**).
+
+Lær at bruge Xwiki-systemet med {{velocity}}[[Getting Started Guide&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
+
+{{velocity}}
+#if($hasEdit)Du kan så bruge [[Sandkasseområdet&gt;&gt;Sandbox.WebHome]] til at øve dig i.#end
+{{/velocity}}
+</content>
+</xwikidoc>

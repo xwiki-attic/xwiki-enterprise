@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>XemResources</web>
+  <name>Translations</name>
+  <language>da</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>XemResources.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1188318798000</creationDate>
+  <date>1278346211000</date>
+  <contentUpdateDate>1278346211000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>true</hidden>
+  <content>## XWiki Translation for language da generated from http://www.l10n.xwiki.org
+manager.dashboard.welcome=Hvad er et arbejdsfelt
+manager.dashboard.workspaces=Arbejdsfelter
+manager.homepage.installCheck.notYetComplete=Instllationsprocessen er ikke færdig endnu.\n\nFor at gøre installationsprocessen færdig, log ind som Admin og gå til side [[{0}&gt;&gt;{0}]]. 
+manager.homepage.title=Hovedwiki
+xem.answer.install.actions=For at færdiggøre installationen vil XWiki Enterprise Manager (XEM) udføre\:
+xem.answer.install.actions.template=* Tilføj standardskema
+xem.answer.install.title=XWiki Enterprise Manager (XEM) installation
+xem.install.error=Installation af XWiki Enterprise Manager (XEM) fejlede ({0})
+xem.install.noneed=Ingen handling nødvendig
+xem.install.success=XWiki Enterprise Manager (XEM) installation gik godt.
+xem.xem=XWiki Enterprise Manager (XEM)
+</content>
+</xwikidoc>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>XemResources</web>
+  <name>Translations</name>
+  <language>fr</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>XemResources.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1188318798000</creationDate>
+  <date>1278346211000</date>
+  <contentUpdateDate>1278346211000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>true</hidden>
+  <content>## XWiki Translation for language fr generated from http://www.l10n.xwiki.org
+manager.dashboard.welcome=Qu'est-ce qu'un espace de travail?
+manager.dashboard.workspaces=Espaces de travail
+manager.homepage.installCheck.notYetComplete=L'installation est presque terminée.\n\nPour terminer l'installation, connectez-vous en tant qu'Administrateur puis accédez à la page [[{0}&gt;&gt;{0}]].
+manager.homepage.title=Wiki Principal
+xem.answer.install.actions=Afin de terminer l'installation, XWiki Enterprise Manager va réaliser les opérations suivantes \:
+xem.answer.install.actions.template=* Ajouter un template par défaut
+xem.answer.install.title=Installation de XWiki Enterprise Manager
+xem.install.error=L''installation de XWiki Enterprise Manager a échoué ({0}).
+xem.install.noneed=Pas d'action requise.
+xem.install.success=XWiki Enterprise Manager a été installé avec succès.
+xem.xem=XWiki Enterprise Manager
+</content>
+</xwikidoc>

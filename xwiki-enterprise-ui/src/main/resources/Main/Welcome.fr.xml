@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Main</web>
+  <name>Welcome</name>
+  <language>fr</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1322402602000</date>
+  <contentUpdateDate>1322402602000</contentUpdateDate>
+  <version>1.1</version>
+  <title>$services.localization.render('manager.dashboard.welcome')</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>Un espace de travail c'est l'endroit que vous pouvez créer pour collaborer avec d'autres utilisateurs afin de:
+* mieux structurer votre contenu au-delà du concept de page et d'espace
+* commencer plus rapidement à travailler sur un nouveau projet ou idée
+* collaborer plus efficacement sur un sujet précis en utilisant vos applications préférées sans le risque d'intervenir dans d'autres projets
+
+Chaque utilisateur enregistré peut créer des espaces de travail ainsi qu'inviter d'autres utilisateurs à rejoindre.
+
+Note: L'ancienne page d'accueil de XWiki Enterprise Manager est toujours accessible comme [[Tableau de Bord du Wiki&gt;&gt;WikiManager.Dashboard]]. </content>
+</xwikidoc>

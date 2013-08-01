@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Main</web>
+  <name>Welcome</name>
+  <language>it</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252454400000</creationDate>
+  <date>1322402602000</date>
+  <contentUpdateDate>1322402602000</contentUpdateDate>
+  <version>1.1</version>
+  <title>$services.localization.render('manager.dashboard.welcome')</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>Uno Spazio di Lavoro è qualcosa che si può creare per favorire la collaborazione con altri utenti in modo da:
+* strutturare meglio i contenuti del wiki aldilà della divisione in pagine e spazi
+* iniziare velocemente a lavorare su un nuovo progetto o idea
+* collaborare più efficacemente su un argomento specifico usando le applicazioni che servono senza interferire con altri progetti
+
+Qualunque utente registrato può creare uno spazio di lavoro e invitare altri utenti a unirsi.
+
+Nota: Si può ancora accedere alla vecchia homepage di XEM all'indirizzo [[Wiki Dashboard&gt;&gt;WikiManager.Dashboard]].</content>
+</xwikidoc>

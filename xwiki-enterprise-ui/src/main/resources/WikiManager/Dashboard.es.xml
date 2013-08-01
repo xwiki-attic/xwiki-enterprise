@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WikiManager</web>
+  <name>Dashboard</name>
+  <language>es</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166007764000</creationDate>
+  <date>1204110875000</date>
+  <contentUpdateDate>1204211840000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/1.0</syntaxId>
+  <hidden>false</hidden>
+  <content>1 Bienvenido(a) a la wiki de administración
+
+!Biendenido(a) a la wiki de administración de su granja de wikis! Este es un espacio que le permitirá crear tantas wikis como quiera y administrarlas. Cada wiki es un espacio de trabajo compartido que le permitirá colaborar de forma efectiva con otros. Podrá usarlos para muchos propósitos:
+
+* Gestionar de Proyectos
+* Escritura Colaborativa
+* Compartir Documentos de forma Efectiva
+* Gestionar el Conocimiento
+
+1 Una granja, 3 tipos de XWiki
+
+* Wiki de administración: este es el wiki actual y se utiliza para gestionar su granja
+* Plantillas de Wiki: modelos de wikis utilizados para crear nuevas instancias de wikis
+* Instancias de Wiki: una wiki creada a partir de una plantilla de wiki en la que los usuarios pueden trabajar
+
+1 Noticias e información de sus wikis
+
+#############################################################################
+
+#includeMacros("WikiCode.Macros")
+#set($WikiManager = $services.wikimanager)
+
+#set($nb = 5)
+#set($wikilist = $WikiManager.getAllWikis())
+#set ($creationsortedwikilist = $sorttool.sort($wikilist, 'creationDate:desc'))
+
+#############################################################################
+
+#displayPanelLayout(2, ["WikiCode.UserWikisIsAdminWidget", "WikiCode.UserWikisIsUserWidget", "WikiCode.UserWikisIsOwnerWidget", "WikiCode.MyLastWikiModificationsWidget", "WikiCode.LastWikiModificationsWidget", "WikiCode.LastCreatedWikisWidget"])
+
+#############################################################################
+
+1 Como empezar
+
+Como está en el wiki de administración, los pasa que debe seguir a partir de aquí son:
+
+* Vaya a la página de [Instalación&gt;XemManager.Install] para comprobar si la instalación es correcta.
+* Cree un nuevo wiki en su granja pinchando en el enlace [Crear una nueva wiki&gt;WikiManager.CreateNewWiki]
+* Cambie los ajustes de su granja pinchando en el enlace de "Administración"
+
+Para obtener más información puede visitar la documentación en [xwiki.org&gt;http://xwiki.org].
+
+Este es su SWiki, esperamos que le guste ...
+
+Enhorabuena,
+El Equipo de XWiki
+
+</content>
+</xwikidoc>

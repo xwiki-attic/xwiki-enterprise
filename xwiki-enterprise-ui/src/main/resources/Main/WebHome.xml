@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Main</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent/>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1322163332000</creationDate>
+  <date>1322402877000</date>
+  <contentUpdateDate>1322402877000</contentUpdateDate>
+  <version>1.1</version>
+  <title>$services.localization.render('manager.homepage.title')</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+##
+## Check if the installation is properly finished.
+##
+#if ($services.workspace.getWorkspaceTemplates().size() == 0)
+  ## Note: We cannot use the {{translation/}} macro right now because the key contains wiki markup and the translation macro will not interpet it, see http://jira.xwiki.org/browse/XWIKI-9037
+  {{warning}}$services.localization.render('workspacemanager.template.install.notYetComplete', ['WorkspaceManager.Install']){{/warning}}
+#end
+{{/velocity}}
+
+{{include document='Dashboard.WebHome' context='new' /}}</content>
+</xwikidoc>

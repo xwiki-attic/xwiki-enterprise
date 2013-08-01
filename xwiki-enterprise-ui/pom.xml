@@ -18,11 +18,173 @@
     </xwiki.extension.features>
   </properties>
   <dependencies>
+    <!-- Other UIs -->
+    <!-- Put administration ui first to have default users and rights imported before most of the other pages
+     in case some of them needs to be checked for special right like wiki components etc. -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-workspace-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
+    <!-- Old XEM UI -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-application-manager-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-manager-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-workspace-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <!-- Step 1: Download XE xar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+
+          <execution>
+            <!-- <phase>generate-sources</phase> -->
+            <id>xe-xar-wiki-template</id>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.xwiki.enterprise</groupId>
+                  <artifactId>xwiki-enterprise-ui-all</artifactId>
+                  <version>${enterprise.version}</version>
+                  <type>xar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/xe</outputDirectory>
+                  <destFileName>template-xe.xar</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+          <execution>
+            <!-- <phase>generate-sources</phase> -->
+            <id>xe-xar-workspace-template</id>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.xwiki.enterprise</groupId>
+                  <artifactId>xwiki-enterprise-workspace-ui-all</artifactId>
+                  <version>${enterprise.version}</version>
+                  <type>xar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/xe</outputDirectory>
+                  <destFileName>workspace-template.xar</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+
+        </executions>
+      </plugin>
+      <!-- Step 2: Unpack the Workspace Application so that we can attach
+        a base template xar to the WorkspaceManager.Install page -->
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unxar-xwiki-platform-workspace-ui</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+            <configuration>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-workspace-ui</artifactId>
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+              <includes>
+                <include>WorkspaceManager/Install.xml</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Step 3: Attach XE xar to XEM/Workspace install page -->
+      <plugin>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-xmldoc-update-plugin</artifactId>
+        <version>${platform.version}</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <id>attach-xe-xar</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/xe/template-xe.xar</file>
+              <sourceDocument>${basedir}/src/main/resources/XemManager/Install.xml</sourceDocument>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-resources</phase>
+            <id>attach-xe-xar-as-workspace-template</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/xe/workspace-template.xar</file>
+              <sourceDocument>${project.build.outputDirectory}/WorkspaceManager/Install.xml</sourceDocument>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- For applications based on ApplicationManager, ensure application
+        version in applications descriptors page is correct -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <id>set-application-informations</id>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <transformationSets>
+            <transformationSet>
+              <dir>src/main/resources</dir>
+              <outputDir>${project.build.outputDirectory}</outputDir>
+              <includes>
+                <include>XApp/XWikiApplication*</include>
+              </includes>
+              <stylesheet>src/main/build/transformation/xapp.xsl</stylesheet>
+              <parameters>
+                <parameter>
+                  <name>appversion</name>
+                  <value>${project.version}</value>
+                </parameter>
+              </parameters>
+            </transformationSet>
+          </transformationSets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

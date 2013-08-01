@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>WikiManager</web>
+  <name>Dashboard</name>
+  <language>it</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166007764000</creationDate>
+  <date>1204110875000</date>
+  <contentUpdateDate>1204211840000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/1.0</syntaxId>
+  <hidden>false</hidden>
+  <content>1 Benvenuto nel wiki dell'Amministrazione
+
+Benvenuto nel wiki dell'Amministrazione della vostra fattoria di wiki! È uno spazio che vi consentirà di creare tutti i wiki che vorrete e di gestirli. Ogni wiki è uno spazio di lavoro condiviso che vi permetterà di collaborare efficientemente con gli altri. Sarà possibile usarlo per molti scopi:
+
+* Gestione progetti - Project Management
+* Scrittura Collaborativa - Collaborative Writing
+* Condivisione efficace di documenti
+* Gestione conoscenza - Knowledge Management
+
+1 Una fattoria, 3 tipi di Xwiki
+
+* Wiki dell'Amministrazione: questo è il wiki corrente ed è necessario per gestire la fattoria di wiki
+* Modelli di Wiki: modelli di wiki che si usano per creare nuove istanze di wiki
+* Istanze di Wiki: un wiki creato a partire da un modello di wiki su cui gli utenti lavoreranno
+
+1 Notizie ed informazioni dai wiki
+
+#############################################################################
+
+#includeMacros("WikiCode.Macros")
+#set($WikiManager = $services.wikimanager)
+
+#set($nb = 5)
+#set($wikilist = $WikiManager.getAllWikis())
+#set ($creationsortedwikilist = $sorttool.sort($wikilist, 'creationDate:desc'))
+
+#############################################################################
+
+#displayPanelLayout(2, ["WikiCode.UserWikisIsAdminWidget", "WikiCode.UserWikisIsUserWidget", "WikiCode.UserWikisIsOwnerWidget", "WikiCode.MyLastWikiModificationsWidget", "WikiCode.LastWikiModificationsWidget", "WikiCode.LastCreatedWikisWidget"])
+
+#############################################################################
+
+
+1 Per iniziare
+
+Dal momento che siete nell'Amministrazione del wiki, le cose possibili da fare sono le seguenti:
+
+* Andare alla pagina [Installation&gt;XemManager.Install] per verificare che l'installazione sia corretta.
+* Creare un nuovo wiki nella fattoria cliccando il link [Create a new wiki&gt;WikiManager.CreateNewWiki] 
+* Gestire i wiki esistenti nella fattoria cliccando il link [Wiki Farm&gt;WikiManager.WebHome] 
+* Cambiare le impostazioni generali cliccando "Amministrazione" 
+
+Per ulteriori informazioni visitare le pagine di documentazione su [xwiki.org&gt;http://xwiki.org].
+
+Questo è il vostro XWiki, speriamo che vi divertiate ...
+
+Congratulazioni,
+The XWiki Team 
+</content>
+</xwikidoc>

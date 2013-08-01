@@ -50,6 +50,7 @@
     <module>xwiki-enterprise-data</module>
     <module>xwiki-enterprise-distribution</module>
     <module>xwiki-enterprise-installers</module>
+    <module>xwiki-enterprise-workspace-ui</module>
     <module>xwiki-enterprise-ui</module>
     <module>xwiki-enterprise-web</module>
   </modules>

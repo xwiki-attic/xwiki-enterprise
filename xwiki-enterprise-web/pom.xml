@@ -693,6 +693,22 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Old XEM -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-application-manager-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-manager-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-workspace-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -1186,6 +1202,8 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <ignoredResource>META-INF/sisu/javax.inject.Named</ignoredResource>
                 <!-- Eclipse projects generally contains about.html file -->
                 <ignoredResource>about.html</ignoredResource>
+                <!-- ApplicationResources.properties is in every XWiki JARs -->
+                <ignoredResource>ApplicationResources*.properties</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

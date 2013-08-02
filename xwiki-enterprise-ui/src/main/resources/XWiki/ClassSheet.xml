@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1369738881000</creationDate>
-  <date>1369832299000</date>
-  <contentUpdateDate>1369832299000</contentUpdateDate>
+  <creationDate>1375383737000</creationDate>
+  <date>1375447727000</date>
+  <contentUpdateDate>1375447727000</contentUpdateDate>
   <version>1.1</version>
   <title>#sheetTitle('Default Class Sheet')</title>
   <defaultTemplate/>
@@ -161,7 +161,7 @@
     = Existing documents =
 
     #set($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className=? and obj.name&lt;&gt;?")
-    #foreach ($item in $xwiki.searchDocuments($sql, [$doc.fullName, $classTemplateDoc.fullName]))
+    #foreach ($item in $services.query.hql($sql).bindValues([$doc.fullName, $classTemplateDoc.fullName]).execute())
       * [[$item]]
     #end
   #end ## has class sheet and class template

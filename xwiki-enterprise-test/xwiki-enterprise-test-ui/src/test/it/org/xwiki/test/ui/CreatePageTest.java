@@ -228,8 +228,8 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         Assert.assertEquals(space, editSpaceWebhomePage.getMetaDataValue("space"));
         Assert.assertEquals("WebHome", editSpaceWebhomePage.getMetaDataValue("page"));
-        // and no parent
-        Assert.assertEquals("", editSpaceWebhomePage.getParent());
+        // The default parent is the home page of the current wiki (XWIKI-7572).
+        Assert.assertEquals("Main.WebHome", editSpaceWebhomePage.getParent());
         // and the title the name of the space
         Assert.assertEquals(space, editSpaceWebhomePage.getDocumentTitle());
     }

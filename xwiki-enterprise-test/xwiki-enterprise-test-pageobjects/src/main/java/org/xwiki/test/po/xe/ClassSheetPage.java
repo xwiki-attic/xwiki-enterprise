@@ -253,7 +253,8 @@ public class ClassSheetPage extends ViewPage
      */
     public boolean hasDocument(String documentName)
     {
-        String xpath = String.format("//li//a[. = '%s']", documentName);
+        // Make sure we look inside the page content and not in some panel like My Recent Modifications.
+        String xpath = String.format("//div[@id = 'xwikicontent']//li//a[. = '%s']", documentName);
         return getUtil().findElementsWithoutWaiting(getDriver(), By.xpath(xpath)).size() == 1;
     }
 

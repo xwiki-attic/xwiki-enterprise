@@ -224,7 +224,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickEditPageInlineForm();
         setFieldValue("groupInput", "XWiki.XWikiAdminGroup");
         clickLinkWithLocator("addMembers", false);
-        waitForCondition("selenium.isTextPresent('XWiki.XWikiAdminGroup')");
+        waitForTextContains("id=groupusers", "XWiki.XWikiAdminGroup");
 
         // cleanup
         deleteGroup(group, false);
@@ -273,7 +273,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         waitForLightbox("Create new group");
         setFieldValue("newgroupi", groupname);
         clickLinkWithXPath("//input[@value='Create group']", true);
-        waitForCondition("selenium.isTextPresent('" + groupname + "')");
+        waitForTextContains("id=groupstable", groupname);
     }
 
     /**
@@ -310,9 +310,8 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         setFieldValue("register2_password", pwd);
         setFieldValue("register_email", "new.user@xwiki.org");
         getSelenium().click("//input[@value='Save']");
-        // Wait till the user is displayed
-        waitPage();
-        waitForCondition("selenium.isTextPresent('" + login + "')");
+        // Wait till the user is displayed.
+        waitForTextContains("id=userstable", login);
     }
 
     private void deleteUser(String login, boolean deleteOnlyIfExists)
@@ -373,10 +372,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         openAdministrationPage();
         clickLinkWithText("Groups");
-        // Since the Groups page has a table loaded using Ajax calls we need to ensure it's filled before going
-        // further. We do that by verifying that the AdminGroup and the AllGroup are loaded.
-        waitForCondition("selenium.isTextPresent('XWikiAdminGroup')");
-        waitForCondition("selenium.isTextPresent('XWikiAllGroup')");
+        waitForLiveTable("groupstable");
     }
 
     private void openUsersPage()

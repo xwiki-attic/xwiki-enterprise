@@ -99,7 +99,6 @@ public class LiveTableEditorTest extends AbstractAdminAuthenticatedTest
     {
         editPage.setDescription("wait for WYSIWYG to load");
         editPage.clickSaveAndContinue();
-        editPage.waitForNotificationSuccessMessage("Saved");
         ApplicationHomePage viewPage = editPage.clickCancel();
         LiveTableElement liveTable = viewPage.getEntriesLiveTable();
         liveTable.waitUntilReady();

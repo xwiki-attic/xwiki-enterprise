@@ -348,7 +348,6 @@ public class ClassEditorTest extends AbstractClassEditorTest
     {
         editor.addField("Date");
         editor.clickSaveAndContinue();
-        editor.waitForNotificationSuccessMessage("Saved");
 
         // Check if the field was added.
         ViewPage viewer = editor.clickCancel();
@@ -363,7 +362,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.openConfigPanel();
         field.setName("-delta");
 
-        editor.clickSaveAndContinue();
+        editor.clickSaveAndContinue(false);
         editor.waitForNotificationErrorMessage("Failed to save the document.");
 
         // Double check that the field wasn't renamed.
@@ -385,9 +384,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.openConfigPanel();
         field.setName("number1");
 
-        // Save and continue.
         editor.clickSaveAndContinue();
-        editor.waitForNotificationSuccessMessage("Saved");
 
         // Add a new field of the type implied by the name set to the previous field.
         field = editor.addField("Number");
@@ -410,20 +407,13 @@ public class ClassEditorTest extends AbstractClassEditorTest
     })
     public void testRenameWithSaveAndContinue()
     {
-        // Add a class field.
         ClassFieldEditPane field = editor.addField("Short Text");
-
-        // Save and continue.
         editor.clickSaveAndContinue();
-        editor.waitForNotificationSuccessMessage("Saved");
 
         // Rename the field.
         field.openConfigPanel();
         field.setName("title");
-
-        // Save and continue, again.
         editor.clickSaveAndContinue();
-        editor.waitForNotificationSuccessMessage("Saved");
 
         // Rename the field for a second time.
         // NOTE: The IDs have been changed so we must recreate the class field edit pane.

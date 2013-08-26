@@ -112,7 +112,7 @@
     <xwikiDataDir>data</xwikiDataDir>
 
     <!-- Version of HSQLDB we want to use in our distribution and when using build tools -->
-    <hsqldb.version>2.2.9</hsqldb.version>
+    <hsqldb.version>2.3.0</hsqldb.version>
 
   </properties>
   <build>

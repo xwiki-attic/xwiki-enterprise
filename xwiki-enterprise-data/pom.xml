@@ -82,6 +82,12 @@
               <artifactId>xwiki-platform-rendering-wikimacro-store</artifactId>
               <version>${platform.version}</version>
             </dependency>
+            <!-- Active Installs module has its own Hibernate mapping file -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-activeinstalls-client-api</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
             <dependency>

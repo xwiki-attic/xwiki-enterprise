@@ -67,7 +67,7 @@
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
 
     <!-- Hibernate configuration -->
-    <xwiki.db.common.extraMappings>activitystream.hbm.xml</xwiki.db.common.extraMappings>
+    <xwiki.db.common.extraMappings>activitystream.hbm.xml,activeinstalls.hbm.xml</xwiki.db.common.extraMappings>
     <!-- xwiki.cfg configuration -->
     <xwiki.cfg.virtual>0</xwiki.cfg.virtual>
     <xe.xwiki.cfg.plugins>\

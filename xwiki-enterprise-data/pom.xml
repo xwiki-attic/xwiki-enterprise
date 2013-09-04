@@ -82,10 +82,10 @@
               <artifactId>xwiki-platform-rendering-wikimacro-store</artifactId>
               <version>${platform.version}</version>
             </dependency>
-            <!-- Active Installs module has its own Hibernate mapping file -->
+            <!-- Instance module has its own Hibernate mapping file -->
             <dependency>
               <groupId>org.xwiki.platform</groupId>
-              <artifactId>xwiki-platform-activeinstalls-client-api</artifactId>
+              <artifactId>xwiki-platform-instance</artifactId>
               <version>${platform.version}</version>
             </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has

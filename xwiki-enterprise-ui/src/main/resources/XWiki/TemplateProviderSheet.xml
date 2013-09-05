@@ -221,10 +221,6 @@
     </property>
   </object>
   <content>{{velocity}}
-#if ($editor == 'inline')
-  #set ($discard = $xwiki.jsfx.use('uicomponents/widgets/validation/livevalidation_prototype.js'))
-  #set ($discard = $xwiki.ssfx.use('uicomponents/widgets/validation/livevalidation.css', true))
-#end
 #set ($discard = $xwiki.jsx.use('XWiki.TemplateProviderSheet'))
 #set ($providerObj = $doc.getObject('XWiki.TemplateProviderClass'))
 #if ($editor == 'inline')

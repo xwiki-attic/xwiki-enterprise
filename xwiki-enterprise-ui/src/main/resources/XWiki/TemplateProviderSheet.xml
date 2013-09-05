@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1364502209000</creationDate>
-  <date>1364572343000</date>
-  <contentUpdateDate>1364572304000</contentUpdateDate>
+  <creationDate>1377515110000</creationDate>
+  <date>1378402239000</date>
+  <contentUpdateDate>1378401463000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -179,6 +179,17 @@
     }
   }
   // ----------------------------------------------------------------------------------------------------
+  // Add live validations
+  // ----------------------------------------------------------------------------------------------------
+  if (typeof LiveValidation != 'undefined') {
+    var templateNameValidator = new LiveValidation($('XWiki.TemplateProviderClass_0_name'), {
+      validMessage: "$escapetool.javascript($services.localization.render('core.validation.valid.message'))"
+    });
+    templateNameValidator.add(Validate.Presence, {
+      failureMessage: "$escapetool.javascript($services.localization.render('core.validation.required.message'))"
+    });
+  }
+  // ----------------------------------------------------------------------------------------------------
   // TODO: Remove this code when XWiki starts supporting nested spaces:
   //   If the template type is set to 'Space', hide from the user the
   //   list of spaces where the template should be active
@@ -210,38 +221,41 @@
     </property>
   </object>
   <content>{{velocity}}
-$xwiki.jsx.use('XWiki.TemplateProviderSheet')##
-#set($providerObj = $doc.getObject("XWiki.TemplateProviderClass"))
-#if ($xcontext.action != 'view')
+#if ($editor == 'inline')
+  #set ($discard = $xwiki.jsfx.use('uicomponents/widgets/validation/livevalidation_prototype.js'))
+  #set ($discard = $xwiki.ssfx.use('uicomponents/widgets/validation/livevalidation.css', true))
+#end
+#set ($discard = $xwiki.jsx.use('XWiki.TemplateProviderSheet'))
+#set ($providerObj = $doc.getObject('XWiki.TemplateProviderClass'))
+#if ($editor == 'inline')
   ; {{translation key="xe.templateprovider.name"/}}
   : {{html}}&lt;input type="text" value="$!{doc.getTitle()}" name="title" /&gt;{{/html}}
 #end
 ; {{translation key="xe.templateprovider.templatename"/}}
-#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
+#if ($editor == 'inline')
 
   {{translation key="xe.templateprovider.templatename.info"/}}
   : $doc.display('name')
 #else
-  ## get the property and render it in the context of the current document
   #set($providerName = $providerObj.getProperty('name').value)
-  : {{{{{translation key="$providerName"/}}}}}
+  : $services.localization.render($providerName)
 #end
 ; {{translation key="xe.templateprovider.template"/}}
-#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
+#if ($editor == 'inline')
   : $doc.display('template')
 #else
   #set($templateDocName = $providerObj.getProperty('template').value)
   : [[$templateDocName&gt;&gt;$templateDocName]]
 #end
 ; {{translation key="xe.templateprovider.templatetype"/}}
-#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
+#if ($editor == 'inline')
 
   {{translation key="xe.templateprovider.templatetype.info"/}}
 #end
 : $doc.display('type')
 (% id="enabled-spaces" %)(((
 ; {{translation key="xe.templateprovider.spaces"/}}
-#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
+#if ($editor == 'inline')
 
   {{translation key="xe.templateprovider.spaces.info"/}}
 #end
@@ -249,7 +263,7 @@ $xwiki.jsx.use('XWiki.TemplateProviderSheet')##
 )))
 ; {{translation key="xe.templateprovider.action"/}}
 
-#if ($xcontext.action == 'inline' || $xcontext.action == 'edit')
+#if ($editor == 'inline')
   {{translation key="xe.templateprovider.action.info"/}}
 #end
 : $doc.display('action')

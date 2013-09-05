@@ -64,8 +64,8 @@ public class RestoreDeletedPageTest extends AbstractAdminAuthenticatedTest
 
         // Check document version/history.
         HistoryPane historyPane = page.openHistoryDocExtraPane();
-        assertEquals("2.1", historyPane.getCurrentVersion());
-        assertEquals("Upload new attachment SmallAttachment.txt", historyPane.getCurrentVersionComment());
+        assertEquals("3.1", historyPane.getCurrentVersion());
+        assertEquals("Restored from recycle bin", historyPane.getCurrentVersionComment());
 
         // Check the attachment.
         AttachmentsPane attachmentsPane = page.openAttachmentsDocExtraPane();

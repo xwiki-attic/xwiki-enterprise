@@ -41,8 +41,8 @@ If you wish to have the default wiki pages, which contain both content pages and
     <xwiki.war.legacy.excludes />
 
     <!-- The default UI associated to this WAR -->
-    <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui</xwiki.extension.distribution.ui>
-    <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui</xwiki.extension.distribution.wikiui>
+    <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki</xwiki.extension.distribution.ui>
+    <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.wikiui>
   </properties>
   <dependencies>
     <!-- Depend on the platform WAR to get all web resources. We then need to add all libraries we need for XE. -->
@@ -700,6 +700,27 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Wiki Manager -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-manager-api</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Application Manager -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-application-manager-api</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Workspaces -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-workspace-api</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -1193,6 +1214,8 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <ignoredResource>META-INF/sisu/javax.inject.Named</ignoredResource>
                 <!-- Eclipse projects generally contains about.html file -->
                 <ignoredResource>about.html</ignoredResource>
+                <!-- ApplicationResources.properties is now present in a lot of modules -->
+                <ignoredResource>ApplicationResources.properties</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

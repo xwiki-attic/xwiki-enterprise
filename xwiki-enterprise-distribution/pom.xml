@@ -34,7 +34,8 @@
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Parent POM</description>
   <modules>
-    <module>xwiki-enterprise-ui-all</module>
+    <module>xwiki-enterprise-ui-wiki-all</module>
+    <module>xwiki-enterprise-ui-mainwiki-all</module>
   </modules>
   <profiles>
     <profile>

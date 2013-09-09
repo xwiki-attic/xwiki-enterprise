@@ -36,7 +36,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui</artifactId>
+      <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
       <scope>provided</scope>

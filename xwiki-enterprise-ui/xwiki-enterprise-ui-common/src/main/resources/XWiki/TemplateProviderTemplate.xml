@@ -11,12 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1274448564000</creationDate>
-  <date>1274448564000</date>
-  <contentUpdateDate>1274448564000</contentUpdateDate>
+  <creationDate>1377515111000</creationDate>
+  <date>1378399122000</date>
+  <contentUpdateDate>1378399122000</contentUpdateDate>
   <version>1.1</version>
   <title>Template Provider Template</title>
-  <template/>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -146,6 +145,5 @@
       <type>page</type>
     </property>
   </object>
-  <content>{{include document="XWiki.TemplateProviderSheet"/}}
-</content>
+  <content/>
 </xwikidoc>

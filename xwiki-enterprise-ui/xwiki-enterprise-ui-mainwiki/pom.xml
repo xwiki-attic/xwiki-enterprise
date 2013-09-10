@@ -54,8 +54,8 @@
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
-    <!-- This dependency is used for the build but we do not want to include xwiki-enterprise-ui-wiki-all pages in
-       this XAR -->
+    <!-- This artifact is used during the build but we don't want it to be a transitive dependency of
+      xwiki-enterprise-ui-mainwiki -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-wiki-all</artifactId>

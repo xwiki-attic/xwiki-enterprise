@@ -54,11 +54,14 @@
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
+    <!-- This dependency is used for the build but we do not want to include xwiki-enterprise-ui-wiki-all pages in
+       this XAR -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-wiki-all</artifactId>
       <version>${enterprise.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>

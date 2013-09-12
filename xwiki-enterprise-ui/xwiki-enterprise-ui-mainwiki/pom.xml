@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-common</artifactId>
-      <version>${enterprise.version}</version>
+      <version>${project.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
@@ -59,7 +59,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-wiki-all</artifactId>
-      <version>${enterprise.version}</version>
+      <version>${project.version}</version>
       <type>xar</type>
       <scope>provided</scope>
     </dependency>
@@ -82,7 +82,7 @@
                 <artifactItem>
                   <groupId>org.xwiki.enterprise</groupId>
                   <artifactId>xwiki-enterprise-ui-wiki-all</artifactId>
-                  <version>${enterprise.version}</version>
+                  <version>${project.version}</version>
                   <type>xar</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${project.build.directory}/xe</outputDirectory>

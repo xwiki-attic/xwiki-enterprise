@@ -263,7 +263,7 @@
               <!-- Used in webstandards tests and escaping tests -->
               <property>
                 <name>pathToXWikiXar</name>
-                <value>org/xwiki/enterprise/xwiki-enterprise-ui-all/${project.version}/xwiki-enterprise-ui-all-${project.version}.xar</value>
+                <value>org/xwiki/enterprise/xwiki-enterprise-ui-mainwiki-all/${project.version}/xwiki-enterprise-ui-mainwiki-all-${project.version}.xar</value>
               </property>
               <!-- Used only in webstandards tests -->
               <property>

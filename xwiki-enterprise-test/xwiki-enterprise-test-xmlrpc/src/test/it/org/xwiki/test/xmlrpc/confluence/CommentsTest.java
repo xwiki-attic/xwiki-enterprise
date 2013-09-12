@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.xmlrpc.confluence;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.swizzle.confluence.Comment;
 import org.codehaus.swizzle.confluence.Page;
 import org.codehaus.swizzle.confluence.Space;
@@ -102,7 +103,7 @@ public class CommentsTest extends AbstractXmlRpcTestCase
         assertEquals(c1.getContent(), c11.getContent());
         assertEquals(c1.getCreated(), c11.getCreated());
         assertEquals(c1.getCreator(), c11.getCreator());
-        assertEquals(c1.getUrl(), c11.getUrl());
+        assertURLEquals(c1.getUrl(), c11.getUrl());
         Comment c22 = rpc.getComment(c2.getId());
         assertEquals(c2.getId(), c22.getId());
         assertEquals(c2.getTitle(), c22.getTitle());
@@ -110,7 +111,7 @@ public class CommentsTest extends AbstractXmlRpcTestCase
         assertEquals(c2.getContent(), c22.getContent());
         assertEquals(c2.getCreated(), c22.getCreated());
         assertEquals(c2.getCreator(), c22.getCreator());
-        assertEquals(c2.getUrl(), c22.getUrl());
+        assertURLEquals(c2.getUrl(), c22.getUrl());
 
         // delete 1st comment
         assertTrue(rpc.removeComment(c1.getId()));
@@ -123,5 +124,14 @@ public class CommentsTest extends AbstractXmlRpcTestCase
         // delete 2nd comment
         assertTrue(rpc.removeComment(c2.getId()));
         assertEquals(0, rpc.getComments(pageId).size());
+    }
+
+    /**
+     * Compare two URLs, discarding any jsession id information in the URL.
+     */
+    private void assertURLEquals(String expectedURL, String url)
+    {
+        assertEquals(StringUtils.substringBefore(expectedURL, ";jsessionid"),
+            StringUtils.substringBefore(url, ";jsessionid"));
     }
 }

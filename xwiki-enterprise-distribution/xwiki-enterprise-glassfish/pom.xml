@@ -54,13 +54,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-web</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>org.glassfish.distributions</groupId>
       <artifactId>web</artifactId>
       <version>3.0-Prelude-b28b</version>

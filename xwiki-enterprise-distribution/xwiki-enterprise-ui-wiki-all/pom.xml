@@ -70,7 +70,8 @@
       org.xwiki.platform:xwiki-platform-messagestream-ui,
       org.xwiki.platform:xwiki-platform-sandbox,
       org.xwiki.platform:xwiki-platform-wysiwyg-ui,
-      org.xwiki.platform:xwiki-platform-workspace-template-features
+      org.xwiki.platform:xwiki-platform-workspace-template-features,
+      org.xwiki.enterprise:xwiki-enterprise-ui-all
     </xwiki.extension.features>
   </properties>
   <dependencies>

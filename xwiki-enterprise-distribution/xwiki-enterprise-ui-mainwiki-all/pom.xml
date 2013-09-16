@@ -83,7 +83,8 @@
       com.xpn.xwiki.products:xwiki-enterprise-manager-wiki-administrator,
       org.xwiki.manager:xwiki-enterprise-manager-wiki-administrator,
       org.xwiki.manager:xwiki-manager-wiki-administrator,
-      org.xwiki.manager:xwiki-manager-ui
+      org.xwiki.manager:xwiki-manager-ui,
+      org.xwiki.enterprise:xwiki-enterprise-ui-all
     </xwiki.extension.features>
   </properties>
   <dependencies>

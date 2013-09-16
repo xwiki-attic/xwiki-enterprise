@@ -38,6 +38,9 @@
   <properties>
     <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
     <xwiki.extension.features>
+        com.xpn.xwiki.products:xwiki-enterprise-manager-wiki-administrator,
+        org.xwiki.manager:xwiki-enterprise-manager-wiki-administrator,
+        org.xwiki.manager:xwiki-manager-wiki-administrator,
         org.xwiki.manager:xwiki-manager
     </xwiki.extension.features>
   </properties>

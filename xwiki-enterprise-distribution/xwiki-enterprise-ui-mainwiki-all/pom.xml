@@ -39,6 +39,7 @@
       <!-- Embedded extensions -->
       org.xwiki.enterprise:xwiki-enterprise-ui,
       org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki,
+      org.xwiki.enterprise:xwiki-enterprise-ui-common,
       org.xwiki.platform:xwiki-platform-livetable-ui,
       org.xwiki.platform:xwiki-platform-index-ui,
       org.xwiki.platform:xwiki-platform-panels-ui,

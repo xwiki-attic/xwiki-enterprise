@@ -36,6 +36,7 @@
     <xwiki.extension.features>
       <!-- Embedded extensions -->
       org.xwiki.enterprise:xwiki-enterprise-ui,
+      org.xwiki.enterprise:xwiki-enterprise-ui-wiki,
       org.xwiki.platform:xwiki-platform-livetable-ui,
       org.xwiki.platform:xwiki-platform-index-ui,
       org.xwiki.platform:xwiki-platform-panels-ui,
@@ -61,7 +62,14 @@
       org.xwiki.platform:xwiki-platform-user-profile-ui,
       org.xwiki.platform:xwiki-platform-user-directory-ui,
       org.xwiki.platform:xwiki-platform-logging-ui,
-      org.xwiki.platform:xwiki-platform-help-ui
+      org.xwiki.platform:xwiki-platform-help-ui,
+      org.xwiki.platform:xwiki-platform-uiextension-ui,
+      org.xwiki.platform:xwiki-platform-colorthemes-ui,
+      org.xwiki.platform:xwiki-platform-activitystream-ui,
+      org.xwiki.platform:xwiki-platform-messagestream-ui,
+      org.xwiki.platform:xwiki-platform-sandbox,
+      org.xwiki.platform:xwiki-platform-wysiwyg-ui,
+      org.xwiki.platform:xwiki-platform-workspace-template-features
     </xwiki.extension.features>
   </properties>
   <dependencies>

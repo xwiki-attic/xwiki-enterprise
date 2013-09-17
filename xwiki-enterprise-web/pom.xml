@@ -43,7 +43,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <!-- The default UI associated to this WAR -->
     <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki</xwiki.extension.distribution.ui>
     <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.wikiui>
-    <xwiki.extension.distribution.oldwikiui>org.xwiki.enterprise:xwiki-enterprise-ui-commons</xwiki.extension.distribution.oldwikiui>
+    <xwiki.extension.distribution.oldwikiui>org.xwiki.enterprise:xwiki-enterprise-ui-common</xwiki.extension.distribution.oldwikiui>
 
     <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
     <xwiki.extension.features>

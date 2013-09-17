@@ -32,7 +32,11 @@
   <artifactId>xwiki-enterprise-migrator</artifactId>
   <name>XWiki Enterprise Migrator</name>
   <packaging>jar</packaging>
-  <description></description>  
+  <description>This module provides an interface to determine which Extension UI to us regarding:
+  * if the wiki is the main wiki
+  * if the wiki is a subwiki
+  * if the wiki is a subwiki but without the workspace features.
+  This module will be removed when the "subwiki" and the "workspace" notion will be merged (probably in 5.3).</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform</groupId>

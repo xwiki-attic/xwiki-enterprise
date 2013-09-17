@@ -19,7 +19,7 @@ import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.doc.XWikiDocument;
 
 @Component
-@Named("distributionMigrator")
+@Named("distribution")
 @Singleton
 public class Migrator extends DistributionScriptService
 {

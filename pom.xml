@@ -52,6 +52,7 @@
     <module>xwiki-enterprise-installers</module>
     <module>xwiki-enterprise-ui</module>
     <module>xwiki-enterprise-web</module>
+    <module>xwiki-enterprise-migrator</module>
   </modules>
   <properties>
     <!-- Useful for Enterprise extensions -->

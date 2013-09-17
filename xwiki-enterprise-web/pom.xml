@@ -729,6 +729,13 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Migrator -->
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-migrator</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

@@ -2,14 +2,12 @@ package org.xwiki.enterprise.migrator.internal;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.maven.model.Model;
 import org.xwiki.component.annotation.Component;
 import org.xwiki.extension.CoreExtension;
 import org.xwiki.extension.ExtensionId;
-import org.xwiki.extension.distribution.internal.DistributionManager;
 import org.xwiki.extension.distribution.internal.DistributionScriptService;
 import org.xwiki.extension.repository.CoreExtensionRepository;
 import org.xwiki.extension.repository.internal.core.MavenCoreExtension;
@@ -23,18 +21,6 @@ import com.xpn.xwiki.doc.XWikiDocument;
 @Singleton
 public class Migrator extends DistributionScriptService
 {
-    /**
-     * The component used to get information about the current distribution.
-     */
-    @Inject
-    private DistributionManager distributionManager;
-
-    /**
-     * Used to access current {@link XWikiContext}.
-     */
-    @Inject
-    private Provider<XWikiContext> xcontextProvider;
-
     /**
      * The repository with core modules provided by the platform.
      */
@@ -57,7 +43,8 @@ public class Migrator extends DistributionScriptService
         // Get the wiki document
         XWikiDocument wikiDocument = xcontext.getWikiServer();
         // Let see if the wiki document has an Workspace object
-        DocumentReference workspaceClassRef = new DocumentReference("xwiki", "WorkspaceManager", "WorkspaceClass");
+        DocumentReference workspaceClassRef = new DocumentReference(xcontext.getMainXWiki(),
+                "WorkspaceManager", "WorkspaceClass");
 
         // If there is an object, then it's a "workspace"
         if (wikiDocument.getXObject(workspaceClassRef) != null) {

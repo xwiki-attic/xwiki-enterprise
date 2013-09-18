@@ -729,6 +729,31 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- WikiStream -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wikistream-instance-oldcore</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wikistream-instance-script</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wikistream-stream-xar</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wikistream-stream-wikixml</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Migrator -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

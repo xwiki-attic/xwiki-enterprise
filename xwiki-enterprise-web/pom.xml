@@ -1130,7 +1130,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <dependency>
                       <groupId>xerces</groupId>
                       <artifactId>xercesImpl</artifactId>
-                      <version>2.10.0</version>
                     </dependency>
                   </conflictingDependencies>
                   <classes>

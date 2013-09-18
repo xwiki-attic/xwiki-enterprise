@@ -48,16 +48,16 @@ public class Migrator extends DistributionScriptService
 
         // If there is an object, then it's a "workspace"
         if (wikiDocument.getXObject(workspaceClassRef) != null) {
-            return this.distributionManager.getWikiUIExtensionId();
+            CoreExtension distributionExtension = this.coreExtensionRepository.getEnvironmentExtension();
+            // Get the maven model
+            Model mavenModel = (Model) distributionExtension.getProperty(MavenCoreExtension.PKEY_MAVEN_MODEL);
+            // Get the UI Id
+            String wikiUIId = mavenModel.getProperties().getProperty("xwiki.extension.distribution.workspaceui");
+
+            return new ExtensionId(wikiUIId, distributionExtension.getId().getVersion());
         }
 
         // Other case, it is a "normal" subwiki
-        CoreExtension distributionExtension = this.coreExtensionRepository.getEnvironmentExtension();
-        // Get the maven model
-        Model mavenModel = (Model) distributionExtension.getProperty(MavenCoreExtension.PKEY_MAVEN_MODEL);
-        // Get the UI Id
-        String wikiUIId = mavenModel.getProperties().getProperty("xwiki.extension.distribution.oldwikiui");
-
-        return new ExtensionId(wikiUIId, distributionExtension.getId().getVersion());
+        return this.distributionManager.getWikiUIExtensionId();
     }
 }

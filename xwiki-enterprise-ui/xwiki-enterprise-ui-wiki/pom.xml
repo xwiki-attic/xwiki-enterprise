@@ -8,9 +8,7 @@
   <artifactId>xwiki-enterprise-ui-wiki</artifactId>
   <name>XWiki Enterprise - UI - Wiki</name>
   <packaging>xar</packaging>
-  <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise
-    (sub)wiki.
-  </description>
+  <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise (sub)wiki.</description>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

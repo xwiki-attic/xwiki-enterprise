@@ -32,9 +32,7 @@
   <artifactId>xwiki-enterprise-ui-common</artifactId>
   <name>XWiki Enterprise - UI - Common</name>
   <packaging>xar</packaging>
-  <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise Main Wiki
-    and XWiki Enterprise (sub)wiki.
-  </description>
+  <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise Main Wiki and XWiki Enterprise (sub)wiki.</description>
   <properties>
     <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
     <xwiki.extension.features>

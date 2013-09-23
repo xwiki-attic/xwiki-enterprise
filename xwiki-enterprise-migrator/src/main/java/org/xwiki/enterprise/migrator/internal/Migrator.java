@@ -27,21 +27,18 @@ public class Migrator extends DistributionScriptService
     @Inject
     private CoreExtensionRepository coreExtensionRepository;
 
-    /**
-     * @return the recommended user interface for {@link #getDistributionExtension()}
-     */
     @Override
-    public ExtensionId getUIExtensionId()
+    public ExtensionId getUIExtensionId(String wiki)
     {
         XWikiContext xcontext = this.xcontextProvider.get();
 
         // If it is the main wiki, return the main UI.
-        if (xcontext.isMainWiki()) {
+        if (xcontext.isMainWiki(wiki)) {
             return this.distributionManager.getMainUIExtensionId();
         }
 
         // Get the wiki document
-        XWikiDocument wikiDocument = xcontext.getWikiServer();
+        XWikiDocument wikiDocument = xcontext.getWikiServer(wiki);
         // Let see if the wiki document has an Workspace object
         DocumentReference workspaceClassRef = new DocumentReference(xcontext.getMainXWiki(),
                 "WorkspaceManager", "WorkspaceClass");

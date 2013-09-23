@@ -34,6 +34,10 @@ public class Migrator extends DistributionScriptService
     @Inject
     private DocumentReferenceResolver documentReferenceResolver;
 
+    /** Logging tool. */
+    @Inject
+    private static Logger logger;
+
     @Override
     public ExtensionId getUIExtensionId(String wiki)
     {
@@ -68,7 +72,7 @@ public class Migrator extends DistributionScriptService
             }
 
         } catch (XWikiException e) {
-            Logger.error("Failed to get wiki descriptor for wiki [{}]", wiki, e);
+            logger.error("Failed to get wiki descriptor for wiki [{}]", wiki, e);
         }
 
         // Other case, it is a "normal" subwiki

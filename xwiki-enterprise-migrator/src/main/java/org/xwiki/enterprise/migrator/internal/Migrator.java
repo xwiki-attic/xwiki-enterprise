@@ -32,9 +32,11 @@ public class Migrator extends DistributionScriptService
     private CoreExtensionRepository coreExtensionRepository;
 
     @Inject
-    private DocumentReferenceResolver documentReferenceResolver;
+    private DocumentReferenceResolver<String> documentReferenceResolver;
 
-    /** Logging tool. */
+    /**
+     * Logging tool.
+     */
     @Inject
     private static Logger logger;
 
@@ -51,7 +53,7 @@ public class Migrator extends DistributionScriptService
         try {
             // Get the wiki document
             DocumentReference wikiDocumentRef = documentReferenceResolver.resolve(
-                    xcontext.getMainXWiki()+":"+XWiki.getServerWikiPage(wiki));
+                    xcontext.getMainXWiki() + ":" + XWiki.getServerWikiPage(wiki));
 
             XWikiDocument wikiDocument = xcontext.getWiki().getDocument(wikiDocumentRef, xcontext);
 

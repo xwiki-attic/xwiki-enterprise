@@ -32,7 +32,7 @@ public class Migrator extends DistributionScriptService
     private CoreExtensionRepository coreExtensionRepository;
 
     @Inject
-    private DocumentReferenceResolver documentReferenceResolver;
+    private DocumentReferenceResolver<String> documentReferenceResolver;
 
     /** Logging tool. */
     @Inject
@@ -44,7 +44,8 @@ public class Migrator extends DistributionScriptService
         XWikiContext xcontext = this.xcontextProvider.get();
 
         // If it is the main wiki, return the main UI.
-        if (xcontext.isMainWiki(wiki)) {
+        if (xcontext.isMainWiki(wiki))
+        {
             return this.distributionManager.getMainUIExtensionId();
         }
 
@@ -60,8 +61,8 @@ public class Migrator extends DistributionScriptService
                     "WorkspaceManager", "WorkspaceClass");
 
             // If there is an object, then it's a "workspace"
-            if (wikiDocument.getXObject(workspaceClassRef) != null) {
-
+            if (wikiDocument.getXObject(workspaceClassRef) != null)
+            {
                 CoreExtension distributionExtension = this.coreExtensionRepository.getEnvironmentExtension();
                 // Get the maven model
                 Model mavenModel = (Model) distributionExtension.getProperty(MavenCoreExtension.PKEY_MAVEN_MODEL);

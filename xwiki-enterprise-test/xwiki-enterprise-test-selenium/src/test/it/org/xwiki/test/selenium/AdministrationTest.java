@@ -376,28 +376,33 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
 
         // Now we go to the documents and see which is locked.
-        // Clear any locks by visiting the main page.
-        open("XWiki", "XWikiPreferences", "admin");
         open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection4");
 
-        // We have to switch user context without logging out, logging out removes all locks.
-        open(space, page1, "view");
-        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
-        assertTextPresent("Is This Page Locked true");
+        try {
+            // We have to switch user context without logging out, logging out removes all locks.
+            // We have to open a new window because otherwise the lock is removed when we leave the administration page.
+            getSelenium().openWindow("http://127.0.0.1:8080" + getUrl(space, page1, "view"), getName());
+            getSelenium().selectWindow(getName());
+            assertTextPresent("Is This Page Locked true");
 
-        open(space, page2, "view");
-        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
-        assertTextNotPresent("Is This Page Locked true");
+            open("http://127.0.0.1:8080" + getUrl(space, page2, "view"));
+            assertTextPresent("Is This Page Locked false");
 
-        open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection5");
+            getSelenium().selectWindow(null);
+            open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection5");
 
-        open(space, page1, "view");
-        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
-        assertTextNotPresent("Is This Page Locked true");
+            getSelenium().selectWindow(getName());
+            open("http://127.0.0.1:8080" + getUrl(space, page1, "view"));
+            assertTextPresent("Is This Page Locked false");
 
-        open(space, page2, "view");
-        open(getSelenium().getLocation().replaceAll("http://localhost", "http://127.0.0.1"));
-        assertTextPresent("Is This Page Locked true");
+            open("http://127.0.0.1:8080" + getUrl(space, page2, "view"));
+            assertTextPresent("Is This Page Locked true");
+
+            // Close the window we needed for a different user context.
+            getSelenium().close();
+        } finally {
+            getSelenium().selectWindow(null);
+        }
     }
 
     /*

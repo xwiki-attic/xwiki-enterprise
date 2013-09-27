@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-extension-distribution</artifactId>
-      <version>${project.version}</version>
-    </dependency>    
-  </dependencies>  
+      <version>${platform.version}</version>
+    </dependency>
+  </dependencies>
 </project>

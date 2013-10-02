@@ -767,6 +767,13 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${project.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Wiki Module -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-descriptor-default</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

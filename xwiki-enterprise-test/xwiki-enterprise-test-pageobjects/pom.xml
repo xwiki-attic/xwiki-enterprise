@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>5.2-SNAPSHOT</version>
+    <version>5.2.1-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-pageobjects</artifactId>
   <name>XWiki Enterprise - Functional Tests - Page Objects test framework</name>

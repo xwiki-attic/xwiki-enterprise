@@ -124,18 +124,6 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     }
 
     /**
-     * Verify that the preview works when the document content contains script requiring programming rights. See also
-     * XWIKI-2490.
-     */
-    public void testPreviewModeWithContentRequiringProgrammingRights()
-    {
-        editInWikiEditor("Test", "PreviewMode", SYNTAX);
-        setFieldValue("content", "{{velocity}}$xwiki.hasAccessLevel('programming') $tdoc.author $tdoc.contentAuthor $tdoc.creator{{/velocity}}");
-        clickEditPreview();
-        assertTextPresent("true XWiki.Admin XWiki.Admin XWiki.Admin");
-    }
-
-    /**
      * Verify minor edit feature is working
      */
     public void testMinorEdit()

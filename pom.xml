@@ -47,6 +47,7 @@
   </issueManagement>
   <modules>
     <!-- Sorted Alphabetically -->
+    <module>xwiki-enterprise-archetype</module>
     <module>xwiki-enterprise-data</module>
     <module>xwiki-enterprise-distribution</module>
     <module>xwiki-enterprise-installers</module>

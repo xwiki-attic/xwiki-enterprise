@@ -72,6 +72,7 @@
     <xwiki.db.common.extraMappings>activitystream.hbm.xml,instance.hbm.xml</xwiki.db.common.extraMappings>
     <!-- xwiki.cfg configuration -->
     <xwiki.cfg.virtual>0</xwiki.cfg.virtual>
+    <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.xwiki.cfg.plugins>\
   com.xpn.xwiki.monitor.api.MonitorPlugin,\
   com.xpn.xwiki.plugin.skinx.JsSkinExtensionPlugin,\
@@ -118,6 +119,46 @@
     <!-- Version of HSQLDB we want to use in our distribution and when using build tools -->
     <hsqldb.version>2.3.0</hsqldb.version>
 
+    <!-- Defined as a property so that products extending XE can reuse this list -->
+    <xe.ui.wiki.all.features>
+      <!-- Embedded extensions -->
+      org.xwiki.enterprise:xwiki-enterprise-ui,
+      org.xwiki.enterprise:xwiki-enterprise-ui-wiki,
+      org.xwiki.enterprise:xwiki-enterprise-ui-common,
+      org.xwiki.platform:xwiki-platform-livetable-ui,
+      org.xwiki.platform:xwiki-platform-index-ui,
+      org.xwiki.platform:xwiki-platform-panels-ui,
+      org.xwiki.platform:xwiki-platform-administration-ui,
+      org.xwiki.platform:xwiki-platform-scheduler-ui,
+      org.xwiki.platform:xwiki-platform-watchlist-ui,
+      org.xwiki.platform:xwiki-platform-statistics-ui,
+      org.xwiki.platform:xwiki-platform-search-lucene-ui,
+      org.xwiki.platform:xwiki-platform-search-solr-ui,
+      org.xwiki.platform:xwiki-platform-search-ui,
+      org.xwiki.platform:xwiki-platform-office-ui,
+      org.xwiki.platform:xwiki-platform-webdav-ui,
+      org.xwiki.platform:xwiki-platform-tag-ui,
+      org.xwiki.platform:xwiki-platform-rendering-wikimacro-ui,
+      org.xwiki.platform:xwiki-platform-annotation-ui,
+      org.xwiki.platform:xwiki-platform-invitation-ui,
+      org.xwiki.platform:xwiki-platform-extension-ui,
+      org.xwiki.platform:xwiki-platform-sheet-ui,
+      org.xwiki.platform:xwiki-platform-appwithinminutes-ui,
+      org.xwiki.platform:xwiki-platform-linkchecker-ui,
+      org.xwiki.platform:xwiki-platform-dashboard-ui,
+      org.xwiki.platform:xwiki-platform-user-profile-ui,
+      org.xwiki.platform:xwiki-platform-user-directory-ui,
+      org.xwiki.platform:xwiki-platform-logging-ui,
+      org.xwiki.platform:xwiki-platform-help-ui,
+      org.xwiki.platform:xwiki-platform-uiextension-ui,
+      org.xwiki.platform:xwiki-platform-colorthemes-ui,
+      org.xwiki.platform:xwiki-platform-activitystream-ui,
+      org.xwiki.platform:xwiki-platform-messagestream-ui,
+      org.xwiki.platform:xwiki-platform-sandbox,
+      org.xwiki.platform:xwiki-platform-wysiwyg-ui,
+      org.xwiki.platform:xwiki-platform-workspace-template-features,
+      org.xwiki.enterprise:xwiki-enterprise-ui-all
+    </xe.ui.wiki.all.features>
   </properties>
   <build>
     <pluginManagement>

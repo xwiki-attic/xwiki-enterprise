@@ -61,6 +61,12 @@
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-ui-mainwiki</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
     <!-- This artifact is used during the build but we don't want it to be a transitive dependency of
       xwiki-enterprise-ui-mainwiki -->
     <dependency>

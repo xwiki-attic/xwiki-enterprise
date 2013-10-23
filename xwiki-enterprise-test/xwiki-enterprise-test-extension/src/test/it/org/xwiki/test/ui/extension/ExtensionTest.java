@@ -721,7 +721,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         ProgressBarPane progressBar = extensionPane.getProgressBar();
         Assert.assertEquals(83, progressBar.getPercent());
-        Assert.assertEquals("Importing document [ExtensionTest.Alice] in language []...", progressBar.getMessage());
+        Assert.assertEquals("Conflict between [@@ -1,1 +1,1 @@] and [@@ -1,1 +1,1 @@]", progressBar.getMessage());
 
         ExtensionProgressPane progressPane = extensionPane.openProgressSection();
         List<LogItemPane> upgradeLog = progressPane.getJobLog();

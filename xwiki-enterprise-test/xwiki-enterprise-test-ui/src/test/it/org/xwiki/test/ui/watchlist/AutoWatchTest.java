@@ -51,9 +51,6 @@ public class AutoWatchTest extends AbstractTest
         this.testSpace = this.watchlistPage.getUsername() + "Test";
     }
 
-    /**
-     * Tests that a scheduler job page default edit mode is "inline".
-     */
     @Test
     @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     public void testAutomaticWatchNewPage()

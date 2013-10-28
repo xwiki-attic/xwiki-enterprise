@@ -23,10 +23,10 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>false</hidden>
-  <content>XWiki ist eine einfach veränderbare Webseite die Ihnen die Zusammenarbeit erleichtern wird. Dieses Wiki ist aus //Seiten// aufgebaut, die in //Bereiche// einsortiert sind. Sie sind momentan im **Main**-Bereich und sehen dessen Startseite (**WebHome**).
+  <content>XWiki ist eine einfach veränderbare Webseite, die Ihnen die Zusammenarbeit erleichtern wird. Dieses Wiki ist aus //Seiten// aufgebaut, die in //Bereiche// einsortiert sind. Sie sind momentan im **Main**-Bereich und sehen dessen Startseite (**WebHome**).
 
 {{velocity}}
-#if($hasEdit)Sie können den [[Sandbox Bereich&gt;&gt;Sandbox.WebHome]] verwenden um die Funktionen Ihres Wiki's auszuprobieren.#end
+#if($hasEdit)Sie können den [[Sandkasten&gt;&gt;Sandbox.WebHome]] verwenden, um die Funktionen Ihres Wikis auszuprobieren.#end
 {{/velocity}}
 
 </content>

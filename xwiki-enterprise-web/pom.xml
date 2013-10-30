@@ -812,7 +812,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <artifactItem>
                   <groupId>com.smartgwt</groupId>
                   <artifactId>smartgwt</artifactId>
-                  <version>${smartgwt.version}</version>
                   <type>jar</type>
                   <outputDirectory>${project.build.directory}/smartclient</outputDirectory>
                   <!-- We exlude the default initsc.js file since we provide a modified

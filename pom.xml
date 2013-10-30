@@ -61,9 +61,6 @@
     <!-- Versions of XWiki dependencies used in Enterprise modules -->
     <rendering.version>${enterprise.version}</rendering.version>
     <platform.version>${enterprise.version}</platform.version>
-
-    <smartgwt.version>3.1</smartgwt.version>
-
     <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
          the build take longer than needed (since it downloads the previous versions). -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>

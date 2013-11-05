@@ -57,12 +57,6 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-workspace-ui</artifactId>
-      <version>${platform.version}</version>
-      <type>xar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-wiki-ui-mainwiki</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
@@ -79,75 +73,6 @@
   </dependencies>
   <build>
     <plugins>
-      <!-- Step 1: Get the XE Wiki Xar and name it "workspace-template.xar"-->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- <phase>generate-sources</phase> -->
-            <id>xe-xar-workspace-template</id>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.xwiki.enterprise</groupId>
-                  <artifactId>xwiki-enterprise-ui-wiki-all</artifactId>
-                  <version>${project.version}</version>
-                  <type>xar</type>
-                  <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.directory}/xe</outputDirectory>
-                  <destFileName>workspace-template.xar</destFileName>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Step 2: Unpack the Workspace Application so that we can attach
-        a base template xar to the WorkspaceManager.Install page -->
-      <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unxar-xwiki-platform-workspace-ui</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unxar</goal>
-            </goals>
-            <configuration>
-              <groupId>org.xwiki.platform</groupId>
-              <artifactId>xwiki-platform-workspace-ui</artifactId>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <includes>
-                <include>WorkspaceManager/Install.xml</include>
-              </includes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Step 3: Attach Workspace xar to XEM/Workspace install page -->
-      <plugin>
-        <groupId>org.xwiki.platform</groupId>
-        <artifactId>xwiki-platform-tool-xmldoc-update-plugin</artifactId>
-        <version>${platform.version}</version>
-        <executions>
-          <execution>
-            <phase>generate-resources</phase>
-            <id>attach-xe-xar-as-workspace-template</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${project.build.directory}/xe/workspace-template.xar</file>
-              <sourceDocument>${project.build.outputDirectory}/WorkspaceManager/Install.xml</sourceDocument>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <!-- For applications based on ApplicationManager, ensure application
         version in applications descriptors page is correct -->
       <!--

@@ -827,7 +827,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <artifactItem>
                   <groupId>com.smartgwt</groupId>
                   <artifactId>smartgwt</artifactId>
-                  <version>${smartgwt.version}</version>
                   <type>jar</type>
                   <outputDirectory>${project.build.directory}/smartclient</outputDirectory>
                   <!-- We exlude the default initsc.js file since we provide a modified
@@ -1230,13 +1229,18 @@ If you wish to have the default wiki pages, which contain both content pages and
                   <conflictingDependencies>
                     <dependency>
                       <groupId>org.bouncycastle</groupId>
-                      <artifactId>bcmail-jdk16</artifactId>
-                      <version>1.46</version>
+                      <artifactId>bcmail-jdk15on</artifactId>
+                      <version>1.49</version>
                     </dependency>
                     <dependency>
                       <groupId>org.bouncycastle</groupId>
-                      <artifactId>bcprov-jdk16</artifactId>
-                      <version>1.46</version>
+                      <artifactId>bcpkix-jdk15on</artifactId>
+                      <version>1.49</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>org.bouncycastle</groupId>
+                      <artifactId>bcprov-jdk15on</artifactId>
+                      <version>1.49</version>
                     </dependency>
                   </conflictingDependencies>
                   <resources>
@@ -1383,6 +1387,12 @@ If you wish to have the default wiki pages, which contain both content pages and
         <dependency>
           <groupId>org.xwiki.platform</groupId>
           <artifactId>xwiki-platform-legacy-office-importer</artifactId>
+          <version>${platform.version}</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-legacy-url</artifactId>
           <version>${platform.version}</version>
           <scope>runtime</scope>
         </dependency>

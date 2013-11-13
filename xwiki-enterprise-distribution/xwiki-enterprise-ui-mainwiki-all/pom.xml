@@ -72,8 +72,9 @@
       org.xwiki.platform:xwiki-platform-sandbox
       org.xwiki.platform:xwiki-platform-wysiwyg-ui
 
-      <!-- Embedded extensions from xwiki-workspace-ui-->
+      <!-- Embedded extensions from xwiki-wiki-->
       org.xwiki.platform:xwiki-platform-workspace-ui,
+      org.xwiki.platform:xwiki-platform-wiki-ui-mainwiki,
 
       <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
       com.xpn.xwiki.products:xwiki-enterprise-wiki,

@@ -42,7 +42,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-workspace-template-features</artifactId>
+      <artifactId>xwiki-platform-wiki-ui-wiki</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

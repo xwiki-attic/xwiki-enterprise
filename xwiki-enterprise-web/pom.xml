@@ -42,8 +42,7 @@ If you wish to have the default wiki pages, which contain both content pages and
 
     <!-- The default UI associated to this WAR -->
     <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki</xwiki.extension.distribution.ui>
-    <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-common</xwiki.extension.distribution.wikiui>
-    <xwiki.extension.distribution.workspaceui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.workspaceui>
+    <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.wikiui>
 
     <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
     <xwiki.extension.features>
@@ -714,13 +713,6 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Wiki Manager -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-wiki-manager-api</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     <!-- Application Manager -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -760,17 +752,40 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Migrator -->
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-migrator</artifactId>
-      <version>${project.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     <!-- Wiki Module -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-wiki-descriptor-default</artifactId>
+      <artifactId>xwiki-platform-wiki-default</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-script</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-template-default</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-template-script</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-user-default</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-wiki-user-script</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

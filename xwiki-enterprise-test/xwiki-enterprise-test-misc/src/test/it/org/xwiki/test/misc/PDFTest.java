@@ -116,10 +116,7 @@ public class PDFTest extends TestCase
             for (Map.Entry<String, PDAction> entry : extractLinks(document).entrySet()) {
                 if (entry.getValue() instanceof PDActionURI) {
                     PDActionURI uri = (PDActionURI) entry.getValue();
-                    // Since we're not using Cookies, XWiki will put the session id in the URL. We remove it so that
-                    // we can compare URLs in the test more easily
-                    String extractedURL = uri.getURI().replaceAll(";jsessionid=.*?(?=\\?|$)", "");
-                    urls.put(entry.getKey(), extractedURL);
+                    urls.put(entry.getKey(), uri.getURI());
                 }
             }
         } finally {

@@ -83,7 +83,8 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
     @Override
     public void validateRpd3s4()
     {
-        if (!isPage("XWiki", "XWikiSyntax")) {
+        if (!isPage("XWiki", "XWikiSyntax") && !isPage("XWiki", "XWikiSyntaxParagraphs")
+            && !isPage("XWiki", "XWikiSyntaxGeneralRemarks")) {
             super.validateRpd3s4();
         }
     }
@@ -95,7 +96,8 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
     @Override
     public void validateRpd3s9()
     {
-        if (!isPage("XWiki", "XWikiSyntax") && !isPage("Sandbox", "WebHome")) {
+        if (!isPage("XWiki", "XWikiSyntax") && !isPage("XWiki", "XWikiSyntaxTextFormatting")
+            && !isPage("XWiki", "XWikiSyntaxTextFormatting") && !isPage("Sandbox", "WebHome")) {
             super.validateRpd3s9();
         }
     }
@@ -108,7 +110,7 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
     @Override
     public void validateRpd3s13()
     {
-        if (!isPage("XWiki", "XWikiSyntax")) {
+        if (!isPage("XWiki", "XWikiSyntax") && !isPage("XWiki", "XWikiSyntaxHeadings")) {
             super.validateRpd3s13();
         }
     }
@@ -125,7 +127,12 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
         String exprString = "//*[@style]";
 
         if (!getMeta(SPACE_META).equals("ColorThemes") && !isPage("XWiki", "XWikiSyntax")
-            && !isPage("Panels", "PanelWizard") && !isPage("XWiki", "Treeview") && !isPage("Invitation", "WebHome")) {
+            && !isPage("XWiki", "XWikiSyntaxHorizontalLine") && !isPage("XWiki", "XWikiSyntaxTables")
+            && !isPage("XWiki", "XWikiSyntaxLinks") && !isPage("XWiki", "XWikiSyntaxParagraphs")
+            && !isPage("XWiki", "XWikiSyntaxMacros") && !isPage("XWiki", "XWikiSyntaxDefinitionLists")
+            && !isPage("XWiki", "XWikiSyntaxHeadings") && !isPage("XWiki", "XWikiSyntaxLists")
+            && !isPage("XWiki", "XWikiSyntaxParameters") && !isPage("Panels", "PanelWizard")
+            && !isPage("XWiki", "Treeview") && !isPage("Invitation", "WebHome")) {
             // Usage of the style attribute is strictly forbidden in the other spaces.
             assertFalse(Type.ERROR, "rpd9s1.attr",
                 ((Boolean) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.BOOLEAN)));

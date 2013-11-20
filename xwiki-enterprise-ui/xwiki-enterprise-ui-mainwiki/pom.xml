@@ -39,7 +39,7 @@
         com.xpn.xwiki.products:xwiki-enterprise-manager-wiki-administrator,
         org.xwiki.manager:xwiki-enterprise-manager-wiki-administrator,
         org.xwiki.manager:xwiki-manager-wiki-administrator,
-        org.xwiki.manager:xwiki-manager
+        org.xwiki.manager:xwiki-manager-ui
     </xwiki.extension.features>
   </properties>
   <dependencies>

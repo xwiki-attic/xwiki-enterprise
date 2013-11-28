@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1364502214000</creationDate>
-  <date>1364569881000</date>
-  <contentUpdateDate>1364569881000</contentUpdateDate>
+  <creationDate>1385551030000</creationDate>
+  <date>1385642732000</date>
+  <contentUpdateDate>1385642732000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('xe.rss.pages.modified')</title>
   <defaultTemplate/>
@@ -29,16 +29,73 @@
 #end
 #if ("$!request.xpage" == 'plain' &amp;&amp; "$!request.outputSyntax" == 'plain')
   $response.setContentType('application/rss+xml')
+  ## ======================
+  ## Compute Query to find documents
+  ## ======================
+  #if("$!{request.tag}" != '')
+    ## RSS feed for documents tagged with $request.tag
+    #set ($query = 'from doc.object(XWiki.TagClass) as tag where (')
+    #foreach ($tag in $request.getParameterValues('tag'))
+      #set ($query = "$query :tag${foreach.count} member of tag.tags")
+      #if ($foreach.hasNext)
+        #set ($query = "$query OR ")
+      #end
+    #end
+    #set ($query = "$query) AND ")
+  #else
+    #set ($query = 'where ')
+  #end
   #if("$!{request.space}" == '')
     ## RSS feed for the whole wiki
-    #set ($query = 'where 1=1 order by doc.date desc')
-    #set ($description = $services.localization.render('xe.rss.feed.description'))
+    #set ($query = "$query 1=1")
   #else
-    ## RSS feed for a single space
-    #set ($query = "where doc.space='${request.space}' order by doc.date desc")
-    #set ($description = $services.localization.render('xe.rss.space.description', [$request.space]))
+    ## RSS feed for spaces
+    #set ($query = "$query (")
+    #foreach ($space in $request.getParameterValues('space'))
+      #set ($query = "$query doc.space=:space${foreach.count}")
+      #if ($foreach.hasNext)
+        #set ($query = "$query OR ")
+      #end
+    #end
+    #set ($query = "$query)")
   #end
-  #set ($feed = $xwiki.feed.getWebFeed($query, 20, 0, {}))
+  #set ($query = "$query order by doc.date desc")
+  ## ==============
+  ## Bind Query parameters
+  ## ==============
+  ## Bind query parameters depending on the passed query string parameters
+  #set ($queryObject = $services.query.xwql($query).addFilter('currentlanguage').setLimit(20).setOffset(0))
+  #if("$!{request.tag}" != '')
+    #foreach ($tag in $request.getParameterValues('tag'))
+      #set ($queryObject = $queryObject.bindValue("tag${foreach.count}", $tag))
+    #end
+  #end
+  #if("$!{request.space}" != '')
+    #foreach ($space in $request.getParameterValues('space'))
+      #set ($queryObject = $queryObject.bindValue("space${foreach.count}", $space))
+    #end
+  #end
+  ## ================
+  ## Compute feed description
+  ## ================
+  ## 4 cases to handle: no spaces and tags specified, only spaces specified, only tags specified and spaces and tags specified
+  #if ("$!{request.space}" != '')
+    #if ("$!{request.tag}" != '')
+      #set ($description = $services.localization.render('xe.rss.feed.tagsAndSpaces.description', [$stringtool.join($request.getParameterValues('tag'), ','), $stringtool.join($request.getParameterValues('space'), ',')]))
+    #else
+      #set ($description = $services.localization.render('xe.rss.feed.spaces.description', [$stringtool.join($request.getParameterValues('space'), ',')]))
+    #end
+  #else
+    #if ("$!{request.tag}" != '')
+      #set ($description = $services.localization.render('xe.rss.feed.tags.description', [$stringtool.join($request.getParameterValues('tag'), ',')]))
+    #else
+      #set ($description = $services.localization.render('xe.rss.feed.description'))
+    #end
+  #end
+  ## =====================
+  ## Execute query and generate feed
+  ## =====================
+  #set ($feed = $xwiki.feed.getWebFeed($queryObject.execute()))
   #set ($feedURI = $xwiki.getDocument('Main.WebHome').getExternalURL('view'))
   #set ($discard = $feed.setLink($feedURI))
   #set ($discard = $feed.setUri($feedURI))

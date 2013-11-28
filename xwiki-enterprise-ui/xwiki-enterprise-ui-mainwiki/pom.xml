@@ -43,6 +43,13 @@
     </xwiki.extension.features>
   </properties>
   <dependencies>
+    <!-- This is important to have this module in the first position, if we want XWiki.Admin to be installed first -->
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+    </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-common</artifactId>

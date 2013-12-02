@@ -57,7 +57,7 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
 
         // Create a user for the test
         String userName = RandomStringUtils.randomAlphanumeric(5);
-        getUtil().createUser(userName, "password");
+        getUtil().createUserAndLogin(userName, "password");
         WatchlistUserProfilePage profilePage = WatchlistUserProfilePage.gotoPage(userName);
 
         // Set the Admin user's email address to use a localhost domain so that the mail is caught by our

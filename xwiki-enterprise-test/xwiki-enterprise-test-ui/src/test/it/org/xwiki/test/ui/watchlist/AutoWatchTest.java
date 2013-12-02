@@ -43,7 +43,7 @@ public class AutoWatchTest extends AbstractTest
     {
         String userName = RandomStringUtils.randomAlphanumeric(5);
 
-        getUtil().createUser(userName, "password");
+        getUtil().createUserAndLogin(userName, "password");
         WatchlistUserProfilePage profilePage = WatchlistUserProfilePage.gotoPage(userName);
 
         this.watchlistPage = profilePage.switchToWatchlist();

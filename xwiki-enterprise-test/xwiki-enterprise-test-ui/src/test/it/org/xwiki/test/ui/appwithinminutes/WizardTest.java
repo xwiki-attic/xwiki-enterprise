@@ -57,7 +57,7 @@ public class WizardTest extends AbstractTest
         // Register a simple user, login and go to the App Within Minutes home page.
         String userName = RandomStringUtils.randomAlphanumeric(5);
         String password = RandomStringUtils.randomAlphanumeric(6);
-        getUtil().createUser(userName, password);
+        getUtil().createUserAndLogin(userName, password);
         AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
 
         // Click the Create Application button.

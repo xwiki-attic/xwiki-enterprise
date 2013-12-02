@@ -128,7 +128,7 @@ public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
         attachmentsPane.deleteAttachmentByFileByName("SmallAttachment2.txt");
 
         // Add comments.
-        getUtil().createUser("Alice", "ecila");
+        getUtil().createUserAndLogin("Alice", "ecila");
         testPage = getUtil().gotoPage(getTestClassName(), pageName);
         CommentsTab commentsTab = testPage.openCommentsDocExtraPane();
         commentsTab.postComment("first line\nsecond line", true);

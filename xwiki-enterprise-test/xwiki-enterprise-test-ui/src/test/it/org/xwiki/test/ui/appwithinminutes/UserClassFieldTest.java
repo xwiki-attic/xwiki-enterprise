@@ -45,11 +45,11 @@ public class UserClassFieldTest extends AbstractClassEditorTest
     public static void setUpClass() throws Exception
     {
         // Create 2 users.
-        getUtil().createUser("tmortagne", "tmortagne", "first_name", "Thomas", "last_name", "Mortagne",
+        getUtil().createUserAndLogin("tmortagne", "tmortagne", "first_name", "Thomas", "last_name", "Mortagne",
             "avatar", "tmortagne.png");
         getUtil().attachFile("XWiki", "tmortagne", "tmortagne.png",
             UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/tmortagne.png"), false);
-        getUtil().createUser("Enygma2002", "Enygma2002", "first_name", "Eduard", "last_name", "Moraru",
+        getUtil().createUserAndLogin("Enygma2002", "Enygma2002", "first_name", "Eduard", "last_name", "Moraru",
             "avatar", "Enygma2002.png");
         getUtil().attachFile("XWiki", "Enygma2002", "Enygma2002.png",
             UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/Enygma2002.png"), false);

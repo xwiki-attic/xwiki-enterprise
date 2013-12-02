@@ -53,7 +53,7 @@ public class AppsLiveTableTest extends AbstractTest
         // Register a simple user, login and go to the AppWithinMinutes home page.
         String userName = RandomStringUtils.randomAlphanumeric(5);
         String password = RandomStringUtils.randomAlphanumeric(6);
-        getUtil().createUser(userName, password);
+        getUtil().createUserAndLogin(userName, password);
         homePage = AppWithinMinutesHomePage.gotoPage();
     }
 
@@ -165,7 +165,7 @@ public class AppsLiveTableTest extends AbstractTest
         Assert.assertFalse(appsLiveTable.canDeleteApplication(appName));
 
         // Login with a different user. The new user shouldn't be able to delete the application.
-        getUtil().createUser("someOtherUser", "somePassword");
+        getUtil().createUserAndLogin("someOtherUser", "somePassword");
         appsLiveTable = AppWithinMinutesHomePage.gotoPage().getAppsLiveTable();
         appsLiveTable.waitUntilReady();
         appsLiveTable.filterApplicationName(appName);

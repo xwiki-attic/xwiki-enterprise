@@ -77,6 +77,7 @@
       org.xwiki.platform:xwiki-platform-workspace-ui,
       org.xwiki.platform:xwiki-platform-wiki-ui-mainwiki,
       org.xwiki.platform:xwiki-platform-wiki-manager-ui,
+      com.xpn.xwiki.platform.applications:xwiki-plugin-wiki-manager,
 
       <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
       com.xpn.xwiki.products:xwiki-enterprise-wiki,

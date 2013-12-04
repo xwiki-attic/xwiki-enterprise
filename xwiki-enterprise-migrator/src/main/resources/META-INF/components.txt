@@ -1,1 +1,0 @@
-500:org.xwiki.enterprise.migrator.internal.Migrator

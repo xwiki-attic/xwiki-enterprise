@@ -88,6 +88,18 @@
               <artifactId>xwiki-platform-instance</artifactId>
               <version>${platform.version}</version>
             </dependency>
+            <!-- Wiki Workspaces migrator migrates subwikis -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-wiki-workspaces-migrator</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
+            <!-- Wiki User Default implementation has a migrator to upgrade subwikis -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-wiki-user-default</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
             <dependency>

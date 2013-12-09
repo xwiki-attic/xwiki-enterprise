@@ -488,7 +488,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <!-- Crypto Module -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-crypto</artifactId>
+      <artifactId>xwiki-platform-crypto-script</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -1328,6 +1328,7 @@ If you wish to have the default wiki pages, which contain both content pages and
         <xwiki.war.legacy.excludes>
           WEB-INF/lib/xwiki-commons-component-api-*.jar,
           WEB-INF/lib/xwiki-commons-component-default-*.jar,
+          WEB-INF/lib/xwiki-platform-crypto-script-*.jar,
           WEB-INF/lib/xwiki-rendering-api-*.jar,
           WEB-INF/lib/xwiki-platform-oldcore-*.jar,
           WEB-INF/lib/xwiki-platform-office-importer-*.jar,
@@ -1374,6 +1375,12 @@ If you wish to have the default wiki pages, which contain both content pages and
         <dependency>
           <groupId>org.xwiki.platform</groupId>
           <artifactId>xwiki-platform-legacy-annotation</artifactId>
+          <version>${platform.version}</version>
+          <scope>runtime</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-legacy-crypto-script</artifactId>
           <version>${platform.version}</version>
           <scope>runtime</scope>
         </dependency>

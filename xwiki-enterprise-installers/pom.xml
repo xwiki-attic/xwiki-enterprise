@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>5.3-SNAPSHOT</version>
+    <version>5.3</version>
   </parent>
   <artifactId>xwiki-enterprise-installers</artifactId>
   <name>XWiki Enterprise - Installers - Parent POM</name>

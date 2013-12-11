@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-jetty</artifactId>
-    <version>5.3-SNAPSHOT</version>
+    <version>5.3</version>
   </parent>
   <artifactId>xwiki-enterprise-jetty-derby</artifactId>
   <name>XWiki Enterprise - Distribution - Jetty - Derby</name>

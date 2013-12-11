@@ -1326,12 +1326,14 @@ If you wish to have the default wiki pages, which contain both content pages and
       <id>legacy</id>
       <properties>
         <xwiki.war.legacy.excludes>
+          <!-- Exclude from war non legacy modules that have legacy modules wrapping them -->
+          <!-- This list should match the list of excluded dependencies of the duplicate finder below -->
           WEB-INF/lib/xwiki-commons-component-api-*.jar,
           WEB-INF/lib/xwiki-commons-component-default-*.jar,
           WEB-INF/lib/xwiki-platform-crypto-script-*.jar,
-          WEB-INF/lib/xwiki-rendering-api-*.jar,
           WEB-INF/lib/xwiki-platform-oldcore-*.jar,
           WEB-INF/lib/xwiki-platform-office-importer-*.jar,
+          WEB-INF/lib/xwiki-rendering-api-*.jar,
           <!-- Leave the ending comma because this list is concatenated with another one. -->
         </xwiki.war.legacy.excludes>
       </properties>
@@ -1418,6 +1420,7 @@ If you wish to have the default wiki pages, which contain both content pages and
             <artifactId>maven-duplicate-finder-plugin</artifactId>
             <configuration>
               <!-- Ignore non legacy modules that have legacy modules wrapping them -->
+              <!-- This list should match in property xwiki.war.legacy.excludes above -->
               <ignoredDependencies combine.children="append">
                 <dependency>
                   <groupId>org.xwiki.commons</groupId>
@@ -1433,6 +1436,11 @@ If you wish to have the default wiki pages, which contain both content pages and
                   <groupId>org.xwiki.commons</groupId>
                   <artifactId>xwiki-commons-observation-api</artifactId>
                   <version>${commons.version}</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.xwiki.platform</groupId>
+                  <artifactId>xwiki-platform-crypto-script</artifactId>
+                  <version>${platform.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.platform</groupId>

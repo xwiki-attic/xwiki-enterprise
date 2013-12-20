@@ -112,7 +112,7 @@
     <xwikiDataDir>data</xwikiDataDir>
 
     <!-- Version of HSQLDB we want to use in our distribution and when using build tools -->
-    <hsqldb.version>2.3.0</hsqldb.version>
+    <hsqldb.version>2.3.1</hsqldb.version>
 
     <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.ui.wiki.all.features>

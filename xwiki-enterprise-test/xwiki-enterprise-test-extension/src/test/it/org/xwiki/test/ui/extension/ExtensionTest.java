@@ -578,7 +578,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         log = extensionPane.confirm().openProgressSection().getJobLog();
         Assert.assertTrue(log.size() > 2);
         Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [xwiki]", log.get(2)
+        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [Home]", log.get(2)
             .getMessage());
         Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
         Assert.assertEquals("Finished job of type [uninstall] with identifier "

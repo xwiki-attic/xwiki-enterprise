@@ -40,6 +40,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -141,6 +142,12 @@ public class AbstractValidationTest extends TestCase
         TestSuite suite = new TestSuite();
 
         HttpClient adminClient = new HttpClient();
+        // The code that prevents circular redirects (HttpMethodDirector#processRedirectResponse) ignores the query
+        // string when comparing the redirect location with the current location. The browser doesn't behave like this
+        // and we have pages that redirect to themselves with different query string parameters.
+        adminClient.getParams().setBooleanParameter(HttpClientParams.ALLOW_CIRCULAR_REDIRECTS, true);
+        // Limit the number of redirects because we don't detect circular redirect any more.
+        adminClient.getParams().setIntParameter(HttpClientParams.MAX_REDIRECTS, 3);
         Credentials defaultcreds = new UsernamePasswordCredentials("Admin", "admin");
         adminClient.getState().setCredentials(AuthScope.ANY, defaultcreds);
 

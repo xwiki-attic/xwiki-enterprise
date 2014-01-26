@@ -72,6 +72,7 @@
       org.xwiki.platform:xwiki-platform-messagestream-ui
       org.xwiki.platform:xwiki-platform-sandbox
       org.xwiki.platform:xwiki-platform-wysiwyg-ui
+      org.xwiki.platform:xwiki-platform-classwizard-ui
 
       <!-- Embedded extensions from xwiki-wiki-->
       org.xwiki.platform:xwiki-platform-workspace-ui,

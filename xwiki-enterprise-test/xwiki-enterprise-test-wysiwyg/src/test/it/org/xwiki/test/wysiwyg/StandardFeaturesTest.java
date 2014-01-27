@@ -273,22 +273,6 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @see XWIKI-3039: Changes are lost if an exception is thrown during saving
-     */
-    public void testRecoverAfterConversionException()
-    {
-        // We removed the startwikilink comment to force a parsing failure.
-        String html = "<span class=\"wikiexternallink\"><a href=\"mailto:x@y.z\">xyz</a></span><!--stopwikilink-->";
-        setContent(html);
-        // Test to see if the HTML was accepted by the rich text area.
-        assertContent(html);
-        // Let's see what happens when we save an continue.
-        clickEditSaveAndContinue();
-        // The user shouldn't loose his changes.
-        assertContent(html);
-    }
-
-    /**
      * @see XWIKI-2732: Unwanted BR tags
      */
     public void testUnwantedBRsAreRemoved()

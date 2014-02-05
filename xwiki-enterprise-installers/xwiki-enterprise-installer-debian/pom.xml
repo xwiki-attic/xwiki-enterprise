@@ -27,7 +27,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installers</artifactId>
-    <version>5.2.4-SNAPSHOT</version>
+    <version>5.2.4</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian</artifactId>
   <name>XWiki Enterprise - Installer - Debian</name>

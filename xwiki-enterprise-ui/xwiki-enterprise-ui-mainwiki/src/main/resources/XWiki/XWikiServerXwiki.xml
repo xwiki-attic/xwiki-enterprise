@@ -215,7 +215,7 @@
       <secure>0</secure>
     </property>
     <property>
-      <server>xwiki</server>
+      <server>localhost</server>
     </property>
     <property>
       <state>active</state>

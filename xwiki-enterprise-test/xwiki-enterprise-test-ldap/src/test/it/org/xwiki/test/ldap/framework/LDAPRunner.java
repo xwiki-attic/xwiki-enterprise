@@ -91,7 +91,7 @@ public class LDAPRunner extends AbstractServerTest
         System.setProperty(LDAPTestSetup.SYSPROPNAME_LDAPPORT, "" + port);
 
         // Load a demo ldif file
-        importLdif(this.getClass().getResourceAsStream("init.ldif"));
+        importLdif(this.getClass().getResourceAsStream("/init.ldif"));
     }
 
     /**

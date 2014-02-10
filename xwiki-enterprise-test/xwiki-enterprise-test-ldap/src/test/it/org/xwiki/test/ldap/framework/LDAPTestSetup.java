@@ -203,6 +203,29 @@ public class LDAPTestSetup extends TestSetup
         HMSLYDIA_MEMBERS.add("cn=User.With.Points,ou=people,o=sevenSeas".toLowerCase());
     }
 
+    /**
+     * The LDAP DN of group Top group.
+     */
+    public static final String TOPGROUP_DN = "cn=Top group,ou=crews,ou=groups,o=sevenSeas";
+
+    /**
+     * The LDAP members of group Top group.
+     */
+    public static final Set<String> TOPGROUP_MEMBERS = new HashSet<String>();
+
+    static {
+        TOPGROUP_MEMBERS.addAll(HMSLYDIA_MEMBERS);
+
+        TOPGROUP_MEMBERS.add("cn=Horatio Nelson,ou=people,o=sevenSeas".toLowerCase());
+        TOPGROUP_MEMBERS.add("cn=Thomas Masterman Hardy,ou=people,o=sevenSeas".toLowerCase());
+        TOPGROUP_MEMBERS.add("cn=Cornelius Buckley,ou=people,o=sevenSeas".toLowerCase());
+
+        TOPGROUP_MEMBERS.add("cn=William Bligh,ou=people,o=sevenSeas".toLowerCase());
+        TOPGROUP_MEMBERS.add("cn=Fletcher Christian,ou=people,o=sevenSeas".toLowerCase());
+        TOPGROUP_MEMBERS.add("cn=John Fryer,ou=people,o=sevenSeas".toLowerCase());
+        TOPGROUP_MEMBERS.add("cn=John Hallett,ou=people,o=sevenSeas".toLowerCase());
+    }
+
     // ///
 
     /**

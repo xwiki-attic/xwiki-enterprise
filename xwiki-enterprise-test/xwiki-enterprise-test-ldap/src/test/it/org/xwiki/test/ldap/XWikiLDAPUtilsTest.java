@@ -37,13 +37,14 @@ import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
 import org.xwiki.test.ldap.framework.LDAPTestSetup;
 
 import com.xpn.xwiki.XWiki;
+import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPConnection;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPSearchAttribute;
 import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
 
 /**
- * Tests {@link XWikiLDAPUtilsTest}.
+ * Tests {@link XWikiLDAPUtils}.
  * 
  * @version $Id$
  */
@@ -178,11 +179,33 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
      */
     public void testGetGroupMembers() throws XWikiException
     {
-        Map<String, String> members = this.ldapUtils.getGroupMembers(LDAPTestSetup.HMSLYDIA_DN, getContext());
+        // HMS Lydia
 
-        assertFalse("No member was found", members.isEmpty());
+        Map<String, String> hmslydiamembers = this.ldapUtils.getGroupMembers(LDAPTestSetup.HMSLYDIA_DN, getContext());
 
-        assertEquals(LDAPTestSetup.HMSLYDIA_MEMBERS, members.keySet());
+        assertFalse("No member was found", hmslydiamembers.isEmpty());
+
+        assertEquals(LDAPTestSetup.HMSLYDIA_MEMBERS, hmslydiamembers.keySet());
+
+        hmslydiamembers = this.ldapUtils.getGroupMembers("cn=HMS Lydia", getContext());
+
+        assertFalse("No member was found", hmslydiamembers.isEmpty());
+
+        hmslydiamembers = this.ldapUtils.getGroupMembers("(cn=HMS Lydia)", getContext());
+
+        assertFalse("No member was found", hmslydiamembers.isEmpty());
+
+        assertEquals(LDAPTestSetup.HMSLYDIA_MEMBERS, hmslydiamembers.keySet());
+
+        // Top group
+
+        Map<String, String> topGroupMembers = this.ldapUtils.getGroupMembers(LDAPTestSetup.TOPGROUP_DN, getContext());
+
+        assertFalse("No member was found", topGroupMembers.isEmpty());
+
+        assertEquals(LDAPTestSetup.TOPGROUP_MEMBERS, topGroupMembers.keySet());
+
+        // Wrong group
 
         Map<String, String> wrongGroupMembers =
             this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", getContext());

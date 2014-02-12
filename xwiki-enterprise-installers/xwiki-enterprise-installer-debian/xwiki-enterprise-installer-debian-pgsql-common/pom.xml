@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian</artifactId>
-    <version>5.4.1-SNAPSHOT</version>
+    <version>5.4.1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-pgsql-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Postgres SQL - Common</name>

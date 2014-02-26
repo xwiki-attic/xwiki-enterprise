@@ -174,7 +174,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         searchResults = searchBar.search("restlet");
         Assert.assertNull(searchResults.getNoResultsMessage());
         Assert.assertNull(searchResults.getPagination());
-        Assert.assertEquals(3, searchResults.getDisplayedResultsCount());
+        Assert.assertTrue(searchResults.getDisplayedResultsCount() > 1);
 
         extension = searchResults.getExtension(0);
         Assert.assertEquals("core", extension.getStatus());

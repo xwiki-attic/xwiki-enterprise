@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installers</artifactId>
-    <version>5.4.2-SNAPSHOT</version>
+    <version>5.4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-windows</artifactId>
   <name>XWiki Enterprise - Installers - Windows</name>

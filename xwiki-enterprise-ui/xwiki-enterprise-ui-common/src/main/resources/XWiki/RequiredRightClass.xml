@@ -82,5 +82,5 @@
 #set($defaultSpace = 'Main')
 {{/velocity}}
 
-{{include document="XWiki.ClassSheet"/}}</content>
+{{include reference="XWiki.ClassSheet"/}}</content>
 </xwikidoc>

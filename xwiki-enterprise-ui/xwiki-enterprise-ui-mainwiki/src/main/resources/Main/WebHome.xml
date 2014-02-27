@@ -71,5 +71,5 @@
       <defaultEditMode>edit</defaultEditMode>
     </property>
   </object>
-  <content>{{include document="Dashboard.WebHome" context="new"/}}</content>
+  <content>{{include reference="Dashboard.WebHome" context="new"/}}</content>
 </xwikidoc>

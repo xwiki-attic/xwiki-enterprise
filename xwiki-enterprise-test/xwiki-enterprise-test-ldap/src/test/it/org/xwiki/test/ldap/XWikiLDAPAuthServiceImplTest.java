@@ -29,11 +29,6 @@ import java.util.Properties;
 import org.jmock.Mock;
 import org.jmock.core.Invocation;
 import org.jmock.core.stub.CustomStub;
-import org.xwiki.cache.Cache;
-import org.xwiki.cache.CacheException;
-import org.xwiki.cache.CacheFactory;
-import org.xwiki.cache.config.CacheConfiguration;
-import org.xwiki.cache.internal.DefaultCache;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.DocumentReferenceResolver;
 import org.xwiki.model.reference.EntityReference;
@@ -74,17 +69,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
     private XWikiLDAPAuthServiceImpl ldapAuth;
 
-    private CacheFactory cacheFactory = new CacheFactory()
-    {
-        public <T> Cache<T> newCache(CacheConfiguration config) throws CacheException
-        {
-            return new DefaultCache<T>();
-        }
-    };
-
     private Properties properties = new Properties();
-
-    private boolean isVirtualMode = false;
 
     private Map<String, Map<String, XWikiDocument>> databases = new HashMap<String, Map<String, XWikiDocument>>();
 
@@ -183,10 +168,8 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
 
         mockXWiki.stubs().method("getStore").will(returnValue(mockStore.proxy()));
         mockXWiki.stubs().method("getGroupService").will(returnValue(mockGroupService.proxy()));
-        mockXWiki.stubs().method("getCacheFactory").will(returnValue(this.cacheFactory));
         mockXWiki.stubs().method("getXWikiPreference").will(returnValue(null));
         mockXWiki.stubs().method("getXWikiPreferenceAsInt").will(throwException(new NumberFormatException("null")));
-        mockXWiki.stubs().method("isVirtualMode").will(returnValue(this.isVirtualMode));
         mockXWiki.stubs().method("getDefaultDocumentSyntax").will(returnValue(Syntax.XWIKI_1_0.toIdString()));
         mockXWiki.stubs().method("Param").will(new CustomStub("Implements XWiki.Param")
         {

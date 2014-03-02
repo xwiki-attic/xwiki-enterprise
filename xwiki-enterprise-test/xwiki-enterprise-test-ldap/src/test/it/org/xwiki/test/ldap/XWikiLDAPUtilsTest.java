@@ -30,9 +30,7 @@ import org.jmock.core.Invocation;
 import org.jmock.core.stub.CustomStub;
 import org.xwiki.cache.Cache;
 import org.xwiki.cache.CacheException;
-import org.xwiki.cache.CacheFactory;
 import org.xwiki.cache.config.CacheConfiguration;
-import org.xwiki.cache.internal.DefaultCache;
 import org.xwiki.test.ldap.framework.AbstractLDAPTestCase;
 import org.xwiki.test.ldap.framework.LDAPTestSetup;
 
@@ -50,14 +48,6 @@ import com.xpn.xwiki.plugin.ldap.XWikiLDAPUtils;
  */
 public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 {
-    private CacheFactory cacheFactory = new CacheFactory()
-    {
-        public <T> Cache<T> newCache(CacheConfiguration config) throws CacheException
-        {
-            return new DefaultCache<T>();
-        }
-    };
-
     /**
      * The LDAP connection tool.
      */
@@ -77,7 +67,6 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 
         Mock mockXWiki = mock(XWiki.class, new Class[] {}, new Object[] {});
 
-        mockXWiki.stubs().method("getCacheFactory").will(returnValue(cacheFactory));
         mockXWiki.stubs().method("getXWikiPreference").will(returnValue(null));
         mockXWiki.stubs().method("getXWikiPreferenceAsInt").will(throwException(new NumberFormatException("null")));
         mockXWiki.stubs().method("Param").will(new CustomStub("Implements XWiki.Param")

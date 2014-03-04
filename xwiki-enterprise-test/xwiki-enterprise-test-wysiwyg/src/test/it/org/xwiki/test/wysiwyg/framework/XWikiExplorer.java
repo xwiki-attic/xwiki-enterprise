@@ -181,6 +181,6 @@ public class XWikiExplorer
         lookupEntity(spaceName + "." + pageName + "#Attachments");
         waitForAttachmentsSelected(spaceName, pageName);
         // This works if the "Upload file..." node is right below the "Attachments" node.
-        test.getSelenium().typeKeys("//*[@class = 'xExplorerPanel']//*[@class = 'listGrid']/div/div", "\\40");
+        test.getSelenium().typeKeys("//*[@class = 'xExplorerPanel']//*[@class = 'listGrid']/div", "\\40");
     }
 }

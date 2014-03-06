@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>5.4-SNAPSHOT</version>
+    <version>5.4.3-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-officeimporter</artifactId>
   <name>XWiki Enterprise - Functional Tests - Office Importer</name>
@@ -36,10 +36,6 @@
     <browser>*chrome</browser>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-test-selenium</artifactId>
@@ -60,22 +56,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
-      <!-- Step 3: Create jar containing integration tests which will be installed -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-      </plugin>
-      <!-- Step 4: Unpack the application -->
+      <!-- Step 3: Unpack the application -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
-      <!-- Step 5: Start Selenium -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>selenium-maven-plugin</artifactId>
-      </plugin>
-      <!-- Step 6: Start OpenOffice, XWiki, Execute the tests and Stop XWiki, OpenOffice -->
+      <!-- Step 4: Start OpenOffice, XWiki, Execute the tests and Stop XWiki, OpenOffice -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>

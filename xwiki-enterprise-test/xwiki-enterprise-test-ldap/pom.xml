@@ -65,10 +65,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
     </dependency> 
@@ -82,29 +78,20 @@
   </dependencies>
   <build>
     <plugins>
-      <!-- Step 1: Compile the JUnit LDAP Tests and copy test resources files -->
+      <!-- Step 1: Compile the JUnit LDAP Tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
+      <!-- Step 2: Process the test resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-      </plugin>
-      <!-- Step 2: Create jar containing integration tests which will be installed -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
       </plugin>
       <!-- Step 3: Unpack the application -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <!-- Step 4: Start Selenium -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>selenium-maven-plugin</artifactId>
       </plugin>
       <!-- Step 5: Execute the tests (they start/stop XE) -->
       <plugin>

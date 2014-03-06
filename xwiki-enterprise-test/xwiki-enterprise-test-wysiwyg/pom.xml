@@ -33,14 +33,6 @@
   <description>XWiki Enterprise - Functional Tests - WYSIWYG</description>
   <dependencies>
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-test-selenium</artifactId>
       <version>${project.version}</version>
@@ -55,22 +47,17 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-      <!-- Step 2: Create jar containing integration tests which will be installed -->
+      <!-- Step 2: Process the test resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>maven-resources-plugin</artifactId>
       </plugin>
       <!-- Step 3: Unpack the application -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
-      <!-- Step 4: Start Selenium -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>selenium-maven-plugin</artifactId>
-      </plugin>
-      <!-- Step 5: Start XWiki, Execute the tests and Stop XWiki -->
+      <!-- Step 4: Execute the tests (they start/stop XE) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>

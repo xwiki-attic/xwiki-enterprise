@@ -28,10 +28,10 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverBackedSelenium;
 import org.xwiki.test.ui.WebDriverFactory;
 
 import com.thoughtworks.selenium.Selenium;
+import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 
 /**
  * Starts the Browser only once per Test Suite.
@@ -43,10 +43,10 @@ public class XWikiSeleniumTestSetup extends TestSetup
     private static final String BASE_URL = "http://localhost:" + PORT;
 
     /**
-     * Decide on which browser to run the tests and defaults to Firefox if no system property is defined (useful
-     * for running in your IDE for example).
+     * Decide on which browser to run the tests and defaults to Firefox if no system property is defined (useful for
+     * running in your IDE for example).
      */
-    private static final String BROWSER_NAME_SYSTEM_PROPERTY = System.getProperty("browser", "*firefox"); 
+    private static final String BROWSER_NAME_SYSTEM_PROPERTY = System.getProperty("browser", "*firefox");
 
     private Selenium selenium;
 
@@ -61,7 +61,7 @@ public class XWikiSeleniumTestSetup extends TestSetup
         this.selenium = new WebDriverBackedSelenium(driver, BASE_URL);
 
         // Sets the Selenium object in all tests
-        for (AbstractXWikiTestCase test: getTests(getTest())) {
+        for (AbstractXWikiTestCase test : getTests(getTest())) {
             test.setSelenium(this.selenium);
         }
     }
@@ -70,14 +70,14 @@ public class XWikiSeleniumTestSetup extends TestSetup
     {
         this.selenium.stop();
     }
-    
+
     private List<AbstractXWikiTestCase> getTests(Test test)
     {
         List<AbstractXWikiTestCase> tests = new ArrayList<AbstractXWikiTestCase>();
 
         if (TestSuite.class.isAssignableFrom(test.getClass())) {
             TestSuite suite = (TestSuite) test;
-            Enumeration nestedTests = suite.tests();
+            Enumeration<Test> nestedTests = suite.tests();
             while (nestedTests.hasMoreElements()) {
                 tests.addAll(getTests((Test) nestedTests.nextElement()));
             }

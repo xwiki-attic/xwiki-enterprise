@@ -195,7 +195,7 @@ public class UserClassFieldTest extends AbstractClassEditorTest
         // Select 2 users.
         userPicker.sendKeys("tmortagne").waitForSuggestions().sendKeys(Keys.ENTER).waitForSuggestionsToFadeOut();
         Assert.assertFalse(userPicker.getClearSelectionLink().isDisplayed());
-        userPicker.sendKeys("2002").waitForSuggestions().select("Enygma");
+        userPicker.sendKeys("2002").waitForSuggestions().select("Enygma").waitForSuggestionsToFadeOut();
         Assert.assertTrue(userPicker.getClearSelectionLink().isDisplayed());
         List<UserElement> selectedUsers = userPicker.getAcceptedSuggestions();
         Assert.assertEquals(2, selectedUsers.size());
@@ -208,7 +208,8 @@ public class UserClassFieldTest extends AbstractClassEditorTest
         Assert.assertFalse(userPicker.getClearSelectionLink().isDisplayed());
 
         // Select another user.
-        selectedUsers = userPicker.sendKeys("admin").waitForSuggestions().sendKeys(Keys.ENTER).getAcceptedSuggestions();
+        userPicker.sendKeys("admin").waitForSuggestions().sendKeys(Keys.ENTER).waitForSuggestionsToFadeOut();
+        selectedUsers = userPicker.getAcceptedSuggestions();
         Assert.assertEquals(2, selectedUsers.size());
         assertUserElement(selectedUsers.get(0), "Eduard Moraru", "Enygma2002");
         assertUserElement(selectedUsers.get(1), "Administrator", "Admin", "noavatar.png");

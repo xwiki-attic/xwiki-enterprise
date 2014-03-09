@@ -154,7 +154,7 @@ public class UserClassFieldTest extends AbstractClassEditorTest
 
         // Use the keyboard.
         userPicker.sendKeys("mor").waitForSuggestions().sendKeys(Keys.ARROW_DOWN, Keys.ARROW_DOWN, Keys.ENTER);
-        List<UserElement> selectedUsers = userPicker.getAcceptedSuggestions();
+        List<UserElement> selectedUsers = userPicker.waitForSuggestionsToFadeOut().getAcceptedSuggestions();
         Assert.assertEquals(1, selectedUsers.size());
         assertUserElement(selectedUsers.get(0), "Thomas Mortagne");
         Assert.assertEquals("", userPicker.getValue());
@@ -162,7 +162,8 @@ public class UserClassFieldTest extends AbstractClassEditorTest
         Assert.assertFalse(userPicker.getClearSelectionLink().isDisplayed());
 
         // Use the mouse. Since we have single selection by default, the previously selected user should be replaced.
-        selectedUsers = userPicker.sendKeys("mor").waitForSuggestions().select("Enygma2002").getAcceptedSuggestions();
+        userPicker.sendKeys("mor").waitForSuggestions().select("Enygma2002");
+        selectedUsers = userPicker.waitForSuggestionsToFadeOut().getAcceptedSuggestions();
         Assert.assertEquals(1, selectedUsers.size());
         assertUserElement(selectedUsers.get(0), "Eduard Moraru", "Enygma2002");
         Assert.assertEquals("", userPicker.getValue());
@@ -174,7 +175,8 @@ public class UserClassFieldTest extends AbstractClassEditorTest
         Assert.assertFalse(userPicker.getClearSelectionLink().isDisplayed());
 
         // When there is only one suggestion, Enter key should select it.
-        selectedUsers = userPicker.sendKeys("admin").waitForSuggestions().sendKeys(Keys.ENTER).getAcceptedSuggestions();
+        userPicker.sendKeys("admin").waitForSuggestions().sendKeys(Keys.ENTER);
+        selectedUsers = userPicker.waitForSuggestionsToFadeOut().getAcceptedSuggestions();
         Assert.assertEquals(1, selectedUsers.size());
         assertUserElement(selectedUsers.get(0), "Administrator", "Admin", "noavatar.png");
         Assert.assertEquals("", userPicker.getValue());

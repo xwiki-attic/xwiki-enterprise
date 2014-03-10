@@ -116,21 +116,27 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         clickTab("All pages");
         waitForStepToLoad("xExplorerPanel");
         explorer.waitForPageSelected(currentSpace, currentPage);
-        // Now the tree is loaded. Check the list of spaces.
-        // Blog, Main and Sandbox must be present.
+
+        // Now the tree is loaded. Check the list of spaces. Blog, Main, Sandbox and XWiki must be present.
         explorer.selectNewPageIn("Blog");
         explorer.selectNewPageIn("Main");
         explorer.selectNewPageIn("Sandbox");
-        // ColorThemes, Panels, Scheduler, Stats and XWiki shouldn't be present.
+        explorer.selectNewPageIn("XWiki.");
+
+        // ColorThemes, Panels, Scheduler and Stats shouldn't be present.
         explorer.lookupEntity("ColorThemes.");
         explorer.waitForNoneSelected();
+
+        explorer.selectNewPageIn("Sandbox");
         explorer.lookupEntity("Panels.");
         explorer.waitForNoneSelected();
+
+        explorer.selectNewPageIn("Sandbox");
         explorer.lookupEntity("Scheduler.");
         explorer.waitForNoneSelected();
+
+        explorer.selectNewPageIn("Sandbox");
         explorer.lookupEntity("Stats.");
-        explorer.waitForNoneSelected();
-        explorer.lookupEntity("XWiki.");
         explorer.waitForNoneSelected();
 
         closeDialog();

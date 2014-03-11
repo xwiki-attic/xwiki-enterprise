@@ -121,7 +121,7 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         explorer.selectNewPageIn("Blog");
         explorer.selectNewPageIn("Main");
         explorer.selectNewPageIn("Sandbox");
-        explorer.selectNewPageIn("XWiki.");
+        explorer.selectNewPageIn("XWiki");
 
         // ColorThemes, Panels, Scheduler and Stats shouldn't be present.
         explorer.lookupEntity("ColorThemes.");

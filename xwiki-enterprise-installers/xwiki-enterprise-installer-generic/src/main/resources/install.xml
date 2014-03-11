@@ -111,12 +111,20 @@
       <fileset dir="${xwiki.data}" targetdir="$INSTALL_PATH/${xwikiDataDir}" condition="!izpack.windowsinstall.7"/>
     </pack>
   </packs>
-  <!-- The native libraries to add. This is required for creating shortcuts on Windows -->
+  <!-- The native libraries to add. This is required for creating shortcuts on Windows. Note that we include support
+       for both 32 and 64 bits architectures. -->
   <native type="izpack" name="ShellLink.dll">
     <os family="windows"/>
   </native>
-  <!-- In addition add support for proper Windows registry support  -->
+  <native type="izpack" name="ShellLink_x64.dll">
+    <os family="windows"/>
+  </native>
+  <!-- In addition add support for proper Windows registry support. Note that we include support for both 32 and 64
+       bits architectures. -->
   <native type="3rdparty" name="COIOSHelper.dll" stage="both">
+    <os family="windows"/>
+  </native>
+  <native type="3rdparty" name="COIOSHelper_x64.dll" stage="both">
     <os family="windows"/>
   </native>
 </installation>

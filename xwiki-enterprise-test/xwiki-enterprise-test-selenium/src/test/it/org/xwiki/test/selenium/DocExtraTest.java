@@ -53,25 +53,17 @@ public class DocExtraTest extends AbstractXWikiTestCase
     {
         open("Main", "WebHome");
 
-        waitForElement("//a[@id='Attachmentslink']");
         clickLinkWithXPath("//a[@id='Attachmentslink']", false);
-        waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("attachform");
+        waitForDocExtraPaneActive("attachments");
 
-        waitForElement("//a[@id='Historylink']");
         clickLinkWithXPath("//a[@id='Historylink']", false);
-        waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("historyform");
+        waitForDocExtraPaneActive("history");
 
-        waitForElement("//a[@id='Informationlink']");
         clickLinkWithXPath("//a[@id='Informationlink']", false);
-        waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Created");
+        waitForDocExtraPaneActive("information");
 
-        waitForElement("//a[@id='Commentslink']");
         clickLinkWithXPath("//a[@id='Commentslink']", false);
-        waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("commentform");
+        waitForDocExtraPaneActive("comments");
     }
 
     /**
@@ -83,35 +75,26 @@ public class DocExtraTest extends AbstractXWikiTestCase
     public void testDocExtraLoadingFromKeyboardShortcuts() throws InterruptedException
     {
         open("Main", "WebHome");
-        int initialScrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
+        int initialVerticalScroll = getVerticalScroll();
 
         getSkinExecutor().pressKeyboardShortcut("a", false, false, false);
-        waitForCondition("selenium.isTextPresent('Add an attachment')!=-1;");
-        assertElementPresent("attachform");
-        int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(initialScrollY < scrollY);
-        getSelenium().getEval("window.scroll(0,0);");
+        waitForDocExtraPaneActive("attachments");
+        assertTrue(initialVerticalScroll < getVerticalScroll());
+        scrollToPageTop();
 
         getSkinExecutor().pressKeyboardShortcut("h", false, false, false);
-        waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("historyform");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(initialScrollY < scrollY);
-        getSelenium().getEval("window.scroll(0,0);");
+        waitForDocExtraPaneActive("history");
+        assertTrue(initialVerticalScroll < getVerticalScroll());
+        scrollToPageTop();
 
         getSkinExecutor().pressKeyboardShortcut("i", false, false, false);
-        waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("*No parent*");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(initialScrollY < scrollY);
-        getSelenium().getEval("window.scroll(0,0);");
+        waitForDocExtraPaneActive("information");
+        assertTrue(initialVerticalScroll < getVerticalScroll());
+        scrollToPageTop();
 
         getSkinExecutor().pressKeyboardShortcut("c", false, false, false);
-        waitForCondition("selenium.isTextPresent('Add comment')!=-1;");
-        assertElementPresent("commentform");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(initialScrollY < scrollY);
-        getSelenium().getEval("window.scroll(0,0);");
+        waitForDocExtraPaneActive("comments");
+        assertTrue(initialVerticalScroll < getVerticalScroll());
     }
 
     /**
@@ -124,27 +107,23 @@ public class DocExtraTest extends AbstractXWikiTestCase
         // our functions (on purpose)
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Attachments");
-        waitForElement("attachform");
-        int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
+        waitForDocExtraPaneActive("attachments");
+        assertTrue(getVerticalScroll() > 0);
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#History");
-        waitForElement("historyform");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
+        waitForDocExtraPaneActive("history");
+        assertTrue(getVerticalScroll() > 0);
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Information");
-        waitForBodyContains("No parent");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
+        waitForDocExtraPaneActive("information");
+        assertTrue(getVerticalScroll() > 0);
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Comments");
-        waitForElement("commentform");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
+        waitForDocExtraPaneActive("comments");
+        assertTrue(getVerticalScroll() > 0);
     }
 
     /**
@@ -157,31 +136,40 @@ public class DocExtraTest extends AbstractXWikiTestCase
         open("Main", "WebHome");
 
         clickShowAttachments();
-        waitForCondition("selenium.browserbot.findElement(\"Attachmentspane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("attachform");
-        int scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
-        getSelenium().getEval("window.scroll(0,0);");
+        waitForDocExtraPaneActive("attachments");
+        assertTrue(getVerticalScroll() > 0);
+        scrollToPageTop();
 
         clickShowHistory();
-        waitForCondition("selenium.browserbot.findElement(\"Historypane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("historyform");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
-        getSelenium().getEval("window.scroll(0,0);");
+        waitForDocExtraPaneActive("history");
+        assertTrue(getVerticalScroll() > 0);
+        scrollToPageTop();
 
         clickShowInformation();
-        waitForCondition("selenium.browserbot.findElement(\"Informationpane\").className.indexOf(\"empty\") == -1");
-        assertTextPresent("Created");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
-        getSelenium().getEval("window.scroll(0,0);");
+        waitForDocExtraPaneActive("information");
+        assertTrue(getVerticalScroll() > 0);
+        scrollToPageTop();
 
         clickShowComments();
-        waitForCondition("selenium.browserbot.findElement(\"Commentspane\").className.indexOf(\"empty\") == -1");
-        assertElementPresent("commentform");
-        scrollY = Integer.parseInt(getSelenium().getEval("window.scrollY"));
-        assertTrue(scrollY > 0);
+        waitForDocExtraPaneActive("comments");
+        assertTrue(getVerticalScroll() > 0);
+    }
+
+    /**
+     * @param paneId valid values: "history", "comments", etc
+     */
+    private void waitForDocExtraPaneActive(String paneId)
+    {
+        waitForElement(paneId + "content");
+    }
+
+    private int getVerticalScroll()
+    {
+        return Integer.parseInt(getSelenium().getEval("window.scrollY"));
+    }
+
+    private void scrollToPageTop()
+    {
         getSelenium().getEval("window.scroll(0,0);");
     }
 }

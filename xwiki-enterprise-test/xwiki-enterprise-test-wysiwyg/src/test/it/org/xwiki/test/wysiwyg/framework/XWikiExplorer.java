@@ -29,6 +29,11 @@ import com.thoughtworks.selenium.Wait;
 public class XWikiExplorer
 {
     /**
+     * Locates the selected node in the tree.
+     */
+    private static final String SELECTED_NODE_LOCATOR = "//tr[@role = 'treeitem' and @aria-selected = 'true']";
+
+    /**
      * The test being executed.
      */
     private final AbstractWysiwygTestCase test;
@@ -57,8 +62,7 @@ public class XWikiExplorer
         {
             public boolean until()
             {
-                return test.isElementPresent("//td[contains(@class, 'treeCellSelected')]//span[@title = '" + hint
-                    + "']");
+                return test.isElementPresent(SELECTED_NODE_LOCATOR + "//span[@title = '" + hint + "']");
             }
         }.wait("The tree node with the specified tool tip, \"" + hint + "\", wasn't selected!");
     }
@@ -75,8 +79,8 @@ public class XWikiExplorer
         {
             public boolean until()
             {
-                return test.isElementPresent("//td[contains(@class, 'treeCellSelected')]//span[@title = '" + hint
-                    + "' and . = '" + label + "']");
+                return test.isElementPresent(String.format("%s//span[@title = '%s' and . = '%s']",
+                    SELECTED_NODE_LOCATOR, hint, label));
             }
         }.wait("The tree node with the specified tool tip, \"" + hint + "\", and label, \"" + label
             + "\", wasn't selected!");
@@ -87,7 +91,7 @@ public class XWikiExplorer
      */
     public void waitForNoneSelected()
     {
-        test.waitForElementNotPresent("//td[contains(@class, 'treeCellSelected')]");
+        test.waitForElementNotPresent(SELECTED_NODE_LOCATOR);
     }
 
     /**

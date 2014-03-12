@@ -210,6 +210,7 @@
                     templates/macros.vm
                     templates/skinvariables.vm
                     templates/xwikivars.vm
+                    skins/colibri/menus/macros.vm <!-- Contains only Velocity macros -->
                 </value>
               </property>
               <property>

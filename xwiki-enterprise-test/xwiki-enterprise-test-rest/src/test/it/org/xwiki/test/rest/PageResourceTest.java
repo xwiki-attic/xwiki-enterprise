@@ -32,6 +32,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Assert;
 import org.junit.Test;
+import org.xwiki.localization.LocaleUtils;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.History;
 import org.xwiki.rest.model.jaxb.HistorySummary;
@@ -266,8 +267,12 @@ public class PageResourceTest extends AbstractHttpTest
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
-        Assert.assertEquals(languageId, modifiedPage.getLanguage());
-        Assert.assertEquals(languageId, modifiedPage.getLanguage());
+        // Some of the language codes returned by Locale#getISOLanguages() are deprecated and Locale's constructors map
+        // the new codes to the old ones which means the language code we have submitted can be different than the
+        // actual language code used when the Locale object is created on the server side. Let's go through the Locale
+        // constructor to be safe.
+        String expectedLanguage = LocaleUtils.toLocale(languageId).getLanguage();
+        Assert.assertEquals(expectedLanguage, modifiedPage.getLanguage());
         Assert.assertTrue(modifiedPage.getTranslations().getTranslations().size() > 0);
 
         for (Translation translation : modifiedPage.getTranslations().getTranslations()) {

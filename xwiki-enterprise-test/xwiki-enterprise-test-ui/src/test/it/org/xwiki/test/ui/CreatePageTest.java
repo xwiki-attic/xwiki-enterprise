@@ -20,6 +20,7 @@
 package org.xwiki.test.ui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -310,11 +311,9 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
     {
         // prepare the test environment, create a test space and exclude all templates for this space
         String space = this.getClass().getSimpleName();
-        // create the webhome of this space to make sure the space exists
-        WikiEditPage editTemplatePage = WikiEditPage.gotoPage(space, "WebHome");
-        editTemplatePage.setTitle("Welcome to the templates test space");
-        editTemplatePage.setContent("You can have fun with templates here");
-        editTemplatePage.clickSaveAndView();
+        // create the home page of this space to make sure the space exists
+        getUtil().createPage(space, "WebHome", "You can have fun with templates here",
+            "Welcome to the templates test space");
         // we'll create all these pages during this test
         getUtil().deletePage(space, "NewUnexistingPage");
         getUtil().deletePage(space, "NewPage");
@@ -323,8 +322,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         TemplatesAdministrationSectionPage sectionPage = TemplatesAdministrationSectionPage.gotoPage();
 
         // get the links to existing templates, navigate to each of them and disable the current space
-        List<String> spacesToExclude = new ArrayList<String>();
-        spacesToExclude.add(space);
+        List<String> spacesToExclude = Collections.singletonList(space);
         List<WebElement> existingTemplatesLinks = sectionPage.getExistingTemplatesLinks();
         for (int i = 0; i < existingTemplatesLinks.size(); i++) {
             WebElement link = existingTemplatesLinks.get(i);

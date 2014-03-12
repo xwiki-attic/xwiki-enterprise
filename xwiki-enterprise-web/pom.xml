@@ -476,6 +476,13 @@ If you wish to have the default wiki pages, which contain both content pages and
       <type>zip</type>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-flamingo</artifactId>
+      <version>${platform.version}</version>
+      <type>zip</type>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Captcha component -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -822,6 +829,13 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <artifactItem>
                   <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-platform-colibri</artifactId>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/skin</outputDirectory>
+                </artifactItem>
+                <!-- Unpack the Flamingo skin -->
+                <artifactItem>
+                  <groupId>org.xwiki.platform</groupId>
+                  <artifactId>xwiki-platform-flamingo</artifactId>
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/skin</outputDirectory>
                 </artifactItem>

@@ -20,15 +20,18 @@
 
 package org.xwiki.test.escaping;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.xwiki.test.escaping.framework.AbstractEscapingTest;
+import org.xwiki.test.escaping.framework.AbstractVelocityEscapingTest;
 import org.xwiki.test.escaping.framework.EscapingError;
 import org.xwiki.test.escaping.framework.SingleXWikiExecutor;
 import org.xwiki.test.escaping.framework.XMLEscapingValidator;
@@ -36,9 +39,7 @@ import org.xwiki.test.escaping.suite.ArchiveSuite;
 import org.xwiki.test.escaping.suite.ArchiveSuite.AfterSuite;
 import org.xwiki.test.escaping.suite.ArchiveSuite.ArchivePathGetter;
 import org.xwiki.test.escaping.suite.ArchiveSuite.BeforeSuite;
-import org.xwiki.test.escaping.framework.AbstractVelocityEscapingTest;
 import org.xwiki.validator.ValidationError;
-
 
 /**
  * Runs automatically generated escaping tests for all velocity templates found in XWiki Enterprise WAR file.
@@ -158,11 +159,22 @@ public class TemplateTest extends AbstractVelocityEscapingTest
      */
     protected String createUrl(String space, String page, String parameter, String value)
     {
-        String template = this.name.replaceAll("^.+/", "");
         String skin = "default";
         if (this.name.startsWith("skins")) {
             skin = this.name.replaceFirst("^\\w+/", "").replaceAll("/.+$", "");
         }
+
+        final String TEMPLATES_DIR = "templates" + File.separator;
+        final String SKINS_DIR = "skins" + File.separator;
+        String template;
+        if (this.name.startsWith(TEMPLATES_DIR)) {
+            template = StringUtils.removeStart(this.name, TEMPLATES_DIR);
+        } else if (this.name.startsWith(SKINS_DIR)) {
+            template = StringUtils.removeStart(this.name, SKINS_DIR + skin + File.separator);
+        } else {
+            template = this.name.replaceAll("^(.+)/", "");
+        }
+
         HashMap<String, String> parameters = new HashMap<String, String>();
         parameters.put("skin", skin);
         if ("xpart".equals(parameter)) {

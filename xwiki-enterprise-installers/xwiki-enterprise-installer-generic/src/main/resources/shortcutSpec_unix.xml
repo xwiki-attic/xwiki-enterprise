@@ -22,7 +22,10 @@
  *
 -->
 
-<shortcuts>
+<izpack:shortcuts version="5.0"
+    xmlns:izpack="http://izpack.org/schema/shortcuts"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
   <skipIfNotSupported/>
   <programGroup defaultName="$APP_NAME $APP_VER" location="applications"/>
   <shortcut
@@ -126,4 +129,4 @@
       description="Uninstall $APP_NAME $APP_VER"
       categories=""
       createForAll="false"/>
-</shortcuts>
+</izpack:shortcuts>

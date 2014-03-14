@@ -22,7 +22,10 @@
  *
 -->
 
-<shortcuts>
+<izpack:shortcuts version="5.0"
+    xmlns:izpack="http://izpack.org/schema/shortcuts"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
   <skipIfNotSupported/>
   <defaultCurrentUser/>
   <programGroup defaultName="$APP_NAME $APP_VER" location="applications"/>
@@ -46,7 +49,7 @@
       programGroup="yes"
       desktop="yes"
       startMenu="no"/>
-  <shortcut name="Go to my wiki"
+  <shortcut name="XWiki Home Page"
       target="http://localhost:8080/xwiki/bin/view/Main/"
       iconFile="$INSTALL_PATH\xe.ico"
       iconIndex="0"
@@ -54,9 +57,9 @@
       description="Go to the XWiki home page"
       initialState="normal"
       programGroup="yes"
-      desktop="no"
+      desktop="yes"
       startMenu="no"/>
-  <shortcut name="Documentation"
+  <shortcut name="XWiki Documentation"
       target="http://xwiki.org"
       iconFile="$INSTALL_PATH\xe.ico"
       iconIndex="0"
@@ -76,4 +79,4 @@
       programGroup="yes"
       desktop="no"
       startMenu="no"/>
-</shortcuts>
+</izpack:shortcuts>

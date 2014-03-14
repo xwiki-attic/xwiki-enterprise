@@ -22,30 +22,48 @@
  *
 -->
 
-<installation version="1.0">
+<izpack:installation version="5.0"
+    xmlns:izpack="http://izpack.org/schema/installation"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://izpack.org/schema/installation http://izpack.org/schema/5.0/izpack-installation-5.0.xsd">
   <info>
     <appname>XWiki Enterprise</appname>
     <appversion>${project.version}</appversion>
     <!-- Default directory name contains the version so that we can easily install several versions -->
     <appsubpath>$APP_NAME $APP_VER</appsubpath>
     <url>http://xwiki.org/</url>
-    <javaversion>1.5</javaversion>
-    <run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>
+    <javaversion>1.7</javaversion>
+    <run-privileged condition="izpack.windowsinstall.vista|windowsSevenAndGreater"/>
   </info>
+  <variables>
+    <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
+  </variables>
+  <dynamicvariables>
+    <!-- Used to replace the xwikiDataDir variable in Jetty start shell scripts -->
+    <variable name="xwikiDataDir" value="data" condition="!windowsSevenAndGreater"/>
+    <variable name="xwikiDataDir" value="%APPDATA%\XWiki\${project.version}\data" condition="windowsSevenAndGreater"/>
+  </dynamicvariables>
+  <conditions>
+    <!-- IzPack 5.0.0-rc1 doesn't have a pre-built condition for Windows 8.1. It does have one for Windows 7 and 8.
+         Thus the best for us is to compute a condition that says "any windows that's not XP, Vista, or 2003". -->
+    <condition type="or" id="windowsXPOr2003OrVista">
+      <condition type="ref" refid="izpack.windowsinstall.xp"/>
+      <condition type="ref" refid="izpack.windowsinstall.2003"/>
+      <condition type="ref" refid="izpack.windowsinstall.vista"/>
+    </condition>
+    <condition type="and" id="windowsSevenAndGreater">
+      <condition type="ref" refid="izpack.windowsinstall"/>
+      <condition type="not">
+        <condition type="ref" refid="windowsXPOr2003OrVista" />
+      </condition>
+    </condition>
+  </conditions>
   <guiprefs width="800" height="600" resizable="yes">
   </guiprefs>
   <locale>
     <langpack iso3="eng"/>
     <langpack iso3="fra"/>
   </locale>
-  <variables>
-    <variable name="DesktopShortcutCheckboxEnabled" value="true"/>
-  </variables>
-  <dynamicvariables>
-    <!-- Used to replace the xwikiDataDir variable in Jetty start shell scripts -->
-    <variable name="xwikiDataDir" value="data" condition="!izpack.windowsinstall.7"/>
-    <variable name="xwikiDataDir" value="%APPDATA%\XWiki\${project.version}\data" condition="izpack.windowsinstall.7"/>
-  </dynamicvariables>
   <resources>
     <res id="LicencePanel.licence" src="${xwiki.license}"/>
     <res id="HTMLInfoPanel.info" src="${xwiki.readme}"/>
@@ -63,7 +81,24 @@
     <res id="Installer.image.7" src="${xwiki.border8.png}" />
     <res id="ImgPacksPanel.img.0" src="${xwiki.core.png}" />
     <res id="ImgPacksPanel.img.1" src="${xwiki.core.png}" />
+    <!-- Note: We're not using custom icons but if we don't provide customicons.xml then when the installer executes, it
+         outputs: "WARNING: Resource customicons.xml not defined. No custom icons available" which isn't nice
+         for end-users to see -->
+    <res id="customicons.xml" src="${xwiki.customIcons}"/>
+    <!-- Note: We're not using custom language packs but if we don't provide packsLang.xml then when the installer
+         executes, it outputs : "INFO: Cannot find named resource: 'packsLang.xml' AND 'packsLang.xml_eng'" which isn't
+         nice for end-users to see -->
+    <res id="packsLang.xml" src="${xwiki.packsLang}"/>
   </resources>
+  <listeners>
+    <!-- Add support for installing/uninstalling through the Windows Install Control Panel location -->
+    <listener classname="RegistryInstallerListener" stage="install">
+      <os family="windows"/>
+    </listener>
+    <listener classname="RegistryUninstallerListener" stage="uninstall">
+      <os family="windows"/>
+    </listener>
+  </listeners>
   <panels>
     <panel classname="CheckedHelloPanel" id="hellopanel"/>
     <panel classname="HTMLInfoPanel" id="htmlinfopanel"/>
@@ -74,12 +109,6 @@
     <panel classname="ShortcutPanel" id="shortcutpanel"/>
     <panel classname="FinishPanel" id="finishpanel"/>
   </panels>
-  <listeners>
-    <!-- Add support for installing/uninstalling through the Windows Install Control Panel location -->
-    <listener installer="RegistryInstallerListener" uninstaller="RegistryUninstallerListener">
-      <os family="windows"/>
-    </listener>
-  </listeners>
   <packs>
     <pack name="Core" required="yes">
       <description>The Core files</description>
@@ -87,8 +116,9 @@
       <file src="${xwiki.license}" targetdir="$INSTALL_PATH"/>
       <!-- Copy container files -->
       <fileset dir="${xwiki.container}" targetdir="$INSTALL_PATH" override="true">
-        <!-- Exclude data files -->
-        <exclude name="${xwikiDataDir}/**/*"/>
+        <!-- Exclude data directory and files -->
+        <exclude name="data"/>
+        <exclude name="data/**/*"/>
       </fileset>
       <!-- Replace xwikiDataDir variables in Jetty start shell scripts -->
       <parsable targetfile="$INSTALL_PATH/start_xwiki.sh"/>
@@ -105,26 +135,30 @@
     </pack>
     <pack name="Default Wiki" required="no">
       <description>A set of default Wiki pages. If you don't install this you'll get an empty Wiki. To be used when upgrading an existing XWiki installation so that your current pages are kept and not overwritten.</description>
-      <!-- On Windows 7, copy the database to the %PROGRAMDATA%\XWiki\database directory since Windows 7 doesn't allow
-           writing in the Program Files directory -->
-      <fileset dir="${xwiki.data}" targetdir="${ENV[APPDATA]}/XWiki/${project.version}/data" condition="izpack.windowsinstall.7"/>
-      <fileset dir="${xwiki.data}" targetdir="$INSTALL_PATH/${xwikiDataDir}" condition="!izpack.windowsinstall.7"/>
+      <!-- On Windows 7/8, copy the database to the APPDATA directory since Windows 7/8 don't allow writing in the
+           Program Files directory -->
+      <fileset dir="${xwiki.data}" targetdir="${ENV[APPDATA]}/XWiki/${project.version}/data"
+          condition="windowsSevenAndGreater"/>
+      <fileset dir="${xwiki.data}" targetdir="$INSTALL_PATH/data" condition="!windowsSevenAndGreater"/>
     </pack>
   </packs>
-  <!-- The native libraries to add. This is required for creating shortcuts on Windows. Note that we include support
-       for both 32 and 64 bits architectures. -->
-  <native type="izpack" name="ShellLink.dll">
-    <os family="windows"/>
-  </native>
-  <native type="izpack" name="ShellLink_x64.dll">
-    <os family="windows"/>
-  </native>
-  <!-- In addition add support for proper Windows registry support. Note that we include support for both 32 and 64
-       bits architectures. -->
-  <native type="3rdparty" name="COIOSHelper.dll" stage="both">
-    <os family="windows"/>
-  </native>
-  <native type="3rdparty" name="COIOSHelper_x64.dll" stage="both">
-    <os family="windows"/>
-  </native>
-</installation>
+  <!-- The native libraries to add. -->
+  <natives>
+    <!-- This is required for creating shortcuts on Windows. Note that we include support for both 32 and 64 bits
+         architectures. -->
+    <native type="izpack" name="ShellLink.dll">
+      <os family="windows"/>
+    </native>
+    <native type="izpack" name="ShellLink_x64.dll">
+      <os family="windows"/>
+    </native>
+    <!-- In addition add support for proper Windows registry support. Note that we include support for both 32 and 64
+         bits architectures. -->
+    <native type="3rdparty" name="COIOSHelper.dll" stage="both">
+      <os family="windows"/>
+    </native>
+    <native type="3rdparty" name="COIOSHelper_x64.dll" stage="both">
+      <os family="windows"/>
+    </native>
+  </natives>
+</izpack:installation>

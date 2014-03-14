@@ -22,7 +22,10 @@
  *
 -->
 
-<registry>
+<izpack:registry version="5.0"
+    xmlns:izpack="http://izpack.org/schema/registry"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://izpack.org/schema/registry http://izpack.org/schema/5.0/izpack-registry-5.0.xsd">
   <pack name="UninstallStuff">
     <value name="DisplayName"
       keypath="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$APP_NAME $APP_VER"
@@ -41,5 +44,5 @@
       root="HKLM"
       string="$APP_URL $APP_VER"/>
   </pack>
-</registry>
+</izpack:registry>
 

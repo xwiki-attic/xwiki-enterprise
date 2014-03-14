@@ -22,14 +22,8 @@
  *
 -->
 
-<launch4jConfig>
-  <headerType>gui</headerType>
-  <jar>${project.build.directory}/dependency/xwiki-enterprise-installer-generic-standard.jar</jar>
-  <outfile>${project.build.directory}/${pom.artifactId}-${pom.version}.exe</outfile>
-  <errTitle>XWiki Windows Installer</errTitle>
-  <customProcName>true</customProcName>
-  <icon>${project.build.directory}/classes/xe.ico</icon>
-  <jre>
-    <minVersion>1.7.0</minVersion>
-  </jre>
-</launch4jConfig>
+<izpack:icons version="5.0"
+    xmlns:izpack="http://izpack.org/schema/icons"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://izpack.org/schema/icons http://izpack.org/schema/5.0/izpack-icons-5.0.xsd">
+</izpack:icons>

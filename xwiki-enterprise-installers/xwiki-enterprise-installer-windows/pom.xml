@@ -38,7 +38,6 @@
       <version>${project.version}</version>
       <classifier>standard</classifier>
     </dependency>
-    
     <!-- Even though this dependency is defined in Launch4J's pom.xml we still need it to
          construct the correct maven.compile.classpath for executing the Launch4J Ant task below -->
     <dependency>

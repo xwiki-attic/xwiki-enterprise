@@ -29,13 +29,13 @@
   </parent>
   <artifactId>xwiki-enterprise-installer-generic</artifactId>
   <name>XWiki Enterprise - Installers - Generic</name>
-  <packaging>pom</packaging>
+  <packaging>izpack-jar</packaging>
   <description>XWiki Enterprise - Installers - Generic</description>
   <dependencies>
     <dependency>
       <groupId>org.codehaus.izpack</groupId>
-      <artifactId>izpack-standalone-compiler</artifactId>
-      <version>${izpack.compiler.version}</version>
+      <artifactId>izpack-compiler</artifactId>
+      <version>${izpack.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -119,30 +119,30 @@
       <plugin>
         <groupId>org.codehaus.izpack</groupId>
         <artifactId>izpack-maven-plugin</artifactId>
+        <extensions>true</extensions>
         <configuration>
-          <izpackBasedir>${project.build.directory}/izpack</izpackBasedir>
+          <installFile>${project.build.directory}/izpack/install.xml</installFile>
+          <baseDir>${project.build.directory}/izpack</baseDir>
+          <finalName>${project.build.finalName}</finalName>
+          <classifier>standard</classifier>
         </configuration>
+      </plugin>
+      <!-- Since the IzPack Maven plugin use Commons Logging we need to exclude this enforcer rule -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
-            <goals>
-              <goal>izpack</goal>
-            </goals>
+            <id>enforce-jcl-log4j-isolation</id>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.izpack</groupId>
-            <artifactId>izpack-standalone-compiler</artifactId>
-            <version>${izpack.compiler.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
   <properties>
-    <!-- TODO: We cannot upgrade to 4.3.4 nor 4.3.5 since they have a regression on shortcuts, see
-         http://jira.codehaus.org/browse/IZPACK-808 -->
-    <izpack.compiler.version>4.3.2</izpack.compiler.version>
     <xwiki.license>${project.build.directory}/izpack/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/izpack/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</xwiki.container>
@@ -162,5 +162,7 @@
     <xwiki.shortcut.icon.unix>${project.build.directory}/izpack/images/xe.png</xwiki.shortcut.icon.unix>
     <xwiki.shortcut.icon.windows>${project.build.directory}/izpack/images/xe.ico</xwiki.shortcut.icon.windows>
     <xwiki.registrySpec>${project.build.directory}/izpack/registrySpec.xml</xwiki.registrySpec>
+    <xwiki.customIcons>${project.build.directory}/izpack/customIcons.xml</xwiki.customIcons>
+    <xwiki.packsLang>${project.build.directory}/izpack/packsLang.xml</xwiki.packsLang>
   </properties>
 </project>

@@ -19,7 +19,10 @@
  */
 package org.xwiki.test.rest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -40,6 +43,7 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Attachment;
@@ -48,24 +52,44 @@ import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
 import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
+import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.test.ui.TestUtils;
 
 public class AttachmentsResourceTest extends AbstractHttpTest
 {
-    private final String SPACE_NAME = "Main";
+    private String wikiName;
 
-    private final String PAGE_NAME = "WebHome";
+    private String spaceName;
+
+    private String pageName;
+
+    @Before
+    public void setUp() throws Exception
+    {
+        super.setUp();
+
+        this.wikiName = getWiki();
+        this.spaceName = getTestClassName();
+        this.pageName = getTestMethodName();
+
+        // Create a clean test page.
+        DeleteMethod deleteMethod =
+            executeDelete(buildURI(PageResource.class), TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
+        Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
+        createPage(this.spaceName, this.pageName, "");
+    }
 
     @Override
     @Test
     public void testRepresentation() throws Exception
     {
-        /* Everything is done in test methods */
+        /* Everything is done in test methods. */
     }
 
     @Test
-    public void testPUTAttachment() throws Exception
+    public void testPUTGETAttachments() throws Exception
     {
         /* Test normal random UUID method */
         String randomStr = String.format("%s.txt", UUID.randomUUID());
@@ -79,12 +103,20 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         putAttachmentFilename("[bracket].txt", "brackets");
         /** Causes XWIKI-7874 **/
         putAttachmentFilename("plus+plus.txt", "plus");
+
+        // Now get all the attachments.
+        String attachmentsUri = buildURI(AttachmentsResource.class);
+        GetMethod getMethod = executeGet(attachmentsUri);
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Assert.assertEquals(8, attachments.getAttachments().size());
     }
 
     protected void putAttachmentFilename(String attachmentName, String type) throws Exception
     {
         String content = "ATTACHMENT CONTENT";
-        String attachmentURI = buildAttachmentURI(attachmentName);
+        String attachmentURI = buildURI(AttachmentResource.class, attachmentName);
 
         GetMethod getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
@@ -104,7 +136,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testPUTAttachmentNoRights() throws Exception
     {
         String attachmentName = String.format("%s.txt", UUID.randomUUID());
-        String attachmentURI = buildAttachmentURI(attachmentName);
+        String attachmentURI = buildURI(AttachmentResource.class, attachmentName);
 
         String content = "ATTACHMENT CONTENT";
 
@@ -116,34 +148,19 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     }
 
     @Test
-    public void testGETAttachments() throws Exception
-    {
-        String attachmentsUri =
-            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
-
-        GetMethod getMethod = executeGet(attachmentsUri);
-        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
-
-        Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-
-        Assert.assertTrue(attachments.getAttachments().size() > 0);
-    }
-
-    @Test
     public void testDELETEAttachment() throws Exception
     {
-        String attachmentsUri =
-            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+        String attachmentName = String.format("%d.txt", System.currentTimeMillis());
+        String attachmentURI = buildURI(AttachmentResource.class, attachmentName);
+        String content = "ATTACHMENT CONTENT";
 
-        GetMethod getMethod = executeGet(attachmentsUri);
+        PutMethod putMethod =
+            executePut(attachmentURI, content, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        GetMethod getMethod = executeGet(attachmentURI);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
-
-        Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-
-        Assert.assertTrue(attachments.getAttachments().size() > 0);
-
-        String attachmentName = attachments.getAttachments().get(0).getName();
-        String attachmentURI = buildAttachmentURI(attachmentName);
 
         DeleteMethod deleteMethod =
             executeDelete(attachmentURI, TestUtils.ADMIN_CREDENTIALS.getUserName(),
@@ -158,7 +175,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     public void testDELETEAttachmentNoRights() throws Exception
     {
         String attachmentName = String.format("%d.txt", System.currentTimeMillis());
-        String attachmentURI = buildAttachmentURI(attachmentName);
+        String attachmentURI = buildURI(AttachmentResource.class, attachmentName);
 
         String content = "ATTACHMENT CONTENT";
 
@@ -189,7 +206,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
-            String attachmentURI = buildAttachmentURI(attachmentNames[i]);
+            String attachmentURI = buildURI(AttachmentResource.class, attachmentNames[i]);
 
             PutMethod putMethod =
                 executePut(attachmentURI, content, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
@@ -200,15 +217,10 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             pageVersions[i] = attachment.getPageVersion();
         }
 
-        /*
-         * For each page version generated, check that the attachments that are supposed to be there are actually there.
-         * We do the following: at pageVersion[i] we check that all attachmentNames[0..i] are there.
-         */
+        // For each page version generated, check that the attachments that are supposed to be there are actually there.
+        // We do the following: at pageVersion[i] we check that all attachmentNames[0..i] are there.
         for (int i = 0; i < NUMBER_OF_ATTACHMENTS; i++) {
-            String attachmentsUri =
-                getUriBuilder(AttachmentsAtPageVersionResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME,
-                    pageVersions[i]).toString();
-
+            String attachmentsUri = buildURI(AttachmentsAtPageVersionResource.class, pageVersions[i]);
             GetMethod getMethod = executeGet(attachmentsUri);
             Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -249,7 +261,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
 
         /* Create NUMBER_OF_ATTACHMENTS attachments */
         for (int i = 0; i < NUMBER_OF_VERSIONS; i++) {
-            String attachmentURI = buildAttachmentURI(attachmentName);
+            String attachmentURI = buildURI(AttachmentResource.class, attachmentName);
             String content = String.format("CONTENT %d", i);
             PutMethod putMethod =
                 executePut(attachmentURI, content, MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
@@ -265,14 +277,12 @@ public class AttachmentsResourceTest extends AbstractHttpTest
             versionToContentMap.put(attachment.getVersion(), content);
         }
 
-        String attachmentsUri =
-            getUriBuilder(AttachmentHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName)
-                .toString();
-
+        String attachmentsUri = buildURI(AttachmentHistoryResource.class, attachmentName);
         GetMethod getMethod = executeGet(attachmentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) this.unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Assert.assertEquals(NUMBER_OF_VERSIONS, attachments.getAttachments().size());
 
         for (Attachment attachment : attachments.getAttachments()) {
             getMethod = executeGet(getFirstLinkByRelation(attachment, Relations.ATTACHMENT_DATA).getHref());
@@ -288,8 +298,7 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         final String attachmentName = String.format("%s.txt", UUID.randomUUID());
         final String content = "ATTACHMENT CONTENT";
 
-        String attachmentsUri =
-            getUriBuilder(AttachmentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME, attachmentName).toString();
+        String attachmentsUri = buildURI(AttachmentsResource.class, attachmentName);
 
         HttpClient httpClient = new HttpClient();
         httpClient.getState().setCredentials(
@@ -320,19 +329,28 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     }
 
     /**
-     * @param attachmentName the attachment name
-     * @return an URI to access the {@link AttachmentResource} associated with 'Main.WebHome@attachmentName' file
-     * @throws Exception if encoding the file name fails
+     * Creates a URI to access the specified resource with the given path elements. The wiki, space and page path
+     * elements are added by this method so you can skip them.
+     * 
+     * @param resource the resource that needs to be accessed
+     * @param args the path elements
+     * @return an URI to access the specified resource with the given path elements
+     * @throws Exception if encoding the path elements fails
      */
-    private String buildAttachmentURI(String attachmentName) throws Exception
+    private String buildURI(Class< ? > resource, Object... args) throws Exception
     {
-        // Encode the filename ourselves, UriBuilder.build() doesn't seem to encode all chars, e.g. '['.
-        String encodedAttachmentName = URIUtil.encodePath(attachmentName);
-        String encodedPageName = URIUtil.encodePath(PAGE_NAME);
-        String encodedSpaceName = URIUtil.encodePath(SPACE_NAME);
+        List<Object> pathElements = new ArrayList<Object>();
+        pathElements.add(this.wikiName);
+        pathElements.add(this.spaceName);
+        pathElements.add(this.pageName);
+        pathElements.addAll(Arrays.asList(args));
+
+        // Encode the elements ourselves, UriBuilder.build() doesn't seem to encode all chars, e.g. '['.
+        for (int i = 0; i < pathElements.size(); i++) {
+            pathElements.set(i, URIUtil.encodePath((String) pathElements.get(i)));
+        }
 
         // Use UriBuilder.buildFromEncoded so we don't double encode the %.
-        return getUriBuilder(AttachmentResource.class).buildFromEncoded(getWiki(), encodedSpaceName, encodedPageName,
-            encodedAttachmentName).toString();
+        return getUriBuilder(resource).buildFromEncoded(pathElements.toArray()).toString();
     }
 }

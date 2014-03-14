@@ -45,6 +45,8 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 import org.restlet.data.MediaType;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
@@ -62,6 +64,12 @@ import org.xwiki.test.ui.TestUtils;
 
 public abstract class AbstractHttpTest
 {
+    /**
+     * The object used to access the name of the current test.
+     */
+    @Rule
+    public final TestName testName = new TestName();
+
     protected Random random;
 
     protected Marshaller marshaller;
@@ -457,5 +465,15 @@ public abstract class AbstractHttpTest
         }
 
         return false;
+    }
+
+    protected String getTestMethodName()
+    {
+        return this.testName.getMethodName();
+    }
+
+    protected String getTestClassName()
+    {
+        return getClass().getSimpleName();
     }
 }

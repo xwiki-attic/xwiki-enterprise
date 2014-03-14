@@ -245,8 +245,7 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testAttachments() throws Exception
     {
         // Verify there are attachments in the whole wiki
-        GetMethod getMethod =
-            executeGet(String.format("%s", getUriBuilder(WikiAttachmentsResource.class).build(getWiki())));
+        GetMethod getMethod = executeGet(getUriBuilder(WikiAttachmentsResource.class).build(getWiki()).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());

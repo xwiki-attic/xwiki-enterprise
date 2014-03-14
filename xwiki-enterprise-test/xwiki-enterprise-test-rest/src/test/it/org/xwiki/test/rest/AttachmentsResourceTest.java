@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.rest;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,11 +42,11 @@ import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.xwiki.rest.Relations;
+import org.xwiki.rest.internal.Utils;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
@@ -345,12 +346,6 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         pathElements.add(this.pageName);
         pathElements.addAll(Arrays.asList(args));
 
-        // Encode the elements ourselves, UriBuilder.build() doesn't seem to encode all chars, e.g. '['.
-        for (int i = 0; i < pathElements.size(); i++) {
-            pathElements.set(i, URIUtil.encodePath((String) pathElements.get(i)));
-        }
-
-        // Use UriBuilder.buildFromEncoded so we don't double encode the %.
-        return getUriBuilder(resource).buildFromEncoded(pathElements.toArray()).toString();
+        return Utils.createURI(new URI(getBaseURL()), resource, pathElements.toArray()).toString();
     }
 }

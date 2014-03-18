@@ -213,7 +213,6 @@
                     templates/xwikivars.vm
                     templates/menus/macros.vm <!-- Contains only Velocity macros -->
                     templates/menus/wiki.vm
-                    skins/colibri/menus/macros.vm <!-- Contains only Velocity macros -->
                     skins/flamingo/menus/macros.vm
                     skins/flamingo/quicksearch.vm
                 </value>
@@ -239,9 +238,9 @@
                     templates/rendercontent\.vm <!-- page must exist, otherwise empty -->
                     templates/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->
                     templates/textarea_wysiwyg\.vm <!-- probably need to set default editor to wysiwyg -->
-                    templates/menus/wiki\.vm <!-- empty response if parameter "forceWikiMenu" is not set -->
                     skins/flamingo/leftpanels.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
                     skins/flamingo/rightpanels.vm <!-- empty response if parameter "forceRightPanels" is not set -->
+                    skins/flamingo/menus/wiki\.vm <!-- empty response if parameter "forceWikiMenu" is not set -->
                   <!-- False positives
                     -->
                     templates/accessdenied\.vm <!-- simply returns 403 -->

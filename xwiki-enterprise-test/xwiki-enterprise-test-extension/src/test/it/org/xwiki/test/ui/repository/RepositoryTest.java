@@ -369,9 +369,9 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals("maven:extension", extension.getId());
         Assert.assertEquals("jar", extension.getType());
         Assert.assertEquals("2.0", extension.getVersion());
-        Assert.assertEquals("summary2", extension.getSummary());
         Assert.assertEquals("name", extension.getName());
-        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("summary2", extension.getSummary());
+        Assert.assertEquals("summary2\n      some more details", extension.getDescription());
         Assert.assertEquals("Administrator", extension.getAuthors().get(0).getName());
         Assert.assertEquals(this.baseAuthor.getURL().toString(), extension.getAuthors().get(0).getUrl());
         Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());
@@ -387,9 +387,9 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals("maven:extension", extension.getId());
         Assert.assertEquals("jar", extension.getType());
         Assert.assertEquals("1.0", extension.getVersion());
-        Assert.assertEquals("summary2", extension.getSummary());
         Assert.assertEquals("name", extension.getName());
-        Assert.assertEquals("", extension.getDescription());
+        Assert.assertEquals("summary", extension.getSummary());
+        Assert.assertEquals("summary\n      some more details", extension.getDescription());
         Assert.assertEquals("Administrator", extension.getAuthors().get(0).getName());
         Assert.assertEquals(this.baseAuthor.getURL().toString(), extension.getAuthors().get(0).getUrl());
         Assert.assertEquals(Arrays.asList("maven:oldextension"), extension.getFeatures());

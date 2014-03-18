@@ -28,7 +28,10 @@
 	<name>name</name>
 	<version>2.0</version>
 	<packaging>jar</packaging>
-	<description>summary2</description>
+	<description>
+      summary2
+      some more details
+    </description>
 	<url>http://website2</url>
     <developers>
       <developer>

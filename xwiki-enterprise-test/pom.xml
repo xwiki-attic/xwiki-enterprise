@@ -208,14 +208,15 @@
                     templates/layoutExtraVars.vm <!-- empty placeholder -->
                     templates/layoutvars.vm
                     templates/macros.vm
-                    templates/quicksearch.vm
                     templates/skinvariables.vm
                     templates/xwikivars.vm
                     templates/menus/macros.vm <!-- Contains only Velocity macros -->
                     templates/menus/wiki.vm
                     skins/flamingo/hierarchy.vm
-                    skins/flamingo/menus/macros.vm
+                    skins/flamingo/layoutExtraVars.vm
+                    skins/flamingo/macros.vm
                     skins/flamingo/quicksearch.vm
+                    skins/flamingo/menus/macros.vm
                 </value>
               </property>
               <property>

@@ -100,12 +100,12 @@ public class WatchThisPageAndWholeSpaceTest extends AbstractAdminAuthenticatedTe
         // Verify that the watched page & space are present in the watchlist manager
         this.watchlistPage = WatchlistUserProfilePage.gotoPage(this.watchlistPage.getUsername());
         // TODO: use LiveTableElement instead but does not seems to work...
-        // LiveTableElement watchlist = this.watchlistPage.getWatchList();
+        // LiveTableElement watchlist = this.watchlistPage.getWatchlistMacro().getWatchList();
         // watchlist.waitUntilReady();
         this.watchlistPage.waitUntilElementIsVisible(By
             .xpath("//tbody[@id='mywatchlist-display']/tr/td/a[@href='/xwiki/bin/view/Test/TestWatchThisPage']"));
-        Assert.assertTrue(this.watchlistPage.isWatched("Test", "TestWatchThisPage"));
-        Assert.assertTrue(this.watchlistPage.isWatched("TestWatchWholeSpace"));
+        Assert.assertTrue(this.watchlistPage.getWatchlistMacro().isWatched("Test", "TestWatchThisPage"));
+        Assert.assertTrue(this.watchlistPage.getWatchlistMacro().isWatched("TestWatchWholeSpace"));
 
         // Ensure that the watchlist notified is set to Daily since we're going to trigger that notifier scheduler job
         WatchlistPreferencesEditPage watchlistPreferences = this.watchlistPage.editPreferences();

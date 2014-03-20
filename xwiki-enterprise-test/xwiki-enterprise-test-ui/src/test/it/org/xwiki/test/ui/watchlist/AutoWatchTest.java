@@ -63,6 +63,6 @@ public class AutoWatchTest extends AbstractTest
 
         // check if it's registered in the watchlist
         Assert
-            .assertTrue("Newly created page is not watched", this.watchlistPage.isWatched(this.testSpace, "testpage"));
+            .assertTrue("Newly created page is not watched", this.watchlistPage.getWatchlistMacro().isWatched(this.testSpace, "testpage"));
     }
 }

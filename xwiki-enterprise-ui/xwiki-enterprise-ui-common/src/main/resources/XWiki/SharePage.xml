@@ -601,6 +601,8 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
   background: $theme.highlightColor;
   border: 1px dotted $theme.borderColor;
   margin: 4px 0;
+  max-height: 4em;
+  overflow: auto;
 }
 .target-item {
   background: transparent none left center no-repeat;

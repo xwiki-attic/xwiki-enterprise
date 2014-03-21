@@ -30,7 +30,7 @@
   <artifactId>xwiki-enterprise-installer-debian-tomcat-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat - Common</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian - Tomcat - Common</description>
+  <description>XWiki enterprise Tomcat common package</description>
   <build>
     <plugins>
       <!-- Unpack the war -->

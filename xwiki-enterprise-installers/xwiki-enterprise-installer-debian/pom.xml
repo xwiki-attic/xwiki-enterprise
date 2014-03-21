@@ -30,13 +30,42 @@
   <artifactId>xwiki-enterprise-installer-debian</artifactId>
   <name>XWiki Enterprise - Installer - Debian</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian</description>
+  <description>
+    XWiki is a free wiki software platform written in Java with a design emphasis
+    on extensibility.
+    .
+    XWiki Enterprise is an easily installed enterprise wiki with features such as
+    WYSIWYG editing, OpenOffice based document import/export, semantic annotations
+    and tagging, and advanced permissions management.
+    .
+    XWiki Enterprise is designed to help teams collaborate more efficiently. It
+    runs in a Java servlet container such as Tomcat.
+  </description>
   <modules>
     <module>xwiki-enterprise-installer-debian-common</module>
     <module>xwiki-enterprise-installer-debian-mysql-common</module>
     <module>xwiki-enterprise-installer-debian-pgsql-common</module>
     <module>xwiki-enterprise-installer-debian-tomcat</module>
   </modules>
+  <properties>
+    <debian.maintainer>XWiki Team (devs@xwiki.org)</debian.maintainer>
+    <debian.license>LGPL 2.1</debian.license>
+    <debian.xe.description>
+ XWiki is a free wiki software platform written in Java with a design emphasis
+ on extensibility.
+ .
+ XWiki Enterprise is an easily installed enterprise wiki with features such as
+ WYSIWYG editing, OpenOffice based document import/export, semantic annotations
+ and tagging, and advanced permissions management.
+ .
+ XWiki Enterprise is designed to help teams collaborate more efficiently. It
+ runs in a Java servlet container such as Tomcat.
+    </debian.xe.description>
+    <debian.description>
+      ${description}
+ ${debian.xe.description}
+    </debian.description>
+  </properties>
   <build>
     <pluginManagement>
       <plugins>
@@ -53,7 +82,7 @@
             </execution>
           </executions>
           <configuration>
-          <timestamped>true</timestamped>
+            <timestamped>true</timestamped>
           </configuration>
         </plugin>
       </plugins>

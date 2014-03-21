@@ -30,7 +30,7 @@
   <artifactId>xwiki-enterprise-installer-debian-pgsql-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Postgres SQL - Common</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian - Postgres SQL - Common</description>
+  <description>XWiki enterprise PostgreSQL common package</description>
   <properties>
     <xwiki.db>pgsql</xwiki.db>
     <xwiki.db.connection.url>jdbc:postgresql:_DBC_DBNAME_</xwiki.db.connection.url>

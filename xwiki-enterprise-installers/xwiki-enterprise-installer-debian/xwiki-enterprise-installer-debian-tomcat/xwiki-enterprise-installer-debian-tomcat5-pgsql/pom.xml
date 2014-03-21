@@ -30,7 +30,7 @@
   <artifactId>xwiki-enterprise-installer-debian-tomcat5-pgsql</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat 5 - Postgres SQL</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian - Tomcat 5 - Postgres SQL</description>
+  <description>XWiki enterprise Tomcat/PostgreSQL</description>
   <build>
     <plugins>
       <!-- Produce deb package -->

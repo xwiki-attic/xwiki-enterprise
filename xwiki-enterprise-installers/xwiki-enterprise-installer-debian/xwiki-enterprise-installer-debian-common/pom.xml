@@ -28,9 +28,9 @@
     <version>6.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-common</artifactId>
-  <name>XWiki Enterprise - Installer - Debian - Common</name>
   <packaging>pom</packaging>
-  <description>XWiki Enterprise - Installer - Debian - Common</description>
+  <name>XWiki Enterprise - Installer - Debian - Common</name>
+  <description>XWiki enterprise common package</description>
   <properties>
     <war.path>${project.build.directory}/war</war.path>
 

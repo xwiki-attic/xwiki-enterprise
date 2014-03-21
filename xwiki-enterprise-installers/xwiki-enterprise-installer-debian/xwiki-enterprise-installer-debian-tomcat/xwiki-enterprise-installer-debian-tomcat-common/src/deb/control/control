@@ -7,15 +7,6 @@ Depends: xwiki-enterprise-common (= [[version]])
 Recommends: xwiki-enterprise-tomcat5-mysql | xwiki-enterprise-tomcat5-pgsql | xwiki-enterprise-tomcat6-mysql | xwiki-enterprise-tomcat6-pgsql | xwiki-enterprise-tomcat7-mysql | xwiki-enterprise-tomcat7-pgsql
 Replaces: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-tomcat-pgsql (<< 3.5)
 Breaks: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-tomcat-pgsql (<< 3.5)
-Maintainer: XWiki Team (devs@xwiki.org)
-License: LGPL 2.1
-Description: XWiki enterprise Tomcat common package
- XWiki is a free wiki software platform written in Java with a design emphasis
- on extensibility.
- .
- XWiki Enterprise is an easily installed enterprise wiki with features such as
- WYSIWYG editing, OpenOffice based document import/export, semantic annotations
- and tagging, and advanced permissions management.
- .
- XWiki Enterprise is designed to help teams collaborate more efficiently. It
- runs in a Java servlet container such as Tomcat.
+Maintainer: [[debian.maintainer]]
+License: [[debian.license]]
+Description: [[debian.description]]

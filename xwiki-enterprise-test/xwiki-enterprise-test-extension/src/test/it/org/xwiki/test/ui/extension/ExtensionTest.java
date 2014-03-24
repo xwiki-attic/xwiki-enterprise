@@ -724,6 +724,11 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals("Conflict between [@@ -1,1 +1,1 @@] and [@@ -1,1 +1,1 @@]", progressBar.getMessage());
 
         ExtensionProgressPane progressPane = extensionPane.openProgressSection();
+        WebElement jobLogLabel = progressPane.getJobLogLabel();
+        Assert.assertEquals("INSTALL LOG", jobLogLabel.getText());
+        // The job log is collapsed when the job is waiting for user input so we need to expand it before asserting its
+        // content (otherwise #getText() returns the empty string because the text is not visible).
+        jobLogLabel.click();
         List<LogItemPane> upgradeLog = progressPane.getJobLog();
         LogItemPane lastLogItem = upgradeLog.get(upgradeLog.size() - 1);
         Assert.assertEquals("loading", lastLogItem.getLevel());

@@ -45,6 +45,7 @@ import org.xwiki.extension.test.po.PaginationFilterPane;
 import org.xwiki.extension.test.po.ProgressBarPane;
 import org.xwiki.extension.test.po.SearchResultsPane;
 import org.xwiki.extension.test.po.SimpleSearchPane;
+import org.xwiki.extension.test.po.UnusedPagesPane;
 import org.xwiki.extension.version.internal.DefaultVersionConstraint;
 import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
 import org.xwiki.test.ui.TestExtension;
@@ -547,6 +548,12 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         Assert.assertEquals("installed", uninstallPlan.get(1).getStatus());
         Assert.assertEquals("Installed", uninstallPlan.get(1).getStatusMessage());
 
+        // Check the confirmation to delete the unused wiki pages.
+        extensionPane = extensionPane.confirm();
+        UnusedPagesPane unusedPages = extensionPane.openProgressSection().getUnusedPages();
+        Assert.assertTrue(unusedPages.contains("ExtensionTest", "Alice"));
+        Assert.assertTrue(unusedPages.contains("ExtensionTest", "Bob"));
+
         // Finish the uninstall and check the log.
         extensionPane = extensionPane.confirm();
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
@@ -573,6 +580,12 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         uninstallPlan = extensionPane.openProgressSection().getJobPlan();
         Assert.assertEquals(1, uninstallPlan.size());
         Assert.assertEquals(extensionId, uninstallPlan.get(0).getId());
+
+        // Check the confirmation to delete the unused wiki pages.
+        extensionPane = extensionPane.confirm();
+        unusedPages = extensionPane.openProgressSection().getUnusedPages();
+        Assert.assertTrue(unusedPages.contains("ExtensionTest", "Alice"));
+        Assert.assertFalse(unusedPages.contains("ExtensionTest", "Bob"));
 
         // Finish the uninstall and check the log.
         log = extensionPane.confirm().openProgressSection().getJobLog();

@@ -1330,7 +1330,7 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <!-- Eclipse projects generally contains about.html file -->
                 <ignoredResource>about.html</ignoredResource>
                 <!-- ApplicationResources.properties is now present in a lot of modules -->
-                <ignoredResource>ApplicationResources.properties</ignoredResource>
+                <ignoredResource>ApplicationResources(_.*)?\.properties</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

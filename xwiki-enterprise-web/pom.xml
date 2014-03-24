@@ -1329,7 +1329,9 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <ignoredResource>META-INF/sisu/javax.inject.Named</ignoredResource>
                 <!-- Eclipse projects generally contains about.html file -->
                 <ignoredResource>about.html</ignoredResource>
-                <!-- ApplicationResources.properties is now present in a lot of modules -->
+                <!-- ApplicationResources.properties is duplicated but that's ok since it's how we want it work, see:
+                     http://extensions.xwiki.org/xwiki/bin/view/Extension/Localization+Module#HProvidetranslationbundleinajar
+                 -->
                 <ignoredResource>ApplicationResources(_.*)?\.properties</ignoredResource>
               </ignoredResources>
             </configuration>

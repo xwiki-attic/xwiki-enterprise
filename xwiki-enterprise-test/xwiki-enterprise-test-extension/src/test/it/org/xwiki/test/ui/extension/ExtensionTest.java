@@ -630,7 +630,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             adminPage.getSearchBar().clickAdvancedSearch().search(extensionId).getExtension(0);
 
         // Install and uninstall.
-        extensionPane = extensionPane.install().confirm().uninstall().confirm().install();
+        extensionPane = extensionPane.install().confirm().uninstall().confirm().confirm().install();
         Assert.assertEquals("remote", extensionPane.getStatus());
     }
 

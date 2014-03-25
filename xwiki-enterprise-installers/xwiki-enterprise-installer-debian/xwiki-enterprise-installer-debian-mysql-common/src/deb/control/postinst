@@ -18,4 +18,8 @@ if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
   dbc_generate_include_args='-U -o template_infile=/usr/share/xwiki/templates/mysql/hibernate.cfg.xml'
 
   dbc_go xwiki $@
+
+  # Allow creating new wikis (so new databases)
+  # TODO: ask it in an install step
+  mysql -e "GRANT ALL PRIVILEGES ON *.* to $dbc_dbuser@'$l_dballow' IDENTIFIED BY '`dbc_mysql_escape_str $dbc_dbpass`'"
 fi

@@ -901,7 +901,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                - Exclude batik-js to prevent conflict with the patched version of Rhino used by yuicompressor used for
                  JSX. See http://jira.xwiki.org/jira/browse/XWIKI-6151 for more details.
                - Exclude JavaBeans Activation Framework (activation-*.jar) since it's included in Java SE 6.
-               - Exclude xml-apis since it's included in Java SE 6
                - Exclude JAXB since it's included in Java SE 6
                - Exclude STAX API since it's included in Java SE 6
           -->
@@ -911,7 +910,6 @@ If you wish to have the default wiki pages, which contain both content pages and
             WEB-INF/lib/commons-logging-*.jar,
             %regex[WEB-INF/lib/log4j-(?!over-slf4j).*.jar],
             WEB-INF/lib/activation-*.jar,
-            WEB-INF/lib/xml-apis-*.jar,
             WEB-INF/lib/jaxb-impl-*.jar,
             WEB-INF/lib/jaxb-api-*.jar,
             WEB-INF/lib/stax-api-*.jar

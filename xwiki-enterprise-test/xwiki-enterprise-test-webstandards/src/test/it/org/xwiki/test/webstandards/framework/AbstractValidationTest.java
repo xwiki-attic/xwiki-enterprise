@@ -19,15 +19,12 @@
  */
 package org.xwiki.test.webstandards.framework;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -42,16 +39,11 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.lang.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import org.xwiki.model.EntityType;
-import org.xwiki.model.internal.reference.DefaultStringEntityReferenceResolver;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.model.reference.EntityReferenceResolver;
+import org.xwiki.model.reference.WikiReference;
 import org.xwiki.validator.Validator;
-
-import com.xpn.xwiki.plugin.packaging.Package;
+import org.xwiki.xar.XarEntry;
+import org.xwiki.xar.XarPackage;
 
 public class AbstractValidationTest extends TestCase
 {
@@ -60,8 +52,6 @@ public class AbstractValidationTest extends TestCase
     protected Target target;
 
     protected String credentials;
-
-    private static final EntityReferenceResolver<String> RESOLVER = new DefaultStringEntityReferenceResolver();
 
     public AbstractValidationTest(String name, Target target, HttpClient client, String credentials)
     {
@@ -105,8 +95,8 @@ public class AbstractValidationTest extends TestCase
 
         if (this.credentials != null) {
             method.setDoAuthentication(true);
-            method.addRequestHeader("Authorization", "Basic "
-                + new String(Base64.encodeBase64(this.credentials.getBytes())));
+            method.addRequestHeader("Authorization",
+                "Basic " + new String(Base64.encodeBase64(this.credentials.getBytes())));
         }
 
         // Execute the method.
@@ -202,36 +192,14 @@ public class AbstractValidationTest extends TestCase
 
     protected static List<DocumentReference> readXarContents(String fileName, String patternFilter) throws Exception
     {
-        FileInputStream fileIS = new FileInputStream(fileName);
-        ZipInputStream zipIS = new ZipInputStream(fileIS);
+        Collection<XarEntry> entries = XarPackage.getEntries(new File(fileName));
 
-        ZipEntry entry;
-        Document tocDoc = null;
-        while ((entry = zipIS.getNextEntry()) != null) {
-            if (entry.getName().compareTo(Package.DefaultPackageFileName) == 0) {
-                SAXReader reader = new SAXReader();
-                tocDoc = reader.read(zipIS);
-                break;
-            }
-        }
+        List<DocumentReference> result = new ArrayList<DocumentReference>(entries.size());
 
-        if (tocDoc == null) {
-            return Collections.emptyList();
-        }
+        WikiReference wikiReference = new WikiReference("xwiki");
 
-        List<DocumentReference> result = new ArrayList<DocumentReference>();
-
-        Pattern pattern = patternFilter == null ? null : Pattern.compile(patternFilter);
-
-        Element filesElement = tocDoc.getRootElement().element("files");
-        @SuppressWarnings("unchecked")
-        List<Element> fileElementList = filesElement.elements("file");
-        for (Element el : fileElementList) {
-            String docFullName = el.getStringValue();
-
-            if (pattern == null || pattern.matcher(docFullName).matches()) {
-                result.add(new DocumentReference(RESOLVER.resolve("xwiki:" + docFullName, EntityType.DOCUMENT)));
-            }
+        for (XarEntry entry : entries) {
+            result.add(new DocumentReference(entry, wikiReference));
         }
 
         return result;

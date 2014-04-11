@@ -61,12 +61,12 @@ public class PingTetst
     {
         HTTPSampler httpSampler = new HTTPSampler();
 
-        httpSampler.setName(path);
         httpSampler.setDomain("localhost");
         httpSampler.setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT));
         httpSampler.setMethod("GET");
         httpSampler.setFollowRedirects(true);
 
+        httpSampler.setName(path);
         httpSampler.setPath(path);
 
         return httpSampler;

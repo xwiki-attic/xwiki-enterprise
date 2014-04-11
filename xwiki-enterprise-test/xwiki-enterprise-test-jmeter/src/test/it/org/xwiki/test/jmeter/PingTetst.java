@@ -68,7 +68,6 @@ public class PingTetst
         httpSampler.setDomain("localhost");
         httpSampler.setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT));
         httpSampler.setMethod("GET");
-        httpSampler.setFollowRedirects(true);
 
         httpSampler.setName(path);
         httpSampler.setPath(path);
@@ -102,6 +101,9 @@ public class PingTetst
         SampleSaveConfiguration saveConfiguration = new SampleSaveConfiguration();
         saveConfiguration.setAsXml(true);
         saveConfiguration.setCode(true);
+        saveConfiguration.setLatency(true);
+        saveConfiguration.setTime(true);
+        saveConfiguration.setTimestamp(true);
         resultCollector.setSaveConfig(saveConfiguration);
 
         // Thread Group

@@ -22,6 +22,7 @@ package org.xwiki.test.jmeter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -56,19 +57,31 @@ public class PingTetst
             IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/upgrade.properties")));
     }
 
-    @Test
-    public void ping() throws FileNotFoundException, Exception
+    private HTTPSampler createSample(String path)
     {
-        // HTTP Sampler
         HTTPSampler httpSampler = new HTTPSampler();
-        httpSampler.setName("home");
+
+        httpSampler.setName(path);
         httpSampler.setDomain("localhost");
         httpSampler.setPort(Integer.valueOf(XWikiExecutor.DEFAULT_PORT));
-        httpSampler.setPath("/xwiki/");
         httpSampler.setMethod("GET");
         httpSampler.setFollowRedirects(true);
 
-        execute(Arrays.asList(httpSampler));
+        httpSampler.setPath(path);
+
+        return httpSampler;
+    }
+
+    @Test
+    public void ping() throws FileNotFoundException, Exception
+    {
+        List<HTTPSampler> samplers = new ArrayList<HTTPSampler>();
+
+        samplers.add(createSample("/xwiki/"));
+        samplers.add(createSample("/xwiki/bin/view/Main/WebHome"));
+        samplers.add(createSample("/xwiki/bin/view/NoSpace/NoPage"));
+
+        execute(samplers);
     }
 
     public void execute(List<HTTPSampler> samplers) throws FileNotFoundException, Exception

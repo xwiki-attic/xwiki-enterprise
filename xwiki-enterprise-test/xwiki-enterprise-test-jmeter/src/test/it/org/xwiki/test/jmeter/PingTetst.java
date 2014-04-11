@@ -47,13 +47,13 @@ public class PingTetst
     public static void before() throws IOException
     {
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/httpclient.parameters"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/org/apache/jmeter/bin/httpclient.parameters")));
+            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/httpclient.parameters")));
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/jmeter.properties"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/org/apache/jmeter/bin/jmeter.properties")));
+            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/jmeter.properties")));
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/saveservice.properties"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/org/apache/jmeter/bin/saveservice.properties")));
+            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/saveservice.properties")));
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/upgrade.properties"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/org/apache/jmeter/bin/upgrade.properties")));
+            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/upgrade.properties")));
     }
 
     @Test

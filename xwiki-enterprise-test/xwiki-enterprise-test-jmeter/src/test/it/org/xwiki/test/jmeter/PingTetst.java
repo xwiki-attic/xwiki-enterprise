@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,6 +58,11 @@ public class PingTetst
 
     private HTTPSampler createSample(String path)
     {
+        return createSample(path, path);
+    }
+
+    private HTTPSampler createSample(String name, String path)
+    {
         HTTPSampler httpSampler = new HTTPSampler();
 
         httpSampler.setDomain("localhost");
@@ -77,9 +81,10 @@ public class PingTetst
     {
         List<HTTPSampler> samplers = new ArrayList<HTTPSampler>();
 
-        samplers.add(createSample("/xwiki/"));
-        samplers.add(createSample("/xwiki/bin/view/Main/WebHome"));
-        samplers.add(createSample("/xwiki/bin/view/NoSpace/NoPage"));
+        samplers.add(createSample("root", "/xwiki/"));
+        samplers.add(createSample("Main.WebHome (view)", "/xwiki/bin/view/Main/WebHome"));
+        samplers.add(createSample("Main.WebHome (edit)", "/xwiki/bin/edit/Main/WebHome"));
+        samplers.add(createSample("Main.WebHome (get)", "/xwiki/bin/get/Main/WebHome"));
 
         execute(samplers);
     }

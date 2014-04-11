@@ -92,7 +92,7 @@ public class PingTetst
         threadGroup.setNumThreads(1);
         threadGroup.setRampUp(1);
         LoopController loopCtrl = new LoopController();
-        loopCtrl.setLoops(1);
+        loopCtrl.setLoops(10);
         loopCtrl.setFirst(true);
         threadGroup.setSamplerController((LoopController) loopCtrl);
 

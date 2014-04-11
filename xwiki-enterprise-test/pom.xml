@@ -523,5 +523,6 @@
     <module>xwiki-enterprise-test-storage</module>
     <module>xwiki-enterprise-test-wysiwyg</module>
     <module>xwiki-enterprise-test-extension</module>
+    <module>xwiki-enterprise-test-jmeter</module>
   </modules>
 </project>

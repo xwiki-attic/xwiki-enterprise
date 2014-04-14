@@ -41,19 +41,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xwiki.test.integration.XWikiExecutor;
 
-public class PingTetst
+public class HTTPPerformanceTest
 {
     @BeforeClass
     public static void before() throws IOException
     {
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/httpclient.parameters"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/httpclient.parameters")));
+            IOUtils.toByteArray(HTTPPerformanceTest.class.getResource("/jmeterbin/httpclient.parameters")));
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/jmeter.properties"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/jmeter.properties")));
+            IOUtils.toByteArray(HTTPPerformanceTest.class.getResource("/jmeterbin/jmeter.properties")));
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/saveservice.properties"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/saveservice.properties")));
+            IOUtils.toByteArray(HTTPPerformanceTest.class.getResource("/jmeterbin/saveservice.properties")));
         FileUtils.writeByteArrayToFile(new File("target/jmeter/home/bin/upgrade.properties"),
-            IOUtils.toByteArray(PingTetst.class.getResource("/jmeterbin/upgrade.properties")));
+            IOUtils.toByteArray(HTTPPerformanceTest.class.getResource("/jmeterbin/upgrade.properties")));
     }
 
     private HTTPSampler createSample(String path)
@@ -75,20 +75,13 @@ public class PingTetst
         return httpSampler;
     }
 
-    @Test
-    public void ping() throws FileNotFoundException, Exception
+    public void execute(List<HTTPSampler> samplers) throws FileNotFoundException, Exception
     {
-        List<HTTPSampler> samplers = new ArrayList<HTTPSampler>();
-
-        samplers.add(createSample("root", "/xwiki/"));
-        samplers.add(createSample("Main.WebHome (view)", "/xwiki/bin/view/Main/WebHome"));
-        samplers.add(createSample("Main.WebHome (edit)", "/xwiki/bin/edit/Main/WebHome"));
-        samplers.add(createSample("Main.WebHome (get)", "/xwiki/bin/get/Main/WebHome"));
-
-        execute(samplers);
+        execute(samplers, null, null);
     }
 
-    public void execute(List<HTTPSampler> samplers) throws FileNotFoundException, Exception
+    public void execute(List<HTTPSampler> samplers, String user, String password) throws FileNotFoundException,
+        Exception
     {
         // jmeter.properties
         JMeterUtils.loadJMeterProperties("target/jmeter/home/bin/saveservice.properties");
@@ -135,5 +128,21 @@ public class PingTetst
         jm.configure(hashTree);
 
         jm.run();
+    }
+
+    // Tests
+
+    @Test
+    public void guest() throws FileNotFoundException, Exception
+    {
+        List<HTTPSampler> samplers = new ArrayList<HTTPSampler>();
+
+        samplers.add(createSample("root", "/xwiki/"));
+        samplers.add(createSample("Main.WebHome (edit)", "/xwiki/bin/edit/Main/WebHome"));
+
+        samplers.add(createSample("Main.WebHome (get)", "/xwiki/bin/get/Main/WebHome"));
+        samplers.add(createSample("Main.WebHome (view)", "/xwiki/bin/view/Main/WebHome"));
+
+        execute(samplers);
     }
 }

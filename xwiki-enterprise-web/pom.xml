@@ -804,7 +804,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-ldap-authenticator</artifactId>
-      <version>${project.version}</version>
+      <version>${platform.version}</version>
     </dependency>
   </dependencies>
   <build>

@@ -48,7 +48,7 @@
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-ldap-authenticator</artifactId>
-      <version>${project.version}</version>
+      <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

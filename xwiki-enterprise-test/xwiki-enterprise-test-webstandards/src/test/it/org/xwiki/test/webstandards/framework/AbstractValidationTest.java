@@ -25,6 +25,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -39,6 +40,7 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.lang.StringUtils;
+import org.xwiki.model.internal.reference.DefaultStringEntityReferenceSerializer;
 import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.model.reference.WikiReference;
 import org.xwiki.validator.Validator;
@@ -47,6 +49,9 @@ import org.xwiki.xar.XarPackage;
 
 public class AbstractValidationTest extends TestCase
 {
+    private static final DefaultStringEntityReferenceSerializer SERIALIZER =
+        new DefaultStringEntityReferenceSerializer();
+
     protected HttpClient client;
 
     protected Target target;
@@ -198,8 +203,12 @@ public class AbstractValidationTest extends TestCase
 
         WikiReference wikiReference = new WikiReference("xwiki");
 
+        Pattern pattern = patternFilter == null ? null : Pattern.compile(patternFilter);
+
         for (XarEntry entry : entries) {
-            result.add(new DocumentReference(entry, wikiReference));
+            if (pattern == null || pattern.matcher(SERIALIZER.serialize(entry)).matches()) {
+                result.add(new DocumentReference(entry, wikiReference));
+            }
         }
 
         return result;

@@ -22,9 +22,13 @@ package org.xwiki.test.jmeter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -39,10 +43,60 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jorphan.collections.HashTree;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.xwiki.model.internal.reference.DefaultStringEntityReferenceSerializer;
+import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.LocalDocumentReference;
+import org.xwiki.model.reference.WikiReference;
 import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.xar.XarEntry;
+import org.xwiki.xar.XarException;
+import org.xwiki.xar.XarPackage;
 
 public class HTTPPerformanceTest
 {
+    private static final DefaultStringEntityReferenceSerializer SERIALIZER =
+        new DefaultStringEntityReferenceSerializer();
+
+    protected static List<DocumentReference> readXarContents(String fileName, String patternFilter) throws Exception
+    {
+        Collection<XarEntry> entries = XarPackage.getEntries(new File(fileName));
+
+        List<DocumentReference> result = new ArrayList<DocumentReference>(entries.size());
+
+        WikiReference wikiReference = new WikiReference("xwiki");
+
+        for (XarEntry entry : entries) {
+            result.add(new DocumentReference(entry, wikiReference));
+        }
+
+        return result;
+    }
+
+    private static void addXarFiles(List<HTTPSampler> samplers) throws UnsupportedEncodingException, XarException,
+        IOException
+    {
+        String path = System.getProperty("localRepository") + "/" + System.getProperty("pathToXWikiXar");
+        String patternFilter = System.getProperty("documentsToTest");
+
+        Pattern pattern = patternFilter == null ? null : Pattern.compile(patternFilter);
+
+        for (XarEntry xarEntry : XarPackage.getEntries(new File(path))) {
+            if (pattern == null || pattern.matcher(SERIALIZER.serialize(xarEntry)).matches()) {
+                samplers.add(createSample(xarEntry, "get"));
+                samplers.add(createSample(xarEntry, "view"));
+            }
+        }
+    }
+
+    private static HTTPSampler createSample(LocalDocumentReference documentReference, String action)
+        throws UnsupportedEncodingException
+    {
+        return createSample(
+            SERIALIZER.serialize(documentReference) + " (" + action + ")",
+            "/xwiki/bin/get/" + URLEncoder.encode(documentReference.getParent().getName(), "UTF8") + "/"
+                + URLEncoder.encode(documentReference.getName(), "UTF8"));
+    }
+
     @BeforeClass
     public static void before() throws IOException
     {
@@ -56,12 +110,7 @@ public class HTTPPerformanceTest
             IOUtils.toByteArray(HTTPPerformanceTest.class.getResource("/jmeterbin/upgrade.properties")));
     }
 
-    private HTTPSampler createSample(String path)
-    {
-        return createSample(path, path);
-    }
-
-    private HTTPSampler createSample(String name, String path)
+    private static HTTPSampler createSample(String name, String path)
     {
         HTTPSampler httpSampler = new HTTPSampler();
 
@@ -105,7 +154,7 @@ public class HTTPPerformanceTest
         threadGroup.setNumThreads(1);
         threadGroup.setRampUp(1);
         LoopController loopCtrl = new LoopController();
-        loopCtrl.setLoops(10);
+        loopCtrl.setLoops(5);
         loopCtrl.setFirst(true);
         threadGroup.setSamplerController((LoopController) loopCtrl);
 
@@ -140,8 +189,7 @@ public class HTTPPerformanceTest
         samplers.add(createSample("root", "/xwiki/"));
         samplers.add(createSample("Main.WebHome (edit)", "/xwiki/bin/edit/Main/WebHome"));
 
-        samplers.add(createSample("Main.WebHome (get)", "/xwiki/bin/get/Main/WebHome"));
-        samplers.add(createSample("Main.WebHome (view)", "/xwiki/bin/view/Main/WebHome"));
+        addXarFiles(samplers);
 
         execute(samplers);
     }

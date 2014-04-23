@@ -991,32 +991,6 @@ If you wish to have the default wiki pages, which contain both content pages and
             <configuration>
               <failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
               <exceptions>
-                <!-- Exclude package-info classes which are just javadoc files, see
-                     http://docs.oracle.com/javase/7/docs/technotes/tools/solaris/javadoc.html#packagecomment -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>com.google.guava</groupId>
-                      <artifactId>guava</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>org.python</groupId>
-                      <artifactId>jython-standalone</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <classes>
-                    <class>com.google.common.base.package-info</class>
-                    <class>com.google.common.collect.package-info</class>
-                    <class>com.google.common.io.package-info</class>
-                    <class>com.google.common.net.package-info</class>
-                    <class>com.google.common.primitives.package-info</class>
-                    <class>com.google.common.util.concurrent.package-info</class>
-                    <class>com.google.common.cache.package-info</class>
-                    <class>com.google.common.hash.package-info</class>
-                    <class>com.google.common.math.package-info</class>
-                    <class>com.google.common.reflect.package-info</class>
-                  </classes>
-                </exception>
                 <!-- Commons Beanutils bundles some classes from Commons Collections, apparently to avoid drawing
                      a dependency to it... However those classes are the same for us since commons-beanutils:1.8.3
                      depends on commons-collections:3.2.1 -->

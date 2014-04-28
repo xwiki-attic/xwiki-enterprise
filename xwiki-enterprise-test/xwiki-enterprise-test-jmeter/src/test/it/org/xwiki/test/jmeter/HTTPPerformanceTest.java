@@ -91,9 +91,8 @@ public class HTTPPerformanceTest
     private static HTTPSampler createSample(LocalDocumentReference documentReference, String action)
         throws UnsupportedEncodingException
     {
-        return createSample(
-            SERIALIZER.serialize(documentReference) + " (" + action + ")",
-            "/xwiki/bin/get/" + URLEncoder.encode(documentReference.getParent().getName(), "UTF8") + "/"
+        return createSample(SERIALIZER.serialize(documentReference) + " (" + action + ")",
+            "/xwiki/bin/" + action + "/" + URLEncoder.encode(documentReference.getParent().getName(), "UTF8") + "/"
                 + URLEncoder.encode(documentReference.getName(), "UTF8"));
     }
 

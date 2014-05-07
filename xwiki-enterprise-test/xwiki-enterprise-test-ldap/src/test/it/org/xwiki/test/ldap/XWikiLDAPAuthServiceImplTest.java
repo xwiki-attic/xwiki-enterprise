@@ -84,7 +84,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
     private Map<String, XWikiDocument> getDocuments(String database, boolean create) throws XWikiException
     {
         if (database == null) {
-            database = getContext().getDatabase();
+            database = getContext().getWikiId();
         }
 
         if (database == null || database.length() == 0) {
@@ -152,7 +152,7 @@ public class XWikiLDAPAuthServiceImplTest extends AbstractLDAPTestCase
         this.userClass = new BaseClass();
         this.groupClass = new BaseClass();
 
-        getContext().setDatabase(MAIN_WIKI_NAME);
+        getContext().setWikiId(MAIN_WIKI_NAME);
         getContext().setMainXWiki(MAIN_WIKI_NAME);
 
         this.databases.put(MAIN_WIKI_NAME, new HashMap<String, XWikiDocument>());

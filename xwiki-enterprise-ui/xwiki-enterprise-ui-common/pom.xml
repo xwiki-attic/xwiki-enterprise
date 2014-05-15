@@ -36,7 +36,8 @@
     <xwiki.extension.features>
         com.xpn.xwiki.products:xwiki-enterprise-wiki,
         org.xwiki.enterprise:xwiki-enterprise-wiki,
-        org.xwiki.enterprise:xwiki-enterprise-ui
+        org.xwiki.enterprise:xwiki-enterprise-ui,
+        org.xwiki.enterprise:xwiki-enterprise-ui-all
     </xwiki.extension.features>
   </properties>
   <dependencies>

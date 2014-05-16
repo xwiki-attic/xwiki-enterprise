@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,9 @@ import junit.framework.TestCase;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 import org.apache.pdfbox.pdmodel.interactive.action.type.PDAction;
 import org.apache.pdfbox.pdmodel.interactive.action.type.PDActionGoTo;
 import org.apache.pdfbox.pdmodel.interactive.action.type.PDActionURI;
@@ -70,11 +73,16 @@ public class PDFTest extends TestCase
      */
     public void testExportContentWithAttachmentLink() throws Exception
     {
-        Map<String, String> urls =
-            extractURLs(new URL("http://localhost:8080/xwiki/bin/export/Sandbox/WebHome?format=pdf"));
+        URL pdfExportURL = new URL("http://localhost:8080/xwiki/bin/export/Sandbox/WebHome?format=pdf");
+        Map<String, String> urls = extractURLs(pdfExportURL);
         assertTrue(urls.containsKey("XWikiLogo.png"));
         assertEquals("http://localhost:8080/xwiki/bin/download/Sandbox/WebHome/XWikiLogo.png",
             urls.get("XWikiLogo.png"));
+
+        // Ideally we should be asserting for a value of 1 (for the embedded XWikiLogo.png image) but it seems the PDF
+        // contains 10 image objects (for some reason I don't understand ATM - they seem to be variations of the same
+        // image - the logo - in color, in black and white, etc).
+        assertEquals(10, getImages(pdfExportURL).size());
     }
 
     /**
@@ -105,6 +113,28 @@ public class PDFTest extends TestCase
         pdd.close();
         is.close();
         return text;
+    }
+
+    private Map<String, PDXObjectImage> getImages(URL url) throws Exception
+    {
+        Map<String, PDXObjectImage> results = new HashMap<>();
+
+        PDDocument document = PDDocument.load(url);
+        List<PDPage> list = document.getDocumentCatalog().getAllPages();
+        for (PDPage page : list) {
+            PDResources pdResources = page.getResources();
+            Map pageImages = pdResources.getImages();
+            if (pageImages != null) {
+                Iterator imageIter = pageImages.keySet().iterator();
+                while (imageIter.hasNext()) {
+                    String key = (String) imageIter.next();
+                    PDXObjectImage pdxObjectImage = (PDXObjectImage) pageImages.get(key);
+                    results.put(key, pdxObjectImage);
+                }
+            }
+        }
+
+        return results;
     }
 
     private Map<String, String> extractURLs(URL url) throws Exception

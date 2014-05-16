@@ -85,7 +85,7 @@ public class PDFTest extends TestCase
     public void testTableOfContents() throws Exception
     {
         Map<String, String> internalLinks =
-            extractToCLinks(new URL("http://localhost:8080/xwiki/bin/export/Sandbox/WebHome"
+            extractToLinks(new URL("http://localhost:8080/xwiki/bin/export/Sandbox/WebHome"
                 + "?format=pdf&pdftoc=1&attachments=1&pdfcover=0"), 0);
         // Make sure we have a Table of Contents.
         assertTrue(internalLinks.containsKey("Mixed list"));
@@ -127,7 +127,7 @@ public class PDFTest extends TestCase
         return urls;
     }
 
-    private Map<String, String> extractToCLinks(URL url, int tocPageIndex) throws Exception
+    private Map<String, String> extractToLinks(URL url, int tocPageIndex) throws Exception
     {
         Map<String, String> internalLinks = new HashMap<String, String>();
         PDDocument document = null;

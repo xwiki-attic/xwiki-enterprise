@@ -911,15 +911,12 @@ If you wish to have the default wiki pages, which contain both content pages and
                  log4j-<version>.jar but keeping log4j-over-slf4j-<version>.jar
                - Exclude legacy modules if the legacy profile is not enabled so that we don't have both aspectified JAR
                  and non aspectified ones
-               - Exclude batik-js to prevent conflict with the patched version of Rhino used by yuicompressor used for
-                 JSX. See http://jira.xwiki.org/jira/browse/XWIKI-6151 for more details.
                - Exclude JavaBeans Activation Framework (activation-*.jar) since it's included in Java SE 6.
                - Exclude JAXB since it's included in Java SE 6
                - Exclude STAX API since it's included in Java SE 6
           -->
           <packagingExcludes>
             ${xwiki.war.legacy.excludes}
-            WEB-INF/lib/batik-js-*.jar,
             WEB-INF/lib/commons-logging-*.jar,
             %regex[WEB-INF/lib/log4j-(?!over-slf4j).*.jar],
             WEB-INF/lib/activation-*.jar,

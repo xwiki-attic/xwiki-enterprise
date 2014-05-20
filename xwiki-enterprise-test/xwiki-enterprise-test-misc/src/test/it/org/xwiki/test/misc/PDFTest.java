@@ -80,9 +80,9 @@ public class PDFTest extends TestCase
             urls.get("XWikiLogo.png"));
 
         // Ideally we should be asserting for a value of 1 (for the embedded XWikiLogo.png image) but it seems the PDF
-        // contains 10 image objects (for some reason I don't understand ATM - they seem to be variations of the same
+        // contains 2 image objects (for some reason I don't understand ATM - they seem to be variations of the same
         // image - the logo - in color, in black and white, etc).
-        assertEquals(10, getImages(pdfExportURL).size());
+        assertEquals(2, getImages(pdfExportURL).size());
     }
 
     /**

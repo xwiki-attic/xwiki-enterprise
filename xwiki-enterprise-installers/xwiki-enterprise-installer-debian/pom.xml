@@ -65,24 +65,25 @@
       ${description}
  ${debian.xe.description}
     </debian.description>
+    <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
   </properties>
   <build>
+    <extensions>
+      <!-- Needed to add support for the "deb" packaging -->
+      <extension>
+        <groupId>org.vafer</groupId>
+        <artifactId>jdeb</artifactId>
+        <version>1.2</version>
+      </extension>
+    </extensions>
     <pluginManagement>
       <plugins>
         <plugin>
           <artifactId>jdeb</artifactId>
           <groupId>org.vafer</groupId>
-          <version>1.0.1.1-xwiki</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>jdeb</goal>
-              </goals>
-            </execution>
-          </executions>
+          <version>1.2</version>
           <configuration>
-            <timestamped>true</timestamped>
+            <snapshotExpand>true</snapshotExpand>
           </configuration>
         </plugin>
       </plugins>

@@ -21,5 +21,5 @@ if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
 
   # Allow creating new wikis (so new databases)
   # TODO: ask it in an install step
-  mysql -e "GRANT ALL PRIVILEGES ON *.* to $dbc_dbuser@'$l_dballow' IDENTIFIED BY '`dbc_mysql_escape_str $dbc_dbpass`'"
+  dbc_mysql_exec_command "GRANT ALL PRIVILEGES ON *.* to $dbc_dbuser@'$l_dballow' IDENTIFIED BY '`dbc_mysql_escape_str $dbc_dbpass`'"
 fi

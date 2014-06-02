@@ -605,7 +605,7 @@ public class MacroTest extends AbstractWysiwygTestCase
 
         // First edit.
         editMacro(0);
-        setFieldValue("pd-content-input", "$util.date");
+        setFieldValue("pd-content-input", "$datetool.date");
         applyMacroChanges();
 
         // Second edit.
@@ -618,7 +618,7 @@ public class MacroTest extends AbstractWysiwygTestCase
         waitForPushButton(TOOLBAR_BUTTON_REDO_TITLE, true);
         clickRedoButton();
         switchToSource();
-        assertSourceText("{{velocity}}\n$util.date\n{{/velocity}}");
+        assertSourceText("{{velocity}}\n$datetool.date\n{{/velocity}}");
     }
 
     /**
@@ -1368,7 +1368,7 @@ public class MacroTest extends AbstractWysiwygTestCase
             setFieldValue("XWiki.WikiMacroClass_0_id", "now");
             setFieldValue("XWiki.WikiMacroClass_0_name", "Now");
             getSelenium().select("XWiki.WikiMacroClass_0_contentType", "No content");
-            setFieldValue("XWiki.WikiMacroClass_0_code", "{{velocity}}$util.date{{/velocity}}");
+            setFieldValue("XWiki.WikiMacroClass_0_code", "{{velocity}}$datetool.date{{/velocity}}");
             clickEditSaveAndContinue();
             // Create the mandatory parameter.
             getSelenium().select("classname", "WikiMacroParameterClass");

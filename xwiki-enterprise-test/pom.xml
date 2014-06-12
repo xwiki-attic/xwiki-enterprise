@@ -213,6 +213,7 @@
                     templates/menus/macros.vm <!-- Contains only Velocity macros -->
                     templates/menus/wiki.vm
                     skins/flamingo/applications.vm
+                    skins/flamingo/colorThemeInit.vm
                     skins/flamingo/hierarchy.vm
                     skins/flamingo/layoutExtraVars.vm
                     skins/flamingo/macros.vm

@@ -353,7 +353,7 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Check
 
-        Assert.assertEquals("1.2", extensionPage.getMetaDataValue("version"));
+        Assert.assertEquals("1.1", extensionPage.getMetaDataValue("version"));
         Assert.assertTrue(extensionPage.isValidExtension());
 
         // 2.0

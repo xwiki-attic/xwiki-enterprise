@@ -1058,26 +1058,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>info.informatica.doc.RenderingException</class>
                   </classes>
                 </exception>
-                <!-- org.sonatype.sisu:sisu-inject-bean:2.2.3 bundles some javax.inject classes. Fortunately it
-                     depends on javax.inject:javax.inject:1. Note that sisu-inject-bean is an aggregated JAR and
-                     there's an other artifact to use: http://search.maven.org/#browse%7C-1073437006. The problem
-                     is that we don't control this since it's drawn by both the Maven Plugin API which we need for
-                     our plugins and by the Aether Wagon connector which we need for the Commons Extension module. -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>org.sonatype.sisu</groupId>
-                      <artifactId>sisu-inject-bean</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>javax.inject</groupId>
-                      <artifactId>javax.inject</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <packages>
-                    <package>javax.inject</package>
-                  </packages>
-                </exception>
                 <!-- These 4 deps seems mostly compatible according to
                      http://ispras.linuxbase.org/index.php/Java_API_Compliance_Checker. There's just a change
                      between Stax 1.0.1 and 1.0.2 where FactoryConfigurationError seems to have had Serializable
@@ -1184,7 +1164,9 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>org.w3c.dom.events.UIEvent</class>
                   </classes>
                 </exception>
-                <!-- None of these should bundle org.w3c classes but at least they seem compatible -->
+                <!-- Jython should not bundle org.w3c classes but at least they seem compatible.
+                     See http://bugs.jython.org/issue2121.
+                 -->
                 <exception>
                   <conflictingDependencies>
                     <dependency>

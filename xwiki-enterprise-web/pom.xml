@@ -1319,6 +1319,23 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>org.parboiled.SkippableAction</class>
                   </classes>
                 </exception>
+                <!-- Exact same classes. Thise project should depend on the common net.jcip:jcip-annotations instead -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>com.google.code.findbugs</groupId>
+                      <artifactId>annotations</artifactId>
+                    </dependency>
+                    <dependency>
+                      <groupId>edu.ucar</groupId>
+                      <artifactId>netcdf</artifactId>
+                    </dependency>
+                  </conflictingDependencies>
+                  <classes>
+                    <class>net.jcip.annotations.GuardedBy</class>
+                    <class>net.jcip.annotations.ThreadSafe</class>
+                  </classes>
+                </exception>
               </exceptions>
               <ignoredResources>
                 <!-- Exclude XWiki's Component registration file -->

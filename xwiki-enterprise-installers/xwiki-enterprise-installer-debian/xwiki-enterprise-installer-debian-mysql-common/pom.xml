@@ -29,7 +29,7 @@
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-mysql-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - MySQL - Common</name>
-  <packaging>pom</packaging>
+  <packaging>deb</packaging>
   <description>XWiki enterprise MySQL common package</description>
   <properties>
     <xwiki.db>mysql</xwiki.db>
@@ -47,6 +47,30 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-remote-resources-plugin</artifactId>
+      </plugin>
+      <!-- Produce deb package -->
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+        <configuration>
+          <dataSet>
+            <data>
+              <src>${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml</src>
+              <type>file</type>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/share/xwiki/templates/mysql</prefix>
+              </mapper>
+            </data>
+            <!-- MySQL connector -->
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/usr/lib/xwiki/WEB-INF/lib/mysql.jar</linkName>
+              <linkTarget>/usr/share/java/mysql.jar</linkTarget>
+            </data>
+          </dataSet>
+        </configuration>
       </plugin>
     </plugins>
   </build>

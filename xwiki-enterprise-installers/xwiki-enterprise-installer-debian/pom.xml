@@ -65,7 +65,6 @@
       ${description}
  ${debian.xe.description}
     </debian.description>
-    <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
   </properties>
   <build>
     <extensions>

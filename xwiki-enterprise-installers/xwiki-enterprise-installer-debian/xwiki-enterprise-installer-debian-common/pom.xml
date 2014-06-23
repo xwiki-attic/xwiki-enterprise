@@ -96,6 +96,16 @@
               </mapper>
             </data>
             <data>
+              <src>${war.path}/WEB-INF/lib</src>
+              <type>directory</type>
+              <mapper>
+                <type>perm</type>
+                <prefix>/usr/lib/xwiki/WEB-INF/lib</prefix>
+              </mapper>
+            </data>
+
+            <!-- Configuration files -->
+            <data>
               <src>${war.path}/WEB-INF</src>
               <type>directory</type>
               <excludes>**/lib,**/lib/*,**/hibernate.cfg.xml,**/xwiki.cfg,**/xwiki.properties</excludes>
@@ -103,14 +113,7 @@
                 <type>perm</type>
                 <prefix>/etc/xwiki</prefix>
               </mapper>
-            </data>
-            <data>
-              <src>${war.path}/WEB-INF/lib</src>
-              <type>directory</type>
-              <mapper>
-                <type>perm</type>
-                <prefix>/usr/lib/xwiki/WEB-INF/lib</prefix>
-              </mapper>
+              <conffile>true</conffile>
             </data>
             <data>
               <src>${project.build.directory}/maven-shared-archive-resources</src>
@@ -120,7 +123,9 @@
                 <type>perm</type>
                 <prefix>/etc/xwiki</prefix>
               </mapper>
+              <conffile>true</conffile>
             </data>
+
             <!-- Links to /usr/lib/xwiki/WEB-INF files/folders -->
             <data>
               <type>link</type>

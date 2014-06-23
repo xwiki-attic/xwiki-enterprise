@@ -29,7 +29,7 @@
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-tomcat-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat - Common</name>
-  <packaging>pom</packaging>
+  <packaging>deb</packaging>
   <description>XWiki enterprise Tomcat common package</description>
   <build>
     <plugins>
@@ -56,6 +56,7 @@
                 <type>perm</type>
                 <prefix />
               </mapper>
+              <conffile>true</conffile>
             </data>
           </dataSet>
         </configuration>

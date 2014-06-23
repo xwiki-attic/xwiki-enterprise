@@ -29,7 +29,7 @@
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-tomcat7-mysql</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat 7 - MySQL</name>
-  <packaging>pom</packaging>
+  <packaging>deb</packaging>
   <description>XWiki enterprise Tomcat/MySQL based package</description>
   <build>
     <plugins>

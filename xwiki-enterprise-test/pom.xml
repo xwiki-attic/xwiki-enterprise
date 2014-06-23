@@ -265,6 +265,7 @@
                     templates/watch\.vm <!-- expects xredirect to be a valid URL, does not display anything -->
                     templates/wysiwyg\.vm <!-- redirects to editwysiwyg.vm, recursive redirection error with some parameters -->
                     templates/xpart\.vm <!-- avoid recursive include -->
+                    templates/init\.vm <!-- escaping does not like it but it does not take any parameter anyway -->
                 </value>
               </property>
               <property>

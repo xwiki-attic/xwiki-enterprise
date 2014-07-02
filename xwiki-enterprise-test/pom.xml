@@ -215,7 +215,7 @@
                     skins/flamingo/applications.vm
                     skins/flamingo/colorThemeInit.vm
                     skins/flamingo/hierarchy.vm
-                    skins/flamingo/layoutExtraVars.vm
+                    skins/flamingo/layoutvars.vm
                     skins/flamingo/macros.vm
                     skins/flamingo/quicksearch.vm
                     skins/flamingo/menus/macros.vm

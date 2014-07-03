@@ -218,6 +218,7 @@
                     skins/flamingo/layoutvars.vm
                     skins/flamingo/macros.vm
                     skins/flamingo/quicksearch.vm
+                    skins/flamingo/menus/home.vm
                     skins/flamingo/menus/macros.vm
                 </value>
               </property>

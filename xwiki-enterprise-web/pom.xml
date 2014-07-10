@@ -599,6 +599,14 @@ If you wish to have the default wiki pages, which contain both content pages and
       <scope>runtime</scope>
     </dependency>
     <!-- Mailsender -->
+    <!-- New Mail Sender API -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-mail-send-default</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Old Mail Sender Plugin -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-mailsender</artifactId>

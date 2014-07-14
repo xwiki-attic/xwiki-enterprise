@@ -755,12 +755,6 @@ If you wish to have the default wiki pages, which contain both content pages and
     <!-- Filter -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>
-      <artifactId>xwiki-commons-filter-instance-extension</artifactId>
-      <version>${commons.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-filter-stream-xml</artifactId>
       <version>${commons.version}</version>
       <scope>runtime</scope>
@@ -768,6 +762,12 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-filter-instance-oldcore</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-filter-instance-extension</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

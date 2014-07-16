@@ -185,6 +185,11 @@
                 <name>browser</name>
                 <value>${browser}</value>
               </property>
+              <!-- Avoid running tests with snapshots extension repository enabled. -->
+              <property>
+                <name>skipSnapshotModules</name>
+                <value>true</value>
+              </property>
               <!-- Used only in escaping tests -->
               <property>
                 <!-- List of Velocity templates that don't generate any output when applied with xpage. The templates

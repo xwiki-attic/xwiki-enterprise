@@ -406,8 +406,8 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>sh start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <profile>
@@ -418,8 +418,8 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>sh start_xwiki.sh ${port} ${stopport}</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <!-- This profile must come after the "mac" profile so that it overrides it when it's active.
@@ -441,8 +441,8 @@
     <profile>
       <id>macprofiler</id>
       <properties>
-        <xwikiExecutionStartCommand>sh -f start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}"</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh -f stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>sh start_xwiki_debug.sh ${port} ${stopport} profiler "${profilerPath}"</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>sh stop_xwiki.sh ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <profile>

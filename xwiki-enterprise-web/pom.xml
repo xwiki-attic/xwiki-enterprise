@@ -1527,5 +1527,15 @@ If you wish to have the default wiki pages, which contain both content pages and
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>snapshotModules</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.xwiki.commons</groupId>
+          <artifactId>xwiki-commons-extension-repository-maven-snapshots</artifactId>
+          <version>${commons.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
 </project>

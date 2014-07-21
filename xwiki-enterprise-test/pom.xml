@@ -217,6 +217,8 @@
                     templates/xwikivars.vm
                     templates/menus/macros.vm <!-- Contains only Velocity macros -->
                     templates/menus/wiki.vm
+                    templates/job_macros.vm
+                    templates/logging_macros.vm
                     skins/flamingo/applications.vm
                     skins/flamingo/colorThemeInit.vm
                     skins/flamingo/hierarchy.vm

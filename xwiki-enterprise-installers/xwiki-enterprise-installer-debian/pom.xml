@@ -30,17 +30,7 @@
   <artifactId>xwiki-enterprise-installer-debian</artifactId>
   <name>XWiki Enterprise - Installer - Debian</name>
   <packaging>pom</packaging>
-  <description>
-    XWiki is a free wiki software platform written in Java with a design emphasis
-    on extensibility.
-    .
-    XWiki Enterprise is an easily installed enterprise wiki with features such as
-    WYSIWYG editing, OpenOffice based document import/export, semantic annotations
-    and tagging, and advanced permissions management.
-    .
-    XWiki Enterprise is designed to help teams collaborate more efficiently. It
-    runs in a Java servlet container such as Tomcat.
-  </description>
+  <description>Debian installer for XWiki Enterprise</description>
   <modules>
     <module>xwiki-enterprise-installer-debian-common</module>
     <module>xwiki-enterprise-installer-debian-mysql-common</module>
@@ -48,6 +38,7 @@
     <module>xwiki-enterprise-installer-debian-tomcat</module>
   </modules>
   <properties>
+    <jdeb.version>1.3</jdeb.version>
     <debian.maintainer>XWiki Team (devs@xwiki.org)</debian.maintainer>
     <debian.license>LGPL 2.1</debian.license>
     <debian.xe.description>
@@ -62,7 +53,6 @@
  runs in a Java servlet container such as Tomcat.
     </debian.xe.description>
     <debian.description>
-      ${description}
  ${debian.xe.description}
     </debian.description>
   </properties>
@@ -72,7 +62,7 @@
       <extension>
         <groupId>org.vafer</groupId>
         <artifactId>jdeb</artifactId>
-        <version>1.2</version>
+        <version>${jdeb.version}</version>
       </extension>
     </extensions>
     <pluginManagement>
@@ -80,7 +70,7 @@
         <plugin>
           <artifactId>jdeb</artifactId>
           <groupId>org.vafer</groupId>
-          <version>1.2</version>
+          <version>${jdeb.version}</version>
           <configuration>
             <snapshotExpand>true</snapshotExpand>
           </configuration>

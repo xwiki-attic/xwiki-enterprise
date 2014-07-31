@@ -19,7 +19,19 @@ if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
 
   dbc_go xwiki $@
 
+  # Get the host
+  if [ ! "${dbc_dballow:-}" ]; then
+      if [ ! "${dbc_dbserver:-}" ] || [ "$dbc_dbserver" = "localhost" ]; then
+          l_dballow=localhost
+      else
+          l_dballow=`hostname`
+      fi
+  else
+      l_dballow="$dbc_dballow"
+  fi
+
   # Allow creating new wikis (so new databases)
   # TODO: ask it in an install step
-  dbc_mysql_exec_command "GRANT ALL PRIVILEGES ON *.* to $dbc_dbuser@'$l_dballow' IDENTIFIED BY '`dbc_mysql_escape_str $dbc_dbpass`'"
+  echo "allow $dbc_dbuser user to create new databases"
+  dbc_mysql_exec_command "GRANT ALL PRIVILEGES ON *.* to $dbc_dbuser@'$l_dballow'"
 fi

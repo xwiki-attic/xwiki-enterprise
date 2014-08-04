@@ -845,6 +845,18 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>xwiki-platform-icon-default</artifactId>
       <version>${platform.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-icon-script</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <!-- Font Awesome -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-font-awesome</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

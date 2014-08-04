@@ -839,6 +839,12 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>xwiki-platform-ldap-authenticator</artifactId>
       <version>${platform.version}</version>
     </dependency>
+    <!-- Icon Module -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-icon-default</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

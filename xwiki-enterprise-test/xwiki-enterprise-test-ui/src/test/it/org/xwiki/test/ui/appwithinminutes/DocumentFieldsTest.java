@@ -104,7 +104,7 @@ public class DocumentFieldsTest extends AbstractAdminAuthenticatedTest
         Assert.assertTrue(liveTable.hasRow("My Content", "Bar"));
 
         // Check that the title and the content of the class have not been changed.
-        getUtil().gotoPage(appName, appName + "Class", "edit", "editor=wiki");
+        getUtil().gotoPage(appName + "Code", appName + "Class", "edit", "editor=wiki");
         WikiEditPage editPage = new WikiEditPage();
         Assert.assertEquals(appName + " Class", editPage.getTitle());
         Assert.assertEquals("", editPage.getContent());

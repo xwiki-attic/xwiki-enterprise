@@ -893,7 +893,7 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <!-- Unpack the Flamingo skin -->
                 <artifactItem>
                   <groupId>org.xwiki.platform</groupId>
-                  <artifactId>xwiki-platform-flamingo</artifactId>
+                  <artifactId>xwiki-platform-flamingo-skin</artifactId>
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/skin</outputDirectory>
                 </artifactItem>

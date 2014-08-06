@@ -45,9 +45,9 @@
   <hidden>false</hidden>
   <content>Šī tīmekļa vietne jums ļauj ērtā veidā rediģēt lapu saturu un sadarboties. Šajā viki ir //lapas//, kas tiek glabātas //vietās//. Šobrīd jūs esat vietas **Main** mājas lapā (**WebHome**).
 
-{{velocity wiki="true"}}
-#if($hasEdit) Lai pārbaudītu šī viki iespējas, jūs varat rediģēt mēģinājumu vietas mājas lapu jeb [[Smilšu kasti&gt;&gt;Sandbox.WebHome]]. #end
-{{/velocity}}
+Apgūstiet XWiki lietošanu {{velocity}}[[ar sākuma palīgu&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
 
-</content>
+{{velocity}}
+#if($hasEdit) Lai pārbaudītu šī viki iespējas, jūs varat rediģēt mēģinājumu vietas mājas lapu jeb [[Smilšu kasti&gt;&gt;Sandbox.WebHome]]. #end
+{{/velocity}}</content>
 </xwikidoc>

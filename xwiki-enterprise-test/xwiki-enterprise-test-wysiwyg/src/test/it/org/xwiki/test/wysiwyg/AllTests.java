@@ -19,15 +19,15 @@
  */
 package org.xwiki.test.wysiwyg;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-
 import org.xwiki.test.integration.XWikiTestSetup;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiSeleniumTestSetup;
 import org.xwiki.test.wysiwyg.framework.WysiwygTestSetup;
 import org.xwiki.test.wysiwyg.framework.WysiwygTestSuite;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
 
 /**
  * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit
@@ -45,7 +45,7 @@ public class AllTests extends TestCase
         // create a wysiwyg test suite for all the wysiwyg tests to be executed with the Colibri skin executor
         // FIXME: the skin executor setting should be in a ColibriTestSetup, so that the provider for skin functions is
         // injected at setup time, and can be changed by changing the decorator
-        WysiwygTestSuite suite = new WysiwygTestSuite("WYSIWYG Selenium Tests", ColibriSkinExecutor.class);
+        WysiwygTestSuite suite = new WysiwygTestSuite("WYSIWYG Selenium Tests", FlamingoSkinExecutor.class);
 
         addTestCase(suite, SubmitTest.class);
         addTestCase(suite, StandardFeaturesTest.class);

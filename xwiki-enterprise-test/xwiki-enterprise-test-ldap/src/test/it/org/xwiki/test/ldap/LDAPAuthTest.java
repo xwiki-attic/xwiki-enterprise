@@ -19,12 +19,12 @@
  */
 package org.xwiki.test.ldap;
 
-import junit.framework.Test;
-
 import org.xwiki.test.ldap.framework.LDAPTestSetup;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the LDAP login and logout features.
@@ -36,7 +36,7 @@ public class LDAPAuthTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the LDAP login and logout features");
-        suite.addTestSuite(LDAPAuthTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(LDAPAuthTest.class, FlamingoSkinExecutor.class);
 
         return suite;
     }

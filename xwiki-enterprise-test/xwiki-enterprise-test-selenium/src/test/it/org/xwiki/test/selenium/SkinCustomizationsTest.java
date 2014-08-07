@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the skin customization features available in the Administration (like changing the default CSS, etc).
@@ -36,7 +36,7 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
     {
         XWikiTestSuite suite =
             new XWikiTestSuite("Verify the skin customization features " + "available in the Administration");
-        suite.addTestSuite(SkinCustomizationsTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(SkinCustomizationsTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

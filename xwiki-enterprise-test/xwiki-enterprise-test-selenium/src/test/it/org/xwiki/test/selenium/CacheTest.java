@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the caching features of XWiki.
@@ -37,7 +37,7 @@ public class CacheTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the caching features of XWiki");
-        suite.addTestSuite(CacheTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(CacheTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

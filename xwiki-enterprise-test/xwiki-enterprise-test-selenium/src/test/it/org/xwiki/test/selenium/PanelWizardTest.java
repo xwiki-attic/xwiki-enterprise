@@ -19,19 +19,19 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.openqa.selenium.By;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 public class PanelWizardTest extends AbstractXWikiTestCase
 {
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Test the XWiki Panel Wizard");
-        suite.addTestSuite(PanelWizardTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(PanelWizardTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

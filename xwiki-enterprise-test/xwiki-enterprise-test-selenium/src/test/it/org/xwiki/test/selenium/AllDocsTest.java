@@ -19,12 +19,12 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.junit.Assert;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the table view for AllDocs wiki document.
@@ -36,7 +36,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the table view for AllDocs wiki document");
-        suite.addTestSuite(AllDocsTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(AllDocsTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

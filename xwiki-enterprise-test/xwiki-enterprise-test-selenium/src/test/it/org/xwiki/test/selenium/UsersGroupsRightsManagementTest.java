@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the Users, Groups and Rights Management features of XWiki.
@@ -35,7 +35,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the Users, Groups and Rights Management features of XWiki");
-        suite.addTestSuite(UsersGroupsRightsManagementTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(UsersGroupsRightsManagementTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

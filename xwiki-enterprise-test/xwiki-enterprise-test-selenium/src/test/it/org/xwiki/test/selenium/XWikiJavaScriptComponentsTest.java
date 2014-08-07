@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the JavaScript components of XWiki.
@@ -35,7 +35,7 @@ public class XWikiJavaScriptComponentsTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the JavaScript components of XWiki");
-        suite.addTestSuite(XWikiJavaScriptComponentsTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(XWikiJavaScriptComponentsTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

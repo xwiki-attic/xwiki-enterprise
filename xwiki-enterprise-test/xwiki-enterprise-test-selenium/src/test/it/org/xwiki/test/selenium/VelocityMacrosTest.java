@@ -22,11 +22,11 @@ package org.xwiki.test.selenium;
 
 import java.io.IOException;
 
-import junit.framework.Test;
-
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify proper execution of some Velocity Macros.
@@ -40,7 +40,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests Velocity Macros");
-        suite.addTestSuite(VelocityMacrosTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(VelocityMacrosTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

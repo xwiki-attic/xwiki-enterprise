@@ -165,7 +165,7 @@ public class ColibriSkinExecutor extends AlbatrossSkinExecutor
      * 
      * @param menuItemId the menu item identifier
      */
-    private void clickEditMenuItem(String menuItemId)
+    protected void clickEditMenuItem(String menuItemId)
     {
         // Scroll to the top of the page.
         getTest().getSelenium().runScript("window.scrollTo(0, 0)");

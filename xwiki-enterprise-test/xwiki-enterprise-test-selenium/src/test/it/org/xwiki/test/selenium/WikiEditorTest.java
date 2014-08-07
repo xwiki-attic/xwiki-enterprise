@@ -21,14 +21,14 @@ package org.xwiki.test.selenium;
 
 import java.io.IOException;
 
-import junit.framework.Test;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Tests the wiki editor.
@@ -42,7 +42,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
-        suite.addTestSuite(WikiEditorTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(WikiEditorTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the data validation feature of XWiki.
@@ -37,7 +37,7 @@ public class ValidationTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the data validation feature of XWiki");
-        suite.addTestSuite(ValidationTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(ValidationTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

@@ -19,13 +19,13 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Verify the overall Administration application features.
@@ -37,7 +37,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the Administration application features.");
-        suite.addTestSuite(AdministrationTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(AdministrationTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

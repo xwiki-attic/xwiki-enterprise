@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.ColibriSkinExecutor;
+import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Test the Panel feature. Note that some panels tests are also done by the
@@ -37,7 +37,7 @@ public class PanelsTest extends AbstractXWikiTestCase
     public static Test suite()
     {
         XWikiTestSuite suite = new XWikiTestSuite("Verify the XWiki Panel feature");
-        suite.addTestSuite(PanelsTest.class, ColibriSkinExecutor.class);
+        suite.addTestSuite(PanelsTest.class, FlamingoSkinExecutor.class);
         return suite;
     }
 

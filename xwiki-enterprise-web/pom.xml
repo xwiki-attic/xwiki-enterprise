@@ -478,7 +478,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-flamingo</artifactId>
+      <artifactId>xwiki-platform-flamingo-skin</artifactId>
       <version>${platform.version}</version>
       <type>zip</type>
       <scope>runtime</scope>

@@ -833,6 +833,12 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>less</artifactId>
+      <version>1.7.0</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- LDAP -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

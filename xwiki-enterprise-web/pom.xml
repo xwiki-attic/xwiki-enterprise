@@ -666,6 +666,13 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${commons.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Blame Script Services -->
+    <dependency>
+      <groupId>org.xwiki.commons</groupId>
+      <artifactId>xwiki-commons-blame-script</artifactId>
+      <version>${commons.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Logging Dependencies. Ensures all logging goes through SLF4J and Logback. -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>

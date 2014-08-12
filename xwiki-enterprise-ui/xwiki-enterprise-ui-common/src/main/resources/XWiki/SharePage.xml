@@ -581,12 +581,6 @@ Ce message a été généré par XWiki depuis ${request.serverName} au nom de ${
     </property>
     <property>
       <code>#template("colorThemeInit.vm")
-.xdialog-modal-container .share-dialog {
-  min-width: 500px;
-}
-* html .xdialog-modal-container .share-dialog {
-  width: 544px; /* IE6 box model */
-}
 .share-dialog .mail-preview {
   background-color: $theme.backgroundSecondaryColor;
   border: 1px solid $theme.borderColor;

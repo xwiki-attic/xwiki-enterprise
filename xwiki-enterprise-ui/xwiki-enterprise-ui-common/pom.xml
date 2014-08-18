@@ -238,7 +238,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-font-awesome</artifactId>
+      <artifactId>xwiki-platform-icon-font-awesome</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

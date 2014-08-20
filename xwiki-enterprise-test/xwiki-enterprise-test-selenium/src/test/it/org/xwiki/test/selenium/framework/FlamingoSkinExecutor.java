@@ -74,7 +74,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public void logout()
     {
-        Assert.assertTrue("User wasn't authenticated.", isAuthdocextraenticated());
+        Assert.assertTrue("User wasn't authenticated.", isAuthenticated());
         getTest().clickLinkWithLocator("//li[@id='tmUser']//a[contains(@class, 'dropdown-toggle')]");
         getTest().clickLinkWithLocator("//a[@id='tmLogout']");
         Assert.assertFalse("The user is still authenticated after a logout.", isAuthenticated());

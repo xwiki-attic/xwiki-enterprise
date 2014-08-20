@@ -135,7 +135,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
     public void testButtons()
     {
         // test button 'Go to Panels home page'
-        waitForBodyContains("Go to Panels home page".toUpperCase());
+        waitForBodyContains("Go to Panels home page");
         assertElementPresent("//a[text()='Page Layout']");
         assertElementPresent("//a[text()='Panel List']");
         clickLinkWithText("Go to Panels home page");
@@ -156,8 +156,8 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         // test button 'Save the new layout'
         waitForCondition("selenium.isElementPresent(\"//a[text()='Panel Wizard']\")!=false;");
         clickLinkWithXPath("//a[text()='Panel Wizard']", true);
-        waitForBodyContains("Page Layout".toUpperCase());
-        waitForBodyContains("Panel List".toUpperCase());
+        waitForBodyContains("Page Layout");
+        waitForBodyContains("Panel List");
         assertElementPresent("//a[text()='Page Layout']");
         assertElementPresent("//a[text()='Panel List']");
         waitForCondition("selenium.isElementPresent(\"//a[text()='Save the new layout']\")!=false;");

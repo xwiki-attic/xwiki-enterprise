@@ -106,8 +106,8 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         waitForCondition("selenium.isElementPresent(\"//div[@id='nosidecolumn']\")!=false;");
         clickLinkWithXPath("//div[@id='rightcolumn']", false);
         clickLinkWithXPath("//div[@id='bothcolumns']", false);
-        waitForBodyContains("Page Layout".toUpperCase());
-        waitForBodyContains("Panel List".toUpperCase());
+        waitForBodyContains("Page Layout");
+        waitForBodyContains("Panel List");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded QuickLinks']"), By.id("leftPanels"));
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("rightPanels"));

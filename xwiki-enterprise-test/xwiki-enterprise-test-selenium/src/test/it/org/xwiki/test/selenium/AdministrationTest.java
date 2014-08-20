@@ -691,10 +691,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
     private void clickAdministerWiki()
     {
-        // Scroll the page to the top.
-        getSelenium().runScript("window.scrollTo(0, 0)");
-        // Hover the wiki top menu.
-        getSelenium().mouseOver("tmMainWiki");
+        // Open the wiki top menu.
+        getSelenium().click("tmMainWiki");
         // Click the "Administer Wiki" link.
         getSelenium().click("tmAdminWiki");
     }

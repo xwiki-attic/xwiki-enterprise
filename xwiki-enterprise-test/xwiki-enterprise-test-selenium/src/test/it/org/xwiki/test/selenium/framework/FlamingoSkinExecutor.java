@@ -44,7 +44,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public boolean isAuthenticationMenuPresent()
     {
-        return getTest().isElementPresent("//a[@id='tmLogin' or @id='tmLogout']/a");
+        return getTest().isElementPresent("//a[@id='tmLogin']") || getTest().isElementPresent("//li[@id='tmUser']");
     }
 
     @Override
@@ -74,8 +74,8 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public void logout()
     {
-        Assert.assertTrue("User wasn't authenticated.", isAuthenticated());
-        getTest().clickLinkWithLocator("//a[@id='tmUser']/following-sibling::a[@data-toggle='dropdown']");
+        Assert.assertTrue("User wasn't authenticated.", isAuthdocextraenticated());
+        getTest().clickLinkWithLocator("//li[@id='tmUser']//a[contains(@class, 'dropdown-toggle')]");
         getTest().clickLinkWithLocator("//a[@id='tmLogout']");
         Assert.assertFalse("The user is still authenticated after a logout.", isAuthenticated());
     }
@@ -98,7 +98,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     protected void clickEditMenuItem(String menuItemId)
     {
         // Click on the arrow in the edit button
-        getTest().clickLinkWithLocator("//div[@id='contentmenu']/div/button[@data-toggle='dropdown']");
+        getTest().clickLinkWithLocator("//div[@id='tmEdit']//button[contains(@class, 'dropdown-toggle')]");
         getTest().clickLinkWithLocator(menuItemId);
     }
 
@@ -106,7 +106,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     public void clickCopyPage()
     {
         // Click on the arrow near the page name on the top menu
-        getTest().clickLinkWithLocator("//a[@id='tmPage']/following-sibling::a[@data-toggle='dropdown']");
+        getTest().clickLinkWithLocator("//li[@id='tmPage']//a[contains(@class, 'dropdown-toggle')]");
         getTest().clickLinkWithLocator("tmActionCopy");
     }
 }

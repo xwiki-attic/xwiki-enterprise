@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.io.IOUtils;
+
+import junit.framework.TestCase;
 
 public class HTMLExportTest extends TestCase
 {
@@ -84,7 +84,7 @@ public class HTMLExportTest extends TestCase
                 foundSkinsDirectory = true;
                 // Verify that the skin is correctly going to be applied by verifyin the colibri.css file is found
                 // and is correctly referenced. This fixes http://jira.xwiki.org/browse/XWIKI-9145
-                if (entry.getName().equals("skins/colibri/style.css")) {
+                if (entry.getName().equals("skins/flamingo/style.css")) {
                     assertSkinIsActive(IOUtils.readLines(zis));
                     foundColibriCSS = true;
                 } else {

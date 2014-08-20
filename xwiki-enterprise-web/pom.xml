@@ -836,7 +836,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <!-- LESS CSS Module -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-less-css-default</artifactId>
+      <artifactId>xwiki-platform-lesscss-default</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

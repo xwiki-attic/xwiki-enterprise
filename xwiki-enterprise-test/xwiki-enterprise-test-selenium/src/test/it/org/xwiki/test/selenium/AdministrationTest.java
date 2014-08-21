@@ -104,36 +104,41 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // test panel wizard at global level
         clickLinkWithLocator("//a[text()='Panel Wizard']");
-        waitForBodyContains("Panel List");
-        clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
-        waitForElement("//div[@id = 'bothcolumns']");
-        clickLinkWithXPath("//div[@id='bothcolumns']", false);
-        waitForBodyContains("Page Layout");
-        clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("leftPanels"));
-        // Check if the drag & drop succeeded. I think this fails from time to time for some reason and I want to know
-        // if this is the real cause of the test flickering.
-        assertElementPresent("//div[@id = 'leftPanels']/div[contains(@class, 'CategoriesPanel')]");
-        clickLinkWithXPath("//a[text()='Save the new layout']", false);
-        waitForAlert();
-        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
-        open("Main", "WebHome");
-        assertElementPresent("leftPanels");
-        assertElementPresent("rightPanels");
-
-        // Revert changes
-        open("XWiki", "XWikiPreferences", "admin");
-        clickLinkWithLocator("//a[text()='Panel Wizard']");
         waitForBodyContains("Page Layout");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
-        waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
+        waitForElement("//div[@id = 'rightcolumn']");
         clickLinkWithXPath("//div[@id='rightcolumn']", false);
+        waitForBodyContains("Panel List");
+        clickLinkWithXPath("//a[@href='#PanelListSection']", false);
+        dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("rightPanels"));
+        assertElementPresent("//div[@id = 'rightPanels']/div[contains(@class, 'CategoriesPanel')]");
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
         assertElementNotPresent("leftPanels");
         assertElementPresent("rightPanels");
+        assertElementPresent("//div[@id = 'rightPanels']/div[contains(@class, 'CategoriesPanel')]");
+
+        // Revert changes
+        open("XWiki", "XWikiPreferences", "admin");
+        clickLinkWithLocator("//a[text()='Panel Wizard']");
+        waitForBodyContains("Page Layout");
+        clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
+        waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
+        clickLinkWithXPath("//div[@id='bothcolumns']", false);
+        waitForBodyContains("Panel List");
+        clickLinkWithXPath("//a[@href='#PanelListSection']", false);
+        dragAndDrop(By.xpath("//div[@id='rightPanels']//div[contains(@class, 'CategoriesPanel')]//h1"),
+            By.xpath("//div[@id='allviewpanels']//div[@class='accordionTabContentBox']"));
+        assertElementNotPresent("//div[@id = 'rightPanels']//div[contains(@class, 'CategoriesPanel')]");
+        clickLinkWithXPath("//a[text()='Save the new layout']", false);
+        waitForAlert();
+        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
+        open("Main", "WebHome");
+        assertElementPresent("leftPanels");
+        assertElementPresent("rightPanels");
+        assertElementNotPresent("//div[@id = 'rightPanels']//div[contains(@class, 'CategoriesPanel')]");
 
         // test panel wizard at space level
         open("TestPanelsAdmin", "WebHome", "edit", "editor=wiki");
@@ -147,16 +152,16 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//div[@id='leftcolumn']", false);
         waitForBodyContains("Panel List");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("leftPanels"));
+        dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("leftPanels"));
         clickLinkWithXPath("//a[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("TestPanelsAdmin", "WebHome");
         assertElementPresent("leftPanels");
-        assertElementPresent("//div[@class='panel expanded CategoriesPanel']");
+        assertElementPresent("//div[@id = 'leftPanels']//div[contains(@class, 'CategoriesPanel')]");
         open("XWiki", "WebHome");
-        assertElementNotPresent("leftPanels");
-        assertElementNotPresent("//div[@class='panel expanded CategoriesPanel']");
+        assertElementPresent("rightPanels");
+        assertElementNotPresent("//div[@id = 'leftPanels']//div[contains(@class, 'CategoriesPanel')]");
     }
 
     /*

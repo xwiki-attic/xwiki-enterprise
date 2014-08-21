@@ -169,7 +169,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         String buttonLocator = "//img[@title = '" + buttonTitle + "']";
         getSelenium().click(buttonLocator);
         // Type b and c on two different lines and move the caret after b.
-        textArea.sendKeys("b", Keys.ENTER, "c", Keys.ARROW_LEFT, Keys.ARROW_LEFT);
+        textArea.sendKeys("b", Keys.RETURN, "c", Keys.ARROW_LEFT, Keys.ARROW_LEFT);
         getSelenium().click(buttonLocator);
         // Move the caret after c, type d and e, then select d.
         textArea.sendKeys(Keys.PAGE_DOWN, Keys.END, "de", Keys.ARROW_LEFT, Keys.chord(Keys.SHIFT, Keys.ARROW_LEFT));

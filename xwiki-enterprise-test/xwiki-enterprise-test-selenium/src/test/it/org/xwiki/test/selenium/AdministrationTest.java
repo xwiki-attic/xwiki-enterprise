@@ -104,11 +104,11 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // test panel wizard at global level
         clickLinkWithLocator("//a[text()='Panel Wizard']");
-        waitForBodyContains("Panel List".toUpperCase());
+        waitForBodyContains("Panel List");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForElement("//div[@id = 'bothcolumns']");
         clickLinkWithXPath("//div[@id='bothcolumns']", false);
-        waitForBodyContains("Page Layout".toUpperCase());
+        waitForBodyContains("Page Layout");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("leftPanels"));
         // Check if the drag & drop succeeded. I think this fails from time to time for some reason and I want to know
@@ -124,7 +124,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Revert changes
         open("XWiki", "XWikiPreferences", "admin");
         clickLinkWithLocator("//a[text()='Panel Wizard']");
-        waitForBodyContains("Page Layout".toUpperCase());
+        waitForBodyContains("Page Layout");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
         clickLinkWithXPath("//div[@id='rightcolumn']", false);
@@ -141,11 +141,11 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
         open("TestPanelsAdmin", "WebPreferences", "admin");
         clickLinkWithLocator("//a[text()='Panel Wizard']");
-        waitForBodyContains("Page Layout".toUpperCase());
+        waitForBodyContains("Page Layout");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='leftcolumn']\")!=false;");
         clickLinkWithXPath("//div[@id='leftcolumn']", false);
-        waitForBodyContains("Panel List".toUpperCase());
+        waitForBodyContains("Panel List");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("leftPanels"));
         clickLinkWithXPath("//a[text()='Save the new layout']", false);

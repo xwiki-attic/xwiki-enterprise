@@ -128,7 +128,7 @@
             <includes>
               <include>**/AllTests.java</include>
             </includes>
-            <systemProperties>
+            <systemProperties combine.children="append">
               <property>
                 <name>pattern</name>
                 <value>${pattern}</value>
@@ -140,10 +140,6 @@
               <property>
                 <name>xwiki.test.baseURL</name>
                 <value>${xwiki.test.baseURL}</value>
-              </property>
-              <property>
-                <name>xwiki.test.skipStart</name>
-                <value>${xwiki.test.skipStart}</value>
               </property>
               <property>
                 <name>xwikiPort</name>
@@ -391,10 +387,6 @@
          See also "port" for defining the port to connect to.
     -->
     <xwiki.test.baseURL>http://localhost</xwiki.test.baseURL>
-    <!-- Skip starting the XE instance. This is used when there is an instance already running on the local machine
-         or when there is a started instance on another machine
-    -->
-    <xwiki.test.skipStart>false</xwiki.test.skipStart>
     <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile,
          e.g. -Pchrome -->
     <browser>*firefox</browser>

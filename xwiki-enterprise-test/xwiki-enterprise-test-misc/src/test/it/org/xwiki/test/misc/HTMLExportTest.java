@@ -26,9 +26,10 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.commons.io.IOUtils;
-
 import junit.framework.TestCase;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class HTMLExportTest extends TestCase
 {
@@ -41,12 +42,12 @@ public class HTMLExportTest extends TestCase
     }
 
     /**
-     * Verify that the HTML export feature works on a passed patern instead of an explicit page name or the current page.
+     * Verify that the HTML export feature works on a passed pattern instead of an explicit page name or the current
+     * page.
      */
     public void testHTMLExportPattern() throws Exception
     {
-        assertHTMLExportURL(
-            "http://localhost:8080/xwiki/bin/export/UnexistingSpace/UnexistingPage?format=html&pages=Main.WebH%25");
+        assertHTMLExportURL("http://localhost:8080/xwiki/bin/export/UnexistingSpace/UnexistingPage?format=html&pages=Main.WebH%25");
     }
 
     private void assertHTMLExportURL(String htmlExportURL) throws Exception
@@ -74,7 +75,8 @@ public class HTMLExportTest extends TestCase
                 assertTrue("Should have contained 'Welcome to your wiki'", content.contains("Welcome to your wiki"));
 
                 // Ensure that the translations have been rendered properly
-                assertFalse("$msg should have been expanded", content.contains("$msg"));
+                assertFalse("$services.localization.render should have been expanded",
+                    content.contains("$services.localization.render"));
 
                 foundWebHome = true;
             } else if (entry.getName().startsWith("resources/")) {
@@ -82,7 +84,8 @@ public class HTMLExportTest extends TestCase
                 IOUtils.readLines(zis);
             } else if (entry.getName().startsWith("skins/")) {
                 foundSkinsDirectory = true;
-                // Verify that the skin is correctly going to be applied by verifyin the colibri.css file is found
+                // Verify that the skin is correctly going to be applied by verifying the flamingo/style.css file is
+                // found
                 // and is correctly referenced. This fixes http://jira.xwiki.org/browse/XWIKI-9145
                 if (entry.getName().equals("skins/flamingo/style.css")) {
                     assertSkinIsActive(IOUtils.readLines(zis));
@@ -109,12 +112,7 @@ public class HTMLExportTest extends TestCase
 
     private void assertSkinIsActive(List<String> content) throws Exception
     {
-        // Verify that the link to the Skin CSS (i.e. colibri.css) is relative and leads to
-        // skins/colibri/colibri.css
-        // Note that the reason we have "../.." is because at runtime the path is going to be resolved relative to
-        // the style.css file (from where it's referenced) and since style.css is in skins/colibri and colibri.css is
-        // also in that directory, we need the "../..." to point to the right location...
-        assertTrue("style.css doesn't contain a link to the colibri.css file",
-            content.contains("@import \"../../skins/colibri/colibri.css\";"));
+        assertTrue("style.css is not the one outputed by the flamingo skin", StringUtils.join(content.toArray())
+            .contains("skin-flamingo"));
     }
 }

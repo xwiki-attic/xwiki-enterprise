@@ -26,7 +26,8 @@
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons-pom</artifactId>
     <version>6.2-SNAPSHOT</version>
-    <relativePath>../xwiki-commons/xwiki-commons-pom/</relativePath>
+    <!-- Note: Do NOT set the <relativePath> tag here as this can cause issues. See the pom.xml for xwiki-platform
+         for more details. -->
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>

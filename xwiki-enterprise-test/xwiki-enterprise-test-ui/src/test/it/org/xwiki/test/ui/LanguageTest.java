@@ -144,8 +144,8 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
      */
     private boolean isPageInEnglish()
     {
-        return getDriver().findElement(By.xpath("//div[@id='tmLogout']//strong")).getText().toLowerCase().contains(
-            "log-out");
+        return getDriver().findElement(By.className("xdocLastModification")).getText().toLowerCase().contains(
+            "last modified by");
     }
 
     /**
@@ -153,8 +153,8 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
      */
     private boolean isPageInFrench()
     {
-        return getDriver().findElement(By.xpath("//div[@id='tmLogout']//strong")).getText().toLowerCase().contains(
-            "se déconnecter");
+        return getDriver().findElement(By.className("xdocLastModification")).getText().toLowerCase().contains(
+            "modifié par");
     }
 
     private void setLanguageSettings(boolean isMultiLingual, String defaultLanguage)

@@ -58,10 +58,9 @@ public class EditInlineTest extends AbstractAdminAuthenticatedTest
         Assert.assertEquals(title, inlinePage.getDocumentTitle());
         // Check if the title specified on the request is displayed in the document hierarchy.
         Assert.assertTrue(inlinePage.getBreadcrumbContent().contains(title));
-        // Save the document and check again the displayed title and the document hierarchy.
+        // Save the document and check again the displayed title
         ViewPage viewPage = inlinePage.clickSaveAndView();
         Assert.assertEquals(title, viewPage.getDocumentTitle());
-        Assert.assertTrue(viewPage.getBreadcrumbContent().contains(title));
     }
 
     /* See XE-168 */

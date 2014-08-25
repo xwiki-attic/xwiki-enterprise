@@ -738,7 +738,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         ExtensionProgressPane progressPane = extensionPane.openProgressSection();
         WebElement jobLogLabel = progressPane.getJobLogLabel();
-        Assert.assertEquals("INSTALL LOG", jobLogLabel.getText());
+        Assert.assertEquals("INSTALL LOG".toLowerCase(), jobLogLabel.getText().toLowerCase());
         // The job log is collapsed when the job is waiting for user input so we need to expand it before asserting its
         // content (otherwise #getText() returns the empty string because the text is not visible).
         jobLogLabel.click();

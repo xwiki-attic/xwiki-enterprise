@@ -63,7 +63,7 @@ public class HTMLExportTest extends TestCase
         boolean foundResourcesDirectory = false;
         boolean foundAttachmentDirectory = false;
         boolean foundSkinsDirectory = false;
-        boolean foundColibriCSS = false;
+        boolean foundSkinCSS = false;
 
         // We must read the full stream as otherwise if we close it before we've fully read it
         // then the server side will get a broken pipe since it's still trying to send data on it.
@@ -89,13 +89,10 @@ public class HTMLExportTest extends TestCase
                 // and is correctly referenced. This fixes http://jira.xwiki.org/browse/XWIKI-9145
                 if (entry.getName().equals("skins/flamingo/style.css")) {
                     assertSkinIsActive(IOUtils.readLines(zis));
-                    foundColibriCSS = true;
+                    foundSkinCSS = true;
                 } else {
                     IOUtils.readLines(zis);
                 }
-            } else if (entry.getName().startsWith("attachment/")) {
-                foundAttachmentDirectory = true;
-                IOUtils.readLines(zis);
             } else {
                 IOUtils.readLines(zis);
             }
@@ -104,8 +101,7 @@ public class HTMLExportTest extends TestCase
         assertTrue("Failed to find the xwiki.Main.WebHome.html entry", foundWebHome);
         assertTrue("Failed to find the resources/ directory entry", foundResourcesDirectory);
         assertTrue("Failed to find the skins/ directory entry", foundSkinsDirectory);
-        assertTrue("Failed to find the attachment/ directory entry", foundAttachmentDirectory);
-        assertTrue("Failed to find the link to colibri.css in style.css", foundColibriCSS);
+        assertTrue("Failed to find the link to colibri.css in style.css", foundSkinCSS);
 
         zis.close();
     }

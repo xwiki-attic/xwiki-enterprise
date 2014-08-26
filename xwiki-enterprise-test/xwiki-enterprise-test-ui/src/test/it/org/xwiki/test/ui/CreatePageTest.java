@@ -389,7 +389,7 @@ public class CreatePageTest extends AbstractAdminAuthenticatedTest
         // since the edit mode loads as a result of a redirect that comes from a async call made by the click, we need
         // to wait for the page to load
         editNewLinkedPage.waitUntilElementIsVisible(By
-            .xpath("//div[@id='tmCurrentEditor']//a/strong[contains(text(), 'WYSIWYG')]"));
+            .xpath("//div[@id='mainEditArea']//div[@class='gwt-Label' and contains(text(), 'WYSIWYG')]"));
         // make sure we're in edit mode (of the new page)
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         Assert.assertEquals(space, editNewLinkedPage.getMetaDataValue("space"));

@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian</artifactId>
-    <version>6.2-SNAPSHOT</version>
+    <version>6.2-milestone-2</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat</name>

@@ -749,8 +749,6 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         MergeConflictPane mergeConflictPane = progressPane.getMergeConflict();
         ChangesPane changesPane = mergeConflictPane.getChanges();
-        Assert.assertEquals("Alice <ins>Wiki </ins>Extension<ins> (upgraded)</ins>",
-            changesPane.getMetaDataChanges("Title"));
         Assert.assertFalse(changesPane.getContentChanges().isEmpty());
         Assert.assertEquals("@@ -1,1 +1,1 @@\n-<del>Test</del> macro.\n+<ins>A</ins> <ins>cool </ins>macro.",
             changesPane.getObjectChanges("XWiki.WikiMacroClass", 0, "Macro description"));

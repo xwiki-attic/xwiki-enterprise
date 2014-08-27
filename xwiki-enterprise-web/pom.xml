@@ -1277,12 +1277,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                       <groupId>org.bouncycastle</groupId>
                       <artifactId>bcprov-jdk15on</artifactId>
                     </dependency>
-                    <!-- For some reason, starting with 2.7-b3-xwiki we have a META-INF/BCKEY.DSA in jython-standalone -->
-                    <dependency>
-                      <groupId>org.python</groupId>
-                      <artifactId>jython-standalone</artifactId>
-                      <version>2.7-b3-xwiki</version>
-                    </dependency>
                   </conflictingDependencies>
                   <resources>
                     <resource>META-INF/BCKEY.DSA</resource>

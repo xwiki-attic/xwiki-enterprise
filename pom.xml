@@ -101,7 +101,7 @@
     </xe.xwiki.cfg.plugins>
     <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins}
     </xwiki.cfg.plugins>
-    <xwiki.cfg.defaultskin>colibri</xwiki.cfg.defaultskin>
+    <xwiki.cfg.defaultskin>flamingo</xwiki.cfg.defaultskin>
     <xwiki.cfg.defaultbaseskin>colibri</xwiki.cfg.defaultbaseskin>
     <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>

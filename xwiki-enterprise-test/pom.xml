@@ -211,8 +211,8 @@
                     templates/macros.vm
                     templates/skinvariables.vm
                     templates/xwikivars.vm
-                    templates/menus/macros.vm <!-- Contains only Velocity macros -->
-                    templates/menus/wiki.vm
+                    templates/menus_macros.vm <!-- Contains only Velocity macros -->
+                    templates/menus_wiki.vm
                     templates/job_macros.vm
                     templates/logging_macros.vm
                     skins/flamingo/applications.vm
@@ -221,8 +221,8 @@
                     skins/flamingo/layoutvars.vm
                     skins/flamingo/macros.vm
                     skins/flamingo/quicksearch.vm
-                    skins/flamingo/menus/home.vm
-                    skins/flamingo/menus/macros.vm
+                    skins/flamingo/menus_home.vm
+                    skins/flamingo/menus_macros.vm
                 </value>
               </property>
               <property>
@@ -248,7 +248,7 @@
                     templates/textarea_wysiwyg\.vm <!-- probably need to set default editor to wysiwyg -->
                     skins/flamingo/leftpanels\.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
                     skins/flamingo/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->
-                    skins/flamingo/menus/wiki\.vm <!-- empty response if parameter "forceWikiMenu" is not set -->
+                    skins/flamingo/menus_wiki\.vm <!-- empty response if parameter "forceWikiMenu" is not set -->
                   <!-- False positives
                     -->
                     templates/accessdenied\.vm <!-- simply returns 403 -->

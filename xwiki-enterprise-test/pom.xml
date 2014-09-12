@@ -400,8 +400,8 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh start_xwiki.sh -p ${port} -sp ${stopport} -k</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh stop_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>bash start_xwiki.sh -p ${port} -sp ${stopport} -k</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>bash stop_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <profile>
@@ -412,8 +412,8 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>sh start_xwiki.sh -p ${port} -sp ${stopport} -k</xwikiExecutionStartCommand>
-        <xwikiExecutionStopCommand>sh stop_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStopCommand>
+        <xwikiExecutionStartCommand>bash start_xwiki.sh -p ${port} -sp ${stopport} -k</xwikiExecutionStartCommand>
+        <xwikiExecutionStopCommand>bash stop_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
     <!-- This profile must come after the "mac" profile so that it overrides it when it's active.

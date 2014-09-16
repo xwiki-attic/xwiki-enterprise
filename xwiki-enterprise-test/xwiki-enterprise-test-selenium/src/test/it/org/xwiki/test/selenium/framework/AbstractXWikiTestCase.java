@@ -31,6 +31,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -1038,5 +1039,37 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
             // Expand the specified object.
             objectTitle.click();
         }
+    }
+
+    /**
+     * @param elementLocator the locator used to get the desired element. e.g. By.id("someId")
+     * @return true if the element is in the window's viewport, i.e. is scrolled to; false otherwise.
+     * @since 6.2
+     */
+    public boolean isElementInView(By elementLocator)
+    {
+        Point elementLocation = getDriver().findElement(elementLocator).getLocation();
+
+        int windowXLeft = Integer.parseInt(getSelenium().getEval("window.scrollX"));
+        int windowYTop = Integer.parseInt(getSelenium().getEval("window.scrollY"));
+
+        int width = Integer.parseInt(getSelenium().getEval("document.documentElement.clientWidth"));
+        int height = Integer.parseInt(getSelenium().getEval("document.documentElement.clientHeight"));
+
+        int windowXRight = windowXLeft + width;
+        int windowYBottom = windowYTop + height;
+
+        return (elementLocation.getX() >= windowXLeft && elementLocation.getX() <= windowXRight
+            && elementLocation.getY() >= windowYTop && elementLocation.getY() <= windowYBottom);
+    }
+
+    /**
+     * Convenience method.
+     * @see #isElementInView(By)
+     * @since 6.2
+     */
+    public void assertElementInView(By elementLocator)
+    {
+        assertTrue("[" + elementLocator + "] is not in view.", isElementInView(elementLocator));
     }
 }

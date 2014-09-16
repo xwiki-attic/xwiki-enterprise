@@ -144,22 +144,22 @@
       <classname/>
       <customDisplay>{{velocity}}
 ################################
-## Display an &lt;option> line
+## Display an &lt;option&gt; line
 ################################
 #macro(displayLine $themeDoc)
   #set($fullName = $themeDoc.fullName)
-  &lt;option value="$fullName"#if ($fullName.equals($value)) selected="selected"#end>$themeDoc.plainTitle&lt;/option>
+  &lt;option value="$fullName"#if ($fullName.equals($value)) selected="selected"#end&gt;$themeDoc.plainTitle&lt;/option&gt;
 #end
 ################################
 ## Display lines for a skin
 ################################
 #macro(displaySkinLines $themes $name)
   #if(!$themes.empty())
-    &lt;optgroup label="$name">
+    &lt;optgroup label="$name"&gt;
     #foreach($themeDoc in $themes)
       #displayLine($themeDoc)
     #end
-    &lt;/optgroup>
+    &lt;/optgroup&gt;
   #end
 #end
 ################################
@@ -172,17 +172,17 @@
   #set($colibriThemes = [])
   #foreach($theme in $values)
     #set($themeDoc = $xwiki.getDocument($theme))
-    #if($themeDoc.getObjectNumbers('FlamingoThemesCode.ThemeClass')>0)
+    #if($themeDoc.getObjectNumbers('FlamingoThemesCode.ThemeClass')&gt;0)
       #set($discard = $flamingoThemes.add($themeDoc))
     #else
       #set($discard = $colibriThemes.add($themeDoc))
     #end
   #end
-  &lt;select name="${prefix}${name}" id="${prefix}${name}">
-    #if ($editor != 'globaladmin')&lt;option value=""#if ($value == '') selected="selected"#end>---&lt;/option>#end
+  &lt;select name="${prefix}${name}" id="${prefix}${name}"&gt;
+    #if ($editor != 'globaladmin')&lt;option value=""#if ("$!value" == '') selected="selected"#end&gt;---&lt;/option&gt;#end
     #displaySkinLines($flamingoThemes, "Flamingo Themes")
     #displaySkinLines($colibriThemes, "Colibri Themes")
-  &lt;/select>
+  &lt;/select&gt;
 {{/html}}
 {{/velocity}}</customDisplay>
       <disabled>0</disabled>
@@ -2802,7 +2802,7 @@ Your account on ${wikiname} has been successfully activated. You can now login a
       <iconTheme>IconThemes.FontAwesome</iconTheme>
     </property>
     <property>
-      <invitation_email_content></invitation_email_content>
+      <invitation_email_content/>
     </property>
     <property>
       <languages>en</languages>

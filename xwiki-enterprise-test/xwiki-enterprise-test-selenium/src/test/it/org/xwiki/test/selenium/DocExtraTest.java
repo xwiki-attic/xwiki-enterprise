@@ -19,11 +19,12 @@
  */
 package org.xwiki.test.selenium;
 
+import junit.framework.Test;
+
+import org.openqa.selenium.By;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Verify the document extra feature of XWiki.
@@ -75,26 +76,25 @@ public class DocExtraTest extends AbstractXWikiTestCase
     public void testDocExtraLoadingFromKeyboardShortcuts() throws InterruptedException
     {
         open("Main", "WebHome");
-        int initialVerticalScroll = getVerticalScroll();
 
         getSkinExecutor().pressKeyboardShortcut("a", false, false, false);
         waitForDocExtraPaneActive("attachments");
-        assertTrue(initialVerticalScroll < getVerticalScroll());
+        assertDocExtraPaneInView("attachments");
         scrollToPageTop();
 
         getSkinExecutor().pressKeyboardShortcut("h", false, false, false);
         waitForDocExtraPaneActive("history");
-        assertTrue(initialVerticalScroll < getVerticalScroll());
+        assertDocExtraPaneInView("history");
         scrollToPageTop();
 
         getSkinExecutor().pressKeyboardShortcut("i", false, false, false);
         waitForDocExtraPaneActive("information");
-        assertTrue(initialVerticalScroll < getVerticalScroll());
+        assertDocExtraPaneInView("information");
         scrollToPageTop();
 
         getSkinExecutor().pressKeyboardShortcut("c", false, false, false);
         waitForDocExtraPaneActive("comments");
-        assertTrue(initialVerticalScroll < getVerticalScroll());
+        assertDocExtraPaneInView("comments");
     }
 
     /**
@@ -108,22 +108,22 @@ public class DocExtraTest extends AbstractXWikiTestCase
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Attachments");
         waitForDocExtraPaneActive("attachments");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("attachments");
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#History");
         waitForDocExtraPaneActive("history");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("history");
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Information");
         waitForDocExtraPaneActive("information");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("information");
 
         open("Main", "ThisPageDoesNotExist");
         open("Main", "WebHome#Comments");
         waitForDocExtraPaneActive("comments");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("comments");
     }
 
     /**
@@ -137,22 +137,22 @@ public class DocExtraTest extends AbstractXWikiTestCase
 
         clickShowAttachments();
         waitForDocExtraPaneActive("attachments");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("attachments");
         scrollToPageTop();
 
         clickShowHistory();
         waitForDocExtraPaneActive("history");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("history");
         scrollToPageTop();
 
         clickShowInformation();
         waitForDocExtraPaneActive("information");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("information");
         scrollToPageTop();
 
         clickShowComments();
         waitForDocExtraPaneActive("comments");
-        assertTrue(getVerticalScroll() > 0);
+        assertDocExtraPaneInView("comments");
     }
 
     /**
@@ -163,13 +163,14 @@ public class DocExtraTest extends AbstractXWikiTestCase
         waitForElement(paneId + "content");
     }
 
-    private int getVerticalScroll()
-    {
-        return Integer.parseInt(getSelenium().getEval("window.scrollY"));
-    }
-
     private void scrollToPageTop()
     {
         getSelenium().getEval("window.scroll(0,0);");
+    }
+
+    private void assertDocExtraPaneInView(String paneId)
+    {
+        String paneContentId = String.format("%scontent", paneId);
+        assertElementInView(By.id(paneContentId));
     }
 }

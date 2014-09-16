@@ -143,22 +143,46 @@
       <cache>0</cache>
       <classname/>
       <customDisplay>{{velocity}}
-{{html wiki="false" clean="false"}}
-#if ("$!value" == '')
-  #set ($value = '')
+################################
+## Display an &lt;option> line
+################################
+#macro(displayLine $themeDoc)
+  #set($fullName = $themeDoc.fullName)
+  &lt;option value="$fullName"#if ($fullName.equals($value)) selected="selected"#end>$themeDoc.plainTitle&lt;/option>
 #end
-&lt;select name="${object.getxWikiClass().name}_${object.number}_${name}" id="${object.getxWikiClass().name}_${object.number}_${name}"&gt;
-  #if ($editor != 'globaladmin')&lt;option value=""#if ($value == '') selected="selected"#end&gt;---&lt;/option&gt;#end
-#foreach($theme in $xwiki.wrapDocs($services.query.hql(", BaseObject as theme where doc.fullName=theme.name and (theme.className='ColorThemes.ColorThemeClass' or theme.className='FlamingoThemesCode.ThemeClass') and doc.fullName&lt;&gt;'ColorThemes.ColorThemeTemplate' and doc.fullName&lt;&gt;'FlamingoThemesCode.ThemeTemplate' order by doc.title").execute()))
-  #set($themeDoc = $xwiki.getDocument($theme))
-  #if($themeDoc.getObjectNumbers('FlamingoThemesCode.ThemeClass')&gt;0)
-    #set($name = "Flamingo Theme: $theme.plainTitle")
-  #else
-    #set($name = $theme.plainTitle)
+################################
+## Display lines for a skin
+################################
+#macro(displaySkinLines $themes $name)
+  #if(!$themes.empty())
+    &lt;optgroup label="$name">
+    #foreach($themeDoc in $themes)
+      #displayLine($themeDoc)
+    #end
+    &lt;/optgroup>
   #end
-  &lt;option value="$theme.fullName"#if ($theme.fullName.equals($value)) selected="selected"#end&gt;$name&lt;/option&gt;
 #end
-&lt;/select&gt;
+################################
+## Displayer
+################################
+{{html}}
+  #set($xclass = $object.getxWikiClass())
+  #set($values = $xclass.get($name).getListValues())
+  #set($flamingoThemes = [])
+  #set($colibriThemes = [])
+  #foreach($theme in $values)
+    #set($themeDoc = $xwiki.getDocument($theme))
+    #if($themeDoc.getObjectNumbers('FlamingoThemesCode.ThemeClass')>0)
+      #set($discard = $flamingoThemes.add($themeDoc))
+    #else
+      #set($discard = $colibriThemes.add($themeDoc))
+    #end
+  #end
+  &lt;select name="${prefix}${name}" id="${prefix}${name}">
+    #if ($editor != 'globaladmin')&lt;option value=""#if ($value == '') selected="selected"#end>---&lt;/option>#end
+    #displaySkinLines($flamingoThemes, "Flamingo Themes")
+    #displaySkinLines($colibriThemes, "Colibri Themes")
+  &lt;/select>
 {{/html}}
 {{/velocity}}</customDisplay>
       <disabled>0</disabled>

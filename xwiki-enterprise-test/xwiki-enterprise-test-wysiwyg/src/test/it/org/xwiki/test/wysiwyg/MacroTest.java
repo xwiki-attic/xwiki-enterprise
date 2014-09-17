@@ -937,8 +937,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Double click to edit the second macro.
         selectRichTextAreaFrame();
         try {
-            // Fire the double click event on the macro.
-            getSelenium().doubleClick(getMacroLocator(1));
+            String infoMacroLocator = getMacroLocator(1);
+            waitForElement(infoMacroLocator);
+            getSelenium().doubleClick(infoMacroLocator);
         } finally {
             selectTopFrame();
         }

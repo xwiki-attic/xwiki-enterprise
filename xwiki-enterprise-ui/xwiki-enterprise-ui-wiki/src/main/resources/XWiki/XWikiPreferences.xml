@@ -1166,49 +1166,7 @@
       </backlinks>
       <colorTheme>
         <cache>0</cache>
-        <customDisplay>{{velocity}}
-################################
-## Display an &lt;option&gt; line
-################################
-#macro(displayLine $themeDoc)
-  #set($fullName = $themeDoc.fullName)
-  &lt;option value="$fullName"#if ($fullName.equals($value)) selected="selected"#end&gt;$themeDoc.plainTitle&lt;/option&gt;
-#end
-################################
-## Display lines for a skin
-################################
-#macro(displaySkinLines $themes $name)
-  #if(!$themes.empty())
-    &lt;optgroup label="$name"&gt;
-    #foreach($themeDoc in $themes)
-      #displayLine($themeDoc)
-    #end
-    &lt;/optgroup&gt;
-  #end
-#end
-################################
-## Displayer
-################################
-{{html}}
-  #set($xclass = $object.getxWikiClass())
-  #set($values = $xclass.get($name).getListValues())
-  #set($flamingoThemes = [])
-  #set($colibriThemes = [])
-  #foreach($theme in $values)
-    #set($themeDoc = $xwiki.getDocument($theme))
-    #if($themeDoc.getObjectNumbers('FlamingoThemesCode.ThemeClass')&gt;0)
-      #set($discard = $flamingoThemes.add($themeDoc))
-    #else
-      #set($discard = $colibriThemes.add($themeDoc))
-    #end
-  #end
-  &lt;select name="${prefix}${name}" id="${prefix}${name}"&gt;
-    #if ($editor != 'globaladmin')&lt;option value=""#if ("$!value" == '') selected="selected"#end&gt;---&lt;/option&gt;#end
-    #displaySkinLines($flamingoThemes, "Flamingo Themes")
-    #displaySkinLines($colibriThemes, "Colibri Themes")
-  &lt;/select&gt;
-{{/html}}
-{{/velocity}}</customDisplay>
+        <customDisplay>{{include reference="XWiki.ColorThemePropertyDisplayer" /}}</customDisplay>
         <disabled>0</disabled>
         <displayType>select</displayType>
         <multiSelect>0</multiSelect>

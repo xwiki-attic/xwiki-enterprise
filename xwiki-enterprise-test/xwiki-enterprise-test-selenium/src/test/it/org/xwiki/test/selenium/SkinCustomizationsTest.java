@@ -61,10 +61,13 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
     {
         openAdministrationPage();
         clickLinkWithText("Presentation");
-        setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "somestyle.css");
+        // style.less.vm is not a valid CSS file but it will confirm that the default style has been changed.
+        // we need to set an existing file otherwise the generated URL could be messy.
+        setFieldValue("XWiki.XWikiPreferences_0_stylesheet", "less/style.less.vm");
         clickEditSaveAndContinue();
         open("Main", "WebHome");
         assertTrue(getSelenium().isElementPresent(
-            "xpath=//head/link[contains(@href,'/skin/skins/flamingo/somestyle.css')]"));
+            "xpath=//head/link[contains(@href,'/skin/skins/flamingo/less/style.less.vm')]"));
+
     }
 }

@@ -603,8 +603,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     public void testEditPageWithSpecialSymbolsInName()
     {
         open("Main", "WebHome");
-        getSelenium().click("tmCreate");
-        clickLinkWithLocator("tmCreatePage");
+        getSelenium().click("//div[@id='tmCreate']//a[contains(@class, 'btn')]");
         waitPage();
         setFieldValue("page", "#\"&\u00A7-_\\");
         getSelenium().click("//input[@value = 'Create']");

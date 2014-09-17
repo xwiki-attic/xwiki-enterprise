@@ -1013,7 +1013,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void createSpace(String spaceName)
     {
         getSelenium().runScript("window.scrollTo(0, 0)");
-        getSelenium().click("tmCreate");
+        getSelenium().click("//div[@id='tmCreate']//button[contains(@class, 'dropdown-toggle')]");
         clickLinkWithLocator("tmCreateSpace");
         getSelenium().type("space", spaceName);
         clickLinkWithLocator("//input[@value='Create']");
@@ -1034,8 +1034,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void createPage(String spaceName, String pageName, String content)
     {
         getSelenium().runScript("window.scrollTo(0, 0)");
-        getSelenium().click("tmCreate");
-        clickLinkWithLocator("tmCreatePage");
+        getSelenium().click("//div[@id='tmCreate']//a[contains(@class, 'btn')]");
         getSelenium().type("space", spaceName);
         getSelenium().type("page", pageName);
         clickLinkWithLocator("//input[@value='Create']");

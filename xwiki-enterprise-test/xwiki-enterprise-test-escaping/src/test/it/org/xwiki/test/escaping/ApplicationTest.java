@@ -99,13 +99,13 @@ public class ApplicationTest extends AbstractVelocityEscapingTest
     }
 
     /**
-     * Test escaping of all found parameters for colibri.
+     * Test escaping of all found parameters for flamingo.
      */
     @Test
-    public void testParametersInColibri()
+    public void testParametersInFlamingo()
     {
         // NOTE: results in other skins seem to be the same
-        testParameterEscaping("colibri");
+        testParameterEscaping("flamingo");
     }
 
     /**

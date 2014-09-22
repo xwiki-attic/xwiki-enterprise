@@ -400,7 +400,7 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>bash start_xwiki.sh -p ${port} -sp ${stopport} -k</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>bash start_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>bash stop_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>
@@ -412,7 +412,7 @@
         </os>
       </activation>
       <properties>
-        <xwikiExecutionStartCommand>bash start_xwiki.sh -p ${port} -sp ${stopport} -k</xwikiExecutionStartCommand>
+        <xwikiExecutionStartCommand>bash start_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStartCommand>
         <xwikiExecutionStopCommand>bash stop_xwiki.sh -p ${port} -sp ${stopport}</xwikiExecutionStopCommand>
       </properties>
     </profile>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -109,6 +110,7 @@
     </backlinks>
     <colorTheme>
       <cache>0</cache>
+      <customDisplay>{{include reference="XWiki.ColorThemePropertyDisplayer" /}}</customDisplay>
       <disabled>0</disabled>
       <displayType>select</displayType>
       <multiSelect>0</multiSelect>

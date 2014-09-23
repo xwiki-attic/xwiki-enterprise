@@ -104,25 +104,22 @@ public class InvitationTest extends AbstractTest
         TestUtils.Session s = getUtil().getSession();
         try {
             getUtil().forceGuestUser();
-            InvitationGuestActionsPage guestPage = new InvitationGuestActionsPage();
 
             // Try to accept nonexistent message.
-            getDriver().get(
-                getUtil().getURL("Invitation", "InvitationGuestActions", "view", "doAction_accept&messageID=12345"));
+            getUtil().gotoPage("Invitation", "InvitationGuestActions", "view", "doAction_accept&messageID=12345");
+            InvitationGuestActionsPage guestPage = new InvitationGuestActionsPage();
             Assert.assertNotNull("Guests able to accept nonexistent invitation", guestPage.getMessage());
             Assert.assertEquals("No message was found by the given ID. It might have been deleted "
                 + "or maybe the system is experiencing difficulties.", guestPage.getMessage());
 
             // Try to decline nonexistent message.
-            getDriver().get(
-                getUtil().getURL("Invitation", "InvitationGuestActions", "view", "doAction_decline&messageID=12345"));
+            getUtil().gotoPage("Invitation", "InvitationGuestActions", "view", "doAction_decline&messageID=12345");
             Assert.assertNotNull("Guests able to decline nonexistent invitation", guestPage.getMessage());
             Assert.assertEquals("No invitation was found by the given ID. It might have been deleted or "
                 + "maybe the system is experiencing difficulties.", guestPage.getMessage());
 
             // Try to report nonexistent message.
-            getDriver().get(
-                getUtil().getURL("Invitation", "InvitationGuestActions", "view", "doAction_report&messageID=12345"));
+            getUtil().gotoPage("Invitation", "InvitationGuestActions", "view", "doAction_report&messageID=12345");
             Assert.assertNotNull("Guests able to report nonexistent invitation as spam", guestPage.getMessage());
             Assert.assertEquals("There was no message found by the given ID. Maybe an administrator "
                 + "deleted the message from our system.", guestPage.getMessage());
@@ -325,7 +322,7 @@ public class InvitationTest extends AbstractTest
             getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
-                new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
+                InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             guestPage.setMemo("It's the email lottery, they have taken over your server!");
             guestPage.confirm();
             Assert.assertTrue("Failed to report spam",
@@ -416,7 +413,7 @@ public class InvitationTest extends AbstractTest
             getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
-                new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
+                InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             guestPage.setMemo("I'm not interested thank you.");
             guestPage.confirm();
             Assert.assertTrue("Failed to decline invitation",
@@ -490,7 +487,7 @@ public class InvitationTest extends AbstractTest
             getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
-                new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+                InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("There was an error message when accepting the invitation message:\n"
                 + guestPage.getMessage(),
                 guestPage.getMessage().equals(""));
@@ -506,17 +503,17 @@ public class InvitationTest extends AbstractTest
 
             // Now switch to guest again and try to accept the invitation again.
             getUtil().forceGuestUser();
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After the invitation was accepted a user was allowed to accept it again.",
                 guestPage.getMessage().equals("This invitation has already been accepted and the "
                 + "offer is no longer valid."));
             // Try to decline the invitation.
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertTrue("After the invitation was accepted a user was allowed to decline it.",
                 guestPage.getMessage().equals("This invitation has already been accepted and "
                 + "now cannot be declined."));
             // Prove that the message can still be reported as spam
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             Assert.assertTrue("After the invitation was accepted it now cannot be reported as spam.",
                 guestPage.getMessage().equals(""));
         } finally {
@@ -540,8 +537,7 @@ public class InvitationTest extends AbstractTest
         TestUtils.Session admin = getUtil().getSession();
         try {
             // First we ban anon from registering.
-            ObjectEditPage oep = new ObjectEditPage();
-            getDriver().get(oep.getURL("XWiki", "XWikiPreferences"));
+            ObjectEditPage oep = ObjectEditPage.gotoPage("XWiki", "XWikiPreferences");
 
             oep.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
                 .getSelectElement(By.name("XWiki.XWikiGlobalRights_2_levels")).unSelect("register");
@@ -568,7 +564,7 @@ public class InvitationTest extends AbstractTest
             getUtil().forceGuestUser();
 
             InvitationGuestActionsPage guestPage =
-                new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+                InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("There was an error message when accepting the invitation message:\n"
                 + guestPage.getMessage(),
                 guestPage.getMessage().equals(""));
@@ -586,8 +582,7 @@ public class InvitationTest extends AbstractTest
             getUtil().setSession(admin);
 
             // Better open the wiki back up again.
-            ObjectEditPage oep = new ObjectEditPage();
-            getDriver().get(oep.getURL("XWiki", "XWikiPreferences"));
+            ObjectEditPage oep = ObjectEditPage.gotoPage("XWiki", "XWikiPreferences");
 
             oep.getObjectsOfClass("XWiki.XWikiGlobalRights").get(2)
                 .getSelectElement(By.name("XWiki.XWikiGlobalRights_2_levels")).select("register");
@@ -641,7 +636,7 @@ public class InvitationTest extends AbstractTest
 
             // Prove that invitation cannot be accepted
             InvitationGuestActionsPage guestPage =
-                new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+                InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertFalse("Guest was able to accept a message which had been canceled.",
                 guestPage.getMessage().equals(""));
             Assert.assertEquals("We're sorry but this invitation has been rescinded." + commonPart,

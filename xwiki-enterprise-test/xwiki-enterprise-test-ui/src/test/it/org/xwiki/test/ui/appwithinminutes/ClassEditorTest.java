@@ -55,9 +55,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testEmptyCanvasHint()
     {
         Assert.assertTrue(editor.getContent().contains(EMPTY_CANVAS_HINT));
@@ -72,9 +71,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testApplyConfigurationChanges()
     {
         LongTextClassFieldEditPane longTextField =
@@ -91,9 +89,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testDeleteField()
     {
         // Add two fields.
@@ -126,9 +123,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testReorderFields()
     {
         // Add two class fields.
@@ -168,9 +164,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testRenameField()
     {
         // Add a class field.
@@ -204,9 +199,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testInvalidFieldName()
     {
         String invalidFieldNameErrorMessage = "Property names must follow these naming rules:";
@@ -214,7 +208,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
         ClassFieldEditPane field = editor.addField("Static List");
         field.openConfigPanel();
         field.setName("3times");
-        editor.clickSaveAndView();
+        // Save the page and expect the error.
+        editor.getSaveAndViewButton().click();
         waitForPageSourceContains(invalidFieldNameErrorMessage);
 
         getDriver().navigate().back();
@@ -224,7 +219,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
         // Unfortunately we don't allow Unicode letters because they are not fully supported in tag names.
         // See XWIKI-7306: The class editor doesn't validate properly the field names
         field.setName("\u021Bar\u0103");
-        editor.clickSaveAndView();
+        // Save the page and expect the error.
+        editor.getSaveAndViewButton().click();
         waitForPageSourceContains(invalidFieldNameErrorMessage);
 
         getDriver().navigate().back();
@@ -232,7 +228,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field = editor.addField("Group");
         field.openConfigPanel();
         field.setName("alice>bob");
-        editor.clickSaveAndView();
+        // Save the page and expect the error.
+        editor.getSaveAndViewButton().click();
         waitForPageSourceContains(invalidFieldNameErrorMessage);
     }
 
@@ -241,9 +238,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testDuplicateFieldName()
     {
         ClassFieldEditPane field = editor.addField("Short Text");
@@ -256,7 +252,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.openConfigPanel();
         field.setName("carol");
 
-        editor.clickSaveAndView();
+        // Save the page and expect the error.
+        editor.getSaveAndViewButton().click();
         waitForPageSourceContains("The class has two fields with the same name: carol");
     }
 
@@ -265,9 +262,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testSwapFieldNames()
     {
         ClassFieldEditPane field = editor.addField("Short Text");
@@ -289,7 +285,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.openConfigPanel();
         field.setName("alice");
 
-        editor.clickSaveAndView();
+        // Save the page and expect the error.
+        editor.getSaveAndViewButton().click();
         waitForPageSourceContains("The class has two fields with the same name: alice");
     }
 
@@ -298,9 +295,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testUpdateSheetAndTemplate()
     {
         // The options panel is not displayed if the class template and sheet don't exists.
@@ -341,9 +337,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testSaveAndContinue()
     {
         editor.addField("Date");
@@ -374,9 +369,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testFieldNameAutoGeneration()
     {
         // Add a class field and set its name to an auto-generated field name for a different type.
@@ -402,9 +396,8 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
     public void testRenameWithSaveAndContinue()
     {
         ClassFieldEditPane field = editor.addField("Short Text");

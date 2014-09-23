@@ -45,7 +45,7 @@ public class AppsLiveTableTest extends AbstractTest
     /**
      * The page being tested.
      */
-    private AppWithinMinutesHomePage homePage = new AppWithinMinutesHomePage();
+    private AppWithinMinutesHomePage homePage;
 
     @Before
     public void setUp()

@@ -201,7 +201,8 @@ public class InvitationTest extends AbstractTest
         TestUtils.Session s = getUtil().getSession();
         try {
             getUtil().forceGuestUser();
-            getUtil().registerLoginAndGotoPage("NonMailAdminUser", "WeakPassword", getSenderPage().getURL());
+            getUtil().createUserAndLogin("NonMailAdminUser", "WeakPassword");
+            setSenderPage(InvitationSenderPage.gotoPage());
             startGreenMail();
             getSenderPage().fillForm("user@localhost.localdomain", null, null);
             InvitationSenderPage.InvitationSentPage sent = getSenderPage().send();
@@ -249,7 +250,8 @@ public class InvitationTest extends AbstractTest
 
         try {
             getUtil().forceGuestUser();
-            getUtil().registerLoginAndGotoPage("NonMailAdminUser", "WeakPassword", getSenderPage().getURL());
+            getUtil().createUserAndLogin("NonMailAdminUser", "WeakPassword");
+            setSenderPage(InvitationSenderPage.gotoPage());
             startGreenMail();
             getSenderPage().fillForm("user@localhost.localdomain anotheruser@localhost.localdomain", null, null);
             InvitationSenderPage.InvitationSentPage sent = getSenderPage().send();
@@ -304,7 +306,8 @@ public class InvitationTest extends AbstractTest
         TestUtils.Session admin = getUtil().getSession();
         try {
             getUtil().forceGuestUser();
-            getUtil().registerLoginAndGotoPage("spam", "andEggs", getSenderPage().getURL());
+            getUtil().createUserAndLogin("spam", "andEggs");
+            setSenderPage(InvitationSenderPage.gotoPage());
             startGreenMail();
             getSenderPage().fillForm("undisclosed-recipients@localhost.localdomain", null,
                 "You have won the email lottery!");
@@ -329,11 +332,11 @@ public class InvitationTest extends AbstractTest
                 guestPage.getMessage().contains("Your report has been logged and the situation"));
 
             // Prove that a reported message cannot be accepted (which would clear the "reported" status)
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After a message is reported a user can accept it, clearing the spam report",
                 guestPage.getMessage().equals("This invitation has been reported as spam and is no longer valid."));
             // Prove that a reported message cannot be declined
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertTrue("After a message is reported a user can decline it, clearing the spam report",
                 guestPage.getMessage().equals("This invitation has already been reported as "
                 + "spam and thus cannot be declined."));
@@ -442,16 +445,16 @@ public class InvitationTest extends AbstractTest
 
             // Make sure a guest can't accept the invitation now.
             getUtil().forceGuestUser();
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.ACCEPT);
             Assert.assertTrue("After a message is declined a user can still accept it!",
                 guestPage.getMessage().equals("This invitation has been declined and cannot be accepted now."));
             // Try to decline the invitation.
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertTrue("User was allowed to decline an invitation twice.",
                 guestPage.getMessage().equals("This invitation has already been declined and "
                 + "cannot be declined again."));
             // Prove that the message can still be reported as spam
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             Assert.assertTrue("After the invitation was declined it now cannot be reported as spam.",
                 guestPage.getMessage().equals(""));
         } finally {
@@ -643,14 +646,14 @@ public class InvitationTest extends AbstractTest
                 guestPage.getMessage());
 
             // Prove that invitation cannot be declined
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.DECLINE);
             Assert.assertFalse("Guest was able to decline a message which had been canceled.",
                 guestPage.getMessage().equals(""));
             Assert.assertEquals("This invitation has been rescinded and thus cannot be declined." + commonPart,
                 guestPage.getMessage());
 
             // Prove that the message report spam page still shows up.
-            guestPage = new InvitationGuestActionsPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
+            guestPage = InvitationGuestActionsPage.gotoPage(htmlMessage, InvitationGuestActionsPage.Action.REPORT);
             Assert.assertTrue("Guest was not able to report canceled invitation as spam",
                 guestPage.getMessage().equals(""));
             guestPage.setMemo("Canceled message is spam.");
@@ -680,7 +683,8 @@ public class InvitationTest extends AbstractTest
 
             // Now switch to a wizeguy user
             getUtil().forceGuestUser();
-            getUtil().registerLoginAndGotoPage("tr0ll", "StrongPassword", getSenderPage().getURL());
+            getUtil().createUserAndLogin("tr0ll", "StrongPassword");
+            setSenderPage(InvitationSenderPage.gotoPage());
 
             startGreenMail();
             getSenderPage().fillForm("user@localhost.localdomain user@localhost.localdomain "

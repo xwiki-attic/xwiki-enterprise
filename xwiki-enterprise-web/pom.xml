@@ -840,11 +840,17 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- Used by the Flamingo Theme application -->
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>less</artifactId>
       <version>1.7.0</version>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.webjars</groupId>
+      <artifactId>colpick</artifactId>
+      <version>2.0.2</version>
     </dependency>
     <!-- LDAP -->
     <dependency>
@@ -876,6 +882,7 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>jquery</artifactId>
       <version>1.11.1</version>
     </dependency>
+
   </dependencies>
   <build>
     <plugins>

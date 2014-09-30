@@ -222,6 +222,7 @@
                     skins/flamingo/macros.vm
                     skins/flamingo/quicksearch.vm
                     skins/flamingo/menus_home.vm
+                    skins/flamingo/menus_languages.vm
                     skins/flamingo/menus_macros.vm
                 </value>
               </property>

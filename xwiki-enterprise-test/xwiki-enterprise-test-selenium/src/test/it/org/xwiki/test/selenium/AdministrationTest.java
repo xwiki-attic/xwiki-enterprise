@@ -70,7 +70,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[text()='Localization']", true);
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");
         clickLinkWithXPath("//input[@value='Save']", true);
-        assertElementPresent("//span[@id='headerlanguages']");
+        assertElementPresent("//[@id='tmLanguages']");
     }
 
     /*

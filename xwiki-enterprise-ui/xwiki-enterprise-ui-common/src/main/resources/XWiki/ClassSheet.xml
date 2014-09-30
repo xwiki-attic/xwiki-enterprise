@@ -178,13 +178,14 @@
       &lt;/form&gt;
     {{/html}}
 
-    = Existing documents =
-
-    #set($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className=? and obj.name&lt;&gt;?")
-    #foreach ($item in $services.query.hql($sql).bindValues([$doc.fullName, $classTemplateDoc.fullName]).execute())
-      * [[$item]]
-    #end
   #end ## has class sheet and class template
+  = Existing documents =
+
+  #set($sql = ", BaseObject as obj where obj.name=doc.fullName and obj.className=? and obj.name&lt;&gt;?")
+  #foreach ($item in $services.query.hql($sql).bindValues([$doc.fullName, $classTemplateDoc.fullName]).execute())
+    * [[$item]]
+  #end
+    
   = The class sheets =
 
   #if (!$hasClassSheets || !$hasClassTemplate)

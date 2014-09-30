@@ -600,7 +600,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     public void testUndoMacroEdit()
     {
         switchToSource();
-        setSourceText("{{velocity}}$context.user{{/velocity}}");
+        setSourceText("{{velocity}}$xcontext.user{{/velocity}}");
         switchToWysiwyg();
 
         // First edit.
@@ -1158,12 +1158,12 @@ public class MacroTest extends AbstractWysiwygTestCase
         waitForDialogToLoad();
 
         // Set the content field.
-        setFieldValue("pd-content-input", "$context.user");
+        setFieldValue("pd-content-input", "$xcontext.user");
         applyMacroChanges();
 
         // Check the result.
         switchToSource();
-        assertSourceText("{{velocity}}\n$context.user\n{{/velocity}}");
+        assertSourceText("{{velocity}}\n$xcontext.user\n{{/velocity}}");
     }
 
     /**

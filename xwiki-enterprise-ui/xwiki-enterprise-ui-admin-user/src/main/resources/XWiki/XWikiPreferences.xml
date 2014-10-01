@@ -2693,7 +2693,7 @@
       <authenticate_view>0</authenticate_view>
     </property>
     <property>
-      <colorTheme>FlamingoThemes.FlamingoDefaultTheme</colorTheme>
+      <colorTheme>FlamingoThemes.Charcoal</colorTheme>
     </property>
     <property>
       <comment_anonymous>---</comment_anonymous>

@@ -696,6 +696,13 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>log4j-over-slf4j</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <!-- Configuration -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-configuration-default</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Security -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

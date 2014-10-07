@@ -364,7 +364,8 @@ $xwiki.ssx.use('Main.Spaces')##
   ##
   ## Space creation.
   ##
-  ## Only if the current user has the right to create spaces and the current action is not inline. If it's inline, then there is already a form, and if we render the second, nested one, the DOM is messed up in IE.
+  ## Only if the current user has the right to create spaces and the current action is not inline.
+  ## If it's inline, then there is already a form, and if we render the second, nested one, the DOM is messed up in IE.
   #if($hasCreateSpace &amp;&amp; "$!xcontext.action" != "inline" &amp;&amp; "$!xcontext.action" != "edit")
     &lt;li id="spSpaceCreateItem" class="xitem space"&gt;
       &lt;div class="xitemcontainer"&gt;

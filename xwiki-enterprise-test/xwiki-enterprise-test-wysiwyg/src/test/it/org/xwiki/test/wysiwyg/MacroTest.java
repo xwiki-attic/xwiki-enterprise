@@ -1398,7 +1398,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-content-input", "$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\")");
         applyMacroChanges();
         // Check the displayed text.
-        assertEquals("Admin is the default Wiki Admin.", getRichTextArea().getText());
+        // The spaces are coming from the macro selection boundary and are not visible by the user.
+        assertEquals(" Admin is the default Wiki Admin. ", getRichTextArea().getText());
     }
 
     /**
@@ -1428,11 +1429,11 @@ public class MacroTest extends AbstractWysiwygTestCase
         switchToWysiwyg();
 
         // Place the caret at the start of the first macro.
-        moveCaret(getMacroLocator(0) + ".lastChild.firstChild.firstChild", 0);
+        moveCaret(getMacroOutputLocator(0) + ".firstChild.firstChild", 0);
         typeText("1");
 
         // Place the caret at the end of the first macro.
-        moveCaret(getMacroLocator(0) + ".lastChild.firstChild.firstChild", 3);
+        moveCaret(getMacroOutputLocator(0) + ".firstChild.firstChild", 3);
         typeText(" ");
         // Check that Space didn't toggle the macro collapsed state.
         // Note: We have to select the rich text area frame because the visibility of an element is evaluated relative
@@ -1446,11 +1447,11 @@ public class MacroTest extends AbstractWysiwygTestCase
         }
 
         // Place the caret at the start of the third macro.
-        moveCaret(getMacroLocator(2) + ".lastChild.firstChild.firstChild", 0);
+        moveCaret(getMacroOutputLocator(2) + ".firstChild.firstChild", 0);
         typeText("3");
 
         // Place the caret at the end of the third macro.
-        moveCaret(getMacroLocator(2) + ".lastChild.firstChild.firstChild", 5);
+        moveCaret(getMacroOutputLocator(2) + ".firstChild.firstChild", 5);
         typeEnter();
         try {
             waitForDialogToLoad();
@@ -1461,12 +1462,12 @@ public class MacroTest extends AbstractWysiwygTestCase
         typeText("2");
 
         // Place the caret at the start of the last macro.
-        moveCaret(getMacroLocator(4) + ".lastChild.firstChild.firstChild", 0);
+        moveCaret(getMacroOutputLocator(4) + ".firstChild.firstChild", 0);
         typeEnter();
         typeText("4");
 
         // Place the caret at the end of the last macro.
-        moveCaret(getMacroLocator(4) + ".lastChild.firstChild.firstChild", 4);
+        moveCaret(getMacroOutputLocator(4) + ".firstChild.firstChild", 4);
         typeEnter();
         typeText("5");
 

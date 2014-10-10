@@ -114,12 +114,7 @@ public class XMLEscapingValidator implements Validator
     public List<ValidationError> validate()
     {
         clear();
-        if (this.document.size() == 0 && !this.shouldBeEmpty) {
-            this.errors.add(new ValidationError(Type.WARNING, 0, 0, "Unexpected empty response"));
-        }
-        if (this.document.size() > 0 && this.shouldBeEmpty) {
-            this.errors.add(new ValidationError(Type.WARNING, 0, 0, "Unexpected non-empty content: \"" + getContent() + "\""));
-        }
+
         int lineNr = 1;
         for (String line : this.document) {
             checkStringDelimiters(line, lineNr);

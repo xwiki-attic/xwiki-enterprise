@@ -186,46 +186,6 @@
                 <name>skipSnapshotModules</name>
                 <value>true</value>
               </property>
-              <!-- Used only in escaping tests -->
-              <property>
-                <!-- List of Velocity templates that don't generate any output when applied with xpage. The templates
-                     normally generate output, and the escaping tests verifies this, so we need to specify the
-                     ones that don't generate output so that the test doesn't assert for an output. Now, a template
-                     doesn't have to generate the output by itself, it can do for instance a redirect, and since the
-                     redirects are followed transparently, for the client (the test that makes the HTTP request) it's
-                     the same thing. -->
-                <name>filesProduceNoOutput</name>
-                <value>
-                    templates/distribution/macros.vm <!-- Contains only Velocity macros -->
-                    templates/colorThemeInit.vm
-                    templates/deprecatedVars.vm
-                    templates/editgroup.vm <!-- TODO test with deleted XWiki.XWikiGroupSheet and 'inline' action -->
-                    templates/editmodes.vm
-                    templates/editpanelsvars.vm
-                    templates/extension.vm <!-- Contains only Velocity macros -->
-                    templates/fakeleftpanels.vm
-                    templates/fakerightpanels.vm
-                    templates/frequentlyUsedDocs.vm
-                    templates/layoutExtraVars.vm <!-- empty placeholder -->
-                    templates/layoutvars.vm
-                    templates/macros.vm
-                    templates/skinvariables.vm
-                    templates/xwikivars.vm
-                    templates/menus_macros.vm <!-- Contains only Velocity macros -->
-                    templates/menus_wiki.vm
-                    templates/job_macros.vm
-                    templates/logging_macros.vm
-                    skins/flamingo/applications.vm
-                    skins/flamingo/colorThemeInit.vm
-                    skins/flamingo/hierarchy.vm
-                    skins/flamingo/layoutvars.vm
-                    skins/flamingo/macros.vm
-                    skins/flamingo/quicksearch.vm
-                    skins/flamingo/menus_home.vm
-                    skins/flamingo/menus_language.vm
-                    skins/flamingo/menus_macros.vm
-                </value>
-              </property>
               <property>
                 <name>patternExcludeFiles</name><!-- NOTE: Only affects automatic tests -->
                 <!-- list of regex patterns -->

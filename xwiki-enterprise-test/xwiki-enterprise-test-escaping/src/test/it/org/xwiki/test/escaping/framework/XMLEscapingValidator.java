@@ -251,16 +251,5 @@ public class XMLEscapingValidator implements Validator
     {
         return "XML ESCAPING";
     }
-
-    /**
-     * Set to true if empty document is valid. A validation error will be thrown if document is empty,
-     * but {@link #shouldBeEmpty} is false and vice versa.
-     * 
-     * @param value new value
-     */
-    public void setShouldBeEmpty(boolean value)
-    {
-        this.shouldBeEmpty = value;
-    }
 }
 

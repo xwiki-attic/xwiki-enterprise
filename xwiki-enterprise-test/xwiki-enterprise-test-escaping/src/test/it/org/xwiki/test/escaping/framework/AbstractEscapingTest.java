@@ -52,28 +52,30 @@ import org.xwiki.test.escaping.suite.FileTest;
 import org.xwiki.validator.ValidationError;
 
 /**
- * Abstract base class for escaping tests. Implements common initialization pattern and some utility methods
- * like URL escaping, retrieving page content by URL etc. Subclasses need to implement parsing
- * and custom tests.
+ * Abstract base class for escaping tests. Implements common initialization pattern and some utility methods like URL
+ * escaping, retrieving page content by URL etc. Subclasses need to implement parsing and custom tests.
  * <p>
- * Note: JUnit4 requires tests to have one public default constructor, subclasses will need to implement
- * it and pass pattern matcher to match file names they can handle.</p>
+ * Note: JUnit4 requires tests to have one public default constructor, subclasses will need to implement it and pass
+ * pattern matcher to match file names they can handle.
+ * </p>
  * <p>
- * Starting and stopping XWiki server is handled transparently for all subclasses, tests can be run
- * alone using -Dtest=ClassName, a parent test suite should start XWiki server before running all
- * tests for efficiency using {@link SingleXWikiExecutor}.</p>
+ * Starting and stopping XWiki server is handled transparently for all subclasses, tests can be run alone using
+ * -Dtest=ClassName, a parent test suite should start XWiki server before running all tests for efficiency using
+ * {@link SingleXWikiExecutor}.
+ * </p>
  * <p>
  * The following configuration properties are supported (set in maven):
  * <ul>
- * <li>pattern (optional): Additional pattern to select files to be tested (use -Dpattern="substring-regex").
- *                         Matches all files if empty.</li>
- * </ul></p>
+ * <li>pattern (optional): Additional pattern to select files to be tested (use -Dpattern="substring-regex"). Matches
+ * all files if empty.</li>
+ * </ul>
+ * </p>
  * <p>
  * Automatic tests (see {@link AbstractAutomaticTest}) additionally support:
  * <ul>
- * <li>filesProduceNoOutput (optional): List of files that are expected to produce empty response</li>
  * <li>patternExcludeFiles (optional): List of RegEx patterns to exclude files from the tests</li>
- * </ul></p>
+ * </ul>
+ * </p>
  * 
  * @version $Id$
  * @since 2.5M1
@@ -103,12 +105,6 @@ public abstract class AbstractEscapingTest implements FileTest
 
     /** User provided data found in the file. */
     protected Set<String> userInput;
-
-    /**
-     * Test fails if response is empty, but output is expected and vice versa.
-     * To set to false, add file name to "filesProduceNoOutput" 
-     */
-    protected boolean shouldProduceOutput = true;
 
     /** Pattern used to match files by name. */
     private Pattern namePattern;
@@ -162,10 +158,8 @@ public abstract class AbstractEscapingTest implements FileTest
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * The implementation for escaping tests checks if the given file name matches the supported name pattern and parses
-     * the file.
+     * {@inheritDoc} The implementation for escaping tests checks if the given file name matches the supported name
+     * pattern and parses the file.
      * 
      * @see org.xwiki.test.escaping.suite.FileTest#initialize(java.lang.String, java.io.Reader)
      */
@@ -178,7 +172,6 @@ public abstract class AbstractEscapingTest implements FileTest
             return false;
         }
 
-        this.shouldProduceOutput = isOutputProducingFile(name);
         this.userInput = parse(reader);
         return true;
     }
@@ -195,8 +188,8 @@ public abstract class AbstractEscapingTest implements FileTest
     }
 
     /**
-     * Check if the system property "pattern" matches (substring regular expression) the file name.
-     * Empty pattern matches everything.
+     * Check if the system property "pattern" matches (substring regular expression) the file name. Empty pattern
+     * matches everything.
      * 
      * @param fileName file name to check
      * @return true if the pattern matches, false otherwise
@@ -217,14 +210,6 @@ public abstract class AbstractEscapingTest implements FileTest
      * @return true if the file should be excluded, false otherwise
      */
     protected abstract boolean isExcludedFile(String fileName);
-
-    /**
-     * Check if the given file name should produce output.
-     * 
-     * @param fileName file name to check
-     * @return true if the file is expected to produce some output when requested from the server, false otherwise
-     */
-    protected abstract boolean isOutputProducingFile(String fileName);
 
     /**
      * Parse the file and collect parameters controlled by the user.
@@ -255,8 +240,8 @@ public abstract class AbstractEscapingTest implements FileTest
     }
 
     /**
-     * Download a page from the server and return its content. Throws a {@link RuntimeException}
-     * on connection problems etc.
+     * Download a page from the server and return its content. Throws a {@link RuntimeException} on connection problems
+     * etc.
      * 
      * @param url URL of the page
      * @return content of the page
@@ -358,7 +343,7 @@ public abstract class AbstractEscapingTest implements FileTest
     @Override
     public String toString()
     {
-        return this.name + (this.shouldProduceOutput ? " " : " (NO OUTPUT) ") + this.userInput;
+        return this.name + ' ' + this.userInput;
     }
 
     /**
@@ -390,7 +375,6 @@ public abstract class AbstractEscapingTest implements FileTest
         String where = "  Template: " + this.name + "\n  URL: " + url;
         Assert.assertNotNull("Response is null\n" + where, content);
         XMLEscapingValidator validator = new XMLEscapingValidator();
-        validator.setShouldBeEmpty(!this.shouldProduceOutput);
         validator.setDocument(content);
         try {
             return validator.validate();
@@ -462,8 +446,7 @@ public abstract class AbstractEscapingTest implements FileTest
             url += delimiter + LANGUAGE + "=en";
         }
         // some tests need to create or delete pages, we add secret token to avoid CSRF protection failures
-        if ((action == null || !action.equals("edit"))
-                && (parameters == null || !parameters.containsKey(SECRET_TOKEN))) {
+        if ((action == null || !action.equals("edit")) && (parameters == null || !parameters.containsKey(SECRET_TOKEN))) {
             url += delimiter + SECRET_TOKEN + "=" + getSecretToken();
         }
         return url;

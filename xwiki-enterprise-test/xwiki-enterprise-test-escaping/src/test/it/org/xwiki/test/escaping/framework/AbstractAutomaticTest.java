@@ -22,8 +22,7 @@ package org.xwiki.test.escaping.framework;
 import java.util.regex.Pattern;
 
 /**
- * Abstract base class for all automatic tests. Adds support for "filesProduceNoOutput" and "patternExcludeFiles"
- * properties.
+ * Abstract base class for all automatic tests. Adds support for "patternExcludeFiles" properties.
  * 
  * @version $Id$
  * @since 2.5M1
@@ -42,30 +41,9 @@ public abstract class AbstractAutomaticTest extends AbstractEscapingTest
 
     /**
      * {@inheritDoc}
-     * 
-     * The default implementation for automatic tests checks the "filesProduceNoOutput" property (set in maven build
-     * configuration).
-     * 
-     * @param fileName file name to check
-     * @return true if the file is expected to produce some output when requested from the server, false otherwise
-     * @see AbstractEscapingTest#isOutputProducingFile(java.lang.String)
-     */
-    @Override
-    protected boolean isOutputProducingFile(String fileName)
-    {
-        for (String file : System.getProperty("filesProduceNoOutput", "").split("\\s+")) {
-            if (file.trim().equals(fileName)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * The default implementation for automatic tests checks the "patternExcludeFiles" property (set in maven build
-     * configuration).
+     * <p>
+     * The default implementation for automatic tests checks the "patternExcludeFiles" property (set in
+     * maven build configuration).
      * 
      * @param fileName file name to check
      * @return true if the file should be excluded, false otherwise
@@ -83,4 +61,3 @@ public abstract class AbstractAutomaticTest extends AbstractEscapingTest
         return false;
     }
 }
-

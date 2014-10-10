@@ -30,10 +30,9 @@ import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.ValidationError.Type;
 import org.xwiki.validator.Validator;
 
-
 /**
- * A validator that checks for proper XML escaping. The document must be constructed using the special
- * test input string (see {@link #getTestString()}).
+ * A validator that checks for proper XML escaping. The document must be constructed using the special test input string
+ * (see {@link #getTestString()}).
  * 
  * @version $Id$
  * @since 2.5M1
@@ -61,9 +60,6 @@ public class XMLEscapingValidator implements Validator
     /** JavaScript-escaped TEST_QUOT. */
     private static final String TEST_JS_QUOT = "aaa\\\"bbb";
 
-    /** Expect an empty or non-empty document. */
-    private boolean shouldBeEmpty = false;
-
     /** Source of the XML document to validate. */
     private List<String> document = new ArrayList<String>();
 
@@ -83,7 +79,8 @@ public class XMLEscapingValidator implements Validator
     /**
      * {@inheritDoc}
      * <p>
-     * Clears previous list of validation errors.</p>
+     * Clears previous list of validation errors.
+     * </p>
      * 
      * @see org.xwiki.validator.Validator#setDocument(java.io.InputStream)
      */
@@ -106,7 +103,8 @@ public class XMLEscapingValidator implements Validator
     /**
      * {@inheritDoc}
      * <p>
-     * Throws {@link EscapingError} on errors.</p>
+     * Throws {@link EscapingError} on errors.
+     * </p>
      * 
      * @see org.xwiki.validator.Validator#validate()
      */
@@ -141,20 +139,6 @@ public class XMLEscapingValidator implements Validator
     }
 
     /**
-     * 
-     * 
-     * @return
-     */
-    private String getContent()
-    {
-        StringBuilder builder = new StringBuilder();
-        for (String line : this.document) {
-            builder.append(line).append('\n');
-        }
-        return builder.toString();
-    }
-
-    /**
      * Check whether < and > are properly escaped. Attempts to avoid false positives caused by JavaScript escaping.
      * Found problems are added to the internal list of escaping errors.
      * 
@@ -178,7 +162,8 @@ public class XMLEscapingValidator implements Validator
 
     /**
      * Check whether quote and apostrophe are properly escaped. Attempts to avoid false positives caused by XML escaping
-     * inside tags (where only <, > and & are escaped). Found problems are added to the internal list of escaping errors.
+     * inside tags (where only <, > and & are escaped). Found problems are added to the internal list of escaping
+     * errors.
      * 
      * @param line the line to check
      * @param lineNr line number reported on failures
@@ -247,4 +232,3 @@ public class XMLEscapingValidator implements Validator
         return "XML ESCAPING";
     }
 }
-

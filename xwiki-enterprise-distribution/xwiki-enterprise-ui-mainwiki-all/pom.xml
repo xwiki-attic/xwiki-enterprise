@@ -30,7 +30,7 @@
   <artifactId>xwiki-enterprise-ui-mainwiki-all</artifactId>
   <name>XWiki Enterprise - UI - Main Wiki All</name>
   <packaging>xar</packaging>
-  <description>All in one XWiki Enterprise XAR package for the main wiki.</description>
+  <description>All in one XWiki Enterprise XAR package for the main wiki. To be used when installing without the Distribution Wizard</description>
   <properties>
     <xwiki.extension.features>
       <!-- Embedded extensions -->

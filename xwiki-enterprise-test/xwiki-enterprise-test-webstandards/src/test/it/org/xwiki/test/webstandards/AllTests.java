@@ -19,16 +19,15 @@
  */
 package org.xwiki.test.webstandards;
 
+import org.xwiki.test.integration.XWikiTestSetup;
+import org.xwiki.test.webstandards.framework.DefaultValidationTest;
+import org.xwiki.validator.HTML5Validator;
+import org.xwiki.validator.RSSValidator;
+import org.xwiki.validator.XWikiValidator;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import org.xwiki.test.integration.XWikiTestSetup;
-import org.xwiki.validator.RSSValidator;
-import org.xwiki.validator.XHTMLValidator;
-import org.xwiki.validator.XWikiValidator;
-
-import org.xwiki.test.webstandards.framework.DefaultValidationTest;
 
 /**
  * A class listing all the Functional tests to execute. We need such a class (rather than letting the JUnit Runner
@@ -51,8 +50,8 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
 
-        XHTMLValidator xhtmlValidator = new XHTMLValidator();
-        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, xhtmlValidator),
+        HTML5Validator html5Validator = new HTML5Validator();
+        addTest(suite, DefaultValidationTest.suite(DefaultValidationTest.class, html5Validator),
             DefaultValidationTest.class);
 
         CustomDutchWebGuidelinesValidator dwgValidator = new CustomDutchWebGuidelinesValidator();

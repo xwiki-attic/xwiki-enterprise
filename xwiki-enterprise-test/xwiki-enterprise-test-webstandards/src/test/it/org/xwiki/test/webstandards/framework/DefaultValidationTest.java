@@ -31,7 +31,7 @@ import org.xwiki.validator.ValidationError;
 import org.xwiki.validator.Validator;
 
 /**
- * Verifies that all pages in the default wiki are valid XHTML documents.
+ * Verifies that all pages in the default wiki are valid HTML documents.
  * 
  * @version $Id$
  */

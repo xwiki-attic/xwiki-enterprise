@@ -43,6 +43,8 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
 
     private static final String CATEGORY_RENAME = "New \"categor'y\"";
 
+    private static final String CATEGORY_RENAME_2 = "A category with [[//wiki// syntax]] # || onclick=\"alert('fail');return false;\"";
+
     @Override
     @Before
     public void setUp() throws Exception
@@ -52,6 +54,7 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
         // clean up
         getUtil().deletePage("Blog", CATEGORY);
         getUtil().deletePage("Blog", CATEGORY_RENAME);
+        getUtil().deletePage("Blog", CATEGORY_RENAME_2);
     }
 
     @Test
@@ -63,7 +66,8 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
     {
         categoryAdd(CATEGORY);
         categoryRename(CATEGORY, CATEGORY_RENAME);
-        categoryRemove(CATEGORY_RENAME);
+        categoryRename(CATEGORY_RENAME, CATEGORY_RENAME_2);
+        categoryRemove(CATEGORY_RENAME_2);
     }
 
     /**

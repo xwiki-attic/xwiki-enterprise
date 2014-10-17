@@ -165,7 +165,8 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
         // Test class name filtering.
         appCreatePage.setApplicationName("7\u0103?\u021B>/t:e-st_@28");
         appCreatePage.waitForApplicationNamePreview();
-        Assert.assertEquals("Class: \u0103\u021Bte-st_28", appCreatePage.clickNextStep().getDocumentTitle());
+        Assert.assertTrue(appCreatePage.getContent().contains("\u0103\u021Bte-st_28Class"));
+        Assert.assertEquals("Class: 7\u0103?\u021B>/t:e-st_@28", appCreatePage.clickNextStep().getDocumentTitle());
     }
 
     /**

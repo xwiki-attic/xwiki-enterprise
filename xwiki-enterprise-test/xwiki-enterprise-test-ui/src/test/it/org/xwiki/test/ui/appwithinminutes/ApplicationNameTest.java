@@ -22,7 +22,10 @@ package org.xwiki.test.ui.appwithinminutes;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
+import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;
+import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
+import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -189,5 +192,59 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
 
         // Proceed to the next step.
         Assert.assertTrue(appCreatePage.clickNextStep().hasBreadcrumbContent("The Wiki Blog", false));
+    }
+
+    /**
+     * Try to create an application with a name that contains special characters and check if the correct data and code
+     * spaces are used.
+     */
+    @Test
+    @IgnoreBrowsers({
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    })
+    public void testSpecialCharactersInAppName()
+    {
+        ApplicationCreatePage appCreatePage = ApplicationCreatePage.gotoPage();
+        Assert.assertFalse(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
+
+        // Set an special character based application name.
+        String appPrettyName = "my \\app^";
+        String dataSpace = appPrettyName;
+        String codeSpace = "myappCode";
+        String className = "myappClass";
+        appCreatePage.setApplicationName(dataSpace);
+        appCreatePage.waitForApplicationNamePreview();
+        Assert.assertFalse(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
+        // Data space
+        Assert.assertTrue(appCreatePage.getContent().contains(dataSpace));
+        // Code space
+        Assert.assertTrue(appCreatePage.getContent().contains(codeSpace));
+        // Class name
+        Assert.assertTrue(appCreatePage.getContent().contains(className));
+
+        // Move to the next step (class edit).
+        ApplicationClassEditPage classEditPage = appCreatePage.clickNextStep();
+        Assert.assertEquals("Class: " + appPrettyName, classEditPage.getDocumentTitle());
+        Assert.assertEquals(codeSpace, classEditPage.getMetaDataValue("space"));
+        Assert.assertEquals(className, classEditPage.getMetaDataValue("page"));
+
+        // Move to the next step (homepage edit).
+        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep();
+        Assert.assertEquals(appPrettyName + " Home", homeEditPage.getDocumentTitle());
+        Assert.assertEquals(dataSpace, homeEditPage.getMetaDataValue("space"));
+
+        // Move to the next step (homepage).
+        ApplicationHomePage homePage = homeEditPage.clickFinish();
+        Assert.assertEquals(appPrettyName + " Home", homePage.getDocumentTitle());
+        Assert.assertEquals(dataSpace, homePage.getMetaDataValue("space"));
+
+        // Edit the application's class.
+        classEditPage = homePage.clickEditApplication();
+        Assert.assertEquals(codeSpace, classEditPage.getMetaDataValue("space"));
+
+        // Move to the next step and check if we landed in the correct data space.
+        homeEditPage = classEditPage.clickNextStep();
+        Assert.assertEquals(dataSpace, homeEditPage.getMetaDataValue("space"));
     }
 }

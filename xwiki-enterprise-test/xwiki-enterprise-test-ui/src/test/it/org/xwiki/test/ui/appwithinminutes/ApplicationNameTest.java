@@ -22,10 +22,12 @@ package org.xwiki.test.ui.appwithinminutes;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
+import org.xwiki.appwithinminutes.test.po.AppWithinMinutesHomePage;
 import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
+import org.xwiki.appwithinminutes.test.po.ApplicationsLiveTableElement;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -246,5 +248,14 @@ public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
         // Move to the next step and check if we landed in the correct data space.
         homeEditPage = classEditPage.clickNextStep();
         Assert.assertEquals(dataSpace, homeEditPage.getMetaDataValue("space"));
+
+        // Go to the App Within Minutes home page.
+        homeEditPage.clickBreadcrumbLink(AppWithinMinutesHomePage.TITLE);
+        AppWithinMinutesHomePage appWithinMinutesHomePage = new AppWithinMinutesHomePage();
+
+        // Assert that the created application is listed in the live table.
+        ApplicationsLiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();
+        appsLiveTable.waitUntilReady();
+        Assert.assertTrue(appsLiveTable.isApplicationListed(appPrettyName));
     }
 }

@@ -36,7 +36,7 @@
   <scm>
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
-    <url>http://github.com/xwiki/xwiki-enterprise</url>
+    <url>http://github.com/xwiki/xwiki-enterprise/tree/stable-5.4.x/</url>
     <tag>stable-5.4.x</tag>
   </scm>
   <issueManagement>

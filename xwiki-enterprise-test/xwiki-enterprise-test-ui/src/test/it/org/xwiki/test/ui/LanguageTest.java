@@ -133,6 +133,7 @@ public class LanguageTest extends AbstractAdminAuthenticatedTest
 
         ViewPage vp = new ViewPage();
         Assert.assertEquals("locale=" + language, vp.getMetaDataValue("gwt:property"));
+        // For retro-compatibility only
         Assert.assertEquals(language, vp.getMetaDataValue("language"));
 
         String content = getDriver().getPageSource();

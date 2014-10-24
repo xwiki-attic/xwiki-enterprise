@@ -527,7 +527,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
                 {
                     // When switching between tabs, it sometimes takes longer for toggle buttons to become enabled. We
                     // need to wait for that before we can properly use the WYSIWYG.
-                    return !getSourceTextArea().isEnabled() && isToggleButtonEnabled("Bold (Ctrl+B)");
+                    return !getSourceTextArea().isEnabled()
+                        && getSelenium().isElementPresent(
+                            "//div[contains(@class, 'gwt-ToggleButton') and not(contains(@class, '-disabled'))]");
                 }
             }.wait("Source text area is still editable or buttons are not usable!", Wait.DEFAULT_TIMEOUT, SMALL_WAIT_INTERVAL);
         }

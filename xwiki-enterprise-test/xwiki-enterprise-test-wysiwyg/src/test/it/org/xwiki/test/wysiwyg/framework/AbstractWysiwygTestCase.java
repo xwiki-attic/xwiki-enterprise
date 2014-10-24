@@ -380,8 +380,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         {
             public boolean until()
             {
-                return !getSelenium().isSomethingSelected(TOOLBAR_SELECT_STYLE)
-                    || !style.equals(getSelenium().getSelectedLabel(TOOLBAR_SELECT_STYLE));
+                return getSelenium().isEditable(TOOLBAR_SELECT_STYLE)
+                    && (!getSelenium().isSomethingSelected(TOOLBAR_SELECT_STYLE) || !style.equals(getSelenium()
+                        .getSelectedLabel(TOOLBAR_SELECT_STYLE)));
             }
         }.wait("The specified style, '" + style + "', is already applied!");
         getSelenium().select(TOOLBAR_SELECT_STYLE, style);

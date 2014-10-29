@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -36,7 +37,7 @@
   <title>$services.localization.render('platform.dashboard.wiki.welcome')</title>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>It's an easy-to-edit website that will help you work better together. This Wiki is made of //pages// sorted by //spaces//. You're currently in the **Main** space, looking at its home page (**WebHome**).
 
@@ -44,6 +45,37 @@ Learn how to use XWiki with the {{velocity}}[[Getting Started Guide&gt;&gt;http:
 
 {{velocity}}
 #if($hasEdit)You can then use the [[Sandbox space&gt;&gt;Sandbox.WebHome]] to try out your wiki's features.#end
-{{/velocity}}
-</content>
+{{/velocity}}</content>
+  <object>
+    <name>Main.Welcome</name>
+    <number>0</number>
+    <className>XWiki.DocumentSheetBinding</className>
+    <guid>d8572b7e-4a32-4c4c-9a3a-adf6f6b51cfb</guid>
+    <class>
+      <name>XWiki.DocumentSheetBinding</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <sheet>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>sheet</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Sheet</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </sheet>
+    </class>
+    <property>
+      <sheet>WelcomeSheet</sheet>
+    </property>
+  </object>
 </xwikidoc>

@@ -209,7 +209,7 @@ public class WikisResourceTest extends AbstractHttpTest
             if (expectedWebHomes.contains(pageSummary.getFullName())) {
                 foundCounter++;
             }
-            Assert.assertTrue(pageSummary.getFullName().endsWith(".WebHome"));
+            Assert.assertTrue(pageSummary.getFullName().contains(".WebHome"));
             checkLinks(pageSummary);
         }
         // Note: since we can have translations, the number of found pages can be greater than the expected size.
@@ -234,7 +234,7 @@ public class WikisResourceTest extends AbstractHttpTest
             if (expectedWebHomes.contains(pageSummary.getFullName())) {
                 foundCounter++;
             }
-            Assert.assertTrue(pageSummary.getFullName().endsWith(".WebHome"));
+            Assert.assertTrue(pageSummary.getFullName().contains(".WebHome"));
             checkLinks(pageSummary);
         }
         // Note: since we can have translations, the number of found pages can be greater than the expected size.

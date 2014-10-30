@@ -543,13 +543,6 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Activity Stream -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-activitystream-api</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     <!-- Event & Message Stream Modules -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -574,20 +567,6 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-skin-skinx</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <!-- Scheduler -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-scheduler-api</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <!-- Tags -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-tag-api</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -636,26 +615,6 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-jodatime</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <!-- Watchlist -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-watchlist-api</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <!-- LinkChecker -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-linkchecker-api</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -847,41 +806,11 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Used by the Flamingo Theme application -->
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>less</artifactId>
-      <version>1.7.0</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>colpick</artifactId>
-      <version>2.0.2</version>
-    </dependency>
     <!-- LDAP -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-ldap-authenticator</artifactId>
       <version>${platform.version}</version>
-    </dependency>
-    <!-- Icon Module -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-icon-default</artifactId>
-      <version>${platform.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-icon-script</artifactId>
-      <version>${platform.version}</version>
-    </dependency>
-    <!-- Font Awesome -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-icon-fontawesome</artifactId>
-      <version>${platform.version}</version>
-      <type>xar</type>
     </dependency>
     <!-- jQuery -->
     <dependency>
@@ -889,12 +818,22 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>jquery</artifactId>
       <version>1.11.1</version>
     </dependency>
-    <!-- Used by the Panels Application -->
+
+    <!-- Add dependencies on the XAR distributions for the mainwiki and for subwikis so that we transitively
+         include all JAR dependencies in the generated WAR -->
     <dependency>
-      <groupId>org.webjars</groupId>
-      <artifactId>jquery-ui</artifactId>
-      <version>1.11.1</version>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui-wiki</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>

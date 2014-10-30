@@ -53,63 +53,90 @@
   </dependencies>
   <build>
     <plugins>
+      <!-- Extracts the standalone distribution + Get the Jetty start shell scripts from the Jetty resource zip and
+           override the files extracted from the standalone distribution -->
       <plugin>
-        <groupId>com.github.goldin</groupId>
-        <artifactId>copy-maven-plugin</artifactId>
-        <version>0.2.5</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>create-archive</id>
-            <phase>process-resources</phase>
+            <id>unpack-standalone-distribution</id>
+            <phase>prepare-package</phase>
             <goals>
-              <goal>copy</goal>
+              <goal>unpack</goal>
             </goals>
             <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.xwiki.enterprise</groupId>
+                  <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
+                  <version>${project.version}</version>
+                  <type>zip</type>
+                  <outputDirectory>${project.build.directory}/container</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.xwiki.platform</groupId>
+                  <artifactId>xwiki-platform-tool-jetty-resources</artifactId>
+                  <version>${platform.version}</version>
+                  <type>zip</type>
+                  <outputDirectory>${xwiki.container}</outputDirectory>
+                  <includes>**/start_xwiki*.*</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <!-- Copy IzPack resource files -->
+          <execution>
+            <id>copy-izpack-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/izpack</outputDirectory>
               <resources>
-                <!-- Step 1: Copy IzPack resource files -->
-                <!-- Filter install.xml -->
+                <!-- Copy install.xml -->
                 <resource>
-                  <targetPath>${project.build.directory}/izpack</targetPath>
-                  <file>${project.basedir}/src/main/resources/install.xml</file>
-                  <filtering>true</filtering>
-                </resource>
-                <!-- Copy the other resource files without filtering -->
-                <resource>
-                  <targetPath>${project.build.directory}/izpack</targetPath>
                   <directory>${project.basedir}/src/main/resources</directory>
-                  <exclude>**/install.xml</exclude>
-                  <preservePath>true</preservePath>
+                  <!-- Filter install.xml -->
+                  <filtering>true</filtering>
+                  <includes>
+                    <include>**/install.xml</include>
+                  </includes>
                 </resource>
-                <!-- Step 2: Extracts the standalone distribution -->
+                <!-- Copy all other files without filtering -->
                 <resource>
-                  <targetPath>${project.build.directory}/container</targetPath>
-                  <dependency>
-                    <groupId>org.xwiki.enterprise</groupId>
-                    <artifactId>xwiki-enterprise-jetty-${xwiki.db}</artifactId>
-                    <version>${project.version}</version>
-                    <type>zip</type>
-                  </dependency>
-                  <unpack>true</unpack>
+                  <directory>${project.basedir}/src/main/resources</directory>
+                  <filtering>false</filtering>
+                  <excludes>
+                    <exclude>**/install.xml</exclude>
+                  </excludes>
                 </resource>
-                <!-- Step 3: Get the Jetty start shell scripts from the Jetty resource zip and override the files
-                     extracted in step 2 -->
+              </resources>
+            </configuration>
+          </execution>
+          <!-- Copy the data files -->
+          <execution>
+            <id>copy-data-files</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${xwiki.data}</outputDirectory>
+              <resources>
                 <resource>
-                  <targetPath>${xwiki.container}</targetPath>
-                  <dependency>
-                    <groupId>org.xwiki.platform</groupId>
-                    <artifactId>xwiki-platform-tool-jetty-resources</artifactId>
-                    <version>${platform.version}</version>
-                    <type>zip</type>
-                  </dependency>
-                  <unpack>true</unpack>
-                  <zipEntry>**/start_xwiki*.*</zipEntry>
-                </resource>
-                <!-- Step 4: Copy the data files so that they can be easily handled by izpack as a separate Pack -->
-                <resource>
-                  <targetPath>${xwiki.data}</targetPath>
                   <directory>${xwiki.container}/data</directory>
-                  <exclude>**/META-INF/**/*</exclude>
-                  <preservePath>true</preservePath>
+                  <filtering>false</filtering>
+                  <excludes>
+                    <exclude>**/META-INF/**/*</exclude>
+                  </excludes>
                 </resource>
               </resources>
             </configuration>

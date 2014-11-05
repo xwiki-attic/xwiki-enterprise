@@ -160,8 +160,8 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         waitForBodyContains("Panel List");
         assertElementPresent("//a[text()='Page Layout']");
         assertElementPresent("//a[text()='Panel List']");
-        waitForCondition("selenium.isElementPresent(\"//a[text()='Save the new layout']\")!=false;");
-        clickLinkWithXPath("//a[text()='Save the new layout']", false);
+        waitForCondition("selenium.isElementPresent(\"//button[text()='Save the new layout']\")!=false;");
+        clickLinkWithXPath("//button[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
     }

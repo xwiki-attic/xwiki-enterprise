@@ -113,8 +113,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("rightPanels"));
         assertElementPresent("//div[@id = 'rightPanels']/div[contains(@class, 'CategoriesPanel')]");
         clickLinkWithXPath("//button[text()='Save the new layout']", false);
-        waitForAlert();
-        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
+        waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("Main", "WebHome");
         assertElementNotPresent("leftPanels");
         assertElementPresent("rightPanels");
@@ -133,8 +132,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
             By.xpath("//div[@id='allviewpanels']//div[@class='accordionTabContentBox']"));
         assertElementNotPresent("//div[@id = 'rightPanels']//div[contains(@class, 'CategoriesPanel')]");
         clickLinkWithXPath("//button[text()='Save the new layout']", false);
-        waitForAlert();
-        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
+        waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("Main", "WebHome");
         assertElementPresent("leftPanels");
         assertElementPresent("rightPanels");
@@ -154,8 +152,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("leftPanels"));
         clickLinkWithXPath("//button[text()='Save the new layout']", false);
-        waitForAlert();
-        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
+        waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("TestPanelsAdmin", "WebHome");
         assertElementPresent("leftPanels");
         assertElementPresent("//div[@id = 'leftPanels']//div[contains(@class, 'CategoriesPanel')]");

@@ -112,8 +112,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         dragAndDrop(By.xpath("//div[@class='panel expanded QuickLinks']"), By.id("leftPanels"));
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("rightPanels"));
         clickLinkWithXPath("//button[text()='Save the new layout']", false);
-        waitForAlert();
-        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
+        waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("Panels", "PanelWizard");
         waitForCondition("selenium.isElementPresent(\"//div[@class='panel expanded QuickLinks']\")!=false;");
         waitForCondition("selenium.isElementPresent(\"//div[@class='panel expanded Backlinks']\")!=false;");
@@ -162,7 +161,6 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         assertElementPresent("//a[text()='Panel List']");
         waitForCondition("selenium.isElementPresent(\"//button[text()='Save the new layout']\")!=false;");
         clickLinkWithXPath("//button[text()='Save the new layout']", false);
-        waitForAlert();
-        assertEquals("The layout has been saved properly.", getSelenium().getAlert());
+        waitForNotificationSuccessMessage("The layout has been saved properly.");
     }
 }

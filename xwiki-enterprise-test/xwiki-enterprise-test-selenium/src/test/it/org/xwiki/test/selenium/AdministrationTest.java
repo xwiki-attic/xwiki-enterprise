@@ -112,7 +112,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("rightPanels"));
         assertElementPresent("//div[@id = 'rightPanels']/div[contains(@class, 'CategoriesPanel')]");
-        clickLinkWithXPath("//a[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
@@ -132,7 +132,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         dragAndDrop(By.xpath("//div[@id='rightPanels']//div[contains(@class, 'CategoriesPanel')]//h1"),
             By.xpath("//div[@id='allviewpanels']//div[@class='accordionTabContentBox']"));
         assertElementNotPresent("//div[@id = 'rightPanels']//div[contains(@class, 'CategoriesPanel')]");
-        clickLinkWithXPath("//a[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Main", "WebHome");
@@ -153,7 +153,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         waitForBodyContains("Panel List");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("leftPanels"));
-        clickLinkWithXPath("//a[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("TestPanelsAdmin", "WebHome");

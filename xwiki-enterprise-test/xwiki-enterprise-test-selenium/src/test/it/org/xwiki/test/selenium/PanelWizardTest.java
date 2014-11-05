@@ -111,7 +111,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded QuickLinks']"), By.id("leftPanels"));
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("rightPanels"));
-        clickLinkWithXPath("//a[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[text()='Save the new layout']", false);
         waitForAlert();
         assertEquals("The layout has been saved properly.", getSelenium().getAlert());
         open("Panels", "PanelWizard");
@@ -149,7 +149,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         waitForCondition("selenium.isElementPresent(\"//div[@id='nosidecolumn']\")!=false;");
         clickLinkWithXPath("//div[@id='leftcolumn']", false);
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        waitForCondition("selenium.isElementPresent(\"//a[text()='Revert']\")!=false;");
+        waitForCondition("selenium.isElementPresent(\"//button[text()='Revert']\")!=false;");
         dragAndDrop(By.xpath("//div[@class = 'panel expanded QuickLinks']"), By.id("leftPanels"));
         getSelenium().click("revertLayout");
 

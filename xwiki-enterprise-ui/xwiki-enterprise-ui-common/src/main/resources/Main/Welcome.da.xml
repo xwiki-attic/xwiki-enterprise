@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>Dette er websider der kan rettes hurtigt og let. Denne wiki består af //sider// opdelt i //områder//. Du er i øjeblikket i **Main**-området og ser på dets startside (**WebHome**).
 

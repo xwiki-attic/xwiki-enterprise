@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>Acesta este un sit web ușor de folosit pentru a colabora eficient. Wiki-ul conține //pagini// ordonate după //spațiul// din care fac parte. Aceasta este prima pagină (**WebHome**) din  spațiul **Main**. 
 

@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>XWiki ist eine einfach veränderbare Webseite, die Ihnen die Zusammenarbeit erleichtern wird. Dieses Wiki ist aus //Seiten// aufgebaut, die in //Bereiche// einsortiert sind. Sie sind momentan im **Main**-Bereich und sehen dessen Startseite (**WebHome**).
 

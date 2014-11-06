@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>Questo è un sito web facile da modificare che vi aiuterà a lavorare meglio assieme. Questo wiki è formato da //pagine// ordinate in //spazi//. Attualmente state usando lo spazio **Main** e state guardando la sua home page (**WebHome**).
 

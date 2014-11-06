@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>Het is een eenvoudig te bewerken website om beter samen te werken. Deze wiki is opgebouwd uit //pagina's//, gegroepeerd in //werkruimtes(spaces)//. Op dit moment ben je in de **Main** werkruimte, en bekijk je de startpagina (**WebHome**) van deze werkruimte. 
 

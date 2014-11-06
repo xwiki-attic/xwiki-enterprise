@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>Aquest és un lloc web d'edició senzilla, que a la vegada us ajudarà a treballar millor. Aquesta Wiki està feta de //pàgines// ordenades amb //espais//. Actualment esteu en l'espai **Main**, observant la seva pàgina d'inici (**WebHome**).
 

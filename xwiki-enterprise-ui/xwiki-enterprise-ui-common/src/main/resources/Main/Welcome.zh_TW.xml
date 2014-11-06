@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>這是一個很容易編輯的協同合作網站。這個 Wiki 由 //空間// 排序的 //頁面// 所組成，您現在正在 **Main** 空間中的首頁 (**WebHome**)
 

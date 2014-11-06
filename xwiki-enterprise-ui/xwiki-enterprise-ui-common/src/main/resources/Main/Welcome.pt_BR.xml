@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>É um site fácil de editar que ajudará você a trabalhar de forma colaborativa. Este Wiki é feito de //páginas// armazenadas em //espaços//. Você está agora no espaço **principal**, olhando para a página inicial (**WebHome**).
 

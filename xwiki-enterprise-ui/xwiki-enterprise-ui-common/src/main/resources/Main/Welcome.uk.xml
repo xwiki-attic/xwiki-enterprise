@@ -41,7 +41,7 @@
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>Це легка для редагування місцина в мережі, що допоможе Вам краще співпрацювати. Ця Wiki складається із //сторінок// розсортованих в різних //просторах//. Зараз Ви знаходитесь в **Головному** просторі та дивитесь на його домашню сторінку (**WebHome**).
 

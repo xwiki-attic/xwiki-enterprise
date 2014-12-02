@@ -388,6 +388,8 @@ public class WikisResourceTest extends AbstractHttpTest
     @Test
     public void testSolrSearch() throws Exception
     {
+        waitSOLRIndex();
+
         GetMethod getMethod =
             executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=solr",
                 getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
@@ -404,6 +406,8 @@ public class WikisResourceTest extends AbstractHttpTest
     @Test
     public void testGlobalSearch() throws Exception
     {
+        waitSOLRIndex();
+
         GetMethod getMethod =
             executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"",
                 getUriBuilder(WikisSearchQueryResource.class).build(getWiki()))));
@@ -415,6 +419,18 @@ public class WikisResourceTest extends AbstractHttpTest
         Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
 
         Assert.assertEquals("Main.Welcome", searchResults.getSearchResults().get(0).getPageFullName());
+    }
+
+    /**
+     * Wait until there is nothing in the SOLR index queue.
+     */
+    private void waitSOLRIndex() throws Exception
+    {
+        createPageIfDoesntExist("SOLRTest", "SOLRQueue", "{{velocity}}$services.solr.queueSize{{/velocity}}");
+
+        TestUtils utils = new TestUtils();
+        String url = utils.getURL("SOLRTest", "SOLRQueue", "get", "outputSyntax=plain");
+        while (!getContentFromURI(url).equals("0"));
     }
 
     @Test

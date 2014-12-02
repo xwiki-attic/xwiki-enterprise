@@ -135,7 +135,7 @@ public abstract class AbstractHttpTest
         return TestUtils.BASE_REST_URL.substring(0, TestUtils.BASE_REST_URL.length() - 1);
     }
 
-    protected String getFullUri(Class< ? > resourceClass)
+    protected String getFullUri(Class<?> resourceClass)
     {
         return String.format("%s%s", getBaseURL(), UriBuilder.fromResource(resourceClass).build());
     }
@@ -360,6 +360,14 @@ public abstract class AbstractHttpTest
         return wikis.getWikis().get(0).getName();
     }
 
+    protected String getContentFromURI(String uri) throws Exception
+    {
+        GetMethod getMethod = executeGet(uri);
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        return getMethod.getResponseBodyAsString();
+    }
+
     protected void checkLinks(LinkCollection linkCollection) throws Exception
     {
         if (linkCollection.getLinks() != null) {
@@ -372,7 +380,7 @@ public abstract class AbstractHttpTest
         }
     }
 
-    protected UriBuilder getUriBuilder(Class< ? > resource)
+    protected UriBuilder getUriBuilder(Class<?> resource)
     {
         return UriBuilder.fromUri(getBaseURL()).path(resource);
     }

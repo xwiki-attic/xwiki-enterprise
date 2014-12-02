@@ -386,10 +386,26 @@ public class WikisResourceTest extends AbstractHttpTest
     }
 
     @Test
-    public void testGlobalLuceneSearch() throws Exception
+    public void testSolrSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=lucene&wikis=xwiki",
+            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=solr",
+                getUriBuilder(WikiSearchQueryResource.class).build(getWiki()))));
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+
+        SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        int resultSize = searchResults.getSearchResults().size();
+        Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
+
+        Assert.assertEquals("Main.Welcome", searchResults.getSearchResults().get(0).getPageFullName());
+    }
+
+    @Test
+    public void testGlobalSearch() throws Exception
+    {
+        GetMethod getMethod =
+            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"",
                 getUriBuilder(WikisSearchQueryResource.class).build(getWiki()))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 

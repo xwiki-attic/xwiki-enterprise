@@ -33,7 +33,7 @@
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>
-  <version>6.4-SNAPSHOT</version>
+  <version>6.4-milestone-1</version>
   <packaging>pom</packaging>
   <name>XWiki Enterprise - Parent POM</name>
   <description>XWiki Enterprise - Parent POM</description>
@@ -41,7 +41,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise/tree/master/</url>
-    <tag>HEAD</tag>
+    <tag>xwiki-enterprise-6.4-milestone-1</tag>
   </scm>
   <issueManagement>
     <system>jira</system>

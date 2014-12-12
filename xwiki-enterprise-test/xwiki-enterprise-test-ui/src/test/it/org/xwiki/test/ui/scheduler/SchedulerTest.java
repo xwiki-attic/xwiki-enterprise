@@ -20,7 +20,6 @@
 package org.xwiki.test.ui.scheduler;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.scheduler.test.po.SchedulerHomePage;
@@ -29,7 +28,6 @@ import org.xwiki.scheduler.test.po.editor.SchedulerEditPage;
 import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
-import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Tests Scheduler application features.
@@ -45,8 +43,9 @@ public class SchedulerTest extends AbstractAdminAuthenticatedTest
     @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
     public void testSchedulerJobDefaultEditMode()
     {
-        getUtil().gotoPage("Scheduler", "WatchListDailyNotifier");
-        Assert.assertTrue(new ViewPage().getEditURL().contains("/inline/"));
+        getUtil().gotoPage("Scheduler", "WatchListDailyNotifier", "edit");
+        // This will wait for the WYSIWYG editor used to edit the job description to load.
+        new SchedulerEditPage().setJobDescription("test");
     }
 
     @Test

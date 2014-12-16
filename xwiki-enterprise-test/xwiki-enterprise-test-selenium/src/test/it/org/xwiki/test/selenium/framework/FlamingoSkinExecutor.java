@@ -38,13 +38,13 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     public boolean isAuthenticated(String username)
     {
         return getTest().isElementPresent(
-                "//a[@id='tmUser' and contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]");
+            "//li[@id = 'tmUser']/a[contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]");
     }
 
     @Override
     public boolean isAuthenticationMenuPresent()
     {
-        return getTest().isElementPresent("//a[@id='tmLogin']") || getTest().isElementPresent("//li[@id='tmUser']");
+        return getTest().isElementPresent("//a[@id = 'tmLogin']") || getTest().isElementPresent("//li[@id = 'tmUser']");
     }
 
     @Override
@@ -75,22 +75,22 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     public void logout()
     {
         Assert.assertTrue("User wasn't authenticated.", isAuthenticated());
-        getTest().clickLinkWithLocator("//li[@id='tmUser']//a[contains(@class, 'dropdown-toggle')]");
-        getTest().clickLinkWithLocator("//a[@id='tmLogout']");
+        getTest().clickLinkWithLocator("//li[@id = 'tmUser']/a[contains(@class, 'dropdown-split-right')]");
+        getTest().clickLinkWithLocator("//a[@id = 'tmLogout']");
         Assert.assertFalse("The user is still authenticated after a logout.", isAuthenticated());
     }
 
     @Override
     public void clickLogin()
     {
-        getTest().clickLinkWithLocator("//a[@id='tmLogin']");
+        getTest().clickLinkWithLocator("//a[@id = 'tmLogin']");
         assertIsLoginPage();
     }
 
     @Override
     public void clickRegister()
     {
-        getTest().clickLinkWithLocator("//a[@id='tmRegister']");
+        getTest().clickLinkWithLocator("//a[@id = 'tmRegister']");
         assertIsRegisterPage();
     }
 
@@ -98,7 +98,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     protected void clickEditMenuItem(String menuItemId)
     {
         // Click on the arrow in the edit button
-        getTest().clickLinkWithLocator("//div[@id='tmEdit']//button[contains(@class, 'dropdown-toggle')]");
+        getTest().clickLinkWithLocator("//div[@id = 'tmEdit']/button[contains(@class, 'dropdown-toggle')]");
         getTest().clickLinkWithLocator(menuItemId);
     }
 
@@ -106,7 +106,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     public void clickCopyPage()
     {
         // Click on the arrow near the page name on the top menu
-        getTest().clickLinkWithLocator("//li[@id='tmPage']//a[contains(@class, 'dropdown-toggle')]");
+        getTest().clickLinkWithLocator("//li[@id = 'tmPage']/a[contains(@class, 'dropdown-split-right')]");
         getTest().clickLinkWithLocator("tmActionCopy");
     }
 }

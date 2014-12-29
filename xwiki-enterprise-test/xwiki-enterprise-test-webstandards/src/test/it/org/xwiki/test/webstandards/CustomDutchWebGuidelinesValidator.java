@@ -19,16 +19,13 @@
  */
 package org.xwiki.test.webstandards;
 
-import javax.xml.xpath.XPathConstants;
-
-import org.w3c.dom.NodeList;
+import org.jsoup.nodes.Element;
+import org.xwiki.test.webstandards.framework.DocumentReferenceTarget;
 import org.xwiki.test.webstandards.framework.Target;
-import org.xwiki.validator.DutchWebGuidelinesValidator;
+import org.xwiki.validator.HTML5DutchWebGuidelinesValidator;
 import org.xwiki.validator.ValidationError.Type;
 
-import org.xwiki.test.webstandards.framework.DocumentReferenceTarget;
-
-public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidator
+public class CustomDutchWebGuidelinesValidator extends HTML5DutchWebGuidelinesValidator
 {
     private static final String SPACE_META = "space";
 
@@ -50,10 +47,12 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
      */
     private String getMeta(String metaName)
     {
-        String exprString = "//meta[@name='" + metaName + "']";
-        NodeList meta = (NodeList) evaluate(document, exprString, XPathConstants.NODESET);
-
-        return getAttributeValue(meta.item(0), ATTR_CONTENT);
+        for(Element meta : this.html5Document.getElementsByTag(ELEM_META)) {
+            if (metaName.equals(meta.attr("name"))) {
+                return meta.attr(ATTR_CONTENT);
+            }
+        }
+        return null;
     }
 
     /**
@@ -134,12 +133,12 @@ public class CustomDutchWebGuidelinesValidator extends DutchWebGuidelinesValidat
             && !isPage("XWiki", "XWikiSyntaxParameters") && !isPage("Panels", "PanelWizard")
             && !isPage("XWiki", "Treeview") && !isPage("Invitation", "WebHome")) {
             // Usage of the style attribute is strictly forbidden in the other spaces.
-            assertFalse(Type.ERROR, "rpd9s1.attr",
-                ((Boolean) evaluate(getElement(ELEM_BODY), exprString, XPathConstants.BOOLEAN)));
+
+            assertTrue(Type.ERROR, "rpd9s1.attr", getElement(ELEM_BODY).getElementsByAttribute(STYLE).isEmpty());
         }
 
         // <style> tags are forbidden everywhere.
-        assertFalse(Type.ERROR, "rpd9s1.tag", getChildren(getElement(ELEM_BODY), "style").getNodeList().getLength() > 0);
+        assertTrue(Type.ERROR, "rpd9s1.tag", getElement(ELEM_BODY).getElementsByTag(STYLE).isEmpty());
     }
 
     /**

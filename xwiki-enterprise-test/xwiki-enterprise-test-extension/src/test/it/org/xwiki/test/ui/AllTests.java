@@ -62,10 +62,22 @@ public class AllTests
     {
         // Import XR
         if (!context.getUtil().pageExists("Extension", "WebHome")) {
+            System.out.println("Importing xwiki-platform-repository-server-ui.xar...");
+
             context.getDriver().get(
                 context.getUtil().getURLToLoginAsAdminAndGotoPage(context.getUtil().getURLToNonExistentPage()));
             context.getUtil().recacheSecretToken();
             context.getUtil().importXar(new File("target/dependency/xwiki-platform-repository-server-ui.xar"));
+        }
+
+        // Import ratings
+        if (!context.getUtil().pageExists("XWiki", "Ratings")) {
+            System.out.println("Importing xwiki-platform-ratings-ui.xar...");
+
+            context.getDriver().get(
+                context.getUtil().getURLToLoginAsAdminAndGotoPage(context.getUtil().getURLToNonExistentPage()));
+            context.getUtil().recacheSecretToken();
+            context.getUtil().importXar(new File("target/dependency/xwiki-platform-ratings-ui.xar"));
         }
 
         // Initialize extensions and repositories

@@ -126,6 +126,24 @@
             </configuration>
           </execution>
           <execution>
+            <id>install-ratings-jar</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.xwiki.platform</groupId>
+                  <artifactId>xwiki-platform-ratings-api</artifactId>
+                  <version>${platform.version}</version>
+                  <type>jar</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>${project.build.directory}/xwiki-enterprise-jetty-${xwiki.db}-${project.version}/webapps/xwiki/WEB-INF/lib</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
             <id>install-xr-xar</id>
             <phase>process-resources</phase>
             <goals>
@@ -136,6 +154,24 @@
                 <artifactItem>
                   <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-platform-repository-server-ui</artifactId>
+                  <version>${platform.version}</version>
+                  <type>xar</type>
+                </artifactItem>
+              </artifactItems>
+              <stripVersion>true</stripVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>install-ratings-xar</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.xwiki.platform</groupId>
+                  <artifactId>xwiki-platform-ratings-ui</artifactId>
                   <version>${platform.version}</version>
                   <type>xar</type>
                 </artifactItem>

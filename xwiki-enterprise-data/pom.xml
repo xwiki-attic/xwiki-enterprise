@@ -110,6 +110,12 @@
               <artifactId>xwiki-platform-wiki-default</artifactId>
               <version>${platform.version}</version>
             </dependency>
+            <!-- Mail Sender module has its own Hibernate mapping file -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-mail-send-storage</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
             <dependency>

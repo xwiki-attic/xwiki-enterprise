@@ -577,6 +577,15 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertElementNotPresent(jumpToPageTitleXPath);
         getSourceTextArea().sendKeys(Keys.chord(Keys.CONTROL, "g"));
         assertElementPresent(jumpToPageTitleXPath);
+
+        // Ctrl+G is a shortcut for "Find again" on Firefox and it opens the find toolbar at the bottom of the page.
+        // This toolbar can influence the way Selenium/WebDriver computes the position of the buttons on the page
+        // leading to cases where clicking on a button has no action because the click is performed at a different
+        // location or because Selenium thinks the location is outside of the page.
+        // Close the "Jump to page" dialog, switch back to rich text area and close the find toolbar.
+        getSourceTextArea().sendKeys(Keys.ESCAPE);
+        switchToWysiwyg();
+        getRichTextArea().sendKeys(Keys.chord(Keys.CONTROL, "g"), Keys.ESCAPE);
     }
 
     /**

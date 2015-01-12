@@ -990,7 +990,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void clickExitFullScreen()
     {
-        getSelenium().click("//input[@value = 'Exit full screen']");
+        getSelenium().click("//input[@value = 'Exit Full Screen']");
         waitForElementNotPresent("//div[@class = 'fullScreenWrapper']");
     }
 

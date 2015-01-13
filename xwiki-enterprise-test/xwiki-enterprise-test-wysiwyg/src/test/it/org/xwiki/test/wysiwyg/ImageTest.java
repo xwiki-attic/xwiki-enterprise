@@ -810,6 +810,14 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForElement(PAGE_SELECTOR + "/option[@value = '" + page + "']");
         getSelenium().select(PAGE_SELECTOR, page);
 
+        // If the list of spaces/pages is long then the space/page we want to select might not be visible when the drop
+        // down is opened so Selenium will try to scroll it into view. Unfortunately Selenium doesn't scroll only the
+        // drop down list but also the entire page. The select fields end up at the top of the page where, for some
+        // unknown reason, the drop down list remains opened after an option is selected. As a consequence clicking on
+        // the Update button has only the effect of closing the drop down without triggering the expected update. Make
+        // sure the drop down is closed by pressing the Tab key to move the focus to the Update button.
+        getSelenium().typeKeys(PAGE_SELECTOR, "\t");
+
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
         waitForElement("//*[@class = '" + STEP_EXPLORER + "']//*[contains(@class, '" + STEP_CURRENT_PAGE_SELECTOR
             + "')]");

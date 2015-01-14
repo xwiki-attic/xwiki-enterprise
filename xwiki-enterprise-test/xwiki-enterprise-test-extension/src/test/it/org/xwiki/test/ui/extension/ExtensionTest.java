@@ -19,12 +19,12 @@
  */
 package org.xwiki.test.ui.extension;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.math.RandomUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -32,6 +32,7 @@ import org.xwiki.extension.DefaultExtensionAuthor;
 import org.xwiki.extension.DefaultExtensionDependency;
 import org.xwiki.extension.ExtensionId;
 import org.xwiki.extension.ExtensionLicense;
+import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
 import org.xwiki.extension.test.po.AdvancedSearchPane;
 import org.xwiki.extension.test.po.DependencyPane;
 import org.xwiki.extension.test.po.ExtensionAdministrationPage;
@@ -52,6 +53,8 @@ import org.xwiki.test.ui.TestExtension;
 import org.xwiki.test.ui.po.ChangesPane;
 import org.xwiki.test.ui.po.ViewPage;
 
+import static org.junit.Assert.*;
+
 /**
  * Functional tests for the Extension Manager user interface.
  * 
@@ -65,6 +68,18 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
     {
         super.setUp();
 
+        // Make sure the extensions we are playing with are not already installed.
+        getExtensionTestUtils().finishCurrentJob();
+        getExtensionTestUtils().uninstall("alice-xar-extension");
+        getExtensionTestUtils().uninstall("bob-xar-extension");
+        getExtensionTestUtils().uninstall("scriptServiceJarExtension");
+
+        // Delete the pages that are provided by the XAR extensions we use in tests.
+        getUtil().deletePage("ExtensionTest", "Alice");
+        assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
+        getUtil().deletePage("ExtensionTest", "Bob");
+        assertFalse(getUtil().pageExists("ExtensionTest", "Bob"));
+
         // Delete from the repository the XAR extensions we use in tests.
         // The extension page name is either the extension name, if specified, or the extension id. Most of the tests
         // don't set the extension name but some do and we end up with two extensions (two pages) with the same id.
@@ -72,16 +87,12 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         getUtil().deletePage("Extension", "Bob Wiki Macro");
         getUtil().deletePage("Extension", "alice-xar-extension");
         getUtil().deletePage("Extension", "bob-xar-extension");
+        getUtil().deletePage("Extension", "scriptServiceJarExtension");
 
-        // Delete the pages that are provided by the XAR extensions we use in tests.
-        getUtil().deletePage("ExtensionTest", "Alice");
-        getUtil().deletePage("ExtensionTest", "Bob");
-
-        // Make sure the extensions we are playing with are not already installed.
-        getExtensionTestUtils().finishCurrentJob();
-        getExtensionTestUtils().uninstall("alice-xar-extension");
-        getExtensionTestUtils().uninstall("bob-xar-extension");
-        getExtensionTestUtils().uninstall("scriptServiceJarExtension");
+        // Double check that the XWiki Extension Repository is empty.
+        ExtensionsSearchResult searchResult =
+            getUtil().getRESTResource("repository/search", Collections.singletonMap("number", new Object[] {1}));
+        assertEquals(0, searchResult.getTotalHits());
     }
 
     /**
@@ -93,50 +104,50 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickCoreExtensionsSection();
 
         SearchResultsPane searchResults = adminPage.getSearchResults();
-        Assert.assertNull(searchResults.getNoResultsMessage());
-        Assert.assertEquals(20, searchResults.getDisplayedResultsCount());
+        assertNull(searchResults.getNoResultsMessage());
+        assertEquals(20, searchResults.getDisplayedResultsCount());
 
         PaginationFilterPane pagination = searchResults.getPagination();
-        Assert.assertEquals(1 + pagination.getResultsCount() / 20, pagination.getPageCount());
-        Assert.assertEquals("1 - 20", pagination.getCurrentRange());
-        Assert.assertEquals(1, pagination.getCurrentPageIndex());
-        Assert.assertFalse(pagination.hasPreviousPage());
-        Assert.assertTrue(pagination.hasNextPage());
-        Assert.assertTrue(pagination.getPageCount() > 5);
-        Assert.assertTrue(pagination.getResultsCount() > 100);
+        assertEquals(1 + pagination.getResultsCount() / 20, pagination.getPageCount());
+        assertEquals("1 - 20", pagination.getCurrentRange());
+        assertEquals(1, pagination.getCurrentPageIndex());
+        assertFalse(pagination.hasPreviousPage());
+        assertTrue(pagination.hasNextPage());
+        assertTrue(pagination.getPageCount() > 5);
+        assertTrue(pagination.getResultsCount() > 100);
         String firstExtensionName = searchResults.getExtension(0).getName();
 
         pagination = pagination.gotoPage(4);
         searchResults = new SearchResultsPane();
-        Assert.assertEquals(20, searchResults.getDisplayedResultsCount());
-        Assert.assertEquals("61 - 80", pagination.getCurrentRange());
-        Assert.assertEquals(4, pagination.getCurrentPageIndex());
-        Assert.assertTrue(pagination.hasNextPage());
+        assertEquals(20, searchResults.getDisplayedResultsCount());
+        assertEquals("61 - 80", pagination.getCurrentRange());
+        assertEquals(4, pagination.getCurrentPageIndex());
+        assertTrue(pagination.hasNextPage());
         String secondExtensionName = searchResults.getExtension(0).getName();
-        Assert.assertFalse(firstExtensionName.equals(secondExtensionName));
+        assertFalse(firstExtensionName.equals(secondExtensionName));
 
         pagination = pagination.previousPage();
         searchResults = new SearchResultsPane();
-        Assert.assertEquals(20, searchResults.getDisplayedResultsCount());
-        Assert.assertEquals("41 - 60", pagination.getCurrentRange());
-        Assert.assertEquals(3, pagination.getCurrentPageIndex());
+        assertEquals(20, searchResults.getDisplayedResultsCount());
+        assertEquals("41 - 60", pagination.getCurrentRange());
+        assertEquals(3, pagination.getCurrentPageIndex());
         String thirdExtensionName = searchResults.getExtension(0).getName();
-        Assert.assertFalse(firstExtensionName.equals(thirdExtensionName));
-        Assert.assertFalse(secondExtensionName.equals(thirdExtensionName));
+        assertFalse(firstExtensionName.equals(thirdExtensionName));
+        assertFalse(secondExtensionName.equals(thirdExtensionName));
 
         pagination = pagination.nextPage();
         searchResults = new SearchResultsPane();
-        Assert.assertEquals(20, searchResults.getDisplayedResultsCount());
-        Assert.assertEquals("61 - 80", pagination.getCurrentRange());
-        Assert.assertEquals(4, pagination.getCurrentPageIndex());
-        Assert.assertEquals(secondExtensionName, searchResults.getExtension(0).getName());
+        assertEquals(20, searchResults.getDisplayedResultsCount());
+        assertEquals("61 - 80", pagination.getCurrentRange());
+        assertEquals(4, pagination.getCurrentPageIndex());
+        assertEquals(secondExtensionName, searchResults.getExtension(0).getName());
 
         pagination = pagination.gotoPage(pagination.getPageCount());
         searchResults = new SearchResultsPane();
-        Assert.assertEquals(pagination.getResultsCount() % 20, searchResults.getDisplayedResultsCount());
-        Assert.assertEquals(pagination.getPageCount(), pagination.getCurrentPageIndex());
-        Assert.assertFalse(pagination.hasNextPage());
-        Assert.assertTrue(pagination.hasPreviousPage());
+        assertEquals(pagination.getResultsCount() % 20, searchResults.getDisplayedResultsCount());
+        assertEquals(pagination.getPageCount(), pagination.getCurrentPageIndex());
+        assertFalse(pagination.hasNextPage());
+        assertTrue(pagination.hasPreviousPage());
     }
 
     /**
@@ -150,41 +161,41 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         SimpleSearchPane searchBar = adminPage.getSearchBar();
 
         // Check if the tip is displayed.
-        Assert.assertEquals("search extension...", searchBar.getSearchInput().getAttribute("placeholder"));
+        assertEquals("search extension...", searchBar.getSearchInput().getAttribute("placeholder"));
         // Check that the input is empty
-        Assert.assertEquals("", searchBar.getSearchInput().getAttribute("value"));
+        assertEquals("", searchBar.getSearchInput().getAttribute("value"));
 
         SearchResultsPane searchResults = searchBar.search("XWiki Rendering");
-        Assert.assertTrue(searchResults.getPagination().getResultsCount() < coreExtensionCount);
+        assertTrue(searchResults.getPagination().getResultsCount() < coreExtensionCount);
 
         // Make sure the search input is not cleared.
         searchBar = new SimpleSearchPane();
-        Assert.assertEquals("XWiki Rendering", searchBar.getSearchInput().getAttribute("value"));
+        assertEquals("XWiki Rendering", searchBar.getSearchInput().getAttribute("value"));
 
-        Assert.assertNull(searchResults.getNoResultsMessage());
+        assertNull(searchResults.getNoResultsMessage());
 
         // Check that the result matches the search query.
         ExtensionPane extension = searchResults.getExtension(RandomUtils.nextInt(20));
-        Assert.assertTrue(extension.getName().toLowerCase().contains("rendering"));
-        Assert.assertEquals("core", extension.getStatus());
+        assertTrue(extension.getName().toLowerCase().contains("rendering"));
+        assertEquals("core", extension.getStatus());
 
         // Test search query with no results.
         searchResults = new SimpleSearchPane().search("blahblah");
-        Assert.assertEquals(0, searchResults.getDisplayedResultsCount());
-        Assert.assertNull(searchResults.getPagination());
-        Assert.assertEquals("There were no extensions found matching 'blahblah'. Try different keywords. "
+        assertEquals(0, searchResults.getDisplayedResultsCount());
+        assertNull(searchResults.getPagination());
+        assertEquals("There were no extensions found matching 'blahblah'. Try different keywords. "
             + "Alternatively, if you know the identifier and the version of the extension you're "
             + "looking for, you can use the Advanced Search form above.", searchResults.getNoResultsMessage());
 
         // Test a search query with only a few results (only one page).
         searchResults = searchBar.search("restlet");
-        Assert.assertNull(searchResults.getNoResultsMessage());
-        Assert.assertNull(searchResults.getPagination());
-        Assert.assertTrue(searchResults.getDisplayedResultsCount() > 1);
+        assertNull(searchResults.getNoResultsMessage());
+        assertNull(searchResults.getPagination());
+        assertTrue(searchResults.getDisplayedResultsCount() > 1);
 
         extension = searchResults.getExtension(0);
-        Assert.assertEquals("core", extension.getStatus());
-        Assert.assertTrue(extension.getName().toLowerCase().contains("restlet"));
+        assertEquals("core", extension.getStatus());
+        assertTrue(extension.getName().toLowerCase().contains("restlet"));
     }
 
     /**
@@ -199,25 +210,25 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         String version = searchResults.getExtension(0).getVersion();
 
         searchResults = new SimpleSearchPane().clickAdvancedSearch().search("org.restlet.jse:org.restlet", version);
-        Assert.assertEquals(1, searchResults.getDisplayedResultsCount());
-        Assert.assertNull(searchResults.getNoResultsMessage());
+        assertEquals(1, searchResults.getDisplayedResultsCount());
+        assertNull(searchResults.getNoResultsMessage());
         ExtensionPane extension = searchResults.getExtension(0);
-        Assert.assertEquals("core", extension.getStatus());
-        Assert.assertTrue(extension.getName().toLowerCase().contains("restlet"));
-        Assert.assertEquals(version, extension.getVersion());
+        assertEquals("core", extension.getStatus());
+        assertTrue(extension.getName().toLowerCase().contains("restlet"));
+        assertEquals(version, extension.getVersion());
 
         searchResults = new SimpleSearchPane().clickAdvancedSearch().search("foo", "bar");
-        Assert.assertEquals(0, searchResults.getDisplayedResultsCount());
-        Assert.assertNull(searchResults.getPagination());
-        Assert.assertEquals("We couldn't find any extension with id 'foo' and version 'bar'. "
+        assertEquals(0, searchResults.getDisplayedResultsCount());
+        assertNull(searchResults.getPagination());
+        assertEquals("We couldn't find any extension with id 'foo' and version 'bar'. "
             + "Make sure you have the right extension repositories configured.", searchResults.getNoResultsMessage());
 
         // Test cancel advanced search.
         AdvancedSearchPane advancedSearchPane = new SimpleSearchPane().clickAdvancedSearch();
         advancedSearchPane.getIdInput().sendKeys("id");
-        Assert.assertTrue(advancedSearchPane.getVersionInput().isDisplayed());
+        assertTrue(advancedSearchPane.getVersionInput().isDisplayed());
         advancedSearchPane.getCancelButton().click();
-        Assert.assertFalse(advancedSearchPane.getVersionInput().isDisplayed());
+        assertFalse(advancedSearchPane.getVersionInput().isDisplayed());
     }
 
     /**
@@ -230,17 +241,17 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Assert that the core extension repository is selected.
         SimpleSearchPane searchBar = adminPage.getSearchBar();
-        Assert.assertEquals("Core extensions", searchBar.getRepositorySelect().getFirstSelectedOption().getText());
+        assertEquals("Core extensions", searchBar.getRepositorySelect().getFirstSelectedOption().getText());
 
         ExtensionPane extension = adminPage.getSearchResults().getExtension(RandomUtils.nextInt(20));
-        Assert.assertEquals("core", extension.getStatus());
-        Assert.assertEquals("Provided", extension.getStatusMessage());
-        Assert.assertNull(extension.getInstallButton());
-        Assert.assertNull(extension.getUninstallButton());
-        Assert.assertNull(extension.getUpgradeButton());
-        Assert.assertNull(extension.getDowngradeButton());
+        assertEquals("core", extension.getStatus());
+        assertEquals("Provided", extension.getStatusMessage());
+        assertNull(extension.getInstallButton());
+        assertNull(extension.getUninstallButton());
+        assertNull(extension.getUpgradeButton());
+        assertNull(extension.getDowngradeButton());
         // Just test that the button to show the extension details is present.
-        Assert.assertEquals("core", extension.showDetails().getStatus());
+        assertEquals("core", extension.showDetails().getStatus());
     }
 
     /**
@@ -257,43 +268,43 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // Check if the section links point to the right repository.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
         Select repositorySelect = adminPage.getSearchBar().getRepositorySelect();
-        Assert.assertEquals("All Extensions", repositorySelect.getFirstSelectedOption().getText());
+        assertEquals("All Extensions", repositorySelect.getFirstSelectedOption().getText());
 
         adminPage = adminPage.clickCoreExtensionsSection();
         repositorySelect = adminPage.getSearchBar().getRepositorySelect();
-        Assert.assertEquals("Core extensions", repositorySelect.getFirstSelectedOption().getText());
+        assertEquals("Core extensions", repositorySelect.getFirstSelectedOption().getText());
 
         adminPage = adminPage.clickInstalledExtensionsSection();
         repositorySelect = adminPage.getSearchBar().getRepositorySelect();
-        Assert.assertEquals("Installed extensions", repositorySelect.getFirstSelectedOption().getText());
+        assertEquals("Installed extensions", repositorySelect.getFirstSelectedOption().getText());
 
         // Check that a remote extension appears only in the list of "All Extensions".
         SearchResultsPane searchResults = adminPage.getSearchBar().search("alice");
-        Assert.assertNull(searchResults.getExtension(extensionId));
+        assertNull(searchResults.getExtension(extensionId));
 
         new SimpleSearchPane().getRepositorySelect().selectByVisibleText("All Extensions");
         adminPage = new ExtensionAdministrationPage();
         adminPage.waitUntilPageIsLoaded();
         // The value of the search input must be preserved when we switch the repository.
-        Assert.assertEquals("alice", adminPage.getSearchBar().getSearchInput().getAttribute("value"));
-        Assert.assertNotNull(adminPage.getSearchResults().getExtension(extensionId));
-        Assert.assertNull(new SimpleSearchPane().selectRepository("local").getExtension(extensionId));
+        assertEquals("alice", adminPage.getSearchBar().getSearchInput().getAttribute("value"));
+        assertNotNull(adminPage.getSearchResults().getExtension(extensionId));
+        assertNull(new SimpleSearchPane().selectRepository("local").getExtension(extensionId));
 
         // Check that an installed extension appears also in "Installed Extensions" and "Local Extensions".
         getExtensionTestUtils().install(extensionId);
         adminPage = ExtensionAdministrationPage.gotoPage().clickInstalledExtensionsSection();
         searchResults = adminPage.getSearchBar().search("alice");
-        Assert.assertNotNull(searchResults.getExtension(extensionId));
-        Assert.assertNotNull(new SimpleSearchPane().selectRepository("local").getExtension(extensionId));
-        Assert.assertNotNull(new SimpleSearchPane().selectRepository("").getExtension(extensionId));
+        assertNotNull(searchResults.getExtension(extensionId));
+        assertNotNull(new SimpleSearchPane().selectRepository("local").getExtension(extensionId));
+        assertNotNull(new SimpleSearchPane().selectRepository("").getExtension(extensionId));
 
         // Check local extension.
         getExtensionTestUtils().uninstall(extensionId.getId(), true);
         adminPage = ExtensionAdministrationPage.gotoPage().clickInstalledExtensionsSection();
         searchResults = adminPage.getSearchBar().search("alice");
-        Assert.assertNull(searchResults.getExtension(extensionId));
-        Assert.assertNotNull(new SimpleSearchPane().selectRepository("local").getExtension(extensionId));
-        Assert.assertNotNull(new SimpleSearchPane().selectRepository("").getExtension(extensionId));
+        assertNull(searchResults.getExtension(extensionId));
+        assertNotNull(new SimpleSearchPane().selectRepository("local").getExtension(extensionId));
+        assertNotNull(new SimpleSearchPane().selectRepository("").getExtension(extensionId));
     }
 
     /**
@@ -317,24 +328,24 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
         ExtensionPane extensionPane =
             adminPage.getSearchBar().clickAdvancedSearch().search(extensionId).getExtension(0);
-        Assert.assertEquals("remote", extensionPane.getStatus());
-        Assert.assertNull(extensionPane.getStatusMessage());
-        Assert.assertEquals(extension.getName(), extensionPane.getName());
-        Assert.assertEquals(extensionId.getVersion().getValue(), extensionPane.getVersion());
+        assertEquals("remote", extensionPane.getStatus());
+        assertNull(extensionPane.getStatusMessage());
+        assertEquals(extension.getName(), extensionPane.getName());
+        assertEquals(extensionId.getVersion().getValue(), extensionPane.getVersion());
         List<WebElement> authors = extensionPane.getAuthors();
-        Assert.assertEquals(2, authors.size());
-        Assert.assertEquals("Thomas", authors.get(0).getText());
-        Assert.assertEquals("Marius", authors.get(1).getText());
-        Assert.assertEquals(extension.getSummary(), extensionPane.getSummary());
+        assertEquals(2, authors.size());
+        assertEquals("Thomas", authors.get(0).getText());
+        assertEquals("Marius", authors.get(1).getText());
+        assertEquals(extension.getSummary(), extensionPane.getSummary());
 
         // Check the extension details.
         ExtensionDescriptionPane descriptionPane = extensionPane.openDescriptionSection();
-        Assert.assertEquals(extension.getLicenses().iterator().next().getName(), descriptionPane.getLicense());
-        Assert.assertEquals(extension.getId().getId(), descriptionPane.getId());
-        Assert.assertEquals(extension.getType(), descriptionPane.getType());
+        assertEquals(extension.getLicenses().iterator().next().getName(), descriptionPane.getLicense());
+        assertEquals(extension.getId().getId(), descriptionPane.getId());
+        assertEquals(extension.getType(), descriptionPane.getType());
         WebElement webSiteLink = descriptionPane.getWebSite();
-        Assert.assertEquals(extension.getWebSite().substring("http://".length()), webSiteLink.getText());
-        Assert.assertEquals(extension.getWebSite() + '/', webSiteLink.getAttribute("href"));
+        assertEquals(extension.getWebSite().substring("http://".length()), webSiteLink.getText());
+        assertEquals(extension.getWebSite() + '/', webSiteLink.getAttribute("href"));
     }
 
     /**
@@ -371,46 +382,45 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionDependenciesPane dependenciesPane = extensionPane.openDependenciesSection();
 
         List<DependencyPane> directDependencies = dependenciesPane.getDirectDependencies();
-        Assert.assertEquals(5, directDependencies.size());
+        assertEquals(5, directDependencies.size());
 
-        Assert.assertEquals(dependency.getName(), directDependencies.get(0).getName());
-        Assert.assertEquals(dependencyId.getVersion().getValue(), directDependencies.get(0).getVersion());
-        Assert.assertEquals("remote", directDependencies.get(0).getStatus());
-        Assert.assertNull(directDependencies.get(0).getStatusMessage());
+        assertEquals(dependency.getName(), directDependencies.get(0).getName());
+        assertEquals(dependencyId.getVersion().getValue(), directDependencies.get(0).getVersion());
+        assertEquals("remote", directDependencies.get(0).getStatus());
+        assertNull(directDependencies.get(0).getStatusMessage());
 
-        Assert.assertNull(directDependencies.get(1).getLink());
-        Assert.assertEquals("missing-dependency", directDependencies.get(1).getName());
-        Assert.assertEquals("135", directDependencies.get(1).getVersion());
-        Assert.assertEquals("unknown", directDependencies.get(1).getStatus());
-        Assert.assertNull(directDependencies.get(1).getStatusMessage());
+        assertNull(directDependencies.get(1).getLink());
+        assertEquals("missing-dependency", directDependencies.get(1).getName());
+        assertEquals("135", directDependencies.get(1).getVersion());
+        assertEquals("unknown", directDependencies.get(1).getStatus());
+        assertNull(directDependencies.get(1).getStatusMessage());
 
-        Assert.assertNotNull(directDependencies.get(2).getLink());
-        Assert.assertEquals("XWiki Platform - Sheet - API", directDependencies.get(2).getName());
-        Assert.assertEquals("[3.2,)", directDependencies.get(2).getVersion());
-        Assert.assertEquals("core", directDependencies.get(2).getStatus());
-        Assert.assertEquals("Provided", directDependencies.get(2).getStatusMessage());
+        assertNotNull(directDependencies.get(2).getLink());
+        assertEquals("XWiki Platform - Sheet - API", directDependencies.get(2).getName());
+        assertEquals("[3.2,)", directDependencies.get(2).getVersion());
+        assertEquals("core", directDependencies.get(2).getStatus());
+        assertEquals("Provided", directDependencies.get(2).getStatusMessage());
 
-        Assert.assertNotNull(directDependencies.get(3).getLink());
-        Assert.assertEquals("XWiki Commons - Diff API", directDependencies.get(3).getName());
-        Assert.assertEquals("2.7", directDependencies.get(3).getVersion());
-        Assert.assertEquals("remote-core", directDependencies.get(3).getStatus());
-        Assert.assertTrue(directDependencies.get(3).getStatusMessage().matches("Version [^\\s]+ is provided"));
+        assertNotNull(directDependencies.get(3).getLink());
+        assertEquals("XWiki Commons - Diff API", directDependencies.get(3).getName());
+        assertEquals("2.7", directDependencies.get(3).getVersion());
+        assertEquals("remote-core", directDependencies.get(3).getStatus());
+        assertTrue(directDependencies.get(3).getStatusMessage().matches("Version [^\\s]+ is provided"));
 
-        Assert.assertEquals("XWiki Platform - Display API", directDependencies.get(4).getName());
-        Assert.assertEquals("100.1", directDependencies.get(4).getVersion());
-        Assert.assertEquals("remote-core-incompatible", directDependencies.get(4).getStatus());
-        Assert.assertTrue(directDependencies.get(4).getStatusMessage()
-            .matches("Incompatible with provided version [^\\s]+"));
+        assertEquals("XWiki Platform - Display API", directDependencies.get(4).getName());
+        assertEquals("100.1", directDependencies.get(4).getVersion());
+        assertEquals("remote-core-incompatible", directDependencies.get(4).getStatus());
+        assertTrue(directDependencies.get(4).getStatusMessage().matches("Incompatible with provided version [^\\s]+"));
 
-        Assert.assertTrue(dependenciesPane.getBackwardDependencies().isEmpty());
+        assertTrue(dependenciesPane.getBackwardDependencies().isEmpty());
 
         // Follow the link to a dependency.
         directDependencies.get(0).getLink().click();
         adminPage = new ExtensionAdministrationPage();
         extensionPane = adminPage.getSearchResults().getExtension(0);
-        Assert.assertEquals(dependency.getName(), extensionPane.getName());
-        Assert.assertEquals(dependencyId.getVersion().getValue(), extensionPane.getVersion());
-        Assert.assertEquals(dependency.getSummary(), extensionPane.getSummary());
+        assertEquals(dependency.getName(), extensionPane.getName());
+        assertEquals(dependencyId.getVersion().getValue(), extensionPane.getVersion());
+        assertEquals(dependency.getSummary(), extensionPane.getSummary());
 
         // Check that we are still in the administration.
         adminPage.clickInstalledExtensionsSection();
@@ -443,72 +453,72 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Assert the install plan.
         List<DependencyPane> installPlan = extensionPane.openProgressSection().getJobPlan();
-        Assert.assertEquals(2, installPlan.size());
-        Assert.assertEquals(dependencyId, installPlan.get(0).getId());
-        Assert.assertEquals(extensionId, installPlan.get(1).getId());
+        assertEquals(2, installPlan.size());
+        assertEquals(dependencyId, installPlan.get(0).getId());
+        assertEquals(extensionId, installPlan.get(1).getId());
 
         // Finish the install and assert the install log.
         List<LogItemPane> log = extensionPane.confirm().openProgressSection().getJobLog();
         int logSize = log.size();
-        Assert.assertTrue(logSize > 1);
-        Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Starting job of type [install] with identifier "
+        assertTrue(logSize > 1);
+        assertEquals("info", log.get(0).getLevel());
+        assertEquals("Starting job of type [install] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(0).getMessage());
-        Assert.assertEquals("info", log.get(logSize - 1).getLevel());
-        Assert.assertEquals("Finished job of type [install] with identifier "
+        assertEquals("info", log.get(logSize - 1).getLevel());
+        assertEquals("Finished job of type [install] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(logSize - 1).getMessage());
 
         // Test that both extensions are usable.
         ViewPage viewPage = getUtil().createPage(getTestClassName(), getTestMethodName(), "{{alice/}}\n\n{{bob/}}", "");
         String content = viewPage.getContent();
-        Assert.assertTrue(content.contains("Alice says hello!"));
-        Assert.assertTrue(content.contains("Bob says hi!"));
+        assertTrue(content.contains("Alice says hello!"));
+        assertTrue(content.contains("Bob says hi!"));
 
         // Check the list of installed extensions.
         adminPage = ExtensionAdministrationPage.gotoPage().clickInstalledExtensionsSection();
 
         SearchResultsPane searchResults = adminPage.getSearchBar().search("bob");
-        Assert.assertEquals(1, searchResults.getDisplayedResultsCount());
+        assertEquals(1, searchResults.getDisplayedResultsCount());
         extensionPane = searchResults.getExtension(0);
-        Assert.assertEquals("installed", extensionPane.getStatus());
-        Assert.assertEquals("Installed", extensionPane.getStatusMessage());
-        Assert.assertEquals(dependencyId, extensionPane.getId());
-        Assert.assertNotNull(extensionPane.getUninstallButton());
+        assertEquals("installed", extensionPane.getStatus());
+        assertEquals("Installed", extensionPane.getStatusMessage());
+        assertEquals(dependencyId, extensionPane.getId());
+        assertNotNull(extensionPane.getUninstallButton());
 
         searchResults = new SimpleSearchPane().search("alice");
-        Assert.assertEquals(1, searchResults.getDisplayedResultsCount());
+        assertEquals(1, searchResults.getDisplayedResultsCount());
         extensionPane = searchResults.getExtension(0);
-        Assert.assertEquals("installed", extensionPane.getStatus());
-        Assert.assertEquals("Installed", extensionPane.getStatusMessage());
-        Assert.assertEquals(extensionId, extensionPane.getId());
-        Assert.assertNotNull(extensionPane.getUninstallButton());
+        assertEquals("installed", extensionPane.getStatus());
+        assertEquals("Installed", extensionPane.getStatusMessage());
+        assertEquals(extensionId, extensionPane.getId());
+        assertNotNull(extensionPane.getUninstallButton());
 
         // Check if the progress log is persisted.
         extensionPane = extensionPane.showDetails();
         log = extensionPane.openProgressSection().getJobLog();
-        Assert.assertEquals(logSize, log.size());
-        Assert.assertEquals("info", log.get(0).getLevel());
-        Assert.assertEquals("Starting job of type [install] with identifier "
+        assertEquals(logSize, log.size());
+        assertEquals("info", log.get(0).getLevel());
+        assertEquals("Starting job of type [install] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(0).getMessage());
-        Assert.assertEquals("info", log.get(logSize - 1).getLevel());
-        Assert.assertEquals("Finished job of type [install] with identifier "
+        assertEquals("info", log.get(logSize - 1).getLevel());
+        assertEquals("Finished job of type [install] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(logSize - 1).getMessage());
 
         // Check if the dependency is properly listed as installed.
         List<DependencyPane> dependencies = extensionPane.openDependenciesSection().getDirectDependencies();
-        Assert.assertEquals(2, dependencies.size());
-        Assert.assertEquals(dependencyId, dependencies.get(0).getId());
-        Assert.assertEquals("installed", dependencies.get(0).getStatus());
-        Assert.assertEquals("Installed", dependencies.get(0).getStatusMessage());
+        assertEquals(2, dependencies.size());
+        assertEquals(dependencyId, dependencies.get(0).getId());
+        assertEquals("installed", dependencies.get(0).getStatus());
+        assertEquals("Installed", dependencies.get(0).getStatusMessage());
 
         // Check the backward dependency.
         dependencies.get(0).getLink().click();
         extensionPane = new ExtensionAdministrationPage().getSearchResults().getExtension(0);
         dependencies = extensionPane.openDependenciesSection().getBackwardDependencies();
-        Assert.assertEquals(1, dependencies.size());
-        Assert.assertEquals(extensionId, dependencies.get(0).getId());
-        Assert.assertEquals("installed", dependencies.get(0).getStatus());
-        Assert.assertEquals("Installed", dependencies.get(0).getStatusMessage());
+        assertEquals(1, dependencies.size());
+        assertEquals(extensionId, dependencies.get(0).getId());
+        assertEquals("installed", dependencies.get(0).getStatus());
+        assertEquals("Installed", dependencies.get(0).getStatusMessage());
     }
 
     /**
@@ -531,8 +541,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         getExtensionTestUtils().install(extensionId);
 
         // Check if the installed pages are present.
-        Assert.assertTrue(getUtil().pageExists("ExtensionTest", "Alice"));
-        Assert.assertTrue(getUtil().pageExists("ExtensionTest", "Bob"));
+        assertTrue(getUtil().pageExists("ExtensionTest", "Alice"));
+        assertTrue(getUtil().pageExists("ExtensionTest", "Bob"));
 
         // Uninstall the dependency.
         ExtensionAdministrationPage adminPage =
@@ -543,36 +553,36 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Check the uninstall plan. Both extensions should be included.
         List<DependencyPane> uninstallPlan = extensionPane.openProgressSection().getJobPlan();
-        Assert.assertEquals(2, uninstallPlan.size());
+        assertEquals(2, uninstallPlan.size());
 
-        Assert.assertEquals(extensionId, uninstallPlan.get(0).getId());
-        Assert.assertEquals("installed", uninstallPlan.get(0).getStatus());
-        Assert.assertEquals("Installed", uninstallPlan.get(0).getStatusMessage());
+        assertEquals(extensionId, uninstallPlan.get(0).getId());
+        assertEquals("installed", uninstallPlan.get(0).getStatus());
+        assertEquals("Installed", uninstallPlan.get(0).getStatusMessage());
 
-        Assert.assertEquals(dependencyId, uninstallPlan.get(1).getId());
-        Assert.assertEquals("installed", uninstallPlan.get(1).getStatus());
-        Assert.assertEquals("Installed", uninstallPlan.get(1).getStatusMessage());
+        assertEquals(dependencyId, uninstallPlan.get(1).getId());
+        assertEquals("installed", uninstallPlan.get(1).getStatus());
+        assertEquals("Installed", uninstallPlan.get(1).getStatusMessage());
 
         // Check the confirmation to delete the unused wiki pages.
         extensionPane = extensionPane.confirm();
         UnusedPagesPane unusedPages = extensionPane.openProgressSection().getUnusedPages();
-        Assert.assertTrue(unusedPages.contains("ExtensionTest", "Alice"));
-        Assert.assertTrue(unusedPages.contains("ExtensionTest", "Bob"));
+        assertTrue(unusedPages.contains("ExtensionTest", "Alice"));
+        assertTrue(unusedPages.contains("ExtensionTest", "Bob"));
 
         // Finish the uninstall and check the log.
         extensionPane = extensionPane.confirm();
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
-        Assert.assertTrue(log.size() > 2);
-        Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [bob-xar-extension 2.5-milestone-2] from namespace [Home]", log
-            .get(2).getMessage());
-        Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Finished job of type [uninstall] with identifier "
+        assertTrue(log.size() > 2);
+        assertEquals("info", log.get(2).getLevel());
+        assertEquals("Resolving extension [bob-xar-extension 2.5-milestone-2] from namespace [Home]", log.get(2)
+            .getMessage());
+        assertEquals("info", log.get(log.size() - 1).getLevel());
+        assertEquals("Finished job of type [uninstall] with identifier "
             + "[extension/action/bob-xar-extension/wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Check if the uninstalled pages have been deleted.
-        Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
-        Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Bob"));
+        assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
+        assertFalse(getUtil().pageExists("ExtensionTest", "Bob"));
 
         // Install both extension again and uninstall only the one with the dependency.
         getExtensionTestUtils().install(extensionId);
@@ -583,40 +593,39 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Check the uninstall plan. Only one extension should be included.
         uninstallPlan = extensionPane.openProgressSection().getJobPlan();
-        Assert.assertEquals(1, uninstallPlan.size());
-        Assert.assertEquals(extensionId, uninstallPlan.get(0).getId());
+        assertEquals(1, uninstallPlan.size());
+        assertEquals(extensionId, uninstallPlan.get(0).getId());
 
         // Check the confirmation to delete the unused wiki pages.
         extensionPane = extensionPane.confirm();
         unusedPages = extensionPane.openProgressSection().getUnusedPages();
-        Assert.assertTrue(unusedPages.contains("ExtensionTest", "Alice"));
-        Assert.assertFalse(unusedPages.contains("ExtensionTest", "Bob"));
+        assertTrue(unusedPages.contains("ExtensionTest", "Alice"));
+        assertFalse(unusedPages.contains("ExtensionTest", "Bob"));
 
         // Finish the uninstall and check the log.
         log = extensionPane.confirm().openProgressSection().getJobLog();
-        Assert.assertTrue(log.size() > 2);
-        Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [Home]", log.get(2)
-            .getMessage());
-        Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Finished job of type [uninstall] with identifier "
+        assertTrue(log.size() > 2);
+        assertEquals("info", log.get(2).getLevel());
+        assertEquals("Resolving extension [alice-xar-extension 1.3] from namespace [Home]", log.get(2).getMessage());
+        assertEquals("info", log.get(log.size() - 1).getLevel());
+        assertEquals("Finished job of type [uninstall] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Check if the uninstalled pages have been deleted.
-        Assert.assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
-        Assert.assertTrue(getUtil().pageExists("ExtensionTest", "Bob"));
+        assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
+        assertTrue(getUtil().pageExists("ExtensionTest", "Bob"));
 
         // Check the list of installed extensions. It should contain only the second extension.
         adminPage = ExtensionAdministrationPage.gotoPage().clickInstalledExtensionsSection();
         SearchResultsPane searchResults = adminPage.getSearchBar().search("alice");
-        Assert.assertEquals(0, searchResults.getDisplayedResultsCount());
-        Assert.assertNotNull(searchResults.getNoResultsMessage());
+        assertEquals(0, searchResults.getDisplayedResultsCount());
+        assertNotNull(searchResults.getNoResultsMessage());
 
         searchResults = new SimpleSearchPane().search("bob");
-        Assert.assertEquals(1, searchResults.getDisplayedResultsCount());
+        assertEquals(1, searchResults.getDisplayedResultsCount());
         extensionPane = searchResults.getExtension(0);
-        Assert.assertEquals("installed", extensionPane.getStatus());
-        Assert.assertEquals(dependencyId, extensionPane.getId());
+        assertEquals("installed", extensionPane.getStatus());
+        assertEquals(dependencyId, extensionPane.getId());
     }
 
     /**
@@ -636,7 +645,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Install and uninstall.
         extensionPane = extensionPane.install().confirm().uninstall().confirm().confirm().install();
-        Assert.assertEquals("remote", extensionPane.getStatus());
+        assertEquals("remote", extensionPane.getStatus());
     }
 
     /**
@@ -665,35 +674,34 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
         ExtensionPane extensionPane =
             adminPage.getSearchBar().clickAdvancedSearch().search(extensionId, newVersion).getExtension(0);
-        Assert.assertEquals("remote-installed", extensionPane.getStatus());
-        Assert.assertEquals("Version 1.3 is installed", extensionPane.getStatusMessage());
+        assertEquals("remote-installed", extensionPane.getStatus());
+        assertEquals("Version 1.3 is installed", extensionPane.getStatusMessage());
         extensionPane = extensionPane.upgrade();
 
         // Check the upgrade plan.
         List<DependencyPane> upgradePlan = extensionPane.openProgressSection().getJobPlan();
-        Assert.assertEquals(1, upgradePlan.size());
-        Assert.assertEquals(extensionId, upgradePlan.get(0).getName());
-        Assert.assertEquals(newVersion, upgradePlan.get(0).getVersion());
-        Assert.assertEquals("remote-installed", upgradePlan.get(0).getStatus());
-        Assert.assertEquals("Version 1.3 is installed", upgradePlan.get(0).getStatusMessage());
+        assertEquals(1, upgradePlan.size());
+        assertEquals(extensionId, upgradePlan.get(0).getName());
+        assertEquals(newVersion, upgradePlan.get(0).getVersion());
+        assertEquals("remote-installed", upgradePlan.get(0).getStatus());
+        assertEquals("Version 1.3 is installed", upgradePlan.get(0).getStatusMessage());
 
         // Finish the upgrade and check the upgrade log.
         extensionPane = extensionPane.confirm();
-        Assert.assertEquals("installed", extensionPane.getStatus());
-        Assert.assertEquals("Installed", extensionPane.getStatusMessage());
+        assertEquals("installed", extensionPane.getStatus());
+        assertEquals("Installed", extensionPane.getStatusMessage());
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
-        Assert.assertTrue(log.size() > 2);
-        Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [alice-xar-extension 2.1.4] on namespace [Home]", log.get(2)
-            .getMessage());
-        Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Finished job of type [install] with identifier "
+        assertTrue(log.size() > 2);
+        assertEquals("info", log.get(2).getLevel());
+        assertEquals("Resolving extension [alice-xar-extension 2.1.4] on namespace [Home]", log.get(2).getMessage());
+        assertEquals("info", log.get(log.size() - 1).getLevel());
+        assertEquals("Finished job of type [install] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Assert the changes.
         ViewPage viewPage = getUtil().gotoPage("ExtensionTest", "Alice");
-        Assert.assertEquals("Alice Wiki Macro (upgraded)", viewPage.getDocumentTitle());
-        Assert.assertTrue(viewPage.getContent().contains("Alice says hi guys!"));
+        assertEquals("Alice Wiki Macro (upgraded)", viewPage.getDocumentTitle());
+        assertTrue(viewPage.getContent().contains("Alice says hi guys!"));
     }
 
     /**
@@ -734,28 +742,28 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         extensionPane = extensionPane.upgrade().confirm();
 
         // Check the merge conflict UI.
-        Assert.assertEquals("loading", extensionPane.getStatus());
-        Assert.assertNull(extensionPane.getStatusMessage());
+        assertEquals("loading", extensionPane.getStatus());
+        assertNull(extensionPane.getStatusMessage());
 
         ProgressBarPane progressBar = extensionPane.getProgressBar();
-        Assert.assertEquals(83, progressBar.getPercent());
-        Assert.assertEquals("Conflict between [@@ -1,1 +1,1 @@] and [@@ -1,1 +1,1 @@]", progressBar.getMessage());
+        assertEquals(83, progressBar.getPercent());
+        assertEquals("Conflict between [@@ -1,1 +1,1 @@] and [@@ -1,1 +1,1 @@]", progressBar.getMessage());
 
         ExtensionProgressPane progressPane = extensionPane.openProgressSection();
         WebElement jobLogLabel = progressPane.getJobLogLabel();
-        Assert.assertEquals("INSTALL LOG".toLowerCase(), jobLogLabel.getText().toLowerCase());
+        assertEquals("INSTALL LOG".toLowerCase(), jobLogLabel.getText().toLowerCase());
         // The job log is collapsed when the job is waiting for user input so we need to expand it before asserting its
         // content (otherwise #getText() returns the empty string because the text is not visible).
         jobLogLabel.click();
         List<LogItemPane> upgradeLog = progressPane.getJobLog();
         LogItemPane lastLogItem = upgradeLog.get(upgradeLog.size() - 1);
-        Assert.assertEquals("loading", lastLogItem.getLevel());
-        Assert.assertEquals(progressBar.getMessage(), lastLogItem.getMessage());
+        assertEquals("loading", lastLogItem.getLevel());
+        assertEquals(progressBar.getMessage(), lastLogItem.getMessage());
 
         MergeConflictPane mergeConflictPane = progressPane.getMergeConflict();
         ChangesPane changesPane = mergeConflictPane.getChanges();
-        Assert.assertFalse(changesPane.getContentChanges().isEmpty());
-        Assert.assertEquals("@@ -1,1 +1,1 @@\n-<del>Test</del> macro.\n+<ins>A</ins> <ins>cool </ins>macro.",
+        assertFalse(changesPane.getContentChanges().isEmpty());
+        assertEquals("@@ -1,1 +1,1 @@\n-<del>Test</del> macro.\n+<ins>A</ins> <ins>cool </ins>macro.",
             changesPane.getObjectChanges("XWiki.WikiMacroClass", 0, "Macro description"));
 
         mergeConflictPane.getFromVersionSelect().selectByVisibleText("Previous version");
@@ -777,10 +785,9 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         expectedDiff.append("+=<ins>=</ins> <ins>O</ins>ut<ins>put</ins> =<ins>=</ins>\n");
         expectedDiff.append(" \n");
         expectedDiff.append(" {{alice/}}");
-        Assert.assertEquals(expectedDiff.toString(), changesPane.getContentChanges());
-        Assert.assertEquals(1, changesPane.getObjectChangeSummaries().size());
-        Assert.assertEquals(
-            "@@ -1,1 +1,1 @@\n-Alice says hello!\n+<ins>{{info}}</ins>Alice says hello!<ins>{{/info}}</ins>",
+        assertEquals(expectedDiff.toString(), changesPane.getContentChanges());
+        assertEquals(1, changesPane.getObjectChangeSummaries().size());
+        assertEquals("@@ -1,1 +1,1 @@\n-Alice says hello!\n+<ins>{{info}}</ins>Alice says hello!<ins>{{/info}}</ins>",
             changesPane.getObjectChanges("XWiki.WikiMacroClass", 0, "Macro code"));
 
         // Finish the merge.
@@ -788,17 +795,17 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // FIXME: We get the extension pane from the search results because it is reloaded when we compare the versions.
         extensionPane = searchResults.getExtension(0).confirm();
 
-        Assert.assertEquals("installed", extensionPane.getStatus());
-        Assert.assertNull(extensionPane.getProgressBar());
+        assertEquals("installed", extensionPane.getStatus());
+        assertNull(extensionPane.getProgressBar());
         upgradeLog = extensionPane.openProgressSection().getJobLog();
         lastLogItem = upgradeLog.get(upgradeLog.size() - 1);
-        Assert.assertEquals("info", lastLogItem.getLevel());
-        Assert.assertEquals("Finished job of type [install] with identifier "
+        assertEquals("info", lastLogItem.getLevel());
+        assertEquals("Finished job of type [install] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", lastLogItem.getMessage());
 
         // Check the merge result.
         ViewPage mergedPage = getUtil().gotoPage("ExtensionTest", "Alice");
-        Assert.assertEquals("Alice Wiki Macro (upgraded)", mergedPage.getDocumentTitle());
+        assertEquals("Alice Wiki Macro (upgraded)", mergedPage.getDocumentTitle());
     }
 
     /**
@@ -827,35 +834,34 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
         ExtensionPane extensionPane =
             adminPage.getSearchBar().clickAdvancedSearch().search(extensionId, oldVersion).getExtension(0);
-        Assert.assertEquals("remote-installed", extensionPane.getStatus());
-        Assert.assertEquals("Version 2.1.4 is installed", extensionPane.getStatusMessage());
+        assertEquals("remote-installed", extensionPane.getStatus());
+        assertEquals("Version 2.1.4 is installed", extensionPane.getStatusMessage());
         extensionPane = extensionPane.downgrade();
 
         // Check the downgrade plan.
         List<DependencyPane> downgradePlan = extensionPane.openProgressSection().getJobPlan();
-        Assert.assertEquals(1, downgradePlan.size());
-        Assert.assertEquals(extensionId, downgradePlan.get(0).getName());
-        Assert.assertEquals(oldVersion, downgradePlan.get(0).getVersion());
-        Assert.assertEquals("remote-installed", downgradePlan.get(0).getStatus());
-        Assert.assertEquals("Version 2.1.4 is installed", downgradePlan.get(0).getStatusMessage());
+        assertEquals(1, downgradePlan.size());
+        assertEquals(extensionId, downgradePlan.get(0).getName());
+        assertEquals(oldVersion, downgradePlan.get(0).getVersion());
+        assertEquals("remote-installed", downgradePlan.get(0).getStatus());
+        assertEquals("Version 2.1.4 is installed", downgradePlan.get(0).getStatusMessage());
 
         // Finish the downgrade and check the downgrade log.
         extensionPane = extensionPane.confirm();
-        Assert.assertEquals("installed", extensionPane.getStatus());
-        Assert.assertEquals("Installed", extensionPane.getStatusMessage());
+        assertEquals("installed", extensionPane.getStatus());
+        assertEquals("Installed", extensionPane.getStatusMessage());
         List<LogItemPane> log = extensionPane.openProgressSection().getJobLog();
-        Assert.assertTrue(log.size() > 2);
-        Assert.assertEquals("info", log.get(2).getLevel());
-        Assert.assertEquals("Resolving extension [alice-xar-extension 1.3] on namespace [Home]", log.get(2)
-            .getMessage());
-        Assert.assertEquals("info", log.get(log.size() - 1).getLevel());
-        Assert.assertEquals("Finished job of type [install] with identifier "
+        assertTrue(log.size() > 2);
+        assertEquals("info", log.get(2).getLevel());
+        assertEquals("Resolving extension [alice-xar-extension 1.3] on namespace [Home]", log.get(2).getMessage());
+        assertEquals("info", log.get(log.size() - 1).getLevel());
+        assertEquals("Finished job of type [install] with identifier "
             + "[extension/action/alice-xar-extension/wiki:xwiki]", log.get(log.size() - 1).getMessage());
 
         // Assert the changes.
         ViewPage viewPage = getUtil().gotoPage("ExtensionTest", "Alice");
-        Assert.assertEquals("Alice Macro", viewPage.getDocumentTitle());
-        Assert.assertTrue(viewPage.getContent().contains("Alice says hello!"));
+        assertEquals("Alice Macro", viewPage.getDocumentTitle());
+        assertTrue(viewPage.getContent().contains("Alice says hello!"));
     }
 
     /**
@@ -871,7 +877,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
                 getTestMethodName(),
                 "{{velocity}}$services.greeter.greet('world') "
                     + "$services.greeter.greet('XWiki', 'default'){{/velocity}}", "");
-        Assert.assertFalse(viewPage.getContent().contains("Hello world! Hello XWiki!"));
+        assertFalse(viewPage.getContent().contains("Hello world! Hello XWiki!"));
 
         // Setup the extension.
         ExtensionId extensionId = new ExtensionId("scriptServiceJarExtension", "4.2-milestone-1");
@@ -885,7 +891,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         extensionPane.install().confirm();
 
         // Check the result.
-        Assert.assertEquals("Hello world! Hello XWiki!", getUtil().gotoPage(getTestClassName(), getTestMethodName())
+        assertEquals("Hello world! Hello XWiki!", getUtil().gotoPage(getTestClassName(), getTestMethodName())
             .getContent());
     }
 }

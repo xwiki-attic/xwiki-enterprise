@@ -64,17 +64,24 @@ public class ExtensionTestUtils
 
         // Create the service page.
         StringBuilder code = new StringBuilder("{{groovy output=\"false\"}}\n");
+        code.append("import java.util.Arrays;\n");
         code.append("import org.xwiki.extension.ExtensionManager;\n");
-        code.append("import org.xwiki.job.event.status.JobStatus;\n\n");
+        code.append("import org.xwiki.job.event.status.JobStatus;\n");
+        code.append("import org.xwiki.job.JobStatusStore;\n\n");
         code.append("if (request.action == 'uninstall') {\n");
         code.append("  def uninstallRequest = services.extension.createUninstallRequest(request.extensionId, 'wiki:xwiki')\n");
         code.append("  uninstallRequest.setInteractive(false)\n");
         code.append("  services.extension.uninstall(uninstallRequest).join()\n");
         code.append("  if (!Boolean.valueOf(request.keepLocalCache)) {\n");
+        code.append("    // Remove the extension (with all its versions) from the local repository.\n");
         code.append("    def localRepo = services.component.getInstance(ExtensionManager.class).getRepository('local')\n");
         code.append("    for (extension in new ArrayList(localRepo.getLocalExtensionVersions(request.extensionId))) {\n");
         code.append("      localRepo.removeExtension(extension)\n");
         code.append("    }\n");
+        code.append("    // Remove the extension job logs.\n");
+        code.append("    def jobStatusStore = services.component.getInstance(JobStatusStore.class)\n");
+        code.append("    jobStatusStore.remove(Arrays.asList('extension', 'action', request.extensionId, 'wiki:xwiki'))\n");
+        code.append("    jobStatusStore.remove(Arrays.asList('extension', 'plan', request.extensionId, 'wiki:xwiki'))\n");
         code.append("  }\n");
         code.append("} else if (request.action == 'install') {\n");
         code.append("  def installRequest = services.extension.createInstallRequest(request.extensionId, request.extensionVersion, 'wiki:xwiki')\n");

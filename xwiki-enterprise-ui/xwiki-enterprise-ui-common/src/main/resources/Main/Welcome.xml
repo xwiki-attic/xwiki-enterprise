@@ -44,7 +44,7 @@
 Learn how to use XWiki with the {{velocity}}[[Getting Started Guide&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/GettingStarted/WebHome?version=$xwiki.version]]{{/velocity}}.
 
 {{velocity}}
-#if($hasEdit)You can then use the [[Sandbox space&gt;&gt;Sandbox.WebHome]] to try out your wiki's features.#end
+#if($hasEdit)You can then use the [[Sandbox Space&gt;&gt;Sandbox.WebHome]] to try out your wiki's features.#end
 {{/velocity}}</content>
   <object>
     <name>Main.Welcome</name>

@@ -1335,6 +1335,8 @@ If you wish to have the default wiki pages, which contain both content pages and
                      http://extensions.xwiki.org/xwiki/bin/view/Extension/Localization+Module#HProvidetranslationbundleinajar
                  -->
                 <ignoredResource>ApplicationResources(_.*)?\.properties</ignoredResource>
+                <!-- Apache karaf stuff -->
+                <ignoredResource>features.xml</ignoredResource>
               </ignoredResources>
             </configuration>
           </execution>

@@ -941,6 +941,10 @@ If you wish to have the default wiki pages, which contain both content pages and
                - Exclude JavaBeans Activation Framework (activation-*.jar) since it's included in Java SE 6.
                - Exclude JAXB since it's included in Java SE 6
                - Exclude STAX API since it's included in Java SE 6
+               - Exclude all XAR files from being placed in WEB-INF/lib. This is done by the WAR plugin which supports
+                 XAR files (not our format, some other format! See https://jira.codehaus.org/browse/MWAR-281). The
+                 reason we have XAR files in our dependencies is because we've added them in order to automatically
+                 bundle all JAR files which are dependencies of XAR modules!
           -->
           <packagingExcludes>
             ${xwiki.war.legacy.excludes}
@@ -949,7 +953,8 @@ If you wish to have the default wiki pages, which contain both content pages and
             WEB-INF/lib/activation-*.jar,
             WEB-INF/lib/jaxb-impl-*.jar,
             WEB-INF/lib/jaxb-api-*.jar,
-            WEB-INF/lib/stax-api-*.jar
+            WEB-INF/lib/stax-api-*.jar,
+            WEB-INF/extensions/*.xar
           </packagingExcludes>
         </configuration>
       </plugin>

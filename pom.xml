@@ -68,6 +68,7 @@
 
     <!-- Hibernate configuration -->
     <xwiki.db.common.extraMappings>activitystream.hbm.xml,instance.hbm.xml,mailsender.hbm.xml</xwiki.db.common.extraMappings>
+    <xwiki.db.oracle.extraMappings>mailsender.oracle.hbm.xml</xwiki.db.oracle.extraMappings>
     <!-- xwiki.cfg configuration -->
     <xwiki.cfg.virtual>0</xwiki.cfg.virtual>
     <!-- Defined as a property so that products extending XE can reuse this list -->
@@ -198,6 +199,12 @@
                   <xwikiDbHbmXwiki>${xwiki.db.hbm.xwiki}</xwikiDbHbmXwiki>
                   <xwikiDbHbmFeeds>${xwiki.db.hbm.feeds}</xwikiDbHbmFeeds>
                   <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
+                  <xwikiDbHbmHSQLDBExtraMappings>${xwiki.db.hsqldb.extraMappings}</xwikiDbHbmHSQLDBExtraMappings>
+                  <xwikiDbHbmMySQLExtraMappings>${xwiki.db.mysql.extraMappings}</xwikiDbHbmMySQLExtraMappings>
+                  <xwikiDbHbmPostgreSQLExtraMappings>${xwiki.db.pgsql.extraMappings}</xwikiDbHbmPostgreSQLExtraMappings>
+                  <xwikiDbHbmOracleExtraMappings>${xwiki.db.oracle.extraMappings}</xwikiDbHbmOracleExtraMappings>
+                  <xwikiDbHbmDerbyExtraMappings>${xwiki.db.derby.extraMappings}</xwikiDbHbmDerbyExtraMappings>
+                  <xwikiDbHbmH2ExtraMappings>${xwiki.db.h2.extraMappings}</xwikiDbHbmH2ExtraMappings>
                   <xwikiDbVirtualMode>${xwiki.db.hbm.virtualMode}</xwikiDbVirtualMode>
 
                   <!-- Default configuration data for xwiki.cfg -->

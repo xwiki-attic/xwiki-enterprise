@@ -616,6 +616,12 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>xwiki-platform-search-solr-rest</artifactId>
       <version>${platform.version}</version>
     </dependency>
+    <!-- Useless in standard but kept to make upgrade smoother (when the plugin does not ends up in the index as it should) -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-search-solr-server-plugin</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
     <!-- JODA Time -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

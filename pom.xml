@@ -67,8 +67,15 @@
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
 
     <!-- Hibernate configuration -->
-    <xwiki.db.common.extraMappings>activitystream.hbm.xml,instance.hbm.xml,mailsender.hbm.xml</xwiki.db.common.extraMappings>
+    <xwiki.db.common.extraMappings>activitystream.hbm.xml,instance.hbm.xml</xwiki.db.common.extraMappings>
+    <xwiki.db.default.extraMappings>mailsender.hbm.xml</xwiki.db.default.extraMappings>
     <xwiki.db.oracle.extraMappings>mailsender.oracle.hbm.xml</xwiki.db.oracle.extraMappings>
+    <xwiki.db.mysql.extraMappings>mailsender.hbm.xml</xwiki.db.mysql.extraMappings>
+    <xwiki.db.hsqldb.extraMappings>mailsender.hbm.xml</xwiki.db.hsqldb.extraMappings>
+    <xwiki.db.pgsql.extraMappings>mailsender.hbm.xml</xwiki.db.pgsql.extraMappings>
+    <xwiki.db.derby.extraMappings>mailsender.hbm.xml</xwiki.db.derby.extraMappings>
+    <xwiki.db.h2.extraMappings>mailsender.hbm.xml</xwiki.db.h2.extraMappings>
+
     <!-- xwiki.cfg configuration -->
     <xwiki.cfg.virtual>0</xwiki.cfg.virtual>
     <!-- Defined as a property so that products extending XE can reuse this list -->
@@ -199,6 +206,7 @@
                   <xwikiDbHbmXwiki>${xwiki.db.hbm.xwiki}</xwikiDbHbmXwiki>
                   <xwikiDbHbmFeeds>${xwiki.db.hbm.feeds}</xwikiDbHbmFeeds>
                   <xwikiDbHbmCommonExtraMappings>${xwiki.db.common.extraMappings}</xwikiDbHbmCommonExtraMappings>
+                  <xwikiDbHbmDefaultExtraMappings>${xwiki.db.default.extraMappings}</xwikiDbHbmDefaultExtraMappings>
                   <xwikiDbHbmHSQLDBExtraMappings>${xwiki.db.hsqldb.extraMappings}</xwikiDbHbmHSQLDBExtraMappings>
                   <xwikiDbHbmMySQLExtraMappings>${xwiki.db.mysql.extraMappings}</xwikiDbHbmMySQLExtraMappings>
                   <xwikiDbHbmPostgreSQLExtraMappings>${xwiki.db.pgsql.extraMappings}</xwikiDbHbmPostgreSQLExtraMappings>

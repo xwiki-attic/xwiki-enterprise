@@ -35,13 +35,13 @@
   <date>1297866863000</date>
   <contentUpdateDate>1297866863000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render('xe.dashboard.wiki.welcome')</title>
+  <title>$services.localization.render('platform.dashboard.wiki.welcome')</title>
   <template/>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>这是个易于编辑的网站。它能帮助你更好的协同工作。此Wiki由多个//空间//构成。每个//空间//含有多个//页面//。你当前在**Main**空间的主页(**WebHome**)里。
 

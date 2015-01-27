@@ -35,13 +35,13 @@
   <date>1297866863000</date>
   <contentUpdateDate>1297866863000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render('xe.dashboard.wiki.welcome')</title>
+  <title>$services.localization.render('platform.dashboard.wiki.welcome')</title>
   <template/>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.0</syntaxId>
+  <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>Vous êtes sur un site web facile d'utilisation qui aidera les membres de votre équipe à mieux travailler ensemble. Ce wiki se compose de //pages// organisées par //espaces//. Vous êtes actuellement sur la page d'accueil (**WebHome**) de l'espace principal (**Main**).
 

@@ -43,7 +43,7 @@
 #if ($hasEdit)
   #set ($discard = $xwiki.jsx.use('WelcomeSheet'))
   #set ($discard = $xwiki.ssx.use('WelcomeSheet'))
-  [[$services.icon.render('pencil')&gt;&gt;path:$xwiki.getURL('Main.Welcome', 'edit')||title="$services.localization.render('xe.welcome.edit')" class='welcome-edit btn btn-default btn-xs']](%%)##
+  [[$services.icon.render('pencil')&gt;&gt;path:$xwiki.getURL('Main.Welcome', 'edit')||title="$services.localization.render('xe.welcome.edit')" class='welcome-edit btn btn-default btn-xs']]##
 #end
 {{/velocity}}
 
@@ -143,6 +143,14 @@
       $(button).hide();
       $(button).closest('p').hide();
     }
+
+    // For each welcome edit button, add an xredirect parameter to the URL, pointing to the current document,
+    // so that the user returns to the current document after pressing the button, regardless if he saves or cancels.
+    // We do this in JS instead of velocity because the velocity code that inserts the button can be executed in a
+    // different context than the current one, so we do not have the information at that level.
+    var params = button.search.toQueryParams();
+    params.xredirect = XWiki.currentDocument.getURL();
+    button.search = Object.toQueryString(params);
   });
 });
 </code>
@@ -229,6 +237,22 @@
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </code>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>6</number>
+        <prettyName>Content Type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>CSS|LESS</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
       <name>
         <disabled>0</disabled>
         <name>name</name>
@@ -272,6 +296,9 @@
       <code>.dashboard .welcome-edit {
   margin-left: 0.5em;
 }</code>
+    </property>
+    <property>
+      <contentType>CSS</contentType>
     </property>
     <property>
       <name>Edit welcome message button styling</name>

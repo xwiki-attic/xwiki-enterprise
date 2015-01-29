@@ -79,6 +79,12 @@ public class HTMLExportTest extends TestCase
                     content.contains("$services.localization.render"));
 
                 foundWebHome = true;
+            } else if (entry.getName().endsWith(".vm")) {
+                fail("There shouldn't be any *.vm files in the generated zip!");
+            } else if (entry.getName().endsWith(".less")) {
+                fail("There shouldn't be any *.less files in the generated zip!");
+            } else if (entry.getName().equals("xwiki.properties")) {
+                fail("There shouldn't be any xwiki.properties file in the generated zip!");
             } else if (entry.getName().startsWith("resources/")) {
                 foundResourcesDirectory = true;
                 IOUtils.readLines(zis);

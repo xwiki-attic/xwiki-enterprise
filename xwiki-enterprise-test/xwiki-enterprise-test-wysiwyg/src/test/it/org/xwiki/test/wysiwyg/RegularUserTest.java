@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import java.util.Arrays;
+
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
@@ -118,26 +120,15 @@ public class RegularUserTest extends AbstractWysiwygTestCase
         explorer.waitForPageSelected(currentSpace, currentPage);
 
         // Now the tree is loaded. Check the list of spaces. Blog, Main, Sandbox and XWiki must be present.
-        explorer.selectNewPageIn("Blog");
-        explorer.selectNewPageIn("Main");
-        explorer.selectNewPageIn("Sandbox");
-        explorer.selectNewPageIn("XWiki");
+        for (String space : Arrays.asList("Blog", "Main", "Sandbox", "XWiki")) {
+            explorer.findAndSelectSpace(space);
+        }
 
         // ColorThemes, Panels, Scheduler and Stats shouldn't be present.
-        explorer.lookupEntity("ColorThemes.");
-        explorer.waitForNoneSelected();
-
-        explorer.selectNewPageIn("Sandbox");
-        explorer.lookupEntity("Panels.");
-        explorer.waitForNoneSelected();
-
-        explorer.selectNewPageIn("Sandbox");
-        explorer.lookupEntity("Scheduler.");
-        explorer.waitForNoneSelected();
-
-        explorer.selectNewPageIn("Sandbox");
-        explorer.lookupEntity("Stats.");
-        explorer.waitForNoneSelected();
+        for (String space : Arrays.asList("ColorThemes", "Panels", "Scheduler", "Stats")) {
+            assertFalse(explorer.hasSpace(space));
+            assertFalse(explorer.find(space).hasSpace(space));
+        }
 
         closeDialog();
     }

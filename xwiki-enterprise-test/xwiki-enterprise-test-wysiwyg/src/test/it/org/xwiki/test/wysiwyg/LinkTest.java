@@ -100,11 +100,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        String selectedSpace = "Blog";
-        String selectedPage = "News";
-
-        explorer.lookupEntity(selectedSpace + "." + selectedPage);
-        explorer.waitForPageSelected(selectedSpace, selectedPage);
+        explorer.waitForIt().findAndSelectPage("News");
         clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
@@ -114,37 +110,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>doc:" + selectedSpace + "." + selectedPage + "]]");
-    }
-
-    /**
-     * Test the basic feature for adding a link to an existing space.
-     */
-    public void testCreateLinkToSpace()
-    {
-        String linkLabel = "x";
-        typeText(linkLabel);
-        selectNodeContents("document.body.firstChild");
-        openLinkDialog(MENU_WIKI_PAGE);
-        // get the all pages tree
-        clickTab(ALL_PAGES_TAB);
-        waitForStepToLoad(STEP_EXPLORER);
-
-        String space = "Blog";
-        String page = "WebHome";
-
-        explorer.lookupEntity(space + "." + page);
-        explorer.waitForPageSelected(space, page);
-
-        clickButtonWithText(BUTTON_SELECT);
-        // make sure the existing page config parameters are loaded
-        waitForStepToLoad("xLinkConfig");
-        clickButtonWithText(BUTTON_CREATE_LINK);
-
-        waitForDialogToClose();
-
-        switchToSource();
-        assertSourceText("[[" + linkLabel + ">>doc:" + space + "." + page + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:Blog.News]]");
     }
 
     /**
@@ -161,10 +127,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        explorer.lookupEntity(space + "." + newPageName);
-        explorer.waitForNewPageSelected(space);
-
+        explorer.waitForIt().findAndSelectSpace(space).selectNewPage(space);
         clickButtonWithText(BUTTON_SELECT);
+        waitForStepToLoad("xLinkToNewPage");
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
+        clickButtonWithText(BUTTON_LINK_SETTINGS);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText(BUTTON_CREATE_LINK);
         // wait for the link dialog to close
@@ -190,7 +157,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        explorer.lookupEntity(newSpace + "." + newPage);
+        explorer.waitForIt().find("document:xwiki:" + newSpace + "." + newPage);
 
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
@@ -390,18 +357,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         // Now add a link around the image we just inserted.
-        String pageName = "Photos";
-        String spaceName = "Blog";
-        String newSpaceName = "Main";
-        String newPageName = "SpaceIndex";
-
         openLinkDialog(MENU_WIKI_PAGE);
         // Select the link target page from the tree.
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        explorer.lookupEntity(spaceName + "." + pageName);
-        // Wait for the target space to be selected.
-        explorer.waitForNewPageSelected(spaceName);
+        explorer.waitForIt().findAndSelectPage("Welcome to your wiki");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         assertEquals("presentation.png", getInputValue(LABEL_INPUT_TITLE));
@@ -412,7 +372,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:Blog.Photos]]");
+        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:Main.Welcome]]");
         switchToWysiwyg();
 
         // Move caret at the end and type some text.
@@ -430,20 +390,15 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         // Check the page selected in the XWiki Explorer tree.
-        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, spaceName, pageName),
-            explorer.getSelectedEntityReference());
-        explorer.waitForNewPageSelected(spaceName);
-
-        explorer.lookupEntity(newSpaceName + "." + newPageName);
-        explorer.waitForPageSelected(newSpaceName, newPageName);
+        explorer.waitForPageSelected("Main", "Welcome");
+        explorer.findAndSelectPage("Space Index");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:" + newSpaceName + "." + newPageName
-            + "]]x[[bar>>url:http://bar.myxwiki.org]]");
+        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:Main.SpaceIndex]]x[[bar>>url:http://bar.myxwiki.org]]");
     }
 
     /**
@@ -574,11 +529,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        String space = "Main";
-        String page = "WebHome";
-
-        explorer.lookupEntity(space + "." + page);
-        explorer.waitForPageSelected(space, page);
+        explorer.waitForIt().findAndSelectPage("Wiki Home");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         // try to create link without filling in the label
@@ -594,7 +545,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[foo>>doc:" + space + "." + page + "]]");
+        assertSourceText("[[foo>>doc:Main.WebHome]]");
 
         // clean up
         setSourceText("");
@@ -606,11 +557,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        space = "Main";
-        page = "NewPage";
-
-        explorer.lookupEntity(space + "." + page);
-        explorer.waitForNewPageSelected(space);
+        explorer.waitForIt().findAndSelectPage("Welcome to your wiki");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText(BUTTON_CREATE_LINK);
@@ -623,7 +570,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_CREATE_LINK);
 
         switchToSource();
-        assertSourceText("[[foo>>doc:" + space + "." + page + "]]");
+        assertSourceText("[[foo>>doc:Main.Welcome]]");
 
         // clean up
         setSourceText("");
@@ -717,13 +664,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        String selectedSpace = "Blog";
-        String selectedPage = "News";
-        String changedSpace = "Main";
-        String changedPage = "Activity";
-
-        explorer.lookupEntity(selectedSpace + "." + selectedPage);
-        explorer.waitForPageSelected(selectedSpace, selectedPage);
+        explorer.waitForIt().findAndSelectPage("News");
         clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
@@ -732,14 +673,11 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText("Previous");
         // wait for tree to load
         waitForStepToLoad("xExplorerPanel");
-        // make sure input and selection in the tree reflect previously inserted values
-        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, selectedSpace, selectedPage),
-            explorer.getSelectedEntityReference());
-        explorer.waitForPageSelected(selectedSpace, selectedPage);
+        // Make sure the selection in the tree reflects the previously inserted values.
+        explorer.waitForPageSelected("Blog", "News");
 
         // and now change it
-        explorer.lookupEntity(changedSpace + "." + changedPage);
-        explorer.waitForPageSelected(changedSpace, changedPage);
+        explorer.findAndSelectPage("Activity Stream");
         clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
         waitForStepToLoad("xLinkConfig");
@@ -749,7 +687,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>doc:" + changedSpace + "." + changedPage + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:Main.Activity]]");
     }
 
     /**
@@ -767,12 +705,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
-        String attachSpace = "XWiki";
-        String attachPage = "AdminSheet";
-        String attachment = "export.png";
-
-        explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
-        explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
+        explorer.waitForIt().findAndSelectAttachment("export.png");
 
         clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
@@ -783,7 +716,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment + "]]");
+        assertSourceText("[[" + linkLabel + ">>attach:XWiki.AdminSheet@export.png]]");
     }
 
     /**
@@ -801,8 +734,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
-        explorer.lookupEntity("Sandbox.WebHome@XWikiLogo.png");
-        explorer.waitForAttachmentSelected("Sandbox", "WebHome", "XWikiLogo.png");
+        explorer.waitForIt().findAndSelectAttachment("XWikiLogo.png");
 
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
@@ -828,8 +760,10 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
-        explorer.selectUploadFileIn(this.getClass().getSimpleName(), getName());
-        assertEquals("", explorer.getSelectedEntityReference());
+        String spaceName = this.getClass().getSimpleName();
+        String pageName = getName();
+        explorer.waitForAttachmentsSelected(spaceName, pageName).selectNewAttachment(spaceName, pageName);
+
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xUploadPanel");
         // TODO: Test real file upload.
@@ -848,12 +782,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
 
-        String attachSpace = "Sandbox";
-        String attachPage = "WebHome";
-        String attachment = "XWikiLogo.png";
-
-        explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
-        explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
+        explorer.waitForIt().findAndSelectAttachment("XWikiLogo.png");
 
         clickButtonWithText(BUTTON_SELECT);
         // make sure the existing page config parameters are loaded
@@ -868,8 +797,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>attach:" + attachSpace + "." + attachPage + "@" + attachment
-            + "||title=\"" + linkTooltip + "\"]]");
+        assertSourceText("[[" + linkLabel + ">>attach:Sandbox.WebHome@XWikiLogo.png||title=\"" + linkTooltip + "\"]]");
     }
 
     /**
@@ -890,16 +818,14 @@ public class LinkTest extends AbstractWysiwygTestCase
         String attachment = "users.png";
 
         // Get an error from not inserting the attachment name.
-        explorer.lookupEntity(attachSpace + "." + attachPage);
-        explorer.waitForPageSelected(attachSpace, attachPage);
+        explorer.waitForIt().findAndSelectPage(attachPage);
 
         clickButtonWithText(BUTTON_SELECT);
 
         assertFieldErrorIsPresentInStep("No attachment was selected", TREE_EXPLORER, "xExplorerPanel");
 
-        // Type correct attachment reference.
-        explorer.lookupEntity(attachSpace + "." + attachPage + "@" + attachment);
-        explorer.waitForAttachmentSelected(attachSpace, attachPage, attachment);
+        // Select an attachment.
+        explorer.openAttachments(attachSpace, attachPage).selectAttachment(attachSpace, attachPage, attachment);
 
         // Move to the next step: link configuration.
         clickButtonWithText(BUTTON_SELECT);
@@ -935,12 +861,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Sandbox.WebHome@XWikiLogo.png", explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected("Sandbox", "WebHome", "XWikiLogo.png");
-        // and edit it now
-        explorer.lookupEntity("XWiki.AdminSheet@export.png");
-        explorer.waitForAttachmentSelected("XWiki", "AdminSheet", "export.png");
+        explorer.findAndSelectAttachment("export.png");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText(BUTTON_CREATE_LINK);
@@ -984,10 +906,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
-        // assert the content of the suggest and the position on the tree
-        assertEquals("xwiki:Main.Activity", explorer.getSelectedEntityReference());
         explorer.waitForPageSelected("Main", "Activity");
-        // and edit it now
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "barfoo");
@@ -1096,11 +1015,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, currentSpace, currentPage),
-            explorer.getSelectedEntityReference());
-        explorer.waitForPageSelected(currentSpace, currentPage);
-        explorer.lookupEntity(newSpace + "." + newPage);
-        explorer.waitForPageSelected(newSpace, newPage);
+        explorer.waitForPageSelected(currentSpace, currentPage).findAndSelectPage(newPage);
         closeDialog();
         waitForDialogToClose();
 
@@ -1108,7 +1023,6 @@ public class LinkTest extends AbstractWysiwygTestCase
         typeText("z");
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals(newSpace + "." + newPage, explorer.getSelectedEntityReference());
         explorer.waitForPageSelected(newSpace, newPage);
         closeDialog();
         waitForDialogToClose();
@@ -1270,8 +1184,6 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertElementPresent(NEW_ATTACHMENT);
 
         clickTab(ALL_PAGES_TAB);
-        assertEquals("xwiki:" + currentSpace + "." + currentPage + "#Attachments",
-            explorer.getSelectedEntityReference());
         explorer.waitForAttachmentsSelected(currentSpace, currentPage);
         closeDialog();
         waitForDialogToClose();
@@ -1306,11 +1218,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
-        // assert the content of the suggest and the position on the tree
-        assertEquals(String.format(ABSOLUTE_DOCUMENT_REFERENCE, currentSpace, pageToLinkTo),
-            explorer.getSelectedEntityReference());
         explorer.waitForPageSelected(currentSpace, pageToLinkTo);
-        // and edit it now
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         typeInInput(LABEL_INPUT_TITLE, "space index");
@@ -1340,10 +1248,6 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        // assert the content of the suggest and the position on the tree
-        String attachmentReference =
-            String.format(ABSOLUTE_ATTACHMENT_REFERENCE, currentSpace, pageToLinkTo, fileToLinkTo);
-        assertEquals(attachmentReference, explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected(currentSpace, pageToLinkTo, fileToLinkTo);
 
         // check the current page step is correctly loaded when we switch to it
@@ -1356,7 +1260,6 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad("xExplorerPanel");
         // test that the position in the tree was preserved
-        assertEquals(attachmentReference, explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected(currentSpace, pageToLinkTo, fileToLinkTo);
 
         clickButtonWithText(BUTTON_SELECT);
@@ -1392,12 +1295,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.firstChild.firstChild", 3);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals(String.format(ABSOLUTE_ATTACHMENT_REFERENCE, "XWiki", "AdminSheet", "export.png"),
-            explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected("XWiki", "AdminSheet", "export.png");
-
-        explorer.lookupEntity("xwiki:XWiki.AdminSheet@import.png");
-        explorer.waitForAttachmentSelected("XWiki", "AdminSheet", "import.png");
+        explorer.findAndSelectAttachment("import.png");
 
         clickTab(CURRENT_PAGE_TAB);
 
@@ -1434,7 +1333,6 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("xwiki:Sandbox.WebHome", explorer.getSelectedEntityReference());
         explorer.waitForPageSelected("Sandbox", "WebHome");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
@@ -1445,8 +1343,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.childNodes[2].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("xwiki:Sandbox.NewPage", explorer.getSelectedEntityReference());
-        explorer.waitForNewPageSelected("Sandbox");
+        explorer.waitForFinderValue("document:xwiki:Sandbox.NewPage");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText(BUTTON_CREATE_LINK);
@@ -1456,7 +1353,6 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.childNodes[4].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        assertEquals("xwiki:Sandbox.WebHome@XWikiLogo.png", explorer.getSelectedEntityReference());
         explorer.waitForAttachmentSelected("Sandbox", "WebHome", "XWikiLogo.png");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
@@ -1648,16 +1544,12 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         explorer.waitForPageSelected("Blog", "WebHome");
-        // Lookup a page that doesn't exist to clear the selection.
-        explorer.lookupEntity("NewSpace.NewPage");
-        explorer.waitForNoneSelected();
-        // Clear the input value since otherwise we would be targeting a new page in a new page.
-        explorer.lookupEntity("");
-        // At this point no page is selected and the input field is empty.
+        // Select a space so that no page is selected.
+        explorer.selectSpace("Blog");
+        // At this point no page is selected.
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
-        explorer.lookupEntity("Blog.WebHome");
-        explorer.waitForPageSelected("Blog", "WebHome");
+        explorer.findAndSelectPage("Wiki Blog");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");
@@ -1665,12 +1557,9 @@ public class LinkTest extends AbstractWysiwygTestCase
         explorer.waitForPageSelected("Blog", "WebHome");
         assertFieldErrorIsNotPresentInStep("xExplorerPanel");
         // Repeat the steps to get the validation error.
-        // Lookup a page that doesn't exist to clear the selection.
-        explorer.lookupEntity("NewSpace.NewPage");
-        explorer.waitForNoneSelected();
-        // Clear the input value since otherwise we would be targeting a new page in a new page.
-        explorer.lookupEntity("");
-        // At this point no page is selected and the input field is empty.
+        // Select a space so that no page is selected.
+        explorer.selectSpace("Blog");
+        // At this point no page is selected.
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
         closeDialog();
@@ -1989,7 +1878,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xExplorerPanel");
         explorer.waitForPageSelected("Main", "WebHome");
 
-        explorer.selectNewPageIn("Blog");
+        explorer.openSpace("Blog").selectNewPage("Blog");
         clickButtonWithText(BUTTON_SELECT);
 
         waitForStepToLoad("xLinkToNewPage");

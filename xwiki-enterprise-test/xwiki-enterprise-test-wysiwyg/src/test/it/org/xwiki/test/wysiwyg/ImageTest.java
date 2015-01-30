@@ -422,10 +422,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(TAB_ALL_PAGES);
         waitForStepToLoad(LinkTest.STEP_EXPLORER);
-
-        explorer.lookupEntity("XWiki.Register");
-        // wait for the space to get selected
-        explorer.waitForNewPageSelected("XWiki");
+        explorer.waitForIt().findAndSelectPage("First blog post");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         assertEquals("registration.png", getInputValue(LinkTest.LABEL_INPUT_TITLE));
@@ -457,7 +454,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:Sandbox.WebHome@XWikiLogo.png]]>>doc:XWiki.Register]]");
+        assertSourceText("[[[[image:Sandbox.WebHome@XWikiLogo.png]]>>doc:Blog.BlogIntroduction]]");
     }
 
     /**

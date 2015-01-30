@@ -879,17 +879,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                   <type>zip</type>
                   <outputDirectory>${project.build.directory}/skin</outputDirectory>
                 </artifactItem>
-                <!-- We extract SmartClient library from smartGWT since smartGWT will use SmartClient from standard
-                     resources -->
-                <artifactItem>
-                  <groupId>com.smartgwt</groupId>
-                  <artifactId>smartgwt</artifactId>
-                  <type>jar</type>
-                  <outputDirectory>${project.build.directory}/smartclient</outputDirectory>
-                  <!-- We exlude the default initsc.js file since we provide a modified
-                       version of it in web-standard sources -->
-                  <excludes>**/initsc.js</excludes>
-                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -919,18 +908,6 @@ If you wish to have the default wiki pages, which contain both content pages and
             <resource>
               <directory>${project.build.directory}/skin</directory>
               <targetPath>skins</targetPath>
-              <filtering>false</filtering>
-            </resource>
-            <!-- Add SmartClient library -->
-            <resource>
-              <directory>${project.build.directory}/smartclient/com/smartclient/public/sc</directory>
-              <targetPath>resources/js/smartclient</targetPath>
-              <filtering>false</filtering>
-            </resource>
-            <!-- Add SmartClient skins -->
-            <resource>
-              <directory>${project.build.directory}/smartclient/com/smartclient/theme/enterprise/public/sc/skins</directory>
-              <targetPath>resources/js/smartclient/skins</targetPath>
               <filtering>false</filtering>
             </resource>
           </webResources>

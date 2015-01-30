@@ -28,10 +28,8 @@ import com.thoughtworks.selenium.Wait;
  */
 public class XWikiExplorer
 {
-    /**
-     * Locates the selected node in the tree.
-     */
-    private static final String SELECTED_NODE_LOCATOR = "//tr[@role = 'treeitem' and @aria-selected = 'true']";
+    private static final String FINDER_LOCATOR =
+        "//input[@class = 'xtree-finder' and following-sibling::div[contains(@class, 'xExplorer')]]";
 
     /**
      * The test being executed.
@@ -49,49 +47,226 @@ public class XWikiExplorer
     }
 
     /**
-     * Waits for the node with the specified hint to be selected.
-     * <p>
-     * Note: We can wait only for the selected node because only the visible tree nodes are present in the DOM tree. If
-     * a tree node is not present in the DOM it doesn't mean we can't select it.
+     * Open the node that corresponds to the specified space.
      * 
-     * @param hint the tool tip of the node to wait for
+     * @param spaceName the space name
+     * @return this
      */
-    private void waitForNodeWithHint(final String hint)
+    public XWikiExplorer openSpace(String spaceName)
     {
+        return open(getSpaceNodeId(spaceName));
+    }
+
+    /**
+     * Open the node that corresponds to the specified page.
+     * 
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @return this
+     */
+    public XWikiExplorer openPage(String spaceName, String pageName)
+    {
+        return open(getDocumentNodeId(spaceName, pageName));
+    }
+
+    /**
+     * Open the node that corresponds to the 'Attachments' meta node of the specified page.
+     * 
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @return this
+     */
+    public XWikiExplorer openAttachments(String spaceName, String pageName)
+    {
+        return open(getAttachmentsNodeId(spaceName, pageName));
+    }
+
+    private XWikiExplorer open(String nodeId)
+    {
+        // Select the node first in order to scroll it into view. Clicking on the toggle to expand the node has no
+        // effect otherwise (Selenium doesn't manage to scroll the node into view when the toggle is clicked).
+        select(nodeId);
+
+        String toggleLocatorFormat =
+            "//div[contains(@class, 'xExplorer')]//li[@id = '%s'"
+                + " and @aria-expanded = '%s']/i[contains(@class, 'jstree-ocl')]";
+        test.getSelenium().click(String.format(toggleLocatorFormat, nodeId, false));
+        test.waitForElement(String.format(toggleLocatorFormat, nodeId, true));
+
+        return this;
+    }
+
+    /**
+     * Select the node that corresponds to the specified space.
+     * 
+     * @param spaceName the space name
+     * @return this
+     */
+    public XWikiExplorer selectSpace(String spaceName)
+    {
+        return select(getSpaceNodeId(spaceName));
+    }
+
+    /**
+     * Select the node that corresponds to the 'New page...' meta node of the specified space.
+     * 
+     * @param spaceName the space name
+     * @return this
+     */
+    public XWikiExplorer selectNewPage(String spaceName)
+    {
+        return select(getNewDocumentNodeId(spaceName));
+    }
+
+    /**
+     * Select the node that corresponds to the specified page.
+     * 
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @return this
+     */
+    public XWikiExplorer selectPage(String spaceName, String pageName)
+    {
+        return select(getDocumentNodeId(spaceName, pageName));
+    }
+
+    /**
+     * Select the node that corresponds to the 'Upload file...' meta node of the specified page.
+     * 
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @return this
+     */
+    public XWikiExplorer selectNewAttachment(String spaceName, String pageName)
+    {
+        return select(String.format("addAttachment:xwiki:%s.%s", spaceName, pageName));
+    }
+
+    /**
+     * Select the node that corresponds to the specified attachment.
+     * 
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @param fileName the file name
+     * @return this
+     */
+    public XWikiExplorer selectAttachment(String spaceName, String pageName, String fileName)
+    {
+        return select(getAttachmentNodeId(spaceName, pageName, fileName));
+    }
+
+    private XWikiExplorer select(String nodeId)
+    {
+        test.getSelenium().click(getNodeLocator(nodeId) + "/a[@class = 'jstree-anchor']");
+        return this;
+    }
+
+    /**
+     * @param spaceName the space name
+     * @return {@code true} if the node corresponding to the specified space is present in the tree
+     */
+    public boolean hasSpace(String spaceName)
+    {
+        return hasNode(getSpaceNodeId(spaceName));
+    }
+
+    /**
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @return {@code true} if the node corresponding to the specified page is present in the tree
+     */
+    public boolean hasPage(String spaceName, String pageName)
+    {
+        return hasNode(getDocumentNodeId(spaceName, pageName));
+    }
+
+    /**
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @param fileName the file name
+     * @return {@code true} if the node corresponding to the specified attachment is present in the tree
+     */
+    public boolean hasAttachment(String spaceName, String pageName, String fileName)
+    {
+        return hasNode(getAttachmentNodeId(spaceName, pageName, fileName));
+    }
+
+    private boolean hasNode(String nodeId)
+    {
+        return test.isElementPresent(getNodeLocator(nodeId));
+    }
+
+    /**
+     * Types the given space name into the finder and selects the first suggestions that matches the space name.
+     * 
+     * @param spaceName the space name
+     * @return this
+     */
+    public XWikiExplorer findAndSelectSpace(String spaceName)
+    {
+        find(spaceName).selectSpace(spaceName);
+        return waitForNodeSelected();
+    }
+
+    /**
+     * Types the given page title into the finder and selects the first suggestions that matches the page title.
+     * 
+     * @param pageTitle the page title
+     * @return this
+     */
+    public XWikiExplorer findAndSelectPage(String pageTitle)
+    {
+        find(pageTitle).selectPage(pageTitle);
+        return waitForNodeSelected();
+    }
+
+    /**
+     * Types the given file name into the finder and selects the first suggestions that matches the file name.
+     * 
+     * @param fileName the file name
+     * @return this
+     */
+    public XWikiExplorer findAndSelectAttachment(String fileName)
+    {
+        find(fileName).selectAttachment(fileName);
+        return waitForNodeSelected();
+    }
+
+    /**
+     * Type the given text into the finder and wait for suggestions.
+     * 
+     * @param text the text to find
+     * @return the suggestions page
+     */
+    public TreeSuggestionsPane find(String text)
+    {
+        // Clear the previous text.
+        test.getSelenium().type(FINDER_LOCATOR, "");
+        // Type the new text.
+        test.getSelenium().typeKeys(FINDER_LOCATOR, text);
+        // Wait for the list of suggestions.
+        test.waitForElement("//div[contains(@class, 'xtree-finder-suggestions')]//ul[contains(@class, 'suggestList')]");
+        return new TreeSuggestionsPane(test);
+    }
+
+    /**
+     * Wait for the tree to load.
+     * 
+     * @return this
+     */
+    public XWikiExplorer waitForIt()
+    {
+        test.waitForElement("//div[contains(@class, 'xExplorer')]");
         new Wait()
         {
             public boolean until()
             {
-                return test.isElementPresent(SELECTED_NODE_LOCATOR + "//span[@title = '" + hint + "']");
+                return !test.isElementPresent("//div[contains(@class, 'xExplorer') and @aria-busy = 'true']")
+                    && !test.isElementPresent("//div[contains(@class, 'xExplorer')]"
+                        + "//li[@role = 'treeitem' and contains(@class, 'loading')]");
             }
-        }.wait("The tree node with the specified tool tip, \"" + hint + "\", wasn't selected!");
-    }
-
-    /**
-     * Waits for the node with the specified hint and label to be selected.
-     * 
-     * @param hint the tool tip of the node to wait for
-     * @param label the label of the node to wait for
-     */
-    private void waitForNodeWithHintAndLabel(final String hint, final String label)
-    {
-        new Wait()
-        {
-            public boolean until()
-            {
-                return test.isElementPresent(String.format("%s//span[@title = '%s' and . = '%s']",
-                    SELECTED_NODE_LOCATOR, hint, label));
-            }
-        }.wait("The tree node with the specified tool tip, \"" + hint + "\", and label, \"" + label
-            + "\", wasn't selected!");
-    }
-
-    /**
-     * Waits until none of the tree nodes is selected.
-     */
-    public void waitForNoneSelected()
-    {
-        test.waitForElementNotPresent(SELECTED_NODE_LOCATOR);
+        }.wait("The tree is still loading!");
+        return this;
     }
 
     /**
@@ -99,20 +274,22 @@ public class XWikiExplorer
      * 
      * @param spaceName the name of the space containing the page
      * @param pageName the name of the page to wait for
+     * @return this
      */
-    public void waitForPageSelected(String spaceName, String pageName)
+    public XWikiExplorer waitForPageSelected(String spaceName, String pageName)
     {
-        waitForNodeWithHint(String.format("Located in xwiki \u00BB %s \u00BB %s", spaceName, pageName));
+        return waitForNodeSelected(getDocumentNodeId(spaceName, pageName));
     }
 
     /**
      * Waits for the "New page.." node under the specified space to be selected.
      * 
      * @param spaceName the name of the space where the new page would be created
+     * @return this
      */
-    public void waitForNewPageSelected(String spaceName)
+    public XWikiExplorer waitForNewPageSelected(String spaceName)
     {
-        waitForNodeWithHint(String.format("New page in xwiki \u00BB %s", spaceName));
+        return waitForNodeSelected(getNewDocumentNodeId(spaceName));
     }
 
     /**
@@ -120,12 +297,12 @@ public class XWikiExplorer
      * 
      * @param spaceName the name of the space containing the page
      * @param pageName the name of the page who has the attachment
-     * @param attachment the attachment
+     * @param fileName the attachment file name
+     * @return this
      */
-    public void waitForAttachmentSelected(String spaceName, String pageName, String attachment)
+    public XWikiExplorer waitForAttachmentSelected(String spaceName, String pageName, String fileName)
     {
-        waitForNodeWithHintAndLabel(String.format("Attached to xwiki \u00BB %s \u00BB %s", spaceName, pageName),
-            attachment);
+        return waitForNodeSelected(getAttachmentNodeId(spaceName, pageName, fileName));
     }
 
     /**
@@ -134,57 +311,65 @@ public class XWikiExplorer
      * 
      * @param spaceName the space containing the page
      * @param pageName the name of the page whose attachments node is selected
+     * @return this
      */
-    public void waitForAttachmentsSelected(String spaceName, String pageName)
+    public XWikiExplorer waitForAttachmentsSelected(String spaceName, String pageName)
     {
-        waitForNodeWithHint(String.format("Attachments of xwiki \u00BB %s \u00BB %s", spaceName, pageName));
+        return waitForNodeSelected(getAttachmentsNodeId(spaceName, pageName));
     }
 
-    /**
-     * Types the given text in the input box below the tree. As a result the tree will lookup an entity among its nodes
-     * (e.g. page, attachment) that matches the given reference.
-     * 
-     * @param entityReference the text to be typed in the input box below the tree, usually an entity reference
-     */
-    public void lookupEntity(String entityReference)
+    private XWikiExplorer waitForNodeSelected()
     {
-        test.getSelenium().type("//div[contains(@class, 'xExplorerPanel')]//input", entityReference);
+        test.waitForElement("//div[contains(@class, 'xExplorer')]//li[@aria-selected = 'true']");
+        return this;
     }
 
-    /**
-     * @return the value of the input box below the tree; this is the serialized reference of the selected entity (e.g.
-     *         page, attachment)
-     */
-    public String getSelectedEntityReference()
+    private XWikiExplorer waitForNodeSelected(String nodeId)
     {
-        return test.getSelenium().getValue("//div[contains(@class, 'xExplorerPanel')]//input");
+        test.waitForElement(String.format(
+            "//div[contains(@class, 'xExplorer')]//li[@id = '%s' and @aria-selected = 'true']", nodeId));
+        return this;
     }
 
-    /**
-     * Selects the "New page..." node for the specified space.
-     * 
-     * @param spaceName the space name
-     */
-    public void selectNewPageIn(String spaceName)
+    public XWikiExplorer waitForFinderValue(final String value)
     {
-        lookupEntity(spaceName + ".");
-        waitForNewPageSelected(spaceName);
-        // The SmartClient tree doesn't react when we simulate a click on the "New page..." node so we simply delete the
-        // text from the input, which will leave the "New page..." node selected.
-        lookupEntity("");
+        new Wait()
+        {
+            public boolean until()
+            {
+                return value.equals(test.getSelenium().getValue(FINDER_LOCATOR));
+            }
+        }.wait("The finder still doesn't have the expected value: " + value);
+        return this;
     }
 
-    /**
-     * Selects the "Upload file..." node for the specified page.
-     * 
-     * @param spaceName the page name
-     * @param pageName the space name
-     */
-    public void selectUploadFileIn(String spaceName, String pageName)
+    private String getDocumentNodeId(String spaceName, String pageName)
     {
-        lookupEntity(spaceName + "." + pageName + "#Attachments");
-        waitForAttachmentsSelected(spaceName, pageName);
-        // This works if the "Upload file..." node is right below the "Attachments" node.
-        test.getSelenium().typeKeys("//*[@class = 'xExplorerPanel']//*[@class = 'listGrid']/div", "\\40");
+        return String.format("document:xwiki:%s.%s", spaceName, pageName);
+    }
+
+    private String getNewDocumentNodeId(String spaceName)
+    {
+        return "addDocument:space:xwiki:" + spaceName;
+    }
+
+    private String getSpaceNodeId(String spaceName)
+    {
+        return "space:xwiki:" + spaceName;
+    }
+
+    private String getAttachmentNodeId(String spaceName, String pageName, String fileName)
+    {
+        return String.format("attachment:xwiki:%s.%s@%s", spaceName, pageName, fileName);
+    }
+
+    private String getAttachmentsNodeId(String spaceName, String pageName)
+    {
+        return String.format("attachments:xwiki:%s.%s", spaceName, pageName);
+    }
+
+    private String getNodeLocator(String nodeId)
+    {
+        return String.format("//div[contains(@class, 'xExplorer')]//li[@id = '%s']", nodeId);
     }
 }

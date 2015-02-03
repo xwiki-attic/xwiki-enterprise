@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.administration.test.po.LocalizationAdministrationSectionPage;
@@ -38,8 +39,11 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 2.6RC1
  */
-public class SectionTest extends AbstractAdminAuthenticatedTest
+public class SectionTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private ViewPage createTestPages(String syntaxId)
     {
         if (syntaxId.equalsIgnoreCase("xwiki/1.0")) {

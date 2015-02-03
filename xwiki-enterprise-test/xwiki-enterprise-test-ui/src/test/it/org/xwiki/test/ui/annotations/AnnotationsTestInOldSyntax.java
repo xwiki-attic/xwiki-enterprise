@@ -23,11 +23,13 @@ import org.junit.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.administration.test.po.AnnotationsPage;
 import org.xwiki.annotation.test.po.AnnotatableViewPage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 
 /**
@@ -36,15 +38,16 @@ import org.xwiki.test.ui.browser.IgnoreBrowser;
  * @since 3.2M2
  * @version $Id$
  */
-public class AnnotationsTestInOldSyntax extends AbstractAdminAuthenticatedTest
+public class AnnotationsTestInOldSyntax extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private AnnotatableViewPage annotatableViewPage;
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());
 
         AdministrationPage adminPage = AdministrationPage.gotoPage();

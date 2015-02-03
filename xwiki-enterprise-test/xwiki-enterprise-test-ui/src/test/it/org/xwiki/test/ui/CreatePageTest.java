@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -45,8 +46,11 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 2.4M1
  */
-public class CreatePageTest extends AbstractAdminAuthenticatedTest
+public class CreatePageTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * Name of the template.
      */

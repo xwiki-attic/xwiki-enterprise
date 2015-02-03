@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.ui.po.CommentForm;
 import org.xwiki.test.ui.po.CommentsTab;
@@ -33,8 +34,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 3.1M2
  */
-public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
+public class CommentAsAdminTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private CommentsTab commentsTab;
 
     private static final String CONTENT = "Some dummy Content";
@@ -49,11 +53,9 @@ public class CommentAsAdminTest extends AbstractAdminAuthenticatedTest
 
     private static final String COMMENT_REPLY = "Comment Reply";
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);
         this.commentsTab = vp.openCommentsDocExtraPane();

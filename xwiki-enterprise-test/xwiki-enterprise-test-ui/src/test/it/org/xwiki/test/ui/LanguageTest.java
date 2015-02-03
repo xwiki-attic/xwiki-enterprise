@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -37,18 +38,18 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 2.4RC1
  */
-public class LanguageTest extends AbstractAdminAuthenticatedTest
+public class LanguageTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * Ensure the default language is English and that the wiki is in monolingual mode
      * @throws Exception 
      */
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         setLanguageSettings(false, "en");
     }
 

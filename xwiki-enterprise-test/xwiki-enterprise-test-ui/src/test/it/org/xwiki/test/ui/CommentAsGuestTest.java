@@ -23,6 +23,8 @@ import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.administration.test.po.GlobalRightsAdministrationSectionPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -36,8 +38,14 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 3.1M2
  */
-public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
+public class CommentAsGuestTest extends AbstractTest
 {
+    @ClassRule
+    public AdminAuthenticationRule adminAuthenticationClassRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private static final String CONTENT = "Some dummy Content";
 
     private static final String TITLE = "CommentsTest Page";
@@ -53,19 +61,13 @@ public class CommentAsGuestTest extends AbstractAdminAuthenticatedTest
     @BeforeClass
     public static void initializeCommentRights()
     {
-        // We need to Admin user to be logged in to set the rights...
-        loginAdminUser();
-
         // Ensure that guest user has comment permission
         setRightsOnGuest(Right.COMMENT, State.ALLOW);
     }
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         this.vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);
 

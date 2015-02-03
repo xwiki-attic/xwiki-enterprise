@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.ui;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.Assert;
 import org.xwiki.test.ui.po.ViewPage;
@@ -29,8 +30,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 3.2M1
  */
-public class BacklinksTest extends AbstractAdminAuthenticatedTest
+public class BacklinksTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     @Test
     public void testBacklinksCreationSyntax10() throws Exception
     {

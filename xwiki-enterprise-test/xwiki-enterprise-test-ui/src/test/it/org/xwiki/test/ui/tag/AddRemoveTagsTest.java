@@ -23,11 +23,13 @@ import org.junit.Assert;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.tag.test.po.AddTagsPane;
 import org.xwiki.tag.test.po.TaggablePage;
 import org.xwiki.tag.test.po.TagPage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 
@@ -37,8 +39,11 @@ import org.xwiki.test.ui.browser.IgnoreBrowsers;
  * @version $Id$
  * @since 3.1M1
  */
-public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
+public class AddRemoveTagsTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * The test page.
      */
@@ -47,11 +52,8 @@ public class AddRemoveTagsTest extends AbstractAdminAuthenticatedTest
     private TagPage tagPage;
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-
         // Create a new test page.
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         getUtil().createPage(getTestClassName(), getTestMethodName(), null, null);

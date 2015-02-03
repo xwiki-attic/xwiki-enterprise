@@ -24,10 +24,12 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
 import org.xwiki.panels.test.po.ApplicationsPanel;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -38,8 +40,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 4.3RC1
  */
-public class ApplicationsPanelEntryTest extends AbstractAdminAuthenticatedTest
+public class ApplicationsPanelEntryTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * The page being tested.
      */
@@ -51,11 +56,8 @@ public class ApplicationsPanelEntryTest extends AbstractAdminAuthenticatedTest
     private final Map<String, String> editQueryStringParameters = new HashMap<String, String>();
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         editQueryStringParameters.put("editor", "inline");
         editQueryStringParameters.put("template", "AppWithinMinutes.LiveTableTemplate");

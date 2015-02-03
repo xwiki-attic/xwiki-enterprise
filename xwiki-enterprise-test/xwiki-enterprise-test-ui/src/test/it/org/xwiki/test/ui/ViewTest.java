@@ -20,6 +20,7 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.ui.po.ViewPage;
 
@@ -30,8 +31,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 4.5M1
  */
-public class ViewTest extends AbstractAdminAuthenticatedTest
+public class ViewTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * See also <a href="http://jira.xwiki.org/jira/browse/XWIKI-8725">XWIKI-8725</a>.
      */

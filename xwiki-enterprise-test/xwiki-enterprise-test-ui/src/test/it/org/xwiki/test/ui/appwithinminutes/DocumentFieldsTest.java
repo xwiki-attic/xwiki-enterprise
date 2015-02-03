@@ -21,6 +21,7 @@ package org.xwiki.test.ui.appwithinminutes;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;
@@ -29,7 +30,8 @@ import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
 import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.EntryNamePane;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.po.LiveTableElement;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
@@ -41,8 +43,11 @@ import org.xwiki.test.ui.po.editor.wysiwyg.RichTextAreaElement;
  * @version $Id$
  * @since 4.5RC1
  */
-public class DocumentFieldsTest extends AbstractAdminAuthenticatedTest
+public class DocumentFieldsTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     @Test
     public void titleAndContent()
     {

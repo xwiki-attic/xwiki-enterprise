@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import static org.junit.Assert.*;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.po.AttachmentsPane;
@@ -35,8 +36,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 5.2M2
  */
-public class RestoreDeletedPageTest extends AbstractAdminAuthenticatedTest
+public class RestoreDeletedPageTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * @see "XWIKI-9421: Attachment version is incremented when a document is restored from recycle bin"
      */

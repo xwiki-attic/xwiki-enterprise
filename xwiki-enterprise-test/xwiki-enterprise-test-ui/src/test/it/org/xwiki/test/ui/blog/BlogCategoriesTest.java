@@ -22,8 +22,10 @@ package org.xwiki.test.ui.blog;
 import org.junit.Assert;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.blog.test.po.ManageCategoriesPage;
@@ -34,8 +36,11 @@ import org.xwiki.blog.test.po.ManageCategoriesPage;
  * @version $Id$
  * @since 2.3M2
  */
-public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
+public class BlogCategoriesTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * We make sure to have spaces and special chars to ensure categories can be named with any char.
      */
@@ -45,12 +50,9 @@ public class BlogCategoriesTest extends AbstractAdminAuthenticatedTest
 
     private static final String CATEGORY_RENAME_2 = "A category with [[//wiki// syntax]] # || onclick=\"alert('fail');return false;\"";
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         // clean up
         getUtil().deletePage("Blog", CATEGORY);
         getUtil().deletePage("Blog", CATEGORY_RENAME);

@@ -20,6 +20,7 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -33,8 +34,11 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 3.1M2
  */
-public class VersionTest extends AbstractAdminAuthenticatedTest
+public class VersionTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private static final String PAGE_NAME = "HistoryTest";
 
     private static final String SPACE_NAME = "HistorySpaceTest";

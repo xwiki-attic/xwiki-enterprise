@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -40,15 +41,16 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 4.1
  */
-public class SkinxTest extends AbstractAdminAuthenticatedTest
+public class SkinxTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private static final String SCRIPT = "window.document.title = 'script active';";
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage("Test", "SkinxTest");
     }
 

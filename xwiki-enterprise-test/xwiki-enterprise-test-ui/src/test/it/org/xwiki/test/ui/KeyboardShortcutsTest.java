@@ -20,6 +20,7 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -32,8 +33,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 2.6RC1
  */
-public class KeyboardShortcutsTest extends AbstractAdminAuthenticatedTest
+public class KeyboardShortcutsTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private TestUtils util = new TestUtils();
 
     @Test

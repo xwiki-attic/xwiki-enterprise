@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.test.po.xe.ClassSheetPage;
@@ -35,8 +36,11 @@ import org.xwiki.test.ui.po.editor.ClassEditPage;
  * @version $Id$
  * @since 4.5
  */
-public class ClassSheetTest extends AbstractAdminAuthenticatedTest
+public class ClassSheetTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * Tests the process of creating a class, its template, its sheet and an instance.
      */

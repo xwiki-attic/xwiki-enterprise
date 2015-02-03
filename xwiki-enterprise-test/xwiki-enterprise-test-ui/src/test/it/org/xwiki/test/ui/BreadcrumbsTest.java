@@ -20,7 +20,7 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
-
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -32,8 +32,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 2.7RC1
  */
-public class BreadcrumbsTest extends AbstractAdminAuthenticatedTest
+public class BreadcrumbsTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private static final String PARENT_TITLE = "Parent page";
 
     private static final String CHILD_TITLE = "Child page";

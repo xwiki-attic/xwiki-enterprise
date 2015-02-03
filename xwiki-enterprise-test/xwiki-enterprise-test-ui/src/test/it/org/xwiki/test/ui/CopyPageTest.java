@@ -20,6 +20,7 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.AttachmentsPane;
@@ -34,8 +35,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 3.0M2
  */
-public class CopyPageTest extends AbstractAdminAuthenticatedTest
+public class CopyPageTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private static final String PAGE_CONTENT = "This page is used for copying purposes";
 
     private static final String OVERWRITTEN_PAGE_CONTENT = "This page is used for overwritten copy purposes";

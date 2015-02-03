@@ -25,12 +25,14 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.EntryNamePane;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.LiveTableElement;
@@ -41,19 +43,19 @@ import org.xwiki.test.ui.po.LiveTableElement;
  * @version $Id$
  * @since 4.0M1
  */
-public class AddEntryTest extends AbstractAdminAuthenticatedTest
+public class AddEntryTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * The page being tested.
      */
     private ApplicationHomePage homePage;
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         Map<String, String> editQueryStringParameters = new HashMap<String, String>();
         editQueryStringParameters.put("editor", "inline");

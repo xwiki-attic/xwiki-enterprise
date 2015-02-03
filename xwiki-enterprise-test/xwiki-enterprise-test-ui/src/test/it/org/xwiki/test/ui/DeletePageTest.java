@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.junit.Assert;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -37,8 +38,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 3.0M3
  */
-public class DeletePageTest extends AbstractAdminAuthenticatedTest
+public class DeletePageTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private ViewPage viewPage;
 
     private static final String LOGGED_USERNAME = "Administrator";
@@ -55,12 +59,9 @@ public class DeletePageTest extends AbstractAdminAuthenticatedTest
 
     private static final String PAGE_TITLE = "Page title that will be deleted";
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         // Create a new Page that will be deleted
         this.viewPage = getUtil().createPage(SPACE_VALUE, PAGE_VALUE, PAGE_CONTENT, PAGE_TITLE);
     }

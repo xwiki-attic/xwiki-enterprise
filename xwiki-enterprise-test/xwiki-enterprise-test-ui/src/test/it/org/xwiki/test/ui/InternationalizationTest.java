@@ -21,6 +21,7 @@ package org.xwiki.test.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.po.xe.HomePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -35,16 +36,16 @@ import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
  * @version $Id$
  * @since 2.3M1
  */
-public class InternationalizationTest extends AbstractAdminAuthenticatedTest
+public class InternationalizationTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private HomePage homePage;
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         getUtil().deletePage("\u0219", "WebHome");
         getUtil().deletePage("Main", "\u0219");
 

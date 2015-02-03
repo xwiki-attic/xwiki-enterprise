@@ -21,6 +21,7 @@ package org.xwiki.test.ui;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.tag.test.po.TaggablePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -33,8 +34,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 3.0M2
  */
-public class EditInlineTest extends AbstractAdminAuthenticatedTest
+public class EditInlineTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     // Note: We're not testing basic inline editing since this is already covered by the User Profile tests
 
     @Test

@@ -23,6 +23,7 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -39,17 +40,18 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 2.5M1
  */
-public class AttachmentTest extends AbstractAdminAuthenticatedTest
+public class AttachmentTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private final String testAttachment = "SmallAttachment.txt";
 
     private final String testAttachment2 = "SmallAttachment2.txt";
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());
     }
 

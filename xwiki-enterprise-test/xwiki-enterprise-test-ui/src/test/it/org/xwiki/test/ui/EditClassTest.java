@@ -21,6 +21,7 @@ package org.xwiki.test.ui;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -35,13 +36,14 @@ import org.xwiki.test.ui.po.editor.ObjectEditPage;
  * @version $Id$
  * @since 2.4RC1
  */
-public class EditClassTest extends AbstractAdminAuthenticatedTest
+public class EditClassTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage("Test", "EditObjectsTestClass");
         getUtil().deletePage("Test", "EditObjectsTestObject");
     }

@@ -20,7 +20,7 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
-
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -33,8 +33,11 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 2.4M1
  */
-public class TemplateTest extends AbstractAdminAuthenticatedTest
+public class TemplateTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /** Page used for testing: Main.TemplateTest */
     private WikiEditPage editPage;
 

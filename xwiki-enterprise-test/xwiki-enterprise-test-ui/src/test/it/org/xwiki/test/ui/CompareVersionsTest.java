@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.tag.test.po.AddTagsPane;
 import org.xwiki.tag.test.po.TaggablePage;
@@ -46,19 +47,19 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 4.2M1
  */
-public class CompareVersionsTest extends AbstractAdminAuthenticatedTest
+public class CompareVersionsTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * The test page.
      */
     private ViewPage testPage;
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         String pageName = "PageWithManyVersions";
 
         // Check if the test page exists.

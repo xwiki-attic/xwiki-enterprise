@@ -20,12 +20,14 @@
 package org.xwiki.test.ui.scheduler;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.scheduler.test.po.SchedulerHomePage;
 import org.xwiki.scheduler.test.po.SchedulerPage;
 import org.xwiki.scheduler.test.po.editor.SchedulerEditPage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 
@@ -34,8 +36,11 @@ import org.xwiki.test.ui.browser.IgnoreBrowsers;
  * 
  * @version $Id$
  */
-public class SchedulerTest extends AbstractAdminAuthenticatedTest
+public class SchedulerTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * Tests that a scheduler job page default edit mode is "inline"
      */

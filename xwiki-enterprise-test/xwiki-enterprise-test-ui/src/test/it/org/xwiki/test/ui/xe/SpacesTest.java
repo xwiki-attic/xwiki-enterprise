@@ -20,10 +20,12 @@
 package org.xwiki.test.ui.xe;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.index.test.po.SpaceIndexPage;
 import org.xwiki.test.po.xe.HomePage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.LiveTableElement;
@@ -37,8 +39,11 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 2.4M1
  */
-public class SpacesTest extends AbstractAdminAuthenticatedTest
+public class SpacesTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * Tests if a new space can be created from the Space dashboard.
      */

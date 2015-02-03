@@ -20,8 +20,10 @@
 package org.xwiki.test.ui.appwithinminutes;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 
 /**
  * Base class for testing the application class editor.
@@ -29,19 +31,19 @@ import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
  * @version $Id$
  * @since 3.5
  */
-public abstract class AbstractClassEditorTest extends AbstractAdminAuthenticatedTest
+public abstract class AbstractClassEditorTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * The page being tested.
      */
     protected ApplicationClassEditPage editor;
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-
         getUtil().deleteSpace(getTestClassName());
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit",
             "editor=inline&template=AppWithinMinutes.ClassTemplate&title=" + getTestMethodName() + " Class");

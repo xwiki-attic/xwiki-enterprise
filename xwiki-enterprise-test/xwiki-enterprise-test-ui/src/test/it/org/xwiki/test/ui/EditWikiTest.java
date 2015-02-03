@@ -23,6 +23,7 @@ import org.junit.Assert;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -37,18 +38,19 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 2.4M1
  */
-public class EditWikiTest extends AbstractAdminAuthenticatedTest
+public class EditWikiTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * Page used for testing.
      */
     private WikiEditPage editPage;
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         this.editPage = WikiEditPage.gotoPage(getTestClassName(), getTestMethodName());
     }

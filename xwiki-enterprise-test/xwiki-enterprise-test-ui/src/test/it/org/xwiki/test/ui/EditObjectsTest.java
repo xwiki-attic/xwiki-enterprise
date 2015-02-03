@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -41,13 +42,14 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 2.4M2
  */
-public class EditObjectsTest extends AbstractAdminAuthenticatedTest
+public class EditObjectsTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage("Test", "EditObjectsTestClass");
         getUtil().deletePage("Test", "EditObjectsTestObject");
     }
@@ -319,7 +321,8 @@ public class EditObjectsTest extends AbstractAdminAuthenticatedTest
     }
 
     /**
-     * @see XWIKI-9061: Property displayers don't work in the object editor for objects that have just been added
+     * @see <a href="http://jira.xwiki.org/browse/XWIKI-9061">XWIKI-9061</a>: Property displayers don't work in the
+     *      object editor for objects that have just been added
      */
     @Test
     public void testPropertyDisplayersForNewObjects()

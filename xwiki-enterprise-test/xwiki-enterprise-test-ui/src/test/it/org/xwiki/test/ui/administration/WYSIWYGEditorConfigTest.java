@@ -23,10 +23,12 @@ import org.junit.Assert;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.administration.test.po.WYSIWYGEditorAdministrationSectionPage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 
 /**
@@ -35,19 +37,19 @@ import org.xwiki.test.ui.browser.IgnoreBrowser;
  * @version $Id$
  * @since 3.3M2
  */
-public class WYSIWYGEditorConfigTest extends AbstractAdminAuthenticatedTest
+public class WYSIWYGEditorConfigTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * The WYSIWYG Editor administration section.
      */
     private WYSIWYGEditorAdministrationSectionPage wysiwygSection;
 
-    @Override
     @Before
     public void setUp() throws Exception
     {
-        super.setUp();
-
         wysiwygSection = AdministrationPage.gotoPage().clickWYSIWYGEditorSection();
     }
 

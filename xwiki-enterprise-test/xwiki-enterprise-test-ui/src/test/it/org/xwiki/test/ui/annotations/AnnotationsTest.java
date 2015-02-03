@@ -22,9 +22,11 @@ package org.xwiki.test.ui.annotations;
 import org.junit.Assert;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.annotation.test.po.AnnotatableViewPage;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 
@@ -34,8 +36,11 @@ import org.xwiki.test.ui.browser.IgnoreBrowsers;
  * @version $Id$
  * @since 2.7RC1
  */
-public class AnnotationsTest extends AbstractAdminAuthenticatedTest
+public class AnnotationsTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     private static final String CONTENT =
         "It's an easy-to-edit website that will help you work better together. This Wiki is made of pages "
             + "sorted by spaces. You're currently in the Main space, looking at its home page (WebHome).";
@@ -59,10 +64,8 @@ public class AnnotationsTest extends AbstractAdminAuthenticatedTest
     private AnnotatableViewPage annotatableViewPage;
 
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         annotatableViewPage = new AnnotatableViewPage(
             getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, null));

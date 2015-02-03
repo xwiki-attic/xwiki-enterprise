@@ -23,9 +23,10 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Assert;
-
+import org.junit.Rule;
 import org.junit.Test;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.blog.test.po.BlogHomePage;
@@ -39,8 +40,11 @@ import org.xwiki.blog.test.po.CreateBlogPostPane;
  * @version $Id$
  * @since 3.2M3
  */
-public class BlogPostTest extends AbstractAdminAuthenticatedTest
+public class BlogPostTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * Tests how a blog post is created and then edited.
      */

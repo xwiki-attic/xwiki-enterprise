@@ -21,20 +21,21 @@ package org.xwiki.test.ui;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 
 /**
  * Base class for admin tests that need to manipulate a repository of extensions.
  * 
  * @version $Id$
  */
-public class AbstractExtensionAdminAuthenticatedTest extends AbstractAdminAuthenticatedTest
+public class AbstractExtensionAdminAuthenticatedTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     @Before
-    @Override
     public void setUp() throws Exception
     {
-        super.setUp();
-
         // Make sure to have the proper token
         getUtil().recacheSecretToken();
     }

@@ -20,6 +20,7 @@
 package org.xwiki.test.ui.appwithinminutes;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.xwiki.appwithinminutes.test.po.AppWithinMinutesHomePage;
@@ -28,7 +29,8 @@ import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
 import org.xwiki.appwithinminutes.test.po.ApplicationsLiveTableElement;
-import org.xwiki.test.ui.AbstractAdminAuthenticatedTest;
+import org.xwiki.test.ui.AbstractTest;
+import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
@@ -39,8 +41,11 @@ import org.xwiki.test.ui.po.ViewPage;
  * @version $Id$
  * @since 3.4M1
  */
-public class ApplicationNameTest extends AbstractAdminAuthenticatedTest
+public class ApplicationNameTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * The error message displayed when we try to create an application with an empty name.
      */

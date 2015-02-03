@@ -21,6 +21,7 @@ package org.xwiki.test.ui;
 
 import static org.junit.Assert.*;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.editor.ClassEditPage;
@@ -36,8 +37,11 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
  * @version $Id$
  * @since 5.2
  */
-public class PreviewTest extends AbstractAdminAuthenticatedTest
+public class PreviewTest extends AbstractTest
 {
+    @Rule
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+
     /**
      * @see "XWIKI-2490: Preview doesn't work when the document content has script requiring programming rights"
      */

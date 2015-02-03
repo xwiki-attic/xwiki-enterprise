@@ -25,11 +25,11 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons-pom</artifactId>
-    <version>5.4.7-SNAPSHOT</version>
+    <version>5.4.8-SNAPSHOT</version>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>
-  <version>5.4.7-SNAPSHOT</version>
+  <version>5.4.8-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>XWiki Enterprise - Parent POM</name>
   <description>XWiki Enterprise - Parent POM</description>

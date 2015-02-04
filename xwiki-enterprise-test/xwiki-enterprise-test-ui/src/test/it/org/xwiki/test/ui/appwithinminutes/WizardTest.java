@@ -75,8 +75,9 @@ public class WizardTest extends AbstractTest
     public void testCreateApplication()
     {
         // Step 1
-        // Enter the application name (random name).
-        String appName = RandomStringUtils.randomAlphabetic(6);
+        // Enter the application name (random name). Make sure we include some UTF-8 chars also.
+        // See XWIKI-11747: Impossible to create new entry with an application having UTF8 chars in its name
+        String appName = RandomStringUtils.randomAlphabetic(6) + "\u00E2";
         appCreatePage.setApplicationName(appName);
 
         // Wait for the preview.

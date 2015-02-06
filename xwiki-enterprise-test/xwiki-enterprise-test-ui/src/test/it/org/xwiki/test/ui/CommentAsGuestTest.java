@@ -41,7 +41,8 @@ import org.xwiki.test.ui.po.ViewPage;
 public class CommentAsGuestTest extends AbstractTest
 {
     @ClassRule
-    public AdminAuthenticationRule adminAuthenticationClassRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public static AdminAuthenticationRule adminAuthenticationClassRule =
+        new AdminAuthenticationRule(getUtil(), getDriver());
 
     @Rule
     public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());

@@ -39,6 +39,13 @@
       <type>zip</type>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-data-lesscache</artifactId>
+      <version>${project.version}</version>
+      <type>zip</type>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

@@ -114,6 +114,16 @@
       <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
       <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
+    <!-- Unpack the less cache folder to package it in the distribution -->
+    <dependencySet>
+      <includes>
+        <include>org.xwiki.enterprise:xwiki-enterprise-data-lesscache</include>
+      </includes>
+      <outputDirectory>/${xwikiDataDir}/</outputDirectory>
+      <unpack>true</unpack>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
   </dependencySets>
   <!-- Add Hibernate configuration file -->
   <files>

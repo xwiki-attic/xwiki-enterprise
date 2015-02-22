@@ -39,7 +39,7 @@ import org.xwiki.test.ui.browser.IgnoreBrowsers;
 public class SchedulerTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * Tests that a scheduler job page default edit mode is "inline"
@@ -92,7 +92,7 @@ public class SchedulerTest extends AbstractTest
         // Delete and Restore Job
         schedulerHomePage.clickJobActionDelete(jobName).clickYes();
         schedulerHomePage = SchedulerHomePage.gotoPage();
-        Assert.assertFalse(getUtil().hasElement(By.linkText(jobName)));
+        Assert.assertFalse(getDriver().hasElement(By.linkText(jobName)));
         getUtil().gotoPage("Scheduler", "SchedulerTestJob");
         getDriver().findElement(By.linkText("Restore")).click();
         schedulerPage = new SchedulerPage();

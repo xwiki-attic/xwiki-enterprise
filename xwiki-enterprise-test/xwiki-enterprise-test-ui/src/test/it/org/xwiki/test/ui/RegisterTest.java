@@ -69,7 +69,7 @@ public class RegisterTest extends AbstractTest
 
         // The prepareName javascript function is the cause of endless flickering
         // since it trys to suggest a username every time the field is focused.
-        this.registrationPage.executeJavascript("document.getElementById('xwikiname').onfocus = null;");
+        getDriver().executeJavascript("document.getElementById('xwikiname').onfocus = null;");
 
         this.registrationPage.fillInJohnSmithValues();
     }

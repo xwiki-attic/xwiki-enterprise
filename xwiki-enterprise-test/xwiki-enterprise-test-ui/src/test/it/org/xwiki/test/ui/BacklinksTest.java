@@ -33,7 +33,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class BacklinksTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     @Test
     public void testBacklinksCreationSyntax10() throws Exception

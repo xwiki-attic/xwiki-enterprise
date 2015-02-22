@@ -34,7 +34,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class ViewTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * See also <a href="http://jira.xwiki.org/jira/browse/XWIKI-8725">XWIKI-8725</a>.

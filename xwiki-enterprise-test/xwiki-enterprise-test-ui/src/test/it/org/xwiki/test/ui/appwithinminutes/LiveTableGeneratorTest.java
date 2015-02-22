@@ -43,7 +43,7 @@ import org.xwiki.test.ui.po.LiveTableElement;
 public class LiveTableGeneratorTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * The second step of the AppWithinMinutes wizard.

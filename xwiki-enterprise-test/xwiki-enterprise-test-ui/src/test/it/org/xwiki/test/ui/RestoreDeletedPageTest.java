@@ -39,7 +39,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class RestoreDeletedPageTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * @see "XWIKI-9421: Attachment version is incremented when a document is restored from recycle bin"

@@ -41,7 +41,7 @@ import org.xwiki.test.ui.browser.IgnoreBrowser;
 public class AnnotationsTestInOldSyntax extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private AnnotatableViewPage annotatableViewPage;
 

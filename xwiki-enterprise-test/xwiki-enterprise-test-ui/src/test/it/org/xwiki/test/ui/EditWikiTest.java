@@ -41,7 +41,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class EditWikiTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * Page used for testing.
@@ -88,7 +88,7 @@ public class EditWikiTest extends AbstractTest
         // Place some HTML in the page content.
         this.editPage.setContent("{{html}}<hr/>{{/html}}");
         // If we are asked to confirm the editor switch then we choose to remain on the wiki editor.
-        this.editPage.makeConfirmDialogSilent(false);
+        getDriver().makeConfirmDialogSilent(false);
         // Switch to WYSIWYG editor.
         WYSIWYGEditPage wysiwygEditPage = this.editPage.editWYSIWYG();
         // Check that we are indeed in WYSIWYG edit mode.

@@ -39,7 +39,7 @@ import org.xwiki.blog.test.po.ManageCategoriesPage;
 public class BlogCategoriesTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * We make sure to have spaces and special chars to ensure categories can be named with any char.

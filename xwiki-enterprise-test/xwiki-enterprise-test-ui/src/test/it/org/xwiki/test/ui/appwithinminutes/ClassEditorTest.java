@@ -424,7 +424,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
      */
     private void waitForPageSourceContains(final String text)
     {
-        new WebDriverWait(getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
+        new WebDriverWait(getDriver(), getDriver().getTimeout()).until(new ExpectedCondition<Boolean>()
         {
             @Override
             public Boolean apply(WebDriver driver)

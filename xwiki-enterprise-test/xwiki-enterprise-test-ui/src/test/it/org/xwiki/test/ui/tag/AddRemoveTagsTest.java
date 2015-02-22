@@ -42,7 +42,7 @@ import org.xwiki.test.ui.browser.IgnoreBrowsers;
 public class AddRemoveTagsTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * The test page.

@@ -39,7 +39,7 @@ import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 public class InternationalizationTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private HomePage homePage;
 

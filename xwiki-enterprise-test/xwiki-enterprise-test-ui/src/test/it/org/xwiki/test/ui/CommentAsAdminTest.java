@@ -37,7 +37,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class CommentAsAdminTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private CommentsTab commentsTab;
 

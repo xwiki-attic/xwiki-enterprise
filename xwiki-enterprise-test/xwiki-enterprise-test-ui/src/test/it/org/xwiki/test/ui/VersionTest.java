@@ -37,7 +37,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class VersionTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private static final String PAGE_NAME = "HistoryTest";
 

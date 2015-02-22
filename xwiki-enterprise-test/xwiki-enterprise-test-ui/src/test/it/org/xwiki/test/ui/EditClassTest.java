@@ -39,7 +39,7 @@ import org.xwiki.test.ui.po.editor.ObjectEditPage;
 public class EditClassTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     @Before
     public void setUp() throws Exception

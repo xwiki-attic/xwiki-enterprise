@@ -112,6 +112,6 @@ public class DataTypesPage extends ViewPage
     public boolean isClassListed(String spaceName, String className)
     {
         String xpath = String.format("//dd//a[. = '%s' and contains(@href, '/%s/')]", className, spaceName);
-        return getUtil().findElementsWithoutWaiting(getDriver(), By.xpath(xpath)).size() == 1;
+        return getDriver().findElementsWithoutWaiting(By.xpath(xpath)).size() == 1;
     }
 }

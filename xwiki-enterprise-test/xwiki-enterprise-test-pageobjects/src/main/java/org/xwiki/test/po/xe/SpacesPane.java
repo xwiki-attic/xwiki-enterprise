@@ -69,17 +69,16 @@ public class SpacesPane extends BaseElement
         String escapedSpaceName = getUtil().escapeURL(spaceName);
 
         // Start by finding all li elements with 'xitem' class
-        for (WebElement liElement : getUtil().findElementsWithoutWaiting(getDriver(),
-            By.xpath("//li[contains(@class, 'xitem')]")))
+        for (WebElement liElement : getDriver().findElementsWithoutWaiting(By.xpath("//li[contains(@class, 'xitem')]")))
         {
-            List<WebElement> elements = getUtil().findElementsWithoutWaiting(getDriver(), liElement,
+            List<WebElement> elements = getDriver().findElementsWithoutWaiting(liElement,
                 By.xpath(".//a[contains(@href, 'SpaceIndex?space=" + escapedSpaceName + "')]"));
             if (!elements.isEmpty()) {
 
                 // Make sure we hover before we click since the link is hidden by default.
                 // TODO: However since I wasn't able to perform a hover, I'm cheating by removing the class
                 // attribute that makes the element hidden.
-                executeJavascript("arguments[0].setAttribute('class', '')", liElement);
+                getDriver().executeJavascript("arguments[0].setAttribute('class', '')", liElement);
 
                 // Click
                 elements.get(0).click();

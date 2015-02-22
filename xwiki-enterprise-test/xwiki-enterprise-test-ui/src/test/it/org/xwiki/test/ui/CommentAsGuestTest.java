@@ -41,11 +41,10 @@ import org.xwiki.test.ui.po.ViewPage;
 public class CommentAsGuestTest extends AbstractTest
 {
     @ClassRule
-    public static AdminAuthenticationRule adminAuthenticationClassRule =
-        new AdminAuthenticationRule(getUtil(), getDriver());
+    public static AdminAuthenticationRule adminAuthenticationClassRule = new AdminAuthenticationRule(getUtil());
 
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private static final String CONTENT = "Some dummy Content";
 

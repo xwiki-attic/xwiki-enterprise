@@ -36,7 +36,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class KeyboardShortcutsTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private TestUtils util = new TestUtils();
 

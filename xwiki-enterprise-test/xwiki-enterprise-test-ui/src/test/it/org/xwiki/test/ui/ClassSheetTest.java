@@ -39,7 +39,7 @@ import org.xwiki.test.ui.po.editor.ClassEditPage;
 public class ClassSheetTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * Tests the process of creating a class, its template, its sheet and an instance.

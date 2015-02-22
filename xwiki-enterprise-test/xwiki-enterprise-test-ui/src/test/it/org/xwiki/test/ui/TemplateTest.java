@@ -36,7 +36,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class TemplateTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /** Page used for testing: Main.TemplateTest */
     private WikiEditPage editPage;

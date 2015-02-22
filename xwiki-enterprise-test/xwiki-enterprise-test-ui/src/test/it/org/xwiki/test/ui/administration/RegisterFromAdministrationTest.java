@@ -51,7 +51,7 @@ public class RegisterFromAdministrationTest extends RegisterTest
     {
         registrationPage.clickRegister();
 
-        registrationPage.waitUntilElementsAreVisible(
+        getDriver().waitUntilElementsAreVisible(
             new By[] {By.xpath("//td[@class='username']/a[@href='/xwiki/bin/view/XWiki/JohnSmith']"),
                       By.xpath("//dd/span[@class='LV_validation_message LV_invalid']")
             },

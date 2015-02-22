@@ -40,7 +40,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class PreviewTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * @see "XWIKI-2490: Preview doesn't work when the document content has script requiring programming rights"

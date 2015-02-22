@@ -44,7 +44,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class SkinxTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private static final String SCRIPT = "window.document.title = 'script active';";
 
@@ -102,7 +102,7 @@ public class SkinxTest extends AbstractTest
      */
     private void waitForScriptResult()
     {
-        new WebDriverWait(getDriver(), getUtil().getTimeout()).until(new ExpectedCondition<Boolean>()
+        new WebDriverWait(getDriver(), getDriver().getTimeout()).until(new ExpectedCondition<Boolean>()
         {
             @Override
             public Boolean apply(WebDriver driver)

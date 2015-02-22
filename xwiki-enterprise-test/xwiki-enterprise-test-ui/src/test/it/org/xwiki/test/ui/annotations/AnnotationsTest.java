@@ -39,7 +39,7 @@ import org.xwiki.test.ui.browser.IgnoreBrowsers;
 public class AnnotationsTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     private static final String CONTENT =
         "It's an easy-to-edit website that will help you work better together. This Wiki is made of pages "

@@ -49,7 +49,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class CreatePageTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * Name of the template.
@@ -392,8 +392,8 @@ public class CreatePageTest extends AbstractTest
         WYSIWYGEditPage editNewLinkedPage = new WYSIWYGEditPage();
         // since the edit mode loads as a result of a redirect that comes from a async call made by the click, we need
         // to wait for the page to load
-        editNewLinkedPage.waitUntilElementIsVisible(By
-            .xpath("//div[@id='mainEditArea']//div[@class='gwt-Label' and contains(text(), 'WYSIWYG')]"));
+        getDriver().waitUntilElementIsVisible(
+            By.xpath("//div[@id='mainEditArea']//div[@class='gwt-Label' and contains(text(), 'WYSIWYG')]"));
         // make sure we're in edit mode (of the new page)
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         Assert.assertEquals(space, editNewLinkedPage.getMetaDataValue("space"));

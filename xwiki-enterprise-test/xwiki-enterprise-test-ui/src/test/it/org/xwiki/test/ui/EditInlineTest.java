@@ -37,7 +37,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class EditInlineTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     // Note: We're not testing basic inline editing since this is already covered by the User Profile tests
 

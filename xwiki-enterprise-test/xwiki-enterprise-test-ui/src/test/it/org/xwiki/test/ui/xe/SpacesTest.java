@@ -42,7 +42,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class SpacesTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * Tests if a new space can be created from the Space dashboard.

@@ -122,7 +122,7 @@ public class RepositoryTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionPage extensionPage = extensionInline.clickSaveAndView();
 
         // Test summary
-        getUtil().findElementsWithoutWaiting(getDriver(),
+        getDriver().findElementsWithoutWaiting(
             By.xpath("//tt[text()=\"" + this.baseExtension.getSummary() + "\"]"));
 
         Assert.assertFalse(extensionPage.isValidExtension());

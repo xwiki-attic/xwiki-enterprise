@@ -34,7 +34,7 @@ import org.xwiki.test.ui.AdminAuthenticationRule;
 public abstract class AbstractClassEditorTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * The page being tested.

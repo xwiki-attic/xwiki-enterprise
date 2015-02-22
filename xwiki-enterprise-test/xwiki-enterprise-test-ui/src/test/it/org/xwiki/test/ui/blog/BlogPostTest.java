@@ -43,7 +43,7 @@ import org.xwiki.blog.test.po.CreateBlogPostPane;
 public class BlogPostTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * Tests how a blog post is created and then edited.

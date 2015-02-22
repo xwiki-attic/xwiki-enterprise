@@ -41,7 +41,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class LanguageTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil(), getDriver());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
      * Ensure the default language is English and that the wiki is in monolingual mode

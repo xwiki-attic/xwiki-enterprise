@@ -116,6 +116,12 @@
               <artifactId>xwiki-platform-mail-send-storage</artifactId>
               <version>${platform.version}</version>
             </dependency>
+            <!-- Watchlist API has a migrator to change property types from StaticList to DBList -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-watchlist-api</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
             <dependency>

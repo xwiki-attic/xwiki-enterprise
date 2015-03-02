@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.xwiki.extension.ExtensionId;
 
 /**
@@ -63,7 +64,7 @@ public class ExtensionTestUtils
         this.utils = utils;
 
         // Create the service page.
-        StringBuilder code = new StringBuilder("{{groovy output=\"false\"}}\n");
+        StringBuilder code = new StringBuilder("{{groovy}}\n");
         code.append("import java.util.Arrays;\n");
         code.append("import org.xwiki.extension.ExtensionManager;\n");
         code.append("import org.xwiki.job.event.status.JobStatus;\n");
@@ -95,6 +96,7 @@ public class ExtensionTestUtils
         code.append("    currentJob.join()\n");
         code.append("  }\n");
         code.append("}\n");
+        code.append("println 'Done!'\n");
         code.append("{{/groovy}}");
         utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "save",
             Collections.singletonMap("content", code.toString()));
@@ -119,10 +121,9 @@ public class ExtensionTestUtils
     public void uninstall(String extensionId, boolean keepLocalCache)
     {
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("action", "uninstall");
         parameters.put("extensionId", extensionId);
         parameters.put("keepLocalCache", String.valueOf(keepLocalCache));
-        utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", parameters);
+        doAction("uninstall", parameters);
     }
 
     /**
@@ -133,10 +134,9 @@ public class ExtensionTestUtils
     public void install(ExtensionId extensionId)
     {
         Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("action", "install");
         parameters.put("extensionId", extensionId.getId());
         parameters.put("extensionVersion", extensionId.getVersion().getValue());
-        utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", parameters);
+        doAction("install", parameters);
     }
 
     /**
@@ -144,6 +144,14 @@ public class ExtensionTestUtils
      */
     public void finishCurrentJob()
     {
-        utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", "action=finish");
+        doAction("finish", new HashMap<String, String>());
+    }
+
+    private void doAction(String action, Map<String, String> parameters)
+    {
+        parameters.put("action", action);
+        parameters.put("outputSyntax", "plain");
+        utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "get", parameters);
+        utils.getDriver().waitUntilElementHasTextContent(By.tagName("body"), "Done!");
     }
 }

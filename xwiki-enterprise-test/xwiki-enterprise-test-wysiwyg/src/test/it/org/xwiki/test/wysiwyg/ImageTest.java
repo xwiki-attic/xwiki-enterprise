@@ -19,10 +19,11 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.By;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
-import com.thoughtworks.selenium.Wait;
+import com.thoughtworks.selenium.Selenium;
 
 /**
  * Tests the image insert and edit plugin. For the moment, it does not test the upload new image feature, since it needs
@@ -89,7 +90,14 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * The object used to assert the state of the XWiki Explorer tree.
      */
-    private final XWikiExplorer explorer = new XWikiExplorer(this);
+    private XWikiExplorer explorer;
+
+    @Override
+    public void setSelenium(Selenium selenium)
+    {
+        super.setSelenium(selenium);
+        this.explorer = new XWikiExplorer(getDriver());
+    }
 
     /**
      * Test adding an image from a page different from the current one.
@@ -282,8 +290,9 @@ public class ImageTest extends AbstractWysiwygTestCase
 
         waitForStepToLoad(STEP_EXPLORER);
         // wait for the inner selector to load
-        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
-            + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
+        getDriver().waitUntilElementIsVisible(
+            By.xpath("//*[contains(@class, \"" + STEP_EXPLORER + "\")]//*[contains(@class, \""
+                + STEP_CURRENT_PAGE_SELECTOR + "\")]"));
         assertImageSelected(imageSpace, imagePage, imageFile1);
 
         selectImage(imageSpace, imagePage, imageFile2);
@@ -330,7 +339,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_CURRENT_PAGE_SELECTOR);
 
         // wait for the default option to load and then click it
-        waitForCondition("selenium.isElementPresent('//div[contains(@class, \"xNewImagePreview\")]')");
+        getDriver().waitUntilElementIsVisible(By.className("xNewImagePreview"));
         getSelenium().click("//div[contains(@class, \"xNewImagePreview\")]");
         clickButtonWithText(BUTTON_SELECT);
 
@@ -684,8 +693,9 @@ public class ImageTest extends AbstractWysiwygTestCase
         // Select a different image and refresh the image list to see if the edited image is reselected.
         selectImage("presentation.png");
         getSelenium().click("//div[@class=\"xPageChooser\"]//button[text()=\"Update\"]");
-        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + STEP_EXPLORER
-            + "\")]//*[contains(@class, \"" + STEP_CURRENT_PAGE_SELECTOR + "\")]');");
+        getDriver().waitUntilElementIsVisible(
+            By.xpath("//*[contains(@class, \"" + STEP_EXPLORER + "\")]//*[contains(@class, \""
+                + STEP_CURRENT_PAGE_SELECTOR + "\")]"));
         waitForElement(getImageLocator("export.png"));
     }
 
@@ -788,7 +798,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     private void waitForStepToLoad(String stepClass)
     {
-        waitForCondition("selenium.isElementPresent('//*[contains(@class, \"" + stepClass + "\")]');");
+        getDriver().waitUntilElementIsVisible(By.className(stepClass));
     }
 
     private void selectImage(String space, String page, String filename)
@@ -833,10 +843,10 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     private void assertImageSelected(String space, String page, String filename)
     {
-        waitForCondition("selenium.isElementPresent('" + SPACE_SELECTOR + "/option[@value=\"" + space + "\"]');");
+        getDriver().waitUntilElementIsVisible(By.xpath(SPACE_SELECTOR + "/option[@value = \"" + space + "\"]"));
         assertEquals(space, getSelenium().getSelectedValue(SPACE_SELECTOR));
 
-        waitForCondition("selenium.isElementPresent('" + PAGE_SELECTOR + "/option[@value=\"" + page + "\"]');");
+        getDriver().waitUntilElementIsVisible(By.xpath(PAGE_SELECTOR + "/option[@value = \"" + page + "\"]"));
         assertEquals(page, getSelenium().getSelectedValue(PAGE_SELECTOR));
 
         assertImageSelected(filename);
@@ -864,9 +874,9 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     public boolean isAlignmentSelected(String alignment)
     {
-        return getSelenium().isElementPresent(
-            "//div[contains(@class, \"AlignPanel\")]//input[@name=\"alignment\" and @value=\"" + alignment
-                + "\" and @checked=\"\"]");
+        return getDriver().hasElementWithoutWaiting(
+            By.xpath("//div[contains(@class, \"AlignPanel\")]//input[@name=\"alignment\" and @value=\"" + alignment
+                + "\" and @checked=\"\"]"));
     }
 
     private void openImageDialog(String menuName)
@@ -882,13 +892,7 @@ public class ImageTest extends AbstractWysiwygTestCase
      */
     private void waitForStepSelector()
     {
-        new Wait()
-        {
-            public boolean until()
-            {
-                return getSelenium().isElementPresent(
-                    "//table[contains(@class, 'xStepsTabs') and not(contains(@class, 'loading'))]");
-            }
-        }.wait("Step selector didn't load in a decent amount of time!");
+        getDriver().waitUntilElementIsVisible(
+            By.xpath("//table[contains(@class, 'xStepsTabs') and not(contains(@class, 'loading'))]"));
     }
 }

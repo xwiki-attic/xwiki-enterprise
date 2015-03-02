@@ -19,7 +19,11 @@
  */
 package org.xwiki.test.wysiwyg.framework;
 
-import com.thoughtworks.selenium.Wait;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.xwiki.test.ui.XWikiWebDriver;
 
 /**
  * Utility class used to write integration tests involving the XWiki Explorer tree.
@@ -31,19 +35,16 @@ public class XWikiExplorer
     private static final String FINDER_LOCATOR =
         "//input[@class = 'xtree-finder' and following-sibling::div[contains(@class, 'xExplorer')]]";
 
-    /**
-     * The test being executed.
-     */
-    private final AbstractWysiwygTestCase test;
+    private final XWikiWebDriver driver;
 
     /**
-     * Creates a new XWikiExplorer for the specified test.
+     * Creates a new XWikiExplorer that uses the passed web driver.
      * 
-     * @param test the test being executed
+     * @param driver the web driver
      */
-    public XWikiExplorer(AbstractWysiwygTestCase test)
+    public XWikiExplorer(XWikiWebDriver driver)
     {
-        this.test = test;
+        this.driver = driver;
     }
 
     /**
@@ -90,8 +91,8 @@ public class XWikiExplorer
         String toggleLocatorFormat =
             "//div[contains(@class, 'xExplorer')]//li[@id = '%s'"
                 + " and @aria-expanded = '%s']/i[contains(@class, 'jstree-ocl')]";
-        test.getSelenium().click(String.format(toggleLocatorFormat, nodeId, false));
-        test.waitForElement(String.format(toggleLocatorFormat, nodeId, true));
+        this.driver.findElementByXPath(String.format(toggleLocatorFormat, nodeId, false)).click();
+        this.driver.waitUntilElementIsVisible(By.xpath(String.format(toggleLocatorFormat, nodeId, true)));
 
         return this;
     }
@@ -157,7 +158,7 @@ public class XWikiExplorer
 
     private XWikiExplorer select(String nodeId)
     {
-        test.getSelenium().click(getNodeLocator(nodeId) + "/a[@class = 'jstree-anchor']");
+        this.driver.findElementByXPath(getNodeLocator(nodeId) + "/a[@class = 'jstree-anchor']").click();
         return this;
     }
 
@@ -193,7 +194,7 @@ public class XWikiExplorer
 
     private boolean hasNode(String nodeId)
     {
-        return test.isElementPresent(getNodeLocator(nodeId));
+        return this.driver.hasElementWithoutWaiting(By.xpath(getNodeLocator(nodeId)));
     }
 
     /**
@@ -240,13 +241,13 @@ public class XWikiExplorer
      */
     public TreeSuggestionsPane find(String text)
     {
-        // Clear the previous text.
-        test.getSelenium().type(FINDER_LOCATOR, "");
-        // Type the new text.
-        test.getSelenium().typeKeys(FINDER_LOCATOR, text);
+        WebElement finder = this.driver.findElementByXPath(FINDER_LOCATOR);
+        finder.clear();
+        finder.sendKeys(text);
         // Wait for the list of suggestions.
-        test.waitForElement("//div[contains(@class, 'xtree-finder-suggestions')]//ul[contains(@class, 'suggestList')]");
-        return new TreeSuggestionsPane(test);
+        this.driver.waitUntilElementIsVisible(By
+            .xpath("//div[contains(@class, 'xtree-finder-suggestions')]//ul[contains(@class, 'suggestList')]"));
+        return new TreeSuggestionsPane(this.driver);
     }
 
     /**
@@ -256,16 +257,20 @@ public class XWikiExplorer
      */
     public XWikiExplorer waitForIt()
     {
-        test.waitForElement("//div[contains(@class, 'xExplorer')]");
-        new Wait()
+        this.driver.waitUntilElementIsVisible(By.className("xExplorer"));
+        final By treeLoading = By.xpath("//div[contains(@class, 'xExplorer') and @aria-busy = 'true']");
+        final By treeItemLoading =
+            By.xpath("//div[contains(@class, 'xExplorer')]"
+                + "//li[@role = 'treeitem' and contains(@class, 'loading')]");
+        this.driver.waitUntilCondition(new ExpectedCondition<Boolean>()
         {
-            public boolean until()
+            @Override
+            public Boolean apply(WebDriver input)
             {
-                return !test.isElementPresent("//div[contains(@class, 'xExplorer') and @aria-busy = 'true']")
-                    && !test.isElementPresent("//div[contains(@class, 'xExplorer')]"
-                        + "//li[@role = 'treeitem' and contains(@class, 'loading')]");
+                return !XWikiExplorer.this.driver.hasElementWithoutWaiting(treeLoading)
+                    && !XWikiExplorer.this.driver.hasElementWithoutWaiting(treeItemLoading);
             }
-        }.wait("The tree is still loading!");
+        });
         return this;
     }
 
@@ -320,26 +325,21 @@ public class XWikiExplorer
 
     private XWikiExplorer waitForNodeSelected()
     {
-        test.waitForElement("//div[contains(@class, 'xExplorer')]//li[@aria-selected = 'true']");
+        this.driver.waitUntilElementIsVisible(By
+            .xpath("//div[contains(@class, 'xExplorer')]//li[@aria-selected = 'true']"));
         return this;
     }
 
     private XWikiExplorer waitForNodeSelected(String nodeId)
     {
-        test.waitForElement(String.format(
-            "//div[contains(@class, 'xExplorer')]//li[@id = '%s' and @aria-selected = 'true']", nodeId));
+        this.driver.waitUntilElementIsVisible(By.xpath(String.format(
+            "//div[contains(@class, 'xExplorer')]//li[@id = '%s' and @aria-selected = 'true']", nodeId)));
         return this;
     }
 
     public XWikiExplorer waitForFinderValue(final String value)
     {
-        new Wait()
-        {
-            public boolean until()
-            {
-                return value.equals(test.getSelenium().getValue(FINDER_LOCATOR));
-            }
-        }.wait("The finder still doesn't have the expected value: " + value);
+        this.driver.waitUntilElementHasAttributeValue(By.xpath(FINDER_LOCATOR), "value", value);
         return this;
     }
 

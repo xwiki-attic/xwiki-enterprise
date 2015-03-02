@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -37,10 +35,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.WrapsDriver;
+import org.xwiki.test.ui.XWikiWebDriver;
 
 import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
+
+import junit.framework.TestCase;
 
 /**
  * All XWiki Selenium tests must extend this class.
@@ -65,9 +66,9 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     /**
      * @return the {@link WebDriver} instance
      */
-    protected WebDriver getDriver()
+    protected XWikiWebDriver getDriver()
     {
-        return ((WrapsDriver) getSelenium()).getWrappedDriver();
+        return (XWikiWebDriver) ((WrapsDriver) getSelenium()).getWrappedDriver();
     }
 
     public void setSkinExecutor(SkinExecutor skinExecutor)

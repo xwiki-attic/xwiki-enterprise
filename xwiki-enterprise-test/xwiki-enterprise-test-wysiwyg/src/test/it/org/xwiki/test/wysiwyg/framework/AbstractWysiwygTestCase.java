@@ -26,6 +26,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 
 import com.thoughtworks.selenium.Wait;
@@ -521,17 +522,19 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         ensureElementIsNotCoveredByFloatingMenu(By.xpath(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB));
         getSelenium().click(WYSIWYG_LOCATOR_FOR_WYSIWYG_TAB);
         if (wait) {
-            new Wait()
+            final String enabledToolBarButtonXPath =
+                "//div[contains(@class, 'gwt-ToggleButton') and not(contains(@class, '-disabled'))]";
+            getDriver().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
-                public boolean until()
+                @Override
+                public Boolean apply(WebDriver input)
                 {
                     // When switching between tabs, it sometimes takes longer for toggle buttons to become enabled. We
                     // need to wait for that before we can properly use the WYSIWYG.
                     return !getSourceTextArea().isEnabled()
-                        && getSelenium().isElementPresent(
-                            "//div[contains(@class, 'gwt-ToggleButton') and not(contains(@class, '-disabled'))]");
+                        && getDriver().hasElementWithoutWaiting(By.xpath(enabledToolBarButtonXPath));
                 }
-            }.wait("Source text area is still editable or buttons are not usable!", Wait.DEFAULT_TIMEOUT, SMALL_WAIT_INTERVAL);
+            });
         }
     }
 
@@ -554,13 +557,14 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         ensureElementIsNotCoveredByFloatingMenu(By.xpath(WYSIWYG_LOCATOR_FOR_SOURCE_TAB));
         getSelenium().click(WYSIWYG_LOCATOR_FOR_SOURCE_TAB);
         if (wait) {
-            new Wait()
+            getDriver().waitUntilCondition(new ExpectedCondition<Boolean>()
             {
-                public boolean until()
+                @Override
+                public Boolean apply(WebDriver input)
                 {
-                    return getDriver().findElement(By.className("xPlainTextEditor")).isEnabled();
+                    return getDriver().findElementWithoutWaiting(By.className("xPlainTextEditor")).isEnabled();
                 }
-            }.wait("Source text area is not editable!", Wait.DEFAULT_TIMEOUT, SMALL_WAIT_INTERVAL);
+            });
             // Focus the source text area.
             getSourceTextArea().sendKeys("");
         }
@@ -588,8 +592,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
 
     public boolean isPushButtonEnabled(String pushButtonTitle)
     {
-        return getSelenium().isElementPresent(
-            "//div[@title='" + pushButtonTitle + "' and @class='gwt-PushButton gwt-PushButton-up']");
+        return getDriver().hasElementWithoutWaiting(
+            By.xpath("//div[@title='" + pushButtonTitle + "' and @class='gwt-PushButton gwt-PushButton-up']"));
     }
 
     /**
@@ -598,9 +602,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public boolean isToggleButtonEnabled(String toggleButtonTitle)
     {
-        return getSelenium().isElementPresent(
-            "//div[@title='" + toggleButtonTitle
-                + "' and contains(@class, 'gwt-ToggleButton') and not(contains(@class, '-disabled'))]");
+        return getDriver().hasElementWithoutWaiting(
+            By.xpath("//div[@title='" + toggleButtonTitle
+                + "' and contains(@class, 'gwt-ToggleButton') and not(contains(@class, '-disabled'))]"));
     }
 
     /**
@@ -663,8 +667,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public boolean isToggleButtonDown(String toggleButtonTitle)
     {
-        return getSelenium().isElementPresent(
-            "//div[@title='" + toggleButtonTitle + "' and @class='gwt-ToggleButton gwt-ToggleButton-down']");
+        return getDriver().hasElementWithoutWaiting(
+            By.xpath("//div[@title='" + toggleButtonTitle + "' and @class='gwt-ToggleButton gwt-ToggleButton-down']"));
     }
 
     /**
@@ -676,9 +680,9 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public boolean isMenuEnabled(String menuLabel)
     {
-        return getSelenium().isElementPresent(
-            "//td[contains(@class, 'gwt-MenuItem') and not(contains(@class, 'gwt-MenuItem-disabled'))]"
-                + "/div[@class = 'gwt-MenuItemLabel' and . = '" + menuLabel + "']");
+        return getDriver().hasElementWithoutWaiting(
+            By.xpath("//td[contains(@class, 'gwt-MenuItem') and not(contains(@class, 'gwt-MenuItem-disabled'))]"
+                + "/div[@class = 'gwt-MenuItemLabel' and . = '" + menuLabel + "']"));
     }
 
     /**
@@ -794,13 +798,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForDialogToClose()
     {
-        new Wait()
-        {
-            public boolean until()
-            {
-                return !getSelenium().isElementPresent("//div[contains(@class, 'xDialogBox')]");
-            }
-        }.wait("The dialog didn't close in a decent amount of time!");
+        getDriver().waitUntilElementDisappears(By.className("xDialogBox"));
     }
 
     /**
@@ -809,14 +807,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void waitForDialogToLoad()
     {
-        new Wait()
-        {
-            public boolean until()
-            {
-                return getSelenium().isElementPresent(
-                    "//div[contains(@class, 'xDialogBody') and not(contains(@class, 'loading'))]");
-            }
-        }.wait("The dialog didn't load in a decent amount of time!");
+        getDriver().waitUntilElementIsVisible(
+            By.xpath("//div[contains(@class, 'xDialogBody') and not(contains(@class, 'loading'))]"));
     }
 
     /**
@@ -860,7 +852,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         // interested in at least one of them visible
         assertTrue(getSelenium().getXpathCount(
             "//*[contains(@class, \"xErrorMsg\") and . = '" + errorMessage + "' and @style='']").intValue() > 0);
-        assertElementPresent(fieldXPathLocator + "[contains(@class, 'xErrorField')]");
+        assertTrue(getDriver().hasElementWithoutWaiting(
+            By.xpath(fieldXPathLocator + "[contains(@class, 'xErrorField')]")));
     }
 
     /**
@@ -873,7 +866,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public void assertFieldErrorIsNotPresent(String errorMessage, String fieldXPathLocator)
     {
         assertFalse(getSelenium().isVisible("//*[contains(@class, \"xErrorMsg\") and . = \"" + errorMessage + "\"]"));
-        assertTrue(isElementPresent(fieldXPathLocator + "[not(contains(@class, 'xFieldError'))]"));
+        assertTrue(getDriver().hasElementWithoutWaiting(
+            By.xpath(fieldXPathLocator + "[not(contains(@class, 'xFieldError'))]")));
     }
 
     /**
@@ -884,7 +878,7 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         // no error is visible
         assertFalse(getSelenium().isVisible("//*[contains(@class, \"xErrorMsg\")]"));
         // no field with error markers should be present
-        assertFalse(isElementPresent("//*[contains(@class, 'xFieldError')]"));
+        assertFalse(getDriver().hasElementWithoutWaiting(By.className("xFieldError")));
     }
 
     /**
@@ -961,19 +955,20 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     protected void waitForEditorToLoad()
     {
         final String sourceTabSelected = "//div[@class = 'gwt-TabBarItem gwt-TabBarItem-selected']/div[. = 'Source']";
-        final String richTextArea = "//div[@class = 'xRichTextEditor']";
-        final String richTextAreaLoader = richTextArea + "//div[@class = 'loading']";
-        new Wait()
+        final String richTextAreaLoader = "//div[@class = 'xRichTextEditor']//div[@class = 'loading']";
+        getDriver().waitUntilCondition(new ExpectedCondition<Boolean>()
         {
-            public boolean until()
+            @Override
+            public Boolean apply(WebDriver input)
             {
                 // Either the source tab is present and selected and the plain text area can be edited or the rich text
                 // area is not loading (with or without tabs).
-                return (getSelenium().isElementPresent(sourceTabSelected) && getSourceTextArea().isEnabled())
-                    || (getSelenium().isElementPresent(richTextArea) && !getSelenium().isElementPresent(
-                        richTextAreaLoader));
+                return (getDriver().hasElementWithoutWaiting(By.xpath(sourceTabSelected)) && getSourceTextArea()
+                    .isEnabled())
+                    || (getDriver().hasElementWithoutWaiting(By.className("xRichTextEditor")) && !getDriver()
+                        .hasElementWithoutWaiting(By.xpath(richTextAreaLoader)));
             }
-        }.wait("The WYSIWYG editor failed to load in a decent amount of time!");
+        });
     }
 
     /**
@@ -990,24 +985,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     protected void clickExitFullScreen()
     {
-        getSelenium().click("//input[@value = 'Exit Full Screen']");
-        waitForElementNotPresent("//div[@class = 'fullScreenWrapper']");
-    }
-
-    /**
-     * Waits until the specified element is not present.
-     * 
-     * @param locator specifies the element to wait for
-     */
-    protected void waitForElementNotPresent(final String locator)
-    {
-        new Wait()
-        {
-            public boolean until()
-            {
-                return !isElementPresent(locator);
-            }
-        }.wait("The specified element, " + locator + ", is still present!");
+        getDriver().findElementByXPath("//input[@value = 'Exit Full Screen']").click();
+        getDriver().waitUntilElementDisappears(By.className("fullScreenWrapper"));
     }
 
     /**

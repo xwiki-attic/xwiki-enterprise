@@ -19,10 +19,11 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.By;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
-import com.thoughtworks.selenium.Wait;
+import com.thoughtworks.selenium.Selenium;
 
 public class LinkTest extends AbstractWysiwygTestCase
 {
@@ -84,7 +85,14 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * The object used to assert the state of the XWiki Explorer tree.
      */
-    private final XWikiExplorer explorer = new XWikiExplorer(this);
+    private XWikiExplorer explorer;
+
+    @Override
+    public void setSelenium(Selenium selenium)
+    {
+        super.setSelenium(selenium);
+        this.explorer = new XWikiExplorer(getDriver());
+    }
 
     /**
      * Test the basic feature for adding a link to an existing page.
@@ -1954,14 +1962,7 @@ public class LinkTest extends AbstractWysiwygTestCase
 
     protected void waitForStepToLoad(String name)
     {
-        final String locator = "//*[contains(@class, '" + name + "')]";
-        new Wait()
-        {
-            public boolean until()
-            {
-                return getSelenium().isElementPresent(locator) && getSelenium().isVisible(locator);
-            }
-        }.wait("The step [" + name + "] didn't load in a decent amount of time.");
+        getDriver().waitUntilElementIsVisible(By.className(name));
     }
 
     private void clickTab(String tabName)
@@ -2011,9 +2012,11 @@ public class LinkTest extends AbstractWysiwygTestCase
      */
     private void waitForStepAggregatorAndAssertSelectedStep(String selectedStepTitle)
     {
-        waitForElement("//*[@class = 'xSelectorAggregatorStep']/"
-            + "*[contains(@class, 'xStepsTabs') and not(contains(@class, 'loading'))]");
-        assertElementPresent("//*[contains(@class, 'xStepsTabs')]"
-            + "//*[contains(@class, 'gwt-TabBarItem-selected') and . = '" + selectedStepTitle + "']");
+        getDriver().waitUntilElementIsVisible(
+            By.xpath("//*[@class = 'xSelectorAggregatorStep']/"
+                + "*[contains(@class, 'xStepsTabs') and not(contains(@class, 'loading'))]"));
+        assertTrue(getDriver().hasElementWithoutWaiting(
+            By.xpath("//*[contains(@class, 'xStepsTabs')]"
+                + "//*[contains(@class, 'gwt-TabBarItem-selected') and . = '" + selectedStepTitle + "']")));
     }
 }

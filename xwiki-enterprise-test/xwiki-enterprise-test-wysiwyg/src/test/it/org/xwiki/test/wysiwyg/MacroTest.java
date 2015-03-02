@@ -19,7 +19,10 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 import com.thoughtworks.selenium.Wait;
@@ -1263,8 +1266,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         // Wait for the macro list to be updated.
         waitForMacroListItemCount(1);
         // Velocity macro shouldn't be present among the previously used macros.
-        assertFalse(getSelenium().isElementPresent(getMacroListItemLocator("Velocity")));
-        assertTrue(getSelenium().isElementPresent(getMacroListItemLocator("HTML")));
+        assertFalse(getDriver().hasElementWithoutWaiting(By.xpath(getMacroListItemLocator("Velocity"))));
+        assertTrue(getDriver().hasElementWithoutWaiting(By.xpath(getMacroListItemLocator("HTML"))));
 
         // Close the dialog and check the result.
         closeDialog();
@@ -1704,13 +1707,15 @@ public class MacroTest extends AbstractWysiwygTestCase
      */
     public void waitForMacroListItem(final String macroName, final boolean present)
     {
-        new Wait()
+        getDriver().waitUntilCondition(new ExpectedCondition<Boolean>()
         {
-            public boolean until()
+            @Override
+            public Boolean apply(WebDriver input)
             {
-                return present == getSelenium().isElementPresent(getMacroListItemLocator(macroName));
+                return present == MacroTest.this.getDriver().hasElementWithoutWaiting(
+                    By.xpath(getMacroListItemLocator(macroName)));
             }
-        }.wait("'" + macroName + "' macro is still " + (present ? "not" : "") + " present in the list.");
+        });
     }
 
     /**

@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.wysiwyg.framework;
 
+import org.openqa.selenium.By;
+import org.xwiki.test.ui.XWikiWebDriver;
+
 /**
  * The list of suggestions provided by the tree finder.
  * 
@@ -26,19 +29,16 @@ package org.xwiki.test.wysiwyg.framework;
  */
 public class TreeSuggestionsPane
 {
-    /**
-     * The test being executed.
-     */
-    private final AbstractWysiwygTestCase test;
+    private final XWikiWebDriver driver;
 
     /**
-     * Creates a new instance for the specified test.
+     * Creates a new instance that uses the given web driver.
      * 
-     * @param test the test being executed
+     * @param driver the web driver
      */
-    public TreeSuggestionsPane(AbstractWysiwygTestCase test)
+    public TreeSuggestionsPane(XWikiWebDriver driver)
     {
-        this.test = test;
+        this.driver = driver;
     }
 
     /**
@@ -79,7 +79,7 @@ public class TreeSuggestionsPane
      */
     private void select(String value, String type)
     {
-        test.getSelenium().click(getSuggestionSelector(value, type));
+        this.driver.findElementByXPath(getSuggestionSelector(value, type)).click();
     }
 
     /**
@@ -116,7 +116,7 @@ public class TreeSuggestionsPane
      */
     private boolean hasSuggestion(String value, String type)
     {
-        return test.isElementPresent(getSuggestionSelector(value, type));
+        return this.driver.hasElementWithoutWaiting(By.xpath(getSuggestionSelector(value, type)));
     }
 
     private String getSuggestionSelector(String value, String type)

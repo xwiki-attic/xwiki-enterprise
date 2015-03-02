@@ -21,6 +21,7 @@ package org.xwiki.test.wysiwyg;
 
 import java.util.Date;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
@@ -322,13 +323,7 @@ public class TabsTest extends AbstractWysiwygTestCase
         switchToWysiwyg(false);
         // Switch back to source tab and wait there for the rich text area to load.
         switchToSource();
-        new Wait()
-        {
-            public boolean until()
-            {
-                return !isElementPresent("//div[@class = 'xRichTextEditor']//div[@class = 'loading']");
-            }
-        }.wait("Conversion takes too long!");
+        getDriver().waitUntilElementDisappears(By.xpath("//div[@class = 'xRichTextEditor']//div[@class = 'loading']"));
         // Switch again to WYSIWYG tab to check the result.
         switchToWysiwyg();
         typeText("#");

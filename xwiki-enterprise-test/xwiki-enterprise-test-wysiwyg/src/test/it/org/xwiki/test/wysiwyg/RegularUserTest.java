@@ -24,6 +24,8 @@ import java.util.Arrays;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
+import com.thoughtworks.selenium.Selenium;
+
 /**
  * Test for the Wysiwyg editing features when editing as a regular user, not an admin.
  */
@@ -32,7 +34,14 @@ public class RegularUserTest extends AbstractWysiwygTestCase
     /**
      * The object used to assert the state of the XWiki Explorer tree.
      */
-    private final XWikiExplorer explorer = new XWikiExplorer(this);
+    private XWikiExplorer explorer;
+
+    @Override
+    public void setSelenium(Selenium selenium)
+    {
+        super.setSelenium(selenium);
+        this.explorer = new XWikiExplorer(getDriver());
+    }
 
     /**
      * {@inheritDoc}. Override to login as a regular user (and create the user if necessary).

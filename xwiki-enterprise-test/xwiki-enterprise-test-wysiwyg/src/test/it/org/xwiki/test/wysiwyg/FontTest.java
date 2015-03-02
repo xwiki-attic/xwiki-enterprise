@@ -19,9 +19,8 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.openqa.selenium.By;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
-
-import com.thoughtworks.selenium.Wait;
 
 /**
  * Functional tests for font support inside the WYSIWYG editor.
@@ -186,13 +185,7 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     protected void waitForDetectedFontSize(final String expectedFontSize)
     {
-        new Wait()
-        {
-            public boolean until()
-            {
-                return expectedFontSize.equals(getSelenium().getValue(FONT_SIZE_SELECTOR));
-            }
-        }.wait("The detected font size doesn't match the expected font size, '" + expectedFontSize + "'.");
+        getDriver().waitUntilElementHasAttributeValue(By.xpath(FONT_SIZE_SELECTOR), "value", expectedFontSize);
     }
 
     /**
@@ -202,15 +195,6 @@ public class FontTest extends AbstractWysiwygTestCase
      */
     protected void waitForDetectedFontName(final String expectedFontName)
     {
-        final String[] detectedFontName = new String[1];
-        new Wait()
-        {
-            public boolean until()
-            {
-                detectedFontName[0] = getSelenium().getValue(FONT_NAME_SELECTOR);
-                return expectedFontName.equals(detectedFontName[0]);
-            }
-        }.wait("The detected font name, " + detectedFontName[0] + ", doesn't match the expected font name, '"
-            + expectedFontName + "'.");
+        getDriver().waitUntilElementHasAttributeValue(By.xpath(FONT_NAME_SELECTOR), "value", expectedFontName);
     }
 }

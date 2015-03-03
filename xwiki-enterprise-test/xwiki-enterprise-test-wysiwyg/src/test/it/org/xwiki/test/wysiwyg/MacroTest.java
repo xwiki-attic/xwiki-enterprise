@@ -21,12 +21,12 @@ package org.xwiki.test.wysiwyg;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 import com.thoughtworks.selenium.Wait;
-import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
 /**
  * Integration tests for macro support inside the WYSIWYG editor.
@@ -1015,8 +1015,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         try {
             waitForDialogToLoad();
             fail("The macro edit box shouldn't be triggered by double clicking outside of the macro output.");
-        } catch (WaitTimedOutException e) {
-            assertEquals("The dialog didn't load in a decent amount of time!", e.getMessage());
+        } catch (TimeoutException e) {
+            // Expected.
         }
     }
 
@@ -1459,8 +1459,8 @@ public class MacroTest extends AbstractWysiwygTestCase
         try {
             waitForDialogToLoad();
             fail("The macro edit box shouldn't be triggered by pressing Enter at the end of the output.");
-        } catch (WaitTimedOutException e) {
-            assertEquals("The dialog didn't load in a decent amount of time!", e.getMessage());
+        } catch (TimeoutException e) {
+            // Expected.
         }
         typeText("2");
 

@@ -38,7 +38,7 @@
     <module>xwiki-enterprise-installer-debian-tomcat</module>
   </modules>
   <properties>
-    <jdeb.version>1.3</jdeb.version>
+    <jdeb.version>1.4</jdeb.version>
     <debian.maintainer>XWiki Team (devs@xwiki.org)</debian.maintainer>
     <debian.license>LGPL 2.1</debian.license>
     <debian.xe.description>

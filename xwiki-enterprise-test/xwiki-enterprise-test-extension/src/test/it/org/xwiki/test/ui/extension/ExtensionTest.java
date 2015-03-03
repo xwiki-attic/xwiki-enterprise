@@ -19,7 +19,9 @@
  */
 package org.xwiki.test.ui.extension;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.xwiki.extension.DefaultExtensionAuthor;
 import org.xwiki.extension.DefaultExtensionDependency;
+import org.xwiki.extension.DefaultExtensionIssueManagement;
+import org.xwiki.extension.DefaultExtensionScm;
+import org.xwiki.extension.DefaultExtensionScmConnection;
 import org.xwiki.extension.ExtensionId;
 import org.xwiki.extension.ExtensionLicense;
 import org.xwiki.extension.repository.xwiki.model.jaxb.ExtensionsSearchResult;
@@ -320,8 +325,13 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         extension.setSummary("A **useless** macro");
         extension.addAuthor(new DefaultExtensionAuthor("Thomas", null));
         extension.addAuthor(new DefaultExtensionAuthor("Marius", null));
+        extension.addFeature("alice-extension");
         extension.addLicense(new ExtensionLicense("My own license", null));
         extension.setWebsite("http://www.alice.com");
+        extension.setScm(new DefaultExtensionScm("https://github.com/xwiki-contrib/alice-xar-extension",
+            new DefaultExtensionScmConnection("git", "git://github.com/xwiki-contrib/alice-xar-extension.git"),
+            new DefaultExtensionScmConnection("git", "git:git@github.com:xwiki-contrib/alice-xar-extension.git")));
+        extension.setIssueManagement(new DefaultExtensionIssueManagement("jira", "http://jira.xwiki.org/browse/ALICE"));
         getRepositoryTestUtils().addExtension(extension);
 
         // Search the extension and assert the displayed information.
@@ -342,10 +352,28 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionDescriptionPane descriptionPane = extensionPane.openDescriptionSection();
         assertEquals(extension.getLicenses().iterator().next().getName(), descriptionPane.getLicense());
         assertEquals(extension.getId().getId(), descriptionPane.getId());
+        assertEquals(extension.getFeatures().iterator().next(), descriptionPane.getFeatures().get(0));
         assertEquals(extension.getType(), descriptionPane.getType());
+
         WebElement webSiteLink = descriptionPane.getWebSite();
         assertEquals(extension.getWebSite().substring("http://".length()), webSiteLink.getText());
         assertEquals(extension.getWebSite() + '/', webSiteLink.getAttribute("href"));
+
+        // Install the extension to check the details that are specific to installed extensions.
+        Date beforeInstall = new Date();
+        descriptionPane = extensionPane.install().confirm().openDescriptionSection();
+        Date afterInstall = new Date();
+
+        List<String> namespaces = descriptionPane.getNamespaces();
+        assertEquals(1, namespaces.size());
+        String prefix = "Home, by Administrator on ";
+        assertTrue(namespaces.get(0).startsWith(prefix));
+        Date installDate = new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(namespaces.get(0).substring(prefix.length()));
+        // Ignore the seconds as they are not displayed.
+        assertTrue(String.format("Install date [%s] should be after [%s].", installDate, beforeInstall),
+            installDate.getTime() / 60000 >= beforeInstall.getTime() / 60000);
+        assertTrue(String.format("Install date [%s] should be before [%s].", installDate, afterInstall),
+            installDate.before(afterInstall));
     }
 
     /**
@@ -480,8 +508,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         SearchResultsPane searchResults = adminPage.getSearchBar().search("bob");
         assertEquals(1, searchResults.getDisplayedResultsCount());
         extensionPane = searchResults.getExtension(0);
-        assertEquals("installed", extensionPane.getStatus());
-        assertEquals("Installed", extensionPane.getStatusMessage());
+        assertEquals("installed-dependency", extensionPane.getStatus());
+        assertEquals("Installed as dependency", extensionPane.getStatusMessage());
         assertEquals(dependencyId, extensionPane.getId());
         assertNotNull(extensionPane.getUninstallButton());
 
@@ -508,8 +536,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         List<DependencyPane> dependencies = extensionPane.openDependenciesSection().getDirectDependencies();
         assertEquals(2, dependencies.size());
         assertEquals(dependencyId, dependencies.get(0).getId());
-        assertEquals("installed", dependencies.get(0).getStatus());
-        assertEquals("Installed", dependencies.get(0).getStatusMessage());
+        assertEquals("installed-dependency", dependencies.get(0).getStatus());
+        assertEquals("Installed as dependency", dependencies.get(0).getStatusMessage());
 
         // Check the backward dependency.
         dependencies.get(0).getLink().click();
@@ -560,8 +588,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         assertEquals("Installed", uninstallPlan.get(0).getStatusMessage());
 
         assertEquals(dependencyId, uninstallPlan.get(1).getId());
-        assertEquals("installed", uninstallPlan.get(1).getStatus());
-        assertEquals("Installed", uninstallPlan.get(1).getStatusMessage());
+        assertEquals("installed-dependency", uninstallPlan.get(1).getStatus());
+        assertEquals("Installed as dependency", uninstallPlan.get(1).getStatusMessage());
 
         // Check the confirmation to delete the unused wiki pages.
         extensionPane = extensionPane.confirm();
@@ -624,7 +652,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         searchResults = new SimpleSearchPane().search("bob");
         assertEquals(1, searchResults.getDisplayedResultsCount());
         extensionPane = searchResults.getExtension(0);
-        assertEquals("installed", extensionPane.getStatus());
+        assertEquals("installed-dependency", extensionPane.getStatus());
         assertEquals(dependencyId, extensionPane.getId());
     }
 

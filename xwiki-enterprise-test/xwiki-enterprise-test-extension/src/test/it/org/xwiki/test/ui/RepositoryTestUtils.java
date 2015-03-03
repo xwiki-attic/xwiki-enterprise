@@ -112,6 +112,9 @@ public class RepositoryTestUtils
         }
         queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_AUTHORS, authors);
         queryParameters.put(XWikiRepositoryModel.PROP_EXTENSION_WEBSITE, extension.getWebSite());
+        if (extension.getScm() != null) {
+            queryParameters.put("source", extension.getScm().getUrl());
+        }
 
         this.testUtils.addObject(SPACENAME_EXTENSION, getPageName(extension), XWikiRepositoryModel.EXTENSION_CLASSNAME,
             queryParameters);

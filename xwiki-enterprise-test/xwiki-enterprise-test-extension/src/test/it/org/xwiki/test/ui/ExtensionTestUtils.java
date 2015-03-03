@@ -19,10 +19,13 @@
  */
 package org.xwiki.test.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.By;
 import org.xwiki.extension.ExtensionId;
 
@@ -64,42 +67,13 @@ public class ExtensionTestUtils
         this.utils = utils;
 
         // Create the service page.
-        StringBuilder code = new StringBuilder("{{groovy}}\n");
-        code.append("import java.util.Arrays;\n");
-        code.append("import org.xwiki.extension.ExtensionManager;\n");
-        code.append("import org.xwiki.job.event.status.JobStatus;\n");
-        code.append("import org.xwiki.job.JobStatusStore;\n\n");
-        code.append("if (request.action == 'uninstall') {\n");
-        code.append("  def uninstallRequest = services.extension.createUninstallRequest(request.extensionId, 'wiki:xwiki')\n");
-        code.append("  uninstallRequest.setInteractive(false)\n");
-        code.append("  services.extension.uninstall(uninstallRequest).join()\n");
-        code.append("  if (!Boolean.valueOf(request.keepLocalCache)) {\n");
-        code.append("    // Remove the extension (with all its versions) from the local repository.\n");
-        code.append("    def localRepo = services.component.getInstance(ExtensionManager.class).getRepository('local')\n");
-        code.append("    for (extension in new ArrayList(localRepo.getLocalExtensionVersions(request.extensionId))) {\n");
-        code.append("      localRepo.removeExtension(extension)\n");
-        code.append("    }\n");
-        code.append("    // Remove the extension job logs.\n");
-        code.append("    def jobStatusStore = services.component.getInstance(JobStatusStore.class)\n");
-        code.append("    jobStatusStore.remove(Arrays.asList('extension', 'action', request.extensionId, 'wiki:xwiki'))\n");
-        code.append("    jobStatusStore.remove(Arrays.asList('extension', 'plan', request.extensionId, 'wiki:xwiki'))\n");
-        code.append("  }\n");
-        code.append("} else if (request.action == 'install') {\n");
-        code.append("  def installRequest = services.extension.createInstallRequest(request.extensionId, request.extensionVersion, 'wiki:xwiki')\n");
-        code.append("  installRequest.setInteractive(false)\n");
-        code.append("  services.extension.install(installRequest).join()\n");
-        code.append("} else if (request.action == 'finish') {\n");
-        code.append("  def currentJob = services.extension.getCurrentJob()\n");
-        code.append("  if (currentJob != null && currentJob.getStatus().getState() == JobStatus.State.WAITING) {\n");
-        code.append("    currentJob.getRequest().setInteractive(false)\n");
-        code.append("    currentJob.getStatus().answered()\n");
-        code.append("    currentJob.join()\n");
-        code.append("  }\n");
-        code.append("}\n");
-        code.append("println 'Done!'\n");
-        code.append("{{/groovy}}");
-        utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "save",
-            Collections.singletonMap("content", code.toString()));
+        InputStream extensionTestService = this.getClass().getResourceAsStream("/extensionTestService.wiki");
+        try {
+            utils.gotoPage(SERVICE_SPACE_NAME, SERVICE_PAGE_NAME, "save",
+                Collections.singletonMap("content", IOUtils.toString(extensionTestService)));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read the extension test service code.", e);
+        }
     }
 
     /**

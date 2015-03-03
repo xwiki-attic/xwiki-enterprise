@@ -23,8 +23,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>groupid</groupId>
-	<artifactId>artifactid</artifactId>
+	<groupId>maven</groupId>
+	<artifactId>extension</artifactId>
 	<name>name</name>
 	<version>2.0</version>
 	<packaging>jar</packaging>
@@ -41,6 +41,7 @@
     </developers>
     <properties>
       <xwiki.extension.features>maven:oldextension</xwiki.extension.features>
+      <xwiki.extension.category>flavor</xwiki.extension.category>
     </properties>
     <licenses>
       <license>

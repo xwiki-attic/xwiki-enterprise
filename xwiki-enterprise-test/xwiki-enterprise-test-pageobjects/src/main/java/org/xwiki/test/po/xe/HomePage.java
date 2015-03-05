@@ -29,11 +29,6 @@ import org.xwiki.test.ui.po.ViewPage;
  */
 public class HomePage extends ViewPage
 {
-    /**
-     * The part of the home page that lists the existing spaces and allows the user to create a new space.
-     */
-    private final SpacesPane spacesPane = new SpacesPane();
-
     public static HomePage gotoPage()
     {
         getUtil().gotoPage("Main", "WebHome");
@@ -48,13 +43,5 @@ public class HomePage extends ViewPage
     public boolean isOnHomePage()
     {
         return getDriver().getCurrentUrl().equals(getURL());
-    }
-
-    /**
-     * @return the part of the home page that lists the existing spaces and allows the user to create a new space
-     */
-    public SpacesPane getSpacesPane()
-    {
-        return spacesPane;
     }
 }

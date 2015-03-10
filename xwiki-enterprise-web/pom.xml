@@ -1371,9 +1371,9 @@ If you wish to have the default wiki pages, which contain both content pages and
           <!-- Leave the ending comma because this list is concatenated with another one. -->
         </xwiki.war.legacy.excludes>
         <!-- Include the legacy WatchList plugin in xwiki.cfg -->
-        <xe.xwiki.cfg.plugins>${xe.xwiki.cfg.plugins},\
+        <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins},\
   com.xpn.xwiki.plugin.watchlist.WatchListPlugin
-        </xe.xwiki.cfg.plugins>
+        </xwiki.cfg.plugins>
       </properties>
       <dependencies>
         <dependency>

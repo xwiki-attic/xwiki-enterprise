@@ -1296,33 +1296,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>net.jcip.annotations.ThreadSafe</class>
                   </classes>
                 </exception>
-                <!-- javax.annotation.annotation-api superseeds jsr250-api by adding some new annotations that we
-                     need in oldcore, in sorting MandatoryDocumentInitalizer by priodiy. The annotations that are
-                     common seem to be compatible -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>javax.annotation</groupId>
-                      <artifactId>javax.annotation-api</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>javax.annotation</groupId>
-                      <artifactId>jsr250-api</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <classes>
-                    <class>javax.annotation.Generated</class>
-                    <class>javax.annotation.PostConstruct</class>
-                    <class>javax.annotation.PreDestroy</class>
-                    <class>javax.annotation.Resource</class>
-                    <class>javax.annotation.Resources</class>
-                    <class>javax.annotation.security.DeclareRoles</class>
-                    <class>javax.annotation.security.DenyAll</class>
-                    <class>javax.annotation.security.PermitAll</class>
-                    <class>javax.annotation.security.RolesAllowed</class>
-                    <class>javax.annotation.security.RunAs</class>
-                  </classes>
-                </exception>
               </exceptions>
               <ignoredResources>
                 <!-- Exclude XWiki's Component registration file -->

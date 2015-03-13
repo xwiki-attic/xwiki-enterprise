@@ -44,6 +44,12 @@
       <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-xclass-test-pageobjects</artifactId>
+      <version>${platform.version}</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- Used by several tests to send mails -->
     <dependency>

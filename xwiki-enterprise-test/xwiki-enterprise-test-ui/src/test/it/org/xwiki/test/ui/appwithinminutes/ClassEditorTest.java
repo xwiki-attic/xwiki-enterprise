@@ -31,11 +31,11 @@ import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.LongTextClassFieldEditPane;
-import org.xwiki.test.po.xe.ClassSheetPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
+import org.xwiki.xclass.test.po.ClassSheetPage;
 
 /**
  * Tests the application class editor.

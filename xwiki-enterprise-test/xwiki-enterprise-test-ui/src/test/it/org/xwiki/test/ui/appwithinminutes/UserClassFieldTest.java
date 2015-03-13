@@ -27,11 +27,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.UserClassFieldEditPane;
-import org.xwiki.test.po.xe.ClassSheetPage;
+import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.editor.UserPicker;
 import org.xwiki.test.ui.po.editor.UserPicker.UserElement;
+import org.xwiki.xclass.test.po.ClassSheetPage;
 
 /**
  * Special class editor tests that address only the User class field type.
@@ -294,8 +294,7 @@ public class UserClassFieldTest extends AbstractClassEditorTest
 
         // Create the application entry.
         ClassSheetPage classSheetPage = new ClassSheetPage();
-        EntryEditPage entryEditPage =
-            classSheetPage.createNewDocument(getTestClassName(), getTestMethodName() + "Entry");
+        InlinePage entryEditPage = classSheetPage.createNewDocument(getTestClassName(), getTestMethodName() + "Entry");
 
         // Assert the initial value.
         String id = getTestClassName() + "." + getTestMethodName() + "_0_user1";

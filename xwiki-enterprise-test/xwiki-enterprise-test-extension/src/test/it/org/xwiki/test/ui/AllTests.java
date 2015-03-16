@@ -28,6 +28,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.runner.RunWith;
 import org.xwiki.extension.ExtensionId;
 import org.xwiki.extension.test.RepositoryUtils;
+import org.xwiki.repository.test.RepositoryTestUtils;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
 

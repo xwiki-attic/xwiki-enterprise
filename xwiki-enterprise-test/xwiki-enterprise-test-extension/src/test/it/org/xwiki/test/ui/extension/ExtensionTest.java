@@ -19,6 +19,12 @@
  */
 package org.xwiki.test.ui.extension;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -53,12 +59,10 @@ import org.xwiki.extension.test.po.SearchResultsPane;
 import org.xwiki.extension.test.po.SimpleSearchPane;
 import org.xwiki.extension.test.po.UnusedPagesPane;
 import org.xwiki.extension.version.internal.DefaultVersionConstraint;
+import org.xwiki.repository.test.TestExtension;
 import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
-import org.xwiki.test.ui.TestExtension;
 import org.xwiki.test.ui.po.ChangesPane;
 import org.xwiki.test.ui.po.ViewPage;
-
-import static org.junit.Assert.*;
 
 /**
  * Functional tests for the Extension Manager user interface.

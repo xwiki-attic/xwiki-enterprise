@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
+import org.xwiki.repository.test.RepositoryTestUtils;
 
 /**
  * Base class for admin tests that need to manipulate a repository of extensions.

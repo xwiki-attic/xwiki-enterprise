@@ -33,12 +33,10 @@
   <description>XWiki Enterprise - Installer - Debian - Tomcat</description>
   <modules>
     <module>xwiki-enterprise-installer-debian-tomcat-common</module>
-    <module>xwiki-enterprise-installer-debian-tomcat5-mysql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat5-pgsql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat6-mysql</module>
-    <module>xwiki-enterprise-installer-debian-tomcat6-pgsql</module>
     <module>xwiki-enterprise-installer-debian-tomcat7-mysql</module>
     <module>xwiki-enterprise-installer-debian-tomcat7-pgsql</module>
+    <module>xwiki-enterprise-installer-debian-tomcat8-mysql</module>
+    <module>xwiki-enterprise-installer-debian-tomcat8-pgsql</module>
   </modules>
   <dependencies>
     <dependency>

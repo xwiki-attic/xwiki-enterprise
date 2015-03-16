@@ -20,7 +20,7 @@ chown tomcat7.tomcat7 /var/lib/xwiki/data
 # Restart Tomcat
 #########################
 
-invoke-rc.d --quiet tomcat6 restart || {
+invoke-rc.d --quiet tomcat7 restart || {
     RESULT=$?
     # Ignore if tomcat6 init script does not exist (yet)
     if [ $RESULT != 100 ]; then

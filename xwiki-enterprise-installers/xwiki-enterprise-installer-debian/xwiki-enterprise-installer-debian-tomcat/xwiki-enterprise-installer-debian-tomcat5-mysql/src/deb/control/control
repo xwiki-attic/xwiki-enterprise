@@ -1,9 +1,0 @@
-Package: xwiki-enterprise-tomcat5-mysql
-Version: [[version]]
-Section: java
-Priority: optional
-Architecture: all
-Depends: xwiki-enterprise-common (= [[version]]), xwiki-enterprise-tomcat-common (= [[version]]), xwiki-enterprise-mysql-common (= [[version]]), tomcat5
-Maintainer: [[debian.maintainer]]
-License: [[debian.license]]
-Description: [[debian.description]]

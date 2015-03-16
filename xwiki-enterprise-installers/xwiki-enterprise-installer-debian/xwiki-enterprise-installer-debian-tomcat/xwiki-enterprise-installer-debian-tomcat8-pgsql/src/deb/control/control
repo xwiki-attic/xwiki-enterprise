@@ -1,0 +1,9 @@
+Package: xwiki-enterprise-tomcat8-pgsql
+Version: [[version]]
+Section: java
+Priority: optional
+Architecture: all
+Depends: xwiki-enterprise-common (= [[version]]), xwiki-enterprise-tomcat-common (= [[version]]), xwiki-enterprise-pgsql-common (= [[version]]), tomcat8
+Maintainer: [[debian.maintainer]]
+License: [[debian.license]]
+Description: [[debian.description]]

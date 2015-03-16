@@ -8,7 +8,7 @@ set -e
 #########################
 
 ## Make sure tomcat is able to write in the data folder
-chown tomcat6.tomcat6 /var/lib/xwiki/data
+chown tomcat8.tomcat8 /var/lib/xwiki/data
 
 #########################
 # Configuration
@@ -20,9 +20,9 @@ chown tomcat6.tomcat6 /var/lib/xwiki/data
 # Restart Tomcat
 #########################
 
-invoke-rc.d --quiet tomcat6 restart || {
+invoke-rc.d --quiet tomcat8 restart || {
     RESULT=$?
-    # Ignore if tomcat6 init script does not exist (yet)
+    # Ignore if tomcat7 init script does not exist (yet)
     if [ $RESULT != 100 ]; then
 	exit $RESULT
     fi

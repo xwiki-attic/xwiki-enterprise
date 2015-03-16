@@ -27,8 +27,8 @@
     <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
     <version>7.0-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer-debian-tomcat5-mysql</artifactId>
-  <name>XWiki Enterprise - Installer - Debian - Tomcat 5 - MySQL</name>
+  <artifactId>xwiki-enterprise-installer-debian-tomcat8-mysql</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Tomcat 8 - MySQL</name>
   <packaging>deb</packaging>
   <description>XWiki enterprise Tomcat/MySQL based package</description>
   <build>
@@ -43,7 +43,7 @@
             <data>
               <type>link</type>
               <symlink>true</symlink>
-              <linkName>/etc/tomcat5/Catalina/localhost/xwiki.xml</linkName>
+              <linkName>/etc/tomcat8/Catalina/localhost/xwiki.xml</linkName>
               <linkTarget>/etc/xwiki/xwiki-tomcat.xml</linkTarget>
             </data>
           </dataSet>

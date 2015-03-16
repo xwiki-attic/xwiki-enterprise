@@ -31,9 +31,6 @@
   <name>XWiki Enterprise - Functional Tests - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Functional Tests - Parent POM</description>
-    <properties>
-    <xwikiCfgSuperadminPassword>pass</xwikiCfgSuperadminPassword>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -354,6 +351,7 @@
     <!-- Run tests on Firefox by default. You can use a different browser by activating the corresponding profile,
          e.g. -Pchrome -->
     <browser>*firefox</browser>
+    <xwikiCfgSuperadminPassword>pass</xwikiCfgSuperadminPassword>
   </properties>
   <profiles>
     <profile>

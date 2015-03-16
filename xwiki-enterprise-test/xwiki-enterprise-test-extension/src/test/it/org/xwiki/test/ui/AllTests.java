@@ -22,6 +22,7 @@ package org.xwiki.test.ui;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
@@ -48,6 +49,11 @@ public class AllTests
         XWikiExecutor executor = executors.get(0);
 
         repositoryUtil = new RepositoryUtils();
+
+        Properties xwikicfgProperties = executor.loadXWikiCfg();
+        // Enable superadmin
+        xwikicfgProperties.put("xwiki.superadminpassword", TestUtils.SUPER_ADMIN_CREDENTIALS.getPassword());
+        executor.saveXWikiCfg(xwikicfgProperties);
 
         PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
         // Put self as extensions repository

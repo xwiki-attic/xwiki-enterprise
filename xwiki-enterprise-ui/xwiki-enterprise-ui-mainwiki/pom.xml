@@ -39,6 +39,7 @@
         org.xwiki.manager:xwiki-manager-wiki-administrator,
         org.xwiki.manager:xwiki-manager-ui
     </xwiki.extension.features>
+    <xwiki.extension.category>flavor</xwiki.extension.category>
   </properties>
   <dependencies>
     <!-- This is important to have this module in the first position, if we want XWiki.Admin to be installed first -->

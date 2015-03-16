@@ -61,6 +61,7 @@ import org.xwiki.extension.test.po.UnusedPagesPane;
 import org.xwiki.extension.version.internal.DefaultVersionConstraint;
 import org.xwiki.repository.test.TestExtension;
 import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
+import org.xwiki.test.ui.TestUtils;
 import org.xwiki.test.ui.po.ChangesPane;
 import org.xwiki.test.ui.po.ViewPage;
 
@@ -272,7 +273,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // Setup the extension.
         ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "xar");
-        getRepositoryTestUtils().addExtension(extension);
+        getRepositoryTestUtils().addExtension(extension, TestUtils.ADMIN_CREDENTIALS);
 
         // Check if the section links point to the right repository.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -336,7 +337,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             new DefaultExtensionScmConnection("git", "git://github.com/xwiki-contrib/alice-xar-extension.git"),
             new DefaultExtensionScmConnection("git", "git:git@github.com:xwiki-contrib/alice-xar-extension.git")));
         extension.setIssueManagement(new DefaultExtensionIssueManagement("jira", "http://jira.xwiki.org/browse/ALICE"));
-        getRepositoryTestUtils().addExtension(extension);
+        getRepositoryTestUtils().addExtension(extension, TestUtils.ADMIN_CREDENTIALS);
 
         // Search the extension and assert the displayed information.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -391,7 +392,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         TestExtension dependency = getRepositoryTestUtils().getTestExtension(dependencyId, "xar");
         dependency.setName("Bob Wiki Macro");
         dependency.setSummary("Required by Alice");
-        getRepositoryTestUtils().addExtension(dependency);
+        getRepositoryTestUtils().addExtension(dependency, TestUtils.ADMIN_CREDENTIALS);
 
         ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "xar");
@@ -405,7 +406,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
             new DefaultVersionConstraint("2.7")));
         extension.addDependency(new DefaultExtensionDependency("org.xwiki.platform:xwiki-platform-display-api",
             new DefaultVersionConstraint("100.1")));
-        getRepositoryTestUtils().addExtension(extension);
+        getRepositoryTestUtils().addExtension(extension, TestUtils.ADMIN_CREDENTIALS);
 
         // Search the extension and assert the list of dependencies.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -469,13 +470,13 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "xar");
 
         ExtensionId dependencyId = new ExtensionId("bob-xar-extension", "2.5-milestone-2");
-        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"));
+        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"), TestUtils.ADMIN_CREDENTIALS);
         extension.addDependency(new DefaultExtensionDependency(dependencyId.getId(), new DefaultVersionConstraint(
             dependencyId.getVersion().getValue())));
 
         extension.addDependency(new DefaultExtensionDependency("org.xwiki.platform:xwiki-platform-sheet-api",
             new DefaultVersionConstraint("[3.2,)")));
-        getRepositoryTestUtils().addExtension(extension);
+        getRepositoryTestUtils().addExtension(extension, TestUtils.ADMIN_CREDENTIALS);
 
         // Search the extension and install it.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -561,13 +562,13 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
     {
         // Setup the extension and its dependencies.
         ExtensionId dependencyId = new ExtensionId("bob-xar-extension", "2.5-milestone-2");
-        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"));
+        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"), TestUtils.ADMIN_CREDENTIALS);
 
         ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "xar");
         extension.addDependency(new DefaultExtensionDependency(dependencyId.getId(), new DefaultVersionConstraint(
             dependencyId.getVersion().getValue())));
-        getRepositoryTestUtils().addExtension(extension);
+        getRepositoryTestUtils().addExtension(extension, TestUtils.ADMIN_CREDENTIALS);
 
         // Install the extensions.
         getExtensionTestUtils().install(extensionId);
@@ -668,7 +669,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
     {
         // Setup the extension.
         ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
-        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(extensionId, "xar"));
+        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(extensionId, "xar"), TestUtils.ADMIN_CREDENTIALS);
 
         // Search the extension to install.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -692,7 +693,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         String newVersion = "2.1.4";
         TestExtension oldExtension =
             getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, oldVersion), "xar");
-        getRepositoryTestUtils().addExtension(oldExtension);
+        getRepositoryTestUtils().addExtension(oldExtension, TestUtils.ADMIN_CREDENTIALS);
         TestExtension newExtension =
             getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, newVersion), "xar");
         getRepositoryTestUtils().attachFile(newExtension);
@@ -748,7 +749,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         String newVersion = "2.1.4";
         TestExtension oldExtension =
             getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, oldVersion), "xar");
-        getRepositoryTestUtils().addExtension(oldExtension);
+        getRepositoryTestUtils().addExtension(oldExtension, TestUtils.ADMIN_CREDENTIALS);
         TestExtension newExtension =
             getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, newVersion), "xar");
         getRepositoryTestUtils().attachFile(newExtension);
@@ -852,7 +853,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         String newVersion = "2.1.4";
         TestExtension oldExtension =
             getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, oldVersion), "xar");
-        getRepositoryTestUtils().addExtension(oldExtension);
+        getRepositoryTestUtils().addExtension(oldExtension, TestUtils.ADMIN_CREDENTIALS);
         TestExtension newExtension =
             getRepositoryTestUtils().getTestExtension(new ExtensionId(extensionId, newVersion), "xar");
         getRepositoryTestUtils().attachFile(newExtension);
@@ -914,7 +915,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // Setup the extension.
         ExtensionId extensionId = new ExtensionId("scriptServiceJarExtension", "4.2-milestone-1");
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "jar");
-        getRepositoryTestUtils().addExtension(extension);
+        getRepositoryTestUtils().addExtension(extension, TestUtils.ADMIN_CREDENTIALS);
 
         // Search the extension and install it.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();

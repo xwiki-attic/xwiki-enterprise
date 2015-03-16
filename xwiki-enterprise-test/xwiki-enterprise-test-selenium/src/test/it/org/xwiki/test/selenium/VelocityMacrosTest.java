@@ -20,13 +20,11 @@
  */
 package org.xwiki.test.selenium;
 
-import java.io.IOException;
+import junit.framework.Test;
 
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Verify proper execution of some Velocity Macros.

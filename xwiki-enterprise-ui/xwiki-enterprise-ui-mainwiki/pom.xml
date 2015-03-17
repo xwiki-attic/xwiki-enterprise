@@ -49,6 +49,13 @@
       <version>${project.version}</version>
       <type>xar</type>
     </dependency>
+    <!-- After the user is installed, we install the preferences that set the default rights -->
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui-mainwikipreferences</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+    </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-common</artifactId>

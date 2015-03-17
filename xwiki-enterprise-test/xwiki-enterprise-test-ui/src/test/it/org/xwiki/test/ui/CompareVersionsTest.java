@@ -23,9 +23,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,9 +37,13 @@ import org.xwiki.test.ui.po.CommentsTab;
 import org.xwiki.test.ui.po.FormElement;
 import org.xwiki.test.ui.po.HistoryPane;
 import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.diff.DocumentDiffSummary;
+import org.xwiki.test.ui.po.diff.EntityDiff;
 import org.xwiki.test.ui.po.editor.ClassEditPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests the comparison of document versions.
@@ -157,43 +161,71 @@ public class CompareVersionsTest extends AbstractTest
 
         // Version summary.
         String today = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
-        Assert.assertTrue(changesPane.getFromVersionSummary().startsWith(
+        assertTrue(changesPane.getFromVersionSummary().startsWith(
             "From version 1.1\nedited by Administrator\non " + today));
-        Assert.assertTrue(changesPane.getToVersionSummary().startsWith(
+        assertTrue(changesPane.getToVersionSummary().startsWith(
             "To version " + currentVersion + "\nedited by Alice\non " + today));
-        Assert.assertEquals("Change comment: Deleted object", changesPane.getChangeComment());
+        assertEquals("Change comment: Deleted object", changesPane.getChangeComment());
 
-        // Meta data changes.
-        Assert.assertEquals(Arrays.asList("Title", "Parent", "Document author", "Tags"),
-            changesPane.getChangedMetaData());
-        Assert.assertEquals("<del>T</del><ins>Compar</ins>e<ins> ver</ins>s<ins>ions </ins>t<ins>est</ins>",
-            changesPane.getMetaDataChanges("Title"));
-        Assert.assertEquals("<ins>Sandbox.WebHome</ins>", changesPane.getMetaDataChanges("Parent"));
-        Assert.assertEquals("XWiki.A<del>dm</del><ins>l</ins>i<del>n</del><ins>ce</ins>",
-            changesPane.getMetaDataChanges("Document author"));
-        Assert.assertEquals("<ins>bar</ins>", changesPane.getMetaDataChanges("Tags"));
+        // Diff summary.
+        DocumentDiffSummary diffSummary = changesPane.getDiffSummary();
+        assertEquals(Arrays.asList("Page properties", "Attachments", "Objects", "Class properties"),
+            diffSummary.getItems());
+        assertEquals("(5 modified, 0 added, 0 removed)", diffSummary.getPagePropertiesSummary());
+        assertEquals("(0 modified, 1 added, 0 removed)", diffSummary.getAttachmentsSummary());
+        assertEquals("(0 modified, 2 added, 0 removed)", diffSummary.getObjectsSummary());
+        assertEquals("(0 modified, 1 added, 0 removed)", diffSummary.getClassPropertiesSummary());
+        assertEquals(Arrays.asList("SmallAttachment.txt"), diffSummary.toggleAttachmentsDetails().getAddedAttachments());
+        assertEquals(Arrays.asList("XWiki.JavaScriptExtension[0]", "XWiki.XWikiComments[0]"), diffSummary
+            .toggleObjectsDetails().getAddedObjects());
+        assertEquals(Arrays.asList("age"), diffSummary.toggleClassPropertiesDetails().getAddedClassProperties());
 
-        // Content changes.
-        Assert.assertEquals("@@ -1,3 +1,3 @@\n one\n-two\n-<del>th</del>r<del>ee</del>\n"
-            + "+<ins>**</ins>two<ins>**</ins>\n+<ins>fou</ins>r", changesPane.getContentChanges());
+        // Diff details.
+        assertEquals(Arrays.asList("Page properties", "SmallAttachment.txt", "XWiki.JavaScriptExtension[0]",
+            "XWiki.XWikiComments[0]", "age"), changesPane.getChangedEntities());
+
+        // Page properties changes.
+        EntityDiff pageProperties = changesPane.getEntityDiff("Page properties");
+        assertEquals(Arrays.asList("Title", "Parent", "Author", "Tags", "Content"), pageProperties.getPropertyNames());
+        assertDiff(pageProperties.getDiff("Title"), "-<del>T</del>est",
+            "+<ins>Compar</ins>e<ins> ver</ins>s<ins>ions </ins>t<ins>est</ins>");
+        assertDiff(pageProperties.getDiff("Parent"), "+Sandbox.WebHome");
+        assertDiff(pageProperties.getDiff("Author"), "-XWiki.A<del>dm</del>i<del>n</del>",
+            "+XWiki.A<ins>l</ins>i<ins>ce</ins>");
+        assertDiff(pageProperties.getDiff("Tags"), "+bar");
+        assertDiff(pageProperties.getDiff("Content"), "@@ -1,3 +1,3 @@", "one", "-two", "-<del>th</del>r<del>ee</del>",
+            "+<ins>**</ins>two<ins>**</ins>", "+<ins>fou</ins>r");
 
         // Attachment changes.
-        Assert.assertEquals(Arrays.asList("SmallAttachment.txt: Attachment has been added"),
-            changesPane.getAttachmentChanges());
-
-        // Comment changes.
-        Assert.assertEquals(Arrays.asList("Comment number 0 added"), changesPane.getCommentChangeSummaries());
-        Assert.assertEquals("@@ -1,0 +1,3 @@\n+first line\n+line in between\n+second line",
-            changesPane.getCommentChanges(0, "Comment content"));
+        EntityDiff attachmentDiff = changesPane.getEntityDiff("SmallAttachment.txt");
+        assertEquals(Arrays.asList("Author", "Size", "Content"), attachmentDiff.getPropertyNames());
+        assertDiff(attachmentDiff.getDiff("Author"), "+XWiki.Admin");
+        assertDiff(attachmentDiff.getDiff("Size"), "+27 bytes");
+        assertDiff(attachmentDiff.getDiff("Content"), "+This is a small attachment.");
 
         // Object changes.
-        Assert.assertEquals(Arrays.asList("Object number 0 of type XWiki.JavaScriptExtension added"),
-            changesPane.getObjectChangeSummaries());
-        Assert.assertEquals("<ins>onDemand</ins>",
-            changesPane.getObjectChanges("XWiki.JavaScriptExtension", 0, "Use this extension"));
+        EntityDiff jsxDiff = changesPane.getEntityDiff("XWiki.JavaScriptExtension[0]");
+        assertEquals(Arrays.asList("Caching policy", "Name", "Use this extension", "Code"), jsxDiff.getPropertyNames());
+        assertDiff(jsxDiff.getDiff("Caching policy"), "+long");
+        assertDiff(jsxDiff.getDiff("Name"), "+Code snippet");
+        assertDiff(jsxDiff.getDiff("Use this extension"), "+onDemand");
+        assertDiff(jsxDiff.getDiff("Code"), "+var tmp = alice;", "+alice = 2 * bob;", "+bob = tmp;");
 
-        // Class changes.
-        Assert.assertEquals(Arrays.asList("Added property age"), changesPane.getClassChanges());
+        // Comment changes.
+        EntityDiff commentDiff = changesPane.getEntityDiff("XWiki.XWikiComments[0]");
+        assertEquals(Arrays.asList("Author", "Date", "Comment"), commentDiff.getPropertyNames());
+        assertDiff(commentDiff.getDiff("Author"), "+XWiki.Alice");
+        assertEquals(2, commentDiff.getDiff("Date").size());
+        assertDiff(commentDiff.getDiff("Comment"), "+first line", "+line in between", "+second line");
+
+        // Class property changes.
+        EntityDiff ageDiff = changesPane.getEntityDiff("age");
+        assertEquals(Arrays.asList("Name", "Number", "Pretty Name", "Size", "Number Type"), ageDiff.getPropertyNames());
+        assertDiff(ageDiff.getDiff("Name"), "+age");
+        assertDiff(ageDiff.getDiff("Number"), "+1");
+        assertDiff(ageDiff.getDiff("Pretty Name"), "+age");
+        assertDiff(ageDiff.getDiff("Size"), "+30");
+        assertDiff(ageDiff.getDiff("Number Type"), "+integer");
     }
 
     /**
@@ -204,7 +236,7 @@ public class CompareVersionsTest extends AbstractTest
     {
         HistoryPane historyTab = testPage.openHistoryDocExtraPane();
         String currentVersion = historyTab.getCurrentVersion();
-        Assert.assertTrue(historyTab.compare(currentVersion, currentVersion).getChangesPane().hasNoChanges());
+        assertTrue(historyTab.compare(currentVersion, currentVersion).getChangesPane().hasNoChanges());
     }
 
     /**
@@ -215,8 +247,17 @@ public class CompareVersionsTest extends AbstractTest
     {
         ChangesPane changesPane =
             testPage.openHistoryDocExtraPane().showMinorEdits().compare("2.2", "2.3").getChangesPane();
-        Assert.assertEquals(
-            "@@ -1,3 +1,3 @@\n var tmp = alice;\n-alice = bob;\n+alice = <ins>2 * </ins>bob;\n bob = tmp;",
-            changesPane.getObjectChanges("XWiki.JavaScriptExtension", 0, "Code"));
+        EntityDiff jsxDiff = changesPane.getEntityDiff("XWiki.JavaScriptExtension[0]");
+        assertDiff(jsxDiff.getDiff("Code"), "@@ -1,3 +1,3 @@", "var tmp = alice;", "-alice = bob;",
+            "+alice = <ins>2 * </ins>bob;", "bob = tmp;");
+    }
+
+    private void assertDiff(List<String> actualLines, String... expectedLines)
+    {
+        if (expectedLines.length > 0 && !expectedLines[0].startsWith("@@")) {
+            assertEquals(Arrays.asList(expectedLines), actualLines.subList(1, actualLines.size()));
+        } else {
+            assertEquals(Arrays.asList(expectedLines), actualLines);
+        }
     }
 }

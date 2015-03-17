@@ -23,19 +23,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
+    <artifactId>xwiki-enterprise-ui</artifactId>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
     <version>7.0-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-ui</artifactId>
-  <name>XWiki Enterprise - UI</name>
-  <packaging>pom</packaging>
-  <description>Parent POM for the Enterprise UI.</description>
-  <modules>
-    <module>xwiki-enterprise-ui-admin-user</module>
-    <module>xwiki-enterprise-ui-common</module>
-    <module>xwiki-enterprise-ui-mainwiki</module>
-    <module>xwiki-enterprise-ui-mainwikipreferences</module>
-    <module>xwiki-enterprise-ui-wiki</module>
-  </modules>
+  <artifactId>xwiki-enterprise-ui-mainwikipreferences</artifactId>
+  <name>XWiki Enterprise - UI - Main wiki preferences</name>
+  <packaging>xar</packaging>
+  <description>Default preferences for the main wiki. Must be installed first by the Distribution Wizard to have a
+    clean rights configuration before installing any other extension.</description>
 </project>

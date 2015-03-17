@@ -37,6 +37,12 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui-mainwikipreferences</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-common</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
@@ -48,4 +54,39 @@
       <type>xar</type>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+        <version>${commons.version}</version>
+        <configuration>
+          <!-- Perform some transformations specific to (sub) wikis -->
+          <transformations>
+            <!-- Specify different rights for XWiki.XWikiGuest -->
+            <transformation>
+              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-mainwikipreferences</artifact>
+              <file>XWiki/XWikiPreferences.xml</file>
+              <xpath>xwikidoc/object[property/users[text()="XWiki.XWikiGuest"]]/property/levels</xpath>
+              <value>register</value>
+            </transformation>
+            <!-- Specify different rights for XWiki.XWikiAllGroup -->
+            <transformation>
+              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-mainwikipreferences</artifact>
+              <file>XWiki/XWikiPreferences.xml</file>
+              <xpath>xwikidoc/object[property/groups[contains(text(),"XWiki.XWikiAllGroup")]]/property/levels</xpath>
+              <value>edit,comment,register</value>
+            </transformation>
+            <!-- Specify different rights for XWiki.XWikiAdminGroup -->
+            <transformation>
+              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-mainwikipreferences</artifact>
+              <file>XWiki/XWikiPreferences.xml</file>
+              <xpath>xwikidoc/object[property/groups[contains(text(),"XWiki.XWikiAdminGroup")]]/property/levels</xpath>
+              <value>admin</value>
+            </transformation>
+          </transformations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

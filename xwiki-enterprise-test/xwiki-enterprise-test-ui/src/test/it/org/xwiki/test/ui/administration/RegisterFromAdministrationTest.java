@@ -23,6 +23,7 @@ import org.openqa.selenium.By;
 import org.xwiki.administration.test.po.LightBoxRegistrationPage;
 import org.xwiki.test.ui.po.AbstractRegistrationPage;
 import org.xwiki.test.ui.RegisterTest;
+import org.xwiki.test.ui.TestUtils;
 
 /**
  * Test the Admin->Users->AddNewUser feature by executing the same tests as in RegisterTest but from
@@ -38,6 +39,7 @@ public class RegisterFromAdministrationTest extends RegisterTest
     {
         getDriver().get(getUtil().getURLToLoginAsAdmin());
         getUtil().recacheSecretToken();
+        getUtil().setDefaultCredentials(TestUtils.ADMIN_CREDENTIALS);
     }
 
     @Override

@@ -49,13 +49,11 @@ public class UserClassFieldTest extends AbstractClassEditorTest
         getUtil().createUserAndLogin("tmortagne", "tmortagne", "first_name", "Thomas", "last_name", "Mortagne",
             "avatar", "tmortagne.png");
         getUtil().attachFile("XWiki", "tmortagne", "tmortagne.png",
-            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/tmortagne.png"), false,
-            TestUtils.ADMIN_CREDENTIALS);
+            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/tmortagne.png"), false);
         getUtil().createUserAndLogin("Enygma2002", "Enygma2002", "first_name", "Eduard", "last_name", "Moraru",
             "avatar", "Enygma2002.png");
         getUtil().attachFile("XWiki", "Enygma2002", "Enygma2002.png",
-            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/Enygma2002.png"), false,
-            TestUtils.ADMIN_CREDENTIALS);
+            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/Enygma2002.png"), false);
     }
 
     @Test

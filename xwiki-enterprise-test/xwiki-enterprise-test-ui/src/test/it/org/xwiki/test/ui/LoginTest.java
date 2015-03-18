@@ -113,6 +113,7 @@ public class LoginTest extends AbstractTest
             GlobalRightsAdministrationSectionPage grasp = new GlobalRightsAdministrationSectionPage();
             getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(grasp.getURL()));
             getUtil().recacheSecretToken();
+            getUtil().setDefaultCredentials(TestUtils.ADMIN_CREDENTIALS);
             grasp.forceAuthenticatedView();
 
             // Go to a page, log out and expire session by removing cookies, log in again and verify that the user is

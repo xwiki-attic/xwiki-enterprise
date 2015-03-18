@@ -69,6 +69,7 @@ public class InvitationTest extends AbstractTest
         // Login as admin and delete existing messages.
         getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToNonExistentPage()));
         getUtil().recacheSecretToken();
+        getUtil().setDefaultCredentials(TestUtils.ADMIN_CREDENTIALS);
         getUtil().deletePage("Invitation", "InvitationMessages");
 
         if (!initialized) {

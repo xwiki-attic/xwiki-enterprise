@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.xwiki.appwithinminutes.test.po.UserClassFieldEditPane;
+import org.xwiki.test.ui.TestUtils;
 import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.editor.UserPicker;
 import org.xwiki.test.ui.po.editor.UserPicker.UserElement;
@@ -48,11 +49,13 @@ public class UserClassFieldTest extends AbstractClassEditorTest
         getUtil().createUserAndLogin("tmortagne", "tmortagne", "first_name", "Thomas", "last_name", "Mortagne",
             "avatar", "tmortagne.png");
         getUtil().attachFile("XWiki", "tmortagne", "tmortagne.png",
-            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/tmortagne.png"), false);
+            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/tmortagne.png"), false,
+            TestUtils.ADMIN_CREDENTIALS);
         getUtil().createUserAndLogin("Enygma2002", "Enygma2002", "first_name", "Eduard", "last_name", "Moraru",
             "avatar", "Enygma2002.png");
         getUtil().attachFile("XWiki", "Enygma2002", "Enygma2002.png",
-            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/Enygma2002.png"), false);
+            UserClassFieldTest.class.getResourceAsStream("/appwithinminutes/Enygma2002.png"), false,
+            TestUtils.ADMIN_CREDENTIALS);
     }
 
     @Test

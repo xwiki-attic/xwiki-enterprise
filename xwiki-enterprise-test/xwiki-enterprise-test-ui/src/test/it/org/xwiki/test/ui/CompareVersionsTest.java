@@ -193,8 +193,8 @@ public class CompareVersionsTest extends AbstractTest
         assertDiff(pageProperties.getDiff("Author"), "-XWiki.A<del>dm</del>i<del>n</del>",
             "+XWiki.A<ins>l</ins>i<ins>ce</ins>");
         assertDiff(pageProperties.getDiff("Tags"), "+bar");
-        assertDiff(pageProperties.getDiff("Content"), "@@ -1,3 +1,3 @@", "one", "-two", "-<del>th</del>r<del>ee</del>",
-            "+<ins>**</ins>two<ins>**</ins>", "+<ins>fou</ins>r");
+        assertDiff(pageProperties.getDiff("Content"), "@@ -1,3 +1,3 @@", " one", "-two",
+            "-<del>th</del>r<del>ee</del>", "+<ins>**</ins>two<ins>**</ins>", "+<ins>fou</ins>r");
 
         // Attachment changes.
         EntityDiff attachmentDiff = changesPane.getEntityDiff("SmallAttachment.txt");
@@ -248,8 +248,8 @@ public class CompareVersionsTest extends AbstractTest
         ChangesPane changesPane =
             testPage.openHistoryDocExtraPane().showMinorEdits().compare("2.2", "2.3").getChangesPane();
         EntityDiff jsxDiff = changesPane.getEntityDiff("XWiki.JavaScriptExtension[0]");
-        assertDiff(jsxDiff.getDiff("Code"), "@@ -1,3 +1,3 @@", "var tmp = alice;", "-alice = bob;",
-            "+alice = <ins>2 * </ins>bob;", "bob = tmp;");
+        assertDiff(jsxDiff.getDiff("Code"), "@@ -1,3 +1,3 @@", " var tmp = alice;", "-alice = bob;",
+            "+alice = <ins>2 * </ins>bob;", " bob = tmp;");
     }
 
     private void assertDiff(List<String> actualLines, String... expectedLines)

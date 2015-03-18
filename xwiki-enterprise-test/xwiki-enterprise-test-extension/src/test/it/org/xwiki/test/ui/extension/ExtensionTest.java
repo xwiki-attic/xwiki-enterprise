@@ -19,13 +19,9 @@
  */
 package org.xwiki.test.ui.extension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,6 +60,9 @@ import org.xwiki.test.ui.AbstractExtensionAdminAuthenticatedTest;
 import org.xwiki.test.ui.TestUtils;
 import org.xwiki.test.ui.po.ChangesPane;
 import org.xwiki.test.ui.po.ViewPage;
+import org.xwiki.test.ui.po.diff.EntityDiff;
+
+import static org.junit.Assert.*;
 
 /**
  * Functional tests for the Extension Manager user interface.
@@ -470,7 +469,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "xar");
 
         ExtensionId dependencyId = new ExtensionId("bob-xar-extension", "2.5-milestone-2");
-        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"), TestUtils.ADMIN_CREDENTIALS);
+        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"),
+            TestUtils.ADMIN_CREDENTIALS);
         extension.addDependency(new DefaultExtensionDependency(dependencyId.getId(), new DefaultVersionConstraint(
             dependencyId.getVersion().getValue())));
 
@@ -562,7 +562,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
     {
         // Setup the extension and its dependencies.
         ExtensionId dependencyId = new ExtensionId("bob-xar-extension", "2.5-milestone-2");
-        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"), TestUtils.ADMIN_CREDENTIALS);
+        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(dependencyId, "xar"),
+            TestUtils.ADMIN_CREDENTIALS);
 
         ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "xar");
@@ -669,7 +670,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
     {
         // Setup the extension.
         ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
-        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(extensionId, "xar"), TestUtils.ADMIN_CREDENTIALS);
+        getRepositoryTestUtils().addExtension(getRepositoryTestUtils().getTestExtension(extensionId, "xar"),
+            TestUtils.ADMIN_CREDENTIALS);
 
         // Search the extension to install.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();
@@ -795,33 +797,41 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         MergeConflictPane mergeConflictPane = progressPane.getMergeConflict();
         ChangesPane changesPane = mergeConflictPane.getChanges();
-        assertFalse(changesPane.getContentChanges().isEmpty());
-        assertEquals("@@ -1,1 +1,1 @@\n-<del>Test</del> macro.\n+<ins>A</ins> <ins>cool </ins>macro.",
-            changesPane.getObjectChanges("XWiki.WikiMacroClass", 0, "Macro description"));
+        assertEquals(Arrays.asList("Page properties", "XWiki.WikiMacroClass[0]"), changesPane.getChangedEntities());
+
+        EntityDiff pagePropertiesDiff = changesPane.getEntityDiff("Page properties");
+        assertEquals(Arrays.asList("Parent", "Content"), pagePropertiesDiff.getPropertyNames());
+        assertFalse(pagePropertiesDiff.getDiff("Content").isEmpty());
+
+        EntityDiff macroDiff = changesPane.getEntityDiff("XWiki.WikiMacroClass[0]");
+        assertEquals(Arrays.asList("Macro description"), macroDiff.getPropertyNames());
+        assertEquals(
+            Arrays.asList("@@ -1,1 +1,1 @@", "-<del>Test</del> macro.", "+<ins>A</ins> <ins>cool </ins>macro."),
+            macroDiff.getDiff("Macro description"));
 
         mergeConflictPane.getFromVersionSelect().selectByVisibleText("Previous version");
         mergeConflictPane.getToVersionSelect().selectByVisibleText("Current version");
         mergeConflictPane = mergeConflictPane.clickShowChanges();
 
         changesPane = mergeConflictPane.getChanges();
-        StringBuilder expectedDiff = new StringBuilder();
-        expectedDiff.append("@@ -1,9 +1,9 @@\n");
-        expectedDiff.append("-= Usage =\n");
-        expectedDiff.append("+=<ins>=</ins> Usage =<ins>=</ins>\n");
-        expectedDiff.append(" \n");
-        expectedDiff.append("-{{code}}\n");
-        expectedDiff.append("+{{code<ins> language=\"none\"</ins>}}\n");
-        expectedDiff.append(" {{alice/}}\n");
-        expectedDiff.append(" {{/code}}\n");
-        expectedDiff.append(" \n");
-        expectedDiff.append("-= <del>Res</del>u<del>l</del>t =\n");
-        expectedDiff.append("+=<ins>=</ins> <ins>O</ins>ut<ins>put</ins> =<ins>=</ins>\n");
-        expectedDiff.append(" \n");
-        expectedDiff.append(" {{alice/}}");
-        assertEquals(expectedDiff.toString(), changesPane.getContentChanges());
-        assertEquals(1, changesPane.getObjectChangeSummaries().size());
-        assertEquals("@@ -1,1 +1,1 @@\n-Alice says hello!\n+<ins>{{info}}</ins>Alice says hello!<ins>{{/info}}</ins>",
-            changesPane.getObjectChanges("XWiki.WikiMacroClass", 0, "Macro code"));
+        List<String> expectedDiff = new ArrayList<>();
+        expectedDiff.add("@@ -1,9 +1,9 @@");
+        expectedDiff.add("-= Usage =");
+        expectedDiff.add("+=<ins>=</ins> Usage =<ins>=</ins>");
+        expectedDiff.add(" ");
+        expectedDiff.add("-{{code}}");
+        expectedDiff.add("+{{code<ins> language=\"none\"</ins>}}");
+        expectedDiff.add(" {{alice/}}");
+        expectedDiff.add(" {{/code}}");
+        expectedDiff.add(" ");
+        expectedDiff.add("-= <del>Res</del>u<del>l</del>t =");
+        expectedDiff.add("+=<ins>=</ins> <ins>O</ins>ut<ins>put</ins> =<ins>=</ins>");
+        expectedDiff.add(" ");
+        expectedDiff.add(" {{alice/}}");
+        assertEquals(expectedDiff, changesPane.getEntityDiff("Page properties").getDiff("Content"));
+        assertEquals(1, changesPane.getDiffSummary().toggleObjectsDetails().getModifiedObjects().size());
+        assertEquals(Arrays.asList("@@ -1,1 +1,1 @@", "-Alice says hello!", "+<ins>{{info}}</ins>Alice says hello!<ins>{{/info}}</ins>"),
+            changesPane.getEntityDiff("XWiki.WikiMacroClass[0]").getDiff("Macro code"));
 
         // Finish the merge.
         mergeConflictPane.getVersionToKeepSelect().selectByValue("NEXT");

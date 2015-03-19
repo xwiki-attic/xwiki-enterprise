@@ -28,7 +28,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.xwiki.appwithinminutes.test.po.UserClassFieldEditPane;
-import org.xwiki.test.ui.TestUtils;
 import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.editor.UserPicker;
 import org.xwiki.test.ui.po.editor.UserPicker.UserElement;

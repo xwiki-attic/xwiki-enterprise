@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.xwiki.extension.ExtensionId;
 import org.xwiki.extension.test.RepositoryUtils;
 import org.xwiki.repository.test.RepositoryTestUtils;
+import org.xwiki.repository.test.SolrTestUtils;
 import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.integration.XWikiExecutorSuite;
 
@@ -95,7 +96,8 @@ public class AllTests
     public static void initExtensions(PersistentTestContext context) throws Exception
     {
         // Initialize extensions and repositories
-        RepositoryTestUtils repositoryTestUtil = new RepositoryTestUtils(context.getUtil(), repositoryUtil);
+        RepositoryTestUtils repositoryTestUtil =
+            new RepositoryTestUtils(context.getUtil(), repositoryUtil, new SolrTestUtils(context.getUtil()));
         repositoryTestUtil.init();
         ExtensionTestUtils extensionTestUtil = new ExtensionTestUtils(context.getUtil());
 

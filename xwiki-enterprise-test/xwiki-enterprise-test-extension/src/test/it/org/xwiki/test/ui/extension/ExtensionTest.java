@@ -276,6 +276,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         ExtensionId extensionId = new ExtensionId("alice-xar-extension", "1.3");
         TestExtension extension = getRepositoryTestUtils().getTestExtension(extensionId, "xar");
         getRepositoryTestUtils().addExtension(extension);
+        getRepositoryTestUtils().waitUntilReady();
 
         // Check if the section links point to the right repository.
         ExtensionAdministrationPage adminPage = ExtensionAdministrationPage.gotoPage().clickAddExtensionsSection();

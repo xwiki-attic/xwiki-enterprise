@@ -212,6 +212,8 @@ public class AttachmentTest extends AbstractTest
         final String versionTwo = "This is some different content";
 
         final String attachURL = this.getAddressPrefix() + "download/" + spaceName + "/" + pageName + "/" + FILENAME;
+        final String attachRevURL =
+            this.getAddressPrefix() + "downloadrev/" + spaceName + "/" + pageName + "/" + FILENAME;
 
         // Delete the document if it exists.
         doPostAsAdmin(spaceName, pageName, null, "delete", "confirm=1", null);
@@ -236,6 +238,9 @@ public class AttachmentTest extends AbstractTest
 
         // Make sure it is now version2
         Assert.assertEquals(versionTwo, StoreTestUtils.getPageAsString(attachURL));
+
+        // Check that getting attachment version number 2 also produces the right content
+        Assert.assertEquals(versionTwo, StoreTestUtils.getPageAsString(attachRevURL + "?rev=1.2"));
 
         // Do a rollback.
         doPostAsAdmin(spaceName, pageName, null, "rollback", "rev=2.1&confirm=1", null);

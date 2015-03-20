@@ -101,6 +101,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         getUtil().deletePage("Extension", "bob-xar-extension");
         getUtil().deletePage("Extension", "scriptServiceJarExtension");
 
+        getRepositoryTestUtils().waitUntilReady();
+
         // Double check that the XWiki Extension Repository is empty.
         ExtensionsSearchResult searchResult =
             getUtil().getRESTResource("repository/search", Collections.singletonMap("number", new Object[] {1}));

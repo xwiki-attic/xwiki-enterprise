@@ -10,3 +10,5 @@ Breaks: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-tomcat-pgsql (<
 Maintainer: [[debian.maintainer]]
 License: [[debian.license]]
 Description: [[debian.description]]
+Bugs: [[debian.bugs]]
+Homepage: [[debian.homepage]]

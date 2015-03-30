@@ -7,3 +7,5 @@ Depends: xwiki-enterprise-common (= [[version]]), xwiki-enterprise-tomcat-common
 Maintainer: [[debian.maintainer]]
 License: [[debian.license]]
 Description: [[debian.description]]
+Bugs: [[debian.bugs]]
+Homepage: [[debian.homepage]]

@@ -9,3 +9,5 @@ Depends: dbconfig-common (>= 1.8.0), ttf-dejavu, java7-runtime-headless | java7-
 Maintainer: [[debian.maintainer]]
 License: [[debian.license]]
 Description: [[debian.description]]
+Bugs: [[debian.bugs]]
+Homepage: [[debian.homepage]]

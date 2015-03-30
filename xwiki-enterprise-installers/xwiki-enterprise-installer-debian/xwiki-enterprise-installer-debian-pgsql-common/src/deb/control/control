@@ -12,3 +12,5 @@ Conflicts: xwiki-enterprise-database
 Maintainer: [[debian.maintainer]]
 License: [[debian.license]]
 Description: [[debian.description]]
+Bugs: [[debian.bugs]]
+Homepage: [[debian.homepage]]

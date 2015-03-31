@@ -68,7 +68,7 @@
               <type>link</type>
               <symlink>true</symlink>
               <linkName>/usr/lib/xwiki/WEB-INF/lib/postgresql.jar</linkName>
-              <linkTarget>/usr/share/java/postgresql.jar</linkTarget>
+              <linkTarget>/usr/share/java/postgresql-jdbc4.jar</linkTarget>
             </data>
           </dataSet>
         </configuration>

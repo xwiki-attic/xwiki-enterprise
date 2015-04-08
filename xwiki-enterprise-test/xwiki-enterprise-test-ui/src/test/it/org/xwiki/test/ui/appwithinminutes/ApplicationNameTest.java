@@ -255,8 +255,7 @@ public class ApplicationNameTest extends AbstractTest
         Assert.assertEquals(dataSpace, homeEditPage.getMetaDataValue("space"));
 
         // Go to the App Within Minutes home page.
-        homeEditPage.clickBreadcrumbLink(AppWithinMinutesHomePage.TITLE);
-        AppWithinMinutesHomePage appWithinMinutesHomePage = new AppWithinMinutesHomePage();
+        AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
 
         // Assert that the created application is listed in the live table.
         ApplicationsLiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();

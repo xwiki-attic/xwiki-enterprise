@@ -835,6 +835,12 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>jquery</artifactId>
       <version>1.11.1</version>
     </dependency>
+    <!-- Servlets for Resource API -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-resource-servlet</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
 
     <!-- Add dependencies on the XAR distributions for the mainwiki and for subwikis so that we transitively
          include all JAR dependencies in the generated WAR -->

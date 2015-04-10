@@ -186,7 +186,8 @@ public class AppsLiveTableTest extends AbstractTest
         ApplicationClassEditPage classEditPage = appCreatePage.clickNextStep();
         classEditPage.addField("Short Text");
         // Wait for the application home edit page to load before clicking finish to be sure the page layout is stable.
-        classEditPage.clickNextStep().waitUntilPageIsLoaded().clickFinish();
-        homePage = AppWithinMinutesHomePage.gotoPage();
+        classEditPage.clickNextStep().waitUntilPageIsLoaded().clickFinish()
+            .clickBreadcrumbLink(AppWithinMinutesHomePage.TITLE);
+        homePage = new AppWithinMinutesHomePage();
     }
 }

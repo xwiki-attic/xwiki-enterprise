@@ -214,8 +214,7 @@ public class WizardTest extends AbstractTest
         Assert.assertTrue(entriesLiveTable.hasRow("Page name", secondEntryName));
 
         // Go to the App Within Minutes home page.
-        homePage.clickBreadcrumbLink(AppWithinMinutesHomePage.TITLE);
-        AppWithinMinutesHomePage appWithinMinutesHomePage = new AppWithinMinutesHomePage();
+        AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
 
         // Assert that the created application is listed in the live table.
         ApplicationsLiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();

@@ -137,7 +137,7 @@ public class WizardTest extends AbstractTest
         entryEditPage.setValue("cityName", "London");
 
         // Save and go back to the application home page.
-        String appHomePageTitle = appName + " Home";
+        String appHomePageTitle = appName;
         entryEditPage.clickSaveAndView().clickBreadcrumbLink(appHomePageTitle);
         homePage = new ApplicationHomePage();
 

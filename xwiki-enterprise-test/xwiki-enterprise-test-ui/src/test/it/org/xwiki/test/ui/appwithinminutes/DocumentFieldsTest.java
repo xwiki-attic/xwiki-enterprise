@@ -99,7 +99,7 @@ public class DocumentFieldsTest extends AbstractTest
         ViewPage entryViewPage = entryEditPage.clickSaveAndView();
         Assert.assertEquals("Foo", entryViewPage.getDocumentTitle());
         Assert.assertTrue(entryViewPage.getContent().contains("Bar"));
-        entryViewPage.clickBreadcrumbLink(appName + " Home");
+        entryViewPage.clickBreadcrumbLink(appName);
 
         // Check the entries live table.
         LiveTableElement liveTable = new ApplicationHomePage().getEntriesLiveTable();

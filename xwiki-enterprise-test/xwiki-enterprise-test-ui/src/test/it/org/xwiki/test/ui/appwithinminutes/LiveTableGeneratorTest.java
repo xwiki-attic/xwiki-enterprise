@@ -81,14 +81,14 @@ public class LiveTableGeneratorTest extends AbstractTest
         entryNamePane.setName("Foo");
         EntryEditPage entryEditPage = entryNamePane.clickAdd();
         entryEditPage.setValue("staticList1", "value1");
-        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName + " Home");
+        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName);
 
         // Add second entry.
         entryNamePane = new ApplicationHomePage().clickAddNewEntry();
         entryNamePane.setName("Bar");
         entryEditPage = entryNamePane.clickAdd();
         entryEditPage.setValue("staticList1", "value2");
-        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName + " Home");
+        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName);
 
         // Filter the Static List column of the live table.
         LiveTableElement liveTable = new ApplicationHomePage().getEntriesLiveTable();
@@ -122,14 +122,14 @@ public class LiveTableGeneratorTest extends AbstractTest
         entryNamePane.setName("Foo");
         EntryEditPage entryEditPage = entryNamePane.clickAdd();
         entryEditPage.setTitle("The Mighty Foo");
-        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName + " Home");
+        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName);
 
         // Add second entry.
         entryNamePane = new ApplicationHomePage().clickAddNewEntry();
         entryNamePane.setName("Bar");
         entryEditPage = entryNamePane.clickAdd();
         entryEditPage.setTitle("The Empty Bar");
-        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName + " Home");
+        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName);
 
         // Filter the Title column of the live table.
         LiveTableElement liveTable = new ApplicationHomePage().getEntriesLiveTable();

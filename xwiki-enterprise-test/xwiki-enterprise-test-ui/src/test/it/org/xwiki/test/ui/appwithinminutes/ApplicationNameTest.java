@@ -238,12 +238,12 @@ public class ApplicationNameTest extends AbstractTest
 
         // Move to the next step (homepage edit).
         ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep();
-        Assert.assertEquals(appPrettyName + " Home", homeEditPage.getDocumentTitle());
+        Assert.assertEquals(appPrettyName, homeEditPage.getDocumentTitle());
         Assert.assertEquals(dataSpace, homeEditPage.getMetaDataValue("space"));
 
         // Move to the next step (homepage).
         ApplicationHomePage homePage = homeEditPage.clickFinish();
-        Assert.assertEquals(appPrettyName + " Home", homePage.getDocumentTitle());
+        Assert.assertEquals(appPrettyName, homePage.getDocumentTitle());
         Assert.assertEquals(dataSpace, homePage.getMetaDataValue("space"));
 
         // Edit the application's class.

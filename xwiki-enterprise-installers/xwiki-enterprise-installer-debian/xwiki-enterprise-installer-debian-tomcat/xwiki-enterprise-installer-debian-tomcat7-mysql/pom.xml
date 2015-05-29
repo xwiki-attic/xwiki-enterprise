@@ -31,24 +31,4 @@
   <name>XWiki Enterprise - Installer - Debian - Tomcat 7 - MySQL</name>
   <packaging>deb</packaging>
   <description>XWiki enterprise Tomcat/MySQL based package</description>
-  <build>
-    <plugins>
-      <!-- Produce deb package -->
-      <plugin>
-        <artifactId>jdeb</artifactId>
-        <groupId>org.vafer</groupId>
-        <configuration>
-          <dataSet>
-            <!--Custom tomcat context configuration -->
-            <data>
-              <type>link</type>
-              <symlink>true</symlink>
-              <linkName>/etc/tomcat7/Catalina/localhost/xwiki.xml</linkName>
-              <linkTarget>/etc/xwiki/xwiki-tomcat.xml</linkTarget>
-            </data>
-          </dataSet>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

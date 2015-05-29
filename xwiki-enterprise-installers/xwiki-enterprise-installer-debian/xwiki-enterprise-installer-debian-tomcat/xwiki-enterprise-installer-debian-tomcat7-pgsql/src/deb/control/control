@@ -3,7 +3,7 @@ Version: [[version]]
 Section: java
 Priority: optional
 Architecture: all
-Depends: xwiki-enterprise-common (= [[version]]), xwiki-enterprise-tomcat-common (= [[version]]), xwiki-enterprise-pgsql-common (= [[version]]), tomcat7
+Depends: xwiki-enterprise-tomcat7-common (= [[version]]), xwiki-enterprise-pgsql-common (= [[version]])
 Maintainer: [[debian.maintainer]]
 License: [[debian.license]]
 Description: [[debian.description]]

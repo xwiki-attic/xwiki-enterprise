@@ -27,22 +27,12 @@
     <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
     <version>7.0.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer-debian-tomcat-common</artifactId>
-  <name>XWiki Enterprise - Installer - Debian - Tomcat - Common</name>
+  <artifactId>xwiki-enterprise-installer-debian-tomcat7-common</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Tomcat 7 - Common</name>
   <packaging>deb</packaging>
-  <description>XWiki enterprise Tomcat common package</description>
+  <description>XWiki enterprise Tomcat 7 common package</description>
   <build>
     <plugins>
-      <!-- Unpack the war -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <!-- Prepare hibernate configuration -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-remote-resources-plugin</artifactId>
-      </plugin>
       <!-- Produce deb package -->
       <plugin>
         <artifactId>jdeb</artifactId>

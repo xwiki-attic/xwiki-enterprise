@@ -25,10 +25,40 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
-    <version>7.0.2-SNAPSHOT</version>
+    <version>7.1-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-installer-debian-tomcat8-pgsql</artifactId>
-  <name>XWiki Enterprise - Installer - Debian - Tomcat 8 - Postgres SQL</name>
+  <artifactId>xwiki-enterprise-installer-debian-tomcat8-common</artifactId>
+  <name>XWiki Enterprise - Installer - Debian - Tomcat 8 - Common</name>
   <packaging>deb</packaging>
-  <description>XWiki enterprise Tomcat/PostgreSQL</description>
+  <description>XWiki enterprise Tomcat 8 common package</description>
+  <build>
+    <plugins>
+      <!-- Produce deb package -->
+      <plugin>
+        <artifactId>jdeb</artifactId>
+        <groupId>org.vafer</groupId>
+        <configuration>
+          <dataSet>
+            <data>
+              <src>${project.basedir}/src/deb/resources/</src>
+              <type>directory</type>
+              <mapper>
+                <type>perm</type>
+                <prefix />
+              </mapper>
+              <conffile>true</conffile>
+            </data>
+
+            <!--Custom tomcat context configuration -->
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/etc/tomcat8/Catalina/localhost/xwiki.xml</linkName>
+              <linkTarget>/etc/xwiki/xwiki-tomcat8.xml</linkTarget>
+            </data>
+          </dataSet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

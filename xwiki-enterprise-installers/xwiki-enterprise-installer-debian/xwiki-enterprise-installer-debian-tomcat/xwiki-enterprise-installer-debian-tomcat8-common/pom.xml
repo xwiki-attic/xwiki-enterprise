@@ -49,7 +49,7 @@
               <conffile>true</conffile>
             </data>
 
-            <!--Custom tomcat context configuration -->
+            <!--Custom tomcat 8 context configuration -->
             <data>
               <type>link</type>
               <symlink>true</symlink>

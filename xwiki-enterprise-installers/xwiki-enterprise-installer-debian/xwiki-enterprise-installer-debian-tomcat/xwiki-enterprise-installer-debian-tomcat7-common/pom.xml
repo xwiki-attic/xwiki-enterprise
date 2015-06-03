@@ -48,6 +48,14 @@
               </mapper>
               <conffile>true</conffile>
             </data>
+
+            <!--Custom tomcat 7 context configuration -->
+            <data>
+              <type>link</type>
+              <symlink>true</symlink>
+              <linkName>/etc/tomcat7/Catalina/localhost/xwiki.xml</linkName>
+              <linkTarget>/etc/xwiki/xwiki-tomcat7.xml</linkTarget>
+            </data>
           </dataSet>
         </configuration>
       </plugin>

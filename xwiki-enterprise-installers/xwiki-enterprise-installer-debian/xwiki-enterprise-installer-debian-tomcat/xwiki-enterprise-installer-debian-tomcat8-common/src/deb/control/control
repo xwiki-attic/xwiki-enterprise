@@ -4,6 +4,7 @@ Section: java
 Priority: optional
 Architecture: all
 Depends: xwiki-enterprise-common (= [[version]]), tomcat8
+Provides: xwiki-enterprise-tomcat-common
 Suggests: xwiki-enterprise-tomcat8-mysql | xwiki-enterprise-tomcat8-pgsql
 Replaces: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-tomcat-pgsql (<< 3.5), xwiki-enterprise-tomcat-common
 Breaks: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-tomcat-pgsql (<< 3.5), xwiki-enterprise-tomcat-common

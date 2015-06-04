@@ -41,7 +41,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise/tree/master/</url>
-    <tag>HEAD</tag>
+    <tag>stable-7.1.x</tag>
   </scm>
   <issueManagement>
     <system>jira</system>

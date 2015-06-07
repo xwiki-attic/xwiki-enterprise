@@ -20,28 +20,26 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc>
+<xwikidoc version="1.1">
   <web>XWiki</web>
   <name>XWikiPreferences</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>XWiki.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1375383729000</creationDate>
+  <parent>XWiki.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1375450864000</date>
   <contentUpdateDate>1375450864000</contentUpdateDate>
   <version>1.1</version>
   <title>XWiki Preferences</title>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>true</hidden>
+  <content/>
   <class>
     <name>XWiki.XWikiPreferences</name>
     <customClass/>
@@ -1219,6 +1217,10 @@
     </xwiki.title.mandatory>
   </class>
   <object>
+    <name>XWiki.XWikiPreferences</name>
+    <number>0</number>
+    <className>XWiki.ClassSheetBinding</className>
+    <guid>a31af27a-2ed7-4a6a-9b53-afe212bd8e2b</guid>
     <class>
       <name>XWiki.ClassSheetBinding</name>
       <customClass/>
@@ -1242,15 +1244,15 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
-    <name>XWiki.XWikiPreferences</name>
-    <number>0</number>
-    <className>XWiki.ClassSheetBinding</className>
-    <guid>a31af27a-2ed7-4a6a-9b53-afe212bd8e2b</guid>
     <property>
       <sheet>AdminSheet</sheet>
     </property>
   </object>
   <object>
+    <name>XWiki.XWikiPreferences</name>
+    <number>0</number>
+    <className>XWiki.XWikiGlobalRights</className>
+    <guid>369eb46f-6311-437b-a3a1-38755f324898</guid>
     <class>
       <name>XWiki.XWikiGlobalRights</name>
       <customClass/>
@@ -1316,10 +1318,6 @@
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>XWiki.XWikiPreferences</name>
-    <number>0</number>
-    <className>XWiki.XWikiGlobalRights</className>
-    <guid>369eb46f-6311-437b-a3a1-38755f324898</guid>
     <property>
       <allow>1</allow>
     </property>
@@ -1334,6 +1332,10 @@
     </property>
   </object>
   <object>
+    <name>XWiki.XWikiPreferences</name>
+    <number>1</number>
+    <className>XWiki.XWikiGlobalRights</className>
+    <guid>e9630277-a371-4228-8659-8a1abc7bacfa</guid>
     <class>
       <name>XWiki.XWikiGlobalRights</name>
       <customClass/>
@@ -1399,10 +1401,6 @@
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>XWiki.XWikiPreferences</name>
-    <number>1</number>
-    <className>XWiki.XWikiGlobalRights</className>
-    <guid>e9630277-a371-4228-8659-8a1abc7bacfa</guid>
     <property>
       <allow>1</allow>
     </property>
@@ -1417,6 +1415,10 @@
     </property>
   </object>
   <object>
+    <name>XWiki.XWikiPreferences</name>
+    <number>2</number>
+    <className>XWiki.XWikiGlobalRights</className>
+    <guid>4ab252d2-8d57-4135-a966-76aba09f9bc6</guid>
     <class>
       <name>XWiki.XWikiGlobalRights</name>
       <customClass/>
@@ -1482,10 +1484,6 @@
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>XWiki.XWikiPreferences</name>
-    <number>2</number>
-    <className>XWiki.XWikiGlobalRights</className>
-    <guid>4ab252d2-8d57-4135-a966-76aba09f9bc6</guid>
     <property>
       <allow>1</allow>
     </property>
@@ -1500,6 +1498,10 @@
     </property>
   </object>
   <object>
+    <name>XWiki.XWikiPreferences</name>
+    <number>0</number>
+    <className>XWiki.XWikiPreferences</className>
+    <guid>a2464e0e-d798-467c-8f3e-8ae4443cd4fe</guid>
     <class>
       <name>XWiki.XWikiPreferences</name>
       <customClass/>
@@ -2676,10 +2678,6 @@
         <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
       </xwiki.title.mandatory>
     </class>
-    <name>XWiki.XWikiPreferences</name>
-    <number>0</number>
-    <className>XWiki.XWikiPreferences</className>
-    <guid>a2464e0e-d798-467c-8f3e-8ae4443cd4fe</guid>
     <property>
       <accessibility>0</accessibility>
     </property>
@@ -2862,5 +2860,4 @@ ${host}${xwiki.getURL('XWiki.AccountValidation', 'view', "validkey=${validkey}&a
       <xwiki.title.mandatory>0</xwiki.title.mandatory>
     </property>
   </object>
-  <content/>
 </xwikidoc>

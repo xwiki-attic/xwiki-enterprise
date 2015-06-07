@@ -20,30 +20,31 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc>
+<xwikidoc version="1.1">
   <web>XWiki</web>
   <name>XWikiAdminGroup</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>XWiki.XWikiGroups</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1107117503000</creationDate>
+  <parent>XWiki.XWikiGroups</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1177088879000</date>
   <contentUpdateDate>1177088879000</contentUpdateDate>
   <version>1.1</version>
   <title/>
-  <template/>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>true</hidden>
+  <content/>
   <object>
+    <name>XWiki.XWikiAdminGroup</name>
+    <number>0</number>
+    <className>XWiki.XWikiGroups</className>
+    <guid>00d9e424-6301-4eac-84f3-71b634374894</guid>
     <class>
       <name>XWiki.XWikiGroups</name>
       <customClass/>
@@ -63,15 +64,15 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </member>
     </class>
-    <name>XWiki.XWikiAdminGroup</name>
-    <number>0</number>
-    <className>XWiki.XWikiGroups</className>
-    <guid>46d387f2-4d8d-446d-a618-8bfcb655ba18</guid>
     <property>
       <member>XWiki.Admin</member>
     </property>
   </object>
   <object>
+    <name>XWiki.XWikiAdminGroup</name>
+    <number>1</number>
+    <className>XWiki.XWikiGroups</className>
+    <guid>8f03e25f-264f-4596-a506-1b6420bef545</guid>
     <class>
       <name>XWiki.XWikiGroups</name>
       <customClass/>
@@ -91,15 +92,15 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </member>
     </class>
-    <name>XWiki.XWikiAdminGroup</name>
-    <number>1</number>
-    <className>XWiki.XWikiGroups</className>
-    <guid>46d387f2-4d8d-446d-a618-8bfcb655ba18</guid>
     <property>
       <member/>
     </property>
   </object>
   <object>
+    <name>XWiki.XWikiAdminGroup</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>9ccbd7ae-92f3-4a38-8eb2-455313d0b366</guid>
     <class>
       <name>XWiki.XWikiRights</name>
       <customClass/>
@@ -123,16 +124,16 @@
       <groups>
         <cache>0</cache>
         <disabled>0</disabled>
-        <displayType>select</displayType>
+        <displayType>input</displayType>
         <multiSelect>1</multiSelect>
         <name>groups</name>
         <number>1</number>
+        <picker>1</picker>
         <prettyName>Groups</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
         <size>5</size>
         <unmodifiable>0</unmodifiable>
-        <usesList>1</usesList>
         <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
       </groups>
       <levels>
@@ -152,23 +153,19 @@
       <users>
         <cache>0</cache>
         <disabled>0</disabled>
-        <displayType>select</displayType>
+        <displayType>input</displayType>
         <multiSelect>1</multiSelect>
         <name>users</name>
         <number>3</number>
+        <picker>1</picker>
         <prettyName>Users</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
         <size>5</size>
         <unmodifiable>0</unmodifiable>
-        <usesList>1</usesList>
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </users>
     </class>
-    <name>XWiki.XWikiAdminGroup</name>
-    <number>0</number>
-    <className>XWiki.XWikiRights</className>
-    <guid>9ccbd7ae-92f3-4a38-8eb2-455313d0b366</guid>
     <property>
       <allow>1</allow>
     </property>
@@ -182,5 +179,4 @@
       <users/>
     </property>
   </object>
-  <content/>
 </xwikidoc>

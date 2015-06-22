@@ -1086,63 +1086,10 @@ If you wish to have the default wiki pages, which contain both content pages and
                       <groupId>xml-apis</groupId>
                       <artifactId>xml-apis</artifactId>
                     </dependency>
-                    <dependency>
-                      <groupId>org.python</groupId>
-                      <artifactId>jython-standalone</artifactId>
-                    </dependency>
                   </conflictingDependencies>
                   <packages>
                     <package>javax.xml.stream</package>
                   </packages>
-                </exception>
-                <!-- Jython emmbedd tons of third party XML dependencies. See http://bugs.jython.org/issue2121. -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>xml-apis</groupId>
-                      <artifactId>xml-apis</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>org.python</groupId>
-                      <artifactId>jython-standalone</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <packages>
-                    <package>javax.xml</package>
-                    <package>org.w3c.dom</package>
-                    <package>org.xml.sax</package>
-                  </packages>
-                  <classes>
-                    <class>org.apache.xmlcommons.Version</class>
-                  </classes>
-                </exception>
-                <!-- This is a PITA. The classes are actually incompatible! We should do something about it but I
-                     don't see a solution ATM... In addition these classes are also present in the JDK, see
-                     http://docs.oracle.com/javase/6/docs/api/org/w3c/dom/package-summary.html which may yet be
-                     another version and I don't have any clue which version is actually used at runtime...
-                     Note that the XMLBeans issue is fixed in https://issues.apache.org/jira/browse/XMLBEANS-484 but
-                     it's drawn by org.apache.poi:poi-ooxml itself drawn by tika parsers and they need to release -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>org.apache.xmlbeans</groupId>
-                      <artifactId>xmlbeans</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>xml-apis</groupId>
-                      <artifactId>xml-apis</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>org.python</groupId>
-                      <artifactId>jython-standalone</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <classes>
-                    <class>org.w3c.dom.DOMConfiguration</class>
-                    <class>org.w3c.dom.DOMStringList</class>
-                    <class>org.w3c.dom.TypeInfo</class>
-                    <class>org.w3c.dom.UserDataHandler</class>
-                  </classes>
                 </exception>
                 <!-- None of these should bundle org.w3c classes but at least they seem compatible.
                      See https://issues.apache.org/bugzilla/show_bug.cgi?id=49897,
@@ -1157,10 +1104,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                       <groupId>xml-apis</groupId>
                       <artifactId>xml-apis</artifactId>
                     </dependency>
-                    <dependency>
-                      <groupId>org.python</groupId>
-                      <artifactId>jython-standalone</artifactId>
-                    </dependency>
                   </conflictingDependencies>
                   <classes>
                     <class>org.w3c.dom.ElementTraversal</class>
@@ -1172,24 +1115,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>org.w3c.dom.events.MouseEvent</class>
                     <class>org.w3c.dom.events.MutationEvent</class>
                     <class>org.w3c.dom.events.UIEvent</class>
-                  </classes>
-                </exception>
-                <!-- Jython should not bundle org.w3c classes but at least they seem compatible.
-                     See http://bugs.jython.org/issue2121.
-                 -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>org.python</groupId>
-                      <artifactId>jython-standalone</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>xerces</groupId>
-                      <artifactId>xercesImpl</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <classes>
-                    <class>org.w3c.dom.html.HTMLDOMImplementation</class>
                   </classes>
                 </exception>
                 <!-- This is a PITA. The classes are actually incompatible! We should do something about it but I

@@ -64,6 +64,7 @@ public class HTMLExportTest extends TestCase
         boolean foundAttachmentDirectory = false;
         boolean foundSkinsDirectory = false;
         boolean foundSkinCSS = false;
+        boolean foundWebjars = false;
 
         // We must read the full stream as otherwise if we close it before we've fully read it
         // then the server side will get a broken pipe since it's still trying to send data on it.
@@ -99,6 +100,9 @@ public class HTMLExportTest extends TestCase
                 } else {
                     IOUtils.readLines(zis);
                 }
+            } else if (entry.getName().equals("webjars") && entry.isDirectory()) {
+                // We verify here that webjars URLs have been properly exported
+                foundWebjars = true;
             } else {
                 IOUtils.readLines(zis);
             }
@@ -108,6 +112,7 @@ public class HTMLExportTest extends TestCase
         assertTrue("Failed to find the resources/ directory entry", foundResourcesDirectory);
         assertTrue("Failed to find the skins/ directory entry", foundSkinsDirectory);
         assertTrue("Failed to find the link to colibri.css in style.css", foundSkinCSS);
+        assertTrue("Failed to find webjar resources in the HTML export", foundWebjars);
 
         zis.close();
     }

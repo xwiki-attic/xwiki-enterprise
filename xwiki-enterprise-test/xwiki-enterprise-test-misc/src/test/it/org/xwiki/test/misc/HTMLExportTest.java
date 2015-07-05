@@ -61,7 +61,6 @@ public class HTMLExportTest extends TestCase
 
         boolean foundWebHome = false;
         boolean foundResourcesDirectory = false;
-        boolean foundAttachmentDirectory = false;
         boolean foundSkinsDirectory = false;
         boolean foundSkinCSS = false;
         boolean foundWebjars = false;

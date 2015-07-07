@@ -99,9 +99,10 @@ public class HTMLExportTest extends TestCase
                 } else {
                     IOUtils.readLines(zis);
                 }
-            } else if (entry.getName().equals("webjars") && entry.isDirectory()) {
+            } else if (entry.getName().startsWith("webjars")) {
                 // We verify here that webjars URLs have been properly exported
                 foundWebjars = true;
+                IOUtils.readLines(zis);
             } else {
                 IOUtils.readLines(zis);
             }

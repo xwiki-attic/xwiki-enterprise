@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.cluster;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -39,18 +42,20 @@ import org.xwiki.test.cluster.framework.AbstractClusterHttpTest;
  */
 public class DocumentCacheTest extends AbstractClusterHttpTest
 {
+    private final static List<String> TEST_SPACE = Arrays.asList("Test");
+    
     @Test
     public void testDocumentCacheSync() throws Exception
     {
         // 1) Edit a page on XWiki 0
         switchXWiki(0);
-        setPageContent(getWiki(), "Test", "CacheSync", "content");
-        Assert.assertEquals("content", getPageContent(getWiki(), "Test", "CacheSync"));
+        setPageContent(getWiki(), TEST_SPACE, "CacheSync", "content");
+        Assert.assertEquals("content", getPageContent(getWiki(), TEST_SPACE, "CacheSync"));
 
         // 2) Modify content of the page on XWiki 1
         switchXWiki(1);
-        setPageContent(getWiki(), "Test", "CacheSync", "modified content");
-        Assert.assertEquals("modified content", getPageContent(getWiki(), "Test", "CacheSync"));
+        setPageContent(getWiki(), TEST_SPACE, "CacheSync", "modified content");
+        Assert.assertEquals("modified content", getPageContent(getWiki(), TEST_SPACE, "CacheSync"));
 
         // ASSERT) The content in XWiki 0 should be the one set than in XWiki 1
         // Since it can take time for the Cluster to propagate the change, we need to wait and set up a timeout.
@@ -58,7 +63,7 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
         long t1 = System.currentTimeMillis();
         long t2;
         String result;
-        while (!(result = getPageContent(getWiki(), "Test", "CacheSync")).equalsIgnoreCase("modified content")) {
+        while (!(result = getPageContent(getWiki(), TEST_SPACE, "CacheSync")).equalsIgnoreCase("modified content")) {
             t2 = System.currentTimeMillis();
             if (t2 - t1 > 10000L) {
                 Assert.fail("Content should have been [modified content] but was [" + result + "]");
@@ -72,11 +77,11 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
     {
         // 1) Edit a page on XWiki 0
         switchXWiki(0);
-        setPageContent(getWiki(), "Test", "AttachementCacheSync", "content");
+        setPageContent(getWiki(), TEST_SPACE, "AttachementCacheSync", "content");
 
         // 2) Add attachment to the page on XWiki 1
         switchXWiki(1);
-        String attachmentUri = getUriBuilder(AttachmentResource.class).build(getWiki(), "Test",
+        String attachmentUri = buildURI(AttachmentResource.class, getWiki(), TEST_SPACE,
             "AttachementCacheSync", "file.ext").toString();
         PutMethod putMethod = executePut(attachmentUri, "content", MediaType.TEXT_PLAIN, "Admin", "admin");
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
@@ -84,7 +89,7 @@ public class DocumentCacheTest extends AbstractClusterHttpTest
         // ASSERT) The content in XWiki 0 should be the one set than in XWiki 1
         // Since it can take time for the Cluster to propagate the change, we need to wait and set up a timeout.
         switchXWiki(0);
-        String attachmentsUri = getUriBuilder(AttachmentsResource.class).build(getWiki(), "Test",
+        String attachmentsUri = buildURI(AttachmentsResource.class, getWiki(), TEST_SPACE,
             "AttachementCacheSync").toString();
 
         long t1 = System.currentTimeMillis();

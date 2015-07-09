@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.rest;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -40,7 +43,7 @@ import org.xwiki.test.ui.TestUtils;
 
 public class CommentsResourceTest extends AbstractHttpTest
 {
-    private final String SPACE_NAME = "Main";
+    private final List<String> SPACE_NAME = Arrays.asList("Main");
 
     private final String PAGE_NAME = "WebHome";
 
@@ -54,7 +57,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     @Test
     public void testPOSTComment() throws Exception
     {
-        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = buildURI(CommentsResource.class, getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -82,7 +85,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     @Test
     public void testPOSTCommentWithTextPlain() throws Exception
     {
-        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = buildURI(CommentsResource.class, getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -107,7 +110,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     @Test
     public void testGETComment() throws Exception
     {
-        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = buildURI(CommentsResource.class, getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -123,7 +126,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     public void testGETCommentsAtPreviousVersions() throws Exception
     {
         String pageHistoryUri =
-            getUriBuilder(PageHistoryResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+            buildURI(PageHistoryResource.class, getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(pageHistoryUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -146,7 +149,7 @@ public class CommentsResourceTest extends AbstractHttpTest
     @Test
     public void testPOSTCommentFormUrlEncoded() throws Exception
     {
-        String commentsUri = getUriBuilder(CommentsResource.class).build(getWiki(), SPACE_NAME, PAGE_NAME).toString();
+        String commentsUri = buildURI(CommentsResource.class, getWiki(), SPACE_NAME, PAGE_NAME).toString();
 
         GetMethod getMethod = executeGet(commentsUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());

@@ -21,7 +21,9 @@ package org.xwiki.test.rest.framework;
 
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -48,6 +50,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.restlet.data.MediaType;
+import org.xwiki.rest.internal.Utils;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
 import org.xwiki.rest.model.jaxb.Link;
@@ -379,31 +382,31 @@ public abstract class AbstractHttpTest
             }
         }
     }
-
-    protected UriBuilder getUriBuilder(Class<?> resource)
+    
+    protected String buildURI(Class<?> resource, Object... pathParameters) throws Exception
     {
-        return UriBuilder.fromUri(getBaseURL()).path(resource);
+        return Utils.createURI(new URI(getBaseURL()), resource, pathParameters).toString();
     }
 
-    private Page getPage(String wikiName, String spaceName, String pageName) throws Exception
+    private Page getPage(String wikiName, List<String> spaceName, String pageName) throws Exception
     {
-        String uri = getUriBuilder(PageResource.class).build(wikiName, spaceName, pageName).toString();
+        String uri = buildURI(PageResource.class, wikiName, spaceName, pageName).toString();
 
         GetMethod getMethod = executeGet(uri);
 
         return (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
     }
 
-    protected String getPageContent(String wikiName, String spaceName, String pageName) throws Exception
+    protected String getPageContent(String wikiName, List<String> spaceName, String pageName) throws Exception
     {
         Page page = getPage(wikiName, spaceName, pageName);
 
         return page.getContent();
     }
 
-    protected int setPageContent(String wikiName, String spaceName, String pageName, String content) throws Exception
+    protected int setPageContent(String wikiName, List<String> spaceName, String pageName, String content) throws Exception
     {
-        String uri = getUriBuilder(PageResource.class).build(wikiName, spaceName, pageName).toString();
+        String uri = buildURI(PageResource.class, wikiName, spaceName, pageName).toString();
 
         PutMethod putMethod =
             executePut(uri, content, javax.ws.rs.core.MediaType.TEXT_PLAIN, TestUtils.ADMIN_CREDENTIALS.getUserName(),
@@ -444,9 +447,9 @@ public abstract class AbstractHttpTest
         return sb.toString();
     }
 
-    protected void createPage(String spaceName, String pageName, String content) throws Exception
+    protected void createPage(List<String> spaces, String pageName, String content) throws Exception
     {
-        String uri = getUriBuilder(PageResource.class).build(getWiki(), spaceName, pageName).toString();
+        String uri = buildURI(PageResource.class, getWiki(), spaces, pageName);
 
         Page page = this.objectFactory.createPage();
         page.setContent(content);
@@ -457,14 +460,14 @@ public abstract class AbstractHttpTest
         Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
     }
 
-    protected boolean createPageIfDoesntExist(String spaceName, String pageName, String content) throws Exception
+    protected boolean createPageIfDoesntExist(List<String> spaces, String pageName, String content) throws Exception
     {
-        String uri = getUriBuilder(PageResource.class).build(getWiki(), spaceName, pageName).toString();
+        String uri = buildURI(PageResource.class, getWiki(), spaces, pageName);
 
         GetMethod getMethod = executeGet(uri);
 
         if (getMethod.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
-            createPage(spaceName, pageName, content);
+            createPage(spaces, pageName, content);
 
             getMethod = executeGet(uri);
             Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
@@ -473,6 +476,14 @@ public abstract class AbstractHttpTest
         }
 
         return false;
+    }
+    
+    protected List<String> getSpacesFromSpaceId(String spaceId)
+    {
+        // We have to create this method because Utils.getSpacesFromSpaceId() does not work because we do not have
+        // the component manager
+        // TODO: this method is not safe but is sufficient for the needs of the tests
+        return Arrays.asList(spaceId.split("\\."));
     }
 
     protected String getTestMethodName()

@@ -35,7 +35,7 @@ public class ClassesResourceTest extends AbstractHttpTest
     @Test
     public void testRepresentation() throws Exception
     {
-        GetMethod getMethod = executeGet(getUriBuilder(ClassesResource.class).build(getWiki()).toString());
+        GetMethod getMethod = executeGet(buildURI(ClassesResource.class, getWiki()).toString());
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Classes classes = (Classes) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());

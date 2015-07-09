@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.rest;
 
+import java.util.Arrays;
+
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.junit.Assert;
@@ -45,6 +47,9 @@ public class SpacesResourceTest extends AbstractHttpTest
     @Test
     public void testRepresentation() throws Exception
     {
+        // Create a subspace
+        createPageIfDoesntExist(Arrays.asList("SpaceA", "SpaceB", "SpaceC"), "MyPage", "some content");        
+        
         GetMethod getMethod = executeGet(getFullUri(WikisResource.class));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -61,12 +66,19 @@ public class SpacesResourceTest extends AbstractHttpTest
         Spaces spaces = (Spaces) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
 
         Assert.assertTrue(spaces.getSpaces().size() > 0);
-
+        
+        boolean nestedSpaceFound = false; 
+        
         for (Space space : spaces.getSpaces()) {
             link = getFirstLinkByRelation(space, Relations.SEARCH);
             Assert.assertNotNull(link);
 
             checkLinks(space);
+            
+            if ("xwiki:SpaceA.SpaceB.SpaceC".equals(space.getId())) {
+                Assert.assertEquals("SpaceC", space.getName());
+                nestedSpaceFound = true;
+            }
 
             /*
              * Check that in the returned spaces there are not spaces not visible to user Guest, for example the
@@ -74,15 +86,16 @@ public class SpacesResourceTest extends AbstractHttpTest
              */
             Assert.assertFalse(space.getName().equals("Scheduler"));
         }
-
+        
+        Assert.assertTrue(nestedSpaceFound);
     }
 
     @Test
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(String.format("%s?q=somethingthatcannotpossiblyexist", getUriBuilder(SpaceSearchResource.class)
-                .build(getWiki(), "Main")));
+            executeGet(String.format("%s?q=somethingthatcannotpossiblyexist", buildURI(SpaceSearchResource.class,
+                    getWiki(), Arrays.asList("Main"))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -90,8 +103,8 @@ public class SpacesResourceTest extends AbstractHttpTest
         Assert.assertEquals(0, searchResults.getSearchResults().size());
 
         getMethod =
-            executeGet(String.format("%s?q=sandbox", getUriBuilder(WikiSearchResource.class)
-                .build(getWiki(), "Sandbox")));
+            executeGet(String.format("%s?q=sandbox", buildURI(WikiSearchResource.class,
+                    getWiki(), Arrays.asList("Sandbox"))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -109,7 +122,8 @@ public class SpacesResourceTest extends AbstractHttpTest
     {
         // Matches Sandbox.WebHome@XWikLogo.png
         GetMethod getMethod =
-            executeGet(String.format("%s", getUriBuilder(SpaceAttachmentsResource.class).build(getWiki(), "Sandbox")));
+            executeGet(String.format("%s", buildURI(SpaceAttachmentsResource.class, getWiki(), 
+                    Arrays.asList("Sandbox"))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Attachments attachments = (Attachments) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());

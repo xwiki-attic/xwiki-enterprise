@@ -477,14 +477,6 @@ public abstract class AbstractHttpTest
 
         return false;
     }
-    
-    protected List<String> getSpacesFromSpaceId(String spaceId)
-    {
-        // We have to create this method because Utils.getSpacesFromSpaceId() does not work because we do not have
-        // the component manager
-        // TODO: this method is not safe but is sufficient for the needs of the tests
-        return Arrays.asList(spaceId.split("\\."));
-    }
 
     protected String getTestMethodName()
     {

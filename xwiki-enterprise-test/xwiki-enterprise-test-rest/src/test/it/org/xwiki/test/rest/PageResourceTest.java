@@ -350,10 +350,10 @@ public class PageResourceTest extends AbstractHttpTest
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         Page originalPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+        Assert.assertEquals("Main", originalPage.getSpace());
 
         String pageHistoryUri =
-            buildURI(PageHistoryResource.class, getWiki(), getSpacesFromSpaceId(originalPage.getSpace()),
-                originalPage.getName()).toString();
+            buildURI(PageHistoryResource.class, getWiki(), Arrays.asList("Main"), originalPage.getName()).toString();
 
         getMethod = executeGet(pageHistoryUri);
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());

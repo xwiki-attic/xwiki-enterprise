@@ -42,7 +42,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
  * Tests page creation using a Template Provider and a Template.
- * 
+ *
  * @version $Id$
  * @since 2.4M1
  */
@@ -117,7 +117,8 @@ public class CreatePageTest extends AbstractTest
         int availableTemplateSize = createPagePage.getAvailableTemplateSize();
         String templateInstanceName = TEMPLATE_NAME + "Instance";
         WYSIWYGEditPage templateInstanceEditWysiwyg =
-            createPagePage.createPageFromTemplate(getTestClassName(), templateInstanceName, templateProviderFullName);
+            createPagePage.createPageFromTemplate(getTestClassName(), templateInstanceName, templateProviderFullName,
+                true);
         templateInstanceEditWysiwyg.waitUntilPageIsLoaded();
         WikiEditPage templateInstanceEdit = templateInstanceEditWysiwyg.clickSaveAndView().editWiki();
 
@@ -140,7 +141,9 @@ public class CreatePageTest extends AbstractTest
 
         // Create a new page from template by going to a non-existing page
         // And make sure we're on a non-existing page
-        Assert.assertFalse(getUtil().gotoPage(getTestClassName(), TEMPLATE_NAME + "UnexistingInstance").exists());
+        getUtil().gotoPage(getTestClassName(), TEMPLATE_NAME + "UnexistingInstance", "view", "spaceRedirect=false");
+        vp = new ViewPage();
+        Assert.assertFalse(vp.exists());
         DocumentDoesNotExistPage unexistingPage = new DocumentDoesNotExistPage();
         unexistingPage.clickEditThisPageToCreate();
         CreatePagePage createUnexistingPage = new CreatePagePage();
@@ -163,7 +166,7 @@ public class CreatePageTest extends AbstractTest
         Assert.assertEquals(TEMPLATE_NAME + "UnexistingInstance", unexistingPageEdit.getTitle());
         Assert.assertEquals(templateContent, unexistingPageEdit.getContent());
         // test that this page has no parent
-        Assert.assertEquals("", unexistingPageEdit.getParent());
+        Assert.assertEquals("Main.WebHome", unexistingPageEdit.getParent());
 
         // create an empty page when there is a template available, make sure it's empty
         CreatePagePage createEmptyPage = CreatePagePage.gotoPage();
@@ -264,6 +267,7 @@ public class CreatePageTest extends AbstractTest
         CreatePagePage createPage = homePage.createPage();
         createPage.setSpace(space);
         createPage.setPage(existingPageName);
+        createPage.setTerminalPage(true);
         String currentURL = getDriver().getCurrentUrl();
         createPage.clickCreate();
         // make sure that we stay on the same page and that an error is displayed to the user. Maybe we should check the
@@ -278,6 +282,7 @@ public class CreatePageTest extends AbstractTest
         createPage.setSpace(space);
         createPage.setPage(existingPageName);
         createPage.setTemplate(space + "." + templateProviderName);
+        createPage.setTerminalPage(true);
         currentURL = getDriver().getCurrentUrl();
         createPage.clickCreate();
         // make sure that we stay on the same page and that an error is displayed to the user. Maybe we should check the
@@ -350,7 +355,9 @@ public class CreatePageTest extends AbstractTest
         // and now start testing!
 
         // 1/ create a page from the link in the page displayed when navigating to a non-existing page
-        Assert.assertFalse(getUtil().gotoPage(space, "NewUnexistingPage").exists());
+        getUtil().gotoPage(space, "NewUnexistingPage", "view", "spaceRedirect=false");
+        ViewPage newUnexistentPage = new ViewPage();
+        Assert.assertFalse(newUnexistentPage.exists());
         DocumentDoesNotExistPage nonExistingPage = new DocumentDoesNotExistPage();
         nonExistingPage.clickEditThisPageToCreate();
         // make sure we're not in create mode anymore
@@ -424,7 +431,7 @@ public class CreatePageTest extends AbstractTest
         // create the page
         CreatePagePage createPage = templatePage.createPage();
         WYSIWYGEditPage editCreatedPage =
-            createPage.createPageFromTemplate(space, newPageName, templateProviderFullName);
+            createPage.createPageFromTemplate(space, newPageName, templateProviderFullName, true);
         // ensure that we're indeed in edit mode
         Assert.assertTrue(getUtil().isInWYSIWYGEditMode());
         // wait for editor to load (so that content is loaded)

@@ -32,7 +32,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 /**
  * Test the Login feature.
- * 
+ *
  * @version $Id$
  * @since 2.3M1
  */
@@ -51,7 +51,8 @@ public class LoginTest extends AbstractTest
         // Go to any page in view mode. We choose to go to a nonexisting page so that it loads as fast as possible
         // Note: since the page doesn't exist, we need to disable the space redirect feature so that we end up on the
         // terminal page and not on WebHome in the space.
-        this.vp = getUtil().gotoPage("NonExistentSpace", "NonExistentPage", "view", "spaceRedirect=false");
+        getUtil().gotoPage("NonExistentSpace", "NonExistentPage", "view", "spaceRedirect=false");
+        this.vp = new ViewPage();
         this.nonExistentPageURL = getDriver().getCurrentUrl();
     }
 

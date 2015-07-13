@@ -31,8 +31,10 @@
   <name>XWiki Enterprise - UI - Wiki</name>
   <packaging>xar</packaging>
   <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise (sub)wiki.</description>
-    <properties>
+  <properties>
     <xwiki.extension.category>flavor</xwiki.extension.category>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>XWiki Enterprise Flavor - Sub Wiki</xwiki.extension.name>
   </properties>
   <dependencies>
     <dependency>

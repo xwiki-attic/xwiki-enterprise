@@ -40,6 +40,8 @@
         org.xwiki.manager:xwiki-manager-ui
     </xwiki.extension.features>
     <xwiki.extension.category>flavor</xwiki.extension.category>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>XWiki Enterprise Flavor - Main Wiki</xwiki.extension.name>
   </properties>
   <dependencies>
     <!-- This is important to have this module in the first position, if we want XWiki.Admin to be installed first -->

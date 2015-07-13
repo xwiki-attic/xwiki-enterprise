@@ -32,7 +32,7 @@ import org.xwiki.test.ui.po.editor.ObjectEditPage;
 
 /**
  * Test XClass editing.
- * 
+ *
  * @version $Id$
  * @since 2.4RC1
  */
@@ -54,7 +54,8 @@ public class EditClassTest extends AbstractTest
     {
         // We verify that we can click on Edit Class from View Page (we need to test this at
         // least once to ensure the UI works).
-        ClassEditPage cep = getUtil().gotoPage("Test", "EditObjectsTestClass").editClass();
+        getUtil().gotoPage("Test", "EditObjectsTestClass", "view", "spaceRedirect=false");
+        ClassEditPage cep = new ViewPage().editClass();
 
         // Create a class with a string property
         cep.addProperty("prop", "String");

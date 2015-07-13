@@ -32,7 +32,7 @@ import org.xwiki.test.ui.po.editor.WYSIWYGEditPage;
 
 /**
  * Validates the support for non-ASCII characters.
- * 
+ *
  * @version $Id$
  * @since 2.3M1
  */
@@ -81,7 +81,7 @@ public class InternationalizationTest extends AbstractTest
     public void testCreateNonAsciiPage()
     {
         CreatePagePage createPagePage = this.homePage.createPage();
-        WYSIWYGEditPage editPage = createPagePage.createPage("Main", "\u0219");
+        WYSIWYGEditPage editPage = createPagePage.createPage("Main", "\u0219", true);
 
         // Verify the title field
         Assert.assertEquals("\u0219", editPage.getDocumentTitle());

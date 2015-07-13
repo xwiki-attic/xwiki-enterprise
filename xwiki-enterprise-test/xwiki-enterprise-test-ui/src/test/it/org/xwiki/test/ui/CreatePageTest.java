@@ -339,10 +339,15 @@ public class CreatePageTest extends AbstractTest
             ViewPage templateViewPage = new ViewPage();
             templateViewPage.editInline();
             TemplateProviderInlinePage providerEditPage = new TemplateProviderInlinePage();
-            if (providerEditPage.isPageTemplate()) {
-                providerEditPage.excludeSpaces(spacesToExclude);
-                providerEditPage.clickSaveAndView();
+
+            // FIXME: Temporary until we remove the template provider type altogether and make all providers page
+            // template providers.
+            if (!providerEditPage.isPageTemplate()) {
+                providerEditPage.setPageTemplate(true);
             }
+
+            providerEditPage.excludeSpaces(spacesToExclude);
+            providerEditPage.clickSaveAndView();
 
             // go back to the admin page, to leave this in a valid state
             sectionPage = TemplatesAdministrationSectionPage.gotoPage();
@@ -377,6 +382,7 @@ public class CreatePageTest extends AbstractTest
         // fill in data and create the page
         createNewPage.setSpace(space);
         createNewPage.setPage("NewPage");
+        createNewPage.setTerminalPage(true);
         createNewPage.clickCreate();
         // we expect to go to the edit mode of the new page
         Assert.assertFalse(getUtil().isInCreateMode());

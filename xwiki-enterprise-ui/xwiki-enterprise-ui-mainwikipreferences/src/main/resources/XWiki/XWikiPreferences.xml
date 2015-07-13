@@ -1325,7 +1325,7 @@
       <groups>XWiki.XWikiAdminGroup</groups>
     </property>
     <property>
-      <levels>admin,edit,undelete,delete,programming,view,comment,register,createwiki</levels>
+      <levels>admin,edit,undelete,delete,programming,comment,register,createwiki,view,script</levels>
     </property>
     <property>
       <users/>
@@ -1408,7 +1408,7 @@
       <groups>XWiki.XWikiAllGroup,</groups>
     </property>
     <property>
-      <levels>view,edit,comment,undelete,register</levels>
+      <levels>edit,comment,undelete,register,view,script</levels>
     </property>
     <property>
       <users/>

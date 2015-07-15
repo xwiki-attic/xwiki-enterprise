@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.wysiwyg.framework;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 import org.openqa.selenium.By;
@@ -999,16 +1001,38 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
         getSelenium().runScript("window.scrollTo(0, 0)");
         getSelenium().click("//div[@id='tmCreate']//button[contains(@class, 'dropdown-toggle')]");
         clickLinkWithLocator("tmCreateSpace");
-        getSelenium().type("space", spaceName);
+        getSelenium().type("name", spaceName);
         clickLinkWithLocator("//input[@value='Create']");
         clickEditSaveAndView();
     }
 
     /**
+     * Begin creating a page in the specified space, with the specified name.
+     * <p>
+     * NOTE: We don't use the save action URL because it requires special characters in space and page name to be
+     * escaped. We use instead the create action URL.
+     * 
+     * @param spaceName the name of the space where to create the page
+     * @param pageName the name of the page to create
+     * @see #createPage(String, String, String)
+     */
+    public void startCreatePage(String spaceName, String pageName)
+    {
+        String queryString = "templateprovider=";
+        try {
+            queryString += "&space=" + URLEncoder.encode(spaceName, "UTF-8");
+            queryString += "&page=" + URLEncoder.encode(pageName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // Shouldn't happen.
+        }
+        getSelenium().open(this.getUrl("Main", "WebHome", "create", queryString));
+    }
+
+    /**
      * Creates a page in the specified space, with the specified name.
      * <p>
-     * NOTE: We overwrite the method from the base class because it creates the new page using the URL and thus requires
-     * special characters in space and page name to be escaped. We use instead the create page form.
+     * NOTE: We overwrite the method from the base class because it creates the new page using the save action URL which
+     * requires special characters in space and page name to be escaped. We use instead the create action URL.
      * 
      * @param spaceName the name of the space where to create the page
      * @param pageName the name of the page to create
@@ -1017,11 +1041,8 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
      */
     public void createPage(String spaceName, String pageName, String content)
     {
-        getSelenium().runScript("window.scrollTo(0, 0)");
-        getSelenium().click("//div[@id='tmCreate']//a[contains(@class, 'btn')]");
-        getSelenium().type("space", spaceName);
-        getSelenium().type("page", pageName);
-        clickLinkWithLocator("//input[@value='Create']");
+        startCreatePage(spaceName, pageName);
+
         String location = getSelenium().getLocation();
         if (location.endsWith("?xpage=docalreadyexists")) {
             open(location.substring(0, location.length() - 23));

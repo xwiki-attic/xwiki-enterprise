@@ -122,8 +122,7 @@ public class CacheTest extends AbstractWysiwygTestCase
     {
         // Make sure we can go back.
         clickEditCancelEdition();
-        // We expect the default editor to be the WYSIWYG.
-        clickLinkWithText("edit this page");
+        clickEditPageInWysiwyg();
         waitForEditorToLoad();
         // Write some text.
         typeText("123");

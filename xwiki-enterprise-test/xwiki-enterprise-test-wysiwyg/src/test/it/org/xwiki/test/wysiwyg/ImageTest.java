@@ -811,10 +811,10 @@ public class ImageTest extends AbstractWysiwygTestCase
     {
         // Note: The wiki selector is generated only in multiwiki mode, so for XE the first HTML select from the page
         // chooser panel is in fact the space selector.
-        waitForElement(SPACE_SELECTOR + "/option[@value = '" + space + "']");
+        waitForElement(SPACE_SELECTOR + "/option[. = '" + space + "']");
         getSelenium().select(SPACE_SELECTOR, space);
 
-        waitForElement(PAGE_SELECTOR + "/option[@value = '" + page + "']");
+        waitForElement(PAGE_SELECTOR + "/option[. = '" + page + "']");
         getSelenium().select(PAGE_SELECTOR, page);
 
         // If the list of spaces/pages is long then the space/page we want to select might not be visible when the drop
@@ -843,11 +843,11 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     private void assertImageSelected(String space, String page, String filename)
     {
-        getDriver().waitUntilElementIsVisible(By.xpath(SPACE_SELECTOR + "/option[@value = \"" + space + "\"]"));
-        assertEquals(space, getSelenium().getSelectedValue(SPACE_SELECTOR));
+        getDriver().waitUntilElementIsVisible(By.xpath(SPACE_SELECTOR + "/option[. = \"" + space + "\"]"));
+        assertEquals(space, getSelenium().getSelectedLabel(SPACE_SELECTOR));
 
-        getDriver().waitUntilElementIsVisible(By.xpath(PAGE_SELECTOR + "/option[@value = \"" + page + "\"]"));
-        assertEquals(page, getSelenium().getSelectedValue(PAGE_SELECTOR));
+        getDriver().waitUntilElementIsVisible(By.xpath(PAGE_SELECTOR + "/option[. = \"" + page + "\"]"));
+        assertEquals(page, getSelenium().getSelectedLabel(PAGE_SELECTOR));
 
         assertImageSelected(filename);
     }

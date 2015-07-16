@@ -217,14 +217,14 @@ public class ApplicationNameTest extends AbstractTest
 
         // Set an special character based application name.
         String appPrettyName = "my \\app^";
-        String dataSpace = appPrettyName;
+        String dataSpaceLocalReference = "my \\\\app^";
         String codeSpace = "myappCode";
         String className = "myappClass";
-        appCreatePage.setApplicationName(dataSpace);
+        appCreatePage.setApplicationName(appPrettyName);
         appCreatePage.waitForApplicationNamePreview();
         Assert.assertFalse(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
         // Data space
-        Assert.assertTrue(appCreatePage.getContent().contains(dataSpace));
+        Assert.assertTrue(appCreatePage.getContent().contains(appPrettyName));
         // Code space
         Assert.assertTrue(appCreatePage.getContent().contains(codeSpace));
         // Class name
@@ -239,12 +239,12 @@ public class ApplicationNameTest extends AbstractTest
         // Move to the next step (homepage edit).
         ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep();
         Assert.assertEquals(appPrettyName, homeEditPage.getDocumentTitle());
-        Assert.assertEquals(dataSpace, homeEditPage.getMetaDataValue("space"));
+        Assert.assertEquals(dataSpaceLocalReference, homeEditPage.getMetaDataValue("space"));
 
         // Move to the next step (homepage).
         ApplicationHomePage homePage = homeEditPage.clickFinish();
         Assert.assertEquals(appPrettyName, homePage.getDocumentTitle());
-        Assert.assertEquals(dataSpace, homePage.getMetaDataValue("space"));
+        Assert.assertEquals(dataSpaceLocalReference, homePage.getMetaDataValue("space"));
 
         // Edit the application's class.
         classEditPage = homePage.clickEditApplication();
@@ -252,7 +252,7 @@ public class ApplicationNameTest extends AbstractTest
 
         // Move to the next step and check if we landed in the correct data space.
         homeEditPage = classEditPage.clickNextStep();
-        Assert.assertEquals(dataSpace, homeEditPage.getMetaDataValue("space"));
+        Assert.assertEquals(dataSpaceLocalReference, homeEditPage.getMetaDataValue("space"));
 
         // Go to the App Within Minutes home page.
         AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();

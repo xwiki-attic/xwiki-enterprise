@@ -207,6 +207,7 @@
                     templates/rendercontent\.vm <!-- page must exist, otherwise empty -->
                     templates/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->
                     templates/textarea_wysiwyg\.vm <!-- probably need to set default editor to wysiwyg -->
+                    templates/getdocuments\.vm <!-- generates JSON and our Test currently only supports validating XML -->
                     skins/flamingo/leftpanels\.vm <!-- empty response if parameter "forceLeftPanels" is not set -->
                     skins/flamingo/rightpanels\.vm <!-- empty response if parameter "forceRightPanels" is not set -->
                     skins/flamingo/menus_wiki\.vm <!-- empty response if parameter "forceWikiMenu" is not set -->

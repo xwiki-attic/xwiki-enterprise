@@ -50,6 +50,8 @@ public class BreadcrumbsTest extends AbstractTest
     {
         // Delete the page to reset the rights on it (since the test below modifies them).
         getUtil().deletePage("BreadcrumbsTest", "testBreadcrumbs");
+        
+        getUtil().setHierarchyMode("parentchild");
 
         String parentPageName = getTestMethodName() + "ParentPage";
         String parentPageFullName = getTestClassName() + "." + parentPageName;
@@ -74,8 +76,11 @@ public class BreadcrumbsTest extends AbstractTest
 
         // Verify breadcrumbs are only displayed for pages for which you have the view right.
         vp = getUtil().gotoPage(getTestClassName(), getTestMethodName());
-        Assert.assertFalse(vp.hasBreadcrumbContent(PARENT_TITLE, false));
-        Assert.assertTrue(vp.hasBreadcrumbContent(CHILD_TITLE, true));
-        Assert.assertTrue(vp.hasBreadcrumbContent(parentPageFullName, false));
+        Assert.assertFalse(vp.hasBreadcrumbContent(PARENT_TITLE, false, true));
+        Assert.assertTrue(vp.hasBreadcrumbContent(CHILD_TITLE, true, true));
+        Assert.assertTrue(vp.hasBreadcrumbContent(parentPageFullName, false, false));
+
+        // set back the default mode
+        getUtil().setHierarchyMode("reference");
     }
 }

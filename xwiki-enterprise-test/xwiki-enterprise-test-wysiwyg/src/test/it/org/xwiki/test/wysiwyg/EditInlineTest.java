@@ -63,7 +63,7 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         assertTextPresent(propertyValue);
 
         // Edit the object in-line.
-        open(spaceName.toString(), pageName.toString(), "inline");
+        open(spaceName.toString(), pageName.toString(), "edit", "editor=inline");
         waitForEditorToLoad();
         assertEquals(propertyValue, getRichTextArea().getText());
 
@@ -117,7 +117,7 @@ public class EditInlineTest extends AbstractWysiwygTestCase
         assertTextPresent(propertyValue);
 
         // Create a new page from template.
-        open(spaceName, pageName, "inline", "template=" + templateName);
+        open(spaceName, pageName, "edit", "editor=inline&template=" + templateName);
         waitForEditorToLoad();
         assertEquals(propertyValue, getRichTextArea().getText());
     }

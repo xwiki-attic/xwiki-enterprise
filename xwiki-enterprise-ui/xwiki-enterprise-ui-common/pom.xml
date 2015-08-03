@@ -244,13 +244,13 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-flamingo-theme</artifactId>
+      <artifactId>xwiki-platform-flamingo-theme-ui</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-flamingo-bootswatchthemes</artifactId>
+      <artifactId>xwiki-platform-flamingo-theme-bootswatch</artifactId>
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>

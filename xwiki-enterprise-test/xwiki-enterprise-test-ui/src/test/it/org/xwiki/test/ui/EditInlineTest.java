@@ -30,7 +30,7 @@ import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Test Inline editing.
- * 
+ *
  * @version $Id$
  * @since 3.0M2
  */
@@ -71,9 +71,17 @@ public class EditInlineTest extends AbstractTest
     @Test
     public void testInlineEditCanChangeParent()
     {
-        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", "editor=inline&parent=Main.WebHome");
+        // Use the parentchild hierarchy mode to be able to assert the parent.
+        getUtil().setHierarchyMode("parentchild");
+
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", "editor=inline&parent=Main.SomeParent");
         ViewPage vp = new InlinePage().clickSaveAndView();
-        Assert.assertTrue(vp.hasBreadcrumbContent("Wiki Home", false));
+
+        // Check the new parent in the breadcrumbs.
+        Assert.assertTrue(vp.hasBreadcrumbContent("SomeParent", false));
+
+        // Restore the hierarchy mode.
+        getUtil().setHierarchyMode("reference");
     }
 
     /* See XWIKI-2389 */

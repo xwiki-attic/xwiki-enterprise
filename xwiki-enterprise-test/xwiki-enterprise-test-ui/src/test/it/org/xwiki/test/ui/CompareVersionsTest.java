@@ -26,7 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.tag.test.po.AddTagsPane;
@@ -60,6 +62,16 @@ public class CompareVersionsTest extends AbstractTest
      * The test page.
      */
     private ViewPage testPage;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception
+    {
+        // Since this test also verifies diffs when the parent/child relationship is modified, use this mode (which
+        // isn't the default) for testing purpose. Also note that in the "reference" mode there's no diff to display
+        // when the document is moved to a different parent since it means changing the identity of the document for
+        // now and thus changing it means getting a new document.
+        getUtil().setHierarchyMode("parentchild");
+    }
 
     @Before
     public void setUp() throws Exception
@@ -140,6 +152,13 @@ public class CompareVersionsTest extends AbstractTest
         commentsTab.editCommentByID(0, "first line\nline in between\nsecond line");
         commentsTab.replyToCommentByID(0, "this is a reply");
         commentsTab.deleteCommentByID(1);
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception
+    {
+        // Put back the default hierarchy mode
+        getUtil().setHierarchyMode("parentchild");
     }
 
     /**

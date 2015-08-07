@@ -37,7 +37,7 @@ import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Tests the first step of the App Within Minutes wizard.
- * 
+ *
  * @version $Id$
  * @since 3.4M1
  */
@@ -198,7 +198,7 @@ public class ApplicationNameTest extends AbstractTest
         Assert.assertTrue(appCreatePage.getContent().contains(APP_NAME_USED_WARNING_MESSAGE));
 
         // Proceed to the next step.
-        Assert.assertTrue(appCreatePage.clickNextStep().hasBreadcrumbContent("The Wiki Blog", false));
+        Assert.assertTrue(appCreatePage.clickNextStep().hasBreadcrumbContent("BlogCode", false));
     }
 
     /**

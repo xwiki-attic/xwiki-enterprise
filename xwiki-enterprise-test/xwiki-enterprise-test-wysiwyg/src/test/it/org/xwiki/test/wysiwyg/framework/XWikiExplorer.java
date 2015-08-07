@@ -20,8 +20,10 @@
 package org.xwiki.test.wysiwyg.framework;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.xwiki.test.ui.XWikiWebDriver;
 
@@ -132,6 +134,19 @@ public class XWikiExplorer
     }
 
     /**
+     * Toggles the selection of the specified page by clicking the label of the corresponding node while holding the
+     * Control key down.
+     * 
+     * @param spaceName the space name
+     * @param pageName the page name
+     * @return
+     */
+    public XWikiExplorer togglePageSelection(String spaceName, String pageName)
+    {
+        return toggleSelection(getDocumentNodeId(spaceName, pageName));
+    }
+
+    /**
      * Select the node that corresponds to the 'Upload file...' meta node of the specified page.
      * 
      * @param spaceName the space name
@@ -159,6 +174,14 @@ public class XWikiExplorer
     private XWikiExplorer select(String nodeId)
     {
         this.driver.findElementByXPath(getNodeLocator(nodeId) + "/a[@class = 'jstree-anchor']").click();
+        return this;
+    }
+
+    private XWikiExplorer toggleSelection(String nodeId)
+    {
+        WebElement node =
+            this.driver.findElementByXPath(getNodeLocator(nodeId) + "/a[contains(@class, 'jstree-anchor')]");
+        new Actions(this.driver).keyDown(Keys.CONTROL).click(node).keyUp(Keys.CONTROL).perform();
         return this;
     }
 
@@ -350,7 +373,7 @@ public class XWikiExplorer
 
     private String getNewDocumentNodeId(String spaceName)
     {
-        return "addDocument:space:xwiki:" + spaceName;
+        return String.format("addDocument:xwiki:%s.WebHome", spaceName);
     }
 
     private String getSpaceNodeId(String spaceName)

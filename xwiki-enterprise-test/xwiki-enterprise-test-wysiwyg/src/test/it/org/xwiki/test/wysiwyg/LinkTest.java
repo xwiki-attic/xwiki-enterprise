@@ -127,7 +127,6 @@ public class LinkTest extends AbstractWysiwygTestCase
     public void testCreateLinkToNewPage()
     {
         String linkLabel = "a";
-        String space = "Main";
         String newPageName = "AliceInWonderwiki";
         typeText(linkLabel);
         selectNodeContents("document.body.firstChild");
@@ -135,7 +134,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        explorer.waitForIt().findAndSelectSpace(space).selectNewPage(space);
+        explorer.waitForIt().findAndSelectPage("Wiki Home").selectNewPage("Main");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
@@ -146,7 +145,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + linkLabel + ">>doc:" + space + "." + newPageName + "]]");
+        assertSourceText("[[" + linkLabel + ">>doc:Main." + newPageName + "]]");
     }
 
     /**
@@ -1552,8 +1551,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepAggregatorAndAssertSelectedStep(ALL_PAGES_TAB);
         explorer.waitForPageSelected("Blog", "WebHome");
-        // Select a space so that no page is selected.
-        explorer.selectSpace("Blog");
+        // Clear the selection.
+        explorer.togglePageSelection("Blog", "WebHome");
         // At this point no page is selected.
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
@@ -1566,7 +1565,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         assertFieldErrorIsNotPresentInStep("xExplorerPanel");
         // Repeat the steps to get the validation error.
         // Select a space so that no page is selected.
-        explorer.selectSpace("Blog");
+        explorer.togglePageSelection("Blog", "WebHome");
         // At this point no page is selected.
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
@@ -1886,7 +1885,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xExplorerPanel");
         explorer.waitForPageSelected("Main", "WebHome");
 
-        explorer.openSpace("Blog").selectNewPage("Blog");
+        explorer.openPage("Blog", "WebHome").selectNewPage("Blog");
         clickButtonWithText(BUTTON_SELECT);
 
         waitForStepToLoad("xLinkToNewPage");

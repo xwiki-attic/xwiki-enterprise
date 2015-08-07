@@ -63,16 +63,6 @@ public class CompareVersionsTest extends AbstractTest
      */
     private ViewPage testPage;
 
-    @BeforeClass
-    public static void setUpClass() throws Exception
-    {
-        // Since this test also verifies diffs when the parent/child relationship is modified, use this mode (which
-        // isn't the default) for testing purpose. Also note that in the "reference" mode there's no diff to display
-        // when the document is moved to a different parent since it means changing the identity of the document for
-        // now and thus changing it means getting a new document.
-        getUtil().setHierarchyMode("parentchild");
-    }
-
     @Before
     public void setUp() throws Exception
     {
@@ -88,6 +78,13 @@ public class CompareVersionsTest extends AbstractTest
             // versions of the test page.
             return;
         }
+
+        // Since this test also verifies diffs when the parent/child relationship is modified, use this mode (which
+        // isn't the default) for testing purpose. Also note that in the "reference" mode there's no diff to display
+        // when the document is moved to a different parent since it means changing the identity of the document for
+        // now and thus changing it means getting a new document.
+        getUtil().setHierarchyMode("parentchild");
+        getDriver().navigate().refresh();
 
         // Create the test page.
         testPage = getUtil().createPage(getTestClassName(), pageName, "one\ntwo\nthree", "Test");
@@ -159,6 +156,7 @@ public class CompareVersionsTest extends AbstractTest
     {
         // Put back the default hierarchy mode
         getUtil().setHierarchyMode("parentchild");
+        getDriver().navigate().refresh();
     }
 
     /**

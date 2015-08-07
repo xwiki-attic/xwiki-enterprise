@@ -102,12 +102,32 @@ public class EditInlineTest extends AbstractTest
     @Test
     public void testInlineEditPreservesParent()
     {
+        // Use the parentchild hierarchy mode to be able to assert the parent.
+        getUtil().setHierarchyMode("parentchild");
+
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "parent=Blog.WebHome");
         ViewPage vp = new ViewPage();
         Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog", false));
+
         InlinePage ip = vp.editInline();
         ViewPage vp2 = ip.clickSaveAndView();
         Assert.assertTrue(vp2.hasBreadcrumbContent("The Wiki Blog", false));
+
+        // Now try the same in the default hierarchy mode, to make sure the default mode preserves the parent.
+        getUtil().setHierarchyMode("reference");
+
+        getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", "editor=inline");
+        InlinePage ip2 = new InlinePage();
+        ip2.clickSaveAndView();
+
+        // Switch again to the parentchild hierarchy mode to be able to assert the parent.
+        getUtil().setHierarchyMode("parentchild");
+
+        ViewPage vp3 = getUtil().gotoPage(getTestClassName(), getTestMethodName());
+        Assert.assertTrue(vp3.hasBreadcrumbContent("The Wiki Blog", false));
+
+        // Restore the hierarchy mode.
+        getUtil().setHierarchyMode("reference");
     }
 
     /* See XWIKI-2199 */

@@ -155,7 +155,7 @@ public class CompareVersionsTest extends AbstractTest
     public static void tearDownClass() throws Exception
     {
         // Put back the default hierarchy mode
-        getUtil().setHierarchyMode("parentchild");
+        getUtil().setHierarchyMode("reference");
         getDriver().navigate().refresh();
     }
 

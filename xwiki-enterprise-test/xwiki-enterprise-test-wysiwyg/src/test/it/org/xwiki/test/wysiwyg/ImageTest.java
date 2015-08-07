@@ -28,7 +28,7 @@ import com.thoughtworks.selenium.Selenium;
 /**
  * Tests the image insert and edit plugin. For the moment, it does not test the upload new image feature, since it needs
  * special selenium setup.
- * 
+ *
  * @version $Id$
  */
 public class ImageTest extends AbstractWysiwygTestCase
@@ -403,7 +403,7 @@ public class ImageTest extends AbstractWysiwygTestCase
 
     /**
      * Test that, upon editing an image which is the label of a link, the link is preserved.
-     * 
+     *
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3784
      */
     public void testEditImageWithLink()
@@ -626,7 +626,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         // We have to be on an existing space to be able to create a new space.
         open("Main", "WebHome");
         createSpace(spaceName);
-        assertTrue(copyPage("XWiki", "AdminSheet", spaceName, pageName));
+        assertTrue(copyPage("XWiki", "AdminSheet", escapedSpaceName, pageName));
 
         // Come back to the edited page.
         open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");

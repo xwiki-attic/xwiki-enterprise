@@ -20,6 +20,8 @@
 package org.xwiki.test.selenium.framework;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * Implementation of skin-related actions for the Flamingo skin.
@@ -33,18 +35,47 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     {
         super(test);
     }
+    
+    private void openDrawer()
+    {
+        WebElement drawer = getTest().getDriver().findElementById("tmDrawer");
+        if (!drawer.isDisplayed()) {
+            getTest().clickLinkWithXPath("//a[@id = 'tmDrawerActivator']");
+            getTest().getDriver().waitUntilElementIsVisible(By.id("tmDrawer"));
+        }
+    }
+    
+    private void closeDrawer()
+    {
+        WebElement drawer = getTest().getDriver().findElementById("tmDrawer");
+        if (drawer.isDisplayed()) {
+            getTest().clickLinkWithXPath("//a[@id = 'tmDrawerActivator']");
+            getTest().getDriver().waitUntilElementDisappears(By.id("tmDrawer"));
+        }
+    }
+
+    @Override
+    public boolean isAuthenticated()
+    {
+        return getTest().isElementPresent("//div[@id='xwikimainmenu']//li[contains(@class, 'navbar-avatar')]");
+    }
 
     @Override
     public boolean isAuthenticated(String username)
     {
         return getTest().isElementPresent(
-            "//li[@id = 'tmUser']/a[contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]");
+            "//div[@id='xwikimainmenu']//li[contains(@class, 'navbar-avatar')]"
+                + "//a[contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]");
     }
 
     @Override
     public boolean isAuthenticationMenuPresent()
     {
-        return getTest().isElementPresent("//a[@id = 'tmLogin']") || getTest().isElementPresent("//li[@id = 'tmUser']");
+        openDrawer();
+        boolean isAuthenticationMenuPresent = getTest().isElementPresent("//a[@id = 'tmLogin']")
+                    || getTest().isElementPresent("//a[@id = 'tmLogout']");
+        closeDrawer();
+        return isAuthenticationMenuPresent;
     }
 
     @Override
@@ -75,7 +106,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     public void logout()
     {
         Assert.assertTrue("User wasn't authenticated.", isAuthenticated());
-        getTest().clickLinkWithLocator("//li[@id = 'tmUser']/a[contains(@class, 'dropdown-split-right')]");
+        openDrawer();
         getTest().clickLinkWithLocator("//a[@id = 'tmLogout']");
         Assert.assertFalse("The user is still authenticated after a logout.", isAuthenticated());
     }
@@ -83,6 +114,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public void clickLogin()
     {
+        openDrawer();
         getTest().clickLinkWithLocator("//a[@id = 'tmLogin']");
         assertIsLoginPage();
     }
@@ -90,6 +122,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public void clickRegister()
     {
+        openDrawer();
         getTest().clickLinkWithLocator("//a[@id = 'tmRegister']");
         assertIsRegisterPage();
     }
@@ -98,15 +131,26 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     protected void clickEditMenuItem(String menuItemId)
     {
         // Click on the arrow in the edit button
-        getTest().clickLinkWithLocator("//div[@id = 'tmEdit']/button[contains(@class, 'dropdown-toggle')]");
+        getTest().clickLinkWithLocator("//div[@id = 'tmEdit']/a[contains(@role, 'button')]");
+        getTest().clickLinkWithLocator(menuItemId);
+    }
+
+    private void clickMoreActionsMenuItem(String menuItemId)
+    {
+        // Click on the arrow in the edit button
+        getTest().clickLinkWithLocator("//div[@id = 'tmMoreActions']/a[contains(@role, 'button')]");
         getTest().clickLinkWithLocator(menuItemId);
     }
 
     @Override
     public void clickCopyPage()
     {
-        // Click on the arrow near the page name on the top menu
-        getTest().clickLinkWithLocator("//li[@id = 'tmPage']/a[contains(@class, 'dropdown-split-right')]");
-        getTest().clickLinkWithLocator("tmActionCopy");
+        clickMoreActionsMenuItem("tmActionCopy");
+    }
+
+    @Override
+    public void clickEditPageAccessRights()
+    {
+        clickMoreActionsMenuItem("tmEditRights");
     }
 }

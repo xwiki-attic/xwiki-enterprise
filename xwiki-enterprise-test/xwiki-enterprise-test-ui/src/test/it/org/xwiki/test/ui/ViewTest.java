@@ -51,10 +51,9 @@ public class ViewTest extends AbstractTest
         // Create the page
         ViewPage vp = getUtil().createPage(getTestClassName(), pageName, "", pageName);
 
-        // Verify that the page we're on has the correct URL, name and link in the top level menu
+        // Verify that the page we're on has the correct URL and name
         String expectedURLPart = getTestClassName() + "/" + pageName.replaceAll(" ", "+");
         Assert.assertTrue(vp.getPageURL().contains(expectedURLPart));
         Assert.assertEquals(pageName, vp.getMetaDataValue("page"));
-        Assert.assertTrue(vp.getPageMenuLink().endsWith(expectedURLPart));
     }
 }

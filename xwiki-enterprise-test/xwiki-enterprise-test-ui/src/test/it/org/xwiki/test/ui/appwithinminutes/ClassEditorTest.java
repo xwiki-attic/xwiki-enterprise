@@ -181,7 +181,9 @@ public class ClassEditorTest extends AbstractClassEditorTest
         inlineEditor.setValue("number1", "27");
 
         // Save and edit again the class.
-        inlineEditor.clickSaveAndView().clickBreadcrumbLink(getTestMethodName() + " Class").edit();
+        inlineEditor.clickSaveAndView();
+        getUtil().gotoPage(getTestClassName(), getTestMethodName());
+        new ViewPage().edit();
 
         // Rename the class field.
         ClassFieldEditPane field = new ClassFieldEditPane("number1");

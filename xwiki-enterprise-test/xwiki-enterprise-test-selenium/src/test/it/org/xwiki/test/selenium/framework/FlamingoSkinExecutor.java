@@ -21,7 +21,6 @@ package org.xwiki.test.selenium.framework;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 /**
  * Implementation of skin-related actions for the Flamingo skin.
@@ -38,20 +37,15 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     
     private void openDrawer()
     {
-        WebElement drawer = getTest().getDriver().findElementById("tmDrawer");
-        if (!drawer.isDisplayed()) {
-            getTest().clickLinkWithXPath("//a[@id = 'tmDrawerActivator']");
-            getTest().getDriver().waitUntilElementIsVisible(By.id("tmDrawer"));
-        }
+        getTest().clickLinkWithLocator("tmDrawerActivator");
+        getTest().getDriver().waitUntilElementIsVisible(By.id("tmDrawer"));
     }
-    
+
     private void closeDrawer()
     {
-        WebElement drawer = getTest().getDriver().findElementById("tmDrawer");
-        if (drawer.isDisplayed()) {
-            getTest().clickLinkWithXPath("//a[@id = 'tmDrawerActivator']");
-            getTest().getDriver().waitUntilElementDisappears(By.id("tmDrawer"));
-        }
+        // Click outside the drawer to close it
+        getTest().clickLinkWithXPath("//div[@id = 'companylogo']/a[contains(@class, 'navbar-brand')]");
+        getTest().getDriver().waitUntilElementDisappears(By.id("tmDrawer"));
     }
 
     @Override

@@ -367,6 +367,12 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().clickLinkWithXPath("//img[@title='Signature']", false);
     }
 
+    @Override
+    public void clickAdministerWiki()
+    {
+        // Todo: unsupported skin
+    }
+
     public void assertWikiTextGeneratedByWysiwyg(String text)
     {
         clickEditPageInWikiSyntaxEditor();

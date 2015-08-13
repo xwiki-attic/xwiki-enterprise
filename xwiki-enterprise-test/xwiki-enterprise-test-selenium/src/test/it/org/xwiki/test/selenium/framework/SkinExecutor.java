@@ -304,6 +304,12 @@ public interface SkinExecutor
     void clickWikiSignatureButton();
 
     /**
+     * Clicks the link to the wiki administration.
+     * @since 7.2M3
+     */
+    void clickAdministerWiki();
+
+    /**
      * Verify that the WYSIWYG editor has generated the passed text when the page is viewed in the Wiki editor.
      * 
      * @param text the text to verify

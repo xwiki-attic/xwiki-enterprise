@@ -690,12 +690,4 @@ public class AdministrationTest extends AbstractXWikiTestCase
         }
         return copyPage(fromSpace, fromPage, toSpace, toPage);
     }
-
-    private void clickAdministerWiki()
-    {
-        // Open the wiki top menu.
-        getSelenium().click("//li[@id = 'tmMainWiki']/a[contains(@class, 'dropdown-split-right')]");
-        // Click the "Administer Wiki" link.
-        getSelenium().click("tmAdminWiki");
-    }
 }

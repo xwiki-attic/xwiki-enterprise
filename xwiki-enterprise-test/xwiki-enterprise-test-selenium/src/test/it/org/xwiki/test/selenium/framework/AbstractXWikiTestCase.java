@@ -1073,4 +1073,9 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     {
         assertTrue("[" + elementLocator + "] is not in view.", isElementInView(elementLocator));
     }
+
+    public void clickAdministerWiki()
+    {
+        getSkinExecutor().clickAdministerWiki();
+    }
 }

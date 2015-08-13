@@ -147,4 +147,12 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     {
         clickMoreActionsMenuItem("tmEditRights");
     }
+
+    @Override
+    public void clickAdministerWiki()
+    {
+        openDrawer();
+        // Click the "Administer Wiki" link.
+        getTest().getSelenium().click("tmAdminWiki");
+    }
 }

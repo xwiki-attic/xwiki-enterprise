@@ -128,8 +128,11 @@
     <!-- Default location for XWiki's Data directory -->
     <xwikiDataDir>data</xwikiDataDir>
 
-    <!-- Version of HSQLDB we want to use in our distribution and when using build tools -->
+    <!-- Version of JDBC connectors we want to use in our distribution and when using build tools -->
     <hsqldb.version>2.3.3</hsqldb.version>
+    <mysql.version>5.1.36</mysql.version>
+    <derby.version>10.11.1.1</derby.version>
+    <pgsql.version>9.4-1201-jdbc41</pgsql.version>
 
     <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.ui.wiki.all.features>
@@ -335,7 +338,7 @@
         <xwiki.db>mysql</xwiki.db>
         <xwiki.db.jdbc.groupId>mysql</xwiki.db.jdbc.groupId>
         <xwiki.db.jdbc.artifactId>mysql-connector-java</xwiki.db.jdbc.artifactId>
-        <xwiki.db.jdbc.version>5.1.21</xwiki.db.jdbc.version>
+        <xwiki.db.jdbc.version>${mysql.version}</xwiki.db.jdbc.version>
         <xwiki.db.connection.url>jdbc:mysql://localhost/xwiki?useServerPrepStmts=false&amp;amp;amp;useUnicode=true&amp;amp;amp;characterEncoding=UTF-8</xwiki.db.connection.url>
         <xwiki.db.connection.username>xwiki</xwiki.db.connection.username>
         <xwiki.db.connection.password>xwiki</xwiki.db.connection.password>
@@ -351,7 +354,7 @@
         <xwiki.db>pgsql</xwiki.db>
         <xwiki.db.jdbc.groupId>postgresql</xwiki.db.jdbc.groupId>
         <xwiki.db.jdbc.artifactId>postgresql</xwiki.db.jdbc.artifactId>
-        <xwiki.db.jdbc.version>8.3-603.jdbc3</xwiki.db.jdbc.version>
+        <xwiki.db.jdbc.version>${pgsql.version}</xwiki.db.jdbc.version>
         <xwiki.db.connection.url>jdbc:postgresql:xwiki</xwiki.db.connection.url>
         <xwiki.db.connection.username>xwiki</xwiki.db.connection.username>
         <xwiki.db.connection.password>xwiki</xwiki.db.connection.password>
@@ -368,7 +371,7 @@
         <xwiki.db>derby</xwiki.db>
         <xwiki.db.jdbc.groupId>org.apache.derby</xwiki.db.jdbc.groupId>
         <xwiki.db.jdbc.artifactId>derby</xwiki.db.jdbc.artifactId>
-        <xwiki.db.jdbc.version>10.2.2.0</xwiki.db.jdbc.version>
+        <xwiki.db.jdbc.version>${derby.version}</xwiki.db.jdbc.version>
         <xwiki.db.connection.url>jdbc:derby:database;create=true</xwiki.db.connection.url>
         <xwiki.db.connection.driver_class>org.apache.derby.jdbc.EmbeddedDriver</xwiki.db.connection.driver_class>
         <xwiki.db.dialect>org.hibernate.dialect.DerbyDialect</xwiki.db.dialect>

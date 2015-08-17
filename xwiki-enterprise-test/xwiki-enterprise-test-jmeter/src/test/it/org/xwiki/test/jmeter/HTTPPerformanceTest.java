@@ -123,13 +123,12 @@ public class HTTPPerformanceTest
         return httpSampler;
     }
 
-    public void execute(List<HTTPSampler> samplers) throws FileNotFoundException, Exception
+    public void execute(List<HTTPSampler> samplers)
     {
         execute(samplers, null, null);
     }
 
-    public void execute(List<HTTPSampler> samplers, String user, String password) throws FileNotFoundException,
-        Exception
+    public void execute(List<HTTPSampler> samplers, String user, String password)
     {
         // jmeter.properties
         JMeterUtils.loadJMeterProperties("target/jmeter/home/bin/saveservice.properties");
@@ -155,7 +154,7 @@ public class HTTPPerformanceTest
         LoopController loopCtrl = new LoopController();
         loopCtrl.setLoops(5);
         loopCtrl.setFirst(true);
-        threadGroup.setSamplerController((LoopController) loopCtrl);
+        threadGroup.setSamplerController(loopCtrl);
 
         HashTree threadGroupTree = new HashTree();
         threadGroupTree.add(samplers);

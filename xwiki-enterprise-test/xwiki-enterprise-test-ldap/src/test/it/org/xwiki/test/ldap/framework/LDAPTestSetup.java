@@ -181,6 +181,11 @@ public class LDAPTestSetup extends TestSetup
     public static final String OTHERUSERWITHPOINTS_UID = "user.withpoints";
 
     /**
+     * The LDAP DN of group HMS Bounty.
+     */
+    public static final String HMSBOUNTY_DN = "cn=HMS Bounty,ou=crews,ou=groups,o=sevenSeas";
+
+    /**
      * The LDAP DN of group HMS Lydia.
      */
     public static final String HMSLYDIA_DN = "cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas";
@@ -213,6 +218,11 @@ public class LDAPTestSetup extends TestSetup
      */
     public static final Set<String> TOPGROUP_MEMBERS = new HashSet<String>();
 
+    /**
+     * The LDAP members of group Top group when subgroups are not resolved.
+     */
+    public static final Set<String> TOPGROUP_MEMBERS_NORESOLVE = new HashSet<String>();
+
     static {
         TOPGROUP_MEMBERS.addAll(HMSLYDIA_MEMBERS);
 
@@ -224,6 +234,12 @@ public class LDAPTestSetup extends TestSetup
         TOPGROUP_MEMBERS.add("cn=Fletcher Christian,ou=people,o=sevenSeas".toLowerCase());
         TOPGROUP_MEMBERS.add("cn=John Fryer,ou=people,o=sevenSeas".toLowerCase());
         TOPGROUP_MEMBERS.add("cn=John Hallett,ou=people,o=sevenSeas".toLowerCase());
+
+        TOPGROUP_MEMBERS_NORESOLVE.add(HMSLYDIA_DN.toLowerCase());
+        TOPGROUP_MEMBERS_NORESOLVE.add(HMSBOUNTY_DN.toLowerCase());
+        TOPGROUP_MEMBERS_NORESOLVE.add("cn=Horatio Nelson,ou=people,o=sevenSeas".toLowerCase());
+        TOPGROUP_MEMBERS_NORESOLVE.add("cn=Thomas Masterman Hardy,ou=people,o=sevenSeas".toLowerCase());
+        TOPGROUP_MEMBERS_NORESOLVE.add("cn=Cornelius Buckley,ou=people,o=sevenSeas".toLowerCase());
     }
 
     // ///

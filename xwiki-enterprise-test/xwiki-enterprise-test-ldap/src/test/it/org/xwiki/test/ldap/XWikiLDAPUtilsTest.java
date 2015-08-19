@@ -102,6 +102,8 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 
         this.connection.open("localhost", port, LDAPTestSetup.HORATIOHORNBLOWER_DN,
             LDAPTestSetup.HORATIOHORNBLOWER_PWD, null, false, getContext());
+
+        this.ldapUtils.resetGroupCache();
     }
 
     @Override
@@ -176,9 +178,13 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 
         assertEquals(LDAPTestSetup.HMSLYDIA_MEMBERS, hmslydiamembers.keySet());
 
+        this.ldapUtils.resetGroupCache();
+
         hmslydiamembers = this.ldapUtils.getGroupMembers("cn=HMS Lydia", getContext());
 
         assertFalse("No member was found", hmslydiamembers.isEmpty());
+
+        this.ldapUtils.resetGroupCache();
 
         hmslydiamembers = this.ldapUtils.getGroupMembers("(cn=HMS Lydia)", getContext());
 
@@ -194,7 +200,48 @@ public class XWikiLDAPUtilsTest extends AbstractLDAPTestCase
 
         assertEquals(LDAPTestSetup.TOPGROUP_MEMBERS, topGroupMembers.keySet());
 
+        this.ldapUtils.resetGroupCache();
+
+        topGroupMembers = this.ldapUtils.getGroupMembers("Top group", getContext());
+
+        assertFalse("No member was found", topGroupMembers.isEmpty());
+
+        assertEquals(LDAPTestSetup.TOPGROUP_MEMBERS, topGroupMembers.keySet());
+
+        this.ldapUtils.resetGroupCache();
+
+        topGroupMembers = this.ldapUtils.getGroupMembers("(cn=Top group)", getContext());
+
+        assertFalse("No member was found", topGroupMembers.isEmpty());
+
+        assertEquals(LDAPTestSetup.TOPGROUP_MEMBERS, topGroupMembers.keySet());
+
+        // Top group with disabled subgroups
+
+        this.ldapUtils.setResolveSubgroups(false);
+        this.ldapUtils.resetGroupCache();
+
+        Map<String, String> topGroupMembersNoResolve = this.ldapUtils.getGroupMembers(LDAPTestSetup.TOPGROUP_DN, getContext());
+
+        assertFalse("No member was found", topGroupMembersNoResolve.isEmpty());
+
+        assertEquals(LDAPTestSetup.TOPGROUP_MEMBERS_NORESOLVE, topGroupMembersNoResolve.keySet());
+
+        topGroupMembersNoResolve = this.ldapUtils.getGroupMembers("Top group", getContext());
+
+        assertFalse("No member was found", topGroupMembersNoResolve.isEmpty());
+
+        assertEquals(LDAPTestSetup.TOPGROUP_MEMBERS_NORESOLVE, topGroupMembersNoResolve.keySet());
+
+        topGroupMembersNoResolve = this.ldapUtils.getGroupMembers("(cn=Top group)", getContext());
+
+        assertFalse("No member was found", topGroupMembersNoResolve.isEmpty());
+
+        assertEquals(LDAPTestSetup.TOPGROUP_MEMBERS_NORESOLVE, topGroupMembersNoResolve.keySet());
+
         // Wrong group
+
+        this.ldapUtils.resetGroupCache();
 
         Map<String, String> wrongGroupMembers =
             this.ldapUtils.getGroupMembers("cn=wronggroupdn,ou=people,o=sevenSeas", getContext());

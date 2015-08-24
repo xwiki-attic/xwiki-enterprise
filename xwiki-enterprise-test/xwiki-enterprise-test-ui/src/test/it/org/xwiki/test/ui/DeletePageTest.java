@@ -100,7 +100,7 @@ public class DeletePageTest extends AbstractTest
     {
         HomePage homePage = new HomePage();
         getUtil().gotoPage(SPACE_VALUE, PAGE_VALUE, DELETE_ACTION, "xredirect=" + homePage.getURL());
-        WebElement yesButton = getDriver().findElement(By.xpath("//input[@value='Yes']"));
+        WebElement yesButton = getDriver().findElement(By.xpath("//button[contains(text(), 'Yes')]"));
         yesButton.click();
         Assert.assertTrue(homePage.isOnHomePage());
     }

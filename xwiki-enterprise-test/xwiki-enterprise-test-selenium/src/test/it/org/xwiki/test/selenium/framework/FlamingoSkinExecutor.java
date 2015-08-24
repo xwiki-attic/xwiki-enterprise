@@ -145,7 +145,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public void clickEditPageAccessRights()
     {
-        clickMoreActionsMenuItem("tmEditRights");
+        clickEditMenuItem("tmEditRights");
     }
 
     @Override

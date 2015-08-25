@@ -19,16 +19,16 @@
  */
 package org.xwiki.test.ui;
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.ui.po.AttachmentsPane;
-import org.xwiki.test.ui.po.DeletePageOutcomePage;
+import org.xwiki.test.ui.po.DeletingPage;
 import org.xwiki.test.ui.po.HistoryPane;
 import org.xwiki.test.ui.po.ViewPage;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Functional tests for restoring a deleted document from recycle bin.
@@ -58,9 +58,11 @@ public class RestoreDeletedPageTest extends AbstractTest
 
         // Delete the page.
         page.delete().clickYes();
+        DeletingPage deletingPage = new DeletingPage();
+        deletingPage.waitUntilIsTerminated();
 
         // Restore the page.
-        page = new DeletePageOutcomePage().clickRestore();
+        page = deletingPage.getDeletePageOutcomePage().clickRestore();
 
         // Check the page title and content.
         assertEquals("A story", page.getDocumentTitle());

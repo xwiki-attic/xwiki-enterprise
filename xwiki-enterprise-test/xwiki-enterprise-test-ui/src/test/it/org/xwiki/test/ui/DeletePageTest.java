@@ -20,7 +20,6 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,6 +29,7 @@ import org.xwiki.test.po.xe.HomePage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ConfirmationPage;
 import org.xwiki.test.ui.po.DeletePageOutcomePage;
+import org.xwiki.test.ui.po.DeletingPage;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -74,7 +74,9 @@ public class DeletePageTest extends AbstractTest
         Assert.assertNotNull("The interface should not show the user as logged out while deleting page",
             confirmationPage.getCurrentUser());
         confirmationPage.clickYes();
-        DeletePageOutcomePage deleteOutcome = new DeletePageOutcomePage();
+        DeletingPage deletingPage = new DeletingPage();
+        deletingPage.waitUntilIsTerminated();
+        DeletePageOutcomePage deleteOutcome = deletingPage.getDeletePageOutcomePage();
         Assert.assertEquals(LOGGED_USERNAME, deleteOutcome.getPageDeleter());
         Assert.assertEquals(CONFIRMATION, deleteOutcome.getMessage());
     }

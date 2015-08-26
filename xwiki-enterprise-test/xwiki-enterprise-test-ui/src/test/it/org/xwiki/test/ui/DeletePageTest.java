@@ -48,6 +48,8 @@ public class DeletePageTest extends AbstractTest
     private static final String LOGGED_USERNAME = "Administrator";
 
     private static final String CONFIRMATION = "The document has been deleted.";
+    
+    private static final String DOCUMENT_NOT_FOUND = "The requested document could not be found.";
 
     private static final String DELETE_ACTION = "delete";
 
@@ -76,9 +78,12 @@ public class DeletePageTest extends AbstractTest
         confirmationPage.clickYes();
         DeletingPage deletingPage = new DeletingPage();
         deletingPage.waitUntilIsTerminated();
+        Assert.assertTrue(deletingPage.isTerminated());
+        Assert.assertTrue(deletingPage.isSuccess());
+        Assert.assertEquals(CONFIRMATION, deletingPage.getSuccessMessage());
         DeletePageOutcomePage deleteOutcome = deletingPage.getDeletePageOutcomePage();
         Assert.assertEquals(LOGGED_USERNAME, deleteOutcome.getPageDeleter());
-        Assert.assertEquals(CONFIRMATION, deleteOutcome.getMessage());
+        Assert.assertEquals(DOCUMENT_NOT_FOUND, deleteOutcome.getMessage());
     }
 
     /**

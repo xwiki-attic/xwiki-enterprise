@@ -20,7 +20,6 @@
 package org.xwiki.test.selenium.framework;
 
 import org.junit.Assert;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -430,7 +429,9 @@ public class AlbatrossSkinExecutor implements SkinExecutor
     @Override
     public boolean copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
     {
-        getTest().open(spaceName, pageName);
+        // Open the page in Wiki edit mode because it's faster and because we want to make sure the page actions are
+        // available (e.g. they may not be available in the administration mode).
+        getTest().editInWikiEditor(spaceName, pageName);
         clickCopyPage();
         getTest().getSelenium().type("targetSpaceName", targetSpaceName);
         getTest().getSelenium().type("targetPageName", targetPageName);

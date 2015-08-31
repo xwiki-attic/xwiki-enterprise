@@ -623,9 +623,6 @@ public class ImageTest extends AbstractWysiwygTestCase
         String pageName = getName() + ":a.b@c";
         String escapedPageName = pageName.replace(".", "\\.");
         String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
-        // We have to be on an existing space to be able to create a new space.
-        open("Main", "WebHome");
-        createSpace(spaceName);
         assertTrue(copyPage("XWiki", "AdminSheet", escapedSpaceName, pageName));
 
         // Come back to the edited page.

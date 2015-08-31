@@ -95,7 +95,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         clickEditSaveAndView();
         openGroupsPage();
         clickLinkWithText("Add new group", false);
-        waitForLightbox("Create new group");
+        waitForLightbox("Create new group".toUpperCase());
         setFieldValue("newgroupi", "testCreateGroupWhenGroupAlreadyExists");
         getSelenium().click("//input[@value='Create group']");
         // We need to wait till the alert appears since when the user clicks on the "Create Group" button there's

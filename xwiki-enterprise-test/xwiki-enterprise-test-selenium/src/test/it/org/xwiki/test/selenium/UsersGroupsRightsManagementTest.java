@@ -27,7 +27,7 @@ import junit.framework.Test;
 
 /**
  * Verify the Users, Groups and Rights Management features of XWiki.
- * 
+ *
  * @version $Id$
  */
 public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
@@ -270,7 +270,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     {
         openGroupsPage();
         clickLinkWithText("Add new group", false);
-        waitForLightbox("Create new group");
+        waitForLightbox("Create new group".toUpperCase());
         setFieldValue("newgroupi", groupname);
         clickLinkWithXPath("//input[@value='Create group']", true);
         waitForTextContains("id=groupstable", groupname);

@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.ui;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,6 +29,7 @@ import org.xwiki.test.ui.po.AttachmentsPane;
 import org.xwiki.test.ui.po.CopyConfirmationPage;
 import org.xwiki.test.ui.po.CopyOverwritePromptPage;
 import org.xwiki.test.ui.po.CopyPage;
+import org.xwiki.test.ui.po.DocumentPicker;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -48,7 +51,8 @@ public class CopyPageTest extends AbstractTest
 
     private static final String OVERWRITE_PROMPT1 = "Warning: The document ";
 
-    private static final String OVERWRITE_PROMPT2 = " already exists. Are you sure you want to overwrite it (all its content would be lost)?";
+    private static final String OVERWRITE_PROMPT2 =
+        " already exists. Are you sure you want to overwrite it (all its content would be lost)?";
 
     @Test
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
@@ -64,8 +68,7 @@ public class CopyPageTest extends AbstractTest
         getUtil().deletePage(targetSpaceName, targetPageName);
 
         // Create a new page that will be copied.
-        ViewPage viewPage =
-            getUtil().createPage(sourceSpaceName, sourcePageName, PAGE_CONTENT, sourcePageName);
+        ViewPage viewPage = getUtil().createPage(sourceSpaceName, sourcePageName, PAGE_CONTENT, sourcePageName);
 
         // Add an attachment to verify that it's version is not incremented in the target document (XWIKI-8157).
         // FIXME: Remove the following wait when XWIKI-6688 is fixed.
@@ -78,15 +81,26 @@ public class CopyPageTest extends AbstractTest
         // Click on Copy from the Page top menu.
         CopyPage copyPage = viewPage.copy();
 
-        // Check form content
+        // Check the source document
+        Assert.assertEquals(Arrays.asList("", sourceSpaceName, sourcePageName), copyPage.getSourceLocation().getPath());
         Assert.assertEquals(sourceSpaceName, copyPage.getSourceSpaceName());
         Assert.assertEquals(sourcePageName, copyPage.getSourcePageName());
+
+        // Check the default target document.
+        DocumentPicker documentPicker = copyPage.getDocumentPicker();
+        Assert.assertEquals(sourcePageName, documentPicker.getTitle());
+        Assert.assertEquals(Arrays.asList("", sourceSpaceName, sourcePageName), documentPicker.getLocation().getPath());
         Assert.assertEquals(sourceSpaceName, copyPage.getTargetSpaceName());
         Assert.assertEquals(sourcePageName, copyPage.getTargetPageName());
 
         // Fill the target destination the page to be copied to.
-        copyPage.setTargetSpaceName(targetSpaceName);
-        copyPage.setTargetPageName(targetPageName);
+        documentPicker.setTitle(targetPageName);
+        // The target page name is updated based on the entered title.
+        Assert.assertEquals(targetPageName, copyPage.getTargetPageName());
+        Assert.assertEquals(Arrays.asList("", sourceSpaceName, targetPageName), documentPicker.getLocation().getPath());
+        // Select a new parent document.
+        documentPicker.toggleLocationAdvancedEdit().setParent(targetSpaceName);
+        Assert.assertEquals(Arrays.asList("", targetSpaceName, targetPageName), documentPicker.getLocation().getPath());
 
         // Click copy button
         CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
@@ -95,6 +109,7 @@ public class CopyPageTest extends AbstractTest
         Assert.assertTrue(copyConfirmationPage.getInfoMessage().contains(COPY_SUCCESSFUL));
         viewPage = copyConfirmationPage.goToNewPage();
 
+        Assert.assertEquals(Arrays.asList("", targetSpaceName, targetPageName), viewPage.getBreadcrumb().getPath());
         // Verify that the copied title is modified to be the new page name since it was set to be the page name
         // originally.
         Assert.assertEquals(targetPageName, viewPage.getDocumentTitle());
@@ -124,21 +139,23 @@ public class CopyPageTest extends AbstractTest
         getUtil().createPage(targetSpaceName, targetPageName, OVERWRITTEN_PAGE_CONTENT, targetPageName);
 
         // Create a new page that will be copied.
-        ViewPage viewPage =
-            getUtil().createPage(sourceSpaceName, sourcePageName, PAGE_CONTENT, sourcePageName);
+        ViewPage viewPage = getUtil().createPage(sourceSpaceName, sourcePageName, PAGE_CONTENT, sourcePageName);
 
         // Click on Copy from the Page top menu.
         CopyPage copyPage = viewPage.copy();
 
         // Fill the target destination the page to be copied to.
-        copyPage.setTargetSpaceName(targetSpaceName);
-        copyPage.setTargetPageName(targetPageName);
+        DocumentPicker documentPicker = copyPage.getDocumentPicker();
+        documentPicker.setTitle(targetPageName);
+        documentPicker.selectDocument(targetSpaceName, "WebHome");
+        Assert.assertEquals(targetSpaceName, copyPage.getTargetSpaceName());
+        Assert.assertEquals(Arrays.asList("", targetSpaceName, targetPageName), documentPicker.getLocation().getPath());
 
         // Click copy button
         CopyOverwritePromptPage copyOverwritePrompt = copyPage.clickCopyButtonExpectingOverwritePrompt();
 
         // Check overwrite warning
-        Assert.assertEquals(OVERWRITE_PROMPT1 +  targetSpaceName + '.' + targetPageName + OVERWRITE_PROMPT2,
+        Assert.assertEquals(OVERWRITE_PROMPT1 + targetSpaceName + '.' + targetPageName + OVERWRITE_PROMPT2,
             copyOverwritePrompt.getWarningMessage());
 
         // Cancel the copy
@@ -151,8 +168,7 @@ public class CopyPageTest extends AbstractTest
         copyPage = viewPage.copy();
 
         // Fill the target destination the page to be copied to.
-        copyPage.setTargetSpaceName(targetSpaceName);
-        copyPage.setTargetPageName(targetPageName);
+        copyPage.getDocumentPicker().toggleLocationAdvancedEdit().setParent(targetSpaceName).setName(targetPageName);
 
         // Click copy button
         copyOverwritePrompt = copyPage.clickCopyButtonExpectingOverwritePrompt();
@@ -160,15 +176,20 @@ public class CopyPageTest extends AbstractTest
         // Click change target
         copyPage = copyOverwritePrompt.clickChangeTargetButton();
 
-        // Check form content
+        // Check the source document
+        Assert.assertEquals(Arrays.asList("", sourceSpaceName, sourcePageName), copyPage.getSourceLocation().getPath());
         Assert.assertEquals(sourceSpaceName, copyPage.getSourceSpaceName());
         Assert.assertEquals(sourcePageName, copyPage.getSourcePageName());
+
+        // Check the default target document.
+        documentPicker = copyPage.getDocumentPicker();
+        Assert.assertEquals(sourcePageName, documentPicker.getTitle());
+        Assert.assertEquals(Arrays.asList("", sourceSpaceName, sourcePageName), documentPicker.getLocation().getPath());
         Assert.assertEquals(sourceSpaceName, copyPage.getTargetSpaceName());
         Assert.assertEquals(sourcePageName, copyPage.getTargetPageName());
 
         // Fill the target destination the page to be copied to.
-        copyPage.setTargetSpaceName(targetSpaceName);
-        copyPage.setTargetPageName(targetPageName);
+        documentPicker.toggleLocationAdvancedEdit().setParent(targetSpaceName).setName(targetPageName);
 
         // Copy and confirm overwrite
         copyOverwritePrompt = copyPage.clickCopyButtonExpectingOverwritePrompt();

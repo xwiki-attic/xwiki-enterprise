@@ -24,12 +24,12 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.xwiki.index.test.po.CopyPage;
+import org.xwiki.index.test.po.DocumentPicker;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.AttachmentsPane;
 import org.xwiki.test.ui.po.CopyConfirmationPage;
 import org.xwiki.test.ui.po.CopyOverwritePromptPage;
-import org.xwiki.test.ui.po.CopyPage;
-import org.xwiki.test.ui.po.DocumentPicker;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -79,7 +79,8 @@ public class CopyPageTest extends AbstractTest
         Assert.assertEquals("1.1", attachmentsPane.getLatestVersionOfAttachment("image.gif"));
 
         // Click on Copy from the Page top menu.
-        CopyPage copyPage = viewPage.copy();
+        viewPage.copy();
+        CopyPage copyPage = new CopyPage();
 
         // Check the source document
         Assert.assertEquals(Arrays.asList("", sourceSpaceName, sourcePageName), copyPage.getSourceLocation().getPath());
@@ -142,7 +143,8 @@ public class CopyPageTest extends AbstractTest
         ViewPage viewPage = getUtil().createPage(sourceSpaceName, sourcePageName, PAGE_CONTENT, sourcePageName);
 
         // Click on Copy from the Page top menu.
-        CopyPage copyPage = viewPage.copy();
+        viewPage.copy();
+        CopyPage copyPage = new CopyPage();
 
         // Fill the target destination the page to be copied to.
         DocumentPicker documentPicker = copyPage.getDocumentPicker();
@@ -165,7 +167,8 @@ public class CopyPageTest extends AbstractTest
         Assert.assertEquals(sourcePageName, viewPage.getDocumentTitle());
 
         // Click on Copy from the Page top menu.
-        copyPage = viewPage.copy();
+        viewPage.copy();
+        copyPage = new CopyPage();
 
         // Fill the target destination the page to be copied to.
         copyPage.getDocumentPicker().toggleLocationAdvancedEdit().setParent(targetSpaceName).setName(targetPageName);
@@ -174,7 +177,8 @@ public class CopyPageTest extends AbstractTest
         copyOverwritePrompt = copyPage.clickCopyButtonExpectingOverwritePrompt();
 
         // Click change target
-        copyPage = copyOverwritePrompt.clickChangeTargetButton();
+        copyOverwritePrompt.clickChangeTargetButton();
+        copyPage = new CopyPage();
 
         // Check the source document
         Assert.assertEquals(Arrays.asList("", sourceSpaceName, sourcePageName), copyPage.getSourceLocation().getPath());

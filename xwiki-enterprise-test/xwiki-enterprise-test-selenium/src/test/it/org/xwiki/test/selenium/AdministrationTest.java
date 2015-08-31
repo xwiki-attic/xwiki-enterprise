@@ -66,7 +66,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
     public void testSettingXWikiPreferences()
     {
         clickAdministerWiki();
-        getSelenium().select("goto-select", "label=Wiki Administration");
         clickLinkWithXPath("//a[text()='Localization']", true);
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");
         clickLinkWithXPath("//input[@value='Save']", true);

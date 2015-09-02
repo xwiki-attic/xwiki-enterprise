@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
+import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
@@ -72,11 +73,19 @@ public class KeyboardShortcutsTest extends AbstractTest
         vp.waitUntilPageIsLoaded();
         Assert.assertTrue(util.isInInlineEditMode());
 
-        // Test Rights edit mode key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        // Test Rights edit mode key on a terminal document
+        vp = this.util.gotoPage("Sandbox", "TestPage1");
         vp.sendKeys("r");
         vp.waitUntilPageIsLoaded();
         Assert.assertTrue(util.isInRightsEditMode());
+
+        // Test Rights edit mode key on a non terminal document
+        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp.sendKeys("r");
+        vp.waitUntilPageIsLoaded();
+        Assert.assertTrue(util.isInAdminMode());
+        AdministrationPage administrationPage = new AdministrationPage();
+        Assert.assertTrue(administrationPage.hasSection("PageRights"));
 
         // Test Object edit mode key
         vp = this.util.gotoPage("Sandbox", "WebHome");

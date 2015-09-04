@@ -40,14 +40,20 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content>{{velocity}}
-#if ($hasEdit)
-  #set ($discard = $xwiki.jsx.use('WelcomeSheet'))
-  #set ($discard = $xwiki.ssx.use('WelcomeSheet'))
-  [[$services.icon.render('pencil')&gt;&gt;path:$xwiki.getURL('Main.Welcome', 'edit')||title="$services.localization.render('xe.welcome.edit')" class='welcome-edit btn btn-default btn-xs']]##
-#end
-{{/velocity}}
+#set ($sheetDocumentFullName = 'Main.WelcomeSheet')
+#if ($doc.fullName != $sheetDocumentFullName)
+  #if ($hasEdit)
+    #set ($discard = $xwiki.jsx.use($sheetDocumentFullName))
+    #set ($discard = $xwiki.ssx.use($sheetDocumentFullName))
+    [[$services.icon.render('pencil')&gt;&gt;path:$doc.getURL('edit')||title="$services.localization.render('xe.welcome.edit')" class='welcome-edit btn btn-default btn-xs']]##
+  #end
 
-{{include reference="Main.Welcome" /}}</content>
+
+  ## Display the content of the document for which we apply the sheet, but make sure to use the 'content' displayer and not the default to avoid an infinite loop.
+  {{html}}$services.display.content($doc, {'displayerHint' : 'content'}){{/html}}
+
+#end
+{{/velocity}}</content>
   <object>
     <name>Main.WelcomeSheet</name>
     <number>0</number>

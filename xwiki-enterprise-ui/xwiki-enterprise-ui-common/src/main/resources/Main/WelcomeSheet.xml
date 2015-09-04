@@ -50,6 +50,7 @@
 
 
   ## Display the content of the document for which we apply the sheet, but make sure to use the 'content' displayer and not the default to avoid an infinite loop.
+  ## Note: The rendering needs to be done in the document's context and not in the sheet's context, thus avoiding PR leaks.
   {{html}}$services.display.content($doc, {'displayerHint' : 'content'}){{/html}}
 
 #end

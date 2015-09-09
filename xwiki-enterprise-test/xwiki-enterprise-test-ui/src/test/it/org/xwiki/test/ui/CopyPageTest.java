@@ -49,7 +49,7 @@ public class CopyPageTest extends AbstractTest
 
     private static final String COPY_SUCCESSFUL = "successfully copied to";
 
-    private static final String OVERWRITE_PROMPT1 = "Warning: The document ";
+    private static final String OVERWRITE_PROMPT1 = "Warning: The page ";
 
     private static final String OVERWRITE_PROMPT2 =
         " already exists. Are you sure you want to overwrite it (all its content would be lost)?";

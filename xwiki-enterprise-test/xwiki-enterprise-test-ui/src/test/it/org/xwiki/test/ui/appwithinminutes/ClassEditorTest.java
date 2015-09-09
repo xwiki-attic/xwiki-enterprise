@@ -360,7 +360,7 @@ public class ClassEditorTest extends AbstractClassEditorTest
         field.setName("-delta");
 
         editor.clickSaveAndContinue(false);
-        editor.waitForNotificationErrorMessage("Failed to save the document.");
+        editor.waitForNotificationErrorMessage("Failed to save the page.");
 
         // Double check that the field wasn't renamed.
         Assert.assertTrue(editor.clickCancel().getContent().contains("Date (date1: Date)"));

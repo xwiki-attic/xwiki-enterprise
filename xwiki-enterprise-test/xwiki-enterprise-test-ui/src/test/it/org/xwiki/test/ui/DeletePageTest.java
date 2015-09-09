@@ -47,9 +47,9 @@ public class DeletePageTest extends AbstractTest
 
     private static final String LOGGED_USERNAME = "Administrator";
 
-    private static final String CONFIRMATION = "The document has been deleted.";
+    private static final String CONFIRMATION = "The page has been deleted.";
     
-    private static final String DOCUMENT_NOT_FOUND = "The requested document could not be found.";
+    private static final String DOCUMENT_NOT_FOUND = "The requested page could not be found.";
 
     private static final String DELETE_ACTION = "delete";
 

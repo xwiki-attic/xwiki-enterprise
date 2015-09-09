@@ -229,7 +229,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
      */
     public boolean isExistingPage()
     {
-        return !getSelenium().isTextPresent("The requested document could not be found.");
+        return !getSelenium().isTextPresent("The requested page could not be found.");
     }
 
     public void assertTitle(String title)
@@ -685,7 +685,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         // try to go to the user page
         open("XWiki", username);
         // if user page doesn't exist, register the user first
-        boolean exists = !getSelenium().isTextPresent("The requested document could not be found.");
+        boolean exists = !getSelenium().isTextPresent("The requested page could not be found.");
         if (!exists) {
             if (isAuthenticated()) {
                 logout();

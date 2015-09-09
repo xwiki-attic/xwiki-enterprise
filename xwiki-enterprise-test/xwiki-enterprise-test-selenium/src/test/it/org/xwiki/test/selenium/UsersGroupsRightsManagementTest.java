@@ -102,7 +102,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // an Ajax call made to the server.
         waitForAlert();
         assertEquals("testCreateGroupWhenGroupAlreadyExists cannot be used for the "
-            + "group name, as another document with this name already exists.", getSelenium().getAlert());
+            + "group name, as another page with this name already exists.", getSelenium().getAlert());
     }
 
     /**

@@ -130,9 +130,9 @@ public class RegularUserTest extends AbstractWysiwygTestCase
 
         // Now the tree is loaded. Check the list of top level documents.
         // Note that the home page of the XWiki space is hidden ATM although there are pages inside the XWiki space that
-        // are not hidden, like the syntax guide. So the "XWiki Space" top level document is visible but is not provided
+        // are not hidden, like the syntax guide. So the "XWiki" top level document is visible but is not provided
         // in the finder suggestions. We search for the syntax guide instead.
-        for (String page : Arrays.asList("The Wiki Blog", "Wiki Home", "Sandbox", "XWiki Syntax Guide")) {
+        for (String page : Arrays.asList("Blog", "Home", "Sandbox", "XWiki Syntax Guide")) {
             explorer.findAndSelectPage(page);
         }
 

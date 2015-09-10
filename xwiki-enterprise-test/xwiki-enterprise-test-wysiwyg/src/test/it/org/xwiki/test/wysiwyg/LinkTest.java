@@ -134,7 +134,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // get the all pages tree
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        explorer.waitForIt().findAndSelectPage("Wiki Home").selectNewPage("Main");
+        explorer.waitForIt().findAndSelectPage("Home").selectNewPage("Main");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkToNewPage");
         getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", newPageName);
@@ -536,7 +536,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        explorer.waitForIt().findAndSelectPage("Wiki Home");
+        explorer.waitForIt().findAndSelectPage("Home");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         // try to create link without filling in the label
@@ -1556,7 +1556,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // At this point no page is selected.
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
-        explorer.findAndSelectPage("Wiki Blog");
+        explorer.findAndSelectPage("Blog");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");

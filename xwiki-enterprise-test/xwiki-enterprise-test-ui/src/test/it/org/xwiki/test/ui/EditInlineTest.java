@@ -107,11 +107,11 @@ public class EditInlineTest extends AbstractTest
 
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "parent=Blog.WebHome");
         ViewPage vp = new ViewPage();
-        Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog", false));
+        Assert.assertTrue(vp.hasBreadcrumbContent("Blog", false));
 
         InlinePage ip = vp.editInline();
         ViewPage vp2 = ip.clickSaveAndView();
-        Assert.assertTrue(vp2.hasBreadcrumbContent("The Wiki Blog", false));
+        Assert.assertTrue(vp2.hasBreadcrumbContent("Blog", false));
 
         // Now try the same in the default hierarchy mode, to make sure the default mode preserves the parent.
         getUtil().setHierarchyMode("reference");
@@ -124,7 +124,7 @@ public class EditInlineTest extends AbstractTest
         getUtil().setHierarchyMode("parentchild");
 
         ViewPage vp3 = getUtil().gotoPage(getTestClassName(), getTestMethodName());
-        Assert.assertTrue(vp3.hasBreadcrumbContent("The Wiki Blog", false));
+        Assert.assertTrue(vp3.hasBreadcrumbContent("Blog", false));
 
         // Restore the hierarchy mode.
         getUtil().setHierarchyMode("reference");

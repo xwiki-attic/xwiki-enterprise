@@ -133,9 +133,9 @@ public class LanguageTest extends AbstractTest
         Assert.assertEquals(language, html.getAttribute("xml:lang"));
 
         ViewPage vp = new ViewPage();
-        Assert.assertEquals("locale=" + language, vp.getMetaDataValue("gwt:property"));
+        Assert.assertEquals("locale=" + language, vp.getHTMLMetaDataValue("gwt:property"));
         // For retro-compatibility only
-        Assert.assertEquals(language, vp.getMetaDataValue("language"));
+        Assert.assertEquals(language, vp.getHTMLMetaDataValue("language"));
 
         String content = getDriver().getPageSource();
         Assert.assertTrue(content.contains("language=" + language));

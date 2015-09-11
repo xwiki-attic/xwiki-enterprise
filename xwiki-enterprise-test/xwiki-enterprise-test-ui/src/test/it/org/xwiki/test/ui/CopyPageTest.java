@@ -34,7 +34,7 @@ import org.xwiki.test.ui.po.ViewPage;
 
 /**
  * Test the Copy menu action to copy one page to another location.
- * 
+ *
  * @version $Id$
  * @since 3.0M2
  */
@@ -98,10 +98,10 @@ public class CopyPageTest extends AbstractTest
         documentPicker.setTitle(targetPageName);
         // The target page name is updated based on the entered title.
         Assert.assertEquals(targetPageName, copyPage.getTargetPageName());
-        Assert.assertEquals(Arrays.asList("", sourceSpaceName, targetPageName), documentPicker.getLocation().getPath());
+        documentPicker.waitForLocation(Arrays.asList("", sourceSpaceName, targetPageName));
         // Select a new parent document.
         documentPicker.toggleLocationAdvancedEdit().setParent(targetSpaceName);
-        Assert.assertEquals(Arrays.asList("", targetSpaceName, targetPageName), documentPicker.getLocation().getPath());
+        documentPicker.waitForLocation(Arrays.asList("", targetSpaceName, targetPageName));
 
         // Click copy button
         CopyConfirmationPage copyConfirmationPage = copyPage.clickCopyButton();
@@ -151,7 +151,7 @@ public class CopyPageTest extends AbstractTest
         documentPicker.setTitle(targetPageName);
         documentPicker.selectDocument(targetSpaceName, "WebHome");
         Assert.assertEquals(targetSpaceName, copyPage.getTargetSpaceName());
-        Assert.assertEquals(Arrays.asList("", targetSpaceName, targetPageName), documentPicker.getLocation().getPath());
+        documentPicker.waitForLocation(Arrays.asList("", targetSpaceName, targetPageName));
 
         // Click copy button
         CopyOverwritePromptPage copyOverwritePrompt = copyPage.clickCopyButtonExpectingOverwritePrompt();

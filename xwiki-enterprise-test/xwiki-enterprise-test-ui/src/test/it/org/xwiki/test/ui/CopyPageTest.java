@@ -150,8 +150,8 @@ public class CopyPageTest extends AbstractTest
         DocumentPicker documentPicker = copyPage.getDocumentPicker();
         documentPicker.setTitle(targetPageName);
         documentPicker.selectDocument(targetSpaceName, "WebHome");
-        Assert.assertEquals(targetSpaceName, copyPage.getTargetSpaceName());
         documentPicker.waitForLocation(Arrays.asList("", targetSpaceName, targetPageName));
+        Assert.assertEquals(targetSpaceName, copyPage.getTargetSpaceName());
 
         // Click copy button
         CopyOverwritePromptPage copyOverwritePrompt = copyPage.clickCopyButtonExpectingOverwritePrompt();

@@ -54,7 +54,7 @@ public class VersionTest extends AbstractTest
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
     @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     })
-    public void testRollbackToFirstVersion() throws Exception
+    public void testRollbackToFirstVersion()
     {
         getUtil().deletePage(SPACE_NAME, PAGE_NAME);
 
@@ -94,7 +94,7 @@ public class VersionTest extends AbstractTest
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
     @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     })
-    public void testDeleteLatestVersion() throws Exception
+    public void testDeleteLatestVersion()
     {
         getUtil().deletePage(SPACE_NAME, PAGE_NAME);
 

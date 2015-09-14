@@ -54,7 +54,7 @@ public class AddEntryTest extends AbstractTest
     private ApplicationHomePage homePage;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         Map<String, String> editQueryStringParameters = new HashMap<String, String>();

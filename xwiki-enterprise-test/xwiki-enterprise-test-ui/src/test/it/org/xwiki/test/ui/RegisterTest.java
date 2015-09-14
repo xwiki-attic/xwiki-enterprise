@@ -44,7 +44,7 @@ public class RegisterTest extends AbstractTest
     protected AbstractRegistrationPage registrationPage;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         deleteUser("JohnSmith");
         switchUser();
@@ -214,7 +214,7 @@ public class RegisterTest extends AbstractTest
         return false;
     }
 
-    /** Deletes specified user if it exists, leaves the driver on undefined page. */
+    /** Deletes specified user if it exists, leaves the driver on undefined page. **/
     private void deleteUser(final String userName)
     {
         TestUtils.Session s = getUtil().getSession();

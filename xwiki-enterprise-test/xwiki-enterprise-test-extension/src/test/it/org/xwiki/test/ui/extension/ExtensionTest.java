@@ -105,7 +105,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         // Double check that the XWiki Extension Repository is empty.
         ExtensionsSearchResult searchResult =
-            getUtil().getRESTResource("repository/search", Collections.singletonMap("number", new Object[] {1}));
+            getUtil().rest().getResource("repository/search", Collections.singletonMap("number", new Object[] {1}));
         assertEquals(0, searchResult.getTotalHits());
     }
 
@@ -833,7 +833,8 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         expectedDiff.add(" {{alice/}}");
         assertEquals(expectedDiff, changesPane.getEntityDiff("Page properties").getDiff("Content"));
         assertEquals(1, changesPane.getDiffSummary().toggleObjectsDetails().getModifiedObjects().size());
-        assertEquals(Arrays.asList("@@ -1,1 +1,1 @@", "-Alice says hello!", "+<ins>{{info}}</ins>Alice says hello!<ins>{{/info}}</ins>"),
+        assertEquals(Arrays.asList("@@ -1,1 +1,1 @@", "-Alice says hello!",
+            "+<ins>{{info}}</ins>Alice says hello!<ins>{{/info}}</ins>"),
             changesPane.getEntityDiff("XWiki.WikiMacroClass[0]").getDiff("Macro code"));
 
         // Finish the merge.

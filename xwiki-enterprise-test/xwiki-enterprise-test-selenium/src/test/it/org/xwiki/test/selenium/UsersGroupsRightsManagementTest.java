@@ -91,7 +91,6 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     public void testCreateGroupWhenGroupAlreadyExists()
     {
         open("XWiki", "testCreateGroupWhenGroupAlreadyExists", "edit", "editor=wiki");
-        setFieldValue("content", "some content");
         clickEditSaveAndView();
         openGroupsPage();
         clickLinkWithText("Add new group", false);

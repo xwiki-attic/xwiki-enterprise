@@ -54,7 +54,7 @@ public class CommentAsAdminTest extends AbstractTest
     private static final String COMMENT_REPLY = "Comment Reply";
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);

@@ -66,7 +66,7 @@ public class CommentAsGuestTest extends AbstractTest
     }
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         this.vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);

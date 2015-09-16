@@ -49,7 +49,7 @@ public class EditWikiTest extends AbstractTest
     private WikiEditPage editPage;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         this.editPage = WikiEditPage.gotoPage(getTestClassName(), getTestMethodName());

@@ -39,8 +39,6 @@ public class KeyboardShortcutsTest extends AbstractTest
     @Rule
     public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
-    private TestUtils util = new TestUtils();
-
     @Test
     @IgnoreBrowsers({
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
@@ -48,7 +46,7 @@ public class KeyboardShortcutsTest extends AbstractTest
     })
     public void testKeyboardShortcuts()
     {
-        ViewPage vp = util.gotoPage("Sandbox", "WebHome");
+        ViewPage vp = getUtil().gotoPage("Sandbox", "WebHome");
 
         // Test default edit mode (WYSIWYG for Sandbox.WebHome) key
         vp.sendKeys("e");
@@ -56,65 +54,65 @@ public class KeyboardShortcutsTest extends AbstractTest
         // Test Cancel key
         vp.sendKeys(Keys.chord(Keys.ALT, "c"));
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInViewMode());
+        Assert.assertTrue(getUtil().isInViewMode());
 
         // Test Wiki edit key
         vp.sendKeys("k");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInWikiEditMode());
+        Assert.assertTrue(getUtil().isInWikiEditMode());
 
         // Test WYSIWYG edit mode key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys("g");
 
         // Test Inline Form edit mode key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys("f");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInInlineEditMode());
+        Assert.assertTrue(getUtil().isInInlineEditMode());
 
         // Test Rights edit mode key on a terminal document
-        vp = this.util.gotoPage("Sandbox", "TestPage1");
+        vp = getUtil().gotoPage("Sandbox", "TestPage1");
         vp.sendKeys("r");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInRightsEditMode());
+        Assert.assertTrue(getUtil().isInRightsEditMode());
 
         // Test Rights edit mode key on a non terminal document
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys("r");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInAdminMode());
+        Assert.assertTrue(getUtil().isInAdminMode());
         AdministrationPage administrationPage = new AdministrationPage();
         Assert.assertTrue(administrationPage.hasSection("PageRights"));
 
         // Test Object edit mode key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys("o");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInObjectEditMode());
+        Assert.assertTrue(getUtil().isInObjectEditMode());
 
         // Test Class edit mode key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys("s");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInClassEditMode());
+        Assert.assertTrue(getUtil().isInClassEditMode());
 
         // Test Delete key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys(Keys.DELETE);
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInDeleteMode());
+        Assert.assertTrue(getUtil().isInDeleteMode());
 
         // Test Rename key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys(Keys.F2);
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInRenameMode());
+        Assert.assertTrue(getUtil().isInRenameMode());
 
         // Test View Source key
-        vp = this.util.gotoPage("Sandbox", "WebHome");
+        vp = getUtil().gotoPage("Sandbox", "WebHome");
         vp.sendKeys("d");
         vp.waitUntilPageIsLoaded();
-        Assert.assertTrue(util.isInSourceViewMode());
+        Assert.assertTrue(getUtil().isInSourceViewMode());
     }
 }

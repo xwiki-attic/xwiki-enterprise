@@ -52,7 +52,7 @@ public class AddRemoveTagsTest extends AbstractTest
     private TagPage tagPage;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         // Create a new test page.
         getUtil().deletePage(getTestClassName(), getTestMethodName());

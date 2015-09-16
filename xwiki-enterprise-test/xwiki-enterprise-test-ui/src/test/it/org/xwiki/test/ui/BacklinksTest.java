@@ -50,7 +50,7 @@ public class BacklinksTest extends AbstractTest
             "[[backlink>>Test.BacklinkTargetTest]]");
     }
 
-    private void testBacklinksCreation(String syntaxId, String backlinkListCode, String backlinkLink) throws Exception
+    private void testBacklinksCreation(String syntaxId, String backlinkListCode, String backlinkLink)
     {
         getUtil().deletePage("Test", "BacklinkTargetTest");
         getUtil().deletePage("Test", "BacklinkSourceTest");

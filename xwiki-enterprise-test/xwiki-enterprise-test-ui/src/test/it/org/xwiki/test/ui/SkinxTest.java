@@ -49,7 +49,7 @@ public class SkinxTest extends AbstractTest
     private static final String SCRIPT = "window.document.title = 'script active';";
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         getUtil().deletePage("Test", "SkinxTest");
     }

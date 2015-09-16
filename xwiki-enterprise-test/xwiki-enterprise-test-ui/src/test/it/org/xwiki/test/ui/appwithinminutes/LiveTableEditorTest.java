@@ -56,7 +56,7 @@ public class LiveTableEditorTest extends AbstractTest
     private final Map<String, String> editQueryStringParameters = new HashMap<String, String>();
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         getUtil().deletePage(getTestClassName(), getTestMethodName());
         editQueryStringParameters.put("editor", "inline");

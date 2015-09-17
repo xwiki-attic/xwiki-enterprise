@@ -197,11 +197,11 @@ public class SectionTest extends AbstractTest
      *      translation title when editing a document section</a>
      */
     @Test
-    public void testSectionSaveDoesNotOverwriteTheTitle()
+    public void testSectionSaveDoesNotOverwriteTheTitle() throws Exception
     {
         // Create the English version.
         setLanguageSettings(false, "en", "en");
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         getUtil().createPage(getTestClassName(), getTestMethodName(), "Original content", "Original title");
 
         try {

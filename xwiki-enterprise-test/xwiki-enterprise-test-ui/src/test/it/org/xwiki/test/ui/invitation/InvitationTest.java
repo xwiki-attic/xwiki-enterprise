@@ -64,13 +64,13 @@ public class InvitationTest extends AbstractTest
     private GreenMail greenMail;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         // Login as admin and delete existing messages.
         getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToNonExistentPage()));
         getUtil().recacheSecretToken();
         getUtil().setDefaultCredentials(TestUtils.ADMIN_CREDENTIALS);
-        getUtil().deletePage("Invitation", "InvitationMessages");
+        getUtil().rest().deletePage("Invitation", "InvitationMessages");
 
         if (!initialized) {
             // We have to go to sender page before any config shows up.
@@ -89,8 +89,8 @@ public class InvitationTest extends AbstractTest
             // exist.
             // TODO: Fix this whole mess of having try/finally blocks in tests below which is an anti pattern. Instead
             // we need to separate tests by fixture.
-            getUtil().deletePage("XWiki", "InvitedMember");
-            getUtil().deletePage("XWiki", "AnotherInvitedMember");
+            getUtil().rest().deletePage("XWiki", "InvitedMember");
+            getUtil().rest().deletePage("XWiki", "AnotherInvitedMember");
 
             initialized = true;
         }
@@ -225,7 +225,7 @@ public class InvitationTest extends AbstractTest
         } finally {
             stopGreenMail();
             getUtil().setSession(s);
-            getUtil().deletePage("XWiki", "NonMailAdminUser");
+            getUtil().rest().deletePage("XWiki", "NonMailAdminUser");
         }
     }
 
@@ -286,7 +286,7 @@ public class InvitationTest extends AbstractTest
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
-            getUtil().deletePage("XWiki", "NonMailAdminUser");
+            getUtil().rest().deletePage("XWiki", "NonMailAdminUser");
         }
     }
 
@@ -385,7 +385,7 @@ public class InvitationTest extends AbstractTest
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
-            getUtil().deletePage("XWiki", "spam");
+            getUtil().rest().deletePage("XWiki", "spam");
         }
     }
 
@@ -698,7 +698,7 @@ public class InvitationTest extends AbstractTest
         } finally {
             stopGreenMail();
             getUtil().setSession(admin);
-            getUtil().deletePage("XWiki", "tr0ll");
+            getUtil().rest().deletePage("XWiki", "tr0ll");
         }
     }
 

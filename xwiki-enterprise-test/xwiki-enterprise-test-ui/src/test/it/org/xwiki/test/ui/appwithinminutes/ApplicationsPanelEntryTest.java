@@ -58,7 +58,7 @@ public class ApplicationsPanelEntryTest extends AbstractTest
     @Before
     public void setUp()
     {
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         editQueryStringParameters.put("editor", "inline");
         editQueryStringParameters.put("template", "AppWithinMinutes.LiveTableTemplate");
         editQueryStringParameters.put("AppWithinMinutes.LiveTableClass_0_class", "XWiki.XWikiUsers");

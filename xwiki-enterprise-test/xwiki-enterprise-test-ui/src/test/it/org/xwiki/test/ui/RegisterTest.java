@@ -215,14 +215,14 @@ public class RegisterTest extends AbstractTest
     }
 
     /** Deletes specified user if it exists, leaves the driver on undefined page. **/
-    private void deleteUser(final String userName)
+    private void deleteUser(final String userName) throws Exception
     {
         TestUtils.Session s = getUtil().getSession();
         getUtil().forceGuestUser();
         getDriver().get(getUtil().getURLToLoginAsAdminAndGotoPage(getUtil().getURLToNonExistentPage()));
         getUtil().recacheSecretToken();
         getUtil().setDefaultCredentials(TestUtils.ADMIN_CREDENTIALS);
-        getUtil().deletePage("XWiki", userName);
+        getUtil().rest().deletePage("XWiki", userName);
         getUtil().setSession(s);
     }
 

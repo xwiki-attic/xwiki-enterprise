@@ -54,9 +54,9 @@ public class VersionTest extends AbstractTest
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
     @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     })
-    public void testRollbackToFirstVersion()
+    public void testRollbackToFirstVersion() throws Exception
     {
-        getUtil().deletePage(SPACE_NAME, PAGE_NAME);
+        getUtil().rest().deletePage(SPACE_NAME, PAGE_NAME);
 
         // Create first version of the page
         ViewPage vp = getUtil().createPage(SPACE_NAME, PAGE_NAME, CONTENT1, TITLE);
@@ -94,9 +94,9 @@ public class VersionTest extends AbstractTest
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
     @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
     })
-    public void testDeleteLatestVersion()
+    public void testDeleteLatestVersion() throws Exception
     {
-        getUtil().deletePage(SPACE_NAME, PAGE_NAME);
+        getUtil().rest().deletePage(SPACE_NAME, PAGE_NAME);
 
         // Create first version of the page
         ViewPage vp = getUtil().createPage(SPACE_NAME, PAGE_NAME, CONTENT1, TITLE);

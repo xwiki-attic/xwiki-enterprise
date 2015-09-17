@@ -20,7 +20,6 @@
 package org.xwiki.test.ui.tag;
 
 import org.junit.Assert;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -52,10 +51,10 @@ public class AddRemoveTagsTest extends AbstractTest
     private TagPage tagPage;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         // Create a new test page.
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         getUtil().createPage(getTestClassName(), getTestMethodName(), null, null);
         taggablePage = new TaggablePage();
     }

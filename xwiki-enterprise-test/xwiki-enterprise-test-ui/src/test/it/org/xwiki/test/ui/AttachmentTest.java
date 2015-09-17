@@ -50,9 +50,9 @@ public class AttachmentTest extends AbstractTest
     private final String testAttachment2 = "SmallAttachment2.txt";
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
     }
 
     @Test

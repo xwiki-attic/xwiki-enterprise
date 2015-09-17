@@ -20,7 +20,6 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
@@ -66,9 +65,9 @@ public class CommentAsGuestTest extends AbstractTest
     }
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         this.vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);
 
         // Set Guest user

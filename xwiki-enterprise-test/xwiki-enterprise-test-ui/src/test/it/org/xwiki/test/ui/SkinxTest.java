@@ -49,9 +49,9 @@ public class SkinxTest extends AbstractTest
     private static final String SCRIPT = "window.document.title = 'script active';";
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage("Test", "SkinxTest");
+        getUtil().rest().deletePage("Test", "SkinxTest");
     }
 
     /** http://jira.xwiki.org/browse/XWIKI-7913 */

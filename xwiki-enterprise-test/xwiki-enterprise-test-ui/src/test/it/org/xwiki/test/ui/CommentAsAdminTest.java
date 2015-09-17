@@ -20,7 +20,6 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -54,9 +53,9 @@ public class CommentAsAdminTest extends AbstractTest
     private static final String COMMENT_REPLY = "Comment Reply";
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         ViewPage vp = getUtil().createPage(getTestClassName(), getTestMethodName(), CONTENT, TITLE);
         this.commentsTab = vp.openCommentsDocExtraPane();
     }

@@ -87,19 +87,19 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         getExtensionTestUtils().uninstall("scriptServiceJarExtension");
 
         // Delete the pages that are provided by the XAR extensions we use in tests.
-        getUtil().deletePage("ExtensionTest", "Alice");
+        getUtil().rest().deletePage("ExtensionTest", "Alice");
         assertFalse(getUtil().pageExists("ExtensionTest", "Alice"));
-        getUtil().deletePage("ExtensionTest", "Bob");
+        getUtil().rest().deletePage("ExtensionTest", "Bob");
         assertFalse(getUtil().pageExists("ExtensionTest", "Bob"));
 
         // Delete from the repository the XAR extensions we use in tests.
         // The extension page name is either the extension name, if specified, or the extension id. Most of the tests
         // don't set the extension name but some do and we end up with two extensions (two pages) with the same id.
-        getUtil().deletePage("Extension", "Alice Wiki Macro");
-        getUtil().deletePage("Extension", "Bob Wiki Macro");
-        getUtil().deletePage("Extension", "alice-xar-extension");
-        getUtil().deletePage("Extension", "bob-xar-extension");
-        getUtil().deletePage("Extension", "scriptServiceJarExtension");
+        getUtil().rest().deletePage("Extension", "Alice Wiki Macro");
+        getUtil().rest().deletePage("Extension", "Bob Wiki Macro");
+        getUtil().rest().deletePage("Extension", "alice-xar-extension");
+        getUtil().rest().deletePage("Extension", "bob-xar-extension");
+        getUtil().rest().deletePage("Extension", "scriptServiceJarExtension");
 
         getRepositoryTestUtils().waitUntilReady();
 

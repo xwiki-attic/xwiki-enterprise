@@ -20,7 +20,6 @@
 package org.xwiki.test.ui;
 
 import org.junit.Assert;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,9 +48,9 @@ public class EditWikiTest extends AbstractTest
     private WikiEditPage editPage;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         this.editPage = WikiEditPage.gotoPage(getTestClassName(), getTestMethodName());
     }
 

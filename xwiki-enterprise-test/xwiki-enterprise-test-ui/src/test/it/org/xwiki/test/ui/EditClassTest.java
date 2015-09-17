@@ -42,10 +42,10 @@ public class EditClassTest extends AbstractTest
     public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage("Test", "EditObjectsTestClass");
-        getUtil().deletePage("Test", "EditObjectsTestObject");
+        getUtil().rest().deletePage("Test", "EditObjectsTestClass");
+        getUtil().rest().deletePage("Test", "EditObjectsTestObject");
     }
 
     @Test

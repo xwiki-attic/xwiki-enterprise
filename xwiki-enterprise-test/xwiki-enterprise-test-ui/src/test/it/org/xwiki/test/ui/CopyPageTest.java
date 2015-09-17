@@ -56,7 +56,7 @@ public class CopyPageTest extends AbstractTest
 
     @Test
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
-    public void testCopyPage()
+    public void testCopyPage() throws Exception
     {
         String sourceSpaceName = getTestClassName();
         String sourcePageName = getTestMethodName();
@@ -64,8 +64,8 @@ public class CopyPageTest extends AbstractTest
         String targetPageName = getTestMethodName() + "Copy";
 
         // Delete page that may already exist
-        getUtil().deletePage(sourceSpaceName, sourcePageName);
-        getUtil().deletePage(targetSpaceName, targetPageName);
+        getUtil().rest().deletePage(sourceSpaceName, sourcePageName);
+        getUtil().rest().deletePage(targetSpaceName, targetPageName);
 
         // Create a new page that will be copied.
         ViewPage viewPage = getUtil().createPage(sourceSpaceName, sourcePageName, PAGE_CONTENT, sourcePageName);
@@ -125,7 +125,7 @@ public class CopyPageTest extends AbstractTest
 
     @Test
     @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
-    public void testCopyOverwritePage()
+    public void testCopyOverwritePage() throws Exception
     {
         String sourceSpaceName = getTestClassName();
         String sourcePageName = getTestMethodName();
@@ -133,8 +133,8 @@ public class CopyPageTest extends AbstractTest
         String targetPageName = getTestMethodName() + "Copy";
 
         // Delete page that may already exist
-        getUtil().deletePage(sourceSpaceName, sourcePageName);
-        getUtil().deletePage(targetSpaceName, targetPageName);
+        getUtil().rest().deletePage(sourceSpaceName, sourcePageName);
+        getUtil().rest().deletePage(targetSpaceName, targetPageName);
 
         // Create a new page that will be overwritten.
         getUtil().createPage(targetSpaceName, targetPageName, OVERWRITTEN_PAGE_CONTENT, targetPageName);

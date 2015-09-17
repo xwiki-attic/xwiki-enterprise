@@ -40,13 +40,13 @@ public class ViewTest extends AbstractTest
      * See also <a href="http://jira.xwiki.org/jira/browse/XWIKI-8725">XWIKI-8725</a>.
      */
     @Test
-    public void viewPageWhenSpecialCharactersInName()
+    public void viewPageWhenSpecialCharactersInName() throws Exception
     {
         // We test a page name containing a space and a dot
         String pageName = getTestMethodName() + " 1.0";
 
         // Delete page since we create it below and want to start the test clean
-        getUtil().deletePage(getTestClassName(), pageName);
+        getUtil().rest().deletePage(getTestClassName(), pageName);
 
         // Create the page
         ViewPage vp = getUtil().createPage(getTestClassName(), pageName, "", pageName);

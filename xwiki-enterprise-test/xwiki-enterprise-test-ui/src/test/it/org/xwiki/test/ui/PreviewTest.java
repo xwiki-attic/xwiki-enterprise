@@ -59,10 +59,10 @@ public class PreviewTest extends AbstractTest
      * @see "XWIKI-9527: Sheets are not applied on preview action if the document is new"
      */
     @Test
-    public void previewWithSheet()
+    public void previewWithSheet() throws Exception
     {
         // Create the class.
-        getUtil().deletePage(getTestClassName(), getTestMethodName() + "Class");
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName() + "Class");
         ClassEditPage classEditor = ClassEditPage.gotoPage(getTestClassName(), getTestMethodName() + "Class");
         classEditor.addProperty("color", "String");
 
@@ -79,14 +79,14 @@ public class PreviewTest extends AbstractTest
 
         // Create the template.
         String classFullName = getTestClassName() + "." + getTestMethodName() + "Class";
-        getUtil().deletePage(getTestClassName(), getTestMethodName() + "Template");
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName() + "Template");
         objectEditor = ObjectEditPage.gotoPage(getTestClassName(), getTestMethodName() + "Template");
         objectEditPane = objectEditor.addObject(classFullName);
         objectEditPane.setFieldValue(objectEditPane.byPropertyName("color"), "red");
         objectEditor.clickSaveAndContinue();
 
         // Create the test instance.
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit",
             "template=" + getTestClassName() + "." + getTestMethodName() + "Template");
         objectEditPane = new ObjectEditPane(new InlinePage().getForm(), classFullName, 0);

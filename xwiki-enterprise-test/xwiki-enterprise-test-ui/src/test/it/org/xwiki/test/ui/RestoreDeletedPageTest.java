@@ -45,10 +45,10 @@ public class RestoreDeletedPageTest extends AbstractTest
      * @see "XWIKI-9421: Attachment version is incremented when a document is restored from recycle bin"
      */
     @Test
-    public void restore()
+    public void restore() throws Exception
     {
         // Clean up.
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
 
         // Create a new page.
         ViewPage page = getUtil().createPage(getTestClassName(), getTestMethodName(), "Once upon a time..", "A story");

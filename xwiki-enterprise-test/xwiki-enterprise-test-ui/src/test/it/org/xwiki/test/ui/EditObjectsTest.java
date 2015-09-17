@@ -48,10 +48,10 @@ public class EditObjectsTest extends AbstractTest
     public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage("Test", "EditObjectsTestClass");
-        getUtil().deletePage("Test", "EditObjectsTestObject");
+        getUtil().rest().deletePage("Test", "EditObjectsTestClass");
+        getUtil().rest().deletePage("Test", "EditObjectsTestObject");
     }
 
     /**
@@ -325,9 +325,9 @@ public class EditObjectsTest extends AbstractTest
      *      object editor for objects that have just been added
      */
     @Test
-    public void testPropertyDisplayersForNewObjects()
+    public void testPropertyDisplayersForNewObjects() throws Exception
     {
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
 
         // Create a class with two properties: a date and a list of users.
         ClassEditPage classEditor = ClassEditPage.gotoPage(getTestClassName(), getTestMethodName());

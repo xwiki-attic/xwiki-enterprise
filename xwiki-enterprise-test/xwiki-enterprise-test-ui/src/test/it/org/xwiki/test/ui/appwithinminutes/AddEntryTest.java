@@ -54,9 +54,9 @@ public class AddEntryTest extends AbstractTest
     private ApplicationHomePage homePage;
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
-        getUtil().deletePage(getTestClassName(), getTestMethodName());
+        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         Map<String, String> editQueryStringParameters = new HashMap<String, String>();
         editQueryStringParameters.put("editor", "inline");
         editQueryStringParameters.put("template", "AppWithinMinutes.LiveTableTemplate");

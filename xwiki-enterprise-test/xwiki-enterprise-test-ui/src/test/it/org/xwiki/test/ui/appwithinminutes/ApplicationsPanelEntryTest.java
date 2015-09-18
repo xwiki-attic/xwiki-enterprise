@@ -56,7 +56,7 @@ public class ApplicationsPanelEntryTest extends AbstractTest
     private final Map<String, String> editQueryStringParameters = new HashMap<String, String>();
 
     @Before
-    public void setUp()
+    public void setUp() throws Exception
     {
         getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
         editQueryStringParameters.put("editor", "inline");

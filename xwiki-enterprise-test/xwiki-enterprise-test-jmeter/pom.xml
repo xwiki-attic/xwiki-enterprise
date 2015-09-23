@@ -29,7 +29,7 @@
   </parent>
   <artifactId>xwiki-enterprise-test-jmeter</artifactId>
   <name>XWiki Enterprise - Functional Tests - JMeter</name>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <description>XWiki Enterprise - Functional Tests - JMeter</description>
   <properties>
     <jmeter.version>2.10</jmeter.version>

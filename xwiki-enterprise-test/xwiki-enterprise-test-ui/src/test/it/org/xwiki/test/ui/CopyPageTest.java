@@ -149,7 +149,8 @@ public class CopyPageTest extends AbstractTest
         // Fill the target destination the page to be copied to.
         DocumentPicker documentPicker = copyPage.getDocumentPicker();
         documentPicker.setTitle(targetPageName);
-        documentPicker.selectDocument(targetSpaceName, "WebHome");
+        documentPicker.browseDocuments().waitForDocumentSelected(sourceSpaceName, "WebHome")
+            .selectDocument(targetSpaceName, "WebHome");
         documentPicker.waitForLocation(Arrays.asList("", targetSpaceName, targetPageName));
         Assert.assertEquals(targetSpaceName, copyPage.getTargetSpaceName());
 

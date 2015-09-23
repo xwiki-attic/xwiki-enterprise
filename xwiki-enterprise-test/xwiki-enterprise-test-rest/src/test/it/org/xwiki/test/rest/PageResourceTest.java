@@ -205,7 +205,8 @@ public class PageResourceTest extends AbstractHttpTest
         PutMethod putMethod =
             executePutXml(pageURI, newPage, TestUtils.ADMIN_CREDENTIALS.getUserName(),
                 TestUtils.ADMIN_CREDENTIALS.getPassword());
-        assertThat(getHttpMethodInfo(putMethod), putMethod.getStatusCode(), isIn(Arrays.asList(HttpStatus.SC_ACCEPTED, HttpStatus.SC_CREATED)));
+        assertThat(getHttpMethodInfo(putMethod), putMethod.getStatusCode(),
+            isIn(Arrays.asList(HttpStatus.SC_ACCEPTED, HttpStatus.SC_CREATED)));
 
         Page modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
 
@@ -224,6 +225,33 @@ public class PageResourceTest extends AbstractHttpTest
 
         Assert.assertEquals(TAG_VALUE,
             getProperty((Object) modifiedPage.getObjects().getObjectSummaries().get(0), "tags").getValue());
+
+        // Send again but with empty object list
+
+        modifiedPage.getObjects().getObjectSummaries().clear();
+
+        // PUT
+        putMethod =
+            executePutXml(pageURI, modifiedPage, TestUtils.ADMIN_CREDENTIALS.getUserName(),
+                TestUtils.ADMIN_CREDENTIALS.getPassword());
+        assertThat(getHttpMethodInfo(putMethod), putMethod.getStatusCode(), isIn(Arrays.asList(HttpStatus.SC_ACCEPTED)));
+
+        modifiedPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(title, modifiedPage.getTitle());
+        Assert.assertEquals(content, modifiedPage.getContent());
+        Assert.assertEquals(comment, modifiedPage.getComment());
+
+        // GET
+        getMethod = executeGet(pageURI + "?objects=true");
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
+        modifiedPage = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(title, modifiedPage.getTitle());
+        Assert.assertEquals(content, modifiedPage.getContent());
+        Assert.assertEquals(comment, modifiedPage.getComment());
+
+        Assert.assertTrue(modifiedPage.getObjects().getObjectSummaries().isEmpty());
     }
 
     public Property getProperty(Object object, String propertyName)

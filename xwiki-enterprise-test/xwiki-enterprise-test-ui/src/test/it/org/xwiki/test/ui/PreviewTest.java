@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.xwiki.model.reference.LocalDocumentReference;
 import org.xwiki.test.ui.po.InlinePage;
 import org.xwiki.test.ui.po.editor.ClassEditPage;
 import org.xwiki.test.ui.po.editor.ObjectEditPage;
@@ -67,7 +68,7 @@ public class PreviewTest extends AbstractTest
         classEditor.addProperty("color", "String");
 
         // Create the sheet.
-        getUtil().createPage(getTestClassName(), getTestMethodName() + "Sheet",
+        getUtil().rest().savePage(new LocalDocumentReference(getTestClassName(), getTestMethodName() + "Sheet"),
             "{{velocity}}$doc.display('color'){{/velocity}}", "");
 
         // Bind the class to the sheet.

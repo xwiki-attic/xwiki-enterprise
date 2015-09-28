@@ -27,6 +27,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.administration.test.po.LocalizationAdministrationSectionPage;
+import org.xwiki.model.reference.LocalDocumentReference;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.ViewPage;
@@ -199,10 +200,12 @@ public class SectionTest extends AbstractTest
     @Test
     public void testSectionSaveDoesNotOverwriteTheTitle() throws Exception
     {
+        LocalDocumentReference pageReference = new LocalDocumentReference(getTestClassName(), getTestMethodName());
+        
         // Create the English version.
         setLanguageSettings(false, "en", "en");
-        getUtil().rest().deletePage(getTestClassName(), getTestMethodName());
-        getUtil().createPage(getTestClassName(), getTestMethodName(), "Original content", "Original title");
+        getUtil().rest().delete(pageReference);
+        getUtil().rest().savePage(pageReference, "Original content", "Original title");
 
         try {
             // Create the French version.
@@ -211,13 +214,13 @@ public class SectionTest extends AbstractTest
             parameters.put("language", "fr");
             parameters.put("title", "Translated title");
             parameters.put("content", "= Chapter 1 =\n\n Once upon a time ...");
-            getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", parameters);
+            getUtil().gotoPage(pageReference, "save", parameters);
 
             // Switch back to monolingual with French as default language.
             setLanguageSettings(false, "fr", "fr");
 
             // Edit and save a document section and check if the document title was overwritten.
-            getUtil().gotoPage(getTestClassName(), getTestMethodName(), "edit", "editor=wiki&section=1");
+            getUtil().gotoPage(pageReference, "edit", "editor=wiki&section=1");
             Assert.assertEquals("Translated title", new WikiEditPage().clickSaveAndView().getDocumentTitle());
         } finally {
             // Restore language settings.

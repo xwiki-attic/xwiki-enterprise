@@ -26,6 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.index.test.po.CopyPage;
 import org.xwiki.index.test.po.DocumentPicker;
+import org.xwiki.model.reference.LocalDocumentReference;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.AttachmentsPane;
 import org.xwiki.test.ui.po.CopyConfirmationPage;
@@ -137,7 +138,8 @@ public class CopyPageTest extends AbstractTest
         getUtil().rest().deletePage(targetSpaceName, targetPageName);
 
         // Create a new page that will be overwritten.
-        getUtil().createPage(targetSpaceName, targetPageName, OVERWRITTEN_PAGE_CONTENT, targetPageName);
+        getUtil().rest().savePage(new LocalDocumentReference(targetSpaceName, targetPageName),
+            OVERWRITTEN_PAGE_CONTENT, targetPageName);
 
         // Create a new page that will be copied.
         ViewPage viewPage = getUtil().createPage(sourceSpaceName, sourcePageName, PAGE_CONTENT, sourcePageName);

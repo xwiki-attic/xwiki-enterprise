@@ -1074,29 +1074,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <class>info.informatica.doc.RenderingException</class>
                   </classes>
                 </exception>
-                <!-- These 4 deps seems mostly compatible according to
-                     http://ispras.linuxbase.org/index.php/Java_API_Compliance_Checker. There's just a change
-                     between Stax 1.0.1 and 1.0.2 where FactoryConfigurationError seems to have had Serializable
-                     superinterface removed. -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>javax.xml.stream</groupId>
-                      <artifactId>stax-api</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>org.apache.geronimo.specs</groupId>
-                      <artifactId>geronimo-stax-api_1.0_spec</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>xml-apis</groupId>
-                      <artifactId>xml-apis</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <packages>
-                    <package>javax.xml.stream</package>
-                  </packages>
-                </exception>
                 <!-- None of these should bundle org.w3c classes but at least they seem compatible.
                      See https://issues.apache.org/bugzilla/show_bug.cgi?id=49897,
                      https://issues.apache.org/bugzilla/show_bug.cgi?id=49206 and http://bugs.jython.org/issue2121 -->

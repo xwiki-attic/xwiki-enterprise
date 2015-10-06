@@ -1177,7 +1177,7 @@ If you wish to have the default wiki pages, which contain both content pages and
                   </resources>
                 </exception>
                 <!-- XStream includes both xapp and xmlpull and XAPP bundle somes classes of xmlpull.
-                     See http://jira.codehaus.org/browse/XSTR-689 for more.
+                     See http://x-stream.github.io/jira/689/ for more.
                  -->
                 <exception>
                   <conflictingDependencies>
@@ -1189,9 +1189,13 @@ If you wish to have the default wiki pages, which contain both content pages and
                       <groupId>xpp3</groupId>
                       <artifactId>xpp3_min</artifactId>
                     </dependency>
+                    <dependency>
+                      <groupId>xpp3</groupId>
+                      <artifactId>xpp3</artifactId>
+                    </dependency>
                   </conflictingDependencies>
                   <packages>
-                    <package>org.xmlpull.v1</package>
+                    <package>org.xmlpull</package>
                   </packages>
                 </exception>
                 <!-- See https://github.com/sirthias/parboiled/issues/67 -->

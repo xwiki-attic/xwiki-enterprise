@@ -1198,6 +1198,22 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <package>org.xmlpull</package>
                   </packages>
                 </exception>
+                <!-- Seems to be the same thing -->
+                <exception>
+                  <conflictingDependencies>
+                    <dependency>
+                      <groupId>xpp3</groupId>
+                      <artifactId>xpp3_min</artifactId>
+                    </dependency>
+                    <dependency>
+                      <groupId>xml-apis</groupId>
+                      <artifactId>xml-apis</artifactId>
+                    </dependency>
+                  </conflictingDependencies>
+                  <packages>
+                    <package>javax.xml.namespace</package>
+                  </packages>
+                </exception>
                 <!-- See https://github.com/sirthias/parboiled/issues/67 -->
                 <exception>
                   <conflictingDependencies>

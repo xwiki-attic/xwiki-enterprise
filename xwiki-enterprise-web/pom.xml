@@ -1203,7 +1203,7 @@ If you wish to have the default wiki pages, which contain both content pages and
                   <conflictingDependencies>
                     <dependency>
                       <groupId>xpp3</groupId>
-                      <artifactId>xpp3_min</artifactId>
+                      <artifactId>xpp3</artifactId>
                     </dependency>
                     <dependency>
                       <groupId>xml-apis</groupId>

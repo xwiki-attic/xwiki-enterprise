@@ -215,9 +215,62 @@ public class DefaultWebDAVTest extends AbstractWebDAVTest
      */
     public void testMakingAttachment()
     {
-        String spaceUrl = SPACES + "/TestSpace";
-        String pageUrl = spaceUrl + "/TestPage";
-        String attachmentUrl = pageUrl + "/attachment.txt";
+        testMakingAttachmentFile("attachment.txt","normal text file");
+    }
+
+    /**
+     * Test making attachments with unsafe characters in filename.
+     * These characters should also always be encoded.
+     */
+    public void testMakingAttachmentsUnsafeChars()
+    {
+        testMakingAttachmentFile("my attach.txt","space");
+        testMakingAttachmentFile("[bracket].txt","brackets");
+        testMakingAttachmentFile("{brace}.txt","braces");
+        testMakingAttachmentFile("^caret.txt","caret");
+        testMakingAttachmentFile("#pound.txt","pound");
+        testMakingAttachmentFile("%percent.txt","percent");
+        testMakingAttachmentFile("plus+plus.txt","plus");
+    }
+    
+    /** 
+     * Properly escape the given url path, using RFC 2396.
+     * This will properly convert encode, and quote illegal characters correctly.
+     */
+    protected String getEscapedUrl(String pagePath){
+        String escapedUrl = "";
+        try{
+            java.net.URI uri = new java.net.URI(
+                    URI_SCHEME, //scheme
+                    null, //no user info                    
+                    URI_HOST, //host
+                    URI_PORT, //port
+                    pagePath, //path
+                    null, //no query                    
+                    null); //no #fragment
+            
+            escapedUrl = uri.toASCIIString();
+        }catch(java.net.URISyntaxException ue){
+            fail("Could not escape url: '"+pagePath+"' "+ue.getMessage());
+        }
+        
+        return escapedUrl;
+    }
+
+    /**
+     * Test making attachment with filename given under /TestSpace/TestPage
+     */
+    protected void testMakingAttachmentFile(String filename, String testing)
+    {                      
+        String spaceUrl = getEscapedUrl(
+                    URI_WEBDAV_ROOT + PATH_SPACES_VIEW + "/TestSpace");
+
+        String pageUrl = getEscapedUrl(
+                URI_WEBDAV_ROOT + PATH_SPACES_VIEW + "/TestSpace/TestPage");        
+
+        String attachmentUrl = getEscapedUrl(
+                URI_WEBDAV_ROOT + PATH_SPACES_VIEW + "/TestSpace/TestPage/" + filename);              
+
         String attachmentContent = "Attachment Content";
         DeleteMethod deleteMethod = new DeleteMethod();
         deleteMethod.setDoAuthentication(true);
@@ -250,9 +303,9 @@ public class DefaultWebDAVTest extends AbstractWebDAVTest
             deleteMethod.setPath(spaceUrl);
             assertEquals(DavServletResponse.SC_NO_CONTENT, getHttpClient().executeMethod(deleteMethod));
         } catch (HttpException ex) {
-            fail(ex.getMessage());
+            fail("Failed '"+testing+"' attachment: "+ex.getMessage());
         } catch (IOException ex) {
-            fail(ex.getMessage());
+            fail("Failed '"+testing+"' attachment: "+ex.getMessage());
         }
-    }
+    }       
 }

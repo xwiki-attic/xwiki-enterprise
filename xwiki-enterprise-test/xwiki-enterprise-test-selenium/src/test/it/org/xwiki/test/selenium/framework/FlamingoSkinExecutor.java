@@ -136,10 +136,17 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
         getTest().clickLinkWithLocator(menuItemId);
     }
 
+    private void clickAdminActionsSubMenuEntry(String menuItemId)
+    {
+        // Click on the arrow in the edit button
+        getTest().clickLinkWithLocator("//div[@id = 'tmAdminActions']/a[contains(@role, 'button')]");
+        getTest().clickLinkWithLocator(menuItemId);
+    }
+
     @Override
     public void clickCopyPage()
     {
-        clickMoreActionsMenuItem("tmActionCopy");
+        clickAdminActionsSubMenuEntry("tmActionCopy");
     }
 
     @Override

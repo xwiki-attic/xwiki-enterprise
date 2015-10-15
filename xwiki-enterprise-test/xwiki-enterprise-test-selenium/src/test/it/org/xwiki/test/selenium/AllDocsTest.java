@@ -78,23 +78,14 @@ public class AllDocsTest extends AbstractXWikiTestCase
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
         assertElementPresent("//th[normalize-space(text())='Actions']");
 
-        // Validate input suggest for Page field.
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "ViewActions");
+        // Validate input suggest for Location field.
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", "ViewActions");
         // Note: We wait on the pagination result since it's the last element updated and it's done after the
         // table rows have been updated so this allows us to wait on it. In the code below "1" represents the
         // displayed pages.
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
-
-        // Validate input suggest for Space field.
-        open("Main", "AllDocs");
-        waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
-        getSelenium().type("xpath=//input[@name='doc.space']", spaceName);
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "table");
-        waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
+        assertElementPresent("//td[contains(@class, 'doc_location')]//a[text()='" + pageName + "']");
 
         // Validate input suggest for Last Author field.
         open("Main", "AllDocs");
@@ -102,63 +93,61 @@ public class AllDocsTest extends AbstractXWikiTestCase
         getSelenium().focus("doc.author");
         getSelenium().typeKeys("doc.author", "SomeUnknownAuthor");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "");
-        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
+        assertElementNotPresent("//td[contains(@class, 'doc_location')]//a[text()='" + pageName + "']");
 
         // Validate Copy link action.
         open("Main", "AllDocs");
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "view");
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", "view");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "']");
+        assertElementPresent("//td[contains(@class, 'doc_location')]//a[text()='" + pageName + "']");
         clickLinkWithLocator("//a[contains(@class, 'actioncopy') and contains(@href, '" + pageName + "')]");
         // The copy page form doesn't allow us to copy to a new space.
         setFieldValue("targetSpaceName", "Sandbox");
         setFieldValue("targetPageName", pageName + "New");
         clickLinkWithLocator("//input[@value='Copy']");
         open("Main", "AllDocs");
-        getSelenium().focus("doc.space");
-        getSelenium().typeKeys("doc.space", "Sandbox");
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "new");
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", "Sandbox");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "New']");
+        assertElementPresent("//td[contains(@class, 'doc_location')]//a[text()='" + pageName + "New']");
 
         // Validate Rename link action.
         open("Main", "AllDocs");
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "actionsNew");
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", "actionsNew");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rename']");
         setFieldValue("newPageName", pageName + "NewRenamed");
         clickLinkWithLocator("//input[@value='Rename']");
         open("Main", "AllDocs");
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "renamed");
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", "renamed");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "NewRenamed']");
+        assertElementPresent("//td[contains(@class, 'doc_location')]//a[text()='" + pageName + "NewRenamed']");
 
         // Validate Delete link action.
         open("Main", "AllDocs");
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "renamed");
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", "renamed");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='delete']");
         clickLinkWithLocator("//button[contains(text(), 'Yes')]");
         assertTextPresent("The page has been deleted.");
         open("Main", "AllDocs");
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", "actions");
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", "actions");
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
-        assertElementNotPresent("//td[contains(@class, 'doc_name')]/a[text()='" + pageName + "NewRenamed']");
+        assertElementNotPresent("//td[contains(@class, 'doc_location')]//a[text()='" + pageName + "NewRenamed']");
 
         // Validate Rights link action.
         open("Main", "AllDocs");
         waitForTextContains("//span[@class='xwiki-livetable-pagination-content']", "1 2");
-        getSelenium().focus("doc.name");
-        getSelenium().typeKeys("doc.name", pageName);
+        getSelenium().focus("doc.location");
+        getSelenium().typeKeys("doc.location", pageName);
         waitForTextPresent("//span[@class='xwiki-livetable-pagination-content']", "1");
         clickLinkWithLocator("//tbody/tr/td/a[text()='rights']");
         Assert.assertEquals("Editing access rights for Actions test", getTitle());

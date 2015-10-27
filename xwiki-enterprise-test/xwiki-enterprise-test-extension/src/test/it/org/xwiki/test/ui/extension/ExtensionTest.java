@@ -95,11 +95,11 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         // Delete from the repository the XAR extensions we use in tests.
         // The extension page name is either the extension name, if specified, or the extension id. Most of the tests
         // don't set the extension name but some do and we end up with two extensions (two pages) with the same id.
-        getUtil().rest().deletePage("Extension", "Alice Wiki Macro");
-        getUtil().rest().deletePage("Extension", "Bob Wiki Macro");
-        getUtil().rest().deletePage("Extension", "alice-xar-extension");
-        getUtil().rest().deletePage("Extension", "bob-xar-extension");
-        getUtil().rest().deletePage("Extension", "scriptServiceJarExtension");
+        getRepositoryTestUtils().deleteExtension("Alice Wiki Macro");
+        getRepositoryTestUtils().deleteExtension("Bob Wiki Macro");
+        getRepositoryTestUtils().deleteExtension("alice-xar-extension");
+        getRepositoryTestUtils().deleteExtension("bob-xar-extension");
+        getRepositoryTestUtils().deleteExtension("scriptServiceJarExtension");
 
         getRepositoryTestUtils().waitUntilReady();
 

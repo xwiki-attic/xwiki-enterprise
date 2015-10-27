@@ -25,12 +25,13 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.xwiki.index.test.po.CopyPage;
-import org.xwiki.index.test.po.DocumentPicker;
+import org.xwiki.index.tree.test.po.DocumentPickerModal;
 import org.xwiki.model.reference.LocalDocumentReference;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.AttachmentsPane;
 import org.xwiki.test.ui.po.CopyConfirmationPage;
 import org.xwiki.test.ui.po.CopyOverwritePromptPage;
+import org.xwiki.test.ui.po.DocumentPicker;
 import org.xwiki.test.ui.po.ViewPage;
 
 /**
@@ -151,7 +152,9 @@ public class CopyPageTest extends AbstractTest
         // Fill the target destination the page to be copied to.
         DocumentPicker documentPicker = copyPage.getDocumentPicker();
         documentPicker.setTitle(targetPageName);
-        documentPicker.browseDocuments().waitForDocumentSelected(sourceSpaceName, "WebHome")
+        documentPicker.browseDocuments();
+        DocumentPickerModal documentPickerModal = new DocumentPickerModal();
+        documentPickerModal.waitForDocumentSelected(sourceSpaceName, "WebHome")
             .selectDocument(targetSpaceName, "WebHome");
         documentPicker.waitForLocation(Arrays.asList("", targetSpaceName, targetPageName));
         Assert.assertEquals(targetSpaceName, copyPage.getTargetSpaceName());

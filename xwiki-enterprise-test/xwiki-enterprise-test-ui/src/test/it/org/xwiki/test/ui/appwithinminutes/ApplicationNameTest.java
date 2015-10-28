@@ -76,9 +76,9 @@ public class ApplicationNameTest extends AbstractTest
         Assert.assertFalse(appCreatePage.getContent().contains(EMPTY_APP_NAME_ERROR_MESSAGE));
 
         // Try to move to the next step without typing the application name.
+        String urlBeforeClick = getDriver().getCurrentUrl();
         appCreatePage.clickNextStep();
-        appCreatePage.waitForApplicationNameError();
-        Assert.assertTrue(appCreatePage.getContent().contains(EMPTY_APP_NAME_ERROR_MESSAGE));
+        Assert.assertEquals(urlBeforeClick, getDriver().getCurrentUrl());
 
         // Type the application name.
         appCreatePage.setApplicationName("A");
@@ -91,8 +91,9 @@ public class ApplicationNameTest extends AbstractTest
         Assert.assertTrue(appCreatePage.getContent().contains(EMPTY_APP_NAME_ERROR_MESSAGE));
 
         // Try to create the application even if the error message is displayed.
+        urlBeforeClick = getDriver().getCurrentUrl();
         appCreatePage.clickNextStep();
-        Assert.assertTrue(appCreatePage.getContent().contains(EMPTY_APP_NAME_ERROR_MESSAGE));
+        Assert.assertEquals(urlBeforeClick, getDriver().getCurrentUrl());
 
         // Fix the application name and move to the next step.
         appCreatePage.setApplicationName(getTestMethodName());

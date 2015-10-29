@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-distribution</artifactId>
-    <version>7.3-SNAPSHOT</version>
+    <version>7.3-milestone-2</version>
   </parent>
   <artifactId>xwiki-enterprise-ui-mainwiki-all</artifactId>
   <name>XWiki Enterprise - UI - Main Wiki All</name>

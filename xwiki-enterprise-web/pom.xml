@@ -1117,26 +1117,6 @@ If you wish to have the default wiki pages, which contain both content pages and
                     <package>org.w3c.css.sac</package>
                   </packages>
                 </exception>
-                <!-- The classes below are incompatible. The legacy query plugin should be retired but Ludovic Dubost
-                     doesn't agree with it, see http://jira.xwiki.org/browse/XWIKI-8660. I don't see how the query
-                     plugin could work with such JCR incompatibilities though... While this is being discussed all
-                     we can do is silently ignore the incompatibility and hope that WebDAV support is still working
-                     (since jackrabbit-jrc-commons is used by our WebDAV module). -->
-                <exception>
-                  <conflictingDependencies>
-                    <dependency>
-                      <groupId>org.apache.jackrabbit</groupId>
-                      <artifactId>jackrabbit-core</artifactId>
-                    </dependency>
-                    <dependency>
-                      <groupId>org.apache.jackrabbit</groupId>
-                      <artifactId>jackrabbit-jcr-commons</artifactId>
-                    </dependency>
-                  </conflictingDependencies>
-                  <packages>
-                    <package>org.apache.jackrabbit</package>
-                  </packages>
-                </exception>
                 <!-- Logging shouldn't be configured by libraries! In any case since we route everything through
                      SLF4J, logging is configured by the SLF4J implementation used (e.g. Logback). -->
                 <exception>

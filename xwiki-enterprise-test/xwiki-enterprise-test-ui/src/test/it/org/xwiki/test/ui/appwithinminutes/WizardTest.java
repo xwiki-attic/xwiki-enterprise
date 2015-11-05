@@ -32,11 +32,11 @@ import org.xwiki.appwithinminutes.test.po.ApplicationsLiveTableElement;
 import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.EntryNamePane;
-import org.xwiki.index.test.po.SpaceIndexPage;
 import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
 import org.xwiki.test.ui.po.LiveTableElement;
+import org.xwiki.test.ui.po.PagesLiveTableElement;
 
 /**
  * Tests the App Within Minutes wizard.
@@ -75,9 +75,9 @@ public class WizardTest extends AbstractTest
     public void testCreateApplication()
     {
         // Step 1
-        // Enter the application name (random name). Make sure we include some UTF-8 chars also.
+        // Enter the application name (random name), making sure we also use some special chars.
         // See XWIKI-11747: Impossible to create new entry with an application having UTF8 chars in its name
-        String appName = RandomStringUtils.randomAlphabetic(6) + "\u00E2";
+        String appName = RandomStringUtils.randomAscii(10) + "\u00E2";
         appCreatePage.setApplicationName(appName);
 
         // Wait for the preview.
@@ -123,7 +123,7 @@ public class WizardTest extends AbstractTest
         Assert.assertTrue(homePage.getContent().contains(appDescription));
 
         // Add a new entry.
-        String firstEntryName = RandomStringUtils.randomAlphanumeric(6);
+        String firstEntryName = RandomStringUtils.randomAscii(6);
         EntryNamePane entryNamePane = homePage.clickAddNewEntry();
         entryNamePane.setName(firstEntryName);
         EntryEditPage entryEditPage = entryNamePane.clickAdd();
@@ -137,8 +137,7 @@ public class WizardTest extends AbstractTest
         entryEditPage.setValue("cityName", "London");
 
         // Save and go back to the application home page.
-        String appHomePageTitle = appName;
-        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appHomePageTitle);
+        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName);
         homePage = new ApplicationHomePage();
 
         // Assert the entry we have just created is listed in the live table.
@@ -146,13 +145,12 @@ public class WizardTest extends AbstractTest
         entriesLiveTable.waitUntilReady();
         Assert.assertTrue(entriesLiveTable.hasRow("City Name", "London"));
 
-        // Assert that the application space index lists only the home page and the entry we have just created. The rest
-        // of the documents (class, template, sheet, preferences) should be marked as hidden.
-        LiveTableElement appSpaceIndexLiveTable = SpaceIndexPage.gotoPage(appName).getLiveTable();
-        appSpaceIndexLiveTable.waitUntilReady();
-        Assert.assertEquals(2, appSpaceIndexLiveTable.getRowCount());
-        Assert.assertTrue(appSpaceIndexLiveTable.hasRow("Page", "WebHome"));
-        Assert.assertTrue(appSpaceIndexLiveTable.hasRow("Page", firstEntryName));
+        // Assert that only the entry we have just created is listed as child of the application home page. The rest of
+        // the documents (class, template, sheet, preferences) should be marked as hidden.
+        PagesLiveTableElement childrenLiveTable = homePage.viewChildren().getLiveTable();
+        childrenLiveTable.waitUntilReady();
+        Assert.assertEquals(1, childrenLiveTable.getRowCount());
+        Assert.assertTrue(childrenLiveTable.hasPageWithTitle(firstEntryName));
 
         // Go back to the application home page.
         getDriver().navigate().back();
@@ -194,7 +192,7 @@ public class WizardTest extends AbstractTest
         homePage = homeEditPage.clickFinish();
 
         // Add a new entry.
-        String secondEntryName = RandomStringUtils.randomAlphanumeric(6);
+        String secondEntryName = RandomStringUtils.randomAscii(6);
         entryNamePane = homePage.clickAddNewEntry();
         entryNamePane.setName(secondEntryName);
         entryEditPage = entryNamePane.clickAdd();
@@ -204,7 +202,7 @@ public class WizardTest extends AbstractTest
         Assert.assertEquals("POPULATION SIZE", entryEditPage.getLabel("number1"));
 
         // Save and go back to the application home page.
-        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appHomePageTitle);
+        entryEditPage.clickSaveAndView().clickBreadcrumbLink(appName);
         homePage = new ApplicationHomePage();
 
         // Assert both entries are displayed in the live table.
@@ -233,7 +231,7 @@ public class WizardTest extends AbstractTest
     public void testGoBackToFirstStep()
     {
         // Step 1
-        String appName = RandomStringUtils.randomAlphabetic(6);
+        String appName = RandomStringUtils.randomAscii(6);
         appCreatePage.setApplicationName(appName);
         appCreatePage.waitForApplicationNamePreview();
 

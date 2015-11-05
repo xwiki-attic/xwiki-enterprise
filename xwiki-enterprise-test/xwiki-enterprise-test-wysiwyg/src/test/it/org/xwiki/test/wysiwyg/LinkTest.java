@@ -1557,7 +1557,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // At this point no page is selected.
         clickButtonWithText(BUTTON_SELECT);
         assertFieldErrorIsPresentInStep("No page was selected", TREE_EXPLORER, "xExplorerPanel");
-        explorer.findAndSelectPage("Wiki Blog");
+        explorer.findAndSelectPage("Blog");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText("Previous");

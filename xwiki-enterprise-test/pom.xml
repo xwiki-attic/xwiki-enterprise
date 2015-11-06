@@ -480,7 +480,6 @@
     <module>xwiki-enterprise-test-pageobjects</module>
     <module>xwiki-enterprise-test-ui</module>
     <module>xwiki-enterprise-test-selenium</module>
-    <module>xwiki-enterprise-test-ldap</module>
     <module>xwiki-enterprise-test-webdav</module>
     <module>xwiki-enterprise-test-webstandards</module>
     <module>xwiki-enterprise-test-rest</module>

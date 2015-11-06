@@ -96,10 +96,10 @@ public class EditInlineTest extends AbstractTest
     {
         getUtil().gotoPage(getTestClassName(), getTestMethodName(), "save", "parent=Blog.WebHome");
         ViewPage vp = new ViewPage();
-        Assert.assertTrue(vp.hasBreadcrumbContent("The Wiki Blog", false));
+        Assert.assertTrue(vp.hasBreadcrumbContent("Blog", false));
         InlinePage ip = vp.editInline();
         ViewPage vp2 = ip.clickSaveAndView();
-        Assert.assertTrue(vp2.hasBreadcrumbContent("The Wiki Blog", false));
+        Assert.assertTrue(vp2.hasBreadcrumbContent("Blog", false));
     }
 
     /* See XWIKI-2199 */

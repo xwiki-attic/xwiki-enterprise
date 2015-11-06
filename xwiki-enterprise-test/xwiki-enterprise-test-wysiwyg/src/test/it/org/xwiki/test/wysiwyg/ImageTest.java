@@ -623,6 +623,7 @@ public class ImageTest extends AbstractWysiwygTestCase
         String pageName = getName() + ":a.b@c";
         String escapedPageName = pageName.replace(".", "\\.");
         String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
+        deletePage(spaceName, pageName);
         assertTrue(copyPage("XWiki", "AdminSheet", escapedSpaceName, pageName));
 
         // Come back to the edited page.

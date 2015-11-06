@@ -23,12 +23,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.Keys;
-import org.xwiki.appwithinminutes.test.po.AppWithinMinutesHomePage;
-import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;
-import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
-import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
-import org.xwiki.appwithinminutes.test.po.ApplicationsLiveTableElement;
 import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
@@ -50,12 +45,6 @@ public class ApplicationNameTest extends AbstractTest
      * The error message displayed when we try to create an application with an empty name.
      */
     private static final String EMPTY_APP_NAME_ERROR_MESSAGE = "Please enter the application name.";
-
-    /**
-     * The error message displayed when we input an application name that can't be used to compute a valid class name.
-     */
-    private static final String INVALID_CLASS_NAME_ERROR_MESSAGE =
-        "We can't extract a valid class name from the application name you entered.";
 
     /**
      * The warning message displayed when we input the name of an existing application.
@@ -141,46 +130,6 @@ public class ApplicationNameTest extends AbstractTest
     }
 
     /**
-     * Try to create an application with a name that can't be used to compute a valid class name.
-     */
-    @Test
-    @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
-    public void testInvalidAppName()
-    {
-        ApplicationCreatePage appCreatePage = ApplicationCreatePage.gotoPage();
-        Assert.assertFalse(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
-
-        // Set an invalid application name.
-        appCreatePage.setApplicationName("1");
-        appCreatePage.waitForApplicationNameError();
-        Assert.assertTrue(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
-
-        // Fix the application name.
-        appCreatePage.getApplicationNameInput().sendKeys("Z");
-        appCreatePage.waitForApplicationNamePreview();
-        Assert.assertFalse(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
-        Assert.assertTrue(appCreatePage.getContent().contains("ZClass"));
-
-        // Revert the fix.
-        appCreatePage.getApplicationNameInput().sendKeys(Keys.BACK_SPACE);
-        appCreatePage.waitForApplicationNameError();
-        Assert.assertTrue(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
-
-        // Try to move to the next step even if the application name is invalid.
-        appCreatePage.clickNextStep();
-        Assert.assertTrue(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
-
-        // Test class name filtering.
-        appCreatePage.setApplicationName("7\u0103?\u021B>/t:e-st_@28");
-        appCreatePage.waitForApplicationNamePreview();
-        Assert.assertTrue(appCreatePage.getContent().contains("\u0103\u021Bte-st_28Class"));
-        Assert.assertEquals("Class: 7\u0103?\u021B>/t:e-st_@28", appCreatePage.clickNextStep().getDocumentTitle());
-    }
-
-    /**
      * Try to input the name of an existing application.
      */
     @Test
@@ -199,68 +148,6 @@ public class ApplicationNameTest extends AbstractTest
         Assert.assertTrue(appCreatePage.getContent().contains(APP_NAME_USED_WARNING_MESSAGE));
 
         // Proceed to the next step.
-        Assert.assertTrue(appCreatePage.clickNextStep().hasBreadcrumbContent("BlogCode", false));
-    }
-
-    /**
-     * Try to create an application with a name that contains special characters and check if the correct data and code
-     * spaces are used.
-     */
-    @Test
-    @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
-    public void testSpecialCharactersInAppName()
-    {
-        ApplicationCreatePage appCreatePage = ApplicationCreatePage.gotoPage();
-        Assert.assertFalse(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
-
-        // Set an special character based application name.
-        String appPrettyName = "my \\app^";
-        String dataSpaceLocalReference = "my \\\\app^";
-        String codeSpace = "myappCode";
-        String className = "myappClass";
-        appCreatePage.setApplicationName(appPrettyName);
-        appCreatePage.waitForApplicationNamePreview();
-        Assert.assertFalse(appCreatePage.getContent().contains(INVALID_CLASS_NAME_ERROR_MESSAGE));
-        // Data space
-        Assert.assertTrue(appCreatePage.getContent().contains(appPrettyName));
-        // Code space
-        Assert.assertTrue(appCreatePage.getContent().contains(codeSpace));
-        // Class name
-        Assert.assertTrue(appCreatePage.getContent().contains(className));
-
-        // Move to the next step (class edit).
-        ApplicationClassEditPage classEditPage = appCreatePage.clickNextStep();
-        Assert.assertEquals("Class: " + appPrettyName, classEditPage.getDocumentTitle());
-        Assert.assertEquals(codeSpace, classEditPage.getMetaDataValue("space"));
-        Assert.assertEquals(className, classEditPage.getMetaDataValue("page"));
-
-        // Move to the next step (homepage edit).
-        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep();
-        Assert.assertEquals(appPrettyName, homeEditPage.getDocumentTitle());
-        Assert.assertEquals(dataSpaceLocalReference, homeEditPage.getMetaDataValue("space"));
-
-        // Move to the next step (homepage).
-        ApplicationHomePage homePage = homeEditPage.clickFinish();
-        Assert.assertEquals(appPrettyName, homePage.getDocumentTitle());
-        Assert.assertEquals(dataSpaceLocalReference, homePage.getMetaDataValue("space"));
-
-        // Edit the application's class.
-        classEditPage = homePage.clickEditApplication();
-        Assert.assertEquals(codeSpace, classEditPage.getMetaDataValue("space"));
-
-        // Move to the next step and check if we landed in the correct data space.
-        homeEditPage = classEditPage.clickNextStep();
-        Assert.assertEquals(dataSpaceLocalReference, homeEditPage.getMetaDataValue("space"));
-
-        // Go to the App Within Minutes home page.
-        AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
-
-        // Assert that the created application is listed in the live table.
-        ApplicationsLiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();
-        appsLiveTable.waitUntilReady();
-        Assert.assertTrue(appsLiveTable.isApplicationListed(appPrettyName));
+        Assert.assertEquals("/Blog/Code/Class: Blog", appCreatePage.clickNextStep().getBreadcrumbContent());
     }
 }

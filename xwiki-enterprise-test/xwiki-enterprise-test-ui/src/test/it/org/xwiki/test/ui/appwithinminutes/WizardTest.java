@@ -78,6 +78,7 @@ public class WizardTest extends AbstractTest
         // Enter the application name (random name), making sure we also use some special chars.
         // See XWIKI-11747: Impossible to create new entry with an application having UTF8 chars in its name
         String appName = RandomStringUtils.randomAscii(10) + "\u00E2";
+        String[] appPath = new String[] {getClass().getSimpleName(), this.testName.getMethodName(), appName};
         appCreatePage.setLocation(getClass().getSimpleName() + '.' + this.testName.getMethodName());
         appCreatePage.setApplicationName(appName);
 
@@ -218,8 +219,22 @@ public class WizardTest extends AbstractTest
         // Assert that the created application is listed in the live table.
         ApplicationsLiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();
         appsLiveTable.waitUntilReady();
-        Assert.assertTrue(appsLiveTable.isApplicationListed(getClass().getSimpleName(), this.testName.getMethodName(),
-            appName));
+        Assert.assertTrue(appsLiveTable.isApplicationListed(appPath));
+
+        // Delete the application entries.
+        homePage = appsLiveTable.viewApplication(appPath);
+        homePage.clickDeleteAllEntries().clickYes();
+        // Verify that the entries live table is empty.
+        entriesLiveTable = homePage.getEntriesLiveTable();
+        entriesLiveTable.waitUntilReady();
+        Assert.assertEquals(0, entriesLiveTable.getRowCount());
+
+        // Delete the application.
+        homePage.clickDeleteApplication().clickYes();
+        // Verify that the application is not listed anymore.
+        appsLiveTable = AppWithinMinutesHomePage.gotoPage().getAppsLiveTable();
+        appsLiveTable.waitUntilReady();
+        Assert.assertFalse(appsLiveTable.isApplicationListed(appPath));
     }
 
     /**

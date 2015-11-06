@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.ui.appwithinminutes;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -30,6 +32,7 @@ import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
 import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.EntryNamePane;
+import org.xwiki.model.reference.LocalDocumentReference;
 import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.AdminAuthenticationRule;
 import org.xwiki.test.ui.po.LiveTableElement;
@@ -109,7 +112,8 @@ public class DocumentFieldsTest extends AbstractTest
         Assert.assertTrue(liveTable.hasRow("My Content", "Bar"));
 
         // Check that the title and the content of the class have not been changed.
-        getUtil().gotoPage(appName + "Code", appName + "Class", "edit", "editor=wiki");
+        getUtil().gotoPage(new LocalDocumentReference(Arrays.asList(appName, "Code"), appName + "Class"), "edit",
+            "editor=wiki");
         WikiEditPage editPage = new WikiEditPage();
         Assert.assertEquals(appName + " Class", editPage.getTitle());
         Assert.assertEquals("", editPage.getContent());

@@ -78,6 +78,7 @@ public class WizardTest extends AbstractTest
         // Enter the application name (random name), making sure we also use some special chars.
         // See XWIKI-11747: Impossible to create new entry with an application having UTF8 chars in its name
         String appName = RandomStringUtils.randomAscii(10) + "\u00E2";
+        appCreatePage.setLocation(getClass().getSimpleName() + '.' + this.testName.getMethodName());
         appCreatePage.setApplicationName(appName);
 
         // Wait for the preview.
@@ -217,7 +218,8 @@ public class WizardTest extends AbstractTest
         // Assert that the created application is listed in the live table.
         ApplicationsLiveTableElement appsLiveTable = appWithinMinutesHomePage.getAppsLiveTable();
         appsLiveTable.waitUntilReady();
-        Assert.assertTrue(appsLiveTable.isApplicationListed(appName));
+        Assert.assertTrue(appsLiveTable.isApplicationListed(getClass().getSimpleName(), this.testName.getMethodName(),
+            appName));
     }
 
     /**

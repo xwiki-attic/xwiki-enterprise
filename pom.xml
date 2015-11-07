@@ -33,7 +33,7 @@
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>
-  <version>7.3-rc-1</version>
+  <version>7.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>XWiki Enterprise - Parent POM</name>
   <description>XWiki Enterprise - Parent POM</description>
@@ -41,7 +41,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise/tree/master/</url>
-    <tag>xwiki-enterprise-7.3-rc-1</tag>
+    <tag>stable-7.3.x</tag>
   </scm>
   <issueManagement>
     <system>jira</system>

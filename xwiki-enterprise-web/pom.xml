@@ -52,7 +52,7 @@ If you wish to have the default wiki pages, which contain both content pages and
   <dependencyManagement>
     <dependencies>
       <!--
-        Custom version with embedded log4j maven descriptor (so that it's found as core extension).
+        Custom version with embedded commons-logging maven descriptor (so that it's found as core extension).
         See http://jira.qos.ch/browse/SLF4J-340.
       -->
       <dependency>

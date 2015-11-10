@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.wysiwyg.framework;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -36,6 +39,9 @@ public class XWikiExplorer
 {
     private static final String FINDER_LOCATOR =
         "//input[@class = 'xtree-finder' and following-sibling::div[contains(@class, 'xExplorer')]]";
+
+    private static final By SELECTED_NODE = By
+        .xpath("//div[contains(@class, 'xExplorer')]//li[@role = 'treeitem' and @aria-selected = 'true']");
 
     private final XWikiWebDriver driver;
 
@@ -280,18 +286,18 @@ public class XWikiExplorer
      */
     public XWikiExplorer waitForIt()
     {
-        this.driver.waitUntilElementIsVisible(By.className("xExplorer"));
-        final By treeLoading = By.xpath("//div[contains(@class, 'xExplorer') and @aria-busy = 'true']");
-        final By treeItemLoading =
-            By.xpath("//div[contains(@class, 'xExplorer')]"
-                + "//li[@role = 'treeitem' and contains(@class, 'loading')]");
+        // The editor attempts to open the tree to a specified node. If the node is found then it is selected. Otherwise
+        // the value of the finder is set to the node id. Thus we wait for a node to be selected or for the finder to
+        // have a non-empty value.
         this.driver.waitUntilCondition(new ExpectedCondition<Boolean>()
         {
             @Override
             public Boolean apply(WebDriver input)
             {
-                return !XWikiExplorer.this.driver.hasElementWithoutWaiting(treeLoading)
-                    && !XWikiExplorer.this.driver.hasElementWithoutWaiting(treeItemLoading);
+                List<WebElement> finders =
+                    XWikiExplorer.this.driver.findElementsWithoutWaiting(By.xpath(FINDER_LOCATOR));
+                return (!finders.isEmpty() && !StringUtils.isEmpty(finders.get(0).getAttribute("value")))
+                    || XWikiExplorer.this.driver.hasElementWithoutWaiting(SELECTED_NODE);
             }
         });
         return this;
@@ -348,8 +354,7 @@ public class XWikiExplorer
 
     private XWikiExplorer waitForNodeSelected()
     {
-        this.driver.waitUntilElementIsVisible(By
-            .xpath("//div[contains(@class, 'xExplorer')]//li[@aria-selected = 'true']"));
+        this.driver.waitUntilElementIsVisible(SELECTED_NODE);
         return this;
     }
 

@@ -65,6 +65,7 @@
         <filtered>true</filtered>
         <includes>
           <include>**/start_xwiki*.*</include>
+          <include>**/stop_xwiki*.*</include>
         </includes>
       </unpackOptions>
       <!-- Extracting some resources from the dependency somehow looses the file permissions, so we need to set them

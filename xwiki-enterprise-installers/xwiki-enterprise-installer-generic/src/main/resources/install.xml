@@ -123,8 +123,10 @@
       <!-- Replace xwikiDataDir variables in Jetty start shell scripts -->
       <parsable targetfile="$INSTALL_PATH/start_xwiki.sh"/>
       <parsable targetfile="$INSTALL_PATH/start_xwiki_debug.sh"/>
+      <parsable targetfile="$INSTALL_PATH/stop_xwiki.sh"/>
       <parsable targetfile="$INSTALL_PATH/start_xwiki.bat"/>
       <parsable targetfile="$INSTALL_PATH/start_xwiki_debug.bat"/>
+      <parsable targetfile="$INSTALL_PATH/stop_xwiki.bat"/>
       <!-- Set execute permissions for .sh files -->
       <executable targetfile="$INSTALL_PATH/start_xwiki.sh" stage="never"/>
       <executable targetfile="$INSTALL_PATH/stop_xwiki.sh" stage="never"/>

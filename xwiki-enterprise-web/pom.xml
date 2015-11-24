@@ -1041,9 +1041,9 @@ If you wish to have the default wiki pages, which contain both content pages and
       </plugin>
       <!-- Ensure we don't have duplicates in WEB-INF/lib -->
       <plugin>
-        <groupId>com.ning.maven.plugins</groupId>
-        <artifactId>maven-duplicate-finder-plugin</artifactId>
-        <version>1.0.3</version>
+        <groupId>org.basepom.maven</groupId>
+        <artifactId>duplicate-finder-maven-plugin</artifactId>
+        <version>1.2.1</version>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -1246,29 +1246,31 @@ If you wish to have the default wiki pages, which contain both content pages and
                   </classes>
                 </exception>
               </exceptions>
-              <ignoredResources>
+              <ignoredResourcePatterns>
                 <!-- Exclude XWiki's Component registration file -->
-                <ignoredResource>META-INF/components.txt</ignoredResource>
+                <ignoredResourcePattern>META-INF/components.txt</ignoredResourcePattern>
                 <!-- Several libs have a README file -->
-                <ignoredResource>META-INF/README.txt</ignoredResource>
+                <ignoredResourcePattern>META-INF/README.txt</ignoredResourcePattern>
                 <!-- Several libs have a RELEASENOTES file -->
-                <ignoredResource>RELEASE_NOTES.TXT</ignoredResource>
+                <ignoredResourcePattern>RELEASE_NOTES.TXT</ignoredResourcePattern>
                 <!-- JAXB2 plugin resources. TODO: Exclude them from the XWiki JARs -->
-                <ignoredResource>META-INF/sun-jaxb.episode</ignoredResource>
-                <ignoredResource>simple.xjb</ignoredResource>
+                <ignoredResourcePattern>META-INF/sun-jaxb.episode</ignoredResourcePattern>
+                <ignoredResourcePattern>simple.xjb</ignoredResourcePattern>
                 <!-- JDOM resources -->
-                <ignoredResource>META-INF/jdom-info.xml</ignoredResource>
+                <ignoredResourcePattern>META-INF/jdom-info.xml</ignoredResourcePattern>
                 <!-- Sisu components -->
-                <ignoredResource>META-INF/sisu/javax.inject.Named</ignoredResource>
+                <ignoredResourcePattern>META-INF/sisu/javax.inject.Named</ignoredResourcePattern>
                 <!-- Eclipse projects generally contains about.html file -->
-                <ignoredResource>about.html</ignoredResource>
+                <ignoredResourcePattern>about.html</ignoredResourcePattern>
+                <!-- Usually contain licenses often having same file name -->
+                <ignoredResourcePattern>license/.*.txt</ignoredResourcePattern>
                 <!-- ApplicationResources.properties is duplicated but that's ok since it's how we want it work, see:
                      http://extensions.xwiki.org/xwiki/bin/view/Extension/Localization+Module#HProvidetranslationbundleinajar
                  -->
-                <ignoredResource>ApplicationResources(_.*)?\.properties</ignoredResource>
+                <ignoredResourcePattern>ApplicationResources(_.*)?\.properties</ignoredResourcePattern>
                 <!-- Apache karaf stuff -->
-                <ignoredResource>features.xml</ignoredResource>
-              </ignoredResources>
+                <ignoredResourcePattern>features.xml</ignoredResourcePattern>
+              </ignoredResourcePatterns>
             </configuration>
           </execution>
         </executions>

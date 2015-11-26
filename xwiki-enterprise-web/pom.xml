@@ -1401,8 +1401,8 @@ If you wish to have the default wiki pages, which contain both content pages and
         <plugins>
           <!-- Ensure we don't have duplicates in WEB-INF/lib -->
           <plugin>
-            <groupId>com.ning.maven.plugins</groupId>
-            <artifactId>maven-duplicate-finder-plugin</artifactId>
+            <groupId>org.basepom.maven</groupId>
+            <artifactId>duplicate-finder-maven-plugin</artifactId>
             <configuration>
               <!-- Ignore non legacy modules that have legacy modules wrapping them -->
               <!-- This list should match in property xwiki.war.legacy.excludes above -->
@@ -1468,8 +1468,8 @@ If you wish to have the default wiki pages, which contain both content pages and
       <build>
         <plugins>
           <plugin>
-            <groupId>com.ning.maven.plugins</groupId>
-            <artifactId>maven-duplicate-finder-plugin</artifactId>
+            <groupId>org.basepom.maven</groupId>
+            <artifactId>duplicate-finder-maven-plugin</artifactId>
             <configuration>
               <skip>true</skip>
             </configuration>

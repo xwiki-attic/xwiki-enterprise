@@ -1410,42 +1410,34 @@ If you wish to have the default wiki pages, which contain both content pages and
                 <dependency>
                   <groupId>org.xwiki.commons</groupId>
                   <artifactId>xwiki-commons-component-api</artifactId>
-                  <version>${commons.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.commons</groupId>
                   <artifactId>xwiki-commons-component-default</artifactId>
-                  <version>${commons.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.commons</groupId>
                   <artifactId>xwiki-commons-observation-api</artifactId>
-                  <version>${commons.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.rendering</groupId>
                   <artifactId>xwiki-rendering-api</artifactId>
-                  <version>${rendering.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-platform-crypto-script</artifactId>
-                  <version>${platform.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-platform-oldcore</artifactId>
-                  <version>${platform.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-platform-office-importer</artifactId>
-                  <version>${platform.version}</version>
                 </dependency>
                 <dependency>
                   <groupId>org.xwiki.platform</groupId>
                   <artifactId>xwiki-platform-rendering-macro-include</artifactId>
-                  <version>${platform.version}</version>
                 </dependency>
               </ignoredDependencies>
             </configuration>

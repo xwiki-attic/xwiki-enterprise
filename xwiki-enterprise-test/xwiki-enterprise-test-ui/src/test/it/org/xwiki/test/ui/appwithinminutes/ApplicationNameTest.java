@@ -66,7 +66,7 @@ public class ApplicationNameTest extends AbstractTest
 
         // Try to move to the next step without typing the application name.
         String urlBeforeClick = getDriver().getCurrentUrl();
-        appCreatePage.clickNextStep();
+        appCreatePage.clickNextStepButton();
         Assert.assertEquals(urlBeforeClick, getDriver().getCurrentUrl());
 
         // Type the application name.
@@ -81,7 +81,7 @@ public class ApplicationNameTest extends AbstractTest
 
         // Try to create the application even if the error message is displayed.
         urlBeforeClick = getDriver().getCurrentUrl();
-        appCreatePage.clickNextStep();
+        appCreatePage.clickNextStepButton();
         Assert.assertEquals(urlBeforeClick, getDriver().getCurrentUrl());
 
         // Fix the application name and move to the next step.

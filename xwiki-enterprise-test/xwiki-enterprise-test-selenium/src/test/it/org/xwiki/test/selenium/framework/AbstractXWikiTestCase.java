@@ -242,6 +242,11 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         return getSelenium().isElementPresent(locator);
     }
 
+    public boolean isElementPresentWithoutWaiting(By by)
+    {
+        return getDriver().hasElementWithoutWaiting(by);
+    }
+
     public boolean isLinkPresent(String text)
     {
         return isElementPresent("link=" + text);

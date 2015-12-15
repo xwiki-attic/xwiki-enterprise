@@ -51,23 +51,24 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public boolean isAuthenticated()
     {
-        return getTest().isElementPresent("//div[@id='xwikimainmenu']//li[contains(@class, 'navbar-avatar')]");
+        return getTest().isElementPresentWithoutWaiting(By.xpath(
+                "//div[@id='xwikimainmenu']//li[contains(@class, 'navbar-avatar')]"));
     }
 
     @Override
     public boolean isAuthenticated(String username)
     {
-        return getTest().isElementPresent(
-            "//div[@id='xwikimainmenu']//li[contains(@class, 'navbar-avatar')]"
-                + "//a[contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]");
+        return getTest().isElementPresentWithoutWaiting(By.xpath(
+                "//div[@id='xwikimainmenu']//li[contains(@class, 'navbar-avatar')]"
+                        + "//a[contains(@href, '/xwiki/bin/view/XWiki/" + username + "')]"));
     }
 
     @Override
     public boolean isAuthenticationMenuPresent()
     {
         openDrawer();
-        boolean isAuthenticationMenuPresent = getTest().isElementPresent("//a[@id = 'tmLogin']")
-                    || getTest().isElementPresent("//a[@id = 'tmLogout']");
+        boolean isAuthenticationMenuPresent = getTest().isElementPresentWithoutWaiting(By.xpath("//a[@id = 'tmLogin']"))
+                    || getTest().isElementPresentWithoutWaiting(By.xpath("//a[@id = 'tmLogout']"));
         closeDrawer();
         return isAuthenticationMenuPresent;
     }

@@ -21,6 +21,7 @@ package org.xwiki.test.selenium;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
 import org.xwiki.test.selenium.framework.XWikiTestSuite;
@@ -667,7 +668,14 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.ConfigurableClass_0_displayInSection", section);
         setFieldValue("XWiki.ConfigurableClass_0_heading", "Some Heading");
         setFieldValue("XWiki.ConfigurableClass_0_configurationClass", space + "." + page);
-        if (global == true) {
+        
+        // Unfold the XWiki.ConfigurableClass object so that we can modify its properties
+        WebElement configurableClassObj = getDriver().findElement(By.id("xobject_XWiki.ConfigurableClass_0"));
+        if (configurableClassObj.getAttribute("class").contains("collapsed")) {
+            getSelenium().click("xobject_XWiki.ConfigurableClass_0");
+        }
+        
+        if (global) {
             getSelenium().check("XWiki.ConfigurableClass_0_configureGlobally");
         } else {
             getSelenium().uncheck("XWiki.ConfigurableClass_0_configureGlobally");

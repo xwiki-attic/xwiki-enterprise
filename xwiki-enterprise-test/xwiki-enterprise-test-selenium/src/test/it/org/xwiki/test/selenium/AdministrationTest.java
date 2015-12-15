@@ -672,7 +672,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         // Unfold the XWiki.ConfigurableClass object so that we can modify its properties
         WebElement configurableClassObj = getDriver().findElement(By.id("xobject_XWiki.ConfigurableClass_0"));
         if (configurableClassObj.getAttribute("class").contains("collapsed")) {
-            getSelenium().click("xobject_XWiki.ConfigurableClass_0");
+            configurableClassObj.click();
         }
         
         if (global) {

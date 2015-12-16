@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian</artifactId>
-    <version>7.4-milestone-2</version>
+    <version>7.4-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-pgsql-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Postgres SQL - Common</name>

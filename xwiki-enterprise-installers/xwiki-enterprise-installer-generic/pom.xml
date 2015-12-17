@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installers</artifactId>
-    <version>6.4.7-SNAPSHOT</version>
+    <version>6.4.7</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-generic</artifactId>
   <name>XWiki Enterprise - Installers - Generic</name>

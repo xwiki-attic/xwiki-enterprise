@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-data</artifactId>
-    <version>7.4-SNAPSHOT</version>
+    <version>7.4-rc-1</version>
   </parent>
   <artifactId>xwiki-enterprise-data-hsqldb</artifactId>
   <name>XWiki Enterprise - Data - HSQLDB</name>

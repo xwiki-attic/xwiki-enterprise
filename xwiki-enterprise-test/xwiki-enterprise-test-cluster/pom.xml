@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-test</artifactId>
-    <version>7.4-rc-1</version>
+    <version>7.4-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-test-cluster</artifactId>
   <name>XWiki Enterprise - Functional Tests - Cluster</name>

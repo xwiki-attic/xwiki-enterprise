@@ -38,7 +38,6 @@ public class DocumentReferenceTarget implements Target
     @Override
     public String getName()
     {
-        return "space=" + this.documentReference.getLastSpaceReference().getName() + ", page="
-            + this.documentReference.getName();
+        return documentReference.toString();
     }
 }

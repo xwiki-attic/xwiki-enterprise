@@ -27,10 +27,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
@@ -42,10 +38,15 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.lang.StringUtils;
 import org.xwiki.model.internal.reference.DefaultStringEntityReferenceSerializer;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.SpaceReference;
 import org.xwiki.model.reference.WikiReference;
 import org.xwiki.validator.Validator;
 import org.xwiki.xar.XarEntry;
 import org.xwiki.xar.XarPackage;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 public class AbstractValidationTest extends TestCase
 {
@@ -73,11 +74,15 @@ public class AbstractValidationTest extends TestCase
 
         if (this.target instanceof DocumentReferenceTarget) {
             DocumentReferenceTarget documentReferenceTarget = (DocumentReferenceTarget) this.target;
-            getMethod =
-                new GetMethod("http://127.0.0.1:8080/xwiki/bin/view/"
-                    + URLEncoder.encode(documentReferenceTarget.getDocumentReference().getLastSpaceReference()
-                        .getName(), "UTF-8") + "/"
-                    + URLEncoder.encode(documentReferenceTarget.getDocumentReference().getName(), "UTF-8"));
+            StringBuilder url = new StringBuilder();
+            url.append("http://127.0.0.1:8080/xwiki/bin/view/");
+            for (SpaceReference spaceReference : documentReferenceTarget.getDocumentReference().getSpaceReferences()) {
+                url.append(URLEncoder.encode(spaceReference.getName(), "UTF-8"));
+                url.append("/");
+            }
+            url.append(URLEncoder.encode(documentReferenceTarget.getDocumentReference().getName(), "UTF-8"));
+            
+            getMethod = new GetMethod(url.toString());
         } else if (this.target instanceof URLPathTarget) {
             String urlPath = ((URLPathTarget) this.target).getUrlPath();
 

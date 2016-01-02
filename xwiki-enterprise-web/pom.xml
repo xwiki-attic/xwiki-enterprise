@@ -115,13 +115,6 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- WebDAV module -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-webdav-server</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     <!-- REST module -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>
@@ -189,6 +182,12 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-extension-handler-xar</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-vfs-api</artifactId>
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>

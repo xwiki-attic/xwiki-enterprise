@@ -298,14 +298,14 @@
                 <name>rssUrlsToTestAsAdmin</name>
                 <value>
                   /xwiki/bin/view/Main/DatabaseSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
-                  /xwiki/bin/view/Main/LuceneSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                  /xwiki/bin/get/Main/DatabaseSearch?outputSyntax=plain&amp;space=&amp;text=wiki
                 </value>
               </property>
               <property>
                 <name>rssUrlsToTestAsGuest</name>
                 <value>
                   /xwiki/bin/view/Main/DatabaseSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
-                  /xwiki/bin/view/Main/LuceneSearch?xpage=plain&amp;outputSyntax=plain&amp;text=wiki
+                  /xwiki/bin/get/Main/DatabaseSearch?outputSyntax=plain&amp;space=&amp;text=wiki
                 </value>
               </property>
               <!-- Used only in office importer tests -->

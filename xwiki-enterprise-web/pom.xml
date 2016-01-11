@@ -710,15 +710,6 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Required by the Statistics application.
-         TODO: Find a way to not have to duplicate this information, it's already defined in the dependencies
-         of the statistics UI module -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-chart-plugin</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     <!-- Feed -->
     <dependency>
       <groupId>org.xwiki.platform</groupId>

@@ -162,7 +162,6 @@
       org.xwiki.platform:xwiki-platform-logging-ui,
       org.xwiki.platform:xwiki-platform-help-ui,
       org.xwiki.platform:xwiki-platform-uiextension-ui,
-      org.xwiki.platform:xwiki-platform-colorthemes-ui,
       org.xwiki.platform:xwiki-platform-activitystream-ui,
       org.xwiki.platform:xwiki-platform-messagestream-ui,
       org.xwiki.platform:xwiki-platform-sandbox,

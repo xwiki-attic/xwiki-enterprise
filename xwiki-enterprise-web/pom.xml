@@ -80,13 +80,6 @@ If you wish to have the default wiki pages, which contain both content pages and
       <type>war</type>
     </dependency>
 
-    <!-- Make sure to include the proper version of antlr for hibernate-core -->
-    <dependency>
-      <groupId>antlr</groupId>
-      <artifactId>antlr</artifactId>
-      <version>2.7.6</version>
-    </dependency>
-
     <!-- Dependencies we need inside the XE WAR -->
     <!-- Add the GWT JAR so that the XWiki GWT Servlet can be activated by default in web.xml -->
     <dependency>

@@ -76,4 +76,5 @@
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
+  </dependencies>
 </project>

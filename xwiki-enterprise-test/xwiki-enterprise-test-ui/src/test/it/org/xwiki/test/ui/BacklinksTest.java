@@ -36,13 +36,6 @@ public class BacklinksTest extends AbstractTest
     public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     @Test
-    public void testBacklinksCreationSyntax10() throws Exception
-    {
-        testBacklinksCreation("xwiki/1.0", "#foreach ($link in $doc.getBacklinks())\n$link\n#end",
-            "[backlink>Test.BacklinkTargetTest]");
-    }
-
-    @Test
     public void testBacklinksCreationSyntax20() throws Exception
     {
         testBacklinksCreation("xwiki/2.0",

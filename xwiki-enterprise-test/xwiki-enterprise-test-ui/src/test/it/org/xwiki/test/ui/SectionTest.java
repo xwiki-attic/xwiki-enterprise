@@ -75,39 +75,6 @@ public class SectionTest extends AbstractTest
     }
 
     /**
-     * Verify edit section is working in both wiki and wysiwyg editors (xwiki/1.0).
-     * See XWIKI-174: Sectional editing.
-     */
-    @Test
-    @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
-    public void testSectionEditInEditorWhenSyntax10()
-    {
-        ViewPage vp = createTestPages("xwiki/1.0");
-
-        // Edit the second section in the wysiwyg editor
-        WYSIWYGEditPage wysiwygEditPage = vp.editSection(2);
-        Assert.assertEquals("Section2\nContent2\nSection3\nContent3", wysiwygEditPage.getContent());
-
-        // Edit the second section in the wiki editor
-        WikiEditPage wikiEditPage = wysiwygEditPage.editWiki();
-        Assert.assertEquals("1 Section2 Content2 1.1 Section3 Content3",
-            wikiEditPage.getContent());
-        wikiEditPage.clickCancel();
-
-        // Edit the third section in the wiki editor
-        Assert.assertEquals("1.1 Section3 Content3",
-            vp.editSection(3).editWiki().getContent());
-        wikiEditPage.clickCancel();
-
-        // Edit the fourth section in the wiki editor
-        Assert.assertEquals("1 Section4 Content4",
-            vp.editSection(4).editWiki().getContent());
-    }
-
-    /**
      * Verify edit section is working in both wiki and wysiwyg editors (xwiki/2.0 and xwiki/2.1).
      *
      * Note that we currently don't support section editing for included content (it would mean navigating to the
@@ -153,24 +120,6 @@ public class SectionTest extends AbstractTest
         // is "Section7".
         wikiEditPage = vp.editSection(4).editWiki();
         Assert.assertEquals("= Section7 = Content7", wikiEditPage.getContent());
-    }
-
-    /**
-     * Verify section save does not override the whole document content (xwiki/1.0).
-     * See XWIKI-4033: When saving after section edit entire page is overwritten.
-     */
-    @Test
-    @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
-    })
-    public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax10()
-    {
-        ViewPage vp = createTestPages("xwiki/1.0");
-        vp.editSection(3).editWiki().clickSaveAndView();
-        WikiEditPage wep = vp.editWiki();
-        Assert.assertEquals("1 Section1 Content1 1 Section2 Content2 1.1 Section3 Content3 1 Section4 Content4",
-            wep.getContent());
     }
 
     /**

@@ -1350,7 +1350,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         moveCaret("document.body.firstChild.childNodes[2].firstChild", 2);
         openLinkDialog(MENU_LINK_EDIT);
         waitForStepToLoad("xExplorerPanel");
-        explorer.waitForFinderValue("document:xwiki:Sandbox.NewPage");
+        explorer.waitForFinderValue("document:xwiki:Sandbox.NewPage.WebHome");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText(BUTTON_CREATE_LINK);

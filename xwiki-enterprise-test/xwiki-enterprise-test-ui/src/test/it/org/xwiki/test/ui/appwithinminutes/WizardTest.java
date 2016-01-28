@@ -19,6 +19,8 @@
  */
 package org.xwiki.test.ui.appwithinminutes;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,6 +34,7 @@ import org.xwiki.appwithinminutes.test.po.ApplicationsLiveTableElement;
 import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
 import org.xwiki.appwithinminutes.test.po.EntryNamePane;
+import org.xwiki.index.tree.test.po.DocumentPickerModal;
 import org.xwiki.test.ui.AbstractTest;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.browser.IgnoreBrowsers;
@@ -58,6 +61,9 @@ public class WizardTest extends AbstractTest
         String userName = RandomStringUtils.randomAlphanumeric(5);
         String password = RandomStringUtils.randomAlphanumeric(6);
         getUtil().createUserAndLogin(userName, password);
+        // Make sure the application location exists so that we can select it with the location picker.
+        getUtil().createPage(Arrays.asList(getClass().getSimpleName(), this.testName.getMethodName()), "WebHome", null,
+            null);
         AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
 
         // Click the Create Application button.
@@ -75,11 +81,16 @@ public class WizardTest extends AbstractTest
     public void testCreateApplication()
     {
         // Step 1
+        // Set the application location.
+        appCreatePage.getLocationPicker().browseDocuments();
+        new DocumentPickerModal().selectDocument(getClass().getSimpleName(), this.testName.getMethodName(), "WebHome");
+        appCreatePage.getLocationPicker().waitForLocation(
+            Arrays.asList("", getClass().getSimpleName(), this.testName.getMethodName(), ""));
+
         // Enter the application name (random name), making sure we also use some special chars.
         // See XWIKI-11747: Impossible to create new entry with an application having UTF8 chars in its name
         String appName = RandomStringUtils.randomAscii(10) + "\u00E2";
         String[] appPath = new String[] {getClass().getSimpleName(), this.testName.getMethodName(), appName};
-        appCreatePage.setLocation(getClass().getSimpleName() + '.' + this.testName.getMethodName());
         appCreatePage.setApplicationName(appName);
 
         // Wait for the preview.

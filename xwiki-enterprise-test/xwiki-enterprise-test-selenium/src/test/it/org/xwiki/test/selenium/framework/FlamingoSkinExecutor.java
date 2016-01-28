@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.selenium.framework;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.junit.Assert;
 import org.openqa.selenium.By;
 
@@ -162,5 +165,29 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
         openDrawer();
         // Click the "Administer Wiki" link.
         getTest().getSelenium().click("tmAdminWiki");
+    }
+
+    @Override
+    public boolean copyPage(String spaceName, String pageName, String targetSpaceName, String targetPageName)
+    {
+        StringBuilder queryString = new StringBuilder("xpage=copy");
+        queryString.append("&form_token=").append(encodeURLParameter(getTest().getSecretToken()));
+        queryString.append("&sourceSpaceName=").append(encodeURLParameter(spaceName));
+        queryString.append("&sourcePageName=").append(encodeURLParameter(pageName));
+        queryString.append("&targetSpaceName=").append(encodeURLParameter(targetSpaceName));
+        queryString.append("&targetPageName=").append(encodeURLParameter(targetPageName));
+        String copyURL = getTest().getUrl(spaceName, pageName, "view", queryString.toString());
+        getTest().open(copyURL);
+        return getTest().getDriver().hasElement(By.cssSelector(".xcontent .successmessage"));
+    }
+
+    private String encodeURLParameter(String value)
+    {
+        try {
+            return URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // Shouldn't happen.
+            return null;
+        }
     }
 }

@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.1">
+<xwikidoc version="1.2" reference="XWiki.XWikiPreferences" locale="">
   <web>XWiki</web>
   <name>XWikiPreferences</name>
   <language/>
@@ -31,8 +31,8 @@
   <parent>XWiki.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1375450864000</date>
-  <contentUpdateDate>1375450864000</contentUpdateDate>
+  <date>1454083420000</date>
+  <contentUpdateDate>1453746013000</contentUpdateDate>
   <version>1.1</version>
   <title>XWiki Preferences</title>
   <comment/>
@@ -1085,34 +1085,13 @@
       <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
     </tags>
     <timezone>
-      <customDisplay>{{velocity}}
-      #if ($xcontext.action == 'admin' || $xcontext.action == 'edit' || $xcontext.action == 'inline')
-        {{html}}
-          #if($xwiki.jodatime)
-            &lt;select id='$prefix$name' name='$prefix$name'&gt;
-              &lt;option value="" #if($value == $tz)selected="selected"#end&gt;$services.localization.render('XWiki.XWikiPreferences_timezone_default')&lt;/option&gt;
-              #foreach($tz in $xwiki.jodatime.getServerTimezone().getAvailableIDs())
-                &lt;option value="$tz" #if($value == $tz)selected="selected"#end&gt;$tz&lt;/option&gt;
-              #end
-            &lt;/select&gt;
-          #else
-            &lt;input id='$prefix$name' name='$prefix$name' type="text" value="$!value"/&gt;
-          #end
-        {{/html}}
-      #else
-        $value
-      #end
-      {{/velocity}}</customDisplay>
       <disabled>0</disabled>
       <name>timezone</name>
-      <number>71</number>
-      <picker>0</picker>
-      <prettyName>Timezone</prettyName>
+      <number>75</number>
+      <prettyName>Time Zone</prettyName>
       <size>30</size>
       <unmodifiable>0</unmodifiable>
-      <validationMessage/>
-      <validationRegExp/>
-      <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      <classType>com.xpn.xwiki.objects.classes.TimezoneClass</classType>
     </timezone>
     <title>
       <customDisplay/>
@@ -2547,34 +2526,13 @@
         <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
       </tags>
       <timezone>
-        <customDisplay>{{velocity}}
-      #if ($xcontext.action == 'admin' || $xcontext.action == 'edit' || $xcontext.action == 'inline')
-        {{html}}
-          #if($xwiki.jodatime)
-            &lt;select id='$prefix$name' name='$prefix$name'&gt;
-              &lt;option value="" #if($value == $tz)selected="selected"#end&gt;$services.localization.render('XWiki.XWikiPreferences_timezone_default')&lt;/option&gt;
-              #foreach($tz in $xwiki.jodatime.getServerTimezone().getAvailableIDs())
-                &lt;option value="$tz" #if($value == $tz)selected="selected"#end&gt;$tz&lt;/option&gt;
-              #end
-            &lt;/select&gt;
-          #else
-            &lt;input id='$prefix$name' name='$prefix$name' type="text" value="$!value"/&gt;
-          #end
-        {{/html}}
-      #else
-        $value
-      #end
-      {{/velocity}}</customDisplay>
         <disabled>0</disabled>
         <name>timezone</name>
-        <number>71</number>
-        <picker>0</picker>
-        <prettyName>Timezone</prettyName>
+        <number>75</number>
+        <prettyName>Time Zone</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+        <classType>com.xpn.xwiki.objects.classes.TimezoneClass</classType>
       </timezone>
       <title>
         <customDisplay/>

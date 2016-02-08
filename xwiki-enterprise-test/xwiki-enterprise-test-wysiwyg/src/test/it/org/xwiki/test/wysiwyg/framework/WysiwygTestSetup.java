@@ -22,6 +22,8 @@ package org.xwiki.test.wysiwyg.framework;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.thoughtworks.selenium.Wait;
+
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -60,6 +62,32 @@ public class WysiwygTestSetup extends TestSetup
 
         // Set up the WYSIWYG tests using the first WYSIWYG Test case for Selenium and skin executor API.
         enableAllEditingFeatures(firstXWikiTest);
+
+        // Wait for Solr to finish indexing.
+        waitForSolrIndexing(firstXWikiTest);
+    }
+
+    private void waitForSolrIndexing(final AbstractWysiwygTestCase firstXWikiTest)
+    {
+        firstXWikiTest.open("XWiki", "XWikiPreferences", "admin", "section=Search");
+
+        final String solrQueueSizeLocator = "//.[contains(@class, 'solrQueueSize')]";
+        final String expectedValue = "0";
+
+        // Wait for 10 minutes max.
+        // (timed it at 5:50 minutes on a local machine, jetty+hsqldb instance, i7 + SSD, 08.feb.2016)
+        new Wait()
+        {
+            @Override
+            public boolean until()
+            {
+                String currentValue = firstXWikiTest.getSelenium().getText(solrQueueSizeLocator);
+                return currentValue.equals(expectedValue);
+            }
+        }.wait(firstXWikiTest.getSelenium().isElementPresent(solrQueueSizeLocator) ? "Element [" + solrQueueSizeLocator
+            + "] not found" : "Element [" + solrQueueSizeLocator + "] found but it doesn't have the expected value ["
+            + expectedValue + "]. Actual value was [" + firstXWikiTest.getSelenium().getText(solrQueueSizeLocator)
+            + "]", 600000);
     }
 
     /**

@@ -32,17 +32,16 @@
   <packaging>xar</packaging>
   <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise (sub)wiki.</description>
   <properties>
-    <xwiki.extension.category>flavor</xwiki.extension.category>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>XWiki Enterprise Flavor - Sub Wiki</xwiki.extension.name>
+
+    <!-- Make it a flavor-->
+    <xwiki.extension.category>flavor</xwiki.extension.category>
+
+    <!-- Should be insalled on a wiki but not main wiki -->
+    <xwiki.extension.namespaces>[wiki:(?!xwiki)]</xwiki.extension.namespaces>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-mainwikipreferences</artifactId>
-      <version>${project.version}</version>
-      <type>xar</type>
-    </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-common</artifactId>
@@ -67,21 +66,21 @@
           <transformations>
             <!-- Specify different rights for XWiki.XWikiGuest -->
             <transformation>
-              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-mainwikipreferences</artifact>
+              <artifact>org.xwiki.platform:xwiki-platform-distribution-flavor</artifact>
               <file>XWiki/XWikiPreferences.xml</file>
               <xpath>xwikidoc/object[property/users[text()="XWiki.XWikiGuest"]]/property/levels</xpath>
               <value>register</value>
             </transformation>
             <!-- Specify different rights for XWiki.XWikiAllGroup -->
             <transformation>
-              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-mainwikipreferences</artifact>
+              <artifact>org.xwiki.platform:xwiki-platform-distribution-flavor</artifact>
               <file>XWiki/XWikiPreferences.xml</file>
               <xpath>xwikidoc/object[property/groups[contains(text(),"XWiki.XWikiAllGroup")]]/property/levels</xpath>
               <value>edit,comment,register</value>
             </transformation>
             <!-- Specify different rights for XWiki.XWikiAdminGroup -->
             <transformation>
-              <artifact>org.xwiki.enterprise:xwiki-enterprise-ui-mainwikipreferences</artifact>
+              <artifact>org.xwiki.platform:xwiki-platform-distribution-flavor</artifact>
               <file>XWiki/XWikiPreferences.xml</file>
               <xpath>xwikidoc/object[property/groups[contains(text(),"XWiki.XWikiAdminGroup")]]/property/levels</xpath>
               <value>admin</value>

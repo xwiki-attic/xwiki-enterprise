@@ -32,6 +32,15 @@
   <packaging>xar</packaging>
   <description>Default set of wiki pages containing both content and default applications for XWiki Enterprise Main Wiki.</description>
   <properties>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>XWiki Enterprise Flavor - Main Wiki</xwiki.extension.name>
+
+    <!-- Make it a flavor-->
+    <xwiki.extension.category>flavor</xwiki.extension.category>
+
+    <!-- Should only be insalled on main wiki -->
+    <xwiki.extension.namespaces>wiki:xwiki</xwiki.extension.namespaces>
+
     <!-- Old names of this module used for retro compatibility when resolving dependencies of old extensions -->
     <xwiki.extension.features>
         com.xpn.xwiki.products:xwiki-enterprise-manager-wiki-administrator,
@@ -39,25 +48,8 @@
         org.xwiki.manager:xwiki-manager-wiki-administrator,
         org.xwiki.manager:xwiki-manager-ui
     </xwiki.extension.features>
-    <xwiki.extension.category>flavor</xwiki.extension.category>
-    <!-- Name to display by the Extension Manager -->
-    <xwiki.extension.name>XWiki Enterprise Flavor - Main Wiki</xwiki.extension.name>
   </properties>
   <dependencies>
-    <!-- This is important to have this module in the first position, if we want XWiki.Admin to be installed first -->
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
-      <version>${project.version}</version>
-      <type>xar</type>
-    </dependency>
-    <!-- After the user is installed, we install the preferences that set the default rights -->
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-mainwikipreferences</artifactId>
-      <version>${project.version}</version>
-      <type>xar</type>
-    </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-common</artifactId>

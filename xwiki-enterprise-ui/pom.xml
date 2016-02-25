@@ -32,10 +32,8 @@
   <packaging>pom</packaging>
   <description>Parent POM for the Enterprise UI.</description>
   <modules>
-    <module>xwiki-enterprise-ui-admin-user</module>
     <module>xwiki-enterprise-ui-common</module>
     <module>xwiki-enterprise-ui-mainwiki</module>
-    <module>xwiki-enterprise-ui-mainwikipreferences</module>
     <module>xwiki-enterprise-ui-wiki</module>
   </modules>
 </project>

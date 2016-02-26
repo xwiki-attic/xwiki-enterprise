@@ -32,16 +32,17 @@
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Data - Parent POM</description>
   <dependencies>
+    <!-- Put xwiki-enterprise-ui-admin-user first so that it's imported last. See https://jira.xwiki.org/browse/XWIKI-13147. -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
+      <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
+      <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
       <scope>provided</scope>

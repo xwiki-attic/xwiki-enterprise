@@ -24,17 +24,18 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
+    <artifactId>xwiki-enterprise-ui</artifactId>
     <version>8.0-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-ui</artifactId>
-  <name>XWiki Enterprise - UI</name>
-  <packaging>pom</packaging>
-  <description>Parent POM for the Enterprise UI.</description>
-  <modules>
-    <module>xwiki-enterprise-ui-common</module>
-    <module>xwiki-enterprise-ui-mainwiki</module>
-    <module>xwiki-enterprise-ui-wiki</module>
-    <module>xwiki-enterprise-ui-admin-user</module>
-  </modules>
+  <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
+  <name>XWiki Enterprise - UI - Admin User</name>
+  <packaging>xar</packaging>
+  <description>This application provides a default Admin user.</description>
+  <properties>
+    <!-- Don't run CLIRR here since there's no Java code. -->
+    <xwiki.clirr.skip>true</xwiki.clirr.skip>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Admin User Application</xwiki.extension.name>
+  </properties>
 </project>
+

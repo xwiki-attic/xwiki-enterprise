@@ -35,6 +35,9 @@
 If you wish to have the default wiki pages, which contain both content pages and some default applications you also need to install the "XWiki Enterprise - UI" package. Alternatively you can start with an empty wiki without any page and thus no application pre-installed.
   </description>
   <properties>
+    <!-- Put the name of the distribution which will be displayed in the footer -->
+    <xwiki.extension.name>XWiki Enterprise</xwiki.extension.name>
+
     <!-- By default we don't include Legacy modules and thus we don't need to exclude the non legacy JARs -->
     <xwiki.war.legacy.excludes />
 

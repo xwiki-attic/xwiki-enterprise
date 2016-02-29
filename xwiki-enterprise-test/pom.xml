@@ -354,6 +354,8 @@
          e.g. -Pchrome -->
     <browser>*firefox</browser>
     <xwikiCfgSuperadminPassword>pass</xwikiCfgSuperadminPassword>
+    <!-- We expect a log of log during tests -->
+    <xwiki.surefire.captureconsole.skip>true</xwiki.surefire.captureconsole.skip>
   </properties>
   <profiles>
     <profile>

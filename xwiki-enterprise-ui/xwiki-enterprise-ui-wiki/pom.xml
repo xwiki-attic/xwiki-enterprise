@@ -39,7 +39,7 @@
     <xwiki.extension.category>flavor</xwiki.extension.category>
 
     <!-- Should be insalled on a wiki but not main wiki -->
-    <xwiki.extension.namespaces>[wiki:(?!xwiki)]</xwiki.extension.namespaces>
+    <xwiki.extension.namespaces>[wiki:(?!xwiki$).*]</xwiki.extension.namespaces>
   </properties>
   <dependencies>
     <dependency>

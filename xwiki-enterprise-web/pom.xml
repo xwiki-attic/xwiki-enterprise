@@ -52,28 +52,6 @@ If you wish to have the default wiki pages, which contain both content pages and
         com.xpn.xwiki.products:xwiki-enterprise-manager-web
     </xwiki.extension.features>
   </properties>
-  <dependencyManagement>
-    <dependencies>
-      <!--
-        Custom version with embedded commons-logging maven descriptor (so that it's found as core extension).
-        See http://jira.qos.ch/browse/SLF4J-340.
-      -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}-xwiki</version>
-      </dependency>
-      <!--
-        Custom version with embedded log4j maven descriptor (so that it's found as core extension).
-        See http://jira.qos.ch/browse/SLF4J-339.
-      -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>log4j-over-slf4j</artifactId>
-        <version>${slf4j.version}-xwiki</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <dependencies>
     <!-- Depend on the platform WAR to get all web resources. We then need to add all libraries we need for XE. -->
     <dependency>

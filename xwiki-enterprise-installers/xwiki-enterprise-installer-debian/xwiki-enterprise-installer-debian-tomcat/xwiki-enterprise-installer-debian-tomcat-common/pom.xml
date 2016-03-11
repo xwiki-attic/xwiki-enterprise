@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
-    <version>6.4.8</version>
+    <version>6.4.9-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-tomcat-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat - Common</name>

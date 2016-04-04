@@ -46,6 +46,8 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 /**
  * Tests the comparison of document versions.
@@ -186,8 +188,8 @@ public class CompareVersionsTest extends AbstractTest
 
         // Diff summary.
         DocumentDiffSummary diffSummary = changesPane.getDiffSummary();
-        assertEquals(Arrays.asList("Page properties", "Attachments", "Objects", "Class properties"),
-            diffSummary.getItems());
+        assertThat(Arrays.asList("Page properties", "Attachments", "Objects", "Class properties"),
+            containsInAnyOrder(diffSummary.getItems().toArray()));
         assertEquals("(5 modified, 0 added, 0 removed)", diffSummary.getPagePropertiesSummary());
         assertEquals("(0 modified, 1 added, 0 removed)", diffSummary.getAttachmentsSummary());
         assertEquals("(0 modified, 2 added, 0 removed)", diffSummary.getObjectsSummary());
@@ -198,12 +200,13 @@ public class CompareVersionsTest extends AbstractTest
         assertEquals(Arrays.asList("age"), diffSummary.toggleClassPropertiesDetails().getAddedClassProperties());
 
         // Diff details.
-        assertEquals(Arrays.asList("Page properties", "SmallAttachment.txt", "XWiki.JavaScriptExtension[0]",
-            "XWiki.XWikiComments[0]", "age"), changesPane.getChangedEntities());
+        assertThat(Arrays.asList("Page properties", "SmallAttachment.txt", "XWiki.JavaScriptExtension[0]",
+            "XWiki.XWikiComments[0]", "age"), containsInAnyOrder(changesPane.getChangedEntities().toArray()));
 
         // Page properties changes.
         EntityDiff pageProperties = changesPane.getEntityDiff("Page properties");
-        assertEquals(Arrays.asList("Title", "Parent", "Author", "Tags", "Content"), pageProperties.getPropertyNames());
+        assertThat(Arrays.asList("Title", "Parent", "Author", "Tags", "Content"),
+            containsInAnyOrder(pageProperties.getPropertyNames().toArray()));
         assertDiff(pageProperties.getDiff("Title"), "-<del>T</del>est",
             "+<ins>Compar</ins>e<ins> ver</ins>s<ins>ions </ins>t<ins>est</ins>");
         assertDiff(pageProperties.getDiff("Parent"), "+Sandbox.WebHome");
@@ -215,14 +218,16 @@ public class CompareVersionsTest extends AbstractTest
 
         // Attachment changes.
         EntityDiff attachmentDiff = changesPane.getEntityDiff("SmallAttachment.txt");
-        assertEquals(Arrays.asList("Author", "Size", "Content"), attachmentDiff.getPropertyNames());
+        assertThat(Arrays.asList("Author", "Size", "Content"),
+            containsInAnyOrder(attachmentDiff.getPropertyNames().toArray()));
         assertDiff(attachmentDiff.getDiff("Author"), "+XWiki.Admin");
         assertDiff(attachmentDiff.getDiff("Size"), "+27 bytes");
         assertDiff(attachmentDiff.getDiff("Content"), "+This is a small attachment.");
 
         // Object changes.
         EntityDiff jsxDiff = changesPane.getEntityDiff("XWiki.JavaScriptExtension[0]");
-        assertEquals(Arrays.asList("Caching policy", "Name", "Use this extension", "Code"), jsxDiff.getPropertyNames());
+        assertThat(Arrays.asList("Caching policy", "Name", "Use this extension", "Code"),
+            containsInAnyOrder(jsxDiff.getPropertyNames().toArray()));
         assertDiff(jsxDiff.getDiff("Caching policy"), "+long");
         assertDiff(jsxDiff.getDiff("Name"), "+Code snippet");
         assertDiff(jsxDiff.getDiff("Use this extension"), "+onDemand");
@@ -230,14 +235,16 @@ public class CompareVersionsTest extends AbstractTest
 
         // Comment changes.
         EntityDiff commentDiff = changesPane.getEntityDiff("XWiki.XWikiComments[0]");
-        assertEquals(Arrays.asList("Author", "Date", "Comment"), commentDiff.getPropertyNames());
+        assertThat(Arrays.asList("Author", "Date", "Comment"),
+            containsInAnyOrder(commentDiff.getPropertyNames().toArray()));
         assertDiff(commentDiff.getDiff("Author"), "+XWiki.Alice");
         assertEquals(2, commentDiff.getDiff("Date").size());
         assertDiff(commentDiff.getDiff("Comment"), "+first line", "+line in between", "+second line");
 
         // Class property changes.
         EntityDiff ageDiff = changesPane.getEntityDiff("age");
-        assertEquals(Arrays.asList("Name", "Number", "Pretty Name", "Size", "Number Type"), ageDiff.getPropertyNames());
+        assertThat(Arrays.asList("Name", "Number", "Pretty Name", "Size", "Number Type"),
+            containsInAnyOrder(ageDiff.getPropertyNames().toArray()));
         assertDiff(ageDiff.getDiff("Name"), "+age");
         assertDiff(ageDiff.getDiff("Number"), "+1");
         assertDiff(ageDiff.getDiff("Pretty Name"), "+age");

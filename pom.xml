@@ -57,9 +57,6 @@
   <properties>
     <!-- Useful for Enterprise extensions -->
     <enterprise.version>${platform.version}</enterprise.version>
-    <!-- Don't run CLIRR on XE modules since there's no Java code and for some reason CLIRR executes which makes
-         the build take longer than needed (since it downloads the previous versions). -->
-    <xwiki.clirr.skip>true</xwiki.clirr.skip>
 
     <!-- xwiki.cfg configuration -->
     <!-- Defined as a property so that products extending XE can reuse this list -->

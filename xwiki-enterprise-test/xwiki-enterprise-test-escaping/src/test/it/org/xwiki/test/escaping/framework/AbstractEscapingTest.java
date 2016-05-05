@@ -57,25 +57,21 @@ import org.xwiki.validator.ValidationError;
  * <p>
  * Note: JUnit4 requires tests to have one public default constructor, subclasses will need to implement it and pass
  * pattern matcher to match file names they can handle.
- * </p>
  * <p>
  * Starting and stopping XWiki server is handled transparently for all subclasses, tests can be run alone using
  * -Dtest=ClassName, a parent test suite should start XWiki server before running all tests for efficiency using
  * {@link SingleXWikiExecutor}.
- * </p>
  * <p>
  * The following configuration properties are supported (set in maven):
  * <ul>
  * <li>pattern (optional): Additional pattern to select files to be tested (use -Dpattern="substring-regex"). Matches
  * all files if empty.</li>
  * </ul>
- * </p>
  * <p>
  * Automatic tests (see {@link AbstractAutomaticTest}) additionally support:
  * <ul>
  * <li>patternExcludeFiles (optional): List of RegEx patterns to exclude files from the tests</li>
  * </ul>
- * </p>
  * 
  * @version $Id$
  * @since 2.5M1
@@ -158,7 +154,9 @@ public abstract class AbstractEscapingTest implements FileTest
     }
 
     /**
-     * {@inheritDoc} The implementation for escaping tests checks if the given file name matches the supported name
+     * {@inheritDoc}
+     * <p>
+     * The implementation for escaping tests checks if the given file name matches the supported name
      * pattern and parses the file.
      * 
      * @see org.xwiki.test.escaping.suite.FileTest#initialize(java.lang.String, java.io.Reader)

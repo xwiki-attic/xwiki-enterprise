@@ -44,7 +44,9 @@ public class RegularUserTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * {@inheritDoc}. Override to login as a regular user (and create the user if necessary).
+     * {@inheritDoc}
+     * <p>
+     * Override to login as a regular user (and create the user if necessary).
      */
     @Override
     protected void login()

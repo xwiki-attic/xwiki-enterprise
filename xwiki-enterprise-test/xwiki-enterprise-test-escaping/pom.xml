@@ -29,7 +29,7 @@
   </parent>
   <artifactId>xwiki-enterprise-test-escaping</artifactId>
   <name>XWiki Enterprise - Functional Tests - Escaping</name>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <description>XWiki Enterprise - Functional Tests - Escaping</description>
   <dependencies>
     <dependency>

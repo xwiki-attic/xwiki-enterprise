@@ -68,12 +68,14 @@ public final class SingleXWikiExecutor extends XWikiExecutor
     public synchronized void start() throws Exception
     {
         if (counter == 0) {
-            // Disable extensions manager external repositories
-            PropertiesConfiguration properties = loadXWikiPropertiesConfiguration();
-            if (!properties.containsKey("extension.repositories")) {
-                properties.setProperty("extension.repositories", "");
+            if (!VERIFY_RUNNING_XWIKI_AT_START.equals("true") || isXWikiStarted(getURL(), 15).timedOut) {
+                // Disable extensions manager external repositories
+                PropertiesConfiguration properties = loadXWikiPropertiesConfiguration();
+                if (!properties.containsKey("extension.repositories")) {
+                    properties.setProperty("extension.repositories", "");
+                }
+                saveXWikiProperties(properties);
             }
-            saveXWikiProperties(properties);
 
             super.start();
         }

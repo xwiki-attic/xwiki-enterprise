@@ -21,7 +21,6 @@ package org.xwiki.test.escaping.framework;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,9 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.junit.Assert;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Assume;
 
 /**
@@ -41,7 +39,8 @@ import org.junit.Assume;
  * needed superclass methods.
  * <p>
  * The test methods should call {@link #skipIfIgnored(String)} at the beginning to allow skipping the tests using
- * -Dpattern=regex maven command line option.</p>
+ * -Dpattern=regex maven command line option.
+ * </p>
  * 
  * @version $Id$
  * @since 2.5M1
@@ -50,6 +49,7 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
 {
     /**
      * List of URLs that should be deleted in {@link #tearDown()}.
+     * 
      * @see #createPage(String, String, String, String)
      */
     private List<String> toDeleteURLs = new LinkedList<String>();
@@ -64,9 +64,7 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * Parsing should not be needed in manual tests, we return an empty set.
+     * {@inheritDoc} Parsing should not be needed in manual tests, we return an empty set.
      * 
      * @see AbstractEscapingTest#parse(java.io.Reader)
      */
@@ -80,9 +78,7 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * The default implementation for manual tests returns false.
+     * {@inheritDoc} The default implementation for manual tests returns false.
      * 
      * @param fileName file name to check
      * @return true if the file should be excluded, false otherwise
@@ -107,15 +103,15 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
     }
 
     /**
-     * Check that there is no error trace on the given URL.
-     * TODO do not download the same URL twice (usually {@link #checkUnderEscaping(String, String)} is also used)
+     * Check that there is no error trace on the given URL. TODO do not download the same URL twice (usually
+     * {@link #checkUnderEscaping(String, String)} is also used)
      * 
      * @param url the URL to download
      * @throws IOException on connection errors
      */
     protected void checkForErrorTrace(String url) throws IOException
     {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(AbstractEscapingTest.getUrlContent(url)));
+        BufferedReader reader = new BufferedReader(AbstractEscapingTest.getUrlContent(url).getContentReader());
         String line;
         while ((line = reader.readLine()) != null) {
             Assert.assertFalse("The page contains a error trace", line.matches("^.*<pre\\s+class=\"xwikierror\">.*$"));
@@ -133,9 +129,8 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
     protected void createPage(String space, String page, String title, String content)
     {
         // create
-        String url = createUrl("save", space, page, params(kv("title", title),
-                                                           kv("content", content),
-                                                           kv("action_save", "Save+%26+View")));
+        String url = createUrl("save", space, page,
+            params(kv("title", title), kv("content", content), kv("action_save", "Save+%26+View")));
         AbstractEscapingTest.getUrlContent(url);
         // schedule for deletion
         deleteAfterwards(space, page);
@@ -153,8 +148,8 @@ public abstract class AbstractManualTest extends AbstractEscapingTest
     }
 
     /**
-     * Create a parameter map from the given list of key-value pairs. Does NOT URL-escapes values
-     * ({@link #createUrl(String, String, String, Map)} does this).
+     * Create a parameter map from the given list of key-value pairs. Does NOT URL-escapes values (
+     * {@link #createUrl(String, String, String, Map)} does this).
      * 
      * @param keysAndValues list of key-value pairs
      * @return parameter map

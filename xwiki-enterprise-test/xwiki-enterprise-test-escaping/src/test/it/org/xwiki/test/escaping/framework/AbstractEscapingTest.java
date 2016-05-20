@@ -23,12 +23,13 @@ package org.xwiki.test.escaping.framework;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -96,6 +97,8 @@ public abstract class AbstractEscapingTest implements FileTest
     /** Stores two cached tokens, one for each value of loggedIn (false -> 0, true -> 1). */
     private static String[] secretTokens = new String[2];
 
+    private static Set<String> XML_MIMETYPES = new HashSet<>(Arrays.asList("text/html", "text/xml", "application/xml"));
+
     /** File name of the template to use. */
     protected String name;
 
@@ -156,8 +159,8 @@ public abstract class AbstractEscapingTest implements FileTest
     /**
      * {@inheritDoc}
      * <p>
-     * The implementation for escaping tests checks if the given file name matches the supported name
-     * pattern and parses the file.
+     * The implementation for escaping tests checks if the given file name matches the supported name pattern and parses
+     * the file.
      * 
      * @see org.xwiki.test.escaping.suite.FileTest#initialize(java.lang.String, java.io.Reader)
      */
@@ -244,7 +247,7 @@ public abstract class AbstractEscapingTest implements FileTest
      * @param url URL of the page
      * @return content of the page
      */
-    protected static InputStream getUrlContent(String url)
+    protected static URLContent getUrlContent(String url)
     {
         GetMethod get = new GetMethod(url);
         get.setFollowRedirects(true);
@@ -278,12 +281,7 @@ public abstract class AbstractEscapingTest implements FileTest
                         + get.getStatusText() + ") for URL: " + url);
             }
 
-            // get the data, converting to utf-8
-            String str = get.getResponseBodyAsString();
-            if (str == null) {
-                return null;
-            }
-            return new ByteArrayInputStream(str.getBytes("utf-8"));
+            return new URLContent(get.getResponseHeader("Content-Type").getValue(), get.getResponseBody());
         } catch (IOException exception) {
             throw new RuntimeException("Error retrieving URL: " + url, exception);
         } finally {
@@ -358,7 +356,7 @@ public abstract class AbstractEscapingTest implements FileTest
         // TODO better use XWiki logging
         System.out.println("Testing URL: " + url);
 
-        InputStream content = null;
+        URLContent content = null;
         try {
             content = AbstractEscapingTest.getUrlContent(url);
         } catch (RuntimeException e) {
@@ -373,15 +371,23 @@ public abstract class AbstractEscapingTest implements FileTest
             }
         }
 
-        String where = "  Template: " + this.name + "\n  URL: " + url;
-        Assert.assertNotNull("Response is null\n" + where, content);
-        XMLEscapingValidator validator = new XMLEscapingValidator();
-        validator.setDocument(content);
-        try {
-            return validator.validate();
-        } catch (EscapingError error) {
-            // most probably false positive, generate an error instead of failing the test
-            throw new RuntimeException(EscapingError.formatMessage(error.getMessage(), this.name, url, null));
+        // TODO: add support for other types than XML
+        if (content.getType() == null || XML_MIMETYPES.contains(content.getType().getMimeType())
+            || content.getType().getMimeType().endsWith("+xml")) {
+            String where = "  Template: " + this.name + "\n  URL: " + url;
+            Assert.assertNotNull("Response is null\n" + where, content);
+            XMLEscapingValidator validator = new XMLEscapingValidator();
+            validator.setDocument(new ByteArrayInputStream(content.getContent()));
+            try {
+                return validator.validate();
+            } catch (EscapingError error) {
+                // most probably false positive, generate an error instead of failing the test
+                throw new RuntimeException(EscapingError.formatMessage(error.getMessage(), this.name, url, null));
+            }
+        } else {
+            System.err.println("WARN: Unsupported content type [" + content.getType() + "] for URL [" + url + "]");
+
+            return Collections.emptyList();
         }
     }
 
@@ -447,7 +453,8 @@ public abstract class AbstractEscapingTest implements FileTest
             url += delimiter + LANGUAGE + "=en";
         }
         // some tests need to create or delete pages, we add secret token to avoid CSRF protection failures
-        if ((action == null || !action.equals("edit")) && (parameters == null || !parameters.containsKey(SECRET_TOKEN))) {
+        if ((action == null || !action.equals("edit"))
+            && (parameters == null || !parameters.containsKey(SECRET_TOKEN))) {
             url += delimiter + SECRET_TOKEN + "=" + getSecretToken();
         }
         return url;
@@ -478,7 +485,8 @@ public abstract class AbstractEscapingTest implements FileTest
         Pattern pattern = Pattern.compile("<input[^>]+" + SECRET_TOKEN + "[^>]+value=('|\")([^'\"]+)");
         try {
             String url = createUrl("edit", "Main", "WebHome", null);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(AbstractEscapingTest.getUrlContent(url)));
+            BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new ByteArrayInputStream(AbstractEscapingTest.getUrlContent(url).getContent())));
             String line;
             while ((line = reader.readLine()) != null) {
                 Matcher matcher = pattern.matcher(line);

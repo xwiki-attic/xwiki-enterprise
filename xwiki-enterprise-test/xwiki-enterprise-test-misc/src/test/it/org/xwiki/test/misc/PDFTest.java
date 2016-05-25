@@ -24,27 +24,28 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
-import org.apache.pdfbox.pdmodel.interactive.action.type.PDAction;
-import org.apache.pdfbox.pdmodel.interactive.action.type.PDActionGoTo;
-import org.apache.pdfbox.pdmodel.interactive.action.type.PDActionURI;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.pdmodel.interactive.action.PDAction;
+import org.apache.pdfbox.pdmodel.interactive.action.PDActionGoTo;
+import org.apache.pdfbox.pdmodel.interactive.action.PDActionURI;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDDestination;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPageDestination;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPageXYZDestination;
-import org.apache.pdfbox.util.PDFText2HTML;
-import org.apache.pdfbox.util.PDFTextStripperByArea;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
+import org.apache.pdfbox.tools.PDFText2HTML;
+
+import junit.framework.TestCase;
 
 public class PDFTest extends TestCase
 {
@@ -92,9 +93,9 @@ public class PDFTest extends TestCase
      */
     public void testTableOfContents() throws Exception
     {
-        Map<String, String> internalLinks =
-            extractToLinks(new URL("http://localhost:8080/xwiki/bin/export/Sandbox/WebHome"
-                + "?format=pdf&pdftoc=1&attachments=1&pdfcover=0"), 0);
+        Map<String, String> internalLinks = extractToLinks(new URL(
+            "http://localhost:8080/xwiki/bin/export/Sandbox/WebHome" + "?format=pdf&pdftoc=1&attachments=1&pdfcover=0"),
+            0);
         // Make sure we have a Table of Contents.
         assertTrue(internalLinks.containsKey("Mixed list"));
         // Make sure the Table of Contents links point to their corresponding heading.
@@ -108,28 +109,24 @@ public class PDFTest extends TestCase
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         InputStream is = connection.getInputStream();
         PDDocument pdd = PDDocument.load(is);
-        PDFText2HTML stripper = new PDFText2HTML("UTF-8");
+        PDFText2HTML stripper = new PDFText2HTML();
         String text = stripper.getText(pdd);
         pdd.close();
         is.close();
         return text;
     }
 
-    private Map<String, PDXObjectImage> getImages(URL url) throws Exception
+    private Map<String, PDImageXObject> getImages(URL url) throws Exception
     {
-        Map<String, PDXObjectImage> results = new HashMap<>();
+        Map<String, PDImageXObject> results = new HashMap<>();
 
-        PDDocument document = PDDocument.load(url);
-        List<PDPage> list = document.getDocumentCatalog().getAllPages();
-        for (PDPage page : list) {
+        PDDocument document = PDDocument.load(IOUtils.toByteArray(url));
+        for (PDPage page : document.getDocumentCatalog().getPages()) {
             PDResources pdResources = page.getResources();
-            Map pageImages = pdResources.getImages();
-            if (pageImages != null) {
-                Iterator imageIter = pageImages.keySet().iterator();
-                while (imageIter.hasNext()) {
-                    String key = (String) imageIter.next();
-                    PDXObjectImage pdxObjectImage = (PDXObjectImage) pageImages.get(key);
-                    results.put(key, pdxObjectImage);
+            for (COSName name : pdResources.getXObjectNames()) {
+                if (pdResources.isImageXObject(name)) {
+                    PDImageXObject pdxObjectImage = (PDImageXObject) pdResources.getXObject(name);
+                    results.put(name.getName(), pdxObjectImage);
                 }
             }
         }
@@ -142,7 +139,7 @@ public class PDFTest extends TestCase
         Map<String, String> urls = new HashMap<String, String>();
         PDDocument document = null;
         try {
-            document = PDDocument.load(url);
+            document = PDDocument.load(IOUtils.toByteArray(url));
             for (Map.Entry<String, PDAction> entry : extractLinks(document).entrySet()) {
                 if (entry.getValue() instanceof PDActionURI) {
                     PDActionURI uri = (PDActionURI) entry.getValue();
@@ -162,8 +159,8 @@ public class PDFTest extends TestCase
         Map<String, String> internalLinks = new HashMap<String, String>();
         PDDocument document = null;
         try {
-            document = PDDocument.load(url);
-            PDPage tocPage = (PDPage) document.getDocumentCatalog().getAllPages().get(tocPageIndex);
+            document = PDDocument.load(IOUtils.toByteArray(url));
+            PDPage tocPage = document.getDocumentCatalog().getPages().get(tocPageIndex);
             for (Map.Entry<String, PDAction> entry : extractLinks(tocPage).entrySet()) {
                 if (entry.getValue() instanceof PDActionGoTo) {
                     PDActionGoTo anchor = (PDActionGoTo) entry.getValue();
@@ -182,7 +179,7 @@ public class PDFTest extends TestCase
     private Map<String, PDAction> extractLinks(PDDocument document) throws Exception
     {
         Map<String, PDAction> links = new HashMap<String, PDAction>();
-        for (PDPage page : (List<PDPage>) document.getDocumentCatalog().getAllPages()) {
+        for (PDPage page : (List<PDPage>) document.getDocumentCatalog().getPages()) {
             links.putAll(extractLinks(page));
         }
         return links;
@@ -207,9 +204,9 @@ public class PDFTest extends TestCase
                 float y = rect.getUpperRightY();
                 float width = rect.getWidth();
                 float height = rect.getHeight();
-                int rotation = page.findRotation();
+                int rotation = page.getRotation();
                 if (rotation == 0) {
-                    PDRectangle pageSize = page.findMediaBox();
+                    PDRectangle pageSize = page.getMediaBox();
                     y = pageSize.getHeight() - y;
                 } else if (rotation == 90) {
                     // Do nothing.
@@ -255,7 +252,7 @@ public class PDFTest extends TestCase
     private Rectangle2D getRectangleBelowDestination(PDPageXYZDestination destination)
     {
         PDPage page = destination.getPage();
-        PDRectangle pageSize = page.findMediaBox();
+        PDRectangle pageSize = page.getMediaBox();
         float x = destination.getLeft();
         float y = pageSize.getHeight() - destination.getTop();
         float width = pageSize.getWidth();

@@ -175,11 +175,10 @@ public class PDFTest extends TestCase
         return internalLinks;
     }
 
-    @SuppressWarnings("unchecked")
     private Map<String, PDAction> extractLinks(PDDocument document) throws Exception
     {
         Map<String, PDAction> links = new HashMap<String, PDAction>();
-        for (PDPage page : (List<PDPage>) document.getDocumentCatalog().getPages()) {
+        for (PDPage page : document.getDocumentCatalog().getPages()) {
             links.putAll(extractLinks(page));
         }
         return links;

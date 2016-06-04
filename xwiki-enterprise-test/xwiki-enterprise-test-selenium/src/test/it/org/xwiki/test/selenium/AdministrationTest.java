@@ -628,7 +628,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         if (!tryToCopyPage(storageSpace, storagePage, space, page)) {
             // Create the page with a simple configuration class.
-            createPage(space, page, "Test configurable application.", "xwiki/2.0");
+            createPage(space, page, "Test configurable application.", "xwiki/2.1");
             open(space, page, "edit", "editor=class");
             setFieldValue("propname", "String");
             setFieldValue("proptype", "String");

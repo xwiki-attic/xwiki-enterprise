@@ -46,11 +46,9 @@ import org.xwiki.rest.model.jaxb.Pages;
 import org.xwiki.rest.model.jaxb.Property;
 import org.xwiki.rest.model.jaxb.Space;
 import org.xwiki.rest.model.jaxb.Spaces;
-import org.xwiki.rest.model.jaxb.Syntaxes;
 import org.xwiki.rest.model.jaxb.Translation;
 import org.xwiki.rest.model.jaxb.Wiki;
 import org.xwiki.rest.model.jaxb.Wikis;
-import org.xwiki.rest.resources.SyntaxesResource;
 import org.xwiki.rest.resources.pages.PageChildrenResource;
 import org.xwiki.rest.resources.pages.PageHistoryResource;
 import org.xwiki.rest.resources.pages.PageResource;
@@ -61,7 +59,6 @@ import org.xwiki.test.rest.framework.TestConstants;
 import org.xwiki.test.ui.TestUtils;
 
 import static org.hamcrest.Matchers.isIn;
-
 import static org.junit.Assert.assertThat;
 
 public class PageResourceTest extends AbstractHttpTest
@@ -543,16 +540,8 @@ public class PageResourceTest extends AbstractHttpTest
     {
         Page originalPage = getFirstPage();
 
-        GetMethod getMethod = executeGet(getFullUri(SyntaxesResource.class));
-        Syntaxes syntaxes = (Syntaxes) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
-
-        String newSyntax = null;
-        for (String syntax : syntaxes.getSyntaxes()) {
-            if (!syntax.equals(originalPage.getSyntax())) {
-                newSyntax = syntax;
-                break;
-            }
-        }
+        // Use the plain/1.0 syntax since we are sure that the test page does not already use it.
+        String newSyntax = "plain/1.0";
 
         originalPage.setSyntax(newSyntax);
 

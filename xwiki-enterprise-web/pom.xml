@@ -435,12 +435,6 @@ If you wish to have the default wiki pages, which contain both content pages and
     </dependency>
     <dependency>
       <groupId>org.xwiki.rendering</groupId>
-      <artifactId>xwiki-rendering-syntax-mediawiki</artifactId>
-      <version>${rendering.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.rendering</groupId>
       <artifactId>xwiki-rendering-syntax-confluence</artifactId>
       <version>${rendering.version}</version>
       <scope>runtime</scope>

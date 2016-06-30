@@ -24,18 +24,18 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise</artifactId>
+    <artifactId>xwiki-enterprise-ui</artifactId>
     <version>8.2-SNAPSHOT</version>
   </parent>
-  <artifactId>xwiki-enterprise-ui</artifactId>
-  <name>XWiki Enterprise - UI</name>
-  <packaging>pom</packaging>
-  <description>Parent POM for the Enterprise UI.</description>
-  <modules>
-    <module>xwiki-enterprise-ui-common</module>
-    <module>xwiki-enterprise-ui-mainwiki</module>
-    <module>xwiki-enterprise-ui-wiki</module>
-    <module>xwiki-enterprise-ui-admin-user</module>
-    <module>xwiki-enterprise-ui-tour</module>
-  </modules>
+  <artifactId>xwiki-enterprise-ui-tour</artifactId>
+  <name>XWiki Enterprise - UI - Tour</name>
+  <packaging>xar</packaging>
+  <description>Contains default set of wiki tour pages.</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>application-tour-ui</artifactId>
+      <type>xar</type>
+    </dependency>
+  </dependencies>
 </project>

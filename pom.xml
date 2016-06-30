@@ -104,6 +104,17 @@
       org.xwiki.enterprise:xwiki-enterprise-ui-all
     </xe.ui.wiki.all.features>
   </properties>
+  <!-- Fixed version for third-party dependencies -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.xwiki.contrib</groupId>
+        <artifactId>application-tour-ui</artifactId>
+        <version>1.0.1</version>
+        <type>xar</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <build>
     <plugins>
       <plugin>

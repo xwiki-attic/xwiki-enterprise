@@ -27,11 +27,11 @@
     <!-- Note: Do not modify the <relativePath> tag here as this can cause issues. See the pom.xml for xwiki-platform
          for more details. By using an empty value we force Maven to resolve the parent from the Maven repositories,
          see http://maven.apache.org/ref/3.2.3/maven-model/maven.html#class_parent -->
-    <relativePath/>
+    <relativePath />
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>
-  <version>7.4.4-SNAPSHOT</version>
+  <version>7.4.4</version>
   <packaging>pom</packaging>
   <name>XWiki Enterprise - Parent POM</name>
   <description>XWiki Enterprise - Parent POM</description>
@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise/tree/master/</url>
-    <tag>stable-7.4.x</tag>
+    <tag>xwiki-enterprise-7.4.4</tag>
   </scm>
   <issueManagement>
     <system>jira</system>
@@ -109,9 +109,9 @@
     <xwiki.cfg.defaultbaseskin>flamingo</xwiki.cfg.defaultbaseskin>
     <xwiki.cfg.encoding>UTF-8</xwiki.cfg.encoding>
     <xwiki.cfg.editcomment.mandatory>0</xwiki.cfg.editcomment.mandatory>
-    <xwiki.cfg.additionalproperties/>
+    <xwiki.cfg.additionalproperties />
 
-    <xwiki.properties.environment.permanentDirectory/>
+    <xwiki.properties.environment.permanentDirectory />
     <xwiki.properties.extensions.oldflavors>
       <!-- Old extensions that we consider now as flavors -->
       org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki,
@@ -121,7 +121,7 @@
       org.xwiki.manager:xwiki-enterprise-manager-wiki-administrator,
       com.xpn.xwiki.products:xwiki-enterprise-manager-wiki-administrator
     </xwiki.properties.extensions.oldflavors>
-    <xwiki.properties.additionalproperties/>
+    <xwiki.properties.additionalproperties />
 
     <!-- Default location for XWiki's Data directory -->
     <xwikiDataDir>data</xwikiDataDir>
@@ -323,7 +323,7 @@
         <xwiki.db.jdbc.version>${hsqldb.version}</xwiki.db.jdbc.version>
         <xwiki.db.connection.url>jdbc:hsqldb:file:${environment.permanentDirectory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
         <xwiki.db.connection.username>sa</xwiki.db.connection.username>
-        <xwiki.db.connection.password/>
+        <xwiki.db.connection.password />
         <xwiki.db.connection.driver_class>org.hsqldb.jdbcDriver</xwiki.db.connection.driver_class>
         <xwiki.db.dialect>org.hibernate.dialect.HSQLDialect</xwiki.db.dialect>
         <xwiki.db.hbm.xwiki>xwiki.hbm.xml</xwiki.db.hbm.xwiki>

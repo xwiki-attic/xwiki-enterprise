@@ -154,5 +154,10 @@
       <version>${platform.version}</version>
       <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>application-tour-ui</artifactId>
+      <type>xar</type>
+    </dependency>
   </dependencies>
 </project>

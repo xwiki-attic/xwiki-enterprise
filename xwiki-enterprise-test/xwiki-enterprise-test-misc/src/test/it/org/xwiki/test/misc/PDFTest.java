@@ -111,10 +111,18 @@ public class PDFTest extends TestCase
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         InputStream is = connection.getInputStream();
         PDDocument pdd = PDDocument.load(is);
-        PDFText2HTML stripper = new PDFText2HTML();
-        String text = stripper.getText(pdd);
-        pdd.close();
-        is.close();
+        String text;
+        try {
+            PDFText2HTML stripper = new PDFText2HTML();
+            text = stripper.getText(pdd);
+        } finally {
+            if (pdd != null) {
+                pdd.close();
+            }
+            if (is != null) {
+                is.close();
+            }
+        }
         return text;
     }
 
@@ -123,13 +131,19 @@ public class PDFTest extends TestCase
         Map<String, PDImageXObject> results = new HashMap<>();
 
         PDDocument document = PDDocument.load(IOUtils.toByteArray(url));
-        for (PDPage page : document.getDocumentCatalog().getPages()) {
-            PDResources pdResources = page.getResources();
-            for (COSName name : pdResources.getXObjectNames()) {
-                if (pdResources.isImageXObject(name)) {
-                    PDImageXObject pdxObjectImage = (PDImageXObject) pdResources.getXObject(name);
-                    results.put(name.getName(), pdxObjectImage);
+        try {
+            for (PDPage page : document.getDocumentCatalog().getPages()) {
+                PDResources pdResources = page.getResources();
+                for (COSName name : pdResources.getXObjectNames()) {
+                    if (pdResources.isImageXObject(name)) {
+                        PDImageXObject pdxObjectImage = (PDImageXObject) pdResources.getXObject(name);
+                        results.put(name.getName(), pdxObjectImage);
+                    }
                 }
+            }
+        } finally {
+            if (document != null) {
+                document.close();
             }
         }
 

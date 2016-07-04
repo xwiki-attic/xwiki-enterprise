@@ -63,7 +63,9 @@ public class PDFTest extends TestCase
         // title contains Velocity code that isn't wrapped in a Velocity macro so it is printed as is if not rendered in
         // the right context.
         String text = getPDFContent(new URL("http://localhost:8080/xwiki/bin/export/Dashboard/WebHome?format=pdf"));
-        assertTrue("Invalid content", text.contains("Welcome to your wiki"));
+        // Note: This is the title of the Pages gadget when it's working
+        assertTrue("Invalid content", text.contains("Pages"));
+        // Note: This is the title of the Pages gadget before XWIKI-7048 was fixed
         assertFalse("Invalid content", text.contains("$services.localization.render("));
     }
 

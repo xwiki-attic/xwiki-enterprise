@@ -87,7 +87,7 @@ public class WikisResourceTest extends AbstractHttpTest
     public void testSearch() throws Exception
     {
         GetMethod getMethod =
-            executeGet(String.format("%s?q=easy-to-edit", buildURI(WikiSearchResource.class, getWiki())));
+            executeGet(String.format("%s?q=support", buildURI(WikiSearchResource.class, getWiki())));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
         SearchResults searchResults = (SearchResults) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
@@ -374,7 +374,7 @@ public class WikisResourceTest extends AbstractHttpTest
         waitSOLRIndex();
 
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"&type=solr",
+            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"support\"&type=solr",
                 buildURI(WikiSearchQueryResource.class, getWiki()))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -383,7 +383,7 @@ public class WikisResourceTest extends AbstractHttpTest
         int resultSize = searchResults.getSearchResults().size();
         Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
 
-        Assert.assertEquals("Main.Welcome", searchResults.getSearchResults().get(0).getPageFullName());
+        Assert.assertEquals("Sandbox.WebHome", searchResults.getSearchResults().get(0).getPageFullName());
     }
 
     @Test
@@ -392,7 +392,7 @@ public class WikisResourceTest extends AbstractHttpTest
         waitSOLRIndex();
 
         GetMethod getMethod =
-            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"easy-to-edit\"",
+            executeGet(URIUtil.encodeQuery(String.format("%s?q=\"support\"",
                 buildURI(WikisSearchQueryResource.class, getWiki()))));
         Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_OK, getMethod.getStatusCode());
 
@@ -401,7 +401,7 @@ public class WikisResourceTest extends AbstractHttpTest
         int resultSize = searchResults.getSearchResults().size();
         Assert.assertTrue(String.format("Found %s results", resultSize), resultSize == 1);
 
-        Assert.assertEquals("Main.Welcome", searchResults.getSearchResults().get(0).getPageFullName());
+        Assert.assertEquals("Sandbox.WebHome", searchResults.getSearchResults().get(0).getPageFullName());
     }
 
     /**

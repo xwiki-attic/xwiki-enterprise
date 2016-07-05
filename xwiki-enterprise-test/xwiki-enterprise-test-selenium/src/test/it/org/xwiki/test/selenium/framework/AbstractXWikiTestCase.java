@@ -56,6 +56,8 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     private static final int WAIT_TIME = 30000;
 
+    private static final By TOUR_LOCATOR = By.xpath("//div[contains(@class, 'tour') and contains(@class, 'popover')]");
+
     private SkinExecutor skinExecutor;
 
     private Selenium selenium;
@@ -115,6 +117,10 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         }
         // (0, 0) is sometimes interpreted as (0, -1) which is outside of the window so we're using (1, 1) for now.
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//body")), 1, 1).perform();
+
+        // The tour can fail other tests. We will never use deprecated selenium tests to verify that the tour works
+        // well, so we will never need to let it visible.
+        closeTour();
     }
 
     /**
@@ -1082,5 +1088,29 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void clickAdministerWiki()
     {
         getSkinExecutor().clickAdministerWiki();
+    }
+
+    /**
+     * @return if a tour is open
+     * @since 8.2RC1
+     */
+    public boolean hasTourOpen()
+    {
+        return getDriver().hasElementWithoutWaiting(TOUR_LOCATOR);
+    }
+
+    /**
+     * Close the tour if it is open
+     * @since 8.2RC1
+     */
+    public void closeTour()
+    {
+        if (hasTourOpen()) {
+            WebElement closeButton = getDriver().findElement(TOUR_LOCATOR).findElement(
+                    By.xpath("//button[@data-role='end']"));
+            closeButton.click();
+            getDriver().waitUntilElementDisappears(TOUR_LOCATOR);
+        }
+        assertFalse(hasTourOpen());
     }
 }

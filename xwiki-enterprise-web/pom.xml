@@ -827,6 +827,12 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>xwiki-platform-refactoring-default</artifactId>
       <version>${platform.version}</version>
     </dependency>
+    <!-- Edit API Implementation -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-edit-default</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
 
     <!-- Add dependencies on the XAR distributions for the mainwiki and for subwikis so that we transitively
          include all JAR dependencies in the generated WAR -->

@@ -639,6 +639,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
             setFieldValue("propname", "TextArea");
             setFieldValue("proptype", "TextArea");
             clickButtonAndContinue("//input[@name='action_propadd']");
+            // Expand the TextArea property we just added in order to set the "editor" meta property.
+            getSelenium().click("xproperty_TextArea");
+            getSelenium().select("TextArea_editor", "value=Text");
+            clickEditSaveAndContinue();
             setFieldValue("propname", "Select");
             setFieldValue("proptype", "StaticList");
             clickButtonAndContinue("//input[@name='action_propadd']");

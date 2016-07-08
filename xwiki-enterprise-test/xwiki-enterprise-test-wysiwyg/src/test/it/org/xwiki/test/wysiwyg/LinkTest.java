@@ -368,7 +368,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // Select the link target page from the tree.
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
-        explorer.waitForIt().findAndSelectPage("Welcome to your wiki");
+        explorer.waitForIt().findAndSelectPage("Sandbox");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         assertEquals("presentation.png", getInputValue(LABEL_INPUT_TITLE));
@@ -379,7 +379,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:Main.Welcome]]");
+        assertSourceText("[[[[image:XWiki.AdminSheet@presentation.png]]>>doc:Sandbox.WebHome]]");
         switchToWysiwyg();
 
         // Move caret at the end and type some text.
@@ -397,7 +397,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         openLinkDialog(MENU_LINK_EDIT);
 
         // Check the page selected in the XWiki Explorer tree.
-        explorer.waitForPageSelected("Main", "Welcome");
+        explorer.waitForPageSelected("Sandbox", "WebHome");
         explorer.findAndSelectPage("Space Index");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
@@ -564,7 +564,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        explorer.waitForIt().findAndSelectPage("Welcome to your wiki");
+        explorer.waitForIt().findAndSelectPage("Sandbox Test Page 1");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         clickButtonWithText(BUTTON_CREATE_LINK);
@@ -577,7 +577,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_CREATE_LINK);
 
         switchToSource();
-        assertSourceText("[[foo>>doc:Main.Welcome]]");
+        assertSourceText("[[foo>>doc:Sandbox.TestPage1]]");
 
         // clean up
         setSourceText("");

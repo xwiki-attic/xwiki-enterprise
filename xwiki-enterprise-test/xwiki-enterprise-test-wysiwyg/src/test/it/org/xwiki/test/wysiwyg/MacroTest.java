@@ -1401,8 +1401,9 @@ public class MacroTest extends AbstractWysiwygTestCase
         setFieldValue("pd-content-input", "$xwiki.getDocument(\"XWiki.Admin\").display(\"comment\")");
         applyMacroChanges();
         // Check the displayed text.
-        // The spaces are coming from the macro selection boundary and are not visible by the user.
-        assertEquals(" Admin is the default Wiki Admin. ", getRichTextArea().getText());
+        // Trim the white-space that is coming from the macro selection boundary and which is not visible by the user.
+        // There's also some white-space generate by the elements that wrap or follow the text area.
+        assertEquals("Admin is the default Wiki Admin.", getRichTextArea().getText().trim());
     }
 
     /**

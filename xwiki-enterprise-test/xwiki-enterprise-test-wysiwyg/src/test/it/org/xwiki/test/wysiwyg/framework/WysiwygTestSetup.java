@@ -19,8 +19,12 @@
  */
 package org.xwiki.test.wysiwyg.framework;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 
 import com.thoughtworks.selenium.Wait;
 
@@ -120,13 +124,7 @@ public class WysiwygTestSetup extends TestSetup
     private void displayHiddenDocumentsForAdmin(AbstractWysiwygTestCase helperTest)
     {
         helperTest.loginAsAdmin();
-        helperTest.open("XWiki", "Admin", "edit", "editor=object");
-        String propertyId = "XWiki.XWikiUsers_0_displayHiddenDocuments";
-        helperTest.expandObject("XWiki.XWikiUsers", 0);
-        if (!"1".equals(helperTest.getSelenium().getSelectedValue(propertyId))) {
-            helperTest.getSelenium().select(propertyId, "value=1");
-            helperTest.clickEditSaveAndContinue();
-        }
+        helperTest.open("XWiki", "Admin", "save", "XWiki.XWikiUsers_0_displayHiddenDocuments=1");
     }
 
     /**
@@ -136,33 +134,15 @@ public class WysiwygTestSetup extends TestSetup
      */
     private void enableAllEditingFeatures(AbstractWysiwygTestCase helperTest)
     {
-        Map<String, String> config = new HashMap<String, String>();
-        config.put("plugins", "submit readonly line separator embed text valign list "
-            + "indent history format symbol link image " + "table macro import color justify font");
-        config.put("toolBar", "bold italic underline strikethrough teletype | subscript superscript | "
+        List<NameValuePair> config = new ArrayList<>();
+        config.add(new BasicNameValuePair("XWiki.WysiwygEditorConfigClass_0_plugins",
+            "submit readonly line separator embed text valign list "
+            + "indent history format symbol link image " + "table macro import color justify font"));
+        config.add(new BasicNameValuePair("XWiki.WysiwygEditorConfigClass_0_toolBar",
+            "bold italic underline strikethrough teletype | subscript superscript | "
             + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
             + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | "
-            + " paste | macro:velocity");
-        updateConfiguration(config, helperTest);
-    }
-
-    /**
-     * Updates the WYSIWYG editor configuration based on the given configuration object. The key in the configuration is
-     * the name of a {@code XWiki.WysiwygEditorConfigClass} property and the value is the new value for that property.
-     * 
-     * @param config configuration object
-     * @param helperTest helper {@link AbstractWysiwygTestCase} instance whose API to use to do the setup
-     */
-    private void updateConfiguration(Map<String, String> config, AbstractWysiwygTestCase helperTest)
-    {
-        helperTest.open("XWiki", "WysiwygEditorConfig", "edit", "editor=object");
-        helperTest.expandObject("XWiki.WysiwygEditorConfigClass", 0);
-        for (Map.Entry<String, String> entry : config.entrySet()) {
-            String propertyId = "XWiki.WysiwygEditorConfigClass_0_" + entry.getKey();
-            if (!entry.getValue().equals(helperTest.getFieldValue(propertyId))) {
-                helperTest.setFieldValue(propertyId, entry.getValue());
-                helperTest.clickEditSaveAndContinue();
-            }
-        }
+            + " paste | macro:velocity"));
+        helperTest.open("XWiki", "WysiwygEditorConfig", "save", URLEncodedUtils.format(config, "UTF-8"));
     }
 }

@@ -115,10 +115,6 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
         }
         // (0, 0) is sometimes interpreted as (0, -1) which is outside of the window so we're using (1, 1) for now.
         new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//body")), 1, 1).perform();
-
-        // The tour can fail other tests. We will never use deprecated Selenium tests to verify that the tour works
-        // well, so we will never need to let it visible.
-        disableTour();
     }
 
     /**
@@ -1086,16 +1082,5 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
     public void clickAdministerWiki()
     {
         getSkinExecutor().clickAdministerWiki();
-    }
-
-    /**
-     * Disable the tour so that it doesn't affect the tests.
-     * 
-     * @since 8.2RC1
-     */
-    private void disableTour()
-    {
-        open("TourCode", "TourJS", "save",
-            "XWiki.JavaScriptExtension_0_use=onDemand&xredirect=" + getUrl("Main", "WebHome"));
     }
 }

@@ -23,15 +23,15 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.openqa.selenium.WebDriver;
 import org.xwiki.test.ui.WebDriverFactory;
 
 import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
+
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * Starts the Browser only once per Test Suite.
@@ -60,10 +60,18 @@ public class XWikiSeleniumTestSetup extends TestSetup
         WebDriver driver = new WebDriverFactory().createWebDriver(BROWSER_NAME_SYSTEM_PROPERTY);
         this.selenium = new WebDriverBackedSelenium(driver, BASE_URL);
 
-        // Sets the Selenium object in all tests
-        for (AbstractXWikiTestCase test : getTests(getTest())) {
+        // Set the Selenium object in all the tests.
+        List<AbstractXWikiTestCase> tests = getTests(getTest());
+        for (AbstractXWikiTestCase test : tests) {
             test.setSelenium(this.selenium);
         }
+
+        // Disable the tour because it pops-up on the home page and many tests access the home page and they want to
+        // skip the tour. We don't plan to test the tour here anyway.
+        AbstractXWikiTestCase helperTest = tests.get(0);
+        helperTest.loginAsAdmin();
+        helperTest.open("TourCode", "TourJS", "save", "XWiki.JavaScriptExtension_0_use=onDemand&xredirect="
+            + helperTest.getUrl("Main", "WebHome"));
     }
 
     protected void tearDown() throws Exception

@@ -68,7 +68,7 @@ public class AllTests extends TestCase
         addTestCase(suite, EmbedTest.class);
         addTestCase(suite, EditInlineTest.class);
 
-        return new XWikiSeleniumTestSetup(new XWikiTestSetup(new WysiwygTestSetup(suite)));
+        return new XWikiTestSetup(new XWikiSeleniumTestSetup(new WysiwygTestSetup(suite)));
     }
 
     private static void addTestCase(WysiwygTestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)

@@ -67,7 +67,7 @@ public class AllTests extends TestCase
         // Note that the test has been tested and works well on several computers.
         // addTestCase(suite, XWikiJavaScriptComponentsTest.class);
 
-        return new XWikiSeleniumTestSetup(new XWikiTestSetup(suite));
+        return new XWikiTestSetup(new XWikiSeleniumTestSetup(suite));
     }
 
     private static void addTestCase(TestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)

@@ -19,6 +19,9 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.openqa.selenium.By;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
@@ -1938,13 +1941,11 @@ public class LinkTest extends AbstractWysiwygTestCase
      * @see XWIKI-7593: Links from other WYSIWYG fields are removed if the page is saved while a WYSIWYG field is edited
      *      in full screen
      */
-    public void testEmptyLinkFilterWhenEditingFullScreen()
+    public void testEmptyLinkFilterWhenEditingFullScreen() throws UnsupportedEncodingException
     {
-        // Add a link to the summary field. We use the object editor because the current WYSIWYG test API works only
-        // with the first WYSIWYG editor/field.
-        open("Blog", "BlogIntroduction", "edit", "editor=object");
-        setFieldValue("Blog.BlogPostClass_0_extract", "[[XWiki>>http://www.xwiki.org]]");
-        clickEditSaveAndContinue();
+        // Add a link to the summary field.
+        open("Blog", "BlogIntroduction", "save",
+            "Blog.BlogPostClass_0_extract=" + URLEncoder.encode("[[XWiki>>http://www.xwiki.org]]", "UTF-8"));
 
         // Edit in "Inline form" edit mode.
         open("Blog", "BlogIntroduction", "edit", "editor=inline");
@@ -1955,8 +1956,8 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickEditSaveAndView();
 
         // Check if the link is still present.
-        open("Blog", "BlogIntroduction", "edit", "editor=object");
-        assertEquals("[[XWiki>>http://www.xwiki.org]]", getFieldValue("Blog.BlogPostClass_0_extract"));
+        open("/xwiki/rest/wikis/xwiki/spaces/Blog/pages/BlogIntroduction/objects/Blog.BlogPostClass/0/properties/extract");
+        assertTrue(getDriver().getPageSource().contains("<value>[[XWiki&gt;&gt;http://www.xwiki.org]]</value>"));
     }
 
     protected void waitForStepToLoad(String name)

@@ -859,6 +859,11 @@ If you wish to have the default wiki pages, which contain both content pages and
         <executions>
           <execution>
             <id>xwiki-platform-tool-configuration-resources</id>
+            <configuration>
+              <properties>
+                <xwikiPropertiesDefaultWysiwygEditor>ckeditor</xwikiPropertiesDefaultWysiwygEditor>
+              </properties>
+            </configuration>
           </execution>
         </executions>
       </plugin>

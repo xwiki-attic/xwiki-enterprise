@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.openqa.selenium.WebDriver;
+import org.xwiki.test.integration.XWikiExecutor;
 import org.xwiki.test.ui.WebDriverFactory;
 
 import com.thoughtworks.selenium.Selenium;
@@ -72,6 +74,12 @@ public class XWikiSeleniumTestSetup extends TestSetup
         helperTest.loginAsAdmin();
         helperTest.open("TourCode", "TourJS", "save", "XWiki.JavaScriptExtension_0_use=onDemand&xredirect="
             + helperTest.getUrl("Main", "WebHome"));
+
+        // Put back the old WYSIWYG editor in xwiki.properties
+        XWikiExecutor executor = new XWikiExecutor(0);
+        PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
+        properties.setProperty("edit.defaultEditor.org.xwiki.rendering.syntax.SyntaxContent#wysiwyg", "gwt");
+        executor.saveXWikiProperties(properties);
     }
 
     protected void tearDown() throws Exception

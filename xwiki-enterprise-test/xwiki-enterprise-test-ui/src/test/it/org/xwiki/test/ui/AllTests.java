@@ -19,7 +19,14 @@
  */
 package org.xwiki.test.ui;
 
+import java.util.List;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutorSuite;
 
 /**
  * Runs all functional tests found in the classpath.
@@ -30,4 +37,17 @@ import org.junit.runner.RunWith;
 @RunWith(PageObjectSuite.class)
 public class AllTests
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AllTests.class);
+
+    @XWikiExecutorSuite.PreStart
+    public void preStart(List<XWikiExecutor> executors) throws Exception
+    {
+        XWikiExecutor executor = executors.get(0);
+
+        LOGGER.info("Put back the old WYSIWYG editor in xwiki.properties");
+
+        PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
+        properties.setProperty("edit.defaultEditor.org.xwiki.rendering.syntax.SyntaxContent#wysiwyg", "gwt");
+        executor.saveXWikiProperties(properties);
+    }
 }

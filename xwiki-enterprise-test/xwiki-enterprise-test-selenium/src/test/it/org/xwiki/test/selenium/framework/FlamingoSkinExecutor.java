@@ -41,14 +41,14 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     private void openDrawer()
     {
         getTest().clickLinkWithLocator("tmDrawerActivator");
-        getTest().getDriver().waitUntilElementIsVisible(By.id("tmDrawer"));
+        getDriver().waitUntilElementIsVisible(By.id("tmDrawer"));
     }
 
     private void closeDrawer()
     {
         // Click outside the drawer to close it
         getTest().clickLinkWithXPath("//div[@id = 'companylogo']/a[contains(@class, 'navbar-brand')]");
-        getTest().getDriver().waitUntilElementDisappears(By.id("tmDrawer"));
+        getDriver().waitUntilElementDisappears(By.id("tmDrawer"));
     }
 
     @Override
@@ -178,7 +178,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
         queryString.append("&targetPageName=").append(encodeURLParameter(targetPageName));
         String copyURL = getTest().getUrl(spaceName, pageName, "view", queryString.toString());
         getTest().open(copyURL);
-        return getTest().getDriver().hasElement(By.cssSelector(".xcontent .successmessage"));
+        return getDriver().hasElement(By.cssSelector(".xcontent .successmessage"));
     }
 
     private String encodeURLParameter(String value)

@@ -19,11 +19,8 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Verify the caching features of XWiki.
@@ -34,24 +31,12 @@ public class CacheTest extends AbstractXWikiTestCase
 {
     private static final String SYNTAX = "xwiki/2.1";
 
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the caching features of XWiki");
-        suite.addTestSuite(CacheTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
     /**
      * Tests that the document dates are always of the type java.util.Date, as hibernate returns
      * java.sql.Timestamp, which is not entirely compatible with java.util.Date. When the cache
      * storage is enabled, this problem isn't detected until the document is removed from the cache.
      */
+    @Test
     public void testDateClass()
     {
         createPage("Main", "TestDateClass",

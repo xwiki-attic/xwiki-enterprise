@@ -19,27 +19,16 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 public class PanelWizardTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Test the XWiki Panel Wizard");
-        suite.addTestSuite(PanelWizardTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
     @Override
-    public void setUp() throws Exception
+    public void setUp()
     {
         super.setUp();
-        loginAsAdmin();
         open("Panels", "PanelWizard");
     }
 
@@ -50,6 +39,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
      * <li>Checks for existence of 2 sections.</li>
      * </ul>
      */
+    @Test
     public void testSections()
     {
         assertElementPresent("//a[text()='Page Layout']");
@@ -63,6 +53,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
      * <li>Opens and test for all 4 layouts for page.</li>
      * </ul>
      */
+    @Test
     public void testPageLayout()
     {
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
@@ -97,6 +88,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
      * <li>Then puts QuickLinks panel on the left side.</li>
      * </ul>
      */
+    @Test
     public void testInsertQuickLinksPanelInLeftColumn()
     {
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
@@ -131,6 +123,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
      * <li>Test all 3 buttons.</li>
      * </ul>
      */
+    @Test
     public void testButtons()
     {
         // test button 'Go to Panels home page'

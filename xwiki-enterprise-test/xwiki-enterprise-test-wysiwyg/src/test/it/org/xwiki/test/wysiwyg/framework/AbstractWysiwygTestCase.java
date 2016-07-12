@@ -33,6 +33,8 @@ import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 
 import com.thoughtworks.selenium.Wait;
 
+import static org.junit.Assert.*;
+
 /**
  * All XWiki WYSIWYG tests must extend this class.
  * 
@@ -81,12 +83,12 @@ public class AbstractWysiwygTestCase extends AbstractXWikiTestCase
     public static final long SMALL_WAIT_INTERVAL = 50L;
 
     @Override
-    protected void setUp() throws Exception
+    public void setUp()
     {
         super.setUp();
 
         login();
-        open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
+        open(this.getClass().getSimpleName(), getTestMethodName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
     }
 

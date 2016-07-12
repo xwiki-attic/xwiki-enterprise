@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -31,6 +32,7 @@ public class EmbedTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3975: Issue when inserting a video using the {{html}} macro when AdBlockPlus is enabled.
      */
+    @Test
     public void testEmbedFlashUsingHTMLMacro()
     {
         switchToSource();

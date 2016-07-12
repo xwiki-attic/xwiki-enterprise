@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
@@ -44,6 +45,7 @@ public class FontTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3295: Font size are not handled properly
      */
+    @Test
     public void testSetFontSizeOnAPlainTextSelection()
     {
         typeText("abc");
@@ -56,6 +58,7 @@ public class FontTest extends AbstractWysiwygTestCase
     /**
      * Selects a plain text and applies a specific font name.
      */
+    @Test
     public void testSetFontNameOnAPlainTextSelection()
     {
         typeText("abc");
@@ -68,6 +71,7 @@ public class FontTest extends AbstractWysiwygTestCase
     /**
      * Selects a plain text and applies a specific font name and font size.
      */
+    @Test
     public void testSetFontNameAndSizeOnAPlainTextSelection()
     {
         typeText("abc");
@@ -81,6 +85,7 @@ public class FontTest extends AbstractWysiwygTestCase
     /**
      * Test if the font size and font name are detected correctly.
      */
+    @Test
     public void testDetectFont()
     {
         switchToSource();
@@ -95,6 +100,7 @@ public class FontTest extends AbstractWysiwygTestCase
      * Test if a known font name (contained in the list box) that is not supported by the current browser is correctly
      * detected.
      */
+    @Test
     public void testDetectKnownUnsupportedFontName()
     {
         switchToSource();
@@ -113,6 +119,7 @@ public class FontTest extends AbstractWysiwygTestCase
     /**
      * Tests if an unknown font name if detected.
      */
+    @Test
     public void testDetectUnknownFontName()
     {
         switchToSource();
@@ -131,6 +138,7 @@ public class FontTest extends AbstractWysiwygTestCase
     /**
      * Detect a font size that is not listed.
      */
+    @Test
     public void testDetectUnlistedFontSize()
     {
         switchToSource();
@@ -143,6 +151,7 @@ public class FontTest extends AbstractWysiwygTestCase
     /**
      * Test if the font name for a cross paragraph selection is correctly detected.
      */
+    @Test
     public void testDetectFontNameOnCrossParagraphSelection()
     {
         switchToSource();

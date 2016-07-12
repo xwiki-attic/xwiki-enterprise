@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -36,6 +37,7 @@ public class ImportTest extends AbstractWysiwygTestCase
     /**
      * Test that the paste wizard works.
      */
+    @Test
     public void testPasteFromClipboard()
     {
         clickPasteButton();
@@ -50,6 +52,7 @@ public class ImportTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3040: A rich text area on a dialog box looses its content if we move the dialog box
      */
+    @Test
     public void testPastedContentIsPreservedWhenDialogIsMoved()
     {
         clickPasteButton();

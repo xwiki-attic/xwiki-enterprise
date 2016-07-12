@@ -22,11 +22,12 @@ package org.xwiki.test.wysiwyg;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
-import com.thoughtworks.selenium.Selenium;
+import static org.junit.Assert.*;
 
 public class LinkTest extends AbstractWysiwygTestCase
 {
@@ -91,15 +92,17 @@ public class LinkTest extends AbstractWysiwygTestCase
     private XWikiExplorer explorer;
 
     @Override
-    public void setSelenium(Selenium selenium)
+    public void setUp()
     {
-        super.setSelenium(selenium);
+        super.setUp();
+        
         this.explorer = new XWikiExplorer(getDriver());
     }
 
     /**
      * Test the basic feature for adding a link to an existing page.
      */
+    @Test
     public void testCreateLinkToExistingPage()
     {
         String linkLabel = "x";
@@ -127,6 +130,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the basic feature for adding a link to a new page.
      */
+    @Test
     public void testCreateLinkToNewPage()
     {
         String linkLabel = "a";
@@ -156,6 +160,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * 
      * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3511">XWIKI-3511</a>
      */
+    @Test
     public void testCreateLinkToNewPageInNewSpace()
     {
         String linkLabel = "b";
@@ -182,6 +187,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the basic feature for adding a link to a web page.
      */
+    @Test
     public void testCreateLinkToWebPage()
     {
         String linkLabel = "x";
@@ -203,6 +209,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test adding a link to a web page with a different label than the selected text.
      */
+    @Test
     public void testCreateLinkToWebPageWithChangedLabel()
     {
         String linkLabel = "x";
@@ -225,6 +232,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the basic feature for adding a link to an email address.
      */
+    @Test
     public void testCreateLinkToEmailAddress()
     {
         String linkLabel = "c";
@@ -244,6 +252,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test adding a link by typing the link label instead of selecting it.
      */
+    @Test
     public void testCreateLinkWithNewLabel()
     {
         String linkLabel = "xwiki";
@@ -262,6 +271,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that anchor label formatting is preserved.
      */
+    @Test
     public void testCreateLinkPreservesLabelFormatting()
     {
         typeText("1");
@@ -286,6 +296,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test creating a link with some text around and then editing it. Test that the link type and parameters are
      * correctly read and that the wiki syntax is correctly generated.
      */
+    @Test
     public void testCreateThenEditLink()
     {
         // put everything in a paragraph because editing in body is sometimes parsed wrong
@@ -334,6 +345,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test creating and editing link around an image. Test that the displayed label is the alt text of the image and is
      * not editable, that the link parameters are correctly read, and that the wiki syntax is correctly generated.
      */
+    @Test
     public void testCreateAndEditLinkOnImage()
     {
         clickMenu("Image");
@@ -415,6 +427,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test that the link existence is detected correctly for a couple of cases of the selection around a link, and that
      * unlink executes correctly for these situations.
      */
+    @Test
     public void testDetectAndUnlinkSelectedAnchor()
     {
         switchToSource();
@@ -503,6 +516,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test editing a link which is the single text in a list item. This case is special because the delete command is
      * invoked upon replacing the link, which causes clean up of the list.
      */
+    @Test
     public void testEditLinkInList()
     {
         switchToSource();
@@ -531,6 +545,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test that the link dialogs are correctly validated and alerts are displayed when mandatory fields are not filled
      * in.
      */
+    @Test
     public void testValidationOnLinkInsert()
     {
         // try to create a link to an existing page without a label
@@ -646,6 +661,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that the link button is not enabled when the selection contains some block elements.
      */
+    @Test
     public void testCannotCreateLinkAroundBlockElements()
     {
         setContent("<p>foo</p><p>bar</p>");
@@ -663,6 +679,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test that the location of the link is preserved if we go back from the configuration step to the page selection
      * step.
      */
+    @Test
     public void testLinkLocationIsPreservedOnPrevious()
     {
         String linkLabel = "x";
@@ -703,6 +720,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the basic feature of adding a link to an attached file with the label from the selected text.
      */
+    @Test
     public void testCreateLinkToAttachment()
     {
         String linkLabel = "x";
@@ -733,6 +751,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * @see <a href="http://jira.xwiki.org/browse/XWIKI-8440">XWIKI-8440: Unable to link to an attachment from the
      *      current page in the WYSIWYG Editor using "All Pages" tab</a>
      */
+    @Test
     public void testCreateLinkToAttachmentFromCurrentPage()
     {
         // Edit a page that has an attachment.
@@ -759,6 +778,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * @see <a href="http://jira.xwiki.org/browse/XWIKI-8465">Unable to upload a new attachment using the "All pages"
      *      tab in the WYSIWYG editor</a>
      */
+    @Test
     public void testCreateLinkToNewAttachment()
     {
         // We have to save the page in order to appear in the tree.
@@ -771,7 +791,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad("xExplorerPanel");
 
         String spaceName = this.getClass().getSimpleName();
-        String pageName = getName();
+        String pageName = getTestMethodName();
         explorer.waitForAttachmentsSelected(spaceName, pageName).selectNewAttachment(spaceName, pageName);
 
         clickButtonWithText(BUTTON_SELECT);
@@ -782,6 +802,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the basic feature of adding a link to an attached file, configuring its parameters in the parameter panel.
      */
+    @Test
     public void testCreateLinkToAttachmentWithParameters()
     {
         String linkLabel = "XWiki.org Logo";
@@ -813,6 +834,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that he creation of a link to an attached file is validated correctly.
      */
+    @Test
     public void testValidationOnLinkToAttachment()
     {
         String linkLabel = "boo";
@@ -863,6 +885,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test editing an existing link to an attachment
      */
+    @Test
     public void testEditLinkToAttachment()
     {
         switchToSource();
@@ -885,6 +908,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-7237: mailto is not stripped when editing a link to an e-mail address
      */
+    @Test
     public void testEditLinkToEmailAddress()
     {
         switchToSource();
@@ -907,6 +931,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * 
      * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3568">XWIKI-3568</a>
      */
+    @Test
     public void testEditLinkPreservesCustomParameters()
     {
         switchToSource();
@@ -931,6 +956,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test creating a link to open in a new page.
      */
+    @Test
     public void testCreateLinkToOpenInNewWindow()
     {
         String linkLabel = "XWiki rox";
@@ -965,6 +991,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3569">XWIKI-3569</a>
      * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3569">XWIKI-3575</a>
      */
+    @Test
     public void testQuoteInLinkTooltip()
     {
         String linkLabel = "x";
@@ -996,13 +1023,14 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test that the default selection is set to the current page when opening the wizard to create a link to a wiki
      * page.
      */
+    @Test
     public void testDefaultWikipageExplorerSelection()
     {
         // make sure this page is saved so that the tree can load the reference to it
         clickEditSaveAndContinue();
 
         String currentSpace = this.getClass().getSimpleName();
-        String currentPage = getName();
+        String currentPage = getTestMethodName();
 
         String newSpace = "XWiki";
         String newPage = "AdminSheet";
@@ -1041,6 +1069,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the creation of a link to a recent page (the current page, saved).
      */
+    @Test
     public void testCreateLinkToRecentPage()
     {
         // make sure this page is saved so that the recent pages can load reference to it
@@ -1053,7 +1082,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         // The currently edited page should be selected.
         assertElementPresent("//div[contains(@class, 'xPagesRecent')]"
             + "//div[contains(@class, 'xListItem-selected')]//div[. = '"
-            + String.format(PAGE_LOCATION, getClass().getSimpleName(), getName()) + "']");
+            + String.format(PAGE_LOCATION, getClass().getSimpleName(), getTestMethodName()) + "']");
         clickButtonWithText(BUTTON_SELECT);
         waitForStepToLoad("xLinkConfig");
         String label = "barfoo";
@@ -1062,12 +1091,13 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>doc:" + getName() + "]]");
+        assertSourceText("[[" + label + ">>doc:" + getTestMethodName() + "]]");
     }
 
     /**
      * Test the creation of a link to a new page in the current space, from the default tab in the link dialog.
      */
+    @Test
     public void testCreateLinkToNewPageInCurrentSpace()
     {
         String newPageName = "NewPage";
@@ -1097,6 +1127,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Tests the default selection for the search tab.
      */
+    @Test
     public void testDefaultSearchSelection()
     {
         // check the wikipage link dialog
@@ -1115,6 +1146,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test adding a link to a page from the search tab.
      */
+    @Test
     public void testCreateLinkToSearchedPage()
     {
         String label = "foobar";
@@ -1147,6 +1179,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Tests the creation of a link in the current space from the search pages dialog.
      */
+    @Test
     public void testCreateLinkToNewPageInCurrentSpaceFromSearch()
     {
         String newPageName = "AnotherNewPage";
@@ -1178,13 +1211,14 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Tests that the link attachments step is loaded on the current page attachments every time it's displayed.
      */
+    @Test
     public void testDefaultAttachmentSelectorSelection()
     {
         // make sure this page is saved so that the tree can load the reference to it
         clickEditSaveAndContinue();
 
         String currentSpace = this.getClass().getSimpleName();
-        String currentPage = getName();
+        String currentPage = getTestMethodName();
 
         // check the wikipage link dialog
         openLinkDialog(MENU_ATTACHMENT);
@@ -1213,11 +1247,12 @@ public class LinkTest extends AbstractWysiwygTestCase
      * 
      * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3676">XWIKI-3676</a>
      */
+    @Test
     public void testEditRelativeLink()
     {
         // Edit a page in the Main space because we know pages that already exit there.
         String currentSpace = "Main";
-        open(currentSpace, getName(), "edit", "editor=wysiwyg");
+        open(currentSpace, getTestMethodName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
         String pageToLinkTo = "SpaceIndex";
@@ -1242,11 +1277,12 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that a relative link to a file attachment is correctly edited
      */
+    @Test
     public void testEditRelativeLinkToAttachment()
     {
         // Edit a page in the Sandbox space because we know pages that already exit there and have attachments.
         String currentSpace = "Sandbox";
-        open(currentSpace, getName(), "edit", "editor=wysiwyg");
+        open(currentSpace, getTestMethodName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
         String pageToLinkTo = "WebHome";
@@ -1297,6 +1333,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test that when no option is selected in the current page attachments selector and a "select" is tried, an alert
      * is displayed to show the error.
      */
+    @Test
     public void testValidationOnCurrentPageAttachmentsSelector()
     {
         switchToSource();
@@ -1326,10 +1363,11 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test that editing a link and not changing its location preserves a full reference and does not transform it into
      * a relative one.
      */
+    @Test
     public void testEditLinkPreservesFullReferences()
     {
         // Edit a page in the Sandbox space because we know pages that already exit there and have attachments.
-        open("Sandbox", getName(), "edit", "editor=wysiwyg");
+        open("Sandbox", getTestMethodName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
         switchToSource();
@@ -1379,6 +1417,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * the dialog with the error is closed by canceling or by selecting a correct value and continuing, upon return to
      * the error dialog, the error message and markers are now hidden.
      */
+    @Test
     public void testErrorIsHiddenOnNextDisplayOfExternalLink()
     {
         // for a web page
@@ -1417,6 +1456,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * either the dialog with the error is closed by canceling or by selecting a correct value and continuing, upon
      * return to the error dialog, the error message and markers are now hidden.
      */
+    @Test
     public void testErrorIsHiddenOnNextDisplayOfAttachmentLink()
     {
         // Get an error at the upload step and check that it's hidden on next display.
@@ -1452,6 +1492,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * the dialog with the error is closed by canceling or by selecting a correct value and continuing, upon return to
      * the error dialog, the error message and markers are now hidden.
      */
+    @Test
     public void testErrorIsHiddenOnNextDisplayOfWikipageLink()
     {
         // 1/ get an error on the new page step, fix it, go to previous, next => error not displayed anymore. Get
@@ -1583,6 +1624,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test fast navigation for adding a link to an attachment: double click and enter in the list of attachments
      * advance to the next step.
      */
+    @Test
     public void testFastNavigationToSelectAttachment()
     {
         // can't test but the current page attachment selector, the tree doesn't receive the click events
@@ -1607,12 +1649,13 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test fast navigation for adding a link to a recent page: double click and enter on a page advance to the next
      * step.
      */
+    @Test
     public void testFastNavigationToSelectRecentPage()
     {
         // 1. link to existing page, double click
         // make sure this page is saved so that the recent pages can load reference to it
         clickEditSaveAndContinue();
-        String currentPageLocation = String.format(PAGE_LOCATION, this.getClass().getSimpleName(), getName());
+        String currentPageLocation = String.format(PAGE_LOCATION, this.getClass().getSimpleName(), getTestMethodName());
         String label = "barfoo";
         openLinkDialog(MENU_WIKI_PAGE);
         waitForStepAggregatorAndAssertSelectedStep(RECENT_PAGES_TAB);
@@ -1628,7 +1671,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[" + label + ">>doc:" + getName() + "]]");
+        assertSourceText("[[" + label + ">>doc:" + getTestMethodName() + "]]");
 
         setSourceText("");
         switchToWysiwyg();
@@ -1658,6 +1701,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * Test fast navigation for adding a link to a searched for page: double click and enter on a page advance to the
      * next step.
      */
+    @Test
     public void testFastNavigationToSelectSearchedPage()
     {
         // 1. Link to existing page. Use Enter key to select the target page.
@@ -1714,6 +1758,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Tests if an empty link is filtered.
      */
+    @Test
     public void testFilterEmptyLink()
     {
         typeText("ab");
@@ -1742,6 +1787,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4536: wiki pages can no longer be edited when there are links to Wiki pages within a section heading
      */
+    @Test
     public void testPreviewHeadingContainingLinkWithNoLabel()
     {
         switchToSource();
@@ -1755,19 +1801,20 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Creates a link to a recently modified page that has special characters in its name.
      */
+    @Test
     public void testCreateLinkToRecentlyModifiedPageWithSpecialCharactersInName()
     {
         // Create a page with special characters in its name.
         String spaceName = this.getClass().getSimpleName() + ":s.t@u?v=w&x=y#z";
         String escapedSpaceName = spaceName.replaceAll("([\\:\\.])", "\\\\$1");
-        String pageName = getName() + ":a.b@c?d=e&f=g#h";
+        String pageName = getTestMethodName() + ":a.b@c?d=e&f=g#h";
         String escapedPageName = pageName.replace(".", "\\.");
         String linkReference = String.format("%s.%s", escapedSpaceName, escapedPageName);
         open("Main", "WebHome");
         createPage(spaceName, pageName, "");
 
         // Come back to the edited page.
-        open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
+        open(this.getClass().getSimpleName(), getTestMethodName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
         // Create a link to the created page.
@@ -1813,9 +1860,10 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Creates a link to a new page that has special characters in its name.
      */
+    @Test
     public void testCreateLinkToNewPageWithSpecialCharactersInName()
     {
-        String pageName = getName() + ":a.b@c?d=e&f=g#h";
+        String pageName = getTestMethodName() + ":a.b@c?d=e&f=g#h";
         String linkReference = pageName.replace(".", "\\.");
         String label = "x";
 
@@ -1841,6 +1889,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-5849: Cannot create link to current page
      */
+    @Test
     public void testCreateLinkToCurrentPageThroughAllPages()
     {
         // We have to save the page to make it appear in the all pages tree.
@@ -1855,7 +1904,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         waitForStepToLoad(STEP_EXPLORER);
 
         String currentSpaceName = this.getClass().getSimpleName();
-        String currentPageName = getName();
+        String currentPageName = getTestMethodName();
 
         // The current page should be selected by default.
         explorer.waitForPageSelected(currentSpaceName, currentPageName);
@@ -1874,6 +1923,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * @see XWIKI-4473: Cannot edit a link to an existing page to change its target to a new page using the All pages
      *      tab
      */
+    @Test
     public void testChangeLinkTargetToNewPage()
     {
         switchToSource();
@@ -1892,17 +1942,18 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickButtonWithText(BUTTON_SELECT);
 
         waitForStepToLoad("xLinkToNewPage");
-        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", getName());
+        getSelenium().type("//div[contains(@class, 'xLinkToNewPage')]//input", getTestMethodName());
         clickButtonWithText(BUTTON_CREATE_LINK);
         waitForDialogToClose();
 
         switchToSource();
-        assertSourceText("[[Home>>Blog." + getName() + "]]");
+        assertSourceText("[[Home>>Blog." + getTestMethodName() + "]]");
     }
 
     /**
      * XWIKI-6657: Attachment selection limited set to Yes still shows "All Pages" tab when creating a link in WYSIWYG
      */
+    @Test
     public void testAttachmentSelectionLimitedToCurrentPage()
     {
         String allPagesTabLocator =
@@ -1941,6 +1992,7 @@ public class LinkTest extends AbstractWysiwygTestCase
      * @see XWIKI-7593: Links from other WYSIWYG fields are removed if the page is saved while a WYSIWYG field is edited
      *      in full screen
      */
+    @Test
     public void testEmptyLinkFilterWhenEditingFullScreen() throws UnsupportedEncodingException
     {
         // Add a link to the summary field.

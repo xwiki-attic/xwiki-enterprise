@@ -19,7 +19,10 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import static org.junit.Assert.*;
 
 /**
  * Functional tests for the native JavaScript API exposed by the WYSIWYG editor.
@@ -36,6 +39,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      * </ul>
      * .
      */
+    @Test
     public void testTextAreaElementsGetters()
     {
         insertEditor("editor", "displayTabs: true");
@@ -53,6 +57,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      * Functional test for {@code WysiwygEditor#getSourceText()} when the rich text area is enabled. The rich text area
      * is disable when the source tab is active.
      */
+    @Test
     public void testGetSourceTextWhenRichTextAreaIsEnabled()
     {
         insertEditor("editor", "syntax: 'xwiki/2.0'");
@@ -64,6 +69,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      * Functional test for {@code WysiwygEditor#getSourceText()} when the rich text area is disabled. The rich text area
      * is disable when the source tab is active.
      */
+    @Test
     public void testGetSourceTextWhenRichTextAreaIsDisabled()
     {
         insertEditor("editor", "syntax: 'xwiki/2.0',\ndisplayTabs: true,\ndefaultEditor: 'wysiwyg'");
@@ -79,6 +85,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     /**
      * Functional test for {@code WysiwygEditor#release()}.
      */
+    @Test
     public void testRelease()
     {
         switchToSource();
@@ -131,6 +138,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
      * @see XWIKI-4067: Trying to edit a missing object property with the new WYSIWYG editor can lead to infinite
      *      include recursion.
      */
+    @Test
     public void testEditMissingProperty()
     {
         // Save the current location to be able to get back.
@@ -172,6 +180,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4519: Add the ability to execute commands on the rich text area from JavaScript.
      */
+    @Test
     public void testCommandManagerApi()
     {
         insertEditor("editor", "syntax: 'xwiki/2.0'");
@@ -189,6 +198,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     /**
      * Tests the WYSIWYG events are fired properly.
      */
+    @Test
     public void testEvents()
     {
         // Insert the code that creates the editor.
@@ -213,7 +223,8 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
         content.append("    editor = new WysiwygEditor({\n");
         content.append("      hookId: 'source',\n");
         content.append("      syntax: 'xwiki/2.0',\n");
-        String inputURL = getUrl(this.getClass().getSimpleName(), "_" + getName(), "edit", "xpage=wysiwyginput");
+        String inputURL =
+            getUrl(this.getClass().getSimpleName(), "_" + getTestMethodName(), "edit", "xpage=wysiwyginput");
         content.append("      inputURL: '" + inputURL + "',\n");
         content.append("      displayTabs: true,\n");
         content.append("      defaultEditor: 'wysiwyg'\n");
@@ -246,6 +257,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     /**
      * Tests if the configuration parameters for a WYSIWYG editor instance are accessible through the JavaScript API.
      */
+    @Test
     public void testAccessConfigurationParameters()
     {
         String hookId = "XWiki.ArticleClass_0_description";
@@ -257,6 +269,7 @@ public class NativeJavaScriptApiTest extends AbstractWysiwygTestCase
     /**
      * Tests that we can get a reference to a WYSIWYG editor instance by knowing its hookId.
      */
+    @Test
     public void testAccessWysiwygEditorInstanceByHookId()
     {
         String hookId = "XWiki.ArticleClass_0_description";

@@ -19,8 +19,11 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import static org.junit.Assert.*;
 
 /**
  * Functional tests for the table support inside the WYSIWYG editor.
@@ -38,6 +41,7 @@ public class TableTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3043: Prevent tab from moving focus from the new WYSIWYG editor
      */
+    @Test
     public void testTabInTableCell()
     {
         insertTable();
@@ -65,6 +69,7 @@ public class TableTest extends AbstractWysiwygTestCase
      * @see XWIKI-3089: Cannot move cursor after table
      * @see XWIKI-3829: Use Control/Meta+Up/Down arrow keys to navigate before/after a table
      */
+    @Test
     public void testMoveCaretBeforeAndAfterTable()
     {
         switchToSource();
@@ -105,6 +110,7 @@ public class TableTest extends AbstractWysiwygTestCase
      * @see XWIKI-4017: The close X button from the "Insert Table" dialog acts like the "Insert" button after a table
      *      has been inserted.
      */
+    @Test
     public void testCancelInsertTable()
     {
         openInsertTableDialog();
@@ -129,6 +135,7 @@ public class TableTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4231: "Enter" doesn't work in the Table Dialog
      */
+    @Test
     public void testEnterInTableConfigDialog()
     {
         openInsertTableDialog();
@@ -148,6 +155,7 @@ public class TableTest extends AbstractWysiwygTestCase
      * Tests if the values entered on the table configuration dialog are validated and if proper validation message are
      * displayed.
      */
+    @Test
     public void testValidateTableConfigDialog()
     {
         openInsertTableDialog();
@@ -191,6 +199,7 @@ public class TableTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-7606: Cannot delete a table row when the selection spans across multiple cells
      */
+    @Test
     public void testDeleteRowWhenSelectionSpansAcrossMultipleCells()
     {
         // Insert a table.

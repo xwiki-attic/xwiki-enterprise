@@ -21,14 +21,18 @@ package org.xwiki.test.wysiwyg;
 
 import java.util.Date;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 import com.thoughtworks.selenium.Wait;
 
+import static org.junit.Assert.*;
+
 public class TabsTest extends AbstractWysiwygTestCase
 {
+    @Test
     public void testMultipleClicksOnTheSameTab()
     {
         setContent("<strong>foo</strong>");
@@ -41,6 +45,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Tests that XWIKI-3834 remains fixed.
      */
+    @Test
     public void testMultipleSwitches()
     {
         StringBuffer content = new StringBuffer();
@@ -80,6 +85,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4079: Links are lost when switching to Source in the WYSIWYG editor.
      */
+    @Test
     public void testLinksAreNotLostWhenSwitchingToSourceTab()
     {
         String content = "Visit [[XWiki>>http://www.xwiki.org]] and our [[blog>>Blog.WebHome]].";
@@ -93,6 +99,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3965: Relative images are not displayed when switching from Source tab to Wysiwyg tab.
      */
+    @Test
     public void testContextDocumentIsPreserved()
     {
         // Uploading an image to the current document is difficult. Instead we use a context sensitive velocity script.
@@ -109,6 +116,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Switches to source tab while the rich text area is still loading. The source text must remain unchanged.
      */
+    @Test
     public void testSwitchToSourceWhileWysiwygIsLoading()
     {
         switchToSource();
@@ -137,6 +145,7 @@ public class TabsTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-4392: Place the caret at the beginning of the content when swtching to WYSIWYG Source editor.
      */
+    @Test
     public void testSwitchToSourceWithHTMLChangesAndWait()
     {
         typeText("1");
@@ -149,6 +158,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Switches to source tab without changing the HTML. The source selection should be preserved.
      */
+    @Test
     public void testSwitchToSourceWithoutHTMLChanges()
     {
         switchToSource();
@@ -167,6 +177,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Switches to source tab but doesn't wait for the result. Comes back to source tab when the result is received.
      */
+    @Test
     public void testSwitchToSourceWithHTMLChangesAndDontWait()
     {
         setContent("<!--startmacro:code|-|language=\"java\"|-|public class Apple extends Fruit {\n"
@@ -194,6 +205,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Test if the editor switches back to WYSIWYG tab when the conversion from HTML to source text fails.
      */
+    @Test
     public void testSwitchToSourceFailure()
     {
         // Put some bogus content in the rich text area. This content should cause a conversion exception.
@@ -214,6 +226,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Tests if the switch to source action can be canceled.
      */
+    @Test
     public void testCancelSwitchToSource()
     {
         // Put some content in the rich text area.
@@ -236,6 +249,7 @@ public class TabsTest extends AbstractWysiwygTestCase
      * @see XWIKI-4517: NullPointerException thrown when switching to Source tab before the rich text area has finished
      *      loading
      */
+    @Test
     public void testSwitchToSourceBeforeWysiwygLoad()
     {
         // Switch to source and put some content that takes time to render.
@@ -263,6 +277,7 @@ public class TabsTest extends AbstractWysiwygTestCase
      * Switches to WYSIWYG tab while the source text area is still loading (i.e. waiting for a HTML to source conversion
      * result). The rich text must remain unchanged.
      */
+    @Test
     public void testSwitchToWysiwygWhileSourceIsLoading()
     {
         String content =
@@ -284,6 +299,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Switches to WYSIWYG tab without changing the source text. The DOM selection should be preserved.
      */
+    @Test
     public void testSwitchToWysiwygWithoutSourceChanges()
     {
         setContent("<em>alice</em> and <strong>bob</strong>");
@@ -301,6 +317,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Switches to WYSIWYG tab and waits for the conversion. The caret should be placed at the start.
      */
+    @Test
     public void testSwitchToWysiwygWithSourceChangesAndWait()
     {
         switchToSource();
@@ -314,6 +331,7 @@ public class TabsTest extends AbstractWysiwygTestCase
      * Switches to WYSIWYG tab but doesn't wait for the rich text area to finish loading. Comes back to WYSIWYG tab when
      * the rich text area is loaded.
      */
+    @Test
     public void testSwitchToWysiwygWithHTMLChangesAndDontWait()
     {
         switchToSource();
@@ -334,6 +352,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Tests if the switch to WYSIWYG tab action can be canceled.
      */
+    @Test
     public void testCancelSwitchToWysiwyg()
     {
         // Switch to source tab and insert some content that takes time to render. A code macro is perfect for this.
@@ -367,6 +386,7 @@ public class TabsTest extends AbstractWysiwygTestCase
     /**
      * Switches to source tab, changes the source text then switches back to WYSIWYG tab and undoes the change.
      */
+    @Test
     public void testUndoSourceChange()
     {
         typeText("1");

@@ -19,17 +19,22 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
+import static org.junit.Assert.*;
+
 public class StandardFeaturesTest extends AbstractWysiwygTestCase
 {
+    @Test
     public void testEmptyWysiwyg()
     {
         switchToSource();
         assertSourceText("");
     }
 
+    @Test
     public void testTypingAndDeletion()
     {
         String text = "az";
@@ -39,6 +44,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         testEmptyWysiwyg();
     }
 
+    @Test
     public void testBold()
     {
         typeText("x");
@@ -48,6 +54,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertContent("<h5><strong>x</strong></h5>");
     }
 
+    @Test
     public void testItalics()
     {
         typeText("x");
@@ -57,6 +64,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertContent("<h5><em>x</em></h5>");
     }
 
+    @Test
     public void testUnderline()
     {
         typeText("x");
@@ -66,6 +74,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertContent("<h5><ins>x</ins></h5>");
     }
 
+    @Test
     public void testStrikethrough()
     {
         typeText("x");
@@ -75,6 +84,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertContent("<h5><del>x</del></h5>");
     }
 
+    @Test
     public void testSubscript()
     {
         typeText("x");
@@ -84,6 +94,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertContent("<h5><sub>x</sub></h5>");
     }
 
+    @Test
     public void testSuperscript()
     {
         typeText("x");
@@ -93,6 +104,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         assertContent("<h5><sup>x</sup></h5>");
     }
 
+    @Test
     public void testUnorderedList()
     {
         // Create a list with 3 items
@@ -119,6 +131,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         testEmptyWysiwyg();
     }
 
+    @Test
     public void testOrderedList()
     {
         // Create a list with 3 items
@@ -145,6 +158,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
         testEmptyWysiwyg();
     }
 
+    @Test
     public void testStyle()
     {
         typeText("x");
@@ -176,6 +190,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      * @see XWIKI-2949: A separator (HR) inserted at the beginning of a document is badly displayed and difficult to
      *      remove
      */
+    @Test
     public void testHR()
     {
         clickHRButton();
@@ -206,6 +221,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      * @see XWIKI-2992: Place the caret after the inserted symbol
      * @see XWIKI-3682: Trademark symbol is not displayed correctly.
      */
+    @Test
     public void testInsertSymbol()
     {
         clickSymbolButton();
@@ -225,6 +241,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3043: Prevent tab from moving focus from the new WYSIWYG editor
      */
+    @Test
     public void testTabDefault()
     {
         typeText("a");
@@ -240,6 +257,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3043: Prevent tab from moving focus from the new WYSIWYG editor
      */
+    @Test
     public void testTabInListItem()
     {
         typeText("x");
@@ -261,6 +279,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2735: Clicking on the space between two lines hides the cursor
      */
+    @Test
     public void testEmptyLinesAreEditable()
     {
         switchToSource();
@@ -275,6 +294,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2732: Unwanted BR tags
      */
+    @Test
     public void testUnwantedBRsAreRemoved()
     {
         typeText("a");
@@ -288,6 +308,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3138: WYSIWYG 2.0 Preview Error
      */
+    @Test
     public void testPreview()
     {
         typeText("x");
@@ -302,6 +323,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2993: Insert horizontal line on a selection of unordered list.
      */
+    @Test
     public void testInsertHRInPlaceOfASelectedList()
     {
         typeTextThenEnter("a");
@@ -317,6 +339,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      * @see XWIKI-3053: When a HR is inserted at the beginning of a paragraph an extra empty paragraph is generated
      *      before that HR
      */
+    @Test
     public void testInsertHRInsideParagraph()
     {
         // "y" (lower case only) is misinterpreted.
@@ -349,6 +372,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3191: New lines at the end of list items are not preserved by the wysiwyg
      */
+    @Test
     public void testNewLinesAtTheEndOfListItemsArePreserved()
     {
         String sourceText = "* \\\\\n** \\\\\n*** test1";
@@ -362,6 +386,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3194: Cannot remove just one text style when using the style attribute instead of formatting tags
      */
+    @Test
     public void testRemoveBoldStyleWhenTheStyleAttributeIsUsed()
     {
         switchToSource();
@@ -384,6 +409,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2997: Cannot un-bold a text with style Title 1
      */
+    @Test
     public void testRemoveBoldStyleWithinHeading()
     {
         // Insert a heading and make sure it has bold style.
@@ -407,6 +433,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3111: A link to an email address can be removed by removing the underline style
      */
+    @Test
     public void testRemoveUnderlineStyleFromALink()
     {
         // Insert a link to an email address.
@@ -431,6 +458,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * Tests if the state of the tool bar buttons is updated immediately after the editor finished loading.
      */
+    @Test
     public void testToolBarIsUpdatedOnLoad()
     {
         clickEditPageInWikiSyntaxEditor();
@@ -450,6 +478,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2669: New WYSIWYG editor doesn't work when special characters are entered by the user.
      */
+    @Test
     public void testHTMLSpecialChars()
     {
         typeText("<\"'&#'\">");
@@ -469,6 +498,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4033: When saving after section edit entire page is overwritten.
      */
+    @Test
     public void testSectionEditing()
     {
         // Save the current location to be able to get back to it later.
@@ -498,6 +528,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4335: Typing ">" + text in wysiwyg returns a quote
      */
+    @Test
     public void testQuoteSyntaxIsEscaped()
     {
         typeText("> 1");
@@ -509,6 +540,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI: Problems removing italics from a definition.
      */
+    @Test
     public void testRemoveItalicsFromDefinition()
     {
         switchToSource();
@@ -525,6 +557,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4364: Verbatim blocks suffer corruption when previewed using the GWT editor
      */
+    @Test
     public void testMultiLineVerbatimBlock()
     {
         switchToSource();
@@ -538,6 +571,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4399: ((( ))) looses class or style definitions when you edit in WYSIWYG.
      */
+    @Test
     public void testGroupStyleIsPreserved()
     {
         switchToSource();
@@ -551,6 +585,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4529: XWiki velocity variables are undefined when the edited content is rendered.
      */
+    @Test
     public void testXWikiVarsAreDefined()
     {
         switchToSource();
@@ -563,6 +598,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      * @see XWIKI-4665: Pressing Meta+G (Jump to page) in the WYSIWYG editor displays the popup inside the rich text
      *      area.
      */
+    @Test
     public void testJavaScriptExtensionsAreNotIncludedInEditMode()
     {
         // Type some text to be sure the conversion is triggered when switching to source.
@@ -593,6 +629,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
      * @see XWIKI-6003: Entering and exiting fullscreen mode resets the scroll offset and the cursor position or the
      *      current selection
      */
+    @Test
     public void testEditInFullScreen()
     {
         typeText("abc");
@@ -609,6 +646,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-5036: WYSIWYG editor doesn't display when creating a document named #"&§-_\
      */
+    @Test
     public void testEditPageWithSpecialSymbolsInName()
     {
         startCreatePage("Main", "#\"&\u00A7-_\\");
@@ -621,6 +659,7 @@ public class StandardFeaturesTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-5250: Merge nested custom styles like font and color before save
      */
+    @Test
     public void testNestedCustomInlineStyles()
     {
         setContent("<p>ab<span style=\"color: red\">cd<span style=\"background-color: yellow\">ef</span>gh</span>"

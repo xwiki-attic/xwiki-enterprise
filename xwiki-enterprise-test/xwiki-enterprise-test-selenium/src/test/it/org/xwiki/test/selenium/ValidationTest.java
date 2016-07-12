@@ -19,11 +19,8 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Verify the data validation feature of XWiki.
@@ -34,20 +31,7 @@ public class ValidationTest extends AbstractXWikiTestCase
 {
     private static final String SYNTAX = "xwiki/2.1";
 
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the data validation feature of XWiki");
-        suite.addTestSuite(ValidationTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
+    @Test
     public void testSaveActionValidatesWhenXValidateIsPresent()
     {
         deletePage("Main", "ValidatedClass");

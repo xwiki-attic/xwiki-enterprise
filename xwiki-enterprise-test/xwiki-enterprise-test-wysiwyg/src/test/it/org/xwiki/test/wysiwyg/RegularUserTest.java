@@ -21,10 +21,11 @@ package org.xwiki.test.wysiwyg;
 
 import java.util.Arrays;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
-import com.thoughtworks.selenium.Selenium;
+import static org.junit.Assert.*;
 
 /**
  * Test for the Wysiwyg editing features when editing as a regular user, not an admin.
@@ -37,9 +38,10 @@ public class RegularUserTest extends AbstractWysiwygTestCase
     private XWikiExplorer explorer;
 
     @Override
-    public void setSelenium(Selenium selenium)
+    public void setUp()
     {
-        super.setSelenium(selenium);
+        super.setUp();
+
         this.explorer = new XWikiExplorer(getDriver());
     }
 
@@ -61,6 +63,7 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      * @see http://jira.xwiki.org/browse/XWIKI-4412
      * @see http://jira.xwiki.org/browse/XWIKI-7568
      */
+    @Test
     public void testWikiLinkSearchedPageHidesTechnicalSpaces()
     {
         openDialog("Link", "Wiki Page...");
@@ -116,10 +119,11 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      * Test that upon selecting the wiki page to create a link to from all the pages in the wiki, with the tree
      * explorer, the technical spaces are not displayed to the regular user to choose from.
      */
+    @Test
     public void testWikiLinkAllPagesPageHidesTechnicalSpaces()
     {
         String currentSpace = getClass().getSimpleName();
-        String currentPage = getName();
+        String currentPage = getTestMethodName();
 
         // Save the current page so that it appears in the tree.
         clickEditSaveAndContinue();
@@ -153,6 +157,7 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      * Test that upon selecting an image from all the images in the wiki, the technical spaces are not listed in the
      * space selector for the regular user to choose from.
      */
+    @Test
     public void testImageSelectorHidesTechnicalSpaces()
     {
         String currentSpace = getClass().getSimpleName();

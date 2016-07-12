@@ -21,7 +21,10 @@ package org.xwiki.test.wysiwyg;
 
 import java.util.Date;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import static org.junit.Assert.*;
 
 /**
  * Functional tests for in-line editing using the WYSIWYG editor.
@@ -35,12 +38,13 @@ public class EditInlineTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-4746: GWT-editor wont render field's content if it has underscores in it's name.
      */
+    @Test
     public void testEditPropertyWithUnderscore()
     {
         StringBuffer spaceName = new StringBuffer(this.getClass().getSimpleName());
         spaceName.insert(spaceName.length() / 2, "_0_");
 
-        StringBuffer pageName = new StringBuffer(getName());
+        StringBuffer pageName = new StringBuffer(getTestMethodName());
         pageName.insert(pageName.length() / 2, "_17_");
 
         // Create a class with a property that has '_' in its name.
@@ -81,10 +85,11 @@ public class EditInlineTest extends AbstractWysiwygTestCase
      * @see XWIKI-4814: WYSIWYG does not preserve TextArea property values when creating a new document from a class
      *      template
      */
+    @Test
     public void testEditorInitialContentWhenCreatingDocumentFromTemplate()
     {
         String spaceName = this.getClass().getSimpleName();
-        String pageName = getName();
+        String pageName = getTestMethodName();
         String className = pageName + "Class";
         String templateName = pageName + "Template";
         String sheetName = pageName + "Sheet";

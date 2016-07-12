@@ -19,11 +19,8 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Tests different URL features/bugs.
@@ -32,19 +29,7 @@ import junit.framework.Test;
  */
 public class UrlMiscTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests different URL features/bugs");
-        suite.addTestSuite(UrlMiscTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
+    @Test
     public void testSimpleBinUrlDoesNotThrowException()
     {
         open("/xwiki/bin");

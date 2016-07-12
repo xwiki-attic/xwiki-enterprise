@@ -19,7 +19,10 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests if the state of the WYSIWYG editor is preserved (cached) against the browser's Back button and the "soft" page
@@ -33,6 +36,7 @@ public class CacheTest extends AbstractWysiwygTestCase
      * Test that the content of the rich text area is preserved when the user leaves the editing without saving and then
      * comes back.
      */
+    @Test
     public void testPreserveUnsavedRichContentAgainstBackButton()
     {
         // Type text and cancel edition.
@@ -44,7 +48,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Type text and leave the editing by clicking on a link.
         typeText("2");
-        getSelenium().click("//a[. = '" + getName() + "']");
+        getSelenium().click("//a[. = '" + getTestMethodName() + "']");
         waitPage();
         getSelenium().goBack();
         waitPage();
@@ -60,6 +64,7 @@ public class CacheTest extends AbstractWysiwygTestCase
      * Test that the content of the source text area is preserved when the user leaves the editing without saving and
      * then comes back.
      */
+    @Test
     public void testPreserveUnsavedSourceAgainstBackButton()
     {
         switchToSource();
@@ -73,7 +78,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Type text and leave the editing by clicking on a link.
         getSourceTextArea().sendKeys("b");
-        getSelenium().click("//a[. = '" + getName() + "']");
+        getSelenium().click("//a[. = '" + getTestMethodName() + "']");
         waitPage();
         getSelenium().goBack();
         waitPage();
@@ -88,6 +93,7 @@ public class CacheTest extends AbstractWysiwygTestCase
      * Tests that the currently active editor (WYSIWYG or Source) is preserved when the user leaves the editing without
      * saving and then comes back.
      */
+    @Test
     public void testPreserveSelectedEditorAgainstBackButton()
     {
         // The WYSIWYG editor should be initially active.
@@ -105,7 +111,7 @@ public class CacheTest extends AbstractWysiwygTestCase
 
         // Switch to WYSIWYG editor, leave editing and then come back.
         switchToWysiwyg();
-        getSelenium().click("//a[. = '" + getName() + "']");
+        getSelenium().click("//a[. = '" + getTestMethodName() + "']");
         waitPage();
         getSelenium().goBack();
         waitPage();
@@ -118,6 +124,7 @@ public class CacheTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4162: When in edit mode (all editors) back/forward looses the content you have changed
      */
+    @Test
     public void testBackForwardCache()
     {
         // Make sure we can go back.

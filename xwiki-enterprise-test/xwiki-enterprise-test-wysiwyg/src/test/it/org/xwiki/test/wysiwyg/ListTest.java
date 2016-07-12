@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -34,6 +35,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * @see XWIKI-2734: Cannot edit the outer list item. The test is not deeply relevant as we are positioning the range
      *      programatically. The correct test would prove that the caret can be positioned there with the keys.
      */
+    @Test
     public void testEmptyListItemsEditable()
     {
         switchToSource();
@@ -52,6 +54,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * The test is not deeply relevant since we are positioning the range in the item under programatically. The correct
      * test would prove that the caret can be positioned there with the keys.
      */
+    @Test
     public void testEnterBeforeSublist()
     {
         switchToSource();
@@ -70,6 +73,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test the midas bug which causes the list items in a list to be replaced with an empty list and the caret to be
      * left inside the ul, not editable.
      */
+    @Test
     public void testEnterOnEntireList()
     {
         switchToSource();
@@ -85,6 +89,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Test delete works fine inside a list item, and before another element (such as bold).
      */
+    @Test
     public void testDeleteInsideItem()
     {
         switchToSource();
@@ -104,6 +109,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Test backspace works fine inside a list item, and after another element (such as italic).
      */
+    @Test
     public void testBackspaceInsideItem()
     {
         switchToSource();
@@ -121,6 +127,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Test that the delete at the end of the list works fine
      */
+    @Test
     public void testDeleteInSameList()
     {
         switchToSource();
@@ -136,6 +143,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that the backspace at the beginning of the second item in a list moves the items together in the first list
      * item.
      */
+    @Test
     public void testBackspaceInSameList()
     {
         switchToSource();
@@ -166,6 +174,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that backspace at the beginning of a list preserves browser default behaviour: for firefox is to join the
      * two lists.
      */
+    @Test
     public void testBackspaceInDifferentLists()
     {
         switchToSource();
@@ -181,6 +190,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that backspace at the beginning of a list after another list in an embedded document (two lists on the
      * second level) preserves default behaviour: for firefox is to join the two lists.
      */
+    @Test
     public void testBackspaceInEmbeddedDocumentDifferentLists()
     {
         switchToSource();
@@ -206,6 +216,7 @@ public class ListTest extends AbstractWysiwygTestCase
         assertContent("<ul><li>foo</li><li>bar<div><ol><li>foo 2</li><li>bar 2</li></ol></div></li></ul>");
     }
 
+    @Test
     public void testBackspaceInEmbeddedDocumentList()
     {
         switchToSource();
@@ -246,6 +257,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Tests that the delete moves the first item on another level in the item in which is executed.
      */
+    @Test
     public void testDeleteBeforeSublist()
     {
         // 1/ with only one item -> the sublist should be removed
@@ -271,6 +283,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that backspace at the beginning of an item in a sublist moves the item in the list item before, on a lower
      * list level.
      */
+    @Test
     public void testBackspaceBeginSublist()
     {
         // 1/ with only one item -> the sublist should be deleted
@@ -296,6 +309,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that deleting at the end of a list item with a sublist with another sublist inside, moves the first sublist
      * and the elements on level 3 are moved to level 2.
      */
+    @Test
     public void testDeleteDecreasesLevelWithEmptyItem()
     {
         switchToSource();
@@ -311,6 +325,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that hitting backspace at the beginning of a list item with a sublist moves this element in its parent list
      * item and decreases the level of the subitems.
      */
+    @Test
     public void testBackspaceDecreasesLevelWithEmptyItem()
     {
         switchToSource();
@@ -328,6 +343,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * @see XWIKI-3114: Backspace is ignored at the beginning of a list item if the previous list item is on a lower
      *      level.
      */
+    @Test
     public void testDeleteBeforePreviousLevelItem()
     {
         switchToSource();
@@ -346,6 +362,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * @see XWIKI-3114: Backspace is ignored at the beginning of a list item if the previous list item is on a lower
      *      level.
      */
+    @Test
     public void testBackspaceAfterPreviousLevelItem()
     {
         switchToSource();
@@ -362,6 +379,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * editable. The test is weak, since we position the range programatically. The true test should try to navigate to
      * the list item.
      */
+    @Test
     public void testDeleteAllTextInListItem()
     {
         switchToSource();
@@ -387,6 +405,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * editable. The test is weak, since we position the range programatically. The true test should try to navigate to
      * the list item.
      */
+    @Test
     public void testBackspaceAllTextInListItem()
     {
         switchToSource();
@@ -438,6 +457,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Test backspace at the beginning of list item, after text outside lists.
      */
+    @Test
     public void testBackspaceAfterParagraph()
     {
         switchToSource();
@@ -466,6 +486,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test deleting the whole selection on a list, on multiple list levels keeps the list valid. Test that the parents
      * of the indented list items that stay are editable.
      */
+    @Test
     public void testDeleteSelectionPreserveSublists()
     {
         switchToSource();
@@ -483,6 +504,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test deleting the whole selection on a list, on multiple list levels deletes all the fully enclosed list items
      * and lists, and keeps the result in a single list item if the selection ends are on the same list level.
      */
+    @Test
     public void testDeleteSelectionDeletesEnclosedSublists()
     {
         switchToSource();
@@ -499,6 +521,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test creating a list with two items and indenting the second item. The indented item should be a sublist of the
      * first item and the resulted HTML should be valid.
      */
+    @Test
     public void testIndentNoSublist()
     {
         typeText("1");
@@ -526,6 +549,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that indenting an item to the second level under a list item with a list already on the second level unifies
      * the two lists.
      */
+    @Test
     public void testIndentUnderSublist()
     {
         typeText("1");
@@ -549,6 +573,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * @see XWIKI-3118: Indenting a list item with a sublist works incorrectly.
      * @see XWIKI-3117: Shift + Tab does works incorrect on an item that contains a sublist.
      */
+    @Test
     public void testIndentOutdentWithSublist()
     {
         typeText("1");
@@ -593,6 +618,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test outdenting an item on the first level in a list: it should split the list in two and put the content of the
      * unindented item in between.
      */
+    @Test
     public void testOutdentOnFirstLevel()
     {
         typeText("1");
@@ -615,6 +641,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test outdenting an item on the second level inside a list item which also contains content after the sublist
      * correctly moves the content in the outdented list item.
      */
+    @Test
     public void testOutdentWithContentAfter()
     {
         setContent("<ul><li>one<br />before<ul><li>two</li><li>three</li><li>four</li></ul>after</li></ul>");
@@ -629,6 +656,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3447: List detection is reversed
      */
+    @Test
     public void testListDetection()
     {
         switchToSource();
@@ -663,6 +691,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3773: Adding and editing lists in table cells.
      */
+    @Test
     public void testCreateListInTableCell()
     {
         insertTable();
@@ -677,6 +706,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Test indenting a list fragment by selecting all the items and hitting the indent button.
      */
+    @Test
     public void testIndentListFragment()
     {
         switchToSource();
@@ -696,6 +726,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * happen. The correct steps are to indent the parent and then outdent the sublist, which is the case tested by this
      * function.
      */
+    @Test
     public void testIndentParentWithNoSublist()
     {
         switchToSource();
@@ -717,6 +748,7 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Tests indenting two items, amongst which one with a sublist and then outdenting the item with the sublist.
      */
+    @Test
     public void testIndentItemWithSublistAndOutdent()
     {
         switchToSource();
@@ -742,6 +774,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Tests a few indent and outdent operations on a list inside an embedded document (in this case, a table cell),
      * preceded by another list in the previous table cell.
      */
+    @Test
     public void testIndentOutdentInTableCell()
     {
         switchToSource();
@@ -778,6 +811,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3921
      */
+    @Test
     public void testOutdentFirstLevelPreservesLines()
     {
         switchToSource();
@@ -799,6 +833,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * 
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
      */
+    @Test
     public void testBackspaceBetweenHeadingListItems()
     {
         typeText("abc");

@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
@@ -32,6 +33,7 @@ public class HistoryTest extends AbstractWysiwygTestCase
     /**
      * Basic integration test for the history mechanism.
      */
+    @Test
     public void testUndoRedo()
     {
         getRichTextArea().sendKeys("a b", Keys.TAB, "c");
@@ -55,6 +57,7 @@ public class HistoryTest extends AbstractWysiwygTestCase
      * @see XWIKI-3048: Undo/Redo/Copy/Paste/Cut Mac shortcuts should be mapped to the corresponding features of the
      *      WYSIWYG editor
      */
+    @Test
     public void testUndoRedoShortcutKeys()
     {
         setContent("March 9th, 2009");

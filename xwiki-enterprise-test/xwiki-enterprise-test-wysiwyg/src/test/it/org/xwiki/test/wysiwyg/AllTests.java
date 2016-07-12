@@ -19,63 +19,51 @@
  */
 package org.xwiki.test.wysiwyg;
 
-import org.xwiki.test.integration.XWikiTestSetup;
-import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiSeleniumTestSetup;
-import org.xwiki.test.wysiwyg.framework.WysiwygTestSetup;
-import org.xwiki.test.wysiwyg.framework.WysiwygTestSuite;
+import java.util.HashMap;
+import java.util.Map;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
+import org.junit.runner.RunWith;
+import org.xwiki.repository.test.SolrTestUtils;
+import org.xwiki.test.ui.PageObjectSuite;
+import org.xwiki.test.ui.PersistentTestContext;
 
 /**
- * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit
- * Runner discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the
- * tests start (but only once).
+ * Runs all functional tests found in the classpath.
  * 
  * @version $Id$
  */
-public class AllTests extends TestCase
+@RunWith(PageObjectSuite.class)
+public class AllTests extends org.xwiki.test.selenium.AllTests
 {
-    private static final String PATTERN = ".*" + System.getProperty("pattern", "");
-
-    public static Test suite() throws Exception
+    @PageObjectSuite.PostStart
+    @Override
+    public void postStart(PersistentTestContext context) throws Exception
     {
-        // create a wysiwyg test suite for all the wysiwyg tests to be executed with the Colibri skin executor
-        // FIXME: the skin executor setting should be in a ColibriTestSetup, so that the provider for skin functions is
-        // injected at setup time, and can be changed by changing the decorator
-        WysiwygTestSuite suite = new WysiwygTestSuite("WYSIWYG Selenium Tests", FlamingoSkinExecutor.class);
+        super.postStart(context);
 
-        addTestCase(suite, SubmitTest.class);
-        addTestCase(suite, StandardFeaturesTest.class);
-        addTestCase(suite, HistoryTest.class);
-        addTestCase(suite, LineTest.class);
-        addTestCase(suite, TableTest.class);
-        addTestCase(suite, LinkTest.class);
-        addTestCase(suite, ListTest.class);
-        addTestCase(suite, MacroTest.class);
-        addTestCase(suite, ImageTest.class);
-        addTestCase(suite, TabsTest.class);
-        addTestCase(suite, NativeJavaScriptApiTest.class);
-        addTestCase(suite, ColorTest.class);
-        addTestCase(suite, AlignmentTest.class);
-        addTestCase(suite, RemoveFormattingTest.class);
-        addTestCase(suite, FontTest.class);
-        addTestCase(suite, CacheTest.class);
-        addTestCase(suite, RegularUserTest.class);
-        addTestCase(suite, ImportTest.class);
-        addTestCase(suite, EmbedTest.class);
-        addTestCase(suite, EditInlineTest.class);
+        displayHiddenDocumentsForAdmin(context);
+        enableAllEditingFeatures(context);
 
-        return new XWikiTestSetup(new XWikiSeleniumTestSetup(new WysiwygTestSetup(suite)));
+        new SolrTestUtils(context.getUtil()).waitEmpyQueue();
     }
 
-    private static void addTestCase(WysiwygTestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)
-        throws Exception
+    private void displayHiddenDocumentsForAdmin(PersistentTestContext context)
     {
-        if (testClass.getName().matches(PATTERN)) {
-            suite.addTestSuite(testClass);
-        }
+        context.getUtil().loginAsAdmin();
+        context.getUtil().gotoPage("XWiki", "Admin", "save", "XWiki.XWikiUsers_0_displayHiddenDocuments=1");
+    }
+
+    private void enableAllEditingFeatures(PersistentTestContext context)
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put("XWiki.WysiwygEditorConfigClass_0_plugins",
+            "submit readonly line separator embed text valign list "
+            + "indent history format symbol link image " + "table macro import color justify font");
+        params.put("XWiki.WysiwygEditorConfigClass_0_toolBar",
+            "bold italic underline strikethrough teletype | subscript superscript | "
+            + "justifyleft justifycenter justifyright justifyfull | unorderedlist orderedlist | outdent indent | "
+            + "undo redo | format | fontname fontsize forecolor backcolor | hr removeformat symbol | "
+            + " paste | macro:velocity");
+        context.getUtil().gotoPage("XWiki", "WysiwygEditorConfig", "save", params);
     }
 }

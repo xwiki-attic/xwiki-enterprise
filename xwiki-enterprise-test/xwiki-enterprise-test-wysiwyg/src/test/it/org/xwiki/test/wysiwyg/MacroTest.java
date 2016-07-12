@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
@@ -27,6 +28,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 import com.thoughtworks.selenium.Wait;
+
+import static org.junit.Assert.*;
 
 /**
  * Integration tests for macro support inside the WYSIWYG editor.
@@ -61,6 +64,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that after deleting the last character before a macro the caret remains before the macro and not inside the
      * macro.
      */
+    @Test
     public void testDeleteCharacterBeforeMacro()
     {
         switchToSource();
@@ -76,6 +80,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that by holding the Delete key down before a macro the caret doesn't get inside the macro, but, instead,
      * the macro is deleted.
      */
+    @Test
     public void testHoldDeleteKeyBeforeMacro()
     {
         switchToSource();
@@ -93,6 +98,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that after deleting with Backspace a text selection ending before a macro the caret remains before the
      * macro and not inside the macro.
      */
+    @Test
     public void testSelectCharacterBeforeMacroAndPressBackspace()
     {
         switchToSource();
@@ -110,6 +116,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that if we select the text before a macro and insert a symbol instead of it then the symbol is inserted
      * before the macro and not inside the macro.
      */
+    @Test
     public void testSelectCharacterBeforeMacroAndInsertSymbol()
     {
         switchToSource();
@@ -127,6 +134,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that a macro can be deleted by pressing Delete key when the caret is placed before that macro.
      */
+    @Test
     public void testPressDeleteJustBeforeMacro()
     {
         switchToSource();
@@ -144,6 +152,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that after deleting the last character after a macro the caret remains after the macro and not inside the
      * macro.
      */
+    @Test
     public void testDeleteCharacterAfterMacro()
     {
         switchToSource();
@@ -161,6 +170,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that by holding the Backspace key down after a macro the caret doesn't get inside the macro, but, instead,
      * the macro is deleted.
      */
+    @Test
     public void testHoldBackspaceKeyAfterMacro()
     {
         switchToSource();
@@ -178,6 +188,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that after deleting with Delete key a text selection starting after a macro the caret remains after the
      * macro and not inside the macro.
      */
+    @Test
     public void testSelectCharacterAfterMacroAndPressDelete()
     {
         switchToSource();
@@ -195,6 +206,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests that if we select the text after a macro and insert a symbol instead of it then the symbol is inserted
      * after the macro and not inside the macro.
      */
+    @Test
     public void testSelectCharacterAfterMacroAndInsertSymbol()
     {
         switchToSource();
@@ -212,6 +224,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that a macro can be deleted by pressing Backspace key when the caret is placed after that macro.
      */
+    @Test
     public void testPressBackspaceJustAfterMacro()
     {
         switchToSource();
@@ -228,6 +241,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that Undo/Redo operations don't affect the macros present in the edited document.
      */
+    @Test
     public void testUndoRedoWhenMacrosArePresent()
     {
         switchToSource();
@@ -246,6 +260,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Clicks on a macro and deletes it.
      */
+    @Test
     public void testSelectAndDeleteMacro()
     {
         switchToSource();
@@ -265,6 +280,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3221: New lines inside code macro are lost when saving
      */
+    @Test
     public void testWhiteSpacesInsideCodeMacroArePreserved()
     {
         String wikiText = "{{code}}\nfunction foo() {\n    alert('bar');\n}\n{{/code}}";
@@ -279,6 +295,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Test if the user can collapse and expand all the macros using the macro menu and if this menu is synchronized
      * with the current state of the rich text area.
      */
+    @Test
     public void testCollapseAndExpandAllMacros()
     {
         setContent("no macro");
@@ -331,6 +348,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Test if the user can collapse and expand the selected macros using the macro menu and if this menu is
      * synchronized with the current state of the rich text area.
      */
+    @Test
     public void testCollapseAndExpandSelectedMacros()
     {
         switchToSource();
@@ -387,6 +405,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Test if the user can select a macro by clicking it and then toggle between collapsed and expanded states using
      * the space key.
      */
+    @Test
     public void testClickToSelectMacroAndToggleCollapse()
     {
         // Let's use a macro without definition.
@@ -432,6 +451,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests the refresh feature when there's no macro present in the edited document.
      */
+    @Test
     public void testRefreshContentWithoutMacros()
     {
         String text = "a b";
@@ -446,6 +466,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that the user can refresh all the macros from the edited document by using the Refresh menu.
      */
+    @Test
     public void testRefreshMacros()
     {
         switchToSource();
@@ -489,6 +510,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that the user can refresh the Table Of Contents macro after adding more headers.
      */
+    @Test
     public void testRefreshTocMacro()
     {
         switchToSource();
@@ -517,6 +539,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests the edit macro feature by editing a HTML macro instance and changing its content and a parameter.
      */
+    @Test
     public void testEditHTMLMacro()
     {
         switchToSource();
@@ -561,6 +584,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3270: Quotes inside macro parameter values need to be escaped
      */
+    @Test
     public void testEditMacroWithSpecialCharactersInParameterValues()
     {
         switchToSource();
@@ -586,6 +610,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Tests if the edit macro feature doesn't fail when the user tries to edit an unregistered macro (a macro who's
      * descriptor can't be found).
      */
+    @Test
     public void testEditUnregisteredMacro()
     {
         switchToSource();
@@ -600,6 +625,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that macro edits can be undone.
      */
+    @Test
     public void testUndoMacroEdit()
     {
         switchToSource();
@@ -627,6 +653,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests the basic insert macro scenario, using the code macro.
      */
+    @Test
     public void testInsertCodeMacro()
     {
         insertMacro("Code");
@@ -648,6 +675,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3551: Cannot insert standalone macros
      */
+    @Test
     public void testInsertTOCMacro()
     {
         // Create two headings to be able to detect if the ToC macro has the right output.
@@ -680,6 +708,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4048: Automatically add empty new line before/after macros when inserting standalone macros
      */
+    @Test
     public void testInsertStandAloneMacroInline()
     {
         switchToSource();
@@ -707,6 +736,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3551: Cannot insert standalone macros
      */
+    @Test
     public void testInsertHTMLMacroWithBlockContentInANotEmptyParagraph()
     {
         // Create a paragraph with some text inside.
@@ -749,6 +779,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3570: Code macro fails to escape properly in GWT editor
      */
+    @Test
     public void testInsertCodeMacroWithXMLComments()
     {
         // Insert the Code macro.
@@ -777,6 +808,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3581: WYSIWYG editor treats macro parameter names as case sensitive
      */
+    @Test
     public void testDetectMacroParameterNamesIgnoringCase()
     {
         switchToSource();
@@ -797,6 +829,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3735: Differentiate macros with empty content from macros without content.
      */
+    @Test
     public void testDifferentiateMacrosWithEmptyContentFromMacrosWithoutContent()
     {
         StringBuffer macros = new StringBuffer();
@@ -848,6 +881,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4085: Content duplicated if i have a macro (toc, id..) in an html macro.
      */
+    @Test
     public void testNestedMacrosAreNotDuplicated()
     {
         StringBuilder content = new StringBuilder();
@@ -880,6 +914,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4155: Use double click or Enter to select the macro to insert.
      */
+    @Test
     public void testDoubleClickToSelectMacroToInsert()
     {
         openSelectMacroDialog();
@@ -905,6 +940,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4155: Use double click or Enter to select the macro to insert.
      */
+    @Test
     public void testPressEnterToSelectMacroToInsert()
     {
         openSelectMacroDialog();
@@ -930,6 +966,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4137: Pop up the "Edit macro properties" dialog when double-clicking on a macro block.
      */
+    @Test
     public void testDoubleClickToEditMacro()
     {
         // Insert two macros.
@@ -961,6 +998,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * Sometimes when you double click a macro the browser selects the macro container (i.e. the DOM selection wraps the
      * element that contains the macro output). Test if the macro edit box is still triggered.
      */
+    @Test
     public void testDoubleClickToEditMacroWhenDOMSelectionWrapsTheMacroContainer()
     {
         // Insert a macro.
@@ -990,6 +1028,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-6121: Double clicking on text makes macro edit box appear
      */
+    @Test
     public void testDoubleClickOutsideSelectedMacro()
     {
         // Insert a macro.
@@ -1023,6 +1062,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3437: List macros by category/library
      */
+    @Test
     public void testSelectMacroFromCategory()
     {
         openSelectMacroDialog();
@@ -1066,6 +1106,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4206: Add the ability to search in the list of macros
      */
+    @Test
     public void testFilterMacrosFromCategory()
     {
         openSelectMacroDialog();
@@ -1130,6 +1171,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3434: Use the dialog wizard for insert macro UI
      */
+    @Test
     public void testReturnToSelectMacroStep()
     {
         openSelectMacroDialog();
@@ -1172,6 +1214,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that the user can't move to the Edit Macro step without selection a macro first.
      */
+    @Test
     public void testValidateSelectMacroStep()
     {
         openSelectMacroDialog();
@@ -1243,6 +1286,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests if the user can select from the previously inserted macros.
      */
+    @Test
     public void testSelectFromPreviouslyInsertedMacros()
     {
         openSelectMacroDialog();
@@ -1278,6 +1322,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4415: Context document not set when refreshing macros.
      */
+    @Test
     public void testRefreshContextSensitiveVelocity()
     {
         switchToSource();
@@ -1291,6 +1336,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4541: Links are removed when a macro is collapsed and the editor looses focus.
      */
+    @Test
     public void testLinksArePreservedWhenMacroIsCollapsed()
     {
         switchToSource();
@@ -1317,6 +1363,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4613: Macros that output STYLE tags inside the HTML body generate wiki syntax garbage.
      */
+    @Test
     public void testHTMLMacroWithStyleTag()
     {
         switchToSource();
@@ -1341,6 +1388,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4856: Charset errors on macro insertion
      */
+    @Test
     public void testMacroWithUnicodeCharacters()
     {
         // Insert a macro with Unicode characters.
@@ -1362,9 +1410,10 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4946: Default values for the required macro parameters should be send to the server by the WYSIWYG
      */
+    @Test
     public void testDefaultValuesForMandatoryParametersAreSent()
     {
-        open(this.getClass().getSimpleName(), getName(), "edit", "editor=object");
+        open(this.getClass().getSimpleName(), getTestMethodName(), "edit", "editor=object");
         if (!isElementPresent("xclass_XWiki.WikiMacroClass")) {
             // Create the macro.
             getSelenium().select("classname", "WikiMacroClass");
@@ -1382,7 +1431,7 @@ public class MacroTest extends AbstractWysiwygTestCase
             setFieldValue("XWiki.WikiMacroParameterClass_0_defaultValue", "yyyy.MM.dd");
             clickEditSaveAndContinue();
         }
-        open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
+        open(this.getClass().getSimpleName(), getTestMethodName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
         // Insert the macro we just created.
         insertMacro("Now");
@@ -1395,6 +1444,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-5013: HTML code visible when inserting velocity macro displaying a property
      */
+    @Test
     public void testInsertVelocityMacroDisplayingAProperty()
     {
         insertMacro("Velocity");
@@ -1409,6 +1459,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * Tests that a macro can be inserted by clicking the associated tool bar button.
      */
+    @Test
     public void testInsertMacroFromToolBar()
     {
         // The tool bar button for inserting the velocity macro has been added in WysiwygTestSetup.
@@ -1425,6 +1476,7 @@ public class MacroTest extends AbstractWysiwygTestCase
      * @see XWIKI-4461: Cannot have a cursor around macro blocks in Wysiwyg
      * @see XWIKI-3335: Cannot move the caret with the right arrow key after a macro ending the document
      */
+    @Test
     public void testTypeAroundMacro()
     {
         switchToSource();
@@ -1483,6 +1535,7 @@ public class MacroTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-7743: Wrong editor width when returning from full screen edit after editing/adding a macro
      */
+    @Test
     public void testEditorWidthIsRestoredAfterFullScreenEdit()
     {
         clickEditInFullScreen();

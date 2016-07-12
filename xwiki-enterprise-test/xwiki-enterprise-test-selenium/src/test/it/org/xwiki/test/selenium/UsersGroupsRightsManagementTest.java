@@ -19,11 +19,10 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
 /**
  * Verify the Users, Groups and Rights Management features of XWiki.
@@ -32,20 +31,6 @@ import junit.framework.Test;
  */
 public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the Users, Groups and Rights Management features of XWiki");
-        suite.addTestSuite(UsersGroupsRightsManagementTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
     /**
      * <ul>
      * <li>Validate group creation.</li>
@@ -54,6 +39,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      * <li>Validate rights automatically cleaned from deleted groups.</li>
      * </ul>
      */
+    @Test
     public void testCreateAndDeleteGroup()
     {
         // Make sure there's no XWikiNewGroup before we try to create it
@@ -88,6 +74,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     /**
      * Validate that administration show error when trying to create an existing group.
      */
+    @Test
     public void testCreateGroupWhenGroupAlreadyExists()
     {
         open("XWiki", "testCreateGroupWhenGroupAlreadyExists", "edit", "editor=wiki");
@@ -111,6 +98,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      * <li>Validate groups automatically cleaned from deleted users.</li>
      * </ul>
      */
+    @Test
     public void testCreateAndDeleteUser()
     {
         // Make sure there's no XWikiNewUser user before we try to create it
@@ -134,6 +122,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     /**
      * Test that the Ajax registration tool accepts non-ASCII symbols.
      */
+    @Test
     public void testCreateNonAsciiUser()
     {
         // Make sure there's no AccentUser user before we try to create it
@@ -153,6 +142,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      * Validate group rights. Validate XWIKI-2375: Group and user access rights problem with a name which includes space
      * characters
      */
+    @Test
     public void testGroupRights()
     {
         String username = "TestUser";
@@ -195,6 +185,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
      * Test adding a group to a group. Specifically, assert that the group is added as a member itself, not adding all
      * its members one by one.
      */
+    @Test
     public void testAddGroupToGroup()
     {
         String group = "GroupWithGroup";
@@ -232,6 +223,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     /**
      * Validate adding a member to a group via the administration.
      */
+    @Test
     public void testAddUserToGroup()
     {
         // Make sure there's no XWikiNewUser user before we try to create it
@@ -246,6 +238,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     /**
      * Validate member filtering on group sheet.
      */
+    @Test
     public void testFilteringOnGroupSheet()
     {
         openGroupsPage();

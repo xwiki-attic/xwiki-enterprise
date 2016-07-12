@@ -20,35 +20,31 @@
 package org.xwiki.test.selenium.framework;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
+import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.internal.WrapsDriver;
-import org.xwiki.test.ui.XWikiWebDriver;
+import org.xwiki.test.ui.AbstractTest;
 
 import com.thoughtworks.selenium.Selenium;
 import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
-
-import junit.framework.TestCase;
+import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 
 /**
  * All XWiki Selenium tests must extend this class.
  * 
  * @version $Id$
  */
-public abstract class AbstractXWikiTestCase extends TestCase implements SkinExecutor
+public abstract class AbstractXWikiTestCase extends AbstractTest implements SkinExecutor
 {
     public static final String BASEDIR = System.getProperty("basedir");
 
@@ -56,20 +52,9 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     private static final int WAIT_TIME = 30000;
 
-    private SkinExecutor skinExecutor;
+    private SkinExecutor skinExecutor = new FlamingoSkinExecutor(this);
 
     private Selenium selenium;
-
-    /** Cached secret token. TODO cache for each user. */
-    private static String secretToken = null;
-
-    /**
-     * @return the {@link WebDriver} instance
-     */
-    protected XWikiWebDriver getDriver()
-    {
-        return (XWikiWebDriver) ((WrapsDriver) getSelenium()).getWrappedDriver();
-    }
 
     public void setSkinExecutor(SkinExecutor skinExecutor)
     {
@@ -78,98 +63,22 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public SkinExecutor getSkinExecutor()
     {
-        if (this.skinExecutor == null) {
-            throw new RuntimeException("Skin executor hasn't been initialized. Make sure to wrap " + "your test in a "
-                + XWikiTestSuite.class.getName() + " class and call "
-                + " addTestSuite(Class testClass, SkinExecutor skinExecutor).");
-        }
         return this.skinExecutor;
-    }
-
-    public void setSelenium(Selenium selenium)
-    {
-        this.selenium = selenium;
     }
 
     public Selenium getSelenium()
     {
+        if (this.selenium == null) {
+            String baseURL = "http://localhost:" + System.getProperty("xwikiPort", "8080");
+            this.selenium = new WebDriverBackedSelenium(getDriver(), baseURL);
+        }
         return this.selenium;
     }
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp()
     {
-        super.setUp();
-
-        // Print test name for easier parsing of Selenium logs
-        System.out.println("Test: " + getName());
-
-        if (AbstractXWikiTestCase.secretToken == null) {
-            recacheSecretToken();
-        }
-
-        // Reset the mouse position before each test to avoid having hovered elements at the start of the test (e.g.
-        // menus that react to mouse hover can hide page elements that the test is going to click on).
-        if (!selenium.isElementPresent("//body")) {
-            open(getName(), "PageThatDoesNotExist");
-        }
-        // (0, 0) is sometimes interpreted as (0, -1) which is outside of the window so we're using (1, 1) for now.
-        new Actions(getDriver()).moveToElement(getDriver().findElement(By.xpath("//body")), 1, 1).perform();
-    }
-
-    /**
-     * Capture test failures in order to output the HTML for easier debugging + take screenshot.
-     */
-    @Override
-    public void runBare() throws Throwable
-    {
-        Throwable exception = null;
-        setUp();
-        try {
-            runTest();
-        } catch (Throwable running) {
-            exception = running;
-            // Take screenshot before the tear down to ensure we take a picture of the real problem.
-            takeScreenShot();
-        } finally {
-            try {
-                tearDown();
-            } catch (Throwable tearingDown) {
-                if (exception == null)
-                    exception = tearingDown;
-            }
-        }
-        if (exception != null)
-            throw exception;
-    }
-
-    private void takeScreenShot() throws Throwable
-    {
-        try {
-            // Selenium method execution results are logged automatically by Selenium so just calling getHtmlSource
-            // is enough to have it in the logs.
-            getSelenium().getHtmlSource();
-
-            // Create directory where to store screenshots
-            String screenshotDir = BASEDIR;
-            if (!screenshotDir.endsWith(System.getProperty("file.separator"))) {
-                screenshotDir = screenshotDir + System.getProperty("file.separator");
-            }
-            screenshotDir =
-                screenshotDir + "target" + System.getProperty("file.separator") + "selenium-screenshots"
-                    + System.getProperty("file.separator");
-            new File(screenshotDir).mkdirs();
-
-            // Capture screenshot
-            String testName = this.getClass().getName() + "-" + getName();
-            File screenshotFile = new File(screenshotDir, testName + ".png");
-            FileUtils.copyFile(((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE), screenshotFile);
-            throw new Exception(String.format("Screenshot for failing test [%s] saved at [%s]", testName,
-                screenshotFile.getAbsolutePath()));
-        } catch (Throwable t) {
-            // Don't throw any exception generated by the debugging steps
-            t.printStackTrace();
-        }
+        loginAsAdmin();
     }
 
     // Convenience methods wrapping Selenium
@@ -201,7 +110,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void assertPage(String space, String page)
     {
-        assertTrue(getTitle().matches(".*\\(" + space + "." + page + "\\) - XWiki"));
+        Assert.assertTrue(getTitle().matches(".*\\(" + space + "." + page + "\\) - XWiki"));
     }
 
     /**
@@ -234,7 +143,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void assertTitle(String title)
     {
-        assertEquals(title, getTitle());
+        Assert.assertEquals(title, getTitle());
     }
 
     public boolean isElementPresent(String locator)
@@ -259,22 +168,22 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
 
     public void assertTextPresent(String text)
     {
-        assertTrue("[" + text + "] isn't present.", getSelenium().isTextPresent(text));
+        Assert.assertTrue("[" + text + "] isn't present.", getSelenium().isTextPresent(text));
     }
 
     public void assertTextNotPresent(String text)
     {
-        assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));
+        Assert.assertFalse("[" + text + "] is present.", getSelenium().isTextPresent(text));
     }
 
     public void assertElementPresent(String elementLocator)
     {
-        assertTrue("[" + elementLocator + "] isn't present.", isElementPresent(elementLocator));
+        Assert.assertTrue("[" + elementLocator + "] isn't present.", isElementPresent(elementLocator));
     }
 
     public void assertElementNotPresent(String elementLocator)
     {
-        assertFalse("[" + elementLocator + "] is present.", isElementPresent(elementLocator));
+        Assert.assertFalse("[" + elementLocator + "] is present.", isElementPresent(elementLocator));
     }
 
     public void waitPage()
@@ -958,21 +867,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
      */
     public void recacheSecretToken()
     {
-        // the registration form uses secret token
-        open("XWiki", "Register", "register");
-        waitPage();
-        AbstractXWikiTestCase.secretToken = getSelenium().getValue("//input[@name='form_token']");
-        if (AbstractXWikiTestCase.secretToken == null || AbstractXWikiTestCase.secretToken.length() <= 0) {
-            // something is really wrong if this happens
-            System.out.println("Warning: Failed to cache anti-CSRF secret token, some tests might fail!");
-        }
-        // return to the previous page
-        getSelenium().goBack();
-        if (!getSelenium().getLocation().contains(BASEDIR)) {
-            // avoid returning to selenium start page (waitPage() doesn't handle that well)
-            open("Main", "WebHome");
-        }
-        waitPage();
+        getUtil().recacheSecretToken();
     }
 
     /**
@@ -984,12 +879,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
      */
     public String getSecretToken()
     {
-        if (AbstractXWikiTestCase.secretToken == null) {
-            System.out.println("Warning: No cached anti-CSRF token found. "
-                + "Make sure to call recacheSecretToken() before getSecretToken(), otherwise this test might fail.");
-            return "";
-        }
-        return AbstractXWikiTestCase.secretToken;
+        return getUtil().getSecretToken();
     }
 
     /**
@@ -1076,7 +966,7 @@ public abstract class AbstractXWikiTestCase extends TestCase implements SkinExec
      */
     public void assertElementInView(By elementLocator)
     {
-        assertTrue("[" + elementLocator + "] is not in view.", isElementInView(elementLocator));
+        Assert.assertTrue("[" + elementLocator + "] is not in view.", isElementInView(elementLocator));
     }
 
     public void clickAdministerWiki()

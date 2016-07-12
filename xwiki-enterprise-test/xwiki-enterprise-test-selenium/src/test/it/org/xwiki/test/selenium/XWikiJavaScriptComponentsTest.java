@@ -19,11 +19,10 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
 /**
  * Verify the JavaScript components of XWiki.
@@ -32,19 +31,6 @@ import junit.framework.Test;
  */
 public class XWikiJavaScriptComponentsTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the JavaScript components of XWiki");
-        suite.addTestSuite(XWikiJavaScriptComponentsTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
     private void testResourceFromResourceName(String name, String expected)
     {
         if (getSelenium().getEval("typeof window.XWiki.testResourceFromResourceName") != "function") {
@@ -68,6 +54,7 @@ public class XWikiJavaScriptComponentsTest extends AbstractXWikiTestCase
         assertTrue(Boolean.TRUE.toString().equals(ret));
     }
 
+    @Test
     public void testXWikiResourceGetter()
     {
         // ""

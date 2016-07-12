@@ -19,12 +19,9 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
 /**
  * Verify the document extra feature of XWiki.
@@ -33,23 +30,10 @@ import org.xwiki.test.selenium.framework.XWikiTestSuite;
  */
 public class DocExtraTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the document extra feature of XWiki");
-        suite.addTestSuite(DocExtraTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
     /**
      * Test document extras presence after a click on the corresponding tabs.
      */
+    @Test
     public void testDocExtraLoadingFromTabClicks()
     {
         open("Main", "WebHome");
@@ -73,6 +57,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
      * 
      * @throws InterruptedException if selenium fails to simulate keyboard shortcut.
      */
+    @Test
     public void testDocExtraLoadingFromKeyboardShortcuts() throws InterruptedException
     {
         open("Main", "WebHome");
@@ -101,6 +86,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
      * Test document extra presence when the user arrives from an URL with anchor. This test also verify that the
      * browser scrolls to the bottom of the page.
      */
+    @Test
     public void testDocExtraLoadingFromURLAnchor()
     {
         // We have to load a different page first since opening the same page with a new anchor doesn't call
@@ -131,6 +117,7 @@ public class DocExtraTest extends AbstractXWikiTestCase
      * example and shortcuts for Colibri skin for example). This test also verify that the browser scrolls to the bottom
      * of the page.
      */
+    @Test
     public void testDocExtraLoadingFromLinks()
     {
         open("Main", "WebHome");

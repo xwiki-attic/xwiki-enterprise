@@ -20,11 +20,8 @@
 package org.xwiki.test.selenium;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Verify the table view for AllDocs wiki document.
@@ -33,13 +30,6 @@ import junit.framework.Test;
  */
 public class AllDocsTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the table view for AllDocs wiki document");
-        suite.addTestSuite(AllDocsTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
     /**
      * This method makes the following tests :
      * <ul>
@@ -54,6 +44,7 @@ public class AllDocsTest extends AbstractXWikiTestCase
      * <li>Validate Rights link action.</li>
      * </ul>
      */
+    @Test
     public void testTableViewActions()
     {
         // Validate absence of "Actions" column for users without administration rights and verify there are
@@ -69,8 +60,8 @@ public class AllDocsTest extends AbstractXWikiTestCase
         // Create a new page that will be used in this test.
         loginAsAdmin();
         String spaceName = this.getClass().getSimpleName();
-        String pageName = getName();
-        open(spaceName, getName(), "edit", "editor=wiki&title=Actions+test");
+        String pageName = getTestMethodName();
+        open(spaceName, pageName, "edit", "editor=wiki&title=Actions+test");
         clickEditSaveAndContinue();
 
         // Validate presence of "Actions" column in table view for administrator.

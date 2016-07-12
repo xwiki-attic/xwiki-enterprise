@@ -21,14 +21,13 @@ package org.xwiki.test.selenium;
 
 import java.io.IOException;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
 /**
  * Tests the wiki editor.
@@ -39,20 +38,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
 {
     private static final String SYNTAX = "xwiki/2.1";
 
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests the wiki editor");
-        suite.addTestSuite(WikiEditorTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
+    @Test
     public void testEmptyLineAndSpaceCharactersBeforeSectionTitleIsNotRemoved()
     {
         createPage("Test", "WikiEdit", "\n== Section ==\n\ntext", SYNTAX);
@@ -60,31 +46,37 @@ public class WikiEditorTest extends AbstractXWikiTestCase
         assertEquals("\n== Section ==\n\ntext", getFieldValue("content"));
     }
 
+    @Test
     public void testBoldButton()
     {
         testToolBarButton("Bold", "**%s**", "Text in Bold");
     }
 
+    @Test
     public void testItalicsButton()
     {
         testToolBarButton("Italics", "//%s//", "Text in Italics");
     }
 
+    @Test
     public void testUnderlineButton()
     {
         testToolBarButton("Underline", "__%s__", "Text in Underline");
     }
 
+    @Test
     public void testLinkButton()
     {
         testToolBarButton("Internal Link", "[[%s]]", "Link Example");
     }
 
+    @Test
     public void testHRButton()
     {
         testToolBarButton("Horizontal ruler", "\n----\n", "");
     }
 
+    @Test
     public void testImageButton()
     {
         testToolBarButton("Attached Image", "[[image:%s]]", "example.jpg");
@@ -94,6 +86,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
      * Tests that users can completely remove the content from a document (make the document empty). In previous
      * versions (pre-1.5M2), removing all content in page had no effect. See XWIKI-1007.
      */
+    @Test
     public void testEmptyDocumentContentIsAllowed()
     {
         createPage("Test", "EmptyWikiContent", "this is some content", SYNTAX);
@@ -108,6 +101,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     /**
      * Test the ability to add edit comments and the ability to disable the edit comments feature.
      */
+    @Test
     public void testEditComment() throws IOException
     {
         try {
@@ -126,6 +120,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
     /**
      * Verify minor edit feature is working
      */
+    @Test
     public void testMinorEdit()
     {
         try {
@@ -162,7 +157,7 @@ public class WikiEditorTest extends AbstractXWikiTestCase
      */
     private void testToolBarButton(String buttonTitle, String format, String defaultText)
     {
-        editInWikiEditor(this.getClass().getSimpleName(), getName(), SYNTAX);
+        editInWikiEditor(this.getClass().getSimpleName(), getTestMethodName(), SYNTAX);
         WebElement textArea = getDriver().findElement(By.id("content"));
         textArea.clear();
         textArea.sendKeys("a");

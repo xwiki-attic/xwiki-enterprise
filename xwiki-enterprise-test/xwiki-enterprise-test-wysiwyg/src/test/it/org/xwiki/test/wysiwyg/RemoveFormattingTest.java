@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -31,6 +32,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     /**
      * Tests if formatting markers are removed properly.
      */
+    @Test
     public void testRemoveFormattingMarkers()
     {
         switchToSource();
@@ -45,6 +47,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     /**
      * Tests if in-line style is removed properly.
      */
+    @Test
     public void testRemoveInlineStyle()
     {
         switchToSource();
@@ -59,6 +62,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     /**
      * Tests if the formatting is removed properly when the selection spans across block-level elements.
      */
+    @Test
     public void testRemoveFormattingFromCrossBlockSelection()
     {
         switchToSource();
@@ -74,6 +78,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     /**
      * Tests if the anchors are kept after removing the formatting.
      */
+    @Test
     public void testRemoveFormattingKeepsTheAnchorsIntact()
     {
         // Selection includes the anchor.
@@ -98,6 +103,7 @@ public class RemoveFormattingTest extends AbstractWysiwygTestCase
     /**
      * See XWIKI-3946: Standalone XHTML anchors with spans inside are converted badly to XWiki 2.0 syntax
      */
+    @Test
     public void testRemoveFormattingFromStandaloneAnchor()
     {
         setContent("<a href=\"http://www.xwiki.org\" style=\"color: red; font-size: 18pt;\">123456</a>");

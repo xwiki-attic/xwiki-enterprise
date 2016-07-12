@@ -19,8 +19,11 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.openqa.selenium.Keys;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
+
+import static org.junit.Assert.*;
 
 /**
  * Functional tests for line support inside the WYSIWYG editor.
@@ -32,6 +35,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * Tests if the user can insert a line break in different contexts.
      */
+    @Test
     public void testInsertLineBreak()
     {
         // Under body
@@ -91,6 +95,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * Tests if the user can split the current line of text.
      */
+    @Test
     public void testSplitLine()
     {
         // Under body
@@ -119,6 +124,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * Tests if the user can split the current line when the caret is after a line break.
      */
+    @Test
     public void testSplitLineAfterLineBreak()
     {
         // Under body
@@ -155,6 +161,7 @@ public class LineTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3035: Cannot type more than 2 consecutive &lt;enter&gt; in IE6, following are ignored
      */
+    @Test
     public void testInsertEmptyLine()
     {
         // Before paragraph
@@ -178,6 +185,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3573: Title style removed after hitting return then backspace at the beginning of a line
      */
+    @Test
     public void testRemoveEmptyLineBefore()
     {
         // Remove empty lines before header.
@@ -211,6 +219,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2996: Text area sometimes loses focus when pressing Enter on an empty line
      */
+    @Test
     public void testEnterOnEmptyLine()
     {
         typeEnter();
@@ -225,6 +234,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3011: Different behavior of &lt;enter&gt; on FF2.0 and FF3.0
      */
+    @Test
     public void testParagraphs()
     {
         typeTextThenEnter("a");
@@ -237,6 +247,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2991: Editor is losing the focus when pressing enter after an image
      */
+    @Test
     public void testEnterAfterImage()
     {
         clickMenu(ImageTest.MENU_IMAGE);
@@ -281,6 +292,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * Creates two paragraphs, makes a selection that spans both paragraphs and then presses Enter.
      */
+    @Test
     public void testEnterOnCrossParagraphSelection()
     {
         // Creates the two paragraphs.
@@ -303,6 +315,7 @@ public class LineTest extends AbstractWysiwygTestCase
      * Inserts a table, types some text in each cell, makes a selection that spans some table cells and then presses
      * Enter.
      */
+    @Test
     public void testEnterOnCrossTableCellSelection()
     {
         insertTable();
@@ -330,6 +343,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3109: Headers generated from wiki syntax look and behave differently
      */
+    @Test
     public void testEnterInHeader()
     {
         typeText("H1");
@@ -360,6 +374,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * Tests how the Enter key behaves inside a list item with complex content.
      */
+    @Test
     public void testEnterInListItem()
     {
         typeText("a");
@@ -391,6 +406,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-4023: Cannot place the caret inside an empty heading.
      */
+    @Test
     public void testEmptyHeadingsAreEditable()
     {
         switchToSource();
@@ -405,6 +421,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * Tests that splitting a line containing only invisible garbage generates two empty lines that can be edited.
      */
+    @Test
     public void testSplitEmptyLineWithGarbage()
     {
         // Create a line that has only invisible garbage.
@@ -422,6 +439,7 @@ public class LineTest extends AbstractWysiwygTestCase
      * @see XWIKI-4193: When hitting Return at the end of the link the new line should not be a link.
      * @see XWIKI-3802: It is impossible to continue adding content if there is a link object at the bottom of the page.
      */
+    @Test
     public void testEnterAtTheEndOfALink()
     {
         switchToSource();
@@ -438,6 +456,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3678: Justify not preserved when entering a new paragraph.
      */
+    @Test
     public void testTextAlignmentIsPreservedOnANewParagraph()
     {
         // Create a level one heading.
@@ -462,6 +481,7 @@ public class LineTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-2723: Empty paragraphs should not be displayed even if they have styles applied to them
      */
+    @Test
     public void testEmptyParagraphsGenerateEmptyLines()
     {
         switchToSource();

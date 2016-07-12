@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -31,6 +32,7 @@ public class ColorTest extends AbstractWysiwygTestCase
     /**
      * Tests if the text color can be changed.
      */
+    @Test
     public void testChangeTextColor()
     {
         typeText("abc");
@@ -59,6 +61,7 @@ public class ColorTest extends AbstractWysiwygTestCase
     /**
      * Tests if the background color can be changed.
      */
+    @Test
     public void testChangeBackgroundColor()
     {
         typeText("abc");
@@ -87,6 +90,7 @@ public class ColorTest extends AbstractWysiwygTestCase
     /**
      * Tests if both the text color and the background color can be changed on the current selection.
      */
+    @Test
     public void testChangeTextAndBackgroudColor()
     {
         switchToSource();
@@ -111,6 +115,7 @@ public class ColorTest extends AbstractWysiwygTestCase
     /**
      * Makes a text bold, changes its color and then removes the bold style.
      */
+    @Test
     public void testRemoveBoldStyleFromAColoredText()
     {
         // Type some text and make it bold.
@@ -135,6 +140,7 @@ public class ColorTest extends AbstractWysiwygTestCase
      * 
      * @see XWIKI-3564: Cannot change the text color after selecting text with different colors in IE
      */
+    @Test
     public void testChangeTextColorAfterSelectingTextWithDifferentColors()
     {
         // Type the two words.
@@ -164,6 +170,7 @@ public class ColorTest extends AbstractWysiwygTestCase
      * Background-color CSS property is not inheritable so in order to detect its value we must iterate over all
      * ancestors of the current text selection.
      */
+    @Test
     public void testDetectNestedBackgroundColor()
     {
         switchToSource();

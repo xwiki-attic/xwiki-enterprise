@@ -19,6 +19,7 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 
 /**
@@ -51,6 +52,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     /**
      * Tests if the text directly under body can be aligned.
      */
+    @Test
     public void testAlignBody()
     {
         clickAlignCenterButton();
@@ -99,6 +101,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     /**
      * Tests if a single paragraph can be aligned.
      */
+    @Test
     public void testAlignParagraph()
     {
         // Create the paragraph.
@@ -165,6 +168,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     /**
      * Tests if a table cell can be aligned.
      */
+    @Test
     public void testAlignTableCell()
     {
         switchToSource();
@@ -200,6 +204,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     /**
      * Tests if more paragraphs can be aligned at once.
      */
+    @Test
     public void testAlignParagraphs()
     {
         switchToSource();
@@ -234,6 +239,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     /**
      * Tests if more table cells can be aligned at once.
      */
+    @Test
     public void testAlignTableCells()
     {
         switchToSource();
@@ -268,6 +274,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     /**
      * Makes a selection that includes a paragraph and a table cell and aligns them.
      */
+    @Test
     public void testSelectAndAlignParagraphAndTableCell()
     {
         switchToSource();
@@ -303,6 +310,7 @@ public class AlignmentTest extends AbstractWysiwygTestCase
     /**
      * Tests if a paragraph inside a table cell can be aligned.
      */
+    @Test
     public void testAlignParagraphInsideTableCell()
     {
         switchToSource();

@@ -24,6 +24,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.xwiki.test.ui.XWikiWebDriver;
+
+import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 
 /**
  * Implementation of skin-related actions for the Albatross skin.
@@ -301,7 +304,7 @@ public class AlbatrossSkinExecutor implements SkinExecutor
 
     private void sendKeysToTinyMCE(CharSequence keysToSend)
     {
-        WebDriver driver = getTest().getDriver();
+        WebDriver driver = getDriver();
         String windowHandle = driver.getWindowHandle();
         try {
             WebElement iframe = driver.findElement(By.className("mceEditorIframe"));
@@ -437,5 +440,10 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         getTest().getSelenium().type("targetPageName", targetPageName);
         getTest().clickLinkWithLocator("//input[@value='Copy']");
         return getTest().getSelenium().isTextPresent("successfully copied to");
+    }
+
+    protected XWikiWebDriver getDriver()
+    {
+        return (XWikiWebDriver) ((WebDriverBackedSelenium) this.test.getSelenium()).getWrappedDriver();
     }
 }

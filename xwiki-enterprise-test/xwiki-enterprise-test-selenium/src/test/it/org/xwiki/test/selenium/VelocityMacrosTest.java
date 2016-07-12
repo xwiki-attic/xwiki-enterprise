@@ -19,11 +19,8 @@
  */
 package org.xwiki.test.selenium;
 
-import junit.framework.Test;
-
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
 /**
  * Verify proper execution of some Velocity Macros.
@@ -34,20 +31,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
 {
     private static final String SYNTAX = "xwiki/2.1";
 
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Tests Velocity Macros");
-        suite.addTestSuite(VelocityMacrosTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
+    @Test
     public void testMacros() throws Exception
     {
         editInWikiEditor("Test", "VelocityMacrosTest", SYNTAX);
@@ -63,6 +47,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
     /**
      * Verify that we can create macros in a document and including them into another document.
      */
+    @Test
     public void testIncludeMacrosInPage()
     {
         editInWikiEditor("Test", "Macro", SYNTAX);
@@ -78,6 +63,7 @@ public class VelocityMacrosTest extends AbstractXWikiTestCase
      * Verify that a Macro defined in a document is not visible from another document (using XWiki Syntax 1.0).
      * Note that for XWiki Syntax 2.0 this is verified in a unit test in the Velocity Macro module.
      */
+    @Test
     public void testMacrosAreLocal()
     {
         editInWikiEditor("Test", "TestMacrosAreLocal1", SYNTAX);

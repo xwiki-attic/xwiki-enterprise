@@ -19,11 +19,8 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
-
-import junit.framework.Test;
 
 /**
  * Test the Panel feature. Note that some panels tests are also done by the
@@ -34,20 +31,6 @@ import junit.framework.Test;
  */
 public class PanelsTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the XWiki Panel feature");
-        suite.addTestSuite(PanelsTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
     /**
      * This method makes the following tests:
      * <ul>
@@ -59,6 +42,7 @@ public class PanelsTest extends AbstractXWikiTestCase
      * <li>Goes back to panels list and check for the presence of the newly created panel.</li>
      * </ul>
      */
+    @Test
     public void testCreatePanel()
     {
         try {
@@ -85,6 +69,7 @@ public class PanelsTest extends AbstractXWikiTestCase
      * <li>Goes back to panels list and check for the presence of the newly created panel.</li>
      * </ul>
      */
+    @Test
     public void testCreatePanelWithSpecialSymbols()
     {
         String title = "Is # & \u0163 'triky\"? c:\\windows /root $util";

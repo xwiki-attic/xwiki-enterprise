@@ -19,63 +19,40 @@
  */
 package org.xwiki.test.selenium;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.xwiki.test.integration.XWikiTestSetup;
-import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.XWikiSeleniumTestSetup;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.junit.runner.RunWith;
+import org.xwiki.test.integration.XWikiExecutor;
+import org.xwiki.test.integration.XWikiExecutorSuite;
+import org.xwiki.test.ui.PageObjectSuite;
+import org.xwiki.test.ui.PersistentTestContext;
 
 /**
- * A class listing all the Selenium Functional tests to execute. We need such a class (rather than letting the JUnit
- * Runner discover the different TestCases classes by itself) because we want to start/stop XWiki before and after the
- * tests start (but only once).
+ * Runs all functional tests found in the classpath.
  * 
  * @version $Id$
  */
-public class AllTests extends TestCase
+@RunWith(PageObjectSuite.class)
+public class AllTests
 {
-    private static final String PATTERN = ".*" + System.getProperty("pattern", "");
-
-    public static Test suite() throws Exception
+    @XWikiExecutorSuite.PreStart
+    public void preStart(List<XWikiExecutor> executors) throws Exception
     {
-        TestSuite suite = new TestSuite();
-
-        // TODO: I don't like listing tests here as it means we can add a new TestCase class and
-        // forget to add it here and the tests won't be run but we'll not know about it and we'll
-        // think the tests are all running fine. I haven't found a simple solution to this yet
-        // (there are complex solutions like searching for all tests by parsing the source tree).
-        // I think there are TestSuite that do this out there but I haven't looked for them yet.
-
-        addTestCase(suite, WikiEditorTest.class);
-        addTestCase(suite, VelocityMacrosTest.class);
-        addTestCase(suite, CacheTest.class);
-        addTestCase(suite, UsersGroupsRightsManagementTest.class);
-        addTestCase(suite, SkinCustomizationsTest.class);
-        addTestCase(suite, AllDocsTest.class);
-        addTestCase(suite, UrlMiscTest.class);
-        addTestCase(suite, ValidationTest.class);
-        addTestCase(suite, AdministrationTest.class);
-        addTestCase(suite, PanelWizardTest.class);
-        addTestCase(suite, DocExtraTest.class);
-        addTestCase(suite, PanelsTest.class);
-
-        // TODO: fix the commented test so that they succeed on our CI server.
-        // Note that the test has been tested and works well on several computers.
-        // addTestCase(suite, XWikiJavaScriptComponentsTest.class);
-
-        return new XWikiTestSetup(new XWikiSeleniumTestSetup(suite));
+        // Put back the old WYSIWYG editor in xwiki.properties
+        XWikiExecutor executor = executors.get(0);
+        PropertiesConfiguration properties = executor.loadXWikiPropertiesConfiguration();
+        properties.setProperty("edit.defaultEditor.org.xwiki.rendering.syntax.SyntaxContent#wysiwyg", "gwt");
+        executor.saveXWikiProperties(properties);
     }
 
-    private static void addTestCase(TestSuite suite, Class< ? extends AbstractXWikiTestCase> testClass)
-        throws Exception
+    @PageObjectSuite.PostStart
+    public void postStart(PersistentTestContext context) throws Exception
     {
-        if (testClass.getName().matches(PATTERN)) {
-            Method method = testClass.getMethod("suite", (Class[]) null);
-            suite.addTest((Test) method.invoke(null, (Object[]) null));
-        }
+        // Disable the tour because it pops-up on the home page and many tests access the home page and they want to
+        // skip the tour. We don't plan to test the tour here anyway.
+        context.getUtil().loginAsAdmin();
+        context.getUtil().gotoPage("TourCode", "TourJS", "save",
+            "XWiki.JavaScriptExtension_0_use=onDemand&xredirect=" + context.getUtil().getURL("Main", "WebHome"));
     }
 }

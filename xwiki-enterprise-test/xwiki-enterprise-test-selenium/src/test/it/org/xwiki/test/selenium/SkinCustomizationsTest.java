@@ -19,11 +19,11 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.After;
+import org.junit.Test;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
 /**
  * Verify the skin customization features available in the Administration (like changing the default CSS, etc).
@@ -32,23 +32,8 @@ import junit.framework.Test;
  */
 public class SkinCustomizationsTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite =
-            new XWikiTestSuite("Verify the skin customization features " + "available in the Administration");
-        suite.addTestSuite(SkinCustomizationsTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
-    @Override
-    protected void tearDown() throws Exception
+    @After
+    public void tearDown()
     {
         // Ensure that we reset the style
         openAdministrationPage();
@@ -57,6 +42,7 @@ public class SkinCustomizationsTest extends AbstractXWikiTestCase
         clickEditSaveAndContinue();
     }
 
+    @Test
     public void testChangeDefaultStyleCss() throws Exception
     {
         openAdministrationPage();

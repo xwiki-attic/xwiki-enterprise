@@ -19,11 +19,12 @@
  */
 package org.xwiki.test.wysiwyg;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.xwiki.test.wysiwyg.framework.AbstractWysiwygTestCase;
 import org.xwiki.test.wysiwyg.framework.XWikiExplorer;
 
-import com.thoughtworks.selenium.Selenium;
+import static org.junit.Assert.*;
 
 /**
  * Tests the image insert and edit plugin. For the moment, it does not test the upload new image feature, since it needs
@@ -93,15 +94,17 @@ public class ImageTest extends AbstractWysiwygTestCase
     private XWikiExplorer explorer;
 
     @Override
-    public void setSelenium(Selenium selenium)
+    public void setUp()
     {
-        super.setSelenium(selenium);
+        super.setUp();
+
         this.explorer = new XWikiExplorer(getDriver());
     }
 
     /**
      * Test adding an image from a page different from the current one.
      */
+    @Test
     public void testInsertImageFromAllPages()
     {
         String imageSpace = "XWiki";
@@ -125,6 +128,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Test add and edit an image from a page different from the current one.
      */
+    @Test
     public void testInsertAndEditImageFromAllPages()
     {
         String imageSpace = "Blog";
@@ -162,6 +166,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Test adding and editing an image with parameters preserves parameters values.
      */
+    @Test
     public void testInsertAndEditImageWithParameters()
     {
         String imageSpace = "XWiki";
@@ -222,6 +227,7 @@ public class ImageTest extends AbstractWysiwygTestCase
      * Test that the insert image dialog defaults to the current page, and the page selection is preserved across
      * multiple inserts.
      */
+    @Test
     public void testDefaultSelection()
     {
         String imageSpace = "XWiki";
@@ -271,6 +277,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Test that hitting the previous button in the configuration dialog preserves the image selector selection.
      */
+    @Test
     public void testPreviousPreservesSelection()
     {
         String imageSpace = "XWiki";
@@ -308,6 +315,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Tests that an image can be removed from the menu, as well as using the delete key.
      */
+    @Test
     public void testRemoveImage()
     {
         switchToSource();
@@ -333,6 +341,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Test that selecting the "Upload new image" option leads to the upload file dialog.
      */
+    @Test
     public void testNewImageOptionLoadsFileUploadStep()
     {
         openImageDialog(MENU_INSERT_ATTACHED_IMAGE);
@@ -365,6 +374,7 @@ public class ImageTest extends AbstractWysiwygTestCase
      * Test that editing an image and not changing its location preserves a full reference and does not change it to a
      * relative one.
      */
+    @Test
     public void testEditImagePreservesFullReferences()
     {
         switchToSource();
@@ -406,6 +416,7 @@ public class ImageTest extends AbstractWysiwygTestCase
      *
      * @see http://jira.xwiki.org/jira/browse/XWIKI-3784
      */
+    @Test
     public void testEditImageWithLink()
     {
         // add all the image & link, otherwise it will not reproduce, it only reproduces if container is body
@@ -470,6 +481,7 @@ public class ImageTest extends AbstractWysiwygTestCase
      * Tests that the option to upload a new image is selected by default when inserting a new image and when the edited
      * image is not attached to the current page.
      */
+    @Test
     public void testNewImageOptionIsSelectedByDefault()
     {
         // Insert a new image.
@@ -503,6 +515,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Test that the validation errors in the image insert steps are hidden on the next display of the steps.
      */
+    @Test
     public void testErrorIsHiddenOnNextDisplay()
     {
         // Get an error in the file upload step and check that on previous, next is not displayed anymore.
@@ -536,6 +549,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Tests fast navigation in the images list: double click and enter advance to the next step.
      */
+    @Test
     public void testFastNavigationToSelectImage()
     {
         // double click to select the new image option
@@ -586,6 +600,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * @see XWIKI-3741: Editing an image removes existing unknown custom parameters.
      */
+    @Test
     public void testUneditableAttributesArePreserved()
     {
         // Insert an image with attribute that cannot be edited through the Edit Image wizard.
@@ -615,19 +630,20 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Tests that images attached to pages with special characters in their names are properly inserted.
      */
+    @Test
     public void testInsertImageFromPageWithSpecialCharactersInName()
     {
         // Create a page with special characters in its name by copying a page with image attachments.
         String spaceName = this.getClass().getSimpleName() + ":x.y@z";
         String escapedSpaceName = spaceName.replaceAll("([\\:\\.])", "\\\\$1");
-        String pageName = getName() + ":a.b@c";
+        String pageName = getTestMethodName() + ":a.b@c";
         String escapedPageName = pageName.replace(".", "\\.");
         String pageFullName = String.format("%s.%s", escapedSpaceName, escapedPageName);
         deletePage(spaceName, pageName);
         assertTrue(copyPage("XWiki", "AdminSheet", escapedSpaceName, pageName));
 
         // Come back to the edited page.
-        open(this.getClass().getSimpleName(), getName(), "edit", "editor=wysiwyg");
+        open(this.getClass().getSimpleName(), getTestMethodName(), "edit", "editor=wysiwyg");
         waitForEditorToLoad();
 
         // Insert an image from the created page.
@@ -666,6 +682,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Tests if the edited image is selected when the image selector wizard step is opened.
      */
+    @Test
     public void testEditedImageIsSelected()
     {
         // Insert two different images.
@@ -700,6 +717,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Tests if an external image can be inserted.
      */
+    @Test
     public void testInsertExternalImage()
     {
         openImageDialog(MENU_INSERT_EXTERNAL_IMAGE);
@@ -729,6 +747,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Tests if an external image can be selected.
      */
+    @Test
     public void testEditExternalImage()
     {
         // Insert an external image.
@@ -760,6 +779,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Tests that the configuration that limits the image selection to the current page works as expected.
      */
+    @Test
     public void testImageSelectionLimitedToCurrentPage()
     {
         String allPagesTabLocator =

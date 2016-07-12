@@ -19,14 +19,13 @@
  */
 package org.xwiki.test.selenium;
 
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
-import org.xwiki.test.selenium.framework.FlamingoSkinExecutor;
-import org.xwiki.test.selenium.framework.XWikiTestSuite;
 
-import junit.framework.Test;
+import static org.junit.Assert.*;
 
 /**
  * Verify the overall Administration application features.
@@ -35,23 +34,10 @@ import junit.framework.Test;
  */
 public class AdministrationTest extends AbstractXWikiTestCase
 {
-    public static Test suite()
-    {
-        XWikiTestSuite suite = new XWikiTestSuite("Verify the Administration application features.");
-        suite.addTestSuite(AdministrationTest.class, FlamingoSkinExecutor.class);
-        return suite;
-    }
-
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        loginAsAdmin();
-    }
-
     /*
      * Test to see an application page is included only if that application exists
      */
+    @Test
     public void testApplicationSection()
     {
         // Delete the Blog.Categories page and test it's not present in the admin global menu anymore
@@ -64,6 +50,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     /*
      * Test modifying XWiki.XWikiPreferences multi-language field and save it.
      */
+    @Test
     public void testSettingXWikiPreferences()
     {
         clickAdministerWiki();
@@ -77,6 +64,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * Test adding a new category in Blog Categories
      */
     /* Disabled until the new blog can insert its own administration page.
+    @Test
     public void testBlogAdmin()
     {
         open("XWiki", "XWikiPreferences", "admin");
@@ -98,6 +86,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
     /*
      * Test Panel Wizard
      */
+    @Test
     public void testPanelsAdmin()
     {
         open("XWiki", "XWikiPreferences", "admin");
@@ -167,6 +156,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * This test depends on the "Presentation" section existing.
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testAddConfigurableApplicationInExistingSection()
     {
         // Create the configurable for global admin.
@@ -199,6 +189,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * This test depends on the "HopingThereIsNoSectionByThisName" section not existing.<br/>
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testAddConfigurableApplicationInNonexistantSection()
     {
         String section = "HopingThereIsNoSectionByThisName";
@@ -221,6 +212,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * <p>
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testConfigurableCreatedByUnauthorizedWillNotExecute()
     {
         // Make sure the configurable page doesn't exist because otherwise we may fail to overwrite it with a
@@ -244,6 +236,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      *
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testApplicationConfiguredInMultipleSections()
     {
         String space = "Main";
@@ -309,6 +302,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      *
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testNotStrippingHtmlMacros()
     {
         String space = "Main";
@@ -340,6 +334,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      *
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testLabelLinkGeneration()
     {
         String space = "Main";
@@ -362,6 +357,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      *
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testLockingAndUnlocking()
     {
         String space = "Main";
@@ -383,8 +379,8 @@ public class AdministrationTest extends AbstractXWikiTestCase
         try {
             // We have to switch user context without logging out, logging out removes all locks.
             // We have to open a new window because otherwise the lock is removed when we leave the administration page.
-            getSelenium().openWindow("http://127.0.0.1:8080" + getUrl(space, page1, "view"), getName());
-            getSelenium().selectWindow(getName());
+            getSelenium().openWindow("http://127.0.0.1:8080" + getUrl(space, page1, "view"), getTestMethodName());
+            getSelenium().selectWindow(getTestMethodName());
             assertTextPresent("Is This Page Locked true");
 
             open("http://127.0.0.1:8080" + getUrl(space, page2, "view"));
@@ -393,7 +389,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
             getSelenium().selectWindow(null);
             open("XWiki", "XWikiPreferences", "admin", "editor=globaladmin&section=TestSection5");
 
-            getSelenium().selectWindow(getName());
+            getSelenium().selectWindow(getTestMethodName());
             open("http://127.0.0.1:8080" + getUrl(space, page1, "view"));
             assertTextPresent("Is This Page Locked false");
 
@@ -412,6 +408,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * Also header should be evaluated and not just printed.
      * If XWiki.ConfigurableClass is saved with programming rights, it should resave itself so that it doesn't have them.
      */
+    @Test
     public void testCodeToExecutionAndAutoSandboxing()
     {
         String space = "Main";
@@ -464,6 +461,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * custom configuration class and the on;y content is custom content.
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testCodeToExecuteNotInlineIfNoConfigurationClass()
     {
         String space = "Main";
@@ -487,6 +485,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * form or inside of the form.
      * Tests: XWiki.ConfigurableClass
      */
+    @Test
     public void testCodeToExecuteNotInline()
     {
         String space = "Main";
@@ -520,6 +519,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * <li>Email text is properly escaped</li>
      * </ul>
      */
+    @Test
     public void testForgotUsername()
     {
         String space = "Test";

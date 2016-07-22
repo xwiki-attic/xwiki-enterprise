@@ -113,6 +113,12 @@
         <version>1.0.2</version>
         <type>xar</type>
       </dependency>
+      <dependency>
+        <groupId>org.xwiki.contrib.templates</groupId>
+        <artifactId>application-templates-ui</artifactId>
+        <version>1.0</version>
+        <type>xar</type>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>

@@ -5,7 +5,7 @@ Priority: optional
 Provides: xwiki, xwiki-enterprise
 Suggests: xwiki-enterprise-tomcat7-mysql | xwiki-enterprise-tomcat7-pgsql
 Architecture: all
-Depends: dbconfig-common (>= 1.8.0), ttf-dejavu, java8-runtime-headless | java8-runtime
+Depends: dbconfig-common (>= 1.8.0), ttf-dejavu, java8-runtime-headless | java8-runtime | openjdk-8-jre-headless
 Maintainer: [[debian.maintainer]]
 License: [[debian.license]]
 Description: [[debian.description]]

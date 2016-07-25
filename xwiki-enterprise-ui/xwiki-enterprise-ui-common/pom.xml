@@ -168,7 +168,7 @@
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
       <artifactId>application-ckeditor-ui</artifactId>
-      <version>1.8.2</version>
+      <version>1.8.3</version>
       <type>xar</type>
     </dependency>
   </dependencies>

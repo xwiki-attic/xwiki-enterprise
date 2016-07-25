@@ -199,7 +199,8 @@ public class CopyPageTest extends AbstractTest
         Assert.assertEquals(sourcePageName, copyPage.getTargetPageName());
 
         // Fill the target destination the page to be copied to.
-        documentPicker.toggleLocationAdvancedEdit().setParent(targetSpaceName).setName(targetPageName);
+        documentPicker.setTitle("My copy").toggleLocationAdvancedEdit().setParent(targetSpaceName)
+            .setName(targetPageName);
 
         // Copy and confirm overwrite
         copyOverwritePrompt = copyPage.clickCopyButtonExpectingOverwritePrompt();
@@ -209,9 +210,8 @@ public class CopyPageTest extends AbstractTest
         Assert.assertEquals(COPY_SUCCESSFUL, copyStatusPage.getInfoMessage());
         viewPage = copyStatusPage.gotoNewPage();
 
-        // Verify that the copied title is modified to be the new page name since it was set to be the page name
-        // originally.
-        Assert.assertEquals(targetPageName, viewPage.getDocumentTitle());
+        // Verify that the title of the copy has been updated (independent from the name of the copy).
+        Assert.assertEquals("My copy", viewPage.getDocumentTitle());
         Assert.assertEquals(PAGE_CONTENT, viewPage.getContent());
     }
 }

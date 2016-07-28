@@ -121,7 +121,7 @@
               <includes>xwiki.cfg,xwiki.properties</includes>
               <mapper>
                 <type>perm</type>
-                <prefix>/etc/xwiki</prefix>
+                <prefix>/usr/share/xwiki/default</prefix>
               </mapper>
               <conffile>true</conffile>
             </data>

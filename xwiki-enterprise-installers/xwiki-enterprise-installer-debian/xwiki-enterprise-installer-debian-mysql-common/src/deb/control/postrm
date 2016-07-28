@@ -16,8 +16,12 @@ if [ -f /usr/share/debconf/confmodule ]; then
 	fi
 fi
 
-# Remove hibernate configuration
-if [ "$1" = "purge" ]; then
-	ucf --purge /etc/xwiki/hibernate.cfg.xml
- 	rm -f /etc/xwiki/hibernate.cfg.xml
-fi
+case "$1" in
+    purge)
+        # Purge hibernate configuration
+        rm -f /etc/xwiki/hibernate.cfg.xml
+        ucf --purge /etc/xwiki/hibernate.cfg.xml || true
+        ;;
+esac
+
+exit 0

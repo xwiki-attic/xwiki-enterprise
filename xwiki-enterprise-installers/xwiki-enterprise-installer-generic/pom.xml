@@ -100,6 +100,8 @@
             </goals>
             <configuration>
               <outputDirectory>${project.build.directory}/izpack</outputDirectory>
+              <!-- FIXME: "Disable escape string waiting for https://issues.apache.org/jira/browse/MRESOURCES-230 -->
+              <escapeString>§</escapeString>
               <resources>
                 <!-- Copy install.xml -->
                 <resource>

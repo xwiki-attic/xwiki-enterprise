@@ -721,13 +721,6 @@ If you wish to have the default wiki pages, which contain both content pages and
       <version>${platform.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Application Manager -->
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-application-manager-api</artifactId>
-      <version>${platform.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     <!-- Filter -->
     <dependency>
       <groupId>org.xwiki.commons</groupId>

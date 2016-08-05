@@ -61,8 +61,7 @@
     <!-- xwiki.cfg configuration -->
     <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.xwiki.cfg.plugins>${war.xwiki.cfg.plugins},\
-  com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin,\
-  com.xpn.xwiki.plugin.applicationmanager.ApplicationManagerPlugin
+  com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin
     </xe.xwiki.cfg.plugins>
     <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins}
     </xwiki.cfg.plugins>

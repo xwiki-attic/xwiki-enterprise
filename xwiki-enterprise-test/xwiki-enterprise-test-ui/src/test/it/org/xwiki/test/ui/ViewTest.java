@@ -52,7 +52,7 @@ public class ViewTest extends AbstractTest
         ViewPage vp = getUtil().createPage(getTestClassName(), pageName, "", pageName);
 
         // Verify that the page we're on has the correct URL and name
-        String expectedURLPart = getTestClassName() + "/" + pageName.replaceAll(" ", "+");
+        String expectedURLPart = getTestClassName() + "/" + pageName.replaceAll(" ", "%20");
         Assert.assertTrue("URL [" + vp.getPageURL() + "] doesn't contain expected part [" + expectedURLPart + "]", vp.getPageURL().contains(expectedURLPart));
         Assert.assertEquals(pageName, vp.getMetaDataValue("page"));
     }

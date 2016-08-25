@@ -109,7 +109,7 @@
       <dependency>
         <groupId>org.xwiki.contrib</groupId>
         <artifactId>application-tour-ui</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.4</version>
         <type>xar</type>
       </dependency>
       <dependency>

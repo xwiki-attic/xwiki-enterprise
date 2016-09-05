@@ -156,7 +156,7 @@ public class ListTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test that delete at the end of a list preserves browser default behaviour: for firefox is to join the two lists. <br />
+     * Test that delete at the end of a list preserves browser default behaviour: for firefox is to join the two lists. <br>
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      */
     public void failingTestDeleteInDifferentLists()
@@ -203,7 +203,7 @@ public class ListTest extends AbstractWysiwygTestCase
 
     /**
      * Test that delete at the end of a list before another list in an embedded document (two lists on the second level)
-     * preserves default behaviour: for firefox is to join the two lists. <br />
+     * preserves default behaviour: for firefox is to join the two lists. <br>
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      */
     public void failingTestDeleteInEmbeddedDocumentDifferentLists()
@@ -429,7 +429,7 @@ public class ListTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Test delete before text outside lists. <br />
+     * Test delete before text outside lists. <br>
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      */
     public void failingTestDeleteBeforeParagraph()
@@ -644,7 +644,7 @@ public class ListTest extends AbstractWysiwygTestCase
     @Test
     public void testOutdentWithContentAfter()
     {
-        setContent("<ul><li>one<br />before<ul><li>two</li><li>three</li><li>four</li></ul>after</li></ul>");
+        setContent("<ul><li>one<br>before<ul><li>two</li><li>three</li><li>four</li></ul>after</li></ul>");
         moveCaret("document.body.firstChild.firstChild.childNodes[3].childNodes[1].firstChild", 0);
         // The tool bar is not updated instantly and thus we have to wait for the outdent button to become enabled.
         waitForPushButton(TOOLBAR_BUTTON_OUTDENT_TITLE, true);
@@ -808,8 +808,8 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Test that outdenting multiple list items on the first level of a list preserves distinct lines for the content of
      * the list items.
-     * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3921
+     * <p>
+     * See http://jira.xwiki.org/jira/browse/XWIKI-3921.
      */
     @Test
     public void testOutdentFirstLevelPreservesLines()
@@ -830,8 +830,8 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Tests that a backspace between two list items with headings inside moves the second heading in the first list
      * item.
-     * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
+     * <p>
+     * See http://jira.xwiki.org/jira/browse/XWIKI-3877.
      */
     @Test
     public void testBackspaceBetweenHeadingListItems()
@@ -851,10 +851,10 @@ public class ListTest extends AbstractWysiwygTestCase
     /**
      * Tests that the headings in two list items can be merged by a backspace followed by a delete: only one backspace,
      * as the previous test shows, is not enough because two items of the same type should not be automatically merged
-     * on backspace between list items, since it's not the desired behaviour for all types of elements. <br />
+     * on backspace between list items, since it's not the desired behaviour for all types of elements. <br>
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
-     * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
+     * <p>
+     * See http://jira.xwiki.org/jira/browse/XWIKI-3877.
      */
     public void failingTestBackspaceAndDeleteToMergeHeadingListItems()
     {
@@ -874,10 +874,10 @@ public class ListTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * Tests that a delete between two list items with headings inside moves the second heading in the first list item. <br />
+     * Tests that a delete between two list items with headings inside moves the second heading in the first list item. <br>
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      * 
-     * @see http://jira.xwiki.org/jira/browse/XWIKI-3877
+     * See http://jira.xwiki.org/jira/browse/XWIKI-3877.
      */
     public void failingTestDeleteBetweenHeadingListItems()
     {

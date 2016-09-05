@@ -557,4 +557,170 @@ public class PageResourceTest extends AbstractHttpTest
 
         Assert.assertEquals(newSyntax, modifiedPage.getSyntax());
     }
+
+    @Test
+    public void testPageCopyFrom() throws Exception
+    {
+        Page sourcePage = getFirstPage();
+
+        String targetPageName = "newPageCopiedFrom-" + UUID.randomUUID().toString();
+        String targetPageUrl =
+            getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName)
+                .toString();
+
+        String targetPageUrlWithCopyFrom = targetPageUrl + "?copyFrom=" + sourcePage.getId();
+        PutMethod putMethod = executePutXml(targetPageUrlWithCopyFrom, sourcePage, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        Page targetPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(sourcePage.getTitle(), targetPage.getTitle());
+        Assert.assertEquals(sourcePage.getContent(), targetPage.getContent());
+
+        /* clean the created page */
+        DeleteMethod deleteMethod = executeDelete(targetPageUrl, "Admin", "admin");
+
+        GetMethod getMethod =
+            executeGet(getUriBuilder(PageResource.class)
+                .build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName).toString());
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+    }
+
+    @Test
+    public void testPageCopyFromInConflict() throws Exception
+    {
+        System.out.println("###begin test for copyFrom in conflict###");
+        Page sourcePage = getFirstPage();
+
+        String targetPageName = "newPageCopiedFrom-" + UUID.randomUUID().toString();
+        String targetPageUrl =
+            getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName)
+                .toString();
+
+        String targetPageUrlWithCopyFrom = targetPageUrl + "?copyFrom=" + sourcePage.getId();
+
+        PutMethod putMethod = executePutXml(targetPageUrlWithCopyFrom, sourcePage, "Admin", "admin");
+        System.out.println("targetPageUrlWithCopyFrom = " + targetPageUrlWithCopyFrom);
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        Page targetPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(sourcePage.getTitle(), targetPage.getTitle());
+        Assert.assertEquals(sourcePage.getContent(), targetPage.getContent());
+
+        /* copy to it again, this time, it should be in conflict and remote server does nothing */
+        System.out.println("targetPageUrlWithCopyFrom = " + targetPageUrlWithCopyFrom);
+        putMethod = executePutXml(targetPageUrlWithCopyFrom, sourcePage, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CONFLICT, putMethod.getStatusCode());
+
+        /* clean the created page */
+        DeleteMethod deleteMethod = executeDelete(targetPageUrl, "Admin", "admin");
+
+        GetMethod getMethod = executeGet(targetPageUrl);
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+    }
+
+    @Test
+    public void testPageMoveFrom() throws Exception
+    {
+        Page originalPage = getFirstPage();
+
+        /* create a temporary page as the source page */
+        String sourcePageName = "newPageCopiedFrom-" + UUID.randomUUID().toString();
+        String sourcePageUrl =
+            getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, sourcePageName)
+                .toString();
+
+        String sourcePageUrlWithCopyFrom = sourcePageUrl + "?copyFrom=" + originalPage.getId();
+        PutMethod putMethod = executePutXml(sourcePageUrlWithCopyFrom, originalPage, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        Page sourcePage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        /* create a new page as the target page */
+        String targetPageName = "newPageMovedFrom-" + UUID.randomUUID().toString();
+        String targetPageUrl =
+            getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName)
+                .toString();
+
+        String targetPageUrlWithMoveFrom = targetPageUrl + "?moveFrom=" + sourcePage.getId();
+        putMethod = executePutXml(targetPageUrlWithMoveFrom, sourcePage, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        Page targetPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(sourcePage.getTitle(), targetPage.getTitle());
+        Assert.assertEquals(sourcePage.getContent(), targetPage.getContent());
+
+        /* the source page should be deleted */
+        GetMethod getMethod = executeGet(sourcePageUrl);
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+
+        /* clean the target page */
+        DeleteMethod deleteMethod = executeDelete(targetPageUrl, "Admin", "admin");
+    }
+
+    @Test
+    public void testPageMoveFromInConflict() throws Exception
+    {
+        Page originalPage = getFirstPage();
+
+        /* create two temporary pages as the source pages */
+        String sourcePageName1 = "newPageCopiedFrom-" + UUID.randomUUID().toString();
+        String sourcePageUrl1 =
+            getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, sourcePageName1)
+                .toString();
+
+        String sourcePageUrlWithCopyFrom1 = sourcePageUrl1 + "?copyFrom=" + originalPage.getId();
+        PutMethod putMethod = executePutXml(sourcePageUrlWithCopyFrom1, originalPage, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        Page sourcePage1 = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        String sourcePageName2 = "newPageCopiedFrom-" + UUID.randomUUID().toString();
+        String sourcePageUrl2 =
+            getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, sourcePageName2)
+                .toString();
+
+        String sourcePageUrlWithCopyFrom2 = sourcePageUrl2 + "?copyFrom=" + originalPage.getId();
+        putMethod = executePutXml(sourcePageUrlWithCopyFrom2, originalPage, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        Page sourcePage2 = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        /* create a new page as the target page */
+        String targetPageName = "newPageMovedFrom-" + UUID.randomUUID().toString();
+        String targetPageUrl =
+            getUriBuilder(PageResource.class).build(getWiki(), TestConstants.TEST_SPACE_NAME, targetPageName)
+                .toString();
+
+        String targetPageUrlWithMoveFrom1 = targetPageUrl + "?moveFrom=" + sourcePage1.getId();
+        String targetPageUrlWithMoveFrom2 = targetPageUrl + "?moveFrom=" + sourcePage2.getId();
+        putMethod = executePutXml(targetPageUrlWithMoveFrom1, sourcePage1, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CREATED, putMethod.getStatusCode());
+
+        Page targetPage = (Page) unmarshaller.unmarshal(putMethod.getResponseBodyAsStream());
+
+        Assert.assertEquals(sourcePage1.getTitle(), targetPage.getTitle());
+        Assert.assertEquals(sourcePage1.getContent(), targetPage.getContent());
+
+        /* the source page should be deleted */
+        GetMethod getMethod = executeGet(sourcePageUrl1);
+        Assert.assertEquals(getHttpMethodInfo(getMethod), HttpStatus.SC_NOT_FOUND, getMethod.getStatusCode());
+
+        /* invoke move operation the second time, as the target page already exists, so nothing happens */
+        putMethod = executePutXml(targetPageUrlWithMoveFrom2, sourcePage2, "Admin", "admin");
+
+        Assert.assertEquals(getHttpMethodInfo(putMethod), HttpStatus.SC_CONFLICT, putMethod.getStatusCode());
+
+        /* clean the target page */
+        DeleteMethod deleteMethod = executeDelete(targetPageUrl, "Admin", "admin");
+    }
 }

@@ -895,6 +895,13 @@ If you wish to have the default wiki pages, which contain both content pages and
       <type>xar</type>
     </dependency>
 
+    <!-- Support Let's Encrypt certificate authority on JVM older than Oracle JRE 1.8.0_101 -->
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>letsencrypt</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>

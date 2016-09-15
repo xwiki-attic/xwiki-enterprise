@@ -34,7 +34,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-xar</artifactId>
+      <artifactId>xwiki-platform-xar-model</artifactId>
       <version>${platform.version}</version>
       <scope>test</scope>
     </dependency>

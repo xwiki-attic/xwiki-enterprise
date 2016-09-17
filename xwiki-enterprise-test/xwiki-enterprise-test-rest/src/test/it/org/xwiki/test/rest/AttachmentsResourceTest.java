@@ -44,6 +44,7 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.rest.Relations;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
@@ -51,7 +52,6 @@ import org.xwiki.rest.resources.attachments.AttachmentHistoryResource;
 import org.xwiki.rest.resources.attachments.AttachmentResource;
 import org.xwiki.rest.resources.attachments.AttachmentsAtPageVersionResource;
 import org.xwiki.rest.resources.attachments.AttachmentsResource;
-import org.xwiki.rest.resources.pages.PageResource;
 import org.xwiki.test.rest.framework.AbstractHttpTest;
 import org.xwiki.test.ui.TestUtils;
 
@@ -62,6 +62,8 @@ public class AttachmentsResourceTest extends AbstractHttpTest
     private List<String> spaces;
 
     private String pageName;
+    
+    private DocumentReference reference;
 
     @Before
     public void setUp() throws Exception
@@ -72,12 +74,11 @@ public class AttachmentsResourceTest extends AbstractHttpTest
         this.spaces = Arrays.asList(getTestClassName());
         this.pageName = getTestMethodName();
 
+        this.reference = new DocumentReference(this.wikiName, this.spaces, this.pageName);
+
         // Create a clean test page.
-        DeleteMethod deleteMethod =
-            executeDelete(buildURIForThisPage(PageResource.class), TestUtils.ADMIN_CREDENTIALS.getUserName(),
-                TestUtils.ADMIN_CREDENTIALS.getPassword());
-        Assert.assertEquals(getHttpMethodInfo(deleteMethod), HttpStatus.SC_NO_CONTENT, deleteMethod.getStatusCode());
-        createPage(this.spaces, this.pageName, "");
+        this.testUtils.rest().delete(this.reference);
+        this.testUtils.rest().savePage(this.reference);
     }
 
     @Override

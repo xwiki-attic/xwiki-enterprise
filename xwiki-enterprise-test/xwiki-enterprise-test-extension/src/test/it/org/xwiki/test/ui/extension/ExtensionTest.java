@@ -122,7 +122,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
         assertEquals(20, searchResults.getDisplayedResultsCount());
 
         PaginationFilterPane pagination = searchResults.getPagination();
-        assertEquals(1 + pagination.getResultsCount() / 20, pagination.getPageCount());
+        assertEquals((pagination.getResultsCount() + 20 - 1) / 20, pagination.getPageCount());
         assertEquals("1 - 20", pagination.getCurrentRange());
         assertEquals(1, pagination.getCurrentPageIndex());
         assertFalse(pagination.hasPreviousPage());
@@ -158,7 +158,7 @@ public class ExtensionTest extends AbstractExtensionAdminAuthenticatedTest
 
         pagination = pagination.gotoPage(pagination.getPageCount());
         searchResults = new SearchResultsPane();
-        assertEquals(pagination.getResultsCount() % 20, searchResults.getDisplayedResultsCount());
+        assertEquals((pagination.getResultsCount() - 1 % 20) + 1, searchResults.getDisplayedResultsCount());
         assertEquals(pagination.getPageCount(), pagination.getCurrentPageIndex());
         assertFalse(pagination.hasNextPage());
         assertTrue(pagination.hasPreviousPage());

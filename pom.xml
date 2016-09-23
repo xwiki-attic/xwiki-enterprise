@@ -102,6 +102,9 @@
       org.xwiki.platform:xwiki-platform-workspace-template-features,
       org.xwiki.enterprise:xwiki-enterprise-ui-all
     </xe.ui.wiki.all.features>
+
+    <!-- Use CKEditor by default in XE -->
+    <xwiki.properties.defaultWysiwygEditor>ckeditor</xwiki.properties.defaultWysiwygEditor>
   </properties>
   <!-- Fixed version for third-party dependencies -->
   <dependencyManagement>

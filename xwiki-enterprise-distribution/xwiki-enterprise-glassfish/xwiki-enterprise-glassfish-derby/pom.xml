@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-glassfish</artifactId>
-    <version>8.3-SNAPSHOT</version>
+    <version>8.3-rc-1</version>
   </parent>
   <artifactId>xwiki-enterprise-glassfish-derby</artifactId>
   <name>XWiki Enterprise - Distribution - GlassFish - Derby</name>

@@ -27,11 +27,11 @@
     <!-- Note: Do not modify the <relativePath> tag here as this can cause issues. See the pom.xml for xwiki-platform
          for more details. By using an empty value we force Maven to resolve the parent from the Maven repositories,
          see http://maven.apache.org/ref/3.2.3/maven-model/maven.html#class_parent -->
-    <relativePath/>
+    <relativePath />
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>
-  <version>8.3-SNAPSHOT</version>
+  <version>8.3</version>
   <packaging>pom</packaging>
   <name>XWiki Enterprise - Parent POM</name>
   <description>XWiki Enterprise - Parent POM</description>
@@ -39,7 +39,7 @@
     <connection>scm:git:git://github.com/xwiki/xwiki-enterprise.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki/xwiki-enterprise.git</developerConnection>
     <url>http://github.com/xwiki/xwiki-enterprise/tree/master/</url>
-    <tag>stable-8.3.x</tag>
+    <tag>xwiki-enterprise-8.3</tag>
   </scm>
   <issueManagement>
     <system>jira</system>

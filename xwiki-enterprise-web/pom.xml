@@ -831,7 +831,7 @@ If you wish to have the default wiki pages, which contain both content pages and
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
       <artifactId>letsencrypt</artifactId>
-      <version>1.0.4</version>
+      <version>1.0.5</version>
     </dependency>
 
     <!-- XAR Support -->

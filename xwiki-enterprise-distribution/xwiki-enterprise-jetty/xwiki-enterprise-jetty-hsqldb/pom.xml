@@ -31,6 +31,10 @@
   <name>XWiki Enterprise - Distribution - Jetty - HSQLDB</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Jetty - HSQLDB</description>
+  <properties>
+    <!-- Put the name of the distribution which will be displayed in the footer -->
+    <xwiki.extension.name>XWiki Enterprise Jetty HSQLDB</xwiki.extension.name>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

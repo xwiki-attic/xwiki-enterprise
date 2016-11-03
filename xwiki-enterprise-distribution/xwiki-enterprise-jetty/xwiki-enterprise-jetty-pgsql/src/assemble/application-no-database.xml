@@ -109,4 +109,11 @@
       <outputDirectory>META-INF</outputDirectory>
     </fileSet>
   </fileSets>
+  <!-- Add extension descriptor -->
+  <fileSets>
+    <fileSet>
+      <directory>${project.build.outputDirectory}/META-INF</directory>
+      <outputDirectory>webapps/xwiki/META-INF</outputDirectory>
+    </fileSet>
+  </fileSets>
 </assembly>

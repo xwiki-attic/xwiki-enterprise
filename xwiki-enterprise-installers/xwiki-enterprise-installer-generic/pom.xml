@@ -53,6 +53,19 @@
   </dependencies>
   <build>
     <plugins>
+      <!-- Generate extension descriptor -->
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-extension-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>register</id>
+            <goals>
+              <goal>register</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <!-- Extracts the standalone distribution + Get the Jetty start shell scripts from the Jetty resource zip and
            override the files extracted from the standalone distribution -->
       <plugin>
@@ -171,7 +184,9 @@
       </plugin>
     </plugins>
   </build>
-  <properties>
+  <properties>  
+    <xwiki.extension.features>xwiki, xwiki-enterprise</xwiki.extension.features>
+
     <xwiki.license>${project.build.directory}/izpack/LICENCE.txt</xwiki.license>
     <xwiki.readme>${project.build.directory}/izpack/README.html</xwiki.readme>
     <xwiki.container>${project.build.directory}/container/xwiki-enterprise-jetty-${xwiki.db}-${project.version}</xwiki.container>

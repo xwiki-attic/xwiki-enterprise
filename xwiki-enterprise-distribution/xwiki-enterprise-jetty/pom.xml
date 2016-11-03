@@ -31,6 +31,9 @@
   <name>XWiki Enterprise - Distribution - Jetty</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Jetty</description>
+  <properties>
+    <xwiki.extension.features>xwiki, xwiki-enterprise</xwiki.extension.features>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
@@ -94,6 +97,21 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <!-- Generate extension descriptor -->
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-extension-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>register</id>
+            <goals>
+              <goal>register</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   <profiles>
     <profile>

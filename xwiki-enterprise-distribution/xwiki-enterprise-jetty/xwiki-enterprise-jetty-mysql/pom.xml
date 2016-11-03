@@ -31,6 +31,10 @@
   <name>XWiki Enterprise - Distribution - Jetty - MySQL</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Jetty - MySQL</description>
+  <properties>
+    <!-- Put the name of the distribution which will be displayed in the footer -->
+    <xwiki.extension.name>XWiki Enterprise Jetty MySQL</xwiki.extension.name>
+  </properties>
   <build>
     <plugins>
       <!-- Inject Hibernate's configuration for the specified database -->

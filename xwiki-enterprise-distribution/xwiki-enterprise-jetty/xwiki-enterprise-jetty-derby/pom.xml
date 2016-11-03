@@ -31,6 +31,10 @@
   <name>XWiki Enterprise - Distribution - Jetty - Derby</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Jetty - Derby</description>
+  <properties>
+    <!-- Put the name of the distribution which will be displayed in the footer -->
+    <xwiki.extension.name>XWiki Enterprise Jetty Derby</xwiki.extension.name>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>

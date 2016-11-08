@@ -58,6 +58,17 @@
     <!-- Useful for Enterprise extensions -->
     <enterprise.version>${platform.version}</enterprise.version>
 
+    <!-- The default UI -->
+    <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki</xwiki.extension.distribution.ui>
+    <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.wikiui>
+
+    <!-- Flavors known to be valid with the current distribution -->
+    <xwiki.extension.knownFlavors>
+        org.xwiki.platform:xwiki-platform-distribution-flavor/${project.version},
+        org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki/${project.version},
+        org.xwiki.enterprise:xwiki-enterprise-ui-wiki/${project.version}
+    </xwiki.extension.knownFlavors>
+
     <!-- xwiki.cfg configuration -->
     <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.xwiki.cfg.plugins>${war.xwiki.cfg.plugins},\

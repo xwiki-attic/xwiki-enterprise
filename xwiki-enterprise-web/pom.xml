@@ -43,10 +43,6 @@ If you wish to have the default wiki pages, which contain both content pages and
     <!-- By default we don't include Legacy modules and thus we don't need to exclude the non legacy JARs -->
     <xwiki.war.legacy.excludes />
 
-    <!-- The default UI associated to this WAR -->
-    <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki</xwiki.extension.distribution.ui>
-    <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.wikiui>
-
     <xwiki.extension.features>
         xwiki,
         xwiki-enterprise,
@@ -56,13 +52,6 @@ If you wish to have the default wiki pages, which contain both content pages and
         org.xwiki.manager:xwiki-manager-web,
         com.xpn.xwiki.products:xwiki-enterprise-manager-web
     </xwiki.extension.features>
-
-    <!-- Flavors known to be valid with the current distribution -->
-    <xwiki.extension.knownFlavors>
-        org.xwiki.platform:xwiki-platform-distribution-flavor/${project.version},
-        org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki/${project.version},
-        org.xwiki.enterprise:xwiki-enterprise-ui-wiki/${project.version}
-    </xwiki.extension.knownFlavors>
   </properties>
   <dependencies>
     <!-- Depend on the platform WAR to get all web resources. We then need to add all libraries we need for XE. -->

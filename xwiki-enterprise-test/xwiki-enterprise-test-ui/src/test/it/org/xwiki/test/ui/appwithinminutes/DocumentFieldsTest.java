@@ -82,7 +82,7 @@ public class DocumentFieldsTest extends AbstractTest
         contentField.setDefaultValue(defaultContent);
 
         // Add live table columns for Title and Content.
-        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().waitUntilPageIsLoaded();
+        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().clickNextStep().waitUntilPageIsLoaded();
         homeEditPage.addLiveTableColumn("My Title");
         homeEditPage.addLiveTableColumn("My Content");
 
@@ -92,8 +92,9 @@ public class DocumentFieldsTest extends AbstractTest
         EntryEditPage entryEditPage = entryNamePane.clickAdd();
         RichTextAreaElement contentTextArea = entryEditPage.getContentEditor().waitToLoad().getRichTextArea();
         Assert.assertEquals("13", entryEditPage.getValue("number1"));
-        Assert.assertEquals(defaultTitle, entryEditPage.getDocumentTitle());
-        Assert.assertEquals(defaultTitle, entryEditPage.getTitle());
+        // The page name is used as the default value for the title field.
+        Assert.assertEquals("Test", entryEditPage.getDocumentTitle());
+        Assert.assertEquals("Test", entryEditPage.getTitle());
         entryEditPage.setTitle("Foo");
         Assert.assertEquals(defaultContent, contentTextArea.getText());
         contentTextArea.setContent("Bar");

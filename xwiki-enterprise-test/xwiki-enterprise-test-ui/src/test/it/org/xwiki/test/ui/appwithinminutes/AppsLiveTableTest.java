@@ -125,7 +125,7 @@ public class AppsLiveTableTest extends AbstractTest
         fieldEditPane.setName("cityName");
 
         // Move to the next step.
-        ApplicationHomeEditPage homeEditPage = classEditor.clickNextStep();
+        ApplicationHomeEditPage homeEditPage = classEditor.clickNextStep().clickNextStep();
         homeEditPage.setDescription("demo");
 
         // Finish editing.
@@ -186,7 +186,7 @@ public class AppsLiveTableTest extends AbstractTest
         ApplicationClassEditPage classEditPage = appCreatePage.clickNextStep();
         classEditPage.addField("Short Text");
         // Wait for the application home edit page to load before clicking finish to be sure the page layout is stable.
-        classEditPage.clickNextStep().waitUntilPageIsLoaded().clickFinish();
+        classEditPage.clickNextStep().clickNextStep().waitUntilPageIsLoaded().clickFinish();
         homePage = AppWithinMinutesHomePage.gotoPage();
     }
 }

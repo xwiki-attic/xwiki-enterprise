@@ -73,7 +73,7 @@ public class LiveTableGeneratorTest extends AbstractTest
     {
         // Create an application that has a Static List field and add a corresponding column to the live table.
         classEditPage.addField("Static List");
-        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().waitUntilPageIsLoaded();
+        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().clickNextStep().waitUntilPageIsLoaded();
         homeEditPage.addLiveTableColumn("Static List");
 
         // Add first entry.
@@ -97,10 +97,10 @@ public class LiveTableGeneratorTest extends AbstractTest
         String filterInputId = getFilterInputId(liveTable.getColumnIndex("Static List"));
         liveTable.filterColumn(filterInputId, "Second Choice");
         Assert.assertEquals(1, liveTable.getRowCount());
-        Assert.assertTrue(liveTable.hasRow("Page name", "Bar"));
+        Assert.assertTrue(liveTable.hasRow("Page Title", "Bar"));
         liveTable.filterColumn(filterInputId, "First Choice");
         Assert.assertEquals(1, liveTable.getRowCount());
-        Assert.assertTrue(liveTable.hasRow("Page name", "Foo"));
+        Assert.assertTrue(liveTable.hasRow("Page Title", "Foo"));
         liveTable.filterColumn(filterInputId, "All");
         Assert.assertEquals(2, liveTable.getRowCount());
     }
@@ -113,9 +113,9 @@ public class LiveTableGeneratorTest extends AbstractTest
     {
         // Create an application that has a Title field and add a corresponding column to the live table.
         classEditPage.addField("Title");
-        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().waitUntilPageIsLoaded();
+        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().clickNextStep().waitUntilPageIsLoaded();
         homeEditPage.addLiveTableColumn("Title");
-        homeEditPage.moveLiveTableColumnBefore("Title", "Page name");
+        homeEditPage.moveLiveTableColumnBefore("Title", "Page Title");
 
         // Add first entry.
         EntryNamePane entryNamePane = homeEditPage.clickFinish().clickAddNewEntry();
@@ -138,10 +138,10 @@ public class LiveTableGeneratorTest extends AbstractTest
         String filterInputId = getFilterInputId(0);
         liveTable.filterColumn(filterInputId, "mighty");
         Assert.assertEquals(1, liveTable.getRowCount());
-        Assert.assertTrue(liveTable.hasRow("Page name", "Foo"));
+        Assert.assertTrue(liveTable.hasRow("Location", appName + "Foo"));
         liveTable.filterColumn(filterInputId, "empty");
         Assert.assertEquals(1, liveTable.getRowCount());
-        Assert.assertTrue(liveTable.hasRow("Page name", "Bar"));
+        Assert.assertTrue(liveTable.hasRow("Location", appName + "Bar"));
         liveTable.filterColumn(filterInputId, "");
         Assert.assertEquals(2, liveTable.getRowCount());
     }

@@ -87,7 +87,7 @@ public class AddEntryTest extends AbstractTest
         homePage = new ApplicationHomePage();
         LiveTableElement entriesLiveTable = homePage.getEntriesLiveTable();
         entriesLiveTable.waitUntilReady();
-        // The column title is not translated because we haven't generated the document translation bundle.
-        Assert.assertTrue(entriesLiveTable.hasRow("panel.livetable.doc.name", entryName));
+        // The column header is not translated because we haven't generated the document translation bundle.
+        Assert.assertTrue(entriesLiveTable.hasRow("panel.livetable.doc.title", entryName));
     }
 }

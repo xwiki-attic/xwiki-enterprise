@@ -78,7 +78,7 @@ public class LiveTableEditorTest extends AbstractTest
     {
         editPage.addLiveTableColumn("First Name");
         Assert.assertTrue(editPage.hasLiveTableColumn("First Name"));
-        editPage.moveLiveTableColumnBefore("First Name", "Date");
+        editPage.moveLiveTableColumnBefore("First Name", "Location");
         editPage.removeLiveTableColumn("Page Title");
         Assert.assertFalse(editPage.hasLiveTableColumn("Page Title"));
         LiveTableElement liveTable = ((ApplicationHomePage) editPage.clickSaveAndView()).getEntriesLiveTable();
@@ -86,7 +86,7 @@ public class LiveTableEditorTest extends AbstractTest
         // The column headers aren't translated because we haven't generated the document translation bundle.
         Assert.assertFalse(liveTable.hasColumn("xwikiusers.livetable.doc.title"));
         Assert.assertEquals(0, liveTable.getColumnIndex("xwikiusers.livetable.first_name"));
-        Assert.assertEquals(1, liveTable.getColumnIndex("xwikiusers.livetable.doc.date"));
+        Assert.assertEquals(1, liveTable.getColumnIndex("xwikiusers.livetable.doc.location"));
     }
 
     /**

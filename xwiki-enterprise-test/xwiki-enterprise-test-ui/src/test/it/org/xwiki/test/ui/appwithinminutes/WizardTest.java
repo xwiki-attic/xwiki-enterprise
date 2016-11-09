@@ -30,6 +30,7 @@ import org.xwiki.appwithinminutes.test.po.ApplicationClassEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationCreatePage;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomeEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationHomePage;
+import org.xwiki.appwithinminutes.test.po.ApplicationTemplateProviderEditPage;
 import org.xwiki.appwithinminutes.test.po.ApplicationsLiveTableElement;
 import org.xwiki.appwithinminutes.test.po.ClassFieldEditPane;
 import org.xwiki.appwithinminutes.test.po.EntryEditPage;
@@ -108,10 +109,10 @@ public class WizardTest extends AbstractTest
         fieldEditPane.setDefaultValue("Paris");
 
         // Move to the next step.
-        ApplicationHomeEditPage homeEditPage = classEditPage.clickNextStep().waitUntilPageIsLoaded();
+        ApplicationTemplateProviderEditPage templateProviderEditPage = classEditPage.clickNextStep();
 
         // Move back to the second step.
-        classEditPage = homeEditPage.clickPreviousStep();
+        classEditPage = templateProviderEditPage.clickPreviousStep();
 
         // Open the configuration panel and set the field name
         fieldEditPane = new ClassFieldEditPane("shortText1");
@@ -119,9 +120,16 @@ public class WizardTest extends AbstractTest
         fieldEditPane.setName("cityName");
 
         // Move to the next step.
-        homeEditPage = classEditPage.clickNextStep();
+        templateProviderEditPage = classEditPage.clickNextStep();
 
         // Step 3
+        templateProviderEditPage.setIcon("worl");
+        templateProviderEditPage.setDescription("A city page");
+
+        // Move to the next step.
+        ApplicationHomeEditPage homeEditPage = templateProviderEditPage.clickNextStep().waitUntilPageIsLoaded();
+
+        // Step 4
         // Enter the application description.
         String appDescription = "Simple application to manage data about various cities";
         homeEditPage.setDescription(appDescription);
@@ -198,7 +206,7 @@ public class WizardTest extends AbstractTest
         fieldEditPane.setPrettyName("Population Size");
 
         // Fast forward.
-        homeEditPage = classEditPage.clickNextStep();
+        homeEditPage = classEditPage.clickNextStep().clickNextStep();
         // Just wait for the WYSIWYG editor (which is used for setting the application description) to load so that the
         // page layout is stable before we click on the Finish button.
         homeEditPage.setDescription(appDescription);
@@ -221,8 +229,8 @@ public class WizardTest extends AbstractTest
         // Assert both entries are displayed in the live table.
         entriesLiveTable = homePage.getEntriesLiveTable();
         entriesLiveTable.waitUntilReady();
-        Assert.assertTrue(entriesLiveTable.hasRow("Page name", firstEntryName));
-        Assert.assertTrue(entriesLiveTable.hasRow("Page name", secondEntryName));
+        Assert.assertTrue(entriesLiveTable.hasRow("Page Title", firstEntryName));
+        Assert.assertTrue(entriesLiveTable.hasRow("Page Title", secondEntryName));
 
         // Go to the App Within Minutes home page.
         AppWithinMinutesHomePage appWithinMinutesHomePage = AppWithinMinutesHomePage.gotoPage();
@@ -280,7 +288,7 @@ public class WizardTest extends AbstractTest
         classEditPage.addField("Number");
 
         // Step 3 and back to Step 2
-        classEditPage = classEditPage.clickNextStep().waitUntilPageIsLoaded().clickPreviousStep();
+        classEditPage = classEditPage.clickNextStep().clickPreviousStep();
         Assert.assertFalse(classEditPage.getContent().contains(ClassEditorTest.EMPTY_CANVAS_HINT));
         Assert.assertFalse(classEditPage.hasPreviousStep());
     }

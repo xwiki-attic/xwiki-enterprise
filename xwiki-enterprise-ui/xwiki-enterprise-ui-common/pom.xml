@@ -163,6 +163,7 @@
     <dependency>
       <groupId>org.xwiki.contrib.templates</groupId>
       <artifactId>application-templates-ui</artifactId>
+      <version>1.0.1</version>
       <type>xar</type>
     </dependency>
     <dependency>

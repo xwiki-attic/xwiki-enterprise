@@ -52,6 +52,8 @@
     <module>xwiki-enterprise-distribution</module>
     <module>xwiki-enterprise-installers</module>
     <module>xwiki-enterprise-ui</module>
+    <module>xwiki-enterprise-web-dependencies</module>
+    <module>xwiki-enterprise-web-legacydependencies</module>
     <module>xwiki-enterprise-web</module>
   </modules>
   <properties>
@@ -62,13 +64,22 @@
     <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki</xwiki.extension.distribution.ui>
     <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.wikiui>
 
+    <!-- Features -->
+    <xe.distribution.features>
+        ${platform.distribution.features},
+        xwiki-enterprise
+    </xe.distribution.features>
+
     <!-- xwiki.cfg configuration -->
-    <!-- Defined as a property so that products extending XE can reuse this list -->
-    <xe.xwiki.cfg.plugins>${war.xwiki.cfg.plugins},\
+    <!-- Default plugin list -->
+    <xe.xwiki.cfg.plugins>${platform.xwiki.cfg.plugins.default},\
   com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin
     </xe.xwiki.cfg.plugins>
-    <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins}
-    </xwiki.cfg.plugins>
+    <!-- Legacy plugin list -->
+    <xe.xwiki.cfg.plugins.legacy>${platform.xwiki.cfg.plugins.legacy},\
+  com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin
+    </xe.xwiki.cfg.plugins.legacy>
+    <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins.default}</xwiki.cfg.plugins>
 
     <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.ui.wiki.all.features>
@@ -110,23 +121,6 @@
     <!-- Use CKEditor by default in XE -->
     <xwiki.properties.defaultWysiwygEditor>ckeditor</xwiki.properties.defaultWysiwygEditor>
   </properties>
-  <!-- Fixed version for third-party dependencies -->
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.xwiki.contrib</groupId>
-        <artifactId>application-tour-ui</artifactId>
-        <version>1.0.4</version>
-        <type>xar</type>
-      </dependency>
-      <dependency>
-        <groupId>org.xwiki.contrib.templates</groupId>
-        <artifactId>application-templates-ui</artifactId>
-        <version>1.0.1</version>
-        <type>xar</type>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <build>
     <plugins>
       <plugin>

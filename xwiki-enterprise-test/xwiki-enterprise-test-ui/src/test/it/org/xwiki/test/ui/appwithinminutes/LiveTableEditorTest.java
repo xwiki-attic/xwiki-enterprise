@@ -78,13 +78,13 @@ public class LiveTableEditorTest extends AbstractTest
     {
         editPage.addLiveTableColumn("First Name");
         Assert.assertTrue(editPage.hasLiveTableColumn("First Name"));
-        editPage.moveLiveTableColumnBefore("First Name", "Update date");
-        editPage.removeLiveTableColumn("Page name");
-        Assert.assertFalse(editPage.hasLiveTableColumn("Page name"));
+        editPage.moveLiveTableColumnBefore("First Name", "Date");
+        editPage.removeLiveTableColumn("Page Title");
+        Assert.assertFalse(editPage.hasLiveTableColumn("Page Title"));
         LiveTableElement liveTable = ((ApplicationHomePage) editPage.clickSaveAndView()).getEntriesLiveTable();
         liveTable.waitUntilReady();
-        // The column titles aren't translated because we haven't generated the document translation bundle.
-        Assert.assertFalse(liveTable.hasColumn("xwikiusers.livetable.doc.name"));
+        // The column headers aren't translated because we haven't generated the document translation bundle.
+        Assert.assertFalse(liveTable.hasColumn("xwikiusers.livetable.doc.title"));
         Assert.assertEquals(0, liveTable.getColumnIndex("xwikiusers.livetable.first_name"));
         Assert.assertEquals(1, liveTable.getColumnIndex("xwikiusers.livetable.doc.date"));
     }
@@ -104,8 +104,8 @@ public class LiveTableEditorTest extends AbstractTest
         ApplicationHomePage viewPage = editPage.clickCancel();
         LiveTableElement liveTable = viewPage.getEntriesLiveTable();
         liveTable.waitUntilReady();
-        // The column title isn't translated because we haven't generated the document translation bundle.
-        Assert.assertTrue(liveTable.hasColumn("xwikiusers.livetable.doc.name"));
+        // The column header isn't translated because we haven't generated the document translation bundle.
+        Assert.assertTrue(liveTable.hasColumn("xwikiusers.livetable.doc.title"));
     }
 
     /**
@@ -120,7 +120,7 @@ public class LiveTableEditorTest extends AbstractTest
         editPage = new ApplicationHomeEditPage().waitUntilPageIsLoaded();
 
         Assert.assertTrue(editPage.isDeprecatedLiveTableColumnsWarningDisplayed());
-        Assert.assertFalse(editPage.isLiveTableColumnDeprecated("Page name"));
+        Assert.assertFalse(editPage.isLiveTableColumnDeprecated("Page Name"));
         Assert.assertTrue(editPage.isLiveTableColumnDeprecated("foo"));
 
         // Keep deprecated columns.
@@ -130,7 +130,7 @@ public class LiveTableEditorTest extends AbstractTest
         ApplicationHomePage viewPage = editPage.clickSaveAndView();
         LiveTableElement liveTable = viewPage.getEntriesLiveTable();
         liveTable.waitUntilReady();
-        // The column title isn't translated because we haven't generated the document translation bundle.
+        // The column header isn't translated because we haven't generated the document translation bundle.
         Assert.assertTrue(liveTable.hasColumn("xwikiusers.livetable.foo"));
 
         // Edit again and remove the deprecated column.
@@ -146,7 +146,7 @@ public class LiveTableEditorTest extends AbstractTest
         editPage = new ApplicationHomeEditPage().waitUntilPageIsLoaded();
         editPage.removeAllDeprecatedLiveTableColumns(true);
         Assert.assertFalse(editPage.isDeprecatedLiveTableColumnsWarningDisplayed());
-        Assert.assertTrue(editPage.hasLiveTableColumn("Page name"));
+        Assert.assertTrue(editPage.hasLiveTableColumn("Page Name"));
         Assert.assertFalse(editPage.hasLiveTableColumn("foo"));
     }
 

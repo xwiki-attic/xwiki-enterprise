@@ -3,7 +3,7 @@ Version: [[version]]
 Section: java
 Priority: optional
 Architecture: all
-Depends: xwiki-enterprise-common (= [[version]]), postgresql, libpg-java, dbconfig-pgsql
+Depends: xwiki-enterprise-common (= [[version]]), postgresql, libpg-java, dbconfig-common
 Provides: xwiki-enterprise-database
 Suggests: xwiki-enterprise-tomcat5-pgsql | xwiki-enterprise-tomcat6-pgsql | xwiki-enterprise-tomcat7-pgsql
 Replaces: xwiki-enterprise-tomcat-pgsql (<< 3.5), xwiki-enterprise-database

@@ -32,6 +32,10 @@
   <name>XWiki Enterprise - Web - Legacy Dependencies</name>
   <packaging>pom</packaging>
   <description>The legacy dependencies of the WAR as a separate pom to be reusable in other distributions.</description>
+  <properties>
+    <!-- We have legacy dependencies on purpose -->
+    <xwiki.enforcer.no-legacy-dependencies.skip>true</xwiki.enforcer.no-legacy-dependencies.skip>
+  </properties>
   <dependencies>
     <!-- Platform dependencies -->
     <dependency>
@@ -76,23 +80,4 @@
       </exclusions>
     </dependency>
   </dependencies>
-  <build>
-    <pluginManagement>
-      <plugins>
-        <!-- Don't check for legacy dependency usages in legacy modules since they can depend on one another -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>enforce-no-legacy-dependencies</id>
-              <configuration>
-                <skip>true</skip>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
 </project>

@@ -205,6 +205,8 @@ If you wish to have the default wiki pages, which contain both content pages and
         <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins.legacy}</xwiki.cfg.plugins>
         <!-- Set legacy dependencies -->
         <war.dependencies.artifactId>xwiki-enterprise-web-legacydependencies</war.dependencies.artifactId>
+        <!-- We depend on legacy artifacts on purpose -->
+        <xwiki.enforcer.no-legacy-dependencies.skip>true</xwiki.enforcer.no-legacy-dependencies.skip>
       </properties>
     </profile>
     <profile>

@@ -52,6 +52,7 @@
       <version>${project.version}</version>
       <type>pom</type>
       <!-- Exclude transitive dependencies which are conflicting with legacy dependencies -->
+      <!-- FIXME: not very nice having to repeat this here but could not find a simpler way -->
       <exclusions>
         <exclusion>
           <groupId>org.xwiki.commons</groupId>

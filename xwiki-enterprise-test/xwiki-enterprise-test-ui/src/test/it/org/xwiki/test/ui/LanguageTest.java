@@ -19,6 +19,12 @@
  */
 package org.xwiki.test.ui;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.commons.collections.SetUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,9 +34,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.xwiki.administration.test.po.AdministrationPage;
 import org.xwiki.administration.test.po.LocalizationAdministrationSectionPage;
+import org.xwiki.model.reference.LocalDocumentReference;
+import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.test.ui.browser.IgnoreBrowser;
 import org.xwiki.test.ui.po.ViewPage;
 import org.xwiki.test.ui.po.editor.WikiEditPage;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Verify the ability to change the language.
@@ -45,7 +56,8 @@ public class LanguageTest extends AbstractTest
 
     /**
      * Ensure the default language is English and that the wiki is in monolingual mode
-     * @throws Exception 
+     * 
+     * @throws Exception
      */
     @Before
     public void setUp() throws Exception
@@ -63,7 +75,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeLanguageInMonolingualModeUsingTheAdministrationPreference()
     {
         WikiEditPage edit = WikiEditPage.gotoPage("Test", "LanguageTest");
@@ -90,7 +102,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testPassingLanguageInRequestHasNoEffectInMonoligualMode()
     {
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
@@ -98,7 +110,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testChangeLanguageInMultilingualModeUsingTheLanguageRequestParameter()
     {
         setLanguageSettings(true, "en");
@@ -108,7 +120,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
     public void testHeaderCorrectLanguage()
     {
         setLanguageSettings(true, "en");
@@ -119,6 +131,59 @@ public class LanguageTest extends AbstractTest
 
         getUtil().gotoPage("Main", "Test", "view", "language=fr");
         checkLanguageTagsArePresent("fr");
+    }
+
+    @Test
+    public void testTranslateDocument() throws Exception
+    {
+        LocalDocumentReference referenceDEFAULT = new LocalDocumentReference("LanguageTest", "Page");
+        LocalDocumentReference referenceFR = new LocalDocumentReference(referenceDEFAULT, Locale.FRENCH);
+
+        // Cleanup
+        getUtil().rest().delete(referenceFR);
+        getUtil().rest().delete(referenceDEFAULT);
+
+        // Set 2 locales
+        setLanguageSettings(true, "en", Arrays.asList("en", "fr"));
+
+        // Create default version
+        ViewPage viewPage = getUtil().createPage("LanguageTest", "Page", "en content", "en title");
+
+        // Edit the page
+        WikiEditPage editPage = viewPage.editWiki();
+
+        // Make sure current translation is the right one
+        assertTrue(getDriver().hasElement(By.xpath("//strong[text()='You are editing the original page (en).']")));
+
+        assertEquals(Arrays.asList(Locale.FRENCH), editPage.getNotExistingLocales());
+        assertEquals(Arrays.asList(), editPage.getExistingLocales());
+
+        // Translated to French
+        editPage = editPage.clickTranslate("fr");
+        editPage.setTitle("titre fr");
+        editPage.setContent("contenu fr");
+
+        viewPage = editPage.clickSaveAndView();
+
+        // Make sure both have the right content
+        Page page = getUtil().rest().get(referenceFR);
+        assertEquals("titre fr", page.getTitle());
+        assertEquals("contenu fr", page.getContent());
+        page = getUtil().rest().get(referenceDEFAULT);
+        assertEquals("en title", page.getTitle());
+        assertEquals("en content", page.getContent());
+
+        // Make sure two locales are listed for this page in the UI
+        assertEquals(new HashSet<>(Arrays.asList(Locale.ENGLISH, Locale.FRENCH)), new HashSet<>(viewPage.getLocales()));
+
+        // Switch to en
+        viewPage.clickLocale(Locale.ENGLISH);
+
+        // Verify edit mode informations
+        editPage = viewPage.editWiki();
+
+        assertEquals(Arrays.asList(), editPage.getNotExistingLocales());
+        assertEquals(Arrays.asList(Locale.FRENCH), editPage.getExistingLocales());
     }
 
     /**
@@ -146,8 +211,8 @@ public class LanguageTest extends AbstractTest
      */
     private boolean isPageInEnglish()
     {
-        return getDriver().findElement(By.className("xdocLastModification")).getText().toLowerCase().contains(
-            "last modified by");
+        return getDriver().findElement(By.className("xdocLastModification")).getText().toLowerCase()
+            .contains("last modified by");
     }
 
     /**
@@ -155,16 +220,26 @@ public class LanguageTest extends AbstractTest
      */
     private boolean isPageInFrench()
     {
-        return getDriver().findElement(By.className("xdocLastModification")).getText().toLowerCase().contains(
-            "modifié par");
+        return getDriver().findElement(By.className("xdocLastModification")).getText().toLowerCase()
+            .contains("modifié par");
     }
 
     private void setLanguageSettings(boolean isMultiLingual, String defaultLanguage)
     {
+        setLanguageSettings(isMultiLingual, defaultLanguage, null);
+    }
+
+    private void setLanguageSettings(boolean isMultiLingual, String defaultLanguage, List<String> supportedLanguages)
+    {
         AdministrationPage adminPage = AdministrationPage.gotoPage();
         LocalizationAdministrationSectionPage sectionPage = adminPage.clickLocalizationSection();
         sectionPage.setMultiLingual(isMultiLingual);
-        sectionPage.setDefaultLanguage(defaultLanguage);
+        if (defaultLanguage != null) {
+            sectionPage.setDefaultLanguage(defaultLanguage);
+        }
+        if (supportedLanguages != null) {
+            sectionPage.setSupportedLanguages(supportedLanguages);
+        }
         sectionPage.clickSave();
     }
 }

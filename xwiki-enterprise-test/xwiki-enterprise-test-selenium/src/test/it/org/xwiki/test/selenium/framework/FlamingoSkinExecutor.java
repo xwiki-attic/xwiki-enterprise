@@ -69,11 +69,8 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     @Override
     public boolean isAuthenticationMenuPresent()
     {
-        openDrawer();
-        boolean isAuthenticationMenuPresent = getTest().isElementPresentWithoutWaiting(By.xpath("//a[@id = 'tmLogin']"))
-                    || getTest().isElementPresentWithoutWaiting(By.xpath("//a[@id = 'tmLogout']"));
-        closeDrawer();
-        return isAuthenticationMenuPresent;
+        return getTest().isElementPresentWithoutWaiting(By.xpath("//a[@id = 'tmLogin']"))
+            || getTest().isElementPresentWithoutWaiting(By.xpath("//a[@id = 'tmLogout']"));
     }
 
     @Override

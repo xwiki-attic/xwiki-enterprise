@@ -24,8 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.collections.SetUtils;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -55,21 +55,19 @@ public class LanguageTest extends AbstractTest
     public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
-     * Ensure the default language is English and that the wiki is in monolingual mode
-     * 
-     * @throws Exception
+     * Make sure we set back the language to monolingual and english for other tests that come thereafter
      */
-    @Before
-    public void setUp() throws Exception
+    @AfterClass
+    public void afterClass()
     {
         setLanguageSettings(false, "en");
     }
 
     /**
-     * Make sure we set back the language to monolingual and english for other tests that come thereafter
+     * Ensure the default language is English and that the wiki is in monolingual mode
      */
-    @After
-    public void tearDown()
+    @Before
+    public void before() throws Exception
     {
         setLanguageSettings(false, "en");
     }

@@ -120,6 +120,8 @@
         <exclude name="data"/>
         <exclude name="data/**/*"/>
       </fileset>
+      <!-- META-INF files (extension.xed, NOTICE, etc.) -->
+      <fileset dir="${project.build.outputDirectory}/META-INF/" targetdir="$INSTALL_PATH/META-INF/" override="true"/>
       <!-- Replace xwikiDataDir variables in Jetty start shell scripts -->
       <parsable targetfile="$INSTALL_PATH/start_xwiki.sh"/>
       <parsable targetfile="$INSTALL_PATH/start_xwiki_debug.sh"/>

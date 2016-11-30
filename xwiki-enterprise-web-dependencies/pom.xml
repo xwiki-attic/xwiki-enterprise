@@ -388,11 +388,11 @@
       <exclusions>
         <exclusion>
           <groupId>org.xwiki.contrib</groupId>
-          <artifactId>application-ckeditor-ui</artifactId>
+          <artifactId>*</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>org.xwiki.contrib</groupId>
-          <artifactId>application-tour-ui</artifactId>
+          <groupId>org.xwiki.contrib.*</groupId>
+          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -405,11 +405,11 @@
       <exclusions>
         <exclusion>
           <groupId>org.xwiki.contrib</groupId>
-          <artifactId>application-ckeditor-ui</artifactId>
+          <artifactId>*</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>org.xwiki.contrib</groupId>
-          <artifactId>application-tour-ui</artifactId>
+          <groupId>org.xwiki.contrib.*</groupId>
+          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

@@ -32,7 +32,7 @@
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Data - Parent POM</description>
   <dependencies>
-    <!-- Put xwiki-enterprise-ui-admin-user first so that it's imported last. See https://jira.xwiki.org/browse/XWIKI-13147. -->
+    <!-- Make sure to build those before data module -->
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
@@ -45,6 +45,13 @@
       <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-web</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -142,8 +149,34 @@
             <execution>
               <phase>prepare-package</phase>
               <goals>
-                <goal>import</goal>
+                <goal>data</goal>
               </goals>
+              <configuration>
+                <includes>
+                  <!-- Put xwiki-enterprise-ui-admin-user first so that it's imported last. See https://jira.xwiki.org/browse/XWIKI-13147. -->
+                  <include>
+                    <groupId>org.xwiki.enterprise</groupId>
+                    <artifactId>xwiki-enterprise-ui-admin-user</artifactId>
+                    <version>${project.version}</version>
+                    <type>xar</type>
+                  </include>
+                  <include>
+                    <groupId>org.xwiki.enterprise</groupId>
+                    <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
+                    <version>${project.version}</version>
+                    <type>xar</type>
+                  </include>
+                </includes>
+                <excludes>
+                  <!-- We exclude what is already in the WAR -->
+                  <exclude>
+                    <groupId>org.xwiki.enterprise</groupId>
+                    <artifactId>xwiki-enterprise-web</artifactId>
+                    <version>${project.version}</version>
+                    <type>pom</type>
+                  </exclude>
+                </excludes>
+              </configuration>
             </execution>
           </executions>
         </plugin>

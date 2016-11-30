@@ -808,12 +808,34 @@ If you wish to have the default wiki pages, which contain both content pages and
       <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
+      <!-- We don't want to embed contrib extensions to allow upgrading them as extensions -->
+      <exclusions>
+        <exclusion>
+          <groupId>org.xwiki.contrib</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.contrib.*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-wiki</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
+      <!-- We don't want to embed contrib extensions to allow upgrading them as extensions -->
+      <exclusions>
+        <exclusion>
+          <groupId>org.xwiki.contrib</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.contrib.*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Support Let's Encrypt certificate authority on JVM older than Oracle JRE 1.8.0_101 -->

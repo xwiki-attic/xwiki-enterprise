@@ -80,16 +80,15 @@
         </exclusion>
 
         <!-- We don't want to embed contrib extensions to allow upgrading them as extensions -->
-        <exclusions>
-          <exclusion>
-            <groupId>org.xwiki.contrib</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.xwiki.contrib.*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
+        <exclusion>
+          <groupId>org.xwiki.contrib</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+         <groupId>org.xwiki.contrib.*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 </project>

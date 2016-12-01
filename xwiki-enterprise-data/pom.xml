@@ -31,6 +31,10 @@
   <name>XWiki Enterprise - Data - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Data - Parent POM</description>
+  <properties>
+    <!-- Depending how XE is built xwiki-enterprise-web might trigger some legacy dependencies -->
+    <xwiki.enforcer.no-legacy-dependencies.skip>true</xwiki.enforcer.no-legacy-dependencies.skip>
+  </properties>
   <dependencies>
     <!-- Make sure to build those before data module -->
     <dependency>

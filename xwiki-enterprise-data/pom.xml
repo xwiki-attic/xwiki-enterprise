@@ -49,7 +49,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-web</artifactId>
+      <artifactId>xwiki-enterprise-web-dependencies</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
       <scope>provided</scope>
@@ -171,7 +171,7 @@
                   <!-- We exclude what is already in the WAR -->
                   <exclude>
                     <groupId>org.xwiki.enterprise</groupId>
-                    <artifactId>xwiki-enterprise-web</artifactId>
+                    <artifactId>xwiki-enterprise-web-dependencies</artifactId>
                     <version>${project.version}</version>
                     <type>pom</type>
                   </exclude>

@@ -78,16 +78,6 @@
           <groupId>org.xwiki.platform</groupId>
           <artifactId>xwiki-platform-rendering-macro-include</artifactId>
         </exclusion>
-
-        <!-- We don't want to embed contrib extensions to allow upgrading them as extensions -->
-        <exclusion>
-          <groupId>org.xwiki.contrib</groupId>
-          <artifactId>application-tour-ui</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.contrib</groupId>
-          <artifactId>application-ckeditor-ui</artifactId>
-        </exclusion>
       </exclusions>
     </dependency>
   </dependencies>

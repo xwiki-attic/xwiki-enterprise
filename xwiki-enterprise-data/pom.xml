@@ -31,10 +31,6 @@
   <name>XWiki Enterprise - Data - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Data - Parent POM</description>
-  <properties>
-    <!-- Depending how XE is built xwiki-enterprise-web might trigger some legacy dependencies -->
-    <xwiki.enforcer.no-legacy-dependencies.skip>true</xwiki.enforcer.no-legacy-dependencies.skip>
-  </properties>
   <dependencies>
     <!-- Make sure to build those before data module -->
     <dependency>
@@ -204,6 +200,32 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <!-- Depending how XE is built xwiki-enterprise-web might trigger some legacy dependencies -->
+          <execution>
+            <id>enforce-no-legacy-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <xwikiBannedDependencies implementation="org.xwiki.tool.enforcer.XWikiBannedDependencies">
+                  <searchTransitive>true</searchTransitive>
+                  <excludes>
+                    <!-- Override the value from the top level POM with a value that'll not ban any dependency -->
+                    <exclude>alwaysok</exclude>
+                  </excludes>
+                </xwikiBannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
   <profiles>
     <profile>

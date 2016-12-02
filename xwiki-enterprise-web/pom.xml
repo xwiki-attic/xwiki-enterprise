@@ -812,11 +812,11 @@ If you wish to have the default wiki pages, which contain both content pages and
       <exclusions>
         <exclusion>
           <groupId>org.xwiki.contrib</groupId>
-          <artifactId>*</artifactId>
+          <artifactId>application-tour-ui</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>org.xwiki.contrib.*</groupId>
-          <artifactId>*</artifactId>
+          <groupId>org.xwiki.contrib</groupId>
+          <artifactId>application-ckeditor-ui</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -829,11 +829,11 @@ If you wish to have the default wiki pages, which contain both content pages and
       <exclusions>
         <exclusion>
           <groupId>org.xwiki.contrib</groupId>
-          <artifactId>*</artifactId>
+          <artifactId>application-tour-ui</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>org.xwiki.contrib.*</groupId>
-          <artifactId>*</artifactId>
+          <groupId>org.xwiki.contrib</groupId>
+          <artifactId>application-ckeditor-ui</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

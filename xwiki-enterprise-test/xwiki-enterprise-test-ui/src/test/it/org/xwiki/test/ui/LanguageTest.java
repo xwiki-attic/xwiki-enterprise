@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -58,7 +57,7 @@ public class LanguageTest extends AbstractTest
      * Make sure we set back the language to monolingual and english for other tests that come thereafter
      */
     @AfterClass
-    public void afterClass()
+    public static void afterClass()
     {
         setLanguageSettings(false, "en");
     }
@@ -222,12 +221,13 @@ public class LanguageTest extends AbstractTest
             .contains("modifié par");
     }
 
-    private void setLanguageSettings(boolean isMultiLingual, String defaultLanguage)
+    private static void setLanguageSettings(boolean isMultiLingual, String defaultLanguage)
     {
         setLanguageSettings(isMultiLingual, defaultLanguage, null);
     }
 
-    private void setLanguageSettings(boolean isMultiLingual, String defaultLanguage, List<String> supportedLanguages)
+    private static void setLanguageSettings(boolean isMultiLingual, String defaultLanguage,
+        List<String> supportedLanguages)
     {
         AdministrationPage adminPage = AdministrationPage.gotoPage();
         LocalizationAdministrationSectionPage sectionPage = adminPage.clickLocalizationSection();

@@ -1419,6 +1419,17 @@ If you wish to have the default wiki pages, which contain both content pages and
               <skip>true</skip>
             </configuration>
           </plugin>
+          <plugin>
+            <groupId>org.xwiki.commons</groupId>
+            <artifactId>xwiki-commons-tool-extension-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.atlassian.clover</groupId>
+                <artifactId>clover</artifactId>
+                <version>${clover.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
         </plugins>
       </build>
     </profile>

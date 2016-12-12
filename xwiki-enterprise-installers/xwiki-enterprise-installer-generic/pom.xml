@@ -113,9 +113,6 @@
             </goals>
             <configuration>
               <outputDirectory>${project.build.directory}/izpack</outputDirectory>
-              <!-- FIXME: "Disable escape string waiting for https://issues.apache.org/jira/browse/MRESOURCES-230 -->
-              <!-- TODO: Remove escapeString property when 3.0.2 is available (escaping is back to disabled by default) -->
-              <escapeString>§</escapeString>
               <resources>
                 <!-- Copy install.xml -->
                 <resource>

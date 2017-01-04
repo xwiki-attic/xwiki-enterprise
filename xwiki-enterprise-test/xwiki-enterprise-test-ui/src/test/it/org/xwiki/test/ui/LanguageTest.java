@@ -59,7 +59,7 @@ public class LanguageTest extends AbstractTest
     @AfterClass
     public static void afterClass()
     {
-        setLanguageSettings(false, "en");
+        reset();
     }
 
     /**
@@ -68,7 +68,15 @@ public class LanguageTest extends AbstractTest
     @Before
     public void before() throws Exception
     {
+        reset();
+    }
+
+    private static void reset()
+    {
+        // Reset default language configuration
         setLanguageSettings(false, "en");
+        // Reset current language
+        getDriver().manage().deleteCookieNamed("language");
     }
 
     @Test
@@ -122,8 +130,7 @@ public class LanguageTest extends AbstractTest
     {
         setLanguageSettings(true, "en");
 
-        // if we don't use language=default, the value stored in cookies is used, which might be wrong
-        getUtil().gotoPage("Main", "Test", "view", "language=default");
+        getUtil().gotoPage("Main", "Test", "view");
         checkLanguageTagsArePresent("en");
 
         getUtil().gotoPage("Main", "Test", "view", "language=fr");

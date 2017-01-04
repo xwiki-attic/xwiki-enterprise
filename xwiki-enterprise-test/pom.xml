@@ -319,16 +319,6 @@
       </plugins>
     </pluginManagement>
   </build>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.codehaus.plexus</groupId>
-        <artifactId>plexus-utils</artifactId>
-        <version>1.5.15</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <properties>
     <!-- This is to allow users to override this property on the command line to choose what
       test to run. For example to run only the DeletePageTest#testDeletePageCanDoRedirect()

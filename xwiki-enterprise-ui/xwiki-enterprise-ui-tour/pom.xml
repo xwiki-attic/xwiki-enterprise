@@ -31,6 +31,24 @@
   <name>XWiki Enterprise - UI - Tour</name>
   <packaging>xar</packaging>
   <description>Contains default set of wiki tour pages.</description>
+
+  <!-- Make sure we trigger the right dependencies versions -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-appwithinminutes-ui</artifactId>
+        <type>xar</type>
+        <version>${platform.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-security-script</artifactId>
+        <version>${platform.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.xwiki.contrib</groupId>

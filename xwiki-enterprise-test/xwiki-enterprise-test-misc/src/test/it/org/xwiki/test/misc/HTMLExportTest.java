@@ -68,7 +68,7 @@ public class HTMLExportTest extends TestCase
         // We must read the full stream as otherwise if we close it before we've fully read it
         // then the server side will get a broken pipe since it's still trying to send data on it.
         for (ZipEntry entry; (entry = zis.getNextEntry()) != null; zis.closeEntry()) {
-            if (entry.getName().equals("xwiki.Main.WebHome.html")) {
+            if (entry.getName().equals("pages/xwiki/Main/WebHome.html")) {
                 String content = IOUtils.toString(zis);
 
                 // Verify that the content was rendered properly
@@ -108,7 +108,7 @@ public class HTMLExportTest extends TestCase
             }
         }
 
-        assertTrue("Failed to find the xwiki.Main.WebHome.html entry", foundWebHome);
+        assertTrue("Failed to find the pages/xwiki/Main/WebHome.html entry", foundWebHome);
         assertTrue("Failed to find the resources/ directory entry", foundResourcesDirectory);
         assertTrue("Failed to find the skins/ directory entry", foundSkinsDirectory);
         assertTrue("Failed to find the link to colibri.css in style.css", foundSkinCSS);

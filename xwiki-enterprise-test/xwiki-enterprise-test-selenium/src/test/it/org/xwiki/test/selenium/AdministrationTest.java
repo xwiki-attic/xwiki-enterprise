@@ -23,9 +23,12 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.xwiki.model.reference.LocalDocumentReference;
+import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
+import org.xwiki.test.ui.TestUtils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Verify the overall Administration application features.
@@ -409,7 +412,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
      * If XWiki.ConfigurableClass is saved with programming rights, it should resave itself so that it doesn't have them.
      */
     @Test
-    public void testCodeToExecutionAndAutoSandboxing()
+    public void testCodeToExecutionAndAutoSandboxing() throws Exception
     {
         String space = "Main";
         String page = "TestConfigurable";
@@ -428,16 +431,14 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("XWiki.ConfigurableClass_0_configurationClass", "");
         clickEditSaveAndView();
 
-        // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
-        open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
-
+        Page restPage = getUtil().rest().get(new LocalDocumentReference("XWiki", "ConfigurableClass"));
+        String standardContent = restPage.getContent();
         try {
-            // Since we modify ConfigurableClass, we must modify it back after to prevent polluting further tests.
-            // See http://code.google.com/p/selenium/issues/detail?id=2876 .
-            getDriver().findElement(By.id("content")).sendKeys(Keys.chord(Keys.CONTROL, "a"),
-                Keys.chord(Keys.CONTROL, "c"), Keys.ARROW_RIGHT,
-                "{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
-            clickEditSaveAndContinue();
+            // Modify content
+            restPage.setContent(standardContent + "\n\n{{velocity}}Has Programming permission: $xcontext.hasProgrammingRights(){{/velocity}}");
+            // Our admin will foolishly save XWiki.ConfigurableClass, giving it programming rights.
+            getUtil().setDefaultCredentials(TestUtils.ADMIN_CREDENTIALS);
+            getUtil().rest().save(restPage);
 
             // Now we look at the section for our configurable.
             open("XWiki", "ConfigurableClass", "view", "editor=globaladmin&section=TestSection6");
@@ -449,10 +450,10 @@ public class AdministrationTest extends AbstractXWikiTestCase
             // Make sure javascript has not added a Save button.
             assertElementNotPresent("//div/div/p/span/input[@type='submit'][@value='Save']");
         } finally {
-            open("XWiki", "ConfigurableClass", "edit", "editor=wiki");
-            getDriver().findElement(By.id("content")).sendKeys(Keys.chord(Keys.CONTROL, "a"),
-                Keys.chord(Keys.CONTROL, "v"));
-            clickEditSaveAndContinue();
+            // Restore initial content
+            restPage.setContent(standardContent);
+            // Save
+            getUtil().rest().save(restPage);
         }
     }
 

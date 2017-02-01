@@ -72,14 +72,15 @@
 
     <!-- xwiki.cfg configuration -->
     <!-- Default plugin list -->
-    <xe.xwiki.cfg.plugins>${platform.xwiki.cfg.plugins.default},\
+    <xe.xwiki.cfg.plugins.default>${platform.xwiki.cfg.plugins.default},\
   com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin
-    </xe.xwiki.cfg.plugins>
+    </xe.xwiki.cfg.plugins.default>
     <!-- Legacy plugin list -->
     <xe.xwiki.cfg.plugins.legacy>${platform.xwiki.cfg.plugins.legacy},\
   com.xpn.xwiki.plugin.zipexplorer.ZipExplorerPlugin
     </xe.xwiki.cfg.plugins.legacy>
-    <xwiki.cfg.plugins>${xe.xwiki.cfg.plugins.default}</xwiki.cfg.plugins>
+    <xwiki.cfg.plugins.default>${xe.xwiki.cfg.plugins.default}</xwiki.cfg.plugins.default>
+    <xwiki.cfg.plugins.legacy>${xe.xwiki.cfg.plugins.legacy}</xwiki.cfg.plugins.legacy>
 
     <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.ui.wiki.all.features>
@@ -173,6 +174,13 @@
     </plugins>
   </build>
   <profiles>
+    <profile>
+      <id>legacy</id>
+      <properties>
+        <!-- Set legacy dependencies -->
+        <war.dependencies.artifactId>xwiki-enterprise-web-legacydependencies</war.dependencies.artifactId>
+      </properties>
+    </profile>
     <profile>
       <id>integration-tests</id>
       <modules>

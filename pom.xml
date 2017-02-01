@@ -60,7 +60,9 @@
 
     <!-- The default UI -->
     <xwiki.extension.distribution.ui>org.xwiki.enterprise:xwiki-enterprise-ui-mainwiki</xwiki.extension.distribution.ui>
+    <xwiki.extension.distribution.ui.version>${enterprise.version}</xwiki.extension.distribution.ui.version>
     <xwiki.extension.distribution.wikiui>org.xwiki.enterprise:xwiki-enterprise-ui-wiki</xwiki.extension.distribution.wikiui>
+    <xwiki.extension.distribution.wikiui.version>${enterprise.version}</xwiki.extension.distribution.wikiui.version>
 
     <!-- xwiki.cfg configuration -->
     <!-- Defined as a property so that products extending XE can reuse this list -->

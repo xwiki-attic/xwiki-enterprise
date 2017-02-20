@@ -48,8 +48,6 @@ If you wish to have the default wiki pages, which contain both content pages and
         org.xwiki.manager:xwiki-manager-web,
         com.xpn.xwiki.products:xwiki-enterprise-manager-web
     </xwiki.extension.features>
-
-    <war.dependencies.artifactId>xwiki-enterprise-web-dependencies</war.dependencies.artifactId>
   </properties>
   <dependencies>
    <dependency>

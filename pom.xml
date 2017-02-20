@@ -84,6 +84,9 @@
     <xwiki.cfg.plugins.default>${xe.xwiki.cfg.plugins.default}</xwiki.cfg.plugins.default>
     <xwiki.cfg.plugins.legacy>${xe.xwiki.cfg.plugins.legacy}</xwiki.cfg.plugins.legacy>
 
+    <!-- Module holding all WAR dependencies -->
+    <war.dependencies.artifactId>xwiki-enterprise-web-dependencies</war.dependencies.artifactId>
+
     <!-- Defined as a property so that products extending XE can reuse this list -->
     <xe.ui.wiki.all.features>
       <!-- Embedded extensions -->

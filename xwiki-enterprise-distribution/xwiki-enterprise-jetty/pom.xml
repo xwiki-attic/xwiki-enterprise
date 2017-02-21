@@ -33,9 +33,6 @@
   <description>XWiki Enterprise - Distribution - Jetty</description>
   <properties>
     <xwiki.extension.features>xwiki, xwiki-enterprise</xwiki.extension.features>
-
-    <!-- Default is HSQLDB -->
-    <enterprise.jetty.database.module>xwiki-enterprise-jetty-hsqldb</enterprise.jetty.database.module>
   </properties>
   <dependencies>
     <dependency>
@@ -116,27 +113,35 @@
       </plugin>
     </plugins>
   </build>
-  <modules>
-    <module>${enterprise.jetty.database.module}</module>
-  </modules>
   <profiles>
     <profile>
+      <id>hsqldb</id>
+      <!-- Activate this profile by default. Note that it you wish to run with another profile you'll need to explicitly
+           add this profile -->
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>xwiki-enterprise-jetty-hsqldb</module>
+      </modules>
+    </profile>
+    <profile>
       <id>derby</id>
-      <properties>
-        <enterprise.jetty.database.module>xwiki-enterprise-jetty-derby</enterprise.jetty.database.module>
-      </properties>
+      <modules>
+        <module>xwiki-enterprise-jetty-derby</module>
+      </modules>
     </profile>
     <profile>
       <id>pgsql</id>
-      <properties>
-        <enterprise.jetty.database.module>xwiki-enterprise-jetty-pgsql</enterprise.jetty.database.module>
-      </properties>
+      <modules>
+        <module>xwiki-enterprise-jetty-pgsql</module>
+      </modules>
     </profile>
     <profile>
       <id>mysql</id>
-      <properties>
-        <enterprise.jetty.database.module>xwiki-enterprise-jetty-mysql</enterprise.jetty.database.module>
-      </properties>
+      <modules>
+        <module>xwiki-enterprise-jetty-mysql</module>
+      </modules>
     </profile>
     <profile>
       <id>clover</id>

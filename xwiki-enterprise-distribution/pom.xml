@@ -31,21 +31,27 @@
   <name>XWiki Enterprise - Distribution - Parent POM</name>
   <packaging>pom</packaging>
   <description>XWiki Enterprise - Distribution - Parent POM</description>
-  <properties>
-    <!-- Default application server is Jetty -->
-    <enterprise.appserver.module>xwiki-enterprise-jetty</enterprise.appserver.module>
-  </properties>
   <modules>
     <module>xwiki-enterprise-ui-wiki-all</module>
     <module>xwiki-enterprise-ui-mainwiki-all</module>
-    <module>${enterprise.appserver.module}</module>
   </modules>
   <profiles>
     <profile>
+      <id>jetty</id>
+      <!-- Activate this profile by default. Note that it you wish to run with another profile you'll need to explicitly
+           add this profile -->
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>xwiki-enterprise-jetty</module>
+      </modules>
+    </profile>
+    <profile>
       <id>glassfish</id>
-      <properties>
-        <enterprise.appserver.module>xwiki-enterprise-glassfish</enterprise.appserver.module>
-      </properties>
+      <modules>
+        <module>xwiki-enterprise-glassfish</module>
+      </modules>
     </profile>
   </profiles>
 </project>

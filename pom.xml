@@ -23,11 +23,11 @@
   <parent>
     <groupId>org.xwiki.platform</groupId>
     <artifactId>xwiki-platform-distribution</artifactId>
-    <version>9.1.1</version>
+    <version>9.1.2-SNAPSHOT</version>
     <!-- Note: Do not modify the <relativePath> tag here as this can cause issues. See the pom.xml for xwiki-platform
          for more details. By using an empty value we force Maven to resolve the parent from the Maven repositories,
          see http://maven.apache.org/ref/3.2.3/maven-model/maven.html#class_parent -->
-    <relativePath />
+    <relativePath/>
   </parent>
   <groupId>org.xwiki.enterprise</groupId>
   <artifactId>xwiki-enterprise</artifactId>

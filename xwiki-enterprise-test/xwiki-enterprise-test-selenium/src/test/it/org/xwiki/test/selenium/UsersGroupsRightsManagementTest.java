@@ -20,6 +20,7 @@
 package org.xwiki.test.selenium;
 
 import org.junit.Test;
+import org.xwiki.administration.test.po.AdministrationMenu;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 
 import static org.junit.Assert.*;
@@ -31,6 +32,8 @@ import static org.junit.Assert.*;
  */
 public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
 {
+    private AdministrationMenu administrationMenu = new AdministrationMenu();
+
     /**
      * <ul>
      * <li>Validate group creation.</li>
@@ -80,7 +83,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         open("XWiki", "testCreateGroupWhenGroupAlreadyExists", "edit", "editor=wiki");
         clickEditSaveAndView();
         openGroupsPage();
-        clickLinkWithText("Add new group", false);
+        clickLinkWithText("Add group", false);
         waitForLightbox("Create new group".toUpperCase());
         setFieldValue("newgroupi", "testCreateGroupWhenGroupAlreadyExists");
         getSelenium().click("//input[@value='Create group']");
@@ -261,7 +264,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     private void createGroup(String groupname)
     {
         openGroupsPage();
-        clickLinkWithText("Add new group", false);
+        clickLinkWithText("Add group", false);
         waitForLightbox("Create new group".toUpperCase());
         setFieldValue("newgroupi", groupname);
         clickLinkWithXPath("//input[@value='Create group']", true);
@@ -293,7 +296,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     private void createUser(String login, String pwd, String fname, String lname)
     {
         openUsersPage();
-        clickLinkWithText("Add new user", false);
+        clickLinkWithText("Add user", false);
         waitForElement("//input[@id='register_first_name']");
         setFieldValue("register_first_name", fname);
         setFieldValue("register_last_name", lname);
@@ -357,13 +360,15 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
     private void openGlobalRightsPage()
     {
         openAdministrationPage();
-        clickLinkWithText("Rights");
+        administrationMenu.expandCategoryWithName("Users & Rights").getSectionByName("Users & Rights", "Rights")
+            .click();
     }
 
     private void openGroupsPage()
     {
         openAdministrationPage();
-        clickLinkWithText("Groups");
+        administrationMenu.expandCategoryWithName("Users & Rights").getSectionByName("Users & Rights", "Groups")
+            .click();
         waitForLiveTable("groupstable");
     }
 
@@ -373,7 +378,7 @@ public class UsersGroupsRightsManagementTest extends AbstractXWikiTestCase
         // open("XWiki", "XWikiUsers", "admin", "editor=users")
         // However we haven't done it since we also want to verify that clicking on the "Users" tab works.
         openAdministrationPage();
-        clickLinkWithText("Users");
+        administrationMenu.expandCategoryWithName("Users & Rights").getSectionByName("Users & Rights", "Users").click();
         waitForLiveTable("userstable");
     }
 

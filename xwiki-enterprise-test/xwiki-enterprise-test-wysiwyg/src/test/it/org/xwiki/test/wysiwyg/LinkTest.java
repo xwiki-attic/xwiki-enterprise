@@ -850,7 +850,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         String attachment = "users.png";
 
         // Get an error from not inserting the attachment name.
-        explorer.waitForIt().findAndSelectPage(attachPage);
+        explorer.waitForIt().findAndSelectPage("Administration");
 
         clickButtonWithText(BUTTON_SELECT);
 
@@ -1053,7 +1053,7 @@ public class LinkTest extends AbstractWysiwygTestCase
         clickTab(ALL_PAGES_TAB);
         waitForStepToLoad(STEP_EXPLORER);
 
-        explorer.waitForPageSelected(currentSpace, currentPage).findAndSelectPage(newPage);
+        explorer.waitForPageSelected(currentSpace, currentPage).findAndSelectPage("Administration");
         closeDialog();
         waitForDialogToClose();
 

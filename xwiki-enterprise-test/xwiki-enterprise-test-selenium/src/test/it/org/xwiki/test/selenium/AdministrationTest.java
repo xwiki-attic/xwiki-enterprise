@@ -21,14 +21,14 @@ package org.xwiki.test.selenium;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.xwiki.administration.test.po.AdministrationMenu;
 import org.xwiki.model.reference.LocalDocumentReference;
 import org.xwiki.rest.model.jaxb.Page;
 import org.xwiki.test.selenium.framework.AbstractXWikiTestCase;
 import org.xwiki.test.ui.TestUtils;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Verify the overall Administration application features.
@@ -37,33 +37,37 @@ import static org.junit.Assert.assertTrue;
  */
 public class AdministrationTest extends AbstractXWikiTestCase
 {
-    /*
+    private AdministrationMenu administrationMenu = new AdministrationMenu();
+
+    /**
      * Test to see an application page is included only if that application exists
      */
     @Test
     public void testApplicationSection()
     {
-        // Delete the Blog.Categories page and test it's not present in the admin global menu anymore
+        clickAdministerWiki();
+        assertTrue(administrationMenu.hasSectionWithId("Search"));
+        // Delete the Search administration page and test it's not present in the global administration menu anymore.
         deletePage("XWiki", "SearchAdmin");
         clickAdministerWiki();
-        assertElementNotPresent("//*[contains(@class, 'admin-menu')]//a[contains(@href, 'section=Search')]");
+        assertTrue(administrationMenu.hasNotSectionWithId("Search"));
         restorePage("XWiki", "SearchAdmin");
     }
 
-    /*
+    /**
      * Test modifying XWiki.XWikiPreferences multi-language field and save it.
      */
     @Test
     public void testSettingXWikiPreferences()
     {
         clickAdministerWiki();
-        clickLinkWithXPath("//a[text()='Localization']", true);
+        administrationMenu.expandCategoryWithId("content").getSectionById("Localization").click();
         getSelenium().select("//select[@name='XWiki.XWikiPreferences_0_multilingual']", "label=Yes");
         clickLinkWithXPath("//input[@value='Save']", true);
         assertElementPresent("//a[@id='tmLanguages']");
     }
 
-    /*
+    /**
      * Test adding a new category in Blog Categories
      */
     /* Disabled until the new blog can insert its own administration page.
@@ -86,7 +90,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertTextPresent("New Category");               
     }*/
 
-    /*
+    /**
      * Test Panel Wizard
      */
     @Test
@@ -95,7 +99,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         open("XWiki", "XWikiPreferences", "admin");
 
         // test panel wizard at global level
-        clickLinkWithLocator("//a[text()='Panel Wizard']");
+        administrationMenu.expandCategoryWithName("Look & Feel").getSectionByName("Look & Feel", "Panels").click();
         waitForBodyContains("Page Layout");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForElement("//div[@id = 'rightcolumn']");
@@ -104,7 +108,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("rightPanels"));
         assertElementPresent("//div[@id = 'rightPanels']/div[contains(@class, 'CategoriesPanel')]");
-        clickLinkWithXPath("//button[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[normalize-space() = 'Save']", false);
         waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("Main", "WebHome");
         assertElementNotPresent("leftPanels");
@@ -113,7 +117,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
         // Revert changes
         open("XWiki", "XWikiPreferences", "admin");
-        clickLinkWithLocator("//a[text()='Panel Wizard']");
+        administrationMenu.expandCategoryWithName("Look & Feel").getSectionByName("Look & Feel", "Panels").click();
         waitForBodyContains("Page Layout");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='bothcolumns']\")!=false;");
@@ -123,7 +127,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         dragAndDrop(By.xpath("//div[@id='rightPanels']//div[contains(@class, 'CategoriesPanel')]//h1"),
             By.xpath("//div[@id='allviewpanels']//div[@class='accordionTabContentBox']"));
         assertElementNotPresent("//div[@id = 'rightPanels']//div[contains(@class, 'CategoriesPanel')]");
-        clickLinkWithXPath("//button[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[normalize-space() = 'Save']", false);
         waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("Main", "WebHome");
         assertElementPresent("leftPanels");
@@ -135,7 +139,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         setFieldValue("content", "aaa");
         clickEditSaveAndView();
         open("TestPanelsAdmin", "WebPreferences", "admin");
-        clickLinkWithLocator("//a[text()='Panel Wizard']");
+        administrationMenu.expandCategoryWithName("Look & Feel").getSectionByName("Look & Feel", "Panels").click();
         waitForBodyContains("Page Layout");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='leftcolumn']\")!=false;");
@@ -143,7 +147,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         waitForBodyContains("Panel List");
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']//h1"), By.id("leftPanels"));
-        clickLinkWithXPath("//button[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[normalize-space() = 'Save']", false);
         waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("TestPanelsAdmin", "WebHome");
         assertElementPresent("leftPanels");
@@ -153,7 +157,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
         assertElementNotPresent("//div[@id = 'leftPanels']//div[contains(@class, 'CategoriesPanel')]");
     }
 
-    /*
+    /**
      * Test add configurable application to existing section.
      *
      * This test depends on the "Presentation" section existing.
@@ -200,13 +204,12 @@ public class AdministrationTest extends AbstractXWikiTestCase
         createConfigurableApplication("Main", "TestConfigurable", section, true);
         // Check it's available in global section.
         clickAdministerWiki();
-        waitForElement(getAdminMenuItemLocator(section));
-        clickLinkWithText(section);
+        administrationMenu.expandCategoryWithId("other").getSectionById(section).click();
         assertConfigurationPresent("Main", "TestConfigurable");
         // Check that it's not available in space section.
         open("Main", "WebPreferences", "admin");
         // Assert there is no menu item in the administration menu for our configurable application.
-        assertElementNotPresent(getAdminMenuItemLocator(section));
+        assertTrue(administrationMenu.hasNotSectionWithId(section));
     }
 
     /**
@@ -555,14 +558,6 @@ public class AdministrationTest extends AbstractXWikiTestCase
         submit("//input[@type='submit']"); // there are no other buttons
         assertTextPresent("No account is registered using this email address");
         assertTextNotPresent("Error");
-    }
-
-    /**
-     * @return an XPath to locate the item with the specified label in the administration vertical menu
-     */
-    public String getAdminMenuItemLocator(String label)
-    {
-        return "//*[contains(@class, 'admin-menu')]//a[. = '" + label + "']";
     }
 
     /*

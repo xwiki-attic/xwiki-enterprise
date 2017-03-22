@@ -103,7 +103,7 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
         dragAndDrop(By.xpath("//div[@class='panel expanded QuickLinks']"), By.id("leftPanels"));
         dragAndDrop(By.xpath("//div[@class='panel expanded CategoriesPanel']"), By.id("rightPanels"));
-        clickLinkWithXPath("//button[text()='Save the new layout']", false);
+        clickLinkWithXPath("//button[normalize-space() = 'Save']", false);
         waitForNotificationSuccessMessage("The layout has been saved properly.");
         open("Panels", "PanelWizard");
         waitForCondition("selenium.isElementPresent(\"//div[@class='panel expanded QuickLinks']\")!=false;");
@@ -126,13 +126,13 @@ public class PanelWizardTest extends AbstractXWikiTestCase
     @Test
     public void testButtons()
     {
-        // test button 'Go to Panels home page'
-        waitForBodyContains("Go to Panels home page");
+        // Test the 'Go to Panels' button.
+        waitForBodyContains("Go to Panels");
         assertElementPresent("//a[text()='Page Layout']");
         assertElementPresent("//a[text()='Panel List']");
-        clickLinkWithText("Go to Panels home page");
+        clickLinkWithText("Go to Panels");
 
-        // test button 'Revert'
+        // Test the Reset button.
         open("Panels", "PanelWizard");
         clickLinkWithXPath("//a[@href='#PageLayoutSection']", false);
         waitForCondition("selenium.isElementPresent(\"//div[@id='rightcolumn']\")!=false;");
@@ -141,19 +141,19 @@ public class PanelWizardTest extends AbstractXWikiTestCase
         waitForCondition("selenium.isElementPresent(\"//div[@id='nosidecolumn']\")!=false;");
         clickLinkWithXPath("//div[@id='leftcolumn']", false);
         clickLinkWithXPath("//a[@href='#PanelListSection']", false);
-        waitForCondition("selenium.isElementPresent(\"//button[text()='Revert']\")!=false;");
+        waitForCondition("selenium.isElementPresent(\"//button[text()='Reset']\")!=false;");
         dragAndDrop(By.xpath("//div[@class = 'panel expanded QuickLinks']"), By.id("leftPanels"));
         getSelenium().click("revertLayout");
 
-        // test button 'Save the new layout'
-        waitForCondition("selenium.isElementPresent(\"//a[text()='Panel Wizard']\")!=false;");
-        clickLinkWithXPath("//a[text()='Panel Wizard']", true);
+        // Test the Save button.
+        waitForCondition("selenium.isElementPresent(\"//a[text()='Panels']\")!=false;");
+        clickLinkWithXPath("//a[text()='Panels']", true);
         waitForBodyContains("Page Layout");
         waitForBodyContains("Panel List");
         assertElementPresent("//a[text()='Page Layout']");
         assertElementPresent("//a[text()='Panel List']");
-        waitForCondition("selenium.isElementPresent(\"//button[text()='Save the new layout']\")!=false;");
-        clickLinkWithXPath("//button[text()='Save the new layout']", false);
+        waitForCondition("selenium.isElementPresent(\"//button[normalize-space() = 'Save']\")!=false;");
+        clickLinkWithXPath("//button[normalize-space() = 'Save']", false);
         waitForNotificationSuccessMessage("The layout has been saved properly.");
     }
 }

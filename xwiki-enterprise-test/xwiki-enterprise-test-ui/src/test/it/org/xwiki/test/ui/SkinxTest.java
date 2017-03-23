@@ -44,7 +44,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class SkinxTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     private static final String SCRIPT = "window.document.title = 'script active';";
 

@@ -51,7 +51,7 @@ import static org.junit.Assert.assertTrue;
 public class LanguageTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     /**
      * Make sure we set back the language to monolingual and english for other tests that come thereafter

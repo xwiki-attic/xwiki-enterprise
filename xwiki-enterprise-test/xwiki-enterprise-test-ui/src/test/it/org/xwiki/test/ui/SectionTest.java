@@ -43,7 +43,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class SectionTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     private ViewPage createTestPages(String syntaxId)
     {

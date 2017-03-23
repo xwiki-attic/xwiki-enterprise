@@ -49,7 +49,7 @@ import org.xwiki.test.ui.po.editor.wysiwyg.RichTextAreaElement;
 public class DocumentFieldsTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     @Test
     public void titleAndContent()

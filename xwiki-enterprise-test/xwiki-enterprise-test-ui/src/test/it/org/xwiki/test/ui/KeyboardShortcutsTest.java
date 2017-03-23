@@ -37,7 +37,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class KeyboardShortcutsTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     @Test
     @IgnoreBrowsers({

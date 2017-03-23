@@ -43,7 +43,7 @@ import org.xwiki.test.ui.po.LiveTableElement;
 public class LiveTableEditorTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     /**
      * The page being tested.

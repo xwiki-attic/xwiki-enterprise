@@ -43,7 +43,7 @@ import org.xwiki.test.ui.po.ViewPage;
 public class CopyPageTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     private static final String PAGE_CONTENT = "This page is used for copying purposes";
 

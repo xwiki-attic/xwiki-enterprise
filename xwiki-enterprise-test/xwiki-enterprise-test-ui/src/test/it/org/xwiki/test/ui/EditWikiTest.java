@@ -40,7 +40,7 @@ import org.xwiki.test.ui.po.editor.WikiEditPage;
 public class EditWikiTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     /**
      * Page used for testing.

@@ -46,6 +46,7 @@
       org.xwiki.platform:xwiki-platform-watchlist-ui,
       org.xwiki.platform:xwiki-platform-search-solr-ui,
       org.xwiki.platform:xwiki-platform-search-ui,
+      org.xwiki.contrib.blog:application-blog-ui,
       org.xwiki.platform:xwiki-platform-office-ui,
       org.xwiki.platform:xwiki-platform-tag-ui,
       org.xwiki.platform:xwiki-platform-rendering-wikimacro-ui,
@@ -80,7 +81,8 @@
       org.xwiki.manager:xwiki-enterprise-manager-wiki-administrator,
       org.xwiki.manager:xwiki-manager-wiki-administrator,
       org.xwiki.manager:xwiki-manager-ui,
-      org.xwiki.enterprise:xwiki-enterprise-ui-all
+      org.xwiki.enterprise:xwiki-enterprise-ui-all,
+      org.xwiki.platform:xwiki-platform-blog-ui
     </xwiki.extension.features>
   </properties>
   <dependencies>

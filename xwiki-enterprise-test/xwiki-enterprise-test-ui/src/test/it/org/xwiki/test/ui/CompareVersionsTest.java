@@ -58,7 +58,7 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInA
 public class CompareVersionsTest extends AbstractTest
 {
     @Rule
-    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
+    public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(true, getUtil());
 
     /**
      * The test page.

@@ -46,7 +46,6 @@
       org.xwiki.platform:xwiki-platform-watchlist-ui,
       org.xwiki.platform:xwiki-platform-search-solr-ui,
       org.xwiki.platform:xwiki-platform-search-ui,
-      org.xwiki.platform:xwiki-platform-blog-ui,
       org.xwiki.platform:xwiki-platform-office-ui,
       org.xwiki.platform:xwiki-platform-tag-ui,
       org.xwiki.platform:xwiki-platform-rendering-wikimacro-ui,

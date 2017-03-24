@@ -66,7 +66,7 @@
       <groupId>org.xwiki.contrib.blog</groupId>
       <artifactId>application-blog-ui</artifactId>
       <version>9.3-SNAPSHOT</version>
-      <!-- The following dependencies are added explicitly to force maven to use the versions of them defined by
+      <!-- The following dependencies are excluded to force maven to use the versions for them defined by
            platform and not the versions found transitively in the blog extension -->
       <exclusions>
         <exclusion>

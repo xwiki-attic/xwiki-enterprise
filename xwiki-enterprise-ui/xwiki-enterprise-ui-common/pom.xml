@@ -172,5 +172,11 @@
       <version>1.13</version>
       <type>xar</type>
     </dependency>
+    <dependency>
+      <groupId>org.xwiki.contrib.blog</groupId>
+      <artifactId>application-blog-ui</artifactId>
+      <version>9.3-SNAPSHOT</version>
+      <type>xar</type>
+    </dependency>
   </dependencies>
 </project>

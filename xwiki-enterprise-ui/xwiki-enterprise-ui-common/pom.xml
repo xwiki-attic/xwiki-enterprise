@@ -178,5 +178,17 @@
       <version>9.3-SNAPSHOT</version>
       <type>xar</type>
     </dependency>
+    <!-- The following dependencies are added explicitly to force maven to use the versions of them defined by
+         platform and not the versios found transitively in the blog extension -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-localization-macro</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-notifications-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
   </dependencies>
 </project>

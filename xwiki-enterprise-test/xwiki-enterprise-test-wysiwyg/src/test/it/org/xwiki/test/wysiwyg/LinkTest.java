@@ -158,7 +158,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test the basic feature for adding a link to a new page in a new space.
      * 
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3511">XWIKI-3511</a>
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-3511">XWIKI-3511</a>
      */
     @Test
     public void testCreateLinkToNewPageInNewSpace()
@@ -748,7 +748,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @see <a href="http://jira.xwiki.org/browse/XWIKI-8440">XWIKI-8440: Unable to link to an attachment from the
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-8440">XWIKI-8440: Unable to link to an attachment from the
      *      current page in the WYSIWYG Editor using "All Pages" tab</a>
      */
     @Test
@@ -775,7 +775,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     }
 
     /**
-     * @see <a href="http://jira.xwiki.org/browse/XWIKI-8465">Unable to upload a new attachment using the "All pages"
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-8465">Unable to upload a new attachment using the "All pages"
      *      tab in the WYSIWYG editor</a>
      */
     @Test
@@ -929,7 +929,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that editing a link with custom parameters set from wiki syntax preserves the parameters of the link.
      * 
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3568">XWIKI-3568</a>
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-3568">XWIKI-3568</a>
      */
     @Test
     public void testEditLinkPreservesCustomParameters()
@@ -988,8 +988,8 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that quotes in link tooltips are correctly escaped.
      * 
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3569">XWIKI-3569</a>
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3569">XWIKI-3575</a>
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-3569">XWIKI-3569</a>
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-3569">XWIKI-3575</a>
      */
     @Test
     public void testQuoteInLinkTooltip()
@@ -1245,7 +1245,7 @@ public class LinkTest extends AbstractWysiwygTestCase
     /**
      * Test that a relative link is correctly edited.
      * 
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3676">XWIKI-3676</a>
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-3676">XWIKI-3676</a>
      */
     @Test
     public void testEditRelativeLink()

@@ -79,8 +79,8 @@ public class EditWikiTest extends AbstractTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See https://jira.xwiki.org/browse/XE-1177")
     })
     public void testSwitchToWysiwygWithAdvancedContent()
     {
@@ -98,7 +98,7 @@ public class EditWikiTest extends AbstractTest
      * @see XWIKI-6934: Preview action doesn't displays the page's title
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146")
     public void testPreviewDisplaysPageTitle()
     {
         String title = RandomStringUtils.randomAlphanumeric(3);

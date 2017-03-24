@@ -37,7 +37,7 @@ public class ViewTest extends AbstractTest
     public AdminAuthenticationRule adminAuthenticationRule = new AdminAuthenticationRule(getUtil());
 
     /**
-     * See also <a href="http://jira.xwiki.org/jira/browse/XWIKI-8725">XWIKI-8725</a>.
+     * See also <a href="https://jira.xwiki.org/browse/XWIKI-8725">XWIKI-8725</a>.
      */
     @Test
     public void viewPageWhenSpecialCharactersInName() throws Exception

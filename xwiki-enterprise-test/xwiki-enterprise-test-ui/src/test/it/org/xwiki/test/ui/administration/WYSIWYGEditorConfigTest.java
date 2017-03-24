@@ -59,7 +59,7 @@ public class WYSIWYGEditorConfigTest extends AbstractTest
      * @since 3.3M2
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146")
     public void testEnablePlugin()
     {
         String pluginName = RandomStringUtils.randomAlphabetic(5);

@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 /**
  * Test that the suggest service works without programming rights on {@code Main.WebHome}.
  *
- * @see <a href="http://jira.xwiki.org/browse/XE-539">XE-539</a>
+ * @see <a href="https://jira.xwiki.org/browse/XE-539">XE-539</a>
  * @version $Id$
  * @since 4.5M1
  */

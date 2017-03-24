@@ -60,7 +60,7 @@ public class RegularUserTest extends AbstractWysiwygTestCase
      * Test that creating a link to a page, logged in as a regular user, does not show technical documents in the search
      * results.
      * <p>
-     * See http://jira.xwiki.org/browse/XWIKI-4412 and http://jira.xwiki.org/browse/XWIKI-7568.
+     * See https://jira.xwiki.org/browse/XWIKI-4412 and https://jira.xwiki.org/browse/XWIKI-7568.
      */
     @Test
     public void testWikiLinkSearchedPageHidesTechnicalSpaces()

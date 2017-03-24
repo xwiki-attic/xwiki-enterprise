@@ -54,7 +54,7 @@ public class SkinxTest extends AbstractTest
         getUtil().rest().deletePage("Test", "SkinxTest");
     }
 
-    /** http://jira.xwiki.org/browse/XWIKI-7913 */
+    /** https://jira.xwiki.org/browse/XWIKI-7913 */
     @Test
     public void testJavascriptExtension()
     {

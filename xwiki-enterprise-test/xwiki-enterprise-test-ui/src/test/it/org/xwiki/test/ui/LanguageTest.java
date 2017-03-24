@@ -80,7 +80,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146")
     public void testChangeLanguageInMonolingualModeUsingTheAdministrationPreference()
     {
         WikiEditPage edit = WikiEditPage.gotoPage("Test", "LanguageTest");
@@ -107,7 +107,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146")
     public void testPassingLanguageInRequestHasNoEffectInMonoligualMode()
     {
         getUtil().gotoPage("Main", "WebHome", "view", "language=fr");
@@ -115,7 +115,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146")
     public void testChangeLanguageInMultilingualModeUsingTheLanguageRequestParameter()
     {
         setLanguageSettings(true, "en");
@@ -125,7 +125,7 @@ public class LanguageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146")
     public void testHeaderCorrectLanguage()
     {
         setLanguageSettings(true, "en");

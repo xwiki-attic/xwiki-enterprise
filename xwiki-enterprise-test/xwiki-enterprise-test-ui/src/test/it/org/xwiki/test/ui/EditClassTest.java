@@ -49,7 +49,7 @@ public class EditClassTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146")
     public void testAddProperty()
     {
         // We verify that we can click on Edit Class from View Page (we need to test this at
@@ -75,7 +75,7 @@ public class EditClassTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146")
     public void testDeleteProperty()
     {
         // Create a class with two string properties

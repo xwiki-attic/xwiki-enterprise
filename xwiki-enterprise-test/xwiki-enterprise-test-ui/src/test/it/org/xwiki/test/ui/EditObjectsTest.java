@@ -79,8 +79,8 @@ public class EditObjectsTest extends AbstractTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See https://jira.xwiki.org/browse/XE-1177")
     })
     public void testChangeMultiselectProperty()
     {
@@ -120,7 +120,7 @@ public class EditObjectsTest extends AbstractTest
      * Tests that XWIKI-2214 remains fixed.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146")
     public void testChangeNumberType()
     {
         // Create class page
@@ -177,7 +177,7 @@ public class EditObjectsTest extends AbstractTest
      * XWIKI-299 test
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146")
     public void testChangeListMultipleSelect()
     {
         // Create class page
@@ -227,7 +227,7 @@ public class EditObjectsTest extends AbstractTest
      * XWIKI-1621: Changing parameters of list properties fails
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146")
     public void testChangeListTypeRelationalStorage()
     {
         // Create class page
@@ -285,8 +285,8 @@ public class EditObjectsTest extends AbstractTest
 
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See https://jira.xwiki.org/browse/XE-1177")
     })
     public void testObjectAddAndRemove()
     {
@@ -321,7 +321,7 @@ public class EditObjectsTest extends AbstractTest
     }
 
     /**
-     * @see <a href="http://jira.xwiki.org/browse/XWIKI-9061">XWIKI-9061</a>: Property displayers don't work in the
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-9061">XWIKI-9061</a>: Property displayers don't work in the
      *      object editor for objects that have just been added
      */
     @Test

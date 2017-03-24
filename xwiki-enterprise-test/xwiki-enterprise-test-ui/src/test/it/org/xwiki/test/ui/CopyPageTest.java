@@ -57,7 +57,7 @@ public class CopyPageTest extends AbstractTest
         " already exists. Are you sure you want to overwrite it (all its content would be lost)?";
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146")
     public void testCopyPage() throws Exception
     {
         String sourceSpaceName = getTestClassName();
@@ -126,7 +126,7 @@ public class CopyPageTest extends AbstractTest
     }
 
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146")
     public void testCopyOverwritePage() throws Exception
     {
         String sourceSpaceName = getTestClassName();

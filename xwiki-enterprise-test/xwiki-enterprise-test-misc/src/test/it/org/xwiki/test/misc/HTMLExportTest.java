@@ -92,7 +92,7 @@ public class HTMLExportTest extends TestCase
                 foundSkinsDirectory = true;
                 // Verify that the skin is correctly going to be applied by verifying the flamingo/style.css file is
                 // found
-                // and is correctly referenced. This fixes http://jira.xwiki.org/browse/XWIKI-9145
+                // and is correctly referenced. This fixes https://jira.xwiki.org/browse/XWIKI-9145
                 if (entry.getName().equals("skins/flamingo/style.css")) {
                     assertSkinIsActive(IOUtils.readLines(zis));
                     foundSkinCSS = true;

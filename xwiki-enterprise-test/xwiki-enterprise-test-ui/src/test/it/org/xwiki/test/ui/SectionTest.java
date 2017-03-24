@@ -84,8 +84,8 @@ public class SectionTest extends AbstractTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See https://jira.xwiki.org/browse/XE-1177")
     })
     public void testSectionEditInWikiEditorWhenSyntax2x()
     {
@@ -128,8 +128,8 @@ public class SectionTest extends AbstractTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason="See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See https://jira.xwiki.org/browse/XE-1177")
     })
     public void testSectionSaveDoesNotOverwriteTheWholeContentWhenSyntax20()
     {
@@ -143,7 +143,7 @@ public class SectionTest extends AbstractTest
     /**
      * Verify that the document title is not overwritten when saving a section.
      * 
-     * @see <a href="http://jira.xwiki.org/browse/XWIKI-8938">XWIKI-8938: Translated title is overwritten by the default
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-8938">XWIKI-8938: Translated title is overwritten by the default
      *      translation title when editing a document section</a>
      */
     @Test

@@ -304,7 +304,7 @@ public class AdministrationTest extends AbstractXWikiTestCase
 
     /*
      * Make sure html macros and pre tags are not being stripped 
-     * @see: http://jira.xwiki.org/jira/browse/XAADMINISTRATION-141
+     * @see: https://jira.xwiki.org/browse/XAADMINISTRATION-141
      *
      * Tests: XWiki.ConfigurableClass
      */

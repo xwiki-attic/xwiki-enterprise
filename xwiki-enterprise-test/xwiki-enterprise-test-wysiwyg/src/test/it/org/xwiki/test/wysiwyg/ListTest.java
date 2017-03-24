@@ -809,7 +809,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Test that outdenting multiple list items on the first level of a list preserves distinct lines for the content of
      * the list items.
      * <p>
-     * See http://jira.xwiki.org/jira/browse/XWIKI-3921.
+     * See https://jira.xwiki.org/browse/XWIKI-3921.
      */
     @Test
     public void testOutdentFirstLevelPreservesLines()
@@ -831,7 +831,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Tests that a backspace between two list items with headings inside moves the second heading in the first list
      * item.
      * <p>
-     * See http://jira.xwiki.org/jira/browse/XWIKI-3877.
+     * See https://jira.xwiki.org/browse/XWIKI-3877.
      */
     @Test
     public void testBackspaceBetweenHeadingListItems()
@@ -854,7 +854,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * on backspace between list items, since it's not the desired behaviour for all types of elements. <br>
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      * <p>
-     * See http://jira.xwiki.org/jira/browse/XWIKI-3877.
+     * See https://jira.xwiki.org/browse/XWIKI-3877.
      */
     public void failingTestBackspaceAndDeleteToMergeHeadingListItems()
     {
@@ -877,7 +877,7 @@ public class ListTest extends AbstractWysiwygTestCase
      * Tests that a delete between two list items with headings inside moves the second heading in the first list item. <br>
      * TODO: re-activate when https://bugzilla.mozilla.org/show_bug.cgi?id=519751 will be fixed
      * 
-     * See http://jira.xwiki.org/jira/browse/XWIKI-3877.
+     * See https://jira.xwiki.org/browse/XWIKI-3877.
      */
     public void failingTestDeleteBetweenHeadingListItems()
     {

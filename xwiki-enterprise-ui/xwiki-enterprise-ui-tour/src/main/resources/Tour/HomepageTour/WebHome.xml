@@ -1370,7 +1370,7 @@ $services.localization.render('tour.homepageTour.tourComplete.contentB', ['[[', 
       <cache>long</cache>
     </property>
     <property>
-      <code>/*This code should be removed when http://jira.xwiki.org/browse/TOUR-36 is fixed*/
+      <code>/*This code should be removed when https://jira.xwiki.org/browse/TOUR-36 is fixed*/
 /* In some places, the bootstrap-tour generates some unwanted results(same color for icons and the background of their wrapper container) 
    and for now this hack will solve it. However this should be fixed ASAP in our Tour Application.
 */

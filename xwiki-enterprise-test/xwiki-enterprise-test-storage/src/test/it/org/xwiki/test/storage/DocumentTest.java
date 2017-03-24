@@ -92,7 +92,7 @@ public class DocumentTest extends AbstractTest
     }
 
     /**
-     * check that http://jira.xwiki.org/browse/XWIKI-7943 has not regressed.
+     * check that https://jira.xwiki.org/browse/XWIKI-7943 has not regressed.
      * Jetty prevents saving of large documents unless you specify max form size on the command line.
      *
      * @since 4.1.1

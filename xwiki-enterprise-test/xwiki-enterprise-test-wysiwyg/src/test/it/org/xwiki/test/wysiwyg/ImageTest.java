@@ -414,7 +414,7 @@ public class ImageTest extends AbstractWysiwygTestCase
     /**
      * Test that, upon editing an image which is the label of a link, the link is preserved.
      * <p>
-     * See http://jira.xwiki.org/jira/browse/XWIKI-3784.
+     * See https://jira.xwiki.org/browse/XWIKI-3784.
      */
     @Test
     public void testEditImageWithLink()

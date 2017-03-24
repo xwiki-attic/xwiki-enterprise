@@ -63,7 +63,7 @@ public class AddRemoveTagsTest extends AbstractTest
      * Adds and removes a tag.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")
     public void testAddRemoveTag()
     {
         String tag = RandomStringUtils.randomAlphanumeric(4);
@@ -80,7 +80,7 @@ public class AddRemoveTagsTest extends AbstractTest
      * Open the add tag panel, cancel then open again the add tag panel and add a new tag.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")
     public void testCancelAddTag()
     {
         String firstTag = RandomStringUtils.randomAlphanumeric(4);
@@ -103,8 +103,8 @@ public class AddRemoveTagsTest extends AbstractTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")})
     public void testAddManyRemoveOneTag()
     {
         String firstTag = RandomStringUtils.randomAlphanumeric(4);
@@ -127,8 +127,8 @@ public class AddRemoveTagsTest extends AbstractTest
      */
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")})
     public void testAddExistingTag()
     {
         String tag = RandomStringUtils.randomAlphanumeric(4);
@@ -148,7 +148,7 @@ public class AddRemoveTagsTest extends AbstractTest
      * Add a tag that contains the pipe character, which is used to separate stored tags.
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")
     public void testAddTagContainingPipe()
     {
         String tag = RandomStringUtils.randomAlphanumeric(3) + "|" + RandomStringUtils.randomAlphanumeric(3);
@@ -165,11 +165,11 @@ public class AddRemoveTagsTest extends AbstractTest
     }
 
     /**
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-3843">XWIKI-3843</a>: Strip leading and trailing white
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-3843">XWIKI-3843</a>: Strip leading and trailing white
      *      spaces to tags when white space is not the separator
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")
     public void testStripLeadingAndTrailingSpacesFromTags()
     {
         String firstTag = RandomStringUtils.randomAlphanumeric(4);
@@ -185,11 +185,11 @@ public class AddRemoveTagsTest extends AbstractTest
     }
 
     /**
-     * @see <a href="http://jira.xwiki.org/jira/browse/XWIKI-6549">XWIKI-6549</a>: Prevent adding new tags that are
+     * @see <a href="https://jira.xwiki.org/browse/XWIKI-6549">XWIKI-6549</a>: Prevent adding new tags that are
      *      equal ignoring case with existing tags
      */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")
     public void testTagCaseIsIgnored()
     {
         String firstTag = "taG1";
@@ -210,8 +210,8 @@ public class AddRemoveTagsTest extends AbstractTest
 
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")})
     public void addAndRenameTagFromTagPage()
     {
       String tag = "MyTag";
@@ -228,8 +228,8 @@ public class AddRemoveTagsTest extends AbstractTest
     
     @Test
     @IgnoreBrowsers({
-    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See http://jira.xwiki.org/browse/XE-1146"),
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See http://jira.xwiki.org/browse/XE-1177")})
+    @IgnoreBrowser(value = "internet.*", version = "8\\.*", reason = "See https://jira.xwiki.org/browse/XE-1146"),
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason = "See https://jira.xwiki.org/browse/XE-1177")})
     public void addAndDeleteTagFromTagPage()
     {
       String tag = "MyTagToBeDeleted";

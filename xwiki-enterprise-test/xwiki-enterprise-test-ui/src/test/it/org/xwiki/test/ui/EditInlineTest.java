@@ -86,7 +86,7 @@ public class EditInlineTest extends AbstractTest
 
     /* See XWIKI-2389 */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See https://jira.xwiki.org/browse/XE-1177")
     public void testInlineEditPreservesTitle()
     {
         String title = RandomStringUtils.randomAlphanumeric(4);
@@ -132,7 +132,7 @@ public class EditInlineTest extends AbstractTest
 
     /* See XWIKI-2199 */
     @Test
-    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See http://jira.xwiki.org/browse/XE-1177")
+    @IgnoreBrowser(value = "internet.*", version = "9\\.*", reason="See https://jira.xwiki.org/browse/XE-1177")
     public void testInlineEditPreservesTags()
     {
         String tag1 = RandomStringUtils.randomAlphanumeric(4);

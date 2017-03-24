@@ -203,9 +203,6 @@ public class AlbatrossSkinExecutor implements SkinExecutor
         // First verify if the logged in user is not already the Administrator. That'll save us execution time.
         if (!isAuthenticated("Admin")) {
             login("Admin", "admin", false);
-            // Set the Admin user as an advanced user
-            getTest().open(getTest().getUrl("XWiki", "Admin", "save",
-                "classname=XWiki.XWikiUsers&XWiki.XWikiUsers_0_usertype=Advanced"));
         }
     }
 

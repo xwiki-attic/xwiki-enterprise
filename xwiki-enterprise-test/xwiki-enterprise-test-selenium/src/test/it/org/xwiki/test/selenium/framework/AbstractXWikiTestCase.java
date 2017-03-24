@@ -573,6 +573,8 @@ public abstract class AbstractXWikiTestCase extends AbstractTest implements Skin
     {
         getSkinExecutor().loginAsAdmin();
         recacheSecretToken();
+        // Set the Admin user as an advanced user
+        getUtil().updateObject("XWiki", "Admin", "XWiki.XWikiUsers", 0, "usertype", "Advanced");
     }
 
     /**

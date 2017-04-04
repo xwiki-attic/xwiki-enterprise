@@ -65,7 +65,7 @@
     <dependency>
       <groupId>org.xwiki.contrib.blog</groupId>
       <artifactId>application-blog-ui</artifactId>
-      <version>9.3-SNAPSHOT</version>
+      <version>9.3.1</version>
       <!-- The following dependencies are excluded to force maven to use the versions for them defined by
            platform and not the versions found transitively in the blog extension -->
       <exclusions>

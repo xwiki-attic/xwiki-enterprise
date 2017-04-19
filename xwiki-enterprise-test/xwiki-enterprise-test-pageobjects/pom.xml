@@ -53,11 +53,6 @@
       <version>${platform.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.contrib.blog</groupId>
-      <artifactId>application-blog-test-pageobjects</artifactId>
-      <version>9.3-SNAPSHOT</version>
-    </dependency>
-    <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-index-test-pageobjects</artifactId>
       <version>${platform.version}</version>

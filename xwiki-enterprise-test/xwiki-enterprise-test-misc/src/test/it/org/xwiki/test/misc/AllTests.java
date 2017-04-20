@@ -46,7 +46,6 @@ public class AllTests extends TestCase
         // (there are complex solutions like searching for all tests by parsing the source tree).
         // I think there are TestSuite that do this out there but I haven't looked for them yet.
         addTestCase(suite, PDFTest.class);
-        addTestCase(suite, HTMLExportTest.class);
         addTestCase(suite, SuggestTest.class);
 
         return new XWikiTestSetup(suite);

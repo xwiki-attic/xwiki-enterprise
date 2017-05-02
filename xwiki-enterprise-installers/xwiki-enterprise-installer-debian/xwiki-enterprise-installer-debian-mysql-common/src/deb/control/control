@@ -3,7 +3,7 @@ Version: [[version]]
 Section: java
 Priority: optional
 Architecture: all
-Depends: xwiki-enterprise-common (= [[version]]), mysql-server, libmysql-java (>= 5.1.4), dbconfig-common
+Depends: xwiki-enterprise-common (= [[version]]), mysql-server | default-mysql-server | mariadb-server, libmysql-java (>= 5.1.4), dbconfig-common
 Provides: xwiki-enterprise-database
 Suggests: xwiki-enterprise-tomcat5-mysql | xwiki-enterprise-tomcat6-mysql | xwiki-enterprise-tomcat7-mysql
 Replaces: xwiki-enterprise-tomcat-mysql (<< 3.5), xwiki-enterprise-database

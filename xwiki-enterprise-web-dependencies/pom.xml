@@ -398,6 +398,10 @@
           <groupId>org.xwiki.contrib.blog</groupId>
           <artifactId>application-blog-ui</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.contrib</groupId>
+          <artifactId>application-help-center</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>

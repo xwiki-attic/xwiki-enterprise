@@ -384,7 +384,7 @@
       <artifactId>xwiki-enterprise-ui-mainwiki</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
-      <!-- We don't want to embed contrib extensions to allow upgrading them as extensions -->
+      <!-- We don't want to embed these extensions (mostly contrib), thus allowing them to be upgraded individually -->
       <exclusions>
         <exclusion>
           <groupId>org.xwiki.contrib</groupId>
@@ -401,6 +401,10 @@
         <exclusion>
           <groupId>org.xwiki.contrib</groupId>
           <artifactId>application-help-center</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-menu-ui</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

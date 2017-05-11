@@ -70,16 +70,16 @@
            platform and not the versions found transitively in the blog extension -->
       <exclusions>
         <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-template-api</artifactId>
+          <groupId>org.xwiki.commons</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.xwiki.rendering</groupId>
+          <artifactId>*</artifactId>
         </exclusion>
         <exclusion>
           <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-notifications-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-eventstream</artifactId>
+          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
       <type>xar</type>
@@ -92,48 +92,16 @@
            platform and not the versions found transitively in the help center extension -->
       <exclusions>
         <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-icon-script</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-skin-skinx</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-rendering-wikimacro-store</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-administration-ui</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-extension-ui</artifactId>
+          <groupId>org.xwiki.commons</groupId>
+          <artifactId>*</artifactId>
         </exclusion>
         <exclusion>
           <groupId>org.xwiki.rendering</groupId>
-          <artifactId>xwiki-rendering-macro-toc</artifactId>
+          <artifactId>*</artifactId>
         </exclusion>
         <exclusion>
           <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-rendering-macro-gallery</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-chart-macro</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-index-tree-macro</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-index-ui</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-help-ui</artifactId>
+          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
       <type>xar</type>

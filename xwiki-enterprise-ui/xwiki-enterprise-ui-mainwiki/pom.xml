@@ -50,6 +50,16 @@
     </xwiki.extension.features>
   </properties>
   <dependencies>
+    <!-- Note: Since both application-help-center and xwiki-platform-help modify Help.WebHome, we need to make sure that
+         application-help-center is set before any other dependencies bringing in Help.WebHome so that the packager
+         plugin (used to build the jetty-hsqldb-distribution) ends up with the Help.WebHome version from
+         application-help-center (since it processes dependencies in the reverse order). -->
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>application-help-center</artifactId>
+      <version>1.1</version>
+      <type>xar</type>
+    </dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-common</artifactId>
@@ -66,12 +76,6 @@
       <groupId>org.xwiki.contrib.blog</groupId>
       <artifactId>application-blog-ui</artifactId>
       <version>9.3.1</version>
-      <type>xar</type>
-    </dependency>
-    <dependency>
-      <groupId>org.xwiki.contrib</groupId>
-      <artifactId>application-help-center</artifactId>
-      <version>1.1</version>
       <type>xar</type>
     </dependency>
     <dependency>

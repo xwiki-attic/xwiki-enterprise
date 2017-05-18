@@ -37,7 +37,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     {
         super(test);
     }
-    
+
     private void openDrawer()
     {
         getTest().clickLinkWithLocator("tmDrawerActivator");
@@ -126,7 +126,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     protected void clickEditMenuItem(String menuItemId)
     {
         // Click on the arrow in the edit button
-        getTest().clickLinkWithLocator("//div[@id = 'tmEdit']/a[contains(@role, 'button')]");
+        getTest().clickLinkWithLocator("//div[@id='tmEdit']/*[contains(@class, 'dropdown-toggle')]");
         getTest().clickLinkWithLocator(menuItemId);
     }
 
@@ -140,7 +140,7 @@ public class FlamingoSkinExecutor extends ColibriSkinExecutor
     private void clickAdminActionsSubMenuEntry(String menuItemId)
     {
         // Click on the arrow in the edit button
-        getTest().clickLinkWithLocator("//div[@id = 'tmAdminActions']/a[contains(@role, 'button')]");
+        getTest().clickLinkWithLocator("//div[@id = 'tmMoreActions']/a[contains(@role, 'button')]");
         getTest().clickLinkWithLocator(menuItemId);
     }
 

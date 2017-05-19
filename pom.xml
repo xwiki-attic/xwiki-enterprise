@@ -216,6 +216,18 @@
       </dependency>
       <dependency>
         <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-sandbox</artifactId>
+        <version>${platform.version}</version>
+        <type>xar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-rendering-wikimacro-ui</artifactId>
+        <version>${platform.version}</version>
+        <type>xar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.xwiki.platform</groupId>
         <artifactId>xwiki-platform-rendering-macro-velocity</artifactId>
         <version>${platform.version}</version>
       </dependency>

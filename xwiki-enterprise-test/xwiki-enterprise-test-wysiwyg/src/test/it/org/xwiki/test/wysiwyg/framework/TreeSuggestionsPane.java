@@ -123,6 +123,6 @@ public class TreeSuggestionsPane
     {
         return String.format("//div[contains(@class, 'xtree-finder-suggestions')]"
             + "//div[contains(@class, 'suggestItem') and contains(@class, '%s')]"
-            + "//div[@class = 'value' and contains(., '%s')]", type, value);
+            + "//div[@class = 'value' and normalize-space() = '%s']", type, value);
     }
 }

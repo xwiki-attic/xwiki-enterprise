@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-installer-debian-tomcat</artifactId>
-    <version>7.4.6-struts2-1-SNAPSHOT</version>
+    <version>7.4.6-struts2-1</version>
   </parent>
   <artifactId>xwiki-enterprise-installer-debian-tomcat8-common</artifactId>
   <name>XWiki Enterprise - Installer - Debian - Tomcat 8 - Common</name>
